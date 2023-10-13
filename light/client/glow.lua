@@ -31,8 +31,8 @@ end
 
 local ORDER = 1
 
-umg.on("rendering:drawEntity", function(ent)
+umg.on("rendering:drawEntity", ORDER, function(ent)
     if ent.glow then
         drawGlow(ent)
     end
-end, ORDER)
+end)
