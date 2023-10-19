@@ -12,6 +12,8 @@ Rename `usables` mod to `holdables` mod.
 From there, change `usables` to be more generic;
 
 A `usable` entity is an entity that can be "used" by another entity.
+`usable` entities have instantaneous usage. They are not continuous.
+
 For example:
 - usable-items
 - abilities

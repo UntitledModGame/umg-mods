@@ -1,3 +1,6 @@
-
-
-
+{
+    "type": "base",
+    "uses": [
+        "typecheck", "objects", "components"
+    ]
+}

@@ -208,12 +208,8 @@ TODO: Maybe these are closer to "abilities" than "upgrades"...?
 
 - propertyEffect:
     - modify property, when condition
-- frameEffect: 
-    - do something each frame, when condition
 - componentEffect:
     - ensure a component exists / change a component, when condition
-    This is useful for stuff like `ent.fireResistance`, because we can
-    set `ent.fireResistance=true` without needing to tap into the q-bus.
 - triggerEffect:
     - triggers an ability by listening to events from an event-bus.
     - (We dont need targets/filters here, since we will emit an event.
@@ -268,6 +264,13 @@ ent.propertyEffect = {
     {
         property = "strength",
         modifier = 10
+    },
+
+    {
+        -- we can fit multiple ways of modifying per table too:
+        property = "maxHealth",
+        modifier = 10,
+        multiplier = 1.1
     }
 }
 
