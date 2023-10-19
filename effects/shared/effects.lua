@@ -36,6 +36,7 @@ function effects.defineEffect(component, effectHandleClass)
     umg.on("effects:addEffect", function(ent, effectEnt)
         if effectEnt[component] then
             -- ensure that `ent` has effectHandler in it's effectManager
+
         end
     end)
 end

@@ -72,6 +72,7 @@ umg.on("effects:addEffect", function(ent, effectEnt)
     end
 end)
 ```
+^^^ This way *could* work...? Its not TOO bad.
 
 ## EffectHandle idea 1:
 Define effectHandlers like similar to `sync.syncComponent`
@@ -80,12 +81,16 @@ Define effectHandlers like similar to `sync.syncComponent`
 effects.defineEffect("propertyEffect", PropertyEffectHandler)
 
 ```
-YES, I think this is my favorite idea so far.
-Ok. So what would happen here internally is that the `effectManager`
+What would happen here internally is that the `effectManager`
 would get a `PropertyEffectHandler` given to itself, upon receiving
 an entity with `propertyEffect` type.
 
 This would also call `components.project("propertyEffect", "effect")` internally too.
+
+This doesn't feel perfect, though.
+Would there be a better way...?
+
+## EffectHandle idea 2:
 
 
 

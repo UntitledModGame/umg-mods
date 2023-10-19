@@ -8,14 +8,14 @@ function EffectManager:init(owner)
 
     self.owner = owner
 
-    self.effectHandlers = {--[[
-        [j]
+    self.hasEffectHandler = {--[[
+        [EffectHandlerClass] -> true
+
+        to check whether a EffectManager has an EffectHandler type
     ]]}
+
+    self.effectHandlers = objects.Array()
 end
-
-
-
-
 
 
 
@@ -23,15 +23,11 @@ function EffectManager:addEffect(effectEntity)
     
 end
 
+
 function EffectManager:removeEffect(effectEntity)
 
 end
 
-
-
-function EffectManager:getMultiplier(effectEntity)
-
-end
 
 function EffectManager:tick()
 
