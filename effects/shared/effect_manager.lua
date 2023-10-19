@@ -3,12 +3,13 @@
 local EffectManager = objects.Class("effects:EffectManager")
 
 
-function EffectManager:init()
-
+function EffectManager:init(owner)
     self.activeEffects = objects.Set()
 
+    self.owner = owner
+
     self.effectHandlers = {--[[
-        []
+        [j]
     ]]}
 end
 

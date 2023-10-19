@@ -77,13 +77,15 @@ end)
 Define effectHandlers like similar to `sync.syncComponent`
 ```lua
 
-effects.defineEffectType("propertyEffect", PropertyEffectHandler)
+effects.defineEffect("propertyEffect", PropertyEffectHandler)
 
 ```
 YES, I think this is my favorite idea so far.
 Ok. So what would happen here internally is that the `effectManager`
 would get a `PropertyEffectHandler` given to itself, upon receiving
 an entity with `propertyEffect` type.
+
+This would also call `components.project("propertyEffect", "effect")` internally too.
 
 
 
