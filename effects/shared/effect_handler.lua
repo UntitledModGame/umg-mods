@@ -19,7 +19,7 @@ end
 
 
 function EffectHandler:addEffect(effectEntity)
-
+    
 end
 
 function EffectHandler:removeEffect(effectEntity)

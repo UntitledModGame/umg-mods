@@ -1,6 +1,5 @@
 
 
--- this shouldn't be used outside of `EffectHandler`.
 local PropertyEffectHandler = objects.Class("effects:PropertyEffectHandler")
 
 
@@ -44,15 +43,7 @@ function PropertyEffectHandler:init(activeEffects)
 end
 
 
-local BIG = 0xff
-
-local DEFAULT_MULT = 1
-local DEFAULT_MOD = 0
-local DEFAULT_MAX = math.huge
-local DEFAULT_MIN = -math.huge
-
 local type = type
-
 
 local function calculate(val, ent, ownerEnt)
     -- `val` is either a function that generates a value,
@@ -89,34 +80,52 @@ local function pollPropEffect(self, ent, ownerEnt, pEffect)
 end
 
 
-function PropertyEffectHandler:calculate(ownerEnt)
+local function pollEffectEnt(self, effectEnt, ownerEnt)
+    local arr = effectEnt.propertyEffect
+    if arr.property then
+        -- `arr` is a property-effect!
+        -- (this occurs when the entity only has 1 propertyEffect.)
+        pollPropEffect(self, effectEnt, ownerEnt, arr)
+    end
+
+    for _, pEffect in ipairs(arr) do
+        pollPropEffect(self, effectEnt, ownerEnt, pEffect)
+    end
+end
+
+
+function PropertyEffectHandler:tick(ownerEnt)
+    for _, ent in ipairs(self.propertyEffects) do
+        if (not umg.exists(ent)) or (not self.activeEffects:contains(ent)) then
+            self.propertyEffects:remove(ent)
+        end
+    end
+
     for _, effectEnt in ipairs(self.propertyEffects) do
-        local arr = effectEnt.propertyEffect
-        if arr.property then
-            -- `arr` is a property-effect!
-            -- (this occurs when the entity only has 1 propertyEffect.)
-            pollPropEffect(self, effectEnt, ownerEnt, arr)
-        end
-
-        for _, pEffect in ipairs(arr) do
-            pollPropEffect(self, effectEnt, ownerEnt, pEffect)
-        end
+        pollEffectEnt(self, effectEnt, ownerEnt)
     end
 end
 
 
-local function addPropEffect(self, ent, pEffect)
-    local prop = pEffect.property
-    if pEffect.multiplier then
-        self.propertyToModifiers[prop]:add(ent)
-    end
+function PropertyEffectHandler:addEffect(effectEnt)
+    self.propertyEffects:add(effectEnt)
 end
 
 
-function PropertyEffectHandler:tryAddEffect(effectEnt)
-    if not effectEnt.propertyEffect then
-        return
-    end
+function PropertyEffectHandler:getModifier(property)
+    return self.modifiers[property]
+end
+
+function PropertyEffectHandler:getMultiplier(property)
+    return self.multipliers[property]
+end
+
+function PropertyEffectHandler:getMaxClamp(property)
+    return self.maxClamps[property]
+end
+
+function PropertyEffectHandler:getMinClamp(property)
+    return self.minClamps[property]
 end
 
 
