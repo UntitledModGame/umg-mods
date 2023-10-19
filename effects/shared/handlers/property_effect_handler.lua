@@ -1,5 +1,7 @@
 
 
+local EffectHandler = require("")
+
 local PropertyEffectHandler = objects.Class("effects:PropertyEffectHandler")
 
 

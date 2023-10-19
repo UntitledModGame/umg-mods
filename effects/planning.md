@@ -210,11 +210,11 @@ TODO: Maybe these are closer to "abilities" than "upgrades"...?
     - modify property, when condition
 - componentEffect:
     - ensure a component exists / change a component, when condition
-- triggerEffect:
-    - triggers an ability by listening to events from an event-bus.
+- eventAffect:
+    - triggers something by listening to events from an event-bus.
     - (We dont need targets/filters here, since we will emit an event.
         Future systems can use targets/filters if they want)
-- answerEffect:
+- questionEffect:
     answers a question from a question-bus.
 
 
@@ -282,11 +282,11 @@ ent.propertyEffect = {
 
 
 
-# answerEffect:
-We can use `answerEffect` to answer questions from question-buses
+# questionEffect:
+We can use `questionEffect` to answer questions from question-buses
 ```lua
 
-ent.answerEffect = {
+ent.questionEffect = {
     -- TODO: Plan this better, integrate this with
     -- effects.askQuestion
     question = "light:getGlobalLightSizeMultiplier",
@@ -309,11 +309,11 @@ ent.answerEffect = {
 
 
 
-# triggerEffect:
-triggerEffects are 
+# eventEffect:
+eventEffects listen to events, and trigger when that event occurs.
 ```lua
 
-ent.triggerEffect = {
+ent.eventEffect = {
     -- TODO: Plan this better, integrate this with
     -- effects.callEvent
     event = "mortality:onDamage",
@@ -325,7 +325,7 @@ ent.triggerEffect = {
     end
 
     -- After this is triggered,
-    -- a `effects:triggerEffect` event is emitted.
+    -- a `effects:eventEffect` event is emitted.
     trigger = function(ent, ownerEnt)
         -- do something
     end
@@ -334,9 +334,9 @@ ent.triggerEffect = {
 
 -- using effects:isEventTriggerBlocked,
 -- we can create a couple of good components:
-ent.triggerEffectCooldown = 3 -- can only trigger once every 3 seconds
+ent.eventEffectCooldown = 3 -- can only trigger once every 3 seconds
 
-ent.triggerEffectActivations = 100 -- how many times it can trigger
+ent.eventEffectActivations = 100 -- how many times it can trigger
 -- (decreases by 1 every time it triggers)
 -- We can use this to do stuff like: max 100 triggers per round
 ```

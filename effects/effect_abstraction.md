@@ -44,13 +44,46 @@ They all have `PropertyEffectHandler`
 - How do we tell `PropertyEffectHandler` that an effect was added?
     - IDEA: through `effects:addEffect` / `effects:removeEffect`
 - Where do we actually store `PropertyEffectHandler`...?
-    - IDEA-1: store it inside `.propertyEffects`
-    - IDEA-2: store inside of `ent.effects` -> `ent.effects.property`
+    - IDEA-1: store it inside entity:  `ent.propertyEffects`
+    - IDEA-2: store it inside of `EffectHandler`
 
-Do we even need `EffectHandler`?
 
-A: Yes, it probably makes sense to have a central object
-just to keep things robust and readable.
+## API-DRAFT-0:
+```lua
+
+-- add/remove effects:
+effects.addEffect(ent, effectEnt)
+
+effects.removeEffect(ent, effectEnt)
+
+```
+
+
+But we still have an issue with defining EffectHandles:
+## EffectHandle idea 0:
+```lua
+-- propertyEffect system:
+umg.on("effects:addEffect", function(ent, effectEnt)
+    assert(ent.effects, "this should be added by now")
+
+    if effectEnt.propertyEffect then
+        -- ensure we have propertyEffectHandler:
+        ent.effects:ensureHasEffectHandle(PropertyEffectHandle)
+    end
+end)
+```
+
+## EffectHandle idea 1:
+Define effectHandlers like similar to `sync.syncComponent`
+```lua
+
+effects.defineEffectType("propertyEffect", PropertyEffectHandler)
+
+```
+YES, I think this is my favorite idea so far.
+Ok. So what would happen here internally is that the `effectManager`
+would get a `PropertyEffectHandler` given to itself, upon receiving
+an entity with `propertyEffect` type.
 
 
 

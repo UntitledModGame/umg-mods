@@ -1,44 +1,21 @@
 
 
-local EffectHandler = objects.Class("effects:EffectHandler")
+-- This class is abstract!
+local EffectHandler = objects.Class("effect:EffectHandler")
 
 
-function EffectHandler:init()
-
-    self.activeEffects = objects.Set()
-
-    self.propertyEffects = {--[[
-        
-    ]]}
+function EffectHandler:addEffect()
+    error("This should be overridden!")
 end
 
-
-
-
-
-
-
-function EffectHandler:addEffect(effectEntity)
-    
+function EffectHandler:removeEffect()
+    error("This should be overridden!")
 end
-
-function EffectHandler:removeEffect(effectEntity)
-
-end
-
-
-
-function EffectHandler:getMultiplier(effectEntity)
-
-end
-
 
 function EffectHandler:tick()
-
+    -- this doesn't need to be overriden,
+    -- but most EffectHandlers SHOULD override this.
 end
-
-
-
 
 
 return EffectHandler
