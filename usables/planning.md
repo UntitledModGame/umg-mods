@@ -29,9 +29,9 @@ Ideas:
 
 
 
-## Q2: What are we doing with the argument order for `usables:useItem`?
+## Q2: What are we doing with the argument order for `holdables:useItem`?
 Args should look like this:
-`(itemEnt, holderEnt, useMode, ...)`
+`(itemEnt, holderEnt, useMode)`
 where `useMode` is a number.
 
 
@@ -46,12 +46,12 @@ item.itemRepeatUsage = true -- repeats usage whilst being used (like ak47)
 ```
 
 Emit the following callbacks:
-- `usables:itemStartCharge` item starts being charged
-- `usables:itemBeingCharged` called every tick whilst charging (pass in time)
-- `usables:itemUse` item starts being used
-- `usables:itemBeingUsed` called every tick whilst using (pass in time)
-- `usables:itemEndUse` item stops being used
-- `usables:itemCancelCharge` Cancelled (not charged for enough time)
+- `holdables:itemStartCharge` item starts being charged
+- `holdables:itemBeingCharged` called every tick whilst charging (pass in time)
+- `holdables:itemUse` item starts being used
+- `holdables:itemBeingUsed` called every tick whilst using (pass in time)
+- `holdables:itemEndUse` item stops being used
+- `holdables:itemCancelCharge` Cancelled (not charged for enough time)
 
 
 
@@ -59,8 +59,8 @@ Emit the following callbacks:
 ## Q4: How do we interact with the mod to say which items are held?
 We can only equip items if the entity has an inventory:
 ```lua
-usables.equipItem(ent, item) -- equips/unequips item
-usables.unequipItem(ent)
+holdables.equipItem(ent, item) -- equips/unequips item
+holdables.unequipItem(ent)
 ```
 TODO: Where do we actually store the info for hold items?
 idea: `ent.holdItem` component
@@ -85,7 +85,7 @@ local function pollControlEnts(mode)
     local used = false
     for _, ent in ipairs(controlInventoryEnts) do
         if sync.isClientControlling(ent) and isHoldingItem(ent) then
-            usables.useItem(holderEnt, mode)
+            holdables.useItem(holderEnt, mode)
             -- tells the engine that we are using this item this tick.
             used = true
         end

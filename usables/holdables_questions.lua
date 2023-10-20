@@ -1,7 +1,7 @@
 
 -- item usage
 -- returns whether an item is blocked from being able to be used
-umg.defineQuestion("usables:itemUsageBlocked", reducers.OR)
+umg.defineQuestion("holdables:itemUsageBlocked", reducers.OR)
 
 
 
@@ -18,5 +18,5 @@ is because we want to guarantee that only ONE function is handling the
 setting of positions for items, as opposed to a bunch of systems overwriting
 each other.
 ]]
-umg.defineQuestion("usables:getHoldItemHandler", reducers.PRIORITY)
+umg.defineQuestion("holdables:getHoldItemHandler", reducers.PRIORITY)
 

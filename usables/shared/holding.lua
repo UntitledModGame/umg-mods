@@ -35,12 +35,12 @@ local function updateHolderEnt(holderEnt)
         return
     end
 
-    local handlerFunc = umg.ask("usables:getHoldItemHandler", itemEnt, holderEnt)
+    local handlerFunc = umg.ask("holdables:getHoldItemHandler", itemEnt, holderEnt)
     handlerFunc = handlerFunc or defaultHandler
     handlerFunc(itemEnt, holderEnt)
     -- todo: we can ask more/better questions here
 
-    umg.call("usables:updateHoldItem", itemEnt, holderEnt)
+    umg.call("holdables:updateHoldItem", itemEnt, holderEnt)
 
     itemEnt.dimension = dimensions.getDimension(holderEnt.dimension)
 end
@@ -87,7 +87,7 @@ function holding.equipItem(holderEnt, itemEnt)
         sync.syncComponent(itemEnt, "controller")
     end
 
-    umg.call("usables:equipItem", itemEnt, holderEnt)
+    umg.call("holdables:equipItem", itemEnt, holderEnt)
 end
 
 function holding.unequipItem(holderEnt, itemEnt)
@@ -101,7 +101,7 @@ function holding.unequipItem(holderEnt, itemEnt)
     end
     remItemComponents(itemEnt)
     holderEnt:removeComponent("holdItem")
-    umg.call("usables:unequipItem", itemEnt, holderEnt)
+    umg.call("holdables:unequipItem", itemEnt, holderEnt)
 end
 
 end

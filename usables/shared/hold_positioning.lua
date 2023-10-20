@@ -1,6 +1,6 @@
 
-require("usables_questions")
-require("usables_events")
+require("holdables_questions")
+require("holdables_events")
 
 
 local common = require("shared.common")
@@ -94,7 +94,7 @@ end
 
 local PRIORITY = 1
 
-umg.answer("usables:getHoldItemHandler", function(itemEnt, holderEnt)
+umg.answer("holdables:getHoldItemHandler", function(itemEnt, holderEnt)
     if itemEnt.itemHoldType then
         local holdType = itemEnt.itemHoldType
         local func = holdTypes[holdType]

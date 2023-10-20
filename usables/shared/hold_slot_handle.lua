@@ -11,7 +11,7 @@ unequipped.
 
 
 local extends = items.SlotHandle
-local HoldSlotHandle = objects.Class("usables:HoldSlotHandle", extends)
+local HoldSlotHandle = objects.Class("holdables:HoldSlotHandle", extends)
 
 
 

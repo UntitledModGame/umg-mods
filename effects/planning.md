@@ -384,11 +384,11 @@ and convert it into a potion-effect.
 Could it be possible to reduce the coupling between `EffectHandler`
 and `effect`/`passive` entities to zero?
 
-Similar to how `usables` was de-coupled from the `Inventory`...?
+Similar to how `holdables` was de-coupled from the `Inventory`...?
 
 ^^^ If this is too difficult, dont do it.
 But PLEASE. At least try to do it this way.
-take the `usables` and `Inventory` de-coupling as the golden example.
+take the `holdables` and `Inventory` de-coupling as the golden example.
 
 
 

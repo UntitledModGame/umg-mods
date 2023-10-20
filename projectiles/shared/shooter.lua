@@ -66,7 +66,11 @@ end
 
 
 
-umg.on("usables:useItem", function(holderEnt, item, mode) 
+--[[
+    TODO:
+    Change this to `usables:useEntity` when we do the refactor!
+]]
+umg.on("holdables:useItem", function(holderEnt, item, mode) 
     local targX, targY = holderEnt.lookX, holderEnt.lookY
     if (not targX) or (not targY) then
         return

@@ -68,7 +68,7 @@ Instead of adding weird flags to the object,
 just extend the `ItemHandle` and write directly to a method:
 ```lua
 local extends = items.ItemHandle
-local HoldItemHandle = objects.Class("usables:HoldItemHandle", extends)
+local HoldItemHandle = objects.Class("holdables:HoldItemHandle", extends)
 
 function HoldItemHandle:onInvalidate(item)
     item:removeComponent("x")
