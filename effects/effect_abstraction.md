@@ -95,7 +95,7 @@ Would there be a better way...?
 Define effectHandles as named:
 ```lua
 effects.defineEffectHandler(
-    "PropertyEffect",
+    "propertyEffect",
     PropertyEffectHandler
 )
 ```
@@ -106,7 +106,7 @@ Ok. This is probably the best approach.
 The reason this works well, is because then, we can access each `effectHandler` directly:
 ```lua
 umg.on("mod:event", function()
-    if ent.effects and ent.effects.EventEffect then
+    if ent.effects and ent.effects:getHandler("propertyEffect") then
         ...
     end
 end)
