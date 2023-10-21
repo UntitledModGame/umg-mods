@@ -10,35 +10,21 @@ function effects.addEffect(ent, effectEnt)
     if not ent.effects then
         ent.effects = EffectManager(ent)
     end
-    umg.call("effects:addEffect", ent, effectEnt)
     ent.effects:addEffect(effectEnt)
 end
 
 
 function effects.removeEffect(ent, effectEnt)
     if not ent.effects then return end
-    umg.call("effects:removeEffect", ent, effectEnt)
     ent.effects:removeEffect(effectEnt)
 end
 
 
 
-local defineEffectTc = typecheck.assert("string", "table")
-function effects.defineEffect(component, effectHandleClass)
-    defineEffectTc(component, effectHandleClass)
-    --[[
-        TODO:
-        do some verification here to ensure that effectHandleClass
-            is a valid EffectHandle class.
-    ]]
-    components.project(component, "effect")
-
-    umg.on("effects:addEffect", function(ent, effectEnt)
-        if effectEnt[component] then
-            -- ensure that `ent` has effectHandler in it's effectManager
-
-        end
-    end)
+local defineEffectTc = typecheck.assert("table")
+function effects.defineEffectHandler(effectHandlerClass)
+    defineEffectTc(effectHandlerClass)
+    EffectManager.defineEffectHandler(effectHandlerClass)
 end
 
 

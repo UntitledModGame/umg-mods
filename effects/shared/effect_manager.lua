@@ -74,6 +74,20 @@ end
 
 
 
+
+
+
+--[[
+
+TODO TODO TODO:
+
+We need to do syncing here!
+Sync when adding/remove effects.
+
+
+]]
+
+
 function EffectManager:addEffect(effectEntity)
     if self.activeEffects:contains(effectEntity) then
         return -- dont add twice

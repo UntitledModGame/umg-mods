@@ -1,6 +1,7 @@
 
 
-local EffectHandler = require("")
+local effects = require("shared.effects")
+
 
 local PropertyEffectHandler = objects.Class("effects:PropertyEffectHandler")
 
@@ -135,5 +136,48 @@ function PropertyEffectHandler:getMinClamp(property)
 end
 
 
-return PropertyEffectHandler
+
+
+local function getPropertyEffectHandler(ent)
+    local eManager = ent.effects
+    if eManager then
+        local propEH = eManager:getEffectHandler(PropertyEffectHandler) 
+        if propEH then
+            return propEH
+        end
+    end
+end
+
+
+--[[
+    now, actually apply the property transformations:
+    This is efficient "enough"
+]]
+umg.on("properties:getPropertyMultiplier", function(ent, property)
+    local propEH = getPropertyEffectHandler(ent)
+    if propEH then
+        return propEH:getMultiplier(property)
+    end
+end)
+
+
+umg.on("properties:getPropertyModifier", function(ent, property)
+    local propEH = getPropertyEffectHandler(ent)
+    if propEH then
+        return propEH:getModifier(property)
+    end
+end)
+
+
+umg.on("properties:getPropertyClamp", function(ent, property)
+    local propEH = getPropertyEffectHandler(ent)
+    if propEH then
+        return propEH:getMinClamp(property), propEH:getMaxClamp(property)
+    end
+end)
+
+
+
+
+effects.defineEffectHandler(PropertyEffectHandler)
 
