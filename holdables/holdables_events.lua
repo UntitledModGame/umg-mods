@@ -6,6 +6,7 @@ TODO:
 
 A bunch of these need to be pulled out,
 and placed into the new `usables` mod.
+(Specifically, the `useItem` and `useItemDeny` stuff)
 
 
 ]]

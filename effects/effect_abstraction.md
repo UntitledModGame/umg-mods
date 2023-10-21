@@ -87,10 +87,23 @@ an entity with `propertyEffect` type.
 
 This would also call `components.project("propertyEffect", "effect")` internally too.
 
-This doesn't feel perfect, though.
+This doesn't feel perfect, though. Mainly because the `eventEffectHandler` and `questionEffectHandler` are going to struggle.
 Would there be a better way...?
 
+
 ## EffectHandle idea 2:
+Define effectHandles as named:
+```lua
+effects.defineEffectHandler(
+    "PropertyEffect",
+    PropertyEffectHandler
+)
+```
+Every `EffectHandler` class needs to define a `shouldTakeEffect` static method. This will be called from a static context by the EffectManager.
+
+Ok. This is probably the best approach.
+
+From inside the `effects` table, we can then 
 
 
 

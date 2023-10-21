@@ -113,6 +113,10 @@ function PropertyEffectHandler:addEffect(effectEnt)
     self.propertyEffects:add(effectEnt)
 end
 
+function PropertyEffectHandler:remove(effectEnt)
+    self.propertyEffects:remove(effectEnt)
+end
+
 
 function PropertyEffectHandler:getModifier(property)
     return self.modifiers[property]
