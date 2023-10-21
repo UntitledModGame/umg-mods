@@ -1,5 +1,8 @@
 
 
+require("effect_events")
+
+
 local EffectManager = objects.Class("effects:EffectManager")
 
 
@@ -8,30 +11,20 @@ function EffectManager:init(owner)
 
     self.owner = owner
 
-    self.hasEffectHandler = {--[[
-        [EffectHandlerClass] -> true
-
-        to check whether a EffectManager has an EffectHandler type
-    ]]}
-
     self.effectHandlers = objects.Array(--[[
         a list of effectHandlers that belong to this particular instance
     ]])
 
-    self.nameToEffectHandler = {--[[
-        Maps names to EffectHandler instances.
+    self.classToInstance = {--[[
+        Maps EffectHandlerClasses to EffectHandler instances.
         (These are the same instances as in the `self.effectHandlers` array.)
+        (This also guarantees only 1 instance per EffectHandlerClass.)
 
-        [name] -> EffectHandler
+        [EffectHandlerClass] -> EffectHandler instance
     ]]}
 end
 
 
-
-
-local nameToEffectHandlerClass = {--[[
-    [name] = EffectHandlerClass
-]]}
 
 local effectHandlerClassList = objects.Array()
 
@@ -51,16 +44,14 @@ end
 
 
 
-local defineEffectHandlerTc = typecheck.assert("string", "table")
-function EffectManager.defineEffectHandler(handlerName, effectHandlerClass)
+local defineEffectHandlerTc = typecheck.assert("table")
+function EffectManager.defineEffectHandler(effectHandlerClass)
     --[[
         defines an effect handler
     ]]
-    defineEffectHandlerTc(handlerName, effectHandlerClass)
+    defineEffectHandlerTc(effectHandlerClass)
     assertValidEffectHandler(effectHandlerClass)
-    assert(not nameToEffectHandlerClass[handlerName], "Duplicate effect handler definition")
 
-    effectHandlerClass._name = handlerName
     effectHandlerClassList:add(effectHandlerClass)
 end
 
@@ -72,19 +63,22 @@ local function ensureEffectHandler(self, effectHandlerClass)
         ensures that we have an effect handler of the given type.
         (If we don't have the effect handler, then create one.)
     ]]
-    if self.hasEffectHandler[effectHandlerClass] then
-        return -- we already have it!
+    if self:getEffectHandler(effectHandlerClass) then
+        return -- we already have it, no need to add again
     end
 
-    self.hasEffectHandler[effectHandlerClass] = true
     local effectHandler = effectHandlerClass(self.activeEffects)
     self.effectHandlers:add(effectHandler)
-    self.nameToEffectHandler[effectHandler._name] = effectHandler
+    self.classToInstance[effectHandlerClass] = effectHandler
 end
 
 
 
 function EffectManager:addEffect(effectEntity)
+    if self.activeEffects:contains(effectEntity) then
+        return -- dont add twice
+    end
+
     for _, effectHandlerClass in ipairs(effectHandlerClassList) do
         -- note that effectHandlerClass is the CLASS, not an instance!!!
         if effectHandlerClass:shouldTakeEffect(effectEntity) then
@@ -93,20 +87,30 @@ function EffectManager:addEffect(effectEntity)
         end
     end
     self.activeEffects:add(effectEntity)
+    local ownerEntity = self.owner
+    umg.call("effects:effectAdded", effectEntity, ownerEntity)
 end
 
 
 function EffectManager:removeEffect(effectEntity)
+    if not self.activeEffects:contains(effectEntity) then
+        return -- nothing to remove!
+    end
+
     for _, handler in ipairs(self.effectHandlers) do
         handler:remove(effectEntity)
     end
     self.activeEffects:remove(effectEntity)
+    local ownerEntity = self.owner
+    umg.call("effects:effectRemoved", effectEntity, ownerEntity)
 end
 
 
-function EffectManager:getEffectHandler(name)
-    return self.nameToEffectHandler[name]
+
+function EffectManager:getEffectHandler(effectHandlerClass)
+    return self.classToInstance[effectHandlerClass]
 end
+
 
 
 function EffectManager:tick(dt)
