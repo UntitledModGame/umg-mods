@@ -103,7 +103,14 @@ Every `EffectHandler` class needs to define a `shouldTakeEffect` static method. 
 
 Ok. This is probably the best approach.
 
-From inside the `effects` table, we can then 
+The reason this works well, is because then, we can access each `effectHandler` directly:
+```lua
+umg.on("mod:event", function()
+    if ent.effects and ent.effects.EventEffect then
+        ...
+    end
+end)
+```
 
 
 
