@@ -112,5 +112,7 @@ umg.on("mod:event", function()
 end)
 ```
 
-
+# ---------
+# SOLVED: We will use `EffectHandle idea 2`
+# ---------
 

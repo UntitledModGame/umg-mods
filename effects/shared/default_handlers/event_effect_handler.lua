@@ -13,22 +13,13 @@ function EventEffectHandler:init(activeEffects)
 
     self.eventEffects = objects.Set()
 
-    self.eventToEffectList = {--[[
+    self.eventToEffectSet = {--[[
         Keeps track of what effectEntities are used for each effect.
 
         [eventName] -> List<effectEnt>
     ]]}
 end
 
-
-function EventEffectHandler:addEffect(effectEnt)
-    local 
-end
-
-
-function EventEffectHandler:removeEffect(effectEnt)
-
-end
 
 
 function EventEffectHandler:shouldTakeEffect(effectEnt)
@@ -45,6 +36,15 @@ local listenedEvents = {--[[
 ]]}
 
 
+local function tryCallEvent(ent, eventName)
+    if ent.effects then
+        local eventEH = ent.effects:getEffectHandler(EventEffectHandler) 
+        if eventEH then
+            eventEH:call(eventName)
+        end
+    end
+end
+
 
 local function ensureEventListener(eventName)
     --[[
@@ -58,22 +58,36 @@ local function ensureEventListener(eventName)
         return
     end
 
-    umg.on(eventName, function(ent, ...)
-        if ent.effects then
-            local eventEH = ent.effects:getEffectHandler(EventEffectHandler) 
-            if eventEH then
-                eventEH
-            end
-        end
+    umg.on(eventName, function(ent)
+        tryCallEvent(ent, eventName)
     end)
 
     listenedEvents[eventName] = true
 end
 
 
-function EventEffectHandler:addEffect()
 
+function EventEffectHandler:addEffect(effectEnt)
+    local event = effectEnt.event
+    local set = self.eventToEffectSet[event]
+    if not set then
+        set = objects.Set()
+        self.eventToEffectSet[event] = set
+    end
+
+    ensureEventListener(event)
+    set:add(effectEnt)
 end
+
+
+function EventEffectHandler:removeEffect(effectEnt)
+    local event = effectEnt.event
+    local set = self.eventToEffectSet[event]
+    set:remove(effectEnt)
+end
+
+
+
 
 
 effects.defineEffectHandler(EventEffectHandler)

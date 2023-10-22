@@ -20,3 +20,8 @@ For example:
 - consumables
 - effect-actions
 
+
+# ---------
+# SOLVED: Create the `usables` mod
+# ---------
+
