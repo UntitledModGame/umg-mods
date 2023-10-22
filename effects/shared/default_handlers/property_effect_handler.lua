@@ -136,6 +136,10 @@ function PropertyEffectHandler:getMinClamp(property)
 end
 
 
+function PropertyEffectHandler:shouldTakeEffect(effectEnt)
+    return effectEnt.propertyEffect
+end
+
 
 
 local function getPropertyEffectHandler(ent)
