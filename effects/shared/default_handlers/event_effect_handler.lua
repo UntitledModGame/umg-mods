@@ -21,6 +21,23 @@ function EventEffectHandler:init(activeEffects)
 end
 
 
+local function activateEffect()
+
+end
+
+
+function EventEffectHandler:call(eventName, ...)
+    local set = self.eventToEffectSet[eventName]
+    if not set then
+        return
+    end
+
+    for _, effectEnt in ipairs(set) do
+        
+    end
+end
+
+
 
 function EventEffectHandler:shouldTakeEffect(effectEnt)
     return effectEnt.eventEffect
@@ -84,6 +101,9 @@ function EventEffectHandler:removeEffect(effectEnt)
     local event = effectEnt.event
     local set = self.eventToEffectSet[event]
     set:remove(effectEnt)
+    if set:size() <= 0 then
+        self.eventToEffectSet[event] = nil
+    end
 end
 
 

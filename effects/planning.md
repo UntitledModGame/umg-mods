@@ -172,6 +172,7 @@ for all those types.
 
 - If taken damage in last 3 seconds, shoot cheese instead of bullets
     - Tagging onto events cleanly
+    - Holding state
     - Answering questions cleanly
 
 - Upon picking up coins: have a 20% chance to double the pickup.
