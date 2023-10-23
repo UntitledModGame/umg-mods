@@ -102,7 +102,7 @@ globals:
   umg.getQuestionInfo:
     args:
     - type: string
-  umg.getEventInfo:
+  umg.isValidEvent:
     args:
     - type: string
   umg.save:

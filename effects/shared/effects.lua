@@ -77,6 +77,7 @@ umg.on("@tick", function()
     for _, ent in ipairs(effectsGroup) do
         for _, effectEnt in ipairs(ent.effects) do
             if (not umg.exists(effectEnt)) then
+                -- remove effect if the entity doesn't exist anymore
                 removeEffect(ent, effectEnt)
             end
         end
