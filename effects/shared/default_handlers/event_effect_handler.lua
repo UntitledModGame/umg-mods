@@ -21,8 +21,40 @@ function EventEffectHandler:init(activeEffects)
 end
 
 
-local function activateEffect()
+local function canTrigger(ownerEnt, effectEnt, ...)
+    local blocked = umg.ask("effects:isTriggerEffectBlocked", effectEnt, ownerEnt)
+    if blocked then
+        return false
+    end
 
+    local evEffect = effectEnt.eventEffect
+    if evEffect.shouldTrigger then
+        return evEffect.shouldTrigger(effectEnt, ownerEnt, ...)
+    end
+    return true -- all ok!
+end
+
+
+local function activateEffect(ownerEnt, effectEnt, ...)
+    if effectEnt.usable then
+        error("todo")
+        -- TODO: uncomment when usables mod is active.
+        -- usables.use(effectEnt, ownerEnt)
+        --[[
+            Also, do some thinking:
+            Is it a good idea to call this explicitly? 
+            I feel like its a bad idea.
+            Perhaps we should have a
+            `ent.eventEffect.usable` flag, or something.
+        ]]
+    end
+
+    local evEffect = effectEnt.eventEffect
+    if evEffect.trigger then
+        evEffect.trigger(effectEnt, ownerEnt, ...)
+    end
+
+    umg.call("effects:eventEffectTriggered", effectEnt, ownerEnt)
 end
 
 
@@ -32,8 +64,11 @@ function EventEffectHandler:call(eventName, ...)
         return
     end
 
+    local ownerEnt = self.owner
     for _, effectEnt in ipairs(set) do
-        
+        if canTrigger(ownerEnt, effectEnt, ...) then
+            activateEffect(ownerEnt, effectEnt, ...)
+        end
     end
 end
 

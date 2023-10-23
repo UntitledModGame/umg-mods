@@ -354,14 +354,6 @@ ent.ability = {
     end
 }
 
-
--- To activate an ability, use:
-effects.activateAbility(abilityEnt, ownerEnt)
---[[
-    This allows us to use abilities in a context that is unrelated
-    to effects!
-]]
--- Also: use buses when activating the ability, too:
 -- `effects:isAbilityActivationBlocked` question
 -- `effects:activateAbility` event
 
