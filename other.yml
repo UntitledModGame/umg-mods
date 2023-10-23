@@ -64,3 +64,5 @@ globals:
     any: true
   components:
     any: true
+  effects:
+    any: true

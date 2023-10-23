@@ -13,9 +13,6 @@ itemGroup:onAdded(function(item_ent)
     if not item_ent.stackSize then
         item_ent.stackSize = 1
     end
-
-    -- This is for delta compression.
-    item_ent.last_seen_stackSize = item_ent.stackSize
 end)
 
 

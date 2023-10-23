@@ -4,8 +4,9 @@ return {
     maxStackSize = 1;
     image="lantern";
 
-    propertyEffect = {
-        
+   propertyEffect = {
+        property = "speed",
+        multiplier = 1.3
     },
 
     itemName = "Lantern upgrade";

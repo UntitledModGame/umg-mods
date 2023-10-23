@@ -48,17 +48,17 @@ end
 
 local type = type
 
-local function calculate(val, ent, ownerEnt)
+local function calculate(val, effectEnt, ownerEnt)
     -- `val` is either a function that generates a value,
     -- or a value upon itself.
     if type(val) == "function" then
-        return val(ent, ownerEnt)
+        return val(effectEnt, ownerEnt)
     end
     return val
 end
 
 
-local function pollPropEffect(self, ent, ownerEnt, pEffect)
+local function pollPropEffect(self, effectEnt, ownerEnt, pEffect)
     local modifiers = self.modifiers
     local multipliers = self.multipliers
     local minClamps = self.minClamps
@@ -66,32 +66,33 @@ local function pollPropEffect(self, ent, ownerEnt, pEffect)
     local prop = pEffect.property
 
     if pEffect.modifier then
-        modifiers[prop] = modifiers[prop] + calculate(pEffect.modifier, ent, ownerEnt)
+        modifiers[prop] = modifiers[prop] + calculate(pEffect.modifier, effectEnt, ownerEnt)
     end
 
     if pEffect.multiplier then
-        multipliers[prop] = multipliers[prop] * calculate(pEffect.multiplier, ent, ownerEnt)
+        multipliers[prop] = multipliers[prop] * calculate(pEffect.multiplier, effectEnt, ownerEnt)
     end
 
     if pEffect.min then
-        minClamps[prop] = math.max(minClamps[prop], calculate(pEffect.min, ent, ownerEnt))
+        minClamps[prop] = math.max(minClamps[prop], calculate(pEffect.min, effectEnt, ownerEnt))
     end
 
     if pEffect.max then
-        maxClamps[prop] = math.min(maxClamps[prop], calculate(pEffect.max, ent, ownerEnt))
+        maxClamps[prop] = math.min(maxClamps[prop], calculate(pEffect.max, effectEnt, ownerEnt))
     end
 end
 
 
 local function pollEffectEnt(self, effectEnt, ownerEnt)
-    local arr = effectEnt.propertyEffect
-    if arr.property then
-        -- `arr` is a property-effect!
+    print("poll: ", effectEnt)
+    local comp = effectEnt.propertyEffect
+    if comp.property then
+        -- `comp` is a property-effect!
         -- (this occurs when the entity only has 1 propertyEffect.)
-        pollPropEffect(self, effectEnt, ownerEnt, arr)
+        pollPropEffect(self, effectEnt, ownerEnt, comp)
     end
 
-    for _, pEffect in ipairs(arr) do
+    for _, pEffect in ipairs(comp) do
         pollPropEffect(self, effectEnt, ownerEnt, pEffect)
     end
 end

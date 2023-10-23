@@ -51,6 +51,10 @@ umg.on("@createWorld", function()
         e.dimension = dim2
     end
 
+    for i=1, 30 do
+        newItem(ents.upgrade, 1)
+    end
+
     for i=1, 4 do
         newItem(ents.flare_gun, 1)
     end

@@ -98,6 +98,8 @@ function EffectManager:addEffect(effectEntity)
         if effectHandlerClass:shouldTakeEffect(effectEntity) then
             -- if we should take the effect, add it.
             ensureEffectHandler(self, effectHandlerClass)
+            local effectHandler = self:getEffectHandler(effectHandlerClass)
+            effectHandler:addEffect(effectEntity)
         end
     end
     self.activeEffects:add(effectEntity)
