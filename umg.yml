@@ -99,7 +99,7 @@ globals:
     - type: string
     - required: false
       type: table
-  umg.getQuestionInfo:
+  umg.getQuestionReducer:
     args:
     - type: string
   umg.isValidEvent:
