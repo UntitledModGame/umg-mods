@@ -84,7 +84,6 @@ end
 
 
 local function pollEffectEnt(self, effectEnt, ownerEnt)
-    print("poll: ", effectEnt)
     local comp = effectEnt.propertyEffect
     if comp.property then
         -- `comp` is a property-effect!
@@ -98,6 +97,20 @@ local function pollEffectEnt(self, effectEnt, ownerEnt)
 end
 
 
+local function clearPropertyBuffer(buffer)
+    for prop,_ in pairs(buffer) do
+        buffer[prop] = nil
+    end
+end
+
+local function clearBuffers(self)
+    clearPropertyBuffer(self.multipliers)
+    clearPropertyBuffer(self.modifiers)
+    clearPropertyBuffer(self.maxClamps)
+    clearPropertyBuffer(self.minClamps)
+end
+
+
 function PropertyEffectHandler:tick(ownerEnt)
     for _, ent in ipairs(self.propertyEffects) do
         if (not umg.exists(ent)) or (not self.activeEffects:contains(ent)) then
@@ -105,6 +118,7 @@ function PropertyEffectHandler:tick(ownerEnt)
         end
     end
 
+    clearBuffers(self)
     for _, effectEnt in ipairs(self.propertyEffects) do
         pollEffectEnt(self, effectEnt, ownerEnt)
     end
@@ -125,6 +139,7 @@ function PropertyEffectHandler:getModifier(property)
 end
 
 function PropertyEffectHandler:getMultiplier(property)
+    print("mult:",self.multipliers[property])
     return self.multipliers[property]
 end
 
