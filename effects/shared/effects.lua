@@ -10,16 +10,16 @@ local effects = {}
 
 
 function effects.addEffect(ent, effectEnt)
-    if not ent.effects then
-        ent.effects = EffectManager(ent)
+    if not ent.effectManager then
+        ent.effectManager = EffectManager(ent)
     end
-    ent.effects:addEffect(effectEnt)
+    ent.effectManager:addEffect(effectEnt)
 end
 
 
 function effects.removeEffect(ent, effectEnt)
-    if not ent.effects then return end
-    ent.effects:removeEffect(effectEnt)
+    if not ent.effectManager then return end
+    ent.effectManager:removeEffect(effectEnt)
 end
 
 
@@ -34,8 +34,8 @@ end
 
 function effects.tryCallEvent(ent, eventName, ...)
     -- used for eventEffects
-    if ent.effects then
-        local eventEH = ent.effects:getEffectHandler(EventEffectHandler)
+    if ent.effectManager then
+        local eventEH = ent.effectManager:getEffectHandler(EventEffectHandler)
         if eventEH then
             eventEH:call(eventName, ...)
         end
@@ -46,8 +46,8 @@ end
 function effects.tryAnswerQuestion(ent, questionName, ...)
     -- used for eventEffects
     do error("nyi") end
-    if ent.effects then
-        local questionEH = ent.effects:getEffectHandler(QuestionEffectHandler)
+    if ent.effectManager then
+        local questionEH = ent.effectManager:getEffectHandler(QuestionEffectHandler)
         if questionEH then
             questionEH:ask(questionName, ...)
         end

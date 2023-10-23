@@ -143,7 +143,7 @@ end
 
 
 local function getPropertyEffectHandler(ent)
-    local eManager = ent.effects
+    local eManager = ent.effectManager
     if eManager then
         local propEH = eManager:getEffectHandler(PropertyEffectHandler) 
         if propEH then

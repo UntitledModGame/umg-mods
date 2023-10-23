@@ -33,7 +33,7 @@ we can take advantage of the fact that state *already exists.*
     The modder is not expected to change any of this;
     (this is just how it is represented.)
 ]]
-ent.effects = EffectHandler({
+ent.effectManager = EffectHandler({
     modifiers = {
         -- list of modifiers for all properties:
         -- (This just serves as an internal cache)
@@ -66,10 +66,8 @@ ent.effects = EffectHandler({
 
 
 umg.answer("properties:getPropertyMultiplier", function(ent, prop)
-    if ent.effects then
-        if ent.effects.multipliers[prop] then
-            return ent.effects.multipliers[prop]
-        end
+    if ent.effectManager then
+        -- return multiplier for `prop`.
     end
 end)
 

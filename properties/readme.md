@@ -97,9 +97,9 @@ Very cool.
 ]]
 
 umg.answer("properties:getPropertyModifier", function(ent, property)
-    if ent.effects then
-        if ent.effects[property] then
-            local efct = ent.effects[property]
+    if ent.potionEffects then
+        if ent.potionEffects[property] then
+            local efct = ent.potionEffects[property]
             return efct.strength
         end
     end

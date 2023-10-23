@@ -87,8 +87,8 @@ local listenedEvents = {--[[
 
 
 local function tryCallEvent(ent, eventName)
-    if ent.effects then
-        local eventEH = ent.effects:getEffectHandler(EventEffectHandler) 
+    if ent.effectManager then
+        local eventEH = ent.effectManager:getEffectHandler(EventEffectHandler) 
         if eventEH then
             eventEH:call(eventName)
         end

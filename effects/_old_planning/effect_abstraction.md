@@ -64,11 +64,11 @@ But we still have an issue with defining EffectHandles:
 ```lua
 -- propertyEffect system:
 umg.on("effects:addEffect", function(ent, effectEnt)
-    assert(ent.effects, "this should be added by now")
+    assert(ent.effectManager, "this should be added by now")
 
     if effectEnt.propertyEffect then
         -- ensure we have propertyEffectHandler:
-        ent.effects:ensureHasEffectHandle(PropertyEffectHandle)
+        ent.effectManager:ensureHasEffectHandle(PropertyEffectHandle)
     end
 end)
 ```
@@ -94,10 +94,7 @@ Would there be a better way...?
 ## EffectHandle idea 2:
 Define effectHandles as named:
 ```lua
-effects.defineEffectHandler(
-    "propertyEffect",
-    PropertyEffectHandler
-)
+effects.defineEffectHandler(PropertyEffectHandler)
 ```
 Every `EffectHandler` class needs to define a `shouldTakeEffect` static method. This will be called from a static context by the EffectManager.
 
@@ -106,7 +103,8 @@ Ok. This is probably the best approach.
 The reason this works well, is because then, we can access each `effectHandler` directly:
 ```lua
 umg.on("mod:event", function()
-    if ent.effects and ent.effects:getHandler("propertyEffect") then
+    if ent.effectManager and 
+        ent.effectManager:getHandler(PropertyEffectClass) then
         ...
     end
 end)
