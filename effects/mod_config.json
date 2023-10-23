@@ -1,6 +1,6 @@
 {
     "type": "base",
     "uses": [
-        "typecheck", "objects", "components"
+        "typecheck", "objects", "components", "properties"
     ]
 }

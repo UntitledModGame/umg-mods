@@ -1,8 +1,8 @@
 
 local EffectManager = require("shared.effect_manager")
 
-local EventEffectHandler = require("shared.handlers.event_effect_handler")
-local QuestionEffectHandler = require("shared.handlers.question_effect_handler")
+local EventEffectHandler = require("shared.default_handlers.event_effect_handler")
+local QuestionEffectHandler = require("shared.default_handlers.question_effect_handler")
 
 
 
@@ -33,6 +33,7 @@ end
 
 
 function effects.tryCallEvent(ent, eventName, ...)
+    -- used for eventEffects
     if ent.effects then
         local eventEH = ent.effects:getEffectHandler(EventEffectHandler)
         if eventEH then
@@ -43,6 +44,7 @@ end
 
 
 function effects.tryAnswerQuestion(ent, questionName, ...)
+    -- used for eventEffects
     do error("nyi") end
     if ent.effects then
         local questionEH = ent.effects:getEffectHandler(QuestionEffectHandler)
@@ -51,6 +53,14 @@ function effects.tryAnswerQuestion(ent, questionName, ...)
         end
     end
 end
+
+
+
+effects.defineEffectHandler(EventEffectHandler)
+
+-- effects.defineEffectHandler(QuestionEffectHandler)
+
+
 
 
 return effects

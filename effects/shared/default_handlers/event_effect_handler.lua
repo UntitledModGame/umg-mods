@@ -1,7 +1,5 @@
 
 
-local effects = require("shared.effects")
-
 
 local EventEffectHandler = objects.Class("effects:EventEffectHandler")
 
@@ -142,9 +140,5 @@ function EventEffectHandler:removeEffect(effectEnt)
 end
 
 
-
-
-
-effects.defineEffectHandler(EventEffectHandler)
-
+return EventEffectHandler
 

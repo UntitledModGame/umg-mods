@@ -114,7 +114,7 @@ function PropertyEffectHandler:addEffect(effectEnt)
     self.propertyEffects:add(effectEnt)
 end
 
-function PropertyEffectHandler:remove(effectEnt)
+function PropertyEffectHandler:removeEffect(effectEnt)
     self.propertyEffects:remove(effectEnt)
 end
 
@@ -157,7 +157,7 @@ end
     now, actually apply the property transformations:
     This is efficient "enough"
 ]]
-umg.on("properties:getPropertyMultiplier", function(ent, property)
+umg.answer("properties:getPropertyMultiplier", function(ent, property)
     local propEH = getPropertyEffectHandler(ent)
     if propEH then
         return propEH:getMultiplier(property)
@@ -165,7 +165,7 @@ umg.on("properties:getPropertyMultiplier", function(ent, property)
 end)
 
 
-umg.on("properties:getPropertyModifier", function(ent, property)
+umg.answer("properties:getPropertyModifier", function(ent, property)
     local propEH = getPropertyEffectHandler(ent)
     if propEH then
         return propEH:getModifier(property)
@@ -173,7 +173,7 @@ umg.on("properties:getPropertyModifier", function(ent, property)
 end)
 
 
-umg.on("properties:getPropertyClamp", function(ent, property)
+umg.answer("properties:getPropertyClamp", function(ent, property)
     local propEH = getPropertyEffectHandler(ent)
     if propEH then
         return propEH:getMinClamp(property), propEH:getMaxClamp(property)
