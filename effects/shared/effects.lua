@@ -61,7 +61,5 @@ effects.defineEffectHandler(EventEffectHandler)
 -- effects.defineEffectHandler(QuestionEffectHandler)
 
 
-
-
 return effects
 

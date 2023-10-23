@@ -34,20 +34,16 @@ end
 
 
 local function activateEffect(ownerEnt, effectEnt, ...)
+    local evEffect = effectEnt.eventEffect
     if effectEnt.usable then
         error("todo")
-        -- TODO: uncomment when usables mod is active.
         -- usables.use(effectEnt, ownerEnt)
         --[[
-            Also, do some thinking:
-            Is it a good idea to call this explicitly? 
-            I feel like its a bad idea.
-            Perhaps we should have a
-            `ent.eventEffect.usable` flag, or something.
+            TODO: Should we have an extra `usable` flag check here...?
+            currently, the effectEnt is used implicitly, which is a bit weird
         ]]
     end
 
-    local evEffect = effectEnt.eventEffect
     if evEffect.trigger then
         evEffect.trigger(effectEnt, ownerEnt, ...)
     end
