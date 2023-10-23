@@ -6,7 +6,6 @@ local effects = {}
 
 
 local function addEffect(ent, effectEnt)
-    print("Adding effect: ", effectEnt)
     if not ent.effects then
         ent.effects = objects.Set()
     end
@@ -29,9 +28,14 @@ local function removeEffect(ent, effectEnt)
 
     ent.effects:remove(effectEnt)
     umg.call("effects:effectRemoved", effectEnt, ent)
+
+    --[[
+    I've commented this VVVVV out because its quite fragile due to
+    effectHandler components projecting to `effect`.
     if ent.effects:size() <= 0 then
         ent:removeComponent("effects")
     end
+    ]]
 end
 
 

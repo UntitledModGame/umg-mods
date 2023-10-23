@@ -52,19 +52,19 @@ local function pollPropEffect(self, effectEnt, ownerEnt, pEffect)
     local prop = pEffect.property
 
     if pEffect.modifier then
-        modifiers[prop] = (modifiers[prop] or 0) + calculate(pEffect.modifier, effectEnt, ownerEnt)
+        modifiers[prop] = modifiers[prop] + calculate(pEffect.modifier, effectEnt, ownerEnt)
     end
 
     if pEffect.multiplier then
-        multipliers[prop] = (multipliers[prop] or 1) * calculate(pEffect.multiplier, effectEnt, ownerEnt)
+        multipliers[prop] = multipliers[prop] * calculate(pEffect.multiplier, effectEnt, ownerEnt)
     end
 
     if pEffect.min then
-        minClamps[prop] = math.max((minClamps[prop] or -math.huge), calculate(pEffect.min, effectEnt, ownerEnt))
+        minClamps[prop] = math.max(minClamps[prop], calculate(pEffect.min, effectEnt, ownerEnt))
     end
 
     if pEffect.max then
-        maxClamps[prop] = math.min((maxClamps[prop] or math.huge), calculate(pEffect.max, effectEnt, ownerEnt))
+        maxClamps[prop] = math.min(maxClamps[prop], calculate(pEffect.max, effectEnt, ownerEnt))
     end
 end
 
@@ -84,7 +84,11 @@ end
 
 
 local function clearPropertyBuffer(buffer, val)
-    for prop,_ in pairs(buffer) do
+    local props = properties.getAllProperties()
+    -- TODO: ^^^ this is slow, inefficient, and dumb
+    -- Why are we caring about all properties? 
+    -- Shouldn't we only set the ones we care about
+    for _, prop in pairs(props) do
         buffer[prop] = val
     end
 end
@@ -176,7 +180,7 @@ end)
 
 umg.on("effects:effectRemoved", function(effectEnt, ent)
     if ent.propertyEffects then
-        ent.propertyEffects:removeEffects(effectEnt)
+        ent.propertyEffects:removeEffect(effectEnt)
     end
 end)
 

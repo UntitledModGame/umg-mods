@@ -6,11 +6,11 @@ return {
 
    propertyEffect = {
         property = "speed",
-        multiplier = 1.3
+        multiplier = 2
     },
 
     itemName = "Lantern upgrade";
-    itemDescription = "Gives +100% speed",
+    itemDescription = "Gives 2x speed",
     
     spinning = {
         period = 0.8;

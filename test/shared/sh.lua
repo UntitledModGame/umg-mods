@@ -26,6 +26,16 @@ umg.on("items:itemMoved", function(ownerEnt, itemEnt)
     end
 end)
 
+umg.on("items:itemRemoved", function(ownerEnt, itemEnt)
+    if server and itemEnt.effect then
+        effects.removeEffect(ownerEnt, itemEnt)
+    end
+end)
+
+
+
+
+
 
 
 

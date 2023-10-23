@@ -203,6 +203,10 @@ function properties.getDefault(property)
 end
 
 
+function properties.getAllProperties()
+    return propertyList
+end
+
 
 return properties
 
