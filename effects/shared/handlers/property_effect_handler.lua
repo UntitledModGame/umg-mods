@@ -1,4 +1,5 @@
 
+require("effect_events")
 
 local effects = require("shared.effects")
 
@@ -6,40 +7,28 @@ local effects = require("shared.effects")
 local PropertyEffects = objects.Class("effects:PropertyEffects")
 
 
-local function makeWithDefaultValue(defaultValue)
-    --[[
-        creates a table that returns a default value
-        if the value is not found.
-    ]]
-    return setmetatable({}, {
-        __index = function(t,k)
-            return defaultValue
-        end
-    })
-end
-
 
 function PropertyEffects:init()
     self.propertyEffects = objects.Set()
 
-    self.modifiers = makeWithDefaultValue(0 --[[
+    self.modifiers = { --[[
         [property] = cachedModifier
         Modifiers are recalculated per-tick.
         (This just serves as an internal cache)
-    ]])
-    self.multipliers = makeWithDefaultValue(1 --[[
+    ]]}
+    self.multipliers = {--[[
         [property] = cachedMultiplier
         Multipliers are recalculated per-tick.
         (Same as above; internal cache)
-    ]])
-    self.maxClamps = makeWithDefaultValue(math.huge --[[
+    ]]}
+    self.maxClamps = {--[[
         [property] = cachedMaxClamp
         recalculated per-tick.
-    ]])
-    self.minClamps = makeWithDefaultValue(-math.huge --[[
+    ]]}
+    self.minClamps = {--[[
         [property] = cachedMinClamp
         recalculated per-tick.
-    ]])
+    ]]}
 end
 
 
@@ -94,30 +83,23 @@ local function pollEffectEnt(self, effectEnt, ownerEnt)
 end
 
 
-local function clearPropertyBuffer(buffer)
+local function clearPropertyBuffer(buffer, val)
     for prop,_ in pairs(buffer) do
-        buffer[prop] = nil
+        buffer[prop] = val
     end
 end
 
 local function clearBuffers(self)
-    clearPropertyBuffer(self.multipliers)
-    clearPropertyBuffer(self.modifiers)
-    clearPropertyBuffer(self.maxClamps)
-    clearPropertyBuffer(self.minClamps)
+    clearPropertyBuffer(self.multipliers, 1)
+    clearPropertyBuffer(self.modifiers, 0)
+    clearPropertyBuffer(self.maxClamps, math.huge)
+    clearPropertyBuffer(self.minClamps, -math.huge)
 end
 
 
 function PropertyEffects:tick(ownerEnt)
-    for _, ent in ipairs(self.propertyEffects) do
-        if (not umg.exists(ent)) or (not self.activeEffects:contains(ent)) then
-            self.propertyEffects:remove(ent)
-        end
-    end
-
     --[[
-        TODO: This is kinda slow and dumb. Maybe think of a better way?
-        (It's actually not TOOOO slow, but like, its dumb lol)
+        TODO: Clearing buffers like this is kinda slow and dumb.
     ]]
     clearBuffers(self)
 
@@ -137,38 +119,23 @@ end
 
 
 function PropertyEffects:getModifier(property)
-    return self.modifiers[property]
+    return self.modifiers[property] or 0
 end
 
 function PropertyEffects:getMultiplier(property)
     print("mult:",self.multipliers[property])
-    return self.multipliers[property]
+    return self.multipliers[property] or 1
 end
 
 function PropertyEffects:getMaxClamp(property)
-    return self.maxClamps[property]
+    return self.maxClamps[property] or math.huge
 end
 
 function PropertyEffects:getMinClamp(property)
-    return self.minClamps[property]
+    return self.minClamps[property] or -math.huge
 end
 
 
-function PropertyEffects:shouldTakeEffect(effectEnt)
-    return effectEnt.propertyEffect
-end
-
-
-
-local function getPropertyEffectHandler(ent)
-    local eManager = ent.effectManager
-    if eManager then
-        local propEH = eManager:getEffectHandler(PropertyEffects) 
-        if propEH then
-            return propEH
-        end
-    end
-end
 
 
 --[[
@@ -176,24 +143,22 @@ end
     This is efficient "enough"
 ]]
 umg.answer("properties:getPropertyMultiplier", function(ent, property)
-    local propEH = getPropertyEffectHandler(ent)
-    if propEH then
-        return propEH:getMultiplier(property)
+    if ent.propertyEffects then
+        return ent.propertyEffects:getMultiplier(property)
     end
 end)
 
 
 umg.answer("properties:getPropertyModifier", function(ent, property)
-    local propEH = getPropertyEffectHandler(ent)
-    if propEH then
-        return propEH:getModifier(property)
+    if ent.propertyEffects then
+        return ent.propertyEffects:getModifier(property)
     end
 end)
 
 
 umg.answer("properties:getPropertyClamp", function(ent, property)
-    local propEH = getPropertyEffectHandler(ent)
-    if propEH then
+    if ent.propertyEffects then
+        local propEH = ent.propertyEffects
         return propEH:getMinClamp(property), propEH:getMaxClamp(property)
     end
 end)

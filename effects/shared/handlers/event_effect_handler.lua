@@ -1,7 +1,8 @@
 
+require("effect_events")
 
 
-local EventEffects = objects.Class("effects:EventEffectHandler")
+local EventEffects = objects.Class("effects:EventEffect")
 
 
 
