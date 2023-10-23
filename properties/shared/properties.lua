@@ -125,7 +125,7 @@ end
 local function updateGroup(group, property, config)
     -- updates all entities in a group:
     for _, ent in ipairs(group) do
-        ent.property = computeProperty(ent, property, config)
+        ent[property] = computeProperty(ent, property, config)
     end
 end
 

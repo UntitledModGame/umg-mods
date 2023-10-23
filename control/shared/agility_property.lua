@@ -7,6 +7,7 @@ local DEFAULT_AGILITY = 100
 properties.defineProperty("agility", {
     base = "baseAgility",
     default = DEFAULT_AGILITY,
+    shouldComputeClientside = true,
 
     getModifier = function(ent)
         return umg.ask("control:getAgilityModifier", ent) or 0

@@ -52,19 +52,19 @@ local function pollPropEffect(self, effectEnt, ownerEnt, pEffect)
     local prop = pEffect.property
 
     if pEffect.modifier then
-        modifiers[prop] = modifiers[prop] + calculate(pEffect.modifier, effectEnt, ownerEnt)
+        modifiers[prop] = (modifiers[prop] or 0) + calculate(pEffect.modifier, effectEnt, ownerEnt)
     end
 
     if pEffect.multiplier then
-        multipliers[prop] = multipliers[prop] * calculate(pEffect.multiplier, effectEnt, ownerEnt)
+        multipliers[prop] = (multipliers[prop] or 1) * calculate(pEffect.multiplier, effectEnt, ownerEnt)
     end
 
     if pEffect.min then
-        minClamps[prop] = math.max(minClamps[prop], calculate(pEffect.min, effectEnt, ownerEnt))
+        minClamps[prop] = math.max((minClamps[prop] or -math.huge), calculate(pEffect.min, effectEnt, ownerEnt))
     end
 
     if pEffect.max then
-        maxClamps[prop] = math.min(maxClamps[prop], calculate(pEffect.max, effectEnt, ownerEnt))
+        maxClamps[prop] = math.min((maxClamps[prop] or math.huge), calculate(pEffect.max, effectEnt, ownerEnt))
     end
 end
 
@@ -123,7 +123,6 @@ function PropertyEffects:getModifier(property)
 end
 
 function PropertyEffects:getMultiplier(property)
-    print("mult:",self.multipliers[property])
     return self.multipliers[property] or 1
 end
 

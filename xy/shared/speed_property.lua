@@ -8,6 +8,7 @@ local options = require("shared.options")
 properties.defineProperty("speed", {
     base = "baseSpeed",
     default = options.DEFAULT_SPEED,
+    shouldComputeClientside = true,
 
     getModifier = function(ent)
         return umg.ask("xy:getSpeedModifier", ent) or 0

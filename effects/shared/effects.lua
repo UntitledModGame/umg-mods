@@ -6,6 +6,7 @@ local effects = {}
 
 
 local function addEffect(ent, effectEnt)
+    print("Adding effect: ", effectEnt)
     if not ent.effects then
         ent.effects = objects.Set()
     end

@@ -7,12 +7,12 @@ A: A property is a component that represents a "statistic" of an entity.
 
 Properties can only be numbers.
 
-A property is anything that is used to represent that "statistics" of an entity.
-For example, on the Skyrim
+It's good to think of "properties" as entity values that can be
+upgraded, modified, or changed.
 
 ----------------
 
-What's a good example of a property?
+Examples of properties:
 - maxHealth
 - damage
 - speed
@@ -22,7 +22,7 @@ What's a good example of a property?
 - agility
 - regeneration
 
-What isn't a property?
+What ISN'T a property?
 - x, y positions
 - health
 - rotation
