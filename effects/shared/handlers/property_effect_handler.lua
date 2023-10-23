@@ -3,7 +3,7 @@
 local effects = require("shared.effects")
 
 
-local PropertyEffectHandler = objects.Class("effects:PropertyEffectHandler")
+local PropertyEffects = objects.Class("effects:PropertyEffects")
 
 
 local function makeWithDefaultValue(defaultValue)
@@ -19,10 +19,7 @@ local function makeWithDefaultValue(defaultValue)
 end
 
 
-function PropertyEffectHandler:init(activeEffects)
-    -- activeEffects is passed in from `EffectHandler`.
-    self.activeEffects = activeEffects
-
+function PropertyEffects:init()
     self.propertyEffects = objects.Set()
 
     self.modifiers = makeWithDefaultValue(0 --[[
@@ -111,48 +108,53 @@ local function clearBuffers(self)
 end
 
 
-function PropertyEffectHandler:tick(ownerEnt)
+function PropertyEffects:tick(ownerEnt)
     for _, ent in ipairs(self.propertyEffects) do
         if (not umg.exists(ent)) or (not self.activeEffects:contains(ent)) then
             self.propertyEffects:remove(ent)
         end
     end
 
+    --[[
+        TODO: This is kinda slow and dumb. Maybe think of a better way?
+        (It's actually not TOOOO slow, but like, its dumb lol)
+    ]]
     clearBuffers(self)
+
     for _, effectEnt in ipairs(self.propertyEffects) do
         pollEffectEnt(self, effectEnt, ownerEnt)
     end
 end
 
 
-function PropertyEffectHandler:addEffect(effectEnt)
+function PropertyEffects:addEffect(effectEnt)
     self.propertyEffects:add(effectEnt)
 end
 
-function PropertyEffectHandler:removeEffect(effectEnt)
+function PropertyEffects:removeEffect(effectEnt)
     self.propertyEffects:remove(effectEnt)
 end
 
 
-function PropertyEffectHandler:getModifier(property)
+function PropertyEffects:getModifier(property)
     return self.modifiers[property]
 end
 
-function PropertyEffectHandler:getMultiplier(property)
+function PropertyEffects:getMultiplier(property)
     print("mult:",self.multipliers[property])
     return self.multipliers[property]
 end
 
-function PropertyEffectHandler:getMaxClamp(property)
+function PropertyEffects:getMaxClamp(property)
     return self.maxClamps[property]
 end
 
-function PropertyEffectHandler:getMinClamp(property)
+function PropertyEffects:getMinClamp(property)
     return self.minClamps[property]
 end
 
 
-function PropertyEffectHandler:shouldTakeEffect(effectEnt)
+function PropertyEffects:shouldTakeEffect(effectEnt)
     return effectEnt.propertyEffect
 end
 
@@ -161,7 +163,7 @@ end
 local function getPropertyEffectHandler(ent)
     local eManager = ent.effectManager
     if eManager then
-        local propEH = eManager:getEffectHandler(PropertyEffectHandler) 
+        local propEH = eManager:getEffectHandler(PropertyEffects) 
         if propEH then
             return propEH
         end
@@ -199,5 +201,30 @@ end)
 
 
 
-effects.defineEffectHandler(PropertyEffectHandler)
+
+umg.on("effects:effectAdded", function(effectEnt, ent)
+    if effectEnt.propertyEffect then
+        ent.propertyEffects = ent.propertyEffects or PropertyEffects()
+    end
+    ent.propertyEffects:addEffect(effectEnt)
+end)
+
+
+umg.on("effects:effectRemoved", function(effectEnt, ent)
+    if ent.propertyEffects then
+        ent.propertyEffects:removeEffects(effectEnt)
+    end
+end)
+
+
+
+
+local effectManagerGroup = umg.group("propertyEffects")
+
+umg.on("@tick", function(dt)
+    for _, ent in ipairs(effectManagerGroup) do
+        ent.propertyEffects:tick(dt)
+    end
+end)
+
 

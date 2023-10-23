@@ -33,7 +33,7 @@ There are 3 core types of effects:
 - Event effects
 - Question effects
 
-But you can define your own if you want
+(But you can define your own if you want too.)
 
 ----------
 

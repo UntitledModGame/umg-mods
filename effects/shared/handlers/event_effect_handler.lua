@@ -1,14 +1,12 @@
 
 
 
-local EventEffectHandler = objects.Class("effects:EventEffectHandler")
+local EventEffects = objects.Class("effects:EventEffectHandler")
 
 
 
-function EventEffectHandler:init(activeEffects)
-    -- activeEffects is passed in from `EffectHandler`.
-    self.activeEffects = activeEffects
-
+function EventEffects:init(ownerEnt)
+    self.ownerEnt = ownerEnt
     self.eventEffects = objects.Set()
 
     self.eventToEffectSet = {--[[
@@ -52,13 +50,13 @@ local function activateEffect(ownerEnt, effectEnt, ...)
 end
 
 
-function EventEffectHandler:call(eventName, ...)
+function EventEffects:call(eventName, ...)
     local set = self.eventToEffectSet[eventName]
     if not set then
-        return
+        return -- no events listening. RIP
     end
 
-    local ownerEnt = self.owner
+    local ownerEnt = self.ownerEnt
     for _, effectEnt in ipairs(set) do
         if canTrigger(ownerEnt, effectEnt, ...) then
             activateEffect(ownerEnt, effectEnt, ...)
@@ -68,7 +66,7 @@ end
 
 
 
-function EventEffectHandler:shouldTakeEffect(effectEnt)
+function EventEffects:shouldTakeEffect(effectEnt)
     return effectEnt.eventEffect
 end
 
@@ -82,12 +80,9 @@ local listenedEvents = {--[[
 ]]}
 
 
-local function tryCallEvent(ent, eventName)
-    if ent.effectManager then
-        local eventEH = ent.effectManager:getEffectHandler(EventEffectHandler) 
-        if eventEH then
-            eventEH:call(eventName)
-        end
+local function tryCallEvent(ent, eventName, ...)
+    if ent.eventEffects then
+        ent.eventEffects:call(eventName, ...)
     end
 end
 
@@ -113,7 +108,7 @@ end
 
 
 
-function EventEffectHandler:addEffect(effectEnt)
+function EventEffects:addEffect(effectEnt)
     local event = effectEnt.event
     local set = self.eventToEffectSet[event]
     if not set then
@@ -126,7 +121,7 @@ function EventEffectHandler:addEffect(effectEnt)
 end
 
 
-function EventEffectHandler:removeEffect(effectEnt)
+function EventEffects:removeEffect(effectEnt)
     local event = effectEnt.event
     local set = self.eventToEffectSet[event]
     set:remove(effectEnt)
@@ -136,5 +131,20 @@ function EventEffectHandler:removeEffect(effectEnt)
 end
 
 
-return EventEffectHandler
+
+umg.on("effects:effectAdded", function(effectEnt, ent)
+    if effectEnt.eventEffect then
+        ent.eventEffects = ent.eventEffects or EventEffects(ent)
+    end
+    ent.eventEffects:addEffect(effectEnt)
+end)
+
+
+
+umg.on("effects:effectRemoved", function(effectEnt, ent)
+    if ent.eventEffects then
+        ent.eventEffects:removeEffects(effectEnt)
+    end
+end)
+
 
