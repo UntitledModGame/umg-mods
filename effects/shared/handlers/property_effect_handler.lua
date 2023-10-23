@@ -205,8 +205,8 @@ end)
 umg.on("effects:effectAdded", function(effectEnt, ent)
     if effectEnt.propertyEffect then
         ent.propertyEffects = ent.propertyEffects or PropertyEffects()
+        ent.propertyEffects:addEffect(effectEnt)
     end
-    ent.propertyEffects:addEffect(effectEnt)
 end)
 
 

@@ -96,11 +96,11 @@ local function ensureEventListener(eventName)
             the first argument passed into the event.
     ]]
     if listenedEvents[eventName] then
-        return
+        return -- we already have a listener here
     end
 
-    umg.on(eventName, function(ent)
-        tryCallEvent(ent, eventName)
+    umg.on(eventName, function(ent, ...)
+        tryCallEvent(ent, eventName, ...)
     end)
 
     listenedEvents[eventName] = true
@@ -135,10 +135,9 @@ end
 umg.on("effects:effectAdded", function(effectEnt, ent)
     if effectEnt.eventEffect then
         ent.eventEffects = ent.eventEffects or EventEffects(ent)
+        ent.eventEffects:addEffect(effectEnt)
     end
-    ent.eventEffects:addEffect(effectEnt)
 end)
-
 
 
 umg.on("effects:effectRemoved", function(effectEnt, ent)
