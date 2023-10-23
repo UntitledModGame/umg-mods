@@ -5,13 +5,9 @@
 ## Entities that get effected by stuff:
 ```lua
 
--- The effectManager of an entity.
-ent.effectManager = EffectManager({...})
---[[
-    you will NEVER need to create this component yourself.
-    It is created automatically by the `effects` mod, through
-    `effects.addEffect(ent, effectEnt)`
-]]
+-- The set of effects that an entity has:
+ent.effects = objects.Set({ effectEnt1, effectEnt2, ... })
+
 
 ```
 
@@ -36,6 +32,8 @@ There are 3 core types of effects:
 - Property effects
 - Event effects
 - Question effects
+
+But you can define your own if you want
 
 ----------
 
