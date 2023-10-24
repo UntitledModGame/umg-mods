@@ -74,6 +74,7 @@ function listener:keypressed(key, scancode, isrepeat)
             dimension = e.dimension,
             type = "fill",
             color = {0.1,0.3,0.9},
+            endColor = {0.5,0.6,1,1},
             duration = 0.25
         })
     end

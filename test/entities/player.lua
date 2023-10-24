@@ -62,7 +62,7 @@ return {
     };
 
     baseSpeed = PLAYER_SPEED;
-    baseAgility = PLAYER_SPEED * 20;
+    baseAgility = 0.9;
 
     inventoryName = "player inv",
     openable = {},

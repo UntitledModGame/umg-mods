@@ -53,9 +53,6 @@ sync.autoSyncComponent("moveY", {
 
 
 
-local max, min, distance = math.max, math.min, math.distance
-
-
 local moveGroup = umg.group("moveX", "moveY", "x", "y")
 
 --[[
@@ -86,11 +83,12 @@ local function setVelFromMove(ent, dt)
 
     ent.agility = ent.agility or properties.computeProperty(ent, "agility")
     ent.speed = ent.speed or properties.computeProperty(ent, "speed")
-    local agility, speed = ent.agility, ent.speed
+    local accelleration = ent.agility * ent.speed
+    local speed = ent.speed
 
     local dvx = (moveX - x)
     local dvy = (moveY - y)
-    local mag = distance(dvx, dvy)
+    local mag = math.distance(dvx, dvy)
 
     if mag > MOVE_THRESHOLD then
         dvx = dvx / mag
@@ -100,8 +98,8 @@ local function setVelFromMove(ent, dt)
         dvy = 0
     end
 
-    dvx = dvx * agility * dt
-    dvy = dvy * agility * dt
+    dvx = dvx * accelleration * dt
+    dvy = dvy * accelleration * dt
 
     --[[
     TODO::: in the future, we should allow for question-buses to
@@ -110,8 +108,8 @@ local function setVelFromMove(ent, dt)
     this would allow for potential pathfinding, as opposed to just
     blindly moving towards the target.
     ]]
-    ent.vx = min(speed, max(-speed, ent.vx + dvx))
-    ent.vy = min(speed, max(-speed, ent.vy + dvy))
+    ent.vx = math.clamp(ent.vx + dvx, -speed, speed)
+    ent.vy = math.clamp(ent.vy + dvy, -speed, speed)
 end
 
 

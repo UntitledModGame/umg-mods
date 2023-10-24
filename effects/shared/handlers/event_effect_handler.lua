@@ -81,12 +81,6 @@ local listenedEvents = {--[[
 ]]}
 
 
-local function tryCallEvent(ent, eventName, ...)
-    if ent.eventEffects then
-        ent.eventEffects:call(eventName, ...)
-    end
-end
-
 
 local function ensureEventListener(eventName)
     --[[
@@ -101,7 +95,9 @@ local function ensureEventListener(eventName)
     end
 
     umg.on(eventName, function(ent, ...)
-        tryCallEvent(ent, eventName, ...)
+        if ent.eventEffects then
+            ent.eventEffects:call(eventName, ...)
+        end
     end)
 
     listenedEvents[eventName] = true
