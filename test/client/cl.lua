@@ -69,19 +69,13 @@ function listener:keypressed(key, scancode, isrepeat)
     end
     if scancode == "e" then
         local e = control.getPlayer()
-        local inv = e.inventory
-        local ct = 0
-        if inv then
-            for x=1, inv.width do
-                for y=1, inv.height do
-                    local item = inv:get(x,y)
-                    if item and item:hasComponent("x") then
-                        ct = ct + 1
-                    end
-                end
-            end
-        end
-        print("items with position: ", ct)
+        juice.shockwave({
+            x = e.x, y = e.y,
+            dimension = e.dimension,
+            type = "fill",
+            color = {0.1,0.3,0.9},
+            duration = 0.25
+        })
     end
     if scancode == "space" then
         local e = control.getPlayer()

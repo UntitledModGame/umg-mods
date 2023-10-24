@@ -8,7 +8,7 @@ implements `updatable` component and `onUpdate` component.
 
 components.project("onUpdate", "updatable")
 
-local updateGroup = umg.group("updateable")
+local updateGroup = umg.group("updatable")
 
 
 umg.on("state:gameUpdate", function(dt)

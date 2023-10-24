@@ -198,8 +198,8 @@ function color:__call(r, g, b, a)
 
     elseif type(r) == "string" or type(r) == "number" then
         obj = {hex_to_rgba(r)}
-    else
-        error("Invalid arguments to create color")
+    elseif type(r) == "table" then
+        obj = {r[1] or 1, r[2] or 1, r[3] or 1, r[4] or 1}
     end
 
     return setmetatable(obj, color)
