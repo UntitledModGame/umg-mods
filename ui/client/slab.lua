@@ -11,14 +11,22 @@ local dontInterceptEventHandlers = true
 Slab.Initialize({}, dontInterceptEventHandlers)
 
 local font = love.graphics.getFont()
-Slab.GetStyle().API.PushFont(font)
+
+local style = Slab.GetStyle()
+style.API.PushFont(font)
+
+style.WindowRounding = 0 
+style.ButtonRounding = 2
+style.CheckBoxRounding = 0
+style.ComboBoxRounding = 0 
+style.InputBgRounding	= 0 
+
 
 
 
 umg.on("@quit", function()
 	Slab.OnQuit()
 end)
-
 
 
 

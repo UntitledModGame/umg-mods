@@ -2,8 +2,11 @@
 ```lua
 
 
--- this entity can be controlled by a player.
-ent.controllable = {
+-- denotes that the entity is controllable.
+ent.controllable = true
+
+
+ent.controllableMovement = {
     -- Enables the entity to move
     movement = true
 
@@ -11,8 +14,6 @@ ent.controllable = {
     -- There are other extra options in here that may be specified
     -- by other, external systems
 }
-
-
 
 
 ```

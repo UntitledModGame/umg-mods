@@ -67,6 +67,10 @@ local MOVE_THRESHOLD = 0.1
 -- entity before it actually tries to move there.
 
 
+local FRICTION_FACTOR = 10
+-- multiply accelleration by FRICTION_FACTOR to account for friction.
+
+
 
 local function setVelFromMove(ent, dt)
     if (not ent.moveX) and (not ent.moveY) then
@@ -91,6 +95,7 @@ local function setVelFromMove(ent, dt)
     local mag = math.distance(dvx, dvy)
 
     if mag > MOVE_THRESHOLD then
+        ent.moving = true
         dvx = dvx / mag
         dvy = dvy / mag
     else
@@ -98,8 +103,8 @@ local function setVelFromMove(ent, dt)
         dvy = 0
     end
 
-    dvx = dvx * accelleration * dt
-    dvy = dvy * accelleration * dt
+    dvx = dvx * accelleration * dt * FRICTION_FACTOR
+    dvy = dvy * accelleration * dt * FRICTION_FACTOR
 
     --[[
     TODO::: in the future, we should allow for question-buses to
@@ -136,6 +141,8 @@ umg.on("@update", function(dt)
     for _, ent in ipairs(moveGroup) do
         if shouldUpdate(ent) then
             setVelFromMove(ent, dt)
+        else
+            ent.moving = false
         end
     end
 end)
