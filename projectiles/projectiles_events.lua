@@ -1,7 +1,7 @@
 
 
--- Called when a projectile is launched.
-umg.defineEvent("projectiles:shoot")
+-- Called when a projectile is shot
+umg.defineEvent("projectiles:projectileShot")
 
 
 -- Called when a shooter item is used:
@@ -10,5 +10,5 @@ umg.defineEvent("projectiles:useShooter")
 
 
 -- Called when a projectile hits a target
-umg.defineEvent("projectiles:hit")
+umg.defineEvent("projectiles:projectileHit")
 

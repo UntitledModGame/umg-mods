@@ -1,8 +1,9 @@
 
 require("effect_events")
+require("effect_questions")
 
 
-local EventEffects = objects.Class("effects:EventEffect")
+local EventEffects = objects.Class("effects:EventEffects")
 
 
 
@@ -19,7 +20,7 @@ end
 
 
 local function canTrigger(ownerEnt, effectEnt, ...)
-    local blocked = umg.ask("effects:isTriggerEffectBlocked", effectEnt, ownerEnt)
+    local blocked = umg.ask("effects:isEffectBlocked", effectEnt, ownerEnt)
     if blocked then
         return false
     end
@@ -34,13 +35,8 @@ end
 
 local function activateEffect(ownerEnt, effectEnt, ...)
     local evEffect = effectEnt.eventEffect
-    if effectEnt.usable then
+    if evEffect.usable and effectEnt.usable then
         error("todo")
-        -- usables.use(effectEnt, ownerEnt)
-        --[[
-            TODO: Should we have an extra `usable` flag check here...?
-            currently, the effectEnt is used implicitly, which is a bit weird
-        ]]
     end
 
     if evEffect.trigger then
@@ -106,7 +102,7 @@ end
 
 
 function EventEffects:addEffect(effectEnt)
-    local event = effectEnt.event
+    local event = effectEnt.eventEffect.event
     local set = self.eventToEffectSet[event]
     if not set then
         set = objects.Set()
@@ -119,7 +115,7 @@ end
 
 
 function EventEffects:removeEffect(effectEnt)
-    local event = effectEnt.event
+    local event = effectEnt.eventEffect.event
     local set = self.eventToEffectSet[event]
     set:remove(effectEnt)
     if set:size() <= 0 then
@@ -139,7 +135,7 @@ end)
 
 umg.on("effects:effectRemoved", function(effectEnt, ent)
     if ent.eventEffects then
-        ent.eventEffects:removeEffects(effectEnt)
+        ent.eventEffects:removeEffect(effectEnt)
     end
 end)
 

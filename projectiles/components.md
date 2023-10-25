@@ -80,15 +80,15 @@ ent.projectile = {
 
 --[[
 
-TODO: 
-this componen
+TODO: This should do a shared projection to `shooter`
+
 gun component that provides a bunch of sensible defaults.
 Also plays a default sound, and emits default particles.
 Afterwards, provides a bunch of default sounds/particles to choose from.
 
 ]]
 ent.gun = {
-    bulletType
+    bulletType = "x"
 }
 
 

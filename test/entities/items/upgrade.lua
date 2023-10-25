@@ -4,17 +4,19 @@ return {
     maxStackSize = 1;
     image="lantern";
 
-    -- propertyEffect = {
-    --     property = "speed",
-    --     multiplier = 2
-    -- },
+    propertyEffect = {
+        property = "speed",
+        multiplier = 2
+    },
 
     eventEffect = {
-        event = "projectiles:shoot",
-        
-    }
+        event = "projectiles:projectileShot",
+        trigger = function(effectEnt, ownerEnt, ...)
+            print("EV EFFECT!")
+        end
+    },
 
-    itemName = "Lantern upgrade";
+    itemName = "My upgrade",
     itemDescription = "Gives 2x speed",
     
     spinning = {

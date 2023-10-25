@@ -180,6 +180,7 @@ local function launch(item, holderEnt, shooter, spreadFactor)
     local projEnt = spawnProjectileEntity(item, holderEnt, shooter)
     if projEnt then
         setupProjectile(item, projEnt, holderEnt, shooter, spreadFactor)
+        umg.call("projectiles:projectileShot", holderEnt, item, projEnt)
     end
 end
 
