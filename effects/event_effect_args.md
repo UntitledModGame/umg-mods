@@ -1,5 +1,71 @@
 
 
+
+# Final idea:
+
+Have `effectEffects` tag onto events directly, ie:
+```lua
+ent.eventEffect = {
+    event = "mortality:onDeath",
+    trigger = function(ent)
+        print("yo! death effect!")
+    end
+}
+```
+The issue is that the first-argument MUST be the effect-entity.
+
+All in all, this is just the cleanest way to do things.
+We have a bunch of event-infrastructure set up already; no point in
+re-inventing the wheel.
+
+---------
+
+Q: "But what if our event doesn't pass the entity as first arg??"
+
+A: Simply create a new event that DOES pass it as first-arg.
+For example, enemy-deaths:
+```lua
+
+umg.on("mortality:onDeath", function(ent)
+    if ent.type == "enemy" then
+        -- Alert nearby entities that you died!
+        local dvec = ent
+        for e in partition:iter(dvec) do
+            if e~=ent and isInRange(e, ent) then
+                umg.call("game:nearbyEnemyDeath", e, ent)
+            end
+        end
+    end
+end)
+```
+```lua
+
+ent.eventEffect = {
+    event = "game:nearbyEnemyDeath",
+    trigger = function(ent, enemyDeath)
+        print("A nearby enemy has died!")
+    end
+}
+```
+^^^ Solved! :D
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## --------------------
+## OLD PLANNING: UNUSED!
+## --------------------
+
 # For eventEffects, what args should be passed, and where?
 
 First off: We definitely should pass ALL event args into the `eventEffect`.
@@ -28,9 +94,5 @@ usables.use(usableEnt, ownerEnt, applyEnt)
     applyEnt: the entity that the usable entity is applying to.
 ]]
 ```
-
-
-
-
 
 

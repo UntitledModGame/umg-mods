@@ -286,8 +286,6 @@ We can use `questionEffect` to answer questions from question-buses
 ```lua
 
 ent.questionEffect = {
-    -- TODO: Plan this better, integrate this with
-    -- effects.askQuestion
     question = "light:getGlobalLightSizeMultiplier",
 
     shouldAnswer = function(ent, ownerEnt)
@@ -313,8 +311,6 @@ eventEffects listen to events, and trigger when that event occurs.
 ```lua
 
 ent.eventEffect = {
-    -- TODO: Plan this better, integrate this with
-    -- effects.callEvent
     event = "mortality:onDamage",
 
     -- an `effects:isTriggerBlocked` question
@@ -381,34 +377,7 @@ Similar to how `holdables` was de-coupled from the `Inventory`...?
 But PLEASE. At least try to do it this way.
 take the `holdables` and `Inventory` de-coupling as the golden example.
 
-
-
-
-
-
-# Tagging onto events/questions:
-How do we tag onto events cleanly?
-For example, say that one of our `passive` items wants to respond
-to the `projectiles:getProjectileType` question.<br/>
-How should we allow this response?
-
-Perhaps an api:
-`effects.callEvent(ent, eventName)`:
-Dispatches an event to `ent`, (iff `ent` has .effects component)
-
-Same for questions: `answer = effects.askQuestion(ent, questionName)`
-
-Example:
-```lua
-umg.on("items:itemMoved", function(ownerEnt, item, sx, sy)
-    effects.dispatchEvent("items:itemMoved", ownerEnt, item, sx, sy)
-end)
-```
-We *could* do this automatically, like `sync.autoSyncComponent`...<br/>
-But the reason we dispatch it manually, is because for some events,
-`ownerEnt` may be in a different order.<br/>
-Its cleaner and less fragile if we be explicit, rather than assuming
-that `ownerEnt` is passed first.
+^^^ DONE!! This worked out suprisingly well
 
 
 
