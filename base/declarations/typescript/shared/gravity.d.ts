@@ -1,6 +1,0 @@
-
-/** @NoSelf */
-export interface gravity {
-
-}
-
