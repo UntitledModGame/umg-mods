@@ -32,9 +32,7 @@ return {
 
     bobbing = {},
     
-    controllable = {
-        movement = true
-    };
+    topdownControl = {};
 
     nametag = {};
 

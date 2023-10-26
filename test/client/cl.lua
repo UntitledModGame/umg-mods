@@ -62,7 +62,7 @@ local function getPlayerWithXY()
         It doesn't work for multiplayer.
         entities will only chase the host.
     ]]
-    local clientId = server.getHostUsername()
+    local clientId = client.getUsername()
     local ents = control.getControlledEntities(clientId)
     for _, e in ipairs(ents) do
         if e.x and e.y then
