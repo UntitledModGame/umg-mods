@@ -18,32 +18,6 @@ globals:
       type: '...'
   client.atlas:
     any: true
-  server.broadcast:
-    args:
-    - type: string
-    - required: false
-      type: '...'
-  server.lazyBroadcast:
-    args:
-    - type: string
-    - required: false
-      type: '...'
-  server.lazyUnicast:
-    args:
-    - type: string
-    - type: string
-    - required: false
-      type: '...'
-  server.on:
-    args:
-    - type: string
-    - type: table
-  server.unicast:
-    args:
-    - type: string
-    - type: string
-    - required: false
-      type: '...'
   umg.call:
     args:
     - type: string
@@ -60,6 +34,9 @@ globals:
   umg.answer:
     args:
     - type: '...'
+  umg.getQuestionReducer:
+    args:
+    - type: string
   umg.deserialize:
     args:
     - type: string

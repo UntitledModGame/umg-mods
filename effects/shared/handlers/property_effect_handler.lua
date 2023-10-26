@@ -101,6 +101,11 @@ local function clearBuffers(self)
 end
 
 
+local function isEffectBlocked(effectEnt, ownerEnt)
+    return umg.ask("effects:isEffectBlocked", effectEnt, ownerEnt)
+end
+
+
 function PropertyEffects:tick(ownerEnt)
     --[[
         TODO: Clearing buffers like this is kinda slow and dumb.
@@ -108,7 +113,9 @@ function PropertyEffects:tick(ownerEnt)
     clearBuffers(self)
 
     for _, effectEnt in ipairs(self.propertyEffects) do
-        pollEffectEnt(self, effectEnt, ownerEnt)
+        if not isEffectBlocked(effectEnt, ownerEnt) then
+            pollEffectEnt(self, effectEnt, ownerEnt)
+        end
     end
 end
 

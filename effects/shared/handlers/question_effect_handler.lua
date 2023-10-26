@@ -19,46 +19,72 @@ function QuestionEffects:init(ownerEnt)
 end
 
 
-local function canTrigger(ownerEnt, effectEnt, ...)
+local function canAnswer(ownerEnt, effectEnt, ...)
     local blocked = umg.ask("effects:isEffectBlocked", effectEnt, ownerEnt)
     if blocked then
         return false
     end
 
-    local evEffect = effectEnt.questionEffect
-    if evEffect.shouldTrigger then
-        return evEffect.shouldTrigger(effectEnt, ownerEnt, ...)
+    local qEffect = effectEnt.questionEffect
+    if qEffect.shouldTrigger then
+        return qEffect.shouldAnswer(effectEnt, ownerEnt, ...)
     end
     return true -- all ok!
 end
 
 
-local function activateEffect(ownerEnt, effectEnt, ...)
-    local evEffect = effectEnt.questionEffect
-    if evEffect.usable and effectEnt.usable then
-        error("todo")
+local function getAnswer(ownerEnt, effectEnt, ...)
+    local qEffect = effectEnt.questionEffect
+    if type(qEffect.answer) == "function" then
+        return qEffect.answer(effectEnt, ownerEnt, ...)
+    else
+        return qEffect.answer -- it must be a direct answer!
     end
-
-    if evEffect.trigger then
-        evEffect.trigger(effectEnt, ownerEnt, ...)
-    end
-
-    umg.call("effects:questionEffectTriggered", effectEnt, ownerEnt)
 end
 
 
-function QuestionEffects:call(questionName, ...)
-    local set = self.questionToEffectSet[questionName]
-    if not set then
-        return -- no questions listening. RIP
-    end
-
-    local ownerEnt = self.ownerEnt
-    for _, effectEnt in ipairs(set) do
-        if canTrigger(ownerEnt, effectEnt, ...) then
-            activateEffect(ownerEnt, effectEnt, ...)
+local function findFirstValidAnswer(effectSet, ownerEnt, ...)
+    for i=1, #effectSet do
+        local effectEnt = effectSet[i]
+        if canAnswer(ownerEnt, effectEnt, ...) then
+            return i
         end
     end
+    return nil -- no answer!
+end
+
+
+function QuestionEffects:ask(questionName, ...)
+    local set = self.questionToEffectSet[questionName]
+    if (not set) or (#set <= 0) then
+        return -- no questions listening. RIP.
+        -- Returning nil *should* be safe here...
+    end
+
+    -- Find the first non-nil answer:
+    local ownerEnt = self.ownerEnt
+    local startIndex = findFirstValidAnswer(set, ownerEnt, ...)
+    if not startIndex then
+        return
+    end
+
+    -- Now, do a manual reduction of answers:
+    local ans1, ans2, ans3
+    local reducer = umg.getQuestionReducer(questionName)
+    do 
+    local effectEnt = set[startIndex]
+    ans1, ans2, ans3 = getAnswer(ownerEnt, effectEnt, ...)
+    end
+
+    for i=startIndex+1, #set do
+        local effectEnt = set[i]
+        local a1, a2, a3 = getAnswer(ownerEnt, effectEnt, ...)
+        ans1, ans2, ans3 = reducer(ans1,a1,  ans2,a2,  ans3,a3)
+        -- Yes, this is how reducers work ^^^^^^^
+        -- (I know its weird)
+    end
+
+    return ans1, ans2, ans3
 end
 
 
@@ -90,9 +116,9 @@ local function ensureAnswerer(questionName)
         return -- we already have a listener here
     end
 
-    umg.on(questionName, function(ent, ...)
+    umg.answer(questionName, function(ent, ...)
         if ent.questionEffects then
-            ent.questionEffects:call(questionName, ...)
+            return ent.questionEffects:ask(questionName, ...)
         end
     end)
 
