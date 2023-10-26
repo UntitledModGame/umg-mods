@@ -55,12 +55,31 @@ end)
 local listener = input.Listener({priority = 2})
 
 
+local function getPlayerWithXY()
+    --[[
+        this sucks!
+        PLS dont use this code in real world.
+        It doesn't work for multiplayer.
+        entities will only chase the host.
+    ]]
+    local clientId = server.getHostUsername()
+    local ents = control.getControlledEntities(clientId)
+    for _, e in ipairs(ents) do
+        if e.x and e.y then
+            return e
+        end
+    end
+end
+
+
+
+
 local DEFAULT_DIMENSION = dimensions.getDefaultDimension()
 
 
 function listener:keypressed(key, scancode, isrepeat)
     if scancode == "q" then
-        local e = control.getPlayer()
+        local e = getPlayerWithXY()
         local x, y = rendering.getWorldMousePosition()
         juice.particles.emit("smoke", e, 10, {0.2,0.8,0.9})
         e.x = x
@@ -68,7 +87,7 @@ function listener:keypressed(key, scancode, isrepeat)
         juice.particles.emit("smoke", e, 10)
     end
     if scancode == "e" then
-        local e = control.getPlayer()
+        local e = getPlayerWithXY()
         juice.shockwave({
             x = e.x, y = e.y,
             dimension = e.dimension,
@@ -79,7 +98,7 @@ function listener:keypressed(key, scancode, isrepeat)
         })
     end
     if scancode == "space" then
-        local e = control.getPlayer()
+        local e = getPlayerWithXY()
         if base.gravity.isOnGround(e) then
             e.vz = 400
         end
@@ -97,7 +116,7 @@ end
 
 
 umg.on("@draw", function()
-    local p = control.getPlayer()
+    local p = getPlayerWithXY()
     if p then
         love.graphics.setColor(0,0,0)
         love.graphics.print(dimensions.getDimension(p))

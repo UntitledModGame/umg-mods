@@ -3,7 +3,7 @@ local control = {}
 
 
 
-control.getPlayer = require("shared.get_player");
+control.getControlledEntities = require("shared.get_controlled");
 
 
 umg.expose("control", control)

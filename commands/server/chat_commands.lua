@@ -45,11 +45,27 @@ chat.handleCommand("tickrate", {
 
 
 
+local function getSenderPosition(sender)
+    --[[
+        Returns any entity that is being controlled by sender,
+        and has x,y components
+    ]]
+    local ents = control.getControlledEntities(sender)
+    for _, e in ipairs(ents) do
+        if e.x and e.y then
+            return e
+        end
+    end
+end
+
+
+
+
 chat.handleCommand("position", {
     handler = function(sender)
-        local player = control.getPlayer(sender)
-        if player and player.x and player.y then
-            chat.privateMessage(sender, ("(%.1f, %.1f)"):format(player.x, player.y))
+        local dvec = getSenderPosition(sender)
+        if dvec then
+            chat.privateMessage(sender, ("(%.1f, %.1f)"):format(dvec.x, dvec.y))
         else
             chat.privateMessage(sender, "You have no player entity!")
         end
@@ -71,12 +87,16 @@ chat.handleCommand("spawn", {
 
     handler = function(sender, entType)
         if server.entities[entType] then
-            local p = control.getPlayer(sender)
+            local p = getSenderPosition(sender)
             local x,y = 0,0
-            if p then
-                x,y = p.x, p.y + PLAYER_SPAWN_OFFSET
+            if not p then
+                return
             end
-            server.entities[entType](x,y)
+            x,y = p.x, p.y + PLAYER_SPAWN_OFFSET
+            local e = server.entities[entType](x,y)
+            if p.dimension then
+                e.dimension = p.dimension
+            end
         else
             chat.message("SPAWN FAILED: Unknown entity type " .. tostring(entType))
         end

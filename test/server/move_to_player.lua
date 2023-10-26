@@ -6,15 +6,25 @@ local moveToPlayerGroup = umg.group("testMoveToPlayer", "x", "y")
 
 local CHASE_DISTANCE = 500
 
-
-umg.on("@tick", function()
+local function getPlayerWithXY()
     --[[
         this sucks!
         PLS dont use this code in real world.
         It doesn't work for multiplayer.
         entities will only chase the host.
     ]]
-    local player = control.getPlayer()
+    local clientId = server.getHostUsername()
+    local ents = control.getControlledEntities(clientId)
+    for _, e in ipairs(ents) do
+        if e.x and e.y then
+            return e
+        end
+    end
+end
+
+
+umg.on("@tick", function()
+    local player = getPlayerWithXY()
     if (not player) or (not player.x) or (not player.y) then
         return
     end
