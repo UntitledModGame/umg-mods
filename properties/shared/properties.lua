@@ -208,5 +208,8 @@ function properties.getAllProperties()
 end
 
 
+properties.isProperty = isProperty
+
+
 return properties
 

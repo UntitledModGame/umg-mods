@@ -50,6 +50,9 @@ local function pollPropEffect(self, effectEnt, ownerEnt, pEffect)
     local minClamps = self.minClamps
     local maxClamps = self.maxClamps
     local prop = pEffect.property
+    if not properties.isProperty(prop) then
+        error("Invalid property for propertyEffect: " .. tostring(prop))
+    end
 
     if pEffect.modifier then
         modifiers[prop] = modifiers[prop] + calculate(pEffect.modifier, effectEnt, ownerEnt)

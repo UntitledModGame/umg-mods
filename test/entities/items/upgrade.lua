@@ -5,7 +5,7 @@ return {
     image="lantern";
 
     propertyEffect = {
-        property = "speed",
+        property = "maxHealth",
         multiplier = 2
     },
 
@@ -14,6 +14,11 @@ return {
         trigger = function(effectEnt, ownerEnt, ...)
             print("EV EFFECT!")
         end
+    },
+
+    questionEffect = {
+        question = "xy:getSpeedMultiplier", 
+        answer = 2
     },
 
     itemName = "My upgrade",
