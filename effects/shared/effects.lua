@@ -4,6 +4,15 @@
 local effects = {}
 
 
+local function canRemove(ent, effectEnt)
+    return umg.ask("effects:isEffectRemovalBlocked", effectEnt, ent)
+end
+
+local function canAdd(ent, effectEnt)
+    return umg.ask("effects:isEffectAdditionBlocked", effectEnt, ent)
+end
+
+
 
 local function addEffect(ent, effectEnt)
     if not ent.effects then
@@ -11,6 +20,9 @@ local function addEffect(ent, effectEnt)
     end
     if ent.effects:has(effectEnt) then
         return -- already has effect
+    end
+    if not canAdd(ent, effectEnt) then
+        return -- can't add!
     end
     ent.effects:add(effectEnt)
     umg.call("effects:effectAdded", effectEnt, ent)
@@ -25,13 +37,15 @@ local function removeEffect(ent, effectEnt)
     if not ent.effects:has(effectEnt) then
         return -- doesnt have effect in question
     end
-
+    if not canRemove(ent, effectEnt) then
+        return -- can't remove!
+    end
     ent.effects:remove(effectEnt)
     umg.call("effects:effectRemoved", effectEnt, ent)
 
     --[[
-    I've commented this VVVVV out because its quite fragile due to
-    effectHandler components projecting to `effect`.
+    -- I've commented this VVVVV out because its quite fragile due to
+    --   effectHandler components projecting to `effect`.
     if ent.effects:size() <= 0 then
         ent:removeComponent("effects")
     end
