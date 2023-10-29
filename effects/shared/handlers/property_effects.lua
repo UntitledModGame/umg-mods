@@ -2,6 +2,7 @@
 require("effect_events")
 
 local effects = require("shared.effects")
+local shouldApplyEffect = require("shared.should_apply")
 
 
 local PropertyEffects = objects.Class("effects:PropertyEffects")
@@ -104,10 +105,6 @@ local function clearBuffers(self)
 end
 
 
-local function isEffectBlocked(effectEnt, ownerEnt)
-    return umg.ask("effects:isEffectBlocked", effectEnt, ownerEnt)
-end
-
 
 function PropertyEffects:tick(ownerEnt)
     --[[
@@ -116,7 +113,7 @@ function PropertyEffects:tick(ownerEnt)
     clearBuffers(self)
 
     for _, effectEnt in ipairs(self.propertyEffects) do
-        if not isEffectBlocked(effectEnt, ownerEnt) then
+        if shouldApplyEffect(effectEnt, ownerEnt) then
             pollEffectEnt(self, effectEnt, ownerEnt)
         end
     end

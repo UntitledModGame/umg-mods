@@ -2,6 +2,9 @@
 require("effect_events")
 require("effect_questions")
 
+local shouldApplyEffect = require("shared.should_apply")
+
+
 
 local EventEffects = objects.Class("effects:EventEffects")
 
@@ -20,8 +23,7 @@ end
 
 
 local function canTrigger(ownerEnt, effectEnt, ...)
-    local blocked = umg.ask("effects:isEffectBlocked", effectEnt, ownerEnt)
-    if blocked then
+    if not shouldApplyEffect(effectEnt, ownerEnt) then
         return false
     end
 
