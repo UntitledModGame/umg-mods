@@ -4,25 +4,40 @@
 local effects = {}
 
 
-local function canRemove(ent, effectEnt)
-    return umg.ask("effects:isEffectRemovalBlocked", effectEnt, ent)
+local function canRemoveEffect(ent, effectEnt)
+    if not ent.effects then
+        return -- no effects
+    end
+    if not ent.effects:has(effectEnt) then
+        return -- doesnt have effect in question
+    end
+
+    local isBlocked = umg.ask("effects:isEffectRemovalBlocked", effectEnt, ent)
+    return not isBlocked
 end
 
-local function canAdd(ent, effectEnt)
-    return umg.ask("effects:isEffectAdditionBlocked", effectEnt, ent)
+
+local function canAddEffect(ent, effectEnt)
+    if ent.effects and ent.effects:has(effectEnt) then
+        return false -- already has effect!
+    end
+
+    -- IMPORTANT NOTE:
+    -- ent is NOT guaranteed to have `effects` component at this
+    --   point in time!
+    local isBlocked = umg.ask("effects:isEffectAdditionBlocked", effectEnt, ent)
+    return not isBlocked
 end
 
 
 
 local function addEffect(ent, effectEnt)
+    if not canAddEffect(ent, effectEnt) then
+        return -- can't add!
+    end
+
     if not ent.effects then
         ent.effects = objects.Set()
-    end
-    if ent.effects:has(effectEnt) then
-        return -- already has effect
-    end
-    if not canAdd(ent, effectEnt) then
-        return -- can't add!
     end
     ent.effects:add(effectEnt)
     umg.call("effects:effectAdded", effectEnt, ent)
@@ -31,18 +46,12 @@ end
 
 
 local function removeEffect(ent, effectEnt)
-    if not ent.effects then
-        return -- no effects
-    end
-    if not ent.effects:has(effectEnt) then
-        return -- doesnt have effect in question
-    end
-    if not canRemove(ent, effectEnt) then
+    if not canRemoveEffect(ent, effectEnt) then
         return -- can't remove!
     end
+
     ent.effects:remove(effectEnt)
     umg.call("effects:effectRemoved", effectEnt, ent)
-
     --[[
     -- I've commented this VVVVV out because its quite fragile due to
     --   effectHandler components projecting to `effect`.
@@ -77,6 +86,9 @@ end
 
 end
 
+
+effects.canAddEffect = canAddEffect
+effects.canRemoveEffect = canRemoveEffect
 
 
 
