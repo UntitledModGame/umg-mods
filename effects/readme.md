@@ -114,7 +114,7 @@ When entity takes damage:
     Print something in console
 ```lua
 ent.eventEffect = {
-    event = "damageEffectEvent",
+    event = "mortality:entityDamaged",
 
     trigger = function(ent, ownerEnt, damage)
         print("triggered, with damage: ", damage, ...)
@@ -125,15 +125,12 @@ ent.eventEffect = {
     end
 }
 ```
-But, we aren't done yet!
-We still need to actually forward the event through the effects mod:
-```lua
-umg.on("mortality:entityDamaged", function(ent, dmg)
-    effects.tryCallEvent(ent, "damageEffectEvent", dmg, ...)
-    -- We can pass extra args if we want! (denoted by ... )
-end)
-```
-(The reason we do this manually, is that for some events, the effect-ent may not neccessarily be the first argument.)
+
+Note that the first argument is the event that holds the `effect`.
+
+If we want to tag onto an event that DOESN'T have the entity as the
+first argument, we should emit a new event, and use that instead.
+
 
 ---------------
 
@@ -148,7 +145,7 @@ Shoot plasma instead of bullets.
 ```lua
 
 ent.questionEffect = {
-    question = "getProjectileTypeEffect",
+    question = "projectiles:getProjectileType",
 
     answer = function(effectEnt, ownerEnt, ...)
         return "plasma" -- `plasma` entity type
@@ -159,13 +156,7 @@ ent.questionEffect = {
     end
 }
 ```
-And likewise, we need to forward the question:
-```lua
-umg.on("projectiles:getProjectileType", function(shooterEnt, holderEnt)
-    effects.tryCallEvent(holderEnt, "getProjectileTypeEffect", ...)
-    -- we can also pass xtra args if we want, specified by (...)
-end)
-```
+First argument of question is the entity with the effect.
 
 
 
