@@ -33,7 +33,7 @@ client.on("syncComponent", function(ent, id, compValue)
     if compName then
         ent[compName] = compValue
     else
-        print("[base.syncComponent()] WARNING: Unknown component id")
+        print("[sync.syncComponent] WARNING: Unknown component id")
     end
 end)
 
