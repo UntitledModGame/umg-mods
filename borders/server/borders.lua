@@ -128,11 +128,10 @@ end)
 local moveGroup = umg.group("x", "y", "vx", "vy")
 
 -- we don't need to run every tick... running every 5 ticks will be fine.
-scheduling.runEvery(5, "@tick", function()
+umg.on("@tick", scheduling.skip(5, function()
     for _, ent in ipairs(moveGroup) do
         updateEntity(ent)
     end
-end)
-
+end))
 
 

@@ -151,9 +151,9 @@ end)
 
 
 
-local LOOP_CT = 8 -- we only want to update every X ticks, for efficiency
+local SKIPS = 8 -- we only want to update every X ticks, for efficiency
 
-scheduling.runEvery(LOOP_CT, "@tick", function(dt)
+umg.on("@tick", scheduling.skip(SKIPS, function()
     -- Only run every X frames
     updatePartition()
 
@@ -163,7 +163,7 @@ scheduling.runEvery(LOOP_CT, "@tick", function(dt)
             tryPickUp(ent, picked)
         end 
     end
-end)
+end))
 
 
 return groundItems
