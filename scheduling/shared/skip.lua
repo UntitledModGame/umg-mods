@@ -12,7 +12,7 @@ local runEveryTc = typecheck.assert("number", "function")
 
 local function skip(skips, func)
     --[[
-        listens to a callback, but only runs it every `skips` runs.
+        Returns a function that only runs every `skips` calls.
     ]]
     runEveryTc(skips, func)
 
