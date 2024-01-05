@@ -47,10 +47,6 @@ globals:
     args:
     - type: string
     - type: any
-  umg.extend:
-    args:
-    - type: table
-    - type: table
   umg.group:
     args:
     - required: false

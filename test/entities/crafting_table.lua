@@ -27,10 +27,13 @@ my_crafter:addRecipe(
 
 
 
-local abstractCrafter = {} -- TODO.
+local function newCrafter(etype)
+    -- TODO
+    return etype
+end
 
 
-return umg.extend(abstractCrafter, {
+return newCrafter({
     image = "crate",
     openable = {distance = 100};
 
