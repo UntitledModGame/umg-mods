@@ -24,9 +24,6 @@ local function loadShared(base)
     base.inspect = require("_libs.inspect");
 
     base.weightedRandom = require("shared.weighted_random");
-    
-
-    base.defineExports = defineExports
 end
 
 
