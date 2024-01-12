@@ -30,29 +30,25 @@ for i=1, #commandCharString do
 end
 
 
-local sf = sync.filters
 
-server.on("chatMessage", {
-    arguments = {sf.string, sf.string},
-    handler = function(sender, message, channel)
-        if type(message)~="string"then
-            return
-        end
-        if #message > constants.MAX_MESSAGE_SIZE then
-            return
-        end
-        if commandChars[message:sub(1,1)] then
-            return  -- nope!
-        end
-        if not channel then
-            -- TODO: Do colored names here
-            local msg = "[" .. sender .. "]" .. " " .. message
-            server.broadcast("chatMessage", msg)
-        else
-            print("TODO: Do chat message channels")
-        end
+server.on("chat:message", function(sender, message, channel)
+    if type(message)~="string"then
+        return
     end
-})
+    if #message > constants.MAX_MESSAGE_SIZE then
+        return
+    end
+    if commandChars[message:sub(1,1)] then
+        return  -- nope!
+    end
+    if not channel then
+        -- TODO: Do colored names here
+        local msg = "[" .. sender .. "]" .. " " .. message
+        server.broadcast("chatMessage", msg)
+    else
+        print("TODO: Do chat message channels")
+    end
+end)
 
 
 

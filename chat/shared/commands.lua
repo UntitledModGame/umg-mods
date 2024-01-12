@@ -83,7 +83,7 @@ local sf = sync.filters
 
 if server then
 
-server.on("commandMessage", {
+server.on("chat:command", {
     arguments = {sf.string},
     handler = function(sender_uname, commandName, ...)
         --[[
