@@ -78,44 +78,44 @@ function commands.handleCommand(commandName, handler)
 end
 
 
-local sf = sync.filters
 
 
 if server then
 
-server.on("chat:command", {
-    arguments = {sf.string},
-    handler = function(sender_uname, commandName, ...)
-        --[[
-            this is for when the player does any of the following:
-            /commandName ...
-            !commandName ...
-            ;commandName ...
-            ?commandName ...
-            $commandName ...
-        ]]
-        local cmdHandler = commandToHandler[commandName]
-        if not cmdHandler then
-            chat.privateMessage(sender_uname, "unknown command: " .. commandName)
-            return
-        end
+server.on("chat:command", function(sender_uname, commandName, ...)
+    --[[
+        this is for when the player does any of the following:
+        /commandName ...
+        !commandName ...
+        ;commandName ...
+        ?commandName ...
+        $commandName ...
+    ]]
+    if type(commandName) ~= "string" then
+        -- must check this, coz its a dynamic packet
+        return 
+    end
+    local cmdHandler = commandToHandler[commandName]
+    if not cmdHandler then
+        chat.privateMessage(sender_uname, "unknown command: " .. commandName)
+        return
+    end
 
-        local ok, err = cmdHandler.typechecker(...)
-        if not ok then
-            chat.privateMessage(sender_uname, "/" .. commandName .. ": " .. err)
-            return
-        end
+    local ok, err = cmdHandler.typechecker(...)
+    if not ok then
+        chat.privateMessage(sender_uname, "/" .. commandName .. ": " .. err)
+        return
+    end
 
-        local adminLevel = chat.getAdminLevel(sender_uname)
-        if cmdHandler.adminLevel > adminLevel then 
-            chat.privateMessage(sender_uname, "/" .. commandName .. ": Admin level " .. tostring(handler.adminLevel) .. " required.")
-            return
-        end
+    local adminLevel = chat.getAdminLevel(sender_uname)
+    if cmdHandler.adminLevel > adminLevel then 
+        chat.privateMessage(sender_uname, "/" .. commandName .. ": Admin level " .. tostring(handler.adminLevel) .. " required.")
+        return
+    end
 
-        cmdHandler.handler(sender_uname, ...)
-        server.broadcast("commandMessage", commandName, ...)
-    end 
-})
+    cmdHandler.handler(sender_uname, ...)
+    server.broadcast("commandMessage", commandName, ...)
+end )
 
 end
 

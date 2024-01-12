@@ -34,9 +34,6 @@ globals:
   umg.answer:
     args:
     - type: '...'
-  umg.getQuestionReducer:
-    args:
-    - type: string
   umg.deserialize:
     args:
     - type: string
@@ -62,6 +59,10 @@ globals:
     - type: string
     - required: false
       type: '...'
+  umg.definePacket:
+    args:
+    - type: string
+    - type: table
   umg.defineEvent:
     args:
     - type: string

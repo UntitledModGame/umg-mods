@@ -19,30 +19,26 @@ local function isInRange(ent, worldX, worldY, dimension)
 end
 
 
-local sf = sync.filters
 
 
 if server then
 
-server.on("entityClicked", {
-    arguments = {sf.entity, sf.number, sf.number, sf.number, sf.string},
-    handler = function(sender_uname, ent, button, worldX, worldY, dimension)
-        if not (ent.onClick) then
-            return
-        end
-        if button ~= 1 and button ~= 2 then
-            return
-        end
-        if not isInRange(ent, worldX, worldY, dimension) then
-            return
-        end
-
-        if type(ent.onClick) == "function" then
-            ent:onClick(sender_uname, button, worldX, worldY)
-        end
-        umg.call("control:entityClicked", ent, sender_uname, button, worldX, worldY)
+server.on("control:entityClicked", function(sender_uname, ent, button, worldX, worldY, dimension)
+    if not (ent.onClick) then
+        return
     end
-})
+    if button ~= 1 and button ~= 2 then
+        return
+    end
+    if not isInRange(ent, worldX, worldY, dimension) then
+        return
+    end
+
+    if type(ent.onClick) == "function" then
+        ent:onClick(sender_uname, button, worldX, worldY)
+    end
+    umg.call("control:entityClicked", ent, sender_uname, button, worldX, worldY)
+end)
 
 else -- clientside:
 

@@ -33,26 +33,6 @@ sync.autoSyncControllableComponent("lookX", {
 
 
 
---[[
-    IDEA: Auto filter API,
-    to filter away bad events.
-]]
-local sf = sync.filters
-
-server.on("ev", {
-    handler = function(sender, a,b,c,d,e)
-        ...
-    end
-    arguments = {
-        sf.controlEntity,
-        sf.number,
-        sf.number,
-        sf.NumberInRange(-5, 5)
-        sf.And(sf.inventoryEntity, sf.controlEntity)
-    }
-})
-
-
 
 -- Can also create custom filters here.
 sync.defineFilter("controlEntity", function(sender, x)

@@ -206,8 +206,13 @@ function Crafter:executeCraft(inventory, recipe, slotX, slotY)
     assert(slotX and slotY, "ur not using this properly")    
 
     if client then -- crafting should be handled by the server.
-        local recipeIndex = self:getRecipeIndex(recipe)
-        client.send("tryCraftItem", inventory.owner, recipeIndex, slotX, slotY)
+        error([[
+            we need to sync crafting on clientside somehow.
+            
+            IDEA:
+            Create an ui-buttons API, that does automatic verification
+            for when clicking buttons or something in UI.
+        ]])
         return
     end
 

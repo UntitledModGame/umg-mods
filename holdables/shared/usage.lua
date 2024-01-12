@@ -101,21 +101,17 @@ function usage.useItemDirectly(holder_ent, item, mode)
         item:useItem(holder_ent or false, mode)
     end
     umg.call("holdables:useItem", holder_ent, item, mode)
-    server.broadcast("useItem", holder_ent, item, mode)
+    server.broadcast("holdables:useSpecificItem", holder_ent, item, mode)
     item.itemLastUseTime = state.getGameTime()
 end
 
-local sf = sync.filters
-server.on("holdables:useItem", {
-    arguments = {sf.entity},
-    handler = function(sender, holder_ent, mode)
-        if not umg.exists(holder_ent) then return end
-        if not getHoldItem(holder_ent) then return end
-        if holder_ent.controller ~= sender then return end
 
-        usage.useHoldItem(holder_ent, mode)
-    end
-})
+server.on("holdables:useItem", function(sender, holder_ent, mode)
+    if not getHoldItem(holder_ent) then return end
+    if holder_ent.controller ~= sender then return end
+
+    usage.useHoldItem(holder_ent, mode)
+end)
 
 end
 

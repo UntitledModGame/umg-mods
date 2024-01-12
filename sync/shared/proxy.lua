@@ -24,13 +24,19 @@ local function proxyEventToClient(eventName)
         error("This event is already being proxied: " .. eventName)
     end
 
-    local networkEventName = "proxy_" .. eventName
+    -- TODO: this is a bit shit and hacky
+    local packetName = "sync:PROXY_" .. eventName
+
+    umg.definePacket(packetName, {
+        dynamic = true
+    })
+
     if server then
         umg.on(eventName, function(...)
-            server.broadcast(networkEventName, ...)
+            server.broadcast(packetName, ...)
         end)
     elseif client then
-        client.on(networkEventName, function(...)
+        client.on(packetName, function(...)
             umg.rawcall(eventName, ...) 
         end)
     end
