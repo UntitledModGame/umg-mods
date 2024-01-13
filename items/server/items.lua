@@ -53,7 +53,6 @@ end)
 
 
 
-local sf = sync.filters
 
 
 local function hasAccess(controlEnt, invEnt)
@@ -75,137 +74,116 @@ end
 
 
 
-server.on("trySwapInventoryItem", {
-    arguments = {
-        sf.controlEntity,
-        sf.entity,
-        sf.entity,
-        sf.number,
-        sf.number,
-        sf.number,
-        sf.number
-    },
-
-    handler = function(sender, controlEnt, ent, other_ent, x, y, x2, y2)
-        --[[
-            x, y, other_x, other_y are coordinates of the position
-            IN THE INVENTORY.
-            Not the position of an entity or anything!
-        ]]
-        if not (hasAccess(controlEnt, ent) and hasAccess(controlEnt, other_ent)) then
-            return
-        end
-
-        local inv1 = ent.inventory
-        local inv2 = other_ent.inventory
-        if (not inv1) or (not inv2) then
-            return
-        end
-
-        if (not inv1:slotExists(x,y)) or (not inv2:slotExists(x2,y2)) then
-            return
-        end
-        
-        local item1 = inv1:get(x,y)
-        local item2 = inv2:get(x2,y2)
-        
-        if not (inv1:hasAddAuthority(controlEnt,item2,x,y) and inv1:hasRemoveAuthority(controlEnt,x,y)) then
-            return
-        end
-        if not (inv2:hasAddAuthority(controlEnt,item1,x2,y2) and inv2:hasRemoveAuthority(controlEnt,x2,y2)) then
-            return
-        end
-        
-        inv1:trySwap(x,y, inv2, x2,y2)
+server.on("items:trySwapInventoryItem", function(sender, controlEnt, ent, other_ent, slot, slot2)
+    --[[
+        IN THE INVENTORY.
+        Not the position of an entity or anything!
+    ]]
+    if not (hasAccess(controlEnt, ent) and hasAccess(controlEnt, other_ent)) then
+        return
     end
-})
 
-
-
-server.on("tryMoveInventoryItem", {
-    arguments = {
-        sf.controlEntity,
-        sf.entity,
-        sf.entity,
-        sf.number,
-        sf.number,
-        sf.number,
-        sf.number
-    },
-
-    handler = function(sender, controlEnt, ent, other_ent, x, y, x2, y2, count)
-        --[[
-            x, y, other_x, other_y are coordinates of the position
-            IN THE INVENTORY.
-            Not the position of an entity or anything!
-        ]]
-        if not (hasAccess(controlEnt, ent) and hasAccess(controlEnt, other_ent)) then
-            return
-        end
-        count = count or 1
-
-        local inv1 = ent.inventory
-        local inv2 = other_ent.inventory
-        if (not inv1) or (not inv2) then
-            return
-        end
-        if (not inv1:slotExists(x,y)) or (not inv2:slotExists(x2,y2)) then
-            return
-        end
-        -- moving `item` from `inv1` to `inv2`
-
-        if inv1 == inv2 and (x==x2) and (y==y2) then
-            return -- moving an item to it's own position...? nope!
-        end
-
-        local item = inv1:get(x,y)
-        if not inv2:hasAddAuthority(controlEnt,item,x2,y2) then
-            return
-        end
-        if not inv1:hasRemoveAuthority(controlEnt, x,y) then
-            return
-        end
-
-        inv1:tryMoveToSlot(x,y, inv2, x2,y2, count)
+    local inv1 = ent.inventory
+    local inv2 = other_ent.inventory
+    if (not inv1) or (not inv2) then
+        return
     end
-})
 
+    --[[
+        x, y, other_x, other_y are coordinates of the inventory slot
+    ]]
+    local x,y = inv1:getSlot(slot)
+    local x2,y2 = inv2:getSlot(slot2)
 
-
-
-server.on("tryDropInventoryItem", {
-    arguments = {sf.controlEntity, sf.entity, sf.number, sf.number},
-
-    handler = function(sender, controlEnt, ent, slotX, slotY)
-        --[[
-            slotX, slotY, are coordinates of the position
-            IN THE INVENTORY.
-            Not the position of an entity or anything!
-        ]]
-        local inv = ent.inventory
-        
-        if not (hasAccess(controlEnt, ent)) then
-            return
-        end
-        if not inv:canBeOpenedBy(ent) then
-            return
-        end
-
-        local item = inv:get(slotX, slotY)
-        if not item then
-            return -- exit early
-        end
-
-        if not inv:hasRemoveAuthority(controlEnt,slotX,slotY) then
-            return
-        end
-
-        if ent.x and ent.y then
-            local dvector = ent -- dimensionVector is just the entity
-            inv:remove(slotX, slotY)
-            groundItems.drop(item, dvector)
-        end
+    if (not inv1:slotExists(x,y)) or (not inv2:slotExists(x2,y2)) then
+        return
     end
-})
+    
+    local item1 = inv1:get(x,y)
+    local item2 = inv2:get(x2,y2)
+    
+    if not (inv1:hasAddAuthority(controlEnt,item2,x,y) and inv1:hasRemoveAuthority(controlEnt,x,y)) then
+        return
+    end
+    if not (inv2:hasAddAuthority(controlEnt,item1,x2,y2) and inv2:hasRemoveAuthority(controlEnt,x2,y2)) then
+        return
+    end
+    
+    inv1:trySwap(x,y, inv2, x2,y2)
+end)
+
+
+
+server.on("tryMoveInventoryItem", function(sender, controlEnt, ent, other_ent, slot1, slot2, count)
+    if not (hasAccess(controlEnt, ent) and hasAccess(controlEnt, other_ent)) then
+        return
+    end
+
+    count = count or 1
+
+    local inv1 = ent.inventory
+    local inv2 = other_ent.inventory
+    if (not inv1) or (not inv2) then
+        return
+    end
+
+    local x,y = inv1:getSlot(slot1)
+    local x2,y2 = inv1:getSlot(slot2)
+
+    if (not inv1:slotExists(x,y)) or (not inv2:slotExists(x2,y2)) then
+        return
+    end
+
+    if inv1 == inv2 and (x==x2) and (y==y2) then
+        return -- moving an item to it's own position...? nope!
+    end
+
+    local item = inv1:get(x,y)
+    -- moving `item` from `inv1` to `inv2`
+    if not inv2:hasAddAuthority(controlEnt,item,x2,y2) then
+        return
+    end
+    if not inv1:hasRemoveAuthority(controlEnt, x,y) then
+        return
+    end
+
+    inv1:tryMoveToSlot(x,y, inv2, x2,y2, count)
+end)
+
+
+
+
+server.on("tryDropInventoryItem", function(sender, controlEnt, ent, slot)
+    --[[
+        slotX, slotY, are coordinates of the position
+        IN THE INVENTORY.
+        Not the position of an entity or anything!
+    ]]
+    local inv = ent.inventory
+    
+    if not (hasAccess(controlEnt, ent)) then
+        return
+    end
+    if not inv:canBeOpenedBy(ent) then
+        return
+    end
+
+    local slotX, slotY = inv:getSlot(slot)
+
+    local item = inv:get(slotX, slotY)
+    if not item then
+        return -- exit early
+    end
+
+    if not inv:hasRemoveAuthority(controlEnt,slotX,slotY) then
+        return
+    end
+
+    if ent.x and ent.y then
+        local dvector = ent -- dimensionVector is just the entity
+        inv:remove(slotX, slotY)
+        groundItems.drop(item, dvector)
+    end
+end)
 
 

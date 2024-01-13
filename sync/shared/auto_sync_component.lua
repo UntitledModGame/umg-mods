@@ -54,12 +54,12 @@ local compsBeingSynced = {
 
 
 
--- This is hacky! Oh well!!!! 
-local EVENT_PREFIX = "_sync_"
+-- All auto-sync packets are prefixed with this
+local PACKET_PREFIX = "sync:COMP_"
 
 
-local function makeSyncName(compName)
-    return EVENT_PREFIX .. compName
+local function makePacketName(compName)
+    return PACKET_PREFIX .. compName
 end
 
 
@@ -102,7 +102,7 @@ end
 
 
 
-local function trySendServerPacket(ent, eventSyncName, compName, options)
+local function trySendServerPacket(ent, packetName, compName, options)
     local compVal = ent[compName]
     local deltaStore = options.deltaStore
 
@@ -116,7 +116,7 @@ local function trySendServerPacket(ent, eventSyncName, compName, options)
     -- gotta do explicit nil check, to ensure `false` will get synced
     if (compVal ~= nil) or (options.syncWhenNil) then
         -- update component.
-        server.broadcast(eventSyncName, ent, compVal)
+        server.broadcast(packetName, ent, compVal)
         if deltaStore then
             deltaStore[ent] = compVal
         end
@@ -141,11 +141,11 @@ local function setupSender(compName, sendFunc, options)
     end
 
     local group = umg.group(unpack(requiredComponents))
-    local eventSyncName = makeSyncName(compName)
+    local packetName = makePacketName(compName)
 
     umg.on("@tick", function()
         for _, ent in ipairs(group) do
-            sendFunc(ent, eventSyncName, compName, options)
+            sendFunc(ent, packetName, compName, options)
         end
     end)
 end
@@ -161,7 +161,7 @@ end
     used for bidirectional communication, 
     for controllable entities.
 ]]
-local function trySendClientPacket(ent, eventSyncName, compName, options)
+local function trySendClientPacket(ent, packetName, compName, options)
     local clientId = client.getUsername()
     if not isControlledBy(ent, clientId) then
         -- If we aren't controlling this entity, return.
@@ -181,7 +181,7 @@ local function trySendClientPacket(ent, eventSyncName, compName, options)
     -- gotta do explicit nil check, to ensure `false` will get synced
     if (compVal ~= nil) or (options.syncWhenNil) then
         -- update component.
-        client.send(eventSyncName, ent, compVal)
+        client.send(packetName, ent, compVal)
         if deltaStore then
             deltaStore[ent] = compVal
         end
@@ -300,11 +300,11 @@ local function setupClientBidirectionalReceiver(compName, options)
         by the client.
         This is to avoid the player being sent outdated packets.
     ]]
-    local eventSyncName = makeSyncName(compName)
+    local packetName = makePacketName(compName)
     local shouldForceSync = options.bidirectional.shouldForceSyncClientside
     local userId = client.getUsername()
 
-    client.on(eventSyncName, function(ent, compVal)
+    client.on(packetName, function(ent, compVal)
         if isControlledBy(ent, userId) then
             -- then discard the packet!
             -- This entity is being controlled; we don't want to lag them backwards.
@@ -327,13 +327,13 @@ local function setupClientReceiver(compName, options)
     --[[
         receives packets from server.
     ]]
-    local eventSyncName = makeSyncName(compName)
+    local packetName = makePacketName(compName)
 
     if options.bidirectional then
         setupClientBidirectionalReceiver(compName, options)
 
     else -- setup normally:
-        client.on(eventSyncName, function(ent, compVal)
+        client.on(packetName, function(ent, compVal)
             syncComponentClient(ent, compName, compVal, options)
         end)
     end
@@ -351,9 +351,9 @@ local function setupServerReciever(compName, options)
     --[[
         receives packets from server
     ]]
-    local eventSyncName = makeSyncName(compName)
+    local packetName = makePacketName(compName)
     local shouldAcceptServerside = options.bidirectional.shouldAcceptServerside
-    server.on(eventSyncName, {
+    server.on(packetName, {
         arguments = {filters.controlEntity, filters.any},
         handler = function(sender, ent, compVal)
             -- only accept ents that already have the component

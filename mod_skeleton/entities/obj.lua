@@ -1,7 +1,9 @@
 
 
+--[[
+    this is an entity definition!
+]]
+
 return {
-    "x", "y",
-    image = "banana",
     initXY = true
 }
