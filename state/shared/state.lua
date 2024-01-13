@@ -12,6 +12,8 @@ or when the game is in an alternative state,
 
 ]]
 
+require("shared.state_packets")
+
 
 local state = {}
 
@@ -52,18 +54,18 @@ function state.setState(name)
     if (not name) or (not stateTable[name]) then
         error("Invalid state: " .. tostring(name))
     end
-    server.broadcast("stateModSetState", name)
+    server.broadcast("state:setState", name)
     changeState(name)
 end
 
 umg.on("@playerJoin", function(username)
-    server.unicast(username, "stateModSetState", currentStateName)
+    server.unicast(username, "state:setState", currentStateName)
 end)
 
 
 else -- we on client side
 
-client.on("stateModSetState", function(name)
+client.on("state:setState", function(name)
     changeState(name)
 end)
 

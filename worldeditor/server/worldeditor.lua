@@ -33,8 +33,14 @@ local function isValidTool(tool)
 end
 
 
-server.on("worldeditorDefineTool", {
-    arguments = {isValidTool, sf.string},
+
+error[[
+    Fixme:
+
+    Packet handlers are outdated
+]]
+
+server.on("worldeditor:defineTool", {
     handler = function(sender, tool, toolName)
         if not isAdmin(sender) then
             return

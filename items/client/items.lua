@@ -157,12 +157,12 @@ local function executeFullPut(inv, x, y)
     end
 
     if swapping then
-        client.send("trySwapInventoryItem", controlEnt, focus_inv.owner, inv.owner, focus_x,focus_y, x,y)
+        client.send("inventory:trySwapInventoryItem", controlEnt, focus_inv.owner, inv.owner, focus_x,focus_y, x,y)
     else
         if not move_count then
             move_count = math.ceil(holding.stackSize / (focus_half_stack and 2 or 1))
         end
-        client.send("tryMoveInventoryItem", controlEnt, focus_inv.owner, inv.owner, focus_x,focus_y, x,y, move_count)
+        client.send("inventory:tryMoveInventoryItem", controlEnt, focus_inv.owner, inv.owner, focus_x,focus_y, x,y, move_count)
     end
 
     resetHoldingInv()
@@ -202,7 +202,7 @@ local function executeBetaInteraction(inv, x, y)
         local holding_item = focus_inv:get(focus_x, focus_y)
         local targ = inv:get(x,y)
         if (not targ) or targ.itemName == holding_item.itemName then
-            client.send("tryMoveInventoryItem", controlEnt, focus_inv.owner, inv.owner, focus_x,focus_y, x,y, 1)
+            client.send("inventory:tryMoveInventoryItem", controlEnt, focus_inv.owner, inv.owner, focus_x,focus_y, x,y, 1)
         end
     else
         focus_inv = inv
@@ -277,7 +277,7 @@ function listener:mousepressed(mx, my, button)
             -- Then the player wants to drop an item on the floor:
             if umg.exists(focus_inv:get(focus_x, focus_y)) then
                 local controlEnt = getControlEntity(focus_inv)
-                client.send("tryDropInventoryItem", controlEnt, focus_inv.owner, focus_x, focus_y)
+                client.send("inventory:tryDropInventoryItem", controlEnt, focus_inv.owner, focus_x, focus_y)
             end
             self:lockMouseButton(ALPHA_BUTTON)
         elseif button == BETA_BUTTON then

@@ -47,7 +47,7 @@ end
 
 
 
-client.on("chatCommandsOpenScript", function()
+client.on("commands:openScript", function()
     currentScript = scriptRunner.newScriptObject()
 end)
 

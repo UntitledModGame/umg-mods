@@ -74,7 +74,6 @@ end
 
 
 
-local DEFAULT_DIMENSION = dimensions.getDefaultDimension()
 
 
 function listener:keypressed(key, scancode, isrepeat)
@@ -102,15 +101,6 @@ function listener:keypressed(key, scancode, isrepeat)
         if base.gravity.isOnGround(e) then
             e.vz = 400
         end
-    end
-    if scancode == "y" then
-        local cam = rendering.getCamera()
-        local dim = DEFAULT_DIMENSION
-        if cam:getDimension() == DEFAULT_DIMENSION then
-            dim = "other"
-        end
-        client.send("swapdimension", dim)
-        cam:setDimension(dim)
     end
 end
 

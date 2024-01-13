@@ -114,7 +114,7 @@ server.on("chat:command", function(sender_uname, commandName, ...)
     end
 
     cmdHandler.handler(sender_uname, ...)
-    server.broadcast("commandMessage", commandName, ...)
+    server.broadcast("chat:command", commandName, ...)
 end )
 
 end
@@ -124,7 +124,7 @@ end
 
 if client then
 
-client.on("commandMessage", function(commandName, ...)
+client.on("chat:command", function(commandName, ...)
         local cmdHandler = commandToHandler[commandName]
         if cmdHandler then
             -- there may not be a handler for client.

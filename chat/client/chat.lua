@@ -37,7 +37,7 @@ end
 
 
 
-client.on("chatMessage", function(msg)
+client.on("chat:message", function(msg)
     -- TODO: Do colors and stuff here.
     chatHistory:pushf(newMessageObject(msg))
     if chatHistory:count() >= MAX_CHATHISTORY_SIZE then
@@ -160,7 +160,7 @@ local function doCommand(message)
         for arg in message:sub(f+1):gmatch("%S+") do
             table.insert(buffer, parseCommandArg(arg))
         end
-        client.send("commandMessage", command, unpack(buffer))
+        client.send("chat:command", command, unpack(buffer))
     end
 end
 
@@ -196,7 +196,7 @@ function listener:keypressed(_, scancode, _)
                 if IS_COMMAND_CHAR[startChar] then
                     doCommand(currMessage)
                 else
-                    client.send("chatMessage", currMessage)
+                    client.send("chat:message", currMessage)
                 end
                 currMessage = ''
             end

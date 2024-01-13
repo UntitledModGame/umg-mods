@@ -1,5 +1,8 @@
 
 
+require("shared.chat_packets")
+
+
 --[[
     serverside chat api
 ]]
@@ -44,7 +47,7 @@ server.on("chat:message", function(sender, message, channel)
     if not channel then
         -- TODO: Do colored names here
         local msg = "[" .. sender .. "]" .. " " .. message
-        server.broadcast("chatMessage", msg)
+        server.broadcast("chat:message", msg)
     else
         print("TODO: Do chat message channels")
     end
@@ -81,12 +84,12 @@ end
 
 
 function chat.message(message)
-    server.broadcast("chatMessage", message)
+    server.broadcast("chat:message", message)
 end
 
 
 function chat.privateMessage(username, message)
-    server.unicast( username, "chatMessage", message)
+    server.unicast( username, "chat:message", message)
 end
 
 

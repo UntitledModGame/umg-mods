@@ -1,5 +1,8 @@
 
 
+require("shared.effects_packets")
+
+
 
 local effects = {}
 
@@ -72,7 +75,7 @@ if server then
 function effects.addEffect(ent, effectEnt)
     addEffect(ent, effectEnt)
     if server then
-        server.broadcast("effects.addEffect", ent, effectEnt)
+        server.broadcast("effects:addEffect", ent, effectEnt)
     end
 end
 
@@ -80,7 +83,7 @@ end
 function effects.removeEffect(ent, effectEnt)
     removeEffect(ent, effectEnt)
     if server then
-        server.broadcast("effects.removeEffect", ent, effectEnt)
+        server.broadcast("effects:removeEffect", ent, effectEnt)
     end
 end
 
@@ -93,8 +96,8 @@ effects.canRemoveEffect = canRemoveEffect
 
 
 if client then
-    client.on("effects.addEffect", addEffect)
-    client.on("effects.removeEffect", removeEffect)
+    client.on("effects:addEffect", addEffect)
+    client.on("effects:removeEffect", removeEffect)
 end
 
 

@@ -67,7 +67,7 @@ function listener:mousepressed(mx, my, button, istouch, presses)
     if bestEnt then
         local camera = rendering.getCamera()
         local dimension = camera:getDimension()
-        client.send("entityClicked", bestEnt, button, worldX, worldY, dimension)
+        client.send("control:entityClicked", bestEnt, button, worldX, worldY, dimension)
         self:lockMouseButton(button)
     end
 end
