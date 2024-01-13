@@ -4,7 +4,9 @@
 ]]
 
 
-umg.definePacket("umg_e2e_tests:packet1")
+umg.definePacket("umg_e2e_tests:packet1", {
+    typelist={}
+})
 
 
 

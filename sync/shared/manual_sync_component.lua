@@ -12,6 +12,7 @@ Uses string -> id compression to compress the component name.
 ]]
 
 
+
 local currentId = 0
 
 local componentIdCache = {--[[
@@ -22,13 +23,28 @@ local componentIdCache = {--[[
 ]]}
 
 
+umg.definePacket("sync:syncComponent", {
+    --          entity  comp_id  serialization-data
+    typelist = {"entity", "number", "string"}
+})
+
+umg.definePacket("sync:setSyncComponentCache", {
+    --          entity  json-data
+    typelist = {"entity", "string"}
+})
+
+
+
+
+
 if client then
 
-client.on("setSyncComponentCache", function(cache)
+client.on("sync:setSyncComponentCache", function(cacheData)
+    local cache = umg.deserialize(cacheData)
     componentIdCache = cache
 end)
 
-client.on("syncComponent", function(ent, id, compValue)
+client.on("sync:syncComponent", function(ent, id, compValue)
     local compName = componentIdCache[id]
     if compName then
         ent[compName] = compValue
@@ -50,7 +66,7 @@ local function updateCompIdCache()
         dear future Oli:
         pls dont hate me if there's a desync because of this
     ]]
-    server.broadcast("setSyncComponentCache", componentIdCache)
+    server.broadcast("setSyncComponentCache", umg.serialize(componentIdCache))
 end
 
 umg.on("@playerJoin", function()
@@ -77,13 +93,13 @@ local function getComponentId(compName)
 end
 
 
-local syncComponentTc = typecheck.assert("entity", "string")
 
+local syncComponentTc = typecheck.assert("entity", "string")
 local function syncComponent(ent, compName)
     syncComponentTc(ent, compName)
 
     local id = getComponentId(compName)
-    server.broadcast("syncComponent", ent, id, ent[compName])
+    server.broadcast("sync:syncComponent", ent, id, ent[compName])
 end
 
 return syncComponent

@@ -19,16 +19,20 @@ zenith.runTests()
 
 
 local function test1()
+    umg.definePacket("zenith:test_a", {
+        typelist = "string"
+    })
+
     -- runs code on server
     if server then
-        server.broadcast("an_example_test", "hi")
+        server.broadcast("zenith:test_a", "hi")
     end
 
     local recvd = false
 
     -- runs code on client
     if client then
-        client.on("an_example_test", function(msg)
+        client.on("zenith:test_a", function(msg)
             recvd = true
             zenith.assert(msg == "hi", "msg not hi")
         end)
