@@ -42,8 +42,11 @@ local getController = control.getController
 
 function control.isControlledBy(ent, clientId)
     --[[
-        Checks is an entity is controllable by clientId
+        Checks if an entity is controllable by clientId
     ]]
+    if not umg.exists(ent) then
+        return
+    end
     local controller = getController(ent)
     local ok = controller == clientId
 

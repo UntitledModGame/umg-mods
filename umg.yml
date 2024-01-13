@@ -86,9 +86,14 @@ globals:
   umg.serialize:
     args:
     - type: any
+  umg.serializeVolatile:
+    args:
+    - type: any
+  umg.deserializeVolatile:
+    args:
+    - type: any
   table.copy:
     any: true
   table.random:
     any: true
 
-  

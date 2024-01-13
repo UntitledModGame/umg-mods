@@ -12,8 +12,9 @@ sync.proxyEventToClient("modname:hello")
 -- automatically syncs component `x` in a server-authoritative fashion
 sync.autoSyncComponent("x", {
     -- this options table is OPTIONAL.  The values are the defaults:
-    syncWhenNil = false
-    lerp = false, -- only works for numbers
+    type = "number", -- type of component
+    syncWhenNil = false,
+    lerp = false, -- lerp only works for numbers
     numberSyncThreshold = 0.05, -- difference between numbers to sync
     noDeltaCompression = false, -- turns off delta-compression
 })

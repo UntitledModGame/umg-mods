@@ -75,10 +75,9 @@ end
 
 
 server.on("items:trySwapInventoryItem", function(sender, controlEnt, ent, other_ent, slot, slot2)
-    --[[
-        IN THE INVENTORY.
-        Not the position of an entity or anything!
-    ]]
+    if not sync.isControlledBy(controlEnt, sender) then
+        return
+    end
     if not (hasAccess(controlEnt, ent) and hasAccess(controlEnt, other_ent)) then
         return
     end
@@ -114,7 +113,10 @@ end)
 
 
 
-server.on("tryMoveInventoryItem", function(sender, controlEnt, ent, other_ent, slot1, slot2, count)
+server.on("items:tryMoveInventoryItem", function(sender, controlEnt, ent, other_ent, slot1, slot2, count)
+    if not sync.isControlledBy(controlEnt, sender) then
+        return
+    end
     if not (hasAccess(controlEnt, ent) and hasAccess(controlEnt, other_ent)) then
         return
     end
@@ -153,7 +155,7 @@ end)
 
 
 
-server.on("tryDropInventoryItem", function(sender, controlEnt, ent, slot)
+server.on("items:tryDropInventoryItem", function(sender, controlEnt, ent, slot)
     --[[
         slotX, slotY, are coordinates of the position
         IN THE INVENTORY.
@@ -161,6 +163,9 @@ server.on("tryDropInventoryItem", function(sender, controlEnt, ent, slot)
     ]]
     local inv = ent.inventory
     
+    if not sync.isControlledBy(controlEnt, sender) then
+        return
+    end
     if not (hasAccess(controlEnt, ent)) then
         return
     end

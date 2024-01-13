@@ -14,7 +14,6 @@ See auto_sync_component.md for example!
 local constants = require("constants")
 
 
-local filters = require("shared.filters")
 local control = require("shared.control")
 local tickDelta = require("shared.tick_delta")
 
@@ -23,6 +22,7 @@ local isControlledBy = control.isControlledBy
 
 
 local VALID_OPTIONS = {
+    type = true,
     syncWhenNil = true,
     lerp = true,
     noDeltaCompression = true,
@@ -96,6 +96,27 @@ end
 
 
 
+--[[
+    Handling of component-data, when the components are exotic types.
+    (Like tables and such)
+]]
+local function getCompData(compVal, options)
+    if options.dynamicType then
+        return umg.serializeVolatile(compVal)
+    end
+    return compVal
+end
+
+local function getCompVal(compData, options)
+    if options.dynamicType then
+        if type(compData) ~= "string" then
+            return nil
+        end
+        return umg.deserializeVolatile(compData)
+    end
+    return compData
+end
+
 
 
 
@@ -116,7 +137,8 @@ local function trySendServerPacket(ent, packetName, compName, options)
     -- gotta do explicit nil check, to ensure `false` will get synced
     if (compVal ~= nil) or (options.syncWhenNil) then
         -- update component.
-        server.broadcast(packetName, ent, compVal)
+        local compData = getCompData(compVal)
+        server.broadcast(packetName, ent, compData)
         if deltaStore then
             deltaStore[ent] = compVal
         end
@@ -181,7 +203,8 @@ local function trySendClientPacket(ent, packetName, compName, options)
     -- gotta do explicit nil check, to ensure `false` will get synced
     if (compVal ~= nil) or (options.syncWhenNil) then
         -- update component.
-        client.send(packetName, ent, compVal)
+        local compData = getCompData(compVal)
+        client.send(packetName, ent, compData)
         if deltaStore then
             deltaStore[ent] = compVal
         end
@@ -304,7 +327,8 @@ local function setupClientBidirectionalReceiver(compName, options)
     local shouldForceSync = options.bidirectional.shouldForceSyncClientside
     local userId = client.getUsername()
 
-    client.on(packetName, function(ent, compVal)
+    client.on(packetName, function(ent, compData)
+        local compVal = getCompVal(compData, options)
         if isControlledBy(ent, userId) then
             -- then discard the packet!
             -- This entity is being controlled; we don't want to lag them backwards.
@@ -333,7 +357,8 @@ local function setupClientReceiver(compName, options)
         setupClientBidirectionalReceiver(compName, options)
 
     else -- setup normally:
-        client.on(packetName, function(ent, compVal)
+        client.on(packetName, function(ent, compData)
+        local compVal = getCompVal(compData, options)
             syncComponentClient(ent, compName, compVal, options)
         end)
     end
@@ -353,20 +378,47 @@ local function setupServerReciever(compName, options)
     ]]
     local packetName = makePacketName(compName)
     local shouldAcceptServerside = options.bidirectional.shouldAcceptServerside
-    server.on(packetName, {
-        arguments = {filters.controlEntity, filters.any},
-        handler = function(sender, ent, compVal)
-            -- only accept ents that already have the component
-            if ent[compName] and shouldAcceptServerside(ent, compVal) then
-                ent[compName] = compVal
-            end
+    server.on(packetName, function(sender, ent, compData)
+        -- only accept ents that already have the component
+        if not isControlledBy(ent, sender) then
+            return
         end
-    })
+        local compVal = getCompVal(compData, options)
+        if ent[compName] and shouldAcceptServerside(ent, compVal) then
+            ent[compName] = compVal
+        end
+    end)
 end
 
 
 
 
+local FUNDAMENTAL_TYPES = {
+    --[[
+        these types can be serialized at the base network topology
+    ]]
+    number = true, 
+    string = true,
+    entity = true
+}
+
+
+local function definePacket(compName, options)
+    local packetName = makePacketName(compName)
+    local dataType
+    if options.type and FUNDAMENTAL_TYPES[options.type] then
+        -- Component can be serialized as a lua type!
+        dataType = options.type
+        options.dynamicType = false
+    else
+        -- Component must be ser/deserialized manually.
+        dataType = "string"
+        options.dynamicType = true
+    end
+    umg.definePacket(packetName, {
+        typelist = {"entity", dataType}
+    })
+end
 
 
 local function autoSyncComponent(compName, options)
@@ -374,8 +426,6 @@ local function autoSyncComponent(compName, options)
         NOTE: This function MUST be called within a shared context
             to work properly!!! (i.e, it must be called on BOTH client/server)
     ]]
-    registerNewComponent(compName)
-
     options = options or {}
     for opt, _ in pairs(options)do
         assert(VALID_OPTIONS[opt], "Invalid sync option: " .. tostring(opt))
@@ -385,6 +435,9 @@ local function autoSyncComponent(compName, options)
             assert(optbid.shouldAcceptServerside, "missing shouldAcceptServerside callback!")
         end
     end
+
+    registerNewComponent(compName)
+    definePacket(compName, options)
 
     if server then
         if options.bidirectional then
