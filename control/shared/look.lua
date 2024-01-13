@@ -12,6 +12,7 @@ local LOOK_SYNC_THRESHOLD = 0.1
 
 
 sync.autoSyncComponent("lookX", {
+    type = "number",
     lerp = true,
     numberSyncThreshold = LOOK_SYNC_THRESHOLD,
     
@@ -30,6 +31,7 @@ sync.autoSyncComponent("lookX", {
 
 
 sync.autoSyncComponent("lookY", {
+    type = "number",
     lerp = true,
     numberSyncThreshold = LOOK_SYNC_THRESHOLD,
     

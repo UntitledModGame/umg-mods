@@ -14,20 +14,25 @@ end
 
 
 -- testing syncing strings
-sync.autoSyncComponent("stringComponent")
+sync.autoSyncComponent("stringComponent", {
+    type = "string"
+})
 
 -- testing syncing numbers, with sync threshold 0.5
 sync.autoSyncComponent("numberComponent", {
+    type = "number",
     numberSyncThreshold = 0.5
 })
 
 -- test without delta compression
 sync.autoSyncComponent("numberComponentNoDelta", {
+    type = "number",
     noDeltaCompression = true
 })
 
 -- test with number lerp
 sync.autoSyncComponent("numberComponentLerp", {
+    type = "number",
     lerp = true
 })
 

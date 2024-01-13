@@ -392,33 +392,35 @@ end
 
 
 
-
-local FUNDAMENTAL_TYPES = {
+local VALID_COMPONENT_TYPES = {
     --[[
         these types can be serialized at the base network topology
     ]]
     number = true, 
     string = true,
-    entity = true
+    entity = true,
+    boolean = true,
+    untyped = true,
 }
 
 
 local function definePacket(compName, options)
     local packetName = makePacketName(compName)
     local dataType
-    if options.type and FUNDAMENTAL_TYPES[options.type] then
-        -- Component can be serialized as a lua type!
-        dataType = options.type
-        options.dynamicType = false
-    else
+    if options.type == "untyped" then
         -- Component must be ser/deserialized manually.
         dataType = "string"
         options.dynamicType = true
+    elseif options.type == "any" then
+        -- Component can be serialized as a lua type!
+        dataType = options.type
+        options.dynamicType = false
     end
     umg.definePacket(packetName, {
         typelist = {"entity", dataType}
     })
 end
+
 
 
 local function autoSyncComponent(compName, options)
@@ -429,12 +431,14 @@ local function autoSyncComponent(compName, options)
     options = options or {}
     for opt, _ in pairs(options)do
         assert(VALID_OPTIONS[opt], "Invalid sync option: " .. tostring(opt))
-        if options.bidirectional then
-            local optbid = options.bidirectional
-            assert(optbid.shouldForceSyncClientside, "missing shouldForceSyncClientside callback!")
-            assert(optbid.shouldAcceptServerside, "missing shouldAcceptServerside callback!")
-        end
     end
+    if options.bidirectional then
+        local optbid = options.bidirectional
+        assert(optbid.shouldForceSyncClientside, "missing shouldForceSyncClientside callback!")
+        assert(optbid.shouldAcceptServerside, "missing shouldAcceptServerside callback!")
+    end
+
+    assert(VALID_COMPONENT_TYPES[options.type], "Bad type: " .. tostring(options.type))
 
     registerNewComponent(compName)
     definePacket(compName, options)

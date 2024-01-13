@@ -23,6 +23,7 @@ end
 local getTickDelta = sync.getTickDelta
 
 sync.autoSyncComponent("x", {
+    type = "number",
     lerp = true,
     numberSyncThreshold = NUMBER_SYNC_THRESHOLD,
     
@@ -35,6 +36,7 @@ sync.autoSyncComponent("x", {
 
     (assuming SYNC_LEIGHWAY == 1.5,) hacked clients can go 50%.
     But, smart hacked clients will be able to go 150% faster.
+    shit....
 
     This is because the server treats each entity position as the last
     position that it's seen from the client; when in reality,
@@ -74,6 +76,7 @@ sync.autoSyncComponent("x", {
 
 
 sync.autoSyncComponent("y", {
+    type = "number",
     lerp = true,
     numberSyncThreshold = NUMBER_SYNC_THRESHOLD,
     

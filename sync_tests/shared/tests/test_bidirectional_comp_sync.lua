@@ -16,6 +16,7 @@ end
 local max_speed = 5
 -- test bidirectional component
 sync.autoSyncComponent("bidirectionalComponent", {
+    type = "number",
     bidirectional = {
         shouldAcceptServerside = function(ent, val)
             return type(val) == "number" and math.abs(ent.bidirectionalComponent - val) < max_speed

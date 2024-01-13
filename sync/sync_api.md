@@ -12,7 +12,7 @@ sync.proxyEventToClient("modname:hello")
 -- automatically syncs component `x` in a server-authoritative fashion
 sync.autoSyncComponent("x", {
     -- this options table is OPTIONAL.  The values are the defaults:
-    type = "number", -- type of component
+    type = "number", -- type of component. number,entity,string,boolean
     syncWhenNil = false,
     lerp = false, -- lerp only works for numbers
     numberSyncThreshold = 0.05, -- difference between numbers to sync

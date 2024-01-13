@@ -10,6 +10,7 @@ local abs = math.abs
 
 
 sync.autoSyncComponent("vy", {
+    type = "number",
     lerp = true,
     numberSyncThreshold = NUMBER_SYNC_THRESHOLD,
     
@@ -42,6 +43,7 @@ sync.autoSyncComponent("vx", {
     --[[
         same logic as above ^^^^^
     ]]
+    type = "number",
     lerp = true,
     numberSyncThreshold = NUMBER_SYNC_THRESHOLD,
     

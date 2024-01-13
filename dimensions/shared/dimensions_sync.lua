@@ -4,6 +4,7 @@ require("dimensions_events")
 
 
 sync.autoSyncComponent("dimension", {
+    type = "string",
     syncWhenNil = true
 })
 

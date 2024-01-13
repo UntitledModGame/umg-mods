@@ -15,10 +15,12 @@ end)
 
 
 sync.autoSyncComponent("health", {
+    type = "number",
     lerp = false
 })
 
 sync.autoSyncComponent("maxHealth", {
+    type = "number",
     lerp = false
 })
 

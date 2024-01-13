@@ -22,6 +22,7 @@ Options allows us to configure
 
 ```lua
 sync.autoSyncComponent("x", {
+    type = "number",
     lerp = true, -- whether we lerp numbers
     numberSyncThreshold = 0.5, -- threshold for numbers to be lerped
     requiredComponents = {"vx"}, -- extra required components for sync

@@ -12,6 +12,7 @@ local LOOK_SYNC_THRESHOLD = 0.1
 
 
 sync.autoSyncComponent("moveX", {
+    type = "number",
     lerp = true,
     numberSyncThreshold = LOOK_SYNC_THRESHOLD,
     syncWhenNil = true,
@@ -31,6 +32,7 @@ sync.autoSyncComponent("moveX", {
 
 
 sync.autoSyncComponent("moveY", {
+    type = "number",
     lerp = true,
     numberSyncThreshold = LOOK_SYNC_THRESHOLD,
     syncWhenNil = true,

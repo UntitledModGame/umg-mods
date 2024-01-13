@@ -14,6 +14,7 @@
 
 -- make sure component is synced to clients.
 sync.autoSyncComponent("lifetime", {
+    type = "number",
     lerp = true
 })
 
