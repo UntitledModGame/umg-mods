@@ -3,5 +3,5 @@
 
     "needs": ["base"],
 
-    "uses": ["base","categories","worldeditor","chunks","chat","ui","grids"]
+    "uses": ["base","categories","chunks","chat","ui","grids"]
 }

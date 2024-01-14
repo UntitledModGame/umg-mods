@@ -15,11 +15,6 @@ setmetatable(we, {__index = error})
 
 
 
-client.on("worldeditor:setMode", function(active)
-    _G.settings.editing = active
-end)
-
-
 
 
 

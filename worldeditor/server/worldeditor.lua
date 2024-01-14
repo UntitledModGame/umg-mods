@@ -34,23 +34,16 @@ end
 
 
 
-error[[
-    Fixme:
 
-    Packet handlers are outdated
-]]
-
-server.on("worldeditor:defineTool", {
-    handler = function(sender, tool, toolName)
-        if not isAdmin(sender) then
-            return
-        end
-
-        editors[sender] = editors[sender] or ClientContext(sender)
-        local cc = editors[sender]
-        cc:defineTool(tool, toolName)
+server.on("worldeditor:defineTool", function(sender, tool, toolName)
+    if not isAdmin(sender) then
+        return
     end
-})
+
+    editors[sender] = editors[sender] or ClientContext(sender)
+    local cc = editors[sender]
+    cc:defineTool(tool, toolName)
+end)
 
 
 server.on("worldeditor:setTool", function(sender, toolName)
@@ -78,24 +71,4 @@ server.on("worldeditor:useTool", function(sender, toolName, ...)
         chat.privateMessage(sender, "Couldn't find tool " .. toolName)
         end
 end)
-
-
-
-
-local commandHandler = {
-    adminLevel = 100,
-    arguments = {{type = "boolean", name = "mode"}},
-
-    handler = function(sender, bool)
-        server.unicast(sender, "worldeditorSetMode", bool)
-        -- TODO:
-        -- Can do other stuff here.
-        -- perhaps fudge with settings and whatnot?
-        -- eg    /worldeditor settings.xyz foo
-    end
-}
-
-chat.handleCommand("worldeditor", commandHandler)
-chat.handleCommand("worldedit", commandHandler)
-
 
