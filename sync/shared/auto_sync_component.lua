@@ -137,7 +137,7 @@ local function trySendServerPacket(ent, packetName, compName, options)
     -- gotta do explicit nil check, to ensure `false` will get synced
     if (compVal ~= nil) or (options.syncWhenNil) then
         -- update component.
-        local compData = getCompData(compVal)
+        local compData = getCompData(compVal, options)
         server.broadcast(packetName, ent, compData)
         if deltaStore then
             deltaStore[ent] = compVal
@@ -203,7 +203,7 @@ local function trySendClientPacket(ent, packetName, compName, options)
     -- gotta do explicit nil check, to ensure `false` will get synced
     if (compVal ~= nil) or (options.syncWhenNil) then
         -- update component.
-        local compData = getCompData(compVal)
+        local compData = getCompData(compVal, options)
         client.send(packetName, ent, compData)
         if deltaStore then
             deltaStore[ent] = compVal

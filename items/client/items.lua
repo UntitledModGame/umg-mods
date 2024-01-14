@@ -1,4 +1,7 @@
 
+require("shared.items_packets")
+
+
 local Inventory = require("shared.inventory")
 
 
@@ -325,7 +328,7 @@ end)
 
 
 
-client.on("setInventoryItem", function(ent, x, y, item_ent)
+client.on("items:setInventoryItem", function(ent, x, y, item_ent)
     local inventory = ent.inventory
     inventory:_rawset(x,y,item_ent)
     if inventory == focus_inv and x == focus_x and y == focus_y then
@@ -334,7 +337,7 @@ client.on("setInventoryItem", function(ent, x, y, item_ent)
 end)
 
 
-client.on("setInventoryItemStackSize", function(item, stackSize)
+client.on("items:setItemStackSize", function(item, stackSize)
     item.stackSize = stackSize
 end)
 

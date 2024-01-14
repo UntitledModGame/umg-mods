@@ -230,7 +230,7 @@ function Inventory:set(slotX, slotY, item)
 
     -- If `item_ent` is nil, then it removes the item from inventory.
     self:_rawset(slotX, slotY, item)
-    server.broadcast("setInventoryItem", self.owner, slotX, slotY, item)
+    server.broadcast("items:setInventoryItem", self.owner, slotX, slotY, item)
 end
 
 
