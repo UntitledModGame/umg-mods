@@ -15,7 +15,7 @@ setmetatable(we, {__index = error})
 
 
 
-client.on("worldeditorSetMode", function(active)
+client.on("worldeditor:setMode", function(active)
     _G.settings.editing = active
 end)
 
@@ -71,7 +71,7 @@ end
 
 
 function we.syncTool(toolInfo)
-    client.send("worldeditorDefineTool", toolInfo.tool, toolInfo.name)
+    client.send("worldeditor:defineTool", toolInfo.tool, toolInfo.name)
 end
 
 
@@ -200,8 +200,7 @@ local function applyTool(toolInfo)
     if (not DONE_THIS_TICK) then
         local worldX, worldY = rendering.getWorldMousePosition()
         ensureServerKnowsTool(toolInfo)
-        client.send("worldeditorSetTool", toolInfo.name)
-        client.send("worldeditorUseTool", toolInfo.name, worldX, worldY, BUTTON_1)
+        client.send("worldeditor:useTool", toolInfo.name, worldX, worldY, BUTTON_1)
         DONE_THIS_TICK = true
     end
 end

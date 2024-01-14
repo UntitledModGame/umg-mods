@@ -1,5 +1,6 @@
 
 require("control_events")
+require("shared.control_packets")
 
 
 local RANGE_ACCEPTANCE = 80

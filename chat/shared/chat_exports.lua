@@ -17,7 +17,6 @@ end
 local commands = require("shared.commands")
 
 chat.handleCommand = commands.handleCommand
-chat.getCommands = commands.getCommands
 
 
 

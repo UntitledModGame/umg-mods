@@ -53,37 +53,31 @@ server.on("worldeditor:defineTool", {
 })
 
 
-server.on("worldeditorSetTool", {
-    arguments = {sf.string},
-    handler = function(sender, toolName)
-        if not isAdmin(sender) then
-            return
-        end
-
-        editors[sender] = editors[sender] or ClientContext(sender)
-        local cc = editors[sender]
-        cc:setCurrentTool(toolName)
+server.on("worldeditor:setTool", function(sender, toolName)
+    if not isAdmin(sender) then
+        return
     end
-})
+
+    editors[sender] = editors[sender] or ClientContext(sender)
+    local cc = editors[sender]
+    cc:setCurrentTool(toolName)
+end)
 
 
-server.on("worldeditorUseTool", {
-    arguments = {sf.string},
-    handler = function(sender, toolName, ...)
-        if not isAdmin(sender) then
-            return
-        end
-
-        editors[sender] = editors[sender] or ClientContext(sender)
-        local cc = editors[sender]
-        local tool = cc:getCurrentTool(toolName)
-        if tool then
-            tool:apply(...)
-        else
-            chat.privateMessage(sender, "Couldn't find tool " .. toolName)
-            end
+server.on("worldeditor:useTool", function(sender, toolName, ...)
+    if not isAdmin(sender) then
+        return
     end
-})
+
+    editors[sender] = editors[sender] or ClientContext(sender)
+    local cc = editors[sender]
+    local tool = cc:getCurrentTool(toolName)
+    if tool then
+        tool:apply(...)
+    else
+        chat.privateMessage(sender, "Couldn't find tool " .. toolName)
+        end
+end)
 
 
 

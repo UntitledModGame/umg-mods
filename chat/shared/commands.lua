@@ -82,7 +82,7 @@ end
 
 if server then
 
-server.on("chat:command", function(sender_uname, commandName, ...)
+server.on("chat:command", function(sender, commandName, ...)
     --[[
         this is for when the player does any of the following:
         /commandName ...
@@ -97,24 +97,24 @@ server.on("chat:command", function(sender_uname, commandName, ...)
     end
     local cmdHandler = commandToHandler[commandName]
     if not cmdHandler then
-        chat.privateMessage(sender_uname, "unknown command: " .. commandName)
+        chat.privateMessage(sender, "unknown command: " .. commandName)
         return
     end
 
     local ok, err = cmdHandler.typechecker(...)
     if not ok then
-        chat.privateMessage(sender_uname, "/" .. commandName .. ": " .. err)
+        chat.privateMessage(sender, "/" .. commandName .. ": " .. err)
         return
     end
 
-    local adminLevel = chat.getAdminLevel(sender_uname)
+    local adminLevel = chat.getAdminLevel(sender)
     if cmdHandler.adminLevel > adminLevel then 
-        chat.privateMessage(sender_uname, "/" .. commandName .. ": Admin level " .. tostring(handler.adminLevel) .. " required.")
+        chat.privateMessage(sender, "/" .. commandName .. ": Admin level " .. tostring(handler.adminLevel) .. " required.")
         return
     end
 
-    cmdHandler.handler(sender_uname, ...)
-    server.broadcast("chat:command", commandName, ...)
+    cmdHandler.handler(sender, ...)
+    server.broadcast("chat:command", sender, commandName, ...)
 end )
 
 end
@@ -124,27 +124,17 @@ end
 
 if client then
 
-client.on("chat:command", function(commandName, ...)
-        local cmdHandler = commandToHandler[commandName]
-        if cmdHandler then
-            -- there may not be a handler for client.
-            cmdHandler.handler(commandName, ...)
-        end
-    end 
-)
-
-end
-
-
-
-
-function commands.getCommands()
-    local buffer = objects.Array()
-    for _, handler in pairs(commandToHandler) do
-        buffer:add(handler) 
+client.on("chat:command", function(sender, commandName, ...)
+    local cmdHandler = commandToHandler[commandName]
+    if cmdHandler then
+        -- there may not be a handler for client.
+        cmdHandler.handler(sender, ...)
     end
-    return buffer
+end)
+
 end
+
+
 
 
 return commands
