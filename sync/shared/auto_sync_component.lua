@@ -358,7 +358,7 @@ local function setupClientReceiver(compName, options)
 
     else -- setup normally:
         client.on(packetName, function(ent, compData)
-        local compVal = getCompVal(compData, options)
+            local compVal = getCompVal(compData, options)
             syncComponentClient(ent, compName, compVal, options)
         end)
     end
