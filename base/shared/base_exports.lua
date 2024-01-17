@@ -29,3 +29,5 @@ if server then
     base.server = {}
 end
 
+
+umg.expose("base", base)

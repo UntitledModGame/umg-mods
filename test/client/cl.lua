@@ -34,23 +34,6 @@ juice.particles.define("smoke", psys)
 
 
 
-local imgGroup = umg.group("x", "y", "image")
-
-local spinning = false
-client.on("spin", function()
-    spinning = not spinning
-end)
-
-umg.on("state:gameUpdate", function(dt)
-    if spinning then
-        for _, ent in ipairs(imgGroup) do
-            ent.rot = ent.rot or (math.random() * 6)
-            ent.rot = ent.rot + dt*3
-        end
-    end
-end)
-
-
 
 local listener = input.Listener({priority = 2})
 

@@ -47,10 +47,29 @@ end
 
 
 
-client.on("commands:openScript", function()
-    currentScript = scriptRunner.newScriptObject()
-end)
+--[[
 
+TODO:
+READ-ME:
+READ-ME:
+READ-ME:
+READ-ME:
+READ-ME:
+READ-ME:
+READ-ME:
+READ-ME:
+READ-ME:
+READ-ME:
+READ-ME:
+READ-ME:
+READ-ME:
+READ-ME:
+
+This isn't working
+
+We need to hook this up to commands.
+
+]]
 
 
 function scriptRunner.newScriptObject()
