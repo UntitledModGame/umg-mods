@@ -1,6 +1,9 @@
 
 local terrainIds = require("terrain_ids")
 
+require("shared.terrain_packets")
+
+
 
 local Terrain = objects.Class("terrain_mod:terrain")
 
@@ -647,7 +650,7 @@ if server then
 
 function Terrain:sync()
     -- pass by id across the network
-    server.broadcast("terrainSync", terrainIds.getId(self), self.syncOptions, self.map)
+    server.broadcast("terrain:sync", terrainIds.getId(self), self.syncOptions, self.map)
 
     local quads, greedyQuadMap, vertexMap = generateQuads(self)
     local greedyQuads = greedyMesh(self, greedyQuadMap)
@@ -674,7 +677,7 @@ function finalize(self)
 end
 
 
-client.on("terrainSync", function(tobj_id, syncOptions, map)
+client.on("terrain:sync", function(tobj_id, syncOptions, map)
     -- pass by id across the network
     local tobj = terrainIds.getTerrainObject(tobj_id)
     if not tobj then
