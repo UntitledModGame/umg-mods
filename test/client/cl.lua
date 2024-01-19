@@ -7,10 +7,12 @@ base.client.groundTexture.setDefaultGround({
 
 
 
+umg.on("@load", function()
+    vignette.setStrength(0.65)
+end)
+
 
 umg.on("@createWorld", function()
-    vignette.setStrength(0.65)
-
     base.client.groundTexture.setGround("overworld", {
         images = {"ground_texture_final4"},
         color = {0.7,0.7,0.7}
