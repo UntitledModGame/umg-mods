@@ -2,7 +2,7 @@
 
 
 umg.definePacket("debug1:packet1", {
-    typelist = {}
+    typelist = {"entity"}
 })
 
 
@@ -11,18 +11,28 @@ local SKIPS = 30
 
 if server then
 
-umg.on("@tick", scheduling.skip(SKIPS, function()
+local e
+
+local func = scheduling.skip(SKIPS, function()
     print("Send!")
-    server.broadcast("debug1:packet1")
-end))
+    server.broadcast("debug1:packet1", e)
+    server.broadcast("debug1:packet1", e)
+    server.broadcast("debug1:packet1", e)
+end)
+
+umg.on("@load", function()
+    local e = server.entities.empty()
+    umg.on("@tick", func)
+end)
+
 
 end
 
 
 if client then
 
-client.on("debug1:packet1", function()
-    print("RECV! :)")
+client.on("debug1:packet1", function(e)
+    print("RECV: ", e.id)
 end)
 
 end
