@@ -16,13 +16,13 @@ local dimensions = {}
 local overseeingDimensionGroup = umg.group("overseeingDimension")
 
 
-local dimensionToControllerEnt = {--[[
-    [dimension] -> controllerEnt
+local dimensionToOverseerEnt = {--[[
+    [dimension] -> overseerEnt
 ]]}
 
 
-local controllerEntToDimension = {--[[
-    [controllerEnt] -> dimension
+local overseerEntToDimension = {--[[
+    [overseerEnt] -> dimension
 ]]}
 
 
@@ -30,10 +30,10 @@ local controllerEntToDimension = {--[[
 
 local function destroyDimension(dimension)
     assert(server, "?")
-    local ent = dimensionToControllerEnt[dimension]
+    local ent = dimensionToOverseerEnt[dimension]
     if ent then
-        dimensionToControllerEnt[dimension] = nil
-        controllerEntToDimension[ent] = nil
+        dimensionToOverseerEnt[dimension] = nil
+        overseerEntToDimension[ent] = nil
         umg.call("dimensions:dimensionDestroyed", dimension, ent)
         ent:delete()
     end
@@ -43,8 +43,8 @@ end
 overseeingDimensionGroup:onAdded(function(ent)
     assert(ent.overseeingDimension, "wot wot?")
     local dim = ent.overseeingDimension
-    dimensionToControllerEnt[dim] = ent
-    controllerEntToDimension[ent] = dim
+    dimensionToOverseerEnt[dim] = ent
+    overseerEntToDimension[ent] = dim
     umg.call("dimensions:dimensionCreated", dim, ent)
 end)
 
@@ -64,7 +64,7 @@ local createDimTc = typecheck.assert("string", "table?")
 function dimensions.createDimension(dimension, ent_or_nil)
     createDimTc(dimension, ent_or_nil)
     assert(server, "?")
-    if dimensionToControllerEnt[dimension] then
+    if dimensionToOverseerEnt[dimension] then
         error("Duplicate dimension created: " .. tostring(dimension))
     end
 
@@ -72,7 +72,7 @@ function dimensions.createDimension(dimension, ent_or_nil)
     local ent = ent_or_nil or server.entities.dimension_controller()
     ent.overseeingDimension = dimension
 
-    dimensionToControllerEnt[dimension] = ent
+    dimensionToOverseerEnt[dimension] = ent
     return ent
 end
 
@@ -94,7 +94,7 @@ function dimensions.getOverseer(dim)
     -- gets the controller entity for a dimension.
     -- If the dimension doesn't exist, nil is returned.
     dim = dim or DEFAULT_DIMENSION
-    return dimensionToControllerEnt[dim]
+    return dimensionToOverseerEnt[dim]
 end
 
 
@@ -102,7 +102,7 @@ end
 
 function dimensions.getAllDimensions()
     local allDimensions = objects.Array()
-    for _, dim in pairs(controllerEntToDimension) do
+    for _, dim in pairs(overseerEntToDimension) do
         allDimensions:add(dim)
     end
     return allDimensions
@@ -110,7 +110,7 @@ end
 
 
 function dimensions.iterator()
-    return pairs(dimensionToControllerEnt)
+    return pairs(dimensionToOverseerEnt)
 end
 
 

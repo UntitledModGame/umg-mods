@@ -8,7 +8,7 @@ base.client.groundTexture.setDefaultGround({
 
 
 
-umg.on("@load", function()
+umg.on("@createWorld", function()
     vignette.setStrength(0.65)
 
     base.client.groundTexture.setGround("overworld", {

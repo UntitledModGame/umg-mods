@@ -23,6 +23,10 @@ local function exists(dim)
     if type(dim) ~= "string" then
         return false, "expected dimension"
     end
+    if dim == "overworld" then
+        -- its fine
+        return true
+    end
     if not dimensions.getOverseer(dim) then
         return false, "expected dimension"
     end
