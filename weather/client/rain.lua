@@ -91,7 +91,7 @@ local function spawnRainDrops(dt)
     local cameraSpan = x2 - x1
 
     local numDrops = rainRate * dt * (cameraSpan/1000)
-    while math.random() < numDrops do
+    while numDrops > 0 do
         numDrops = numDrops - 1
         newRainDrop()
     end

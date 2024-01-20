@@ -21,7 +21,7 @@ local func = scheduling.skip(SKIPS, function()
 end)
 
 umg.on("@load", function()
-    local e = server.entities.empty()
+    e = server.entities.empty()
     umg.on("@tick", func)
 end)
 
@@ -36,3 +36,12 @@ client.on("debug1:packet1", function(e)
 end)
 
 end
+
+
+
+umg.on("@keypressed", function(k)
+    if k=="q" then
+        error("y")
+    end
+end)
+
