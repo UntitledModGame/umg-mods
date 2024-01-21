@@ -5,9 +5,9 @@ local entGroup = umg.group("mycomp")
 local NUM = 3
 
 
-local function beforeEach()
-    zenith.clear()
-    zenith.tick(2)
+local function beforeEach(self)
+    self:clear()
+    self:tick(2)
     if server then
         local dummy = server.entities.empty()
         dummy.isDummy = true
@@ -18,12 +18,12 @@ local function beforeEach()
             e.ref = dummy
         end
     end
-    zenith.tick(2)
+    self:tick(2)
 end
 
 
-local function testShallowClone()
-    beforeEach()
+local function testShallowClone(self)
+    beforeEach(self)
 
     local sze = entGroup:size()
 
@@ -33,22 +33,22 @@ local function testShallowClone()
         end
     end
 
-    zenith.tick(4)
+    self:tick(4)
 
     -- expect the entGroup size to have doubled
-    zenith.assert(sze * 2, entGroup:size(), "shallowClone group size")
+    self:assert(sze * 2, entGroup:size(), "shallowClone group size")
 
     local dummy = entGroup[1].ref
-    zenith.assert(dummy.isDummy, "dummy was not valid somehow")
+    self:assert(dummy.isDummy, "dummy was not valid somehow")
     for _, ent in ipairs(entGroup)do
-        zenith.assert(ent.ref == dummy, "entity didn't reference dummy")
+        self:assert(ent.ref == dummy, "entity didn't reference dummy")
     end
 end
 
 
 
-local function testDeepClone()
-    beforeEach()
+local function testDeepClone(self)
+    beforeEach(self)
 
     local sze = #entGroup
 
@@ -61,11 +61,11 @@ local function testDeepClone()
         end
     end
 
-    zenith.tick()
-    zenith.tick()
+    self:tick()
+    self:tick()
 
     -- expect the entGroup size to have doubled
-    zenith.assertEquals(sze * 2, entGroup:size(), "deepClone group size")
+    self:assertEquals(sze * 2, entGroup:size(), "deepClone group size")
 
     local seenDummys = {}
     for _, ent in ipairs(entGroup)do
@@ -73,9 +73,9 @@ local function testDeepClone()
         if seenDummys[dummy] then
             print(seenDummys[dummy])
             print(ent)
-            zenith.fail("dummy wasn't deepcopied!")
+            self:fail("dummy wasn't deepcopied!")
         end
-        zenith.assert(umg.exists(dummy) and dummy.isDummy, "deepClone: entity didn't reference dummy")
+        self:assert(umg.exists(dummy) and dummy.isDummy, "deepClone: entity didn't reference dummy")
         seenDummys[dummy] = ent
     end
 end
@@ -83,8 +83,8 @@ end
 
 
 
-local function testDeepDelete()
-    beforeEach()
+local function testDeepDelete(self)
+    beforeEach(self)
 
     local empty2
     if server then
@@ -96,24 +96,24 @@ local function testDeepDelete()
         end
     end
 
-    zenith.tick()
+    self:tick()
 
     if server then
         empty2:deepDelete()
     end
 
-    zenith.tick(2)
+    self:tick(2)
 
-    zenith.assert(entGroup:size() == 0, "Nested entities not deleted")
+    self:assert(entGroup:size() == 0, "Nested entities not deleted")
 end
 
 
 
-return function()
-    testShallowClone()
+zenith.test(function(self)
+    testShallowClone(self)
 
-    testDeepClone()
+    testDeepClone(self)
     
-    testDeepDelete()
-end
+    testDeepDelete(self)
+end)
 

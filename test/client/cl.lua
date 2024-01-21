@@ -57,6 +57,9 @@ local function getPlayerWithXY()
 end
 
 
+umg.on("rendering:drawEntity", function(e)
+    print("drawEnt")
+end)
 
 
 local allGroup = umg.group()
@@ -79,7 +82,6 @@ end
 
 
 umg.on("@draw", function()
-    print("hello?! draw")
     local p = getPlayerWithXY()
     if p then
         love.graphics.setColor(0,0,0)

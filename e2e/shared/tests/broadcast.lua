@@ -10,29 +10,27 @@ umg.definePacket("umg_e2e_tests:packet1", {
 
 
 
-return function()
+zenith.test(function(self)
     local recvd = false
 
     if client then
         client.on("an_example_test", function(msg)
             recvd = true
-            zenith.assert(msg == "hi", "msg not hi")
+            self:assert(msg == "hi")
         end)
     end
 
-    zenith.tick()
+    self:tick()
 
     if server then
         server.broadcast("an_example_test", "hi")
     end
 
-    zenith.tick(2)
+    self:tick(2)
 
     if client then
-        zenith.assert(recvd, "msg not recvd")
+        self:assert(recvd, "msg not recvd")
     end
-
-
 
     --[[
         testing client --> server events,
@@ -46,7 +44,7 @@ return function()
         end)
     end
 
-    zenith.tick()
+    self:tick()
 
     -- test that we aren't receiving packets:
     local str = "all goods"
@@ -54,8 +52,8 @@ return function()
         aRecv, bRecv = str, 2
         client.send("umg_e2e_tests:send_to_server", aRecv, bRecv)
     end
-    zenith.tick(2)
-    zenith.assert(aRecv==str and bRecv==2, "Didn't pick up packet even tho valid")
-    zenith.tick()
-end
+
+    self:tick(2)
+    self:assert(aRecv==str and bRecv==2, "Didn't pick up packet even tho valid")
+end)
 

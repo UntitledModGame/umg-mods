@@ -18,7 +18,7 @@ zenith.runTests()
 
 
 
-local function test1()
+function test1(self)
     umg.definePacket("zenith:test_a", {
         typelist = "string"
     })
@@ -34,15 +34,15 @@ local function test1()
     if client then
         client.on("zenith:test_a", function(msg)
             recvd = true
-            zenith.assert(msg == "hi", "msg not hi")
+            self:assert(msg == "hi")
         end)
     end
 
     -- waits 2 ticks, on both client AND server.
-    zenith.tick(2)
+    self:tick(2)
 
     -- runs code on client again.
     if client then
-        zenith.assert(recvd, "msg not recvd")
+        self:assert(recvd, "msg not recvd")
     end
 end

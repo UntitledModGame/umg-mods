@@ -179,19 +179,16 @@ end)
 
 
 if client then
-    client.on("zenithNextTest", function(index)
+    client.on("zenith:nextTest", function(index)
         startNextTest(index)
     end)
 end
 
 
 if server then
-    server.on("zenithReady", {
-        arguments = {},
-        handler = function()
-            clientReady = true
-        end
-    })
+    server.on("zenith:ready", function()
+        clientReady = true
+    end)
 end
 
 
