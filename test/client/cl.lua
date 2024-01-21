@@ -59,27 +59,15 @@ end
 
 
 
+local allGroup = umg.group()
 
 
 function listener:keypressed(key, scancode, isrepeat)
     if scancode == "q" then
-        local e = getPlayerWithXY()
-        local x, y = rendering.getWorldMousePosition()
-        juice.particles.emit("smoke", e, 10, {0.2,0.8,0.9})
-        e.x = x
-        e.y = y
-        juice.particles.emit("smoke", e, 10)
+        error("stop")
     end
     if scancode == "e" then
-        local e = getPlayerWithXY()
-        juice.shockwave({
-            x = e.x, y = e.y,
-            dimension = e.dimension,
-            type = "fill",
-            color = {0.1,0.3,0.9},
-            endColor = {0.5,0.6,1,1},
-            duration = 0.25
-        })
+        print("size allGroup: ", #allGroup)
     end
     if scancode == "space" then
         local e = getPlayerWithXY()
@@ -91,6 +79,7 @@ end
 
 
 umg.on("@draw", function()
+    print("hello?! draw")
     local p = getPlayerWithXY()
     if p then
         love.graphics.setColor(0,0,0)
