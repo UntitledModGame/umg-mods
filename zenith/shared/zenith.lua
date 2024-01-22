@@ -1,4 +1,8 @@
 
+
+local TestContext = require("shared.TestContext")
+
+
 local zenith = {}
 
 
@@ -6,22 +10,20 @@ local zenith = {}
 local currentTest = nil
 
 
-local allTests = {} -- list of all tests
+local tests = {--[[
+    [testName] -> TestContext
+]]}
 
 
-function zenith.defineTest(options)
-    assert(type(options.name) == "string" and type(options.test) == "function", "?")
-    options.failures = {}
-
-    options.co = coroutine.create(options.test)
-    table.insert(allTests, options)
+function zenith.test(func)
+    local ctx = TestContext(func)
+    
 end
 
 
 
 function zenith.fail(err)
     err = err or "(no error)"
-    table.insert(currentTest.failures, err)
     currentTest.failed = true
 end
 
@@ -39,32 +41,6 @@ function zenith.assertEquals(a, b, err)
     end
 end
 
-
-
-function zenith.tick(ticks)
-    ticks = ticks or 1
-    for _=1, ticks do
-        coroutine.yield()
-    end
-end
-
-
-local LINE = ("="):rep(50)
-
-local function printResults()
-    -- output state of previous test
-    if currentTest.failed then
-        print(LINE)
-        print("[zenith] TEST FAILED: ", currentTest.name)
-        print("[zenith] failure list:")
-        for _, err in pairs(currentTest.failures) do
-            print(currentTest.name .. " FAILURE:", err)
-        end
-        print(LINE)
-    else
-        print("[zenith] TEST PASSED", currentTest.name)
-    end
-end
 
 
 
