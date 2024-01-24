@@ -33,7 +33,7 @@ gameState:on("@update", function(dt)
     umg.call("state:gameUpdate", dt)
 end)
 
-gameState:on("@draw", function(dt)
+gameState:on("@draw", function()
     umg.call("state:drawWorld")
     umg.call("state:drawUI")
 end)

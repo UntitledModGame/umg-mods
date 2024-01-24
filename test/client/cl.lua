@@ -62,7 +62,7 @@ umg.on("rendering:drawEntity", function(e)
 end)
 
 
-local allGroup = umg.group()
+local drawGroup = umg.group("drawable", "x", "y")
 
 
 function listener:keypressed(key, scancode, isrepeat)
@@ -70,7 +70,7 @@ function listener:keypressed(key, scancode, isrepeat)
         error("stop")
     end
     if scancode == "e" then
-        print("size allGroup: ", #allGroup)
+        print("size drawGroup: ", #drawGroup)
     end
     if scancode == "space" then
         local e = getPlayerWithXY()
