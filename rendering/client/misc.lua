@@ -44,7 +44,7 @@ local DEFAULT_DIMENSION = dimensions.getDefaultDimension()
 local function isOnScreen(dVec, leighway)
     -- Returns true if a dimensionVector is on screen
     -- false otherwise.
-    local x, y, dimension = dVec.x, getDrawY(dVec.y), dVec.dimension
+    local x, y, dimension = dVec.x, getDrawY(dVec.y, dVec.z), dVec.dimension
     local w,h = screenWidth, screenHeight
     local camera = currentCamera.getCamera()
     if camera:getDimension() ~= (dimension or DEFAULT_DIMENSION) then

@@ -57,9 +57,6 @@ local function getPlayerWithXY()
 end
 
 
-umg.on("rendering:drawEntity", function(e)
-    print("drawEnt")
-end)
 
 
 local drawGroup = umg.group("drawable", "x", "y")

@@ -29,8 +29,8 @@ umg.definePacket("sync:syncComponent", {
 })
 
 umg.definePacket("sync:setSyncComponentCache", {
-    --          entity  json-data
-    typelist = {"entity", "string"}
+    --         json-data
+    typelist = {"string"}
 })
 
 
@@ -66,7 +66,7 @@ local function updateCompIdCache()
         dear future Oli:
         pls dont hate me if there's a desync because of this
     ]]
-    server.broadcast("setSyncComponentCache", umg.serialize(componentIdCache))
+    server.broadcast("sync:setSyncComponentCache", umg.serialize(componentIdCache))
 end
 
 umg.on("@playerJoin", function()

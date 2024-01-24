@@ -59,7 +59,6 @@ function state.setState(name)
 end
 
 umg.on("@playerJoin", function(username)
-    print("PLAYR JOIN")
     server.unicast(username, "state:setState", currentStateName)
 end)
 
