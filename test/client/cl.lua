@@ -58,6 +58,11 @@ end
 
 
 
+umg.group():onAdded(function(ent)
+    assert(ent.id,"spawned ent doesnt have id?")
+    print(ent)
+end)
+
 
 local drawGroup = umg.group("drawable", "x", "y")
 

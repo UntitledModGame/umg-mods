@@ -7,7 +7,7 @@ local uname_to_player = {}
 
 
 local function make_player(uname)
-    local ent = ents.player(0, 0, uname)
+    local ent = ents.player(20, 10, uname)
     ent.z = 0
     ent.moveX = 0
     ent.moveY = 0
@@ -46,58 +46,14 @@ umg.on("@createWorld", function()
     local e = server.entities.test(0,0)
     e.image = "spot_block"
 
-    for i=1, 30 do
-        local e = newItem(ents.item, 1)
-        e.dimension = dim2
-    end
+    -- for i=1, 1 do
+    --     local MAG = 1000
+    --     ents.pine(math.random(-MAG, MAG), math.random(-MAG, MAG))
+    -- end
 
-    for i=1, 30 do
-        newItem(ents.upgrade, 1)
-    end
-
-    for i=1, 4 do
-        newItem(ents.flare_gun, 1)
-    end
-
-    for i=1, 4 do
-        newItem(ents.clone_gun, 1)
-    end
-
-    for i=1, 4 do
-        newItem(ents.musket, 1)
-    end
-
-    for i=1, 4 do
-        newItem(ents.ak47, 1)
-    end
-
-    --[[
-    for i=1,30 do
-        local MAG = 100
-        local x, y = math.random(-MAG, MAG), math.random(-MAG, MAG)
-        ents.slime3(x,y - 1000)
-    end
-    ]]
-
-    for i=1, 30 do
-        local MAG = 250
-        local x, y = math.random(-MAG, MAG), math.random(-MAG, MAG)
-        ents.block(x,y)
-    end
-
-    for i=1, 1000 do
-        local MAG = 800
-        ents.grass(math.random(-MAG, MAG), math.random(-MAG, MAG))
-    end
-
-    for i=1, 5 do
-        local MAG = 1000
-        ents.pine(math.random(-MAG, MAG), math.random(-MAG, MAG))
-    end
-
-    ents.crate(0,-100)
-    ents.crate_button(100, 100)
-    ents.crafting_table(-100, 100)
+    -- ents.crate(0,-100)
+    -- ents.crate_button(100, 100)
+    -- ents.crafting_table(-100, 100)
 
 end)
 
@@ -113,6 +69,7 @@ if server.isWorldPersistent() then
 else
     -- just spawn a temp player
     umg.on("@playerJoin", function(uname)
+        print("hi?!?!")
         make_player(uname)
     end)
 end
