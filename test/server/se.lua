@@ -107,7 +107,7 @@ end)
 
 if server.isWorldPersistent() then
     -- use playersaves API
-    umg.on("createPlayer", function(uname)
+    umg.on("playersaves:createPlayer", function(uname)
         make_player(uname)
     end)
 else
