@@ -69,7 +69,6 @@ if server.isWorldPersistent() then
 else
     -- just spawn a temp player
     umg.on("@playerJoin", function(uname)
-        print("hi?!?!")
         make_player(uname)
     end)
 end
