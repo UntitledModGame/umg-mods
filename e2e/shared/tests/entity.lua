@@ -55,8 +55,8 @@ local function testDeepClone(self)
     if server then
         for _, ent in ipairs(entGroup)do
             -- clone twice, and then delete the original
-            ent:deepClone()
-            ent:deepClone()
+            ent:clone()
+            ent:clone()
             ent:delete()
         end
     end
@@ -65,7 +65,7 @@ local function testDeepClone(self)
     self:tick()
 
     -- expect the entGroup size to have doubled
-    self:assertEquals(sze * 2, entGroup:size(), "deepClone group size")
+    self:assertEquals(sze * 2, entGroup:size(), "clone group size")
 
     local seenDummys = {}
     for _, ent in ipairs(entGroup)do
@@ -75,7 +75,7 @@ local function testDeepClone(self)
             print(ent)
             self:fail("dummy wasn't deepcopied!")
         end
-        self:assert(umg.exists(dummy) and dummy.isDummy, "deepClone: entity didn't reference dummy")
+        self:assert(umg.exists(dummy) and dummy.isDummy, "clone: entity didn't reference dummy")
         seenDummys[dummy] = ent
     end
 end
@@ -99,7 +99,7 @@ local function testDeepDelete(self)
     self:tick()
 
     if server then
-        empty2:deepDelete()
+        empty2:delete()
     end
 
     self:tick(2)

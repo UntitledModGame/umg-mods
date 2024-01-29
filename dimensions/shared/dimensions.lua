@@ -84,7 +84,7 @@ function dimensions.destroyDimension(dimension)
     strTc(dimension)
     local overseer = dimensions.getOverseer(dimension)
     if umg.exists(overseer) then
-        overseer:deepDelete()
+        overseer:delete()
     end
 end
 

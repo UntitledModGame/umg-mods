@@ -9,7 +9,7 @@ return {
 
     shooter = {
         spawnProjectile = function(itemEnt, holderEnt)
-            local clone = holderEnt:deepClone()
+            local clone = holderEnt:clone()
             return clone
         end,
 

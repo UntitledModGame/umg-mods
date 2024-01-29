@@ -561,7 +561,7 @@ local function moveIntoEmptySlot(self, slotX, slotY, otherInv, otherSlotX, other
 
     if count < item.stackSize then
         -- then we are only moving part of the stack; so we must create a copy
-        local newItem = item:deepClone()
+        local newItem = item:clone()
         newItem.stackSize = count 
         -- We don't call :setStackSize above, because newItem has just been cloned
         self:setStackSize(slotX, slotY, item.stackSize - count)

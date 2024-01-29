@@ -27,7 +27,7 @@ end
 
 function EntityDelete:apply(ent)
     assert(server, "needs to be serverside")
-    ent:deepDelete()
+    ent:delete()
 end
 
 EntityDelete.name = "Entity delete"
