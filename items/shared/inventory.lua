@@ -10,8 +10,6 @@ inventory backgrounds, custom slots, etc etc.
 
 ]]
 
-require("items_events")
-require("items_questions")
 
 local SlotHandle = require("shared.slot_handle")
 

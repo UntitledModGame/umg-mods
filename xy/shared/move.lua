@@ -1,6 +1,4 @@
 
-require("xy_questions")
-
 
 local moveGroup = umg.group("x", "y", "vx", "vy")
 

@@ -1,6 +1,4 @@
 
-require("light_questions")
-
 
 
 local DEFAULT = {0.55,0.55,0.7,1} --{0.85,0.85,0.85}

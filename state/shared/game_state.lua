@@ -8,8 +8,6 @@ When the game is running, it should be in this state.
 
 
 ]]
-require("state_events")
-require("state_questions")
 
 
 local state = require("shared.state")

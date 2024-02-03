@@ -5,7 +5,6 @@ Handles top-down player control
 
 
 ]]
-require("control_events")
 
 
 local control = {}

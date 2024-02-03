@@ -1,6 +1,4 @@
 
-require("holdables_questions")
-require("holdables_events")
 
 
 local common = require("shared.common")

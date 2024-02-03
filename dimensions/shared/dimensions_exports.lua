@@ -1,5 +1,4 @@
 
-require("dimensions_events")
 local getDimension = require("shared.get_dimension")
 
 local api = require("shared.dimensions")

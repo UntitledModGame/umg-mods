@@ -7,7 +7,6 @@ allows us to manually make calls to animate entities.
 
 ]]
 
-require("rendering_events")
 
 local misc = require("client.misc")
 local getDrawY = misc.getDrawY

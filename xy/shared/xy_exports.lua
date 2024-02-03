@@ -1,5 +1,4 @@
 
-require("xy_questions")
 
 
 local xy = {}

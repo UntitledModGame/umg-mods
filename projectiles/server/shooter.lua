@@ -1,6 +1,4 @@
 
-require("projectiles_questions")
-require("projectiles_events")
 
 
 

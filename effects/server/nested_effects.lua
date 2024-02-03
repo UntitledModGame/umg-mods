@@ -9,7 +9,6 @@ which is cool.
 
 ]]
 
-require("effect_events")
 
 
 local effects = require("shared.effects")

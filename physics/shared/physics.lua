@@ -1,5 +1,4 @@
 
-require("physics_events")
 
 
 local physicsGroup = umg.group("physics", "x", "y")

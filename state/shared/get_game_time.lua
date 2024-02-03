@@ -1,5 +1,4 @@
 
-require("state_events")
 
 
 local currentGameTime = love.timer.getTime()

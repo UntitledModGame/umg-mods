@@ -2,8 +2,6 @@
 
 local rendering = {}
 
-require("rendering_questions")
-require("rendering_events")
 
 
 local animate = require("client.animate")

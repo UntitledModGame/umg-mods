@@ -1,5 +1,4 @@
 
-require("effect_events")
 
 local effects = require("shared.effects")
 local shouldApplyEffect = require("shared.should_apply")

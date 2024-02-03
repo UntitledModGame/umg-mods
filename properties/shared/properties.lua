@@ -1,6 +1,4 @@
 
-require("properties_questions")
-
 
 local properties = {}
 

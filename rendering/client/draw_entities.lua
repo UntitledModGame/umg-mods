@@ -6,8 +6,6 @@ Will emit draw calls based on position, and in correct order.
 
 ]]
 
-require("rendering_questions")
-require("rendering_events")
 
 
 local currentCamera = require("client.current_camera")

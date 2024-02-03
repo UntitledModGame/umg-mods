@@ -1,7 +1,5 @@
 
 
-require("mortality_events")
-require("mortality_questions")
 
 sync.proxyEventToClient("mortality:entityDamaged")
 

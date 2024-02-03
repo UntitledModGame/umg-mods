@@ -5,8 +5,6 @@ Determines whether an entity is controllable by the client, or not.
 
 ]]
 
-require("sync_questions")
-
 
 
 local control = {}

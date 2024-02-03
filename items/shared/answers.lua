@@ -1,6 +1,4 @@
 
-require("items_questions")
-
 
 local constants = require("shared.constants")
 

@@ -14,8 +14,6 @@ All of this needs to be redone, to account for exotic use types.
 
 local usage = {}
 
-require("holdables_events")
-require("holdables_questions")
 
 
 

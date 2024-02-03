@@ -1,6 +1,5 @@
 
 
-require("dimensions_events")
 
 
 local constants = require("shared.constants")

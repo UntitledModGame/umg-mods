@@ -1,5 +1,4 @@
 
-require("projectiles_events")
 
 
 local VALID_OPTIONS = {

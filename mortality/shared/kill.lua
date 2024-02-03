@@ -1,5 +1,4 @@
 
-require("mortality_events")
 
 
 
