@@ -103,17 +103,18 @@ end)
 
 
 
-local player
+local clientId
 if server then
-    player = server.getHostUsername()
+    clientId = server.getHostClient().id
 else
-    player = client.getUsername()
+    clientId = client.getClient().id
 end
+assert(clientId,"?")
 
 
 umg.answer("sync:getController", function(ent)
     if inRangeOf(ent, cyanZone) then
-        return player
+        return clientId
     end
     return nil
 end)

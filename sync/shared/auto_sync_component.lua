@@ -184,7 +184,7 @@ end
     for controllable entities.
 ]]
 local function trySendClientPacket(ent, packetName, compName, options)
-    local clientId = client.getUsername()
+    local clientId = client.getClientId()
     if not isControlledBy(ent, clientId) then
         -- If we aren't controlling this entity, return.
         return
@@ -325,11 +325,11 @@ local function setupClientBidirectionalReceiver(compName, options)
     ]]
     local packetName = makePacketName(compName)
     local shouldForceSync = options.bidirectional.shouldForceSyncClientside
-    local userId = client.getUsername()
+    local clientId = client.getClientId()
 
     client.on(packetName, function(ent, compData)
         local compVal = getCompVal(compData, options)
-        if isControlledBy(ent, userId) then
+        if isControlledBy(ent, clientId) then
             -- then discard the packet!
             -- This entity is being controlled; we don't want to lag them backwards.
             if shouldForceSync(ent, compVal) then

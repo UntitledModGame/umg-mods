@@ -57,9 +57,14 @@ end
 
 
 
+if client then
+
+local clientId = client.getClient().id
+
 function control.isClientControlling(ent)
-    assert(client, "Can't be called on server!")
-    return control.isControlledBy(ent, client.getUsername())
+    return control.isControlledBy(ent, clientId)
+end
+
 end
 
 
