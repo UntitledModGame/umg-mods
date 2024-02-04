@@ -33,7 +33,7 @@ end
 local DEFAULT_TYPES = {}
 
 local function isReal(x)
-    return (x ~= math.huge) and (x ~= -math.huge) and (x ~= x)
+    return (x ~= math.huge) and (x ~= -math.huge) and (x == x)
 end
 function DEFAULT_TYPES.number(x)
     return type(x) == "number" and isReal(x)

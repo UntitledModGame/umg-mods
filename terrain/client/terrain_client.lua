@@ -1,6 +1,6 @@
 
 
-local Terrain = require("terrain")
+local Terrain = require("shared.terrain")
 local terrainIds = require("terrain_ids")
 
 

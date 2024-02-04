@@ -2,6 +2,6 @@
 
 
 umg.expose("terrain", {
-    Terrain = require("terrain")
+    Terrain = require("shared.terrain")
 })
 
