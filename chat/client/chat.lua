@@ -1,5 +1,4 @@
 
-require("shared.chat_packets")
 
 local LinkedList = require("_libs.doubly_linked_list")
 

@@ -1,5 +1,4 @@
 
-require("shared.items_packets")
 
 
 local Inventory = require("shared.inventory")

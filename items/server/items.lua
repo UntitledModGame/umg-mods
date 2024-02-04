@@ -9,7 +9,6 @@ local valid_callbacks = require("shared.inventory_callbacks")
 
 local groundItems= require("server.ground_items")
 
-require("shared.items_packets")
 
 
 

@@ -40,6 +40,9 @@ globals:
   umg.exists:
     args:
     - type: any
+  umg.isEntity:
+    args:
+    - type: any
   umg.expose:
     args:
     - type: string

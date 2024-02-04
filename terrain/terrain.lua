@@ -1,7 +1,6 @@
 
 local terrainIds = require("terrain_ids")
 
-require("shared.terrain_packets")
 
 
 

@@ -1,6 +1,5 @@
 
 
-require("shared.chat_packets")
 
 
 --[[

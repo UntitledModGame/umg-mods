@@ -12,7 +12,6 @@ or when the game is in an alternative state,
 
 ]]
 
-require("shared.state_packets")
 
 
 local state = {}

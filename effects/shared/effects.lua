@@ -1,6 +1,5 @@
 
 
-require("shared.effects_packets")
 
 
 
