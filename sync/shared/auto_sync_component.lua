@@ -102,7 +102,7 @@ end
 ]]
 local function getCompData(compVal, options)
     if options.dynamicType then
-        return umg.serializeVolatile(compVal)
+        umg.serializeVolatile(compVal)
     end
     return compVal
 end
@@ -400,18 +400,17 @@ local VALID_COMPONENT_TYPES = {
     string = true,
     entity = true,
     boolean = true,
-    untyped = true,
 }
 
 
 local function definePacket(compName, options)
     local packetName = makePacketName(compName)
     local dataType
-    if options.type == "untyped" then
+    if options.type == "any" then
         -- Component must be ser/deserialized manually.
         dataType = "string"
         options.dynamicType = true
-    elseif options.type == "any" then
+    else
         -- Component can be serialized as a lua type!
         dataType = options.type
         options.dynamicType = false
