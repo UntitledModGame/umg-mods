@@ -70,10 +70,10 @@ Called when everything should be rendered.
 Called upon creation of a new world.  (Before entities spawn)
 
 
-# @playerJoin(username)
+# @playerJoin(clientId)
 Called when a player joins the game
 
 
-# @playerLeave(username)
+# @playerLeave(clientId)
 Called when a player leaves the game
 
