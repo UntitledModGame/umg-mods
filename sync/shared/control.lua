@@ -59,7 +59,7 @@ end
 
 if client then
 
-local clientId = client.getClient().id
+local clientId = client.getClient()
 
 function control.isClientControlling(ent)
     return control.isControlledBy(ent, clientId)

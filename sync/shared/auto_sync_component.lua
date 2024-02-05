@@ -184,7 +184,7 @@ end
     for controllable entities.
 ]]
 local function trySendClientPacket(ent, packetName, compName, options)
-    local clientId = client.getClientId()
+    local clientId = client.getClient()
     if not isControlledBy(ent, clientId) then
         -- If we aren't controlling this entity, return.
         return
@@ -325,7 +325,7 @@ local function setupClientBidirectionalReceiver(compName, options)
     ]]
     local packetName = makePacketName(compName)
     local shouldForceSync = options.bidirectional.shouldForceSyncClientside
-    local clientId = client.getClientId()
+    local clientId = client.getClient()
 
     client.on(packetName, function(ent, compData)
         local compVal = getCompVal(compData, options)

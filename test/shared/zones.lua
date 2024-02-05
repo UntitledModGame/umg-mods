@@ -105,9 +105,9 @@ end)
 
 local clientId
 if server then
-    clientId = server.getHostClient().id
+    clientId = server.getHostClient()
 else
-    clientId = client.getClient().id
+    clientId = client.getClient()
 end
 assert(clientId,"?")
 

@@ -38,7 +38,7 @@ if client then
 -- On client-side, we only move entities if they are being controlled;
 -- else, we let auto-sync handle it.
 
-local clientId = client.getClient().id
+local clientId = client.getClient()
 
 function shouldMove(ent)
     local ok = shouldMoveShared(ent)
