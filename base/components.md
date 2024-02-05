@@ -50,8 +50,8 @@ ent.onCollide = function(ent, other_ent)
     -- called when 2 ents collide. (both must have physics component)
 end
 
-ent.onClick = function(ent, username, button, x, y)
-    -- called when ent is clicked by `username`. 
+ent.onClick = function(ent, clientId, button, x, y)
+    -- called when ent is clicked by `clientId`. 
     -- (`ent` must have an x, y position.)
 end
 

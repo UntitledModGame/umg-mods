@@ -1,7 +1,7 @@
 
 
--- Gets a controller username for the entity passed in.
--- Answers should return a valid user_id / client_id
+-- Gets a controller clientId for the entity passed in.
+-- Answers should return a valid client_id
 umg.defineQuestion("sync:getController", reducers.PRIORITY)
 
 

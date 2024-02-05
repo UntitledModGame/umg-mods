@@ -4,15 +4,15 @@ local ClientContext = require("server.client_context")
 
 
 
-umg.on("@playerJoin", function(username)
+umg.on("@playerJoin", function(clientId)
     -- Send etypes over so the client knows about them
-    server.unicast(username, "worldeditorSetEntityTypes", server.entities)
+    server.unicast(clientId, "worldeditorSetEntityTypes", server.entities)
 end)
 
 
 
 local editors = {--[[
-    [username] --> ClientContext
+    [clientId] --> ClientContext
 ]]}
 
 

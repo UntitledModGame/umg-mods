@@ -57,8 +57,8 @@ function state.setState(name)
     changeState(name)
 end
 
-umg.on("@playerJoin", function(username)
-    server.unicast(username, "state:setState", currentStateName)
+umg.on("@playerJoin", function(clientId)
+    server.unicast(clientId, "state:setState", currentStateName)
 end)
 
 

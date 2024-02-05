@@ -46,7 +46,7 @@ return function()
 
         ectrl.bidirectionalComponent = 50
         ectrl.controllable = true
-        ectrl.controller = server.getHostUsername()
+        ectrl.controller = server.getHostClient()
     end
 
     zenith.tick(2)

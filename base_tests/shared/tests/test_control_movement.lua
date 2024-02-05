@@ -21,7 +21,7 @@ return function()
     local ent
     if server then
         ent = server.entities.player(0,0)
-        ent.controller = server.getHostUsername()
+        ent.controller = server.getHostClient()
     end
 
     zenith.tick(2)

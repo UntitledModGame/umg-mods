@@ -5,7 +5,7 @@ globals:
     any: true
   client.assets:
     any: true
-  client.getUsername:
+  client.getClient:
     args: []
   client.on:
     args:

@@ -76,9 +76,9 @@ end
 
 
 
-umg.on("control:entityClicked", function(ent, username, button, worldX, worldY)
+umg.on("control:entityClicked", function(ent, clientId, button, worldX, worldY)
     if ent.onClick then
-        ent:onClick(username, button, worldX, worldY)
+        ent:onClick(clientId, button, worldX, worldY)
     end
 end)
 

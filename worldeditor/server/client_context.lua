@@ -2,8 +2,8 @@
 local ClientContext = objects.Class("worldeditor:ClientContext")
 
 
-function ClientContext:init(username)    
-    self.username = username
+function ClientContext:init(clientId)    
+    self.clientId = clientId
     self.tools = {--[[
         [toolName] --> Tool
     ]]}

@@ -2,7 +2,7 @@
 local controllableGroup = umg.group("controllable", "controller")
 
 
--- Mapping from username -> control ent set.
+-- Mapping from clientId -> control ent set.
 -- A set of all entities that clientId is controlling
 local client_to_ents = {
 --[[

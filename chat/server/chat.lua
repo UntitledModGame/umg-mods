@@ -67,17 +67,17 @@ local DEFAULT_ADMIN_LEVEL = 0
 
 local ADMIN_LEVELS = {}
 
-ADMIN_LEVELS[server.getHostUsername()] = math.huge
+ADMIN_LEVELS[server.getHostClient()] = math.huge
 
 
-function chat.getAdminLevel(username)
-    return ADMIN_LEVELS[username] or DEFAULT_ADMIN_LEVEL
+function chat.getAdminLevel(clientId)
+    return ADMIN_LEVELS[clientId] or DEFAULT_ADMIN_LEVEL
 end
 
 local setAdminLevelAssert = typecheck.assert("string", "number")
-function chat.setAdminLevel(username, level)
-    setAdminLevelAssert(username, level)
-    ADMIN_LEVELS[username] = level
+function chat.setAdminLevel(clientId, level)
+    setAdminLevelAssert(clientId, level)
+    ADMIN_LEVELS[clientId] = level
 end
 
 
@@ -87,8 +87,8 @@ function chat.message(message)
 end
 
 
-function chat.privateMessage(username, message)
-    server.unicast( username, "chat:message", message)
+function chat.privateMessage(clientId, message)
+    server.unicast( clientId, "chat:message", message)
 end
 
 
