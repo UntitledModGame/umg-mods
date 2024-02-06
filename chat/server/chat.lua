@@ -83,12 +83,14 @@ end
 
 
 function chat.message(message)
-    server.broadcast("chat:message", message)
+    local channel = message or constants.DEFAULT_CHANNEL
+    server.broadcast("chat:message", message, channel)
 end
 
 
 function chat.privateMessage(clientId, message)
-    server.unicast( clientId, "chat:message", message)
+    local channel = message or constants.DEFAULT_CHANNEL
+    server.unicast( clientId, "chat:message", message, channel)
 end
 
 

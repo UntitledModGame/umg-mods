@@ -6,5 +6,7 @@ return {
 
     COMMAND_CHARS = {
         "?","!","/",".",";","$"
-    }
+    },
+
+    DEFAULT_CHANNEL = "default"
 }

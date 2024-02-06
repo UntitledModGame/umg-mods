@@ -101,8 +101,8 @@ end
     (Like tables and such)
 ]]
 local function getCompData(compVal, options)
-    if options.dynamicType then
-        umg.serializeVolatile(compVal)
+    if options.type == "any" then
+        compVal = umg.serializeVolatile(compVal)
     end
     return compVal
 end
@@ -412,6 +412,8 @@ local function definePacket(compName, options)
         options.dynamicType = true
     else
         -- Component can be serialized as a lua type!
+        local typeOk = VALID_COMPONENT_TYPES[options.type]
+        assert(typeOk, "Bad type: " .. tostring(options.type))
         dataType = options.type
         options.dynamicType = false
     end
@@ -436,8 +438,6 @@ local function autoSyncComponent(compName, options)
         assert(optbid.shouldForceSyncClientside, "missing shouldForceSyncClientside callback!")
         assert(optbid.shouldAcceptServerside, "missing shouldAcceptServerside callback!")
     end
-
-    assert(VALID_COMPONENT_TYPES[options.type], "Bad type: " .. tostring(options.type))
 
     registerNewComponent(compName)
     definePacket(compName, options)

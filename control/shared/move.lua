@@ -12,7 +12,7 @@ local LOOK_SYNC_THRESHOLD = 0.1
 
 
 sync.autoSyncComponent("moveX", {
-    type = "number",
+    type = "any",
     lerp = true,
     numberSyncThreshold = LOOK_SYNC_THRESHOLD,
     syncWhenNil = true,
@@ -20,7 +20,7 @@ sync.autoSyncComponent("moveX", {
     bidirectional = {
         shouldAcceptServerside = function(ent, moveX)
             -- Only accept packets that
-            return type(moveX) == "number" 
+            return type(moveX) == "number" or type(moveX) == "boolean"
         end,
 
         shouldForceSyncClientside = function(ent, moveX)
@@ -32,14 +32,14 @@ sync.autoSyncComponent("moveX", {
 
 
 sync.autoSyncComponent("moveY", {
-    type = "number",
+    type = "any",
     lerp = true,
     numberSyncThreshold = LOOK_SYNC_THRESHOLD,
     syncWhenNil = true,
     
     bidirectional = {
         shouldAcceptServerside = function(ent, moveY)
-            return type(moveY) == "number" 
+            return type(moveY) == "number" or type(moveY) == "boolean"
         end,
 
         shouldForceSyncClientside = function(ent, moveY)

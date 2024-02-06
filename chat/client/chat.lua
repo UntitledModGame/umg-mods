@@ -1,5 +1,9 @@
 
 
+
+local chat = {}
+
+
 local LinkedList = require("_libs.doubly_linked_list")
 
 local constants = require("constants")
@@ -178,6 +182,28 @@ function listener:textinput(t)
 end
 
 
+
+
+--[[
+    todo:
+
+    make a proper chat channels API and stuff, and make it consistent
+]]
+local DEFAULT_CHANNEL = constants.DEFAULT_CHANNEL
+
+
+function chat.message(msg, channel)
+    local startChar = msg:sub(1,1)
+    if IS_COMMAND_CHAR[startChar] then
+        doCommand(msg)
+    else
+        channel = channel or DEFAULT_CHANNEL
+        client.send("chat:message", msg, channel)
+    end
+end
+
+
+
 function listener:keypressed(_, scancode, _)
     --[[
         TODO: Set keyboard blocking here!!!!
@@ -193,12 +219,7 @@ function listener:keypressed(_, scancode, _)
     elseif scancode == "return" then
         if isTyping then
             if #currMessage>0 then
-                local startChar = currMessage:sub(1,1)
-                if IS_COMMAND_CHAR[startChar] then
-                    doCommand(currMessage)
-                else
-                    client.send("chat:message", currMessage)
-                end
+                chat.message(currMessage)
                 currMessage = ''
             end
         end
@@ -222,3 +243,4 @@ end
 
 
 
+return chat

@@ -19,9 +19,9 @@ end
 
 
 local function newItem(ctor, stackSize)
-    local MAG = 400
+    local MAG = 100
     local e = ctor()
-    e.stackSize = stackSize
+    e.stackSize = stackSize or 1
     local dvec = {x=math.random(-MAG, MAG), y=math.random(-MAG, MAG)}
     items.drop(e, dvec)
     return e
@@ -46,15 +46,18 @@ umg.on("@createWorld", function()
     local e = server.entities.test(0,0)
     e.image = "spot_block"
 
-    -- for i=1, 1 do
-    --     local MAG = 1000
-    --     ents.pine(math.random(-MAG, MAG), math.random(-MAG, MAG))
-    -- end
+    for i=1, 1 do
+        local MAG = 1000
+        ents.pine(math.random(-MAG, MAG), math.random(-MAG, MAG))
+    end
 
-    -- ents.crate(0,-100)
-    -- ents.crate_button(100, 100)
-    -- ents.crafting_table(-100, 100)
+    ents.crate(0,-100)
+    ents.crate_button(100, 100)
+    ents.crafting_table(-100, 100)
 
+    newItem(ents.ak47)
+
+    newItem(ents.musket)
 end)
 
 

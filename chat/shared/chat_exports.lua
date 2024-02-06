@@ -11,6 +11,11 @@ chat.setAdminLevel = chatServ.setAdminLevel
 chat.message = chatServ.message
 chat.privateMessage = chatServ.privateMessage
 
+else
+
+local chatCl = require("client.chat")
+chat.message = chatCl.message
+
 end
 
 
