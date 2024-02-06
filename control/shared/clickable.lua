@@ -23,7 +23,7 @@ end
 if server then
 
 server.on("control:entityClicked", function(sender_uname, ent, button, worldX, worldY, dimension)
-    if not (ent.onClick) then
+    if not (ent.clickable) then
         return
     end
     if button ~= 1 and button ~= 2 then
@@ -72,13 +72,4 @@ function listener:mousepressed(mx, my, button, istouch, presses)
 end
 
 end
-
-
-
-
-umg.on("control:entityClicked", function(ent, clientId, button, worldX, worldY)
-    if ent.onClick then
-        ent:onClick(clientId, button, worldX, worldY)
-    end
-end)
 

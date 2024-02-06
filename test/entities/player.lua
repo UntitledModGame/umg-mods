@@ -73,6 +73,12 @@ return {
         })
     end,
 
+    onClick = function(ent)
+        if server then
+            print("PRESS!")
+        end
+    end,
+
     initVxVy = true,
     initLook = true
 }
