@@ -46,7 +46,7 @@ umg.on("@createWorld", function()
     local e = server.entities.test(0,0)
     e.image = "spot_block"
 
-    for i=1, 1 do
+    for i=1, 1000 do
         local MAG = 1000
         ents.pine(math.random(-MAG, MAG), math.random(-MAG, MAG))
     end
@@ -61,6 +61,17 @@ umg.on("@createWorld", function()
 end)
 
 
+
+
+umg.on("@tick", function()
+    local hostClId = server.getHostClient()
+    local lis = control.getControlledEntities(hostClId)
+    local p = lis[1]
+    if p then
+        -- DEBUG:
+        -- print(p.x, p.y)
+    end
+end)
 
 
 

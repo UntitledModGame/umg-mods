@@ -44,8 +44,8 @@ end
 
 
 local function updateEntity(ent)
-    addEntity(ent)
     removeEntity(ent)
+    addEntity(ent)
 end
 
 
@@ -54,6 +54,7 @@ controllableGroup:onAdded(addEntity)
 
 
 controllableGroup:onRemoved(removeEntity)
+
 
 
 umg.on("@tick", function()
