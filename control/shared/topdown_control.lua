@@ -7,11 +7,18 @@ Handles top-down player control
 ]]
 
 
-local control = {}
 
 
 
 components.project("topdownControl", "controllable")
+
+components.project("topdownControl", "")
+
+
+
+if client then
+-- CLIENT-SIDE ONLY:
+
 
 local controllableGroup = umg.group("topdownControl", "x", "y")
 
@@ -59,6 +66,6 @@ end
 
 
 
+end
 
 
-return control

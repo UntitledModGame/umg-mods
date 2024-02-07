@@ -46,9 +46,9 @@ umg.on("@createWorld", function()
     local e = server.entities.test(0,0)
     e.image = "spot_block"
 
-    for i=1, 1000 do
+    for i=1, 200 do
         local MAG = 1000
-        ents.pine(math.random(-MAG, MAG), math.random(-MAG, MAG))
+        ents.pine(1000 + math.random(-MAG, MAG), math.random(-MAG, MAG))
     end
 
     ents.crate(0,-100)
