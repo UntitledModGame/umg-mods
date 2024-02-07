@@ -269,7 +269,7 @@ end
 
 
 
-local hasRemoveAuthorityTc = typecheck.assert("entity", "number", "number")
+local hasRemoveAuthorityTc = typecheck.assert("entity", "number")
 
 function Inventory:hasRemoveAuthority(controlEnt, slot)
     --[[
@@ -350,7 +350,7 @@ end
 
 local canAddToSlotTc = typecheck.assert("number", "entity", "number?")
 
--- returns `true` if we can add `count` stacks of item to (slotx, sloty)
+-- returns `true` if we can add `count` stacks of item to `slot`,
 -- false otherwise.
 function Inventory:canAddToSlot(slot, item, count)
     canAddToSlotTc(slot, item, count)
@@ -463,7 +463,6 @@ end
 
 
 
-local moveSwapTc = typecheck.assert("number", "number", "table", "number", "number")
 
 
 local moveStackCountTc = typecheck.assert("table", "number", "table?")
@@ -564,6 +563,8 @@ end
 
 
 
+local moveSwapTc = typecheck.assert("number", "table", "number", "number")
+
 function Inventory:tryMoveToSlot(slot, otherInv, otherSlot, count)
     --[[
         moves an item from one inventory to another.
@@ -590,6 +591,9 @@ end
 
 
 
+
+local trySwapTc = typecheck.assert("number", "table", "number")
+
 function Inventory:trySwap(slot, otherInv, otherSlot)
     --[[
         swaps two items in inventories.
@@ -597,7 +601,7 @@ function Inventory:trySwap(slot, otherInv, otherSlot)
         Returns true on success, false on failure.
     ]]
     assert(server, "only available on server")
-    moveSwapTc(slot, otherInv, otherSlot)
+    trySwapTc(slot, otherInv, otherSlot)
     local item = self:get(slot)
     local otherItem = otherInv:get(otherSlot)
 
@@ -635,7 +639,7 @@ end
 
 
 
-local addTc = typecheck.assert("number", "number", "voidentity")
+local addTc = typecheck.assert("number", "voidentity")
 function Inventory:add(slot, item)
     -- Directly adds an item to an inventory.
     -- If the item is combined as a stack, the old item is deleted.

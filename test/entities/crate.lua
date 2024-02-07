@@ -9,7 +9,9 @@ return {
     init = function(ent, x,y)
         ent.x = x
         ent.y = y
-        ent.inventory = items.Inventory({width=5;height=5, slotSeparation = 10})
+        ent.inventory = items.Inventory({
+            size=25, slotSeparation = 10
+        })
     end;
 
     inventorySlots = {

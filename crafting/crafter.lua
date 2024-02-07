@@ -158,7 +158,7 @@ end
 
 
 
-local function initializeItem(inventory, recipe, slotX, slotY)
+local function initializeItem(inventory, recipe, slot)
     local etype = server.entities[recipe.result.result]
     local item_entity = etype()
     local owner = inventory.owner
@@ -168,7 +168,7 @@ local function initializeItem(inventory, recipe, slotX, slotY)
             item_entity.y = owner.y
         end
     end
-    inventory:add(slotX, slotY, item_entity)
+    inventory:add(slot, item_entity)
 end
 
 
@@ -178,10 +178,10 @@ function Crafter:deny()
 end
 
 
-function Crafter:tryCraft(inventory, slotX, slotY)
+function Crafter:tryCraft(inventory, slot)
     local recipe = self:getResult(inventory)
     if recipe then
-        self:executeCraft(inventory, recipe, slotX, slotY)
+        self:executeCraft(inventory, recipe, slot)
     else
         self:deny()
     end
@@ -201,9 +201,8 @@ end
 
 
 
-function Crafter:executeCraft(inventory, recipe, slotX, slotY)
+function Crafter:executeCraft(inventory, recipe, slot)
     assert(inventory.drawHoverWidget, "Crafter:getResult(inv) takes an inventory as first argument!")
-    assert(slotX and slotY, "ur not using this properly")    
 
     if client then -- crafting should be handled by the server.
         error([[
@@ -219,7 +218,7 @@ function Crafter:executeCraft(inventory, recipe, slotX, slotY)
     local ingredientsToCounts = getIngredientsToCounts(inventory)
 
     if recipeIngredientsOk(recipe, ingredientsToCounts) then
-        local targ = inventory:get(slotX, slotY)
+        local targ = inventory:get(slot)
         local targItemName, slotsLeft, etype
         if targ then 
             targItemName = targ.itemName
@@ -230,7 +229,7 @@ function Crafter:executeCraft(inventory, recipe, slotX, slotY)
         if etype then
             if (not targ) then 
                 removeIngredients(inventory, recipe)
-                initializeItem(inventory, recipe, slotX, slotY)
+                initializeItem(inventory, recipe, slot)
             elseif (targItemName == etype.itemName and slotsLeft >= recipe.result.count) then
                 removeIngredients(inventory, recipe)
                 targ.stackSize = targ.stackSize + (recipe.result.count or 1)

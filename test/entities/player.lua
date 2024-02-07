@@ -21,8 +21,7 @@ return {
     canPickUpItems = true,
 
     holdItemSlot = {
-        -- slot (1,1) in inventory is the hold slot
-        slotX = 1, slotY = 1
+        slot = 1
     }, 
     clickToUseHoldItem = true,
 
@@ -69,7 +68,7 @@ return {
         e.health = e.maxHealth
         e.controller = uname
         e.inventory = items.Inventory({
-            width=7, height = 4,
+            size = 30
         })
     end,
 

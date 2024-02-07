@@ -100,7 +100,7 @@ local function tryPickUp(ent, picked)
         `ent` is the entity trying to pick up items
     ]]
     local best_ent -- the best ground ent to pick up
-    local slotX, slotY
+    local best_slot
     local best_dist = math.huge
 
     for _, item in groundItemPartition:iterator(ent) do
@@ -113,10 +113,10 @@ local function tryPickUp(ent, picked)
             local dist = math.distance(ent, item)
             if canBePickedUp(dist, item) and dist < best_dist then
                 -- always pick up the closest item.
-                local sx, sy = ent.inventory:findAvailableSlot(item)
-                if sx then
+                local slot = ent.inventory:findAvailableSlot(item)
+                if slot then
                     -- if there is a slot for this item, mark it
-                    slotX, slotY = sx, sy
+                    best_slot = slot
                     best_dist = dist
                     best_ent = item
                 end
@@ -126,7 +126,7 @@ local function tryPickUp(ent, picked)
 
     if best_ent then
         -- pick up this groundItem
-        local success = ent.inventory:tryAddToSlot(slotX, slotY, best_ent)
+        local success = ent.inventory:tryAddToSlot(best_slot, best_ent)
         if success then
             -- realistically, `success` should always be true, (since we used findAvailableSlot)
             -- but its better to be safe than sorry

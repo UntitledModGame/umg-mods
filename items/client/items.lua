@@ -12,24 +12,10 @@ local controlInventoryGroup = umg.group("controller", "inventory")
 
 
 
-local INVSLOTS_ERR = "inventorySlots size must match dimensions of inventory"
-local function assertInventorySlotsValid(ent)
-    local inventory = ent.inventory
-    local inventorySlots = ent.inventorySlots
-    assert(#inventorySlots == inventory.height, INVSLOTS_ERR)
-    for _, ar in ipairs(inventorySlots) do
-        assert(#ar == inventory.width, INVSLOTS_ERR)
-    end
-end
-
-
 
 inventoryGroup:onAdded(function(ent)
     if (not ent.inventory) or (getmetatable(ent.inventory) ~= Inventory) then
         error("Inventory component must be initialized either before entity creation, or inside a `.init` function!")
-    end
-    if ent.inventorySlots then
-        assertInventorySlotsValid(ent)
     end
     ent.inventory.owner = ent
 end)
@@ -45,10 +31,17 @@ local openInventories = require("client.open_inventories")
     that the player is holding.
 ]]
 local focus_inv -- The inventory that is currently being focused
+
+-- OLD:
 local focus_x -- X pos in holding inv
 local focus_y -- Y pos in holding inv
+
+local focus_slot -- the slot that is being focused
+
 local focus_half_stack -- whether only half a stack is being held
 -- (This is true if it was picked up by BETA_BUTTON. (right click))
+
+
 
 
 -- The inventory that is being dragged around by the player
@@ -59,7 +52,7 @@ local dragging_inv
 inventoryGroup:onRemoved(function(ent)
     local inv = ent.inventory
     if focus_inv == inv then
-        focus_inv, focus_x, focus_y = nil, nil, nil
+        focus_inv, focus_slot = nil, nil
     end
     openInventories.close(inv)
 end)
@@ -140,7 +133,7 @@ local function executeFullPut(inv, x, y)
     local controlEnt = getControlTransferEntity(inv, focus_inv)
 
     -- Ok... so `holding` exists.
-    local holding = focus_inv:get(focus_x, focus_y)
+    local holding = focus_inv:get(focus_slot)
     if not umg.exists(holding) then
         resetHoldingInv()
         return -- erm, okay? I guess the entity was deleted, so we just ignore this
@@ -189,7 +182,7 @@ local function executeAlphaInteraction(inv, slot_x, slot_y)
         "alpha" interactions are for stuff like placing full stacks
         of items, etc.
     ]]
-    if focus_inv and umg.exists(focus_inv.owner) and focus_inv:get(focus_x, focus_y) then
+    if focus_inv and umg.exists(focus_inv.owner) and focus_inv:get(focus_slot) then
         executeFullPut(inv, slot_x, slot_y)
     else
         -- Else we just set the holding to a value, so long as there is an item
@@ -210,9 +203,9 @@ local function executeBetaInteraction(inv, x, y)
         "beta" interactions are for placing one item out of an entire stack,
         or splitting a stack.
     ]]
-    if focus_inv and umg.exists(focus_inv.owner) and focus_inv:get(focus_x, focus_y) then
+    if focus_inv and umg.exists(focus_inv.owner) and focus_inv:get(focus_slot) then
         local controlEnt = getControlTransferEntity(inv, focus_inv)
-        local holding_item = focus_inv:get(focus_x, focus_y)
+        local holding_item = focus_inv:get(focus_slot)
         local targ = inv:get(x,y)
         if (not targ) or targ.itemName == holding_item.itemName then
             client.send("inventory:tryMoveInventoryItem", controlEnt, focus_inv.owner, inv.owner, focus_x,focus_y, x,y, 1)
@@ -249,10 +242,10 @@ local function inventoryMousePress(listenr, inv, mx, my, button)
         if inv:slotExists(slot) then
             if button == ALPHA_BUTTON then
                 listenr:lockMouseButton(ALPHA_BUTTON)
-                executeAlphaInteraction(inv, slotX, slotY)
+                executeAlphaInteraction(inv, slot)
             elseif button == BETA_BUTTON then
                 listenr:lockMouseButton(BETA_BUTTON)
-                executeBetaInteraction(inv, slotX, slotY)
+                executeBetaInteraction(inv, slot)
             end
         elseif button == ALPHA_BUTTON then
             listenr:lockMouseButton(ALPHA_BUTTON)
@@ -288,9 +281,9 @@ function listener:mousepressed(mx, my, button)
     if (not loop_used) and focus_inv then
         if button == ALPHA_BUTTON then    
             -- Then the player wants to drop an item on the floor:
-            if umg.exists(focus_inv:get(focus_x, focus_y)) then
+            if umg.exists(focus_inv:get(focus_slot)) then
                 local controlEnt = getControlEntity(focus_inv)
-                client.send("inventory:tryDropInventoryItem", controlEnt, focus_inv.owner, focus_x, focus_y)
+                client.send("inventory:tryDropInventoryItem", controlEnt, focus_inv.owner, focus_slot)
             end
             self:lockMouseButton(ALPHA_BUTTON)
         elseif button == BETA_BUTTON then
@@ -332,16 +325,16 @@ umg.on("rendering:drawUI", function()
     end
     
     if focus_inv then
-        focus_inv:drawHoverWidget(focus_x, focus_y)
+        focus_inv:drawHoverWidget(focus_slot)
     end
 end)
 
 
 
-client.on("items:setInventoryItem", function(ent, x, y, item_ent)
+client.on("items:setInventoryItem", function(ent, slot, item_ent)
     local inventory = ent.inventory
-    inventory:_rawset(x,y,item_ent)
-    if inventory == focus_inv and x == focus_x and y == focus_y then
+    inventory:_rawset(slot,item_ent)
+    if inventory == focus_inv and slot==focus_slot then
         resetHoldingInv()
     end
 end)

@@ -39,8 +39,8 @@ umg.definePacket("items:setItemStackSize", {
 
 umg.definePacket("items:setInventoryItem", {
     typelist = {
-        --item     slotX     slotY    itemEnt
-        "entity", "number", "number", "entity"
+        --item     slot     itemEnt
+        "entity", "number", "entity"
     },
 })
 

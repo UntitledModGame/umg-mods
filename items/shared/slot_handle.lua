@@ -28,12 +28,11 @@ end
 
 
 
-local number2Tc = typecheck.assert("number", "number")
+local numberTc = typecheck.assert("number")
 
-function SlotHandle:setSlotPosition(slotX, slotY)
-    number2Tc(slotX, slotY)
-    self.slotX = slotX
-    self.slotY = slotY
+function SlotHandle:setSlotPosition(slot)
+    numberTc(slot)
+    self.slot = slot
 end
 
 
@@ -90,7 +89,7 @@ end
 
 local function getItem(self)
     local inv = self.inventory
-    return inv:get(self.slotX, self.slotY)
+    return inv:get(self.slot)
 end
 
 function SlotHandle:hasItem()
