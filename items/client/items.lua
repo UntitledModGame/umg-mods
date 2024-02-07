@@ -125,6 +125,17 @@ end
 
 
 
+local function moveItem(controlEnt, targetInventory, targetSlot, count)
+    -- Moves `count` items from the focused inventory,
+    -- to some target inventory.
+    local srcEnt = focus_inv.owner
+    local srcSlot = focus_slot
+    local targetEnt = targetInventory.owner
+    client.send("inventory:tryMoveInventoryItem", controlEnt, srcEnt, targetEnt, srcSlot, targetSlot, count)
+end
+
+
+
 local function executeFullPut(inv, x, y)
     local controlEnt = getControlTransferEntity(inv, focus_inv)
 
@@ -164,7 +175,7 @@ local function executeFullPut(inv, x, y)
         if not move_count then
             move_count = math.ceil(holding.stackSize / (focus_half_stack and 2 or 1))
         end
-        client.send("inventory:tryMoveInventoryItem", controlEnt, focus_inv.owner, inv.owner, focus_x,focus_y, x,y, move_count)
+        moveItem()
     end
 
     resetHoldingInv()
@@ -233,9 +244,9 @@ local function inventoryMousePress(listenr, inv, mx, my, button)
         called when the mouse is pressed, and we are within an inventory
     ]]
     openInventories.focus(inv)
-    local slotX, slotY = inv:getSlot(mx,my)
-    if slotX then
-        if inv:slotExists(slotX, slotY) then
+    local slot = inv:getSlotFromMousePosition(mx,my)
+    if slot then
+        if inv:slotExists(slot) then
             if button == ALPHA_BUTTON then
                 listenr:lockMouseButton(ALPHA_BUTTON)
                 executeAlphaInteraction(inv, slotX, slotY)

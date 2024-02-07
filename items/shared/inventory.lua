@@ -29,7 +29,7 @@ end
 
 
 
-local assert2Numbers = typecheck.assert("number", "number")
+local assertNumber = typecheck.assert("number")
 
 local DEFAULT_INVENTORY_COLOUR = {0.8,0.8,0.8}
 
@@ -40,10 +40,12 @@ local DEFAULT_SLOT_SEPARATION = 2
 
 
 function Inventory:init(options)
-    assert(options.width, "Inventories must have a .width member!")
-    assert(options.height, "Inventories must have a .height member!")
-    self.width = options.width
-    self.height = options.height
+    assert(options.size, "Inventories must have a .size value!")
+    self.size = options.size
+
+    self.slotHandles = {--[[
+        [slot] -> SlotHandle object
+    ]]}
 
     -- size of inventory slots
     self.slotSize = options.slotSize or DEFAULT_SLOT_SIZE
@@ -90,40 +92,20 @@ end
 
 
 
-function Inventory:slotExists(x, y)
+function Inventory:slotExists(slot)
     -- if out of bounds, return false
-    if (x < 1 or x > self.width) or (y < 1 or y > self.height) then
+    if math.floor(slot) ~= slot then
         return false
     end
-
-    local ent = self.owner
-    if ent.inventorySlots then
-        return ent.inventorySlots[y] and ent.inventorySlots[y][x]
-    end
-    return true
+    return (slot >= 1) and (slot <= self.size)
 end
 
 
 
-
-function Inventory:getIndex(slotX, slotY)
-    -- internally, inventory is just an array.
-    -- This method gets index in the inventory array, given (slotX, slotY)
-
-    -- slotX and slotY values should be between 1 and width (or height)
-    return (self.height * (slotX-1)) + slotY
-end
 
 
 local floor = math.floor
 
-
-
-function Inventory:getSlot(index)
-    -- gets slot position from an index
-    local yy = (index-1) % self.height + 1
-    return floor(index / self.height - 0.01) + 1, yy
-end
 
 
 
@@ -137,75 +119,74 @@ end
 
 
 
-function Inventory:onItemMoved(item, slotX, slotY)
+function Inventory:onItemMoved(item, slot)
     -- Override this, if you want
 end
 
 
 
-local function signalMoveToSlot(self, slotX, slotY, item_ent)
+local function signalMoveToSlot(self, slot, item_ent)
     -- calls appropriate callbacks for item addition
-    local slotHandle = self:getSlotHandle(slotX,slotY)
+    local slotHandle = self:getSlotHandle(slot)
     if slotHandle then
-        slotHandle:onItemAdded(item_ent, slotX, slotY)
+        slotHandle:onItemAdded(item_ent, slot)
     end
-    self:onItemMoved(item_ent, slotX, slotY)
-    umg.call("items:itemMoved", self.owner, item_ent, slotX, slotY)
+    self:onItemMoved(item_ent, slot)
+    umg.call("items:itemMoved", self.owner, item_ent, slot)
 end
 
 
 
-function Inventory:onItemStackSizeChange(item, stackChange, slotX, slotY)
+function Inventory:onItemStackSizeChange(item, stackChange, slot)
     -- Override this, if you want
 end
 
-local function signalStackSizeChange(self, slotX, slotY, stackChange)
+local function signalStackSizeChange(self, slot, stackChange)
     -- called when a stackSize of an item changes
-    local item = self:get(slotX, slotY)
-    local slotHandle = self:getSlotHandle(slotX,slotY)
+    local item = self:get(slot)
+    local slotHandle = self:getSlotHandle(slot)
     if slotHandle then
-        slotHandle:onItemAdded(item, slotX, slotY)
+        slotHandle:onItemAdded(item, slot)
     end
-    self:onItemStackSizeChange(item, stackChange, slotX, slotY)
-    umg.call("items:stackSizeChange", self.owner, item, stackChange, slotX, slotY)
+    self:onItemStackSizeChange(item, stackChange, slot)
+    umg.call("items:stackSizeChange", self.owner, item, stackChange, slot)
 end
 
 
 
-function Inventory:onItemRemoved(item, slotX, slotY)
+function Inventory:onItemRemoved(item, slot)
     -- Override this, if you want
 end
 
 
-local function signalRemoveFromSlot(self, slotX, slotY, item_ent)
+local function signalRemoveFromSlot(self, slot, item_ent)
     -- calls appropriate callbacks for item removal
-    local slotHandle = self:getSlotHandle(slotX,slotY)
+    local slotHandle = self:getSlotHandle(slot)
     if slotHandle then
-        slotHandle:onItemRemoved(item_ent, slotX, slotY)
+        slotHandle:onItemRemoved(item_ent, slot)
     end
-    self:onItemRemoved(item_ent, slotX, slotY)
-    umg.call("items:itemRemoved", self.owner, item_ent, slotX, slotY)
+    self:onItemRemoved(item_ent, slot)
+    umg.call("items:itemRemoved", self.owner, item_ent, slot)
 end
 
 
 
 
-function Inventory:_rawset(x, y, item_ent)
+function Inventory:_rawset(slot, item_ent)
     --[[
         This is a helper function, and SHOULDN'T BE CALLED!!!!
         CALL THIS FUNCTION AT YOUR OWN RISK!
     ]]
-    if not self:slotExists(x, y) then
+    if not self:slotExists(slot) then
         return -- No slot.. can't do anything
     end
 
-    local i = self:getIndex(x,y)
     -- TODO: Is it fine to call these callbacks here???
     if item_ent then
         assertItem(item_ent)
-        self.inventory[i] = item_ent
+        self.inventory[slot] = item_ent
     else
-        self.inventory[i] = nil
+        self.inventory[slot] = nil
     end
 end
 
@@ -220,15 +201,15 @@ end
     Calling this function willy-nilly will make it so the same item
         may be duplicated across multiple inventories.
 ]]
-function Inventory:set(slotX, slotY, item)
+function Inventory:set(slot, item)
     -- DON'T CALL THIS FUNCTION IF YOU ARE UNSURE!!!
     -- Seriously, please!!! Don't be a fakken muppet
     assert(server, "Can only be called on server")
-    assert2Numbers(slotX, slotY)
+    assertNumber(slot)
 
     -- If `item_ent` is nil, then it removes the item from inventory.
-    self:_rawset(slotX, slotY, item)
-    server.broadcast("items:setInventoryItem", self.owner, slotX, slotY, item)
+    self:_rawset(slot, item)
+    server.broadcast("items:setInventoryItem", self.owner, slot, item)
 end
 
 
@@ -276,17 +257,10 @@ end
 
 
 function Inventory:getEmptySlot()
-    -- Returns the slotX,Y of an empty inventory slot
-    for x=1, self.width do
-        for y=1, self.height do
-            local i = self:getIndex(x, y)
-            if self:slotExists(x, y) then
-                if not umg.exists(self.inventory[i]) then
-                    assert(self:getIndex(x,y) == i, "bug with inventory mod")--sanity check
-                    assert(not umg.exists(self:get(x,y)), "bug with inventory mod")
-                    return x,y
-                end
-            end
+    -- Returns the slot of an empty inventory slot
+    for slot=1, self.size do
+        if not umg.exists(self.inventory[slot]) then
+            return slot
         end
     end
 end
@@ -297,57 +271,57 @@ end
 
 local hasRemoveAuthorityTc = typecheck.assert("entity", "number", "number")
 
-function Inventory:hasRemoveAuthority(controlEnt, slotX, slotY)
+function Inventory:hasRemoveAuthority(controlEnt, slot)
     --[[
         whether the controlEnt has the authority to remove the
-        item at slotX, slotY
+        item at slot
     ]]
-    hasRemoveAuthorityTc(controlEnt, slotX, slotY)
+    hasRemoveAuthorityTc(controlEnt, slot)
     if not self:canBeOpenedBy(controlEnt) then
         return
     end
 
-    local item = self:get(slotX, slotY)
+    local item = self:get(slot)
     if not item then
         -- cannot remove an empty slot.
         return false 
     end
 
-    local isBlocked = umg.ask("items:isItemRemovalBlockedForControlEntity", controlEnt, self.owner, slotX, slotY)
+    local isBlocked = umg.ask("items:isItemRemovalBlockedForControlEntity", controlEnt, self.owner, slot)
     return not isBlocked
 end
 
 
 
-local hasAddAuthorityTc = typecheck.assert("entity", "table", "number", "number")
+local hasAddAuthorityTc = typecheck.assert("entity", "table", "number")
 
-function Inventory:hasAddAuthority(controlEnt, itemToBeAdded, slotX, slotY)
+function Inventory:hasAddAuthority(controlEnt, itemToBeAdded, slot)
     --[[
         whether the controlEnt has the authority to add
-        `item` to the slot (slotX, slotY)
+        `item` to the slot (slot)
     ]]
-    hasAddAuthorityTc(controlEnt, itemToBeAdded, slotX, slotY)
+    hasAddAuthorityTc(controlEnt, itemToBeAdded, slot)
     if not self:canBeOpenedBy(controlEnt) then
         return
     end
 
-    local isBlocked = umg.ask("items:isItemAdditionBlockedForControlEntity", controlEnt, self.owner, itemToBeAdded, slotX, slotY)
+    local isBlocked = umg.ask("items:isItemAdditionBlockedForControlEntity", controlEnt, self.owner, itemToBeAdded, slot)
     return not isBlocked
 end
 
 
 
 
-local function canAddToSlot(self, slotX, slotY, item)
-    local slotHandle = self:getSlotHandle(slotX,slotY)
+local function canAddToSlot(self, slot, item)
+    local slotHandle = self:getSlotHandle(slot)
 
     if slotHandle then
-        local ok = slotHandle:canAddItem(item, slotX, slotY)
+        local ok = slotHandle:canAddItem(item, slot)
         if not ok then return false end
     end
 
     local invEnt = self.owner
-    local isBlocked = umg.ask("items:isItemAdditionBlocked", item, invEnt, slotX, slotY)
+    local isBlocked = umg.ask("items:isItemAdditionBlocked", item, invEnt, slot)
     return not isBlocked
 end
 
@@ -374,27 +348,27 @@ local function canCombineStacks(item1, item2, count)
 end
 
 
-local canAddToSlotTc = typecheck.assert("number", "number", "entity", "number?")
+local canAddToSlotTc = typecheck.assert("number", "entity", "number?")
 
 -- returns `true` if we can add `count` stacks of item to (slotx, sloty)
 -- false otherwise.
-function Inventory:canAddToSlot(slotX, slotY, item, count)
-    canAddToSlotTc(slotX, slotY, item, count)
-    if not self:slotExists(slotX, slotY) then
+function Inventory:canAddToSlot(slot, item, count)
+    canAddToSlotTc(slot, item, count)
+    if not self:slotExists(slot) then
         return nil
     end
 
     -- `count` is the number of items that we want to add. (defaults to the full stackSize of item)
     count = (count or item.stackSize) or 1
 
-    local item_ent = self:get(slotX, slotY)
+    local item_ent = self:get(slot)
     if item_ent then
         if not canCombineStacks(item, item_ent, count) then
             return false -- can't combine stacks!
         end
     end
 
-    if not canAddToSlot(self, slotX, slotY, item) then
+    if not canAddToSlot(self, slot, item) then
         return false -- blocked
     end
 
@@ -402,10 +376,10 @@ function Inventory:canAddToSlot(slotX, slotY, item, count)
 end
 
 
-function Inventory:tryAddToSlot(slotX, slotY, item, count)
-    canAddToSlotTc(slotX, slotY, item, count)
-    if self:canAddToSlot(slotX, slotY, item, count) then
-        self:add(slotX, slotY, item)
+function Inventory:tryAddToSlot(slot, item, count)
+    canAddToSlotTc(slot, item, count)
+    if self:canAddToSlot(slot, item, count) then
+        self:add(slot, item)
         return true
     end
     return false
@@ -413,39 +387,39 @@ end
 
 
 
-function Inventory:canRemoveFromSlot(slotX, slotY)
+function Inventory:canRemoveFromSlot(slot)
     --[[
-        returns true if we can remove item from (slotX, slotY),
+        returns true if we can remove item from (slot),
         returns true if there is no item,
         returns false if item removal is blocked.
     ]]
-    assert2Numbers(slotX, slotY)
-    local item = self:get(slotX, slotY)
+    assertNumber(slot)
+    local item = self:get(slot)
     if not umg.exists(item) then
         return true -- no item, so I guess we can remove
     end
 
     local invEnt = self.owner
-    local isBlocked = umg.ask("items:isItemRemovalBlocked", item, invEnt, slotX, slotY)
+    local isBlocked = umg.ask("items:isItemRemovalBlocked", item, invEnt, slot)
     return not isBlocked
 end
 
 
 
-function Inventory:tryRemoveFromSlot(slotX, slotY)
+function Inventory:tryRemoveFromSlot(slot)
     --[[
         tries to remove item from an inventory slot.
         On success, returns the removed item.
         On failure, returns nil.
     ]]
-    local item = self:get(slotX, slotY)
+    local item = self:get(slot)
     if not umg.exists(item) then
         -- no item to remove
         return nil
     end
 
-    if self:canRemoveFromSlot(slotX, slotY) then
-        self:remove(slotX, slotY)
+    if self:canRemoveFromSlot(slot) then
+        self:remove(slot)
     end
 end
 
@@ -459,12 +433,10 @@ end
     count is the number of items to take from the stack. (default = item.stackSize)
 ]]
 function Inventory:findAvailableSlot(item, count)
-    for x=1, self.width do
-        for y=1, self.height do
-            if self:canAddToSlot(x, y, item, count) then
-                -- slot (x,y) is available!
-                return x, y 
-            end
+    for slot=1, self.size do
+        if self:canAddToSlot(slot, item, count) then
+            -- slot is available!
+            return slot
         end
     end
     return false -- can't add
@@ -477,13 +449,11 @@ function Inventory:find(item_or_itemName)
     --[[
         finds the slot of an item, given an item (or itemName)
     ]]
-    for x=1, self.width do
-        for y=1, self.height do
-            local item = self:get(x,y)
-            if umg.exists(item) and item == item_or_itemName or item.itemName == item_or_itemName then
-                -- found! return slot.
-                return x, y 
-            end
+    for slot=1, self.size do
+        local item = self:get(slot)
+        if umg.exists(item) and item == item_or_itemName or item.itemName == item_or_itemName then
+            -- found! return slot.
+            return slot
         end
     end
     return nil -- no slot found
@@ -519,41 +489,41 @@ local function getMoveStackCount(item, count, targetItem)
 end
 
 
-local function moveIntoTakenSlot(self, slotX, slotY, otherInv, otherSlotX, otherSlotY, count)
-    local targ = otherInv:get(otherSlotX, otherSlotY)
-    local item = self:get(slotX, slotY)
+local function moveIntoTakenSlot(self, slot, otherInv, otherSlot, count)
+    local targ = otherInv:get(otherSlot)
+    local item = self:get(slot)
     count = getMoveStackCount(item, count, targ)
 
-    if not self:canRemoveFromSlot(slotX, slotY) then
+    if not self:canRemoveFromSlot(slot) then
         return false -- we can't remove items from this slot
     end
 
     local newStackSize = item.stackSize - count
     if newStackSize <= 0 then
         -- delete src item, since all it's stacks are gone
-        self:remove(slotX, slotY)
+        self:remove(slot)
         item:delete()
     else
         -- else, we reduce the src item stacks
-        self:setStackSize(slotX, slotY, newStackSize)
+        self:setStackSize(slot, newStackSize)
     end
 
     -- add stacks to the target item 
     local new = targ.stackSize + count
-    otherInv:setStackSize(otherSlotX, otherSlotY, new)
+    otherInv:setStackSize(otherSlot, new)
     return true -- success.
 end
 
 
 
-local function moveIntoEmptySlot(self, slotX, slotY, otherInv, otherSlotX, otherSlotY, count)
-    local item = self:get(slotX, slotY)
+local function moveIntoEmptySlot(self, slot, otherInv, otherSlot, count)
+    local item = self:get(slot)
     count = getMoveStackCount(item, count)
     if count <= 0 then return
         false -- failure, no space
     end
 
-    if not self:canRemoveFromSlot(slotX, slotY) then
+    if not self:canRemoveFromSlot(slot) then
         return false -- failure, denied
     end
 
@@ -562,12 +532,12 @@ local function moveIntoEmptySlot(self, slotX, slotY, otherInv, otherSlotX, other
         local newItem = item:clone()
         newItem.stackSize = count 
         -- We don't call :setStackSize above, because newItem has just been cloned
-        self:setStackSize(slotX, slotY, item.stackSize - count)
-        otherInv:add(otherSlotX, otherSlotY, newItem)
+        self:setStackSize(slot, item.stackSize - count)
+        otherInv:add(otherSlot, newItem)
     else
         -- we are moving the whole item
-        self:remove(slotX, slotY)
-        otherInv:add(otherSlotX, otherSlotY, item)
+        self:remove(slot)
+        otherInv:add(otherSlot, item)
     end
     return true -- success
 end
@@ -576,89 +546,89 @@ end
 
 local moveTc = typecheck.assert("number", "number", "table", "number?")
 
-function Inventory:tryMove(slotX, slotY, otherInv, count)
+function Inventory:tryMove(slot, otherInv, count)
     --[[
-        attempts to move the item at slotX, slotY in `self`
+        attempts to move the item at slot in `self`
         into otherInv.
 
         Returns true on success, false on failure.
     ]]
-    moveTc(slotX, slotY, otherInv, count)
-    local item = self:get(slotX, slotY)
-    local otherX, otherY = otherInv:findAvailableSlot(item, count)
-    if otherX and otherY then
-        return self:tryMoveToSlot(slotX, slotY, otherInv, otherX, otherY, count)
+    moveTc(slot, otherInv, count)
+    local item = self:get(slot)
+    local otherSlot = otherInv:findAvailableSlot(item, count)
+    if otherSlot then
+        return self:tryMoveToSlot(slot, otherInv, otherSlot, count)
     end
     return false
 end
 
 
 
-function Inventory:tryMoveToSlot(slotX, slotY, otherInv, otherSlotX, otherSlotY, count)
+function Inventory:tryMoveToSlot(slot, otherInv, otherSlot, count)
     --[[
         moves an item from one inventory to another.
         Can also specify the `stackSize` argument to only send part of a stack.
     ]]
     assert(server, "only available on server")
-    moveSwapTc(slotX, slotY, otherInv, otherSlotX, otherSlotY, count)
+    moveSwapTc(slot, otherInv, otherSlot, count)
 
-    local item = self:get(slotX, slotY)
+    local item = self:get(slot)
     local stackSize = item.stackSize or 1
     count = math.min(count or stackSize, stackSize)
 
-    if not otherInv:canAddToSlot(otherSlotX, otherSlotY, item, count) then
+    if not otherInv:canAddToSlot(otherSlot, item, count) then
         return false -- failed
     end
     
-    local targ = otherInv:get(otherSlotX, otherSlotY)
+    local targ = otherInv:get(otherSlot)
     if targ then
-        return moveIntoTakenSlot(self, slotX, slotY, otherInv, otherSlotX, otherSlotY, count)
+        return moveIntoTakenSlot(self, slot, otherInv, otherSlot, count)
     else
-        return moveIntoEmptySlot(self, slotX, slotY, otherInv, otherSlotX, otherSlotY, count)
+        return moveIntoEmptySlot(self, slot, otherInv, otherSlot, count)
     end
 end
 
 
 
-function Inventory:trySwap(slotX, slotY, otherInv, otherSlotX, otherSlotY)
+function Inventory:trySwap(slot, otherInv, otherSlot)
     --[[
         swaps two items in inventories.
         
         Returns true on success, false on failure.
     ]]
     assert(server, "only available on server")
-    moveSwapTc(slotX, slotY, otherInv, otherSlotX, otherSlotY)
-    local item = self:get(slotX, slotY)
-    local otherItem = otherInv:get(otherSlotX, otherSlotY)
+    moveSwapTc(slot, otherInv, otherSlot)
+    local item = self:get(slot)
+    local otherItem = otherInv:get(otherSlot)
 
     if item == otherItem then
         return -- we aren't moving anything!
     end
 
-    local removeOk = self:canRemoveFromSlot(slotX, slotY) and otherInv:canRemoveFromSlot(otherSlotX, otherSlotY)
+    local removeOk = self:canRemoveFromSlot(slot) and otherInv:canRemoveFromSlot(otherSlot)
     if not removeOk then
         return false -- we can't remove one of the items, so we can't swap
     end
 
     -- NOTE: This feels kinda dumb removing the items here,
     -- because the operation isn't guaranteed to succeed yet...
-    self:remove(slotX, slotY)
-    otherInv:remove(otherSlotX, otherSlotY)
+    self:remove(slot)
+    otherInv:remove(otherSlot)
 
     -- if there is no item, adding it to the other slot is ok. (explains the first OR condition)
-    local addOk1 = (not otherItem) or self:canAddToSlot(slotX, slotY, otherItem)
-    local addOk2 = (not item) or otherInv:canAddToSlot(otherSlotX, otherSlotY, item)
+    local addOk1 = (not otherItem) or self:canAddToSlot(slot, otherItem)
+    local addOk2 = (not item) or otherInv:canAddToSlot(otherSlot, item)
     local addOk = addOk1 and addOk2
 
     if addOk then
-        self:add(slotX, slotY, otherItem)
-        otherInv:add(otherSlotX, otherSlotY, item)
+        self:add(slot, otherItem)
+        otherInv:add(otherSlot, item)
         return true -- success!
     else
         -- uh oh! reset to original slots. 
         -- (TODO: this is dumb, because this will emit itemMoved events :/ )
-        self:add(slotX, slotY, otherItem)
-        otherInv:add(otherSlotX, otherSlotY, item)
+        self:add(slot, otherItem)
+        otherInv:add(otherSlot, item)
         return false -- failure; operation was reversed.
     end
 end
@@ -666,48 +636,48 @@ end
 
 
 local addTc = typecheck.assert("number", "number", "voidentity")
-function Inventory:add(slotX, slotY, item)
+function Inventory:add(slot, item)
     -- Directly adds an item to an inventory.
     -- If the item is combined as a stack, the old item is deleted.
 
     -- WARNING: THIS METHOD IS QUITE DANGEROUS TO CALL!!!
     -- `item` must NOT be in any other inventory!
     -- If item is in another inv, the item-entity will be duplicated across BOTH inventories!!!
-    addTc(slotX, slotY, item)
-    local itm = self:get(slotX, slotY)
+    addTc(slot, item)
+    local itm = self:get(slot)
     if itm then
         -- increment stackSize:
         assert(canCombineStacks(item, itm), "can't combine stacks!")
         local stackSize = (itm.stackSize or 1) + (item.stackSize or 1)
-        self:setStackSize(slotX, slotY, stackSize)
+        self:setStackSize(slot, stackSize)
         item:delete()
         -- TODO ^^^ maybe we should set the stackSize to 0 instead of deleting?
         -- that way, another system will handle the deletion of item entities with 0 stack size... could be cleaner
     else
         -- only signal an add to slot if the slot was empty
-        signalMoveToSlot(self, slotX, slotY, item)
-        self:set(slotX, slotY, item)
+        signalMoveToSlot(self, slot, item)
+        self:set(slot, item)
     end
 end
 
 
-function Inventory:remove(slotX, slotY)
+function Inventory:remove(slot)
     -- WARNING: Somewhat unsafe to call!!!
     -- Directly removes an item from a slot in an inventory.
     -- This is kinda like deleting the item.
-    local item = self:get(slotX, slotY)
+    local item = self:get(slot)
     if umg.exists(item) then
-        signalRemoveFromSlot(self, slotX, slotY, item)
+        signalRemoveFromSlot(self, slot, item)
     end
-    self:set(slotX, slotY, nil)
+    self:set(slot, nil)
 end
 
 
-function Inventory:setStackSize(slotX, slotY, stackSize)
+function Inventory:setStackSize(slot, stackSize)
     -- WARNING: Somewhat unsafe to call!!!
     -- Directly sets a stack size for an item.
     -- Be careful when using!
-    local item = self:get(slotX, slotY)
+    local item = self:get(slot)
     if not item then
         return -- wot wot??? lmao
     end
@@ -718,7 +688,7 @@ function Inventory:setStackSize(slotX, slotY, stackSize)
 
     item.stackSize = stackSize
     updateStackSize(item)
-    signalStackSizeChange(self, slotX, slotY, change)
+    signalStackSizeChange(self, slot, change)
 end
 
 
@@ -770,10 +740,9 @@ end
 
 
 
-function Inventory:get(x, y)
-    assert2Numbers(x, y)
-    local i = self:getIndex(x, y)
-    return self.inventory[i]
+function Inventory:get(slot)
+    assertNumber(slot)
+    return self.inventory[slot]
 end
 
 
@@ -782,47 +751,24 @@ end
 
 
 
--- private method
-local function getSlotHandles(self)
+
+
+function Inventory:getSlotHandle(slot)
+    return self.slotHandles[slot]
+end
+
+
+function Inventory:setSlotHandle(slot, slotHandle)
     --[[
-        a lot of inventories don't need slotHandle, so we create
-        the data structure in a lazy fashion:
+        sets a slot handle at `slot` to slotHandle
     ]]
-    if self.slotHandles then
-        return self.slotHandles
-    end
-    self.slotHandles = {--[[
-        [slotX] -> {
-            [slotY] -> slotHandle
-        }
-    ]]}
-    return self.slotHandles
-end
-
-
-function Inventory:getSlotHandle(slotX, slotY)
-    local slotHandles = self.slotHandles
-    local arr = slotHandles and slotHandles[slotX]
-    return arr and arr[slotY]
-end
-
-
-function Inventory:setSlotHandle(slotX, slotY, slotHandle)
-    --[[
-        sets a slot handle at (slotX, slotY) to slotHandle
-    ]]
-    assert2Numbers(slotX, slotY)
+    assertNumber(slot)
     if not SlotHandle.isInstance(slotHandle) then
         error("Not an instance of SlotHandle: " .. tostring(slotHandle))
     end
 
-    slotHandle:setSlotPosition(slotX, slotY)
-
-    -- else set new slotHandle:
-    local slotHandles = getSlotHandles(self)
-    local arr = slotHandles[slotX] or {}
-    slotHandles[slotX] = arr
-    arr[slotY] = slotHandle
+    slotHandle:setSlotPosition(slot)
+    self.slotHandles[slot] = slotHandle
 end
 
 
@@ -854,7 +800,11 @@ function Inventory:withinBounds(mouse_x, mouse_y)
 end
 
 
-function Inventory:getSlot(mouse_x, mouse_y)
+function Inventory:getSlotFromMousePosition(mouse_x, mouse_y)
+    --[[
+        gets the slot that's being hovered,
+        given a mouse position.
+    ]]
     local ui_scale = rendering.getUIScale()
     local x, y = mouse_x / ui_scale, mouse_y / ui_scale
     local norm_x = x - self.draw_x 
@@ -967,9 +917,9 @@ function Inventory:updateSlabUI()
     end
 
     local mx, my = love.mouse.getPosition()
-    local slotx, sloty = self:getSlot(mx,my)
-    if slotx then
-        local item = self:get(slotx, sloty)
+    local slot = self:getSlotFromMousePosition(mx,my)
+    if slot then
+        local item = self:get(slot)
         if umg.exists(item) then
             updateItemTooltip(item, mx, my)
         end
@@ -1007,7 +957,7 @@ local function drawHighlights(draw_x, draw_y, W, H, r,g,b, offset, concave)
 end
 
 
-function Inventory:drawSlot(inv_x, inv_y, offset, color)
+function Inventory:drawSlot(slot, offset, color)
     local x, y = inv_x - 1, inv_y - 1 -- inventory is 1 indexed
     local X = math.floor(self.draw_x + x * self.totalSlotSize + offset)
     local Y = math.floor(self.draw_y + y * self.totalSlotSize + offset)
@@ -1023,13 +973,13 @@ function Inventory:drawSlot(inv_x, inv_y, offset, color)
     -- love.graphics.setColor(0,0,0)
     -- love.graphics.rectangle("line", X, Y, self.slotSize, self.slotSize)
 
-    if self:get(inv_x, inv_y) then
-        local item = self:get(inv_x, inv_y)
+    if self:get(slot) then
+        local item = self:get(slot)
         if umg.exists(item) then
             -- only draw the item if it exists.
-            self:drawItem(item, inv_x, inv_y)
+            self:drawItem(item, slot)
         else
-            self:set(inv_x, inv_y, nil)
+            self:set(slot, nil)
             -- woops!!! dunno what happened here lol!
         end
     end
@@ -1126,12 +1076,12 @@ end
 
 
 
-function Inventory:drawHoverWidget(slotX, slotY)
+function Inventory:drawHoverWidget(slot)
     --[[
         if the player is picking up an item,
         and about to move it, this stuff will be drawn!
     ]]
-    local item = self:get(slotX, slotY)
+    local item = self:get(slot)
     if not umg.exists(item) then return end
     local mx, my = love.mouse.getPosition()
     local ui_scale = rendering.getUIScale()
@@ -1189,13 +1139,8 @@ function Inventory:drawUI()
     local offset = self.slotSeparation / 2
 
     -- draw interior
-    for x = 0, self.width - 1 do
-        for y = 0, self.height - 1 do
-            local inv_x, inv_y = x+1, y+1 -- inventory is 1-indexed
-            if self:slotExists(inv_x, inv_y) then
-                self:drawSlot(inv_x, inv_y, offset, col)
-            end
-        end
+    for slot=1, self.size do
+        self:drawSlot(slot, offset, col)
     end
 
     self:drawForeground(X,Y,W,H)

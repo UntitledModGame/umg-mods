@@ -13,7 +13,6 @@ local function useItems(mode)
     local used = false
     for _, ent in ipairs(controllableGroup) do
         if sync.isClientControlling(ent) then
-            print("USE ITEM. 434")
             local wasUsed = usage.useHoldItem(ent, mode)
             used = used or wasUsed
         end
