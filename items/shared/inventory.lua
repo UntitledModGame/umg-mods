@@ -11,7 +11,7 @@ inventory backgrounds, custom slots, etc etc.
 ]]
 
 
-local SlotHandle = require("shared.slot_handle")
+local SlotHandle = require("shared.SlotHandle")
 
 
 local Inventory = objects.Class("items_mod:inventory")

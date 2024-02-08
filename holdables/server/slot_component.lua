@@ -11,7 +11,7 @@ if an item gets put in the slot, then it is automatically equipped.
 ]]
 
 
-local HoldSlotHandle = require("shared.hold_slot_handle")
+local HoldSlotHandle = require("shared.HoldSlotHandle")
 
 
 local group = umg.group("inventory", "holdItemSlot")
