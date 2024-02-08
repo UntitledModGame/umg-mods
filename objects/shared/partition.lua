@@ -10,10 +10,10 @@ Think of each "chunk" as like a big bucket where entities are kept.
 
 
 ]]
-local Class = require("shared.class")
+local Class = require("shared.Class")
 
-local Array = require("shared.array")
-local Set = require("shared.set")
+local Array = require("shared.Array")
+local Set = require("shared.Set")
 
 
 

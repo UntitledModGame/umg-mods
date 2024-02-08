@@ -3,7 +3,7 @@
 	heap data structure
 ]]
 
-local Class = require("shared.class")
+local Class = require("shared.Class")
 
 local Heap = Class("objects:Heap")
 
