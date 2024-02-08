@@ -22,20 +22,6 @@ return {
         {true, true, true, true, true}
     },
 
-    inventoryUI = {
-       {
-            x = 1, y = 1,
-            width = 4, height = 2,
-            render = function(ent)
-                Slab.Text("hello!")
-                Slab.Text("This UI is fully")
-                Slab.Text("dynamic, and can")
-                Slab.Text("be customized")
-                Slab.Button("im a button")
-            end
-       }
-    },
-
     light = {
         size = 240;
         color = {1,1,1}

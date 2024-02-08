@@ -865,71 +865,15 @@ function Inventory:drawItem(item_ent, x, y)
 end
 
 
-local function updateInventoryUI(self)
-    local ent = self.owner
-    for i, ui in ipairs(ent.inventoryUI) do
-        local ent_id = ent.id
-        local windowName = "inventory:" .. tostring(ent_id) .. "_" .. tostring(i)
-        -- we must generate a unique string identifier due to Slab
-        local scale = Slab.GetScale() / rendering.getUIScale()
-        local winX = (self.draw_x + (ui.x-1) * self.totalSlotSize) / scale
-        local winY = (self.draw_y + (ui.y-1) * self.totalSlotSize) / scale
-        local winWidth = (self.totalSlotSize * ui.width) / scale
-        local winHeight = (self.totalSlotSize * ui.height) / scale
-        Slab.BeginWindow(windowName, {
-            X = winX, Y = winY,
-            W = winWidth, H = winHeight,
-            BgColor = ui.color,
-            AutoSizeWindow = false,
-            AllowResize = false,
-            AllowMove = false
-        })
-        ui.render(ent)
-        Slab.EndWindow(windowName)
-    end
-end
 
 
 
-local descriptionArgs = {Color = {0.56,0.56,0.56}}
-local TOOLTIP_DELTA = 3
+--[[
+    TODO:
 
-local function updateItemTooltip(itemEnt, mx, my)
-    Slab.BeginWindow("inventory.itemInfo", {
-        X = mx+TOOLTIP_DELTA, Y = my+TOOLTIP_DELTA,
-        AllowResize = false
-    })
- 
-    Slab.Text(itemEnt.itemName)
-    if itemEnt.itemDescription then
-        Slab.Text(itemEnt.itemDescription, descriptionArgs)
-    end
-
-    umg.call("items:displayItemTooltip", itemEnt)
-
-    Slab.EndWindow()
-end
-
-
-
-
-function Inventory:updateSlabUI() 
-    local ent = self.owner
-    if ent.inventoryUI then
-        -- custom UI stuff
-        updateInventoryUI(self)
-    end
-
-    local mx, my = love.mouse.getPosition()
-    local slot = self:getSlotFromMousePosition(mx,my)
-    if slot then
-        local item = self:get(slot)
-        if umg.exists(item) then
-            updateItemTooltip(item, mx, my)
-        end
-    end
-end
-
+    Create a well-defined API 
+    for rendering item tooltips.
+]]
 
 
 

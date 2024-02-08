@@ -53,6 +53,15 @@ local paramColor = {0.6,0.6,1}
 
 
 
+--[[
+
+TODO:
+
+All of this needs to be changed to account for the UI refactor!
+
+
+]]
+
 
 function NumberNode:display()
     Slab.Text(self.param, {Color = paramColor})

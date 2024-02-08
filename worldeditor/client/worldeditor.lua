@@ -1,6 +1,5 @@
 
 
-local worldeditUI = require("client.worldeditor_ui")
 
 local constants = require("shared.constants")
 
@@ -235,9 +234,15 @@ function listener:mousepressed()
 end
 
 
-worldeditUI.init(we)
 
-umg.on("ui:slabUpdate", function()
-    worldeditUI.render()
-end)
+--[[
 
+
+
+TODO:
+
+Get the worldeditor UI working.
+
+It was removed in the Slab --> LUI refactor.
+
+]]

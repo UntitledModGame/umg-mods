@@ -1,4 +1,3 @@
 
 
-umg.defineEvent("ui:slabUpdate")
 
