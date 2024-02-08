@@ -56,7 +56,7 @@ end
 
 
 
-local dropItemTc = typecheck.assert("voidentity", "dvector")
+local dropItemTc = typecheck.assert("entity", "dvector")
 
 function groundItems.drop(itemEnt, dvec)
     dropItemTc(itemEnt, dvec)

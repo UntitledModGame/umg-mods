@@ -71,7 +71,7 @@ end
 
 local EMPTY = {}
 
-local entityItemTc = typecheck.assert("entity", "voidentity")
+local entityItemTc = typecheck.assert("entity", "entity")
 function holding.equipItem(holderEnt, itemEnt)
     entityItemTc(holderEnt, itemEnt)
     if not itemEnt.holdable then

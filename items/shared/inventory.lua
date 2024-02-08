@@ -639,7 +639,7 @@ end
 
 
 
-local addTc = typecheck.assert("number", "voidentity")
+local addTc = typecheck.assert("number", "entity")
 function Inventory:add(slot, item)
     -- Directly adds an item to an inventory.
     -- If the item is combined as a stack, the old item is deleted.

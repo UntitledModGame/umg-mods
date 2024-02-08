@@ -62,10 +62,19 @@ typecheck.ent = typecheck.entity
 
 
 
-function typecheck.voidentity(x)
+function typecheck.voidEntity(x)
     -- an entity that may or may not exist
     -- (ie an entity thats just been created)
     return umg.isEntity(x), "expected void entity"
+end
+
+
+local allGroup = umg.group()
+function typecheck.trueEntity(x)
+    --[[
+        a "true" entity is an entity that exists in allGroup.
+    ]]
+    return allGroup:has(x)
 end
 
 
