@@ -24,7 +24,7 @@ local physics = {}
 local constants = require("shared.constants")
 
 
-local WorldDimensionStructure = require("shared.world_dimension_structure")
+local WorldDimensionStructure = require("shared.WorldDimensionStructure")
 
 local worldDimStruct = WorldDimensionStructure()
 

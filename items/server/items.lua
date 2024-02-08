@@ -4,8 +4,7 @@
 local inventoryGroup = umg.group("inventory")
 -- group of all ents that have an `inventory` component.
 
-local Inventory = require("shared.inventory")
-local valid_callbacks = require("shared.inventory_callbacks")
+local Inventory = require("shared.Inventory")
 
 local groundItems= require("server.ground_items")
 
@@ -13,20 +12,7 @@ local groundItems= require("server.ground_items")
 
 
 
-
-local function assertValidCallbacks(callbacks)
-    for cbname, func in pairs(callbacks) do
-        assert(valid_callbacks[cbname], "Callback didn't exist: " .. tostring(cbname))
-        assert(type(func) == "function", "Callback type was not a function: " .. tostring(cbname))
-    end
-end
-
-
 inventoryGroup:onAdded(function(ent)
-    if ent.inventoryCallbacks then
-        assertValidCallbacks(ent.inventoryCallbacks)
-    end
-
     if not ent:isRegular("inventory") then
         error(".inventory component must be regular. Not the case for: " ..tostring(ent))
     end

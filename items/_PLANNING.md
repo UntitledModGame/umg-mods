@@ -13,12 +13,6 @@ Represent items as entities.
 ```lua
 
 return {
-    "stackSize", -- the current stack size of the item.
-    -- if this reaches 0, the item is deleted.
-
-    "x", "y",
-    "hidden",
-
     -- Item specific components:
     maxStackSize = 32; -- Maximum stack size of this item
     

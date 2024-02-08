@@ -3,8 +3,8 @@
 local items = {}
 
 
-items.Inventory = require("shared.inventory")
-items.SlotHandle = require("shared.slot_handle")
+items.Inventory = require("shared.Inventory")
+items.SlotHandle = require("shared.SlotHandle")
 
 
 if server then
