@@ -11,7 +11,7 @@ else:
 
 
 IGNORE = set()
-IGNORE_ = ["binpack", "set", "sset", "sets", "Slab"]
+IGNORE_ = ["binpack", "set", "sset", "sets"]
 for x in IGNORE_:
     IGNORE.add(x.lower())
 
