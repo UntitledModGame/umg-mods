@@ -30,13 +30,11 @@ end
 
 
 function Scene:removeElement(element)
-    -- WARNING: This is O(n^2)
     util.listDelete(self.elements, element)
 end
 
 
 function Scene:focus(element)
-    -- WARNING: This is O(n^2)
     util.listDelete(self.elements, element)
     table.insert(self.elements, element)
 end

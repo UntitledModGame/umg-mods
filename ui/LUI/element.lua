@@ -77,10 +77,10 @@ function Element:getView()
 end
 
 
-local function deactivateheirarchy(self)
+local function deactivateHeirarchy(self)
     self._active = false
     for _, childElem in ipairs(self._children) do
-        deactivateheirarchy(childElem)
+        deactivateHeirarchy(childElem)
     end
 end
 
@@ -107,7 +107,7 @@ function Element:render(x,y,w,h)
     if (type(x) ~= "number") then
         error("render function must take 4 numbers!", 2)
     end
-    deactivateheirarchy(self)
+    deactivateHeirarchy(self)
     activate(self)
 
     util.tryCall(self.onRender, self, x,y,w,h)
