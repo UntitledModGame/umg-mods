@@ -4,7 +4,7 @@ local ui = {}
 
 
 
-ui.LUI = require("LUI")
+ui.LUI = require("LUI.init")
 ui.Region = require("kirigami.Region")
 
 

@@ -1,7 +1,6 @@
 
-local path = (...):gsub('%.[^%.]+$', '')
 
-local Element = require(path .. ".Element")
+local Element = require("LUI.Element")
 
 
 

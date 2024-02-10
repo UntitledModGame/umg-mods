@@ -41,7 +41,7 @@ return {
     };
 
     light = {
-        size = 150;
+        size = 180;
         color = {1,1,1}
     };
 
