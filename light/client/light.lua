@@ -46,7 +46,11 @@ local function drawLight(ent, globalModifier)
     end
     local sizeMod = umg.ask("light:getLightSizeMultiplier", ent) or 1
     local scale = (size / W) * sizeMod * globalModifier
-    love.graphics.setColor(l.color or DEFAULT_COLOR)
+
+    local c = l.color or DEFAULT_COLOR
+    local mult = (l.dark and -1) or 1
+    love.graphics.setColor(c[1]*mult ,c[2]*mult ,c[3]*mult ,(c[4] or 1))
+
     love.graphics.draw(light_image, ent.x, ent.y, ent.rot, scale, scale, W/2, H/2)
 end
 

@@ -41,8 +41,9 @@ return {
     };
 
     light = {
-        size = 180;
-        color = {1,1,1}
+        size = 160;
+        color = {1,1,1},
+        dark = true
     };
 
     glow = {
