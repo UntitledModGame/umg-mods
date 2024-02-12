@@ -10,7 +10,9 @@ Scenes contain elements
 
 
 
-local util = require("LUI.util")
+local path = (...):gsub('%.[^%.]+$', '')
+
+local util = require(path .. ".util")
 
 local Scene = util.Class()
 
@@ -20,22 +22,32 @@ function Scene:init()
 end
 
 
-function Scene:addElement(element)
-    assert(element:isRoot(), "Only root elements can be added to scenes")
-    table.insert(self.elements, element)
+function Scene:addElement(rootElem)
+    assert(not rootElem:isContained(), "This element is already contained by another Scene, or is a child of another element!")
+    assert(rootElem:isRoot(), "Only root elements can be added to scenes")
+    table.insert(self.elements, rootElem)
+    rootElem:setContained(true)
 end
 
 
 
-function Scene:removeElement(element)
-    util.listDelete(self.elements, element)
+function Scene:removeElement(rootElem)
+    util.listDelete(self.elements, rootElem)
+    rootElem:setContained(false)
 end
 
 
-function Scene:focus(element)
-    util.listDelete(self.elements, element)
-    table.insert(self.elements, element)
+function Scene:focus(rootElem)
+    util.listDelete(self.elements, rootElem)
+    table.insert(self.elements, rootElem)
 end
+
+
+function Scene:hasElement(element)
+    return util.find(element)
+end
+
+
 
 
 function Scene:render()
@@ -96,7 +108,7 @@ function Scene:keypressed(key, scancode, isrepeat)
 end
 
 function Scene:keyreleased(key, scancode)
-    callForAll(self, "keyreleased", key, scancode)
+    tryCallFocused(self, "keyreleased", key, scancode)
 end
 
 function Scene:textinput(text)

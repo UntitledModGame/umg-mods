@@ -21,8 +21,11 @@ end
 
 
 function util.listDelete(arr, elem)
+    -- todo: this is bad, O(n^2)
     local i = util.find(arr, elem)
-    table.remove(arr, i)
+    if i then
+        table.remove(arr, i)
+    end
 end
 
 

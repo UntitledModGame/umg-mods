@@ -1,6 +1,7 @@
 
+local path = (...):gsub('%.[^%.]+$', '')
 
-local util = require("LUI.util")
+local util = require(path .. ".util")
 
 
 local Element = {}
@@ -21,15 +22,30 @@ local function forceDispatchToChildren(self, funcName, ...)
 end
 
 
-function Element:setup(parent)
+function Element:setContained(isContained)
+    self._isContained = isContained
+end
+
+function Element:isContained()
+    return self._isContained
+end
+
+
+
+function Element:setup()
     -- called on initialization
-    if parent then
-        self:setParent(parent)
-    else
-        self._isRoot = true
-    end
+    self._parent = false
+
+    self._childElementHash = {--[[
+        [childElem] -> true
+        for checking if we have an elem or not
+    ]]}
     self._children = {}
-    self._parent = parent
+
+    self._isContained = false
+    -- whether `self` is inside a Scene or another Element.
+    -- Mainly used for
+
     self._view = {x=0,y=0,w=0,h=0} -- last seen view
     self._focused = false
     self._active = false
@@ -44,7 +60,52 @@ end
 
 
 function Element:isRoot()
-    return self._isRoot
+    -- element with no parent = root element
+    return not self._parent
+end
+
+
+
+local function setParent(childElem, parent)
+    childElem._parent = parent
+    local isContained = (parent and true) or false
+    childElem:setContained(childElem, isContained)
+end
+
+
+
+
+local function assertElementValid(elem)
+   if type(elem) ~= "table" or (not elem.render) then
+        error("not valid LUI element: " .. tostring(elem))
+    end
+end
+
+
+function Element:addChild(childElem)
+    if self:hasChild(childElem) then
+        return --already has.
+    end
+    assertElementValid(childElem)
+    table.insert(self._children, childElem)
+    self._childElementHash[childElem] = true
+    setParent(childElem, self)
+    return childElem
+end
+
+
+function Element:removeChild(childElem)
+    if not self:hasChild(childElem) then
+        return
+    end
+    util.listDelete(self._children, childElem)
+    self._childElementHash[childElem] = nil
+    setParent(childElem, nil)
+end
+
+
+function Element:hasChild(childElem)
+    return self._childElementHash[childElem]
 end
 
 
@@ -53,7 +114,6 @@ end
 local function setView(self, x,y,w,h)
     -- set the view
     local view = self._view
-    assert(x and y and w and h, "Need 4 numbers for :setView")
     view.x = x
     view.y = y
     view.w = w
@@ -76,10 +136,10 @@ function Element:getView()
 end
 
 
-local function deactivateHeirarchy(self)
+local function deactivateheirarchy(self)
     self._active = false
     for _, childElem in ipairs(self._children) do
-        deactivateHeirarchy(childElem)
+        deactivateheirarchy(childElem)
     end
 end
 
@@ -103,10 +163,10 @@ end
 
 
 function Element:render(x,y,w,h)
-    if (type(x) ~= "number") then
-        error("render function must take 4 numbers!", 2)
+    if not self:isContained() then
+        error("Attempt to render uncontained element!", 2)
     end
-    deactivateHeirarchy(self)
+    deactivateheirarchy(self)
     activate(self)
 
     util.tryCall(self.onRender, self, x,y,w,h)
@@ -204,22 +264,6 @@ function Element:resize(x,y)
 end
 
 
-
-function Element:detach()
-    local parent = self._parent
-    if parent then
-        util.listDelete(parent._children, self)
-    end
-end
-
-
-
-function Element:setParent(parent)
-    self:detach()
-    self._isRoot = false -- no longer root!
-    self._parent = parent
-    table.insert(parent._children, self)
-end
 
 
 function Element:getParent()
