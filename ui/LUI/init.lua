@@ -1,11 +1,10 @@
 
-local PATH = (...):gsub('%.init$', '')
 
 local LUI = {}
 
 
-LUI.Element = require(PATH .. ".ElementClass")
-LUI.Scene = require(PATH .. ".Scene")
+LUI.Element = require("LUI.ElementClass")
+LUI.Scene = require("LUI.Scene")
 
 
 return LUI

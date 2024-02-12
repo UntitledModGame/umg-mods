@@ -10,9 +10,8 @@ Scenes contain elements
 
 
 
-local path = (...):gsub('%.[^%.]+$', '')
 
-local util = require(path .. ".util")
+local util = require("LUI.util")
 
 local Scene = util.Class()
 
