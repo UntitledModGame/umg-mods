@@ -32,7 +32,7 @@ local ElementClass_mt = {
 }
 
 
-local function newElementClass()
+local function newElementClass(elementName)
     --[[
         two layers of __index here;
         when we do `element:myMethod()`,
@@ -43,6 +43,7 @@ local function newElementClass()
     local elementClass = {}
     elementClass.__index = elementClass
     setmetatable(elementClass, ElementClass_mt)
+    umg.register(elementClass, elementName)
 
     return elementClass
 end

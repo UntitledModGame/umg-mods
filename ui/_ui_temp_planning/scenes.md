@@ -12,13 +12,9 @@ Should we keep LUI Scenes,
 or remove them?
 
 
+
 ## AMAZING IDEA:
-Remove scenes, but add a "default scene" that is just a regular LUI Element.
-
-So I guess we have a couple of main questions now.
-
-- How do we determine the `view` of a top-level element?
-- What the FUCK do we do about "focus" behaviour?
+Remove scenes, have elements be Scenes!
 
 
 
@@ -30,7 +26,18 @@ So I guess we have a couple of main questions now.
 How should the size/position be determined for top-level elements?
 - Should be left up to the implementor.
 
+---
+BUT, we still need a way to store the position of inventories, say.
+(Previously, we used `draw_x` and `draw_y` values within the inv.)
+A few ideas:
+- Keep the `x,y` position inside of the entity thats controlling the LUI elem
+    - (This way, the position is retained when the entity is saved)
+    - IDEA: `uiX, uiY` components?
+    - Or maybe a `uiPosition = {x=x,y=y}` component?
 
+- The `w,h` should be determined by question-bus.
+Perhaps using `reducers.PRIORITY` for `ui:getPosition`,
+and then `reducers.ADD` for `ui.getPositionOffset`
 
 
 

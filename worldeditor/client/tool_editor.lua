@@ -328,7 +328,7 @@ local function defineCustomNodeGroup(classes)
     -- This is only registered on the clientside, because the server does not
     -- deserialize editNodes.  Similar to how the editNode classes are only defined
     -- on clientside too.  (If we don't register, we get func ser error.)
-    umg.register(customNodes, "worldedit:CNG:" .. toolType)
+    umg.register(customNodes, "worldeditor:CNG:" .. toolType)
     
     local customNodeGroupCtor = function(options)
         assert(type(options.id) == "number", "?")

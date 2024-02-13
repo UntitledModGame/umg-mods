@@ -55,7 +55,26 @@ function Element:setup()
     -- For example, a `Scene` is regarded as a root element.
 
     self._focusedChild = false
+
+    self._entity = false -- the entity that is bound to this element
 end
+
+
+
+local bindTc = typecheck.assert("table", "entity")
+function Element:bindEntity(ent)
+    bindTc(self, ent)
+    self._entity = ent
+end
+
+function Element:getEntity()
+    local e = self._entity
+    if umg.exists(e) then
+        return e
+    end
+end
+
+
 
 
 function Element:isRoot()
@@ -178,6 +197,7 @@ function Element:render(x,y,w,h)
     activate(self)
 
     util.tryCall(self.onRender, self, x,y,w,h)
+    umg.call("ui:elementRender", self, x,y,w,h)
 
     setView(self, x,y,w,h)
 end
@@ -205,6 +225,7 @@ function Element:mousepressed(mx, my, button, istouch, presses)
         return false
     end
     util.tryCall(self.onMousePress, self, mx, my, button, istouch, presses)
+    umg.call("ui:elementMousePress", self, mx, my, button, istouch, presses)
     self._clickedOnBy[button] = true
 
     local child = getCapturedChild(self, mx, my)
@@ -233,12 +254,14 @@ end
 
 local function endHover(self, mx, my)
     util.tryCall(self.onEndHover, self, mx, my)
+    umg.call("ui:elementEndHover", self, mx,my)
     self._hovered = false
 end
 
 
 local function startHover(self, mx, my)
     util.tryCall(self.onStartHover, self, mx, my)
+    umg.call("ui:elementStartHover", self, mx,my)
     self._hovered = true
 end
 
@@ -255,6 +278,7 @@ end
 
 function Element:mousemoved(mx, my, dx, dy, istouch)
     util.tryCall(self.onMouseMoved, self, mx, my, dx, dy, istouch)
+    umg.call("ui:elementMouseMoved", self, mx, my, dx, dy, istouch)
 
     updateHover(self, mx, my)
     for _,child in ipairs(self:getChildren()) do
@@ -337,6 +361,27 @@ function Element:getRoot()
 end
 
 
+function Element:getParentEntity()
+    -- Gets the entity that this element "belongs" to.
+    -- Walks up the element heirarchy if needed.
+    local elem = self
+    for _=1,MAX_DEPTH do
+        local ent = elem:getEntity()
+        if ent then
+            return ent
+        end
+        elem = elem:getParent()
+        if not elem then
+            -- no entity in heirarchy.
+            return nil
+        end
+    end
+    maxDepthError()
+end
+
+
+
+
 
 
 
@@ -352,6 +397,7 @@ function Element:focus()
     end
 
     util.tryCall(self.onFocus, self)
+    umg.call("ui:elementFocus", self)
     local root = self:getRoot()
     if root then
         setFocusedChild(root, self)
@@ -366,6 +412,7 @@ function Element:unfocus()
     end
 
     util.tryCall(self.onUnfocus, self)
+    umg.call("ui:elementUnfocus", self)
     local root = self:getRoot()
     if root then
         setFocusedChild(root, nil)

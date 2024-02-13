@@ -34,9 +34,6 @@ You should try as hard as possible to just keep it SIMPLE, AND EXTENDABLE.
 Modify LUI
 Add a "UMG Flavor" to the LUI library.
 
-Ideas:
-- ALL root LUI Elements have to be bound to an entity in some form.
-    - (Nested LUI Elements aren't required to have an entity, however)
 
 - `Element:getEntity()` function
     - Gets the entity that this Elem belongs to.
@@ -57,7 +54,9 @@ Events:
 `ui:elementRender ( elem, x,y,w,h )`
 
 ^^^ 
-Surely we can think of some 
+Surely we can think of some more important ones!
+
+
 
 
 
