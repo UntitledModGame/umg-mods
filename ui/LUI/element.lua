@@ -138,15 +138,6 @@ local function setView(self, x,y,w,h)
 end
 
 
-function Element:setView(x,y,w,h)
-    --[[
-        the view can only be set explicitly by root elements
-    ]]
-    assert(self:isRoot(), "Views can only be set explicitly by root elements")
-    setView(self, x,y,w,h)
-end
-
-
 function Element:getView()
     local view = self._view
     return view.x,view.y,view.w,view.h
@@ -392,23 +383,6 @@ function Element:getFocusedChild()
     return self._focusedChild
 end
 
-
-
-
-function Element:getPreferredSize()
-    return self._prefWidth, self._prefHeight
-end
-
-
-function Element:setPreferredSize(w,h)
-    self._prefWidth = w
-    self._prefHeight = h
-    if self:isRoot() then
-        -- Well damn! Why ask the boss, when you are the boss?
-        local x,y = self:getView()
-        self:setView(x,y, w,h)
-    end
-end
 
 
 
