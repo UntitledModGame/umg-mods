@@ -50,7 +50,7 @@ function Element:setup()
         whether this element is being clicked on by a mouse button
     ]]}
 
-    self._denotedAsScene = false
+    self._markedAsRoot = false
     -- if this is set to true, then we will accept this element as a "root".
     -- For example, a `Scene` is regarded as a root element.
 
@@ -64,14 +64,14 @@ function Element:isRoot()
 end
 
 
-function Element:denoteAsRoot()
+function Element:makeRoot()
     --[[
         Denotes this element as a "Root" element.
         This basically tells us that we can draw this element in a detatched fashion.
 
         (For example, a "Scene" is a good example of a "Root" element)
     ]]
-    self._denotedAsScene = true
+    self._markedAsRoot = true
 end
 
 
@@ -87,9 +87,12 @@ end
 
 
 
-local function assertElementValid(elem)
+local function assertChildElemValid(elem)
    if type(elem) ~= "table" or (not elem.render) then
         error("not valid LUI element: " .. tostring(elem))
+    end
+    if elem._markedAsRoot then
+        error("Cannot add an element that is marked as root!")
     end
 end
 
@@ -98,7 +101,7 @@ function Element:addChild(childElem)
     if self:hasChild(childElem) then
         return --already has.
     end
-    assertElementValid(childElem)
+    assertChildElemValid(childElem)
     table.insert(self._children, childElem)
     self._childElementHash[childElem] = true
     setParent(childElem, self)
@@ -177,7 +180,7 @@ end
 
 
 function Element:render(x,y,w,h)
-    if self:isRoot() and (not self._denotedAsScene) then
+    if self:isRoot() and (not self._markedAsRoot) then
         error("Attempt to render uncontained element!", 2)
     end
     deactivateheirarchy(self)
