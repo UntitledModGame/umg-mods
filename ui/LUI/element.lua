@@ -7,46 +7,42 @@ local Element = {}
 
 
 local function dispatchToChildren(self, funcName, ...)
-    for _, child in ipairs(self._children) do
+    for _, child in ipairs(self:getChildren()) do
         if child:isActive() then
             child[funcName](child, ...)
         end
     end
 end
 
+
+
 local function forceDispatchToChildren(self, funcName, ...)
-    for _, child in ipairs(self._children) do
+    for _, child in ipairs(self:getChildren()) do
         child[funcName](child, ...)
     end
 end
 
 
-function Element:setContained(isContained)
-    self._isContained = isContained
-end
 
-function Element:isContained()
-    return self._isContained
+function Element:getParent()
+    return self._parent
 end
 
 
 
 function Element:setup()
     -- called on initialization
-    self._parent = false
-
     self._childElementHash = {--[[
         [childElem] -> true
         for checking if we have an elem or not
     ]]}
     self._children = {}
 
-    self._isContained = false
-    -- whether `self` is inside a Scene or another Element.
-    -- Mainly used for
+    self._parent = false
+    -- Parent of this element.
+    -- Could be a Scene, or a parent Element
 
     self._view = {x=0,y=0,w=0,h=0} -- last seen view
-    self._focused = false
     self._active = false
     self._hovered = false
     self._clickedOnBy = {--[[
@@ -54,7 +50,11 @@ function Element:setup()
         whether this element is being clicked on by a mouse button
     ]]}
 
-    self._focusedChild = nil -- only used by root elements
+    self._denotedAsScene = false
+    -- if this is set to true, then we will accept this element as a "root".
+    -- For example, a `Scene` is regarded as a root element.
+
+    self._focusedChild = false
 end
 
 
@@ -64,11 +64,24 @@ function Element:isRoot()
 end
 
 
+function Element:denoteAsRoot()
+    --[[
+        Denotes this element as a "Root" element.
+        This basically tells us that we can draw this element in a detatched fashion.
+
+        (For example, a "Scene" is a good example of a "Root" element)
+    ]]
+    self._denotedAsScene = true
+end
+
+
 
 local function setParent(childElem, parent)
+    if parent and childElem:getParent() then
+        error("Element was already contained inside something else!")
+    end
+    assert(childElem ~= parent, "???")
     childElem._parent = parent
-    local isContained = (parent and true) or false
-    childElem:setContained(childElem, isContained)
 end
 
 
@@ -89,6 +102,7 @@ function Element:addChild(childElem)
     table.insert(self._children, childElem)
     self._childElementHash[childElem] = true
     setParent(childElem, self)
+    util.tryCall(self.onAddChild, self)
     return childElem
 end
 
@@ -100,6 +114,7 @@ function Element:removeChild(childElem)
     util.listDelete(self._children, childElem)
     self._childElementHash[childElem] = nil
     setParent(childElem, nil)
+    util.tryCall(self.onRemoveChild, self)
 end
 
 
@@ -162,7 +177,7 @@ end
 
 
 function Element:render(x,y,w,h)
-    if not self:isContained() then
+    if self:isRoot() and (not self._denotedAsScene) then
         error("Attempt to render uncontained element!", 2)
     end
     deactivateheirarchy(self)
@@ -175,6 +190,21 @@ end
 
 
 
+local function getCapturedChild(self, x, y)
+    -- returns the child that is "captured" by position (x,y),
+    -- (Or nil if there is none.)
+    local children = self:getChildren()
+    -- iterate backwards, because last child is the "top" child.
+    for i=#children, 1, -1 do
+        local child = children[i]
+        if child:contains(x, y) and child:isActive() then
+            return child
+        end
+    end
+end
+
+
+
 function Element:mousepressed(mx, my, button, istouch, presses)
     -- should be called when mouse clicks on this element
     if not self:contains(mx,my) then
@@ -183,10 +213,9 @@ function Element:mousepressed(mx, my, button, istouch, presses)
     util.tryCall(self.onMousePress, self, mx, my, button, istouch, presses)
     self._clickedOnBy[button] = true
 
-    for _, child in ipairs(self._children) do
-        if child:contains(mx, my) and child:isActive() then
-            child:mousepressed(mx, my, button, istouch, presses)
-        end
+    local child = getCapturedChild(self, mx, my)
+    if child then
+        child:mousepressed(mx, my, button, istouch, presses)
     end
     return true -- consumed!
 end
@@ -206,16 +235,24 @@ end
 
 
 
+
+
+local function endHover(self, mx, my)
+    util.tryCall(self.onEndHover, self, mx, my)
+    self._hovered = false
+end
+
+
+local function startHover(self, mx, my)
+    util.tryCall(self.onStartHover, self, mx, my)
+    self._hovered = true
+end
+
 local function updateHover(self, mx, my)
     if self._hovered then
-        if not self:contains(mx, my) then
-            util.tryCall(self.onEndHover, self, mx, my)
-            self._hovered = false
-        end
-    else -- not being hovered:
-        if self:contains(mx, my) then
-            util.tryCall(self.onStartHover, self, mx, my)
-            self._hovered = true
+        if not self:contains(mx,my) then
+            -- then its no longer hovering!
+            endHover(self, mx, my)
         end
     end
 end
@@ -226,6 +263,15 @@ function Element:mousemoved(mx, my, dx, dy, istouch)
     util.tryCall(self.onMouseMoved, self, mx, my, dx, dy, istouch)
 
     updateHover(self, mx, my)
+    for _,child in ipairs(self:getChildren()) do
+        updateHover(child, mx, my)
+    end
+
+    local child = getCapturedChild(self, mx, my)
+    if child then
+        startHover(child, mx, my)
+    end
+
     dispatchToChildren(self, "mousemoved", mx, my, dx, dy, istouch)
 end
 
@@ -275,53 +321,75 @@ function Element:getChildren()
 end
 
 
+local function maxDepthError()
+    error("max depth reached in element heirarchy (Element is a child of itself?)")
+end
+
+
 local MAX_DEPTH = 10000
 
 function Element:getRoot()
     -- gets the root ancestor of this element
     local elem = self
     for _=1,MAX_DEPTH do
-        if elem._parent then
-            elem = elem._parent
+        local parent = elem:getParent()
+        if parent then
+            elem = parent
         else
             return elem -- its the root!
         end
     end
-    error("max depth reached in element heirarchy (child is a parent of itself?)")
+    maxDepthError()
 end
 
 
 
-local function setRootFocus(self, focus)
-    local root = self:getRoot()
-    local old = root._focusedChild
-    if old then
-        -- unfocus old element
-        root._focusedChild = nil
-        old:unfocus()
-    end
-    root._focusedChild = focus
+
+
+local function setFocusedChild(self, childElem)
+    self._focusedChild = childElem
 end
+
 
 
 function Element:focus()
-    if self._focused then
-        return -- idempotency
+    if self:isFocused() then
+        return
     end
-    setRootFocus(self, self)
-    self._focused = true
+
     util.tryCall(self.onFocus, self)
+    local root = self:getRoot()
+    if root then
+        setFocusedChild(root, self)
+    end
 end
+
 
 
 function Element:unfocus()
-    if not self._focused then
-        return -- idempotency
+    if not self:isFocused() then
+        return
     end
-    setRootFocus(self, nil)
-    self._focused = false
+
     util.tryCall(self.onUnfocus, self)
+    local root = self:getRoot()
+    if root then
+        setFocusedChild(root, nil)
+    end
 end
+
+
+function Element:isFocused()
+    local root = self:getRoot()
+    return root:getFocusedChild() == self
+end
+
+
+function Element:getFocusedChild()
+    return self._focusedChild
+end
+
+
 
 
 function Element:getPreferredSize()
@@ -339,11 +407,6 @@ function Element:setPreferredSize(w,h)
     end
 end
 
-
-
-function Element:isFocused()
-    return self._focused
-end
 
 
 function Element:isHovered()
