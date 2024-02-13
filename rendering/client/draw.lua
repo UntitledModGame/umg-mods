@@ -102,30 +102,6 @@ end
 
 
 
-local MIN_SCALE = 0.001 -- UI scale cant be lower than this.
--- The reason we need a min value here is to avoid division by 0
-
-function draw.setUIScale(scale)
-    assert(type(scale) == "number", "love.graphics.setUIScale(scale) requires a number")
-    scaleUI = math.max(fudgeUIScale(scale), MIN_SCALE)
-end
-
-
-function draw.getUIScale()
-    return scaleUI
-end
-
-
-function draw.getUIMousePosition()
-    -- gets the mouse position within the UI context
-    local mouse_x, mouse_y = love.mouse.getPosition()
-    local ui_scale = draw.getUIScale()
-    local mx, my = mouse_x / ui_scale, mouse_y / ui_scale
-    return mx, my
-end
-
-
-
 
 
 umg.on("state:drawUI", function()

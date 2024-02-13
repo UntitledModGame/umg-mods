@@ -792,24 +792,12 @@ Read at your own risk!  :-)
 ]]
 
 
-function Inventory:withinBounds(mouse_x, mouse_y)
-    -- returns true/false, depending on whether mouse_x or mouse_y is
-    -- within the inventory interface
-    local ui_scale = rendering.getUIScale()
-    local mx, my = mouse_x / ui_scale, mouse_y / ui_scale
-    local x,y,w,h = self:getDrawBounds()
-    local x_valid = (x <= mx) and (mx <= x+w)
-    local y_valid = (y <= my) and (my <= y+h)
-    return x_valid and y_valid
-end
-
 
 function Inventory:getSlotFromMousePosition(mouse_x, mouse_y)
     --[[
         gets the slot that's being hovered,
         given a mouse position.
     ]]
-    local ui_scale = rendering.getUIScale()
     local x, y = mouse_x / ui_scale, mouse_y / ui_scale
     local norm_x = x - self.draw_x 
     local norm_y = y - self.draw_y
@@ -938,28 +926,15 @@ end
 
 
 
-local EXIT_BUTTON_SIZE = 8
-local EXIT_BUTTON_BORDER = 3
-
 local EXTRA_TOP_BORDER = 8
 
 function getExitButtonBounds(self)
-    local x,y,w,h = self:getDrawBounds()
-    local bx = x + w - EXIT_BUTTON_SIZE - EXIT_BUTTON_BORDER
-    local by = y + EXIT_BUTTON_BORDER
-    return bx,by, EXIT_BUTTON_SIZE,EXIT_BUTTON_SIZE
+    error("old")
 end
 
 
 function Inventory:withinExitButtonBounds(mouse_x, mouse_y)
-    -- returns true/false, depending on whether mouse_x or mouse_y is
-    -- within the exit button region
-    local ui_scale = rendering.getUIScale()
-    local mx, my = mouse_x / ui_scale, mouse_y / ui_scale
-    local x,y,w,h = getExitButtonBounds(self)
-    local x_valid = (x <= mx) and (mx <= x+w)
-    local y_valid = (y <= my) and (my <= y+h)
-    return x_valid and y_valid
+    error("old")
 end
 
 
@@ -1032,7 +1007,6 @@ function Inventory:drawHoverWidget(slot)
     local item = self:get(slot)
     if not umg.exists(item) then return end
     local mx, my = love.mouse.getPosition()
-    local ui_scale = rendering.getUIScale()
     mx, my = mx / ui_scale, my / ui_scale
     love.graphics.push("all")
     love.graphics.setLineWidth(3)

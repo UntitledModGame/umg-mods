@@ -20,9 +20,6 @@ rendering.Camera = cameraLib
 rendering.getCamera = currentCamera.getCamera
 
 
-rendering.getUIScale = draw.getUIScale
-rendering.setUIScale = draw.setUIScale
-
 
 
 
@@ -69,10 +66,6 @@ function rendering.getWorldMousePosition()
     local cam = rendering.getCamera()
     return cam:getMousePosition()
 end
-
-
--- TODO: Is this function needed???
-rendering.getUIMousePosition = draw.getUIMousePosition
 
 
 
