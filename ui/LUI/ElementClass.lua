@@ -40,7 +40,9 @@ local function newElementClass(elementName)
         one __index to `elementClass`, (user-defined element,)
         then, __index to `Element`
     ]]
-    local elementClass = {}
+    local elementClass = {
+        _elementName = elementName
+    }
     elementClass.__index = elementClass
     setmetatable(elementClass, ElementClass_mt)
     umg.register(elementClass, elementName)

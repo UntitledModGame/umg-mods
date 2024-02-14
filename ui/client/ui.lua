@@ -8,6 +8,8 @@ UI mod has one root element, that essentially acts as the "Scene"
 
 ]]
 
+local scene = Scene()
+
 
 umg.on("rendering:drawUI", function()
 

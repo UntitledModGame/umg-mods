@@ -466,4 +466,12 @@ end
 
 
 
+
+function Element:getType()
+    -- defined by ElementClass
+    return self._elementName
+end
+
+
+
 return Element
