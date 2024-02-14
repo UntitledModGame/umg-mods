@@ -63,7 +63,6 @@ return {
     baseAgility = 0.9;
 
     inventoryName = "player inv",
-    openable = {},
 
     init = function(e, x, y, uname)
         e.health = e.maxHealth

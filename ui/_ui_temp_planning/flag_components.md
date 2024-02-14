@@ -2,20 +2,25 @@
 
 # Flag components:
 
+BIG QUESTION TIME:
 
-# `interfacable`:
+Do we need flag-components?????
+The flag component we would have:
+`openable`
+
+
+I guess it'd be good, since we could do stuff like:
 ```lua
-ent.interfacable --- >>>>
--- the following methods can be called on ent:
-ui.openInterface(ent)
-ui.closeInterface(ent)
 
-local bool = ui.canOpenInterface(ent)
--- whether the client can open the interface
+local clickToOpenGroup = umg.group("openable", "x", "y")
 
-
--- by default:
-components.project("uiElement", "interfacable")
+onMousepress(function(...)
+    local player = getPlayer()
+    for ent in clickToOpenGroup do
+        if clickedOn(ent) then
+            ui.openWith(ent, player)
+        end
+    end
+end)
 ```
-
 

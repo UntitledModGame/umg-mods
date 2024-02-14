@@ -57,13 +57,7 @@ return extend(abstractCrafter, {
 
     craftItemLocation = {5, 1}; -- where the items get put after crafting
     craftButtonLocation = {5, 5}; -- where the craft button is
-    
-    openable = {
-        distance = 100; -- default distance that player can open the chest from
-        openSound = "chestOpen"; -- default open/close sounds.
-        closeSound = "chestClose"
-    },
-
+   
     init = function(ent,x,y)
         ent:super()
     end
