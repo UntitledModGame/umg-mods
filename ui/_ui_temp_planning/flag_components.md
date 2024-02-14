@@ -4,23 +4,19 @@
 
 BIG QUESTION TIME:
 
-Do we need flag-components?????
-The flag component we would have:
-`openable`
+We have a *bit* of an issue.
+
+`ui` mod kinda seems to be doing 2 things at once:
+- Allows entities to be opened; via `ui` component
+    ^^^ This is great, I'm happy with this.
+- Provides an API for checking accessibility of entities. `accessible`? 
+
+The 2nd one is a bit eeeehhh, weird.
+Because it's kinda unclear on what it's actual purpose is.
+
+Its supposed purpose was to check whether "UIs can be opened",
+but its kinda leaking to other parts of the codebase...
 
 
-I guess it'd be good, since we could do stuff like:
-```lua
 
-local clickToOpenGroup = umg.group("openable", "x", "y")
-
-onMousepress(function(...)
-    local player = getPlayer()
-    for ent in clickToOpenGroup do
-        if clickedOn(ent) then
-            ui.openWith(ent, player)
-        end
-    end
-end)
-```
 

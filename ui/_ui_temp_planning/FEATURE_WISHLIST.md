@@ -53,9 +53,6 @@ Events:
 `ui:elementUnfocus ( elem )`
 `ui:elementRender ( elem, x,y,w,h )`
 
-^^^ 
-Surely we can think of some more important ones!
-
 
 
 
