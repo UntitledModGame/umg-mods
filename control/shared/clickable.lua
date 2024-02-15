@@ -22,7 +22,7 @@ end
 
 if server then
 
-server.on("control:entityClicked", function(sender_uname, ent, button, worldX, worldY, dimension)
+server.on("control:entityClicked", function(clientId, ent, button, worldX, worldY, dimension)
     if not (ent.clickable) then
         return
     end
@@ -33,10 +33,7 @@ server.on("control:entityClicked", function(sender_uname, ent, button, worldX, w
         return
     end
 
-    if type(ent.onClick) == "function" then
-        ent:onClick(sender_uname, button, worldX, worldY)
-    end
-    umg.call("control:entityClicked", ent, sender_uname, button, worldX, worldY)
+    umg.call("control:entityClicked", ent, clientId, button, worldX, worldY)
 end)
 
 else -- clientside:
@@ -72,4 +69,12 @@ function listener:mousepressed(mx, my, button, istouch, presses)
 end
 
 end
+
+
+
+umg.on("control:entityClicked", function(ent, clientId, button, worldX, worldY)
+    if type(ent.onClick) == "function" then
+        ent:onClick(clientId, button, worldX, worldY)
+    end
+end)
 

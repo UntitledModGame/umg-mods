@@ -36,9 +36,12 @@ return {
 
     uiRegion = {100,100,300,300},
 
+    color = {1,0,0},
+
     initXY = true,
 
     onClick = function(ent)
+        print("hi 123")
         if client then
             ui.open(ent)
         end
