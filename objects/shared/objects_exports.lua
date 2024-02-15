@@ -1,6 +1,11 @@
 
 local objects = {}
 
+local objectsTools = require("shared.tools")
+for k,v in pairs(objectsTools) do
+    objects[k] = v
+end
+
 objects.Class = require("shared.Class");
 objects.Set = require("shared.Set");
 objects.Array = require("shared.Array");

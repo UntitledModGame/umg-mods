@@ -18,9 +18,11 @@ function Input:init(args)
 end
 
 
+local lg=love.graphics
+
 function Input:onRender(x,y,w,h)
     local region = ui.Region(x,y,w,h)
-    ui.style:rectangle(x,y,w,h)
+    lg.rectangle("fill",x,y,w,h)
 
     local textRegion = region:padPixels(10)
     if self:isFocused() then

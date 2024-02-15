@@ -27,7 +27,7 @@ local function assertUIEnt(ent)
     if not ent.uiElement then
         error("Entity must have a .uiElement component!", 2)
     end
-    if not ent.uiRegion then
+    if (not ent.uiRegion) or (not ent.uiRegion.get) then
         error("Entity must have a .uiRegion component!", 2)
     end
 end
@@ -51,7 +51,7 @@ end
 
 
 
-local uiGroup = umg.group("ui")
+local uiGroup = umg.group("uiElement")
 
 uiGroup:onAdded(function(ent)
     ent.uiElement:bindEntity(ent)

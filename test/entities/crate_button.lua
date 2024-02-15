@@ -20,8 +20,8 @@ end
 
 
 function BasicBox:onRender(x,y,w,h)
-    lg.setColor(1,1,1)
-    lg.rectangle(x,y,w,h)
+    lg.setColor(0.5,0,5,0.5)
+    lg.rectangle("fill",x,y,w,h)
     local r = ui.Region(x,y,w,h)
         :pad(0.1)
     self.button:render(r:get())
@@ -29,25 +29,29 @@ end
 
 end
 
-
+local function toggleUI(ent)
+    if ui.isOpen(ent) then
+        ui.close(ent)
+    else
+        ui.open(ent)
+    end
+end
 
 return {
     image = "crate",
-
-    uiRegion = {100,100,300,300},
 
     color = {1,0,0},
 
     initXY = true,
 
     onClick = function(ent)
-        print("hi 123")
         if client then
-            ui.open(ent)
+            toggleUI(ent)
         end
     end,
 
     initUI = function(ent)
+        ent.uiRegion = ui.Region(100,100,300,300)
         ent.uiElement = BasicBox()
     end
 }

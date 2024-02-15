@@ -54,7 +54,7 @@ function ScrollThumb:onMouseMoved(x, y, dx, dy, istouch)
 end
 
 function ScrollThumb:onRender(x,y,w,h)
-    ui.style:rectangle(x,y,w,h)
+    love.graphics.rectangle("fill",x,y,w,h)
 end
 
 

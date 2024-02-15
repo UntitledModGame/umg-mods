@@ -62,8 +62,11 @@ function Thumb:onMouseMoved(x, y, dx, dy, istouch)
     end
 end
 
+
+local lg = love.graphics
+
 function Thumb:onRender(x,y,w,h)
-    ui.style:rectangle(x,y,w,h)
+    lg.rectangle("fill", x,y,w,h)
 end
 
 
@@ -73,7 +76,7 @@ end
 
 
 function Slider:init(args)
-    tools.assertKeys(args, {"onValueChanged", "min", "max"})
+    objects.assertKeys(args, {"onValueChanged", "min", "max"})
     self.onValueChanged = args.onValueChanged
     self.min = args.min
     self.max = args.max
@@ -91,9 +94,9 @@ local THUMB_RATIO = 4
 
 function Slider:onRender(x,y,w,h)
     local region = ui.Region(x,y,w,h)
-    love.graphics.setColor(0.5,0.5,0.5)
+    lg.setColor(0.5,0.5,0.5)
     local lineRegion = region:pad(0,0.4,0,0.4)
-    ui.style:darkRectangle(lineRegion:get())
+    lg.rectangle("fill",lineRegion:get())
     
     local thumbWidth = w/THUMB_RATIO
     self.totalSize = w - thumbWidth
