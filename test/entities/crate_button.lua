@@ -1,19 +1,47 @@
 
 
 
+local lg = love.graphics
+local BasicBox = ui.Element("ui:test.BasicBox")
+
+function BasicBox:init()
+    self.button = ui.Button({
+        onClick = function()
+            print("Basic box clicked")
+        end,
+        text = "BASIC BOX"
+    })
+    self:addChild(self.button)
+end
+
+
+function BasicBox:onRender(x,y,w,h)
+    lg.setColor(1,1,1)
+    lg.rectangle(x,y,w,h)
+    local r = ui.Region(x,y,w,h)
+        :pad(0.1)
+    self.button:render(r:get())
+end
+
+
+
+
+
 return {
     image = "crate",
-    openable = {
-        distance = 100,
-        public = true
-    };
 
-    init = function(ent, x,y)
-        ent.x = x
-        ent.y = y
-        ent.inventory = items.Inventory({size=4})
+    uiRegion = {100,100,300,300},
+
+    initXY = true,
+
+    onClick = function(ent)
+        if client then
+            ui.open(ent)
+        end
+    end,
+
+    initUI = function(ent)
+        ent.uiElement = ui.elements.BasicBox()
     end
 }
-
-
 

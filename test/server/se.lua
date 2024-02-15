@@ -52,7 +52,6 @@ umg.on("@createWorld", function()
     end
 
     ents.crate(0,-100)
-    ents.crate_button(100, 100)
     ents.crafting_table(-100, 100)
 
     newItem(ents.ak47)

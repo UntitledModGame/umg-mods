@@ -23,25 +23,28 @@ end)
 
 
 
-local function assertUIEnt(uiEnt)
-    if not uiEnt.ui then
-        error("Entity must have a .ui component!", 2)
+local function assertUIEnt(ent)
+    if not ent.uiElement then
+        error("Entity must have a .uiElement component!", 2)
+    end
+    if not ent.uiRegion then
+        error("Entity must have a .uiRegion component!", 2)
     end
 end
 
 
-function ui.open(uiEnt)
-    assertUIEnt(uiEnt)
-    scene:addChild(uiEnt.ui)
+function ui.open(ent)
+    assertUIEnt(ent)
+    scene:addChild(ent.uiElement)
 end
 
-function ui.close(uiEnt)
-    assertUIEnt(uiEnt)
-    scene:removeChild(uiEnt.ui)
+function ui.close(ent)
+    assertUIEnt(ent)
+    scene:removeChild(ent.uiElement)
 end
 
-function ui.isOpen(uiEnt)
-    local elem = uiEnt.ui
+function ui.isOpen(ent)
+    local elem = ent.uiElement
     return scene:hasChild(elem)
 end
 
@@ -50,9 +53,12 @@ end
 
 local uiGroup = umg.group("ui")
 
+uiGroup:onAdded(function(ent)
+    ent.uiElement:bindEntity(ent)
+end)
 
-uiGroup:onRemoved(function(uiEnt)
-    scene:removeChild(uiEnt.ui)
+uiGroup:onRemoved(function(ent)
+    scene:removeChild(ent.uiElement)
 end)
 
 

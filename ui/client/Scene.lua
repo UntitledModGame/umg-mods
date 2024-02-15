@@ -13,10 +13,11 @@ end
 
 
 local function renderChild(elem)
-    if not elem.region then
+    local ent = elem:getEntity()
+    if not ent.uiRegion then
         error("Element needs `.region` value to be rendered at root level: " .. elem:getType())
     end
-    elem:render(elem.region:get())
+    elem:render(ent.uiRegion:get())
 end
 
 
