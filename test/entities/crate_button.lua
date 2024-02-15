@@ -1,11 +1,15 @@
 
 
 
+local BasicBox
+
+if client then
+
 local lg = love.graphics
-local BasicBox = ui.Element("ui:test.BasicBox")
+BasicBox = ui.Element("ui:BasicBox")
 
 function BasicBox:init()
-    self.button = ui.Button({
+    self.button = ui.elements.Button({
         onClick = function()
             print("Basic box clicked")
         end,
@@ -23,7 +27,7 @@ function BasicBox:onRender(x,y,w,h)
     self.button:render(r:get())
 end
 
-
+end
 
 
 
@@ -41,7 +45,7 @@ return {
     end,
 
     initUI = function(ent)
-        ent.uiElement = ui.elements.BasicBox()
+        ent.uiElement = BasicBox()
     end
 }
 

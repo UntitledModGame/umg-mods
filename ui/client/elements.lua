@@ -25,7 +25,9 @@ function elements.defineElement(elementName, elementClass)
     end
 
     elements[elementName] = elementClass
-    elements[getShortname(elementName)] = elementClass
+    local shortname = getShortname(elementName)
+    print(elementName, shortname)
+    elements[shortname] = elementClass
 end
 
 
@@ -36,7 +38,8 @@ umg.on("@load", function()
     local t = love.filesystem.getDirectoryItems("client/elements")
     assert(t,"?")
     for _, fname in ipairs(t) do
-        require("client.elements." .. fname)
+        local noExtension = fname:sub(1,-5) --hacky!
+        require("client.elements." .. noExtension)
     end
 end)
 

@@ -12,14 +12,7 @@ ui.elements = require("client.elements")
 
 ui.Region = require("kirigami.Region")
 
-
-local LUI = require("LUI.init")
-
-function ui.Element(elementName)
-    local elementClass = LUI.Element(elementName)
-    ui.elements.defineElement(elementName, elementClass)
-    return elementClass
-end
+ui.Element = require("client.newElement")
 
 
 function ui.getScreenRegion()

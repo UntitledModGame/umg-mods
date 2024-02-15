@@ -1,8 +1,9 @@
 
 local lg = love.graphics
+local Element = require("client.newElement")
 
 
-local Scene = ui.Element("ui:Scene")
+local Scene = Element("ui:Scene")
 
 
 
@@ -21,7 +22,7 @@ local function renderChild(elem)
 end
 
 
-function Scene:render(x,y,w,h)
+function Scene:onRender(x,y,w,h)
     assert(x==0 and y==0, "wot wot?")
     assert(w==lg.getWidth(), "?")
     assert(h==lg.getHeight(),"?")
