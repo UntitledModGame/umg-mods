@@ -5,9 +5,8 @@
 ```lua
 
 ui.open(uiEnt)
-local bool = ui.canOpen(uiEnt)
-
-ui.close(uiEnt) -- closes UI
+ui.close(uiEnt) 
+-- opens/closes UI
 
 ```
 
@@ -17,15 +16,6 @@ ui.close(uiEnt) -- closes UI
 event("ui:elementOpened", ent)
 event("ui:elementClosed", ent)
 
-
--- args:  (uiEnt, clientId)
-question("ui:canOpen", reducer=OR)
-question("ui:isOpenBlocked", reducer=OR)
-
-
--- args:  (uiEnt, controlEnt)
-question("ui:canOpenWith", reducer=OR)
-question("ui:isOpenWithBlocked", reducer=OR)
 ```
 
 

@@ -47,7 +47,7 @@ function SlotElement:onMousePress(button)
     --[[
         something like this....?
     ]]
-    interactionService.interact(button, self.inventory, self.slot)
+    slotService.interactWithSlot(button, self.inventory, self.slot)
 end
 
 
