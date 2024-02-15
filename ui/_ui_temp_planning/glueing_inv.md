@@ -4,7 +4,7 @@
 
 ```lua
 
-local GridInventory = ui.LUI.Element()
+local GridInventory = ui.Element()
 
 function GridInventory:init(args)
     for x=1, args.width do
@@ -36,7 +36,7 @@ Remember the *golden rule* by Keyslam:
 So maybe it makes sense for `SlotElement`s to contain some internal logic...?
 
 ```lua
-local SlotElement = ui.LUI.Element()
+local SlotElement = ui.Element()
 
 function SlotElement:init(args)
     self.slot = args.slot

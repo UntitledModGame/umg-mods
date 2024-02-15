@@ -1,6 +1,6 @@
 
 
-local Image = LUI.Element()
+local Image = ui.Element("ui:Image")
 
 
 function Image:init(args)

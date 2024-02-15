@@ -1,9 +1,9 @@
 
 
-local ScrollBar = LUI.Element()
+local ScrollBar = ui.Element("ui:ScrollBar")
 
 
-local ScrollThumb = LUI.Element()
+local ScrollThumb = ui.Element("ui:ScrollThumb")
 
 
 local function clamp(x, min, max)

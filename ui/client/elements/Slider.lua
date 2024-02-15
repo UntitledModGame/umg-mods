@@ -1,9 +1,9 @@
 
-local Slider = LUI.Element()
+local Slider = ui.Element("ui:Slider")
 
 
 
-local Thumb = LUI.Element()
+local Thumb = ui.Element("ui:Thumb")
 
 
 local function clamp(x, min, max)

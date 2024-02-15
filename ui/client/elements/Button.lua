@@ -1,6 +1,6 @@
 
 
-local Button = LUI.Element()
+local Button = ui.Element("ui:Button")
 
 
 local DEFAULT_PADDING = 12

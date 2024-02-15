@@ -1,6 +1,6 @@
 
 
-local Text = LUI.Element()
+local Text = ui.Element("ui:Text")
 --[[
 
 Text is a text element that will scale itself to

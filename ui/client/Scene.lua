@@ -2,7 +2,7 @@
 local lg = love.graphics
 
 
-local Scene = ui.Element()
+local Scene = ui.Element("ui:Scene")
 
 
 

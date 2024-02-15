@@ -1,5 +1,5 @@
 
-local Input = LUI.Element()
+local Input = ui.Element("ui:Input")
 
 local DEFAULT_MAX_LENGTH = 50
 

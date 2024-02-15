@@ -8,11 +8,19 @@ if client then
 local ui = require("client.ui")
 
 
+ui.elements = require("client.elements")
+
 ui.Region = require("kirigami.Region")
 
 
 local LUI = require("LUI.init")
-ui.LUI = LUI.Element
+
+function ui.Element(elementName)
+    local elementClass = LUI.Element(elementName)
+    ui.elements.defineElement(elementName, elementClass)
+    return elementClass
+end
+
 
 function ui.getScreenRegion()
     return ui.Region(0,0,love.graphics.getDimensions())

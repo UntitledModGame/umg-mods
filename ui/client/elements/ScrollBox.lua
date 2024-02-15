@@ -1,5 +1,5 @@
 
-local ScrollBox = LUI.Element()
+local ScrollBox = ui.Element("ui:ScrollBox")
 --[[
 
 ScrollBox
