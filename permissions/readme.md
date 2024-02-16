@@ -28,15 +28,28 @@ Direct examples:
 
 -- Flag components:
 authorizable
--- Denotes that the entity is `authorizable`
+-- Denotes that the entity is `authorizable`.
+-- (you NEED to do this if you want an entity to have permission.)
+-- (component-projection would be a good idea)
 
 local hasAccess = permissions.entityHasPermission(queryEnt, authEnt)
 
 -- args: (queryEnt, authEnt)
 question("permissions:entityHasPermission", reducer=OR)
 question("permissions:isEntityPermissionDenied", reducer=OR)
+```
+
+### Components:
+```lua
+
+-- gives "permissions" to `ent`. Marks it 
+ent.permissions = {
+    public = true, -- any entity has permission
+    playerOnly = true, -- any player (controllable) entity has permission
+}
 
 ```
+
 
 ### Client admin-levels:
 ```lua

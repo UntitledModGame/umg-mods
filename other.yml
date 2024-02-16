@@ -12,6 +12,8 @@ globals:
     any: true
   weather:
     any: true
+  permissions:
+    any: true
   chunks:
     any: true
   categories:

@@ -72,6 +72,10 @@ end
 
 
 
+
+
+components.project("onClick", "clickable")
+
 umg.on("control:entityClicked", function(ent, clientId, button, worldX, worldY)
     if type(ent.onClick) == "function" then
         ent:onClick(clientId, button, worldX, worldY)

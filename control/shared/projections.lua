@@ -1,3 +1,0 @@
-
-
-components.project("onClick", "clickable")

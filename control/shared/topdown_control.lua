@@ -12,7 +12,6 @@ Handles top-down player control
 
 components.project("topdownControl", "controllable")
 
-components.project("topdownControl", "")
 
 
 
