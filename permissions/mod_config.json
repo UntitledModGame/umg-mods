@@ -1,6 +1,6 @@
 {
     "uses": [
-        "reducers"
+        "reducers", "components"
     ],
     
     "type": "base"
