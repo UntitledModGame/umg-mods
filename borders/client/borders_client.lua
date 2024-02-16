@@ -2,7 +2,7 @@
 
 
 
-local controllableGroup = umg.group("controllable", "controller", "x", "y")
+local controllableGroup = umg.group("controllable", "x", "y")
 
 local max, min = math.max, math.min
 

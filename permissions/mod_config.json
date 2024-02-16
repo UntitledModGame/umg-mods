@@ -1,0 +1,7 @@
+{
+    "uses": [
+        "reducers"
+    ],
+    
+    "type": "base"
+}

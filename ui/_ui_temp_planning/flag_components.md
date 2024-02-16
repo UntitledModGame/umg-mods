@@ -21,34 +21,15 @@ ie:
 
 
 
+
 ## IDEA:
 Decouple "UIs can be opened" with "interactable" behaviour.
-Ie, when calling `ui.open(uiEnt)`, the ui mod doesn't check whether `uiEnt`
-is interactable by the clientId.
+Ie, when calling `ui.open(uiEnt)`, the ui mod just opens the ui instantly.
 
 This reduces coupling, and is quite nice.
 Could even create a new mod...?
 
-`interactable` mod?
-```lua
-
--- flag component:
-interactable
--- ^^^ denotes that an entity can be interacted with
+`permissions` mod?
 
 
-interaction.canInteract(interactEnt, clientId)
-
-
--- args:  (uiEnt, clientId)
-question("interactables:canInteract", reducer=OR)
-question("interactables:isInteractionBlocked", reducer=OR)
-
--- args:  (uiEnt, controlEnt)
-question("interactables:canInteractWith", reducer=OR)
-question("interactables:isInteractionWithBlocked", reducer=OR)
-
-
-
-```
 
