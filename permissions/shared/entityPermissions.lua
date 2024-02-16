@@ -4,10 +4,6 @@ local permissions = {}
 
 
 
-components.project("hasPermission", "authorizable")
-
-
-
 function permissions.entityHasPermission(queryEnt, authEnt)
     --[[
         asks:

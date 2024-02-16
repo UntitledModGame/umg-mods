@@ -21,7 +21,7 @@ local sf = sync.filters
 local REQUIRED_ADMIN_LEVEL = 100
 
 local function isAdmin(sender)
-    return chat.getAdminLevel(sender) > REQUIRED_ADMIN_LEVEL
+    return permissions.getAdminLevel(sender) > REQUIRED_ADMIN_LEVEL
 end
 
 local function isValidTool(tool)

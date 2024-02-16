@@ -107,7 +107,7 @@ server.on("chat:command", function(sender, commandName, ...)
         return
     end
 
-    local adminLevel = chat.getAdminLevel(sender)
+    local adminLevel = permissions.getAdminLevel(sender)
     if cmdHandler.adminLevel > adminLevel then 
         chat.privateMessage(sender, "/" .. commandName .. ": Admin level " .. tostring(handler.adminLevel) .. " required.")
         return

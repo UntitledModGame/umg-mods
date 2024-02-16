@@ -6,8 +6,7 @@ local chat = {}
 if server then
 
 local chatServ = require("server.chat")
-chat.getAdminLevel = chatServ.getAdminLevel
-chat.setAdminLevel = chatServ.setAdminLevel
+
 chat.message = chatServ.message
 chat.privateMessage = chatServ.privateMessage
 

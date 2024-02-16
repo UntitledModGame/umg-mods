@@ -22,7 +22,7 @@ chat.handleCommand("help", {
     adminLevel = 0,
 
     handler = function(sender)
-        local adminLevel = chat.getAdminLevel(sender)
+        local adminLevel = permissions.getAdminLevel(sender)
         local commands = chat.getCommands()
         chat.privateMessage(sender, "COMMAND LIST:")
         for _, handler in ipairs(commands)do
@@ -44,11 +44,11 @@ chat.handleCommand("promote", {
     adminLevel = 1,
 
     handler = function(sender, user, level)
-        local adminLv = chat.getAdminLevel(sender)
-        local targetAdminLv = chat.getAdminLevel(user)
+        local adminLv = permissions.getAdminLevel(sender)
+        local targetAdminLv = permissions.getAdminLevel(user)
         level = math.max(targetAdminLv, level)
         if adminLv > level and adminLv > targetAdminLv then
-            chat.setAdminLevel(user, level)
+            permissions.setAdminLevel(user, level)
         end
     end
 })
@@ -64,11 +64,11 @@ chat.handleCommand("demote", {
     adminLevel = 1,
 
     handler = function(sender, user, level)
-        local adminLv = chat.getAdminLevel(sender)
-        local targetAdminLv = chat.getAdminLevel(user)
+        local adminLv = permissions.getAdminLevel(sender)
+        local targetAdminLv = permissions.getAdminLevel(user)
         level = math.min(targetAdminLv, level)
         if adminLv > level and adminLv > targetAdminLv then
-            chat.setAdminLevel(user, level)
+            permissions.setAdminLevel(user, level)
         end
     end
 })

@@ -18,9 +18,10 @@ function permissions.getAdminLevel(clientId)
     return ADMIN_LEVELS[clientId] or DEFAULT_ADMIN_LEVEL
 end
 
-local setAdminLevelAssert = typecheck.assert("string", "number")
+
+local setAdminLevelTc = typecheck.assert("string", "number")
 function permissions.setAdminLevel(clientId, level)
-    setAdminLevelAssert(clientId, level)
+    setAdminLevelTc(clientId, level)
     ADMIN_LEVELS[clientId] = level
 end
 
