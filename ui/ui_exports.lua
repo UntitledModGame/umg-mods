@@ -15,7 +15,7 @@ ui.Region = require("kirigami.Region")
 ui.Element = require("client.newElement")
 
 
-function ui.getScreenRegion()
+function ui.getSceneRegion()
     return ui.Region(0,0,love.graphics.getDimensions())
 end
 
