@@ -12,19 +12,27 @@ local categoryGroup = umg.group("x", "y", "category")
 local categoryToChunk = {}
 
 
-local function getCategoryChunk(category)
+local function getCategoryPartition(category)
     if not categoryToChunk[category] then
-        categoryToChunk[category] = objects.Partition(chunks.getChunkSize())
+        categoryToChunk[category] = spatial.DimensionPartition(chunks.getChunkSize())
     end
     return categoryToChunk[category]
 end
+
+
+umg.on("spatial:entityMovedDimension", function(ent, oldDim, newDim)
+    local categories = getAllCategories(ent)
+    for _, cat in ipairs(categories) do
+        getCategoryPartition(cat):entityMoved(ent, oldDim, newDim)
+    end
+end)
 
 
 
 function addEntity(ent)
     local categories = getAllCategories(ent)
     for _, cat in ipairs(categories) do
-        getCategoryChunk(cat):addEntity(ent)
+        getCategoryPartition(cat):addEntity(ent)
     end
 end
 
@@ -32,7 +40,7 @@ end
 function removeEntity(ent)
     local categories = getAllCategories(ent)
     for _, cat in ipairs(categories) do
-        getCategoryChunk(cat):removeEntity(ent)
+        getCategoryPartition(cat):removeEntity(ent)
     end
 end
 
@@ -49,7 +57,7 @@ umg.on("@tick", function()
     for _, ent in ipairs(categoryMoveGroup) do
         local categories = getAllCategories(ent)
         for _, cat in ipairs(categories) do
-            getCategoryChunk(cat):updateEntity(ent)
+            getCategoryPartition(cat):updateEntity(ent)
         end
     end
 end)

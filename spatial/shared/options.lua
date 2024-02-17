@@ -1,4 +1,15 @@
 
+--[[
+
+
+TODO:
+
+In the future, we should provide an API for changing options.
+Maybe we should have a generic way of changing/defining options...?
+
+
+]]
+
 
 local options = {
     DEFAULT_SPEED = 100,
@@ -14,25 +25,6 @@ local options = {
 
     DEFAULT_FRICTION = 6;
 }
-
-
-
-local VALID_OPTIONS = {
-    DEFAULT_SPEED = true,
-    SYNC_LEIGHWAY = true,
-    DEFAULT_FRICTION = true;
-}
-
-
-
-
-function options.setOption(opt, val)
-    if not VALID_OPTIONS[opt] then
-        error("Invalid option: " .. opt)
-    end
-    options[opt] = val
-end
-
 
 
 

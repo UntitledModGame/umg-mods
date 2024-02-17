@@ -149,6 +149,12 @@ umg.on("spatial:dimensionDestroyed", function(dim)
     groundItemPartition:destroyDimension(dim)
 end)
 
+umg.on("spatial:entityMovedDimension", function(ent, oldDim, newDim)
+    groundItemPartition:entityMoved(ent, oldDim, newDim)
+end)
+
+
+
 
 
 local SKIPS = 8 -- we only want to update every X ticks, for efficiency

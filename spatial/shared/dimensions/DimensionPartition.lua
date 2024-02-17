@@ -15,7 +15,7 @@ require("shared.dimensions.DimensionVector") -- we need typecheck defs
 local getDimension = require("shared.dimensions.getDimension")
 
 
-local Partition = objects.Partition
+local Partition = require("shared.Partition")
 local DimensionStructure = require("shared.dimensions.DimensionStructure")
 
 local DimensionPartition = objects.Class("dimensions:DimensionPartition", DimensionStructure)

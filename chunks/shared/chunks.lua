@@ -9,7 +9,7 @@ local constants = require("shared.constants")
     This is the "main" chunk,
     i.e. a chunk of all entities that exist in the game
 ]]
-local globalChunk = objects.Partition(constants.CHUNK_SIZE)
+local globalChunk = spatial.DimensionPartition(constants.CHUNK_SIZE)
 
 
 
@@ -26,6 +26,12 @@ end)
 positionGroup:onRemoved(function(ent)
     globalChunk:removeEntity(ent)
 end)
+
+
+umg.on("spatial:entityMovedDimension", function(ent, oldDim, newDim)
+    globalChunk:entityMoved(ent, oldDim, newDim)
+end)
+
 
 
 
