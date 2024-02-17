@@ -3,7 +3,7 @@
     "uses": [
         "typecheck", "sync", "objects", "state",
         "input", "rendering", "reducers", "physics",
-        "items", "control", "positions", "juice", "sound",
+        "items", "control", "spatial", "juice", "sound",
         "mortality", "holdables"
     ]
 }

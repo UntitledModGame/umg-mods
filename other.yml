@@ -44,7 +44,7 @@ globals:
     any: true
   reducers:
     any: true
-  positions:
+  spatial:
     any: true
   juice:
     any: true

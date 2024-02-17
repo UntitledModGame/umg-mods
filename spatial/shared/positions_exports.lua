@@ -1,7 +1,7 @@
 
 
 
-local positions = {}
+local spatial = {}
 
 
 
@@ -11,13 +11,13 @@ local options = require("shared.options")
 
 local setOptionTc = typecheck.assert("string")
 
-function positions.setOption(key, val)
+function spatial.setOption(key, val)
     setOptionTc(key, val)
     options.setOption(key,val)
 end
 
 
-function positions.getOption(key)
+function spatial.getOption(key)
     return options[key]
 end
 
@@ -35,5 +35,5 @@ components.defineComponent("y", {
 
 
 
-umg.expose("positions", positions)
+umg.expose("spatial", spatial)
 

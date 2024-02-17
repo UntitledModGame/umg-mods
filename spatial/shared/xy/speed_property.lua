@@ -10,10 +10,10 @@ properties.defineProperty("speed", {
     shouldComputeClientside = true,
 
     getModifier = function(ent)
-        return umg.ask("positions:getSpeedModifier", ent) or 0
+        return umg.ask("spatial:getSpeedModifier", ent) or 0
     end,
     getMultiplier = function(ent)
-        return umg.ask("positions:getSpeedMultiplier", ent) or 1
+        return umg.ask("spatial:getSpeedMultiplier", ent) or 1
     end
 })
 

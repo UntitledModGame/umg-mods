@@ -137,7 +137,7 @@ end)
 
 
 
-umg.answer("positions:isFrictionDisabled", function(ent)
+umg.answer("spatial:isFrictionDisabled", function(ent)
     -- physics entities shouldnt be bound by friction
     return ent.physics
 end)

@@ -1,13 +1,13 @@
 
 
 -- is velocity disabled for this entity?
-umg.defineQuestion("positions:isVelocityDisabled", reducers.OR)
+umg.defineQuestion("spatial:isVelocityDisabled", reducers.OR)
 
 -- Is vertical velocity disabled for this entity?
-umg.defineQuestion("positions:isVerticalVelocityDisabled", reducers.OR)
+umg.defineQuestion("spatial:isVerticalVelocityDisabled", reducers.OR)
 
 -- Is friction disabled? 
-umg.defineQuestion("positions:isFrictionDisabled", reducers.OR)
+umg.defineQuestion("spatial:isFrictionDisabled", reducers.OR)
 
 
 
@@ -25,12 +25,12 @@ umg.defineQuestion("positions:isFrictionDisabled", reducers.OR)
     Car's max speed is 20, but it's velocity can still be bigger than 20.
 ]]
 -- Gets the flat speed of an entity
-umg.defineQuestion("positions:getSpeedModifier", reducers.ADD)
+umg.defineQuestion("spatial:getSpeedModifier", reducers.ADD)
 
 -- Gets the speed multiplier of an entity
-umg.defineQuestion("positions:getSpeedMultiplier", reducers.MULTIPLY)
+umg.defineQuestion("spatial:getSpeedMultiplier", reducers.MULTIPLY)
 
 
 -- Gets the velocity multiplier of an entity
-umg.defineQuestion("positions:getVelocityMultiplier", reducers.MULTIPLY)
+umg.defineQuestion("spatial:getVelocityMultiplier", reducers.MULTIPLY)
 

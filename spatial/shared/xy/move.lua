@@ -8,7 +8,7 @@ local constants = require("shared.constants")
 
 
 local function doFriction(ent, dt)
-    local noFriction = umg.ask("positions:isFrictionDisabled", ent)
+    local noFriction = umg.ask("spatial:isFrictionDisabled", ent)
     if noFriction then
         return
     end
@@ -24,7 +24,7 @@ local function shouldMoveShared(ent)
     -- Allow future mods to disable velocity.
     -- This comes in handy when we want to have velocity components,
     -- but we don't want them to actually work. (i.e. physics system)
-    local blocked = umg.ask("positions:isVelocityDisabled", ent)
+    local blocked = umg.ask("spatial:isVelocityDisabled", ent)
     return not blocked
 end
 
@@ -62,7 +62,7 @@ local function shouldMoveZ(ent)
     if (not ent.z) or (not ent.vz) then
         return
     end
-    local blocked = umg.ask("positions:isVerticalVelocityDisabled", ent)
+    local blocked = umg.ask("spatial:isVerticalVelocityDisabled", ent)
     return not blocked
 end
 
@@ -74,7 +74,7 @@ local function updateEnt(ent, dt)
     -- (although we do handle the Z component regardless)
     if shouldMove(ent) then
         doFriction(ent, dt)
-        local velMod = umg.ask("positions:getVelocityMultiplier", ent) or 1
+        local velMod = umg.ask("spatial:getVelocityMultiplier", ent) or 1
         local dtt = velMod * dt
         ent.x = ent.x + ent.vx * dtt
         ent.y = ent.y + ent.vy * dtt
