@@ -81,6 +81,7 @@ local strTc = typecheck.assert("string")
 
 function dimensions.destroyDimension(dimension)
     strTc(dimension)
+    assert(server, "?")
     local overseer = dimensions.getOverseer(dimension)
     if umg.exists(overseer) then
         overseer:delete()
@@ -107,10 +108,6 @@ function dimensions.getAllDimensions()
     return allDimensions
 end
 
-
-function dimensions.iterator()
-    return pairs(dimensionToOverseerEnt)
-end
 
 
 

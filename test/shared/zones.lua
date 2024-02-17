@@ -94,7 +94,7 @@ end
 
 
 
-umg.answer("xy:getVelocityMultiplier", function(ent)
+umg.answer("positions:getVelocityMultiplier", function(ent)
     if inRangeOf(ent, cyanZone) then
         return 3
     end

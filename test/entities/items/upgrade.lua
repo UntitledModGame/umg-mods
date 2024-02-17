@@ -17,7 +17,7 @@ return {
     },
 
     questionEffect = {
-        question = "xy:getSpeedMultiplier", 
+        question = "positions:getSpeedMultiplier", 
         answer = 2
     },
 

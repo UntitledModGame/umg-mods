@@ -18,7 +18,7 @@
       "scheduling",
       "projectiles",
       "rendering",
-      "xy",
+      "positions",
       "borders"
     ],
     "type": "playable"

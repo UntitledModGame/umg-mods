@@ -1,7 +1,7 @@
 
 
 
-local xy = {}
+local positions = {}
 
 
 
@@ -11,13 +11,13 @@ local options = require("shared.options")
 
 local setOptionTc = typecheck.assert("string")
 
-function xy.setOption(key, val)
+function positions.setOption(key, val)
     setOptionTc(key, val)
     options.setOption(key,val)
 end
 
 
-function xy.getOption(key)
+function positions.getOption(key)
     return options[key]
 end
 
@@ -35,5 +35,5 @@ components.defineComponent("y", {
 
 
 
-umg.expose("xy", xy)
+umg.expose("positions", positions)
 

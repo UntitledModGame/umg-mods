@@ -23,7 +23,7 @@ That's it!
 properties.defineProperty({
   name = "speed",
   getProperty = function(ent)
-    return umg.ask("xy:getSpeed", ent)
+    return umg.ask("positions:getSpeed", ent)
   end,
   
   ticked = nil or 1 -- recalculates automatically once per tick
@@ -173,7 +173,7 @@ For example, our `speed` modifiers will only work on entities with
 the `speed` component.
 
 This is bad. Our previous setup had it so that entities didn't need
-to have `speed` component; `xy:getSpeed` was still called globally
+to have `speed` component; `positions:getSpeed` was still called globally
 for all entities that needed speed.
 
 Hmm...<br/>
@@ -182,7 +182,7 @@ I think this can be fixed by having a function we can call for defaults:
 local prop = properties.get(ent, "speed")
 -- or something similar to this...?
 ```
-Internally, this would call `xy:getSpeed` and all the other questions.
+Internally, this would call `positions:getSpeed` and all the other questions.
 This would allow us to have our cake and eat it too.
 
 (If entity has a `.speed` component though, it returns that instead.)

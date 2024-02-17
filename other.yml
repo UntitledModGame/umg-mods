@@ -44,7 +44,7 @@ globals:
     any: true
   reducers:
     any: true
-  xy:
+  positions:
     any: true
   juice:
     any: true
