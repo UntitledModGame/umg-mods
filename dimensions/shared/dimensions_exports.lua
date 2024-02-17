@@ -34,7 +34,7 @@ end
 typecheck.addType("dimension", exists)
 
 
-dimensions.DimensionVector = require("shared.dimension_vector")
+dimensions.DimensionVector = require("shared.DimensionVector")
 
 dimensions.DimensionPartition = require("shared.DimensionPartition")
 dimensions.DimensionStructure = require("shared.DimensionStructure")

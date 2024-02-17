@@ -10,7 +10,7 @@ entities are separated by dimensions AND x,y values.
 ]]
 
 
-require("shared.dimension_vector") -- we need typecheck defs
+require("shared.DimensionVector") -- we need typecheck defs
 
 local getDimension = require("shared.get_dimension")
 
