@@ -1,7 +1,6 @@
 
 
 
-
 sync.autoSyncComponent("dimension", {
     type = "string",
     syncWhenNil = true

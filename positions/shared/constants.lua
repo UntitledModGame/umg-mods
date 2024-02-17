@@ -12,6 +12,9 @@ return {
     entities are loaded, since it generates groups.
     ]]
     NUMBER_SYNC_THRESHOLD = 0.5,
+
+
+    DEFAULT_DIMENSION = "overworld"
 }
 
 

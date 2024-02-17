@@ -5,7 +5,7 @@
 
 - no getters/setters for entities changing dimensions
 
-- dimensions mod automatically emits `dimensions:entityMoved` if an entity changes dimensions.
+- automatically emits `dimensions:entityMoved` if an entity changes dimensions.
 
 - spatial partitions have a dimension value too
 
@@ -28,7 +28,7 @@ local arr = dimensions.getAllDimensions() -- gets all dimensions
 
 
 
-umg.on("dimensions:entityMoved", function(ent, oldDim, newDim)
+umg.on("dimensions:entityMovedDimensions", function(ent, oldDim, newDim)
     ... -- called when an entity moves dimensions
 end)
 

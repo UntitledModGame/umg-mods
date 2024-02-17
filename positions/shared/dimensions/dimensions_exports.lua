@@ -1,7 +1,7 @@
 
-local getDimension = require("shared.get_dimension")
+local getDimension = require("shared.dimensions.getDimension")
 
-local api = require("shared.dimensions")
+local api = require("shared.dimensions.dimensions")
 
 
 local dimensions = {}

@@ -10,13 +10,13 @@ entities are separated by dimensions AND x,y values.
 ]]
 
 
-require("shared.DimensionVector") -- we need typecheck defs
+require("shared.dimensions.DimensionVector") -- we need typecheck defs
 
-local getDimension = require("shared.get_dimension")
+local getDimension = require("shared.dimensions.getDimension")
 
 
 local Partition = objects.Partition
-local DimensionStructure = require("shared.DimensionStructure")
+local DimensionStructure = require("shared.dimensions.DimensionStructure")
 
 local DimensionPartition = objects.Class("dimensions:DimensionPartition", DimensionStructure)
 
