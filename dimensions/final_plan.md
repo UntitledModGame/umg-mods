@@ -12,7 +12,7 @@
 
 
 ```lua
-local dim = dimensions.getDimension(ent.dimension)
+local dim = spatial.getDimension(ent.dimension)
 
 
 -- If entities aren't assigned a dimension, they will end up here.

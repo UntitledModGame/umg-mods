@@ -7,7 +7,7 @@
 
 --[[
     this component belongs on dimension overseer entities.
-    (See dimensions.getOverseer(dim))
+    (See spatial.getDimensionOverseer(dim))
 
     This component will create a border with the specified stats:
 ]]

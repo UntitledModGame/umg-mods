@@ -1,7 +1,7 @@
 
-local getDimension = require("shared.dimensions.getDimension")
+local getDimension = require("shared.get_dimension")
 
-local api = require("shared.dimensions.dimensions")
+local api = require("shared.dimensions")
 
 
 local dimensions = {}
@@ -10,7 +10,7 @@ local dimensions = {}
 dimensions.getDimension = getDimension
 
 
-dimensions.getOverseer = api.getOverseer
+spatial.getDimensionOverseer = api.getOverseer
 
 dimensions.getAllDimensions = api.getAllDimensions
 
@@ -25,7 +25,7 @@ local function exists(dim)
         -- its fine
         return true
     end
-    if not dimensions.getOverseer(dim) then
+    if not spatial.getDimensionOverseer(dim) then
         return false, "expected dimension"
     end
     return true

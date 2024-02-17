@@ -42,7 +42,7 @@ local function updateHolderEnt(holderEnt)
 
     umg.call("holdables:updateHoldItem", itemEnt, holderEnt)
 
-    itemEnt.dimension = dimensions.getDimension(holderEnt.dimension)
+    itemEnt.dimension = spatial.getDimension(holderEnt.dimension)
 end
 
 

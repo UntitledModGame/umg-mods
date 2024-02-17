@@ -82,7 +82,7 @@ umg.on("@draw", function()
     local p = getPlayerWithXY()
     if p then
         love.graphics.setColor(0,0,0)
-        love.graphics.print(dimensions.getDimension(p))
+        love.graphics.print(spatial.getDimension(p))
     end
 end)
 

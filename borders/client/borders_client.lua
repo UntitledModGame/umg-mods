@@ -23,7 +23,7 @@ umg.on("state:gameUpdate", function(dt)
     ]]
     for _, ent in ipairs(controllableGroup) do
         if sync.isClientControlling(ent) then
-            local overseerEnt = dimensions.getOverseer(ent.dimension)
+            local overseerEnt = spatial.getDimensionOverseer(ent.dimension)
             if overseerEnt and overseerEnt.border then
                 local border = overseerEnt.border
                 ent.x, ent.y = clampToWithinBorder(border, ent.x, ent.y)

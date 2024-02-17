@@ -97,7 +97,7 @@ end)
 umg.on("rendering:drawEffects", function(camera)
     local dimension = camera:getDimension()
     for _,sw in ipairs(shockwaveSet) do
-        local dim = dimensions.getDimension(sw.dimension)
+        local dim = spatial.getDimension(sw.dimension)
         if dim == dimension then
             draw(sw)
         end

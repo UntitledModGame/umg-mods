@@ -70,8 +70,8 @@ end
 
 local function getBorder(ent)
     -- gets the border for an entity inside a dimension
-    local dimension = dimensions.getDimension(ent)
-    local overseerEnt = dimensions.getOverseer(dimension)
+    local dimension = spatial.getDimension(ent)
+    local overseerEnt = spatial.getDimensionOverseer(dimension)
     if overseerEnt and overseerEnt.border then
         return overseerEnt.border
     end

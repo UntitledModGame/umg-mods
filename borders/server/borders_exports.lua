@@ -14,7 +14,7 @@ function borders.setBorder(dimension, options)
     assert(options.width, "borders need width")
     assert(options.height, "borders need height")
 
-    local overseerEnt = dimensions.getOverseer(dimension)
+    local overseerEnt = spatial.getDimensionOverseer(dimension)
     overseerEnt.border = options
 end
 

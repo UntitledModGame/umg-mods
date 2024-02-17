@@ -49,7 +49,7 @@ function light.setLighting(dimension, r,g,b)
     ]]
     setLightingTc(dimension, r,g,b)
     local color = getColor(r,g,b)
-    local overseerEnt = dimensions.getOverseer(dimension)
+    local overseerEnt = spatial.getDimensionOverseer(dimension)
     if umg.exists(overseerEnt) then
         overseerEnt.lighting = color
         if server then

@@ -114,7 +114,7 @@ end
 
 -- UMG monkeypatch 
 function Camera:setDimension(dimension)
-    self.dimension = dimensions.getDimension(dimension)
+    self.dimension = spatial.getDimension(dimension)
 end
 
 -- UMG monkeypatch 

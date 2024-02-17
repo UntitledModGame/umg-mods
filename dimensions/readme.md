@@ -67,9 +67,9 @@ dimensions.createDimension("my_dimension", portalEnt)
 
 -----------------------
 
-We can get the overseer entity for a dimension with `dimensions.getOverseer`:
+We can get the overseer entity for a dimension with `spatial.getDimensionOverseer`:
 ```lua
-local ent = dimensions.getOverseer(dimension)
+local ent = spatial.getDimensionOverseer(dimension)
 if ent == nil then
     print("dimension doesn't exist: ", dimension)
 else

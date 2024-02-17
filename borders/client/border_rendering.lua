@@ -77,7 +77,7 @@ end
 
 umg.on("rendering:drawEffects", function(camera)
     local dimension = camera:getDimension()
-    local overseerEnt = dimensions.getOverseer(dimension)
+    local overseerEnt = spatial.getDimensionOverseer(dimension)
     local border = overseerEnt.border
 
     if border then

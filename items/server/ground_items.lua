@@ -35,7 +35,7 @@ local PICKUP_DELAY_TIME = 4
 local function dropItem(itemEnt, dvec)
     itemEnt.x = dvec.x
     itemEnt.y = dvec.y
-    itemEnt.dimension = dimensions.getDimension(dvec.dimension)
+    itemEnt.dimension = spatial.getDimension(dvec.dimension)
     itemEnt.groundItem = true
 
     umg.call("items:dropGroundItem", itemEnt)

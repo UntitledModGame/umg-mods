@@ -43,7 +43,7 @@ function popups.image(image, dvec, options)
     obj.image = image
 
     obj.x, obj.y = dvec.x, dvec.y
-    obj.dimension = dimensions.getDimension(dvec.dimension)
+    obj.dimension = spatial.getDimension(dvec.dimension)
 
     obj.startTime = getGameTime()
     obj.endTime = obj.duration + obj.startTime
@@ -93,7 +93,7 @@ function popups.text(text, dvec, options)
 
     obj.text = text
     obj.x, obj.y = dvec.x, dvec.y
-    obj.dimension = dimensions.getDimension(dvec.dimension)
+    obj.dimension = spatial.getDimension(dvec.dimension)
 
     obj.startTime = getGameTime()
     obj.endTime = obj.duration + obj.startTime

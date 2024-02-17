@@ -177,7 +177,7 @@ umg.on("rendering:drawIndex", function(indx, camera)
         local len = #arr
         for i=len, 1, -1 do
             local animObj = arr[i]
-            local dim = dimensions.getDimension(animObj)
+            local dim = spatial.getDimension(animObj)
             -- only draw if dimensions match:
             if dim == dimension then
                 if isFinished(animObj) then

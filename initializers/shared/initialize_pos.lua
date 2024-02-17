@@ -21,9 +21,9 @@ end
 local function initPosition(ent, x, y, dimension)
     ent.x = x
     ent.y = y
-    if dimension and dimensions.getOverseer(dimension) then
+    if dimension and spatial.getDimensionOverseer(dimension) then
         -- if `dimension` is a valid dimension:
-        ent.dimension = dimensions.getDimension(dimension)
+        ent.dimension = spatial.getDimension(dimension)
     end
 end
 

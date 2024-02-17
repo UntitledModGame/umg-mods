@@ -1,6 +1,6 @@
 
 
-# Positions mod
+# Spatial mod
 
 Handles position components, (x, y), and dimension component.
 

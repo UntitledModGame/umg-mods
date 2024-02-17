@@ -153,7 +153,7 @@ end)
 
 
 function physics.getWorld(dimension)
-    dimension = dimensions.getDimension(dimension)
+    dimension = spatial.getDimension(dimension)
     strTc(dimension)
     return worldDimStruct:getObject(dimension)
 end

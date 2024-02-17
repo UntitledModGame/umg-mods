@@ -274,7 +274,7 @@ With this setup, we could write code like so:
 ```lua
 function lighting.setBaseLighting(dim, color)
     strTc(dim)
-    local ent = dimensions.getOverseer(dim)
+    local ent = spatial.getDimensionOverseer(dim)
     if ent then
         ent.baseLighting = color
         sync.syncComponent(ent, "dimensionLighting")

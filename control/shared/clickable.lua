@@ -9,7 +9,7 @@ local RANGE_ACCEPTANCE = 80
 sync.proxyEventToClient("control:entityClicked")
 
 
-local getDimension = dimensions.getDimension
+local getDimension = spatial.getDimension
 
 
 local function isInRange(ent, worldX, worldY, dimension)

@@ -56,7 +56,7 @@ end
 
 
 local function resetLighting(dimension)
-    local overseerEnt = dimensions.getOverseer(dimension)
+    local overseerEnt = spatial.getDimensionOverseer(dimension)
     local col = overseerEnt.lighting or defaultLighting
     local r,g,b = col[1], col[2], col[3]
     local r1,g1,b1 = umg.ask("light:getGlobalLightingModifier")
@@ -82,7 +82,7 @@ local function setupCanvas(camera)
     for _, ent in ipairs(lightGroup) do
         -- TODO: Check if entity is on the screen
         -- (its hard because of canvases, lg.getWidth() is not available)
-        local dim = dimensions.getDimension(ent)
+        local dim = spatial.getDimension(ent)
         if dim == dimension then
             drawLight(ent, globalModifier)
         end

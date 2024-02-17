@@ -62,7 +62,7 @@ end)
     main draw function
 ]]
 umg.on("rendering:drawEntities", function(camera)
-    local dim = dimensions.getDimension(camera:getDimension())
+    local dim = spatial.getDimension(camera:getDimension())
     local zindexer = dimensionZIndexer:getObject(dim)
     if zindexer then
         zindexer:drawEntities(camera)

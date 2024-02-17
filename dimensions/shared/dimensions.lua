@@ -90,7 +90,7 @@ end
 
 
 
-function dimensions.getDimensionOverseer(dim)
+function spatial.getDimensionOverseer(dim)
     -- gets the controller entity for a dimension.
     -- If the dimension doesn't exist, nil is returned.
     dim = dim or DEFAULT_DIMENSION

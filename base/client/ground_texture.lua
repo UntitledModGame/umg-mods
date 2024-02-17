@@ -63,7 +63,7 @@ end
 
 function groundTexture.setGround(dimension, obj)
     setGroundTc(dimension, obj)
-    local overseerEnt = dimensions.getOverseer(dimension)
+    local overseerEnt = spatial.getDimensionOverseer(dimension)
     overseerEnt.groundTexture = parseGroundObject(obj)
 end
 
@@ -107,7 +107,7 @@ end
 
 umg.on("rendering:drawGround", function(camera)
     local dimension = camera:getDimension()
-    local overseerEnt = dimensions.getOverseer(dimension)
+    local overseerEnt = spatial.getDimensionOverseer(dimension)
 
     local obj = overseerEnt.groundTexture or defaultGround
 
