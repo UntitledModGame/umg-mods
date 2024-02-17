@@ -8,8 +8,7 @@ sync.autoSyncComponent("dimension", {
 
 
 
-sync.proxyEventToClient("dimensions:entityMoved")
-sync.proxyEventToClient("dimensions:entityMoveFailed")
-sync.proxyEventToClient("dimensions:dimensionCreated")
-sync.proxyEventToClient("dimensions:dimensionDestroyed")
+sync.proxyEventToClient("spatial:entityMovedDimensions")
+sync.proxyEventToClient("spatial:dimensionCreated")
+sync.proxyEventToClient("spatial:dimensionDestroyed")
 

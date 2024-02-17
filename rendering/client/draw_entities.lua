@@ -20,7 +20,7 @@ local dimensionZIndexer = DimensionZIndexer()
 
 
 
-umg.on("dimensions:dimensionDestroyed", function(dim)
+umg.on("spatial:dimensionDestroyed", function(dim)
     dimensionZIndexer:destroyDimension(dim)
 end)
 
@@ -40,7 +40,7 @@ end)
 
 
 
-umg.on("dimensions:entityMoved", function(ent, oldDim, newDim)
+umg.on("spatial:entityMovedDimensions", function(ent, oldDim, newDim)
     -- This is called for entities that aren't draw entities,
     -- but oh well.
     -- The DimensionStructure will handle it gracefully.

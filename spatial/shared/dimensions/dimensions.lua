@@ -33,7 +33,7 @@ local function destroyDimension(dimension)
     if ent then
         dimensionToOverseerEnt[dimension] = nil
         overseerEntToDimension[ent] = nil
-        umg.call("dimensions:dimensionDestroyed", dimension, ent)
+        umg.call("spatial:dimensionDestroyed", dimension, ent)
         ent:delete()
     end
 end
@@ -44,7 +44,7 @@ overseeingDimensionGroup:onAdded(function(ent)
     local dim = ent.overseeingDimension
     dimensionToOverseerEnt[dim] = ent
     overseerEntToDimension[ent] = dim
-    umg.call("dimensions:dimensionCreated", dim, ent)
+    umg.call("spatial:dimensionCreated", dim, ent)
 end)
 
 

@@ -1,11 +1,8 @@
 
 
-umg.defineEvent("dimensions:entityMoved")
+umg.defineEvent("spatial:entityMovedDimensions")
 
 umg.defineEvent("dimensions:dimensionCreated")
 
-umg.defineEvent("dimensions:dimensionDestroyed")
-
--- called when an entity tries to move to a non-existant dimension
-umg.defineEvent("dimensions:entityMoveFailed")
+umg.defineEvent("spatial:dimensionDestroyed")
 

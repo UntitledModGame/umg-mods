@@ -126,15 +126,15 @@ local arr = dimensions.getAllDimensions() -- gets all dimensions
 
 
 
-umg.on("dimensions:entityMoved", function(ent, oldDim, newDim)
+umg.on(":entityMovedDimensions", function(ent, oldDim, newDim)
     ... -- called when an entity moves dimensions
 end)
 
-umg.on("dimensions:dimensionCreated", function(dim_name)
+umg.on(":dimensionCreated", function(dim_name)
     ... -- Called when a new dimension is created
 end)
 
-umg.on("dimensions:dimensionDestroyed", function(dim_name)
+umg.on(":dimensionDestroyed", function(dim_name)
     ... -- called when a dimension is destroyed
 end)
 
@@ -187,7 +187,7 @@ systems don't know when dimension changes
 ### BEST OPTION:
 
 - no getters/setters
-- dimensions mod automatically emits `dimensions:entityMoved`
+- dimensions mod automatically emits `:entityMovedDimensions`
     if an entity moves.
 
 

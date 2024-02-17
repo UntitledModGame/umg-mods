@@ -34,12 +34,12 @@ local strTc = typecheck.assert("string")
 
 
 
-umg.on("dimensions:dimensionCreated", function(dimension, ent)
+umg.on("spatial:dimensionCreated", function(dimension, ent)
     worldDimStruct:createDimension(dimension)
 end)
 
 
-umg.on("dimensions:dimensionDestroyed", function(dimension, ent)
+umg.on("spatial:dimensionDestroyed", function(dimension, ent)
     worldDimStruct:destroyDimension(dimension)
 end)
 
@@ -96,7 +96,7 @@ end)
 
 
 
-umg.on("dimensions:entityMoved", function(ent, oldDim, newDim)
+umg.on("spatial:entityMovedDimensions", function(ent, oldDim, newDim)
     if physicsGroup:has(ent) then
         worldDimStruct:entityMoved(ent, oldDim, newDim)
     end

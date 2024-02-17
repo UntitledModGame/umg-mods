@@ -37,7 +37,7 @@ Functions that NEED to be called manually, or else it wont work:
 DimensionStructure:super()  must be called on init
 DimensionStructure:addEntity(ent)  adds entity
 DimensionStructure:removeEntity(ent)  removes entity
-DimensionStructure:entityMoved(ent, oldDim, newDim)  call this whenever `dimensions:entityMoved` event is called
+DimensionStructure:entityMoved(ent, oldDim, newDim)  call this whenever `spatial:entityMovedDimensions` event is called
 
 ]]
 
@@ -125,7 +125,7 @@ end
 
 
 --[[
-    This must be called whenever dimensions:entityMoved is called.
+    This must be called whenever spatial:entityMovedDimensions is called.
 ]]
 function DimensionStructure:entityMoved(ent, _oldDim, newDim)
     if not self:contains(ent) then

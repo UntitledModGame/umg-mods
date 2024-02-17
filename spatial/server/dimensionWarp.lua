@@ -28,12 +28,14 @@ local function moveDimensions(ent, oldDim, newDim)
     if dimensions.getOverseer(newDim) then
         -- then the dimension exists:
         entToDimension[ent] = newDim
-        umg.call("dimensions:entityMoved", ent, oldDim, newDim)
+        umg.call("spatial:entityMovedDimensions", ent, oldDim, newDim)
     else
-        -- if the new dimension doesn't exist,
-        -- emit an event telling the system that an entity tried to move into void.
+        -- if the new dimension doesn't exist, set it to old dimension.
         ent.dimension = oldDim
-        umg.call("dimensions:entityMoveFailed", ent, oldDim, newDim)
+        --[[
+            TODO: Should we be emitting an event or something here..???
+                To signal to other systems that an entity failed it's move..?
+        ]]
     end
 end
 

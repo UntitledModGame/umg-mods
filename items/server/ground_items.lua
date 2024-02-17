@@ -145,7 +145,7 @@ local function updatePartition()
 end
 
 
-umg.on("dimensions:dimensionDestroyed", function(dim)
+umg.on("spatial:dimensionDestroyed", function(dim)
     groundItemPartition:destroyDimension(dim)
 end)
 
