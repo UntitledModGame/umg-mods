@@ -68,7 +68,7 @@ function dimensions.createDimension(dimension, ent_or_nil)
     end
 
     -- create a dimension handler entity if one wasn't passed in
-    local ent = ent_or_nil or server.entities.dimension_controller()
+    local ent = ent_or_nil or server.entities.dimensionOverseer()
     ent.overseeingDimension = dimension
 
     dimensionToOverseerEnt[dimension] = ent
