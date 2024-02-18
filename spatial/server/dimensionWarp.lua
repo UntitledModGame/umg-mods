@@ -6,7 +6,7 @@ Handles entities changing dimensions
 ]]
 
 local constants = require("shared.constants")
-local getDimension = require("shared.get_dimension")
+local getDimension = require("shared.dimensions.getDimension")
 
 
 
@@ -25,7 +25,7 @@ local dimensionGroup = umg.group("dimension")
 
 
 local function moveDimensions(ent, oldDim, newDim)
-    if dimensions.getOverseer(newDim) then
+    if spatial.getOverseer(newDim) then
         -- then the dimension exists:
         entToDimension[ent] = newDim
         umg.call("spatial:entityMovedDimensions", ent, oldDim, newDim)

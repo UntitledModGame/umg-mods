@@ -21,6 +21,9 @@ end
 
 
 umg.on("spatial:entityMovedDimension", function(ent, oldDim, newDim)
+    if not ent.category then
+        return
+    end
     local categories = getAllCategories(ent)
     for _, cat in ipairs(categories) do
         getCategoryPartition(cat):entityMoved(ent, oldDim, newDim)

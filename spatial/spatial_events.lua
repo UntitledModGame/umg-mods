@@ -2,7 +2,7 @@
 
 umg.defineEvent("spatial:entityMovedDimensions")
 
-umg.defineEvent("dimensions:dimensionCreated")
+umg.defineEvent("spatial:dimensionCreated")
 
 umg.defineEvent("spatial:dimensionDestroyed")
 

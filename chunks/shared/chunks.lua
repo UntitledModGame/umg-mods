@@ -29,7 +29,9 @@ end)
 
 
 umg.on("spatial:entityMovedDimension", function(ent, oldDim, newDim)
-    globalChunk:entityMoved(ent, oldDim, newDim)
+    if ent.x and ent.y then
+        globalChunk:entityMoved(ent, oldDim, newDim)
+    end
 end)
 
 
