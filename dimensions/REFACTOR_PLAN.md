@@ -22,37 +22,3 @@ the entity instead!!! (Amazing.)
 
 
 
-
-
-
-
-
-
-
-
-# What mods need to change:
-
-- chunking
-partition data structure should contain positions,
-AND dimension values for entities.
-
-- items mod
-should use new dimension setup
-
-- rendering
-we need to create Z-indexers for each dimension.
-camera should contain dimension too. 
-there should be an API for switching camera between dimensions.
-
-- physics
-each dimension needs a physics world
-
-
-- juice mod
-particles, sfx, etc use `dimensionVector`
-
-
-- light mod
-check dimension of light before rendering
-
-

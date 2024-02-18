@@ -6,21 +6,6 @@ Allows separation of entities via keyword.
 Think of a "dimension" as a realm where entities can exist in.
 
 
-To put an entity inside a dimension, simply change the `.dimension` component:
-```lua
-ent.dimension = "my_dimension"
--- now `ent` is inside of `my_dimension`
--- If `my_dimension` doesn'
-```
-If `ent.dimension` is nil, the entity is in the default dimension.
-
-We can also create/destroy dimensions:
-```lua
-local ent = dimensions.createDimension("nether")
-
-dimensions.createDimension("yomi")
-```
-
 
 
 ### DimensionVectors:
@@ -52,7 +37,7 @@ If the "overseer entity" is deleted, then that dimension is destroyed.
 
 We can also specify our own overseer entities, by passing them in:
 ```lua
-local portalEnt = entities.server.newPortal(...)
+local portalEnt = entities.newPortal(...)
 
 -- generate a unique dimension name. This is guaranteed to be unique,
 -- and is guaranteed to contain the string passed in:
