@@ -95,7 +95,6 @@ end)
 
 
 
-
 umg.on("spatial:entityMovedDimensions", function(ent, oldDim, newDim)
     if physicsGroup:has(ent) then
         worldDimStruct:entityMoved(ent, oldDim, newDim)

@@ -40,14 +40,6 @@ end)
 
 
 
-umg.on("spatial:entityMovedDimensions", function(ent, oldDim, newDim)
-    -- This is called for entities that aren't draw entities,
-    -- but oh well.
-    -- The DimensionStructure will handle it gracefully.
-    dimensionZIndexer:entityMoved(ent, oldDim, newDim)
-end)
-
-
 
 umg.on("@resize", function()
     local w,h = love.graphics.getDimensions()

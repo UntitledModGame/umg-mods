@@ -20,17 +20,6 @@ local function getCategoryPartition(category)
 end
 
 
-umg.on("spatial:entityMovedDimensions", function(ent, oldDim, newDim)
-    if not ent.category then
-        return
-    end
-    local categories = getAllCategories(ent)
-    for _, cat in ipairs(categories) do
-        getCategoryPartition(cat):entityMoved(ent, oldDim, newDim)
-    end
-end)
-
-
 
 function addEntity(ent)
     local categories = getAllCategories(ent)

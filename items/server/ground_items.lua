@@ -149,11 +149,6 @@ umg.on("spatial:dimensionDestroyed", function(dim)
     groundItemPartition:destroyDimension(dim)
 end)
 
-umg.on("spatial:entityMovedDimensions", function(ent, oldDim, newDim)
-    groundItemPartition:entityMoved(ent, oldDim, newDim)
-end)
-
-
 
 
 

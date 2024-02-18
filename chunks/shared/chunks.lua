@@ -28,13 +28,6 @@ positionGroup:onRemoved(function(ent)
 end)
 
 
-umg.on("spatial:entityMovedDimensions", function(ent, oldDim, newDim)
-    if ent.x and ent.y then
-        globalChunk:entityMoved(ent, oldDim, newDim)
-    end
-end)
-
-
 
 
 umg.on("@tick", function()

@@ -209,6 +209,7 @@ function ZIndexer:drawEntities(camera)
     local last_draw_dep = draw_dep
 
     while draw_ent and draw_dep < max_depth do
+        self:updateEntityDimension(draw_ent)
         drawEntity(draw_ent)
 
         for dep=last_draw_dep+1, draw_dep do

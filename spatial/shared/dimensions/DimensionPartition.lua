@@ -59,6 +59,7 @@ end
 
 
 function DimensionPartition:updateEntity(ent)
+    self:updateEntityDimension(ent)
     local partition = self:getObjectForEntity(ent)
     partition:updateEntity(ent)
 end

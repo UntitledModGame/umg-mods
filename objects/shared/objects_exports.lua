@@ -13,5 +13,11 @@ objects.Heap = require("shared.Heap");
 objects.Enum = require("shared.Enum")
 objects.Color = require("shared.Color")
 
+if server then
+    objects.emptyEntity = function()
+        return server.entities.empty()
+    end
+end
+
 umg.expose("objects", objects)
 

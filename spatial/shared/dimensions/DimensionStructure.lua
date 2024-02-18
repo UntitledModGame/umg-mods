@@ -148,6 +148,16 @@ end
 
 
 
+function DimensionStructure:updateEntityDimension(ent)
+    local oldDim = self.entityToDimension[ent]
+    local dim = spatial.getDimension(ent)
+
+    if oldDim ~= dim then
+        self:entityMoved(ent, oldDim, dim)
+    end
+end
+
+
 
 --[[
     Adds entity to dstructure
