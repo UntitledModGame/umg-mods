@@ -23,7 +23,7 @@ spatial.getAllDimensions = api.getAllDimensions
 
 
 local type = type
-local function exists(dim)
+local function isDimension(dim)
     if type(dim) ~= "string" then
         return false, "expected dimension"
     end
@@ -37,7 +37,7 @@ local function exists(dim)
     return true
 end
 
-typecheck.addType("dimension", exists)
+typecheck.addType("dimension", isDimension)
 
 
 spatial.DimensionVector = require("shared.dimensions.DimensionVector")
@@ -98,6 +98,24 @@ local DEFAULT_DIMENSION = require("shared.constants").DEFAULT_DIMENSION
 
 function spatial.getDefaultDimension()
     return DEFAULT_DIMENSION
+end
+
+
+
+-- value returned if entities are in different dimensions.
+-- Ideally, this *should* be math.huge, but im too scared of NaN to do that!
+local BIG = 0xffffffffffff
+
+function spatial.distance(a, b)
+    --[[
+        Gets distance between 2 DimensionVectors.
+        (where a,b are DimensionVectors)
+    ]]
+    if getDimension(a) ~= getDimension(b) then
+        return BIG
+    end
+    local x,y = a.x-b.x, a.y-b.y
+    return ((x*x) + (y*y)) ^ 0.5
 end
 
 

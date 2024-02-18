@@ -1,20 +1,17 @@
 
 
 
-local RANGE_ACCEPTANCE = 80
 
 
-
-
-sync.proxyEventToClient("control:entityClicked")
-
-
-local getDimension = spatial.getDimension
+sync.proxyEventToClient("interaction:entityClicked")
 
 
 local function isInRange(ent, worldX, worldY, dimension)
-    local dist = math.distance(ent.x - worldX, ent.y - worldY)
-    return dist < RANGE_ACCEPTANCE and dimension == getDimension(ent)
+    return spatial.distance(ent, {
+        x = worldX,
+        y = worldY,
+        dimension = dimension
+    }) < range
 end
 
 
@@ -22,18 +19,11 @@ end
 
 if server then
 
-server.on("control:entityClicked", function(clientId, ent, button, worldX, worldY, dimension)
+server.on("interaction:entityClicked", function(clientId, ent, button, worldX, worldY, dimension)
     if not (ent.clickable) then
         return
     end
-    if button ~= 1 and button ~= 2 then
-        return
-    end
-    if not isInRange(ent, worldX, worldY, dimension) then
-        return
-    end
-
-    umg.call("control:entityClicked", ent, clientId, button, worldX, worldY)
+    umg.call("interaction:entityClicked", ent, clientId, button, worldX, worldY)
 end)
 
 else -- clientside:
@@ -63,7 +53,7 @@ function listener:mousepressed(mx, my, button, istouch, presses)
     if bestEnt then
         local camera = rendering.getCamera()
         local dimension = camera:getDimension()
-        client.send("control:entityClicked", bestEnt, button, worldX, worldY, dimension)
+        client.send("interaction:entityClicked", bestEnt, button, worldX, worldY, dimension)
         self:lockMouseButton(button)
     end
 end
@@ -76,7 +66,7 @@ end
 
 components.project("onClick", "clickable")
 
-umg.on("control:entityClicked", function(ent, clientId, button, worldX, worldY)
+umg.on("interaction:entityClicked", function(ent, clientId, button, worldX, worldY)
     if type(ent.onClick) == "function" then
         ent:onClick(clientId, button, worldX, worldY)
     end
