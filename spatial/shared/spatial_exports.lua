@@ -87,10 +87,8 @@ if server then
 --[[
     creating / destroying is only available on server
 ]]
-spatial.server = {}
-
-spatial.server.createDimension = api.createDimension
-spatial.server.destroyDimension = api.destroyDimension
+spatial.createDimension = api.createDimension
+spatial.destroyDimension = api.destroyDimension
 
 end
 

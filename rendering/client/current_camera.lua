@@ -13,7 +13,7 @@ local DEFAULT_ZOOM = constants.DEFAULT_ZOOM
 
 local cam = newCamera(0, 0, nil, nil, DEFAULT_ZOOM, 0)
 
-cam:setDimension(dimensions.getDefaultDimension())
+cam:setDimension(spatial.getDefaultDimension())
 
 
 function currentCamera.getCamera()

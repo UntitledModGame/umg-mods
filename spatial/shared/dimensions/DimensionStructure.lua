@@ -41,9 +41,9 @@ DimensionStructure:entityMoved(ent, oldDim, newDim)  call this whenever `spatial
 
 ]]
 
-require("shared.DimensionVector") -- we need typecheck defs
+require("shared.dimensions.DimensionVector") -- we need typecheck defs
 
-local getDimension = require("shared.get_dimension")
+local getDimension = require("shared.dimensions.getDimension")
 
 
 local DimensionStructure = objects.Class("dimensions:DimensionStructure")

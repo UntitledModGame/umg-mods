@@ -2,7 +2,7 @@
     "uses": [
         "objects", "sync",
         "rendering","ui",
-        "input"
+        "input", "spatial"
     ],
     
     "type": "base"

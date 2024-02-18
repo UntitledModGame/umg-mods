@@ -21,7 +21,7 @@ local groundItemGroup = umg.group("x", "y", "groundItem")
 local PICKUP_DISTANCE = constants.PICKUP_DISTANCE
 local CHUNK_SIZE = PICKUP_DISTANCE
 
-local groundItemPartition = dimensions.DimensionPartition(CHUNK_SIZE)
+local groundItemPartition = spatial.DimensionPartition(CHUNK_SIZE)
 
 
 
@@ -149,7 +149,7 @@ umg.on("spatial:dimensionDestroyed", function(dim)
     groundItemPartition:destroyDimension(dim)
 end)
 
-umg.on("spatial:entityMovedDimension", function(ent, oldDim, newDim)
+umg.on("spatial:entityMovedDimensions", function(ent, oldDim, newDim)
     groundItemPartition:entityMoved(ent, oldDim, newDim)
 end)
 

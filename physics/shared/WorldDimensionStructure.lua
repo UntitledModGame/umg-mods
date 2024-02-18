@@ -11,7 +11,7 @@ Inherits from DimensionStructure.
 
 ]]
 
-local WorldDimensionStructure = objects.Class("physics:WorldDimensionStructure", dimensions.DimensionStructure)
+local WorldDimensionStructure = objects.Class("physics:WorldDimensionStructure", spatial.DimensionStructure)
 
 
 local constants = require("shared.constants")

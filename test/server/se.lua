@@ -35,7 +35,7 @@ local dim2 = "other"
 
 
 umg.on("@createWorld", function()
-    dimensions.server.createDimension(dim2)
+    spatial.createDimension(dim2)
     borders.setBorder(dim2, {
         centerX = 0,
         centerY = 0,

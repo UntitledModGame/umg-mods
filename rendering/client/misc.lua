@@ -39,7 +39,7 @@ local screenWidth, screenHeight = love.graphics.getWidth(), love.graphics.getHei
 
 
 
-local DEFAULT_DIMENSION = dimensions.getDefaultDimension()
+local DEFAULT_DIMENSION = spatial.getDefaultDimension()
 
 local function isOnScreen(dVec, leighway)
     -- Returns true if a dimensionVector is on screen

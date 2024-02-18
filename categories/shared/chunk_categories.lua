@@ -20,7 +20,7 @@ local function getCategoryPartition(category)
 end
 
 
-umg.on("spatial:entityMovedDimension", function(ent, oldDim, newDim)
+umg.on("spatial:entityMovedDimensions", function(ent, oldDim, newDim)
     if not ent.category then
         return
     end
