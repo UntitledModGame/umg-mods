@@ -10,14 +10,9 @@ Think of each "chunk" as like a big bucket where entities are kept.
 
 
 ]]
-local Class = require("shared.Class")
-
-local Array = require("shared.Array")
-local Set = require("shared.Set")
 
 
-
-local Partition = Class("spatial:Partition")
+local Partition = objects.Class("spatial:Partition")
 
 
 function Partition:init(chunkSize)    
@@ -26,7 +21,7 @@ function Partition:init(chunkSize)
         __index = function(t,x)
             t[x] = setmetatable({}, {
                 __index = function(t2, y)
-                    local chunk = Set()
+                    local chunk = objects.Set()
                     t2[y] = chunk
                     self.chunkList:add(chunk)
                     return t2[y]
@@ -37,7 +32,7 @@ function Partition:init(chunkSize)
     }
 
     self.chunks = setmetatable({}, array2dOfChunk_mt)
-    self.chunkList = Array()
+    self.chunkList = objects.Array()
     self.chunkSize = chunkSize
 
     self.entityToLastX = {--[[
