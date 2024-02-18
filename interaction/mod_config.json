@@ -1,4 +1,4 @@
 {
     "type": "base",
-    "uses": ["input", "permissions", "components", "spatial", "dimensions"]
+    "uses": ["input", "permissions", "components", "spatial"]
 }

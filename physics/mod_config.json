@@ -1,4 +1,4 @@
 {
-    "uses": ["state", "dimensions", "spatial"],
+    "uses": ["state", "spatial"],
     "type": "base"
 }

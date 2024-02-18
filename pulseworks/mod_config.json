@@ -1,5 +1,5 @@
 {
-    "uses": ["dimensions", "objects"],
+    "uses": ["spatial", "objects"],
     
     "type": "base"
 }
