@@ -9,11 +9,10 @@ sync.proxyEventToClient("interaction:entityClicked")
 if server then
 
 --[[
-    TODO: Set up infrastructure here, such that clients can only
-    click ONCE per tick. (Or else, server could potentially be downed)
-    
+    TODO: For future, make it so that clients can only click ONCE per tick. 
+    (Or else, server could potentially be downed)
+
     Maybe should be implemented by the sync mod or something tho?
-    worry about it in the future.
 ]]
 server.on("interaction:entityClickedOnClient", function(clientId, ent, button, worldX, worldY, dimension)
     if not (ent.clickable) then
@@ -27,7 +26,9 @@ else -- clientside:
 local clickEnts = umg.group("x", "y", "clickable")
 local listener = input.Listener({priority = 0})
 
-local clickEntPartition = spatial.DimensionPartition()
+-- pretty arbitrary size, lol
+local clickEntPartition = spatial.DimensionPartition(200)
+
 clickEnts:onAdded(function(ent)
     clickEntPartition:addEntity(ent)
 end)

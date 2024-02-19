@@ -43,7 +43,7 @@ return {
     light = {
         size = 160;
         color = {1,1,1},
-        dark = true
+        dark = false
     };
 
     glow = {

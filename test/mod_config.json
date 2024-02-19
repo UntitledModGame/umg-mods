@@ -19,7 +19,8 @@
       "projectiles",
       "rendering",
       "spatial",
-      "borders"
+      "borders",
+      "interaction"
     ],
     "type": "playable"
 }
