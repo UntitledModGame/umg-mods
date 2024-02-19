@@ -17,9 +17,6 @@ Another example:
 For rendering, each dimension has a ZIndexer data structure.
 (for ordered drawing.)
 All of the ZIndexers are handled by the DimensionStructure.
-entities are moved between ZIndexers when they moved dimensions.
-(provided DimensionStructure:entityMoved() is called)
-
 
 
 -------------------------
@@ -37,7 +34,7 @@ Functions that NEED to be called manually, or else it wont work:
 DimensionStructure:super()  must be called on init
 DimensionStructure:addEntity(ent)  adds entity
 DimensionStructure:removeEntity(ent)  removes entity
-DimensionStructure:entityMoved(ent, oldDim, newDim)  call this whenever `spatial:entityMovedDimensions` event is called
+DimensionStructure:updateEntityDimension(ent)  call this whenever you want an entity's dimension to be updated
 
 ]]
 
@@ -124,15 +121,12 @@ end
 
 
 
---[[
-    This must be called whenever spatial:entityMovedDimensions is called.
-]]
-function DimensionStructure:entityMoved(ent, _oldDim, newDim)
+local function entityMoved(self, ent, oldDim, newDim)
     if not self:contains(ent) then
         return
     end
 
-    local oldDim = self.entityToDimension[ent] or _oldDim
+    oldDim = self.entityToDimension[ent] or oldDim
 
     local oldObj = self.dimensionToObject[oldDim]
     local newObj = self:getObject(newDim)
@@ -153,7 +147,7 @@ function DimensionStructure:updateEntityDimension(ent)
     local dim = spatial.getDimension(ent)
 
     if oldDim ~= dim then
-        self:entityMoved(ent, oldDim, dim)
+        entityMoved(self, ent, oldDim, dim)
     end
 end
 

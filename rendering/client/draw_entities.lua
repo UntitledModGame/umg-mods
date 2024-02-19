@@ -12,7 +12,7 @@ local currentCamera = require("client.current_camera")
 
 local constants = require("client.constants")
 
-local DimensionZIndexer = require("client.dimension_zindexer")
+local DimensionZIndexer = require("client.DimensionZIndexer")
 
 
 local dimensionZIndexer = DimensionZIndexer()
@@ -48,6 +48,16 @@ umg.on("@resize", function()
     camera.h = h
 end)
 
+
+
+umg.on("spatial:entityMovedDimensions", function(ent, _oldDim, _newDim)
+    --[[
+        TODO: this is kinda hacky, weird code
+    ]]
+    if drawGroup:has(ent) then
+        dimensionZIndexer:updateEntityDimension(ent)
+    end
+end)
 
 
 --[[

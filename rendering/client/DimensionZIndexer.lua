@@ -1,6 +1,6 @@
 
 
-local ZIndexer = require("client.zindexer")
+local ZIndexer = require("client.ZIndexer")
 
 --[[
 to understand this class,

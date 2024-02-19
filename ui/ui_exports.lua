@@ -8,6 +8,8 @@ if client then
 local scene = require("client.scene")
 
 
+local ui = {}
+
 ui.elements = require("client.elements")
 
 ui.Region = require("kirigami.Region")
