@@ -24,9 +24,7 @@ function permissions.entityHasPermission(queryEnt, authEnt)
     local hasPerm = umg.ask("permissions:entityHasPermission", queryEnt, authEnt)
     if hasPerm then
         local denied = umg.ask("permissions:isEntityPermissionDenied", queryEnt, authEnt)
-        if not denied then
-            return true
-        end
+        return not denied
     end
     return false
 end

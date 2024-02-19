@@ -67,6 +67,10 @@ end)
 local EMPTY_SET = objects.Set()
 
 local function getControlledEntities(clientId)
+    if (not clientId) then
+        assert(client, "Need to pass clientId")
+        clientId = client.getClient()
+    end
     return client_to_ents[clientId] or EMPTY_SET
 end
 
