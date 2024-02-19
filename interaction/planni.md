@@ -7,21 +7,23 @@ OK... remember:
 TOP PRIORITY:
 We wanna make it EASY AF to use.
 
-The modder shouldn't even need to THINK when using this system.
+The modder shouldn't even need to THINK when using this stuff.
 
 Component idea:
 ```lua
 
 authorizeInRange = {
-    distance = 100, -- Entities can interact 500 pixels away
+    distance = 100, -- Entities can interact X units away
 }
 
 
-clickToInteract = {
+clickToOpenUI = {
+    -- if the client is controlling an entity within `distance` units,
+    --  then this entity can be clicked / interacted with.
     distance = X
 }
 
-components.project("clickToInteract", "authorizeInRange", function(ent)
+components.project("clickToOpenUI", "authorizeInRange", function(ent)
     local authorizeInRange = {
         --[[
             The reason we put a slightly smaller distance here,
@@ -32,12 +34,14 @@ components.project("clickToInteract", "authorizeInRange", function(ent)
     return authorizeInRange
 end)
 
-components.project("clickToInteract", "clickable")
+components.project("clickToOpenUI", "clickable")
+
 
 
 
 umg.on("interaction:entityClicked", function(ent)
-    
+    local ent = findClosestControlEntity(ent)
+
 end)
 
 

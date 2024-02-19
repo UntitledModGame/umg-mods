@@ -122,6 +122,10 @@ function Camera:getDimension()
     return self.dimension
 end
 
+function Camera:getDimensionVector()
+    -- `self` is DimensionVector!
+    return self
+end
 
 
 

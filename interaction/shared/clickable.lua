@@ -1,25 +1,21 @@
 
 
 
-
-
 sync.proxyEventToClient("interaction:entityClicked")
-
-
-local function isInRange(ent, worldX, worldY, dimension)
-    return spatial.distance(ent, {
-        x = worldX,
-        y = worldY,
-        dimension = dimension
-    }) < range
-end
 
 
 
 
 if server then
 
-server.on("interaction:entityClicked", function(clientId, ent, button, worldX, worldY, dimension)
+--[[
+    TODO: Set up infrastructure here, such that clients can only
+    click ONCE per tick. (Or else, server could potentially be downed)
+    
+    Maybe should be implemented by the sync mod or something tho?
+    worry about it in the future.
+]]
+server.on("interaction:entityClickedOnClient", function(clientId, ent, button, worldX, worldY, dimension)
     if not (ent.clickable) then
         return
     end
@@ -31,15 +27,29 @@ else -- clientside:
 local clickEnts = umg.group("x", "y", "clickable")
 local listener = input.Listener({priority = 0})
 
+local clickEntPartition = spatial.DimensionPartition()
+clickEnts:onAdded(function(ent)
+    clickEntPartition:addEntity(ent)
+end)
+clickEnts:onRemoved(function(ent)
+    clickEntPartition:removeEntity(ent)
+end)
+
+umg.on("@tick", function()
+    for _, ent in ipairs(clickEnts) do
+        clickEntPartition:updateEntity(ent)
+    end
+end)
+
+
 function listener:mousepressed(mx, my, button, istouch, presses)
-    -- TODO: This is kinda trash.
-    -- this needs to be spatial partitioned probably.
     local worldX, worldY = rendering.toWorldCoords(mx, my)
+    local dvec = rendering.getCamera():getDimensionVector()
 
     local bestDist = math.huge
     local bestEnt = nil
 
-    for _, ent in ipairs(clickEnts) do
+    for _, ent in clickEntPartition:iterator(dvec) do
         local x, y = ent.x, rendering.getDrawY(ent.y, ent.z)
         local dist = math.distance(x-worldX, y-worldY)
         if dist < bestDist then
@@ -53,7 +63,7 @@ function listener:mousepressed(mx, my, button, istouch, presses)
     if bestEnt then
         local camera = rendering.getCamera()
         local dimension = camera:getDimension()
-        client.send("interaction:entityClicked", bestEnt, button, worldX, worldY, dimension)
+        client.send("interaction:entityClickedOnClient", bestEnt, button, worldX, worldY, dimension)
         self:lockMouseButton(button)
     end
 end
