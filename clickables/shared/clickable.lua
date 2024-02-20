@@ -1,7 +1,7 @@
 
 
 
-sync.proxyEventToClient("interaction:entityClicked")
+sync.proxyEventToClient("clickables:entityClicked")
 
 
 
@@ -14,11 +14,11 @@ if server then
 
     Maybe should be implemented by the sync mod or something tho?
 ]]
-server.on("interaction:entityClickedOnClient", function(clientId, ent, button, worldX, worldY, dimension)
+server.on("clickables:entityClickedOnClient", function(clientId, ent, button, worldX, worldY, dimension)
     if not (ent.clickable) then
         return
     end
-    umg.call("interaction:entityClicked", ent, clientId, button, worldX, worldY)
+    umg.call("clickables:entityClicked", ent, clientId, button, worldX, worldY)
 end)
 
 end
@@ -74,7 +74,7 @@ function listener:mousepressed(mx, my, button, istouch, presses)
     if bestEnt then
         local camera = rendering.getCamera()
         local dimension = camera:getDimension()
-        client.send("interaction:entityClickedOnClient", bestEnt, button, worldX, worldY, dimension)
+        client.send("clickables:entityClickedOnClient", bestEnt, button, worldX, worldY, dimension)
         self:lockMouseButton(button)
     end
 end
@@ -87,7 +87,7 @@ end
 
 components.project("onClick", "clickable")
 
-umg.on("interaction:entityClicked", function(ent, clientId, button, worldX, worldY)
+umg.on("clickables:entityClicked", function(ent, clientId, button, worldX, worldY)
     if type(ent.onClick) == "function" then
         ent:onClick(clientId, button, worldX, worldY)
     end

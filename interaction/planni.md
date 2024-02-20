@@ -39,7 +39,7 @@ basicUI = {
 
 # Implementation:
 ```lua
-components.project("clickToOpenUI", "authorizeInRange", function(ent)
+components.project("basicUI", "authorizeInRange", function(ent)
     local authorizeInRange = {
         --[[
             The reason we put a slightly smaller distance here,
@@ -52,13 +52,13 @@ components.project("clickToOpenUI", "authorizeInRange", function(ent)
     return authorizeInRange
 end)
 
-components.project("clickToOpenUI", "clickable")
+components.project("basicUI", "clickable")
 
 
 
 
-umg.on("interaction:entityClicked", function(clickedEnt)
-    if ent.clickToOpenUI then
+umg.on("clickables:entityClicked", function(clickedEnt)
+    if ent.basicUI then
         local controlEnt = getAuthorizedControlEntity(ent)
         if controlEnt then
             ui.open(clickedEnt)

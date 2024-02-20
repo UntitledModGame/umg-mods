@@ -3,6 +3,7 @@
     "uses": [
         "input", "permissions", 
         "components", "spatial",
-        "control"
+        "control", "scheduling",
+        "objects"
     ]
 }
