@@ -21,7 +21,17 @@ server.on("interaction:entityClickedOnClient", function(clientId, ent, button, w
     umg.call("interaction:entityClicked", ent, clientId, button, worldX, worldY)
 end)
 
-else -- clientside:
+end
+
+
+
+
+
+
+
+
+
+if client then
 
 local clickEnts = umg.group("x", "y", "clickable")
 local listener = input.Listener({priority = 0})

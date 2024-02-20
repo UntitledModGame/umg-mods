@@ -8,6 +8,7 @@ TOP PRIORITY:
 We wanna make it EASY AF to use.
 
 The modder shouldn't even need to THINK when using this stuff.
+IDEA: `basicUI` component!
 
 Component idea:
 ```lua
@@ -17,10 +18,10 @@ authorizeInRange = {
 }
 
 
-clickToOpenUI = {
-    -- if the client is controlling an entity within `distance` units,
-    --  then this entity can be clicked / interacted with.
-    distance = X
+basicUI = {
+   interactDistance = X,
+   openSound = "open_chest",
+   closeSound = "close_chest",
 }
 
 ```

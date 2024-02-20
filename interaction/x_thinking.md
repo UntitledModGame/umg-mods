@@ -5,7 +5,7 @@
 
 Idea: Have a component:
 ```lua
-clickToOpenUI = {
+uiConfig = {
     distance = 100, -- interacts from this distance away
 }
 ```
