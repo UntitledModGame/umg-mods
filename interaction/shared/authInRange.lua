@@ -12,7 +12,7 @@ to any entity in range of the `authEnt`,
 components.project("authorizeInRange", "authorizable")
 
 
-umg.on("permissions:entityHasPermission", function(queryEnt, authEnt)
+umg.answer("permissions:entityHasPermission", function(queryEnt, authEnt)
     local airange = authEnt.authorizeInRange
     if airange then
         return spatial.distance(queryEnt, authEnt) <= airange.distance

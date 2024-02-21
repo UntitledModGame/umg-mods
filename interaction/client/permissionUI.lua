@@ -1,6 +1,6 @@
 
 
-local getAuthorizedControlEntity = require("client.getAuthControlEntity")
+local getAuthorizedControlEntity = require("client.getAuthControlEnt")
 
 
 --[[

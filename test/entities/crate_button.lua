@@ -29,30 +29,22 @@ end
 
 end
 
-local function toggleUI(ent)
-    if ui.isOpen(ent) then
-        ui.close(ent)
-    else
-        ui.open(ent)
-    end
-end
+
 
 return {
     image = "crate",
 
     color = {1,0,0},
 
-    initxy = true,
+    initXY = true,
 
-    onclick = function(ent)
-        if client then
-            toggleui(ent)
-        end
-    end,
+    basicUIEntity = {
+        interactionDistance = 450
+    },
 
     initui = function(ent)
-        ent.uielement = basicbox()
-        uiregion = ui.region(100,100,300,300),
+        ent.ui = BasicBox()
+        ent.uiRegion = ui.region(100,100,300,300)
     end
 }
 

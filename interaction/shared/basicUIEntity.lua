@@ -21,8 +21,13 @@ local DEFAULT_INTERACT_DISTANCE = 400
 
 
 local function getInteractionDist(ent)
-    return ent.basicUIEntity.distance or DEFAULT_INTERACT_DISTANCE
+    local bui = ent.basicUIEntity
+    if type(bui) == "table" then
+        return bui.interactionDistance or DEFAULT_INTERACT_DISTANCE
+    end
+    return DEFAULT_INTERACT_DISTANCE
 end
+
 
 
 components.project("basicUIEntity", "clickToOpenUI", function(ent)

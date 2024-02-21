@@ -1,5 +1,7 @@
 
 
+local openAllPlayerUI = require("client.openPlayerUI")
+
 
 local function areMostPlayerUIsOpen()
     --[[
@@ -21,15 +23,6 @@ local function areMostPlayerUIsOpen()
         return (ct / tot_ct) > 0.5
     end
     return false
-end
-
-
-function openAllPlayerUI()
-    for _, player in ipairs(control.getControlledEntities()) do
-        if player.ui then
-            ui.open(player)
-        end
-    end
 end
 
 
