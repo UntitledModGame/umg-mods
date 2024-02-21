@@ -1,11 +1,16 @@
 
 
-local controlledUI = {}
+local toggleables = {}
 
 
-function controlledUI.openControlledUIs()
+local function isToggleable(ent)
+    return ent.toggleableUI and ui.isElement(ent)
+end
+
+
+function toggleables.openAllControlled()
     for _, controlEnt in ipairs(control.getControlledEntities()) do
-        if ui.isElement(controlEnt) then
+        if isToggleable(controlEnt) then
             ui.open(controlEnt)
         end
     end
@@ -13,11 +18,11 @@ end
 
 
 
-local function closeAllToggleUI()
+function toggleables.closeAll()
     -- close all UI that has `basicUIEntity` component
     for _, elem in ipairs(ui.getOpenElements()) do
         local ent = elem:getEntity()
-        if ent.pressToToggleUI then
+        if isToggleable(ent) then
             ui.close(ent)
         end
     end
@@ -26,7 +31,7 @@ end
 
 
 
-function controlledUI.areMostPlayerUIsOpen()
+function toggleables.areMostOpen()
     --[[
         The client may be controlling multiple players at once.
         This function checks if the majority of players have open UIs.
@@ -52,6 +57,4 @@ end
 
 
 
-
-
-return openAllPlayerUI
+return toggleables

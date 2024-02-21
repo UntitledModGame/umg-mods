@@ -5,7 +5,7 @@ basicUIEntity component:
 basicUIEntity component does a few things:
     Gives `authorizeInRange` component to entity
     Gives `clickToOpenUI` component to entity
-    Gives `pressToToggleUI` component to entity
+    Gives `toggleableUI` component to entity
 
 
 ent.basicUIEntity = {
@@ -38,7 +38,7 @@ components.project("basicUIEntity", "clickToOpenUI", function(ent)
 end)
 
 
-components.project("basicUIEntity", "pressToToggleUI")
+components.project("basicUIEntity", "toggleableUI")
 
 
 components.project("basicUIEntity", "authorizeInRange", function(ent)

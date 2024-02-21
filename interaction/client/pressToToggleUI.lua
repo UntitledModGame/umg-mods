@@ -1,4 +1,6 @@
 
+local toggleables = require("client.toggleables")
+
 
 
 local listener = input.Listener({priority = 2})
@@ -9,12 +11,12 @@ function listener:keypressed(key, scancode, isrepeat)
     -- We should use a custom-control here
 
     if inputEnum == input.BUTTON_2 then
-        if areMostPlayerUIsOpen() then
+        if toggleables.areMostOpen() then
             -- most player uis are open;
             -- therefore, we want to close.
-            closeAllToggleUI()
+            toggleables.closeAll()
         else
-            openAllPlayerUI()
+            toggleables.openAllControlled()
         end
         self:lockKey(scancode)
     end
