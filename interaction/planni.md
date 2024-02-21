@@ -8,7 +8,7 @@ TOP PRIORITY:
 We wanna make it EASY AF to use.
 
 The modder shouldn't even need to THINK when using this stuff.
-IDEA: `basicUI` component!
+IDEA: `uiInteractConfig` component!
 
 Component idea:
 ```lua
@@ -18,7 +18,7 @@ authorizeInRange = {
 }
 
 
-basicUI = {
+uiInteractConfig = {
    interactDistance = X,
    openSound = "open_chest",
    closeSound = "close_chest",
@@ -39,7 +39,7 @@ basicUI = {
 
 # Implementation:
 ```lua
-components.project("basicUI", "authorizeInRange", function(ent)
+components.project("uiInteractConfig", "authorizeInRange", function(ent)
     local authorizeInRange = {
         --[[
             The reason we put a slightly smaller distance here,
@@ -52,13 +52,13 @@ components.project("basicUI", "authorizeInRange", function(ent)
     return authorizeInRange
 end)
 
-components.project("basicUI", "clickable")
+components.project("uiInteractConfig", "clickToOpenUI")
 
 
 
 
 umg.on("clickables:entityClicked", function(clickedEnt)
-    if ent.basicUI then
+    if ent.uiInteractConfig then
         local controlEnt = getAuthorizedControlEntity(ent)
         if controlEnt then
             ui.open(clickedEnt)

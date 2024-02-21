@@ -42,17 +42,17 @@ return {
 
     color = {1,0,0},
 
-    initXY = true,
+    initxy = true,
 
-    onClick = function(ent)
+    onclick = function(ent)
         if client then
-            toggleUI(ent)
+            toggleui(ent)
         end
     end,
 
-    initUI = function(ent)
-        ent.uiRegion = ui.Region(100,100,300,300)
-        ent.uiElement = BasicBox()
+    initui = function(ent)
+        ent.uielement = basicbox()
+        uiregion = ui.region(100,100,300,300),
     end
 }
 

@@ -53,6 +53,16 @@ umg.on("@tick", function()
 end)
 
 
+local DEFAULT_CLICKABLE_DISTANCE = 30
+
+local function inRange(ent, dist)
+    return (ent.clickableDistance or DEFAULT_CLICKABLE_DISTANCE) >= dist
+end
+
+local function clickEntityClient(ent, button, worldX, worldY)
+    umg.call("clickables:entityClickedClient", ent, button, worldX, worldY)
+end
+
 function listener:mousepressed(mx, my, button, istouch, presses)
     local worldX, worldY = rendering.toWorldCoords(mx, my)
     local dvec = rendering.getCamera():getDimensionVector()
@@ -64,7 +74,7 @@ function listener:mousepressed(mx, my, button, istouch, presses)
         local x, y = ent.x, rendering.getDrawY(ent.y, ent.z)
         local dist = math.distance(x-worldX, y-worldY)
         if dist < bestDist then
-            if rendering.isHovered(ent) then
+            if inRange(ent, dist) or rendering.isHovered(ent) then
                 bestEnt = ent
                 bestDist = dist
             end
@@ -75,6 +85,7 @@ function listener:mousepressed(mx, my, button, istouch, presses)
         local camera = rendering.getCamera()
         local dimension = camera:getDimension()
         client.send("clickables:entityClickedOnClient", bestEnt, button, worldX, worldY, dimension)
+        clickEntityClient(bestEnt, button, worldX, worldY)
         self:lockMouseButton(button)
     end
 end
@@ -92,4 +103,12 @@ umg.on("clickables:entityClicked", function(ent, clientId, button, worldX, world
         ent:onClick(clientId, button, worldX, worldY)
     end
 end)
+
+
+
+
+if client then
+
+   
+end
 

@@ -25,10 +25,20 @@ end
 
 
 local function openAllUI()
+    for _, player in ipairs(control.getControlledEntities()) do
+        if player.ui then
+            ui.open(player)
+        end
+    end
 end
 
 
 local function closeAllUI()
+    for _, player in ipairs(control.getControlledEntities()) do
+        if player.ui then
+            ui.close(player)
+        end
+    end
 end
 
 
