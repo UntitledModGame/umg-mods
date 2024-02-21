@@ -1,13 +1,14 @@
 
 --[[
 
-uiInteractConfig component:
-uiInteractConfig component does a few things:
+basicUIEntity component:
+basicUIEntity component does a few things:
     Gives `authorizeInRange` component to entity
-    Gives `clickToOpenUI` to entity
+    Gives `clickToOpenUI` component to entity
+    Gives `pressToToggleUI` component to entity
 
 
-ent.uiInteractConfig = {
+ent.basicUIEntity = {
     openSound = "open_chest",
     closeSound = "close_chest"
 }
@@ -20,11 +21,11 @@ local DEFAULT_INTERACT_DISTANCE = 400
 
 
 local function getInteractionDist(ent)
-    return ent.uiInteractConfig.distance or DEFAULT_INTERACT_DISTANCE
+    return ent.basicUIEntity.distance or DEFAULT_INTERACT_DISTANCE
 end
 
 
-components.project("uiInteractConfig", "clickToOpenUI", function(ent)
+components.project("basicUIEntity", "clickToOpenUI", function(ent)
     local clickToOpenUI = {
         distance = getInteractionDist(ent)
     }
@@ -32,8 +33,10 @@ components.project("uiInteractConfig", "clickToOpenUI", function(ent)
 end)
 
 
+components.project("basicUIEntity", "pressToToggleUI")
 
-components.project("uiInteractConfig", "authorizeInRange", function(ent)
+
+components.project("basicUIEntity", "authorizeInRange", function(ent)
     local distance = getInteractionDist(ent)
     local authorizeInRange = {
         --[[

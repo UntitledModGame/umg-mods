@@ -59,8 +59,8 @@ local function inRange(ent, dist)
     return (ent.clickableDistance or DEFAULT_CLICKABLE_DISTANCE) >= dist
 end
 
-local function clickEntityClient(ent, button, worldX, worldY)
-    umg.call("clickables:entityClickedClient", ent, button, worldX, worldY)
+local function clickEntityClient(ent, button, worldX, worldY, dimension)
+    umg.call("clickables:entityClickedClient", ent, button, worldX, worldY, dimension)
 end
 
 function listener:mousepressed(mx, my, button, istouch, presses)
@@ -85,7 +85,7 @@ function listener:mousepressed(mx, my, button, istouch, presses)
         local camera = rendering.getCamera()
         local dimension = camera:getDimension()
         client.send("clickables:entityClickedOnClient", bestEnt, button, worldX, worldY, dimension)
-        clickEntityClient(bestEnt, button, worldX, worldY)
+        clickEntityClient(bestEnt, button, worldX, worldY, dimension)
         self:lockMouseButton(button)
     end
 end

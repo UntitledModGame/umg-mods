@@ -24,7 +24,7 @@ local function areMostPlayerUIsOpen()
 end
 
 
-local function openAllUI()
+function openAllPlayerUI()
     for _, player in ipairs(control.getControlledEntities()) do
         if player.ui then
             ui.open(player)
@@ -33,10 +33,13 @@ local function openAllUI()
 end
 
 
-local function closeAllUI()
-    for _, player in ipairs(control.getControlledEntities()) do
-        if player.ui then
-            ui.close(player)
+
+local function closeAllToggleUI()
+    -- close all UI that has `basicUIEntity` component
+    for _, elem in ipairs(ui.getOpenElements()) do
+        local ent = elem:getEntity()
+        if ent.pressToToggleUI then
+            ui.close(ent)
         end
     end
 end
@@ -48,16 +51,20 @@ local listener = input.Listener({priority = 2})
 
 function listener:keypressed(key, scancode, isrepeat)
     local inputEnum = self:getKeyboardInputEnum(scancode)
-    -- TODO: Allow for controls to be set
+    -- TODO: Allow for controls to be set.
+    -- We should use a custom-control here
+
     if inputEnum == input.BUTTON_2 then
         if areMostPlayerUIsOpen() then
             -- most player uis are open;
             -- therefore, we want to close.
-            closeAllUI()
+            closeAllToggleUI()
         else
-            openAllUI()
+            openAllPlayerUI()
         end
         self:lockKey(scancode)
     end
 end
+
+
 
