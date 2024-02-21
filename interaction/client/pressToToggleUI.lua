@@ -1,44 +1,5 @@
 
 
-local openAllPlayerUI = require("client.openPlayerUI")
-
-
-local function areMostPlayerUIsOpen()
-    --[[
-        The client may be controlling multiple players at once.
-        This function checks if the majority of players have open UIs.
-    ]]
-    local ct = 0
-    local tot_ct = 0
-    for _, player in ipairs(control.getControlledEntities()) do
-        if sync.isClientControlling(player) then
-            if player.ui and ui.isOpen(player) then
-                tot_ct = tot_ct + 1
-                ct = ct + 1
-            end
-        end
-    end
-
-    if tot_ct > 0 then
-        return (ct / tot_ct) > 0.5
-    end
-    return false
-end
-
-
-
-local function closeAllToggleUI()
-    -- close all UI that has `basicUIEntity` component
-    for _, elem in ipairs(ui.getOpenElements()) do
-        local ent = elem:getEntity()
-        if ent.pressToToggleUI then
-            ui.close(ent)
-        end
-    end
-end
-
-
-
 
 local listener = input.Listener({priority = 2})
 
@@ -58,6 +19,4 @@ function listener:keypressed(key, scancode, isrepeat)
         self:lockKey(scancode)
     end
 end
-
-
 

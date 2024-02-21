@@ -1,0 +1,57 @@
+
+
+local controlledUI = {}
+
+
+function controlledUI.openControlledUIs()
+    for _, controlEnt in ipairs(control.getControlledEntities()) do
+        if ui.isElement(controlEnt) then
+            ui.open(controlEnt)
+        end
+    end
+end
+
+
+
+local function closeAllToggleUI()
+    -- close all UI that has `basicUIEntity` component
+    for _, elem in ipairs(ui.getOpenElements()) do
+        local ent = elem:getEntity()
+        if ent.pressToToggleUI then
+            ui.close(ent)
+        end
+    end
+end
+
+
+
+
+function controlledUI.areMostPlayerUIsOpen()
+    --[[
+        The client may be controlling multiple players at once.
+        This function checks if the majority of players have open UIs.
+    ]]
+    local ct = 0
+    local tot_ct = 0
+    for _, controlEnt in ipairs(control.getControlledEntities()) do
+        if sync.isClientControlling(controlEnt) then
+            if ui.isElement(controlEnt) and ui.isOpen(controlEnt) then
+                tot_ct = tot_ct + 1
+                ct = ct + 1
+            end
+        end
+    end
+
+    if tot_ct > 0 then
+        return (ct / tot_ct) > 0.5
+    end
+    return false
+end
+
+
+
+
+
+
+
+return openAllPlayerUI

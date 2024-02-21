@@ -42,9 +42,9 @@ return {
         interactionDistance = 450
     },
 
-    initui = function(ent)
-        ent.ui = BasicBox()
-        ent.uiRegion = ui.region(100,100,300,300)
+    initUI = function(ent)
+        ent.uiElement = BasicBox()
+        ent.uiRegion = ui.Region(100,100,300,300)
     end
 }
 
