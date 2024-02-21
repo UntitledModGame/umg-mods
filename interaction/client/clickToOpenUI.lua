@@ -1,7 +1,7 @@
 
 
 local getAuthorizedControlEntity = require("client.getAuthControlEnt")
-local toggleables = require("client.playerUI")
+local toggleables = require("client.toggleables")
 
 
 components.project("clickToOpenUI", "clickable")
