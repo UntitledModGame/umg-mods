@@ -20,10 +20,10 @@ end
 
 
 function BasicBox:onRender(x,y,w,h)
-    lg.setColor(0.5,0,5,0.5)
+    lg.setColor(0.5,0.5,0.5)
     lg.rectangle("fill",x,y,w,h)
     local r = ui.Region(x,y,w,h)
-        :pad(0.1)
+        :pad(0.2)
     self.button:render(r:get())
 end
 
@@ -43,8 +43,9 @@ return {
     },
 
     uiSize = {
-        width = 0.05,
-        height = 0.05
+        width = 0.4,
+        height = 0.2,
+        widthFactorOf = 400
     },
 
     initUI = function(ent)
