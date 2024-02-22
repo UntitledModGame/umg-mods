@@ -105,7 +105,7 @@ end
     All the entities that have a border, and are overseeing a dimension
     (TODO: make this emptyGroup when empty groups are supported)
 ]]
-local dimensionBorderGroup = umg.group("border", "overseeingDimension")
+local dimensionBorderGroup = umg.view("border", "overseeingDimension")
 
 
 dimensionBorderGroup:onAdded(function(ent)

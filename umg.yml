@@ -47,6 +47,10 @@ globals:
     args:
     - type: string
     - type: any
+  umg.view:
+    args:
+    - required: false
+      type: '...'
   umg.group:
     args:
     - required: false

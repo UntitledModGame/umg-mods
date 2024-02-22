@@ -10,7 +10,7 @@ local categoryMap = setmetatable({}, {
 })
 
 
-local categoryGroup = umg.group("x", "y", "category")
+local categoryGroup = umg.view("x", "y", "category")
 
 function addEntity(ent)
     local allCategories = getAllCategories(ent)
