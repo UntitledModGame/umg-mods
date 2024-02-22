@@ -54,6 +54,7 @@ end
 
 
 function Button:onMousePress(x,y)
+    print("HU L LO??")
     if self.onClick then
         self:onClick(x,y)
     end

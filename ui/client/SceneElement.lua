@@ -10,6 +10,7 @@ local Scene = Element("ui:Scene")
 
 function Scene:init()
     self:makeRoot()
+    self:setPassthrough(true)
 end
 
 

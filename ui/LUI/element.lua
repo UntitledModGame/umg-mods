@@ -42,6 +42,8 @@ function Element:setup()
     -- Parent of this element.
     -- Could be a Scene, or a parent Element
 
+    self._passThrough = true -- see :setPassthrough
+
     self._view = {x=0,y=0,w=0,h=0} -- last seen view
     self._active = false
     self._hovered = false
@@ -231,8 +233,9 @@ function Element:mousepressed(mx, my, button, istouch, presses)
     local child = getCapturedChild(self, mx, my)
     if child then
         child:mousepressed(mx, my, button, istouch, presses)
+        return true
     end
-    return true -- consumed!
+    return not self:isPassthrough()
 end
 
 
@@ -428,6 +431,22 @@ end
 
 function Element:getFocusedChild()
     return self._focusedChild
+end
+
+
+
+function Element:setPassthrough(boolean)
+    --[[
+        if an element is passThrough, it will return `false` when capturing a key,
+        IFF the key didn't hit a child.
+        This is super useful for Elements that don't do anything on their own,
+        but contain a bunch of children that need to be layed out.
+    ]]
+    self._passThrough = boolean
+end
+
+function Element:isPassthrough()
+    return self._passThrough
 end
 
 

@@ -91,7 +91,6 @@ umg.on("@update", function()
         -- oops, we really shouldn't be mutating w,h here, as Kirigami regions
         -- are supposed to be immutable. Oh well!! :-)
         region.w, region.h = getWidthHeight(ent.uiSize, sceneRegion)
-        print(region.w, region.h)
     end
 end)
 
