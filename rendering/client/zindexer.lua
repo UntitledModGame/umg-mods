@@ -238,7 +238,7 @@ function ZIndexer:drawEntities(camera)
     
     end
 
-    client.atlas:flush()
+    client.atlas:flushBatch()
 end
 
 
