@@ -22,7 +22,6 @@ end)
 
 
 
-local openInventories = require("client.open_inventories")
 
 
 
@@ -326,32 +325,6 @@ client.on("items:setInventoryItem", function(ent, slot, item_ent)
     inventory:_rawset(slot,item_ent)
     if inventory == focus_inv and slot==focus_slot then
         resetHoldingInv()
-    end
-end)
-
-
-client.on("items:setItemStackSize", function(item, stackSize)
-    item.stackSize = stackSize
-end)
-
-
-
-
---[[
-    Automatically close any inventories that can no longer
-    be accessed by the player
-]]
-umg.on("state:gameUpdate", function(dt)
-    for _, inv in ipairs(openInventories.getOpenInventories())do
-        local keepOpen = false
-        for _, player in ipairs(controlInventoryGroup)do
-            if inv:canBeOpenedBy(player) then
-                keepOpen = true
-            end
-        end
-        if not keepOpen then
-            inv:close()
-        end
     end
 end)
 

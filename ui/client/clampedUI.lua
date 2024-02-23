@@ -8,7 +8,7 @@ local function getClampedRegion(ent, sceneRegion)
 end
 
 
-local clampedUIGroup = umg.group("clampedUI")
+local clampedUIGroup = umg.group("clampedUI", "uiRegion")
 
 umg.on("@update", function()
     local sceneRegion = ui.getSceneRegion()

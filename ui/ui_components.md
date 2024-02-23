@@ -29,6 +29,12 @@ ent.uiSize = {
 }
 
 
+ent.clampedUI = true -- clamps UI inside of screen
+
+
+ent.draggableUI = true -- user can drag UI with the mouse
+
+
 ent.initUI = function(ent)
     -- provides an initializer for UI on clientside
     ...

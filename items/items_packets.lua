@@ -29,14 +29,6 @@ umg.definePacket("items:tryDropInventoryItem", {
 })
 
 
-umg.definePacket("items:setItemStackSize", {
-    typelist = {
-        --item    stackSize
-        "entity", "number"
-    },
-})
-
-
 umg.definePacket("items:setInventoryItem", {
     typelist = {
         --item     slot     itemEnt

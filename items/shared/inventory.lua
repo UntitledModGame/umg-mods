@@ -17,16 +17,6 @@ local SlotHandle = require("shared.SlotHandle")
 local Inventory = objects.Class("items_mod:inventory")
 
 
-local updateStackSize
-if server then
-    updateStackSize = require("server.update_stacksize")
-end
-
-local openInventories
-if client then
-    openInventories = require("client.open_inventories")
-end
-
 
 
 local assertNumber = typecheck.assert("number")
@@ -691,7 +681,6 @@ function Inventory:setStackSize(slot, stackSize)
     end
 
     item.stackSize = stackSize
-    updateStackSize(item)
     signalStackSizeChange(self, slot, change)
 end
 
@@ -723,7 +712,6 @@ end
 function Inventory:open()
     assert(client, "Only available client-side")
     umg.call("items:openInventory", self.owner)
-    openInventories.open(self)
     self.is_open = true
 end
 
@@ -731,7 +719,6 @@ end
 function Inventory:close()
     assert(client, "Only available client-side")
     umg.call("items:closeInventory", self.owner)
-    openInventories.close(self)
     self.is_open = false
 end
 
