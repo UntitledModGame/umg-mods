@@ -1,6 +1,7 @@
 
 
 local util = require("LUI.util")
+local options = require("LUI.options")
 
 
 local Element = {}
@@ -449,6 +450,31 @@ function Element:isPassthrough()
     return self._passThrough
 end
 
+
+
+
+local function rawgetOption(self, opt)
+    return self._options[opt]   
+end
+
+
+function Element:getOption(opt)
+    assert(options.isValidOption(opt), "invalid option")
+    local elem = self
+    while elem do
+        local val = rawgetOption(elem, opt)
+        if val then
+            return val
+        end
+        elem = elem:getParent()
+    end
+    return options.getDefaultValue(opt, self)
+end
+
+
+function Element:setOption(opt, value)
+    self._options[opt] = value
+end
 
 
 

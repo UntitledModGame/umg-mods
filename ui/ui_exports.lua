@@ -17,6 +17,11 @@ ui.Region = require("kirigami.Region")
 ui.Element = require("client.newElement")
 
 
+local LUI = require("LUI.init")
+ui.defineOption = LUI.defineOption
+
+
+
 function ui.getSceneRegion()
     return ui.Region(0,0,love.graphics.getDimensions())
 end

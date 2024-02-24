@@ -42,6 +42,11 @@ function Image:onRender(x,y,w,h)
 end
 
 
+function Image:setImage(x)
+    self.image = x
+end
+
+
 function Image:scaleRegionToFit(region)
     --[[
         Scales `region` such that it fits the image perfectly.
