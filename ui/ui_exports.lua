@@ -21,6 +21,9 @@ local LUI = require("LUI.init")
 ui.defineOption = LUI.defineOption
 
 
+ui.helper = require("client.helper")
+
+
 
 function ui.getSceneRegion()
     return ui.Region(0,0,love.graphics.getDimensions())

@@ -2,7 +2,7 @@
 local slotService = require("client.slotService")
 
 
-local SlotElement = ui.Element()
+local SlotElement = ui.Element("items:SlotElement")
 
 
 local KEYS = {"slot", "inventory"}

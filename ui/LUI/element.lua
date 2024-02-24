@@ -39,6 +39,8 @@ function Element:setup()
     ]]}
     self._children = {}
 
+    self._options = {} -- options for this element
+
     self._parent = false
     -- Parent of this element.
     -- Could be a Scene, or a parent Element

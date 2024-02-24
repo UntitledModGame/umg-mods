@@ -35,11 +35,11 @@ end
 
 
 
-local lg=love.graphics
 
 function Button:onRender(x,y,w,h)
     local r = ui.Region(x,y,w,h)
-    lg.rectangle("fill", r:get())
+    ui.helper.rectangle(self, r:get())
+    ui.helper.outline(self, r:get())
 
     if self.imageElement then
         self.imageElement:render(x,y,w,h)
