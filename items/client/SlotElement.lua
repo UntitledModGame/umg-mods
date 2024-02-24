@@ -19,11 +19,17 @@ end
 
 
 
+local function getItemIcon(itemEnt)
+    return itemEnt.itemIcon or itemEnt.image
+end
+
+
+
 local function updateImage(self)
     local inv = self.inventory
     local ent = inv:get(self.slot)
     if umg.exists(ent) then
-        local img = items.getItemIcon(ent)
+        local img = getItemIcon(ent)
         self.hasImage = true
         self.image:setImage(img)
     else
@@ -42,9 +48,31 @@ end
 
 
 
-function SlotElement:onMousePress(mx, my, button)
-    slotService.interact(self.inventory, self.slot, button)
+function SlotElement:getInventory()
+    -- the actual Inventory object
+    return self.inventory
 end
+
+function SlotElement:getSlot()
+    -- the slot number; aka index in invnetory array
+    return self.slot
+end
+
+
+
+function SlotElement:onMousePress(mx, my, button)
+    slotService.interact(self, button)
+end
+
+
+function SlotElement:onStartHover()
+
+end
+
+function SlotElement:onEndHover()
+
+end
+
 
 
 

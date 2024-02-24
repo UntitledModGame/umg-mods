@@ -59,7 +59,7 @@ function ui.getOpenElements()
     return scene:getChildren()
 end
 
-function ui.getScene()
+function ui.getMainScene()
     return scene
 end
 

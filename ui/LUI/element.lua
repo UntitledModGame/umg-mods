@@ -138,6 +138,7 @@ function Element:removeChild(childElem)
     if not self:hasChild(childElem) then
         return
     end
+    childElem:unfocus()
     util.listDelete(self._children, childElem)
     self._childElementHash[childElem] = nil
     setParent(childElem, nil)
