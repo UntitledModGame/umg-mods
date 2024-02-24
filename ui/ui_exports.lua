@@ -59,6 +59,10 @@ function ui.getOpenElements()
     return scene:getChildren()
 end
 
+function ui.getScene()
+    return scene
+end
+
 function ui.isElement(ent)
     -- an entity is a valid UI element if it has `uiElement` component
     return ent.uiElement

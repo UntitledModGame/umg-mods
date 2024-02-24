@@ -396,18 +396,28 @@ local function setFocusedChild(self, childElem)
 end
 
 
+local function tryUnfocusChild(self)
+    local child = self._focusedChild
+    if child then
+        child:unfocus()
+    end
+end
+
+
 
 function Element:focus()
     if self:isFocused() then
         return
     end
+    local root = self:getRoot()
+    if root then
+        -- unfocus existing focused child
+        tryUnfocusChild(root)
+        setFocusedChild(root, self)
+    end
 
     util.tryCall(self.onFocus, self)
     umg.call("ui:elementFocus", self)
-    local root = self:getRoot()
-    if root then
-        setFocusedChild(root, self)
-    end
 end
 
 

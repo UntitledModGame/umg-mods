@@ -87,8 +87,6 @@ InventoryObject = {
 `setInventoryItem( ent, x, y, item_ent )`
 Server --> Client ::: sets an inventory item
 
-`setInventoryItemStackSize(item, stackSize)`
-Server --> Client ::: sets stack size for inventory item
 
 
 
