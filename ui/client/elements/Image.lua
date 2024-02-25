@@ -35,8 +35,8 @@ function Image:onRender(x,y,w,h)
     -- useful idiom when we want to scale image/text ^^^^
 
     local drawX, drawY
-    drawX = padded.x + padded.w/2
-    drawY = padded.y + padded.h/2
+    drawX = padded.x + padded.w
+    drawY = padded.y + padded.h
     love.graphics.setColor(1,1,1)
     renderImage(self.image,drawX,drawY,0,scale,scale,ox,oy)
 end

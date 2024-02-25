@@ -15,6 +15,7 @@ function SlotElement:init(args)
 
     -- blank image for now
     self.image = ui.elements.Image({})
+    self:addChild(self.image)
     self.hasImage = false
 end
 
