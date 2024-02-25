@@ -58,7 +58,16 @@ function GridInventory:onRender(x,y,w,h)
     ui.helper.rectangle(self, region:get())
     ui.helper.outline(self, region:get())
 
-    local slotRegion = region:pad(self.borderPadding)
+    local title, body = region:splitVertical(0.1, 0.9)
+    if title then
+        -- TODO: draw title here.
+
+        -- we also should be drawing a `close` 
+        -- button within the title region.
+    end
+    ui.helper.outline(self, body:pad(0.01):get())
+
+    local slotRegion = body:pad(self.borderPadding)
     for slot, slotElem in ipairs(self.slotElements) do
         assert(slot == slotElem:getSlot(), "???")
         local r = getSlotRegion(self, slotRegion, slot)

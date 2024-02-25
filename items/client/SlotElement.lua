@@ -73,15 +73,16 @@ end
 
 
 function SlotElement:renderBackground(x,y,w,h)
-    ui.helper.rectangle(self, x,y,w,h)
-    ui.helper.outline(self, x,y,w,h)
+    ui.helper.insetRectangle(self, x,y,w,h)
 end
 
 
 
 function SlotElement:onRender(x,y,w,h)
     self:renderBackground(x,y,w,h)
-    self:renderItem(x,y,w,h)
+    if getItem(self) then
+        self:renderItem(x,y,w,h)
+    end
     self:renderForeground(x,y,w,h)
 end
 
