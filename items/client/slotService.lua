@@ -20,7 +20,6 @@ function slotService.interact(slotElement, button)
 end
 
 
-function slotService
 
 
 

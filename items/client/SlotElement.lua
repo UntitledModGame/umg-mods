@@ -1,5 +1,6 @@
 
 local slotService = require("client.slotService")
+local tooltipService = require("client.tooltipService")
 
 
 local SlotElement = ui.Element("items:SlotElement")
@@ -25,10 +26,19 @@ end
 
 
 
+local function getItem(self)
+    local itemEnt = self.inventory:get(self.slot)
+    if umg.exists(itemEnt) then
+        return itemEnt
+    end
+end
+
+
+
+
 local function updateImage(self)
-    local inv = self.inventory
-    local ent = inv:get(self.slot)
-    if umg.exists(ent) then
+    local ent = getItem(self)
+    if ent then
         local img = getItemIcon(ent)
         self.hasImage = true
         self.image:setImage(img)
@@ -38,12 +48,41 @@ local function updateImage(self)
 end
 
 
-function SlotElement:onRender(x,y,w,h)
+function SlotElement:renderItem(x,y,w,h)
     updateImage(self)
 
     if self.hasImage then
         self.image:render(x,y,w,h)
     end
+
+    local item = getItem(self)
+    if item then
+        local stackSize = item.stackSize or 1
+        if stackSize > 1 then
+            -- TODO: render stack number here
+            -- renderStackNumber(self)
+        end
+    end
+end
+
+
+
+function SlotElement:renderForeground(x,y,w,h)
+end
+
+
+
+function SlotElement:renderBackground(x,y,w,h)
+    ui.helper.rectangle(self, x,y,w,h)
+    ui.helper.outline(self, x,y,w,h)
+end
+
+
+
+function SlotElement:onRender(x,y,w,h)
+    self:renderBackground(x,y,w,h)
+    self:renderItem(x,y,w,h)
+    self:renderForeground(x,y,w,h)
 end
 
 
@@ -66,11 +105,11 @@ end
 
 
 function SlotElement:onStartHover()
-
+    tooltipService.startHover(self)
 end
 
 function SlotElement:onEndHover()
-
+    tooltipService.endHover(self)
 end
 
 
