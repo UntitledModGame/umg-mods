@@ -92,9 +92,6 @@ end
 
 
 
-local floor = math.floor
-
-
 
 
 
@@ -175,6 +172,7 @@ function Inventory:_rawset(slot, itemEnt)
     else
         self.inventory[slot] = nil
     end
+    print("rawset: ", self, slot, itemEnt)
 end
 
 

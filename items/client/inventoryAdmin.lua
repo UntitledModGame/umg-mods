@@ -24,3 +24,13 @@ client.on("items:setInventoryItem", function(ent, slot, item_ent)
     inventory:_rawset(slot,item_ent)
 end)
 
+
+
+
+components.defineComponent("inventory", {
+    type = function(inv, ent)
+        if ent.inventory then
+            error("HEY")
+        end
+    end
+})
