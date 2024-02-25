@@ -13,9 +13,7 @@ inventory backgrounds, custom slots, etc etc.
 
 local SlotHandle = require("shared.SlotHandle")
 
-
 local Inventory = objects.Class("items_mod:inventory")
-
 
 
 
@@ -730,16 +728,10 @@ end
 
 
 
-
 function Inventory:get(slot)
     assertNumber(slot)
     return self.inventory[slot]
 end
-
-
-
-
-
 
 
 
@@ -761,9 +753,6 @@ function Inventory:setSlotHandle(slot, slotHandle)
     slotHandle:setSlotPosition(slot)
     self.slotHandles[slot] = slotHandle
 end
-
-
-
 
 
 

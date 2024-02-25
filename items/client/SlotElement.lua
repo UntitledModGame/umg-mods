@@ -49,19 +49,19 @@ end
 
 
 function SlotElement:renderItem(x,y,w,h)
+    print("hi?")
     updateImage(self)
 
     if self.hasImage then
+        print("hello?")
         self.image:render(x,y,w,h)
     end
 
     local item = getItem(self)
-    if item then
-        local stackSize = item.stackSize or 1
-        if stackSize > 1 then
-            -- TODO: render stack number here
-            -- renderStackNumber(self)
-        end
+    local stackSize = item.stackSize or 1
+    if stackSize > 1 then
+        -- TODO: render stack number here
+        -- renderStackNumber(self)
     end
 end
 

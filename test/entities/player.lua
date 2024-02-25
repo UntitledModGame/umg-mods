@@ -72,6 +72,16 @@ return {
         })
     end,
 
+    toggleableUI = true,
+    uiSize = {width = 0.5, height = 0.5},
+    initUI = function(e)
+        e.uiElement = ui.elements.GridInventory({
+            inventory = e.inventory,
+            columns = 6,
+            rows = 5
+        })
+    end,
+
     initVxVy = true,
     initLook = true
 }
