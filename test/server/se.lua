@@ -57,7 +57,9 @@ umg.on("@createWorld", function()
 
     newItem(ents.ak47)
 
-    newItem(ents.musket)
+    for i=1, 10 do
+        newItem(ents.musket)
+    end
 end)
 
 
