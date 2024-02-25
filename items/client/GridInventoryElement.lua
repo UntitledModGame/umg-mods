@@ -53,6 +53,17 @@ end
 
 
 
+local function getInventoryName(self)
+    --[[
+        TODO: draw name of inventory
+    ]]
+    local ent = self.owner
+    return (ent.inventoryName or self.name)
+end
+
+
+
+
 function GridInventory:onRender(x,y,w,h)
     local region = ui.Region(x,y,w,h)
     ui.helper.rectangle(self, region:get())
