@@ -1,24 +1,12 @@
 
 
 
-local Inventory = require("shared.Inventory")
 
 
-local inventoryGroup = umg.group("inventory")
--- group of all entities that have an `inventory` component.
 
 local controlInventoryGroup = umg.group("controller", "inventory")
 
 
-
-
-
-inventoryGroup:onAdded(function(ent)
-    if (not ent.inventory) or (getmetatable(ent.inventory) ~= Inventory) then
-        error("Inventory component must be initialized either before entity creation, or inside a `.init` function!")
-    end
-    ent.inventory.owner = ent
-end)
 
 
 
@@ -318,13 +306,4 @@ umg.on("rendering:drawUI", function()
     end
 end)
 
-
-
-client.on("items:setInventoryItem", function(ent, slot, item_ent)
-    local inventory = ent.inventory
-    inventory:_rawset(slot,item_ent)
-    if inventory == focus_inv and slot==focus_slot then
-        resetHoldingInv()
-    end
-end)
 

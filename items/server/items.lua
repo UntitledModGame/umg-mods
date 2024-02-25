@@ -99,7 +99,6 @@ server.on("items:tryMoveInventoryItem", function(sender, controlEnt, ent, other_
     if not (hasAccess(controlEnt, ent) and hasAccess(controlEnt, other_ent)) then
         return
     end
-    print("tryMove", sender)
 
     count = count or 1
 

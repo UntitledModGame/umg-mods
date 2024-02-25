@@ -10,8 +10,7 @@ basicUIEntity component does a few things:
 
 
 ent.basicUIEntity = {
-    openSound = "open_chest",
-    closeSound = "close_chest"
+    -- todo; put other shit in here maybe
 }
 
 ]]

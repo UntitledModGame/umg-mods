@@ -49,11 +49,9 @@ end
 
 
 function SlotElement:renderItem(x,y,w,h)
-    print("hi?")
     updateImage(self)
 
     if self.hasImage then
-        print("hello?")
         self.image:render(x,y,w,h)
     end
 

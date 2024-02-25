@@ -160,7 +160,7 @@ end
 
 
 
-function Inventory:_rawset(slot, item_ent)
+function Inventory:_rawset(slot, itemEnt)
     --[[
         This is a helper function, and SHOULDN'T BE CALLED!!!!
         CALL THIS FUNCTION AT YOUR OWN RISK!
@@ -169,10 +169,9 @@ function Inventory:_rawset(slot, item_ent)
         return -- No slot.. can't do anything
     end
 
-    -- TODO: Is it fine to call these callbacks here???
-    if item_ent then
-        assertItem(item_ent)
-        self.inventory[slot] = item_ent
+    if itemEnt then
+        assertItem(itemEnt)
+        self.inventory[slot] = itemEnt
     else
         self.inventory[slot] = nil
     end
@@ -212,14 +211,12 @@ function Inventory:count(item_or_itemName)
     end
 
     local count = 0
-    for x=1, self.width do
-        for y=1, self.height do
-            local check_item = self:get(x,y)
-            if umg.exists(check_item) then
-                -- if its nil, there is no item there.
-                if itemName == check_item.itemName then
-                    count = count + check_item.stackSize
-                end
+    for slot=1, self.size do
+        local check_item = self:get(slot)
+        if umg.exists(check_item) then
+            -- if its nil, there is no item there.
+            if itemName == check_item.itemName then
+                count = count + check_item.stackSize
             end
         end
     end
@@ -228,14 +225,12 @@ end
 
 
 function Inventory:contains(item_or_itemName)
-    for x=1, self.width do
-        for y=1, self.height do
-            local check_item = self:get(x,y)
-            if umg.exists(check_item) then
-                -- if its nil, there is no item there.
-                if item_or_itemName == check_item.itemName or item_or_itemName == check_item then
-                    return true, x, y
-                end
+    for slot=1, self.size do
+        local check_item = self:get()
+        if umg.exists(check_item) then
+            -- if its nil, there is no item there.
+            if item_or_itemName == check_item.itemName or item_or_itemName == check_item then
+                return true, slot
             end
         end
     end
@@ -703,27 +698,6 @@ function Inventory:canBeOpenedBy(ent)
             return true
         end
     end
-end
-
-
-
-function Inventory:open()
-    assert(client, "Only available client-side")
-    umg.call("items:openInventory", self.owner)
-    self.is_open = true
-end
-
-
-function Inventory:close()
-    assert(client, "Only available client-side")
-    umg.call("items:closeInventory", self.owner)
-    self.is_open = false
-end
-
-
-
-function Inventory:isOpen()
-    return self.is_open
 end
 
 

@@ -1,0 +1,26 @@
+
+
+local Inventory = require("shared.Inventory")
+
+
+
+
+local inventoryGroup = umg.group("inventory")
+
+
+inventoryGroup:onAdded(function(ent)
+    if (not ent.inventory) or (getmetatable(ent.inventory) ~= Inventory) then
+        error("Inventory component must be initialized either before entity creation, or inside a `.init` function!")
+    end
+    ent.inventory.owner = ent
+end)
+
+
+
+
+
+client.on("items:setInventoryItem", function(ent, slot, item_ent)
+    local inventory = ent.inventory
+    inventory:_rawset(slot,item_ent)
+end)
+
