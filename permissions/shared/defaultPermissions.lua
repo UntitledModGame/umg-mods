@@ -5,7 +5,10 @@ components.project("permissions", "authorizable")
 
 
 umg.answer("permissions:entityHasPermission", function(actorEnt, authEnt)
-    -- entities have permission if the controllers match :)
+    -- entities have permission if they match :)
+    if actorEnt == authEnt then
+        return true
+    end
     if actorEnt.controller == authEnt.controller then
         return true
     end

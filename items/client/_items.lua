@@ -2,13 +2,7 @@
 
 
 
-
-
 local controlInventoryGroup = umg.group("controller", "inventory")
-
-
-
-
 
 
 
@@ -71,32 +65,32 @@ end
 
 
 local function getControlEntity(inv)
-    for _, ent in ipairs(controlInventoryGroup) do
-        if sync.isClientControlling(ent) then
-            if inv:canBeOpenedBy(ent) then
-                return ent
-            end
+    local invEnt = inv.owner
+    for _, actorEnt in ipairs(control.getControlledEntities()) do
+        if permissions.entityHasPermission(actorEnt, invEnt) then
+            return actorEnt
         end
     end
+
     return false
 end
 
 
 local function getControlTransferEntity(inv1, inv2)
     --[[
-        Players can only move things around inventories
+        Entities can only move things around inventories
         if they have a controlEnt that can facilitate the transer.
 
         look through all controlled entities, filter for
         the ones controlled by the client, and return any that
         are able to make the transfer between inv1 and inv2.
     ]]
-    for _, ent in ipairs(controlInventoryGroup) do
-        if sync.isClientControlling(ent) then
-            if inv1:canBeOpenedBy(ent) then
-                if inv2 == inv1 or inv2:canBeOpenedBy(ent) then
-                    return ent
-                end
+    local invEnt = inv1.owner
+    local invEnt2 = inv2.owner
+    for _, actorEnt in ipairs(control.getControlledEntities()) do
+        if permissions.entityHasPermission(actorEnt, invEnt) then
+            if invEnt == invEnt2 or permissions.entityHasPermission(actorEnt, invEnt2) then
+                return actorEnt
             end
         end
     end

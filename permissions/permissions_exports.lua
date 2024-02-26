@@ -5,17 +5,20 @@ local permissions = {}
 
 if server then
 
-for k,v in pairs(require("server.adminPermissions")) do
-    permissions[k] = v
-end
+local adminPermissions = require("server.adminPermissions")
+
+permissions.getAdminLevel = adminPermissions.getAdminLevel
+permissions.setAdminLevel = adminPermissions.setAdminLevel
 
 end
 
 
 
-for k,v in pairs(require("shared.entityPermissions")) do
-    permissions[k] = v
-end
+
+
+local entityPermissions = require("shared.entityPermissions")
+
+permissions.entityHasPermission = entityPermissions
 
 
 

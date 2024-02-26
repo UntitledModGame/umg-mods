@@ -661,22 +661,7 @@ end
 
 
 function Inventory:canBeOpenedBy(ent)
-    --[[
-        we ask two questions here,
-        one for whether the inventory can be opened,
-        another for whether the inventory is locked.
-
-        This provides a lot of flexibility.
-    ]]
-    assert(umg.exists(ent), "takes an entity as first argument. (Where the entity is the one opening the inventory)")
-
-    local canOpen = umg.ask("items:canOpenInventory", ent, self)
-    if canOpen then
-        local isLocked = umg.ask("items:isInventoryLocked", ent, self)
-        if not isLocked then
-            return true
-        end
-    end
+   permissions.entityHasPermission(ent, self.owner)
 end
 
 

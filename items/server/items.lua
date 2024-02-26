@@ -140,9 +140,6 @@ server.on("items:tryDropInventoryItem", function(sender, controlEnt, ent, slot)
     if not (hasAccess(controlEnt, ent)) then
         return
     end
-    if not inv:canBeOpenedBy(ent) then
-        return
-    end
 
     local item = inv:get(slot)
     if not item then

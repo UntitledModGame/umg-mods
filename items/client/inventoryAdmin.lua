@@ -30,7 +30,7 @@ end)
 components.defineComponent("inventory", {
     type = function(inv, ent)
         if ent.inventory then
-            error("HEY")
+            error("Attempted to redefine inventory!!!")
         end
     end
 })

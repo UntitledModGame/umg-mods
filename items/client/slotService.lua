@@ -38,40 +38,36 @@ end
 
 
 
-local function getAuthorizedControlEntity(invEnt)
-    -- warning: this is O(n)
+local function getAccessCandidates(invEnt)
+    --[[
+        Gets a list of control-entities that can access invEnt
+    ]] 
     local clientId = client.getClient()
-    local ents = control.getControlledEntities(clientId)
-
-    for _, ent in ipairs(ents) do
-        if invEnt then
-            return ent
+    local array = objects.Array()
+    for _, ent in ipairs(control.getControlledEntities(clientId)) do
+        if invEnt:canBeOpenedBy(ent) then
+            array:add(ent)
         end
     end
+    return array
 end
 
 
 
-
-local function getControlTransferEntity(inv1, inv2)
+local function getTransferCandidates(inv1, inv2)
     --[[
-        Players can only move things around inventories
-        if they have a controlEnt that can facilitate the transer.
-
-        look through all controlled entities, filter for
-        the ones controlled by the client, and return any that
-        are able to make the transfer between inv1 and inv2.
+        Get a list of control-entities that are able to access BOTH
+        inv1 AND inv2.
     ]]
-    for _, ent in ipairs(controlInventoryGroup) do
-        if sync.isClientControlling(ent) then
-            if inv1:canBeOpenedBy(ent) then
-                if inv2 == inv1 or inv2:canBeOpenedBy(ent) then
-                    return ent
-                end
+    local array = objects.Array()
+    for _, ent in ipairs(control.getControlledEntities()) do
+        if inv1:canBeOpenedBy(ent) then
+            if inv2 == inv1 or inv2:canBeOpenedBy(ent) then
+                array:add(ent)
             end
         end
     end
-    return false
+    return array
 end
 
 
@@ -79,7 +75,7 @@ end
 
 
 local function tryPutOne(slot)
-    local controlEnt = getControlTransferEntity()
+    local controlEnt = getAccessCandidates()
     local item = getFocusedItem()
     local targ = inv:get(x,y)
     if (not targ) or targ.itemName == item.itemName then
