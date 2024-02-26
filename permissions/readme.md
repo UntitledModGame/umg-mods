@@ -32,9 +32,9 @@ authorizable
 -- (you NEED to do this if you want an entity to have permission.)
 -- (component-projection would be a good idea)
 
-local hasAccess = permissions.entityHasPermission(queryEnt, authEnt)
+local hasAccess = permissions.entityHasPermission(actorEnt, authEnt)
 
--- args: (queryEnt, authEnt)
+-- args: (actorEnt, authEnt)
 question("permissions:entityHasPermission", reducer=OR)
 question("permissions:isEntityPermissionDenied", reducer=OR)
 ```

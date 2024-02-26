@@ -4,9 +4,9 @@ components.project("permissions", "authorizable")
 
 
 
-umg.answer("permissions:entityHasPermission", function(queryEnt, authEnt)
+umg.answer("permissions:entityHasPermission", function(actorEnt, authEnt)
     -- entities have permission if the controllers match :)
-    if queryEnt.controller == authEnt.controller then
+    if actorEnt.controller == authEnt.controller then
         return true
     end
 
@@ -18,7 +18,7 @@ umg.answer("permissions:entityHasPermission", function(queryEnt, authEnt)
         end
 
         if perms.playerOnly then
-            local isPlayer = (queryEnt.controller and queryEnt.controllable)
+            local isPlayer = (actorEnt.controller and actorEnt.controllable)
             if isPlayer then
                 return true
             end

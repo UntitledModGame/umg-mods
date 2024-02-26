@@ -252,13 +252,13 @@ end
 
 local hasRemoveAuthorityTc = typecheck.assert("entity", "number")
 
-function Inventory:hasRemoveAuthority(controlEnt, slot)
+function Inventory:hasRemoveAuthority(actorEnt, slot)
     --[[
-        whether the controlEnt has the authority to remove the
+        whether the actorEnt has the authority to remove the
         item at slot
     ]]
-    hasRemoveAuthorityTc(controlEnt, slot)
-    if not self:canBeOpenedBy(controlEnt) then
+    hasRemoveAuthorityTc(actorEnt, slot)
+    if not self:canBeOpenedBy(actorEnt) then
         return
     end
 
@@ -268,7 +268,7 @@ function Inventory:hasRemoveAuthority(controlEnt, slot)
         return false 
     end
 
-    local isBlocked = umg.ask("items:isItemRemovalBlockedForControlEntity", controlEnt, self.owner, slot)
+    local isBlocked = umg.ask("items:isItemRemovalBlockedForActorEntity", actorEnt, self.owner, slot)
     return not isBlocked
 end
 
@@ -276,17 +276,17 @@ end
 
 local hasAddAuthorityTc = typecheck.assert("entity", "table", "number")
 
-function Inventory:hasAddAuthority(controlEnt, itemToBeAdded, slot)
+function Inventory:hasAddAuthority(actorEnt, itemToBeAdded, slot)
     --[[
-        whether the controlEnt has the authority to add
+        whether the actorEnt has the authority to add
         `item` to the slot (slot)
     ]]
-    hasAddAuthorityTc(controlEnt, itemToBeAdded, slot)
-    if not self:canBeOpenedBy(controlEnt) then
+    hasAddAuthorityTc(actorEnt, itemToBeAdded, slot)
+    if not self:canBeOpenedBy(actorEnt) then
         return
     end
 
-    local isBlocked = umg.ask("items:isItemAdditionBlockedForControlEntity", controlEnt, self.owner, itemToBeAdded, slot)
+    local isBlocked = umg.ask("items:isItemAdditionBlockedForActorEntity", actorEnt, self.owner, itemToBeAdded, slot)
     return not isBlocked
 end
 
@@ -383,25 +383,6 @@ function Inventory:canRemoveFromSlot(slot)
     local invEnt = self.owner
     local isBlocked = umg.ask("items:isItemRemovalBlocked", item, invEnt, slot)
     return not isBlocked
-end
-
-
-
-function Inventory:tryRemoveFromSlot(slot)
-    --[[
-        tries to remove item from an inventory slot.
-        On success, returns the removed item.
-        On failure, returns nil.
-    ]]
-    local item = self:get(slot)
-    if not umg.exists(item) then
-        -- no item to remove
-        return nil
-    end
-
-    if self:canRemoveFromSlot(slot) then
-        self:remove(slot)
-    end
 end
 
 
@@ -704,6 +685,7 @@ function Inventory:get(slot)
     assertNumber(slot)
     return self.inventory[slot]
 end
+
 
 
 

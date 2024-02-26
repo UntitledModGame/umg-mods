@@ -17,9 +17,9 @@ umg.defineQuestion("items:isItemAdditionBlocked", OR)
 
 
 -- whether an item is blocked from being removed from an inventory
-umg.defineQuestion("items:isItemRemovalBlockedForControlEntity", OR)
+umg.defineQuestion("items:isItemRemovalBlockedForActorEntity", OR)
 -- whether an item is blocked from being added to an inventory.
-umg.defineQuestion("items:isItemAdditionBlockedForControlEntity", OR)
+umg.defineQuestion("items:isItemAdditionBlockedForActorEntity", OR)
 -- These two questions are only asked if a controllable entity is trying to move an item.
 -- (i.e. if a player moves an item.)
 -- For both questions, the controllable entity is passed in.
