@@ -74,7 +74,7 @@ return {
 
     draggableUI = true,
     toggleableUI = true,
-    uiSize = {width = 0.3, height = 0.2},
+    uiSize = {width = 0.3, height = 0.25},
 
     initUI = function(e)
         e.uiElement = ui.elements.GridInventory({

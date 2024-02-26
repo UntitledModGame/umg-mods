@@ -82,8 +82,9 @@ end
 
 function GridInventory:onRender(x,y,w,h)
     local region = ui.Region(x,y,w,h)
-    ui.helper.rectangle(self, region:get())
     ui.helper.outline(self, region:get())
+    region = region:padPixels(self:getOption("lineWidth"))
+    ui.helper.outsetRectangle(self, region:get())
 
     local title, body = region:splitVertical(0.1, 0.9)
     if title then
@@ -92,7 +93,6 @@ function GridInventory:onRender(x,y,w,h)
         -- we also should be drawing a `close` 
         -- button within the title region.
     end
-    ui.helper.outline(self, body:pad(0.01):get())
 
     local slotRegion = body:pad(self.borderPadding)
     for slot, slotElem in ipairs(self.slotElements) do

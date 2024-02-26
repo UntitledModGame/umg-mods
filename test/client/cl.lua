@@ -2,7 +2,7 @@
 
 base.client.groundTexture.setDefaultGround({
     images = {"ground_texture_final4"},
-    color = {0.3,0.9,0.55}
+    color = {0.2,0.7,0.35}
 })
 
 

@@ -27,7 +27,7 @@ end
 
 
 
-local function getItem(self)
+function SlotElement:getItem()
     local itemEnt = self.inventory:get(self.slot)
     if umg.exists(itemEnt) then
         return itemEnt
@@ -38,7 +38,7 @@ end
 
 
 local function updateImage(self)
-    local ent = getItem(self)
+    local ent = self:getItem()
     if ent then
         local img = getItemIcon(ent)
         self.hasImage = true
@@ -56,7 +56,7 @@ function SlotElement:renderItem(x,y,w,h)
         self.image:render(x,y,w,h)
     end
 
-    local item = getItem(self)
+    local item = self:getItem()
     local stackSize = item.stackSize or 1
     if stackSize > 1 then
         -- TODO: render stack number here
@@ -79,7 +79,7 @@ end
 
 function SlotElement:onRender(x,y,w,h)
     self:renderBackground(x,y,w,h)
-    if getItem(self) then
+    if self:getItem() then
         self:renderItem(x,y,w,h)
     end
     self:renderForeground(x,y,w,h)

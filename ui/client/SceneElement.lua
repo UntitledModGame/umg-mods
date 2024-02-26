@@ -35,4 +35,10 @@ end
 
 
 
+function Scene:onResize(w, h)
+    self:setOption("lineWidth", math.round(w / 400))
+end
+
+
+
 return Scene
