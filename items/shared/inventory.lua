@@ -154,6 +154,65 @@ end
 
 
 
+
+local function remove(self, slot)
+    local item = self:get(slot)
+    if item then
+        signalRemoveFromSlot(self, slot, item)
+    end
+    put(self, slot, nil)
+end
+
+
+
+
+local function canCombineStacks(item1, item2, count)
+    -- Returns true if item1 can be combined into item2.
+    -- false otherwise.
+    count = (count or item1.stackSize) or 1
+    -- `count` is the number of items that we want to add. (defaults to the full stackSize of item)
+
+    if item1.itemName ~= item2.itemName then
+        return false -- deny; items can't be combined.
+    end
+
+    local remainingStackSize = (item1.maxStackSize or 1) - count
+    if (remainingStackSize < count) then
+        return false -- not enough stack space to combine
+    end
+
+    return true -- ok
+end
+
+
+
+
+local addTc = typecheck.assert("table", "entity", "number")
+local function add(self, item, slot)
+    -- Directly adds an item to an inventory.
+    -- If the item is combined as a stack, the old item is deleted.
+    addTc(self, slot, item)
+    local itm = self:get(slot)
+    if itm then
+        -- increment stackSize:
+        assert(canCombineStacks(item, itm), "can't combine stacks!")
+        itm.stackSize = (itm.stackSize or 1) + (item.stackSize or 1)
+        item:delete()
+        -- TODO ^^^ maybe we should set the stackSize to 0 instead of deleting?
+        -- that way, another system will handle the deletion of item entities with 0 stack size... could be cleaner
+    else
+        -- only signal an add to slot if the slot was empty
+        signalMoveToSlot(self, slot, item)
+        put(self, slot, item)
+    end
+end
+
+
+
+
+
+
+
 function Inventory:count(item_or_itemName)
     local itemName
     if (type(item_or_itemName) == "table") and item_or_itemName.itemName then
@@ -218,27 +277,6 @@ local function canAddToSlot(self, slot, item)
     return not isBlocked
 end
 
-
-
-local function canCombineStacks(item1, item2, count)
-    --[[
-        Returns true if item1 can be combined into item2.
-        false otherwise.
-    ]]
-    -- `count` is the number of items that we want to add. (defaults to the full stackSize of item)
-    count = (count or item1.stackSize) or 1
-
-    if item1.itemName ~= item2.itemName then
-        return false -- deny; items can't be combined.
-    end
-
-    local remainingStackSize = (item1.maxStackSize or 1) - count
-    if (remainingStackSize < count) then
-        return false -- not enough stack space to combine
-    end
-
-    return true -- ok
-end
 
 
 local canAddToSlotTc = typecheck.assert("number", "entity", "number?")
@@ -370,16 +408,15 @@ local function moveIntoTakenSlot(self, slot, otherInv, otherSlot, count)
     local newStackSize = item.stackSize - count
     if newStackSize <= 0 then
         -- delete src item, since all it's stacks are gone
-        self:remove(slot)
+        remove(self, slot)
         item:delete()
     else
-        -- else, we reduce the src item stacks
-        self:setStackSize(slot, newStackSize)
+        -- else, we reduce the src item stacks:
+        item.stackSize = newStackSize
     end
 
     -- add stacks to the target item 
-    local new = targ.stackSize + count
-    otherInv:setStackSize(otherSlot, new)
+    targ.stackSize = targ.stackSize + count
     return true -- success.
 end
 
@@ -400,13 +437,12 @@ local function moveIntoEmptySlot(self, slot, otherInv, otherSlot, count)
         -- then we are only moving part of the stack; so we must create a copy
         local newItem = item:clone()
         newItem.stackSize = count 
-        -- We don't call :setStackSize above, because newItem has just been cloned
-        self:setStackSize(slot, item.stackSize - count)
-        otherInv:add(otherSlot, newItem)
+        item.stackSize = item.stackSize - count
+        add(otherInv, otherSlot, newItem)
     else
         -- we are moving the whole item
-        self:remove(slot)
-        otherInv:add(otherSlot, item)
+        remove(self, slot)
+        add(otherInv, otherSlot, item)
     end
     return true -- success
 end
@@ -486,8 +522,8 @@ function Inventory:trySwap(slot, otherInv, otherSlot)
 
     -- NOTE: This feels kinda dumb removing the items here,
     -- because the operation isn't guaranteed to succeed yet...
-    self:remove(slot)
-    otherInv:remove(otherSlot)
+    remove(self, slot)
+    remove(otherInv, otherSlot)
 
     -- if there is no item, adding it to the other slot is ok. (explains the first OR condition)
     local addOk1 = (not otherItem) or self:canAddToSlot(slot, otherItem)
@@ -495,74 +531,18 @@ function Inventory:trySwap(slot, otherInv, otherSlot)
     local addOk = addOk1 and addOk2
 
     if addOk then
-        self:add(slot, otherItem)
-        otherInv:add(otherSlot, item)
+        add(self, slot, otherItem)
+        add(otherInv, otherSlot, item)
         return true -- success!
     else
         -- uh oh! reset to original slots. 
         -- (TODO: this is dumb, because this will emit itemMoved events :/ )
-        self:add(slot, otherItem)
-        otherInv:add(otherSlot, item)
+        add(self, slot, otherItem)
+        add(otherInv, otherSlot, item)
         return false -- failure; operation was reversed.
     end
 end
 
-
-
-local addTc = typecheck.assert("entity", "number")
-function Inventory:add(item, slot)
-    -- Directly adds an item to an inventory.
-    -- If the item is combined as a stack, the old item is deleted.
-
-    -- WARNING: THIS METHOD IS QUITE DANGEROUS TO CALL!!!
-    -- `item` must NOT be in any other inventory!
-    -- If item is in another inv, the item-entity will be duplicated across BOTH inventories!!!
-    addTc(slot, item)
-    local itm = self:get(slot)
-    if itm then
-        -- increment stackSize:
-        assert(canCombineStacks(item, itm), "can't combine stacks!")
-        local stackSize = (itm.stackSize or 1) + (item.stackSize or 1)
-        self:setStackSize(slot, stackSize)
-        item:delete()
-        -- TODO ^^^ maybe we should set the stackSize to 0 instead of deleting?
-        -- that way, another system will handle the deletion of item entities with 0 stack size... could be cleaner
-    else
-        -- only signal an add to slot if the slot was empty
-        signalMoveToSlot(self, slot, item)
-        put(self, slot, item)
-    end
-end
-
-
-function Inventory:remove(slot)
-    -- WARNING: Somewhat unsafe to call!!!
-    -- Directly removes an item from a slot in an inventory.
-    -- This is kinda like deleting the item.
-    local item = self:get(slot)
-    if item then
-        signalRemoveFromSlot(self, slot, item)
-    end
-    put(self, slot, nil)
-end
-
-
-function Inventory:setStackSize(slot, stackSize)
-    -- WARNING: Somewhat unsafe to call!!!
-    -- Directly sets a stack size for an item.
-    -- Be careful when using!
-    local item = self:get(slot)
-    if not item then
-        return -- wot wot??? lmao
-    end
-    local change = stackSize - item.stackSize
-    if change == 0 then
-        return -- no change.
-    end
-
-    item.stackSize = stackSize
-    signalStackSizeChange(self, slot, change)
-end
 
 
 

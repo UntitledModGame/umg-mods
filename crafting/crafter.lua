@@ -132,33 +132,16 @@ end
 
 
 local function removeIngredients(inventory, recipe)
-    assert(server, "This shouldn't be called on clientside.")
-    local ingredientsRemoved = {}
-
-    for x=1, inventory.width do
-        for y=1, inventory.height do
-            local item = inventory:get(x,y)
-            if item then
-                local iname = item.itemName
-                if recipe.ingredientCounts[iname] then
-                    local tot_rem = ingredientsRemoved[iname] or 0
-                    local amount = math.min(item.stackSize, recipe.ingredientCounts[iname] - tot_rem)
-                    ingredientsRemoved[iname] = tot_rem + amount
-                    item.stackSize = item.stackSize - amount
-                    if item.stackSize == 0 then
-                        item:delete()
-                        inventory:remove(x,y)
-                    end
-                end
-            end
-        end
-    end
+    error("todo oops")
 end
 
 
 
 
 local function initializeItem(inventory, recipe, slot)
+    error([[
+        todo, all this needs to be redone
+    ]])
     local etype = server.entities[recipe.result.result]
     local item_entity = etype()
     local owner = inventory.owner
@@ -168,7 +151,7 @@ local function initializeItem(inventory, recipe, slot)
             item_entity.y = owner.y
         end
     end
-    inventory:add(slot, item_entity)
+    inventory:tryAdd(item_entity)
 end
 
 

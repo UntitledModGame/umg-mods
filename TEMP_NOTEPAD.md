@@ -42,8 +42,9 @@ Inventory:tryMoveToSlot()
 Inventory:trySwap()
 
 
-Inventory:add(item, slot_or_nil)
-Inventory:remove(slot_or_item)
+-- Make these local:
+- PURGED -- Inventory:add(item, slot_or_nil)
+- PURGED -- Inventory:remove(slot_or_item)
 
 
 Inventory:get(slot)
