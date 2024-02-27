@@ -20,7 +20,7 @@ inventoryGroup:onAdded(function(ent)
         error("inventory was assigned incorrectly for ent: " .. tostring(ent))
     end
 
-    ent.inventory:setup(ent)
+    ent.inventory.owner = ent
 end)
 
 
@@ -38,14 +38,20 @@ end)
 
 
 
+local function isValidSlot(invEnt, slot)
+    if math.floor(slot) ~= slot then
+        return false
+    end
+    return (slot >= 1) and (slot <= invEnt.size)
+end
+
+
 
 
 local function hasAccess(controlEnt, invEnt)
     --[[
         `controlEnt` is the entity executing the transfer upon invEnt.
         invEnt is the entity holding the inventory
-
-        TODO: Do we want a maximum interaction distance enforced here???
     ]]
     if not umg.exists(invEnt) then
         return false
@@ -67,23 +73,17 @@ server.on("items:trySwapInventoryItem", function(sender, controlEnt, ent, other_
         return
     end
 
-    local inv1 = ent.inventory
-    local inv2 = other_ent.inventory
-    if (not inv1) or (not inv2) then
-        return
-    end
-
-    if (not inv1:slotExists(slot)) or (not inv2:slotExists(slot2)) then
+    if (not isValidSlot(slot)) or (not isValidSlot(slot2)) then
         return
     end
     
     local item1 = inv1:get(slot)
     local item2 = inv2:get(slot2)
     
-    if not (inv1:hasAddAuthority(controlEnt,item2,slot) and inv1:hasRemoveAuthority(controlEnt,slot)) then
+    if not (perms.canActorAddItem(controlEnt,item2,slot) and inv1:hasRemoveAuthority(controlEnt,slot)) then
         return
     end
-    if not (inv2:hasAddAuthority(controlEnt,item1,slot2) and inv2:hasRemoveAuthority(controlEnt,slot2)) then
+    if not (perms.canActorAddItem(controlEnt,item1,slot2) and inv2:hasRemoveAuthority(controlEnt,slot2)) then
         return
     end
     
@@ -108,7 +108,7 @@ server.on("items:tryMoveInventoryItem", function(sender, controlEnt, ent, other_
         return
     end
 
-    if (not inv1:slotExists(slot1)) or (not inv2:slotExists(slot2)) then
+    if (not isValidSlot(slot1)) or (not isValidSlot(slot2)) then
         return
     end
 
@@ -118,7 +118,7 @@ server.on("items:tryMoveInventoryItem", function(sender, controlEnt, ent, other_
 
     local item = inv1:get(slot1)
     -- moving `item` from `inv1` to `inv2`
-    if not inv2:hasAddAuthority(controlEnt,item,slot2) then
+    if not perms.canActorAddItem(controlEnt,item,slot2) then
         return
     end
     if not inv1:hasRemoveAuthority(controlEnt, slot1) then

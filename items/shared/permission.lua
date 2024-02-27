@@ -1,5 +1,0 @@
-
-
-
-components.project("inventory", "authorizable")
-

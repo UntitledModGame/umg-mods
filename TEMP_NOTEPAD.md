@@ -1,26 +1,57 @@
-0       0       6       5
-1       0       6       5
-2       0       6       5
-3       0       6       5
-4       0       6       5
-0       1       6       5
-1       1       6       5
-2       1       6       5
-3       1       6       5
-4       1       6       5
-0       2       6       5
-1       2       6       5
-2       2       6       5
-3       2       6       5
-4       2       6       5
-0       3       6       5
-1       3       6       5
-2       3       6       5
-3       3       6       5
-4       3       6       5
-0       4       6       5
-1       4       6       5
-2       4       6       5
-3       4       6       5
-4       4       6       5
-0       5       6       5
+
+
+
+
+```lua
+
+Inventory:init()
+- PURGED -- Inventory:setup()
+
+-- Should be inlined within `server.items` file
+- PURGED -- Inventory:slotExists()
+
+-- callbacks:
+Inventory:onItemMoved()
+Inventory:onItemRemoved()
+Inventory:onItemStackSizeChange()
+
+-- Remove this shit
+- PURGED -- Inventory:_rawset()
+- PURGED -- Inventory:set()  
+
+Inventory:count()
+Inventory:contains(item)
+Inventory:getEmptySlot()
+
+-- Extract ALL of these to `permissionCheck` file.
+- PURGED -- Inventory:hasRemoveAuthority(actorEnt, slot)
+- PURGED -- Inventory:hasAddAuthority(actorEnt, slot, item)
+- PURGED -- Inventory:canBeOpenedBy(actorEnt)
+
+Inventory:canAddToSlot()
+Inventory:canRemoveFromSlot()
+
+Inventory:tryAddToSlot(slot, item, count)
+
+
+Inventory:findAvailableSlot()
+Inventory:find()
+
+Inventory:tryMove()
+Inventory:tryMoveToSlot()
+Inventory:trySwap()
+
+
+Inventory:add(item, slot_or_nil)
+Inventory:remove(slot_or_item)
+
+
+Inventory:get(slot)
+
+- Inventory:setStackSize(slot, stackSize)
+
+Inventory:getSlotHandle()
+Inventory:setSlotHandle()
+
+```
+

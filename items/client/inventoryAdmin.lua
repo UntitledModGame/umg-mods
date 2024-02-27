@@ -19,14 +19,6 @@ end)
 
 
 
-client.on("items:setInventoryItem", function(ent, slot, item_ent)
-    local inventory = ent.inventory
-    inventory:_rawset(slot,item_ent)
-end)
-
-
-
-
 components.defineComponent("inventory", {
     type = function(inv, ent)
         if ent.inventory then

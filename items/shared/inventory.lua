@@ -65,41 +65,16 @@ end
 
 
 
-function Inventory:setup(ent)
-    --[[ 
-    This is called automatically by the main items system on the server.
-    if you intend to use the inventory immediately after creation,
-    call this function. 
-    ]]
-    if self.owner and self.owner ~= ent then
-        error("owner is already set to a different inventory!")
-    end
-
-    self.owner = ent
-end
-
-
-
-function Inventory:slotExists(slot)
-    -- if out of bounds, return false
-    if math.floor(slot) ~= slot then
-        return false
-    end
-    return (slot >= 1) and (slot <= self.size)
-end
 
 
 
 
 
-
-
-
-local function assertItem(item_ent)
-    assert(item_ent.itemName, "items need an itemName component")
-    assert((not item_ent.description) or type(item_ent.description) == "string", "item entity descriptions must be strings")
-    assert((not item_ent.stackSize) or type(item_ent.stackSize) == "number", "item entity stackSize must be a number")
-    assert((not item_ent.maxStackSize) or type(item_ent.maxStackSize) == "number", "item entity maxStackSize must be a number")
+local function assertItem(itemEnt)
+    assert(itemEnt.itemName, "items need an itemName component")
+    assert((not itemEnt.description) or type(item_ent.description) == "string", "item entity descriptions must be strings")
+    assert((not itemEnt.stackSize) or type(item_ent.stackSize) == "number", "item entity stackSize must be a number")
+    assert((not itemEnt.maxStackSize) or type(item_ent.maxStackSize) == "number", "item entity maxStackSize must be a number")
 end
 
 
@@ -110,14 +85,14 @@ end
 
 
 
-local function signalMoveToSlot(self, slot, item_ent)
+local function signalMoveToSlot(self, slot, itemEnt)
     -- calls appropriate callbacks for item addition
     local slotHandle = self:getSlotHandle(slot)
     if slotHandle then
-        slotHandle:onItemAdded(item_ent, slot)
+        slotHandle:onItemAdded(itemEnt, slot)
     end
-    self:onItemMoved(item_ent, slot)
-    umg.call("items:itemMoved", self.owner, item_ent, slot)
+    self:onItemMoved(itemEnt, slot)
+    umg.call("items:itemMoved", self.owner, itemEnt, slot)
 end
 
 
@@ -144,57 +119,37 @@ function Inventory:onItemRemoved(item, slot)
 end
 
 
-local function signalRemoveFromSlot(self, slot, item_ent)
+local function signalRemoveFromSlot(self, slot, itemEnt)
     -- calls appropriate callbacks for item removal
     local slotHandle = self:getSlotHandle(slot)
     if slotHandle then
-        slotHandle:onItemRemoved(item_ent, slot)
+        slotHandle:onItemRemoved(itemEnt, slot)
     end
-    self:onItemRemoved(item_ent, slot)
-    umg.call("items:itemRemoved", self.owner, item_ent, slot)
+    self:onItemRemoved(itemEnt, slot)
+    umg.call("items:itemRemoved", self.owner, itemEnt, slot)
 end
 
 
 
 
-function Inventory:_rawset(slot, itemEnt)
+
+local function put(self, slot, itemEnt)
     --[[
-        This is a helper function, and SHOULDN'T BE CALLED!!!!
-        CALL THIS FUNCTION AT YOUR OWN RISK!
+        Directly puts an item into a slot
     ]]
-    if not self:slotExists(slot) then
-        return -- No slot.. can't do anything
-    end
-
-    if itemEnt then
-        assertItem(itemEnt)
-        self.inventory[slot] = itemEnt
-    else
-        self.inventory[slot] = nil
-    end
-    print("rawset: ", self, slot, itemEnt)
-end
-
-
---[[
-    puts an item directly into an inventory.
-    BIG WARNING:
-    This is a very low-level function, and IS VERY DANGEROUS TO CALL!
-    If you want to move inventory items around, take a look at the
-    :tryMove  and  :trySwap  methods.
-
-    Calling this function willy-nilly will make it so the same item
-        may be duplicated across multiple inventories.
-]]
-function Inventory:set(slot, item)
-    -- DON'T CALL THIS FUNCTION IF YOU ARE UNSURE!!!
-    -- Seriously, please!!! Don't be a fakken muppet
     assert(server, "Can only be called on server")
     assertNumber(slot)
 
-    -- If `item_ent` is nil, then it removes the item from inventory.
-    self:_rawset(slot, item)
-    server.broadcast("items:setInventoryItem", self.owner, slot, item)
+    -- If `itemEnt` is nil, then it removes the item from inventory.
+    self.inventory[slot] = itemEnt
+    if itemEnt then
+        assertItem(itemEnt)
+        self.inventory[slot] = itemEnt
+        server.broadcast("items:setInventorySlot", self.owner, slot, itemEnt)
+    else
+        self.inventory[slot] = nil
+        server.broadcast("items:clearInventorySlot", self.owner, slot)
+    end
 end
 
 
@@ -211,7 +166,7 @@ function Inventory:count(item_or_itemName)
     local count = 0
     for slot=1, self.size do
         local check_item = self:get(slot)
-        if umg.exists(check_item) then
+        if check_item then
             -- if its nil, there is no item there.
             if itemName == check_item.itemName then
                 count = count + check_item.stackSize
@@ -224,8 +179,8 @@ end
 
 function Inventory:contains(item_or_itemName)
     for slot=1, self.size do
-        local check_item = self:get()
-        if umg.exists(check_item) then
+        local check_item = self:get(slot)
+        if check_item then
             -- if its nil, there is no item there.
             if item_or_itemName == check_item.itemName or item_or_itemName == check_item then
                 return true, slot
@@ -240,55 +195,12 @@ end
 function Inventory:getEmptySlot()
     -- Returns the slot of an empty inventory slot
     for slot=1, self.size do
-        if not umg.exists(self.inventory[slot]) then
+        if not self:get(slot) then
             return slot
         end
     end
 end
 
-
-
-
-
-local hasRemoveAuthorityTc = typecheck.assert("entity", "number")
-
-function Inventory:hasRemoveAuthority(actorEnt, slot)
-    --[[
-        whether the actorEnt has the authority to remove the
-        item at slot
-    ]]
-    hasRemoveAuthorityTc(actorEnt, slot)
-    if not self:canBeOpenedBy(actorEnt) then
-        return
-    end
-
-    local item = self:get(slot)
-    if not item then
-        -- cannot remove an empty slot.
-        return false 
-    end
-
-    local isBlocked = umg.ask("items:isItemRemovalBlockedForActorEntity", actorEnt, self.owner, slot)
-    return not isBlocked
-end
-
-
-
-local hasAddAuthorityTc = typecheck.assert("entity", "table", "number")
-
-function Inventory:hasAddAuthority(actorEnt, itemToBeAdded, slot)
-    --[[
-        whether the actorEnt has the authority to add
-        `item` to the slot (slot)
-    ]]
-    hasAddAuthorityTc(actorEnt, itemToBeAdded, slot)
-    if not self:canBeOpenedBy(actorEnt) then
-        return
-    end
-
-    local isBlocked = umg.ask("items:isItemAdditionBlockedForActorEntity", actorEnt, self.owner, itemToBeAdded, slot)
-    return not isBlocked
-end
 
 
 
@@ -335,16 +247,12 @@ local canAddToSlotTc = typecheck.assert("number", "entity", "number?")
 -- false otherwise.
 function Inventory:canAddToSlot(slot, item, count)
     canAddToSlotTc(slot, item, count)
-    if not self:slotExists(slot) then
-        return nil
-    end
-
     -- `count` is the number of items that we want to add. (defaults to the full stackSize of item)
     count = (count or item.stackSize) or 1
 
-    local item_ent = self:get(slot)
-    if item_ent then
-        if not canCombineStacks(item, item_ent, count) then
+    local itemEnt = self:get(slot)
+    if itemEnt then
+        if not canCombineStacks(item, itemEnt, count) then
             return false -- can't combine stacks!
         end
     end
@@ -376,7 +284,7 @@ function Inventory:canRemoveFromSlot(slot)
     ]]
     assertNumber(slot)
     local item = self:get(slot)
-    if not umg.exists(item) then
+    if not item then
         return true -- no item, so I guess we can remove
     end
 
@@ -413,7 +321,7 @@ function Inventory:find(item_or_itemName)
     ]]
     for slot=1, self.size do
         local item = self:get(slot)
-        if umg.exists(item) and item == item_or_itemName or item.itemName == item_or_itemName then
+        if item and item == item_or_itemName or item.itemName == item_or_itemName then
             -- found! return slot.
             return slot
         end
@@ -601,8 +509,8 @@ end
 
 
 
-local addTc = typecheck.assert("number", "entity")
-function Inventory:add(slot, item)
+local addTc = typecheck.assert("entity", "number")
+function Inventory:add(item, slot)
     -- Directly adds an item to an inventory.
     -- If the item is combined as a stack, the old item is deleted.
 
@@ -622,7 +530,7 @@ function Inventory:add(slot, item)
     else
         -- only signal an add to slot if the slot was empty
         signalMoveToSlot(self, slot, item)
-        self:set(slot, item)
+        put(self, slot, item)
     end
 end
 
@@ -632,10 +540,10 @@ function Inventory:remove(slot)
     -- Directly removes an item from a slot in an inventory.
     -- This is kinda like deleting the item.
     local item = self:get(slot)
-    if umg.exists(item) then
+    if item then
         signalRemoveFromSlot(self, slot, item)
     end
-    self:set(slot, nil)
+    put(self, slot, nil)
 end
 
 
@@ -660,15 +568,13 @@ end
 
 
 
-function Inventory:canBeOpenedBy(ent)
-   permissions.entityHasPermission(ent, self.owner)
-end
-
-
 
 function Inventory:get(slot)
     assertNumber(slot)
-    return self.inventory[slot]
+    local e = self.inventory[slot]
+    if umg.exists(e) then
+        return e
+    end
 end
 
 
@@ -692,6 +598,28 @@ function Inventory:setSlotHandle(slot, slotHandle)
     slotHandle:setSlotPosition(slot)
     self.slotHandles[slot] = slotHandle
 end
+
+
+
+
+
+
+if client then
+
+
+client.on("items:setInventorySlot", function(ent, slot, itemEnt)
+    local inventory = ent.inventory
+    inventory[slot] = itemEnt
+end)
+
+client.on("items:clearInventorySlot", function(ent, slot)
+    ent.inventory[slot] = nil
+end)
+
+
+end
+
+
 
 
 

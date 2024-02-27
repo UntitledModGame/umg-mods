@@ -29,11 +29,18 @@ umg.definePacket("items:tryDropInventoryItem", {
 })
 
 
-umg.definePacket("items:setInventoryItem", {
+umg.definePacket("items:setInventorySlot", {
     typelist = {
-        --item     slot     itemEnt
+        --inv      slot     itemEnt
         "entity", "number", "entity"
     },
+})
+
+umg.definePacket("items:clearInventorySlot", {
+    typelist = {
+        -- inv      slot
+        "entity", "number"
+    }
 })
 
 
