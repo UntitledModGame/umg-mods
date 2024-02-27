@@ -101,15 +101,25 @@ function Inventory:onItemStackSizeChange(item, stackChange, slot)
     -- Override this, if you want
 end
 
-local function signalStackSizeChange(self, slot, stackChange)
+
+
+local function signalStackSizeChange(self, item, slot, stackSize)
     -- called when a stackSize of an item changes
-    local item = self:get(slot)
     local slotHandle = self:getSlotHandle(slot)
     if slotHandle then
         slotHandle:onItemAdded(item, slot)
     end
-    self:onItemStackSizeChange(item, stackChange, slot)
-    umg.call("items:stackSizeChange", self.owner, item, stackChange, slot)
+    self:onItemStackSizeChange(item, slot, stackSize)
+    umg.call("items:stackSizeChange", self.owner, item, slot, stackSize)
+end
+
+
+local function changeStackSize(self, slot, stackSize)
+    local item = self:get(slot)
+    if item then
+        signalStackSizeChange(self, item, slot, stackSize)
+        item.stackSize = stackSize
+    end
 end
 
 
@@ -306,7 +316,7 @@ end
 function Inventory:tryAddToSlot(slot, item, count)
     canAddToSlotTc(slot, item, count)
     if self:canAddToSlot(slot, item, count) then
-        self:add(slot, item)
+        add(self, slot, item)
         return true
     end
     return false
@@ -541,6 +551,12 @@ function Inventory:trySwap(slot, otherInv, otherSlot)
         add(otherInv, otherSlot, item)
         return false -- failure; operation was reversed.
     end
+end
+
+
+
+function Inventory:tryAdd(item)
+    local slot = self:findAvailableSlot()
 end
 
 

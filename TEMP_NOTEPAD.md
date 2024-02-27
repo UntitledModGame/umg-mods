@@ -16,8 +16,8 @@ Inventory:onItemRemoved()
 Inventory:onItemStackSizeChange()
 
 -- Remove this shit
-- PURGED -- Inventory:_rawset()
-- PURGED -- Inventory:set()  
+- LOCALLED -- Inventory:_rawset()
+- LOCALLED -- Inventory:set()  
 
 Inventory:count()
 Inventory:contains(item)
@@ -43,16 +43,16 @@ Inventory:trySwap()
 
 
 -- Make these local:
-- PURGED -- Inventory:add(item, slot_or_nil)
-- PURGED -- Inventory:remove(slot_or_item)
+- LOCALLED -- Inventory:add(item, slot_or_nil)
+- LOCALLED -- Inventory:remove(slot_or_item)
 
 
 Inventory:get(slot)
 
-- Inventory:setStackSize(slot, stackSize)
+- PURGED -- Inventory:setStackSize(slot, stackSize)
 
 Inventory:getSlotHandle()
-Inventory:setSlotHandle()
+Inventory:setSlotHandle(sh)
 
 ```
 
