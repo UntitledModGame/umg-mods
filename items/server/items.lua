@@ -78,7 +78,7 @@ end
 
 
 
-server.on("items:trySwapInventoryItem", function(sender, controlEnt, invEnt, invEnt2, slot1, slot2)
+server.on("items:trySwapItems", function(sender, controlEnt, invEnt, invEnt2, slot1, slot2)
     if not sync.isControlledBy(controlEnt, sender) then
         return
     end
@@ -106,7 +106,7 @@ end)
 
 
 
-server.on("items:tryMoveInventoryItem", function(sender, controlEnt, invEnt1, invEnt2, slot1, slot2, count)
+server.on("items:tryMoveItem", function(sender, controlEnt, invEnt1, invEnt2, slot1, slot2, count)
     if not sync.isControlledBy(controlEnt, sender) then
         return
     end
@@ -139,7 +139,7 @@ end)
 
 
 
-server.on("items:tryDropInventoryItem", function(sender, controlEnt, invEnt, slot)
+server.on("items:tryDropItem", function(sender, controlEnt, invEnt, slot)
     local inv = invEnt.inventory
     if not sync.isControlledBy(controlEnt, sender) then
         return

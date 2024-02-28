@@ -16,6 +16,9 @@ umg.defineEvent("items:itemRemoved")
 ]]
 
 
+-- when stackSzie of an item changes
+umg.defineEvent("items:stackSizeChange")
+
 
 
 

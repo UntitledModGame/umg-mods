@@ -20,7 +20,7 @@ umg.on("items:pickupGroundItem", function(item)
 end)
 
 
-umg.on("items:itemMoved", function(ownerEnt, itemEnt)
+umg.on("items:itemAdded", function(ownerEnt, itemEnt)
     if server and itemEnt.effect then
         effects.addEffect(ownerEnt, itemEnt)
     end

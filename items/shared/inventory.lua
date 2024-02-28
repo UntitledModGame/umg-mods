@@ -93,7 +93,7 @@ local function signalMoveToSlot(self, slot, itemEnt)
         slotHandle:onItemAdded(itemEnt, slot)
     end
     self:onItemMoved(itemEnt, slot)
-    umg.call("items:itemMoved", self.owner, itemEnt, slot)
+    umg.call("items:itemAdded", self.owner, itemEnt, slot)
 end
 
 

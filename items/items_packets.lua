@@ -15,7 +15,7 @@ local COUNT = "number"
 
 
 
-umg.definePacket("items:trySwapItem", {
+umg.definePacket("items:trySwapItems", {
     typelist = {PLAYER, INV1, SLOT1, INV2, SLOT2}
 })
 

@@ -117,7 +117,7 @@ local function tryMove(targInv, targSlot, count)
     if controlEnt then
         local invEnt, slot, _item = getFocused()
         local targInvEnt = targInv.owner
-        client.send("items:tryMoveInventoryItem",
+        client.send("items:tryMoveItem",
             controlEnt, 
             invEnt, slot, 
             targInvEnt, targSlot, 
@@ -131,7 +131,7 @@ local function trySwap(inv1, slot1)
     local inv2, slot2, _item = getFocused()
     local controlEnt = getSwapAccessCandidates(inv1, slot1, inv2, slot2)[1]
     if controlEnt then
-        client.send("items:trySwapItem", controlEnt, inv1, slot1, inv2, slot2)
+        client.send("items:trySwapItems", controlEnt, inv1, slot1, inv2, slot2)
     end
 end
 
