@@ -182,23 +182,6 @@ end
 
 
 
-local function removePartial(self, slot, count)
-    local item = self:get(slot)
-    if not item then
-        return
-    end
-    local stackSize = (item.stackSize or 1)
-    count = count or stackSize
-    if count == stackSize then
-        -- Then we are removing the whole item:
-        remove(self, slot)
-    else
-        -- Then we are only removing partial of item:
-        setStackSize(self, slot, stackSize-count)
-    end
-end
-
-
 
 
 local addTc = typecheck.assert("table", "entity", "number")
@@ -221,12 +204,6 @@ local function add(self, slot, item)
         put(self, slot, item)
     end
 end
-
-
-local function addPartial(self, slot, item, count)
-
-end
-
 
 
 
@@ -386,7 +363,7 @@ end
 
     count is the number of items to take from the stack. (default = item.stackSize)
 ]]
-function Inventory:findAvailableSlot(item, count)
+function Inventory:findSlotForItem(item, count)
     for slot=1, self.size do
         if self:canAddToSlot(slot, item, count) then
             -- slot is available!
@@ -509,7 +486,7 @@ function Inventory:tryMove(slot, otherInv, count)
     ]]
     moveTc(slot, otherInv, count)
     local item = self:get(slot)
-    local otherSlot = otherInv:findAvailableSlot(item, count)
+    local otherSlot = otherInv:findSlotForItem(item, count)
     if otherSlot then
         return self:tryMoveToSlot(slot, otherInv, otherSlot, count)
     end
@@ -613,6 +590,9 @@ end
 
 
 
+
+
+
 function Inventory:getSlotHandle(slot)
     return self.slotHandles[slot]
 end
@@ -636,6 +616,42 @@ end
 
 
 
+
+function Inventory:canBeAccessedBy(actorEnt)
+    return permissions.entityHasPermission(actorEnt, self.owner)
+end
+
+
+
+local canAddItemTc = typecheck.assert("entity", "entity", "number")
+function Inventory:itemCanBeAddedBy(actorEnt, itemToBeAdded, slot)
+     -- whether the actorEnt has the authority to add
+    -- `item` to the slot (slot)
+    canAddItemTc(actorEnt, itemToBeAdded, slot)
+    local isBlocked = umg.ask("items:isItemAdditionBlockedForActorEntity", actorEnt, self.owner, itemToBeAdded, slot)
+    return not isBlocked
+end
+
+
+local canRemoveItemTc = typecheck.assert("entity", "number")
+function Inventory:itemCanBeRemovedBy(actorEnt, slot)
+    -- whether the actorEnt has the authority to remove the
+    -- item at slot
+    canRemoveItemTc(actorEnt, slot)
+    local isBlocked = umg.ask("items:isItemRemovalBlockedForActorEntity", actorEnt, self.owner, slot)
+    return not isBlocked
+end
+
+
+
+
+
+
+
+
+
+
+
 if client then
 
 
@@ -645,6 +661,17 @@ client.on("items:setInventorySlot", function(ent, slot, itemEnt)
 end)
 
 client.on("items:clearInventorySlot", function(ent, slot)
+    --[[
+        WARNING:::
+        This is an EXTREMELY LOW LEVEL OPERATION.
+        N-E-V-E-R EVERR DO THIS SHIT IN NORMAL CODE!!!
+        Stuff WILL break.
+        Inventory system integrity will be damaged irreparibly,
+        And the world may be corrupted *forever*.
+
+        If you want to remove an item from an inventory, use
+        `inventory:tryRemove()` instead.
+    ]]
     ent.inventory[slot] = nil
 end)
 

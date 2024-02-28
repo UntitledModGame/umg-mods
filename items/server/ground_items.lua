@@ -113,7 +113,7 @@ local function tryPickUp(ent, picked)
             local dist = math.distance(ent, item)
             if canBePickedUp(dist, item) and dist < best_dist then
                 -- always pick up the closest item.
-                local slot = ent.inventory:findAvailableSlot(item)
+                local slot = ent.inventory:findSlotForItem(item)
                 if slot then
                     -- if there is a slot for this item, mark it
                     best_slot = slot

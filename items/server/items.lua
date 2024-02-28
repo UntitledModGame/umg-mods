@@ -64,36 +64,43 @@ local function hasAccess(controlEnt, invEnt)
     if not invEnt.inventory then
         return false
     end
-    return perms.canAccess(invEnt, controlEnt)
+    return invEnt.inventory:canBeAccessedBy(controlEnt)
 end
 
 
 
 
-server.on("items:trySwapInventoryItem", function(sender, controlEnt, invEnt, invEnt2, slot, slot2)
+local function hasSwapPermission(controlEnt, inv, slot, otherItem)
+    local canAdd = perms.canActorAddItem(controlEnt,item2,slot)
+    local canRemove = perms.canActorRemoveItem(controlEnt,slot)
+end
+
+
+
+server.on("items:trySwapInventoryItem", function(sender, controlEnt, invEnt, invEnt2, slot1, slot2)
     if not sync.isControlledBy(controlEnt, sender) then
         return
     end
     if not (hasAccess(controlEnt, invEnt) and hasAccess(controlEnt, invEnt2)) then
         return
     end
-    if (not isValidSlot(invEnt, slot)) or (not isValidSlot(invEnt2, slot2)) then
+    if (not isValidSlot(invEnt, slot1)) or (not isValidSlot(invEnt2, slot2)) then
         return
     end
     
     local inv1 = invEnt.inventory
     local inv2 = invEnt2.inventory
-    local item1 = inv1:get(slot)
+    local item1 = inv1:get(slot1)
     local item2 = inv2:get(slot2)
     
-    if not (perms.canActorAddItem(controlEnt,item2,slot) and perms.canActorRemoveItem(controlEnt,slot)) then
+    if not hasSwapPermission(controlEnt, inv1, slot1) then
         return
     end
     if not (perms.canActorAddItem(controlEnt,item1,slot2) and perms.canActorRemoveItem(controlEnt,slot2)) then
         return
     end
     
-    inv1:trySwap(slot, inv2, slot2)
+    inv1:trySwap(slot1, inv2, slot2)
 end)
 
 

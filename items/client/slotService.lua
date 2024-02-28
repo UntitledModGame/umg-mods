@@ -14,13 +14,21 @@ local halfStack = false
 
 
 
-local function getFocusedItem()
-    return focusedSlot:getItem()
+
+local function getFocused()
+    -- gets the (inventoryEnt, slot, item) that is being focused
+    if not focusedSlot then
+        return
+    end
+    local item = focusedSlot:getItem()
+    local invEnt = focusedSlot:getInventory()
+    local slot = focusedSlot:getSlot()
+    if umg.exists(item) and umg.exists(invEnt) then
+        return invEnt, slot, item
+    end
 end
 
-local function getFocusedEntity()
-    return focusedSlot:getInventory().owner
-end
+
 
 
 local function focusElement(slot, isBeta)
@@ -45,7 +53,7 @@ local function getAccessCandidates(invEnt)
     local clientId = client.getClient()
     local array = objects.Array()
     for _, ent in ipairs(control.getControlledEntities(clientId)) do
-        if invEnt:canBeOpenedBy(ent) then
+        if invEnt:canBeAccessedBy(ent) then
             array:add(ent)
         end
     end
@@ -54,42 +62,58 @@ end
 
 
 
-local function getTransferCandidates(inv1, inv2)
+local function getDoubleAccessCandidates(inv1, inv2)
     --[[
         Get a list of control-entities that are able to access BOTH
         inv1 AND inv2.
     ]]
-    local array = objects.Array()
-    for _, ent in ipairs(control.getControlledEntities()) do
-        if inv1:canBeOpenedBy(ent) then
-            if inv2 == inv1 or inv2:canBeOpenedBy(ent) then
-                array:add(ent)
-            end
-        end
-    end
-    return array
+    return getAccessCandidates(inv1):filter(function(controlEnt)
+        inv2:canBeAccessedBy(controlEnt)
+    end)
+end
+
+
+
+local function getMoveAccessCandidates(srcEnt, targEnt)
+    return getDoubleAccessCandidates(srcEnt, targEnt)
+        :filter(function(controlEnt)
+            
+        end)
+end
+
+
+
+
+local function moveItem(controlEnt, targetInventory, targetSlot, count)
+    -- Moves `count` items from the focused inventory,
+    -- to some target inventory.
+    local srcInvEnt, slot, item = getFocused()
+
+    local targetEnt = targetInventory.owner
+    client.send("inventory:tryMoveInventoryItem",
+        controlEnt, 
+        srcInvEnt, targetEnt, 
+        srcSlot, targetSlot, 
+        count
+    )
 end
 
 
 
 
 
-local function tryMove(slot, count)
-    local controlEnt = getAccessCandidates()
-    local item = getFocusedItem()
-    local targ = inv:get(x,y)
-    if (not targ) or targ.itemName == item.itemName then
-        client.send("inventory:tryMoveInventoryItem", 
-            controlEnt, 
-            focus_inv.owner, inv.owner, 
-            focusSlot, otherSlot, count
-        )
+local function tryMove(targInv, targSlot, count)
+    local controlEnts = getAccessCandidates()
+
+    for _, ent in ipairs(controlEnts) do
+        moveItem(controlEnt, targInv, targSlot, count)
     end
 end
 
 
 local function tryMoveOrSwap(slot)
-    local item = getFocusedItem()
+    local _invEnt, _slot, item = getFocused()
+
     local targItem = slot:getItem()
     if (not targItem) or h.canCombineStacks(item, targItem) then
         -- move: Items can be combined!
@@ -102,8 +126,10 @@ end
 
 
 function slotService.interact(slotElement, button)
-    local slot = slotElement
     local isFocused = getFocusedItem()
+
+    local targetSlot = slotElement:getSlot()
+    local targetInv = slotElement:getInventory()
 
     if button == ALPHA_BUTTON then
         if isFocused then
