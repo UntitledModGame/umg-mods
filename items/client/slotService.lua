@@ -13,7 +13,7 @@ local BETA_BUTTON = 2
 
 
 
-local focusedSlot = nil
+local focusedSlotElem = nil
 local halfStack = false
 
 
@@ -21,29 +21,30 @@ local halfStack = false
 
 local function getFocused()
     -- gets the (inventoryEnt, slot, item) that is being focused
-    if not focusedSlot then
+    if not focusedSlotElem then
         return
     end
-    local item = focusedSlot:getItem()
-    local invEnt = focusedSlot:getInventory()
-    local slot = focusedSlot:getSlot()
-    if umg.exists(item) and umg.exists(invEnt) then
-        return invEnt, slot, item
+    local item = focusedSlotElem:getItem()
+    local inv = focusedSlotElem:getInventory().owner
+    local slot = focusedSlotElem:getSlot()
+    if umg.exists(item) and umg.exists(inv.owner) then
+        return inv, slot, item
     end
 end
 
 
 
 
-local function focusElement(slot, isBeta)
-    focusedSlot = slot
+local function focusElement(slotElem, isBeta)
+    print("FOC ELEM???")
+    focusedSlotElem = slotElem
     halfStack = isBeta
 end
 
 
 
 local function reset()
-    focusedSlot = nil
+    focusedSlotElem = nil
     halfStack = false
 end
 
@@ -136,6 +137,8 @@ local function trySwap(inv1, slot1)
 end
 
 
+
+
 local function tryMoveOrSwap(slotElem, count)
     local _invEnt, _slot, item = getFocused()
     local targItem = slotElem:getItem()
@@ -153,12 +156,30 @@ local function tryMoveOrSwap(slotElem, count)
 end
 
 
+
+local function getMoveCount()
+    local _invEnt, _slot, item = getFocused()
+    local stackSize = (item.stackSize or 1)
+    if halfStack then
+        -- ceil, because when stackSize is 1, we dont want it to drop to 0!
+        return math.ceil(stackSize/2)
+    else
+        return stackSize
+    end
+end
+
+
+
+
 function slotService.interact(slotElem, button)
     local isFocused = getFocused()
 
+
     if button == ALPHA_BUTTON then
+        print("INTERACT:", isFocused)
         if isFocused then
-            tryMoveOrSwap(slotElem)
+            local count = getMoveCount()
+            tryMoveOrSwap(slotElem, count)
             reset()
         else
             focusElement(slotElem, false)

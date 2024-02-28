@@ -18,7 +18,7 @@ end
 
 local entityPermissions = require("shared.entityPermissions")
 
-permissions.entityHasPermission = entityPermissions
+permissions.entityHasPermission = entityPermissions.entityHasPermission
 
 
 

@@ -153,18 +153,19 @@ local function put(self, slot, itemEnt)
     --[[
         Directly puts an item into a slot
     ]]
-    assertServer()
     assertNumber(slot)
 
     -- If `itemEnt` is nil, then it removes the item from inventory.
     self.inventory[slot] = itemEnt
     if itemEnt then
         assertItem(itemEnt)
-        self.inventory[slot] = itemEnt
-        server.broadcast("items:setInventorySlot", self.owner, slot, itemEnt)
+        if server then
+            server.broadcast("items:setInventorySlot", self.owner, slot, itemEnt)
+        end
     else
-        self.inventory[slot] = nil
-        server.broadcast("items:clearInventorySlot", self.owner, slot)
+        if server then
+            server.broadcast("items:clearInventorySlot", self.owner, slot)
+        end
     end
 end
 
@@ -317,9 +318,9 @@ function Inventory:canAddToSlot(slot, item, count)
 end
 
 
-function Inventory:tryAddItem(slot, item, count)
-    canAddToSlotTc(slot, item, count)
-    if self:canAddToSlot(slot, item, count) then
+function Inventory:tryAddItem(slot, item)
+    canAddToSlotTc(slot, item)
+    if self:canAddToSlot(slot, item) then
         add(self, slot, item)
         return true
     end
@@ -328,7 +329,7 @@ end
 
 
 
-function Inventory:canRemoveFromSlot(slot, count)
+function Inventory:canRemoveFromSlot(slot)
     --[[
         returns true if we can remove item from (slot),
         returns true if there is no item,
@@ -339,16 +340,15 @@ function Inventory:canRemoveFromSlot(slot, count)
     if not item then
         return true -- no item, so I guess we can remove
     end
-    count = count or (item.stackSize or 1)
 
     local invEnt = self.owner
-    local isBlocked = umg.ask("items:isItemRemovalBlocked", item, invEnt, slot, count)
+    local isBlocked = umg.ask("items:isItemRemovalBlocked", item, invEnt, slot)
     return not isBlocked
 end
 
 
-function Inventory:tryRemoveItem(slot, count)
-    if self:canRemoveFromSlot(slot, count) then
+function Inventory:tryRemoveItem(slot)
+    if self:canRemoveFromSlot(slot) then
         remove(self, slot)
         return true
     end
@@ -461,6 +461,7 @@ function Inventory:tryMove(slot, otherInv, count)
 
         Returns true on success, false on failure.
     ]]
+    assertServer()
     moveTc(slot, otherInv, count)
     local item = self:get(slot)
     local otherSlot = otherInv:findSlotForItem(item, count)
@@ -629,23 +630,11 @@ if client then
 
 
 client.on("items:setInventorySlot", function(ent, slot, itemEnt)
-    local inventory = ent.inventory
-    inventory[slot] = itemEnt
+    put(ent.inventory, slot, itemEnt)
 end)
 
 client.on("items:clearInventorySlot", function(ent, slot)
-    --[[
-        WARNING:::
-        This is an EXTREMELY LOW LEVEL OPERATION.
-        N-E-V-E-R EVERR DO THIS SHIT IN NORMAL CODE!!!
-        Stuff WILL break.
-        Inventory system integrity will be damaged irreparibly,
-        And the world may be corrupted *forever*.
-
-        If you want to remove an item from an inventory, use
-        `inventory:tryRemove()` instead.
-    ]]
-    ent.inventory[slot] = nil
+    put(ent.inventory, slot, nil)
 end)
 
 

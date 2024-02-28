@@ -126,7 +126,7 @@ local function tryPickUp(ent, picked)
 
     if best_ent then
         -- pick up this groundItem
-        local success = ent.inventory:tryAddItem(best_ent, best_slot)
+        local success = ent.inventory:tryAddItem(best_slot, best_ent)
         if success then
             -- realistically, `success` should always be true, (since we used findAvailableSlot)
             -- but its better to be safe than sorry
