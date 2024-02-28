@@ -74,13 +74,34 @@ end
 
 
 
-local function getMoveAccessCandidates(srcEnt, targEnt)
-    return getDoubleAccessCandidates(srcEnt, targEnt)
+local getMoveAccessCandidatesTc = typecheck.assert("table", "number", "table", "number")
+local function getMoveAccessCandidates(srcInv, srcSlot, targInv, targSlot)
+    getMoveAccessCandidatesTc(srcInv, srcSlot, targInv, targSlot)
+    --[[
+        gets a list of control-entities that are can move an
+        item across inventories, from a slot, to another slot.
+    ]]
+    local itemEnt = srcInv:get(srcSlot)
+    return getDoubleAccessCandidates(srcInv, targInv)
         :filter(function(controlEnt)
-            
+            return targInv:itemCanBeAddedBy(controlEnt, targSlot, itemEnt)
+        end)
+        :filter(function(controlEnt)
+            return srcInv:itemCanBeRemovedBy(controlEnt, targSlot)
         end)
 end
 
+
+
+local function getSwapAccessCandidates(inv1, slot1, inv2, slot2)
+    getMoveAccessCandidatesTc(inv1, slot1, inv2, slot2)
+    --[[
+        gets a set of controlEnts that can swap 2 items in an inventory.
+    ]]
+    local cand1 = objects.Set(getMoveAccessCandidates(inv1, slot1, inv2, slot2))
+    local cand2 = objects.Set(getMoveAccessCandidates(inv2, slot2, inv1, slot1))
+    return cand1:intersection(cand2)
+end
 
 
 

@@ -64,6 +64,46 @@ end
 
 
 
+function Set:intersection(other)
+    local newSet = Set()
+    for _, v in ipairs(other) do
+        if self:has(v) then
+            newSet:add(v)
+        end
+    end
+    return newSet
+end
+
+
+function Set:union(other)
+    local newSet = Set()
+    for _, v in ipairs(other) do
+        newSet:add(v)
+    end
+    for _,v in ipairs(self) do
+        newSet:add(v)
+    end
+    return newSet
+end
+
+
+
+
+local funcTc = typecheck.assert("table", "function")
+
+function Set:filter(func)
+    funcTc(self, func)
+    local newSet = Set()
+    for i=1, self.len do
+        local item = self[i]
+        if func(item) then
+            newSet:add(item)
+        end
+    end
+    return newSet
+end
+
+
 
 
 -- Removes an object from the Set.
