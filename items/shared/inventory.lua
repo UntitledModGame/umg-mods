@@ -98,9 +98,6 @@ end
 
 
 
-function Inventory:onItemStackSizeChange(item, slot, stackSize)
-    -- Override this, if you want
-end
 
 
 
@@ -145,13 +142,18 @@ end
 
 
 
+local function assertServer()
+    if not server then
+        error("Can only be called on server", 2)
+    end
+end
 
 
 local function put(self, slot, itemEnt)
     --[[
         Directly puts an item into a slot
     ]]
-    assert(server, "Can only be called on server")
+    assertServer()
     assertNumber(slot)
 
     -- If `itemEnt` is nil, then it removes the item from inventory.
@@ -489,7 +491,7 @@ function Inventory:tryMoveToSlot(slot, otherInv, otherSlot, count)
         moves an item from one inventory to another.
         Can also specify the `stackSize` argument to only send part of a stack.
     ]]
-    assert(server, "only available on server")
+    assertServer()
     moveSwapTc(slot, otherInv, otherSlot, count)
 
     local item = self:get(slot)
@@ -519,7 +521,7 @@ function Inventory:trySwap(slot, otherInv, otherSlot)
         
         Returns true on success, false on failure.
     ]]
-    assert(server, "only available on server")
+    assertServer()
     trySwapTc(slot, otherInv, otherSlot)
     local item = self:get(slot)
     local otherItem = otherInv:get(otherSlot)
