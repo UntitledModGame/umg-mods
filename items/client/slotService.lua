@@ -1,5 +1,9 @@
 
 
+local h = require("shared.helper")
+
+
+
 local slotService = {}
 
 
@@ -105,66 +109,66 @@ end
 
 
 
-local function moveItem(controlEnt, targetInventory, targetSlot, count)
-    -- Moves `count` items from the focused inventory,
-    -- to some target inventory.
-    local srcInvEnt, slot, item = getFocused()
-
-    local targetEnt = targetInventory.owner
-    client.send("inventory:tryMoveInventoryItem",
-        controlEnt, 
-        srcInvEnt, targetEnt, 
-        srcSlot, targetSlot, 
-        count
-    )
-end
-
-
 
 
 
 local function tryMove(targInv, targSlot, count)
-    local controlEnts = getAccessCandidates()
-
-    for _, ent in ipairs(controlEnts) do
-        moveItem(controlEnt, targInv, targSlot, count)
+    local controlEnt = getMoveAccessCandidates()[1]
+    if controlEnt then
+        local invEnt, slot, _item = getFocused()
+        local targInvEnt = targInv.owner
+        client.send("items:tryMoveInventoryItem",
+            controlEnt, 
+            invEnt, slot, 
+            targInvEnt, targSlot, 
+            count
+        )
     end
 end
 
 
-local function tryMoveOrSwap(slot)
+local function trySwap(inv1, slot1)
+    local inv2, slot2, _item = getFocused()
+    local controlEnt = getSwapAccessCandidates(inv1, slot1, inv2, slot2)[1]
+    if controlEnt then
+        client.send("items:trySwapItem", controlEnt, inv1, slot1, inv2, slot2)
+    end
+end
+
+
+local function tryMoveOrSwap(slotElem, count)
     local _invEnt, _slot, item = getFocused()
+    local targItem = slotElem:getItem()
 
-    local targItem = slot:getItem()
-    if (not targItem) or h.canCombineStacks(item, targItem) then
+    count = h.getMoveStackCount(item, count, targItem)
+
+    local targInv, targSlot = slotElem:getInventory(), slotElem:getSlot()
+    if (not targItem) or (count > 0) then
         -- move: Items can be combined!
-
+        tryMove(targInv, targSlot, count)
     else
-
+        -- swap: When stacks are different, or there's no space
+        trySwap(targInv, targSlot)
     end
-    -- swap: When stacks are different, or there's no space
 end
 
 
-function slotService.interact(slotElement, button)
-    local isFocused = getFocusedItem()
-
-    local targetSlot = slotElement:getSlot()
-    local targetInv = slotElement:getInventory()
+function slotService.interact(slotElem, button)
+    local isFocused = getFocused()
 
     if button == ALPHA_BUTTON then
         if isFocused then
-            tryMoveOrSwap(slot)
+            tryMoveOrSwap(slotElem)
             reset()
         else
-            focusElement(slot, false)
+            focusElement(slotElem, false)
         end
 
     elseif button == BETA_BUTTON then
         if isFocused then
-            tryMove(slot, 1)
+            tryMove(slotElem, 1)
         else
-            focusElement(slot, true)
+            focusElement(slotElem, true)
         end
     end
 end

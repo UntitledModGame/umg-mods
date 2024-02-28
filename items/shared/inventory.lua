@@ -397,33 +397,10 @@ end
 
 
 
-local moveStackCountTc = typecheck.assert("table", "number", "table?")
-
-local function getMoveStackCount(item, count, targetItem)
-    moveStackCountTc(item, count, targetItem)
-    --[[
-        gets how many items can be moved from item to targetItem
-    ]]
-    local stackSize = item.stackSize or 1
-    count = math.max(0, count or stackSize)
-
-    if targetItem then
-        local targSS = targetItem.stackSize or 1
-        local targMaxSS = targetItem.maxStackSize or 1
-        local stacksLeft = targMaxSS - targSS
-        local maxx = item.maxStackSize or 1
-        return math.min(math.min(maxx, count), stacksLeft)
-    else
-        local maxx = item.maxStackSize or 1
-        return math.min(maxx, count)
-    end
-end
-
-
 local function moveIntoTakenSlot(self, slot, otherInv, otherSlot, count)
     local targ = otherInv:get(otherSlot)
     local item = self:get(slot)
-    count = getMoveStackCount(item, count, targ)
+    count = h.getMoveStackCount(item, count, targ)
 
     if not self:canRemoveFromSlot(slot) then
         return false -- we can't remove items from this slot
@@ -448,7 +425,7 @@ end
 
 local function moveIntoEmptySlot(self, slot, otherInv, otherSlot, count)
     local item = self:get(slot)
-    count = getMoveStackCount(item, count)
+    count = h.getMoveStackCount(item, count)
     if count <= 0 then return
         false -- failure, no space
     end

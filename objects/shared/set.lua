@@ -14,7 +14,7 @@ Order is not consistent, and will change quite dynamically.
 ]]
 
 -- Need to make sure this is loaded; it may not be loaded yet
-local Class = require("shared.class")
+local Class = require("shared.Class")
 
 
 local Set = Class("objects:Set")

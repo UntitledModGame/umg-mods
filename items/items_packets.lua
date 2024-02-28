@@ -1,46 +1,42 @@
 
 
-umg.definePacket("items:trySwapInventoryItem", {
-    typelist = {
-        --player   inv1       inv2
-        "entity", "entity", "entity",
-        --slot1     slot2
-        "number", "number",
-    },
+
+local INV1 = "entity"
+local INV2 = "entity"
+
+local SLOT1 = "number"
+local SLOT2 = "number"
+
+local ITEM = "entity"
+
+local PLAYER = "entity"
+
+local COUNT = "number"
+
+
+
+umg.definePacket("items:trySwapItem", {
+    typelist = {PLAYER, INV1, SLOT1, INV2, SLOT2}
 })
 
 
 
-umg.definePacket("items:tryMoveInventoryItem", {
-    typelist = {
-        --player   inv1       inv2
-        "entity", "entity", "entity",
-        --slot1     slot2    count
-        "number", "number", "number"
-    },
+umg.definePacket("items:tryMoveItem", {
+    typelist = {PLAYER, INV1, SLOT1, INV2, SLOT2, COUNT}
 })
 
 
-umg.definePacket("items:tryDropInventoryItem", {
-    typelist = {
-        --player   inv1       slot
-        "entity", "entity", "number",
-    },
+umg.definePacket("items:tryDropItem", {
+    typelist = {PLAYER, INV1, SLOT1}
 })
 
 
 umg.definePacket("items:setInventorySlot", {
-    typelist = {
-        --inv      slot     itemEnt
-        "entity", "number", "entity"
-    },
+    typelist = {INV1, SLOT1, ITEM}
 })
 
 umg.definePacket("items:clearInventorySlot", {
-    typelist = {
-        -- inv      slot
-        "entity", "number"
-    }
+    typelist = {INV1, SLOT1}
 })
 
 
