@@ -2,8 +2,8 @@
 -- item is moved to an inventory slot
 -- WARNING: This event is called when an item is moved WITHIN an inventory!
 -- For example, if we move item from slot 1 to slot 2 in the same inventory,
--- itemMoved is called.
-umg.defineEvent("items:itemMoved")
+-- itemAdded is called.
+umg.defineEvent("items:itemAdded")
 
 -- item is removed from an inventory slot
 -- WARNING: This event is called when an item is moved WITHIN an inventory!

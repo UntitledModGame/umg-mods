@@ -213,7 +213,7 @@ function Crafter:executeCraft(inventory, recipe, slot)
             if (not targ) then 
                 removeIngredients(inventory, recipe)
                 initializeItem(inventory, recipe, slot)
-            elseif (targItemName == etype.itemName and slotsLeft >= recipe.result.count) then
+            elseif (nahh) then
                 removeIngredients(inventory, recipe)
                 targ.stackSize = targ.stackSize + (recipe.result.count or 1)
             else

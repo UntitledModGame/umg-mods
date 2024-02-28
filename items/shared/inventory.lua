@@ -171,29 +171,39 @@ end
 
 
 
-local function remove(self, slot, count)
+local function remove(self, slot)
     local item = self:get(slot)
     if not item then
         return
     end
+    signalRemoveFromSlot(self, slot, item)
+    put(self, slot, nil)
+end
 
-    count = count or (item.stackSize or 1)
-    if count == (item.stackSize or 1) then
-        -- then we are removing the whole item!
-        signalRemoveFromSlot(self, slot, item)
-        put(self, slot, nil)
+
+
+local function removePartial(self, slot, count)
+    local item = self:get(slot)
+    if not item then
+        return
+    end
+    local stackSize = (item.stackSize or 1)
+    count = count or stackSize
+    if count == stackSize then
+        -- Then we are removing the whole item:
+        remove(self, slot)
     else
-
+        -- Then we are only removing partial of item:
+        setStackSize(self, slot, stackSize-count)
     end
 end
 
 
 
 
-
 local addTc = typecheck.assert("table", "entity", "number")
-local function add(self, item, slot)
-    -- Directly adds an item to this inventory.
+local function add(self, slot, item)
+    -- Directly adds `count` items to this inventory.
     -- If the item is combined as a stack, the old item is deleted.
     addTc(self, item, slot)
     local itm = self:get(slot)
@@ -213,20 +223,41 @@ local function add(self, item, slot)
 end
 
 
+local function addPartial(self, slot, item, count)
+
+end
 
 
 
 
 
-function Inventory:count(itemType_or_item)
-    local itemType
-    if umg.exists(itemType_or_item) then
-        itemType = itemType_or_item.itemName
-    else
-        assert(type(itemType) == "string", "Inventory:count(itemType) expects a string")
-        itemType = itemType -- should be type `str`
+function Inventory:isValidSlot(slot)
+    -- checks if `slot` is a valid slot.
+    -- Useful when we are using untrusted data from client-side.
+    if math.floor(slot) ~= slot then
+        return false
     end
+    return (slot >= 1) and (slot <= self.size)
+end
 
+
+
+
+local function getItemType(item_or_itemType)
+    if umg.exists(item_or_itemType) then
+        return item_or_itemType:type()
+    else
+        local itemType = item_or_itemType
+        if type(itemType) ~= "string" then
+            error("Expects an entity-type of an item (string), or an item-entity!", 2)
+        end
+        return itemType
+    end
+end
+
+
+function Inventory:count(item_or_itemType)
+    local itemType = getItemType(item_or_itemType)
     local count = 0
     for slot=1, self.size do
         local itemEnt = self:get(slot)
@@ -241,13 +272,14 @@ function Inventory:count(itemType_or_item)
 end
 
 
-function Inventory:contains(item_or_itemName)
+function Inventory:contains(item_or_itemType)
+    local itemType = getItemType(item_or_itemType)
     for slot=1, self.size do
         local itemEnt = self:get(slot)
         if itemEnt then
             -- if its nil, there is no item there.
-            if item_or_itemName == itemEnt.itemName or item_or_itemName == itemEnt then
-                return true, slot
+            if itemType == itemEnt:type() then
+                return slot
             end
         end
     end
@@ -340,7 +372,7 @@ end
 
 function Inventory:tryRemoveItem(slot, count)
     if self:canRemoveFromSlot(slot, count) then
-        remove(self, slot, count)
+        remove(self, slot)
         return true
     end
     return false
@@ -367,13 +399,14 @@ end
 
 
 
-function Inventory:find(item_or_itemName)
+function Inventory:find(item_or_itemType)
     --[[
         finds the slot of an item, given an item (or itemName)
     ]]
+    local itemType = getItemType(item_or_itemType)
     for slot=1, self.size do
         local item = self:get(slot)
-        if item and item == item_or_itemName or item.itemName == item_or_itemName then
+        if item and itemType == item:type() then
             -- found! return slot.
             return slot
         end
@@ -451,8 +484,9 @@ local function moveIntoEmptySlot(self, slot, otherInv, otherSlot, count)
         -- then we are only moving part of the stack; so we must create a copy
         local newItem = item:clone()
         newItem.stackSize = count 
-        -- We don't call :setStackSize above, because newItem has just been cloned
-        self:setStackSize(slot, item.stackSize - count)
+        -- We don't call `setStackSize` above, because newItem has just been cloned,
+        -- And doesn't exist within the ECS yet!
+        setStackSize(self, slot, item.stackSize - count)
         add(otherInv, otherSlot, newItem)
     else
         -- we are moving the whole item
@@ -489,7 +523,7 @@ local moveSwapTc = typecheck.assert("number", "table", "number", "number")
 function Inventory:tryMoveToSlot(slot, otherInv, otherSlot, count)
     --[[
         moves an item from one inventory to another.
-        Can also specify the `stackSize` argument to only send part of a stack.
+        Can also specify the `count` argument to only send part of a stack.
     ]]
     assertServer()
     moveSwapTc(slot, otherInv, otherSlot, count)
@@ -499,7 +533,10 @@ function Inventory:tryMoveToSlot(slot, otherInv, otherSlot, count)
     count = math.min(count or stackSize, stackSize)
 
     if not otherInv:canAddToSlot(otherSlot, item, count) then
-        return false -- failed
+        return false
+    end
+    if not self:canRemoveFromSlot(slot, count) then
+        return false
     end
     
     local targ = otherInv:get(otherSlot)
@@ -556,12 +593,6 @@ function Inventory:trySwap(slot, otherInv, otherSlot)
         add(otherInv, otherSlot, item)
         return false -- failure; operation was reversed.
     end
-end
-
-
-
-function Inventory:tryAdd(item)
-    local slot = self:findAvailableSlot()
 end
 
 

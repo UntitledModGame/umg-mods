@@ -55,11 +55,9 @@ local function isValidSlot(invEnt, slot)
     if not invOk(invEnt) then
         return false
     end
-    if math.floor(slot) ~= slot then
-        return false
-    end
-    return (slot >= 1) and (slot <= invEnt.size)
+    invEnt.inventory:isValidSlot(slot)
 end
+
 
 
 local function hasAccess(controlEnt, invEnt)
