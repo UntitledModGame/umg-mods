@@ -15,6 +15,8 @@ local SlotHandle = require("shared.SlotHandle")
 
 local Inventory = objects.Class("items_mod:inventory")
 
+local h = require("shared.helper")
+
 
 
 local assertNumber = typecheck.assert("number")
@@ -71,10 +73,9 @@ end
 
 
 local function assertItem(itemEnt)
-    assert(itemEnt.itemName, "items need an itemName component")
-    assert((not itemEnt.description) or type(item_ent.description) == "string", "item entity descriptions must be strings")
-    assert((not itemEnt.stackSize) or type(item_ent.stackSize) == "number", "item entity stackSize must be a number")
-    assert((not itemEnt.maxStackSize) or type(item_ent.maxStackSize) == "number", "item entity maxStackSize must be a number")
+    assert((not itemEnt.description) or type(itemEnt.description) == "string", "item entity descriptions must be strings")
+    assert((not itemEnt.stackSize) or type(itemEnt.stackSize) == "number", "item entity stackSize must be a number")
+    assert((not itemEnt.maxStackSize) or type(itemEnt.maxStackSize) == "number", "item entity maxStackSize must be a number")
 end
 
 
@@ -168,47 +169,35 @@ end
 
 
 
-local function remove(self, slot)
+local function remove(self, slot, count)
     local item = self:get(slot)
-    if item then
+    if not item then
+        return
+    end
+
+    count = count or (item.stackSize or 1)
+    if count == (item.stackSize or 1) then
+        -- then we are removing the whole item!
         signalRemoveFromSlot(self, slot, item)
+        put(self, slot, nil)
+    else
+
     end
-    put(self, slot, nil)
 end
 
-
-
-
-local function canCombineStacks(item1, item2, count)
-    -- Returns true if item1 can be combined into item2.
-    -- false otherwise.
-    count = (count or item1.stackSize) or 1
-    -- `count` is the number of items that we want to add. (defaults to the full stackSize of item)
-
-    if item1.itemName ~= item2.itemName then
-        return false -- deny; items can't be combined.
-    end
-
-    local remainingStackSize = (item1.maxStackSize or 1) - count
-    if (remainingStackSize < count) then
-        return false -- not enough stack space to combine
-    end
-
-    return true -- ok
-end
 
 
 
 
 local addTc = typecheck.assert("table", "entity", "number")
 local function add(self, item, slot)
-    -- Directly adds an item to an inventory.
+    -- Directly adds an item to this inventory.
     -- If the item is combined as a stack, the old item is deleted.
-    addTc(self, slot, item)
+    addTc(self, item, slot)
     local itm = self:get(slot)
     if itm then
         -- increment stackSize:
-        assert(canCombineStacks(item, itm), "can't combine stacks!")
+        assert(h.canCombineStacks(item, itm), "can't combine stacks!")
         local stackSize = (itm.stackSize or 1) + (item.stackSize or 1)
         setStackSize(self, slot, stackSize)
         item:delete()
@@ -227,22 +216,22 @@ end
 
 
 
-function Inventory:count(item_or_itemName)
-    local itemName
-    if (type(item_or_itemName) == "table") and item_or_itemName.itemName then
-        itemName = item_or_itemName.itemName
+function Inventory:count(itemType_or_item)
+    local itemType
+    if umg.exists(itemType_or_item) then
+        itemType = itemType_or_item.itemName
     else
-        assert(type(item_or_itemName) == "string", "Inventory:count(itemName) expects a string")
-        itemName = item_or_itemName -- should be type `str`
+        assert(type(itemType) == "string", "Inventory:count(itemType) expects a string")
+        itemType = itemType -- should be type `str`
     end
 
     local count = 0
     for slot=1, self.size do
-        local check_item = self:get(slot)
-        if check_item then
+        local itemEnt = self:get(slot)
+        if itemEnt then
             -- if its nil, there is no item there.
-            if itemName == check_item.itemName then
-                count = count + check_item.stackSize
+            if itemType == itemEnt:type() then
+                count = count + itemEnt.stackSize
             end
         end
     end
@@ -252,10 +241,10 @@ end
 
 function Inventory:contains(item_or_itemName)
     for slot=1, self.size do
-        local check_item = self:get(slot)
-        if check_item then
+        local itemEnt = self:get(slot)
+        if itemEnt then
             -- if its nil, there is no item there.
-            if item_or_itemName == check_item.itemName or item_or_itemName == check_item then
+            if item_or_itemName == itemEnt.itemName or item_or_itemName == itemEnt then
                 return true, slot
             end
         end
@@ -304,7 +293,7 @@ function Inventory:canAddToSlot(slot, item, count)
 
     local itemEnt = self:get(slot)
     if itemEnt then
-        if not canCombineStacks(item, itemEnt, count) then
+        if not h.canCombineStacks(item, itemEnt, count) then
             return false -- can't combine stacks!
         end
     end
@@ -317,7 +306,7 @@ function Inventory:canAddToSlot(slot, item, count)
 end
 
 
-function Inventory:tryAddToSlot(slot, item, count)
+function Inventory:tryAddItem(slot, item, count)
     canAddToSlotTc(slot, item, count)
     if self:canAddToSlot(slot, item, count) then
         add(self, slot, item)
@@ -328,7 +317,7 @@ end
 
 
 
-function Inventory:canRemoveFromSlot(slot)
+function Inventory:canRemoveFromSlot(slot, count)
     --[[
         returns true if we can remove item from (slot),
         returns true if there is no item,
@@ -339,12 +328,21 @@ function Inventory:canRemoveFromSlot(slot)
     if not item then
         return true -- no item, so I guess we can remove
     end
+    count = count or (item.stackSize or 1)
 
     local invEnt = self.owner
-    local isBlocked = umg.ask("items:isItemRemovalBlocked", item, invEnt, slot)
+    local isBlocked = umg.ask("items:isItemRemovalBlocked", item, invEnt, slot, count)
     return not isBlocked
 end
 
+
+function Inventory:tryRemoveItem(slot, count)
+    if self:canRemoveFromSlot(slot, count) then
+        remove(self, slot, count)
+        return true
+    end
+    return false
+end
 
 
 

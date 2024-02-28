@@ -74,7 +74,7 @@ end
 
 
 
-local function tryPutOne(slot)
+local function tryMove(slot, count)
     local controlEnt = getAccessCandidates()
     local item = getFocusedItem()
     local targ = inv:get(x,y)
@@ -82,9 +82,22 @@ local function tryPutOne(slot)
         client.send("inventory:tryMoveInventoryItem", 
             controlEnt, 
             focus_inv.owner, inv.owner, 
-            focusSlot, otherSlot, 1
+            focusSlot, otherSlot, count
         )
     end
+end
+
+
+local function tryMoveOrSwap(slot)
+    local item = getFocusedItem()
+    local targItem = slot:getItem()
+    if (not targItem) or h.canCombineStacks(item, targItem) then
+        -- move: Items can be combined!
+
+    else
+
+    end
+    -- swap: When stacks are different, or there's no space
 end
 
 
@@ -102,7 +115,7 @@ function slotService.interact(slotElement, button)
 
     elseif button == BETA_BUTTON then
         if isFocused then
-            tryPutOne(slot)
+            tryMove(slot, 1)
         else
             focusElement(slot, true)
         end

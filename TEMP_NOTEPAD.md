@@ -31,7 +31,9 @@ Inventory:getEmptySlot()
 Inventory:canAddToSlot()
 Inventory:canRemoveFromSlot()
 
-Inventory:tryAddToSlot(slot, item, count)
+-- Change to `tryAdd`, with `slot` as optional argument
+- Inventory:tryAddItem(item, count, slot)
+ADD - Inventory:tryRemoveItem(slot, count)
 
 
 Inventory:findAvailableSlot()
