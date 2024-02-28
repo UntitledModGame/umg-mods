@@ -623,10 +623,9 @@ end
 
 
 
-local canAddItemTc = typecheck.assert("entity", "entity", "number")
-function Inventory:itemCanBeAddedBy(actorEnt, itemToBeAdded, slot)
-     -- whether the actorEnt has the authority to add
-    -- `item` to the slot (slot)
+local canAddItemTc = typecheck.assert("entity", "number", "entity")
+function Inventory:itemCanBeAddedBy(actorEnt, slot, itemToBeAdded)
+    -- whether the actorEnt has the authority to add `item` to the slot
     canAddItemTc(actorEnt, itemToBeAdded, slot)
     local isBlocked = umg.ask("items:isItemAdditionBlockedForActorEntity", actorEnt, self.owner, itemToBeAdded, slot)
     return not isBlocked
@@ -635,14 +634,11 @@ end
 
 local canRemoveItemTc = typecheck.assert("entity", "number")
 function Inventory:itemCanBeRemovedBy(actorEnt, slot)
-    -- whether the actorEnt has the authority to remove the
-    -- item at slot
+    -- whether the actorEnt has the authority to remove the item at slot
     canRemoveItemTc(actorEnt, slot)
     local isBlocked = umg.ask("items:isItemRemovalBlockedForActorEntity", actorEnt, self.owner, slot)
     return not isBlocked
 end
-
-
 
 
 

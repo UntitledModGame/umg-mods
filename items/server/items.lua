@@ -9,8 +9,6 @@ local Inventory = require("shared.Inventory")
 local groundItems= require("server.ground_items")
 
 
-local perms = require("shared.actorPerms")
-
 
 
 inventoryGroup:onAdded(function(ent)
@@ -70,9 +68,12 @@ end
 
 
 
-local function hasSwapPermission(controlEnt, inv, slot, otherItem)
-    local canAdd = perms.canActorAddItem(controlEnt,item2,slot)
-    local canRemove = perms.canActorRemoveItem(controlEnt,slot)
+local function hasSwapPermission(controlEnt, inv, slot, itemToBeSwapped)
+    local addOk = inv:itemCanBeAddedBy(controlEnt, itemToBeSwapped, slot)
+    if addOk then
+        local removeOk = inv:itemCanBeRemovedBy(controlEnt, slot)
+        return removeOk
+    end
 end
 
 
@@ -93,10 +94,10 @@ server.on("items:trySwapInventoryItem", function(sender, controlEnt, invEnt, inv
     local item1 = inv1:get(slot1)
     local item2 = inv2:get(slot2)
     
-    if not hasSwapPermission(controlEnt, inv1, slot1) then
+    if not hasSwapPermission(controlEnt, inv1, slot1, item2) then
         return
     end
-    if not (perms.canActorAddItem(controlEnt,item1,slot2) and perms.canActorRemoveItem(controlEnt,slot2)) then
+    if not hasSwapPermission(controlEnt, inv2, slot2, item1) then
         return
     end
     
@@ -125,10 +126,10 @@ server.on("items:tryMoveInventoryItem", function(sender, controlEnt, invEnt1, in
 
     local item = inv1:get(slot1)
     -- moving `item` from `inv1` to `inv2`
-    if not perms.canActorAddItem(controlEnt,invEnt2,item,slot2) then
+    if not inv2:itemCanBeAddedBy(controlEnt,item,slot2) then
         return
     end
-    if not perms.canActorRemoveItem(controlEnt,invEnt1,slot1) then
+    if not inv1:itemCanBeRemovedBy(controlEnt,slot1) then
         return
     end
 
@@ -153,7 +154,7 @@ server.on("items:tryDropInventoryItem", function(sender, controlEnt, invEnt, slo
     if not item then
         return -- exit early
     end
-    if not perms.canActorRemoveItem(controlEnt,invEnt,slot) then
+    if not inv:itemCanBeRemovedBy(controlEnt,slot) then
         return
     end
 
