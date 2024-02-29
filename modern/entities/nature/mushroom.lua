@@ -10,9 +10,9 @@ local IMGS = {
 return {
     bobbing = {magnitude = 0.04},
 
-    init = function(ent, x, y)
-        ent.x = x
-        ent.y = y
+    maxStackSize = 10,
+
+    init = function(ent)
         ent.image = table.random(IMGS)
     end
 }

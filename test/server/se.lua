@@ -57,8 +57,12 @@ umg.on("@createWorld", function()
 
     newItem(ents.ak47)
 
-    for i=1, 10 do
+    for i=1, 5 do
         newItem(ents.musket)
+    end
+
+    for i=1, 20 do
+        newItem(ents.mushroom)
     end
 end)
 

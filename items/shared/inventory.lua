@@ -85,6 +85,16 @@ function Inventory:onItemMoved(item, slot)
 end
 
 
+function Inventory:onItemRemoved(item, slot)
+    -- Override this, if you want
+end
+
+
+function Inventory:onItemStackSizeChange(item, slot, stackSize)
+    -- OVERRIDE, IF YOU WANT
+end
+
+
 
 local function signalMoveToSlot(self, slot, itemEnt)
     -- calls appropriate callbacks for item addition
@@ -123,11 +133,6 @@ local function setStackSize(self, slot, stackSize)
     end
 end
 
-
-
-function Inventory:onItemRemoved(item, slot)
-    -- Override this, if you want
-end
 
 
 local function signalRemoveFromSlot(self, slot, itemEnt)

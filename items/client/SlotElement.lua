@@ -55,13 +55,6 @@ function SlotElement:renderItem(x,y,w,h)
     if self.hasImage then
         self.image:render(x,y,w,h)
     end
-
-    local item = self:getItem()
-    local stackSize = item.stackSize or 1
-    if stackSize > 1 then
-        -- TODO: render stack number here
-        -- renderStackNumber(self)
-    end
 end
 
 
@@ -77,10 +70,36 @@ end
 
 
 
+
+local function updateText(self, stackSize)
+    if not self.text then
+        self.text = ui.elements.Text({
+            outline = 1,
+        })
+        self:addChild(self.text)
+    end
+    self.text:setText(tostring(stackSize))
+end
+
+
+function SlotElement:renderStackSize(x,y,w,h)
+    local item = self:getItem()
+    local stackSize = item.stackSize or 1
+    if stackSize > 1 then
+        updateText(self, stackSize)
+        self.text:render(x,y,w,h)
+    end
+end
+
+
+
 function SlotElement:onRender(x,y,w,h)
     self:renderBackground(x,y,w,h)
-    if self:getItem() then
+    local item = self:getItem()
+    if item then
         self:renderItem(x,y,w,h)
+        self:renderStackSize(x,y,w,h)
+
     end
     self:renderForeground(x,y,w,h)
 end
