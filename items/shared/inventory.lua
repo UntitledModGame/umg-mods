@@ -604,7 +604,7 @@ end
 local canAddItemTc = typecheck.assert("entity", "number", "entity")
 function Inventory:itemCanBeAddedBy(actorEnt, slot, itemToBeAdded)
     -- whether the actorEnt has the authority to add `item` to the slot
-    canAddItemTc(actorEnt, itemToBeAdded, slot)
+    canAddItemTc(actorEnt, slot, itemToBeAdded)
     local isBlocked = umg.ask("items:isItemAdditionBlockedForActorEntity", actorEnt, self.owner, itemToBeAdded, slot)
     return not isBlocked
 end

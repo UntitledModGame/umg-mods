@@ -17,6 +17,16 @@ function permissions.entityHasPermission(actorEnt, authEnt)
         (ie. if the chest is unlocked)
 
     ]]
+    if actorEnt == authEnt then
+        -- entities have permission if they match :)
+        return true
+    end
+    if actorEnt.controller == authEnt.controller then
+        -- also have permission if they share a common controller
+        -- TODO: Is this hacky? 
+        return true
+    end
+
     if not authEnt.authorizable then
         return false
     end

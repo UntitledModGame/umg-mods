@@ -53,7 +53,7 @@ local function isValidSlot(invEnt, slot)
     if not invOk(invEnt) then
         return false
     end
-    invEnt.inventory:isValidSlot(slot)
+    return invEnt.inventory:isValidSlot(slot)
 end
 
 
@@ -69,7 +69,7 @@ end
 
 
 local function hasSwapPermission(controlEnt, inv, slot, itemToBeSwapped)
-    local addOk = inv:itemCanBeAddedBy(controlEnt, itemToBeSwapped, slot)
+    local addOk = inv:itemCanBeAddedBy(controlEnt, slot, itemToBeSwapped)
     if addOk then
         local removeOk = inv:itemCanBeRemovedBy(controlEnt, slot)
         return removeOk
@@ -78,7 +78,7 @@ end
 
 
 
-server.on("items:trySwapItems", function(sender, controlEnt, invEnt, invEnt2, slot1, slot2)
+server.on("items:trySwapItems", function(sender, controlEnt, invEnt, slot1, invEnt2, slot2)
     if not sync.isControlledBy(controlEnt, sender) then
         return
     end
@@ -106,14 +106,14 @@ end)
 
 
 
-server.on("items:tryMoveItem", function(sender, controlEnt, invEnt1, invEnt2, slot1, slot2, count)
+server.on("items:tryMoveItem", function(sender, controlEnt, invEnt1, slot1, invEnt2, slot2, count)
     if not sync.isControlledBy(controlEnt, sender) then
         return
     end
     if not (hasAccess(controlEnt, invEnt1) and hasAccess(controlEnt, invEnt2)) then
         return
     end
-    if (not isValidSlot(slot1)) or (not isValidSlot(slot2)) then
+    if (not isValidSlot(invEnt1, slot1)) or (not isValidSlot(invEnt2, slot2)) then
         return
     end
 
@@ -126,7 +126,7 @@ server.on("items:tryMoveItem", function(sender, controlEnt, invEnt1, invEnt2, sl
 
     local item = inv1:get(slot1)
     -- moving `item` from `inv1` to `inv2`
-    if not inv2:itemCanBeAddedBy(controlEnt,item,slot2) then
+    if not inv2:itemCanBeAddedBy(controlEnt,slot2,item) then
         return
     end
     if not inv1:itemCanBeRemovedBy(controlEnt,slot1) then

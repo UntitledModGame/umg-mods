@@ -25,7 +25,7 @@ local function getFocused()
         return
     end
     local item = focusedSlotElem:getItem()
-    local inv = focusedSlotElem:getInventory().owner
+    local inv = focusedSlotElem:getInventory()
     local slot = focusedSlotElem:getSlot()
     if umg.exists(item) and umg.exists(inv.owner) then
         return inv, slot, item
@@ -36,7 +36,6 @@ end
 
 
 local function focusElement(slotElem, isBeta)
-    print("FOC ELEM???")
     focusedSlotElem = slotElem
     halfStack = isBeta
 end
@@ -57,7 +56,8 @@ local function getAccessCandidates(invEnt)
     ]] 
     local clientId = client.getClient()
     local array = objects.Array()
-    for _, ent in ipairs(control.getControlledEntities(clientId)) do
+    local controlEnts = control.getControlledEntities(clientId)
+    for _, ent in ipairs(controlEnts) do
         if invEnt:canBeAccessedBy(ent) then
             array:add(ent)
         end
@@ -73,7 +73,7 @@ local function getDoubleAccessCandidates(inv1, inv2)
         inv1 AND inv2.
     ]]
     return getAccessCandidates(inv1):filter(function(controlEnt)
-        inv2:canBeAccessedBy(controlEnt)
+        return inv2:canBeAccessedBy(controlEnt)
     end)
 end
 
@@ -83,8 +83,8 @@ local getMoveAccessCandidatesTc = typecheck.assert("table", "number", "table", "
 local function getMoveAccessCandidates(srcInv, srcSlot, targInv, targSlot)
     getMoveAccessCandidatesTc(srcInv, srcSlot, targInv, targSlot)
     --[[
-        gets a list of control-entities that are can move an
-        item across inventories, from a slot, to another slot.
+    gets a list of control-entities that are can move an
+    item across inventories, from a slot, to another slot.
     ]]
     local itemEnt = srcInv:get(srcSlot)
     return getDoubleAccessCandidates(srcInv, targInv)
@@ -114,14 +114,13 @@ end
 
 
 local function tryMove(targInv, targSlot, count)
-    local controlEnt = getMoveAccessCandidates()[1]
+    local inv, slot, _ = getFocused()
+    local controlEnt = getMoveAccessCandidates(inv,slot, targInv,targSlot)[1]
     if controlEnt then
-        local invEnt, slot, _item = getFocused()
-        local targInvEnt = targInv.owner
         client.send("items:tryMoveItem",
             controlEnt, 
-            invEnt, slot, 
-            targInvEnt, targSlot, 
+            inv.owner, slot, 
+            targInv.owner, targSlot, 
             count
         )
     end
@@ -132,7 +131,11 @@ local function trySwap(inv1, slot1)
     local inv2, slot2, _item = getFocused()
     local controlEnt = getSwapAccessCandidates(inv1, slot1, inv2, slot2)[1]
     if controlEnt then
-        client.send("items:trySwapItems", controlEnt, inv1, slot1, inv2, slot2)
+        client.send("items:trySwapItems", 
+            controlEnt, 
+            inv1.owner, slot1, 
+            inv2.owner, slot2
+        )
     end
 end
 
@@ -174,9 +177,7 @@ end
 function slotService.interact(slotElem, button)
     local isFocused = getFocused()
 
-
     if button == ALPHA_BUTTON then
-        print("INTERACT:", isFocused)
         if isFocused then
             local count = getMoveCount()
             tryMoveOrSwap(slotElem, count)
@@ -187,7 +188,8 @@ function slotService.interact(slotElem, button)
 
     elseif button == BETA_BUTTON then
         if isFocused then
-            tryMove(slotElem, 1)
+            local targInv, targSlot = slotElem:getInventory(), slotElem:getSlot()
+            tryMove(targInv, targSlot, 1)
         else
             focusElement(slotElem, true)
         end
