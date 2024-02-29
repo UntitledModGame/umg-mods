@@ -28,7 +28,7 @@ local function getFocused()
     local inv = focusedSlotElem:getInventory()
     local slot = focusedSlotElem:getSlot()
     if umg.exists(item) and umg.exists(inv.owner) then
-        return inv, slot, item
+        return inv, slot, item, focusedSlotElem
     end
 end
 
@@ -195,6 +195,25 @@ function slotService.interact(slotElem, button)
         end
     end
 end
+
+
+
+
+
+local lg = love.graphics
+
+-- Draw little arrow widget thing
+
+local ORDER = 2
+umg.on("rendering:drawUI", ORDER, function()
+    local _,_,_,slotElem = getFocused()
+    if slotElem then
+        local x,y,w,hh = slotElem:getView()
+        local cX,cY = x+w/2, y+hh/2
+        lg.setLineWidth(5)
+        lg.line(cX,cY, love.mouse.getPosition())
+    end
+end)
 
 
 

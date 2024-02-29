@@ -49,10 +49,9 @@ end
 
 
 -- we need to render AFTER the ui.
-local order = 2
+local ORDER = 2
 
-
-umg.on("rendering:drawUI", order, function()
+umg.on("rendering:drawUI", ORDER, function()
     if currentTooltipSlot and check(currentTooltipSlot) then
         renderTooltip(currentTooltipSlot)
     else
