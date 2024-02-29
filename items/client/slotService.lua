@@ -17,19 +17,41 @@ local focusedSlotElem = nil
 local halfStack = false
 
 
+local function resetFocus()
+    focusedSlotElem = nil
+    halfStack = false
+end
+
+
+
+local function isFocusValid()
+    if not focusedSlotElem then
+        return false -- nothing focused!
+    end
+    local parentEntity = focusedSlotElem:getParentEntity()
+    if not ui.isOpen(parentEntity) then
+        return false -- nope, parent UI element is closed!
+    end
+    local item = focusedSlotElem:getItem()
+    local inv = focusedSlotElem:getInventory()
+    if umg.exists(item) and umg.exists(inv.owner) then
+        -- yup; both entities still exist, focus is valid.
+        return true
+    end
+end
+
 
 
 local function getFocused()
     -- gets the (inventoryEnt, slot, item) that is being focused
-    if not focusedSlotElem then
+    if not isFocusValid() then
+        resetFocus()
         return
     end
-    local item = focusedSlotElem:getItem()
     local inv = focusedSlotElem:getInventory()
     local slot = focusedSlotElem:getSlot()
-    if umg.exists(item) and umg.exists(inv.owner) then
-        return inv, slot, item, focusedSlotElem
-    end
+    local item = focusedSlotElem:getItem()
+    return inv, slot, item, focusedSlotElem
 end
 
 
@@ -41,11 +63,6 @@ local function focusElement(slotElem, isBeta)
 end
 
 
-
-local function reset()
-    focusedSlotElem = nil
-    halfStack = false
-end
 
 
 
@@ -181,7 +198,7 @@ function slotService.interact(slotElem, button)
         if isFocused then
             local count = getMoveCount()
             tryMoveOrSwap(slotElem, count)
-            reset()
+            resetFocus()
         else
             focusElement(slotElem, false)
         end

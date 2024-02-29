@@ -19,7 +19,7 @@ end
 
 
 local function newItem(ctor, stackSize)
-    local MAG = 100
+    local MAG = 300
     local e = ctor()
     e.stackSize = stackSize or 1
     local dvec = {x=math.random(-MAG, MAG), y=math.random(-MAG, MAG)}
@@ -61,7 +61,7 @@ umg.on("@createWorld", function()
         newItem(ents.musket)
     end
 
-    for i=1, 20 do
+    for i=1, 100 do
         newItem(ents.mushroom)
     end
 end)

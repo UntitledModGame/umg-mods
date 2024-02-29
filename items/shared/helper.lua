@@ -25,7 +25,7 @@ function h.canCombineStacks(item1, item2, count)
         return false
     end
 
-    local remainingStackSize = (item1.maxStackSize or 1) - count
+    local remainingStackSize = (item2.maxStackSize or 1) - (item2.stackSize or 1)
     if (remainingStackSize < count) then
         return false -- not enough stack space to combine
     end
