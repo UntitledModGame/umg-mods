@@ -260,6 +260,9 @@ end
 
 
 local function endHover(self, mx, my)
+    if not self._hovered then
+        return -- not being hovered
+    end
     util.tryCall(self.onEndHover, self, mx, my)
     umg.call("ui:elementEndHover", self, mx,my)
     self._hovered = false
@@ -267,6 +270,9 @@ end
 
 
 local function startHover(self, mx, my)
+    if self._hovered then
+        return -- already hovered
+    end
     util.tryCall(self.onStartHover, self, mx, my)
     umg.call("ui:elementStartHover", self, mx,my)
     self._hovered = true

@@ -30,6 +30,13 @@ umg.defineEvent("items:drawInventoryItem")
 -- inventory item info is to be drawn (through a Slab UI context)
 umg.defineEvent("items:displayItemTooltip")
 
+-- Passes an array, and collects ALL text, to be displayed as a tooltip.
+-- Listeners to this event should add text to the array.
+umg.defineEvent("items:collectItemTooltips")
+
+-- called when item tooltip is drawn. (Pretty low-level)
+umg.defineEvent("items:drawTooltip")
+
 end
 
 

@@ -15,7 +15,9 @@ return {
     maxStackSize = 1;
 
     image="musket";
+
     itemName = "musket";
+    itemDescription = "I am a cool-cool musket.",
 
     shooter = {
         projectileType = "bullet",
