@@ -44,11 +44,6 @@ for slot=1, 100 do
     assert(slot == gridService.coordsToSlot(x,y, 5,10),"?")
 end
 
---[[
-    oops, we dont actually use `width` here... 
-    but im gonna keep the argument coz its more clear.
-]]
-
 
 return gridService
 

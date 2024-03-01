@@ -1,9 +1,8 @@
 
 return {
     image = "crate",
-    openable = {
+    authorizeInRange = {
         distance = 100,
-        public = true
     };
 
     init = function(ent, x,y)
@@ -13,14 +12,6 @@ return {
             size=25, slotSeparation = 10
         })
     end;
-
-    inventorySlots = {
-        {false,false,false,false,true},
-        {false,false,false,false,true},
-        {true, true, true, true, true},
-        {true, true, true, true, true},
-        {true, true, true, true, true}
-    },
 
     light = {
         size = 240;

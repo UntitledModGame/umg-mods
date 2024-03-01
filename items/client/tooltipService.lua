@@ -88,6 +88,7 @@ local function drawTooltipText(txt, x, y)
         this should eventually use some text-rendering API.
         text mod or somethin???
     ]]
+    x,y = math.floor(x), math.floor(y)
     lg.print(txt, x, y)
 end
 

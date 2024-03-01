@@ -19,3 +19,9 @@ umg.answer("permissions:entityHasPermission", function(actorEnt, authEnt)
     end
 end)
 
+
+--[[
+    TODO: Should we block permission if `actorEnt` is NOT in range?
+    hmmm...
+]]
+
