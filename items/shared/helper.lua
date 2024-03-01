@@ -37,17 +37,21 @@ end
 
 
 
-local moveStackCountTc = typecheck.assert("table", "number", "table?")
+local moveStackCountTc = typecheck.assert("entity", "number", "entity?")
 
 function h.getMoveStackCount(item, count, targetItem)
     moveStackCountTc(item, count, targetItem)
     --[[
-        gets how many items can be moved from item to targetItem
+        gets how many items can be moved from item to targetItem.
+        (`targetItem` may be nil; in that case, we can move the whole stack.)
     ]]
     local stackSize = item.stackSize or 1
     count = math.max(0, count or stackSize)
 
     if targetItem then
+        if not h.itemsAreSame(item, targetItem) then
+            return 0 -- can't move anything; items dont match 
+        end
         local targSS = targetItem.stackSize or 1
         local targMaxSS = targetItem.maxStackSize or 1
         local stacksLeft = targMaxSS - targSS

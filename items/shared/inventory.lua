@@ -286,7 +286,6 @@ end
 
 local function canAddToSlot(self, slot, item)
     local slotHandle = self:getSlotHandle(slot)
-
     if slotHandle then
         local ok = slotHandle:canAddItem(item, slot)
         if not ok then return false end
@@ -344,6 +343,12 @@ function Inventory:canRemoveFromSlot(slot)
     local item = self:get(slot)
     if not item then
         return true -- no item, so I guess we can remove
+    end
+
+    local slotHandle = self:getSlotHandle(slot)
+    if slotHandle then
+        local ok = slotHandle:canRemoveItem(item, slot)
+        if not ok then return false end
     end
 
     local invEnt = self.owner
