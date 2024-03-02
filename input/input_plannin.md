@@ -15,17 +15,36 @@ input.defineControls({
     "MOVE_UP",
     "MOVE_DOWN",
     "MOVE_LEFT",
-    "MOVE_RIGHT"
+    "MOVE_RIGHT",
+
+    "ZOOM_IN",
+    "ZOOM_OUT"
 })
 
 
 input.setControls({
-    MOVE_LEFT = {"key:a", "key:left"},
+    MOVE_LEFT = {"key:a", "key:left", "mouse:1"},
     -- in future, could use `joystick:` namespace
     MOVE_RIGHT = {...},
     ...
-    ...
+    ZOOM_IN = {"scroll:dy-", "key:-"}
+    ZOOM_OUT = {"scroll:dy+", "key:+"}
 })
+
+
+listener:on("ZOOM_IN", function(self)
+
+end)
+
+
+listener:onUpdate(function(self)
+
+end)
+
+
+listener:
+
+
 ```
 
 ---
@@ -62,3 +81,25 @@ ControlManager: handles mapping of controlEnum <-> keyboard/mouse/joystick
 ```
 
 
+
+---
+
+# `Pointer` abstraction:
+We probably need to abstract the mouse as a `Pointer` object, or something.
+
+So when controller support, we can have mouse/joystick be used interchangably through this abstraction.
+
+
+
+---
+
+# PROBLEMS:
+LUI Scenes are kinda dependent on the whole
+`keypressed` / `keyreleased` thing....
+
+we need to force an abstraction somehow.
+Perhaps we only need a couple of cbs?
+`mousepressed` --> `pointerpressed`
+
+
+```

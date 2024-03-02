@@ -39,6 +39,11 @@ local function setupLockChecks(self)
         return self.mouseMovementIsLocked
     end
 
+    --[[
+        TODO:
+        Add joysticks here when controller support is added.
+    ]]
+
     self.lockChecks = lockChecks
 end
 
@@ -77,7 +82,6 @@ function InputLocker:isEventLocked(event, args)
     end
     return self.lockChecks[event](unpack(args))
 end
-
 
 
 
