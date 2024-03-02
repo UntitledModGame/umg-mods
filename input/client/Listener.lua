@@ -163,14 +163,3 @@ function Listener:lockMouseMovement()
     mouseMovementIsLocked = true
 end
 
-
---[[
-    blocks all mouse events for the rest of the frame
-]]
-function Listener:lockMouse()
-    self:lockMouseButtons()
-    self:lockMouseWheel()
-    self:lockMouseMovement()
-end
-
-

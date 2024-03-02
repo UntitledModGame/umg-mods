@@ -91,28 +91,7 @@ local inputEnums = newInputEnums()
 
 
 
-local lockedScancodes = {--[[
-    keeps track of the scancodes that are currently locked by a listener
-    [scancode] --> listener
-]]}
-
-local lockedMouseButtons = {--[[
-    keeps track of what mouse buttons are locked by what listener
-    [mouseButton] -> listener
-]]}
-
-
-
-
 local sortedListeners = {}
-
-
-local keyboardIsLocked = false
-
-
-local mouseButtonsAreLocked = false
-local mouseWheelIsLocked = false
-local mouseMovementIsLocked = false
 
 
 
@@ -126,32 +105,6 @@ local input = setmetatable({}, {
         end
     end
 })
-
-
-
-local lockChecks = {}
-function lockChecks.keypressed(key, scancode, isrepeat)
-    return keyboardIsLocked or lockedScancodes[scancode]
-end
-function lockChecks.keyreleased()
-    return keyboardIsLocked
-end
-function lockChecks.mousepressed(x, y, button, istouch, presses)
-    return mouseButtonsAreLocked or lockedMouseButtons[button]
-end
-function lockChecks.textinput(txt)
-    return keyboardIsLocked or lockedScancodes[txt]
-end
-function lockChecks.wheelmoved()
-    return mouseWheelIsLocked
-end
-function lockChecks.mousereleased()
-    return mouseButtonsAreLocked
-end
-function lockChecks.mousemoved()
-    return mouseMovementIsLocked
-end
-
 
 
 
@@ -210,15 +163,6 @@ end
 
 
 
-function input.unlockEverything()
-    keyboardIsLocked = false
-    mouseButtonsAreLocked = false
-    mouseWheelIsLocked = false
-    mouseMovementIsLocked = false
-end
-
-
-
 
 local setControlsTc = typecheck.assert("table", "table")
 
@@ -255,7 +199,7 @@ local eventBuffer = objects.Array()
 local function pollEvents(listener)
     for _, event in ipairs(eventBuffer) do
         if listener[event.type] then
-            local isLocked = lockChecks[event.type](unpack(event.args))
+            local isLocked = inputLocker:isEventLocked(event.type, event.args)
             if (not isLocked) then
                 local func = listener[event.type]
                 assert(type(func) == "function", "listeners must be functions")
