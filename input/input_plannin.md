@@ -32,13 +32,18 @@ input.setControls({
 })
 
 
-listener:onControlPress("ZOOM_IN", function(self)
+listener:onPress("ZOOM_IN", function(self)
     ...
 end)
+listener:onRelease("ZOOM_IN", function(self)
+    ...
+end)
+listener:isDown(controlEnum)
 
-listener:onControlRelease(function(self)
+listener:onControlPress(function(self, controlEnum)
     ...
-end)
+end
+
 
 listener:onUpdate(function(self)
 
@@ -48,7 +53,12 @@ listener:onPointerMoved(function(self, dx, dy)
     -- ....
 end)
 
+
+
+
+
 local px, py = listener:getPointerPosition()
+-- akin to :getMousePosition
 
 
 ```

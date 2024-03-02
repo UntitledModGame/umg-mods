@@ -73,23 +73,6 @@ end
 
 
 
-local keyboardInputMapping = DEFAULT_INPUT_MAPPING 
--- { [inputEnum] -> scancode }
-
-local scancodeMapping = invert(DEFAULT_INPUT_MAPPING)
--- { [scancode] -> inputEnum }
-
-local mouseInputMapping = DEFAULT_MOUSE_MAPPING
--- { [inputEnum] -> mouseButton }
-
-local mouseButtonMapping = invert(DEFAULT_MOUSE_MAPPING)
--- { [mousebutton] -> inputEnum }
-
-local inputEnums = newInputEnums()
--- { [inputEnum] -> inputEnum } used by input table.
--- i.e.  input.BUTTON_1
-
-
 
 local sortedListeners = {}
 

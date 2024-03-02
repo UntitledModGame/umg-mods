@@ -52,9 +52,17 @@ end
 
 
 
-local function split(s)
+local function toPair(s)
+    -- converts an inputKey (family:input)
+    -- To a pair:  family, input
     local i = s:find("%:")
     return s:sub(1,i-1), s:sub(i+1)
+end
+
+
+local function fromPair(family, input)
+    -- converts a pair to a `family:input`
+    return family .. ":" .. input
 end
 
 
@@ -65,7 +73,7 @@ local function assertInputVal(bool, inputVal)
 end
 
 local function assertValidInput(inputVal)
-    local family, inp = split(inputVal)
+    local family, inp = toPair(inputVal)
 
     if family == VALID_INPUT_FAMILIES.scroll then
         assertInputVal(checkScroll(inp), inputVal)
@@ -92,8 +100,27 @@ function ControlManager:init()
         [family:input] -> Set{
             controlEnum1, controlEnum2, ...
         }
-        eg:
-        ["key:a"] -> Set{ ... }
+
+
+        [family] -> {
+            [input] -> Set{
+                controlEnum1, controlEnum2, ...
+            }
+        }
+
+        Exmample: {
+            ["key"] -> {
+                ["a"] -> Set({...})
+            },
+            ["mouse"] -> { ... }
+            ["scroll"] -> { ... }
+        }
+    ]]}
+
+    self.familyLocks = {--[[
+        [family] -> true or false
+
+        Allows us to lock input families
     ]]}
 
     self.validControls = {--[[
@@ -171,8 +198,75 @@ end
 
 
 
-function ControlManager:getControlsForKey()
+function ControlManager:mousepressed(mx, my, button, istouch, presses)
+end
 
+
+function ControlManager:mousereleased(mx,my, button)
+end
+
+
+function ControlManager:keypressed(key, scancode, isrepeat)
+end
+
+
+function ControlManager:keyreleased(key, scancode, isrepeat)
+end
+
+
+
+
+local isDownChecks = {
+    key = love.keyboard.isScancodeDown,
+    mouse = function(x)
+        return love.mouse.isDown(tonumber(x))
+    end,
+    wheel = function()
+        -- not much we can do here.... 
+        -- mousewheel movements are ephemeral and instantaneous
+        return false
+    end
+}
+
+for k,v in pairs(VALID_INPUT_FAMILIES) do
+    assert(isDownChecks[k], "missing isDown check for family???")
+end
+
+
+
+local function isFamilyLocked(self, family)
+    return self.familyLocks[family]
+end
+
+
+local function isInputDown(self, family, inpType)
+    if isFamilyLocked(self, family) then
+        return false
+    end
+    local isDown = isDownChecks[family]
+    return isDown(inpType)
+end
+
+
+function ControlManager:isDown(controlEnum)
+    local inputs = self.controlToInputs[controlEnum]
+    for _, inputPair in ipairs(inputs) do
+        local family, inpType = toPair(inputPair)
+        if isInputDown(self, family, inpType) then
+            return true
+        end
+    end
+end
+
+
+
+function ControlManager:lockFamily(family)
+    self.familyLocks[family] = true
+end
+
+
+function ControlManager:resetLocks()
+    self.familyLocks = {}
 end
 
 

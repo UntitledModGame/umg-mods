@@ -57,6 +57,11 @@ function listener:mousemoved(x,y,dx,dy)
 end
 
 
+function listener:wheelmoved(dx,dy)
+    scene:wheelmoved(dx,dy)
+end
+
+
 function listener:textinput(t)
     local captured = scene:textinput(t)
     if captured then
