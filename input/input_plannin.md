@@ -82,18 +82,30 @@ ControlManager: handles mapping of controlEnum <-> keyboard/mouse/joystick
 
 
 
+
+# THINGS TO PLAN / PROBLEMS:
+
 ---
 
-# `Pointer` abstraction:
+### `Pointer` abstraction:
 We probably need to abstract the mouse as a `Pointer` object, or something.
 
 So when controller support, we can have mouse/joystick be used interchangably through this abstraction.
 
+---
+
+### wheelmoved abstraction:
+Some events pass extra info. For example, `wheelmoved` passes dx,dy values.
+How do we handle these????
+
+Hmm.. do some thinking.
+
+
 
 
 ---
 
-# PROBLEMS:
+### LUI Scene dependency:
 LUI Scenes are kinda dependent on the whole
 `keypressed` / `keyreleased` thing....
 
