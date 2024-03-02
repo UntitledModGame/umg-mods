@@ -32,17 +32,23 @@ input.setControls({
 })
 
 
-listener:on("ZOOM_IN", function(self)
-
+listener:onControlPress("ZOOM_IN", function(self)
+    ...
 end)
 
+listener:onControlRelease(function(self)
+    ...
+end)
 
 listener:onUpdate(function(self)
 
 end)
 
+listener:onPointerMoved(function(self, dx, dy)
+    -- ....
+end)
 
-listener:
+local px, py = listener:getPointerPosition()
 
 
 ```
@@ -98,7 +104,12 @@ So when controller support, we can have mouse/joystick be used interchangably th
 Some events pass extra info. For example, `wheelmoved` passes dx,dy values.
 How do we handle these????
 
-Hmm.. do some thinking.
+IDEA:
+
+- Call `wheelmoved` control multiple times for each press
+- Void the argument
+    `wheelmoved`, we would just check the *sign* of the argument.
+
 
 
 
@@ -115,3 +126,4 @@ Perhaps we only need a couple of cbs?
 
 
 ```
+
