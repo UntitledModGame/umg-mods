@@ -4,7 +4,7 @@ local ControlManager = objects.Class("input:ControlManager")
 
 
 
-local VALID_INPUT_FAMILIES = objects.Enum({
+local FAMILIES = objects.Enum({
     -- list of valid input families:
     "mouse",
     "key",
@@ -62,7 +62,7 @@ end
 
 local function fromPair(family, input)
     -- converts a pair to a `family:input`
-    return family .. ":" .. input
+    return family .. ":" .. tostring(input)
 end
 
 
@@ -75,11 +75,11 @@ end
 local function assertValidInput(inputVal)
     local family, inp = toPair(inputVal)
 
-    if family == VALID_INPUT_FAMILIES.scroll then
+    if family == FAMILIES.scroll then
         assertInputVal(checkScroll(inp), inputVal)
-    elseif family == VALID_INPUT_FAMILIES.key then
+    elseif family == FAMILIES.key then
         assertInputVal(checkKey(inp), inputVal)
-    elseif family == VALID_INPUT_FAMILIES.mouse then
+    elseif family == FAMILIES.mouse then
         assertInputVal(checkMouseButton(inp), inputVal)
     else
         error("Invalid input family: " .. tostring(inputVal))
@@ -100,27 +100,18 @@ function ControlManager:init()
         [family:input] -> Set{
             controlEnum1, controlEnum2, ...
         }
-
-
-        [family] -> {
-            [input] -> Set{
-                controlEnum1, controlEnum2, ...
-            }
-        }
-
-        Exmample: {
-            ["key"] -> {
-                ["a"] -> Set({...})
-            },
-            ["mouse"] -> { ... }
-            ["scroll"] -> { ... }
-        }
     ]]}
 
+    self.controlLocks = {--[[
+        [controlEnum] -> true
+        Allows us to lock controls directly
+    ]]}
     self.familyLocks = {--[[
         [family] -> true or false
 
         Allows us to lock input families
+            (only persists for one frame tho.)
+            (^^^ todo; this is kinda weird????)
     ]]}
 
     self.validControls = {--[[
@@ -131,6 +122,7 @@ end
 
 
 local function clearControls(self)
+    self:resetLocks()
     self.controlToInputs = {}
     self.inputToControls = {}
 end
@@ -198,19 +190,76 @@ end
 
 
 
+
+
+local function tryPress(self, inputVal)
+    local controlEnums = self.inputToControls[inputVal]
+    for _, controlEnum in ipairs(controlEnums) do
+        if not self:isControlDown(controlEnum) then
+            press(controlEnum)
+        end
+    end
+end
+
+
+local function tryRelease(self, inputVal)
+    local controlEnums = self.inputToControls[inputVal]
+    for _, controlEnum in ipairs(controlEnums) do
+        if self:isControlDown(controlEnum) then
+            release(controlEnum)
+        end
+    end   
+end
+
+
+
+
 function ControlManager:mousepressed(mx, my, button, istouch, presses)
+    local inputVal = fromPair(FAMILIES.mouse, button)
+    emit(self, inputVal)
+    press(self, inputVal)
 end
 
 
 function ControlManager:mousereleased(mx,my, button)
+    local inputVal = fromPair(FAMILIES.mouse, button)
+    emit(self, inputVal)
+    release(self, inputVal)
 end
 
 
 function ControlManager:keypressed(key, scancode, isrepeat)
+    local inputVal = fromPair(FAMILIES.key, scancode)
+    emit(self, inputVal)
+    press(self, inputVal)
 end
 
 
 function ControlManager:keyreleased(key, scancode, isrepeat)
+    local inputVal = fromPair(FAMILIES.key, scancode)
+    emit(self, inputVal)
+    release(self, inputVal)
+end
+
+
+local function emitWheel(self, dir)
+    local inputVal = fromPair(FAMILIES.wheel, dir)
+    emit(self, inputVal)
+end
+
+
+function ControlManager:wheelmoved(dx,dy)
+    if dx > 0 then
+        emitWheel("right")
+    elseif dx < 0 then
+        emitWheel("left")
+    end
+
+    if dy > 0 then
+        emitWheel("up")
+    elseif dy < 0 then
+        emitWheel("down")
+    end
 end
 
 
@@ -228,7 +277,7 @@ local isDownChecks = {
     end
 }
 
-for k,v in pairs(VALID_INPUT_FAMILIES) do
+for k,v in pairs(FAMILIES) do
     assert(isDownChecks[k], "missing isDown check for family???")
 end
 
@@ -248,10 +297,16 @@ local function isInputDown(self, family, inpType)
 end
 
 
-function ControlManager:isDown(controlEnum)
+
+function ControlManager:isControlDown(controlEnum, listenerObject)
+    if self.controlLocks[controlEnum] ~= listenerObject then
+        -- Control is being locked by another listener...
+        return false -- therefore, locked!
+    end
+
     local inputs = self.controlToInputs[controlEnum]
-    for _, inputPair in ipairs(inputs) do
-        local family, inpType = toPair(inputPair)
+    for _, inputVal in ipairs(inputs) do
+        local family, inpType = toPair(inputVal)
         if isInputDown(self, family, inpType) then
             return true
         end
@@ -260,12 +315,21 @@ end
 
 
 
+
+
 function ControlManager:lockFamily(family)
+    -- locks an entire input family
     self.familyLocks[family] = true
 end
 
 
+function ControlManager:lockControl(controlEnum, listenerObject)
+    self.controlLocks[controlEnum] = listenerObject
+end
+
+
 function ControlManager:resetLocks()
+    self.controlLocks = {}
     self.familyLocks = {}
 end
 

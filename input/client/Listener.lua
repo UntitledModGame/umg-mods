@@ -98,6 +98,15 @@ local function isValidInputEnum(value)
 end
 
 
+
+local lockControlTc = typecheck.assert("string")
+function Listener:lockControl(controlEnum)
+    lockControlTc(controlEnum)
+    controlManager:lockControl(controlEnum, self)
+end
+
+
+
 function Listener:isControlDown(inputEnum)
     assert(isValidInputEnum(inputEnum), "Invalid input enum: " .. inputEnum)
     local scancode = self:getKey(inputEnum)

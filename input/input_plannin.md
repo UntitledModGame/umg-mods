@@ -27,8 +27,8 @@ input.setControls({
     -- in future, could use `joystick:` namespace
     MOVE_RIGHT = {...},
     ...
-    ZOOM_IN = {"scroll:dy-", "key:-"}
-    ZOOM_OUT = {"scroll:dy+", "key:+"}
+    ZOOM_IN = {"scroll:down", "key:-"}
+    ZOOM_OUT = {"scroll:up", "key:+"}
 })
 
 
@@ -52,7 +52,6 @@ end)
 listener:onPointerMoved(function(self, dx, dy)
     -- ....
 end)
-
 
 
 
@@ -92,8 +91,8 @@ This allows us to decouple stuff from the monolithic `input` file.
 IDEA:
 Have 2 systems:
 ```lua
-InputLocker: handles locking of keyboard/mouse/joystick
 ControlManager: handles mapping of controlEnum <-> keyboard/mouse/joystick
+    Handles blocking of inputs too
 ```
 
 
@@ -132,8 +131,36 @@ LUI Scenes are kinda dependent on the whole
 
 we need to force an abstraction somehow.
 Perhaps we only need a couple of cbs?
-`mousepressed` --> `pointerpressed`
+`mousepressed` --> `onPointerPress`
+
+`keypressed` --> `onControlPress`...?
+
+
+
+
+
+## OK: How do we handle blocking of input???
+We have 2 options here.
+
+- Block via `inputVal`
+- Block via `controlEnum`
+
+
+Block via `inputVal`:
+PROS:
+It's slightly more robust, since its done at source
+CONS:
+We can no longer have `listener:lockControl(controlEnum)` api;
+since there's no way to know what `controlEnum` is being locked.
+
+
+
+NAMING IDEAS::
+```
+
+emit: denotes a singular, instantaneous event
+press: marks a control as pressed
+press: marks a control as released
 
 
 ```
-
