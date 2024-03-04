@@ -89,7 +89,15 @@ end
 
 
 
-function ControlManager:init()
+function ControlManager:init(args)
+    objects.assertKeys(args, {
+        "onControlPress", "onControlRelease"
+    })
+    objects.inlineMethods(self)
+
+    self.onControlPress = args.onControlPress
+    self.onControlRelease = args.onControlRelease
+
     self.controlToInputs = {--[[
         [controlEnum] -> Set{
             "key:a", "mouse:1", ...
@@ -192,79 +200,6 @@ end
 
 
 
-local function tryPress(self, inputVal)
-    local controlEnums = self.inputToControls[inputVal]
-    for _, controlEnum in ipairs(controlEnums) do
-        if not self:isControlDown(controlEnum) then
-            press(controlEnum)
-        end
-    end
-end
-
-
-local function tryRelease(self, inputVal)
-    local controlEnums = self.inputToControls[inputVal]
-    for _, controlEnum in ipairs(controlEnums) do
-        if self:isControlDown(controlEnum) then
-            release(controlEnum)
-        end
-    end   
-end
-
-
-
-
-function ControlManager:mousepressed(mx, my, button, istouch, presses)
-    local inputVal = fromPair(FAMILIES.mouse, button)
-    emit(self, inputVal)
-    press(self, inputVal)
-end
-
-
-function ControlManager:mousereleased(mx,my, button)
-    local inputVal = fromPair(FAMILIES.mouse, button)
-    emit(self, inputVal)
-    release(self, inputVal)
-end
-
-
-function ControlManager:keypressed(key, scancode, isrepeat)
-    local inputVal = fromPair(FAMILIES.key, scancode)
-    emit(self, inputVal)
-    press(self, inputVal)
-end
-
-
-function ControlManager:keyreleased(key, scancode, isrepeat)
-    local inputVal = fromPair(FAMILIES.key, scancode)
-    emit(self, inputVal)
-    release(self, inputVal)
-end
-
-
-local function emitWheel(self, dir)
-    local inputVal = fromPair(FAMILIES.wheel, dir)
-    emit(self, inputVal)
-end
-
-
-function ControlManager:wheelmoved(dx,dy)
-    if dx > 0 then
-        emitWheel("right")
-    elseif dx < 0 then
-        emitWheel("left")
-    end
-
-    if dy > 0 then
-        emitWheel("up")
-    elseif dy < 0 then
-        emitWheel("down")
-    end
-end
-
-
-
-
 local isDownChecks = {
     key = love.keyboard.isScancodeDown,
     mouse = function(x)
@@ -288,7 +223,8 @@ local function isFamilyLocked(self, family)
 end
 
 
-local function isInputDown(self, family, inpType)
+local function isInputDown(self, inputVal)
+    local family, inpType = toPair(inputVal)
     if isFamilyLocked(self, family) then
         return false
     end
@@ -306,12 +242,106 @@ function ControlManager:isControlDown(controlEnum, listenerObject)
 
     local inputs = self.controlToInputs[controlEnum]
     for _, inputVal in ipairs(inputs) do
-        local family, inpType = toPair(inputVal)
-        if isInputDown(self, family, inpType) then
+        if isInputDown(self, inputVal) then
             return true
         end
     end
 end
+
+
+
+
+
+local function press(self, controlEnum)
+    self.onControlPress(controlEnum)
+end
+
+
+local function tryPress(self, inputVal)
+    local controlEnums = self.inputToControls[inputVal]
+    for _, controlEnum in ipairs(controlEnums) do
+        if not self:isControlDown(controlEnum) then
+            press(self, controlEnum)
+        end
+    end
+end
+
+
+local function anyOtherInputsPressed(self, controlEnum, ignoreInputVal)
+    local inputVals = self.controlToInputs[controlEnum]
+    for _, inputVal in ipairs(inputVals) do
+        if (inputVal ~= ignoreInputVal) and isInputDown(self, inputVal) then
+            return true
+        end
+    end
+    return false
+end
+
+
+local function release(self, controlEnum)
+    self.onControlRelease(controlEnum)
+end
+
+
+local function tryRelease(self, inputVal)
+    local controlEnums = self.inputToControls[inputVal]
+    for _, controlEnum in ipairs(controlEnums) do
+        if self:isControlDown(controlEnum) then
+            if not anyOtherInputsPressed(self, controlEnum, inputVal) then
+                release(self, controlEnum)
+            end
+        end
+    end
+end
+
+
+
+
+function ControlManager:mousepressed(_mx, _my, button, _istouch, _presses)
+    local inputVal = fromPair(FAMILIES.mouse, button)
+    tryPress(self, inputVal)
+end
+
+
+function ControlManager:mousereleased(_mx,_my, button)
+    local inputVal = fromPair(FAMILIES.mouse, button)
+    tryRelease(self, inputVal)
+end
+
+
+function ControlManager:keypressed(_key, scancode, _isrepeat)
+    local inputVal = fromPair(FAMILIES.key, scancode)
+    tryPress(self, inputVal)
+end
+
+
+function ControlManager:keyreleased(_key, scancode, _isrepeat)
+    local inputVal = fromPair(FAMILIES.key, scancode)
+    tryRelease(self, inputVal)
+end
+
+
+local function emitWheel(self, dir)
+    local inputVal = fromPair(FAMILIES.wheel, dir)
+    tryPress(self, inputVal)
+end
+
+
+function ControlManager:wheelmoved(dx,dy)
+    if dx > 0 then
+        emitWheel("right")
+    elseif dx < 0 then
+        emitWheel("left")
+    end
+
+    if dy > 0 then
+        emitWheel("up")
+    elseif dy < 0 then
+        emitWheel("down")
+    end
+end
+
+
 
 
 

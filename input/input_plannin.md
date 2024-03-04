@@ -17,18 +17,22 @@ input.defineControls({
     "MOVE_LEFT",
     "MOVE_RIGHT",
 
+    "INTERACT",
+
     "ZOOM_IN",
     "ZOOM_OUT"
 })
 
 
 input.setControls({
-    MOVE_LEFT = {"key:a", "key:left", "mouse:1"},
+    MOVE_LEFT = {"key:a", "key:left"},
     -- in future, could use `joystick:` namespace
     MOVE_RIGHT = {...},
     ...
-    ZOOM_IN = {"scroll:down", "key:-"}
-    ZOOM_OUT = {"scroll:up", "key:+"}
+    INTERACT = {"mouse:1"}
+    ...
+    ZOOM_IN = {"scroll:down", "key:["}
+    ZOOM_OUT = {"scroll:up", "key:]"}
 })
 
 
@@ -92,7 +96,7 @@ IDEA:
 Have 2 systems:
 ```lua
 ControlManager: handles mapping of controlEnum <-> keyboard/mouse/joystick
-    Handles blocking of inputs too
+    Handles locking of inputs too
 ```
 
 
@@ -139,28 +143,83 @@ Perhaps we only need a couple of cbs?
 
 
 
-## OK: How do we handle blocking of input???
+## OK: How do we handle locking of input???
 We have 2 options here.
+- lock via `inputVal`
+- lock via `controlEnum`
 
-- Block via `inputVal`
-- Block via `controlEnum`
-
-
-Block via `inputVal`:
+lock via `inputVal`:
 PROS:
 It's slightly more robust, since its done at source
 CONS:
 We can no longer have `listener:lockControl(controlEnum)` api;
 since there's no way to know what `controlEnum` is being locked.
 
+Ok.
+its obviously a good idea to have locking via controls.
+-- ((SOLVED))
 
 
-NAMING IDEAS::
+
+
+## PROBLEMO 2:
+We need to dispatch events to the listeners...
+But... currently, the ControlManager doesn't know about the listeners.
+
+What would be a clean way to backpropagate this information?
+- Use a simple callback (quick and dirty, easy)
+    - pass in via ctor even?
+- Pass in a `pass` argument to the `:wheelmoved` and stuff...?
+    - nawww, i dont like this
+- ControlManager could statically call some method
+    - this is "fine", but it doesnt really "fit" with the current setup
+
+for now, lets just pass callbacks into ctor. 
+*definitely biased based off of umgclient state-refactor, but thats OK x)*
+
+
+
+
+
+## PROBLEMO 3:
+We need to iterate listeners in order... or else locking won't apply to update checks.
+
+OK: Lets map out the problem space just a lil bit:
+With our current setup:
+We *kinda need* to listen to events as soon as they occur.
+But we can still do buffering upon the events... because that's already been done
+
+```lua
+for _, listener in ipairs(sortedListeners) do
+    for event in eventList do
+        pollEvents(listener)
+    end
+    
+    if listener.update then
+        listener:update(dt)
+    end
+end
+```
+Idea:
+Don't buffer input-events.   
+Instead, buffer control-events directly.
+
+Then, we can iterate over the controlBuffer and it'll work great.
+```lua
+local function pollEvents(listener)
+    for _, controlEvent in ipairs(controlEventBuffer) do
+        if listener[event.type] then
+            local isLocked = isEventLocked(event.type, event.args, listener)
+            if (not isLocked) then
+                local func = listener[event.type]
+                assert(type(func) == "function", "listeners must be functions")
+                func(listener, unpack(event.args))
+                -- ensure to pass self as first arg 
+            end
+        end
+    end
+end
 ```
 
-emit: denotes a singular, instantaneous event
-press: marks a control as pressed
-press: marks a control as released
 
 
-```

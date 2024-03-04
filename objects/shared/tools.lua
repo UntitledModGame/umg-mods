@@ -33,6 +33,9 @@ function objects.inlineMethods(self)
         (Just copies over key-vals)
     ]]
     local mt = getmetatable(self)
+    if type(mt.__index) ~= "table" then
+        return -- not much we can do here!
+    end
     for k,v in pairs(mt.__index) do
         self[k] = v
     end

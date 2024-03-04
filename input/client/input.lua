@@ -52,118 +52,12 @@ end
 
 
 
-local function invert(mapping)
-    local inverted = {}
-    for k,v in pairs(mapping) do
-        assert(not inverted[v], "Duplicate entry in control mapping: " .. tostring(v))
-        inverted[v] = k
-    end
-    return inverted
-end
-
-
-
-local function newInputEnums()
-    return setmetatable({}, {
-        __index = function(t,k)
-            error("Unknown function, or unknown input enum: " .. k)
-        end
-    })
-end
-
-
-
-
 local sortedListeners = {}
 
 
 
 
-local input = setmetatable({}, {
-    __index = function(t,k)
-        if rawget(inputEnums, k) then
-            return inputEnums[k]
-        else
-            error("Accessed an undefined key in input table: " .. tostring(k))
-        end
-    end
-})
-
-
-
-
-
-
-
-
-
-
-
-local function updateTables(keyboardMapping, mouseMapping)
-    inputEnums = newInputEnums()
-
-    keyboardInputMapping = keyboardMapping
-    scancodeMapping = invert(keyboardMapping)
-
-    mouseInputMapping = mouseMapping
-    mouseButtonMapping = invert(mouseMapping)
-
-    -- Add input enums:
-    for inpEnum, _ in pairs(keyboardMapping)do
-        inputEnums[inpEnum] = inpEnum
-    end
-    for inpEnum, _ in pairs(mouseMapping) do
-        inputEnums[inpEnum] = inpEnum
-    end
-end
-
-
-
-local function assertKeysValid(keyMapping)
-    for inputEnum, scancode in pairs(keyMapping) do
-        if not validInputEnums[inputEnum] then
-            error("invalid input enum: " .. inputEnum, 2)
-        end
-        love.keyboard.getKeyFromScancode(scancode) -- this just asserts that the scancode is valid.
-    end
-end
-
-
-local VALID_MOUSE_BUTTONS = {
-    1,2,3,4,5
-}
-
-local function assertMousebuttonsValid(mouseMapping)
-    for inputEnum, mousebutton in pairs(mouseMapping) do
-        if not validInputEnums[inputEnum] then
-            error("invalid input enum: " .. inputEnum, 2)
-        end
-        assert(VALID_MOUSE_BUTTONS[mousebutton], "Invalid mouse button:" .. mousebutton)
-    end
-end
-
-
-
-
-
-
-local setControlsTc = typecheck.assert("table", "table")
-
-
-function input.setControls(keyboardMapping, mouseMapping)
-    setControlsTc(keyboardMapping, mouseMapping)
-    assertKeysValid(keyboardMapping)
-    assertMousebuttonsValid(mouseMapping)
-    updateTables(keyboardMapping, mouseMapping)
-end
-
-
-input.setControls(DEFAULT_INPUT_MAPPING, DEFAULT_MOUSE_MAPPING)
-
-
-
-
-
+local input = {}
 
 
 
@@ -226,7 +120,6 @@ umg.on("@keyreleased", function(key, scancode)
         args = {key, scancode},
         type = "keyreleased"
     })
-    lockedScancodes[scancode] = nil
 end)
 
 
