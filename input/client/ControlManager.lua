@@ -240,8 +240,15 @@ end
 
 
 
-function ControlManager:isControlDown(controlEnum, listenerObject)
-    if self.controlLocks[controlEnum] ~= listenerObject then
+function ControlManager:isLocked(controlEnum, listenerObject)
+    assert(listenerObject, "?")
+    return self.controlLocks[controlEnum] ~= listenerObject
+end
+
+
+function ControlManager:isDown(controlEnum, listenerObject)
+    assert(listenerObject, "?")
+    if self:isLocked(controlEnum, listenerObject) then
         -- Control is being locked by another listener...
         return false -- therefore, locked!
     end
@@ -266,7 +273,7 @@ end
 local function tryPress(self, inputVal)
     local controlEnums = self.inputToControls[inputVal]
     for _, controlEnum in ipairs(controlEnums) do
-        if not self:isControlDown(controlEnum) then
+        if not self:isDown(controlEnum) then
             press(self, controlEnum)
         end
     end
@@ -292,7 +299,7 @@ end
 local function tryRelease(self, inputVal)
     local controlEnums = self.inputToControls[inputVal]
     for _, controlEnum in ipairs(controlEnums) do
-        if self:isControlDown(controlEnum) then
+        if self:isDown(controlEnum) then
             if not anyOtherInputsPressed(self, controlEnum, inputVal) then
                 release(self, controlEnum)
             end

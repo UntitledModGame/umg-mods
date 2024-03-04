@@ -67,36 +67,48 @@ function input.Listener(args)
 end
 
 
+local EVENTS = objects.Enum({
+    RELEASE = true,
+    PRESS = true,
+    POINTER_MOVED = true,
+})
 
-local function pollEvents(listener)
+
+local function update(listener, dt)
     for _, event in ipairs(eventBuffer) do
-        if listener[event.type] then
-            local isLocked = inputLocker:isEventLocked(event.type, event.args)
-            if (not isLocked) then
-                local func = listener[event.type]
-                assert(type(func) == "function", "listeners must be functions")
-                func(listener, unpack(event.args))
-                -- ensure to pass self as first arg 
+        local controlEnum = event.controlEnum
+        if event.type == EVENTS.PRESS then
+            local isLocked = controlManager:isLocked(controlEnum, listener)
+            if not isLocked then
+                listener:_dispatchPress(controlEnum)
             end
+        elseif event.type == EVENTS.RELEASE then
+            --[[
+            TODO: currently, we are dispatching release to EVERY Listener...
+            regardless of whether the system claimed it.
+            Maybe we should only dispatch if it was claimed BY this exact Listener?
+            ]]
+            listener:_dispatchRelease(controlEnum)
+        elseif event.type == EVENTS.POINTER_MOVED then
+            listener:_dispatchPointerMoved(event.dx, event.dy)
         end
     end
+
+    listener:_update(dt)
 end
+
 
 
 
 umg.on("@update", function(dt)
     if not client.isPaused() then
         for _, listener in ipairs(sortedListeners) do
-            pollEvents(listener)
-            
-            if listener.update then
-                listener:update(dt)
-            end
+            update(listener, dt)
         end
     end
 
     eventBuffer:clear()
-    input.unlockEverything()
+    controlManager:resetLocks()
 end)
 
 
@@ -118,10 +130,6 @@ umg.on("@mousemoved", function (x, y, dx, dy, istouch)
     controlManager:mousemoved(x, y, dx, dy, istouch)
 end)
 
-umg.on("@mousepressed", function (x, y, button, istouch, presses)
-    controlManager:mousepressed(x, y, button, istouch, presses)
-end)
-
 umg.on("@mousereleased", function(x, y, button, istouch, presses)
     controlManager:mousereleased(x, y, button, istouch, presses)
 end)
@@ -130,6 +138,37 @@ umg.on("@textinput", function(txt)
     controlManager:textinput(txt)
 end)
 
+umg.on("@mousepressed", function (x, y, button, istouch, presses)
+    controlManager:mousepressed(x, y, button, istouch, presses)
+end)
+
+
+
+
+
+umg.on("@mousemoved", function(x,y,dx,dy)
+    --[[
+        TODO: Provide a blocking API here.
+        If the player is playing with a controller, we don't want
+        mouse-input to be affecting user.
+    ]]
+    eventBuffer:add({
+        type = EVENTS.POINTER_MOVED,
+        dx = dx,
+        dy = dy
+    })
+end)
+
+
+function input.getPointer()
+    --[[
+        TODO: provide support for controllers in future here.
+
+        We should probably create a separate module for the pointer...?
+        Because we want to add a TONNE of flexibility.
+    ]]
+    return love.mouse.getPosition()
+end
 
 
 return input

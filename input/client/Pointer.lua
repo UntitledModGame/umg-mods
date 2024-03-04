@@ -1,21 +1,11 @@
 
 
-local Pointer = objects.Class("input:Pointer")
+
+local pointer = {
+    x = 0,
+    y = 0
+}
 
 
-function Pointer:init()
-    self.x = 0
-    self.y = 0
-end
-
-
-
-function Pointer:mousemoved(x,y,dx,dy)
-    self.x = x
-    self.y = y
-end
-
-
-
-return Pointer
+return pointer
 
