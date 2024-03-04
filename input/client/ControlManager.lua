@@ -1,4 +1,11 @@
 
+--[[
+
+Big class that handles all controls, and control-locking.
+
+
+]]
+
 
 local ControlManager = objects.Class("input:ControlManager")
 
@@ -10,14 +17,14 @@ local FAMILIES = objects.Enum({
     "key",
     "scroll",
     --[[
-        in future: joystick stuff:
+        in future: controller stuff:
 
-        axis
+        axis family. Eg:
             axis:left
             axis:up
             axis:down
             axis:right
-        gamepad
+        gamepad family. Eg:
             gamepad:a
             gamepad:b
             gamepad:c
@@ -160,7 +167,6 @@ end
 
 
 
-
 local function setControl(self, controlEnum, inputValList)
     self.controlToInputs[controlEnum] = objects.Set(inputValList)
 
@@ -212,7 +218,7 @@ local isDownChecks = {
     end
 }
 
-for k,v in pairs(FAMILIES) do
+for k,_v in pairs(FAMILIES) do
     assert(isDownChecks[k], "missing isDown check for family???")
 end
 

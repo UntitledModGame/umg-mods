@@ -5,47 +5,42 @@ local Listener = objects.Class("input:Listener")
 
 input.Listener = Listener
 
-local DEFAULT_LISTENER_PRIORITY = 0
 
-
-
-local function sortPrioKey(obj1, obj2)
-    -- sorts backwards; i.e. higher priority
-    -- comes first in the list 
-    
-    -- default priority is 0
-    return (obj1.priority or 0) > (obj2.priority or 0)
-end
-
-
+local dummy = function()end
 
 function Listener:init(args)
-    objects.assertKeys(args)
+    objects.assertKeys(args, {"controlManager", "priority"})
+    self.controlManager = args.controlManager
     self.priority = args.priority
-    
-    self.priority = self.priority or DEFAULT_LISTENER_PRIORITY
-    table.insert(sortedListeners, self)
-    table.sort(sortedListeners, sortPrioKey)
+
+    self.updateCallback = dummy
+    self.pressCallback = dummy
+    self.releaseCallback = dummy
 end
 
 
 local lockControlTc = typecheck.assert("control")
 function Listener:lockControl(controlEnum)
     lockControlTc(controlEnum)
-    controlManager:lockControl(controlEnum, self)
+    self.controlManager:lockControl(controlEnum, self)
 end
 
 
 
 function Listener:isDown(controlEnum)
-    assert(isValidInputEnum(inputEnum), "Invalid input enum: " .. inputEnum)
-    local scancode = self:getKey(inputEnum)
-    if scancode then
-        return self:isKeyDown(scancode)
-    end
-    local mousebutton = self:getMouseButton(inputEnum)
-    if mousebutton then
-        return self:isMouseButtonDown(mousebutton)
-    end
+    return self.controlManager:isDown(controlEnum, self)
 end
+
+
+
+function Listener:onUpdate(func)
+    self.updateCallback = func
+end
+function Listener:onPress(func)
+    self.pressCallback = func
+end
+function Listener:onRelease(func)
+    self.releaseCallback = func
+end
+
 

@@ -8,57 +8,10 @@ TODO: Allow for even more custom stuff, like joysticks
 ]]
 
 
-
--- The input mapping can be defined as anything,
--- but the base mod uses these controls by default:::
-local DEFAULT_INPUT_MAPPING =  {
-    UP = "w", -- (If you do change the controls, note that you can change the key it points to,
-    LEFT = "a", -- but make sure to always keep the UP, DOWN, RIGHT, BUTTON_1, etc.)
-    DOWN = "s",
-    RIGHT = "d",
-
-    BUTTON_SPACE = "space",
-    BUTTON_SHIFT = "lshift",
-    BUTTON_CONTROL = "lctrl",
-
-    BUTTON_LEFT = "q",
-    BUTTON_RIGHT = "e",
-
-    BUTTON_1 = "r",
-    BUTTON_2 = "f",
-    BUTTON_3 = "c",
-    BUTTON_4 = "x"
-}
-
-
-local DEFAULT_MOUSE_MAPPING = {
-    MOUSE_1 = 1,
-    MOUSE_2 = 2,
-    MOUSE_3 = 3,
-    MOUSE_4 = 4
-}
-
-
-
-local validInputEnums = {}
-
-for enum,_ in pairs(DEFAULT_INPUT_MAPPING) do
-    validInputEnums[enum] = true
-end
-
-for enum,_ in pairs(DEFAULT_MOUSE_MAPPING) do
-    validInputEnums[enum] = true
-end
-
-
-
 local sortedListeners = {}
 
 
-
-
 local input = {}
-
 
 
 --[[
@@ -70,6 +23,48 @@ local eventBuffer = objects.Array()
 
 
 
+local ControlManager = require("client.ControlManager")
+
+local controlManager = ControlManager({
+    onControlPress = function(controlEnum)
+        eventBuffer:add({
+            type = "press",
+            controlEnum = controlEnum
+        })
+    end,
+    onControlRelease = function(controlEnum)
+        eventBuffer:add({
+            type = "release",
+            controlEnum = controlEnum
+        })
+    end
+})
+
+
+
+local DEFAULT_LISTENER_PRIORITY = 0
+
+local function sortPrioKey(obj1, obj2)
+    -- sorts backwards; i.e. higher priority
+    -- comes first in the list 
+    
+    -- default priority is 0
+    return (obj1.priority or 0) > (obj2.priority or 0)
+end
+
+
+local Listener = require("client.Listener")
+
+function input.Listener(args)
+    args = args or {}
+    local listener = Listener({
+        controlManager = controlManager,
+        priority = args.priority or DEFAULT_LISTENER_PRIORITY
+    })
+    table.insert(sortedListeners, listener)
+    table.sort(sortedListeners, sortPrioKey)
+    return listener
+end
 
 
 
@@ -108,55 +103,31 @@ end)
 
 
 umg.on("@keypressed", function(key, scancode, isrepeat)
-    eventBuffer:add({
-        args = {key, scancode, isrepeat},
-        type = "keypressed"
-    })
+    controlManager:keypressed(key, scancode, isrepeat)
 end)
-
 
 umg.on("@keyreleased", function(key, scancode)
-    eventBuffer:add({
-        args = {key, scancode},
-        type = "keyreleased"
-    })
+    controlManager:keyreleased(key, scancode)
 end)
 
-
 umg.on("@wheelmoved", function(dx, dy)
-    eventBuffer:add({
-        args = {dx, dy},
-        type = "wheelmoved"
-    })
+    controlManager:wheelmoved(dx, dy)
 end)
 
 umg.on("@mousemoved", function (x, y, dx, dy, istouch)
-    eventBuffer:add({
-        args = {x, y, dx, dy, istouch},
-        type = "mousemoved"
-    })
+    controlManager:mousemoved(x, y, dx, dy, istouch)
 end)
 
 umg.on("@mousepressed", function (x, y, button, istouch, presses)
-    eventBuffer:add({
-        args = {x, y, button, istouch, presses},
-        type = "mousepressed"
-    })
+    controlManager:mousepressed(x, y, button, istouch, presses)
 end)
 
 umg.on("@mousereleased", function(x, y, button, istouch, presses)
-    eventBuffer:add({
-        args = {x, y, button, istouch, presses},
-        type = "mousereleased"
-    })
-    lockedMouseButtons[button] = false
+    controlManager:mousereleased(x, y, button, istouch, presses)
 end)
 
 umg.on("@textinput", function(txt)
-    eventBuffer:add({
-        args = {txt},
-        type = "textinput"
-    })
+    controlManager:textinput(txt)
 end)
 
 
