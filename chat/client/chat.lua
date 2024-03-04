@@ -63,7 +63,9 @@ local curHeight = CHATBOX_HEIGHT
 local curScreenHeight = love.graphics.getHeight()
 local curChatScale = TARGET_CHAT_HEIGHT / curFontHeight
 
+
 local currMessage = ""
+local isTyping = false
 
 
 local function drawCursor(opacity)
@@ -112,7 +114,6 @@ local function iterMessage(messageObj)
 end
 
 
-local isTyping = false
 
 
 umg.on("rendering:drawUI", function()
@@ -215,11 +216,13 @@ function listener:keypressed(_, scancode, _)
     ]]
     if scancode == "backspace" then
         -- get the byte offset to the last UTF-8 character in the string.
-        local byteoffset = utf8.offset(currMessage, -1)
-        if byteoffset then
-            -- remove the last UTF-8 character.
-            -- string.sub operates on bytes rather than UTF-8 characters, so we couldn't do string.sub(text, 1, -2).
-            currMessage = string.sub(currMessage, 1, byteoffset - 1)
+        if isTyping then
+            local byteoffset = utf8.offset(currMessage, -1)
+            if byteoffset then
+                -- remove the last UTF-8 character.
+                -- string.sub operates on bytes rather than UTF-8 characters, so we couldn't do string.sub(text, 1, -2).
+                currMessage = string.sub(currMessage, 1, byteoffset - 1)
+            end
         end
     elseif scancode == "return" then
         if isTyping then

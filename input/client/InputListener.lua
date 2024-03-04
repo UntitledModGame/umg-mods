@@ -35,13 +35,27 @@ end
 
 
 
+function InputListener:lockKeyboard()
+    self.controlManager:lockFamily("key")
+end
+function InputListener:lockMouse()
+    self.controlManager:lockFamily("mouse")
+end
+function InputListener:lockWheel()
+    self.controlManager:lockFamily("wheel")
+end
+
+
+
 function InputListener:isDown(controlEnum)
     return self.controlManager:isDown(controlEnum, self)
 end
 
 
 
+local funcTc = typecheck.assert("function")
 function InputListener:onUpdate(func)
+    funcTc(func)
     self.updateCallback = func
 end
 
@@ -57,15 +71,23 @@ end
 
 
 function InputListener:onAnyPress(func)
+    funcTc(func)
     self.anyPressCallback = func
 end
 function InputListener:onAnyRelease(func)
+    funcTc(func)
     self.anyReleaseCallback = func
 end
 
 
 function InputListener:onPointerMoved(func)
+    funcTc(func)
     self.pointerMovedCallback = func
+end
+
+function InputListener:onTextInput(func)
+    funcTc(func)
+    self.textInputCallback = func
 end
 
 
@@ -89,13 +111,5 @@ function InputListener:_dispatchRelease(controlEnum)
     local func = self.releaseCallbacks[controlEnum] or dummy
     func(self)
     self:anyReleaseCallback(controlEnum)
-end
-
-function InputListener:_dispatchPointerMoved(dx,dy)
-    self:pointerMovedCallback(dx,dy)
-end
-
-function InputListener:_update(dt)
-    self:updateCallback(dt)
 end
 

@@ -224,14 +224,15 @@ end
 
 
 
-local function isFamilyLocked(self, family)
+function ControlManager:isFamilyLocked(family)
+    assert(FAMILIES:has(family), "Invalid family")
     return self.familyLocks[family]
 end
 
 
 local function isInputDown(self, inputVal)
     local family, inpType = toPair(inputVal)
-    if isFamilyLocked(self, family) then
+    if self:isFamilyLocked(family) then
         return false
     end
     local isDown = isDownChecks[family]

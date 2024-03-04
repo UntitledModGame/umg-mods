@@ -53,11 +53,11 @@ local function sortPrioKey(obj1, obj2)
 end
 
 
-local Listener = require("client.Listener")
+local InputListener = require("client.InputListener")
 
-function input.Listener(args)
+function input.InputListener(args)
     args = args or {}
-    local listener = Listener({
+    local listener = InputListener({
         controlManager = controlManager,
         priority = args.priority or DEFAULT_LISTENER_PRIORITY
     })
@@ -71,6 +71,7 @@ local EVENTS = objects.Enum({
     RELEASE = true,
     PRESS = true,
     POINTER_MOVED = true,
+    TEXT_INPUT = true
 })
 
 
@@ -90,11 +91,15 @@ local function update(listener, dt)
             ]]
             listener:_dispatchRelease(controlEnum)
         elseif event.type == EVENTS.POINTER_MOVED then
-            listener:_dispatchPointerMoved(event.dx, event.dy)
+            listener:onPointerMovedCallback(event.dx, event.dy)
+        elseif event.type == EVENTS.TEXT_INPUT then
+            if not controlManager:isFamilyLocked("key") then
+                listener:textInputCallback(event.text)
+            end
         end
     end
 
-    listener:_update(dt)
+    listener:updateCallback(dt)
 end
 
 
@@ -138,13 +143,21 @@ umg.on("@textinput", function(txt)
     controlManager:textinput(txt)
 end)
 
-umg.on("@mousepressed", function (x, y, button, istouch, presses)
+umg.on("@mousepressed", function(x, y, button, istouch, presses)
     controlManager:mousepressed(x, y, button, istouch, presses)
 end)
 
 
 
-
+--------------
+-- Special events:
+--------------
+umg.on("@textinput", function(text)
+    eventBuffer:add({
+        type = EVENTS.TEXT_INPUT,
+        text = text
+    })
+end)
 
 umg.on("@mousemoved", function(x,y,dx,dy)
     --[[
@@ -158,6 +171,7 @@ umg.on("@mousemoved", function(x,y,dx,dy)
         dy = dy
     })
 end)
+
 
 
 function input.getPointer()

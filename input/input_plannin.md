@@ -223,3 +223,22 @@ end
 
 
 
+## PROBLEMO 4:
+How do we handle textinput?
+
+Simple solution: simply emit a `onTextInput` event into Listeners,
+with very little overhead.
+With this, we will also need the InputListeners to be able to lock the entire input family (key, in this case)
+
+----
+Ok but we probably want to provide a very high-level access to locking
+input families.
+Something like:
+```lua
+inpList:lockKeyboard()
+inpList:lockMouse()
+inpList:lockWheel()
+```
+
+
+
