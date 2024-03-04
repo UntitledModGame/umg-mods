@@ -91,7 +91,7 @@ local function update(listener, dt)
             ]]
             listener:_dispatchRelease(controlEnum)
         elseif event.type == EVENTS.POINTER_MOVED then
-            listener:onPointerMovedCallback(event.dx, event.dy)
+            listener:pointerMovedCallback(event.dx, event.dy)
         elseif event.type == EVENTS.TEXT_INPUT then
             if not controlManager:isFamilyLocked("key") then
                 listener:textInputCallback(event.text)
@@ -129,10 +129,6 @@ end)
 
 umg.on("@wheelmoved", function(dx, dy)
     controlManager:wheelmoved(dx, dy)
-end)
-
-umg.on("@mousemoved", function (x, y, dx, dy, istouch)
-    controlManager:mousemoved(x, y, dx, dy, istouch)
 end)
 
 umg.on("@mousereleased", function(x, y, button, istouch, presses)
@@ -183,6 +179,22 @@ function input.getPointer()
     ]]
     return love.mouse.getPosition()
 end
+
+
+
+function input.defineControls(controls)
+    controlManager:defineControls(controls)
+end
+
+function input.setControls(controls)
+    controlManager:setControls(controls)
+end
+
+
+function input.isValidControl(x)
+    return controlManager:isValidControl(x)
+end
+
 
 
 return input

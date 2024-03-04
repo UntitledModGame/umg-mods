@@ -1,6 +1,11 @@
 
 
-local function has(self, k)
+
+
+-- we probably want more useful enum methods here.
+local EnumMethods = {}
+
+function EnumMethods:has(k)
     return rawget(self, k)
 end
 
@@ -8,6 +13,9 @@ end
 
 local ENUM_MT = {
     __index = function(t,k)
+        if EnumMethods[k] then
+            return EnumMethods[k]
+        end
         error("Attempt to access undefined enum value: " .. k, 2)
     end,
     __newindex = function(t,k,v)
@@ -32,17 +40,12 @@ local function newEnum(values)
         assertString(v)
     end
 
-    for k,v in pairs(values) do
+    for k,_v in pairs(values) do
         if type(k) ~= "number" then
-            assertString(v)
-            enum[v] = v
+            assertString(k)
+            enum[k] = k
         end
     end
-
-    --[[
-        we probably want more useful enum methods here.
-    ]]
-    enum.has = has
 
     return setmetatable(enum, ENUM_MT)
 end

@@ -40,19 +40,19 @@ local function checkKey(scancode)
 end
 
 
-local VALID_MOUSE_BUTTONS = {
+local VALID_MOUSE_BUTTONS = objects.Enum({
     "1", "2", "3", "4", "5"
-}
+})
 local function checkMouseButton(button)
-    return VALID_MOUSE_BUTTONS[button]
+    return VALID_MOUSE_BUTTONS:has(button)
 end
 
 
-local VALID_SCROLL_DIRECTIONS = {
+local VALID_SCROLL_DIRECTIONS = objects.Enum({
     "left", "up", "down", "right"
-}
+})
 local function checkScroll(scrollDir)
-    return VALID_SCROLL_DIRECTIONS[scrollDir]
+    return VALID_SCROLL_DIRECTIONS:has(scrollDir)
 end
 
 
@@ -159,7 +159,7 @@ end
 
 function ControlManager:defineControls(controls)
     for _, cEnum in ipairs(controls) do
-        defineNewControl(cEnum)
+        defineNewControl(self, cEnum)
     end
 end
 
@@ -204,6 +204,11 @@ end
 
 
 
+function ControlManager:isValidControl(controlEnum)
+    return self.validControls[controlEnum]
+end
+
+
 
 
 local isDownChecks = {
@@ -211,7 +216,7 @@ local isDownChecks = {
     mouse = function(x)
         return love.mouse.isDown(tonumber(x))
     end,
-    wheel = function()
+    scroll = function()
         -- not much we can do here.... 
         -- mousewheel movements are ephemeral and instantaneous
         return false
@@ -219,7 +224,9 @@ local isDownChecks = {
 }
 
 for k,_v in pairs(FAMILIES) do
-    assert(isDownChecks[k], "missing isDown check for family???")
+    if not isDownChecks[k] then
+        error("missing isDown check for family: " .. tostring(k))
+    end
 end
 
 
@@ -335,23 +342,23 @@ function ControlManager:keyreleased(_key, scancode, _isrepeat)
 end
 
 
-local function emitWheel(self, dir)
-    local inputVal = fromPair(FAMILIES.wheel, dir)
+local function emitScroll(self, dir)
+    local inputVal = fromPair(FAMILIES.scroll, dir)
     tryPress(self, inputVal)
 end
 
 
 function ControlManager:wheelmoved(dx,dy)
     if dx > 0 then
-        emitWheel("right")
+        emitScroll("right")
     elseif dx < 0 then
-        emitWheel("left")
+        emitScroll("left")
     end
 
     if dy > 0 then
-        emitWheel("up")
+        emitScroll("up")
     elseif dy < 0 then
-        emitWheel("down")
+        emitScroll("down")
     end
 end
 

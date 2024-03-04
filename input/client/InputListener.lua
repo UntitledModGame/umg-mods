@@ -41,8 +41,8 @@ end
 function InputListener:lockMouse()
     self.controlManager:lockFamily("mouse")
 end
-function InputListener:lockWheel()
-    self.controlManager:lockFamily("wheel")
+function InputListener:lockScroll()
+    self.controlManager:lockFamily("scroll")
 end
 
 
@@ -113,3 +113,5 @@ function InputListener:_dispatchRelease(controlEnum)
     self:anyReleaseCallback(controlEnum)
 end
 
+
+return InputListener
