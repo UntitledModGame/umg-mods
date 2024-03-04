@@ -1,14 +1,13 @@
 
 
 
-local Listener = objects.Class("input:Listener")
+local InputListener = objects.Class("input:InputListener")
 
-input.Listener = Listener
 
 
 local dummy = function()end
 
-function Listener:init(args)
+function InputListener:init(args)
     objects.assertKeys(args, {"controlManager", "priority"})
     self.controlManager = args.controlManager
     self.priority = args.priority
@@ -29,43 +28,43 @@ end
 
 
 local lockControlTc = typecheck.assert("control")
-function Listener:claim(controlEnum)
+function InputListener:claim(controlEnum)
     lockControlTc(controlEnum)
     self.controlManager:lockControl(controlEnum, self)
 end
 
 
 
-function Listener:isDown(controlEnum)
+function InputListener:isDown(controlEnum)
     return self.controlManager:isDown(controlEnum, self)
 end
 
 
 
-function Listener:onUpdate(func)
+function InputListener:onUpdate(func)
     self.updateCallback = func
 end
 
 local controlFuncTc = typecheck.assert("control", "function")
-function Listener:onPress(controlEnum, func)
+function InputListener:onPress(controlEnum, func)
     controlFuncTc(controlEnum, func)
     self.pressCallbacks[controlEnum] = func
 end
-function Listener:onRelease(controlEnum, func)
+function InputListener:onRelease(controlEnum, func)
     controlFuncTc(controlEnum, func)
     self.releaseCallbacks[controlEnum] = func
 end
 
 
-function Listener:onAnyPress(func)
+function InputListener:onAnyPress(func)
     self.anyPressCallback = func
 end
-function Listener:onAnyRelease(func)
+function InputListener:onAnyRelease(func)
     self.anyReleaseCallback = func
 end
 
 
-function Listener:onPointerMoved(func)
+function InputListener:onPointerMoved(func)
     self.pointerMovedCallback = func
 end
 
@@ -80,23 +79,23 @@ end
     todo:
     we should probably allow listeners to listen for ANY control type?
 ]]
-function Listener:_dispatchPress(controlEnum)
+function InputListener:_dispatchPress(controlEnum)
     local func = self.pressCallbacks[controlEnum] or dummy
     func(self)
     self:anyPressCallback(controlEnum)
 end
 
-function Listener:_dispatchRelease(controlEnum)
+function InputListener:_dispatchRelease(controlEnum)
     local func = self.releaseCallbacks[controlEnum] or dummy
     func(self)
     self:anyReleaseCallback(controlEnum)
 end
 
-function Listener:_dispatchPointerMoved(dx,dy)
+function InputListener:_dispatchPointerMoved(dx,dy)
     self:pointerMovedCallback(dx,dy)
 end
 
-function Listener:_update(dt)
+function InputListener:_update(dt)
     self:updateCallback(dt)
 end
 
