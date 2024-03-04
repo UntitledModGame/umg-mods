@@ -23,18 +23,29 @@ local eventBuffer = objects.Array()
 
 
 
+-- possible events that can be buffered:
+local EVENTS = objects.Enum({
+    RELEASE = true,
+    PRESS = true,
+    POINTER_MOVED = true,
+    TEXT_INPUT = true
+})
+
+
+
+
 local ControlManager = require("client.ControlManager")
 
 local controlManager = ControlManager({
     onControlPress = function(controlEnum)
         eventBuffer:add({
-            type = "press",
+            type = EVENTS.PRESS,
             controlEnum = controlEnum
         })
     end,
     onControlRelease = function(controlEnum)
         eventBuffer:add({
-            type = "release",
+            type = EVENTS.RELEASE,
             controlEnum = controlEnum
         })
     end
@@ -67,19 +78,12 @@ function input.InputListener(args)
 end
 
 
-local EVENTS = objects.Enum({
-    RELEASE = true,
-    PRESS = true,
-    POINTER_MOVED = true,
-    TEXT_INPUT = true
-})
-
 
 local function update(listener, dt)
     for _, event in ipairs(eventBuffer) do
         local controlEnum = event.controlEnum
         if event.type == EVENTS.PRESS then
-            local isLocked = controlManager:isLocked(controlEnum, listener)
+            local isLocked = controlManager:isLockedForListener(controlEnum, listener)
             if not isLocked then
                 listener:_dispatchPress(controlEnum)
             end
@@ -89,6 +93,7 @@ local function update(listener, dt)
             regardless of whether the system claimed it.
             Maybe we should only dispatch if it was claimed BY this exact Listener?
             ]]
+            print("release?")
             listener:_dispatchRelease(controlEnum)
         elseif event.type == EVENTS.POINTER_MOVED then
             listener:pointerMovedCallback(event.dx, event.dy)
@@ -133,10 +138,6 @@ end)
 
 umg.on("@mousereleased", function(x, y, button, istouch, presses)
     controlManager:mousereleased(x, y, button, istouch, presses)
-end)
-
-umg.on("@textinput", function(txt)
-    controlManager:textinput(txt)
 end)
 
 umg.on("@mousepressed", function(x, y, button, istouch, presses)

@@ -153,7 +153,7 @@ local function defineNewControl(self, controlEnum)
         error("controlEnum was already defined: " .. controlEnum)
     end
     self.validControls[controlEnum] = true
-    self.controlToInputs[controlEnum] = objects.Set()
+    self.controlToInputs[controlEnum] = objects.Array()
 end
 
 
@@ -168,11 +168,11 @@ end
 
 
 local function setControl(self, controlEnum, inputValList)
-    self.controlToInputs[controlEnum] = objects.Set(inputValList)
+    self.controlToInputs[controlEnum] = objects.Array(inputValList)
 
     for _, inputVal in ipairs(inputValList) do
         assertValidInput(inputVal)
-        local inpToCont = self.inputToControls[inputVal] or objects.Set() 
+        local inpToCont = self.inputToControls[inputVal] or objects.Array() 
         self.inputToControls[inputVal] = inpToCont
         inpToCont:add(controlEnum)
     end
@@ -187,7 +187,7 @@ function ControlManager:setControls(mapping)
     ]]
     mapping = table.copy(mapping) -- defensive copy, since we mutate
     -- copy over old controls:
-    for controlEnum, inputValList in ipairs(self.controlToInputs) do
+    for controlEnum, inputValList in pairs(self.controlToInputs) do
         mapping[controlEnum] = mapping[controlEnum] or inputValList
     end
 
@@ -212,7 +212,9 @@ end
 
 
 local isDownChecks = {
-    key = love.keyboard.isScancodeDown,
+    key = function(x)
+        return love.keyboard.isScancodeDown(x)
+    end,
     mouse = function(x)
         return love.mouse.isDown(tonumber(x))
     end,
@@ -247,26 +249,52 @@ local function isInputDown(self, inputVal)
 end
 
 
+local EMPTY = {}
 
-function ControlManager:isLocked(controlEnum, listenerObject)
-    assert(listenerObject, "?")
-    return self.controlLocks[controlEnum] ~= listenerObject
+local function getInputs(self, controlEnum)
+    if not self.controlToInputs[controlEnum] then
+        return EMPTY
+    end
+    return self.controlToInputs[controlEnum]
+end
+
+local function getControlEnums(self, inputVal)
+    if not self.inputToControls[inputVal] then
+        return EMPTY
+    end
+    return self.inputToControls[inputVal]
 end
 
 
-function ControlManager:isDown(controlEnum, listenerObject)
-    assert(listenerObject, "?")
-    if self:isLocked(controlEnum, listenerObject) then
-        -- Control is being locked by another listener...
-        return false -- therefore, locked!
-    end
-
-    local inputs = self.controlToInputs[controlEnum]
+local function isControlDown(self, controlEnum)
+    local inputs = getInputs(self, controlEnum)
     for _, inputVal in ipairs(inputs) do
         if isInputDown(self, inputVal) then
             return true
         end
     end
+end
+
+
+
+function ControlManager:isLockedForListener(controlEnum, listenerObject)
+    assert(listenerObject, "?")
+    if self.controlLocks[controlEnum] then
+        return self.controlLocks[controlEnum] ~= listenerObject
+    end
+end
+
+
+function ControlManager:isDownForListener(controlEnum, listenerObject)
+    assert(listenerObject, "?")
+    --[[
+        checks whether
+    ]]
+    if self:isLockedForListener(controlEnum, listenerObject) then
+        -- Control is being locked by another listener...
+        return false -- therefore, locked!
+    end
+    return isControlDown(self, controlEnum)
 end
 
 
@@ -278,18 +306,12 @@ local function press(self, controlEnum)
 end
 
 
-local function tryPress(self, inputVal)
-    local controlEnums = self.inputToControls[inputVal]
-    for _, controlEnum in ipairs(controlEnums) do
-        if not self:isDown(controlEnum) then
-            press(self, controlEnum)
-        end
-    end
-end
-
-
 local function anyOtherInputsPressed(self, controlEnum, ignoreInputVal)
-    local inputVals = self.controlToInputs[controlEnum]
+    --[[
+    checks if there are any other inputVals (other than `ignoreInputVal`)
+    that are keeping controlEnum pressed.
+    ]]
+    local inputVals = getInputs(self, controlEnum)
     for _, inputVal in ipairs(inputVals) do
         if (inputVal ~= ignoreInputVal) and isInputDown(self, inputVal) then
             return true
@@ -299,18 +321,27 @@ local function anyOtherInputsPressed(self, controlEnum, ignoreInputVal)
 end
 
 
+
+local function tryPress(self, inputVal)
+    local controlEnums = getControlEnums(self, inputVal)
+    for _, controlEnum in ipairs(controlEnums) do
+        if not anyOtherInputsPressed(self, controlEnum, inputVal) then
+            press(self, controlEnum)
+        end
+    end
+end
+
+
 local function release(self, controlEnum)
     self.onControlRelease(controlEnum)
 end
 
 
 local function tryRelease(self, inputVal)
-    local controlEnums = self.inputToControls[inputVal]
+    local controlEnums = getControlEnums(self, inputVal)
     for _, controlEnum in ipairs(controlEnums) do
-        if self:isDown(controlEnum) then
-            if not anyOtherInputsPressed(self, controlEnum, inputVal) then
-                release(self, controlEnum)
-            end
+        if not anyOtherInputsPressed(self, controlEnum, inputVal) then
+            release(self, controlEnum)
         end
     end
 end

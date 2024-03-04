@@ -16,9 +16,11 @@ function InputListener:init(args)
     self.pressCallbacks = {--[[
         [controlEnum] -> function
     ]]}
-    self.releaseCallback = {--[[
+    self.releaseCallbacks = {--[[
         [controlEnum] -> function
     ]]}
+
+    self.textInputCallback = dummy
     
     self.pointerMovedCallback = dummy
 
@@ -48,7 +50,7 @@ end
 
 
 function InputListener:isDown(controlEnum)
-    return self.controlManager:isDown(controlEnum, self)
+    return self.controlManager:isDownForListener(controlEnum, self)
 end
 
 
