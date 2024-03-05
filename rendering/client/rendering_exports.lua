@@ -66,7 +66,6 @@ rendering.animate = animate.animate;
 rendering.animateEntity = animate.animateEntity;
 
 
-rendering.isHovered = require("client.helper.is_hovered")
 rendering.getEntityDisplaySize = require("client.helper.entity_display_size")
 
 

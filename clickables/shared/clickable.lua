@@ -76,7 +76,7 @@ local function click(self, controlEnum)
         local x, y = ent.x, rendering.getDrawY(ent.y, ent.z)
         local dist = math.distance(x-worldX, y-worldY)
         if dist < bestDist then
-            if inRange(ent, dist) or rendering.isHovered(ent) then
+            if inRange(ent, dist) then
                 bestEnt = ent
                 bestDist = dist
             end
@@ -99,10 +99,8 @@ local CLICKS = objects.Enum({
     "input:CLICK_3"
 })
 
-listener:onAnyPress(function(self, controlEnum)
-    if CLICKS[controlEnum] then
-        click(self, controlEnum)
-    end
+listener:onPress(CLICKS, function(self, controlEnum)
+    click(self, controlEnum)
 end)
 
 

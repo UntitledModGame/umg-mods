@@ -208,7 +208,7 @@ end
 
 
 
-local function inputTyping(self, controlEnum)
+local function inputTyping(controlEnum)
     if controlEnum == chatControls.BACKSPACE then
         -- get the byte offset to the last UTF-8 character in the string.
         local byteoffset = utf8.offset(currMessage, -1)
@@ -225,7 +225,7 @@ local function inputTyping(self, controlEnum)
 end
 
 
-local function inputNotTyping(self, controlEnum)
+local function inputNotTyping(controlEnum)
     if controlEnum == chatControls.CHAT then
         if isTyping then
             if #currMessage>0 then
@@ -243,14 +243,14 @@ local function inputNotTyping(self, controlEnum)
 end
 
 
-listener:onAnyPress(function(self, controlEnum)
+listener:onAnyPress(function(_self, controlEnum)
     --[[
         TODO: Do we need to do blocking here???
     ]]
     if isTyping then
-        inputTyping(self, controlEnum)
+        inputTyping(controlEnum)
     else
-        inputNotTyping(self, controlEnum)
+        inputNotTyping(controlEnum)
     end
 end)
 
