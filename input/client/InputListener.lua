@@ -49,7 +49,9 @@ end
 
 
 
+local enumTc = typecheck.assert("control")
 function InputListener:isDown(controlEnum)
+    enumTc(controlEnum)
     return self.controlManager:isDownForListener(controlEnum, self)
 end
 
@@ -61,11 +63,13 @@ function InputListener:onUpdate(func)
     self.updateCallback = func
 end
 
+local assertControl = typecheck.assert("control")
 local controlFuncTc = typecheck.assert("control|table", "function")
 function InputListener:onPress(controlEnum, func)
     controlFuncTc(controlEnum, func)
     if type(controlEnum) == "table" then
         for _, enum in ipairs(controlEnum) do
+            assertControl(enum)
             self.pressCallbacks[enum] = func
         end
     else

@@ -18,6 +18,8 @@ components.project("topdownControl", "controllable")
 if client then
 -- CLIENT-SIDE ONLY:
 
+require("client.defaultControls")
+
 
 local controllableGroup = umg.group("topdownControl", "x", "y")
 
@@ -38,16 +40,16 @@ local function updateMoveEnt(self, ent)
     ent.moveX = false
     ent.moveY = false
 
-    if self:isDown(input.UP) then
+    if self:isDown("control:UP") then
         ent.moveY = ent.y - DELTA
     end
-    if self:isDown(input.DOWN) then
+    if self:isDown("control:DOWN") then
         ent.moveY = ent.y + DELTA
     end
-    if self:isDown(input.LEFT) then
+    if self:isDown("control:LEFT") then
         ent.moveX = ent.x - DELTA
     end
-    if self:isDown(input.RIGHT) then
+    if self:isDown("control:RIGHT") then
         ent.moveX = ent.x + DELTA
     end
 end

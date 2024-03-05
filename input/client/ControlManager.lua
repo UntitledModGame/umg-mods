@@ -324,6 +324,9 @@ end
 
 local function tryPress(self, inputVal)
     local controlEnums = getControlEnums(self, inputVal)
+    if inputVal == "scroll:up" then
+        print(umg.inspect(controlEnums))
+    end
     for _, controlEnum in ipairs(controlEnums) do
         if not anyOtherInputsPressed(self, controlEnum, inputVal) then
             press(self, controlEnum)
@@ -381,15 +384,15 @@ end
 
 function ControlManager:wheelmoved(dx,dy)
     if dx > 0 then
-        emitScroll("right")
+        emitScroll(self, "right")
     elseif dx < 0 then
-        emitScroll("left")
+        emitScroll(self, "left")
     end
 
     if dy > 0 then
-        emitScroll("up")
+        emitScroll(self, "up")
     elseif dy < 0 then
-        emitScroll("down")
+        emitScroll(self, "down")
     end
 end
 

@@ -65,7 +65,7 @@ end
 
 
 
-local function click(self, controlEnum)
+local function click(self, controlEnum, button)
     local worldX, worldY = rendering.toWorldCoords(input.getPointerPosition())
     local dvec = rendering.getCamera():getDimensionVector()
 
@@ -86,12 +86,22 @@ local function click(self, controlEnum)
     if bestEnt then
         local camera = rendering.getCamera()
         local dimension = camera:getDimension()
-        client.send("clickables:entityClickedOnClient", bestEnt, controlEnum, worldX, worldY, dimension)
-        clickEntityClient(bestEnt, controlEnum, worldX, worldY, dimension)
+        client.send("clickables:entityClickedOnClient", bestEnt, button, worldX, worldY, dimension)
+        clickEntityClient(bestEnt, button, worldX, worldY, dimension)
         self:claim(controlEnum)
     end
 end
 
+
+
+-- We pass in a number-enum for each click type;
+-- This is *kinda* weird and hacky, but oh well :)
+-- Gotta get this shit done yesterday.
+local clickToNumber = {
+    ["input:CLICK_1"] = 1,
+    ["input:CLICK_2"] = 2,
+    ["input:CLICK_3"] = 3
+} 
 
 local CLICKS = objects.Enum({
     "input:CLICK_1",
@@ -100,7 +110,8 @@ local CLICKS = objects.Enum({
 })
 
 listener:onPress(CLICKS, function(self, controlEnum)
-    click(self, controlEnum)
+    local button = clickToNumber[controlEnum]
+    click(self, controlEnum, button)
 end)
 
 

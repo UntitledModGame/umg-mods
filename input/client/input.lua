@@ -183,6 +183,7 @@ end
 
 
 function input.defineControls(controls)
+    assert(#controls > 0, "No controls defined?")
     controlManager:defineControls(controls)
 end
 

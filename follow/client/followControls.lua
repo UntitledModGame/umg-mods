@@ -7,7 +7,7 @@ input.defineControls({
 })
 
 
-input.defineControls({
+input.setControls({
     ["follow:CAMERA_PAN"] = {"key:lshift"},
     ["follow:ZOOM_IN"] = {"scroll:up"},
     ["follow:ZOOM_OUT"] = {"scroll:down"},

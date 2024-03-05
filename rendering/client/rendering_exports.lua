@@ -6,7 +6,6 @@ local rendering = {}
 
 local animate = require("client.animate")
 
-local draw = require("client.draw")
 local misc = require("client.misc")
 
 

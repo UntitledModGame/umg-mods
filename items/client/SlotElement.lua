@@ -17,6 +17,7 @@ function SlotElement:init(args)
     self.image = ui.elements.Image({})
     self:addChild(self.image)
     self.hasImage = false
+    self:setOption("backgroundColor", {0.76,0.76,0.76})
 end
 
 
