@@ -1,4 +1,7 @@
 
+require("client.followControls")
+
+
 
 local follow = {}
 
@@ -32,23 +35,23 @@ end
 
 
 
-local listener = input.Listener({priority = 0})
+local listener = input.InputListener({priority = 0})
 
 
-function listener:wheelmoved(dx,dy)
+listener:onPress({"follow:ZOOM_IN", "follow:ZOOM_OUT"}, function(self, controlEnum)
     local camera = rendering.getCamera()
     local speed = zoom_speed or DEFAULT_ZOOM_SPEED
-    if dy > 0 then
+    if controlEnum == "follow:ZOOM_IN" then
         camera.scale = camera.scale * (1+(1/speed))
-    else
+    else -- else, ZOOM_OUT
         camera.scale = camera.scale * (1-(1/speed))
     end
 
     -- now clamp:
     camera.scale = math.clamp(camera.scale, MIN_ZOOM, MAX_ZOOM)
 
-    self:lockMouseWheel()
-end
+    self:claim(controlEnum)
+end)
 
 
 
@@ -65,6 +68,10 @@ local MOUSE_PAN_THRESHOLD = 50 -- X pixels from the screen border to move.
 
 
 local function followMouseNearEdge(dt)
+    --[[
+        if the mouse is near the edge of the screen,
+        pan the camera towards that direction.
+    ]]
     local dx,dy = 0,0
     local x, y = input.getPointerPosition()
     local w, h = love.graphics.getWidth(), love.graphics.getHeight()
@@ -90,33 +97,20 @@ end
 
 
 
-local CAMERA_PAN_ACTIVE = false
+local isPanning = false
 
 
 
 
-function listener:keypressed(key, scancode, isrepeat)
-    local inputEnum = self:getKeyboardInputEnum(scancode)
-    if inputEnum == input.BUTTON_SHIFT then
-        -- camera is panning / in free mode
-        CAMERA_PAN_ACTIVE = true
-        self:lockKey(scancode)
+
+listener:onUpdate(function(self, dt)
+    if self:isDown("follow:CAMERA_PAN") then
+        isPanning = true
+    else
+        isPanning = false
     end
-end
 
-
-
-function listener:keyreleased(key, scancode, isrepeat)
-    local inputEnum = self:getKeyboardInputEnum(scancode)
-    if inputEnum == input.BUTTON_SHIFT then
-        -- Camera is no longer panning
-        CAMERA_PAN_ACTIVE = false
-    end
-end
-
-
-function listener:update(dt)
-    if CAMERA_PAN_ACTIVE then
+    if isPanning then
         -- move the camera if the mouse is near edge of screen
         followMouseNearEdge(dt)
     else
@@ -124,31 +118,30 @@ function listener:update(dt)
         last_camx = camera.x
         last_camy = camera.y
     end
-end
+end)
 
 
 
-local MIDDLE_MOUSE_BUTTON = 3
 
-function listener:mousemoved(x,y,dx,dy)
-    if CAMERA_PAN_ACTIVE and love.mouse.isDown(MIDDLE_MOUSE_BUTTON) then
+listener:onPointerMoved(function(self, dx,dy)
+    if isPanning and self:isDown("follow:CAMERA_PAN") then
         -- use middle mouse button to pan camera
+        local x,y = input.getPointerPosition()
         local wx1, wy1 = rendering.toWorldCoords(x-dx,y-dy)
         local wx2, wy2 = rendering.toWorldCoords(x,y)
         local wdx, wdy = wx2-wx1, wy1-wy2
         last_camx = last_camx - wdx
         last_camy = last_camy + wdy
 
-        self:lockMouseButton(MIDDLE_MOUSE_BUTTON)
+        self:claim("follow:CAMERA_PAN")
     end
-end
-
+end)
 
 
 local CAMERA_PAN_PRIORITY = 50
 
 umg.answer("rendering:getCameraPosition", function()
-    if CAMERA_PAN_ACTIVE then
+    if isPanning then
         return last_camx, last_camy, CAMERA_PAN_PRIORITY
     end
     return nil -- allow for another system to take control

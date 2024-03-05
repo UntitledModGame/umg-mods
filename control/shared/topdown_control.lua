@@ -24,7 +24,7 @@ local controllableGroup = umg.group("topdownControl", "x", "y")
 
 
 
-local listener = input.Listener({priority = -1})
+local listener = input.InputListener({priority = -1})
 
 
 
@@ -34,33 +34,32 @@ local DELTA = 100
 -- this number ^^^ is pretty arbitrary, we just need it to be sufficiently big
 
 
-local function updateMoveEnt(ent)
+local function updateMoveEnt(self, ent)
     ent.moveX = false
     ent.moveY = false
 
-    if listener:isControlDown(input.UP) then
+    if self:isDown(input.UP) then
         ent.moveY = ent.y - DELTA
     end
-    if listener:isControlDown(input.DOWN) then
+    if self:isDown(input.DOWN) then
         ent.moveY = ent.y + DELTA
     end
-    if listener:isControlDown(input.LEFT) then
+    if self:isDown(input.LEFT) then
         ent.moveX = ent.x - DELTA
     end
-    if listener:isControlDown(input.RIGHT) then
+    if self:isDown(input.RIGHT) then
         ent.moveX = ent.x + DELTA
     end
 end
 
 
-
-function listener:update()
+listener:onUpdate(function(self, dt)
     for _, ent in ipairs(controllableGroup) do
         if sync.isClientControlling(ent) then
-            updateMoveEnt(ent)
+            updateMoveEnt(self, ent)
         end
     end
-end
+end)
 
 
 

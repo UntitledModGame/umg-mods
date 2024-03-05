@@ -245,7 +245,7 @@ end
 
 listener:onAnyPress(function(self, controlEnum)
     --[[
-        TODO: Set keyboard blocking here!!!!
+        TODO: Do we need to do blocking here???
     ]]
     if isTyping then
         inputTyping(self, controlEnum)

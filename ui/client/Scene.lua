@@ -21,7 +21,7 @@ end)
 
 
 
-local listener = input.Listener({
+local listener = input.InputListener({
     priority = 10
 })
 

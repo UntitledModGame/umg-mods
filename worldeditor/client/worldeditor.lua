@@ -151,6 +151,11 @@ umg.answer("rendering:getCameraPosition", function()
 end)
 
 
+error([[
+    TODO: all of this shit needs to be redone as per input refactor.
+    commit-hash before this error message was placed: c2163ab
+]])
+
 local function updateCameraPosition(dt)
     local dx = 0
     local dy = 0

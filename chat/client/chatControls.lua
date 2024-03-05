@@ -8,9 +8,9 @@ local t = {
 input.defineControls(t)
 
 input.setControls({
-    ["chat:COMMAND"] = "key:slash",
-    ["chat:CHAT"] = "key:return",
-    ["chat:BACKSPACE"] = "key:backspace",
+    ["chat:COMMAND"] = {"key:/"},
+    ["chat:CHAT"] = {"key:return"},
+    ["chat:BACKSPACE"] = {"key:backspace"},
 })
 
 
