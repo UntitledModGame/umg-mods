@@ -6,6 +6,9 @@ local chat = {}
 
 local LinkedList = require("_libs.doubly_linked_list")
 
+local chatControls = require("client.chatControls")
+
+
 local constants = require("constants")
 
 
@@ -22,11 +25,6 @@ local CHAT_WRAP_WIDTH = 300
 local TARGET_CHAT_HEIGHT = 6 -- This number is actually quite arbitrary
 
 
-
-local IS_COMMAND_CHAR = {}
-for _,char in ipairs(constants.COMMAND_CHARS) do
-    IS_COMMAND_CHAR[char] = true
-end
 
 
 
@@ -177,15 +175,15 @@ end
 
 
 
-local listener = input.Listener({priority = 5})
+local listener = input.InputListener({priority = 5})
 
 
 
-function listener:textinput(t)
+listener:onTextInput(function(t)
     if isTyping then
         currMessage = currMessage .. t
     end
-end
+end)
 
 
 
@@ -196,11 +194,11 @@ end
     make a proper chat channels API and stuff, and make it consistent
 ]]
 local DEFAULT_CHANNEL = constants.DEFAULT_CHANNEL
-
+local COMMAND_CHAR = constants.COMMAND_CHAR
 
 function chat.message(msg, channel)
     local startChar = msg:sub(1,1)
-    if IS_COMMAND_CHAR[startChar] then
+    if COMMAND_CHAR == startChar then
         doCommand(msg)
     else
         channel = channel or DEFAULT_CHANNEL
@@ -210,21 +208,25 @@ end
 
 
 
-function listener:keypressed(_, scancode, _)
-    --[[
-        TODO: Set keyboard blocking here!!!!
-    ]]
-    if scancode == "backspace" then
+local function inputTyping(self, controlEnum)
+    if controlEnum == chatControls.BACKSPACE then
         -- get the byte offset to the last UTF-8 character in the string.
-        if isTyping then
-            local byteoffset = utf8.offset(currMessage, -1)
-            if byteoffset then
-                -- remove the last UTF-8 character.
-                -- string.sub operates on bytes rather than UTF-8 characters, so we couldn't do string.sub(text, 1, -2).
-                currMessage = string.sub(currMessage, 1, byteoffset - 1)
-            end
+        local byteoffset = utf8.offset(currMessage, -1)
+        if byteoffset then
+            -- remove the last UTF-8 character.
+            -- string.sub operates on bytes rather than UTF-8 characters, so we couldn't do string.sub(text, 1, -2).
+            currMessage = string.sub(currMessage, 1, byteoffset - 1)
         end
-    elseif scancode == "return" then
+    elseif controlEnum == chatControls.CHAT then
+        isTyping = not isTyping
+    elseif controlEnum == "ui:EXIT" then
+        isTyping = false
+    end
+end
+
+
+local function inputNotTyping(self, controlEnum)
+    if controlEnum == chatControls.CHAT then
         if isTyping then
             if #currMessage>0 then
                 chat.message(currMessage)
@@ -232,22 +234,33 @@ function listener:keypressed(_, scancode, _)
             end
         end
         isTyping = not isTyping
-    elseif IS_COMMAND_CHAR[scancode] then
+    elseif controlEnum == chatControls.OPEN_COMMAND then
         -- shorthand for typing commands
         if not isTyping then
             isTyping = true
         end
-    elseif scancode == "escape" then
-        isTyping = false
     end
 end
 
 
-function listener:update()
+listener:onAnyPress(function(self, controlEnum)
+    --[[
+        TODO: Set keyboard blocking here!!!!
+    ]]
+    if isTyping then
+        inputTyping(self, controlEnum)
+    else
+        inputNotTyping(self, controlEnum)
+    end
+end)
+
+
+
+listener:onUpdate(function(self)
     if isTyping then
         self:lockKeyboard()
     end
-end
+end)
 
 
 

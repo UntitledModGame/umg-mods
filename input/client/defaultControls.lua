@@ -3,15 +3,15 @@ local input = require("client.input")
 
 
 input.defineControls({
-    "CLICK_A", -- main click interaction
-    "CLICK_B", -- opening uis, inspecting stuff, etc
-    "CLICK_C"
+    "input:CLICK_1", -- main click interaction
+    "input:CLICK_2", -- opening uis, inspecting stuff, etc
+    "input:CLICK_3"
 })
 
 
 input.setControls({
-    CLICK_A = {"mouse:1"},
-    CLICK_B = {"mouse:2"},
-    CLICK_C = {"mouse:3"}
+    ["input:CLICK_1"] = {"mouse:1"},
+    ["input:CLICK_2"] = {"mouse:2"},
+    ["input:CLICK_3"] = {"mouse:3"}
 })
 

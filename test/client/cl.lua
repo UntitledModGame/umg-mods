@@ -37,9 +37,6 @@ juice.particles.define("smoke", psys)
 
 
 
-local listener = input.Listener({priority = 2})
-
-
 local function getPlayerWithXY()
     --[[
         this sucks!
@@ -62,7 +59,7 @@ end
 local drawGroup = umg.group("drawable", "x", "y")
 
 
-function listener:keypressed(key, scancode, isrepeat)
+umg.on("@keypressed", function(k,scancode)
     if scancode == "q" then
         error("stop")
     end
@@ -75,7 +72,7 @@ function listener:keypressed(key, scancode, isrepeat)
             e.vz = 400
         end
     end
-end
+end)
 
 
 umg.on("@draw", function()

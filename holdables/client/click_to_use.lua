@@ -6,7 +6,7 @@ local usage = require("shared.usage")
 local controllableGroup = umg.group("inventory", "controllable", "clickToUseHoldItem")
 
 
-local listener = input.Listener({priority = 2})
+local listener = input.InputListener({priority = 2})
 
 
 local function useItems(mode)
@@ -22,11 +22,11 @@ end
 
 
 
-function listener:mousepressed(x, y, button, istouch, presses)
+listener:onPress("input:CLICK_1", function(self)
     local mode = button
     local used = useItems(mode)
     if used then
         -- only lock if an item was actually used
         self:lockMouseButton(button)
     end
-end
+end)

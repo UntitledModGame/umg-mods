@@ -34,7 +34,7 @@ end
 if client then
 
 local clickEnts = umg.group("x", "y", "clickable")
-local listener = input.Listener({priority = 0})
+local listener = input.InputListener({priority = 0})
 
 -- pretty arbitrary size, lol
 local clickEntPartition = spatial.DimensionPartition(200)
@@ -63,8 +63,10 @@ local function clickEntityClient(ent, button, worldX, worldY, dimension)
     umg.call("clickables:entityClickedClient", ent, button, worldX, worldY, dimension)
 end
 
-function listener:mousepressed(mx, my, button, istouch, presses)
-    local worldX, worldY = rendering.toWorldCoords(mx, my)
+
+
+local function click(self, controlEnum)
+    local worldX, worldY = rendering.toWorldCoords(input.getPointerPosition())
     local dvec = rendering.getCamera():getDimensionVector()
 
     local bestDist = math.huge
@@ -84,11 +86,25 @@ function listener:mousepressed(mx, my, button, istouch, presses)
     if bestEnt then
         local camera = rendering.getCamera()
         local dimension = camera:getDimension()
-        client.send("clickables:entityClickedOnClient", bestEnt, button, worldX, worldY, dimension)
-        clickEntityClient(bestEnt, button, worldX, worldY, dimension)
-        self:lockMouseButton(button)
+        client.send("clickables:entityClickedOnClient", bestEnt, controlEnum, worldX, worldY, dimension)
+        clickEntityClient(bestEnt, controlEnum, worldX, worldY, dimension)
+        self:claim(controlEnum)
     end
 end
+
+
+local CLICKS = objects.Enum({
+    "input:CLICK_1",
+    "input:CLICK_2",
+    "input:CLICK_3"
+})
+
+listener:onAnyPress(function(self, controlEnum)
+    if CLICKS[controlEnum] then
+        click(self, controlEnum)
+    end
+end)
+
 
 end
 

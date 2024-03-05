@@ -1,3 +1,3 @@
 {
-    "uses": ["spatial", "input", "sync", "components"]
+    "uses": ["spatial", "input", "sync", "components", "objects"]
 }

@@ -61,14 +61,27 @@ function InputListener:onUpdate(func)
     self.updateCallback = func
 end
 
-local controlFuncTc = typecheck.assert("control", "function")
+local controlFuncTc = typecheck.assert("control|table", "function")
 function InputListener:onPress(controlEnum, func)
     controlFuncTc(controlEnum, func)
-    self.pressCallbacks[controlEnum] = func
+    if type(controlEnum) == "table" then
+        for _, enum in ipairs(controlEnum) do
+            self.pressCallbacks[enum] = func
+        end
+    else
+        self.pressCallbacks[controlEnum] = func
+    end
 end
+
 function InputListener:onRelease(controlEnum, func)
     controlFuncTc(controlEnum, func)
-    self.releaseCallbacks[controlEnum] = func
+    if type(controlEnum) == "table" then
+        for _, enum in ipairs(controlEnum) do
+            self.releaseCallbacks[enum] = func
+        end
+    else
+        self.releaseCallbacks[controlEnum] = func
+    end
 end
 
 
@@ -105,13 +118,13 @@ end
 ]]
 function InputListener:_dispatchPress(controlEnum)
     local func = self.pressCallbacks[controlEnum] or dummy
-    func(self)
+    func(self, controlEnum)
     self:anyPressCallback(controlEnum)
 end
 
 function InputListener:_dispatchRelease(controlEnum)
     local func = self.releaseCallbacks[controlEnum] or dummy
-    func(self)
+    func(self, controlEnum)
     self:anyReleaseCallback(controlEnum)
 end
 
