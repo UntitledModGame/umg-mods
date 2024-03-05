@@ -62,13 +62,6 @@ function rendering.toWorldCoords(x,y)
 end
 
 
-function rendering.getWorldMousePosition()
-    local cam = rendering.getCamera()
-    return cam:getMousePosition()
-end
-
-
-
 rendering.animate = animate.animate;
 rendering.animateEntity = animate.animateEntity;
 

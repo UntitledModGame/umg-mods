@@ -93,7 +93,6 @@ local function update(listener, dt)
             regardless of whether the system claimed it.
             Maybe we should only dispatch if it was claimed BY this exact Listener?
             ]]
-            print("release?")
             listener:_dispatchRelease(controlEnum)
         elseif event.type == EVENTS.POINTER_MOVED then
             listener:pointerMovedCallback(event.dx, event.dy)
@@ -171,7 +170,7 @@ end)
 
 
 
-function input.getPointer()
+function input.getPointerPosition()
     --[[
         TODO: provide support for controllers in future here.
 

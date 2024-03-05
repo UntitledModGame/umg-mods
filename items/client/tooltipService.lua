@@ -94,7 +94,7 @@ end
 
 
 local function drawTooltip(itemEnt)
-    local mx,my = love.mouse.getPosition()
+    local mx,my = input.getPointerPosition()
     local font = lg.getFont()
 
     local name = getItemName(itemEnt)

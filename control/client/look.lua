@@ -13,7 +13,7 @@ umg.on("@tick", function()
     for _, ent in ipairs(lookAtMouseGroup) do
         if sync.isClientControlling(ent) then
             if ent.lookAtMouse then
-                local lx, ly = rendering.getWorldMousePosition()
+                local lx, ly = rendering.toWorldCoords(input.getPointerPosition())
                 ent.lookX, ent.lookY = lx, ly
             else
                 ent.lookX, ent.lookY = nil, nil

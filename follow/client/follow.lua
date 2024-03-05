@@ -66,7 +66,7 @@ local MOUSE_PAN_THRESHOLD = 50 -- X pixels from the screen border to move.
 
 local function followMouseNearEdge(dt)
     local dx,dy = 0,0
-    local x, y = love.mouse.getPosition()
+    local x, y = input.getPointerPosition()
     local w, h = love.graphics.getWidth(), love.graphics.getHeight()
     local camera = rendering.getCamera()
     local speed = (DEFAULT_PAN_SPEED * dt) / camera.scale

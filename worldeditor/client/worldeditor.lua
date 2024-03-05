@@ -122,7 +122,7 @@ umg.on("rendering:drawEffects", ORDER, function()
         local tinfo = we.getCurrentToolInfo()
         if tinfo and tinfo.tool and tinfo.tool.draw then
             local tool = tinfo.tool
-            local x, y = rendering.getWorldMousePosition()
+            local x, y = rendering.toWorldCoords(input.getPointerPosition())
             tool:draw(x,y)
         end
         love.graphics.pop()
@@ -192,7 +192,7 @@ end)
 
 local function applyTool(toolInfo)
     if (not DONE_THIS_TICK) then
-        local worldX, worldY = rendering.getWorldMousePosition()
+        local worldX, worldY = rendering.toWorldCoords(input.getPointerPosition())
         ensureServerKnowsTool(toolInfo)
         client.send("worldeditor:useTool", toolInfo.name, worldX, worldY, BUTTON_1)
         DONE_THIS_TICK = true

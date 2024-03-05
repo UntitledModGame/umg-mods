@@ -228,7 +228,7 @@ umg.on("rendering:drawUI", ORDER, function()
         local x,y,w,hh = slotElem:getView()
         local cX,cY = x+w/2, y+hh/2
         lg.setLineWidth(5)
-        lg.line(cX,cY, love.mouse.getPosition())
+        lg.line(cX,cY, input.getPointerPosition())
     end
 end)
 
