@@ -9,7 +9,7 @@ local listener = input.InputListener({priority = 2})
 
 local INTERACT = "interaction:TOGGLE"
 
-listener:onPress(INTERACT, function(self)
+listener:onPressed(INTERACT, function(self)
     if toggleables.areMostOpen() then
         -- most player uis are open;
         -- therefore, we want to close.

@@ -38,7 +38,7 @@ end
 local listener = input.InputListener({priority = 0})
 
 
-listener:onPress({"input:SCROLL_UP", "input:SCROLL_DOWN"}, function(self, controlEnum)
+listener:onPressed({"input:SCROLL_UP", "input:SCROLL_DOWN"}, function(self, controlEnum)
     local camera = rendering.getCamera()
     local speed = zoom_speed or DEFAULT_ZOOM_SPEED
     if controlEnum == "input:SCROLL_UP" then

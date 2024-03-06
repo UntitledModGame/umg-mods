@@ -36,17 +36,14 @@ input.setControls({
 })
 
 
-listener:onPress("ZOOM_IN", function(self)
+listener:onPressed("ZOOM_IN", function(self)
     ...
 end)
-listener:onRelease("ZOOM_IN", function(self)
+listener:onReleased("ZOOM_IN", function(self)
     ...
 end)
 listener:isDown(controlEnum)
 
-listener:onControlPress(function(self, controlEnum)
-    ...
-end
 
 
 listener:onUpdate(function(self)

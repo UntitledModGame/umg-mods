@@ -109,7 +109,7 @@ local CLICKS = objects.Enum({
     "input:CLICK_3"
 })
 
-listener:onPress(CLICKS, function(self, controlEnum)
+listener:onPressed(CLICKS, function(self, controlEnum)
     local button = clickToNumber[controlEnum]
     click(self, controlEnum, button)
 end)

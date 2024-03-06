@@ -61,7 +61,7 @@ end
 
 local assertControl = typecheck.assert("control")
 local controlFuncTc = typecheck.assert("control|table", "function")
-function InputListener:onPress(controlEnum, func)
+function InputListener:onPressed(controlEnum, func)
     controlFuncTc(controlEnum, func)
     if type(controlEnum) == "table" then
         for _, enum in ipairs(controlEnum) do
@@ -73,7 +73,7 @@ function InputListener:onPress(controlEnum, func)
     end
 end
 
-function InputListener:onRelease(controlEnum, func)
+function InputListener:onReleased(controlEnum, func)
     controlFuncTc(controlEnum, func)
     if type(controlEnum) == "table" then
         for _, enum in ipairs(controlEnum) do

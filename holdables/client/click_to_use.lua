@@ -22,7 +22,7 @@ end
 
 
 
-listener:onPress("input:CLICK_1", function(self)
+listener:onPressed("input:CLICK_1", function(self)
     local mode = button
     local used = useItems(mode)
     if used then
