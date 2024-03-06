@@ -226,38 +226,6 @@ end
 
 
 
-function Element:mousepressed(mx, my, button, istouch, presses)
-    -- should be called when mouse clicks on this element
-    if not self:contains(mx,my) then
-        return false
-    end
-    util.tryCall(self.onMousePress, self, mx, my, button, istouch, presses)
-    umg.call("ui:elementMousePress", self, mx, my, button, istouch, presses)
-    self._isPressedBy[button] = true
-
-    local child = getCapturedChild(self, mx, my)
-    if child then
-        child:mousepressed(mx, my, button, istouch, presses)
-        return true
-    end
-    return not self:isPassthrough()
-end
-
-
-function Element:mousereleased(mx, my, button, istouch, presses)
-    -- should be called when mouse is released ANYWHERE in the scene
-    if not self._isPressedBy[button] then
-        return -- This event doesn't concern this element
-    end
-    
-    util.tryCall(self.onMouseRelease, self, mx, my, button, istouch, presses)
-    self._isPressedBy[button] = false
-
-    forcePropagateToChildren(self, "mousereleased", mx, my, button, istouch, presses)
-end
-
-
-
 
 
 local function endHover(self, mx, my)
