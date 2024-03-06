@@ -38,12 +38,14 @@ end
 local listener = input.InputListener({priority = 0})
 
 
-listener:onPress({"follow:ZOOM_IN", "follow:ZOOM_OUT"}, function(self, controlEnum)
+listener:onPress({"input:SCROLL_UP", "input:SCROLL_DOWN"}, function(self, controlEnum)
     local camera = rendering.getCamera()
     local speed = zoom_speed or DEFAULT_ZOOM_SPEED
-    if controlEnum == "follow:ZOOM_IN" then
+    if controlEnum == "input:SCROLL_UP" then
+        -- zoom in:
         camera.scale = camera.scale * (1+(1/speed))
-    else -- else, ZOOM_OUT
+    else 
+        -- else, zoom out:
         camera.scale = camera.scale * (1-(1/speed))
     end
 
