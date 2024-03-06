@@ -258,7 +258,7 @@ end)
 
 listener:onUpdate(function(self)
     if isTyping then
-        self:lockKeyboard()
+        self:lockTextInput()
     end
 end)
 

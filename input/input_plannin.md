@@ -232,12 +232,10 @@ With this, we will also need the InputListeners to be able to lock the entire in
 
 ----
 Ok but we probably want to provide a very high-level access to locking
-input families.
+text-input directly.
 Something like:
 ```lua
-inpList:lockKeyboard()
-inpList:lockMouse()
-inpList:lockWheel()
+inpList:lockTextInput()
 ```
 
 

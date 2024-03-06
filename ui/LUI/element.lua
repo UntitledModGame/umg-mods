@@ -344,7 +344,7 @@ function Element:controlPressed(controlEnum)
 
     local consumed = propagatePressToChildren(self, controlEnum)
     if consumed then
-        return true -- control was consumed by some child!!!
+        return consumed -- control was consumed by some child!!!
     else
         -- else, control was consumed if we arent passthrough.
         return not self:isPassthrough()

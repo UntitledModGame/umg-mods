@@ -26,48 +26,30 @@ local listener = input.InputListener({
 })
 
 
-function listener:mousepressed(mx, my, button, istouch, presses)
-    local captured = scene:mousepressed(mx, my, button, istouch, presses)
-    if captured then
-        self:lockMouseButton(button)
+listener:onAnyPress(function(self, controlEnum)
+    local consumed = scene:controlPress(controlEnum)
+    if consumed then
+        self:claim(controlEnum)
     end
-end
+end)
 
 
-function listener:mousereleased(mx,my, button)
-    scene:mousereleased(mx, my, button)
-end
+listener:onAnyRelease(function(_self, controlEnum)
+    scene:controlRelease(controlEnum)
+end)
 
 
-function listener:keypressed(key, scancode, isrepeat)
-    local captured = scene:keypressed(key, scancode, isrepeat)
+listener:onTextInput(function(self, txt)
+    local captured = scene:textInput(txt)
     if captured then
-        self:lockKey(scancode)
+        self:lockTextInput()
     end
-end
+end)
 
 
-function listener:keyreleased(key, scancode, isrepeat)
-    scene:keyreleased(key, scancode, isrepeat)
-end
-
-
-function listener:mousemoved(x,y,dx,dy)
-    scene:mousemoved(x,y,dx,dy)
-end
-
-
-function listener:wheelmoved(dx,dy)
-    scene:wheelmoved(dx,dy)
-end
-
-
-function listener:textinput(t)
-    local captured = scene:textinput(t)
-    if captured then
-        self:lockKeyboard()
-    end
-end
+listener:onPointerMoved(function(_self, dx,dy)
+    scene:pointerMoved(dx,dy)
+end)
 
 
 

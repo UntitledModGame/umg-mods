@@ -37,15 +37,11 @@ end
 
 
 
-function InputListener:lockKeyboard()
+function InputListener:lockTextInput()
+    -- we just lock the keyboard
     self.controlManager:lockFamily("key")
 end
-function InputListener:lockMouse()
-    self.controlManager:lockFamily("mouse")
-end
-function InputListener:lockScroll()
-    self.controlManager:lockFamily("scroll")
-end
+
 
 
 
