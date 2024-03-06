@@ -7,7 +7,8 @@ local options = require("LUI.options")
 local Element = {}
 
 
-local function dispatchToChildren(self, funcName, ...)
+
+local function propagateToActiveChildren(self, funcName, ...)
     for _, child in ipairs(self:getChildren()) do
         if child:isActive() then
             child[funcName](child, ...)
@@ -16,8 +17,7 @@ local function dispatchToChildren(self, funcName, ...)
 end
 
 
-
-local function forceDispatchToChildren(self, funcName, ...)
+local function forcePropagateToChildren(self, funcName, ...)
     for _, child in ipairs(self:getChildren()) do
         child[funcName](child, ...)
     end
@@ -50,9 +50,10 @@ function Element:setup()
     self._view = {x=0,y=0,w=0,h=0} -- last seen view
     self._active = false
     self._hovered = false
-    self._clickedOnBy = {--[[
-        [button] -> true/false
-        whether this element is being clicked on by a mouse button
+    self._isPressedBy = {--[[
+        [controlEnum] -> true/false
+        whether this element is being "pressed on" by a controlEnum.
+        (Being "pressed-on" means that a control was pressed whilst that element was hovered)
     ]]}
 
     self._markedAsRoot = false
@@ -232,7 +233,7 @@ function Element:mousepressed(mx, my, button, istouch, presses)
     end
     util.tryCall(self.onMousePress, self, mx, my, button, istouch, presses)
     umg.call("ui:elementMousePress", self, mx, my, button, istouch, presses)
-    self._clickedOnBy[button] = true
+    self._isPressedBy[button] = true
 
     local child = getCapturedChild(self, mx, my)
     if child then
@@ -245,14 +246,14 @@ end
 
 function Element:mousereleased(mx, my, button, istouch, presses)
     -- should be called when mouse is released ANYWHERE in the scene
-    if not self._clickedOnBy[button] then
+    if not self._isPressedBy[button] then
         return -- This event doesn't concern this element
     end
     
     util.tryCall(self.onMouseRelease, self, mx, my, button, istouch, presses)
-    self._clickedOnBy[button] = false
+    self._isPressedBy[button] = false
 
-    forceDispatchToChildren(self, "mousereleased", mx, my, button, istouch, presses)
+    forcePropagateToChildren(self, "mousereleased", mx, my, button, istouch, presses)
 end
 
 
@@ -289,9 +290,9 @@ end
 
 
 
-function Element:mousemoved(mx, my, dx, dy, istouch)
-    util.tryCall(self.onMouseMoved, self, mx, my, dx, dy, istouch)
-    umg.call("ui:elementMouseMoved", self, mx, my, dx, dy, istouch)
+function Element:pointerMoved(mx, my, dx, dy, istouch)
+    util.tryCall(self.onPointerMoved, self, dx, dy)
+    umg.call("ui:elementPointerMoved", self, mx, my, dx, dy, istouch)
 
     updateHover(self, mx, my)
     for _,child in ipairs(self:getChildren()) do
@@ -303,40 +304,75 @@ function Element:mousemoved(mx, my, dx, dy, istouch)
         startHover(child, mx, my)
     end
 
-    dispatchToChildren(self, "mousemoved", mx, my, dx, dy, istouch)
+    propagateToActiveChildren(self, "pointerMoved", dx, dy)
 end
 
 
-function Element:wheelmoved(dx,dy)
-    if self:isHovered() then
-        util.tryCall(self.onWheelMoved, self, dx, dy)
-        dispatchToChildren(self, "wheelmoved", dx, dy)
+
+
+local function shouldPropagate(self, controlEnum, childElem)
+    -- should we propagate `controlEnum` to `childElem`..?
+    if self.shouldPropagate then
+        return self:shouldPropagate(controlEnum, childElem)
+    end
+    return childElem:isHovered() or childElem:isFocused()
+end
+
+
+local function propagatePressToChildren(self, controlEnum)
+    local consumed = false
+    for _, child in ipairs(self:getChildren()) do
+        if child:isActive() and shouldPropagate(self, controlEnum, child) then
+            consumed = consumed or child:controlPress(controlEnum)
+        end
+    end
+    return consumed
+end
+
+
+
+
+function Element:controlPressed(controlEnum)
+    -- should be called when mouse clicks on this element
+    local px,py = input.getPointerPosition()
+    if not self:contains(px,py) then
+        return false
+    end
+    util.tryCall(self.onControlPress, self, controlEnum)
+    umg.call("ui:elementControlPress", self, controlEnum)
+    self._isPressedBy[controlEnum] = true
+
+    local consumed = propagatePressToChildren(self, controlEnum)
+    if consumed then
+        return true -- control was consumed by some child!!!
+    else
+        -- else, control was consumed if we arent passthrough.
+        return not self:isPassthrough()
     end
 end
 
+function Element:controlReleased(controlEnum)
+    -- should be called when mouse is released ANYWHERE in the scene
+    if not self._isPressedBy[controlEnum] then
+        return -- This event doesn't concern this element
+    end
+    
+    util.tryCall(self.onControlRelease, self, controlEnum)
+    self._isPressedBy[controlEnum] = nil
 
-
-function Element:keypressed(key, scancode, isrepeat)
-    util.tryCall(self.onKeyPress, self, key, scancode, isrepeat)
-    dispatchToChildren(self, "keypressed", key, scancode, isrepeat)
+    forcePropagateToChildren(self, "controlReleased", controlEnum)
 end
 
 
-function Element:keyreleased(key, scancode)
-    util.tryCall(self.onKeyRelease, self, key, scancode)
-    dispatchToChildren(self, "keyreleased", key, scancode)
-end
-
-
-function Element:textinput(text)
+function Element:textInput(text)
     util.tryCall(self.onTextInput, self, text)
-    dispatchToChildren(self, "textinput", text)
+    propagateToActiveChildren(self, "onTextInput", text)
 end
 
 
 function Element:resize(x,y)
     util.tryCall(self.onResize, self, x, y)
-    dispatchToChildren(self, "resize", x, y)
+    propagateToActiveChildren(self, "resize", x, y)
 end
 
 
@@ -514,9 +550,10 @@ end
 
 
 
-function Element:isClickedOnBy(button)
+
+function Element:isPressedBy(controlEnum)
     -- returns true iff the element is clicked on by
-    return self._clickedOnBy[button]
+    return self._isPressedBy[controlEnum]
 end
 
 

@@ -50,8 +50,9 @@ local function computePosition(elem, value)
 end
 
 
-function Thumb:onMouseMoved(x, y, dx, dy, istouch)
+function Thumb:onPointerMoved(dx, _dy)
     if self:isClickedOnBy(SCROLL_BUTTON) then
+        local x,_y = input.getPointerPosition()
         local parent = self:getParent()
         dx = getLimitedDelta(self, x, dx)
         parent.position = clamp(parent.position + dx, 0, parent.totalSize)

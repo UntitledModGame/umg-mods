@@ -45,8 +45,9 @@ function ScrollThumb:onMousePressed(button)
     return button == SCROLL_BUTTON
 end
 
-function ScrollThumb:onMouseMoved(x, y, dx, dy, istouch)
+function ScrollThumb:onPointerMoved(_dx, dy)
     if self:isClickedOnBy(SCROLL_BUTTON) then
+        local _x,y = input.getPointerPosition()
         local parent = self:getParent()
         dy = getLimitedDelta(self, y, dy)
         parent.position = clamp(parent.position + dy, 0, parent.totalSize)

@@ -324,9 +324,6 @@ end
 
 local function tryPress(self, inputVal)
     local controlEnums = getControlEnums(self, inputVal)
-    if inputVal == "scroll:up" then
-        print(umg.inspect(controlEnums))
-    end
     for _, controlEnum in ipairs(controlEnums) do
         if not anyOtherInputsPressed(self, controlEnum, inputVal) then
             press(self, controlEnum)
@@ -378,7 +375,10 @@ end
 
 local function emitScroll(self, dir)
     local inputVal = fromPair(FAMILIES.scroll, dir)
+    -- press, then release immediately
+    -- (Scroll events are completely instantaneous)
     tryPress(self, inputVal)
+    tryRelease(self, inputVal)
 end
 
 
