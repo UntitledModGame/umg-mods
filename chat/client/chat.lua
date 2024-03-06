@@ -243,7 +243,7 @@ local function inputNotTyping(controlEnum)
 end
 
 
-listener:onAnyPress(function(_self, controlEnum)
+listener:onAnyPressed(function(_self, controlEnum)
     --[[
         TODO: Do we need to do blocking here???
     ]]

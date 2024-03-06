@@ -85,11 +85,11 @@ function InputListener:onRelease(controlEnum, func)
 end
 
 
-function InputListener:onAnyPress(func)
+function InputListener:onAnyPressed(func)
     funcTc(func)
     self.anyPressCallback = func
 end
-function InputListener:onAnyRelease(func)
+function InputListener:onAnyReleased(func)
     funcTc(func)
     self.anyReleaseCallback = func
 end

@@ -7,6 +7,7 @@ local DEFAULT_PADDING = 12
 
 
 function Button:init(args)
+    objects.assertKeys(args, {"onClick"})
     self.onClick = args.onClick
     self.text = args.text
     self.padding = args.padding or DEFAULT_PADDING
@@ -53,7 +54,7 @@ end
 
 
 
-function Button:onMousePress(x,y)
+function Button:onControlPress(x,y)
     if self.onClick then
         self:onClick(x,y)
     end
