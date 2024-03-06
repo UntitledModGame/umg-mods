@@ -551,8 +551,10 @@ end
 
 
 
+local isPressedByTc = typecheck.assert("control")
 function Element:isPressedBy(controlEnum)
     -- returns true iff the element is clicked on by
+    isPressedByTc(controlEnum)
     return self._isPressedBy[controlEnum]
 end
 
