@@ -307,7 +307,7 @@ function Element:controlPressed(controlEnum)
         return false
     end
     util.tryCall(self.onControlPress, self, controlEnum)
-    umg.call("ui:elementControlPress", self, controlEnum)
+    umg.call("ui:elementControlPressed", self, controlEnum)
     self._isPressedBy[controlEnum] = true
 
     local consumed = propagatePressToChildren(self, controlEnum)
@@ -326,6 +326,7 @@ function Element:controlReleased(controlEnum)
     end
     
     util.tryCall(self.onControlRelease, self, controlEnum)
+    umg.call("ui:elementControlReleased", self, controlEnum)
     self._isPressedBy[controlEnum] = nil
 
     forcePropagateToChildren(self, "controlReleased", controlEnum)

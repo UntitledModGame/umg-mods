@@ -6,8 +6,8 @@ umg.defineEvent("ui:elementUnfocus")
 
 umg.defineEvent("ui:elementRender")
 
-umg.defineEvent("ui:elementControlPress")
-umg.defineEvent("ui:elementControlRelease")
+umg.defineEvent("ui:elementControlPressed")
+umg.defineEvent("ui:elementControlReleased")
 
 umg.defineEvent("ui:elementPointerMoved")
 
