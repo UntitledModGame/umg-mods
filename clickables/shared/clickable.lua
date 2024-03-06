@@ -98,14 +98,14 @@ end
 -- This is *kinda* weird and hacky, but oh well :)
 -- Gotta get this shit done yesterday.
 local clickToNumber = {
-    ["input:CLICK_1"] = 1,
-    ["input:CLICK_2"] = 2,
+    ["input:CLICK_PRIMARY"] = 1,
+    ["input:CLICK_SECONDARY"] = 2,
     ["input:CLICK_3"] = 3
 } 
 
 local CLICKS = objects.Enum({
-    "input:CLICK_1",
-    "input:CLICK_2",
+    "input:CLICK_PRIMARY",
+    "input:CLICK_SECONDARY",
     "input:CLICK_3"
 })
 

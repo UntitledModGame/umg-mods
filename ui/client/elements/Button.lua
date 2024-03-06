@@ -54,8 +54,9 @@ end
 
 
 
-function Button:onControlPress(x,y)
-    if self.onClick then
+function Button:onControlPress(controlEnum)
+    if controlEnum == "input:CLICK_PRIMARY" then
+        local x,y = input.getPointerPosition()
         self:onClick(x,y)
     end
 end
