@@ -100,13 +100,11 @@ end
 local clickToNumber = {
     ["input:CLICK_PRIMARY"] = 1,
     ["input:CLICK_SECONDARY"] = 2,
-    ["input:CLICK_3"] = 3
 } 
 
 local CLICKS = objects.Enum({
     "input:CLICK_PRIMARY",
     "input:CLICK_SECONDARY",
-    "input:CLICK_3"
 })
 
 listener:onPressed(CLICKS, function(self, controlEnum)

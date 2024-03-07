@@ -36,7 +36,7 @@ function Input:onRender(x,y,w,h)
 end
 
 
-function Input:onMousePress()
+function Input:onClickPrimary()
     self:focus()
 end
 

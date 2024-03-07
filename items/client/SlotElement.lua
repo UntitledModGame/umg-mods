@@ -119,8 +119,12 @@ end
 
 
 
-function SlotElement:onMousePress(mx, my, button)
-    slotService.interact(self, button)
+function SlotElement:onClickPrimary()
+    slotService.interactPrimary(self)
+end
+
+function SlotElement:onClickSecondary()
+    slotService.interactSecondary(self)
 end
 
 

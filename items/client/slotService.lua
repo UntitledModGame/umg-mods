@@ -8,9 +8,6 @@ local slotService = {}
 
 
 
-local ALPHA_BUTTON = 1
-local BETA_BUTTON = 2
-
 
 
 local focusedSlotElem = nil
@@ -190,29 +187,27 @@ end
 
 
 
-
-function slotService.interact(slotElem, button)
+function slotService.interactPrimary(slotElem)
     local isFocused = getFocused()
-
-    if button == ALPHA_BUTTON then
-        if isFocused then
-            local count = getMoveCount()
-            tryMoveOrSwap(slotElem, count)
-            resetFocus()
-        else
-            focusElement(slotElem, false)
-        end
-
-    elseif button == BETA_BUTTON then
-        if isFocused then
-            local targInv, targSlot = slotElem:getInventory(), slotElem:getSlot()
-            tryMove(targInv, targSlot, 1)
-        else
-            focusElement(slotElem, true)
-        end
+    if isFocused then
+        local count = getMoveCount()
+        tryMoveOrSwap(slotElem, count)
+        resetFocus()
+    else
+        focusElement(slotElem, false)
     end
 end
 
+
+function slotService.interactSecondary(slotElem)
+    local isFocused = getFocused()
+    if isFocused then
+        local targInv, targSlot = slotElem:getInventory(), slotElem:getSlot()
+        tryMove(targInv, targSlot, 1)
+    else
+        focusElement(slotElem, true)
+    end
+end
 
 
 

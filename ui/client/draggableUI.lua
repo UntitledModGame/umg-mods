@@ -3,7 +3,7 @@
 
 local function getClickedOnChild(luiElem)
     for _, child in ipairs(luiElem:getChildren()) do
-        if child:isClickedByPrimary() then
+        if child:isClicked() then
             return child
         end
     end

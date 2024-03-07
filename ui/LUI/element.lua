@@ -267,8 +267,9 @@ function Element:pointerMoved(dx, dy)
 
     local px,py = input.getPointerPosition()
     updateHover(self, px,py)
-    for _,child in ipairs(self:getChildren()) do
-        updateHover(child, px,py)
+
+    if self:isRoot() and self:contains(px,py) then
+        startHover(self, px,py)
     end
 
     local child = getCapturedChild(self, px,py)
@@ -316,6 +317,8 @@ local function propagatePressToChildren(self, controlEnum)
     local consumed = false
     for _, child in ipairs(self:getChildren()) do
         if child:isActive() then
+            -- don't want to propagate to child if the controlEnum
+            -- has been consumed by another child
             consumed = consumed or child:controlPressed(controlEnum)
         end
     end
@@ -324,8 +327,8 @@ end
 
 
 local function dispatchControl(self, controlEnum)
-    local consumed 
-    if clickControls[controlEnum] then
+    local consumed
+    if clickControls:has(controlEnum) then
         -- it's special!
         if controlEnum == clickControls["input:CLICK_PRIMARY"] then
             util.tryCall(self.onClickPrimary, self)

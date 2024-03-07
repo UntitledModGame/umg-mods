@@ -18,7 +18,7 @@ function GridInventory:init(args)
 end
 
 
-function GridInventory:onMousePress(button)
+function GridInventory:onClickPrimary(button)
     interactionService.interact(button, self.inventory, self.slot)
 end
 
@@ -43,7 +43,7 @@ function SlotElement:init(args)
     self.inventory = args.inventory
 end
 
-function SlotElement:onMousePress(button)
+function SlotElement:onClickPrimary(button)
     --[[
         something like this....?
     ]]
