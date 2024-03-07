@@ -27,7 +27,7 @@ local listener = input.InputListener({
 
 
 listener:onAnyPressed(function(self, controlEnum)
-    local consumed = scene:controlPress(controlEnum)
+    local consumed = scene:controlPressed(controlEnum)
     if consumed then
         self:claim(controlEnum)
     end
@@ -35,7 +35,7 @@ end)
 
 
 listener:onAnyReleased(function(_self, controlEnum)
-    scene:controlRelease(controlEnum)
+    scene:controlReleased(controlEnum)
 end)
 
 

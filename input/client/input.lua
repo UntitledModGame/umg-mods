@@ -37,13 +37,13 @@ local EVENTS = objects.Enum({
 local ControlManager = require("client.ControlManager")
 
 local controlManager = ControlManager({
-    onControlPress = function(controlEnum)
+    onControlPressed = function(controlEnum)
         eventBuffer:add({
             type = EVENTS.PRESS,
             controlEnum = controlEnum
         })
     end,
-    onControlRelease = function(controlEnum)
+    onControlReleased = function(controlEnum)
         eventBuffer:add({
             type = EVENTS.RELEASE,
             controlEnum = controlEnum

@@ -261,18 +261,19 @@ end
 
 
 
-function Element:pointerMoved(mx, my, dx, dy, istouch)
+function Element:pointerMoved(dx, dy)
     util.tryCall(self.onPointerMoved, self, dx, dy)
-    umg.call("ui:elementPointerMoved", self, mx, my, dx, dy, istouch)
+    umg.call("ui:elementPointerMoved", self, dx, dy)
 
-    updateHover(self, mx, my)
+    local px,py = input.getPointerPosition()
+    updateHover(self, px,py)
     for _,child in ipairs(self:getChildren()) do
-        updateHover(child, mx, my)
+        updateHover(child, px,py)
     end
 
-    local child = getCapturedChild(self, mx, my)
+    local child = getCapturedChild(self, px,py)
     if child then
-        startHover(child, mx, my)
+        startHover(child, px,py)
     end
 
     propagateToActiveChildren(self, "pointerMoved", dx, dy)
@@ -315,7 +316,7 @@ local function propagatePressToChildren(self, controlEnum)
     local consumed = false
     for _, child in ipairs(self:getChildren()) do
         if child:isActive() then
-            consumed = consumed or child:controlPress(controlEnum)
+            consumed = consumed or child:controlPressed(controlEnum)
         end
     end
     return consumed
@@ -373,7 +374,7 @@ end
 
 function Element:textInput(text)
     util.tryCall(self.onTextInput, self, text)
-    propagateToActiveChildren(self, "onTextInput", text)
+    propagateToActiveChildren(self, "textInput", text)
 end
 
 

@@ -98,12 +98,12 @@ end
 
 function ControlManager:init(args)
     objects.assertKeys(args, {
-        "onControlPress", "onControlRelease"
+        "onControlPressed", "onControlReleased"
     })
     objects.inlineMethods(self)
 
-    self.onControlPress = args.onControlPress
-    self.onControlRelease = args.onControlRelease
+    self.onControlPressed = args.onControlPressed
+    self.onControlReleased = args.onControlReleased
 
     self.controlToInputs = {--[[
         [controlEnum] -> Set{
@@ -302,7 +302,7 @@ end
 
 
 local function press(self, controlEnum)
-    self.onControlPress(controlEnum)
+    self.onControlPressed(controlEnum)
 end
 
 
@@ -333,7 +333,7 @@ end
 
 
 local function release(self, controlEnum)
-    self.onControlRelease(controlEnum)
+    self.onControlReleased(controlEnum)
 end
 
 
