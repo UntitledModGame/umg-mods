@@ -45,8 +45,6 @@ function Element:setup()
     -- Parent of this element.
     -- Could be a Scene, or a parent Element
 
-    self._passThrough = true -- see :setPassthrough
-
     self._view = {x=0,y=0,w=0,h=0} -- last seen view
     self._active = false
     self._hovered = false
@@ -55,6 +53,8 @@ function Element:setup()
         whether this element is being "pressed on" by a controlEnum.
         (Being "pressed-on" means that a control was pressed whilst that element was hovered)
     ]]}
+
+    self._passThrough = false
 
     self._markedAsRoot = false
     -- if this is set to true, then we will accept this element as a "root".
@@ -99,6 +99,9 @@ function Element:makeRoot()
     self._markedAsRoot = true
 end
 
+function Element:setPassthrough(bool)
+    self._passThrough = bool
+end
 
 
 local function setParent(childElem, parent)
@@ -278,19 +281,40 @@ end
 
 
 
-local function shouldPropagate(self, controlEnum, childElem)
-    -- should we propagate `controlEnum` to `childElem`..?
-    if self.shouldPropagate then
-        return self:shouldPropagate(controlEnum, childElem)
+local function shouldAcceptControl(self, controlEnum)
+    -- should we accept `controlEnum`?
+    if self.shouldAcceptControl then
+        -- 
+        -- OVERRIDDABLE:
+        -- `shouldAcceptControl` is an overridable method
+        --
+        return self:shouldAcceptControl(controlEnum)
     end
-    return childElem:isHovered() or childElem:isFocused()
+    -- else; we accept if the element is hovered OR focused.
+    return self:isHovered() or self:isFocused()
+end
+
+
+local clickControls = objects.Enum({
+    --[[
+    by default, these controls are special; 
+        since they are tied directly to the pointer.
+    They also will block more aggressively;
+    (For example; if you click on a UI element, the click will be blocked, 
+    and will not propagate to external systems)
+    ]]
+    "input:CLICK_PRIMARY",
+    "input:CLICK_SECONDARY"
+})
+for controlEnum, _v in pairs(clickControls) do 
+    assert(input.isValidControl(controlEnum))
 end
 
 
 local function propagatePressToChildren(self, controlEnum)
     local consumed = false
     for _, child in ipairs(self:getChildren()) do
-        if child:isActive() and shouldPropagate(self, controlEnum, child) then
+        if child:isActive() then
             consumed = consumed or child:controlPress(controlEnum)
         end
     end
@@ -298,25 +322,39 @@ local function propagatePressToChildren(self, controlEnum)
 end
 
 
+local function dispatchControl(self, controlEnum)
+    local consumed 
+    if clickControls[controlEnum] then
+        -- it's special!
+        if controlEnum == clickControls["input:CLICK_PRIMARY"] then
+            util.tryCall(self.onClickPrimary, self)
+        elseif controlEnum == clickControls["input:CLICK_SECONDARY"] then
+            util.tryCall(self.onClickSecondary, self)
+        end
+        consumed = not self._passThrough
+    else
+        consumed = util.tryCall(self.onControlPress, self, controlEnum)
+    end
+
+    umg.call("ui:elementControlPressed", self, controlEnum)
+    self._isPressedBy[controlEnum] = true
+    return consumed
+end
 
 
 function Element:controlPressed(controlEnum)
-    -- should be called when mouse clicks on this element
-    local px,py = input.getPointerPosition()
-    if not self:contains(px,py) then
+    --[[
+        this function will return `true` is the controlEnum should be blocked
+            for other systems;
+        false, otherwise.
+    ]]
+    if not shouldAcceptControl(self, controlEnum) then
         return false
     end
-    util.tryCall(self.onControlPress, self, controlEnum)
-    umg.call("ui:elementControlPressed", self, controlEnum)
-    self._isPressedBy[controlEnum] = true
 
-    local consumed = propagatePressToChildren(self, controlEnum)
-    if consumed then
-        return consumed -- control was consumed by some child!!!
-    else
-        -- else, control was consumed if we arent passthrough.
-        return not self:isPassthrough()
-    end
+    local consumed = dispatchControl(self, controlEnum)
+    consumed = propagatePressToChildren(self, controlEnum) or consumed
+    return consumed
 end
 
 function Element:controlReleased(controlEnum)
@@ -460,20 +498,6 @@ end
 
 
 
-function Element:setPassthrough(boolean)
-    --[[
-        if an element is passThrough, it will return `false` when capturing a key,
-        IFF the key didn't hit a child.
-        This is super useful for Elements that don't do anything on their own,
-        but contain a bunch of children that need to be layed out.
-    ]]
-    self._passThrough = boolean
-end
-
-function Element:isPassthrough()
-    return self._passThrough
-end
-
 
 
 
@@ -525,6 +549,11 @@ function Element:isPressedBy(controlEnum)
     -- returns true iff the element is clicked on by
     isPressedByTc(controlEnum)
     return self._isPressedBy[controlEnum]
+end
+
+-- QOL helper func:
+function Element:isClicked()
+    return self:isPressedBy("input:CLICK_PRIMARY")
 end
 
 

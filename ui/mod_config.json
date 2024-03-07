@@ -2,6 +2,7 @@
   "type": "base",
   "uses": [
     "rendering", "input",
-    "typecheck", "reducers"
+    "typecheck", "reducers",
+    "objects"
   ]
 }

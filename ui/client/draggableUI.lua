@@ -1,13 +1,9 @@
 
 
 
--- TODO: map this properly with input mod
-local DRAG_BUTTON = 1
-
-
-local function getClickedOnChild(luiElem, button)
+local function getClickedOnChild(luiElem)
     for _, child in ipairs(luiElem:getChildren()) do
-        if child:isClickedOnBy(button) then
+        if child:isClickedByPrimary() then
             return child
         end
     end
@@ -16,7 +12,7 @@ end
 
 
 local function dragElement(ent, luiElem, dx, dy)
-    local child = getClickedOnChild(luiElem, DRAG_BUTTON)
+    local child = getClickedOnChild(luiElem)
     if not child then
         -- if child isn't clicked on; then drag.
         ent.uiRegion = ent.uiRegion:offset(dx, dy)
@@ -28,8 +24,8 @@ end
 
 
 
-umg.on("ui:elementMouseMoved", function(luiElem, mx, my, dx, dy, istouch)
-    if luiElem:isClickedOnBy(DRAG_BUTTON) then
+umg.on("ui:elementPointerMoved", function(luiElem, dx, dy)
+    if luiElem:isClicked() then
         local ent = luiElem:getEntity()
         if ent and ent.draggableUI and ent.uiRegion then
             dragElement(ent, luiElem, dx, dy)

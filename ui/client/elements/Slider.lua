@@ -12,7 +12,6 @@ end
 
 
 
-local SCROLL_BUTTON = 1
 
 local function getLimitedDelta(elem, mouseX, dx)
     --[[
@@ -51,7 +50,7 @@ end
 
 
 function Thumb:onPointerMoved(dx, _dy)
-    if self:isClickedOnBy(SCROLL_BUTTON) then
+    if self:isClicked() then
         local x,_y = input.getPointerPosition()
         local parent = self:getParent()
         dx = getLimitedDelta(self, x, dx)

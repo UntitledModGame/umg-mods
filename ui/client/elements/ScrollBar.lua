@@ -39,14 +39,9 @@ end
 local DEFAULT_SENSITIVITY = 5
 
 
-local SCROLL_BUTTON = 1
-
-function ScrollThumb:onMousePressed(button)
-    return button == SCROLL_BUTTON
-end
 
 function ScrollThumb:onPointerMoved(_dx, dy)
-    if self:isClickedOnBy(SCROLL_BUTTON) then
+    if self:isClicked() then
         local _x,y = input.getPointerPosition()
         local parent = self:getParent()
         dy = getLimitedDelta(self, y, dy)

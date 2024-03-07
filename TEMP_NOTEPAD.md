@@ -61,3 +61,45 @@ Because it's not about "clicks"... it's about controls.
 
 
 
+
+# ISSUE NUM-3:
+How do we do propagation/blocking correctly for clicks?
+
+If we are hovering an inventory, we want CLICKS to be blocked.
+BUT... we don't want `move:UP` to be blocked, for example.
+
+How do we determine what does/doesn't get blocked?
+
+IDEA: 
+Ok... this is a bit hacky...
+but we could just hardcode clicks to be blocked.
+
+IDEA-2:
+We could differentiate between pointer-controls, and "normal" controls.
+Pointer controls are blocked iff the pointer is hovering the elem.
+Normal controls are not blocked.
+
+
+Lets break it down a bit:
+We have a few main problems at large here:
+
+Do we accept controls?
+    - clicks: only if pointer contains
+    - others: always.
+
+Do we block controls?
+    - clicks: only if pointer contains
+    - others: only if the element blocks it explicitly
+
+How do we tell if something is a click?
+    We could hardcode it
+    We could provide an API for checking
+    Question-bus...?
+
+- SOLN: Hardcode everything for now.
+    Put TODOs where appropriate
+
+
+How do we do `passThrough`?
+(Do it the same as it was before)
+
