@@ -6,7 +6,7 @@ local itemGroup = umg.view("stackSize")
 
 itemGroup:onAdded(function(itemEnt)
     if not itemEnt:isShared("maxStackSize") then
-        error("item entity doesn't have a shared .maxStackSize component: " .. itemEnt:type())
+        error("item entity doesn't have a .maxStackSize shcomp: " .. itemEnt:type())
     end
     if not itemEnt.stackSize then
         itemEnt.stackSize = 1

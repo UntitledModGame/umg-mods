@@ -20,7 +20,7 @@ They all use the same system, and IMO, that's *beautiful.*
 ## idea / implementation:
 
 IDEA:
-Have `effect` be regular entities! (ie could be item entities)
+Have `effect` be entities! (ie could be item entities)
 
 -------------
 

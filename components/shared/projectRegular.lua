@@ -17,26 +17,26 @@ ent:removeComponent("image")
 local targetToProjectorGroupSet = {--[[
     Maps targetComponents to the projectors.
 
-    [targetComponent] -> List{ group1, group2, group3, ... }
-    A list of groups that are used for projection onto targetComponent.
+    [targComp] -> List{ group1, group2, group3, ... }
+    A list of groups that are used for projection onto targComp.
 ]]}
 
 
 local type = type
 
 
-local function setupProjection(group, targetComponent, targetValue)
+local function setupProjection(group, targComp, targetValue)
     if type(targetValue) == "function" then
         local func = targetValue
         group:onAdded(function(ent)
-            if not ent[targetComponent] then
-                ent[targetComponent] = func(ent, targetComponent)
+            if not ent[targComp] then
+                ent[targComp] = func(ent, targComp)
             end
         end)
     else
         group:onAdded(function(ent)
-            if not ent[targetComponent] then
-                ent[targetComponent] = targetValue
+            if not ent[targComp] then
+                ent[targComp] = targetValue
             end
         end)
     end
@@ -45,33 +45,33 @@ end
 
 
 
-local function setupProjectionRemoval(group, targetComponent)
+local function setupProjectionRemoval(group, targComp)
     group:onRemoved(function(ent)
         --[[
             This is kinda bad, since it makes entity deletion
-            O(n^2), where `n` is the number of regular components being projected to our targetComponent.
+            O(n^2), where `n` is the number of rcomps being projected to our targComp.
 
             I think its fine tho.
         ]]
-        if not ent[targetComponent] then
+        if not ent[targComp] then
             return -- wtf??? okay...? How tf did this happen?!??
         end
 
-        if ent:isShared(targetComponent) then
-            return -- we can't remove shared components.
+        if ent:isShared(targComp) then
+            return -- we can't remove shcomps
         end
 
-        local projectorGroupList = targetToProjectorGroupSet[targetComponent]
+        local projectorGroupList = targetToProjectorGroupSet[targComp]
         for _, pGroup in ipairs(projectorGroupList) do
             if pGroup:has(ent) then
-                -- We shouldn't remove the targetComponent,
+                -- We shouldn't remove the targComp,
                 -- since there is another group that is projecting it.
                 return
             end
         end
 
-        -- okay, remove the targetComponent:
-        ent:removeComponent(targetComponent)
+        -- okay, remove the targComp:
+        ent:removeComponent(targComp)
     end)
 end
 
@@ -105,32 +105,32 @@ end
 
 ]]
 local projectTc = typecheck.assert("string|table", "string")
-local function project(projection, targetComponent, targetValue)
+local function project(projection, targComp, targetValue)
     --[[
         `projection` is either a component that is being projected,
         or a group who's members will be projected.
 
-        `targetComponent` is the component that will be created.
+        `targComp` is the component that will be created.
 
         `targetValue` is either a component value,
             or a function that generates a component value.
     ]]
-    projectTc(projection, targetComponent)
+    projectTc(projection, targComp)
     targetValue = targetValue or true
 
     local group = getGroup(projection)
 
     -- add group to projector group list:
-    local set = targetToProjectorGroupSet[targetComponent]
+    local set = targetToProjectorGroupSet[targComp]
     if not set then
         set = objects.Set()
-        targetToProjectorGroupSet[targetComponent] = set
+        targetToProjectorGroupSet[targComp] = set
     end
     set:add(group)
 
     -- set up group projection addition/removal:
-    setupProjection(group, targetComponent, targetValue)
-    setupProjectionRemoval(group, targetComponent)
+    setupProjection(group, targComp, targetValue)
+    setupProjectionRemoval(group, targComp)
 end
 
 

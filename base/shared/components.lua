@@ -72,7 +72,7 @@ local function doChecks(compName, compInfo)
         if compInfo.kind ~= "shared" then
             local funcExists, key = deepSearchFor(compInfo.table, "function")
             if funcExists then
-                error("table is a regular component, but has a function inside of it. Components with functions embedded in them cannot be regular. The key with the function is: " .. tostring(key))
+                error("table is an rcomp, but has a function inside of it. Components with functions embedded in them cannot be regular. The key with the function is: " .. tostring(key))
             end
         end
     end
