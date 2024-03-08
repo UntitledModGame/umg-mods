@@ -40,6 +40,7 @@ end
 umg.on("@newEntityType", function(etype, _etypename)
     local buffer = objects.Array()
     for comp, _ in pairs(etype) do
+        -- buffer, so we don't modify etype during pairs loop
         buffer:add(comp)
     end
 
