@@ -2,7 +2,19 @@
 
 local components = {}
 
-components.project = require("shared.project_component")
+
+local projectRegular = require("shared.projectRegular")
+local projectShared = require("shared.projectShared")
+
+
+components.projectRegular = projectRegular
+components.projectShared = projectShared
+
+
+function components.project(srcComp, targetComp, value)
+    projectRegular(srcComp, targetComp, value)
+    projectShared(srcComp, targetComp, value)
+end
 
 
 local typechecking = require("shared.typechecking")
