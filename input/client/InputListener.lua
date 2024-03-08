@@ -64,6 +64,7 @@ local controlFuncTc = typecheck.assert("control|table", "function")
 function InputListener:onPressed(controlEnum, func)
     controlFuncTc(controlEnum, func)
     if type(controlEnum) == "table" then
+        assert(#controlEnum > 0, "No controls to listen to?")
         for _, enum in ipairs(controlEnum) do
             assertControl(enum)
             self.pressCallbacks[enum] = func

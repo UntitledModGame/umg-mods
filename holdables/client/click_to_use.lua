@@ -9,11 +9,11 @@ local controllableGroup = umg.group("inventory", "controllable", "clickToUseHold
 local listener = input.InputListener({priority = 2})
 
 
-local function useItems(mode)
+local function useItems()
     local used = false
     for _, ent in ipairs(controllableGroup) do
         if sync.isClientControlling(ent) then
-            local wasUsed = usage.useHoldItem(ent, mode)
+            local wasUsed = usage.useHoldItem(ent)
             used = used or wasUsed
         end
     end
@@ -22,11 +22,10 @@ end
 
 
 
-listener:onPressed("input:CLICK_PRIMARY", function(self)
-    local mode = button
-    local used = useItems(mode)
+listener:onPressed("input:CLICK_PRIMARY", function(self, controlEnum)
+    local used = useItems()
     if used then
         -- only lock if an item was actually used
-        self:lockMouseButton(button)
+        self:claim(controlEnum)
     end
 end)

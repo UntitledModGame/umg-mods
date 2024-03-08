@@ -60,6 +60,10 @@ local function inRange(ent, dist)
 end
 
 local function clickEntityClient(ent, button, worldX, worldY, dimension)
+    --[[
+        question:
+        Why do we need this, when
+    ]]
     umg.call("clickables:entityClickedClient", ent, button, worldX, worldY, dimension)
 end
 
@@ -102,10 +106,10 @@ local clickToNumber = {
     ["input:CLICK_SECONDARY"] = 2,
 } 
 
-local CLICKS = objects.Enum({
+local CLICKS = {
     "input:CLICK_PRIMARY",
     "input:CLICK_SECONDARY",
-})
+}
 
 listener:onPressed(CLICKS, function(self, controlEnum)
     local button = clickToNumber[controlEnum]

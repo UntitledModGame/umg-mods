@@ -99,7 +99,23 @@ How do we tell if something is a click?
 - SOLN: Hardcode everything for now.
     Put TODOs where appropriate
 
-
 How do we do `passThrough`?
 (Do it the same as it was before)
+
+
+
+
+# ISSUE NUM-4:
+What do we do about `clickable` entities?
+
+passing `button` in as a number is weird.
+Perhaps we pass a string enum in...?
+
+OK.
+We kinda have 2 options here:
+
+- Use a string enum, pass over to server
+- Have 2 separate events (<-- stupid, bloaty idea)
+
+
 
