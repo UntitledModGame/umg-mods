@@ -1,0 +1,6 @@
+{
+    "type": "base",
+    "uses": [
+        "spatial", "objects", "sync", "input", "components"
+    ]
+}

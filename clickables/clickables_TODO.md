@@ -20,3 +20,5 @@ local ent = clickables.getClickedOnEntity()
 That way, we could implement dragging REALLY EASILY,
 just by using it inside of `@update` on the server.
 
+Also; what about an event: `clickables:entityDragged`...?
+

@@ -24,7 +24,7 @@ local shoot
 if server then
     shoot = require("server.shooter")
 elseif client then
-    function shoot(holderEnt, item, shooter)
+    function shoot(holderEnt, useEnt, shooter)
         --[[
             TODO: 
             Here, on clientside, we should add options for more interesting stuff.
@@ -36,27 +36,23 @@ end
 
 
 
-local function callShoot(holderEnt, item, shooter)
-    umg.call("projectiles:useShooter", holderEnt, item, shooter)
-    shoot(holderEnt, item, shooter)
+local function callShoot(holderEnt, useEnt, shooter)
+    umg.call("projectiles:useShooter", holderEnt, useEnt, shooter)
+    shoot(holderEnt, useEnt, shooter)
 end
 
 
-local function tryShoot(holderEnt, item)
-    local shooter = item.shooter
+local function tryShoot(holderEnt, useEnt)
+    local shooter = useEnt.shooter
     if isValid(shooter) then
-        callShoot(holderEnt, item, shooter)
+        callShoot(holderEnt, useEnt, shooter)
     end
 end
 
 
 
 
---[[
-    TODO:
-    Change this to `usables:useEntity` when we do the refactor!
-]]
-umg.on("holdables:useItem", function(holderEnt, item) 
+umg.on("execution:use", function(holderEnt, useEnt) 
     local targX, targY = holderEnt.lookX, holderEnt.lookY
     if (not targX) or (not targY) then
         return
@@ -65,10 +61,10 @@ umg.on("holdables:useItem", function(holderEnt, item)
         return
     end
 
-    if item.shooter then
-        local shooter = item.shooter
+    if useEnt.shooter then
+        local shooter = useEnt.shooter
         assert(type(shooter) == "table", "ent.shooter needs to be a table")
-        tryShoot(holderEnt, item)
+        tryShoot(holderEnt, useEnt)
     end
 end)
 
