@@ -1,5 +1,5 @@
 
-# mortality components
+# health components
 
 ```lua
 

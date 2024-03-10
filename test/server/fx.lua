@@ -22,7 +22,7 @@ end)
 ]]
 local D=10
 
-umg.on("mortality:entityDeath", function(ent)
+umg.on("health:entityDeath", function(ent)
     if ent.spawnOnDeath then
         for _, t in ipairs(ent.spawnOnDeath) do
             if t.chance > math.random() then

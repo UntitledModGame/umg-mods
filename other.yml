@@ -52,7 +52,7 @@ globals:
     any: true
   sound:
     any: true
-  mortality:
+  health:
     any: true
   scheduling:
     any: true

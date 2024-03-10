@@ -2,11 +2,11 @@
 
 
 
-local mortality = {}
+local health = {}
 
 if server then
     -- server-side only API
-    mortality.server = {}
+    health.server = {}
 end
 
 
@@ -19,14 +19,14 @@ local damage = require("shared.damage")
 
 if server then
 -- server-side only API
-mortality.server = {}
+health.server = {}
 
-function mortality.server.kill(ent)
+function health.server.kill(ent)
     -- only callable by server
     kill(ent)
 end
 
-function mortality.server.damage(ent, dmg)
+function health.server.damage(ent, dmg)
     damage(ent, dmg)
 end
 
@@ -34,4 +34,4 @@ end
 
 
 
-umg.expose("mortality", mortality)
+umg.expose("health", health)

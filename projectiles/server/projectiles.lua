@@ -70,13 +70,13 @@ local function hit(projEnt, targetEnt)
         -- TODO: Do extra stuff here!!!
         -- We need a question for damage modifiers!
         if dmg > 0 then
-            mortality.server.damage(targetEnt, dmg)
+            health.server.damage(targetEnt, dmg)
         end
     end
 
     umg.call("projectiles:projectileHit", projEnt, targetEnt)
 
-    mortality.server.kill(projEnt)
+    health.server.kill(projEnt)
 end
 
 

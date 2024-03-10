@@ -4,6 +4,6 @@
         "typecheck", "sync", "objects", "state",
         "input", "rendering", "reducers", "physics",
         "items", "control", "spatial", "juice", "sound",
-        "mortality"
+        "health"
     ]
 }

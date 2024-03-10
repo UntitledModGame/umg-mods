@@ -10,18 +10,18 @@ if server then
 -- Only the server has the authority to kill entities.
 
 function kill(ent)
-    umg.call("mortality:entityDeath", ent)
+    umg.call("health:entityDeath", ent)
     ent:delete()
 end
 
 end
 
 
-sync.proxyEventToClient("mortality:entityDeath")
+sync.proxyEventToClient("health:entityDeath")
 
 
 
-umg.on("mortality:entityDeath", function(ent)
+umg.on("health:entityDeath", function(ent)
     if ent.onDeath then
         ent:onDeath()
     end

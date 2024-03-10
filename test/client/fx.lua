@@ -1,7 +1,7 @@
 
 
 
-umg.on("mortality:entityDeath", function(ent)
+umg.on("health:entityDeath", function(ent)
     if ent.deathSound then
         local eds = ent.deathSound
         local name, vol = eds.name, eds.vol
@@ -15,7 +15,7 @@ umg.on("mortality:entityDeath", function(ent)
 end)
 
 
-umg.on("mortality:entityDamaged", function(ent)
+umg.on("health:entityDamaged", function(ent)
     if ent.slime then
         sound.playSound("splat2", 0.15)
         juice.particles.emit("slime", ent.x, ent.y, ent.z, 2)
