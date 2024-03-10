@@ -12,21 +12,9 @@ through modular parts
 
 You could imagine this as a giant mech running around, with mechanical arms, weilding multiple miniguns and stuff, and having entities orbiting around them. This would be really cool.
 
-# For example:
-```
-Effect:
-When active,
-2 shields will orbit you and absorb damage
-```
 
-Also, we should add an API to integrate this nicely with other systems:
-```
-Effect:
-All attached entities gain +5% damage
-```
-
-## Interesting idea:
-We could make holdable items project to attachable component…? That could be a great idea!
+# Super amazing idea:
+We could make holdable items project to attachable component…? 
 
 
 
@@ -42,3 +30,20 @@ parentEnt.attached = Set({ ent1, ent2, ... })
 ```
 
 From there, when syncing ent1 position, we can send parentEnt inside the packet too
+
+
+
+
+# Tagging in with `effects` mod:
+```
+Effect:
+When active,
+2 shields will orbit you and absorb damage
+```
+
+Also, we should add an API to integrate this nicely with other systems:
+```
+Effect:
+All attached entities gain +5% damage
+```
+
