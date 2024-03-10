@@ -29,7 +29,7 @@ local DEFAULT_ITEM_COOLDOWN = 0.2
 
 
 
-function usage.canUseHoldItem(holder_ent, item, mode)
+function usage.canUseHoldItem(holder_ent, item)
     if (not umg.exists(holder_ent)) or (not umg.exists(item)) then
         return false
     end
@@ -42,14 +42,14 @@ function usage.canUseHoldItem(holder_ent, item, mode)
         return false
     end
 
-    local usageBlocked = umg.ask("holdables:itemUsageBlocked", holder_ent, item, mode)
+    local usageBlocked = umg.ask("holdables:itemUsageBlocked", holder_ent, item)
     if usageBlocked then
         return false
     end
 
     if item.canUseItem ~= nil then
         if type(item.canUseItem) == "function" then
-            return item:canUseItem(holder_ent, mode) -- return callback value
+            return item:canUseItem(holder_ent) -- return callback value
         else
             return item.canUseItem -- it's a boolean
         end
@@ -62,11 +62,11 @@ end
 
 
 
-local function useItemDeny(item, holder_ent, mode)
+local function useItemDeny(item, holder_ent)
     if type(item.useItemDeny) == "function" then
-        item:useItemDeny(holder_ent, mode)
+        item:useItemDeny(holder_ent)
     end
-    umg.call("holdables:useItemDeny", holder_ent, item, mode)
+    umg.call("holdables:useItemDeny", holder_ent, item)
 end
 
 
@@ -79,36 +79,38 @@ end
 
 if server then
 
-function usage.useHoldItem(holder_ent, mode)
-    local item = getHoldItem(holder_ent)
-    if item then
-        if usage.canUseHoldItem(holder_ent, item, mode) then
-            usage.useItemDirectly(holder_ent, item, mode)
-        else
-            useItemDeny(item, holder_ent, mode)
-        end
-    end
-end
 
 local asserterDirect = typecheck.assert("entity?", "entity")
-
-function usage.useItemDirectly(holder_ent, item, mode)
+local function useItemDirectly(holder_ent, item)
     asserterDirect(holder_ent, item)
     -- holder_ent could be nil here
     if type(item.useItem) == "function" then
-        item:useItem(holder_ent or false, mode)
+        item:useItem(holder_ent or false)
     end
-    umg.call("holdables:useItem", holder_ent, item, mode)
-    server.broadcast("holdables:useSpecificItem", holder_ent, item, mode)
+    umg.call("holdables:useItem", holder_ent, item)
+    server.broadcast("holdables:useSpecificItem", holder_ent, item)
     item.itemLastUseTime = state.getGameTime()
 end
 
 
-server.on("holdables:useItem", function(sender, holder_ent, mode)
+function usage.useHoldItem(holder_ent)
+    local item = getHoldItem(holder_ent)
+    if item then
+        if usage.canUseHoldItem(holder_ent, item) then
+            useItemDirectly(holder_ent, item)
+        else
+            useItemDeny(item, holder_ent)
+        end
+    end
+end
+
+
+
+server.on("holdables:useItem", function(sender, holder_ent)
     if not getHoldItem(holder_ent) then return end
     if holder_ent.controller ~= sender then return end
 
-    usage.useHoldItem(holder_ent, mode)
+    usage.useHoldItem(holder_ent)
 end)
 
 end
@@ -125,36 +127,36 @@ end
 
 if client then
 
-local function canUse(holder_ent, item, mode)
+local function canUse(holder_ent, item)
     return sync.isClientControlling(holder_ent)
-        and usage.canUseHoldItem(holder_ent, item, mode)
+        and usage.canUseHoldItem(holder_ent, item)
 end
 
 local asserter = typecheck.assert("entity")
 
-function usage.useHoldItem(holder_ent, mode)
+function usage.useHoldItem(holder_ent)
     asserter(holder_ent)
     local item = getHoldItem(holder_ent)
-    if canUse(holder_ent, item, mode) then
+    if canUse(holder_ent, item) then
         asserter(holder_ent)
-        client.send("holdables:useItem", holder_ent, mode)
-        umg.call("holdables:useItem", holder_ent, item, mode)
+        client.send("holdables:useItem", holder_ent)
+        umg.call("holdables:useItem", holder_ent, item)
         if type(item.useItem) == "function" then
-            item:useItem(holder_ent or false, mode)
+            item:useItem(holder_ent or false)
         end
         item.itemLastUseTime = state.getGameTime()
         return true
     elseif item then
-        useItemDeny(item, holder_ent, mode)
+        useItemDeny(item, holder_ent)
     end
 end
 
-umg.on("holdables:useItem", function(holder_ent, item, mode)
+umg.on("holdables:useItem", function(holder_ent, item)
     if holder_ent and sync.isClientControlling(holder_ent) then
         return -- ignore; we have already called `useItem`, 
         -- since we are the ones who sent the event!
     end
-    item:useItem(holder_ent, mode)
+    item:useItem(holder_ent)
     item.itemLastUseTime = state.getGameTime()
 end)
 

@@ -29,12 +29,6 @@ Ideas:
 
 
 
-## Q2: What are we doing with the argument order for `holdables:useItem`?
-Args should look like this:
-`(itemEnt, holderEnt, useMode)`
-where `useMode` is a number.
-
-
 
 ## Q3: How do we handle exotic use types?
 Items should be able to be continuous AND chargable simultaneously.

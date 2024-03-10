@@ -9,7 +9,6 @@
 
 -- defines a `shooter` item:
 ent.shooter = {
-    mode = 1, -- use mode
     projectileType = "my_projectile", -- projectile entity type
 
     -- alternatively, we can define a `spawnProjectile` function:
@@ -42,19 +41,6 @@ ent.shooter = {
     firerate = 3, -- 3 projectiles per second
     canShoot = function() end,
     -- etc etc.
-}
-
-
-ent.shooter = {
-    -- supports multiple modes:
-    {
-        mode = 2,
-        ...
-    },
-    {
-        mode = 3,
-        ...
-    }
 }
 
 

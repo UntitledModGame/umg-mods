@@ -34,7 +34,6 @@ elseif client then
 end
 
 
-local DEFAULT_MODE = 1
 
 
 local function callShoot(holderEnt, item, shooter)
@@ -43,22 +42,10 @@ local function callShoot(holderEnt, item, shooter)
 end
 
 
-local function tryShoot(holderEnt, item, mode)
+local function tryShoot(holderEnt, item)
     local shooter = item.shooter
     if isValid(shooter) then
-        local shmode = shooter.mode or DEFAULT_MODE
-        if shmode == mode then
-            callShoot(holderEnt, item, shooter)
-        end
-    end
-
-    for _, shooter_ in ipairs(shooter) do
-        -- there are multiple shoot modes!
-        if shooter_.mode == mode then
-            -- linear search is bad, its fine tho
-            -- There generally shouldn't be that many shoot modes, so it's prolly fine
-            callShoot(holderEnt, item, shooter)
-        end
+        callShoot(holderEnt, item, shooter)
     end
 end
 
@@ -69,7 +56,7 @@ end
     TODO:
     Change this to `usables:useEntity` when we do the refactor!
 ]]
-umg.on("holdables:useItem", function(holderEnt, item, mode) 
+umg.on("holdables:useItem", function(holderEnt, item) 
     local targX, targY = holderEnt.lookX, holderEnt.lookY
     if (not targX) or (not targY) then
         return
@@ -81,7 +68,7 @@ umg.on("holdables:useItem", function(holderEnt, item, mode)
     if item.shooter then
         local shooter = item.shooter
         assert(type(shooter) == "table", "ent.shooter needs to be a table")
-        tryShoot(holderEnt, item, mode)
+        tryShoot(holderEnt, item)
     end
 end)
 
