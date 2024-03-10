@@ -4,7 +4,7 @@
         "typecheck", "sync", "objects", "state",
         "input", "rendering", "reducers", "physics",
         "control", "spatial", "follow", "juice", "sound",
-        "mortality", "scheduling", "initializers",
-        "components", "effects"
+        "health", "scheduling", "initializers",
+        "components", "effects", "execution"
     ]
 }
