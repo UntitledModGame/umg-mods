@@ -57,7 +57,7 @@ local function setupProjectionRemoval(group, targComp)
             return -- wtf??? okay...? How tf did this happen?!??
         end
 
-        if ent:isShared(targComp) then
+        if ent:isSharedComponent(targComp) then
             return -- we can't remove shcomps
         end
 

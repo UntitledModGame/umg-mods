@@ -277,7 +277,7 @@ end
 ]]
 
 tileGroup:onAdded(function(ent)
-    assert(ent:isShared("imageTiling"), "imageTiling component must be shared")
+    assert(ent:isSharedComponent("imageTiling"), "imageTiling component must be shared")
     mangleComponent(ent)
     updateTile(ent)
     updateSurroundingTiles(ent)
