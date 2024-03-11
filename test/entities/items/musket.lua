@@ -1,15 +1,5 @@
 
 
-if client then
-    local psys = juice.particles.newParticleSystem({"circ3", "circ2", "circ1"})
-    psys:setColors(
-        {0.6,0.6,0.6},
-        {0.2,0.2,0.2}
-    )
-    juice.particles.define("musket_smoke", psys)
-end
-
-
 
 return {
     maxStackSize = 1;

@@ -37,3 +37,19 @@ ent.pixelated = true
 
 
 
+# Component-warping:
+How do we deal with component-warping?
+
+For example: In popups, we lerp upwards, based on the `timeElapsed`.
+but... we can't really do that when it's a regular entity.
+
+To solve this, we kinda gotta look at warping the values of components
+manually.
+
+
+
+# ParticleSystem burst emit:
+How do we evoke "bursts" in ParticleSystems?
+Obviously we could just call `:emit` on the particleSystem directly...
+but that's kinda weird, because it's reaching INTO the component.
+

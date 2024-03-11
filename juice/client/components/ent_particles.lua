@@ -8,41 +8,22 @@ it will emit particles as it moves.
 
 ]]
 
-local particles = require("client.particles")
-
 
 local particleEntities = umg.group("particles", "x", "y")
 
-local DEFAULT_EMIT_RATE = 5
+components.project("particles", "drawable")
+
+
 
 
 particleEntities:onAdded(function(ent)
     if ent.particles then
-        if (type(ent.particles) ~= "table") then
-            error("ent.particles needs to be table. Not the case for: " .. ent:type())
-        end
-        if (not ent.particles.type) and (not (ent.particles[1] and ent.particles[1].type)) then
-            error("ent.particles table needs to have a `type` value. Not the case for: " .. ent:type())
-        end
+        assert(ent.particles:typeOf("ParticleSystem"))
     end
 end)
 
 
 
-
-local function getPsys(ptable)
-    local psys = particles.getParticleSystem(ptable.type)
-    local cloned = psys:clone()
-    if ptable.spread then
-        cloned:setEmissionArea("uniform", ptable.spread.x, ptable.spread.y)
-    end
-    cloned:setEmissionRate(ptable.rate or DEFAULT_EMIT_RATE)
-    return cloned
-end
-
-
-
-local frameCount = 0
 
 
 local function updateParticleTable(ent, ptable, dt)
@@ -70,18 +51,9 @@ end
 
 
 umg.on("state:gameUpdate", function(dt)
-    frameCount = frameCount + 1
     for _, ent in ipairs(particleEntities)do
-        local ent_particles = ent.particles
-        if ent_particles.type then
-            -- then its just one emitter
-            updateParticleTable(ent, ent_particles, dt)
-        else
-            -- then we have an array of emitters!
-            for i=1, #ent_particles do
-                updateParticleTable(ent, ent_particles[i], dt)
-            end
-        end
+        ent.particles:setPosition(ent.x, ent.y)
+        ent.particles:update(dt)
     end
 end)
 
@@ -110,17 +82,9 @@ end
 
 
 umg.on("rendering:drawEntity", function(ent)
-    local ent_particles = ent.particles
     if ent.particles then
-        if ent_particles.type then
-            -- then its just one emitter
-            drawParticleTable(ent, ent.particles)
-        else
-            -- then we have an array of emitters!
-            for i=1, #ent_particles do
-                drawParticleTable(ent, ent_particles[i])
-            end
-        end
+        local ox,oy = getParticleOffset(ent)
+        love.graphics.draw(ent.particles, ox,oy)
     end
 end)
 

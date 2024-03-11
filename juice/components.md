@@ -48,24 +48,8 @@ ent.text = {
 
 -- please note that entities with particles break auto batching.
 -- Don't use particles EVERYWHERE; it'll be slow
-ent.particles = {
-    type = "dust", -- `dust` is defined by juice.particles.define()
-    
-    -- OPTIONAL FIELDS:
-    rate = 5, -- emits 5 particles per second (default = 5)
-    spread = {x = 4, y = 4}, -- particle emit spread
-    offset = {x = 0, y = 20}, -- draw offsets for x and y.
-    -- (^^^ for example, if you wanted to draw the particles at feet of entity.)
-}
+ent.particles = ParticleSystem
 
-
-
--- entities can also have multiple particles attatched to them:
-ent.particles = {
-    { type = "smoke", offset = {x = 0, y = 20} },
-    { type = "dust", offset = {x = 0, y = 20} }
-    -- ^^^ these take same args as above.
-}
 
 
 

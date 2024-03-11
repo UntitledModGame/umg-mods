@@ -10,11 +10,6 @@ return {
         {type = "slime2", chance = 1, count = 1},
     },
 
-    deathParticles = {
-        name = "slime",
-        amount = 10
-    },
-
     deathSound = {
         name = "splat1",
         vol = 0.5

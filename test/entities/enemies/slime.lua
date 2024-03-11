@@ -1,16 +1,4 @@
 
-if client then
-    local psys = juice.particles.newParticleSystem({
-        "circ4", "circ3", "circ2", "circ1"
-    })
-    psys:setParticleLifetime(0.4,0.9)
-    psys:setColors(
-        0,1,0,1
-    )
-    psys:setEmissionRate(0) -- TODO: this doesn't FRICKEN work!!!!
-    psys:setEmissionArea("uniform", 1, 1, 0)
-    juice.particles.define("slime", psys)
-end
 
 
 
@@ -22,11 +10,6 @@ return {
 
     spawnOnDeath = {
         {type = "slime", chance = 0.13, count = 2}
-    },
-
-    deathParticles = {
-        name = "slime",
-        amount = 10
     },
 
     deathSound = {

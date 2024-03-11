@@ -31,9 +31,6 @@ local psys = juice.particles.newParticleSystem({
 })
 
 
-juice.particles.define("smoke", psys)
-
-
 
 
 
