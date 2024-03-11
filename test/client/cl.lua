@@ -56,7 +56,11 @@ end
 
 
 
-local drawGroup = umg.group("drawable", "x", "y")
+local function makeClientBlock(dvec)
+    local pine = client.entities.block(dvec.x, dvec.y)
+    return pine
+end
+
 
 
 umg.on("@keypressed", function(k,scancode)
@@ -64,7 +68,8 @@ umg.on("@keypressed", function(k,scancode)
         error("stop")
     end
     if scancode == "e" then
-        print("size drawGroup: ", #drawGroup)
+        local e = getPlayerWithXY()
+        makeClientBlock(e)
     end
     if scancode == "space" then
         local e = getPlayerWithXY()

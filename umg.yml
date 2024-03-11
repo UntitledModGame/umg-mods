@@ -18,6 +18,8 @@ globals:
       type: '...'
   client.atlas:
     any: true
+  client.entities:
+    any: true
   umg.call:
     args:
     - type: string
