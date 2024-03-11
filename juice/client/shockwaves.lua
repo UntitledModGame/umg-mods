@@ -86,7 +86,6 @@ umg.on("state:gameUpdate", function(dt)
         update(sw, dt)
         if sw.isFinished then
             shockwaveSet:remove(sw)
-            sw.colour = nil -- easier on GC
         end
     end
 end)

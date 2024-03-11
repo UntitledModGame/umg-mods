@@ -19,11 +19,6 @@ return {
         vol = 0.5
     },
 
-    shadow = {
-        size = 6,
-        oy = 7
-    },
-
     healthBar = {
         offset = 14,
         drawWidth = 16,

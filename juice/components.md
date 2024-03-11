@@ -89,12 +89,6 @@ ent.moveAnimation = {
 
 
 
-ent.shadow = {
-    size = 10; -- default value is the size of the entity image / 2.
-    color = {0,0,0,0.4} -- <--- default value; this is the color of the shadow.
-}
-
-
 ent.rainbow = {
     period = 5, -- has a default value
     brightness = 0.2 -- has a default value

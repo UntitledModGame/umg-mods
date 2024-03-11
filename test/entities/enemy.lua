@@ -13,10 +13,6 @@ return {
         deactivateeDistance = 900
     },
 
-    shadow = {
-        size=6
-    };
-
     bobbing = {},
     
     physics = {

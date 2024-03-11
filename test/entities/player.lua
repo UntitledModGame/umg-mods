@@ -25,10 +25,6 @@ return {
     }, 
     clickToUseHoldItem = true,
 
-    shadow = {
-        size=6
-    };
-
     bobbing = {},
     
     topdownControl = {};
