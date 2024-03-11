@@ -3,9 +3,13 @@ local juice = {}
 
 
 local shockwave = require("client.shockwaves")
-juice.shockwave = shockwave;
 
-juice.particles = require("client.particles")
+function juice.shockwave()
+    client.entities.empty()
+end
+
+juice.newParticleSystem = require("client.particles")
+
 
 juice.popups = require("client.popups")
 

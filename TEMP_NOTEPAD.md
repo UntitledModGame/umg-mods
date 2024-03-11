@@ -53,3 +53,27 @@ How do we evoke "bursts" in ParticleSystems?
 Obviously we could just call `:emit` on the particleSystem directly...
 but that's kinda weird, because it's reaching INTO the component.
 
+SOLUTION: KISS.
+Change `.particles` component into a regular particleSystem.
+From tehre, we can just call `ent.particles:emit(X)`
+
+
+
+
+
+# Shockwaves:
+
+So, we got the `circle` component being rendered well.
+But, how should this work with the `shockwave` component...?
+
+IDEA:
+Maybe we don't even need a `shockwave` component!!!
+Perhaps `juice.shockwave` could just create an entity with a growing circle,
+and decreasing opacity.
+
+OK; I think that ^^^ setup is quite beautiful.
+But we need a few things:
+- A way to track "lifetime" 
+
+
+

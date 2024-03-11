@@ -3,6 +3,7 @@
     "uses": [
         "state", "rendering", 
         "reducers", "typecheck",
-        "objects", "components"
+        "objects", "components",
+        "health"
     ]
 }

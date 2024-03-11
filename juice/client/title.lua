@@ -1,5 +1,18 @@
 
 
+--[[
+
+I was gonna get rid of this...
+
+But I think it's good if we keep it for now.
+When we implement screenX, screenY API for drawable entities, 
+*maybe* we can remove this.
+
+But for now; keep it.
+
+
+]]
+
 local DEFAULT_TITLE_TIME = 3
 local DEFAULT_FADE_TIME = 0.4
 

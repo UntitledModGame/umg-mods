@@ -12,8 +12,6 @@ local DEFAULT_END_RADIUS = 100
 
 local DEFAULT_DURATION = 0.15
 
-local DEFAULT_FADERINGS = 3
--- the number of faded rings that follow the shockwave
 
 local DEFAULT_TYPE = "line"
 
@@ -33,7 +31,6 @@ local function setDefaultValues(sw)
     sw.startRadius = sw.startRadius or DEFAULT_START_RADIUS
     sw.endRadius = sw.endRadius or DEFAULT_END_RADIUS
     sw.duration = sw.duration or DEFAULT_DURATION
-    sw.fadeRings = sw.fadeRings or DEFAULT_FADERINGS
     sw.type = sw.type or DEFAULT_TYPE
     assert(sw.type == "fill" or sw.type == "line", "shockwave type must be fill or line")
     
@@ -65,17 +62,16 @@ local setLineWidth = love.graphics.setLineWidth
 local setColour = love.graphics.setColor
 
 function draw(self)
-    local lineThickness = self.thickness / self.fadeRings
+    local lineThickness = self.thickness
     local tick = (self.radius-self.startRadius)/(self.endRadius-self.startRadius)
     local dSign = self.dr / math.abs(self.dr)
     local color = self.color:lerp(self.endColor, tick)
-    for i=1, self.fadeRings do
-        local alpha = (1-tick) * (i/self.fadeRings)
-        setColour(color[1], color[2], color[3], alpha)
-        setLineWidth(lineThickness)
-        local rad = math.max(0, self.radius - (self.fadeRings-i)*dSign*lineThickness)
-        love.graphics.circle(self.type, self.x, self.y, rad)
-    end
+
+    local alpha = (1-tick)
+    setColour(color[1], color[2], color[3], alpha)
+    setLineWidth(lineThickness)
+    local rad = math.max(0, self.radius - dSign*lineThickness)
+    love.graphics.circle(self.type, self.x, self.y, rad)
 end
 
 

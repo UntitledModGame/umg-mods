@@ -21,7 +21,6 @@ sync.autoSyncComponent("lifetime", {
 
 
 
-if server then
 
 
 local lifetimeGroup = umg.group("lifetime")
@@ -31,13 +30,16 @@ local kill = require("shared.kill")
 
 umg.on("state:gameUpdate", function(dt)
     for _, ent in ipairs(lifetimeGroup) do
-        ent.lifetime = ent.lifetime - dt
+        if ent:isOwned() then
+            ent.lifetime = ent.lifetime - dt
+        end
 
-        if ent.lifetime <= 0 then
-            kill(ent)
+        if server then
+            if ent.lifetime <= 0 then
+                kill(ent)
+            end
         end
     end
 end)
 
 
-end
