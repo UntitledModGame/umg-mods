@@ -3,10 +3,9 @@ local juice = {}
 
 
 
-local DEFAULT_LIFETIME = 0.7
+local DEFAULT_LIFETIME = 0.32
 
 local shockwaveTc = typecheck.assert("dvector")
-
 function juice.shockwave(args)
     shockwaveTc(args)
     local ent = client.entities.empty()
@@ -35,11 +34,8 @@ function juice.shockwave(args)
 end
 
 
-
 juice.newParticleSystem = require("client.particles")
 
-
-juice.popups = {}--require("client.popups")
 
 juice.title = require("client.title")
 
