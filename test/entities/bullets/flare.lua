@@ -6,7 +6,7 @@ local SHAPE = love.physics.newCircleShape(1)
 
 local flareParticles
 if client then
-    flareParticles = juice.particles.newParticleSystem({
+    flareParticles = juice.newParticleSystem({
         "circ4", "circ3", "circ2", "circ1"
     })
     flareParticles:setParticleLifetime(0.4,0.9)

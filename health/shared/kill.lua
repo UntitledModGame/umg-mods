@@ -6,15 +6,15 @@ local kill
 
 
 
-if server then
--- Only the server has the authority to kill entities.
 
 function kill(ent)
-    umg.call("health:entityDeath", ent)
-    ent:delete()
+    if ent:isOwned() then
+        -- We only have authority to kill an entity if we own it
+        umg.call("health:entityDeath", ent)
+        ent:delete()
+    end
 end
 
-end
 
 
 sync.proxyEventToClient("health:entityDeath")

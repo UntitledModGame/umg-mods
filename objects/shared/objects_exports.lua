@@ -13,6 +13,11 @@ objects.Heap = require("shared.Heap");
 objects.Enum = require("shared.Enum")
 objects.Color = require("shared.Color")
 
+objects.EMPTY = {}
+-- An empty table. DO NOT MODIFY!!!
+-- (Used as default arguments and such)
+
+
 if server then
     objects.emptyEntity = function()
         return server.entities.empty()

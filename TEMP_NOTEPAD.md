@@ -73,7 +73,16 @@ and decreasing opacity.
 
 OK; I think that ^^^ setup is quite beautiful.
 But we need a few things:
-- A way to track "lifetime" 
+- A way to track "lifetime" (DONE)
+- A way to make the circle size scale with the lifetime 
+    (function upon `circle` component?)
+- Opacity needs to scale with lifetime 
+    (fade component?)
+
+
+
+
+
 
 
 

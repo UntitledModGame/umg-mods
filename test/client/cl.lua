@@ -26,12 +26,6 @@ end)
 love.graphics.clear()
 
 
-local psys = juice.particles.newParticleSystem({
-    "circ4", "circ3", "circ2", "circ1"
-})
-
-
-
 
 
 local function getPlayerWithXY()
@@ -66,6 +60,7 @@ umg.on("@keypressed", function(k,scancode)
     end
     if scancode == "e" then
         local e = getPlayerWithXY()
+        juice.shockwave(e)
         makeClientBlock(e)
     end
     if scancode == "space" then

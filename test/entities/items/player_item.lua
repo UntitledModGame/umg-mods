@@ -21,7 +21,6 @@ return {
 
         if client then
             sound.playSound("boom_main1")
-            juice.particles.emit("musket_smoke", x,y,nil,10)
         else
             if type(dx) == "number" and type(dy) == "number" then        
                 local e = server.entities.player(x,y)

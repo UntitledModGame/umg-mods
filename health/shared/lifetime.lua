@@ -32,9 +32,7 @@ umg.on("state:gameUpdate", function(dt)
     for _, ent in ipairs(lifetimeGroup) do
         if ent:isOwned() then
             ent.lifetime = ent.lifetime - dt
-        end
 
-        if server then
             if ent.lifetime <= 0 then
                 kill(ent)
             end

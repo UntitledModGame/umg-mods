@@ -52,6 +52,19 @@ ent.particles = ParticleSystem
 
 
 
+-- modifies the opacity of `ent`
+ent.fade = {
+    -- set the value of fade through a component:
+    component = "lifetime",
+    -- or set value directly:
+    value = 10,
+    -- OR, use a function:
+    getValue = function(ent) return 0.5 end
+    -- multiplier: (default=1)
+    multipler = 1
+}
+
+
 
 
 ent.animation = {

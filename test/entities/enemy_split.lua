@@ -29,9 +29,7 @@ return {
     };
 
     onDeath = function(ent)
-        if client then
-            juice.particles.emit("smoke", ent.x, ent.y, ent.z, 5, {0.9,0.9,0})
-        elseif server then
+        if server then
             server.entities.enemy_split(ent.x, ent.y - 5)
             server.entities.enemy_split(ent.x, ent.y + 5)
         end

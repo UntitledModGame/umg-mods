@@ -12,7 +12,7 @@ local groundItems= require("server.ground_items")
 
 
 inventoryGroup:onAdded(function(ent)
-    if not ent:isRegular("inventory") then
+    if not ent:isRegularComponent("inventory") then
         error(".inventory component must be regular. Not the case for: " ..tostring(ent))
     end
     if (getmetatable(ent.inventory) ~= Inventory) then
