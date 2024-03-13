@@ -100,7 +100,6 @@ function SlotElement:onRender(x,y,w,h)
     if item then
         self:renderItem(x,y,w,h)
         self:renderStackSize(x,y,w,h)
-
     end
     self:renderForeground(x,y,w,h)
 end

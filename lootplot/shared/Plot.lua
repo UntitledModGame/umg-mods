@@ -17,18 +17,20 @@ local Plot = objects.Class("lootplot:Plot")
 local gridTc = typecheck.assert("entity", "number", "number")
 function Plot:init(ownerEnt, width, height)
     gridTc(width, height)
-    self.owner = ownerEnt
 
+    ownerEnt.plot = self
+
+    self.owner = ownerEnt
     self.grid = objects.Grid(width,height)
 end
 
 
 
-function Plot:set(x,y, ent)
-    self.grid[x][y] = ent
+function Plot:setSlot(x,y, slotEnt)
+    self.grid:set(x,y, slotEnt)
     if server then
-        if ent then
-            server.broadcast("looplot:setPlotSlot", x,y, ent)
+        if slotEnt then
+            server.broadcast("looplot:setPlotSlot", x,y, slotEnt)
         else
             server.broadcast("looplot:clearPlotSlot", x,y)
         end
@@ -37,18 +39,17 @@ end
 
 if client then
     client.on("looplot:setPlotSlot", function(x,y, ent)
-        ent.grid:set(x,y,ent)
+        ent.plot:set(x,y,ent)
     end)
     client.on("looplot:clearPlotSlot", function(x,y, ent)
-        ent.grid:set(x,y,nil)
+        ent.plot:set(x,y,nil)
     end)
 end
 
 
 
-
-function Plot:get(x,y)
-    local e = self.grid[x][y]
+function Plot:getSlot(x,y)
+    local e = self.grid:get(x,y)
     if umg.exists(e) then
         return e
     end
@@ -56,12 +57,13 @@ end
 
 
 
-
+function Plot:setItem(x,y, itemEnt)
+    local slot = getSlot(x, y)
+end
 
 
 
 local funcTc = typecheck.assert("table", "function")
-
 function Plot:filter(func)
     funcTc(self, func)
     local grid = Plot(self.width, self.height)

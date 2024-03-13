@@ -80,7 +80,7 @@ end
 
 
 
-function Inventory:onItemMoved(item, slot)
+function Inventory:onItemAdded(item, slot)
     -- Override this, if you want
 end
 
@@ -90,10 +90,6 @@ function Inventory:onItemRemoved(item, slot)
 end
 
 
-function Inventory:onItemStackSizeChange(item, slot, stackSize)
-    -- OVERRIDE, IF YOU WANT
-end
-
 
 
 local function signalMoveToSlot(self, slot, itemEnt)
@@ -102,20 +98,31 @@ local function signalMoveToSlot(self, slot, itemEnt)
     if slotHandle then
         slotHandle:onItemAdded(itemEnt, slot)
     end
-    self:onItemMoved(itemEnt, slot)
+    self:onItemAdded(itemEnt, slot)
     umg.call("items:itemAdded", self.owner, itemEnt, slot)
 end
 
 
 
 
+local function signalRemoveFromSlot(self, slot, itemEnt)
+    -- calls appropriate callbacks for item removal
+    local slotHandle = self:getSlotHandle(slot)
+    if slotHandle then
+        slotHandle:onItemRemoved(itemEnt, slot)
+    end
+    self:onItemRemoved(itemEnt, slot)
+    umg.call("items:itemRemoved", self.owner, itemEnt, slot)
+end
 
 
 local function signalStackSizeChange(self, item, slot, stackSize)
     -- called when a stackSize of an item changes
-    local slotHandle = self:getSlotHandle(slot)
-    if slotHandle then
-        slotHandle:onItemAdded(item, slot)
+    local delta = stackSize - item.stackSize
+    if delta > 0 then
+        signalMoveToSlot(self, slot, item)
+    else
+        signalRemoveFromSlot(self, slot, item)
     end
     self:onItemStackSizeChange(item, slot, stackSize)
     umg.call("items:stackSizeChange", self.owner, item, slot, stackSize)
@@ -134,16 +141,6 @@ local function setStackSize(self, slot, stackSize)
 end
 
 
-
-local function signalRemoveFromSlot(self, slot, itemEnt)
-    -- calls appropriate callbacks for item removal
-    local slotHandle = self:getSlotHandle(slot)
-    if slotHandle then
-        slotHandle:onItemRemoved(itemEnt, slot)
-    end
-    self:onItemRemoved(itemEnt, slot)
-    umg.call("items:itemRemoved", self.owner, itemEnt, slot)
-end
 
 
 

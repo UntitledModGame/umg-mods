@@ -71,20 +71,36 @@ This would allow us to reason about syncing a lot better.
 graph TD
     subgraph world
         WorldPlot(World Plot)
+        level
     end
     subgraph player
         PlayerEnt
         PlayerEnt --> InventoryPlot
         PlayerEnt --> money
+        InventoryPlot --> LUI-Elem
         InventoryPlot(Inventory Plot)
+    end
+
+```
+<br/>
+
+```mermaid
+graph TD
+    subgraph shop
+        ShopPlot(Inventory Plot, ie. shop)
+        ShopPlot --> R
+        ShopPlot --> LUI-Elem
+        R[Slots resets every round] --> ShopPlot
     end
 ```
 
+
+
 <br/>
 <br/>
 <br/>
 
-# Entity structure:
+# Common Entity Structure:
 ```mermaid
 
 graph TD
@@ -108,6 +124,8 @@ Important things to note:
 
 - How are items moved between Plots?
     - They aren't. Items are moved between `Slot`s.
+
+
 
 
 ## SUPER IMPORTANT:
