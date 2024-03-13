@@ -16,7 +16,9 @@ local sort = require("libs.sort")
 local misc = require("client.misc")
 local getDrawDepth = misc.getDrawDepth
 local getEntityDrawDepth = misc.getEntityDrawDepth
+
 local drawEntity = misc.drawEntity
+local isOnScreen = misc.isOnScreen
 
 
 local floor = math.floor
@@ -209,7 +211,9 @@ function ZIndexer:drawEntities(camera)
     local last_draw_dep = draw_dep
 
     while draw_ent and draw_dep < max_depth do
-        drawEntity(draw_ent)
+        if isOnScreen(ent) then
+            drawEntity(draw_ent)
+        end
 
         for dep=last_draw_dep+1, draw_dep do
             -- TODO: Since we don't check camera bounds, this is some HOT GARBAGE code.

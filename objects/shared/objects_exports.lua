@@ -12,6 +12,7 @@ objects.Array = require("shared.Array");
 objects.Heap = require("shared.Heap");
 objects.Enum = require("shared.Enum")
 objects.Color = require("shared.Color")
+objects.Grid = require("shared.Grid")
 
 objects.EMPTY = {}
 -- An empty table. DO NOT MODIFY!!!

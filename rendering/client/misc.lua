@@ -77,7 +77,7 @@ end
 
 
 local function drawEntity(ent)
-    if isOnScreen(ent) and not isHidden(ent) then
+    if not isHidden(ent) then
         setColorOfEnt(ent)
         umg.call("rendering:drawEntity", ent)
         if ent.onDraw then
