@@ -75,8 +75,8 @@ return {
     initUI = function(e)
         e.uiElement = ui.elements.GridInventory({
             inventory = e.inventory,
-            columns = 6,
-            rows = 5
+            width = 6,
+            height = 5
         })
     end,
 

@@ -21,10 +21,9 @@ local Grid = Class("objects:Grid")
 
 local initTc = typecheck.assert("number", "number")
 function Grid:init(width, height)
-    -- (width, height)
     initTc(width, height)
-    self.height = height
     self.width = width
+    self.height = height
     self.size = width * height
 
     self.grid = {} -- just a flat array
@@ -59,18 +58,23 @@ function Grid:coordsToIndex(x, y)
 end
 
 
+function Grid:contains(x, y)
+    return (x>=0) and (y>=0) and (x<self.width) and (y<self.height)
+end
+
+
 function Grid:indexToCoords(index)
     -- converts index  --->  (x,y) coordinates.
     -- BIG WARNING!!! (x,y) coords are ZERO-INDEXED!!
     index = index - 1
-    local x = index % self.height
-    local y = math.floor(index / self.height)
+    local x = index % self.width
+    local y = math.floor(index / self.width)
     return x, y
 end
 
 
 
-local TEST = false
+local TEST = true
 if TEST then
     local g = Grid(10, 10)
     for i=1, 100 do

@@ -211,7 +211,7 @@ function ZIndexer:drawEntities(camera)
     local last_draw_dep = draw_dep
 
     while draw_ent and draw_dep < max_depth do
-        if isOnScreen(ent) then
+        if isOnScreen(draw_ent) then
             drawEntity(draw_ent)
         end
 

@@ -2,7 +2,6 @@
 
 local SlotElement = require("client.SlotElement")
 
-local gridSlots = require("shared.gridSlots")
 
 
 
@@ -17,7 +16,7 @@ local DEFAULT_BORDER_PADDING = 0.05
 
 
 
-local ARGS = {"inventory", "rows", "columns"}
+local ARGS = {"inventory", "width", "height"}
 
 
 function GridInventory:init(args)
@@ -25,15 +24,18 @@ function GridInventory:init(args)
     self.slotElements = objects.Array()
 
     -- This is the width/height of the INVENTORY slots
-    self.columns = args.columns
-    self.rows = args.rows
+    self.width = args.width
+    self.height = args.height
+
+    -- Grid-object- used ONLY for calculating slot-positions:
+    self.gridObj = objects.Grid(self.width, self.height)
 
     self.inventory = args.inventory
 
     self.borderPadding = args.borderPadding or DEFAULT_BORDER_PADDING
     self.slotPadding = args.slotPadding or DEFAULT_SLOT_PADDING
 
-    local size = self.columns * self.rows
+    local size = self.width * self.height
     assert(size == self.inventory.size, "width/height needs to match with inventory size!")
     for slot=1, size do
         local slotElem = SlotElement({
@@ -49,11 +51,15 @@ end
 
 
 local function getSlotRegion(self, slotRegion, slot)
-    local x,y = gridSlots.slotToCoords(slot, self.columns, self.rows)
-    assert(x < self.columns and y < self.rows, "coords supposed to be 0 indexed?")
+    local x,y = self.gridObj:indexToCoords(slot)
+    if not (x < self.width and y < self.height) then 
+        print(x,y, self.width, self.height)
+        print(slot)
+        error("coords supposed to be 0 indexed?")
+    end
 
-    local dw = slotRegion.w / self.columns
-    local dh = slotRegion.h / self.rows
+    local dw = slotRegion.w / self.width
+    local dh = slotRegion.h / self.height
 
     local r = ui.Region(
         slotRegion.x + x*dw,
