@@ -27,7 +27,8 @@ end
 
 
 function Plot:setSlot(index, slotEnt)
-    self.grid:setIndex(index, slotEnt)
+    local x,y = self.grid:indexToCoords(index)
+    self.grid:set(x,y, slotEnt)
     if server then
         if slotEnt then
             server.broadcast("lootplot:setPlotSlot", index, slotEnt)
@@ -58,7 +59,7 @@ end
 
 
 
-function Plot:setItem(index, itemEnt)
+function Plot:trySetItem(index, itemEnt)
     local slot = self:getSlot(index)
     if slot and canAdd(slot, itemEnt) then
         

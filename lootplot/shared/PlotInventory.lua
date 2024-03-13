@@ -15,7 +15,7 @@ if server then
 
 function PlotInventory:onItemAdded(itemEnt, slot)
     -- Add to plot
-    self.plot:setItem(slot, itemEnt)
+    self.plot:trySetItem(slot, itemEnt)
 end
 
 

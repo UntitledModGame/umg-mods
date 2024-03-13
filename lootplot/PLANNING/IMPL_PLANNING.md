@@ -68,68 +68,6 @@ This would allow us to reason about syncing a lot better.
 
 
 
-```mermaid
-
-graph TD
-    subgraph world
-        WorldPlot(World Plot)
-        level
-    end
-    subgraph player
-        PlayerEnt
-        PlayerEnt --> InventoryPlot
-        PlayerEnt --> money
-        InventoryPlot --> LUI-Elem
-        InventoryPlot(Inventory Plot)
-    end
-
-```
-<br/>
-
-```mermaid
-graph TD
-    subgraph shop
-        ShopPlot(Inventory Plot, ie. shop)
-        ShopPlot --> R
-        ShopPlot --> LUI-Elem
-        R[Slots resets every round] --> ShopPlot
-    end
-```
-
-
-
-<br/>
-<br/>
-<br/>
-
-# Common Entity Structure:
-```mermaid
-
-graph TD
-    subgraph plot
-        Plot --> Slot1
-        Plot --> Slot2
-        Plot --> SlotN
-    end
-
-    subgraph slot
-        Slot --> a(effect?)
-        Slot --> b[item?]
-        Slot ---> c(Reference: Plot,x,y)
-    end
-```
-
-Important things to note:
-
-- `Slot`s CANNOT be moved out of a `Plot`.
-    - They can only be deleted/augmented.
-
-- How are items moved between Plots?
-    - They aren't. Items are moved between `Slot`s.
-
-
-
-
 ## SUPER IMPORTANT:
 When moving items between `Inventories`, the `Slot`s must be updated too.  
 This is kinda bad.... because there's 2 sources of truth here.  
