@@ -7,7 +7,7 @@ local DEFAULT_PADDING = 12
 
 
 function Button:init(args)
-    objects.assertKeys(args, {"onClick"})
+    typecheck.assertKeys(args, {"onClick"})
     self.onClick = args.onClick
     self.text = args.text
     self.padding = args.padding or DEFAULT_PADDING

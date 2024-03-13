@@ -8,7 +8,7 @@ local InputListener = objects.Class("input:InputListener")
 local dummy = function()end
 
 function InputListener:init(args)
-    objects.assertKeys(args, {"controlManager", "priority"})
+    typecheck.assertKeys(args, {"controlManager", "priority"})
     self.controlManager = args.controlManager
     self.priority = args.priority
 

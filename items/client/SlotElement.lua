@@ -9,7 +9,7 @@ local SlotElement = ui.Element("items:SlotElement")
 local KEYS = {"slot", "inventory"}
 
 function SlotElement:init(args)
-    objects.assertKeys(args, KEYS)
+    typecheck.assertKeys(args, KEYS)
     self.slot = args.slot
     self.inventory = args.inventory
 

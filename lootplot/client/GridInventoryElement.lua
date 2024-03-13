@@ -21,12 +21,15 @@ local ARGS = {"inventory", "rows", "columns"}
 
 
 function GridInventory:init(args)
-    objects.assertKeys(args, ARGS)
+    typecheck.assertKeys(args, ARGS)
     self.slotElements = objects.Array()
 
     -- This is the width/height of the INVENTORY slots
     self.columns = args.columns
     self.rows = args.rows
+
+    -- Grid-object- used ONLY for calculating slot-positions:
+    self.gridObj = objects.Grid(self.columns, self.rows)
 
     self.inventory = args.inventory
 

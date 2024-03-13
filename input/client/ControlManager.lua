@@ -97,7 +97,7 @@ end
 
 
 function ControlManager:init(args)
-    objects.assertKeys(args, {
+    typecheck.assertKeys(args, {
         "onControlPressed", "onControlReleased"
     })
     objects.inlineMethods(self)

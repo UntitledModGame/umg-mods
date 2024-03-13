@@ -76,7 +76,7 @@ end
 
 
 function Slider:init(args)
-    objects.assertKeys(args, {"onValueChanged", "min", "max"})
+    typecheck.assertKeys(args, {"onValueChanged", "min", "max"})
     self.onValueChanged = args.onValueChanged
     self.min = args.min
     self.max = args.max

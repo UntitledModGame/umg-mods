@@ -234,6 +234,25 @@ function typecheck.check(...)
 end
 
 
+
+function typecheck.assertKeys(tabl, keys)
+    --[[
+        asserts that `tabl` is a table, 
+        and that it has all of the keys listed in the `keys` table.
+    ]]
+    if type(tabl) ~= "table" then
+        error("Expected table, got: " .. type(tabl), 2)
+    end
+    for _, key in ipairs(keys) do
+        if tabl[key] == nil then
+            error("Missing key: " .. tostring(key), 2)
+        end
+    end
+
+end
+
+
+
 local addTypeTc = typecheck.assert("string", "function")
 function typecheck.addType(typeName, check)
     addTypeTc(typeName, check)
