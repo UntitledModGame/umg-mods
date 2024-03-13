@@ -6,7 +6,8 @@
 
 ```lua
 
-ent.slot = 
+ent.slot = {
+}
 
 
 

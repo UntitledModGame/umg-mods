@@ -74,7 +74,7 @@ end
 
 
 
-local TEST = true
+local TEST = false
 if TEST then
     local g = Grid(10, 10)
     for i=1, 100 do

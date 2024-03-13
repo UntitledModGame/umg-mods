@@ -66,3 +66,62 @@ This would allow us to reason about syncing a lot better.
 
 
 
+```mermaid
+
+graph TD
+    subgraph world
+        WorldPlot(World Plot)
+    end
+    subgraph player
+        PlayerEnt
+        PlayerEnt --> InventoryPlot
+        PlayerEnt --> money
+        InventoryPlot(Inventory Plot)
+    end
+```
+
+<br/>
+<br/>
+<br/>
+
+# Entity structure:
+```mermaid
+
+graph TD
+    subgraph plot
+        Plot --> Slot1
+        Plot --> Slot2
+        Plot --> SlotN
+    end
+
+    subgraph slot
+        Slot --> a(effect?)
+        Slot --> b[item?]
+        Slot ---> c(Reference: Plot,x,y)
+    end
+```
+
+Important things to note:
+
+- `Slot`s CANNOT be moved out of a `Plot`.
+    - They can only be deleted/augmented.
+
+- How are items moved between Plots?
+    - They aren't. Items are moved between `Slot`s.
+
+
+## SUPER IMPORTANT:
+When moving items between `Inventories`, the `Slot`s must be updated too.  
+This is kinda bad.... because there's 2 sources of truth here.  
+Not much we can do about it.
+
+Maybe add a `clean` mechanism or something, to ensure we don't get wanky shit happening...?  
+
+QUESTION: Who should be in control? The `Inventory`, or the `Plot`?  
+A: The `Plot` should definitely be in control.
+After all; effects are going to be occuring through the Plot;
+NOT the inventory.
+(The inventory should still update the plot when items are moved.)
+
+
+
