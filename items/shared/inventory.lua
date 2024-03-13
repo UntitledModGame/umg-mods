@@ -80,14 +80,25 @@ end
 
 
 
-function Inventory:onItemAdded(item, slot)
-    -- Override this, if you want
-end
 
+-- Override these, if you want
+function Inventory:onItemAdded(item, slot)
+end
 
 function Inventory:onItemRemoved(item, slot)
-    -- Override this, if you want
 end
+
+function Inventory:isItemAdditionBlocked(item, slot)
+    return false
+end
+
+function Inventory:isItemRemovalBlocked(item, slot)
+    return false
+end
+
+
+
+
 
 
 
@@ -119,12 +130,14 @@ end
 local function signalStackSizeChange(self, item, slot, stackSize)
     -- called when a stackSize of an item changes
     local delta = stackSize - item.stackSize
+    if delta == 0 then
+        return -- not changing anything!
+    end
     if delta > 0 then
         signalMoveToSlot(self, slot, item)
     else
         signalRemoveFromSlot(self, slot, item)
     end
-    self:onItemStackSizeChange(item, slot, stackSize)
     umg.call("items:stackSizeChange", self.owner, item, slot, stackSize)
 end
 
@@ -132,9 +145,6 @@ end
 local function setStackSize(self, slot, stackSize)
     local item = self:get(slot)
     if item then
-        if item.stackSize == stackSize then
-            return -- not changing anything!
-        end
         signalStackSizeChange(self, item, slot, stackSize)
         item.stackSize = stackSize
     end

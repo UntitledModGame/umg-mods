@@ -11,16 +11,20 @@ function PlotInventory:init(args)
 end
 
 
+if server then
 
 function PlotInventory:onItemAdded(itemEnt, slot)
-    -- move
+    -- Add to plot
+    self.plot:setItem(slot, itemEnt)
 end
 
 
 function PlotInventory:onItemRemoved(itemEnt, slot)
-
+    -- Remove from plot
+    self.plot:setItem(slot, itemEnt)
 end
 
+end
 
 
 return PlotInventory

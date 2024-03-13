@@ -1,0 +1,12 @@
+{
+    "type": "playable",
+    "uses": [
+        "typecheck", "sync", "objects", "state",
+        "input", "rendering", "reducers", "physics",
+        "control", "spatial", "follow", "juice", "sound",
+        "health", "scheduling", "initializers",
+        "components", "effects", "execution",
+        "chat", "commands", "vignette", 
+        "borders", "interaction"
+    ]
+}

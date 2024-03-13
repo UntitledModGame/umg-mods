@@ -36,7 +36,10 @@ local function assertInRange(self, i)
     end
 end
 
+
+local number2Tc = typecheck.assert("number", "number")
 function Grid:set(x,y, val)
+    number2Tc(x,y)
     local i = self:coordsToIndex(x,y)
     assertInRange(i)
     self.grid[i]=val
@@ -44,6 +47,7 @@ end
 
 
 function Grid:get(x,y)
+    number2Tc(x,y)
     local i = self:coordsToIndex(x,y)
     return self.grid[i]
 end

@@ -3,11 +3,11 @@
 local X,Y = "number", "number"
 local ENT = "entity"
 
-umg.definePacket("looplot:setPlotSlot", {
+umg.definePacket("lootplot:setPlotSlot", {
     typelist = {X, Y, ENT}
 })
  
-umg.definePacket("looplot:clearPlotSlot", {
+umg.definePacket("lootplot:clearPlotSlot", {
     typelist = {X, Y}
 })
 

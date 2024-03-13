@@ -26,29 +26,30 @@ end
 
 
 
-function Plot:setSlot(x,y, slotEnt)
-    self.grid:set(x,y, slotEnt)
+function Plot:setSlot(index, slotEnt)
+    self.grid:setIndex(index, slotEnt)
     if server then
         if slotEnt then
-            server.broadcast("looplot:setPlotSlot", x,y, slotEnt)
+            server.broadcast("lootplot:setPlotSlot", index, slotEnt)
         else
-            server.broadcast("looplot:clearPlotSlot", x,y)
+            server.broadcast("lootplot:clearPlotSlot", index)
         end
     end
 end
 
 if client then
-    client.on("looplot:setPlotSlot", function(x,y, ent)
+    client.on("lootplot:setPlotSlot", function(x,y, ent)
         ent.plot:set(x,y,ent)
     end)
-    client.on("looplot:clearPlotSlot", function(x,y, ent)
+    client.on("lootplot:clearPlotSlot", function(x,y, ent)
         ent.plot:set(x,y,nil)
     end)
 end
 
 
 
-function Plot:getSlot(x,y)
+function Plot:getSlot(index)
+    local x,y = self.grid:indexToCoords(index)
     local e = self.grid:get(x,y)
     if umg.exists(e) then
         return e
@@ -57,8 +58,11 @@ end
 
 
 
-function Plot:setItem(x,y, itemEnt)
-    local slot = getSlot(x, y)
+function Plot:setItem(index, itemEnt)
+    local slot = self:getSlot(index)
+    if slot and canAdd(slot, itemEnt) then
+        
+    end
 end
 
 

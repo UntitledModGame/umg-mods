@@ -34,6 +34,8 @@ kill(ent)
 burn(ent)
 sell(ent)
 
+trySpawn(slot, itemEType)
+
 
 -- use these for transferring in/out of "states".
 pushUI(uiEnt)
