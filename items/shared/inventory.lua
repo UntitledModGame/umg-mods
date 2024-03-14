@@ -21,12 +21,6 @@ local h = require("shared.helper")
 
 local assertNumber = typecheck.assert("number")
 
-local DEFAULT_INVENTORY_COLOUR = {0.8,0.8,0.8}
-
-
-local DEFAULT_BORDER_WIDTH = 10
-local DEFAULT_SLOT_SIZE = 12
-local DEFAULT_SLOT_SEPARATION = 2
 
 
 function Inventory:init(options)
@@ -37,29 +31,7 @@ function Inventory:init(options)
         [slot] -> SlotHandle object
     ]]}
 
-    -- size of inventory slots
-    self.slotSize = options.slotSize or DEFAULT_SLOT_SIZE
-    -- separation between inventory slots
-    self.slotSeparation = options.slotSeparation or DEFAULT_SLOT_SEPARATION
-    -- border offset from inventory edge
-    self.borderWidth = options.borderWidth or DEFAULT_BORDER_WIDTH
-
-    self.totalSlotSize = self.slotSize + self.slotSeparation
-
     self.inventory = {}  -- Array where the items are actually stored.
-
-    -- randomize initial draw position, to avoid overlap
-    self.draw_x = math.random(0, 100)
-    self.draw_y = math.random(0, 100)
-
-    if options.color then
-        assert(type(options.color) == "table", "inventory colours must be {R,G,B} tables, with RGB values from 0-1!")
-        self.color = options.color
-    else
-        self.color = DEFAULT_INVENTORY_COLOUR
-    end
-
-    self.is_open = false
 
     self.owner = nil -- The entity that owns this inventory.
     -- Should be set by some system.

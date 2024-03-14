@@ -7,6 +7,7 @@
 ```lua
 
 ent.slot = {
+    entity = itemEnt
 }
 
 
