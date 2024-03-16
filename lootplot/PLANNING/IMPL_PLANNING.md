@@ -50,7 +50,8 @@ sell(ppos) -- sells item at plotPos
 
 trySpawn(slot, itemEType)
 
-copy()
+copy(srcPos, targPos) -- copies an item
+copySlot(srcPos, targPos) -- copies a slot!
 
 -- looping over ents:
 local ents = touching(...) -- gets all ents that we are touching:

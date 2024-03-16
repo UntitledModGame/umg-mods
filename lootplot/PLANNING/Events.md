@@ -3,18 +3,21 @@
 # Events:
 What events should we have?
 
-- slot is swapped
+- ent is rerolled
+- ent swaps positions
+
 - ent activates
 - ent generates score
 - ent generates money
-- ent is rerolled
-- ent swaps positions
-- ent gains/loses an augment
-- ent gains/loses mana
-- ent gains/loses a trait
-- ent is sold
-- ent is purchased
 
+- ent gains/loses an augment
+- ent gains/loses mana (??? stretch goal) 
+- ent gains/loses a trait
+
+- ent is purchased
+- ent is sold
+
+- ent is burned (??? stretch goal)
 - ent is cloned
 - ent is created
 - ent dies/is destroyed
@@ -23,7 +26,5 @@ What events should we have?
 - round ends
 
 - reroll button is clicked
-
-
 
 
