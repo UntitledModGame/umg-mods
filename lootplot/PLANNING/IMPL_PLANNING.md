@@ -24,32 +24,49 @@ Perhaps we should just make a state-machine object, that constructs `uiEnt`,
 and deletes uiEnt when we call `state:pop()`...?
 
 
+## ppos (aka ppos)
+A PlotPos (or ppos) is kinda like a dimensionVector.
+It just stores a plot, PLUS a position within said plot.
+```lua
+PlotPos {
+    plot = plotEnt,
+    slot = 12
+}
+```
+
 ## REMEMBER TO MAKE HELPERS!!!
 Global helper functions are going to be completely PIVOTAL.
 Make sure you plan, and constantly re-evaluate helpers.
-Simple stuff like:
 ```lua
-activate(ent)
-kill(ent)
-burn(ent)
-sell(ent)
+itemEnt = get(ppos)
+
+activate(ppos)
+
+kill(ppos) -- kills item
+killSlot(ppos) -- kills slot!
+
+burn(ppos)
+sell(ppos) -- sells item at plotPos
 
 trySpawn(slot, itemEType)
 
-
--- use these for transferring in/out of "states".
-pushUI(uiEnt)
-popUI(uiEnt)
-
+copy()
 
 -- looping over ents:
-local ents = touching(ent) -- gets all ents that we are touching:
-touching(ent):loop(function(e)
+local ents = touching(...) -- gets all ents that we are touching:
+touching(...):loop(function(e)
     -- loops over all neighbour ents, `e`
 end)
 
+--[[
+    TODO:
+    Wtf do we pass into `touching(...)`?
+    We could pass `ppos`
+    We could also pass 
+]]
+
 -- We can also use filter API, w/ chaining:
-touching(ent)
+touching(...)
 :filter(func)
 :filterTraitMatch(ent.traits) -- filters on matching trait(s)
 -- (^^^ definitely hardcode common methods like this)

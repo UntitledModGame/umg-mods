@@ -54,8 +54,7 @@ and contain a back-reference to it's Plot.
 graph TD
     subgraph slot
         Slot --> a(effect?)
-        Slot --> b[item?]
-        Slot ---> c(Reference: Plot,x,y)
+        Slot ---> b[item?]
     end
 ```
 
