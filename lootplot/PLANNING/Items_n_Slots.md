@@ -48,13 +48,13 @@ Dead slots:
 
 
 
-## SUPER-WEAPON: Generic Augments!!!
+## SUPER-WEAPON: Generic Augments/Modifiers!!!
 REMEMBER TO ABUSE THE ECS-NATURE OF LOOTPLOT!!
 We can add flags to `Item`s OR `Slot`s; and they will work exactly the same.
 
 EXAMPLE:
 - On activation:  Give $1.   
-^^^ This "augment" would work *perfectly* on an Item, OR a Slot.
+^^^ This "augment/modifier" would work *perfectly* on an Item, OR a Slot.
 Make sure to write behaviour generically;
 if we don't compose behaviour like this, we are wasting time.
 

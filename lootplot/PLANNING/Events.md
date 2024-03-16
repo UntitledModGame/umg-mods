@@ -10,7 +10,7 @@ What events should we have?
 - ent generates score
 - ent generates money
 
-- ent gains/loses an augment
+- ent gains/loses a modifier
 - ent gains/loses mana (??? stretch goal) 
 - ent gains/loses a trait
 

@@ -3,25 +3,22 @@
 # INSPIRATION FILE:
 List of crazy/wacky ideas/mechanics that could be used:
 
-- Clone the item above into the slot below
 
-- When entity is purchased: cause a reroll
 
-- Round end: kill all the items around this entity
 
-- On reroll: Reduce all prices by 1
+# Modifiers:
+"Modifiers" appear as a little image above the entity.
+They signify some modifier upon the item/slot.
+- Doomed: This will be destroyed in `N` rounds
+    (Number will be shown when hovered)
+- Exhalted: This will activate TWICE
+- Coined: This will give $1 when activated
+- Loaned: Lose $1 when this item activates. Cannot activate with no money.
+- Nulled: This cannot activate
 
-- End of round: Multiply shop prices by -1. Then, destroy this item.
 
-- Piggy: Start of round: Gain +1 gold for every 10 gold you have.
 
-- When item is cloned: 
-    Transform the cloned item into the item that is above this item
-
-- When item is destroyed: Give the above item `contagion`.
-    - `contagion`: Start of round: 
-        Clone self into all touching slots.
-
+# Supers:
 supers + comboslots: (todo: think of better name plz)
 supers could be special items that are made by "merging" other items.
 To create a super, you need to place "ComboSlots" next to each other,
@@ -42,6 +39,28 @@ since the shop would just be a regular inventory, with reroll+buyable slots.
     and turn this slot into a buyable slot, costing $5
 ^^^ 
 
+
+
+
+# Items:
+- Clone the item above into the slot below
+
+- When entity is purchased: cause a reroll
+
+- Round end: kill all the items around this entity
+
+- On reroll: Reduce all prices by 1
+
+- End of round: Multiply shop prices by -1. Then, destroy this item.
+
+- Piggy: Start of round: Gain +1 gold for every 10 gold you have.
+
+- When item is cloned: 
+    Transform the cloned item into the item that is above this item
+
+- When item is destroyed: Give the above item `contagion`.
+    - `contagion`: Start of round: 
+        Clone self into all touching slots.
 
 
 
