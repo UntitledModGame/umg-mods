@@ -38,12 +38,13 @@ function Plot:setSlot(index, slotEnt)
     end
 end
 
+
 if client then
-    client.on("lootplot:setPlotSlot", function(x,y, ent)
-        ent.plot:set(x,y,ent)
+    client.on("lootplot:setPlotSlot", function(plotEnt, index, slotEnt)
+        plotEnt.plot:setSlot(index, slotEnt)
     end)
-    client.on("lootplot:clearPlotSlot", function(x,y, ent)
-        ent.plot:set(x,y,nil)
+    client.on("lootplot:clearPlotSlot", function(plotEnt, index)
+        plotEnt.plot:setSlot(index, nil)
     end)
 end
 
@@ -59,17 +60,14 @@ end
 
 
 
-function Plot:trySetItem(index, itemEnt)
-    local slot = self:getSlot(index)
-    if slot and canAdd(slot, itemEnt) then
-        
-    end
-end
-
-
 
 local funcTc = typecheck.assert("table", "function")
 function Plot:filter(func)
+    --[[
+        TODO:
+        Do we need this?
+        remove this...?
+    ]]
     funcTc(self, func)
     local grid = Plot(self.width, self.height)
     for x=0, self.width-1 do
@@ -85,6 +83,11 @@ end
 
 
 function Plot:foreach(func)
+    --[[
+        TODO:
+        Do we need this?
+        remove this...?
+    ]]
     funcTc(self, func)
     for x=0, self.width-1 do
         for y=0, self.height-1 do

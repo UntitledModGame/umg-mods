@@ -1,14 +1,14 @@
 
 
-local X,Y = "number", "number"
+local INDEX = "number"
 local ENT = "entity"
 
 umg.definePacket("lootplot:setPlotSlot", {
-    typelist = {X, Y, ENT}
+    typelist = {ENT, INDEX, ENT}
 })
  
 umg.definePacket("lootplot:clearPlotSlot", {
-    typelist = {X, Y}
+    typelist = {ENT, INDEX}
 })
 
 
