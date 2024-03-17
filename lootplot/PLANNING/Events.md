@@ -5,6 +5,7 @@ What events should we have?
 
 - ent is rerolled
 - ent swaps positions
+- ent is rotated
 
 - ent activates
 - ent generates score
