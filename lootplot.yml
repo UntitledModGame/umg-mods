@@ -1,0 +1,42 @@
+
+
+globals:
+  activate:
+    args:
+    - type: any
+  set:
+    args:
+    - type: any
+    - type: any
+  get:
+    args:
+    - type: any
+  destroy:
+    args:
+    - type: any
+  sell:
+    args:
+    - type: any
+
+  copy:
+    args:
+    - type: any
+    - type: any
+  copySlot:
+    args:
+    - type: any
+    - type: any
+
+  rotate:
+    args:
+    - type: any
+    - type: number
+      required: false
+
+  trySpawn:
+    args:
+    - type: any
+    - type: any
+
+
+

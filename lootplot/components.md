@@ -6,13 +6,7 @@
 
 ```lua
 
-ent.slot = {
-    entity = itemEnt
-}
-
-
-
-
+ent.item = itemEnt
 
 
 

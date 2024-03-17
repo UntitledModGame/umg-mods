@@ -4,13 +4,12 @@
 ```lua
 itemEnt = get(ppos)
 
-activate(ppos)
-activate(ent) -- <<< alternative usage.
+activate(ppos_or_ent) -- activates an ITEM at a ppos.
+-- can also pass in an ent for more fine-grained control.
 
 destroy(ppos) -- kills item at ppos
 destroySlot(ppos) -- kills slot at ppos!
 
-burn(ppos)
 sell(ppos) -- sells item at plotPos
 rotate(ppos, angle=math.pi/2) -- rotates item by an angle.
 
@@ -23,7 +22,12 @@ get(ppos)
 
 
 copy(srcPos, targPos) -- copies an item
-copySlot(srcPos, targPos) -- copies a slot!
+
+
+-- STRETCH / NYI:
+burn(ppos)
+
+
 
 -- looping over ents:
 local ents = touching(...) -- gets all ents that we are touching:
