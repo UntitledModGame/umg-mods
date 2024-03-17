@@ -60,40 +60,8 @@ end
 
 
 
-
-local funcTc = typecheck.assert("table", "function")
-function Plot:filter(func)
-    --[[
-        TODO:
-        Do we need this?
-        remove this...?
-    ]]
-    funcTc(self, func)
-    local grid = Plot(self.width, self.height)
-    for x=0, self.width-1 do
-        for y=0, self.height-1 do
-            local val = func(self:get(x,y), x, y)
-            if val then
-                grid:set(x,y, val)
-            end
-        end
-    end
-    return grid
-end
-
-
 function Plot:foreach(func)
-    --[[
-        TODO:
-        Do we need this?
-        remove this...?
-    ]]
-    funcTc(self, func)
-    for x=0, self.width-1 do
-        for y=0, self.height-1 do
-            func(self:get(x,y), x, y)
-        end
-    end
+    self.grid:foreach(func)
 end
 
 

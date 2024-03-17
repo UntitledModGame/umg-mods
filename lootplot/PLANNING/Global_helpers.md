@@ -5,6 +5,7 @@
 itemEnt = get(ppos)
 
 activate(ppos)
+activate(ent) -- <<< alternative usage.
 
 destroy(ppos) -- kills item at ppos
 destroySlot(ppos) -- kills slot at ppos!

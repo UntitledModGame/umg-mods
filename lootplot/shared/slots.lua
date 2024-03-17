@@ -1,9 +1,14 @@
 
+--[[
+    TODO:
+    do we even need any of this?
+
+]]
 
 local slots = {}
 
 
-function slots.canAdd(slotEnt, itemEnt)
+function slots.canAdd(ppos)
     --[[
         can we add `itemEnt` to `slotEnt`...?
     ]]
@@ -32,7 +37,7 @@ end
 
 
 function slots.canRemove(slotEnt, itemEnt)
-
+    
 end
 
 

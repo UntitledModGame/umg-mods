@@ -77,6 +77,17 @@ function Grid:indexToCoords(index)
 end
 
 
+local funcTc = typecheck.assert("table", "function")
+function Grid:foreach(func)
+    funcTc(self, func)
+    for x=0, self.width-1 do
+        for y=0, self.height-1 do
+            func(self:get(x,y), x, y)
+        end
+    end
+end
+
+
 
 local TEST = false
 if TEST then
