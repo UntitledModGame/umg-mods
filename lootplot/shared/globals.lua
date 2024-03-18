@@ -12,12 +12,18 @@ local ptrack = require("shared.positionTracking")
 local api = {}
 
 
+
 function api.setSlot(ppos, slotEnt)
     -- directly sets a slot
     assert(umg.exists(slotEnt), "?")
+    local prevEnt = getSlot(ppos)
+    if prevEnt then
+        destroy(prevEnt)
+    end
     ppos.plot:set(ppos.slot, slotEnt)
     ptrack.set(slotEnt, ppos)
 end
+
 
 function api.getSlot(ppos)
     local ent = ppos.plot:get(ppos.slot)
@@ -40,16 +46,6 @@ function api.getItem(ppos)
     end
 end
 
-function api.setItem(slotEnt, itemEnt)
-    ent2Tc(slotEnt, itemEnt)
-    if umg.exists(slotEnt) then
-        slotEnt.item = itemEnt
-        sync.syncComponent(slotEnt, "item")
-        ptrack.set(itemEnt, ppos)
-    end
-end
-
-
 
 function api.getPos(ent)
     -- Gets the ppos of an ent
@@ -66,7 +62,6 @@ function api.detach(item)
     end
     local slot = getSlot(ppos)
     if slot then
-        slo
         error([[
             todo:
             plan thru ALLL of this shit.
@@ -76,15 +71,29 @@ function api.detach(item)
 end
 
 
-local function attach(slotEnt, item)
 
+
+--[[
+
+TODO:
+Whats the difference between attach and move???
+
+]]
+function api.attach(slotEnt_or_ppos, item)
+    assert(not ptrack.get(itemEnt), "Item already attached somewhere else")
 end
 
 
-function api.move(item, ppos)
+function api.move(item, ppos_or_slotEnt)
     -- moves an item to a position
     detach(item)
     attach(getSlot(ppos), item)
+
+    if umg.exists(slotEnt) then
+        slotEnt.item = itemEnt
+        sync.syncComponent(slotEnt, "item")
+        ptrack.set(itemEnt, ppos)
+    end
 end
 
 
@@ -94,6 +103,9 @@ function api.swap(item1, item2)
     local p1, p2 = ptrack.get(item1), ptrack.get(item2)
     assert(p1 and p2, "Cannot swap nil-position")
     detach(item1)
+    detach(item2)
+    move(item1, p2)
+    move(item2, p1)
 
     error[[
         todo
@@ -147,14 +159,6 @@ function api.trySpawnItem(ppos, itemEType)
     end
 end
 
-
-
-function api.copySlot(srcPos, targPos)
-    
-end
-
-copy(srcPos, targPos) -- copies an item
-copySlot(srcPos, targPos) -- copies a slot!
 
 
 
