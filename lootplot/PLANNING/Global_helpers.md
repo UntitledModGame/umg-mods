@@ -10,21 +10,29 @@ destroy(ent)
 sell(ent)
 rotate(ent, angle=math.pi/2) -- rotates by an angle.
 
-setSlot(ppos, slotEnt) -- sets a slot
 
+-- item mangling:
 swap(item1, item2) -- swaps positions of 2 item entities
 move(item1, ppos) -- moves an item to ppos. Will overwrite
 detach(ent) -- removes an entity from a plot. position info is nilled.
 
+
 update(ent, ppos) -- updates the .plot, .slot values for `ent`.
 -- This should be called whenever `ent` changes position.
+-- TODO::: DO WE NEED THIS???
+-- Probably not.... do some thinking, tho
 
-cloned = clone(ent)
+clonedEnt = clone(ent)
 
 
 
 local item = spawn(itemEType) -- tries to spawn an item at ppos
 
+
+setItem(slotEnt, itemEnt)
+getItem(slotEnt)
+setSlot(ppos)
+getSlot(ppos)
 
 
 ppos = above(ppos) -- gets the ppos ABOVE this ppos
@@ -50,8 +58,8 @@ touching(...)
     end)
 
 
--- other ideas:
-touching:filterTraitMatch(ent.traits) -- filters on matching trait(s)
+    -- other ideas:
+    :filterTraitMatch(ent.traits) -- filters on matching trait(s)
 -- (^^^ definitely hardcode common methods like this)
 
 
