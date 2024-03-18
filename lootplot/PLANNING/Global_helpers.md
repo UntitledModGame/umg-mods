@@ -2,25 +2,57 @@
 # Global helpers:
 
 ```lua
-itemEnt = get(ppos)
 
-activate(pass) -- activates an ITEM at a ppos.
--- can also pass in an ent for more fine-grained control.
+activate(ent) -- activates an entity
 
-destroy(pass) -- kills ent
+destroy(ent)
 
-sell(pass) -- sells item at plotPos
-rotate(ppos, angle=math.pi/2) -- rotates item by an angle.
+sell(ent)
+rotate(ent, angle=math.pi/2) -- rotates by an angle.
 
-trySpawn(ppos, itemEType)
+setSlot(ppos, slotEnt) -- sets a slot
+
+swap(item1, item2) -- swaps positions of 2 item entities
+move(item1, ppos) -- moves an item to ppos. Will overwrite
+detach(ent) -- removes an entity from a plot. position info is nilled.
+
+update(ent, ppos) -- updates the .plot, .slot values for `ent`.
+-- This should be called whenever `ent` changes position.
+
+cloned = clone(ent)
 
 
--- directly sets/gets an item
-set(ppos, itemEnt)
-get(ppos)
+
+local item = spawn(itemEType) -- tries to spawn an item at ppos
 
 
-copy(srcPos, targPos) -- copies an item
+
+ppos = above(ppos) -- gets the ppos ABOVE this ppos
+_,_,_ = below(ppos), left(ppos), right(ppos)
+item = getItem(above(ppos))
+slot = getSlot(above(ppos))
+
+
+-- looping over ents:
+local ents = touching(ent) -- gets all ents that we are touching:
+
+touching(ent):loop(function(ppos)
+    -- loops over all neighbour positions, `ppos`
+end)
+
+-- We can also use filter API, w/ chaining:
+touching(...)
+    :filter(func)
+    :items() -- ppos --> item
+    :loop(function(itemEnt)
+        -- loops over all neighbour item ents. 
+        -- Note: item
+    end)
+
+
+-- other ideas:
+touching:filterTraitMatch(ent.traits) -- filters on matching trait(s)
+-- (^^^ definitely hardcode common methods like this)
 
 
 -- STRETCH / NYI:
@@ -28,27 +60,7 @@ burn(ppos)
 
 
 
--- looping over ents:
-local ents = touching(...) -- gets all ents that we are touching:
-touching(...):loop(function(ppos)
-    -- loops over all neighbour positions, `ppos`
-end)
-
---[[
-    TODO:
-    Wtf do we pass into `touching(...)`?
-    We could pass original posititon- `ppos`
-]]
-
--- We can also use filter API, w/ chaining:
-touching(...)
-:filter(func)
-:filterTraitMatch(ent.traits) -- filters on matching trait(s)
--- (^^^ definitely hardcode common methods like this)
-:loop(function(ppos)
-    -- loops over all 
-end)
-
 
 ```
+
 

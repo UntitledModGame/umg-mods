@@ -9,19 +9,12 @@ Global api helper methods.
 
 local api = {}
 
-function api.getSlot(ppos)
-    -- gets a slot-pass from a ppos
-    return {
-        slot = ppos.slot,
-        plot = ppos.plot,
-        entity = ppos.plot:get(ppos.slot)
-    }
-end
 
 function api.setSlot(ppos, slotEnt)
     -- directly sets a slot
     assert(umg.exists(slotEnt), "?")
     ppos.plot:set(ppos.slot, slotEnt)
+    update(slotEnt, ppos)
 end
 
 
@@ -33,11 +26,17 @@ function api.getItem(ppos)
     end
 end
 
+function api.getSlot(ppos)
+    
+end
+
+
 function api.setItem(ppos, itemEnt)
     local slotEnt = getSlot(ppos)
     if slotEnt and umg.exists(slotEnt.item) then
         slotEnt.item = itemEnt
         sync.syncComponent(slotEnt, "item")
+        update(itemEnt)
     end
 end
 

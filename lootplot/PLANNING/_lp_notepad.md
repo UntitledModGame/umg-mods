@@ -114,5 +114,33 @@ A `pass` is of the following shape:
 ```
 A `pass` represents a ppos, AND an entity that is being targeted.
 
+### FINAL IDEA:
+Remove `ppos` and `ppass`.
+Store positions inside of entities instead.   
+Yes, this is more fragile. But is 5x more ergonomic and powerful.
+
+
+
+
+
+
+
+
+# Issue: setting/moving ents
+Moving an item-ent is A LOT different from moving a slot.
+(Slot: needs to change position within plot)
+(Item: needs to change slot.item component)
+
+How should we handle this?
+Maybe, we have flag-components for slots and items that allows us to differentiate them at an engine level...?
+
+### SOLN-1:
+Don't allow movement of slots.
+Just allow for movement of items.
+This makes a lot more sense; since slots aren't really supposed to be moved.
+
+
+
+
 
 

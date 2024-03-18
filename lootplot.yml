@@ -24,6 +24,11 @@ globals:
     - type: any
     - type: any
 
+  move:
+    args:
+    - type: any
+    - type: any
+
   rotate:
     args:
     - type: any

@@ -61,7 +61,10 @@ end
 
 
 function Plot:foreach(func)
-    self.grid:foreach(func)
+    self.grid:foreach(function(val, x, y)
+        local slotI = self.grid:coordsToIndex(x,y)
+        func(val, slotI)
+    end)
 end
 
 

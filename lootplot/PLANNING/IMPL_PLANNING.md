@@ -29,10 +29,12 @@ A PlotPos (or ppos) is kinda like a dimensionVector.
 It just stores a plot, PLUS a position within said plot.
 ```lua
 PlotPos {
-    plot = plotEnt,
-    slot = 12
+    _plot = plotEnt,
+    _slot = 12
 }
 ```
+The reason the fields start with _, is because within entities,
+they are ephemeral components.
 
 
 
