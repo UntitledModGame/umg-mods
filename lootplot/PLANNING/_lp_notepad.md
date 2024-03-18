@@ -87,7 +87,32 @@ I feel like thats a bit weird... idk
 
 Are there any valid use-cases for blocking item-removal?
 (Not really, I feel like!)
-But it'd add symmetry.
+
+
+
+
+
+---
+
+## Global helper simplicity:
+We have a big issue on our hands.
+
+If we want to keep global-helpers generic, we must pass the entity in.
+
+Consider the `onDeath` callback.
+If we do `call("onDeath", ent)`, there is NO WAY for the entity 
+to know the position that it resides in.
+
+IDEA: Create a new object: `pass`.
+A `pass` is of the following shape:
+```lua
+{
+    slot = 12,
+    plot = plotObj,
+    entity = ent
+}
+```
+A `pass` represents a ppos, AND an entity that is being targeted.
 
 
 

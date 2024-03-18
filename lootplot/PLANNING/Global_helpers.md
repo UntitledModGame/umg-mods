@@ -4,13 +4,12 @@
 ```lua
 itemEnt = get(ppos)
 
-activate(ppos_or_ent) -- activates an ITEM at a ppos.
+activate(pass) -- activates an ITEM at a ppos.
 -- can also pass in an ent for more fine-grained control.
 
-destroy(ppos) -- kills item at ppos
-destroySlot(ppos) -- kills slot at ppos!
+destroy(pass) -- kills ent
 
-sell(ppos) -- sells item at plotPos
+sell(pass) -- sells item at plotPos
 rotate(ppos, angle=math.pi/2) -- rotates item by an angle.
 
 trySpawn(ppos, itemEType)

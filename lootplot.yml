@@ -1,16 +1,17 @@
 
-
 globals:
   activate:
     args:
     - type: any
-  set:
+
+  setSlot:
     args:
     - type: any
     - type: any
-  get:
+  getSlot:
     args:
     - type: any
+
   destroy:
     args:
     - type: any
@@ -19,10 +20,6 @@ globals:
     - type: any
 
   copy:
-    args:
-    - type: any
-    - type: any
-  copySlot:
     args:
     - type: any
     - type: any
