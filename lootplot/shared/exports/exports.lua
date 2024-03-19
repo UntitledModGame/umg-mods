@@ -199,10 +199,11 @@ function api.rerollItem(slotEnt_or_ppos)
 end
 
 function api.trySpawnItem(ppos, itemEType)
-    local slot = posToItem(ppos)
-    if slot then
+    local slotEnt = posToItem(ppos)
+    if slotEnt then
         local itemEnt = spawn(itemEType)
-        setItem(ppos, itemEnt)
+        attachItem(itemEnt, slotEnt)
+        return itemEnt
     end
 end
 

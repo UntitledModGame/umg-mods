@@ -26,15 +26,33 @@ activate(ent) -- activates an entity.
     -- NOTE: Activating a slot will also activate the item that it holds!
 destroy(ent)
 rotate(ent, angle=math.pi/2) -- rotates by an angle.
-reroll(ent)
 clonedEnt = clone(ent)
-local item = trySpawnItem(ppos, itemEType) -- tries to spawn an item at ppos
 
+
+removeAugment(ent, AUGMENT)
+addAugment(ent, AUGMENT, val)
+
+
+--[[
+    Point manipulation:
+]]
 addPoints(ent, X)
 multiplyPoints(ent, X)
 -- (ent is passed here, is because we add juice)
 -- (also, we need to know what plot to add points to!!)
 
+
+
+
+
+
+--[[
+    Entity Type Creation:
+]]
+-- (Will call `umg.newEntityType()` internally, and add appropriate flags)
+defineSlotEntity({ ... })
+
+defineItemEntity({ ... })
 
 
 
@@ -48,7 +66,8 @@ multiplyPoints(ent, X)
 buyItem(ent)
 sellItem(ent)
 --------------------
-addMoney(ent, X) 
+addMoney(ent, X)
+multiplyMoney(ent, X)
 -- Q: why do we pass in `ent` here?
 -- A: because `ent` will release a little particle fx, 
 --      AND we need to know the clientId/plot to give money to.
@@ -65,7 +84,8 @@ attachItem(slotEnt, item) -- moves an item to slot. Will overwrite
 moveItem(item, slotEnt) -- moves an item to slot. Will overwrite
 swapItem(item1, item2) -- swaps positions of 2 item entities
 
-
+rerollItem(ent)
+local item = trySpawnItem(ppos, itemEType)
 
 
 --[[
@@ -82,7 +102,6 @@ setSlot(ppos, slotEnt)
 posToSlot(ppos)
 posToItem(ppos)
 getPos(item_or_slot)
-getPlot(item_or_slot) -- gets the plot that this item or slot is under
 
 
 

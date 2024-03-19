@@ -15,10 +15,10 @@ slotTc(slotEnt)
 itemTc(itemEnt)
 
 
-
+RPC("mystring", {"entity", "number"}, 
+function(ent, slot)
+    ...
+end)
 
 ```
-
-
-
 

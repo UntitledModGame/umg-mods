@@ -66,7 +66,7 @@ end
 
 
 
-function PPos:isInside()
+function PPos:isInPlot()
     local grid = self.plot.grid
     local x,y = grid:indexToCoords(self.slot)
     return grid:contains(x,y)

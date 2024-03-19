@@ -5,6 +5,13 @@
 ```mermaid
 
 graph TD
+    subgraph Context
+        money
+        points
+    end
+    Context --> player
+    Context--> world
+
     subgraph world
         WorldPlot(World Plot)
         level
@@ -12,7 +19,6 @@ graph TD
     subgraph player
         PlayerEnt
         PlayerEnt --> InventoryPlot
-        PlayerEnt --> money
         InventoryPlot --> LUI-Elem
         InventoryPlot(Inventory Plot)
     end
