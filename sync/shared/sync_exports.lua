@@ -35,6 +35,8 @@ if server then
 end
 
 
+sync.makeDualFunction = require("shared.dual")
+
 
 
 umg.expose("sync", sync)
