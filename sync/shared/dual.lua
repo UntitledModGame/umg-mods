@@ -5,7 +5,7 @@
 
 DUAL-FUNCTIONS API:
 
-local func = sync.makeDualFunction("mod:name", myFunc, {
+local func = sync.newDualFunction("mod:name", myFunc, {
     typelist = {"entity", "number"}
 })
 
@@ -52,6 +52,9 @@ local function makeDual(name, func, opt)
 
     local function dualFunc(...)
         tc(...)
+        if opt.serverOnly then
+            assert(server, "Must be called on server!")
+        end
         if server then
             server.broadcast(packet, ...)
         end

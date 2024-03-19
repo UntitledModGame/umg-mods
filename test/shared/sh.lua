@@ -51,7 +51,9 @@ chat.handleCommand("lighting", {
     handler = function(sender, dimension, r,g,b)
         if client then
             local dim = spatial.getDimension(dimension)
-            light.setLighting(dim, r,g,b)
+            if dim then
+                light.setLighting(dim, r,g,b)
+            end
         end
     end
 })
