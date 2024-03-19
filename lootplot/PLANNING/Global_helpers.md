@@ -3,18 +3,18 @@
 
 ```lua
 
-activate(ent) -- activates an entity
+activate(ent) -- activates an entity.
+-- NOTE: Activating a slot will also activate the item that it holds!
 
 destroy(ent)
 
 sell(ent)
 rotate(ent, angle=math.pi/2) -- rotates by an angle.
 
-
 -- item mangling:
+detach(item) -- removes an entity from a plot. position info is nilled.
+attach(slotEnt, item) -- moves an item to ppos. Will overwrite
 swap(item1, item2) -- swaps positions of 2 item entities
-move(item1, ppos) -- moves an item to ppos. Will overwrite
-detach(ent) -- removes an entity from a plot. position info is nilled.
 
 
 update(ent, ppos) -- updates the .plot, .slot values for `ent`.

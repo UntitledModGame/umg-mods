@@ -53,6 +53,10 @@ since the shop would just be a regular inventory, with reroll+buyable slots.
 
 - End of round: Multiply shop prices by -1. Then, destroy this item.
 
+- Gear: When rotated, rotate all touching items.
+    (^^^ Remember to have `maxActivations` for this one!!!)
+    (If we put 2 gears next to each other; infinite loop.)
+
 - Piggy: Start of round: Gain +1 gold for every 10 gold you have.
 
 - When item is cloned: 

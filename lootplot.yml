@@ -8,7 +8,11 @@ globals:
     args:
     - type: any
     - type: any
-  getSlot:
+
+  posToSlot:
+    args:
+    - type: any
+  posToItem:
     args:
     - type: any
 

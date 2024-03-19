@@ -13,39 +13,23 @@ local api = {}
 
 
 
-function api.setSlot(ppos, slotEnt)
-    -- directly sets a slot
-    assert(umg.exists(slotEnt), "?")
-    local prevEnt = getSlot(ppos)
-    if prevEnt then
-        destroy(prevEnt)
-    end
-    ppos.plot:set(ppos.slot, slotEnt)
-    ptrack.set(slotEnt, ppos)
-end
+--[[
+    Positioning:
+]]
 
-
-function api.getSlot(ppos)
+function api.posToSlot(ppos)
     local ent = ppos.plot:get(ppos.slot)
     if umg.exists(ent) then
         return ent
     end
 end
 
-
-
-local posTc = typecheck.assert("ppos")
-local ent2Tc = typecheck.assert("entity", "entity")
-
-
-function api.getItem(ppos)
-    posTc(ppos)
-    local slotEnt = getSlot(ppos)
-    if slotEnt and umg.exists(slotEnt.item) then
-        return slotEnt.item
+function api.posToItem(ppos)
+    local slot = api.posToSlot(ppos)
+    if slot and umg.exists(slot.item) then
+        return slot.item
     end
 end
-
 
 function api.getPos(ent)
     -- Gets the ppos of an ent
@@ -55,39 +39,65 @@ end
 
 
 
-function api.detach(item)
-    local ppos = ptrack.get(item)
-    if not ppos then
-        return
+
+local posTc = typecheck.assert("ppos")
+local ent2Tc = typecheck.assert("entity", "entity")
+
+
+function api.setSlot(ppos, slotEnt)
+    -- directly sets a slot
+    assert(umg.exists(slotEnt), "?")
+    local prevEnt = posToItem(ppos)
+    if prevEnt then
+        destroy(prevEnt)
     end
-    local slot = getSlot(ppos)
-    if slot then
-        error([[
-            todo:
-            plan thru ALLL of this shit.
-            Plan thru it all.
-        ]])
+    ppos.plot:set(ppos.slot, slotEnt)
+    ptrack.set(slotEnt, ppos)
+end
+
+
+
+
+
+function api.getItem(ppos)
+    posTc(ppos)
+    local slotEnt = posToItem(ppos)
+    if slotEnt and umg.exists(slotEnt.item) then
+        return slotEnt.item
     end
 end
 
 
 
 
---[[
+function api.detach(item)
+    -- removes an entity from a plot. position info is nilled.
+    local ppos = ptrack.get(item)
+    local slot = ppos and posToItem(ppos)
+    if (not slot) or (slot.item ~= item) then
+        return
+    end
+    -- OK: Item is upon the slot, we just need to remove it.
+    slot.item = nil
+    ptrack.set(item, nil)
+    -- TODO: Do callback here...?
+    --[[
+        hmm,
+        we somehow need to sync this operation to the client.
+        Maybe a dual-function?
+    ]]
+end
 
-TODO:
-Whats the difference between attach and move???
 
-]]
-function api.attach(slotEnt_or_ppos, item)
-    assert(not ptrack.get(itemEnt), "Item already attached somewhere else")
+function api.attach(slotEnt, item)
+    assert(not ptrack.get(item), "Item already attached somewhere else")
 end
 
 
 function api.move(item, ppos_or_slotEnt)
     -- moves an item to a position
     detach(item)
-    attach(getSlot(ppos), item)
+    attach(posToItem(ppos), item)
 
     if umg.exists(slotEnt) then
         slotEnt.item = itemEnt
@@ -106,10 +116,6 @@ function api.swap(item1, item2)
     detach(item2)
     move(item1, p2)
     move(item2, p1)
-
-    error[[
-        todo
-    ]]
 end
 
 
@@ -152,7 +158,7 @@ end
 
 
 function api.trySpawnItem(ppos, itemEType)
-    local slot = getSlot(ppos)
+    local slot = posToItem(ppos)
     if slot then
         local itemEnt = spawn(itemEType)
         setItem(ppos, itemEnt)
