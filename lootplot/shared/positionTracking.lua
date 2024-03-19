@@ -45,7 +45,9 @@ end)
 
 
 
+local posTc = typecheck.assert("ppos")
 function ptrack.set(ent, ppos)
+    posTc(ppos)
     positionRef[ent] = ppos
     if ent.item then
         ptrack.set(ent, ppos)

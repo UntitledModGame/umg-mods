@@ -19,7 +19,7 @@ globals:
   destroy:
     args:
     - type: any
-  sell:
+  sellItem:
     args:
     - type: any
 
@@ -28,10 +28,25 @@ globals:
     - type: any
     - type: any
 
-  move:
+  moveItem:
     args:
     - type: any
     - type: any
+  swapItems:
+    args:
+    - type: any
+    - type: any
+
+  posTc:
+    args:
+    - type: any
+  # itemTc:
+  #   args:
+  #   - type: any
+  # slotTc:
+  #   args:
+  #   - type: any
+
 
   rotate:
     args:

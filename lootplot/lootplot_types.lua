@@ -11,3 +11,5 @@ typecheck.addType("ppos", function(x)
 end)
 
 
+
+_G.posTc = typecheck.assert("ppos")

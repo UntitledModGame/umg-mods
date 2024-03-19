@@ -12,12 +12,14 @@ local ptrack = require("shared.positionTracking")
 local api = {}
 
 
+api.PPos = require("shared.PPos")
+
+
+
 
 --[[
     Positioning:
 ]]
-local posTc = typecheck.assert("ppos")
-
 function api.posToSlot(ppos)
     posTc(ppos)
     local ent = ppos.plot:get(ppos.slot)
@@ -40,14 +42,6 @@ function api.getPos(ent)
     return ppos
 end
 
-
-
-
-
-
---[[
-    DIRECTIONS:
-]]
 
 
 
@@ -92,7 +86,7 @@ local function _detachItem(item)
     slot.item = nil
     ptrack.set(item, nil)
 end
-api.detachItem = sync.newDualFunction(_detachItem, "detachItem", {
+api.detachItem = sync.newDualFunction(_detachItem, "lootplot:detachItem", {
     typelist = {"entity"},
     serverOnly = true
 })
@@ -108,7 +102,7 @@ local function _attachItem(slotEnt, item)
     slotEnt.item = item
     ptrack.set(item, ppos)
 end
-api.attachItem = sync.newDualFunction(_attachItem, "attachItem", {
+api.attachItem = sync.newDualFunction(_attachItem, "lootplot:attachItem", {
     typelist = {"entity", "entity"},
     serverOnly = true
 })
@@ -149,25 +143,23 @@ end
 
 
 local ent2Tc = typecheck.assert("entity", "entity")
-function api.swapItem(item1, item2)
+function api.swapItems(item1, item2)
     ent2Tc(item1, item2)
     local slot1, slot2 = posToSlot(getPos(item1)), posToSlot(getPos(item2))
     assert(slot1 and slot2, "Cannot swap nil-position")
     detachItem(item1)
     detachItem(item2)
-    attachItem(item1, slot1)
-    attachItem(item2, slot2)
+    attachItem(item1, slot2)
+    attachItem(item2, slot1)
 end
 
 
 
 function api.activate(ent)
-    if umg.exists(ent) then
-        --[[
-            todo: prolly need to tag into some API here
-        ]]
-        activateEnt(ent)
-    end
+    --[[
+        todo:
+        this should almost definitely be a dual function
+    ]]
 end
 
 
@@ -213,7 +205,6 @@ function api.trySpawnItem(ppos, itemEType)
         setItem(ppos, itemEnt)
     end
 end
-
 
 
 
