@@ -1,7 +1,7 @@
 
 
 
-return {
+return umg.defineEntityType("musket", {
     maxStackSize = 1;
 
     image="musket";
@@ -23,5 +23,5 @@ return {
     itemCooldown = 1,
    
     itemHoldType = "recoil",
-}
+})
 

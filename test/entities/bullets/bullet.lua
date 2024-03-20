@@ -3,7 +3,7 @@
 local SHAPE = love.physics.newCircleShape(1)
 
 
-return {
+return umg.defineEntityType("bullet", {
     rotateOnMovement = true,
     image = "bullet",
 
@@ -19,5 +19,5 @@ return {
     },
 
     light = {}
-}
+})
 

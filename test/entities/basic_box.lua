@@ -31,7 +31,7 @@ end
 
 
 
-return {
+umg.defineEntityType("basic_box", {
     image = "crate",
 
     color = {1,0,0},
@@ -52,5 +52,5 @@ return {
         ent.uiElement = BasicBox()
         ent.uiRegion = ui.Region(100,100,300,300)
     end
-}
+})
 

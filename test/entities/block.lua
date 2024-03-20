@@ -1,6 +1,6 @@
 
 
-return {
+umg.defineEntityType("block", {
     maxHealth = 100,
     
     bobbing = {},
@@ -22,5 +22,5 @@ return {
     end,
 
     initVxVy = true
-}
+})
 

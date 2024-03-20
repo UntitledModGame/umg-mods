@@ -19,7 +19,7 @@ if client then
 end
 
 
-return {
+return umg.defineEntityType("flare", {
     rotateOnMovement = true,
     drawable = true,
 
@@ -36,5 +36,5 @@ return {
         size = 500,
         color = {1,0.95,0.95}
     }
-}
+})
 

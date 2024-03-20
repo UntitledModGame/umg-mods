@@ -1,5 +1,5 @@
 
-return {
+return umg.defineEntityType("crate", {
     image = "crate",
     authorizeInRange = {
         distance = 100,
@@ -17,5 +17,5 @@ return {
         size = 240;
         color = {1,1,1}
     };
-}
+})
 

@@ -68,6 +68,10 @@ globals:
     - type: string
     - required: false
       type: '...'
+  umg.defineEntityType:
+    args:
+    - type: string
+    - type: table
   umg.definePacket:
     args:
     - type: string

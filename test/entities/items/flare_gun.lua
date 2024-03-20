@@ -1,5 +1,5 @@
 
-return {
+return umg.defineEntityType("flare_gun", {
     maxStackSize = 1;
     image="flare_gun";
     itemName = "Flare gun";
@@ -19,4 +19,4 @@ return {
     itemCooldown = 0.1,
    
     itemHoldType = "recoil",
-}
+})
