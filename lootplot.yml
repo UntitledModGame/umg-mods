@@ -9,6 +9,9 @@ globals:
     - type: any
     - type: any
 
+  getPos:
+    args:
+    - type: any
   posToSlot:
     args:
     - type: any
@@ -28,7 +31,10 @@ globals:
     - type: any
     - type: any
 
-  moveItem:
+  detachItem:
+    args:
+    - type: any
+  attachItem:
     args:
     - type: any
     - type: any
@@ -58,6 +64,12 @@ globals:
     args:
     - type: any
     - type: any
+
+  RPC:
+    args:
+    - type: string
+    - type: table
+    - type: function
 
 
 

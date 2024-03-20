@@ -74,8 +74,9 @@ end
 --[[
     Movement of items:
 ]]
+local ENT = "entity"
 
-local function _detachItem(item)
+api.detachItem = RPC("lootplot:detachItem", {ENT}, function(item)
     -- removes an entity from a plot. position info is nilled.
     local ppos = ptrack.get(item)
     local slot = ppos and posToItem(ppos)
@@ -85,14 +86,11 @@ local function _detachItem(item)
     -- OK: Item is upon the slot, we just need to remove it.
     slot.item = nil
     ptrack.set(item, nil)
-end
-api.detachItem = sync.newDualFunction(_detachItem, "lootplot:detachItem", {
-    typelist = {"entity"},
-    serverOnly = true
-})
+
+end)
 
 
-local function _attachItem(slotEnt, item)
+api.attachItem = RPC("lootplot:attachItem", {ENT,ENT}, function(item, slotEnt)
     assert(not ptrack.get(item), "Item attached somewhere else")
     local ppos = getPos(slotEnt)
     if umg.exists(slotEnt.item) then
@@ -101,11 +99,7 @@ local function _attachItem(slotEnt, item)
     end
     slotEnt.item = item
     ptrack.set(item, ppos)
-end
-api.attachItem = sync.newDualFunction(_attachItem, "lootplot:attachItem", {
-    typelist = {"entity", "entity"},
-    serverOnly = true
-})
+end)
 
 
 
