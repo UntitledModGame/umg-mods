@@ -10,6 +10,9 @@ ent.item = itemEnt
 
 
 
+ent.plot = Plot()
+
+
 
 ```
 

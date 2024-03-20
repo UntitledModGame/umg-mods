@@ -1,4 +1,6 @@
 
+require("lootplot_types")
+
 
 local G = {}
 
@@ -12,6 +14,9 @@ G.posTc = typecheck.assert("ppos")
 local rpcTc = typecheck.assert("string", "table", "function")
 function G.RPC(packetName, args, func)
     rpcTc(packetName, args, func)
+    umg.definePacket(packetName, {
+        typelist = args
+    })
     
     local tc = typecheck.assert(unpack(args))
     local function rpcFunc(...)

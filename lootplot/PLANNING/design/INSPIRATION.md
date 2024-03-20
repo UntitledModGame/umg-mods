@@ -6,17 +6,6 @@ List of crazy/wacky ideas/mechanics that could be used:
 
 
 
-# Modifiers:
-"Modifiers" appear as a little image above the entity.
-They signify some modifier upon the item/slot.
-- Doomed: This will be destroyed in `N` rounds
-    (Number will be shown when hovered)
-- Exhalted: This will activate TWICE
-- Coined: This will give $1 when activated
-- Loaned: Lose $1 when this item activates. Cannot activate with no money.
-- Nulled: This cannot activate
-
-
 
 # Supers:
 supers + comboslots: (todo: think of better name plz)
@@ -74,5 +63,7 @@ since the shop would just be a regular inventory, with reroll+buyable slots.
     - `contagion`: Start of round: 
         Clone self into all touching slots.
 
+- End of round: Create `doomed` slots in a ROOK shape. 
+    Does not overwrite.
 
 

@@ -166,11 +166,14 @@ applied by other entities.
 - Fragile: Will be destroyed when moved
 - Dicey: Will reroll at the start of the round
 - Explosive: When destroyed, will destroy neighbouring entities
+- Nulled: This cannot activate
 ## Variable Augments:
 - Revive-X: When destroyed, will revive itself X times, as a clone
 - Doomed-X: Dies after X rounds
 - Blessed-X: Will activate X times
-- Golden-X: Generates +X gold at the end of the round
+- Golden-X: Generates $X at the end of the round
+- Coined-X: Gives $X when activated
+- Loaned-X: Lose $X when activated. Cannot activate with no money
 
 
 

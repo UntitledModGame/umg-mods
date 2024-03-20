@@ -26,14 +26,28 @@ end
 
 
 
+
+
+local INDEX = "number"
+local ENT = "entity"
+
+umg.definePacket("lootplot:setPlotSlot", {
+    typelist = {ENT, INDEX, ENT}
+})
+
+umg.definePacket("lootplot:clearPlotSlot", {
+    typelist = {ENT, INDEX}
+})
+
 function Plot:setSlot(index, slotEnt)
     local x,y = self.grid:indexToCoords(index)
     self.grid:set(x,y, slotEnt)
     if server then
+        local plotEnt = self.ownerEnt
         if slotEnt then
-            server.broadcast("lootplot:setPlotSlot", index, slotEnt)
+            server.broadcast("lootplot:setPlotSlot", plotEnt, index, slotEnt)
         else
-            server.broadcast("lootplot:clearPlotSlot", index)
+            server.broadcast("lootplot:clearPlotSlot", plotEnt, index)
         end
     end
 end
