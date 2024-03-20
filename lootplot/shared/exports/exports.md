@@ -33,6 +33,18 @@ removeAugment(ent, AUGMENT)
 addAugment(ent, AUGMENT, val)
 
 
+
+
+--[[
+    Event/activation buffering:
+    TODO: Do better planning for this.
+]]
+buffer(f, ...)
+
+
+
+
+
 --[[
     Point manipulation:
 ]]
