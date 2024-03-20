@@ -26,6 +26,14 @@ and then place items in the ComboSlots.
 For example:
 Super-Clone-Gem: requires 2 rulebender, 1 primitive, and 1 legendary item
 
+^^^ This would solve the "Bloat" issue.
+Currently, a big "issue" with LOOTPLOT, (and tower-defences in general,)
+Is that the map gets way more bloated, and harder to understand as the game
+goes on.
+The idea of `Supers` would solve this very well!! :)
+
+
+
 
 
 ## World slots:

@@ -183,12 +183,18 @@ For example:
     - steal money
     - duplicate themselves
     - apply modifiers to items
+-------
 ## ENEMY IDEAS:
 - Zombie: Will spawns copies of itself. Subtracts 5 points per round.
 - Ghost: Nullifies slots. To kill a ghost, you must kill it's tombstone.
 - Skeleton: Applies `doomed` debuff to a random item each round.
 - SpiderRat: Steals 3 gold every round
 - Salamander: Ignites all slots in a ROOK shape. 10% chance to destroy slot.
+------
+- Tophat: Convert random slots into BUY slots. 
+    (Forces the player to buy back their own items)
+- Monocle: Disables all `fiscal`-trait items in QUEEN shape.
+----
 ## VISUALS:
 We need to make a VERY CLEAR distinction between an enemy, and an item.
 Maybe: a pulsing red outline around enemies?
@@ -198,12 +204,13 @@ Maybe: a pulsing red outline around enemies?
 
 
 # TRAIT IDEAS:
-- Botanic
-- Rulebender
+- Botanic (starter items. Very basic)
+- Rulebender (anything meta)
 - Deathly
 - Cloneweaver
-- Arcane
-- Primitive
+- Mechanical (gears, anything with rotation)
+- Fiscal (anything that interacts with money)
+- Serpent (anything that scales really well)
 
 
 
