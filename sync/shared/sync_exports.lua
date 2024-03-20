@@ -31,7 +31,6 @@ if server then
 end
 
 
-sync.newDualFunction = require("shared.dual")
 
 
 
