@@ -7,7 +7,7 @@ List of crazy/wacky ideas/mechanics that could be used:
 
 
 
-# Supers:
+# Supers + Combo-slots:
 supers + comboslots: (todo: think of better name plz)
 supers could be special items that are made by "merging" other items.
 To create a super, you need to place "ComboSlots" next to each other,
@@ -17,9 +17,10 @@ Super-Clone-Gem: requires 2 rulebender, 1 primitive, and 1 legendary item
 
 ^^^ This would solve the "Bloat" issue.
 Currently, a big "issue" with LOOTPLOT, (and tower-defences in general,)
-Is that the map gets way more bloated, and harder to understand as the game
-goes on.
+Is the map gets too bloated/hard to understand as the game progresses.
 The idea of `Supers` would solve this very well!! :)
+
+(Scaling items also help to solve the bloat issue too.)
 
 
 

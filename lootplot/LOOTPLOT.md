@@ -167,12 +167,12 @@ applied by other entities.
 - Dicey: Will reroll at the start of the round
 - Explosive: When destroyed, will destroy neighbouring entities
 - Nulled: This cannot activate
+- Sticky: This item cannot be sold
 ## Variable Augments:
 - Revive-X: When destroyed, will revive itself X times, as a clone
 - Doomed-X: Dies after X rounds
 - Blessed-X: Will activate X times
-- Golden-X: Generates $X at the end of the round
-- Coined-X: Gives $X when activated
+- Golden-X: Gives $X when activated
 - Loaned-X: Lose $X when activated. Cannot activate with no money
 
 
