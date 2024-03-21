@@ -10,11 +10,12 @@ local BACKGROUND_COLOR = {0.2,0.2,0.2,0.5}
 
 
 components.project("nametag", "text", function(ent)
-    ent.text = {
+    local nametag = ent.nametag
+    return {
         scale = SCALE,
         default = DEFAULT,
         component = "controller",
-        oy = EXTRA_OY,
+        oy = nametag.oy or EXTRA_OY,
         background = BACKGROUND_COLOR,
         disableScaling = true
     }

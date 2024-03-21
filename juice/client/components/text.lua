@@ -73,7 +73,7 @@ umg.on("rendering:drawEntity", ORDER, function(ent, x,y, rot, sx,sy)
 
     if text.background then
         local border = text.backgroundBorder or DEFAULT_BG_BORDER
-        local xx = ent.x + (text_ox - width/2 - border) * sx
+        local xx = x + (text_ox - width/2 - border) * sx
         local yy = y + (text_oy - height/2 - border) * sy
         local ww = (width + border*2) * sx
         local hh = (height + border*2) * sy
@@ -88,7 +88,7 @@ umg.on("rendering:drawEntity", ORDER, function(ent, x,y, rot, sx,sy)
             val, 
             x + text_ox - 1, 
             y + text_oy - 1,
-            ent.rot, sx, sy,
+            rot, sx, sy,
             width/2, height/2
         )
     end

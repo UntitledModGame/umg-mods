@@ -20,7 +20,7 @@ local DEFAULT_BACKGROUND_COLOR = {0.4,0.4,0.4,0.4}
 
 local lg=love.graphics
 
-local function drawHealthBar(ent, x,y, r,sx,sy)
+local function drawHealthBar(ent, x,y, r, sx,sy)
     -- draw the healthbar!
     local hb = ent.healthBar
     local w = hb.drawWidth or DEFAULT_DRAW_WIDTH
@@ -32,7 +32,6 @@ local function drawHealthBar(ent, x,y, r,sx,sy)
 
     lg.push("all")
     lg.rotate(r)
-    lg.scale(sx, sy)
 
     lg.setLineWidth(1)
     x = x - w/2

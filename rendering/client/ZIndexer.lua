@@ -179,8 +179,8 @@ end
 
 
 local function drawWorldEntity(ent)
-    local x = ent.x + getOffsetX(ent)
-    local y = getDrawY(ent.y + getOffsetY(ent), ent.z)
+    local x = ent.x - getOffsetX(ent)
+    local y = getDrawY(ent.y - getOffsetY(ent), ent.z)
 
     local rot = getRotation(ent)
     local scale = getScale(ent)
