@@ -29,7 +29,7 @@ return umg.defineEntityType("player", {
     
     topdownControl = {};
 
-    nametag = {};
+    nametag = {oy = -14};
 
     physics = {
         shape = love.physics.newCircleShape(5);

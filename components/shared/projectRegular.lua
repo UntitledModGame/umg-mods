@@ -31,6 +31,7 @@ local function setupProjection(group, targComp, targetValue)
         group:onAdded(function(ent)
             if not ent[targComp] then
                 ent[targComp] = func(ent, targComp)
+                assert(ent[targComp], "Projected component value cannot be nil")
             end
         end)
     else

@@ -4,7 +4,7 @@ local DEFAULT = "UNNAMED"
 
 local SCALE = 1/2
 
-local EXTRA_OY = 10
+local EXTRA_OY = -20
 
 local BACKGROUND_COLOR = {0.2,0.2,0.2,0.5}
 

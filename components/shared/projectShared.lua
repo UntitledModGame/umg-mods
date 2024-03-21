@@ -13,6 +13,7 @@ local projectionMap = {--[[
 local function set(etype, comp, value)
     if type(value) == "function" then
         value = value(etype, comp)
+        assert(value, "Projected component value cannot be nil")
     end
     etype[comp] = value
 end

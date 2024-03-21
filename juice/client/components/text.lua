@@ -73,8 +73,8 @@ umg.on("rendering:drawEntity", ORDER, function(ent, x,y, rot, sx,sy)
 
     if text.background then
         local border = text.backgroundBorder or DEFAULT_BG_BORDER
-        local xx = x + (text_ox - width/2 - border) * sx
-        local yy = y + (text_oy - height/2 - border) * sy
+        local xx = x + text_ox + (-width/2 -border) * sx
+        local yy = y + text_oy + (-height/2 -border) * sy
         local ww = (width + border*2) * sx
         local hh = (height + border*2) * sy
         love.graphics.setColor(text.background)
