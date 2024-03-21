@@ -1,7 +1,0 @@
-{
-    "type":"addon",
-
-    "needs": ["base"],
-
-    "uses": ["base","categories","chunks","chat","ui","grids"]
-}
