@@ -24,7 +24,17 @@ function PPos:init(ppos)
     posTc(ppos)
     self.slot = ppos.slot
     self.plot = ppos.plot
+    self.rotation = ppos.rotation or 0
 end
+
+
+local ROTATIONS = {
+    -- ac +ve
+    [0] = function(x,y) return x,y end,
+    [1] = function(x,y) return -y,x end,
+    [2] = function(x,y) return -x,-y end,
+    [3] = function(x,y) return y,-x end
+}
 
 
 local number2Tc = typecheck.assert("number", "number")
@@ -37,7 +47,8 @@ function PPos:move(dx, dy)
     local newSlot = plot.grid:coordsToIndex(x,y)
     return PPos({
         plot = plot,
-        slot = newSlot
+        slot = newSlot,
+        rotation = self.rotation
     })
 end
 

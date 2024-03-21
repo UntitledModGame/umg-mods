@@ -144,3 +144,22 @@ This makes a lot more sense; since slots aren't really supposed to be moved.
 
 
 
+# Rendering UI Slots:
+We have a *smol* lil issue here:
+
+- Entities are rendered in the world, fine (All handled by ZIndexer)
+- Entities can't *really* be rendered well in a UI context
+    - (Must do a bunch of fucky scaling/translations before we render)
+
+Is this *too* much of a big deal...?
+
+IDEA:
+Revamp rendering entirely.
+Don't use `ent.x, ent.y` as positions to images.
+Instead, translate the entity FULLY before rendering.
+
+This way, we have *way* more control when we render entities in alternative contexts (like GUI.)
+Ask Xander
+
+
+

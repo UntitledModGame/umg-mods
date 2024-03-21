@@ -65,8 +65,6 @@ rendering.animate = animate.animate;
 rendering.animateEntity = animate.animateEntity;
 
 
-rendering.getEntityDisplaySize = require("client.helper.entity_display_size")
-
 
 umg.expose("rendering", rendering)
 
