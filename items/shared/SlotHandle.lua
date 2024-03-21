@@ -12,7 +12,7 @@ Or, a slot that allows an entity to hold an item.
 ]]
 
 
-local SlotHandle = objects.Class("items:ItemHandle")
+local SlotHandle = objects.Class("items:SlotHandle")
 --[[
     SlotHandle on it's own is abstract.
     It doesn't really do anything.

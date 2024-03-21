@@ -43,7 +43,7 @@ require("shared.dimensions.DimensionVector") -- we need typecheck defs
 local getDimension = require("shared.dimensions.getDimension")
 
 
-local DimensionStructure = objects.Class("dimensions:DimensionStructure")
+local DimensionStructure = objects.Class("spatial:DimensionStructure")
 
 
 

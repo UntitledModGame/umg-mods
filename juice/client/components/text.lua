@@ -35,7 +35,7 @@ end
 
 local ORDER = 1 -- draw text on top of ent
 
-umg.on("rendering:drawEntity", ORDER, function(ent)
+umg.on("rendering:drawEntity", ORDER, function(ent, x,y, rot, sx,sy)
     --[[
         text = {
             value = "hello",
@@ -54,7 +54,12 @@ umg.on("rendering:drawEntity", ORDER, function(ent)
     local text = ent.text
     local val = getText(ent)
 
-    local scale = (text.scale or 1) * (ent.scale or 1)
+    local scale = (text.scale or 1)
+    if text.disableScaling then
+        sx, sy = scale, scale
+    else -- keep passed scaling:
+        sx, sy = sx*scale, sy*scale
+    end
 
     local width = font:getWidth(val)
     local height = font:getHeight(val)
@@ -64,16 +69,14 @@ umg.on("rendering:drawEntity", ORDER, function(ent)
     
     love.graphics.push("all")
 
-    local y = rendering.getDrawY(ent.y,ent.z)
-
     local color = text.color or ent.color or WHITE
 
     if text.background then
         local border = text.backgroundBorder or DEFAULT_BG_BORDER
-        local xx = ent.x + (text_ox - width/2 - border) * scale
-        local yy = y + (text_oy - height/2 - border) * scale
-        local ww = (width + border*2) * scale
-        local hh = (height + border*2) * scale
+        local xx = ent.x + (text_ox - width/2 - border) * sx
+        local yy = y + (text_oy - height/2 - border) * sy
+        local ww = (width + border*2) * sx
+        local hh = (height + border*2) * sy
         love.graphics.setColor(text.background)
         love.graphics.rectangle("fill", xx, yy, ww, hh)
     end
@@ -83,9 +86,9 @@ umg.on("rendering:drawEntity", ORDER, function(ent)
         
         love.graphics.print(
             val, 
-            ent.x + text_ox - 1, 
+            x + text_ox - 1, 
             y + text_oy - 1,
-            ent.rot, scale, scale,
+            ent.rot, sx, sy,
             width/2, height/2
         )
     end
@@ -93,9 +96,9 @@ umg.on("rendering:drawEntity", ORDER, function(ent)
     love.graphics.setColor(color)
     love.graphics.print(
         val, 
-        ent.x + text_ox, 
+        x + text_ox, 
         y + text_oy,
-        ent.rot, scale, scale,
+        rot, sx, sy,
         width/2, height/2
     )
 

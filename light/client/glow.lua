@@ -11,7 +11,7 @@ local DEFAULT_SIZE = 24
 local WHITE = {1,1,1,1}
 
 
-local function drawGlow(ent)
+local function drawGlow(ent, x,y, rot, _sx,_sy)
     love.graphics.push("all")
     local g = ent.glow
     love.graphics.setColor(g.color or WHITE)
@@ -23,7 +23,8 @@ local function drawGlow(ent)
 
     local size = g.size or DEFAULT_SIZE
     local scale = size / DEFAULT_SIZE
-    rendering.drawImage(glow_quad, ent.x, ent.y, ent.rot, scale, scale)
+    -- glow should ignore scale of entity
+    rendering.drawImage(glow_quad, x,y, rot, scale, scale)
     love.graphics.pop()
 end
 
@@ -31,7 +32,7 @@ end
 
 local ORDER = 1
 
-umg.on("rendering:drawEntity", ORDER, function(ent)
+umg.on("rendering:drawEntity", ORDER, function(ent, x,y, rot, sx,sy)
     if ent.glow then
         drawGlow(ent)
     end

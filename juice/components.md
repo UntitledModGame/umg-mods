@@ -37,6 +37,8 @@ ent.text = {
     -- or, set text value directly:
     value = "hello, i am text",
 
+    disableScaling = false, -- disable passed scaling
+
     ox = 0, oy = -20, -- draw offsets
     scale = 1,
     overlay = true, -- (text will look nicer with this enabled)

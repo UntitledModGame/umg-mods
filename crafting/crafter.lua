@@ -15,7 +15,7 @@ Because its shitt
 
 -- crafting table object:
 
-local Crafter = objects.Class("chest_mod:Crafter")
+local Crafter = objects.Class("crafting:Crafter")
 
 
 function Crafter:addRecipe(ingredients, result)

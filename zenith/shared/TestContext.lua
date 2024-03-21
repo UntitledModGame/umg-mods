@@ -1,7 +1,7 @@
 
 
 
-local TestContext = objects.Class()
+local TestContext = objects.Class("zenith:Context")
 
 
 function TestContext:init(name, func)

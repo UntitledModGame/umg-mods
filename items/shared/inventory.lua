@@ -13,7 +13,7 @@ inventory backgrounds, custom slots, etc etc.
 
 local SlotHandle = require("shared.SlotHandle")
 
-local Inventory = objects.Class("items_mod:inventory")
+local Inventory = objects.Class("items:Inventory")
 
 local h = require("shared.helper")
 

@@ -16,6 +16,7 @@ components.project("nametag", "text", function(ent)
         component = "controller",
         oy = EXTRA_OY,
         background = BACKGROUND_COLOR,
+        disableScaling = true
     }
 end)
 

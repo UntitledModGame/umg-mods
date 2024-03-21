@@ -76,10 +76,14 @@ end
 
 
 
-local function drawEntity(ent)
+local drawEntityTc = typecheck.assert("entity", "number", "number")
+local function drawEntity(ent, x,y, rot, sx,sy)
+    drawEntityTc(ent, x,y)
     if not isHidden(ent) then
         setColorOfEnt(ent)
-        umg.call("rendering:drawEntity", ent)
+        rot = rot or 0
+        sx,sy = sx or 1, sy or 1
+        umg.call("rendering:drawEntity", ent, x,y, rot, sx,sy)
         if ent.onDraw then
             ent:onDraw()
         end
