@@ -83,9 +83,7 @@ function Grid:foreach(func)
     for x=0, self.width-1 do
         for y=0, self.height-1 do
             local v = self:get(x,y)
-            if v then
-                func(v, x, y)
-            end
+            func(v, x,y)
         end
     end
 end

@@ -20,7 +20,7 @@ function Plot:init(ownerEnt, width, height)
 
     ownerEnt.plot = self
 
-    self.owner = ownerEnt
+    self.ownerEnt = ownerEnt
     self.grid = objects.Grid(width,height)
 end
 
@@ -76,8 +76,10 @@ end
 
 function Plot:foreach(func)
     self.grid:foreach(function(val, x, y)
-        local slotI = self.grid:coordsToIndex(x,y)
-        func(val, slotI)
+        if umg.exists(val) then
+            local slotI = self.grid:coordsToIndex(x,y)
+            func(val, slotI)
+        end
     end)
 end
 
