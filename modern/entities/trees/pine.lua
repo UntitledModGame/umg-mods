@@ -6,7 +6,7 @@ local PINES = {
 }
 
 
-return {
+return umg.defineEntityType("pine", {
     swaying = {magnitude = 0.1},
 
     physics = {
@@ -16,11 +16,9 @@ return {
 
     oy = 16,
 
-    init = function(ent,x,y)
-        ent.x = x
-        ent.y = y
+    initXY = true,
+    init = function(ent)
         ent.image = table.random(PINES)
     end
-}
-
+})
 

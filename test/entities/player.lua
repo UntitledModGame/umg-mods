@@ -4,7 +4,7 @@ local PLAYER_SPEED = 120
 
 
 
-return {
+return umg.defineEntityType("player", {
     maxHealth = 100,
 
     lookAtMouse = true,
@@ -82,6 +82,6 @@ return {
 
     initVxVy = true,
     initLook = true
-}
+})
 
 

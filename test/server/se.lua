@@ -49,17 +49,12 @@ umg.on("@createWorld", function()
     end
 
     ents.crate(0,-100)
-    ents.crafting_table(-100, 100)
     ents.basic_box(0, 100)
 
     newItem(ents.ak47)
 
     for i=1, 5 do
         newItem(ents.musket)
-    end
-
-    for i=1, 100 do
-        newItem(ents.mushroom)
     end
 end)
 
