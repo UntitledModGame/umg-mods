@@ -1,6 +1,7 @@
 
 
 local PlotSlotElement = ui.Element("lootplot:PlotSlotElement")
+    :implement(items.SlotElement)
 
 local lg=love.graphics
 
@@ -13,7 +14,7 @@ function PlotSlotElement:init(args)
 
     self.slotElement = items.SlotElement({
         slot = self.slot,
-        inventory = 
+        inventory = 1
     })
     -- adding as a child ensures that onClick will be called on it
     self:addChild(self.slotElement)

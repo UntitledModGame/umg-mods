@@ -43,6 +43,19 @@ local function newElementClass(elementName)
     local elementClass = {
         _elementName = elementName
     }
+
+    local tableTc = typecheck.assert("table", "table")
+    function elementClass:implement(otherClass)
+        tableTc(self, otherClass)
+        assert(self == elementClass, "Cannot be called on instances!")
+        for k,v in pairs(otherClass) do
+            if not self[k] then
+                self[k] = v
+            end
+        end
+        return self
+    end
+
     elementClass.__index = elementClass
     setmetatable(elementClass, ElementClass_mt)
     umg.register(elementClass, elementName)

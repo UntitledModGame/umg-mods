@@ -44,34 +44,16 @@ local default_class_mt = {__call = newObj}
 
 
 
-local function isChildOf(child, parent)
-    --[[
-        returns true iff `child` is a child of `parent`
-    ]]
-    if child == parent then
-        return true
-    end
-
-    if child._extends then
-        return isChildOf(child._extends, parent)
+local function assertStaticCall(self, class)
+    if self~=class then
+        error("Cannot be called on instances!", 2)
     end
 end
 
-local function isInstance(x, class)
-    --[[
-        checks if `x` is an instance of `class`
-    ]]
-    if type(x) ~= "table" then
-        return false
-    end
-    local cls = getmetatable(x)
-    return isChildOf(cls, class)
-end
 
 
 
-
-local function Class(name, extends)
+local function Class(name)
     if type(name) ~= "string" then
         error("class(name) expects a string as first argument")
     end
@@ -81,37 +63,35 @@ local function Class(name, extends)
 
     local class = {}
     class.__index = class
+    class.__implementors = {--[[
+        -- set of Classes that this class implements
+        [Class] -> true
+    ]]}
+    class.__implementors[class] = true
 
-    function class.isInstance(x)
-        assert(x ~= class, "Call like Cls.isInstance(x), not Cls:isInstance(x)")
-        return isInstance(x, class)
+    function class:isInstance(x)
+        assertStaticCall(self, class)
+        if type(x) ~= "table" then
+            return false
+        end
+        local cls = getmetatable(x)
+        return class.__implementors[cls]
     end
 
     local tableTc = typecheck.assert("table", "table")
     function class:implement(otherClass)
         tableTc(self, otherClass)
-        assert(self == class, "Cannot be called on instances!")
+        assertStaticCall(self, class)
+        self.__implementors[otherClass] = true
         for k,v in pairs(otherClass) do
-            self[k] = v
+            if not self[k] then
+                self[k] = v
+            end
         end
         return self
     end
 
-    if extends then
-        if type(extends) ~= "table" then
-            error("class(name, extends) expects a class as optional 2nd argument")
-        end
-        if isChildOf(extends, class) then
-            error("Cannot inherit from this class!")
-        end
-        class._extends = extends
-        setmetatable(class, {
-            __index = extends,
-            __call = newObj
-        })
-    else
-        setmetatable(class, default_class_mt)
-    end
+    setmetatable(class, default_class_mt)
 
     umg.register(class, name)
     return class
