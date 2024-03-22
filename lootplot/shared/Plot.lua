@@ -75,10 +75,10 @@ end
 
 
 function Plot:foreach(func)
-    self.grid:foreach(function(val, x, y)
-        if umg.exists(val) then
+    self.grid:foreach(function(slotEnt, x, y)
+        if umg.exists(slotEnt) then
             local slotI = self.grid:coordsToIndex(x,y)
-            func(val, slotI)
+            func(slotEnt, slotI)
         end
     end)
 end

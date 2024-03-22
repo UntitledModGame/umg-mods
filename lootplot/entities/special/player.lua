@@ -9,9 +9,7 @@ local function initPlayer(ent, clientId)
 
     local w,h = constants.PLAYER_INVENTORY_WIDTH, constants.PLAYER_INVENTORY_HEIGHT
     ent.plot = Plot(ent, w,h)
-    ent.inventory = PlotInventory({
-        entity = ent
-    })
+    ent.inventory = PlotInventory(ent)
 
     ent.controller = clientId
 end
@@ -19,7 +17,7 @@ end
 local function initUI(ent)
     local PlotInventoryElement = require("client.PlotInventoryElement")
     ent.uiElement = PlotInventoryElement({
-        plot = ent.plot
+        entity = ent
     })
 end
 

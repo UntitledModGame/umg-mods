@@ -9,11 +9,12 @@ local ARGS={"entity"}
 
 function PlotInventoryElement:init(args)
     typecheck.assertKeys(args,ARGS)
-    local plot = args.ownerEnt.plot
+    local entity = args.entity
+    local plot = entity.plot
     assert(plot, "needs plot!")
     self.plot = plot
     self.grid = plot.grid
-    self:bindEntity(args.ownerEnt)
+    self:bindEntity(entity)
 
     self.color=args.color or objects.Color.WHITE
 
@@ -23,7 +24,7 @@ function PlotInventoryElement:init(args)
         local slot = self.grid:coordsToIndex(x,y)
         local slotElem = PlotSlotElement({
             slot = slot, 
-            plot = plot
+            entity = entity
         })
         self:addChild(slotElem)
         self.slotElements:add(slotElem)

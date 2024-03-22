@@ -21,6 +21,9 @@ function SlotElement:init(args)
 end
 
 
+SlotElement.super = SlotElement.init
+
+
 
 local function getItemIcon(itemEnt)
     return itemEnt.itemIcon or itemEnt.image

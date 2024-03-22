@@ -85,7 +85,6 @@ api.detachItem = RPC("lootplot:detachItem", {ENT}, function(item)
     -- OK: Item is upon the slot, we just need to remove it.
     slot.item = nil
     ptrack.set(item, nil)
-
 end)
 
 

@@ -10,14 +10,12 @@ local ARGS = {"slot", "entity"}
 function PlotSlotElement:init(args)
     typecheck.assertKeys(args, ARGS)
     self.slot = args.slot
-    self.plot = args.plot
+    self.entity = args.entity
 
-    self.slotElement = items.SlotElement({
-        slot = self.slot,
-        inventory = 1
+    self:super({
+        slot = args.slot,
+        inventory = self.entity.inventory
     })
-    -- adding as a child ensures that onClick will be called on it
-    self:addChild(self.slotElement)
 end
 
 
