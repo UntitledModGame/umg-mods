@@ -87,11 +87,7 @@ end
 umg.on(event, function(dt)
     for _, plotEnt in ipairs(plotEnts) do
         local plot = plotEnt.plot
-        plot:foreach(function(slotEnt, slot)
-            local ppos = {
-                plot = plot,
-                slot = slot
-            }
+        plot:foreachSlot(function(slotEnt, ppos)
             ptrack.set(slotEnt, ppos)
         end)
     end

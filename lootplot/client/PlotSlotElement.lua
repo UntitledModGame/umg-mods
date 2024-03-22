@@ -28,8 +28,9 @@ function PlotSlotElement:onRender(x,y,w,h)
         Make sure to pass in correct scale!!!
             Will need to fudge with the entity size a bit i reckon.
     ]]
-    lg.setColor(0,0,0)
-    lg.rectangle("fill", x,y,w,h)
+    local SIZE = 24
+    local sx, sy = SIZE/w, SIZE/h
+    rendering.drawEntity(x,y, 0, sx,sy)
 end
 
 

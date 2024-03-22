@@ -75,10 +75,28 @@ end
 
 
 function Plot:foreach(func)
-    self.grid:foreach(function(slotEnt, x, y)
-        if umg.exists(slotEnt) then
-            local slotI = self.grid:coordsToIndex(x,y)
-            func(slotEnt, slotI)
+    --[[
+        loops over all of the plot, including empty slots
+    ]]
+    self.grid:foreach(function(_ent, x, y)
+        local slotI = self.grid:coordsToIndex(x,y)
+        local ppos = PPos({
+            plot = self,
+            slot = slotI
+        })
+        func(ppos)
+    end)
+end
+
+
+function Plot:foreachSlot(func)
+    --[[
+        loops over all slot-entities in plot
+    ]]
+    self:foreach(function(ppos)
+        local slotEnt = posToSlot(ppos)
+        if slotEnt then
+            func(slotEnt, ppos)
         end
     end)
 end

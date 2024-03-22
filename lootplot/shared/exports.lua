@@ -21,10 +21,7 @@ api.PPos = require("shared.PPos")
 ]]
 function api.posToSlot(ppos)
     posTc(ppos)
-    local ent = ppos.plot:get(ppos.slot)
-    if umg.exists(ent) then
-        return ent
-    end
+    return ppos.plot:getSlot(ppos.slot)
 end
 
 function api.posToItem(ppos)
@@ -51,13 +48,14 @@ end
 local setSlotTc = typecheck.assert("ppos", "entity")
 
 function api.setSlot(ppos, slotEnt)
-    -- directly sets a slot
+    -- directly sets a slot.
+    -- (If a previous slot existed, destroy it.)
     setSlotTc(ppos, slotEnt)
     local prevEnt = posToItem(ppos)
     if prevEnt then
         destroy(prevEnt)
     end
-    ppos.plot:set(ppos.slot, slotEnt)
+    ppos.plot:setSlot(ppos.slot, slotEnt)
     ptrack.set(slotEnt, ppos)
 end
 

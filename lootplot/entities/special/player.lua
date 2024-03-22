@@ -1,5 +1,4 @@
 
-local PlotInventory = require("shared.PlotInventory")
 local Plot = require("shared.Plot")
 
 
@@ -9,7 +8,11 @@ local function initPlayer(ent, clientId)
 
     local w,h = constants.PLAYER_INVENTORY_WIDTH, constants.PLAYER_INVENTORY_HEIGHT
     ent.plot = Plot(ent, w,h)
-    ent.inventory = PlotInventory(ent)
+    ent.inventory = items.Inventory({entity=ent, size=w*h})
+
+    ent.plot:foreach(function(ppos)
+        setSlot(ppos, server.entities.slot())
+    end)
 
     ent.controller = clientId
 end

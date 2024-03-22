@@ -156,6 +156,18 @@ local function put(self, slot, itemEnt)
     end
 end
 
+function Inventory:rawset(slot, itemEnt)
+    --[[
+        WARNING:
+        This is a very low-level function!!! 
+        Only use this if you know what you are doing.
+
+        -> directly sets an item in an inventory
+    ]]
+    assert(server,"?")
+    put(self,slot,itemEnt)
+end
+
 
 
 
@@ -274,7 +286,7 @@ local function canAddToSlot(self, slot, item)
     end
 
     local invEnt = self.owner
-    local isBlocked = umg.ask("items:isItemAdditionBlocked", item, invEnt, slot)
+    local isBlocked = umg.ask("items:isItemAdditionBlocked", invEnt, item, slot)
     return not isBlocked
 end
 
@@ -334,7 +346,7 @@ function Inventory:canRemoveFromSlot(slot)
     end
 
     local invEnt = self.owner
-    local isBlocked = umg.ask("items:isItemRemovalBlocked", item, invEnt, slot)
+    local isBlocked = umg.ask("items:isItemRemovalBlocked", invEnt, item, slot)
     return not isBlocked
 end
 
@@ -622,6 +634,7 @@ if client then
 
 
 client.on("items:setInventorySlot", function(ent, slot, itemEnt)
+    print("ENT FROM-INVV:", ent)
     put(ent.inventory, slot, itemEnt)
 end)
 

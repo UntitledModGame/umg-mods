@@ -31,7 +31,7 @@ end
 
 
 local function assertInRange(self, i)
-    if (i <= 1) or (i > self.size) then
+    if (i < 1) or (i > self.size) then
         error(("Coord index out of range:\nwidth=%d, height=%d, i=%d"):format(self.width, self.height, i), 3)
     end
 end
@@ -41,7 +41,7 @@ local number2Tc = typecheck.assert("number", "number")
 function Grid:set(x,y, val)
     number2Tc(x,y)
     local i = self:coordsToIndex(x,y)
-    assertInRange(i)
+    assertInRange(self, i)
     self.grid[i]=val
 end
 
