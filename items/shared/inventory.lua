@@ -38,6 +38,8 @@ function Inventory:init(options)
     self.inventory = {}  -- Array where the items are actually stored.
 end
 
+Inventory.super = Inventory.init
+
 
 
 

@@ -10,8 +10,10 @@ local function initPlayer(ent, clientId)
     local w,h = constants.PLAYER_INVENTORY_WIDTH, constants.PLAYER_INVENTORY_HEIGHT
     ent.plot = Plot(ent, w,h)
     ent.inventory = PlotInventory({
-        plot = ent.plot
+        entity = ent
     })
+
+    ent.controller = clientId
 end
 
 local function initUI(ent)
@@ -24,7 +26,10 @@ end
 
 return umg.defineEntityType("lootplot:player", {
     toggleableUI = true,
-    uiSize = {width = 0.3, height = 0.25},
+    draggableUI = true,
+    uiSize = {width = 0.7, height = 0.25},
+
+    topdownControl = {};
 
     initXY = true,
     init = initPlayer,

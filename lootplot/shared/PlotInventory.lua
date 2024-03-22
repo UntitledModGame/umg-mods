@@ -4,10 +4,14 @@ local PlotInventory = objects.Class("lootplot:PlotInventory", items.Inventory)
 
 
 
-function PlotInventory:init(args)
-    typecheck.assertKeys(args, {"plot"})
+function PlotInventory:init(ownerEnt)
+    assert(ownerEnt.plot, "plot must be assigned!")
+    self.plot = ownerEnt.plot
 
-    self.plot = args.plot
+    self:super({
+        size = self.plot.grid.size,
+        entity = ownerEnt
+    })
 end
 
 

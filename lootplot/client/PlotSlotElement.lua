@@ -4,13 +4,19 @@ local PlotSlotElement = ui.Element("lootplot:PlotSlotElement")
 
 local lg=love.graphics
 
-local ARGS = {"x", "y", "plot"}
+local ARGS = {"slot", "entity"}
 
 function PlotSlotElement:init(args)
     typecheck.assertKeys(args, ARGS)
-    self.x = args.x
-    self.y = args.y
+    self.slot = args.slot
     self.plot = args.plot
+
+    self.slotElement = items.SlotElement({
+        slot = self.slot,
+        inventory = 
+    })
+    -- adding as a child ensures that onClick will be called on it
+    self:addChild(self.slotElement)
 end
 
 
@@ -23,8 +29,8 @@ function PlotSlotElement:onRender(x,y,w,h)
         Make sure to pass in correct scale!!!
             Will need to fudge with the entity size a bit i reckon.
     ]]
-    lg.setColor(0,0,0,0)
-    lg.rectangle("line", x,y,w,h)
+    lg.setColor(0,0,0)
+    lg.rectangle("fill", x,y,w,h)
 end
 
 
