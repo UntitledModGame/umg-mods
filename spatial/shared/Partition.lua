@@ -81,10 +81,6 @@ function Partition:updateEntity(ent)
     local entX, entY = self:getLastXY(ent)
     local ix, iy = self:getChunkIndexes(entX, entY)
 
-    if not ent.x then
-        print("PARTITION BAD ENT: ", ent)
-    end
-
     local ix2, iy2 = self:getChunkIndexes(ent.x, ent.y)
     if (ix ~= ix2) or (iy ~= iy2) then
         local chunkSet1 = self.chunks[ix][iy]

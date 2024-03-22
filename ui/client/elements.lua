@@ -26,7 +26,6 @@ function elements.defineElement(elementName, elementClass)
 
     elements[elementName] = elementClass
     local shortname = getShortname(elementName)
-    print(elementName, shortname)
     elements[shortname] = elementClass
 end
 
