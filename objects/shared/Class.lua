@@ -87,6 +87,16 @@ local function Class(name, extends)
         return isInstance(x, class)
     end
 
+    local tableTc = typecheck.assert("table", "table")
+    function class:implement(otherClass)
+        tableTc(self, otherClass)
+        assert(self == class, "Cannot be called on instances!")
+        for k,v in pairs(otherClass) do
+            self[k] = v
+        end
+        return self
+    end
+
     if extends then
         if type(extends) ~= "table" then
             error("class(name, extends) expects a class as optional 2nd argument")

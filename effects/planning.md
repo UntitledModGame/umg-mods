@@ -103,7 +103,8 @@ EffectHandler:recalculate(property?)
     Integration with items mod:
     (Don't worry about this if you don't know about SlotHandles)
 ]]
-local EffectSlotHandle = objects.Class("...", items.SlotHandle)
+local EffectSlotHandle = objects.Class("...")
+    :implement(items.SlotHandle)
 
 function EffectSlotHandle:onItemAdded(itemEnt)
     local ent = self:getOwner()

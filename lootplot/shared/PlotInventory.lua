@@ -1,6 +1,7 @@
 
 
-local PlotInventory = objects.Class("lootplot:PlotInventory", items.Inventory)
+local PlotInventory = objects.Class("lootplot:PlotInventory")
+    :implement(items.Inventory)
 
 
 

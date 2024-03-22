@@ -30,8 +30,8 @@ the item is automatically equipped.
 If the item is removed from that slot, then the item is automatically
 unequipped.
 ]]
-local extends = items.SlotHandle
-local HoldSlotHandle = objects.Class("holdables:HoldSlotHandle", extends)
+local HoldSlotHandle = objects.Class("holdables:HoldSlotHandle")
+    :implement(items.SlotHandle)
 
 local holding = require("shared.holding")
 function HoldSlotHandle:onItemAdded(itemEnt)

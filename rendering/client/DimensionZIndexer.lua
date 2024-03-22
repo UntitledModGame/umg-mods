@@ -6,7 +6,8 @@ local ZIndexer = require("client.ZIndexer")
 to understand this class,
 you'll first must understand DimensionStructure in the dimensions mod.
 ]]
-local DimensionZIndexer = objects.Class("rendering:DimensionZIndexer", spatial.DimensionStructure)
+local DimensionZIndexer = objects.Class("rendering:DimensionZIndexer")
+    :implement(spatial.DimensionStructure)
 
 
 
