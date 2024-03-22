@@ -1,41 +1,6 @@
 
 
-
-local inventoryGroup = umg.group("inventory")
--- group of all ents that have an `inventory` component.
-
-local Inventory = require("shared.Inventory")
-
 local groundItems= require("server.ground_items")
-
-
-
-
-inventoryGroup:onAdded(function(ent)
-    if not ent:isRegularComponent("inventory") then
-        error(".inventory component must be regular. Not the case for: " ..tostring(ent))
-    end
-    if (getmetatable(ent.inventory) ~= Inventory) then
-        error("inventory was assigned incorrectly for ent: " .. tostring(ent))
-    end
-
-    ent.inventory.owner = ent
-end)
-
-
-
-inventoryGroup:onRemoved(function(ent)
-    -- delete items
-    local inv = ent.inventory
-    for slot=1, inv.size do
-        local item = inv:get(slot)
-        if umg.exists(item) then
-            item:delete()
-        end
-    end
-end)
-
-
 
 
 
@@ -44,7 +9,6 @@ local function invOk(invEnt)
         return true
     end
 end
-
 
 
 

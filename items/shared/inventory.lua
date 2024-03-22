@@ -23,8 +23,12 @@ local assertNumber = typecheck.assert("number")
 
 
 
+local OPT = {"entity", "size"}
+
 function Inventory:init(options)
-    assert(options.size, "Inventories must have a .size value!")
+    typecheck.assertKeys(options, OPT)
+
+    self.owner = options.entity
     self.size = options.size
 
     self.slotHandles = {--[[
@@ -32,9 +36,6 @@ function Inventory:init(options)
     ]]}
 
     self.inventory = {}  -- Array where the items are actually stored.
-
-    self.owner = nil -- The entity that owns this inventory.
-    -- Should be set by some system.
 end
 
 

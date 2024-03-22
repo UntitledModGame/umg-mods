@@ -9,7 +9,8 @@ return umg.defineEntityType("crate", {
         ent.x = x
         ent.y = y
         ent.inventory = items.Inventory({
-            size=25, slotSeparation = 10
+            entity = ent,
+            size=25
         })
     end;
 

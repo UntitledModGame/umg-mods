@@ -30,13 +30,6 @@ local abstractCrafter = {
         if (type(ent.crafter) ~= "table") or (not ent.crafter.executeCraft) then
             error("craftable entities must be given a .crafter member")
         end
-        
-        if not ent.inventory then
-            ent.inventory = items.Inventory({
-                width = 6,
-                height = 3
-            })
-        end
     end
 }
 

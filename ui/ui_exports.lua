@@ -42,6 +42,7 @@ end
 
 function ui.open(ent)
     assertUIEnt(ent)
+    print("aye?")
     scene:addChild(ent.uiElement)
 end
 

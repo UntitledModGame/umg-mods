@@ -58,12 +58,11 @@ return umg.defineEntityType("player", {
     baseSpeed = PLAYER_SPEED;
     baseAgility = 0.9;
 
-    inventoryName = "player inv",
-
     init = function(e, x, y, uname)
         e.health = e.maxHealth
         e.controller = uname
         e.inventory = items.Inventory({
+            entity = e,
             size = 30
         })
     end,

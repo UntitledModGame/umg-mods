@@ -75,15 +75,6 @@ end
 
 
 
-local function getInventoryName(self)
-    --[[
-        TODO: draw name of inventory
-    ]]
-    local ent = self.owner
-    return (ent.inventoryName or self.name)
-end
-
-
 
 
 function GridInventory:onRender(x,y,w,h)

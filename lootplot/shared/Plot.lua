@@ -16,7 +16,7 @@ local Plot = objects.Class("lootplot:Plot")
 
 local gridTc = typecheck.assert("entity", "number", "number")
 function Plot:init(ownerEnt, width, height)
-    gridTc(width, height)
+    gridTc(ownerEnt, width, height)
 
     ownerEnt.plot = self
 

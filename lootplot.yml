@@ -71,5 +71,6 @@ globals:
     - type: table
     - type: function
 
-
+  PPos:
+    any: true
 

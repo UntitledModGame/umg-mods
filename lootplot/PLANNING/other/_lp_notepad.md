@@ -163,3 +163,12 @@ Ask Xander
 
 
 
+
+
+
+
+# Automatic creation of PlotUIs
+Hmm.. I have a feeling that creating PlotUIs will be quite tedious.
+I wonder if there's a clean way we can make it generic, or if there's a helper we can create.
+
+
