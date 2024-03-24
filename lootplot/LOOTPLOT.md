@@ -109,14 +109,31 @@ All of these mechanics should be tagged into / modified
     - Items changing augments
     - Items changing shape
 - Items changing position (ie. being swapped)
-- Items being COOKED
-    - Some items can get cooked. Ie; meats --> cooked meats
-        Iron ores -> iron bars
+- Items rotating
+- Items being burned
+    - Some items can get burned, and can change. 
+        - Ie; meats --> cooked meats
+        - Iron ores -> iron bars
 
 And, central to all of this, should be *item placement.*
 Think backpack-battles.
 - Items triggering stuff in a rook, bishop, or king-like area
 Areas could even be augmented by other items / effects
+
+
+
+
+## Built-in Mods:
+How about, `burn` mechanic is done and implemented as a built-in mod?
+That is; built on top of `lootplot`?
+This would serve as a great example to the community.
+
+We could also have enemies being a separate mod.
+
+^^^ This would make lootplot easier to mod in the future;
+Since it's likely that the API would become more user-friendly.
+
+
 
 
 
