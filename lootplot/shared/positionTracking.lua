@@ -62,6 +62,10 @@ local function stillValid(slotEnt, ent)
         return true
     end
     if umg.exists(slotEnt.item) then
+        error([[
+            Wtf? im pretty sure this is borked. 
+            Why are we passing itemEnt in, isnt it supposed to be slotEnt?
+        ]])
         return stillValid(slotEnt.item, ent)
     end
 end

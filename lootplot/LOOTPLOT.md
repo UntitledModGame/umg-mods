@@ -127,9 +127,9 @@ Areas could even be augmented by other items / effects
 How about, `burn` mechanic is done and implemented as a built-in mod?
 That is; built on top of `lootplot`?
 This would serve as a great example to the community.
-
-We could also have enemies being a separate mod.
-
+----->
+We could also have `enemies` being a separate mod.
+----->
 ^^^ This would make lootplot easier to mod in the future;
 Since it's likely that the API would become more user-friendly.
 
