@@ -27,8 +27,8 @@ end
 
 return umg.defineEntityType("lootplot:player", {
     toggleableUI = true,
-    draggableUI = true,
-    uiSize = {width = 0.7, height = 0.25},
+    uiSize = {width = 0.4, height = 0.2},
+    clampedUI = true,
 
     topdownControl = {};
 

@@ -56,17 +56,6 @@ end)
 
 
 
-umg.on("@tick", function()
-    local hostClId = server.getHostClient()
-    local lis = control.getControlledEntities(hostClId)
-    local p = lis[1]
-    if p then
-        -- DEBUG:
-        -- print(p.x, p.y)
-    end
-end)
-
-
 
 if server.isWorldPersistent() then
     -- use playersaves API

@@ -6,21 +6,21 @@
 
 graph TD
     subgraph Context
-        money
         points
+        level
+        world
     end
     Context --> player
-    Context--> world
 
     subgraph world
         WorldPlot(World Plot)
-        level
     end
     subgraph player
         PlayerEnt
         PlayerEnt --> InventoryPlot
         InventoryPlot --> LUI-Elem
         InventoryPlot(Inventory Plot)
+        money
     end
 
 ```
@@ -70,6 +70,29 @@ Important things to note:
 
 - How are items moved between Plots?
     - They aren't. Items are moved between `Slot`s.
+
+<br/>
+<br/>
+<br/>
+
+# Position-tracking:
+Slots and Items need to be able to tell WHERE they are.<br/>
+But... its hard to do this without strong-referencing.  
+If we reference the `Plot` object in a component; that implies that the slot/item OWNS the plot!!!  
+(which is bad)
+
+To solve this, lootplot uses a module called `ptrack`, that keeps back-references to entities:
+```lua
+Ptrack {
+    [ent] -> ppos
+}
+```
+This exposes a robust internal API for tracking slot/item positions:
+```lua
+ptrack.set(ent, ppos)
+ptrack.get(ent, ppos)
+```
+
 
 <br/>
 <br/>

@@ -50,23 +50,6 @@ end
 
 
 
-
-chat.handleCommand("position", {
-    handler = function(sender)
-        local dvec = getSenderPosition(sender)
-        if dvec then
-            chat.privateMessage(sender, ("(%.1f, %.1f)"):format(dvec.x, dvec.y))
-        else
-            chat.privateMessage(sender, "You have no player entity!")
-        end
-    end,
-
-    adminLevel = 0,
-    arguments = {}
-})
-
-
-
 local PLAYER_SPAWN_OFFSET = 30
 
 chat.handleCommand("spawn", {

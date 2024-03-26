@@ -172,3 +172,10 @@ Hmm.. I have a feeling that creating PlotUIs will be quite tedious.
 I wonder if there's a clean way we can make it generic, or if there's a helper we can create.
 
 
+
+
+# World-Context weirdness:
+How should we store world-contexts and stuff?  
+Idea:  
+For now, just store a singular, static context.
+
