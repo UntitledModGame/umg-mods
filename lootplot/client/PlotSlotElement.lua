@@ -29,7 +29,7 @@ function PlotSlotElement:onRender(x,y,w,h)
         Make sure to pass in correct scale!!!
             Will need to fudge with the entity size a bit i reckon.
     ]]
-    local SIZE = 24
+    local SIZE = 22
     local sx, sy = w/SIZE, h/SIZE
     local slotEnt = posToSlot(self.ppos)
 

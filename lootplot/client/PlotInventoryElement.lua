@@ -34,8 +34,8 @@ end
 
 local lg=love.graphics
 
-local OUTER_PADDING = 0.05
-local SLOT_PADDING = 0.05
+local OUTER_PADDING = 0.04
+local SLOT_PADDING = 0.08
 
 function PlotInventoryElement:onRender(x,y,w,h)
     lg.push("all")
