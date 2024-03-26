@@ -85,7 +85,7 @@ local function drawEntity(ent, x,y, rot, sx,sy)
         sx,sy = sx or 1, sy or 1
         umg.call("rendering:drawEntity", ent, x,y, rot, sx,sy)
         if ent.onDraw then
-            ent:onDraw()
+            ent:onDraw(x,y, rot, sx,sy)
         end
     end
 end

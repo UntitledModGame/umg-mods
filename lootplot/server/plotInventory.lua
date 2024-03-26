@@ -13,7 +13,7 @@ end
 
 
 umg.answer("items:isItemRemovalBlocked", function(invEnt, itemEnt, slot)
-    local slotEnt = tryGetSlot(slot)
+    local slotEnt = tryGetSlot(invEnt, slot)
     --[[
         TODO:
         emit a question here, or somehting.
@@ -23,7 +23,7 @@ umg.answer("items:isItemRemovalBlocked", function(invEnt, itemEnt, slot)
 end)
 
 umg.answer("items:isItemAdditionBlocked", function(invEnt, itemEnt, slot)
-    local slotEnt = tryGetSlot(slot)
+    local slotEnt = tryGetSlot(invEnt, slot)
     if not slotEnt then
         return true -- block; because there's no slot to put item in.
     end
@@ -31,16 +31,16 @@ end)
 
 
 umg.on("items:itemAdded", function(invEnt, itemEnt, slot)
-    local slotEnt = tryGetSlot(slot)
+    local slotEnt = tryGetSlot(invEnt, slot)
     if slotEnt then
         attachItem(itemEnt, slotEnt)
     end
 end)
 
 umg.on("items:itemRemoved", function(invEnt, itemEnt, slot)
-    local slotEnt = tryGetSlot(slot)
+    local slotEnt = tryGetSlot(invEnt, slot)
     if slotEnt then
-    detachItem(itemEnt)
+        detachItem(itemEnt)
     end
 end)
 
@@ -59,10 +59,10 @@ local function forceUpdateInventory(ent)
     local inventory = ent.inventory
     local plot = ent.plot
     plot:foreach(function(ppos)
+        local itemEnt = posToItem(ppos)
         local i = ppos.slot
-        local slotEnt = plot:getSlot(i)
-        if slotEnt ~= inventory:get(i) then
-            inventory:rawset(i, slotEnt)
+        if itemEnt ~= inventory:get(i) then
+            inventory:rawset(i, itemEnt)
         end
     end)
 end

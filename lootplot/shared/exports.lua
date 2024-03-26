@@ -128,7 +128,7 @@ function api.moveItem(item, slotEnt_or_ppos)
     assert(server, "?")
     local slotEnt = ensureSlot(slotEnt_or_ppos)
     detachItem(item)
-    attachItem(slotEnt, item)
+    attachItem(item, slotEnt)
 end
 
 

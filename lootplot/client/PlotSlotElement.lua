@@ -19,6 +19,8 @@ end
 
 
 
+local lg=love.graphics
+
 function PlotSlotElement:onRender(x,y,w,h)
     --[[
         Should render the slot entity, 
@@ -31,11 +33,10 @@ function PlotSlotElement:onRender(x,y,w,h)
     local sx, sy = w/SIZE, h/SIZE
     local slotEnt = posToSlot(self.ppos)
 
-    x = x + SIZE
-    y = y + SIZE
-
+    lg.setColor(1,1,1)
     if slotEnt then
-        rendering.drawEntity(slotEnt, x,y, 0, sx,sy)
+        local entX, entY = x+w/2, y+h/2
+        rendering.drawEntity(slotEnt, entX,entY, 0, sx,sy)
     end
 end
 
