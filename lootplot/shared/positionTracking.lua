@@ -56,25 +56,26 @@ end
 
 
 
-local function stillValid(slotEnt, ent)
-    -- check if ppos is still valid:
+local function stillValid(ppos, ent)
+    -- check if ppos is still valid for `ent`:
+    -- (ppos will be valid if we can verify 
+    --  that its still within the same slot.)
+    local slotEnt = posToSlot(ppos)
     if slotEnt == ent then
         return true
     end
-    if umg.exists(slotEnt.item) then
-        error([[
-            Wtf? im pretty sure this is borked. 
-            Why are we passing itemEnt in, isnt it supposed to be slotEnt?
-        ]])
-        return stillValid(slotEnt.item, ent)
+
+    local itemEnt = posToItem(ppos)
+    if itemEnt == ent then
+        return true
     end
 end
 
+
 function ptrack.get(ent)
     local ppos = positionRef[ent]
-    local e = ppos.plot:getSlot(ent)
     -- check if the ppos ref is still valid:
-    if stillValid(e, ent) then
+    if stillValid(ppos, ent) then
         return ppos
     end
 end
