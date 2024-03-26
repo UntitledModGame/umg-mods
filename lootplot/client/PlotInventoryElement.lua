@@ -20,10 +20,9 @@ function PlotInventoryElement:init(args)
 
     self.slotElements = objects.Array()
 
-    self.grid:foreach(function(_val, x,y)
-        local slot = self.grid:coordsToIndex(x,y)
+    self.plot:foreach(function(ppos)
         local slotElem = PlotSlotElement({
-            slot = slot, 
+            ppos = ppos,
             entity = entity
         })
         self:addChild(slotElem)

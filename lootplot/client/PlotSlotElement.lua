@@ -5,15 +5,15 @@ local PlotSlotElement = ui.Element("lootplot:PlotSlotElement")
 
 local lg=love.graphics
 
-local ARGS = {"slot", "entity"}
+local ARGS = {"ppos", "entity"}
 
 function PlotSlotElement:init(args)
     typecheck.assertKeys(args, ARGS)
-    self.slot = args.slot
+    self.ppos = args.ppos
     self.entity = args.entity
 
     self:super({
-        slot = args.slot,
+        slot = args.ppos.slot,
         inventory = self.entity.inventory
     })
 end
@@ -29,8 +29,11 @@ function PlotSlotElement:onRender(x,y,w,h)
             Will need to fudge with the entity size a bit i reckon.
     ]]
     local SIZE = 24
-    local sx, sy = SIZE/w, SIZE/h
-    rendering.drawEntity(x,y, 0, sx,sy)
+    local sx, sy = w/SIZE, h/SIZE
+    local slotEnt = posToSlot(self.ppos)
+    if slotEnt then
+        rendering.drawEntity(slotEnt, x,y, 0, sx,sy)
+    end
 end
 
 
