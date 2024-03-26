@@ -3,7 +3,6 @@
 local PlotSlotElement = ui.Element("lootplot:PlotSlotElement")
     :implement(items.SlotElement)
 
-local lg=love.graphics
 
 local ARGS = {"ppos", "entity"}
 
@@ -31,6 +30,10 @@ function PlotSlotElement:onRender(x,y,w,h)
     local SIZE = 24
     local sx, sy = w/SIZE, h/SIZE
     local slotEnt = posToSlot(self.ppos)
+
+    x = x + SIZE
+    y = y + SIZE
+
     if slotEnt then
         rendering.drawEntity(slotEnt, x,y, 0, sx,sy)
     end

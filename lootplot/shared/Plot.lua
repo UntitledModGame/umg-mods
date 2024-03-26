@@ -90,13 +90,21 @@ end
 
 
 function Plot:foreachSlot(func)
-    --[[
-        loops over all slot-entities in plot
-    ]]
+    -- loops over all slot-entities in plot
     self:foreach(function(ppos)
         local slotEnt = posToSlot(ppos)
         if slotEnt then
             func(slotEnt, ppos)
+        end
+    end)
+end
+
+function Plot:foreachItem(func)
+    -- loops over all item-entities in plot
+    self:foreach(function(ppos)
+        local itemEnt = posToItem(ppos)
+        if itemEnt then
+            func(itemEnt, ppos)
         end
     end)
 end
