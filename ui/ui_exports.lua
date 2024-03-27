@@ -17,12 +17,6 @@ ui.Region = require("kirigami.Region")
 ui.Element = require("client.newElement")
 
 
-local LUI = require("LUI.init")
-ui.defineOption = LUI.defineOption
-
-
-ui.helper = require("client.helper")
-
 
 
 function ui.getSceneRegion()
@@ -42,7 +36,6 @@ end
 
 function ui.open(ent)
     assertUIEnt(ent)
-    print("aye?")
     scene:addChild(ent.uiElement)
 end
 

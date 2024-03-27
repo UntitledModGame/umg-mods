@@ -1,14 +1,5 @@
 
 
-local inventoryGroup = umg.group("inventory")
-
-
-inventoryGroup:onAdded(function(ent)
-    ent.inventory.owner = ent
-end)
-
-
-
 
 
 components.defineComponent("inventory", {

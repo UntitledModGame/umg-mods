@@ -1,6 +1,7 @@
 
 local slotService = require("client.slotService")
 local tooltipService = require("client.tooltipService")
+local helper = require("client.helper")
 
 
 local SlotElement = ui.Element("items:SlotElement")
@@ -17,7 +18,6 @@ function SlotElement:init(args)
     self.image = ui.elements.Image({})
     self:addChild(self.image)
     self.hasImage = false
-    self:setOption("backgroundColor", {0.76,0.76,0.76})
 end
 
 
@@ -69,7 +69,7 @@ end
 
 
 function SlotElement:renderBackground(x,y,w,h)
-    ui.helper.insetRectangle(self, x,y,w,h)
+    helper.insetRectangle(x,y,w,h)
 end
 
 

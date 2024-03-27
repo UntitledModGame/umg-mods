@@ -19,7 +19,7 @@ end
 
 local function initUI(ent)
     local PlotInventoryElement = require("client.PlotInventoryElement")
-    ent.uiElement = PlotInventoryElement({
+    local element = PlotInventoryElement({
         entity = ent
     })
 end

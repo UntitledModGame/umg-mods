@@ -19,7 +19,6 @@ end
 
 
 function toggleables.closeAll()
-    -- close all UI that has `basicUIEntity` component
     for _, elem in ipairs(ui.getOpenElements()) do
         local ent = elem:getEntity()
         if isToggleable(ent) then

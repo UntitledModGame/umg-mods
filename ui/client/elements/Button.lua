@@ -5,6 +5,8 @@ local Button = ui.Element("ui:Button")
 
 local DEFAULT_PADDING = 12
 
+local lg=love.graphics
+
 
 function Button:init(args)
     typecheck.assertKeys(args, {"onClick"})
@@ -39,8 +41,8 @@ end
 
 function Button:onRender(x,y,w,h)
     local r = ui.Region(x,y,w,h)
-    ui.helper.rectangle(self, r:get())
-    ui.helper.outline(self, r:get())
+    lg.rectangle(self, r:get())
+    lg.outline(self, r:get())
 
     if self.imageElement then
         self.imageElement:render(x,y,w,h)

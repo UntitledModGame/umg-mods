@@ -2,6 +2,8 @@
 
 local SlotElement = require("client.SlotElement")
 
+local helper = require("client.helper")
+
 
 
 
@@ -10,6 +12,7 @@ local GridInventory = ui.Element("items:GridInventory")
 
 
 
+local lg=love.graphics
 
 local DEFAULT_SLOT_PADDING = 0.0625
 local DEFAULT_BORDER_PADDING = 0.05
@@ -79,9 +82,8 @@ end
 
 function GridInventory:onRender(x,y,w,h)
     local region = ui.Region(x,y,w,h)
-    ui.helper.outline(self, region:get())
-    region = region:padPixels(self:getOption("lineWidth"))
-    ui.helper.outsetRectangle(self, region:get())
+    lg.rectangle("line", region:get())
+    helper.outsetRectangle(region:get())
 
     local title, body = region:splitVertical(0.1, 0.9)
     if title then
