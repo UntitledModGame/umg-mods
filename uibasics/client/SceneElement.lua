@@ -3,7 +3,7 @@ local lg = love.graphics
 local Element = require("client.newElement")
 
 
-local Scene = Element("interaction:Scene")
+local Scene = Element("uibasics:Scene")
 
 
 
