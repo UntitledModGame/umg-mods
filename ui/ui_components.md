@@ -48,6 +48,29 @@ end
 
 ```lua
 
+ent.ui = {
+    region = ui.Region(),
+    element = MyElement()
+}
+
+
+ent.uiProperties = {
+    clamped = true,
+    draggable = true,
+    toggleable = true
+}
+
+
+ent.initUI -- REMOVED!!
+-- replaced with:
+ent.onCreate = function(ent)
+    if client then
+        ent.ui = {
+            element = MyElement(),
+            region = ui.Region()
+        }
+    end
+end
 
 
 ```
