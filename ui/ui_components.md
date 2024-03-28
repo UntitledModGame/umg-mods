@@ -29,17 +29,6 @@ ent.uiSize = {
 }
 
 
-ent.clampedUI = true -- clamps UI inside of screen
-
-
-ent.draggableUI = true -- user can drag UI with the mouse
-
-
-ent.initUI = function(ent)
-    -- provides an initializer for UI on clientside
-    ...
-end
-
 ```
 
 
@@ -57,11 +46,23 @@ ent.ui = {
 ent.uiProperties = {
     clamped = true,
     draggable = true,
-    toggleable = true
+    toggleable = true,
+    size = {
+        -- restricts Region size to a multiple of these numbers
+        widthFactorOf = 600,
+        heightFactorOf = 400,
+
+        -- width/height, as a ratio of screen
+        width = 0.4, 
+        height = 0.26 -- eg. 26% of screen height
+
+        noRatio = false -- whether the w/h ratio should be locked.
+        -- defaults to nil; ie; there IS a fixed w/h ratio by default
+    }
 }
 
 
-ent.initUI -- REMOVED!!
+-- ent.initUI is REMOVED!!
 -- replaced with:
 ent.onCreate = function(ent)
     if client then

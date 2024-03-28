@@ -9,27 +9,28 @@ end
 
 
 local function assertUIEnt(ent)
-    if not ent.uiElement then
-        error("Entity must have a .uiElement component!", 2)
+    local ui = ent.ui
+    if not ui then
+        error("Entity must have a .ui component!", 2)
     end
-    if (not ent.uiRegion) or (not ent.uiRegion.get) then
-        error("Entity must have a .uiRegion component!", 2)
+    if not (ui.element and ui.region) then
+        error("Entity ui must have region and element!", 2)
     end
 end
 
 
 function ui.open(ent)
     assertUIEnt(ent)
-    scene:addChild(ent.uiElement)
+    scene:addChild(ent.ui.element)
 end
 
 function ui.close(ent)
     assertUIEnt(ent)
-    scene:removeChild(ent.uiElement)
+    scene:removeChild(ent.ui.element)
 end
 
 function ui.isOpen(ent)
-    local elem = ent.uiElement
+    local elem = ent.ui.element
     return scene:hasChild(elem)
 end
 
@@ -42,8 +43,8 @@ function ui.getMainScene()
 end
 
 function ui.isElement(ent)
-    -- an entity is a valid UI element if it has `uiElement` component
-    return ent.uiElement
+    -- an entity is a valid UI element if it has `ui` component
+    return ent.ui
 end
 
 

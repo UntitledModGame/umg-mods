@@ -3,7 +3,7 @@ local lg = love.graphics
 local Element = require("client.newElement")
 
 
-local Scene = Element("ui:Scene")
+local Scene = Element("interaction:Scene")
 
 
 

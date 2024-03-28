@@ -62,14 +62,11 @@ end)
 
 
 
-local uiGroup = umg.group("uiElement")
+local uiGroup = umg.group("ui")
 
 uiGroup:onAdded(function(ent)
-    ent.uiElement:bindEntity(ent)
-end)
-
-uiGroup:onRemoved(function(ent)
-    scene:removeChild(ent.uiElement)
+    local element = ent.ui.element
+    element:bindEntity(ent)
 end)
 
 

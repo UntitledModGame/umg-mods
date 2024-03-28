@@ -67,12 +67,11 @@ return umg.defineEntityType("player", {
         })
     end,
 
-    draggableUI = true,
-    toggleableUI = true,
+    basicUI = {},
     uiSize = {width = 0.3, height = 0.25},
 
     initUI = function(e)
-        e.uiElement = ui.elements.GridInventory({
+        e.basicUI = ui.elements.GridInventory({
             inventory = e.inventory,
             width = 6,
             height = 5

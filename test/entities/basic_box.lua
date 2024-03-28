@@ -38,7 +38,7 @@ umg.defineEntityType("basic_box", {
 
     initXY = true,
 
-    basicUIEntity = {
+    basicUI = {
         interactionDistance = 450
     },
 
@@ -49,8 +49,10 @@ umg.defineEntityType("basic_box", {
     },
 
     initUI = function(ent)
-        ent.uiElement = BasicBox()
-        ent.uiRegion = ui.Region(100,100,300,300)
+        ent.ui = {
+            element = BasicBox(),
+            region = ui.Region(100,100,300,300)
+        }
     end
 })
 

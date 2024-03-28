@@ -4,7 +4,8 @@ local toggleables = {}
 
 
 local function isToggleable(ent)
-    return ent.toggleableUI and ui.isElement(ent)
+    local prop = ent.uiProperties
+    return prop and prop.toggleable
 end
 
 

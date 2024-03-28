@@ -1,15 +1,15 @@
 
 --[[
 
-basicUIEntity component:
-basicUIEntity component does a few things:
+basicUI component:
+basicUI component does a few things:
     Gives `authorizeInRange` component to entity
     Gives `clickToOpenUI` component to entity
     Gives `toggleableUI` component to entity
     Gives `draggableUI` component to entity
 
 
-ent.basicUIEntity = {
+ent.basicUI = {
     -- todo; put other shit in here maybe
 }
 
@@ -21,7 +21,7 @@ local DEFAULT_INTERACT_DISTANCE = 400
 
 
 local function getInteractionDist(ent)
-    local bui = ent.basicUIEntity
+    local bui = ent.basicUI
     if type(bui) == "table" then
         return bui.interactionDistance or DEFAULT_INTERACT_DISTANCE
     end
@@ -30,7 +30,7 @@ end
 
 
 
-components.project("basicUIEntity", "clickToOpenUI", function(ent)
+components.project("basicUI", "clickToOpenUI", function(ent)
     local clickToOpenUI = {
         distance = getInteractionDist(ent)
     }
@@ -38,15 +38,16 @@ components.project("basicUIEntity", "clickToOpenUI", function(ent)
 end)
 
 
+components.project("basicUI", "uiProperties", function(ent)
+    return {
+        draggable = true,
+        toggleable = true,
+        clamped = true
+    }
+end)
 
-components.project("basicUIEntity", "draggableUI")
 
-components.project("basicUIEntity", "toggleableUI")
-
-components.project("basicUIEntity", "clampedUI")
-
-
-components.project("basicUIEntity", "authorizeInRange", function(ent)
+components.project("basicUI", "authorizeInRange", function(ent)
     local distance = getInteractionDist(ent)
     local authorizeInRange = {
         --[[
