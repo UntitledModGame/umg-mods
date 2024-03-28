@@ -3,10 +3,9 @@
 
 basicUI component:
 basicUI component does a few things:
-    Gives `authorizeInRange` component to entity
-    Gives `clickToOpenUI` component to entity
-    Gives `toggleableUI` component to entity
-    Gives `draggableUI` component to entity
+    Gives `authorizeInRange` component
+    Gives `uiProperties` component
+    Gives `clickToOpenUI` component
 
 
 ent.basicUI = {

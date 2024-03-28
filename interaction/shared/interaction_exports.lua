@@ -3,7 +3,7 @@
 local interaction = {}
 
 
-function ui.getSceneRegion()
+function interaction.getSceneRegion()
     return ui.Region(0,0,love.graphics.getDimensions())
 end
 
@@ -19,30 +19,30 @@ local function assertUIEnt(ent)
 end
 
 
-function ui.open(ent)
+function interaction.openUI(ent)
     assertUIEnt(ent)
     scene:addChild(ent.ui.element)
 end
 
-function ui.close(ent)
+function interaction.closeUI(ent)
     assertUIEnt(ent)
     scene:removeChild(ent.ui.element)
 end
 
-function ui.isOpen(ent)
+function interaction.isOpen(ent)
     local elem = ent.ui.element
     return scene:hasChild(elem)
 end
 
-function ui.getOpenElements()
+function interaction.getOpenElements()
     return scene:getChildren()
 end
 
-function ui.getMainScene()
+function interaction.getMainScene()
     return scene
 end
 
-function ui.isElement(ent)
+function interaction.isElement(ent)
     -- an entity is a valid UI element if it has `ui` component
     return ent.ui
 end
