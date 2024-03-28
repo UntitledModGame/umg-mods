@@ -40,6 +40,14 @@ ent.initUI = function(ent)
     ...
 end
 
+```
+
+
+
+## NEW COMPONENT IDEAS:
+
+```lua
+
 
 
 ```
