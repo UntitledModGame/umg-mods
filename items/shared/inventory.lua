@@ -63,14 +63,6 @@ end
 function Inventory:onItemRemoved(item, slot)
 end
 
-function Inventory:isItemAdditionBlocked(item, slot)
-    return false
-end
-
-function Inventory:isItemRemovalBlocked(item, slot)
-    return false
-end
-
 
 
 
@@ -478,13 +470,13 @@ end
 
 
 local moveSwapTc = typecheck.assert("number", "table", "number", "number")
+if server then
 
 function Inventory:tryMoveToSlot(slot, otherInv, otherSlot, count)
     --[[
         moves an item from one inventory to another.
         Can also specify the `count` argument to only send part of a stack.
     ]]
-    assertServer()
     moveSwapTc(slot, otherInv, otherSlot, count)
 
     local item = self:get(slot)
@@ -508,7 +500,6 @@ end
 
 
 
-
 local trySwapTc = typecheck.assert("number", "table", "number")
 
 function Inventory:trySwap(slot, otherInv, otherSlot)
@@ -517,7 +508,6 @@ function Inventory:trySwap(slot, otherInv, otherSlot)
         
         Returns true on success, false on failure.
     ]]
-    assertServer()
     trySwapTc(slot, otherInv, otherSlot)
     local item = self:get(slot)
     local otherItem = otherInv:get(otherSlot)
@@ -554,6 +544,7 @@ function Inventory:trySwap(slot, otherInv, otherSlot)
     end
 end
 
+end
 
 
 
@@ -631,6 +622,95 @@ end
 
 
 if client then
+
+local function getAccessCandidates(invEnt)
+    --[[
+        Gets a list of control-entities that can access invEnt
+    ]] 
+    local clientId = client.getClient()
+    local array = objects.Array()
+    local controlEnts = control.getControlledEntities(clientId)
+    for _, ent in ipairs(controlEnts) do
+        if invEnt:canBeAccessedBy(ent) then
+            array:add(ent)
+        end
+    end
+    return array
+end
+
+
+local function getDoubleAccessCandidates(inv1, inv2)
+    --[[
+        Get a list of control-entities that are able to access BOTH
+        inv1 AND inv2.
+    ]]
+    return getAccessCandidates(inv1):filter(function(controlEnt)
+        return inv2:canBeAccessedBy(controlEnt)
+    end)
+end
+
+
+local getMoveAccessCandidatesTc = typecheck.assert("table", "number", "table", "number")
+local function getMoveAccessCandidates(srcInv, srcSlot, targInv, targSlot)
+    getMoveAccessCandidatesTc(srcInv, srcSlot, targInv, targSlot)
+    --[[
+    gets a list of control-entities that are can move an
+    item across inventories, from a slot, to another slot.
+    ]]
+    local itemEnt = srcInv:get(srcSlot)
+    return getDoubleAccessCandidates(srcInv, targInv)
+        :filter(function(controlEnt)
+            return targInv:itemCanBeAddedBy(controlEnt, targSlot, itemEnt)
+        end)
+        :filter(function(controlEnt)
+            return srcInv:itemCanBeRemovedBy(controlEnt, targSlot)
+        end)
+end
+
+
+local function getSwapAccessCandidates(inv1, slot1, inv2, slot2)
+    getMoveAccessCandidatesTc(inv1, slot1, inv2, slot2)
+    --[[
+        gets a set of controlEnts that can swap 2 items in an inventory.
+    ]]
+    local cand1 = objects.Set(getMoveAccessCandidates(inv1, slot1, inv2, slot2))
+    local cand2 = objects.Set(getMoveAccessCandidates(inv2, slot2, inv1, slot1))
+    return cand1:intersection(cand2)
+end
+
+
+function Inventory:tryMoveToSlot(srcSlot, targetInv, targetSlot, count)
+    --[[
+        CLIENTSIDE VERSION:
+        Attempts to move an item to a target-slot.
+    ]]
+    local controlEnt = getMoveAccessCandidates(self,srcSlot, targetInv,targetSlot)[1]
+    if controlEnt then
+        client.send("items:tryMoveItem",
+            controlEnt, 
+            self.owner, srcSlot, 
+            targetInv.owner, targetSlot, 
+            count
+        )
+    end
+end
+
+
+function Inventory:trySwap(slot1, inv2, slot2)
+    --[[
+        CLIENTSIDE VERSION:
+        Attempts to swap 2 slots.
+    ]]
+    local controlEnt = getSwapAccessCandidates(self, slot1, inv2, slot2)[1]
+    if controlEnt then
+        client.send("items:trySwapItems", 
+            controlEnt, 
+            self.owner, slot1, 
+            inv2.owner, slot2
+        )
+    end
+end
+
 
 
 client.on("items:setInventorySlot", function(ent, slot, itemEnt)
