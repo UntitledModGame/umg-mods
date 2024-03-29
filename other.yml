@@ -66,3 +66,7 @@ globals:
     any: true
   effects:
     any: true
+  ui:
+    any: true
+  uiBasics:
+    any: true

@@ -16,7 +16,7 @@ local SKIPS = 60
 umg.on("@update", scheduling.skip(SKIPS, function()
     local remBuffer = objects.Array()
     -- Close all UIs that we no-longer have access to.
-    for _, element in ipairs(ui.getOpenElements()) do
+    for _, element in ipairs(uiBasics.getOpenElements()) do
         local e = element:getEntity()
         if e and (e.authorizable) then
             local hasAuth = getAuthorizedControlEntity(e)

@@ -12,7 +12,7 @@ end
 function toggleables.openAllControlled()
     for _, controlEnt in ipairs(control.getControlledEntities()) do
         if isToggleable(controlEnt) then
-            ui.open(controlEnt)
+            uiBasics.open(controlEnt)
         end
     end
 end
@@ -20,15 +20,19 @@ end
 
 
 function toggleables.closeAll()
-    for _, elem in ipairs(ui.getOpenElements()) do
+    for _, elem in ipairs(uiBasics.getOpenElements()) do
         local ent = elem:getEntity()
         if isToggleable(ent) then
-            ui.close(ent)
+            uiBasics.close(ent)
         end
     end
 end
 
 
+
+local function isElement(ent)
+    return ent.ui
+end
 
 
 function toggleables.areMostOpen()
@@ -40,7 +44,7 @@ function toggleables.areMostOpen()
     local tot_ct = 0
     for _, controlEnt in ipairs(control.getControlledEntities()) do
         if sync.isClientControlling(controlEnt) then
-            if ui.isElement(controlEnt) and ui.isOpen(controlEnt) then
+            if isElement(controlEnt) and uiBasics.isOpen(controlEnt) then
                 tot_ct = tot_ct + 1
                 ct = ct + 1
             end

@@ -1,6 +1,6 @@
 
 
-local uiSizeGroup = umg.group("uiSize")
+local uiSizeGroup = umg.group("uiSize", "ui")
 
 
 local function round(x)
@@ -82,11 +82,12 @@ end
 
 
 umg.on("@update", function()
-    local sceneRegion = ui.getSceneRegion()
+    local sceneRegion = uiBasics.getSceneRegion()
 
     for _, ent in ipairs(uiSizeGroup) do
-        ent.uiRegion = ent.uiRegion or ui.Region(0,0, 0,0)
-        local region = ent.uiRegion
+        local ui = ent.ui
+        ui.region = ui.region or ui.Region(0,0, 0,0)
+        local region = ui.region
 
         -- oops, we really shouldn't be mutating w,h here, as Kirigami regions
         -- are supposed to be immutable. Oh well!! :-)

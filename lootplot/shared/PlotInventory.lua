@@ -29,12 +29,6 @@ function PlotInventory:onItemRemoved(itemEnt, slot)
     self.plot:setItem(slot, itemEnt)
 end
 
-function PlotInventory:isItemAdditionBlocked(itemEnt, slot)
-    if not self.plot:getSlot(slot) then
-        -- if there's no slot to be added: block!
-        return true
-    end
-end
 
 end
 

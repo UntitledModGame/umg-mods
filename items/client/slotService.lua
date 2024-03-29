@@ -26,7 +26,7 @@ local function isFocusValid()
         return false -- nothing focused!
     end
     local parentEntity = focusedSlotElem:getParentEntity()
-    if not ui.isOpen(parentEntity) then
+    if (uiBasics.isBasicUI(parentEntity)) and (not uiBasics.isOpen(parentEntity)) then
         return false -- nope, parent UI element is closed!
     end
     local item = focusedSlotElem:getItem()
@@ -215,6 +215,10 @@ end
 local lg = love.graphics
 
 -- Draw little arrow widget thing
+--[[
+    TODO: This should *most definitely* be removed / changed up,
+    because its kinda stupid.
+]]
 
 local ORDER = 2
 umg.on("rendering:drawUI", ORDER, function()

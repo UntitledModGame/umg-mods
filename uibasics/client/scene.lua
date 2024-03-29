@@ -15,7 +15,7 @@ local scene = Scene()
 
 
 umg.on("rendering:drawUI", function()
-    scene:render(ui.getSceneRegion():get())
+    scene:render(uiBasics.getSceneRegion():get())
 end)
 
 

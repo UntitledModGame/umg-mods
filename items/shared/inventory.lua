@@ -634,7 +634,6 @@ if client then
 
 
 client.on("items:setInventorySlot", function(ent, slot, itemEnt)
-    print("ENT FROM-INVV:", ent)
     put(ent.inventory, slot, itemEnt)
 end)
 

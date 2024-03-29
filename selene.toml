@@ -1,5 +1,5 @@
 
-std = "umg+lua51+love+base+ui+other+lootplot"
+std = "umg+lua51+love+base+other+lootplot"
 
 [rules]
 multiple_statements = "allow"

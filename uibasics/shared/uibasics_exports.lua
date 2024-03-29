@@ -1,9 +1,12 @@
 
 
-local interaction = {}
+local uiBasics = {}
 
 
-function interaction.getSceneRegion()
+
+local scene = require("client.scene")
+
+function uiBasics.getSceneRegion()
     return ui.Region(0,0,love.graphics.getDimensions())
 end
 
@@ -19,35 +22,38 @@ local function assertUIEnt(ent)
 end
 
 
-function interaction.openUI(ent)
+function uiBasics.open(ent)
     assertUIEnt(ent)
     scene:addChild(ent.ui.element)
 end
 
-function interaction.closeUI(ent)
+function uiBasics.close(ent)
     assertUIEnt(ent)
     scene:removeChild(ent.ui.element)
 end
 
-function interaction.isOpen(ent)
-    local elem = ent.ui.element
-    return scene:hasChild(elem)
+function uiBasics.isOpen(ent)
+    if ent.ui and ent.ui.element then
+        local elem = ent.ui.element
+        return scene:hasChild(elem)
+    end
 end
 
-function interaction.getOpenElements()
+function uiBasics.getOpenElements()
     return scene:getChildren()
 end
 
-function interaction.getMainScene()
+function uiBasics.getMainScene()
     return scene
 end
 
-function interaction.isElement(ent)
-    -- an entity is a valid UI element if it has `ui` component
-    return ent.ui
+
+function uiBasics.isBasicUI(ent)
+    return (ent.ui and ent.ui.element)
 end
 
 
 
+umg.expose("uiBasics", uiBasics)
 
-return interaction
+return uiBasics
