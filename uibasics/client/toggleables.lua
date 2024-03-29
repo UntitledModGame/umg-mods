@@ -22,6 +22,7 @@ end
 function toggleables.closeAll()
     for _, elem in ipairs(uiBasics.getOpenElements()) do
         local ent = elem:getEntity()
+        print("HI??", ent:type())
         if isToggleable(ent) then
             uiBasics.close(ent)
         end
@@ -51,6 +52,7 @@ function toggleables.areMostOpen()
         end
     end
 
+    print(ct, tot_ct)
     if tot_ct > 0 then
         return (ct / tot_ct) > 0.5
     end

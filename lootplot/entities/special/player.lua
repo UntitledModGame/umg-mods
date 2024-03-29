@@ -22,6 +22,10 @@ local function initUI(ent)
     local element = PlotInventoryElement({
         entity = ent
     })
+    ent.ui =  {
+        element = element,
+        region = ui.Region(0,0,0,0)
+    }
 end
 
 
@@ -34,6 +38,10 @@ return umg.defineEntityType("lootplot:player", {
 
     initXY = true,
     init = initPlayer,
-    initUI = initUI
+    onCreate = function(ent)
+        if client then
+            initUI(ent)
+        end
+    end
 })
 

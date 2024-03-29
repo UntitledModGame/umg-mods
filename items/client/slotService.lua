@@ -25,10 +25,6 @@ local function isFocusValid()
     if not focusedSlotElem then
         return false -- nothing focused!
     end
-    local parentEntity = focusedSlotElem:getParentEntity()
-    if (uiBasics.isBasicUI(parentEntity)) and (not uiBasics.isOpen(parentEntity)) then
-        return false -- nope, parent UI element is closed!
-    end
     local item = focusedSlotElem:getItem()
     local inv = focusedSlotElem:getInventory()
     if umg.exists(item) and umg.exists(inv.owner) then
@@ -65,8 +61,7 @@ end
 
 
 local function tryMoveOrSwap(slotElem, count)
-    local invEnt, slot, item = getFocused()
-    local inv = invEnt.inventory
+    local inv, slot, item = getFocused()
     local targItem = slotElem:getItem()
 
     count = h.getMoveStackCount(item, count, targItem)
@@ -74,7 +69,7 @@ local function tryMoveOrSwap(slotElem, count)
     local targInv, targSlot = slotElem:getInventory(), slotElem:getSlot()
     if (not targItem) or (count > 0) then
         -- move: Items can be combined!
-        inv:tryMoveToSlot(targInv, targSlot, count)
+        inv:tryMoveToSlot(slot, targInv, targSlot, count)
     else
         -- swap: When stacks are different, or there's no space
         inv:trySwap(slot, targInv, targSlot)
@@ -84,7 +79,7 @@ end
 
 
 local function getMoveCount()
-    local _invEnt, _slot, item = getFocused()
+    local _inv, _slot, item = getFocused()
     local stackSize = (item.stackSize or 1)
     if halfStack then
         -- ceil, because when stackSize is 1, we dont want it to drop to 0!
@@ -111,8 +106,7 @@ end
 function slotService.interactSecondary(slotElem)
     local isFocused = getFocused()
     if isFocused then
-        local invEnt, slot = getFocused()
-        local inv = invEnt.inventory
+        local inv, slot = getFocused()
         local targInv, targSlot = slotElem:getInventory(), slotElem:getSlot()
         inv:tryMoveToSlot(slot, targInv, targSlot, 1)
     else

@@ -29,7 +29,7 @@ umg.on("@update", scheduling.skip(SKIPS, function()
     end
 
     for _,e in ipairs(remBuffer) do
-        ui.close(e)
+        uiBasics.close(e)
     end
 end))
 

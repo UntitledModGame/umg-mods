@@ -1,9 +1,8 @@
 
 local lg = love.graphics
-local Element = require("client.newElement")
 
 
-local Scene = Element("uibasics:Scene")
+local Scene = ui.Element("uibasics:Scene")
 
 
 
@@ -16,10 +15,10 @@ end
 
 local function renderChild(elem)
     local ent = elem:getEntity()
-    if not ent.uiRegion then
+    if not ent.ui.region then
         error("Element needs `.region` value to be rendered at root level: " .. elem:getType())
     end
-    elem:render(ent.uiRegion:get())
+    elem:render(ent.ui.region:get())
 end
 
 

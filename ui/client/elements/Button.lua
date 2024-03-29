@@ -41,8 +41,10 @@ end
 
 function Button:onRender(x,y,w,h)
     local r = ui.Region(x,y,w,h)
-    lg.rectangle(self, r:get())
-    lg.outline(self, r:get())
+    lg.setColor(self.backgroundColor or objects.Color.WHITE)
+    lg.rectangle("fill", r:get())
+    lg.setColor(self.outlineColor or objects.Color.BLACK)
+    lg.rectangle("line", r:get())
 
     if self.imageElement then
         self.imageElement:render(x,y,w,h)

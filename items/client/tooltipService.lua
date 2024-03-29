@@ -29,7 +29,7 @@ local function check(slotElem)
     if not umg.exists(ent) then
         return false
     end
-    if not ui.isOpen(ent) then
+    if not uiBasics.isOpen(ent) then
         return false
     end
     return true

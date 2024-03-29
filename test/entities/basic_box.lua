@@ -48,11 +48,13 @@ umg.defineEntityType("basic_box", {
         widthFactorOf = 400
     },
 
-    initUI = function(ent)
-        ent.ui = {
-            element = BasicBox(),
-            region = ui.Region(100,100,300,300)
-        }
+    onCreate = function(ent)
+        if client then
+            ent.ui = {
+                element = BasicBox(),
+                region = ui.Region(100,100,300,300)
+            }
+        end
     end
 })
 

@@ -393,6 +393,9 @@ end
 
 
 
+if server then
+
+
 local function moveIntoTakenSlot(self, slot, otherInv, otherSlot, count)
     local targ = otherInv:get(otherSlot)
     local item = self:get(slot)
@@ -470,7 +473,6 @@ end
 
 
 local moveSwapTc = typecheck.assert("number", "table", "number", "number")
-if server then
 
 function Inventory:tryMoveToSlot(slot, otherInv, otherSlot, count)
     --[[

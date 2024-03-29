@@ -70,12 +70,17 @@ return umg.defineEntityType("player", {
     basicUI = {},
     uiSize = {width = 0.3, height = 0.25},
 
-    initUI = function(e)
-        e.basicUI = ui.elements.GridInventory({
-            inventory = e.inventory,
-            width = 6,
-            height = 5
-        })
+    onCreate = function(e)
+        if client then
+            e.ui = {
+                element = ui.elements.GridInventory({
+                    inventory = e.inventory,
+                    width = 6,
+                    height = 5
+                }),
+                region = ui.Region(0,0,0,0)
+            }
+        end
     end,
 
     initVxVy = true,

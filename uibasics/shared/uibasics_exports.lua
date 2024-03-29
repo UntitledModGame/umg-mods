@@ -4,6 +4,12 @@ local uiBasics = {}
 
 
 
+if client then
+--[[
+    Client-side exports only!!
+]]
+
+
 local scene = require("client.scene")
 
 function uiBasics.getSceneRegion()
@@ -48,12 +54,9 @@ function uiBasics.getMainScene()
 end
 
 
-function uiBasics.isBasicUI(ent)
-    return (ent.ui and ent.ui.element)
-end
-
-
 
 umg.expose("uiBasics", uiBasics)
+
+end
 
 return uiBasics

@@ -50,8 +50,8 @@ end
 
 
 
-local DEFAULT_OUTLINE_COLOR = {0,0,0}
-local DEFAULT_COLOR = {1,1,1}
+local DEFAULT_OUTLINE_COLOR = {1,1,1}
+local DEFAULT_COLOR = {0,0,0}
 
 
 function Text:onRender(x,y,w,h)

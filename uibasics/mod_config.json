@@ -4,6 +4,7 @@
         "input", "permissions", 
         "components", "spatial",
         "control", "scheduling",
-        "objects", "clickables"
+        "objects", "clickables", 
+        "ui"
     ]
 }
