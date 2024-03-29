@@ -20,12 +20,15 @@ end
 
 
 function toggleables.closeAll()
+    local closebuf = objects.Array()
     for _, elem in ipairs(uiBasics.getOpenElements()) do
         local ent = elem:getEntity()
-        print("HI??", ent:type())
         if isToggleable(ent) then
-            uiBasics.close(ent)
+            closebuf:add(ent)
         end
+    end
+    for _, ent in ipairs(closebuf) do
+        uiBasics.close(ent)
     end
 end
 
@@ -52,7 +55,6 @@ function toggleables.areMostOpen()
         end
     end
 
-    print(ct, tot_ct)
     if tot_ct > 0 then
         return (ct / tot_ct) > 0.5
     end
