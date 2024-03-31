@@ -59,8 +59,7 @@ end
 
 
 function Button:onClickPrimary()
-    local x,y = input.getPointerPosition()
-    self:onClick(x,y)
+    self:onClick()
 end
 
 

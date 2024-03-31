@@ -95,7 +95,7 @@ local function update(listener, dt)
             ]]
             listener:_dispatchRelease(controlEnum)
         elseif event.type == EVENTS.POINTER_MOVED then
-            listener:pointerMovedCallback(event.dx, event.dy)
+            listener:pointerMovedCallback(event.x, event.y, event.dx, event.dy)
         elseif event.type == EVENTS.TEXT_INPUT then
             if not controlManager:isFamilyLocked("key") then
                 listener:textInputCallback(event.text)
@@ -163,8 +163,10 @@ umg.on("@mousemoved", function(x,y,dx,dy)
     ]]
     eventBuffer:add({
         type = EVENTS.POINTER_MOVED,
+        x = x,
+        y = y,
         dx = dx,
-        dy = dy
+        dy = dy,
     })
 end)
 

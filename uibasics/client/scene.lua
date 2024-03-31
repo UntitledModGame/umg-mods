@@ -47,8 +47,8 @@ listener:onTextInput(function(self, txt)
 end)
 
 
-listener:onPointerMoved(function(_self, dx,dy)
-    scene:pointerMoved(dx,dy)
+listener:onPointerMoved(function(_self, x,y, dx,dy)
+    scene:pointerMoved(x,y, dx,dy)
 end)
 
 

@@ -49,9 +49,8 @@ local function computePosition(elem, value)
 end
 
 
-function Thumb:onPointerMoved(dx, _dy)
+function Thumb:onPointerMoved(x,_y, dx, _dy)
     if self:isClicked() then
-        local x,_y = input.getPointerPosition()
         local parent = self:getParent()
         dx = getLimitedDelta(self, x, dx)
         parent.position = clamp(parent.position + dx, 0, parent.totalSize)

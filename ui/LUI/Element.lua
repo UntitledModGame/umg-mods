@@ -258,9 +258,9 @@ end
 
 
 
-function Element:pointerMoved(dx, dy)
-    util.tryCall(self.onPointerMoved, self, dx, dy)
-    umg.call("ui:elementPointerMoved", self, dx, dy)
+function Element:pointerMoved(x,y, dx, dy)
+    util.tryCall(self.onPointerMoved, self, x,y, dx,dy)
+    umg.call("ui:elementPointerMoved", self, x,y, dx,dy)
 
     local px,py = input.getPointerPosition()
     updateHover(self, px,py)
@@ -274,7 +274,7 @@ function Element:pointerMoved(dx, dy)
         startHover(child, px,py)
     end
 
-    propagateToActiveChildren(self, "pointerMoved", dx, dy)
+    propagateToActiveChildren(self, "pointerMoved", x,y, dx,dy)
 end
 
 

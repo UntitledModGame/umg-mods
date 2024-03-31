@@ -40,9 +40,8 @@ local DEFAULT_SENSITIVITY = 5
 
 
 
-function ScrollThumb:onPointerMoved(_dx, dy)
+function ScrollThumb:onPointerMoved(_x,y, _dx, dy)
     if self:isClicked() then
-        local _x,y = input.getPointerPosition()
         local parent = self:getParent()
         dy = getLimitedDelta(self, y, dy)
         parent.position = clamp(parent.position + dy, 0, parent.totalSize)

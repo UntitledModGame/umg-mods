@@ -51,7 +51,7 @@ local function dragElement(ent, luiElem, dx, dy)
     end
 end
 
-umg.on("ui:elementPointerMoved", function(luiElem, dx, dy)
+umg.on("ui:elementPointerMoved", function(luiElem, x,y, dx,dy)
     if luiElem:isClicked() then
         local ent = luiElem:getEntity()
         if ent and ent.uiProperties and ent.uiProperties.draggable then

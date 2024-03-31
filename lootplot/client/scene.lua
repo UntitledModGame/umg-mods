@@ -69,8 +69,8 @@ that gets the pointer position from the last-seen values..
 
 ]])
 
-listener:onPointerMoved(function(_self, dx,dy)
-    scene:pointerMoved(dx,dy)
+listener:onPointerMoved(function(_self, x,y, dx,dy)
+    scene:pointerMoved(x,y, dx,dy)
 end)
 
 

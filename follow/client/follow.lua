@@ -125,10 +125,9 @@ end)
 
 
 
-listener:onPointerMoved(function(self, dx,dy)
+listener:onPointerMoved(function(self, x, y, dx,dy)
     if isPanning and self:isDown("follow:CAMERA_PAN") then
         -- use middle mouse button to pan camera
-        local x,y = input.getPointerPosition()
         local wx1, wy1 = rendering.toWorldCoords(x-dx,y-dy)
         local wx2, wy2 = rendering.toWorldCoords(x,y)
         local wdx, wdy = wx2-wx1, wy1-wy2
