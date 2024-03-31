@@ -19,7 +19,8 @@ local clampedUIGroup = umg.group("uiProperties", "ui")
 umg.on("@update", function()
     local sceneRegion = uiBasics.getSceneRegion()
     for _, ent in ipairs(clampedUIGroup) do
-        if uiBasics.isOpen(ent) then
+        local uiProperties = ent.uiProperties
+        if uiProperties.clamped and uiBasics.isOpen(ent) then
             ent.ui.region = getClampedRegion(ent, sceneRegion)
         end
     end
