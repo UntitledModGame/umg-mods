@@ -63,11 +63,11 @@ local function Class(name)
 
     local class = {}
     class.__index = class
-    class.__implementors = {--[[
+    class.___implementors = {--[[
         -- set of Classes that this class implements
         [Class] -> true
     ]]}
-    class.__implementors[class] = true
+    class.___implementors[class] = true
 
     function class:isInstance(x)
         assertStaticCall(self, class)
@@ -75,14 +75,14 @@ local function Class(name)
             return false
         end
         local cls = getmetatable(x)
-        return class.__implementors[cls]
+        return class.___implementors[cls]
     end
 
     local tableTc = typecheck.assert("table", "table")
     function class:implement(otherClass)
         tableTc(self, otherClass)
         assertStaticCall(self, class)
-        self.__implementors[otherClass] = true
+        self.___implementors[otherClass] = true
         for k,v in pairs(otherClass) do
             if not self[k] then
                 self[k] = v

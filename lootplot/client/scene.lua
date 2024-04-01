@@ -53,22 +53,6 @@ end)
 
 
 
-error([[
-
-TODO:
-
-We need to change the `input.getPointerPosition()` API to account for
-different types of positions within different scene contexts.
-
-For example, within the context of world-ui in lootplot,
-we need the pointer-position to be transformed by the world-camera.
-
-Thus, `scene:pointerMoved(dx,dy)` should pass in the pointer position,
-AND we should have an extra Element function: `Element:getPointerPosition()` 
-that gets the pointer position from the last-seen values..
-
-]])
-
 listener:onPointerMoved(function(_self, x,y, dx,dy)
     scene:pointerMoved(x,y, dx,dy)
 end)
