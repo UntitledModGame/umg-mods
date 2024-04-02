@@ -24,7 +24,7 @@ function Generator:init(rng)
     self.rng = rng or love.math.newRandomGenerator()
 
     self.traitToEntries = {--[[
-        [tag] -> Set([entryObj, entryObj, ...])
+        [tag] -> Set([entry1, entry2, ...])
     ]]}
 
     self.allEntries = objects.Set()
@@ -44,7 +44,7 @@ function Generator:defineEntry(entry, options)
         entry = entry
     }
 
-    for _, trait in pairs(entryObj.traits) do
+    for trait, _ in pairs(entryObj.traits) do
         local set = self.traitToEntries[trait] or objects.Set()
         self.traitToEntries[trait] = set
         set:add(entry)
@@ -78,8 +78,10 @@ end
 
 
 
+local tableTc = typecheck.assert("table")
 
 function Generator:getEntriesWith(traits)
+    tableTc(traits)
     if #traits == 1 then
         -- shortcircuit for efficiency
         return self.traitToEntries[traits[1]] or EMPTY_SET
@@ -87,6 +89,7 @@ function Generator:getEntriesWith(traits)
 
     local entrySet = findSmallestTraitSet(self, traits)
     for _, trait in ipairs(traits) do
+        assert(type(trait) == "string", "Traits must be strings!")
         local traitSet = self.traitToEntries[trait] or EMPTY_SET
         entrySet = entrySet:intersection(traitSet)
     end
@@ -100,11 +103,15 @@ end
 
 
 local EMPTY = {}
+
+local strTc = typecheck.assert("string")
 function Generator:getTraits(entry)
+    strTc(entry)
     return self.nameToEntryObj[entry].traits or EMPTY
 end
 
 function Generator:getDefaultChance(entry)
+    strTc(entry)
     return self.nameToEntryObj[entry].defaultChance or 1
 end
 

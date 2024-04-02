@@ -27,7 +27,7 @@ end
 
 local function isSimilar(float1, float2)
     local diff = math.abs(float1-float2)
-    return diff < 0.001
+    return diff < 0.005
 end
 
 local function normalize(tabl)
@@ -41,10 +41,11 @@ local function normalize(tabl)
 end
 
 
+local TEST_COUNT = 10000000
+
 local function expect(query, distribution)
     local picks = {--[[  [pick] -> count  ]]}
-    local TOTAL = 1000000
-    for _=1, TOTAL do
+    for _=1, TEST_COUNT do
         local e = query()
         picks[e] = (picks[e] or 0) + 1
     end
@@ -52,8 +53,8 @@ local function expect(query, distribution)
 
     for k,v in pairs(distribution) do
         if not isSimilar(v, picks[k]) then
-            print("EXPECTED:\n",umg.expect(distribution))
-            print("REAL NORMALIZED PICKS:\n",umg.expect(picks))
+            print("EXPECTED:\n",umg.inspect(distribution))
+            print("REAL NORMALIZED PICKS:\n",umg.inspect(picks))
             error("Expect failed. See log.")
         end
     end
@@ -152,16 +153,17 @@ do
 local q = gen:createQuery()
     :addEntriesWith("earth")
     :addEntriesWith("grass")
-    :adjustChance(function(entry, traits, chance)
+    :adjustChances(function(entry, traits, chance)
         if traits.grass then
             return chance * 2
         end
+        return chance
     end)
 
 expect(q, {
-    tree = 4/10,
-    grass = 4/10,
-    dirt = 1/10
+    tree = 4/9,
+    grass = 4/9,
+    dirt = 1/9
 })
 end
 

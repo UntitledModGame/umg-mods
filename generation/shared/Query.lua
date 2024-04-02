@@ -63,6 +63,13 @@ local function newPick(entry, chance)
 end
 
 
+local function assertPositiveNumber(x)
+    if type(x) ~= "number" or x < 0 then
+        error("Chance values must be positive numbers!", 3)
+    end
+end
+
+
 local function markOutdated(self)
     self.outdated = true
 end
@@ -85,7 +92,7 @@ function Query:add(entry_or_query, chance)
         pick.chance = chance
     else
         local pick = newPick(entry_or_query, chance)
-        self.rawPicks:add(pick)
+        self.picks:add(pick)
         self.seenPicks[entry_or_query] = pick
     end
 
@@ -112,10 +119,11 @@ end
 local function getTraits(self, entry)
     return self.generator:getTraits(entry)
 end
-local function getDefaultChance(self, entry)
-    return self.generator:getDefaultChance(entry)
-end
 
+local function addDefault(self, entry)
+    local chance = self.generator:getDefaultChance(entry)
+    self:add(entry, chance)
+end
 
 
 function Query:addEntriesWith(...)
@@ -125,7 +133,7 @@ function Query:addEntriesWith(...)
     local traits = {...}
     local entries = self.generator:getEntriesWith(traits)
     for _, entry in ipairs(entries) do
-        self:add(entry, getDefaultChance(entry))
+        addDefault(self, entry)
     end
     return self
 end
@@ -134,7 +142,7 @@ end
 
 function Query:addAllEntries()
     for _, entry in ipairs(self.generator:getAllEntries()) do
-        self:add(entry, getDefaultChance(entry))
+        addDefault(self, entry)
     end
     return self
 end
@@ -143,7 +151,10 @@ end
 
 local function applyFilters(self, pick)
     local entry = pick.entry
-    local traits, chance = getTraits(entry), pick.chance
+    if Query:isInstance(entry) then
+        return true -- don't apply filters to nested queries
+    end
+    local traits, chance = getTraits(self, entry), pick.chance
 
     for _, f in ipairs(self.filters) do
         local ok = f(entry, traits, chance)
@@ -157,11 +168,15 @@ end
 
 local function applyChanceAdjustment(self, pick)
     local entry = pick.entry
+    if Query:isInstance(entry) then
+        return pick -- don't apply adjustment to nested queries
+    end
     local newChance = pick.chance
-    local traits = getTraits(entry)
+    local traits = getTraits(self, entry)
 
     for _, adjustChance in ipairs(self.chanceAdjusters) do
         newChance = adjustChance(entry, traits, newChance)
+        assertPositiveNumber(newChance)
     end
 
     return newPick(pick.entry, newChance)
@@ -173,9 +188,9 @@ function finalize(self)
     if self:isEmpty() then
         error("Cannot finalize query! (There are no possible results.)")
     end
-    local picks = self.rawPicks
-        :filter(applyFilters)
-        :map(applyChanceAdjustment)
+    local picks = self.picks
+        :filter(function(pick) return applyFilters(self, pick) end)
+        :map(function(pick) return applyChanceAdjustment(self, pick) end)
     self.picker = Picker(picks)
     self.outdated = false
 end
