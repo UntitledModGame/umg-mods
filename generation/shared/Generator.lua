@@ -34,17 +34,30 @@ function Generator:init(rng)
     ]]}
 end
 
+local function assertPositiveNumber(x)
+    if type(x) ~= "number" or x < 0 then
+        error("Chance values must be positive numbers!")
+    end
+end
 
 
+
+
+local defineEntryTc = typecheck.assert("table", "any", "table?")
 
 function Generator:defineEntry(entry, options)
+    defineEntryTc(self, entry, options)
     local entryObj = {
         defaultChance = options.defaultChance or 1,
         traits = options.traits or {},
         entry = entry
     }
+    if entryObj.defaultChance then
+        assertPositiveNumber(entryObj.defaultChance)
+    end
 
     for trait, _ in pairs(entryObj.traits) do
+        assert(type(trait) == "string", "Traits of entries must be strings!")
         local set = self.traitToEntries[trait] or objects.Set()
         self.traitToEntries[trait] = set
         set:add(entry)
@@ -107,12 +120,20 @@ local EMPTY = {}
 local strTc = typecheck.assert("string")
 function Generator:getTraits(entry)
     strTc(entry)
-    return self.nameToEntryObj[entry].traits or EMPTY
+    local obj = self.nameToEntryObj[entry]
+    if obj then
+        return obj.traits or EMPTY
+    end
+    return EMPTY
 end
 
 function Generator:getDefaultChance(entry)
     strTc(entry)
-    return self.nameToEntryObj[entry].defaultChance or 1
+    local obj = self.nameToEntryObj[entry]
+    if obj then
+        return obj.defaultChance or 1
+    end
+    return 1
 end
 
 

@@ -1,8 +1,10 @@
 
-local TEST = true
-if not TEST then
-    return
-end
+
+--[[
+==================================================
+    Generation test suite
+==================================================
+]]
 
 
 
@@ -169,3 +171,14 @@ end
 
 
 
+do
+-- test chance overwrite:
+local q = gen:createQuery()
+    :add("foo", 0.1)
+    :add("bar", 1)
+    :add("foo", 9)
+expect(q,{
+    bar=1/10,
+    foo=9/10
+})
+end
