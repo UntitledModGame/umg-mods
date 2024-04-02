@@ -1,6 +1,6 @@
 
 
-local Scene = ui.Element("uibasics:Scene")
+local Scene = ui.Element("lootplot:Scene")
 
 
 function Scene:init(args)
@@ -19,6 +19,7 @@ end
 
 
 function Scene:onRender(x,y,w,h) -- dont use these args.
+    do return end
     self.shop:render()
     self.inventory:render()
     self.world:render()

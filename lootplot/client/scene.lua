@@ -11,7 +11,7 @@ UI mod has one root element, that essentially acts as the "Scene"
 
 local Scene = require("client.SceneElement")
 
-local scene = Scene()
+local scene = Scene({inventory=true,shop=true,world=true})
 
 
 local BIG=0xfffff

@@ -7,6 +7,6 @@
         "health", "scheduling", "initializers",
         "components", "effects", "execution",
         "chat", "commands", "vignette", 
-        "borders", "items"
+        "borders", "items", "generation"
     ]
 }

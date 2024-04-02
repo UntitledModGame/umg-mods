@@ -97,11 +97,13 @@ end
 function Query:filter(f)
     self.filters:add(f)
     markOutdated(self)
+    return self
 end
 
 function Query:adjustChances(f)
     self.chanceAdjusters:add(f)
     markOutdated(self)
+    return self
 end
 
 
@@ -125,6 +127,7 @@ function Query:addEntriesWith(...)
     for _, entry in ipairs(entries) do
         self:add(entry, getDefaultChance(entry))
     end
+    return self
 end
 
 
@@ -133,6 +136,7 @@ function Query:addAllEntries()
     for _, entry in ipairs(self.generator:getAllEntries()) do
         self:add(entry, getDefaultChance(entry))
     end
+    return self
 end
 
 

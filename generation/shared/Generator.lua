@@ -20,8 +20,8 @@ end
 
 
 
-function Generator:init()
-    self.rng = love.math.newRandomGenerator()
+function Generator:init(rng)
+    self.rng = rng or love.math.newRandomGenerator()
 
     self.traitToEntries = {--[[
         [tag] -> Set([entryObj, entryObj, ...])
@@ -55,6 +55,7 @@ function Generator:defineEntry(entry, options)
 end
 
 
+local EMPTY_SET = objects.Set()
 
 local function findSmallestTraitSet(self, traits)
     --[[
@@ -65,7 +66,7 @@ local function findSmallestTraitSet(self, traits)
     local set = nil
 
     for _, t in ipairs(traits) do
-        local traitSet = self.traitToEntries[t]
+        local traitSet = self.traitToEntries[t] or EMPTY_SET
         local size = #traitSet
         if size < bestSize then
             bestSize = size
@@ -76,15 +77,17 @@ local function findSmallestTraitSet(self, traits)
 end
 
 
+
+
 function Generator:getEntriesWith(traits)
     if #traits == 1 then
         -- shortcircuit for efficiency
-        return self.traitToEntries[traits[1]]
+        return self.traitToEntries[traits[1]] or EMPTY_SET
     end
 
     local entrySet = findSmallestTraitSet(self, traits)
     for _, trait in ipairs(traits) do
-        local traitSet = self.traitToEntries[trait]
+        local traitSet = self.traitToEntries[trait] or EMPTY_SET
         entrySet = entrySet:intersection(traitSet)
     end
     return entrySet
