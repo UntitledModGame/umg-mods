@@ -1,5 +1,5 @@
 
-local PlotSlotElement = require("client.PlotSlotElement")
+local PlotSlotElement = require("client.elements.PlotSlotElement")
 
 
 local PlotInventoryElement = ui.Element("lootplot:PlotInventoryElement")
