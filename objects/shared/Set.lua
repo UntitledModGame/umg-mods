@@ -66,8 +66,8 @@ end
 
 function Set:intersection(other)
     local newSet = Set()
-    for _, v in ipairs(other) do
-        if self:has(v) then
+    for _, v in ipairs(self) do
+        if other:has(v) then
             newSet:add(v)
         end
     end
