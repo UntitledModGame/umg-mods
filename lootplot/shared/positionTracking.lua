@@ -60,12 +60,12 @@ local function stillValid(ppos, ent)
     -- check if ppos is still valid for `ent`:
     -- (ppos will be valid if we can verify 
     --  that its still within the same slot.)
-    local slotEnt = posToSlot(ppos)
+    local slotEnt = lp.posToSlot(ppos)
     if slotEnt == ent then
         return true
     end
 
-    local itemEnt = posToItem(ppos)
+    local itemEnt = lp.posToItem(ppos)
     if itemEnt == ent then
         return true
     end

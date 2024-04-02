@@ -143,6 +143,7 @@ Bishop
 Rook
 Queen
 Knight
+Dot (the square beneath the item)
 Ring (square O shape)
 Plus (rook with 1 range)
 Cross (bishop with 1 range)

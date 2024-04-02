@@ -80,7 +80,7 @@ function Plot:foreach(func)
     ]]
     self.grid:foreach(function(_ent, x, y)
         local slotI = self.grid:coordsToIndex(x,y)
-        local ppos = PPos({
+        local ppos = lp.PPos({
             plot = self,
             slot = slotI
         })
@@ -92,7 +92,7 @@ end
 function Plot:foreachSlot(func)
     -- loops over all slot-entities in plot
     self:foreach(function(ppos)
-        local slotEnt = posToSlot(ppos)
+        local slotEnt = lp.posToSlot(ppos)
         if slotEnt then
             func(slotEnt, ppos)
         end
@@ -102,7 +102,7 @@ end
 function Plot:foreachItem(func)
     -- loops over all item-entities in plot
     self:foreach(function(ppos)
-        local itemEnt = posToItem(ppos)
+        local itemEnt = lp.posToItem(ppos)
         if itemEnt then
             func(itemEnt, ppos)
         end

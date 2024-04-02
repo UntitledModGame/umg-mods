@@ -9,30 +9,30 @@ local ptrack = require("shared.positionTracking")
 
 
 
-local api = {}
+local lp = {}
 
 
-api.PPos = require("shared.PPos")
+lp.PPos = require("shared.PPos")
 
 
 
 --[[
     Positioning:
 ]]
-function api.posToSlot(ppos)
-    posTc(ppos)
+function lp.posToSlot(ppos)
+    lp.posTc(ppos)
     return ppos.plot:getSlot(ppos.slot)
 end
 
-function api.posToItem(ppos)
-    posTc(ppos)
-    local slot = api.posToSlot(ppos)
+function lp.posToItem(ppos)
+    lp.posTc(ppos)
+    local slot = lp.posToSlot(ppos)
     if slot and umg.exists(slot.item) then
         return slot.item
     end
 end
 
-function api.getPos(ent)
+function lp.getPos(ent)
     -- Gets the ppos of an ent
     local ppos = ptrack.get(ent)
     return ppos
@@ -47,13 +47,13 @@ end
 
 local setSlotTc = typecheck.assert("ppos", "entity")
 
-function api.setSlot(ppos, slotEnt)
+function lp.setSlot(ppos, slotEnt)
     -- directly sets a slot.
     -- (If a previous slot existed, destroy it.)
     setSlotTc(ppos, slotEnt)
-    local prevEnt = posToItem(ppos)
+    local prevEnt = lp.posToItem(ppos)
     if prevEnt then
-        destroy(prevEnt)
+        lp.destroy(prevEnt)
     end
     ppos.plot:setSlot(ppos.slot, slotEnt)
     ptrack.set(slotEnt, ppos)
@@ -73,10 +73,10 @@ end
 ]]
 local ENT = "entity"
 
-api.detachItem = RPC("lootplot:detachItem", {ENT}, function(item)
+lp.detachItem = RPC("lootplot:detachItem", {ENT}, function(item)
     -- removes an entity from a plot. position info is nilled.
     local ppos = ptrack.get(item)
-    local slot = ppos and posToItem(ppos)
+    local slot = ppos and lp.posToItem(ppos)
     if (not slot) or (slot.item ~= item) then
         return
     end
@@ -86,12 +86,12 @@ api.detachItem = RPC("lootplot:detachItem", {ENT}, function(item)
 end)
 
 
-api.attachItem = RPC("lootplot:attachItem", {ENT,ENT}, function(item, slotEnt)
+lp.attachItem = RPC("lootplot:attachItem", {ENT,ENT}, function(item, slotEnt)
     assert(not ptrack.get(item), "Item attached somewhere else")
-    local ppos = getPos(slotEnt)
+    local ppos = lp.getPos(slotEnt)
     if umg.exists(slotEnt.item) then
         -- if item already exists: Destroy it and overwrite.
-        destroy(slotEnt.item)
+        lp.destroy(slotEnt.item)
     end
     slotEnt.item = item
     ptrack.set(item, ppos)
@@ -110,12 +110,12 @@ local function ensureSlot(slotEnt_or_ppos)
     local ppos
     if ptrack.get(slotEnt_or_ppos) then
         -- its a slotEnt!
-        ppos = getPos(slotEnt_or_ppos)
+        ppos = lp.getPos(slotEnt_or_ppos)
     else
         ppos = slotEnt_or_ppos
     end
 
-    local slotEnt = posToSlot(ppos)
+    local slotEnt = lp.posToSlot(ppos)
     if not slotEnt then
         error("Invalid slot-entity (or position) for slot!", 3)
     end
@@ -123,29 +123,29 @@ local function ensureSlot(slotEnt_or_ppos)
 end
 
 
-function api.moveItem(item, slotEnt_or_ppos)
+function lp.moveItem(item, slotEnt_or_ppos)
     -- moves an item to a position
     assert(server, "?")
     local slotEnt = ensureSlot(slotEnt_or_ppos)
-    detachItem(item)
-    attachItem(item, slotEnt)
+    lp.detachItem(item)
+    lp.attachItem(item, slotEnt)
 end
 
 
 local ent2Tc = typecheck.assert("entity", "entity")
-function api.swapItems(item1, item2)
+function lp.swapItems(item1, item2)
     ent2Tc(item1, item2)
-    local slot1, slot2 = posToSlot(getPos(item1)), posToSlot(getPos(item2))
+    local slot1, slot2 = lp.posToSlot(lp.getPos(item1)), lp.posToSlot(lp.getPos(item2))
     assert(slot1 and slot2, "Cannot swap nil-position")
-    detachItem(item1)
-    detachItem(item2)
-    attachItem(item1, slot2)
-    attachItem(item2, slot1)
+    lp.detachItem(item1)
+    lp.detachItem(item2)
+    lp.attachItem(item1, slot2)
+    lp.attachItem(item2, slot1)
 end
 
 
 
-function api.activate(ent)
+function lp.activate(ent)
     --[[
         todo:
         this should almost definitely be a dual function
@@ -153,7 +153,7 @@ function api.activate(ent)
 end
 
 
-function api.destroy(ent)
+function lp.destroy(ent)
     assert(server,"?")
     if umg.exists(ent) then
         ptrack.set(ent, nil)
@@ -162,16 +162,17 @@ function api.destroy(ent)
 end
 
 
-function api.sellItem(ent)
+function lp.sellItem(ent)
     error("nyi")
 end
 
-function api.rotate(ent, angle)
-    -- rotates item by an angle.
-    local e = posToItem(ppos)
+function lp.rotate(ent, angle)
+    -- TODO.
+    -- rotates `ent` by an angle.
+    --  ent can be a slot OR an item
 end
 
-function api.clone(ent)
+function lp.clone(ent)
     local cloned = ent:clone()
     --[[
         TODO: emit events here
@@ -179,37 +180,28 @@ function api.clone(ent)
     return cloned
 end
 
-function api.rerollItem(slotEnt_or_ppos)
+function lp.rerollItem(slotEnt_or_ppos)
     local slotEnt = ensureSlot(slotEnt_or_ppos)
-    local ppos = getPos(slotEnt)
-    local itemEnt = posToItem(ppos)
+    local ppos = lp.getPos(slotEnt)
+    local itemEnt = lp.posToItem(ppos)
     -- destroy item,
-    destroy(itemEnt) 
+    lp.destroy(itemEnt) 
     -- then, create a new item:
 end
 
-function api.trySpawnItem(ppos, itemEType)
-    local slotEnt = posToItem(ppos)
+function lp.trySpawnItem(ppos, itemEType)
+    local slotEnt = lp.posToItem(ppos)
     if slotEnt then
-        local itemEnt = spawn(itemEType)
-        attachItem(itemEnt, slotEnt)
+        local itemEnt = lp.spawn(itemEType)
+        lp.attachItem(itemEnt, slotEnt)
         return itemEnt
     end
 end
 
 
 
+umg.expose("lootplot", lp)
+umg.expose("lp", lp)
 
---[[
-    exported globally for convenience.
-]]
-for k,v in pairs(api) do
-    _G[k] = v
-end
-
-
-umg.expose("lootplot", api)
-
-return api
-
+return lp
 

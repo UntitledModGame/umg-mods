@@ -1,49 +1,49 @@
 
 globals:
-  activate:
+  lp.activate:
     args:
     - type: any
 
-  setSlot:
-    args:
-    - type: any
-    - type: any
-
-  getPos:
-    args:
-    - type: any
-  posToSlot:
-    args:
-    - type: any
-  posToItem:
-    args:
-    - type: any
-
-  destroy:
-    args:
-    - type: any
-  sellItem:
-    args:
-    - type: any
-
-  copy:
+  lp.setSlot:
     args:
     - type: any
     - type: any
 
-  detachItem:
+  lp.getPos:
     args:
     - type: any
-  attachItem:
+  lp.posToSlot:
     args:
     - type: any
+  lp.posToItem:
+    args:
     - type: any
-  swapItems:
+
+  lp.destroy:
+    args:
+    - type: any
+  lp.sellItem:
+    args:
+    - type: any
+
+  lp.copy:
     args:
     - type: any
     - type: any
 
-  posTc:
+  lp.detachItem:
+    args:
+    - type: any
+  lp.attachItem:
+    args:
+    - type: any
+    - type: any
+  lp.swapItems:
+    args:
+    - type: any
+    - type: any
+
+  lp.posTc:
     args:
     - type: any
   # itemTc:
@@ -54,13 +54,13 @@ globals:
   #   - type: any
 
 
-  rotate:
+  lp.rotate:
     args:
     - type: any
     - type: number
       required: false
 
-  trySpawn:
+  lp.trySpawn:
     args:
     - type: any
     - type: any
@@ -71,6 +71,6 @@ globals:
     - type: table
     - type: function
 
-  PPos:
+  lp.PPos:
     any: true
 
