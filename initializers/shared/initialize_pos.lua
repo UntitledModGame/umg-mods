@@ -47,7 +47,6 @@ umg.on("@entityInit", function(ent, x, y, dim)
         initXY(ent, x, y, dim)
 
     elseif ent.initVxVy then
-        initXY(ent, x, y, dim)
         ent.vx = 0
         ent.vy = 0
     end

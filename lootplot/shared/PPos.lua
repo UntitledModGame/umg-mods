@@ -77,10 +77,30 @@ end
 
 
 
-function PPos:getXY()
+function PPos:getCoords()
     -- gets XY coords of PPos
     return self.plot.grid:indexToCoords(self.slot)
 end
+
+
+function PPos:getWorldPos()
+    --[[
+        returns plot-position as a dimensionVector
+        TODO:
+        This code feels kinda dirty.. idk why
+    ]]
+    local plotEnt = self.plot.ownerEnt
+    assert(plotEnt.x and plotEnt.y, "Cannot get world position of a Plot when owner ent doesn't have x,y components")
+    local ix,iy = self:getCoords()
+    local slotDist = constants.WORLD_SLOT_DISTANCE
+    local x = plotEnt.x + ix*slotDist
+    local y = plotEnt.y + iy*slotDist
+    return {
+        x = x, y = y,
+        dimension = plotEnt.dimension
+    }
+end
+
 
 
 function PPos:isInPlot()
@@ -90,3 +110,6 @@ function PPos:isInPlot()
 end
 
 
+
+
+return PPos

@@ -15,6 +15,7 @@ local lp = {}
 lp.PPos = require("shared.PPos")
 
 
+lp.posTc = typecheck.assert("ppos")
 
 --[[
     Positioning:

@@ -83,6 +83,7 @@ return umg.defineEntityType("player", {
         end
     end,
 
+    initXY = true,
     initVxVy = true,
     initLook = true
 })

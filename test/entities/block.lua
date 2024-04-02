@@ -21,6 +21,7 @@ umg.defineEntityType("block", {
         }
     end,
 
+    initXY = true,
     initVxVy = true
 })
 

@@ -6,8 +6,8 @@ local G = {}
 
 
 
-G.posTc = typecheck.assert("ppos")
 
+G.posTc = typecheck.assert("ppos")
 
 
 

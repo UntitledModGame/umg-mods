@@ -27,16 +27,20 @@ end
 
 umg.on("@createWorld", function()
     -- create world plot
-    local worldPlot = server.entities.world()
+    local ent = server.entities.world()
+    ent.x = 0
+    ent.y = 0
 
-    addShop(worldPlot)
-    addBase(worldPlot)
+    addShop(ent)
+    addBase(ent)
 end)
 
 
 
 umg.on("@playerJoin", function(clientId)
-    server.entities.player(clientId)
+    local p =server.entities.player(clientId)
+    p.x,p.y = 0,0
+    p.moveX, p.moveY = 0,0
 end)
 
 

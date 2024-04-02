@@ -10,17 +10,12 @@ Automatically sets positions of entities according to their ppos.
 ]]
 
 
-local worldPlotEnts = umg.group("plot", "worldPlot")
+local worldPlotEnts = umg.group("plot", "x", "y")
 
 
 
 
 local function updateWorldPosition(plotEnt, slotEnt, ppos)
-    local wp = plotEnt.worldPlot
-
-    local slotDist = wp.slotDistance or constants.WORLD_SLOT_DISTANCE
-    local ix, iy = ppos:getXY()
-    
     --[[
         TODO: In future:::
         We shouldn't set `x,y` values here;
@@ -28,8 +23,8 @@ local function updateWorldPosition(plotEnt, slotEnt, ppos)
         towards those values automatically via some other system:
         umg.group("targetX", "targetY")
     ]]
-    slotEnt.x = wp.x + ix*slotDist
-    slotEnt.y = wp.y + iy*slotDist
+    local pos = ppos:getWorldPos()
+    slotEnt.x, slotEnt.y = pos.x, pos.y
 end
 
 
