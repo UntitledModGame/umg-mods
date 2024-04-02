@@ -27,23 +27,24 @@ An item CANNOT exist outside of `Slot`.
 
 
 
+# Generic augments:
+"Generic augments" are augments that are applied to BOTH items, AND slots.
+(See `LOOTPLOT.md` for more info)
 
 
+## Slot augments:
+Slots can have one or more "augments".
+These augments should be characterized by an overlay upon the slot.
+(For example, a lil corner flap-sprite at the bottom-left or something)
 
-
-
-## Types of Slots:
+## Example Slot-Augments:
 Reroll slots:
-    Reroll the item when triggered
+    Reroll the item when reroll activated
 Shop slots:
     Items in these slots can be purchased
-
-Golden / Blue / Red slots:
-    (Have other special effects. TODO)
-
 Dead slots:
     Items in these slots do not activate.
-    By default; all shops, inventories, and stuff have "Dead" slots.
+    By default; shops/inventories have "Dead" slots.
 
 
 

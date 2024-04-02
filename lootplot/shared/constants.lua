@@ -1,11 +1,9 @@
 
 
 local constants = {
-    PLAYER_INVENTORY_WIDTH = 4,
-    PLAYER_INVENTORY_HEIGHT = 6,
+    WORLD_SLOT_DISTANCE = 26, -- distance slots are apart in the world.
 
-    SHOP_WIDTH = 6,
-
+    WORLD_PLOT_SIZE = 40, -- 40x40 grid
 }
 
 _G.constants=constants

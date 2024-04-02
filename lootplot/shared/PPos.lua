@@ -77,6 +77,12 @@ end
 
 
 
+function PPos:getXY()
+    -- gets XY coords of PPos
+    return self.plot.grid:indexToCoords(self.slot)
+end
+
+
 function PPos:isInPlot()
     local grid = self.plot.grid
     local x,y = grid:indexToCoords(self.slot)

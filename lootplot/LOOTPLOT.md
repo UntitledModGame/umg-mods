@@ -138,15 +138,20 @@ Since it's likely that the API would become more user-friendly.
 
 
 # Shape ideas:
-King-shape
-Bishop-shape
-Rook-shape
-Queen-shape
-Knight-shape
-Ring-shape (square O shape)
-Plus-shape (rook with 1 range)
-Cross-shape (bishop with 1 range)
-
+King
+Bishop
+Rook
+Queen
+Knight
+Ring (square O shape)
+Plus (rook with 1 range)
+Cross (bishop with 1 range)
+Pawn (3 squares above)
+### We can also have union shapes:
+Queen-Bishop
+King-Knight
+Rook-Knight
+Rook-King
 
 
 

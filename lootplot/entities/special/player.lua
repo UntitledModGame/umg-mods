@@ -1,43 +1,14 @@
 
-local Plot = require("shared.Plot")
-
-
 
 local function initPlayer(ent, clientId)
     assert(clientId,"?")
-
-    local w,h = constants.PLAYER_INVENTORY_WIDTH, constants.PLAYER_INVENTORY_HEIGHT
-    ent.plot = Plot(ent, w,h)
-    ent.inventory = items.Inventory({entity=ent, size=w*h})
-
-    ent.plot:foreach(function(ppos)
-        setSlot(ppos, server.entities.slot())
-    end)
-
     ent.controller = clientId
 end
-
-local function initUI(ent)
-    local PlotInventoryElement = require("client.PlotInventoryElement")
-    local element = PlotInventoryElement({
-        entity = ent
-    })
-    ent.ui =  {
-        element = element,
-        region = ui.Region(0,0,0,0)
-    }
-end
-
 
 return umg.defineEntityType("lootplot:player", {
     topdownControl = {};
 
     initXY = true,
     init = initPlayer,
-    onCreate = function(ent)
-        if client then
-            initUI(ent)
-        end
-    end
 })
 

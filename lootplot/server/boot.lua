@@ -3,6 +3,7 @@
 
 umg.on("@createWorld", function(ent)
     -- create world plot
+    entities.world()
 end)
 
 
