@@ -99,26 +99,8 @@ ptrack.get(ent, ppos)
 <br/>
 
 
-# Shops and GUI:
-Shops and GUI use `Plot`s too.   
-This means that item-activations can occur within shop/inventory!!!   
-```mermaid
-graph TD
-    subgraph shop
-        ShopPlot(PlotInventory, ie. shop)
-        ShopPlot --> R
-        ShopPlot --> LUI-Elem
-        R[Slots resets every round] --> ShopPlot
-    end
-```
+# Shops
+Shops are represented by "buyable-slots" inside the world-plot.
 
-## Loot boxes, rerolls, etc:
-The above setup; (where everything is a Plot,)
-also gives us a fantastic way to represent loot-boxes and stuff too.   
----> Player opens loot-box:   
-- lootBoxEnt is created; contains a PlotInventory + reroll slots
-- lootBoxEnt is pushed onto the stack; blocking all other input
-- Items appear in lootBox's slots.
-- (Player can choose to take the items, OR close the inventory)
-
+This means that entities/items can interact with, and expand the shop.
 

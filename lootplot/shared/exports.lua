@@ -201,7 +201,6 @@ end
 
 
 
-umg.expose("lootplot", lp)
 umg.expose("lp", lp)
 
 return lp
