@@ -11,9 +11,13 @@ umg.defineEvent("lootplot:generateWorldPlot")
 umg.defineEvent("lootplot:startRound")
 
 
-umg.defineEvent("lootplot:activatePlot")
-umg.defineEvent("lootplot:rerollPlot")
+umg.defineEvent("lootplot:plotActivated")
+umg.defineEvent("lootplot:plotRerolled")
 
-umg.defineEvent("lootplot:activateEntity")
-umg.defineEvent("lootplot:rerollEntity")
+umg.defineEvent("lootplot:entityActivated")
+umg.defineEvent("lootplot:entityRerolled")
+
+
+umg.defineEvent("lootplot:moneyAdded")
+umg.defineEvent("lootplot:moneySubtracted")
 

@@ -51,19 +51,17 @@ Provides a tonne of basic items for lootplot.
 <br/>
 
 
-# Internal entity structure:
+# Internal structure:
 ```mermaid
 
 graph TD
-    subgraph Context
-        world
-    end
-    Context --> player
-
-    subgraph world
+    subgraph WorldEnt
         WorldPlot(World Plot)
+        ExecutionPipeline
     end
-    subgraph player
+    WorldEnt --> playerEnt
+
+    subgraph playerEnt
         PlayerEnt
         money
     end

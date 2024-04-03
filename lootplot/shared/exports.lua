@@ -149,7 +149,7 @@ end
 function lp.activate(ent)
     --[[
         todo:
-        this should almost definitely be a dual function
+        this should almost definitely be an RPC
     ]]
 end
 

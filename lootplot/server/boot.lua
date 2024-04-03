@@ -1,11 +1,6 @@
 
 
 
-local function addShop(worldPlot)
-    -- TODO: Add shop-slots here
-end
-
-
 local function addBase(worldPlot)
     local grid = worldPlot.plot.grid
     for x=8,11 do
@@ -29,9 +24,6 @@ umg.on("@createWorld", function()
     local ent = server.entities.world()
     ent.x = 0
     ent.y = 0
-
-    addShop(ent)
-    addBase(ent)
 end)
 
 
