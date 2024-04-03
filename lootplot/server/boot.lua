@@ -1,7 +1,6 @@
 
 
 
-
 local function addShop(worldPlot)
     -- TODO: Add shop-slots here
 end
@@ -39,7 +38,7 @@ end)
 
 umg.on("@playerJoin", function(clientId)
     local p =server.entities.player(clientId)
-    p.x,p.y = 0,0
+    p.x,p.y = 200, 100
     p.moveX, p.moveY = 0,0
 end)
 

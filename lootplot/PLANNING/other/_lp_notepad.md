@@ -179,3 +179,16 @@ How should we store world-contexts and stuff?
 Idea:  
 For now, just store a singular, static context.
 
+But make it very *assumptionless*.
+
+A great quote I read:
+"Expose internals to allow the user to build 
+their own version of your system."
+
+Probably the BEST thing we can do is provide abstractions to work with.
+In general, there are only a few things happening:
+
+- ent generates money
+- ent generates points
+
+

@@ -4,10 +4,58 @@
 
 ```mermaid
 
+graph LR
+    subgraph base-mods
+        direction LR
+        mod1
+        mod2
+        etc
+    end
+
+    subgraph UMGEngine
+        API
+    end
+
+    UMGEngine --> base-mods
+    UMGEngine --> LOOTPLOT_GAME
+    base-mods --> LOOTPLOT_GAME
+
+    subgraph LOOTPLOT_GAME
+        direction LR
+        lootplot --> lootplot.main
+        lootplot --> lootplot.entities
+    end
+```
+In this example, `LOOTPLOT_GAME` is a mod *bundle.*
+
+What's interesting, is that the `lootplot` mod makes NO ASSUMPTIONS about how the game works.<br/>
+It's `lootplot.main` that actually provides the base "assumptions",
+like the loot-monster, and win-condition, etc.
+
+## `lootplot`:
+Provides basic API for everything.   
+Emits events for points; but does not keep track of points.
+Defines a bunch of basic augments/systems/components to be used elsewhere.
+
+## `lootplot.main`:
+Provides the loot-monster, alongside a win-condition.  
+Spawns a shop.  
+Spawns base-slots in.
+
+## `lootplot.items`:
+Provides a tonne of basic items for lootplot.
+
+<br/>
+<br/>
+<br/>
+<br/>
+
+
+# Internal entity structure:
+```mermaid
+
 graph TD
     subgraph Context
-        points
-        level
         world
     end
     Context --> player
@@ -17,13 +65,11 @@ graph TD
     end
     subgraph player
         PlayerEnt
-        PlayerEnt --> InventoryPlot
-        InventoryPlot --> LUI-Elem
-        InventoryPlot(Inventory Plot)
         money
     end
 
 ```
+
 
 
 <br/>
@@ -73,34 +119,24 @@ Important things to note:
 
 <br/>
 <br/>
-<br/>
 
-# Position-tracking:
-Slots and Items need to be able to tell WHERE they are.<br/>
-But... its hard to do this without strong-referencing.  
-If we reference the `Plot` object in a component; that implies that the slot/item OWNS the plot!!!  
-(which is bad)
-
-To solve this, lootplot uses a module called `ptrack`, that keeps back-references to entities:
-```lua
-Ptrack {
-    [ent] -> ppos
-}
-```
-This exposes a robust internal API for tracking slot/item positions:
-```lua
-ptrack.set(ent, ppos)
-ptrack.get(ent, ppos)
-```
+# PPos
+A `PPos` is a "Plot position".  
+It represents a position within a plot.   
+These are EXTREMELY useful objects.
 
 
 <br/>
 <br/>
-<br/>
+
 
 
 # Shops
-Shops are represented by "buyable-slots" inside the world-plot.
-
+Theres not really such thing as a "shop" in lootplot...   
+----->   
+Shops are represented by "buyable-slots" inside the world-plot.   
 This means that entities/items can interact with, and expand the shop.
+
+<br/>
+<br/>
 
