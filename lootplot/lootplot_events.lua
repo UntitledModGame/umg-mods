@@ -5,11 +5,6 @@ umg.defineEvent("lootplot:itemRemovedFromSlot")
 
 
 
-umg.defineEvent("lootplot:generateWorldPlot")
-
-
-umg.defineEvent("lootplot:startRound")
-
 
 umg.defineEvent("lootplot:plotActivated")
 umg.defineEvent("lootplot:plotRerolled")
@@ -20,4 +15,11 @@ umg.defineEvent("lootplot:entityRerolled")
 
 umg.defineEvent("lootplot:moneyAdded")
 umg.defineEvent("lootplot:moneySubtracted")
+umg.defineEvent("lootplot:setMoney")
+
+umg.defineEvent("lootplot:pointsAdded")
+umg.defineEvent("lootplot:pointsSubtracted")
+umg.defineEvent("lootplot:setPoints")
+
+
 

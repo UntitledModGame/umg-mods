@@ -5,7 +5,7 @@ Global api helper methods.
 
 ]]
 
-local ptrack = require("shared.positionTracking")
+local ptrack = require("shared.internal.positionTracking")
 
 
 

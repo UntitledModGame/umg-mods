@@ -9,18 +9,18 @@ local money = {}
 
 if server then
 
-local modifyTc = typecheck.assert("entity", "entity", "number")
+local function assertHasMoney(ent)
+    if not ent.money then
+        error("Entity must have .money component!", 2)
+    end
+end
+
 --[[
-
-Question:
-What is "fromEnt"...?
-
 `fromEnt` is the entity that applied the money modification.
 (So for example, it could be a slot, or an item.)
-
 ]]
-
 local function modifyMoney(ent, fromEnt, x)
+    assertHasMoney(ent)
     local multiplier = umg.ask("lootplot:getMoneyMultiplier", fromEnt, ent)
     local val = x*multiplier
     ent.money = ent.money + val
@@ -30,6 +30,8 @@ local function modifyMoney(ent, fromEnt, x)
         umg.call("lootplot:moneySubtracted", ent, fromEnt, val)
     end
 end
+
+local modifyTc = typecheck.assert("entity", "entity", "number")
 
 function money.addMoney(ent, fromEnt, x)
     modifyTc(ent, fromEnt, x)
@@ -43,6 +45,7 @@ end
 
 function money.setMoney(ent, val)
     ent.money = val
+    umg.call("lootplot:setMoney", ent, val)
 end
 
 end
