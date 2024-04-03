@@ -105,7 +105,7 @@ local function drawGround(obj)
 end
 
 
-umg.on("rendering:drawGround", function(camera)
+umg.on("rendering:drawBackground", function(camera)
     local dimension = camera:getDimension()
     local overseerEnt = spatial.getDimensionOverseer(dimension)
 

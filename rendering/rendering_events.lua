@@ -17,8 +17,8 @@ umg.defineEvent("rendering:drawIndex")
 --[[
     Rendering world:
 ]]
--- Rendering ground:
-umg.defineEvent("rendering:drawGround")
+-- Rendering background:
+umg.defineEvent("rendering:drawBackground")
 -- Rendering entities:
 umg.defineEvent("rendering:drawEntities")
 -- Rendering effects:

@@ -55,7 +55,7 @@ function draw.drawWorld(customCamera)
 
     camera:attach()
 
-    umg.call("rendering:drawGround", camera)
+    umg.call("rendering:drawBackground", camera)
 
     -- IN-FUTURE: Draw predraw pixelated effects canvas here.
     -- used for stuff like ground-dust, background-fx, etc
