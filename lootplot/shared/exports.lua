@@ -43,6 +43,49 @@ end
 
 
 
+--[[
+    game service:
+]]
+local currentGame = nil
+function lp.startGame(game)
+    --[[
+        TODO- put other logic here..?
+    ]]
+    currentGame = game
+end
+
+function lp.getGame()
+    -- gets the current game context
+    return currentGame
+end
+
+
+
+--[[
+    Money/point services:
+]]
+do
+local money = require("shared.services.money")
+local points = require("shared.services.points")
+
+lp.setMoney = money.setMoney
+lp.setPoints = money.setPoints
+
+lp.addMoney, lp.subtractMoney = money.addMoney, money.subtractMoney
+lp.addPoints, lp.subtractPoints = points.addPoints, points.subtractPoints
+
+function lp.getMoney(ent)
+    return currentGame:getMoney(ent)
+end
+function lp.getPoints(ent)
+    return currentGame:getPoints(ent)
+end
+
+end
+
+
+
+
 
 
 

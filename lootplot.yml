@@ -74,3 +74,18 @@ globals:
   lp.PPos:
     any: true
 
+  lp.game.setPoints:
+    any: true
+  lp.game.getPoints:
+    any: true
+  lp.game.setMoney:
+    any: true
+  lp.game.getMoney:
+    any: true
+
+  lp.startGame:
+    args:
+    - type: table
+  lp.getGame:
+    args: []
+

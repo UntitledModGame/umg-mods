@@ -4,7 +4,6 @@ Points service
 
 ]]
 
-local context = require("shared.services.lootplot")
 
 local points = {}
 
@@ -21,11 +20,11 @@ local function modifyPoints(fromEnt, x)
     local multiplier = umg.ask("lootplot:getPointMultiplier", fromEnt, x)
     local val = x*multiplier
     if val > 0 then
-        umg.call("lootplot:moneyAdded", fromEnt, val)
+        umg.call("lootplot:pointsAdded", fromEnt, val)
     elseif val < 0 then
-        umg.call("lootplot:moneySubtracted", fromEnt, val)
+        umg.call("lootplot:pointsSubtracted", fromEnt, val)
     end
-    context.setPoints(fromEnt, val)
+    lp.getGame():setPoints(fromEnt, val)
 end
 
 local modifyTc = typecheck.assert("entity", "number")
@@ -42,15 +41,9 @@ end
 
 function points.setPoints(fromEnt, val)
     umg.call("lootplot:setPoints", fromEnt, val)
-    context.setPoints(fromEnt, val)
+    lp.game:setPoints(fromEnt, val)
 end
 
-end
-
-
-
-function points.getPoints(ent)
-    return context.getPoints(ent)
 end
 
 

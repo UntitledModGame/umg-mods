@@ -5,8 +5,6 @@ Money service
 
 ]]
 
-local context = require("shared.services.lootplot")
-
 
 local money = {}
 
@@ -40,17 +38,13 @@ function money.subtractMoney(fromEnt, x)
 end
 
 function money.setMoney(ent, val)
-    context.setMoney(ent, val)
+    lp.getGame():setMoney(ent, val)
     umg.call("lootplot:setMoney", ent, val)
 end
 
 end
 
 
-
-function money.getMoney(ent)
-    return context.getMoney(ent)
-end
 
 
 return money
