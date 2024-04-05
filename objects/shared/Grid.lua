@@ -90,6 +90,22 @@ end
 
 
 
+local foreachAreaTc = typecheck.assert(
+    "number", "number", "number", "number", 
+    "function"
+)
+function Grid:foreachArea(x1,x2, y1,y2, func)
+    foreachAreaTc(self, func)
+    for x=x1, x2 do
+        for y=y1, y2 do
+            local v = self:get(x,y)
+            func(v, x,y)
+        end
+    end
+end
+
+
+
 local TEST = false
 if TEST then
     local g = Grid(10, 10)

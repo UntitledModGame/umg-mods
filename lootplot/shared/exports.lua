@@ -45,18 +45,28 @@ end
 
 --[[
     game service:
+
+    It's expected that custom gamemodes override the `Game` object.
 ]]
+do
+lp.Game = require("shared.Game")
+
+
 local currentGame = nil
+
 function lp.startGame(game)
-    --[[
-        TODO- put other logic here..?
-    ]]
+    assert(server,"?")
+    assert(not currentGame, "(Attempted to start a new game; must refresh server)")
+    assert(lp.Game:isInstance(game), "Needs to be instance of `Game`")
     currentGame = game
+    currentGame:start()
 end
 
 function lp.getGame()
     -- gets the current game context
     return currentGame
+end
+
 end
 
 
