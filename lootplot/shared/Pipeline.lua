@@ -27,7 +27,7 @@ function Pipeline:push(fn, delay, ...)
 end
 
 
-function Pipeline:step()
+function Pipeline:tick()
     local time = umg.getWorldTime()
     
     if time > self.nextExecuteTime then

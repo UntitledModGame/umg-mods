@@ -1,66 +1,4 @@
 
-# LOOTPLOT NOTEPAD
-
-
-We have a bit of a problem.
-
-We want items to be able to know their own position in space.
-But... items don't actually KNOW their own position!!!
-
-Likewise, `Slot`s shouldn't *really* know their own position either.
-
-
-
-## IDEA:
-`Slot` entities don't contain a position/ref to plot.
-They just contain a `plottable` component.
-
-Keep entity position within the plot as a SSOT.
-
-
-
-
-## ISSUE 2:
-We want components to be *simple,* and *reusable.*
-### SOLN-2:
-How abouts, instead of having a weird
-```lua
-ent.slot = {
-    item = itemEnt,
-    ...
-}
-```
-We just have a simpler, `ent.item = itemEnt` component.
-```lua
-ent.item = itemEnt
-```
-^^^ This way, items can contain other items!!! 
-Isn't that really cool/amazing!!!
-
-
-
-
-## How should we modify items within slots?
-IDEA-1:
-```lua
-api.setItem(slotEnt, itemEnt)
-```
-
-IDEA-2:
-```lua
-plot:setItem(ppos, itemEnt)
--- ^^^ no, this is dumb
-```
-
-
-IDEA-3:
-How about we just have a nice global helper?
-```lua
-set(ppos, itemEnt)
-```
-YES, ^^^ This is definitely the best idea. :)
-
-
 
 
 ## SLOTS:
@@ -91,104 +29,44 @@ Are there any valid use-cases for blocking item-removal?
 
 
 
+# `SYSTEM PLANNING:`
+Lets list a highly-diverse set of items, 
+and discover what infra we need to implement them. 
+(NOTE: We are mainly listing items that would be HARD to create, 
+under the current setup.)
 
----
+### when `touching` item dies: give +10 gold
+- `localListener` system, listening to local events, on singular entities
 
-## Global helper simplicity:
-We have a big issue on our hands.
+### when plot gains gold, increase power by 1%
+- `globalListener` system, listening to global events
 
-If we want to keep global-helpers generic, we must pass the entity in.
+### if a rare item is spawned in range, convert it to LEGENDARY.
+- localListener system
 
-Consider the `onDeath` callback.
-If we do `call("onDeath", ent)`, there is NO WAY for the entity 
-to know the position that it resides in.
+### while this item is on the plot, increase chance of LEGENDARY items by 50%
+- `globalProperty` system
+    - (preferably managed by the `Plot` object)
+    - MAKE IT EXTENSIVE!!! USE q-buses!!!
+    - Idea: maybe a `probabilityWarp` component, that tells the `Plot` to contain the entity within the qbus question...? 
+    --> do some thinking.
 
-IDEA: Create a new object: `pass`.
-A `pass` is of the following shape:
-```lua
-{
-    slot = 12,
-    plot = plotObj,
-    entity = ent
-}
-```
-A `pass` represents a ppos, AND an entity that is being targeted.
+### discount prices of any slots in range by 50%
+- `localProperty` system; allows modification of properties of entities
+    - (also need a qbus for pricing)
 
-### FINAL IDEA:
-Remove `ppos` and `ppass`.
-Store positions inside of entities instead.   
-Yes, this is more fragile. But is 5x more ergonomic and powerful.
-
-
-
+### increase power of any slots in range by 1
+- `localProperty` system
 
 
 
+# OK: Final plan:
+property system:
+    - globalProperty modification (ent -> plot)
+    - localProperty modification (ent -> ent)
 
-
-# Issue: setting/moving ents
-Moving an item-ent is A LOT different from moving a slot.
-(Slot: needs to change position within plot)
-(Item: needs to change slot.item component)
-
-How should we handle this?
-Maybe, we have flag-components for slots and items that allows us to differentiate them at an engine level...?
-
-### SOLN-1:
-Don't allow movement of slots.
-Just allow for movement of items.
-This makes a lot more sense; since slots aren't really supposed to be moved.
-
-
-
-
-
-
-# Rendering UI Slots:
-We have a *smol* lil issue here:
-
-- Entities are rendered in the world, fine (All handled by ZIndexer)
-- Entities can't *really* be rendered well in a UI context
-    - (Must do a bunch of fucky scaling/translations before we render)
-
-Is this *too* much of a big deal...?
-
-IDEA:
-Revamp rendering entirely.
-Don't use `ent.x, ent.y` as positions to images.
-Instead, translate the entity FULLY before rendering.
-
-This way, we have *way* more control when we render entities in alternative contexts (like GUI.)
-Ask Xander
-
-
-
-
-
-
-
-# Automatic creation of PlotUIs
-Hmm.. I have a feeling that creating PlotUIs will be quite tedious.
-I wonder if there's a clean way we can make it generic, or if there's a helper we can create.
-
-
-
-
-# World-Context weirdness:
-How should we store world-contexts and stuff?  
-Idea:  
-For now, just store a singular, static context.
-
-But make it very *assumptionless*.
-
-A great quote I read:
-"Expose internals to allow the user to build 
-their own version of your system."
-
-Probably the BEST thing we can do is provide abstractions to work with.
-In general, there are only a few things happening:
-
-- ent generates money
-- ent generates points
-
+listener system:
+    - globalListener (plot-event)
+    - localListener (ent-event; only works within range)
+        (internal tracking for efficiency?)
 

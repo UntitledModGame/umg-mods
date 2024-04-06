@@ -12,12 +12,11 @@ local ptrack = require("shared.internal.positionTracking")
 local lp = {}
 
 
-
 local function toBufferedWithPPos(fn)
     local function func(ppos, ...)
         lp.posTc(ppos)
         local plot = ppos.plot
-        plot:bufferFunction(fn, ppos, ...)
+        plot:buffer(fn, ppos, ...)
     end
     return func
 end
@@ -31,10 +30,21 @@ local function toBufferedWithEnt(fn)
         -- if ppos is nil here... should we melt??
         if ppos then
             local plot = ppos.plot
-            plot:bufferFunction(fn, ppos, ...)
+            plot:buffer(fn, ppos, ...)
         end
     end
     return func
+end
+
+
+
+local bufferTc = typecheck.assert("ppos", "function")
+function lp.buffer(ppos, func)
+    --[[
+        basic action-buffering, with 0 arguments for function.
+    ]]
+    bufferTc(ppos)
+    ppos.plot:buffer(func)
 end
 
 

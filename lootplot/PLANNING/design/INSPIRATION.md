@@ -57,12 +57,17 @@ since the shop would just be a regular inventory, with reroll+buyable slots.
 
 - Piggy: Start of round: Gain +1 gold for every 10 gold you have.
 
+- Lucky charm: if a rare item is spawned in range, convert it to LEGENDARY.
+
+- Compost: convert all `botanic` items in range to `fertilizer`.
+
 - When item is cloned: 
     Transform the cloned item into the item that is above this item
 
 - When item is destroyed: Give the above item `contagion`.
     - `contagion`: Start of round: 
-        Clone self into all touching slots.
+        Clone a `doomed` self into all touching slots, 
+            and remove `contagion` augment.
 
 - End of round: Create `doomed` slots in a ROOK shape. 
     Does not overwrite.
