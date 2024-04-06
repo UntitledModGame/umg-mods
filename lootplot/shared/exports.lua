@@ -14,6 +14,9 @@ local lp = {}
 
 lp.PPos = require("shared.PPos")
 
+lp.Plot = require("shared.Plot")
+lp.Pipeline = require("shared.Pipeline")
+
 
 lp.posTc = typecheck.assert("ppos")
 
@@ -42,6 +45,10 @@ end
 
 
 
+lp.options = require("shared.options")
+
+
+
 
 --[[
     game service:
@@ -59,8 +66,7 @@ function lp.startGame(game)
     assert(not currentGame, "(Attempted to start a new game; must refresh server)")
     assert(lp.Game:isInstance(game), "Needs to be instance of `Game`")
     currentGame = game
-    currentGame:generateWorld()
-    umg.call("lootplot:generateWorld", worldEnt)
+    currentGame:start()
 end
 
 function lp.getGame()

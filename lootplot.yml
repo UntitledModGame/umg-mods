@@ -53,7 +53,6 @@ globals:
   #   args:
   #   - type: any
 
-
   lp.rotate:
     args:
     - type: any
@@ -74,13 +73,9 @@ globals:
   lp.PPos:
     any: true
 
-  lp.game.setPoints:
+  lp.Plot:
     any: true
-  lp.game.getPoints:
-    any: true
-  lp.game.setMoney:
-    any: true
-  lp.game.getMoney:
+  lp.Pipeline:
     any: true
 
   lp.startGame:
@@ -88,4 +83,7 @@ globals:
     - type: table
   lp.getGame:
     args: []
+
+  lp.options:
+    any: true
 

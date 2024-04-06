@@ -92,6 +92,8 @@ globals:
   umg.isValidEvent:
     args:
     - type: string
+  umg.getWorldTime:
+    args: []
   umg.save:
     args:
     - type: string

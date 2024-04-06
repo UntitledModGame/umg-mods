@@ -15,26 +15,58 @@ local Game = objects.Class("lootplot:Game")
 function Game:init()
     self.money = 0
     self.points = 0
+    self.worldEnt = nil
 end
 
 
 
-function Game:createWorld()
+
+local function createWorld()
     local worldEnt = server.entities.world()
     worldEnt.x = 0
     worldEnt.y = 0
+    worldEnt.plot = lp.Plot(
+        worldEnt, 
+        constants.WORLD_PLOT_SIZE, constants.WORLD_PLOT_SIZE
+    )
     return worldEnt
 end
 
 
-function Game:generateWorld(ent)
+local function addBaseSlots(worldEnt)
+    -- adds basic slots to be overridden
+    local worldPlot = worldEnt.plot
+    local grid = worldPlot.plot.grid
+    local plot = worldPlot.plot
+    grid:foreachInArea(8,11, 3,6, function(val, x,y)
+        local i = grid:coordsToIndex(x,y)
+        local ppos = lp.PPos({slot=i, plot=plot})
+
+        local basicSlot = server.entities.slot()
+        lp.setSlot(ppos, basicSlot)
+    end)
+end
+
+local function addShopSlots(worldEnt)
+    local worldPlot = worldEnt.plot
+    local grid = worldPlot.plot.grid
+    local plot = worldPlot.plot
+    grid:foreachInArea(3,6, 3,6, function(val, x,y)
+        local i = grid:coordsToIndex(x,y)
+        local ppos = lp.PPos({slot=i, plot=plot})
+
+        local basicSlot = server.entities.slot()
+        lp.setSlot(ppos, basicSlot)
+    end)
 end
 
 
 
 function Game:start()
-    local worldEnt = self:createWorld()
-    self:generateWorld(worldEnt)
+    local worldEnt = createWorld()
+    addBaseSlots(worldEnt)
+    addShopSlots(worldEnt)
+    umg.call("lootplot:generateWorld", worldEnt)
 end
 
 

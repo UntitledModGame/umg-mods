@@ -14,11 +14,14 @@ local Plot = objects.Class("lootplot:Plot")
 
 
 
+
 local plotTc = typecheck.assert("entity", "number", "number")
 function Plot:init(ownerEnt, width, height)
     plotTc(ownerEnt, width, height)
 
     ownerEnt.plot = self
+
+    self.pipeline = lp.Pipeline()
 
     self.ownerEnt = ownerEnt
     self.grid = objects.Grid(width,height)
@@ -72,6 +75,14 @@ function Plot:getSlot(index)
     end
 end
 
+
+
+function Plot:run(fn, ...)
+    local delay = umg.ask("lootplot:getPipelineDelay", self) or 0
+    delay = delay + lp.options.PIPELINE_DELAY
+    local mult = umg.ask("lootplot:getPipelineDelayMultiplier", self)
+    self.pipeline:push(fn, delay*mult, ...)
+end
 
 
 function Plot:foreach(func)
