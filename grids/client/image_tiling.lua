@@ -85,7 +85,7 @@ end
 local function assertDimensionsSame(imageStr, width, height)
     local quad = client.assets.images[imageStr]
     if not quad then
-        error("unknown image: " .. tostring(imageStr))
+        umg.melt("unknown image: " .. tostring(imageStr))
     end
     local _,_,w,h = quad:getViewport()
 
@@ -105,7 +105,7 @@ local VALID_CHARS = {
 
 local function assertFor(bool, entType)
     if not bool then
-        error("imageTiling component invalid for entity: " .. entType)
+        umg.melt("imageTiling component invalid for entity: " .. entType)
     end
 end
 

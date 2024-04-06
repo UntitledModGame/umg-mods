@@ -21,7 +21,7 @@ local defineElementTc = typecheck.assert("string", "table")
 function elements.defineElement(elementName, elementClass)
     defineElementTc(elementName, elementClass)
     if elements[elementName] then
-        error("Attempted to redefine an existing element: " .. elementName)
+        umg.melt("Attempted to redefine an existing element: " .. elementName)
     end
 
     elements[elementName] = elementClass

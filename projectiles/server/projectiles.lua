@@ -19,7 +19,7 @@ Every `projectile` entity is given a `lifetime` value.
 local function assertOk(ent)
     local proj = ent.projectile
     if type(proj) ~= "table" then
-        error(".projectile component needs to be a table. Not the case for: " .. tostring(ent:type()))
+        umg.melt(".projectile component needs to be a table. Not the case for: " .. tostring(ent:type()))
     end
 end
 

@@ -46,7 +46,7 @@ local default_class_mt = {__call = newObj}
 
 local function assertStaticCall(self, class)
     if self~=class then
-        error("Cannot be called on instances!", 2)
+        umg.melt("Cannot be called on instances!", 2)
     end
 end
 
@@ -55,10 +55,10 @@ end
 
 local function Class(name)
     if type(name) ~= "string" then
-        error("class(name) expects a string as first argument")
+        umg.melt("class(name) expects a string as first argument")
     end
     if name_to_class[name] then
-        error("duplicate class name: " .. name)
+        umg.melt("duplicate class name: " .. name)
     end
 
     local class = {}

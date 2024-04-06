@@ -36,7 +36,7 @@ end
 local function activateEffect(ownerEnt, effectEnt, ...)
     local evEffect = effectEnt.eventEffect
     if evEffect.usable and effectEnt.usable then
-        error("todo")
+        umg.melt("todo")
     end
 
     if evEffect.trigger then

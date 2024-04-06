@@ -57,7 +57,7 @@ local function expect(query, distribution)
         if not isSimilar(v, picks[k]) then
             print("EXPECTED:\n",umg.inspect(distribution))
             print("REAL NORMALIZED PICKS:\n",umg.inspect(picks))
-            error("Expect failed. See log.")
+            umg.melt("Expect failed. See log.")
         end
     end
 end

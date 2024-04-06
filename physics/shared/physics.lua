@@ -116,18 +116,18 @@ Must be one of the following:  "kinematic", "dynamic", or "static"
 
 local function checkPhysicsComponent(pc)
     if type(pc) ~= "table" then
-        error("Physics component must be a table")
+        umg.melt("Physics component must be a table")
     end
 
     if pc.type and not allowedTypes[pc.type] then
-        error(er1:format(tostring(pc.type)))
+        umg.melt(er1:format(tostring(pc.type)))
     end
 end
 
 
 physicsGroup:onAdded(function(ent)
     if (not ent.x) or (not ent.y) then
-        error("Physics entities need x and y components.")
+        umg.melt("Physics entities need x and y components.")
     end
     checkPhysicsComponent(ent.physics)
 

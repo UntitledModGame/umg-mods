@@ -129,7 +129,7 @@ function sort._sort_setup(array, less)
 	if not trivial then
 		--check less
 		if less(array[1], array[1]) then
-			error("invalid order function for sorting; less(v, v) should not be true for any v.")
+			umg.melt("invalid order function for sorting; less(v, v) should not be true for any v.")
 		end
 	end
 	--setup complete

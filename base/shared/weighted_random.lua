@@ -20,7 +20,7 @@ local function weightedRandom(tabl)
     local SUM = 0
     for value, weight in pairs(tabl) do
         if type(weight) ~= "number" then
-            error("weightedRandom(tabl) takes a table of {[result] = weight} entries.")
+            umg.melt("weightedRandom(tabl) takes a table of {[result] = weight} entries.")
         end
         SUM = SUM + weight
         table.insert(cumulative_weights, SUM)
@@ -40,7 +40,7 @@ local function weightedRandom(tabl)
             end
         end
 
-        return error("Oli made a mistake. Pls contact oli. DATA: " .. tostring(r))
+        return umg.melt("Oli made a mistake. Pls contact oli. DATA: " .. tostring(r))
     end
 end
 

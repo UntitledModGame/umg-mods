@@ -24,7 +24,7 @@ local function parseGroundObject(obj)
     local buffer = objects.Array()
     for _,tilename in ipairs(images) do
         if not (client.assets.images[tilename]) then
-            error("unknown image: " .. tostring(tilename))
+            umg.melt("unknown image: " .. tostring(tilename))
         end
         buffer:add(client.assets.images[tilename])
     end

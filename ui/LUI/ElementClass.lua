@@ -20,7 +20,7 @@ end
 
 local function noOverwrite(t,k,v)
     if Element[k] then
-        error("Attempted to overwrite builtin method: " .. tostring(k))
+        umg.melt("Attempted to overwrite builtin method: " .. tostring(k))
     end
     rawset(t,k,v)
 end

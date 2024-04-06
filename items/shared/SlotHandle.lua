@@ -99,7 +99,7 @@ end
 function SlotHandle:get()
     local item = getItem(self)
     if not umg.exists(item) then
-        error("Slot item didn't exist!")
+        umg.melt("Slot item didn't exist!")
     end
     return item
 end

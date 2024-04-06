@@ -319,7 +319,7 @@ function color:add(other)
     elseif isColor(other) then
         self:setRGBA(self.r + other.r, self.g + other.g, self.b + other.b, self.a + other.a)
     else
-        error("Attempt to add a "..type(other).." to color")
+        umg.melt("Attempt to add a "..type(other).." to color")
     end
 
     return self
@@ -332,7 +332,7 @@ function color:subtract(other)
     elseif isColor(other) then
         self:setRGBA(self.r - other.r, self.g - other.g, self.b - other.b, self.a - other.a)
     else
-        error("Attempt to subtract a"..type(other).." from color")
+        umg.melt("Attempt to subtract a"..type(other).." from color")
     end
 
     return self
@@ -345,7 +345,7 @@ function color:multiply(other)
     elseif isColor(other) then
         self:setRGBA(self.r * other.r, self.g * other.g, self.b * other.b, self.a * other.a)
     else
-        error("Attempt to multiply "..type(other).." to color")
+        umg.melt("Attempt to multiply "..type(other).." to color")
     end
 
     return self
@@ -358,7 +358,7 @@ function color:divide(other)
     elseif isColor(other) then
         self:setRGBA(self.r / other.r, self.g / other.g, self.b / other.b, self.a / other.a)
     else
-        error("Attempt to multiply "..type(other).." to color")
+        umg.melt("Attempt to multiply "..type(other).." to color")
     end
 
     return self

@@ -123,7 +123,7 @@ function parseToFunction(str)
     elseif typecheck[str] then
         return typecheck[str]
     end
-    error("malformed typecheck string: " .. tostring(str))
+    umg.melt("malformed typecheck string: " .. tostring(str))
 end
 
 
@@ -141,7 +141,7 @@ local function parseTableType(tableType)
         local er0
         valueCheckers[key], er0 = makeCheckFunction(arg)
         if not valueCheckers[key] then
-            error("Couldn't create typecheck function for key: " .. key .. " : " .. er0)
+            umg.melt("Couldn't create typecheck function for key: " .. key .. " : " .. er0)
         end
     end
 
@@ -186,7 +186,7 @@ local function parseArgCheckers(arr)
     for i=1, #arr do
         local func, err = makeCheckFunction(arr[i])
         if not func then
-            error(("Error during parsing typecheck arg num %d:\n"):format(i), tostring(err))
+            umg.melt(("Error during parsing typecheck arg num %d:\n"):format(i) .. tostring(err))
         end
         arr[i] = func
     end
@@ -194,7 +194,7 @@ end
 
 
 
-local function makeError(arg, err, i)
+local function makeErr(arg, err, i)
     local estring = "Bad argument " .. tostring(i) .. ":\n"
     local err_data = tostring(type(arg)) .. " was given, but " .. tostring(err) 
     return estring .. err_data
@@ -210,7 +210,7 @@ function typecheck.assert(...)
             local arg = select(i, ...)
             local ok, err = check_fns[i](arg)
             if not ok then
-                error(makeError(arg, err, i), 3)
+                umg.melt(makeErr(arg, err, i), 3)
             end
         end
     end
@@ -226,7 +226,7 @@ function typecheck.check(...)
             local arg = select(i, ...)
             local ok, err = check_fns[i](arg)
             if not ok then
-                return false, makeError(arg, err, i)
+                return false, makeErr(arg, err, i)
             end
         end
         return true
@@ -241,11 +241,11 @@ function typecheck.assertKeys(tabl, keys)
         and that it has all of the keys listed in the `keys` table.
     ]]
     if type(tabl) ~= "table" then
-        error("Expected table, got: " .. type(tabl), 2)
+        umg.melt("Expected table, got: " .. type(tabl), 2)
     end
     for _, key in ipairs(keys) do
         if tabl[key] == nil then
-            error("Missing key: " .. tostring(key), 2)
+            umg.melt("Missing key: " .. tostring(key), 2)
         end
     end
 

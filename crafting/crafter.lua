@@ -49,7 +49,7 @@ function Crafter:addRecipe(ingredients, result)
         local count = ingre.count
         assert(count >= 1, "Ingredient count can't be less than 1")
         if recipe.ingredientCounts[name] then
-            error("Duplicate ingredient: " .. tostring(name))
+            umg.melt("Duplicate ingredient: " .. tostring(name))
         end
         local i2rl = self.ingredientToRecipeList[name] or objects.Array()
         i2rl:add(recipe)
@@ -132,14 +132,14 @@ end
 
 
 local function removeIngredients(inventory, recipe)
-    error("todo oops")
+    umg.melt("todo oops")
 end
 
 
 
 
 local function initializeItem(inventory, recipe, slot)
-    error([[
+    umg.melt([[
         todo, all this needs to be redone
     ]])
     local etype = server.entities[recipe.result.result]
@@ -188,7 +188,7 @@ function Crafter:executeCraft(inventory, recipe, slot)
     assert(inventory.drawHoverWidget, "Crafter:getResult(inv) takes an inventory as first argument!")
 
     if client then -- crafting should be handled by the server.
-        error([[
+        umg.melt([[
             we need to sync crafting on clientside somehow.
             
             IDEA:
@@ -220,7 +220,7 @@ function Crafter:executeCraft(inventory, recipe, slot)
                 Crafter:deny()
             end
         else
-            error("Unknown entity type for recipe: " .. tostring(recipe.result.result))
+            umg.melt("Unknown entity type for recipe: " .. tostring(recipe.result.result))
         end
     else
         Crafter:deny()

@@ -17,7 +17,7 @@ quad_to_ox = setmetatable({}, {
     -- quadname -> offset x
     __index = function(_,quad)
         if not quad.getViewport then
-            error("wot? " .. tostring(quad))
+            umg.melt("wot? " .. tostring(quad))
         end
         local _,_, w, _ = quad:getViewport()
         quad_to_ox[quad] = w / 2
@@ -48,7 +48,7 @@ function imageSizes.getImageOffsets(quad_or_name)
         quad = client.assets.images[quad_or_name]
     end
     if not quad then
-        error("Invalid or unknown image: ", quad_or_name)
+        umg.melt("Invalid or unknown image: ", quad_or_name)
     end
     local ox = quad_to_ox[quad]
     local oy = quad_to_oy[quad]

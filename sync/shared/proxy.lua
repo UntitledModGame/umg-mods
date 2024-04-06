@@ -15,13 +15,13 @@ local proxiedEvents = {}
 
 local function proxyEventToClient(eventName)
     if type(eventName) ~= "string" then
-        error("Expected string as first argument")
+        umg.melt("Expected string as first argument")
     end
     if not eventName then
-        error("Unknown event: " .. tostring(eventName))
+        umg.melt("Unknown event: " .. tostring(eventName))
     end
     if proxiedEvents[eventName] then
-        error("This event is already being proxied: " .. eventName)
+        umg.melt("This event is already being proxied: " .. eventName)
     end
 
     -- TODO: this is a bit shit and hacky

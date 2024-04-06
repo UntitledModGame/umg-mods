@@ -17,7 +17,7 @@ function addEntity(ent)
     for _, category in ipairs(allCategories) do
         categoryMap[category]:add(ent)
         if type(category) ~= "string" then
-            error(".category value must be string or list of strings: " .. tostring(ent))
+            umg.melt(".category value must be string or list of strings: " .. tostring(ent))
         end
     end
 end

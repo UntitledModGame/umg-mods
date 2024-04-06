@@ -197,17 +197,17 @@ Functions that need to be overridden:
 ]]
 
 function DimensionStructure:newObject(dimension)
-    error("OVERRIDE ME: when a new data structure should be made")
+    umg.melt("OVERRIDE ME: when a new data structure should be made")
 end
 
 
 function DimensionStructure:addEntityToObject(object, ent)
-    error("OVERRIDE ME: add an entity to the data structure `object`")
+    umg.melt("OVERRIDE ME: add an entity to the data structure `object`")
 end
 
 
 function DimensionStructure:removeEntityFromObject(object, ent)
-    error("OVERRIDE ME: remove an entity from the data structure `object`")
+    umg.melt("OVERRIDE ME: remove an entity from the data structure `object`")
 end
 
 

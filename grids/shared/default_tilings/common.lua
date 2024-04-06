@@ -27,7 +27,7 @@ function common.add(args, argName, array, tiling)
     tc(args, argName, array, tiling)
     local img = args[argName]
     if not img then
-        error("Missing tile type: " .. argName, 2)
+        umg.melt("Missing tile type: " .. argName, 2)
     end
 
     if type(img) == "table" then

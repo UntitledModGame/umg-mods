@@ -146,7 +146,7 @@ function grids.getGrid(name_or_entity)
     else
         local ent = name_or_entity
         if not ent.type then
-            error("expected an entity as an argument")
+            umg.melt("expected an entity as an argument")
         end
         typ = (ent.grids and ent.grids.type) or ent:type()
     end

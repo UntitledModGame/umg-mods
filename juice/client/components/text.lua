@@ -28,7 +28,7 @@ local function getText(ent)
         return text.default 
     end
 
-    error("Text component has no .value, for entity: " .. tostring(ent:type()))
+    umg.melt("Text component has no .value, for entity: " .. tostring(ent:type()))
 end
 
 

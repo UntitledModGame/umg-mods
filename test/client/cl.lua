@@ -56,7 +56,7 @@ end
 
 umg.on("@keypressed", function(k,scancode)
     if scancode == "q" then
-        error("stop")
+        umg.melt("stop")
     end
     if scancode == "e" then
         local e = getPlayerWithXY()

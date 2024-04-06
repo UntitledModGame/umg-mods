@@ -123,7 +123,7 @@ end
 
 local function assertServer()
     if not server then
-        error("Can only be called on server", 2)
+        umg.melt("Can only be called on server", 2)
     end
 end
 
@@ -218,7 +218,7 @@ local function getItemType(item_or_itemType)
     else
         local itemType = item_or_itemType
         if type(itemType) ~= "string" then
-            error("Expects an entity-type of an item (string), or an item-entity!", 2)
+            umg.melt("Expects an entity-type of an item (string), or an item-entity!", 2)
         end
         return itemType
     end
@@ -579,7 +579,7 @@ function Inventory:setSlotHandle(slot, slotHandle)
     ]]
     assertNumber(slot)
     if not SlotHandle.isInstance(slotHandle) then
-        error("Not an instance of SlotHandle: " .. tostring(slotHandle))
+        umg.melt("Not an instance of SlotHandle: " .. tostring(slotHandle))
     end
 
     slotHandle:setSlotPosition(slot)

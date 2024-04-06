@@ -79,7 +79,7 @@ function Terrain:init(options)
 
     self.vertexInterpolationRate = options.vertexInterpolationRate
     if self.vertexInterpolationRate and self.vertexInterpolationRate > 0.5 then
-        error("vertexInterpolationRate shouldn't be higher than 0.5; a good value is between 0 and 0.3")
+        umg.melt("vertexInterpolationRate shouldn't be higher than 0.5; a good value is between 0 and 0.3")
     end
 
     self.syncOptions = options
@@ -125,7 +125,7 @@ function Terrain:setWorldPosition(x,y)
     self.worldX = x
     self.worldY = y
     -- TODO: Update the physics objects and the quads here!!!
-    error("not yet implemented")
+    umg.melt("not yet implemented")
 end
 
 
@@ -663,7 +663,7 @@ else --============================================
 assert(client, "client table was deleted...?")
 
 function Terrain:sync()
-    error("terrain:sync() can only be called on server-side")
+    umg.melt("terrain:sync() can only be called on server-side")
 end
 
 function finalize(self)
@@ -706,7 +706,7 @@ function Terrain:generateFromHeightFunction(func)
             local wx, wy = toWorldCoords(self, x,y)
             local height = func(wx,wy)
             if not (type(height) == "number" and height>0) then
-                error("Invalid height value: " .. tostring(height))
+                umg.melt("Invalid height value: " .. tostring(height))
             end
             self.map[x][y] = height
         end

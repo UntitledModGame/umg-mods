@@ -35,7 +35,7 @@ local requireDistance = {
 local function checkRuleValidity(rule)
     if requireDistance[rule.type] then
         if not rule.distance then
-            error("placementRule was not given .distance value: " .. tostring(rule.type))
+            umg.melt("placementRule was not given .distance value: " .. tostring(rule.type))
         end
     end
 end

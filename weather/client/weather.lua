@@ -24,10 +24,10 @@ end
 
 local function assertInRange01(field, x)
     if type(x) ~= "number" then
-        error(field .. " needs to be a number in range 0, 1")
+        umg.melt(field .. " needs to be a number in range 0, 1")
     end
     if x > 1 or x < 0 then
-        error(field .. " needs to be between 0 and 1")
+        umg.melt(field .. " needs to be between 0 and 1")
     end
 end
 

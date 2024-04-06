@@ -51,7 +51,7 @@ local function pollPropEffect(self, effectEnt, ownerEnt, pEffect)
     local maxClamps = self.maxClamps
     local prop = pEffect.property
     if not properties.isProperty(prop) then
-        error("Invalid property for propertyEffect: " .. tostring(prop))
+        umg.melt("Invalid property for propertyEffect: " .. tostring(prop))
     end
 
     if pEffect.modifier then

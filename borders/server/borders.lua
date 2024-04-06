@@ -29,7 +29,7 @@ function checkBorder(options)
     border.style = options.style or constants.DEFAULT_BORDER_STYLE
 
     if not constants.BORDER_STYLES:has(border.style) then
-        error("Unknown border style: " .. tostring(border.style))
+        umg.melt("Unknown border style: " .. tostring(border.style))
     end
     
     return border

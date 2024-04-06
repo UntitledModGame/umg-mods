@@ -32,7 +32,7 @@ end
 
 local function assertInRange(self, i)
     if (i < 1) or (i > self.size) then
-        error(("Coord index out of range:\nwidth=%d, height=%d, i=%d"):format(self.width, self.height, i), 3)
+        umg.melt(("Coord index out of range:\nwidth=%d, height=%d, i=%d"):format(self.width, self.height, i), 3)
     end
 end
 

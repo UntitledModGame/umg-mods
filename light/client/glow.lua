@@ -18,7 +18,7 @@ local function drawGlow(ent, x,y, rot, _sx,_sy)
     local imgname = g.image or DEFAULT_GLOW_IMG
     local glow_quad = client.assets.images[imgname]
     if not glow_quad then
-        error("Unknown image for glow: " .. tostring(imgname))
+        umg.melt("Unknown image for glow: " .. tostring(imgname))
     end
 
     local size = g.size or DEFAULT_SIZE

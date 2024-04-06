@@ -90,7 +90,7 @@ local function getRatios(...)
     local len = #ratios
     local sum = 0
     if len <= 0 then
-        error("No numbers passed in!")
+        umg.melt("No numbers passed in!")
     end
 
 	for _, v in ipairs(ratios) do

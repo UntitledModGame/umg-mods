@@ -77,7 +77,7 @@ end
 
 local function registerNewComponent(compName)
     if compsBeingSynced[compName] then
-        error("This component is already being synced: " .. tostring(compName))
+        umg.melt("This component is already being synced: " .. tostring(compName))
     end
     compsBeingSynced[compName] = true
 end

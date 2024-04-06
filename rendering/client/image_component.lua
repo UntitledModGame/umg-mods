@@ -25,9 +25,9 @@ umg.on("rendering:drawEntity", function(ent, x,y, rot, sx,sy, kx,ky)
     local quad = images[img]
     if not quad then
         if type(img) ~= "string" then
-            error(("Incorrect type for entity image. Expected string, got: %s"):format(type(ent.image)))
+            umg.melt(("Incorrect type for entity image. Expected string, got: %s"):format(type(ent.image)))
         end
-        error(("Unknown ent.image value: %s\nMake sure you put all images in the assets folder and name them!"):format(tostring(ent.image)))
+        umg.melt(("Unknown ent.image value: %s\nMake sure you put all images in the assets folder and name them!"):format(tostring(ent.image)))
     end
 
     drawImage(

@@ -17,7 +17,7 @@ local function getAllCategories(ent)
     elseif type(category) == "string" then
         return {category}
     else
-        error("Bad category component for entity " .. ent:type())
+        umg.melt("Bad category component for entity " .. ent:type())
     end
 end
 

@@ -56,9 +56,7 @@ end
 local function getSlotRegion(self, slotRegion, slot)
     local x,y = self.gridObj:indexToCoords(slot)
     if not (x < self.width and y < self.height) then 
-        print(x,y, self.width, self.height)
-        print(slot)
-        error("coords supposed to be 0 indexed?")
+        umg.melt("coords supposed to be 0 indexed?")
     end
 
     local dw = slotRegion.w / self.width

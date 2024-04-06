@@ -130,7 +130,7 @@ umg.on("state:gameUpdate", function(dt)
     for _, ent in ipairs(moveBehaviourGroup)do
         local mb = ent.moveBehaviour
         if not (moveBehaviours[mb.type]) then 
-            error("invalid movebehaviour: " .. mb.type)
+            umg.melt("invalid movebehaviour: " .. mb.type)
         end
         moveBehaviours[mb.type].heavyUpdate(ent,dt)
     end
@@ -142,7 +142,7 @@ umg.on("state:gameUpdate", function(dt)
     for _, ent in ipairs(moveBehaviourGroup) do
         local mb = ent.moveBehaviour
         if not (moveBehaviours[mb.type]) then 
-            error("invalid movebehaviour: " .. mb.type)
+            umg.melt("invalid movebehaviour: " .. mb.type)
         end
         moveBehaviours[mb.type].update(ent,dt)
     end

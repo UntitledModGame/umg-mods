@@ -104,7 +104,7 @@ local function makeBasePropertyGroup(property)
     group:onAdded(function(ent)
         -- all entities with [baseProperty] component get given the property
         if type(ent[baseProperty]) ~= "number" then
-            error(baseProperty .. " component needs to be a number. Not the case for: " .. ent:type())
+            umg.melt(baseProperty .. " component needs to be a number. Not the case for: " .. ent:type())
         end
         ent[property] = ent[baseProperty]
     end)
@@ -164,7 +164,7 @@ local defineTc = typecheck.assert("string", configTableType)
 function properties.defineProperty(property, config)
     defineTc(property, config)
     if propertyToConfig[property] then
-        error("Property is already defined: " .. tostring(property))
+        umg.melt("Property is already defined: " .. tostring(property))
     end
 
     propertyToConfig[property] = config

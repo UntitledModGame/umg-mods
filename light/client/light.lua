@@ -42,7 +42,7 @@ local function drawLight(ent, globalModifier)
     local l = ent.light
     local size = l.size or DEFAULT_SIZE
     if l.image then
-        error("Custom light images aren't supported yet")
+        umg.melt("Custom light images aren't supported yet")
     end
     local sizeMod = umg.ask("light:getLightSizeMultiplier", ent) or 1
     local scale = (size / W) * sizeMod * globalModifier

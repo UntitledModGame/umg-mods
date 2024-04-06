@@ -18,7 +18,7 @@ umg.on("@debugComponentChange", function(ent, comp, newValue)
     local ok = typecheck(newValue, ent)
     if not ok then
         local err = ("Component %s set to bad value: %s"):format(comp, newValue)
-        error(err)
+        umg.melt(err)
     end
 end)
 

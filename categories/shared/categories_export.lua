@@ -75,7 +75,7 @@ function categories.changeEntityCategory(ent, newCategory)
         If an entity's category is changed manually it will cause stuff to break.
     ]]
     if not umg.exists(ent) then
-        error("Entity doesn't exist!\n(If you just created this entity, then you must wait a frame. Entities are buffered and spawned inbetween frames.)")
+        umg.melt("Entity doesn't exist!\n(If you just created this entity, then you must wait a frame. Entities are buffered and spawned inbetween frames.)")
     end
 
     regularCategories.removeEntity(ent)

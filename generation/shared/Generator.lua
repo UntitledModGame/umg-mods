@@ -36,7 +36,7 @@ end
 
 local function assertPositiveNumber(x)
     if type(x) ~= "number" or x < 0 then
-        error("Chance values must be positive numbers!")
+        umg.melt("Chance values must be positive numbers!")
     end
 end
 

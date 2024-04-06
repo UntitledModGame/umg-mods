@@ -70,7 +70,7 @@ local function newDimensionVector(tabl_or_x, y, dimension, z_or_nil)
         }
     end
 
-    error("invalid input to DimensionVector ctor: " .. tostring(tabl_or_x))
+    umg.melt("invalid input to DimensionVector ctor: " .. tostring(tabl_or_x))
 end
 
 

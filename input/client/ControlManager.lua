@@ -75,7 +75,7 @@ end
 
 local function assertInputVal(bool, inputVal)
     if not bool then
-        error("Invalid input val: " .. tostring(inputVal))
+        umg.melt("Invalid input val: " .. tostring(inputVal))
     end
 end
 
@@ -89,7 +89,7 @@ local function assertValidInput(inputVal)
     elseif family == FAMILIES.mouse then
         assertInputVal(checkMouseButton(inp), inputVal)
     else
-        error("Invalid input family: " .. tostring(inputVal))
+        umg.melt("Invalid input family: " .. tostring(inputVal))
     end
 end
 
@@ -150,7 +150,7 @@ local defineNewControlTc = typecheck.assert("table", "string")
 local function defineNewControl(self, controlEnum)
     defineNewControlTc(self, controlEnum)
     if self.validControls[controlEnum] then
-        error("controlEnum was already defined: " .. controlEnum)
+        umg.melt("controlEnum was already defined: " .. controlEnum)
     end
     self.validControls[controlEnum] = true
     self.controlToInputs[controlEnum] = objects.Array()
@@ -227,7 +227,7 @@ local isDownChecks = {
 
 for k,_v in pairs(FAMILIES) do
     if not isDownChecks[k] then
-        error("missing isDown check for family: " .. tostring(k))
+        umg.melt("missing isDown check for family: " .. tostring(k))
     end
 end
 

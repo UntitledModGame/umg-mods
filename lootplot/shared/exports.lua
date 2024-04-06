@@ -208,7 +208,7 @@ local function ensureSlot(slotEnt_or_ppos)
 
     local slotEnt = lp.posToSlot(ppos)
     if not slotEnt then
-        error("Invalid slot-entity (or position) for slot!", 3)
+        umg.melt("Invalid slot-entity (or position) for slot!", 3)
     end
     return slotEnt
 end
@@ -254,7 +254,7 @@ end
 
 
 function lp.sellItem(ent)
-    error("nyi")
+    umg.melt("nyi")
 end
 
 function lp.rotate(ent, angle)

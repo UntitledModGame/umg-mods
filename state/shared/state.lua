@@ -51,7 +51,7 @@ if server then
 
 function state.setState(name)
     if (not name) or (not stateTable[name]) then
-        error("Invalid state: " .. tostring(name))
+        umg.melt("Invalid state: " .. tostring(name))
     end
     server.broadcast("state:setState", name)
     changeState(name)

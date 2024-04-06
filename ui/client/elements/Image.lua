@@ -14,7 +14,7 @@ local function renderImage(image, ...)
         rendering.drawImage(image, ...)
     else
         -- else, its prolly just a love2d image
-        error("todo: the offsets aren't done properly for this")
+        umg.melt("todo: the offsets aren't done properly for this")
         love.graphics.draw(image, ...)
     end
 end

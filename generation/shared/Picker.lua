@@ -37,7 +37,7 @@ function Picker:init(pickList)
         local entry, chance = pick.entry, pick.chance
         self.entryList[i] = entry
         if seen[entry] then
-            error("Duplicate entry in query: " .. tostring(entry))
+            umg.melt("Duplicate entry in query: " .. tostring(entry))
         end
         seen[entry] = true
         weights[i] = chance

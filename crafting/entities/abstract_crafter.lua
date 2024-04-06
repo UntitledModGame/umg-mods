@@ -28,7 +28,7 @@ local abstractCrafter = {
 
     super = function(ent)
         if (type(ent.crafter) ~= "table") or (not ent.crafter.executeCraft) then
-            error("craftable entities must be given a .crafter member")
+            umg.melt("craftable entities must be given a .crafter member")
         end
     end
 }

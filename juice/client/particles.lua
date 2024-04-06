@@ -18,7 +18,7 @@ local DEFAULT_BUFFER_SIZE = 50
 
 local function newParticleSystem(images, buffer_size)
     if #images == 0 then
-        error("Attempted to define a particleSystem with no particle images")
+        umg.melt("Attempted to define a particleSystem with no particle images")
     end
     local psys = love.graphics.newParticleSystem(client.atlas.image, buffer_size or DEFAULT_BUFFER_SIZE)
     local buffer = objects.Array()

@@ -16,10 +16,10 @@ local ENUM_MT = {
         if EnumMethods[k] then
             return EnumMethods[k]
         end
-        error("Attempt to access undefined enum value: " .. k, 2)
+        umg.melt("Attempt to access undefined enum value: " .. k, 2)
     end,
     __newindex = function(t,k,v)
-        error("Attempt to edit a constant enum", 2)
+        umg.melt("Attempt to edit a constant enum", 2)
     end
 }
 
@@ -29,7 +29,7 @@ umg.register(ENUM_MT, "objects:Enum")
 
 local function assertString(x)
     if type(x) ~= "string" then
-        error("Enum values must be strings", 3)
+        umg.melt("Enum values must be strings", 3)
     end
 end
 

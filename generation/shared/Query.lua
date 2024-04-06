@@ -65,7 +65,7 @@ end
 
 local function assertPositiveNumber(x)
     if type(x) ~= "number" or x < 0 then
-        error("Chance values must be positive numbers!", 3)
+        umg.melt("Chance values must be positive numbers!", 3)
     end
 end
 
@@ -186,7 +186,7 @@ end
 
 function finalize(self)
     if self:isEmpty() then
-        error("Cannot finalize query! (There are no possible results.)")
+        umg.melt("Cannot finalize query! (There are no possible results.)")
     end
     local picks = self.picks
         :filter(function(pick) return applyFilters(self, pick) end)

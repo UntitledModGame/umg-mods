@@ -64,7 +64,7 @@ function dimensions.createDimension(dimension, ent_or_nil)
     createDimTc(dimension, ent_or_nil)
     assert(server, "?")
     if dimensionToOverseerEnt[dimension] then
-        error("Duplicate dimension created: " .. tostring(dimension))
+        umg.melt("Duplicate dimension created: " .. tostring(dimension))
     end
 
     -- create a dimension handler entity if one wasn't passed in

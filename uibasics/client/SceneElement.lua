@@ -16,7 +16,7 @@ end
 local function renderChild(elem)
     local ent = elem:getEntity()
     if not ent.ui.region then
-        error("Element needs `.region` value to be rendered at root level: " .. elem:getType())
+        umg.melt("Element needs `.region` value to be rendered at root level: " .. elem:getType())
     end
     elem:render(ent.ui.region:get())
 end

@@ -103,7 +103,7 @@ end
 
 local function setParent(childElem, parent)
     if parent and childElem:getParent() then
-        error("Element was already contained inside something else!")
+        umg.melt("Element was already contained inside something else!")
     end
     assert(childElem ~= parent, "???")
     childElem._parent = parent
@@ -114,10 +114,10 @@ end
 
 local function assertChildElemValid(elem)
    if type(elem) ~= "table" or (not elem.render) then
-        error("not valid LUI element: " .. tostring(elem))
+        umg.melt("not valid LUI element: " .. tostring(elem))
     end
     if elem._markedAsRoot then
-        error("Cannot add an element that is marked as root!")
+        umg.melt("Cannot add an element that is marked as root!")
     end
 end
 
@@ -198,7 +198,7 @@ end
 
 function Element:render(x,y,w,h)
     if self:isRoot() and (not self._markedAsRoot) then
-        error("Attempt to render uncontained element!", 2)
+        umg.melt("Attempt to render uncontained element!", 2)
     end
     deactivateheirarchy(self)
     activate(self)
@@ -397,7 +397,7 @@ end
 
 
 local function maxDepthError()
-    error("max depth reached in element heirarchy (Element is a child of itself?)")
+    umg.melt("max depth reached in element heirarchy (Element is a child of itself?)")
 end
 
 
