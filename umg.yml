@@ -107,6 +107,11 @@ globals:
   umg.deserializeVolatile:
     args:
     - type: any
+  umg.melt:
+    args:
+    - type: string
+    - required: false
+      type: number
   table.copy:
     any: true
   table.random:

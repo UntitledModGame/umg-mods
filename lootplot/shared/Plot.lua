@@ -77,7 +77,10 @@ end
 
 
 
-function Plot:run(fn, ...)
+function Plot:bufferFunction(fn, ...)
+    --[[
+        runs a function within a plot
+    ]]
     local delay = umg.ask("lootplot:getPipelineDelay", self) or 0
     delay = delay + lp.options.PIPELINE_DELAY
     local mult = umg.ask("lootplot:getPipelineDelayMultiplier", self)

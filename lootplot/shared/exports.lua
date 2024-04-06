@@ -12,6 +12,36 @@ local ptrack = require("shared.internal.positionTracking")
 local lp = {}
 
 
+
+local function toBufferedWithPPos(fn)
+    local function func(ppos, ...)
+        lp.posTc(ppos)
+        local plot = ppos.plot
+        plot:bufferFunction(fn, ppos, ...)
+    end
+    return func
+end
+
+local entTc = typecheck.assert("entity")
+local function toBufferedWithEnt(fn)
+    local function func(ent, ...)
+        entTc(ent)
+        local ppos = lp.getPos(ent)
+        --[[
+            HMMM::
+            if ppos is nil here... should we melt??
+        ]]
+        if ppos then
+            local plot = ppos.plot
+            plot:bufferFunction(fn, ppos, ...)
+        end
+    end
+    return func
+end
+
+
+
+
 lp.PPos = require("shared.PPos")
 
 lp.Plot = require("shared.Plot")

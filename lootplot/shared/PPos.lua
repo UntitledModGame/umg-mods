@@ -21,7 +21,7 @@ _G.PPos = PPos
 
 
 function PPos:init(ppos)
-    posTc(ppos)
+    lp.posTc(ppos)
     self.slot = ppos.slot
     self.plot = ppos.plot
     self.rotation = ppos.rotation or 0
