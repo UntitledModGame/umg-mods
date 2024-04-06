@@ -19,6 +19,33 @@ end
 
 
 
+function Game:createWorld()
+    local worldEnt = server.entities.world()
+    worldEnt.x = 0
+    worldEnt.y = 0
+    return worldEnt
+end
+
+
+function Game:generateWorld(ent)
+end
+
+
+
+function Game:start()
+    local worldEnt = self:createWorld()
+    self:generateWorld(worldEnt)
+end
+
+
+
+function Game:playerJoin(clientId)
+    local p =server.entities.player(clientId)
+    p.x,p.y = 200, 100
+    p.moveX, p.moveY = 0,0
+end
+
+
 --[[
     in this family of functions, `ent` is the entity that we are obtaining
     the points/money for.

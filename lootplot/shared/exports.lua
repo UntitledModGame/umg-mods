@@ -59,7 +59,8 @@ function lp.startGame(game)
     assert(not currentGame, "(Attempted to start a new game; must refresh server)")
     assert(lp.Game:isInstance(game), "Needs to be instance of `Game`")
     currentGame = game
-    currentGame:start()
+    currentGame:generateWorld()
+    umg.call("lootplot:generateWorld", worldEnt)
 end
 
 function lp.getGame()
@@ -85,10 +86,10 @@ lp.addMoney, lp.subtractMoney = money.addMoney, money.subtractMoney
 lp.addPoints, lp.subtractPoints = points.addPoints, points.subtractPoints
 
 function lp.getMoney(ent)
-    return currentGame:getMoney(ent)
+    return lp.getGame():getMoney(ent)
 end
 function lp.getPoints(ent)
-    return currentGame:getPoints(ent)
+    return lp.getGame():getPoints(ent)
 end
 
 end
