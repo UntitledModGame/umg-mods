@@ -396,7 +396,7 @@ function Element:getChildren()
 end
 
 
-local function maxDepthError()
+local function maxDepthMelt()
     umg.melt("max depth reached in element heirarchy (Element is a child of itself?)")
 end
 
@@ -414,7 +414,7 @@ function Element:getRoot()
             return elem -- its the root!
         end
     end
-    maxDepthError()
+    maxDepthMelt()
 end
 
 
@@ -433,7 +433,7 @@ function Element:getParentEntity()
             return nil
         end
     end
-    maxDepthError()
+    maxDepthMelt()
 end
 
 

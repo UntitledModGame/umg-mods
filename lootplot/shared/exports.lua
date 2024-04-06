@@ -27,10 +27,8 @@ local function toBufferedWithEnt(fn)
     local function func(ent, ...)
         entTc(ent)
         local ppos = lp.getPos(ent)
-        --[[
-            HMMM::
-            if ppos is nil here... should we melt??
-        ]]
+        -- HMMM::
+        -- if ppos is nil here... should we melt??
         if ppos then
             local plot = ppos.plot
             plot:bufferFunction(fn, ppos, ...)
@@ -196,7 +194,7 @@ local function ensureSlot(slotEnt_or_ppos)
         Takes a slotEnt OR ppos,
         and returns a slotEnt.
 
-        If anything is invalid, throws error.
+        If anything is invalid, melts.
     ]]
     local ppos
     if ptrack.get(slotEnt_or_ppos) then

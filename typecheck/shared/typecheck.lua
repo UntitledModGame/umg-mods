@@ -186,7 +186,7 @@ local function parseArgCheckers(arr)
     for i=1, #arr do
         local func, err = makeCheckFunction(arr[i])
         if not func then
-            umg.melt(("Error during parsing typecheck arg num %d:\n"):format(i) .. tostring(err))
+            umg.melt(("Failure parsing typecheck arg: %d:\n"):format(i) .. tostring(err))
         end
         arr[i] = func
     end
