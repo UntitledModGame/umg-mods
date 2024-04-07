@@ -12,31 +12,6 @@ local ptrack = require("shared.internal.positionTracking")
 local lp = {}
 
 
-local function toBufferedWithPPos(fn)
-    local function func(ppos, ...)
-        lp.posTc(ppos)
-        local plot = ppos.plot
-        plot:buffer(fn, ppos, ...)
-    end
-    return func
-end
-
-local entTc = typecheck.assert("entity")
-local function toBufferedWithEnt(fn)
-    local function func(ent, ...)
-        entTc(ent)
-        local ppos = lp.getPos(ent)
-        -- HMMM::
-        -- if ppos is nil here... should we melt??
-        if ppos then
-            local plot = ppos.plot
-            plot:buffer(fn, ppos, ...)
-        end
-    end
-    return func
-end
-
-
 
 local bufferTc = typecheck.assert("ppos", "function")
 function lp.buffer(ppos, func)
@@ -45,6 +20,12 @@ function lp.buffer(ppos, func)
     ]]
     bufferTc(ppos)
     ppos.plot:buffer(func)
+end
+
+local waitTc = typecheck.assert("ppos", "number")
+function lp.wait(ppos, time)
+    waitTc(ppos, time)
+    ppos.plot:wait(time)
 end
 
 
@@ -261,7 +242,8 @@ function lp.destroy(ent)
 end
 
 
-function lp.sellItem(ent)
+function lp.sellItem(ppos)
+    -- sells the item at `ppos`
     umg.melt("nyi")
 end
 
@@ -297,6 +279,14 @@ function lp.trySpawnItem(ppos, itemEType)
     end
 end
 
+
+
+function lp.removeAugment(ent, augment)
+    umg.melt("nyi")
+end
+function lp.addAugment(ent, augment, val)
+    umg.melt("nyi")
+end
 
 
 umg.expose("lp", lp)

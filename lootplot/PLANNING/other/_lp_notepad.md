@@ -29,44 +29,30 @@ Are there any valid use-cases for blocking item-removal?
 
 
 
-# `SYSTEM PLANNING:`
-Lets list a highly-diverse set of items, 
-and discover what infra we need to implement them. 
-(NOTE: We are mainly listing items that would be HARD to create, 
-under the current setup.)
+## ACTIONS:
+Actions are a pretty good idea...
+But I really don't like the dual-nature of them.
 
-### when `touching` item dies: give +10 gold
-- `localListener` system, listening to local events, on singular entities
+For example, this is really bad:
+```lua
+lp.activate(ent)
+lp.actions.activate(ent)
+```
+^^^ We should NEVER have stuff like this.
 
-### when plot gains gold, increase power by 1%
-- `globalListener` system, listening to global events
-
-### if a rare item is spawned in range, convert it to LEGENDARY.
-- localListener system
-
-### while this item is on the plot, increase chance of LEGENDARY items by 50%
-- `globalProperty` system
-    - (preferably managed by the `Plot` object)
-    - MAKE IT EXTENSIVE!!! USE q-buses!!!
-    - Idea: maybe a `probabilityWarp` component, that tells the `Plot` to contain the entity within the qbus question...? 
-    --> do some thinking.
-
-### discount prices of any slots in range by 50%
-- `localProperty` system; allows modification of properties of entities
-    - (also need a qbus for pricing)
-
-### increase power of any slots in range by 1
-- `localProperty` system
+```lua
+lp.buffer(ppos, function()
+    local item = lp.getItem(ppos)
+    if item then
+        increaseSellPrice(item)
+        lp.sellItem(item)
+    end
+end)
+```
 
 
+## IDEA: Lets plan the API **BEFORE** we decide on the buffering behaviour.
+See `item_API.md`
 
-# OK: Final plan:
-property system:
-    - globalProperty modification (ent -> plot)
-    - localProperty modification (ent -> ent)
 
-listener system:
-    - globalListener (plot-event)
-    - localListener (ent-event; only works within range)
-        (internal tracking for efficiency?)
 

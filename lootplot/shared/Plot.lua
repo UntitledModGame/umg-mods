@@ -88,8 +88,15 @@ function Plot:buffer(fn, ...)
 end
 
 
+function Plot:wait(time)
+    local mult = umg.ask("lootplot:getPipelineDelayMultiplier", self)
+    self.pipeline:wait(time * mult)
+end
+
+
+
 function Plot:tick()
-    self.pipeline:tick()
+    self.pipeline:step()
 end
 
 

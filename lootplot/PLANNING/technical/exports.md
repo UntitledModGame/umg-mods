@@ -136,9 +136,9 @@ slot = posToSlot(above(ppos))
 ]]
 
 -- looping over ents:
-local ents = touching(ent) -- gets all ents that we are touching:
+local ents = lp.touching(ent) -- gets all ents that we are touching:
 
-touching(ent):loop(function(ppos)
+lp.touching(ent):foreach(function(ppos)
     -- loops over all neighbour positions, `ppos`
 end)
 

@@ -27,13 +27,19 @@ function Pipeline:push(fn, delay, ...)
 end
 
 
+function Pipeline:wait(delay)
+    local time = umg.getWorldTime()
+    self.nextExecuteTime = time + delay
+end
+
+
 function Pipeline:tick()
     local time = umg.getWorldTime()
     
     if time > self.nextExecuteTime then
         local obj = self.buffer:pop()
         obj.func(unpack(obj.args))
-        self.nextExecuteTime = time + obj.delay
+        self:wait(obj.delay)
     end
 end
 
