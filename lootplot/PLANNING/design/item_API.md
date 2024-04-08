@@ -1,35 +1,44 @@
 
+# Item-API and execution planning:
 
-## IDEA: Lets plan the API **BEFORE** we decide on the buffering behaviour.
+IDEA: Have no implicit buffering. Implicit = bad.
+We should have tooling to help with buffering, tho.
+
 ```lua
-
 defineItem({
-    -- activate all other touching items:
-    activate = function(ent)
-        lp.getInRange(ent)
-            :foreachBuffered(function(ppos)
-                lp.activate(ppos)
-            end)
-    end
+    onActivate = function(ent)
+        ... -- activates an item instantly
+    end,
+
+
 })
-
-
-
-defineItem({
-    -- activate all other touching items:
-    activate = function(ent)
-        lp.getInRange(ent)
-            :foreachBuffered(function(ppos)
-                if slot then
-                    lp.destroy()
-                end
-            end)
-    end
-})
-
-
-
-
 ```
 
+
+## Execution API:
+```lua
+defineItem({
+    activate = function(ent)
+        lp.Bufferer()
+            -- a `Bufferer` is a data structure that executes code, buffered
+            :touching(ent)
+            :filter(func)
+            :items()
+            :execute(function()
+                -- Do something with `touching` items:
+                ...
+            end)
+    end
+})
+```
+
+Should there be automatic buffering with this setup...?
+but yeh, great thing about this: it's extendable
+
+```lua
+local CustomBufferer = objects.Class(name)
+  :implement(lp.Bufferer)
+  :implement(lp.CustomFunctions)
+
+```
 

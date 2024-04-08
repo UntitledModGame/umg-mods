@@ -45,3 +45,25 @@ just to ensure that the API is extensive enough.
 
 
 
+
+
+# VERY INTERESTING IDEA: `Clickable slots`
+Don't have a `reroll` button;  
+Instead, have a reroll-SLOT, that; when clicked,
+rerolls all items in it's radius.   
+For example: a reroll-button will reroll al
+
+A reroll-slot should spawn with every shop.
+
+## EXTREMELY IMPORTANT:
+Make sure that `clickable` slots are differentiated from regular slots!!!!
+Maybe a different color, or a white outline, or something???  
+*NIGHTMARE SCENARIO:*  
+Players play the game, and don't realize that they can reroll 
+by clicking the reroll-slot.
+
+### Important Note:
+If a slot is `Clickable`; it obviously won't be able to be moved.  
+(Because when we click it; the click gets dispatched to the action!)  
+Thus, all `Clickable` slots should be regarded as immobile/frozen.
+

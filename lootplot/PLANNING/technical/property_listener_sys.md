@@ -17,8 +17,10 @@ listener system:
 
 
 
-### Ice-block: Prevent any items in range from moving
-- `entityProperty` system
+
+### Example:
+Ice-block: Prevent any items in range from moving
+- This needs `entityProperty` system
 
 Hmm: We should attempt to use the `properties` mod here.
 
