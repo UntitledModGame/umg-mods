@@ -83,7 +83,9 @@ local currentGame = nil
 function lp.startGame(game)
     assert(server,"?")
     assert(not currentGame, "(Attempted to start a new game; must refresh server)")
-    assert(lp.Game:isInstance(game), "Needs to be instance of `Game`")
+    for k,v in pairs(lp.Game) do
+        assert(type(game[k]) == type(v), "Didnt properly override: " .. tostring(k))
+    end
     currentGame = game
     currentGame:start()
 end

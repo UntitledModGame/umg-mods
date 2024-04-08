@@ -55,10 +55,11 @@ For example: a reroll-button will reroll al
 
 A reroll-slot should spawn with every shop.
 
-## EXTREMELY IMPORTANT:
-Make sure that `clickable` slots are differentiated from regular slots!!!!
-Maybe a different color, or a white outline, or something???  
-*NIGHTMARE SCENARIO:*  
+## EXTREMELY IMPORTANT: VISUAL-DIFFERENTIATION!
+Make sure that `clickable` slots are visually differentiated!!!!
+Maybe a white outline, or something???  
+Or, maybe make the slot pulse bigger when it's hovered, or something...?
+*Scenario that we want to avoid:*  
 Players play the game, and don't realize that they can reroll 
 by clicking the reroll-slot.
 

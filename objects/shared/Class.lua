@@ -52,7 +52,6 @@ end
 
 
 
-
 local function Class(name)
     if type(name) ~= "string" then
         umg.melt("class(name) expects a string as first argument")
