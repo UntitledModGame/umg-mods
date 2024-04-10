@@ -1,6 +1,5 @@
 
-
-local ScreenElement = ui.Element("lootplot.main:Main")
+local Screen = ui.Element("lootplot.main:Screen")
 --[[
     Screen-element:
 
@@ -8,8 +7,9 @@ local ScreenElement = ui.Element("lootplot.main:Main")
 ]]
 
 
-function ScreenElement:init(args)
+function Screen:init(args)
     typecheck.assertKeys(args, {"nextRound", "getProgress"})
+    self:makeRoot()
 
     self.progressBar = ui.elements.LootplotMonsterBar({
         getProgress = args.getProgress
@@ -22,7 +22,7 @@ function ScreenElement:init(args)
 end
 
 
-function ScreenElement:onRender(x,y,w,h)
+function Screen:onRender(x,y,w,h)
     local r = ui.Region(x,y,w,h)
     
     local header, _main = r:splitVertical(0.15, 0.85)
@@ -38,6 +38,4 @@ function ScreenElement:onRender(x,y,w,h)
 end
 
 
-
-return ScreenElement
-
+return Screen

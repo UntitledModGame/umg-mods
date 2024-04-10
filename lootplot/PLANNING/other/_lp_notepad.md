@@ -29,30 +29,19 @@ Are there any valid use-cases for blocking item-removal?
 
 
 
-## ACTIONS:
-Actions are a pretty good idea...
-But I really don't like the dual-nature of them.
+## UI planning:
+(A)  in lootplot.base, as a generic scene for lootplot.
+If mods wanna add to the scene, tag into some api deployed by lootplot.base
 
-For example, this is really bad:
-```lua
-lp.activate(ent)
-lp.actions.activate(ent)
-```
-^^^ We should NEVER have stuff like this.
+(B)  in lootplot.main. We would then add the "core buttons" directly inside of this scene.
+DOWNSIDE: The "core-buttons" would need to be duct-taped on kinda jankily.
 
-```lua
-lp.buffer(ppos, function()
-    local item = lp.getItem(ppos)
-    if item then
-        increaseSellPrice(item)
-        lp.sellItem(item)
-    end
-end)
-```
+(C)  in some base-mod; like uibasics mod.
+Tag into some uibasics API to add elements to the scene.
 
+---
 
-## IDEA: Lets plan the API **BEFORE** we decide on the buffering behaviour.
-See `item_API.md`
-
-
+I was considering option-C for this...
+But Xander recommended option-B.
+I think option-B is the most assumptionless, tbh...
 
