@@ -7,7 +7,7 @@ require("client.interactionControls")
 
 local listener = input.InputListener({priority = 2})
 
-local INTERACT = "uibasics:TOGGLE"
+local INTERACT = "ui.basics:TOGGLE"
 
 listener:onPressed(INTERACT, function(self)
     if toggleables.areMostOpen() then

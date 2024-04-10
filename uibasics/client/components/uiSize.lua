@@ -82,7 +82,7 @@ end
 
 
 umg.on("@update", function()
-    local sceneRegion = uiBasics.getSceneRegion()
+    local sceneRegion = ui.basics.getSceneRegion()
 
     for _, ent in ipairs(uiSizeGroup) do
         local ui = ent.ui

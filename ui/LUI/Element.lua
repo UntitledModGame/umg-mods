@@ -42,6 +42,8 @@ function Element:setup()
     -- Parent of this element.
     -- Could be a Scene, or a parent Element
 
+    self._defaultRegion = nil
+
     self._view = {x=0,y=0,w=0,h=0} -- last seen view
     self._active = false
     self._hovered = false
@@ -438,7 +440,24 @@ end
 
 
 
+function Element:setDefaultRegion(x,y,w,h)
+    --[[
+        if no args are passed to `:render(x,y,w,h)`,
+        then we will use these 
+    ]]
+    self._defaultRegion = self._defaultRegion or {}
+    local r = self._defaultRegion
+    r.x=x
+    r.y=y
+    r.w=w
+    r.h=h
+end
 
+
+function Element:getDefaultRegion()
+    local r = self._defaultRegion
+    return r.x,r.y, r.w,r.h
+end
 
 
 

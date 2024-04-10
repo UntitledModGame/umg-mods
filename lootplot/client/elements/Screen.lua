@@ -22,6 +22,11 @@ function Screen:init(args)
 end
 
 
+function Screen:addLootplotElement(element)
+    self:addChild(element)
+end
+
+
 function Screen:onRender(x,y,w,h)
     local r = ui.Region(x,y,w,h)
     

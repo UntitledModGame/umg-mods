@@ -7,12 +7,12 @@ local toggleables = require("client.toggleables")
 components.project("clickToOpenUI", "clickable")
 
 local function toggle(ent)
-    if uiBasics.isOpen(ent) then
-        uiBasics.close(ent)
+    if ui.basics.isOpen(ent) then
+        ui.basics.close(ent)
     else
         -- when opening a chest; we ALSO want to open the player inventory(s)
         toggleables.openAllControlled()
-        uiBasics.open(ent)
+        ui.basics.open(ent)
     end
 end
 

@@ -1,10 +1,10 @@
 
 
 input.defineControls({
-    "uibasics:TOGGLE"
+    "ui.basics:TOGGLE"
 })
 
 
 input.setControls({
-    ["uibasics:TOGGLE"] = {"key:f"}
+    ["ui.basics:TOGGLE"] = {"key:f"}
 })

@@ -15,7 +15,7 @@ local scene = Scene()
 
 
 umg.on("rendering:drawUI", function()
-    scene:render(uiBasics.getSceneRegion():get())
+    scene:render(ui.basics.getSceneRegion():get())
 end)
 
 
@@ -50,7 +50,6 @@ end)
 listener:onPointerMoved(function(_self, x,y, dx,dy)
     scene:pointerMoved(x,y, dx,dy)
 end)
-
 
 
 
