@@ -9,8 +9,6 @@ defineItem({
     onActivate = function(ent)
         ... -- activates an item instantly
     end,
-
-
 })
 ```
 
@@ -22,8 +20,8 @@ defineItem({
         lp.Bufferer()
             -- a `Bufferer` is a data structure that executes code, buffered
             :touching(ent)
-            :filter(func)
-            :items()
+            :filter(func) -- func(ppos) -> bool
+            :items() -- ppos-->item
             :execute(function()
                 -- Do something with `touching` items:
                 ...

@@ -22,10 +22,11 @@ local MainGame = objects.Class("lootplot.main:MainGame")
     OH WELL! :--)
 ]]
 umg.definePacket("lootplot.main:nextRound", {
-    arguments = {}
+    typelist = {}
 })
 if server then
     server.on("lootplot.main:nextRound", function()
+        -- trust the client :shrug:
         local game = lp.getGame()
         game:nextRound()
     end)
@@ -33,48 +34,49 @@ end
 
 
 
-if server then
-
 function MainGame:nextRound()
     -- Progresses to next round.
     assert(server,"wot wot")
 
     umg.call("lootplot.main:startRound")
 
-    -- activate slots:
-    --[[
-        TODO: should we be doing other shit here?
-    ]]
-    self.worldEnt.plot:foreachSlot(function(slotEnt, ppos)
-        lp.buffer(ppos, function()
+    -- activate all slots:
+    lp.Bufferer()
+        :all()
+        :slots() -- ppos-->slot
+        :execute(function(slotEnt)
             lp.activate(slotEnt)
         end)
-    end)
+
+    -- TODO: Give reward-money at end of round
 
     self.round = self.round + 1
     umg.call("lootplot.main:finishRound")
+
+    if self.points > self.requiredPoints then
+        -- win condition!!
+        -- (upgrade level of loot-monster)
+    end
 end
 
-else
 
 function MainGame:nextRound()
     client.send("lootplot.main:nextRound")
 end
 
-end
 
 
 function MainGame:init()
     self.money = 0
 
+    self.round = 0 -- how many "turns" the player has taken
+
+    self.level = 0 -- how many loot-monsters the player has killed
+
     self.points = 0
     self.requiredPoints = 100
 
     self.worldEnt = nil
-
-    if client then
-        setupUI(self)
-    end
 end
 
 
@@ -131,7 +133,7 @@ end
 
 
 function MainGame:playerJoin(clientId)
-    local p =server.entities.player(clientId)
+    local p = server.entities.player(clientId)
     p.x,p.y = 200, 100
     p.moveX, p.moveY = 0,0
 end

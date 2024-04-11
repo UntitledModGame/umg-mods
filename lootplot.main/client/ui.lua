@@ -8,15 +8,15 @@ function Scene:init(args)
     self:makeRoot()
     self:setPassthrough(true)
 
-    self.progressBar = ui.elements.LootplotMonsterBar({
+    self.progressBar = ui.elements.MonsterBar({
         getProgress = function()
-            return math.clamp(self.points / self.requiredPoints, 0,1)
+            local game = lp.getGame()
+            return math.clamp(game.points / game.requiredPoints, 0,1)
         end
     })
     self.startButton = ui.elements.Button({
         text = "nextRound",
         onClick = function()
-            lp.getGame():nextRound()
         end
     })
     self:addChild(self.progressBar)
@@ -79,9 +79,3 @@ end)
 umg.on("@resize", function(x,y)
     scene:resize(x,y)
 end)
-
-
-
-return scene
-
-
