@@ -20,7 +20,7 @@
       "rendering",
       "spatial",
       "borders",
-      "uibasics"
+      "ui.basics"
     ],
     "type": "playable"
 }

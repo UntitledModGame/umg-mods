@@ -17,7 +17,7 @@ function WorldContext:init()
     self.points = 0
     self.round = 0
 
-    self.plot = 
+    self.plot = nil
 end
 
 
