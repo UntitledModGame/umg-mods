@@ -14,10 +14,67 @@ Kill the loot-monster.
 local MainGame = objects.Class("lootplot.main:MainGame")
 
 
+
+
+
+--[[
+    *kinda* hacky, shitty code right here.
+    OH WELL! :--)
+]]
+umg.definePacket("lootplot.main:nextRound", {
+    arguments = {}
+})
+if server then
+    server.on("lootplot.main:nextRound", function()
+        local game = lp.getGame()
+        game:nextRound()
+    end)
+end
+
+
+
+if server then
+
+function MainGame:nextRound()
+    -- Progresses to next round.
+    assert(server,"wot wot")
+
+    umg.call("lootplot.main:startRound")
+
+    -- activate slots:
+    --[[
+        TODO: should we be doing other shit here?
+    ]]
+    self.worldEnt.plot:foreachSlot(function(slotEnt, ppos)
+        lp.buffer(ppos, function()
+            lp.activate(slotEnt)
+        end)
+    end)
+
+    self.round = self.round + 1
+    umg.call("lootplot.main:finishRound")
+end
+
+else
+
+function MainGame:nextRound()
+    client.send("lootplot.main:nextRound")
+end
+
+end
+
+
 function MainGame:init()
     self.money = 0
+
     self.points = 0
+    self.requiredPoints = 100
+
     self.worldEnt = nil
+
+    if client then
+        setupUI(self)
+    end
 end
 
 
@@ -68,6 +125,7 @@ function MainGame:start()
     local worldEnt = createWorld()
     addBaseSlots(worldEnt)
     addShopSlots(worldEnt)
+    self.worldEnt = worldEnt
 end
 
 
