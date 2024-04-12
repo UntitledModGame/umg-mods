@@ -81,7 +81,7 @@ globals:
   lp.startGame:
     args:
     - type: table
-  lp.getGame:
+  lp.getContext:
     args: []
 
   lp.options:

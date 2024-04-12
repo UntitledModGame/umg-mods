@@ -102,20 +102,75 @@ end
     Money/point services:
 ]]
 do
-local money = require("shared.services.money")
-local points = require("shared.services.points")
+local modifyTc = typecheck.assert("entity", "number")
 
-lp.setMoney = money.setMoney
-lp.setPoints = money.setPoints
+--[[
+`fromEnt` is the entity that applied the point modification.
+(IE a slot, or an item.)
 
-lp.addMoney, lp.subtractMoney = money.addMoney, money.subtractMoney
-lp.addPoints, lp.subtractPoints = points.addPoints, points.subtractPoints
+Depending on the gamemode; this will be handled in different ways.
+]]
+local function modifyPoints(fromEnt, x)
+    assert(server,"??")
+    local multiplier = umg.ask("lootplot:getPointMultiplier", fromEnt, x)
+    local val = x*multiplier
+    if val > 0 then
+        umg.call("lootplot:pointsAdded", fromEnt, val)
+    elseif val < 0 then
+        umg.call("lootplot:pointsSubtracted", fromEnt, val)
+    end
+    lp.setPoints(fromEnt, val)
+end
+
+function lp.setPoints(fromEnt, x)
+    modifyTc(fromEnt, x)
+    modifyPoints(fromEnt, -x)
+end
+function lp.addPoints(fromEnt, x)
+    modifyTc(fromEnt, x)
+    modifyPoints(fromEnt, x)
+end
+function lp.subtractPoints(fromEnt, x)
+    modifyTc(fromEnt, x)
+    modifyPoints(fromEnt, -x)
+end
+
+function lp.getPoints(ent)
+    return lp.getGame():getPoints(ent)
+end
+
+
+
+--[[
+`fromEnt` is the entity that applied the money modification.
+(So for example, it could be a slot, or an item.)
+]]
+local function modifyMoney(fromEnt, x)
+    assert(server,"??")
+    local multiplier = umg.ask("lootplot:getMoneyMultiplier", fromEnt)
+    local val = x*multiplier
+    if val > 0 then
+        umg.call("lootplot:moneyAdded", fromEnt, val)
+    elseif val < 0 then
+        umg.call("lootplot:moneySubtracted", fromEnt, val)
+    end
+    lp.setMoney(fromEnt, val)
+end
+function lp.setMoney(fromEnt, x)
+    lp.getContext():setMoney(fromEnt, x)
+    umg.call("lootplot:setMoney", fromEnt, x)
+end
+function lp.addMoney(fromEnt, x)
+    modifyTc(fromEnt, x)
+    modifyMoney(fromEnt, x)
+end
+function lp.subtractMoney(fromEnt, x)
+    modifyTc(fromEnt, x)
+    modifyMoney(fromEnt, -x)
+end
 
 function lp.getMoney(ent)
     return lp.getGame():getMoney(ent)
-end
-function lp.getPoints(ent)
-    return lp.getGame():getPoints(ent)
 end
 
 end
