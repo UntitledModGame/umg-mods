@@ -1,7 +1,7 @@
 
 --[[
 
-Override of Game.
+Main Context.
 
 points are shared between all players.
 money is also shared between all players.
@@ -11,7 +11,7 @@ Kill the loot-monster.
 
 ]]
 
-local MainGame = objects.Class("lootplot.main:MainGame")
+local Context = objects.Class("lootplot.main:Context")
 
 
 
@@ -34,7 +34,7 @@ end
 
 
 
-function MainGame:nextRound()
+function Context:nextRound()
     -- Progresses to next round.
     assert(server,"wot wot")
 
@@ -60,13 +60,13 @@ function MainGame:nextRound()
 end
 
 
-function MainGame:nextRound()
+function Context:nextRound()
     client.send("lootplot.main:nextRound")
 end
 
 
 
-function MainGame:init()
+function Context:init()
     self.money = 0
 
     self.round = 0 -- how many "turns" the player has taken
@@ -123,7 +123,7 @@ end
 
 
 
-function MainGame:start()
+function Context:start()
     local worldEnt = createWorld()
     addBaseSlots(worldEnt)
     addShopSlots(worldEnt)
@@ -132,27 +132,27 @@ end
 
 
 
-function MainGame:playerJoin(clientId)
+function Context:playerJoin(clientId)
     local p = server.entities.player(clientId)
     p.x,p.y = 200, 100
     p.moveX, p.moveY = 0,0
 end
 
 
-function MainGame:setPoints(ent, x)
+function Context:setPoints(ent, x)
     self.points = x
 end
-function MainGame:getPoints(ent)
+function Context:getPoints(ent)
     return self.points
 end
 
-function MainGame:setMoney(ent, x)
+function Context:setMoney(ent, x)
     self.money = x
 end
-function MainGame:getMoney(ent)
+function Context:getMoney(ent)
     return self.money
 end
 
 
 
-return MainGame
+return Context

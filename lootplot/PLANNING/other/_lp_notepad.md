@@ -45,3 +45,51 @@ I was considering option-C for this...
 But Xander recommended option-B.
 I think option-B is the most assumptionless, tbh...
 
+ALSO: Another reason why opt-B is the best, is because most of the really
+"complex" UI is going to be within the main-gamemode, NOT within the base-gamemode.
+In general, its just more assumptionless and better.
+
+
+
+
+
+
+
+## Game shitty-ness:
+For `lootplot.main` specifically:  
+We *need* `MainGame` to be able to be accessed on BOTH server AND client.
+We will need syncing for this...   
+Should we have some sort of auto-syncing feature...?  
+Could bind `Game` to an entity..?  
+
+Also; it's quite unweidly using a big, monolithic "Game" class like this.
+Perhaps rename to `Context`...?
+
+ALSO: Another "big" problem that hasn't really been discussed;
+What about fields/data that need to be synced up between cl/serv???  
+Or, other obscure fields that impact the game?  
+(Like, `luck`, for example?)  
+--->>  
+IDEA: Change `Game` class to `Context`.  
+Store NO data inside of `Context`; instead, store all data inside of `world`
+entity; or inside of the `player` entity, if relevant.
+(This way, we get the niceness of syncing, (via `sync.autoSyncComponent`)
+AND, we get a bit of standardization kinda.)
+
+### TODO...?
+- Remove `money` and `points` services; inline API inside of `exports.lua`?
+- Rename `Game` to `Context`...?
+
+## To think about:
+How do we "start" the game?  
+Used to use `lp.startGame()`: But we are now using context-objects.  
+Maybe we just keep the same naming; but rename `lp.Class` to `lp.Context`.
+
+### OK:
+Now, the "awkward" thing about all of this, is that we are now gonna
+have a singleton class.
+Perhaps it'd then be better to pass in a static "service", 
+as opposed to a class?
+
+
+

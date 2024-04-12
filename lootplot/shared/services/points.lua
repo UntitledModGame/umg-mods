@@ -41,7 +41,8 @@ end
 
 function points.setPoints(fromEnt, val)
     umg.call("lootplot:setPoints", fromEnt, val)
-    lp.game:setPoints(fromEnt, val)
+    local ctx = lp.getContext()
+    ctx:setPoints(fromEnt, val)
 end
 
 end

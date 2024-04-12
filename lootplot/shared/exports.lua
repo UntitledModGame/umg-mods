@@ -72,27 +72,26 @@ lp.options = require("shared.options")
 --[[
     game service:
 
-    It's expected that custom gamemodes override the `Game` object.
+    It's expected that gamemodes provide a custom `context`.
 ]]
 do
-lp.Game = require("shared.Game")
+local Context = require("shared.Context")
 
+local currentContext = nil
 
-local currentGame = nil
-
-function lp.startGame(game)
+function lp.startGame(ctx)
     assert(server,"?")
-    assert(not currentGame, "(Attempted to start a new game; must refresh server)")
-    for k,v in pairs(lp.Game) do
-        assert(type(game[k]) == type(v), "Didnt properly override: " .. tostring(k))
+    assert(not currentContext, "(Attempted to start a new game; must refresh server)")
+    for k,v in pairs(Context) do
+        assert(type(ctx[k]) == type(v), "Didnt properly override: " .. tostring(k))
     end
-    currentGame = game
-    currentGame:start()
+    currentContext = ctx
+    currentContext:start()
 end
 
-function lp.getGame()
+function lp.getContext()
     -- gets the current game context
-    return currentGame
+    return currentContext
 end
 
 end

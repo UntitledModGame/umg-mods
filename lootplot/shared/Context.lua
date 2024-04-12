@@ -1,7 +1,7 @@
 
 --[[
 
-Basic game context.
+base Context skeleton.
 
 (Provides a "skeleton" of methods to be implemented.
 Think of this as a base-class.)
@@ -9,20 +9,20 @@ Think of this as a base-class.)
 
 ]]
 
-local Game = objects.Class("lootplot:Game")
+local Context = objects.Class("lootplot:Game")
 
 
-function Game:init()
+function Context:init()
     -- initialize stuff here
 end
 
 
-function Game:start()
+function Context:start()
     error("should be overidden.")    
 end
 
 
-function Game:playerJoin(clientId)
+function Context:playerJoin(clientId)
     local p =server.entities.player(clientId)
     p.x,p.y = 200, 100
     p.moveX, p.moveY = 0,0
@@ -45,20 +45,20 @@ end
     (Likewise, if we want each player to have their own point-count,
         then we could override `:getPoints()`, `:setPoints()`)
 ]]
-function Game:setPoints(ent, x)
+function Context:setPoints(ent, x)
     -- sets points for `ent`s context
 end
-function Game:getPoints(ent)
+function Context:getPoints(ent)
     -- gets points for `ent`s context
 end
 
-function Game:setMoney(ent, x)
+function Context:setMoney(ent, x)
     -- gets money for `ent`s context
 end
-function Game:getMoney(ent)
+function Context:getMoney(ent)
     return self.money
 end
 
 
 
-return Game
+return Context
