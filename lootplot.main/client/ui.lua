@@ -10,7 +10,7 @@ function Scene:init(args)
 
     self.progressBar = ui.elements.MonsterBar({
         getProgress = function()
-            local game = lp.getGame()
+            local game = lp.getContext()
             return math.clamp(game.points / game.requiredPoints, 0,1)
         end
     })

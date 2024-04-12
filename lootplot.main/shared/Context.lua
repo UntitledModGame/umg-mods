@@ -18,7 +18,7 @@ local Context = objects.Class("lootplot.main:Context")
 
 
 --[[
-    *kinda* hacky, shitty code right here.
+    *kinda* hacky, shitty packets here.
     OH WELL! :--)
 ]]
 umg.definePacket("lootplot.main:nextRound", {
@@ -27,9 +27,24 @@ umg.definePacket("lootplot.main:nextRound", {
 if server then
     server.on("lootplot.main:nextRound", function()
         -- trust the client :shrug:
-        local game = lp.getGame()
-        game:nextRound()
+        local ctx = lp.getContext()
+        ctx:nextRound()
     end)
+end
+
+
+
+
+function Context:sync(field, value)
+    assert(server, "?")
+    local data = 
+    server.broadcast("lootplot.main:syncContextField", field, value)
+end
+
+
+function Context:setRound()
+end
+function Context:getRound()
 end
 
 
@@ -82,14 +97,27 @@ end
 
 
 
-local function createWorld()
+local constants = require("shared.constants")
+
+local function createWorld(self)
     local worldEnt = server.entities.world()
     worldEnt.x = 0
     worldEnt.y = 0
+
     worldEnt.plot = lp.Plot(
         worldEnt, 
-        constants.WORLD_PLOT_SIZE, constants.WORLD_PLOT_SIZE
+        constants.WORLD_PLOT_SIZE, 
+        constants.WORLD_PLOT_SIZE
     )
+
+    worldEnt.lootplotWorldData = {
+        money = constants.STARTING_MONEY,
+        points = constants.STARTING_POINTS,
+        round = constants.STARTING_ROUND,
+    }
+
+    worldEnt.lootplotContext = self
+
     return worldEnt
 end
 
@@ -124,7 +152,7 @@ end
 
 
 function Context:start()
-    local worldEnt = createWorld()
+    local worldEnt = createWorld(self)
     addBaseSlots(worldEnt)
     addShopSlots(worldEnt)
     self.worldEnt = worldEnt

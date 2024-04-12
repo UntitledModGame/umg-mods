@@ -136,7 +136,7 @@ function lp.subtractPoints(fromEnt, x)
 end
 
 function lp.getPoints(ent)
-    return lp.getGame():getPoints(ent)
+    return lp.getContext():getPoints(ent)
 end
 
 
@@ -170,7 +170,7 @@ function lp.subtractMoney(fromEnt, x)
 end
 
 function lp.getMoney(ent)
-    return lp.getGame():getMoney(ent)
+    return lp.getContext():getMoney(ent)
 end
 
 end

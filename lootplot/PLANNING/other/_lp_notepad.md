@@ -91,5 +91,28 @@ have a singleton class.
 Perhaps it'd then be better to pass in a static "service", 
 as opposed to a class?
 
+## IMPL:
+We want data to be saved within runs. (ie be persistent)  
+With this in mind, we ABSOLUTELY want to represent world-data as inside 
+of ents.
+I guess the main question is:
+How do we sync this data?
+IDEA:  We should have a singular component: `ent.worldData` or something,
+that stores world-data, specific to this instance of lootplot.
+(This way we dont bloat the comp namespace)
+
+Still- its a bit messy having to kinda "yeet" the entity over or something.
+
+
+## Syncing:
+Maybe we should auto-create a world-entity in lootplot.base, 
+and automatically pass it between cl/serv?
+
+The world-entity would *contain* the context.
+This would remove the issue of having to pass the context between cl/serv.
+
+"Doesn't this assume that we can only have 1 world context ent???"
+(Yes, but this is already the case: `lp.getContext()`)
+
 
 
