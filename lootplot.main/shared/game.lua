@@ -37,7 +37,6 @@ end
 
 function Context:sync(field, value)
     assert(server, "?")
-    local data = 
     server.broadcast("lootplot.main:syncContextField", field, value)
 end
 
@@ -99,7 +98,7 @@ end
 
 local constants = require("shared.constants")
 
-local function createWorld(self)
+local function createWorld()
     local worldEnt = server.entities.world()
     worldEnt.x = 0
     worldEnt.y = 0
@@ -110,13 +109,11 @@ local function createWorld(self)
         constants.WORLD_PLOT_SIZE
     )
 
-    worldEnt.lootplotWorldData = {
+    worldEnt.data = {
         money = constants.STARTING_MONEY,
         points = constants.STARTING_POINTS,
         round = constants.STARTING_ROUND,
     }
-
-    worldEnt.lootplotContext = self
 
     return worldEnt
 end
@@ -167,18 +164,18 @@ function Context:playerJoin(clientId)
 end
 
 
-function Context:setPoints(ent, x)
-    self.points = x
+function lp.overrides.setPoints(ent, x)
+    points = x
 end
-function Context:getPoints(ent)
-    return self.points
+function lp.overrides.getPoints(ent)
+    return points
 end
 
-function Context:setMoney(ent, x)
-    self.money = x
+function lp.overrides.setMoney(ent, x)
+    money = x
 end
-function Context:getMoney(ent)
-    return self.money
+function lp.overrides.getMoney(ent)
+    return money
 end
 
 

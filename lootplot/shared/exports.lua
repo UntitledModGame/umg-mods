@@ -69,32 +69,31 @@ lp.options = require("shared.options")
 
 
 
+
 --[[
-    game service:
-
-    It's expected that gamemodes provide a custom `context`.
+    everything in this table must be overridden
+    by some playable lootplot mod.
 ]]
-do
-local Context = require("shared.Context")
+lp.overrides = {}
 
-local currentContext = nil
-
-function lp.startGame(ctx)
-    assert(server,"?")
-    assert(not currentContext, "(Attempted to start a new game; must refresh server)")
-    for k,v in pairs(Context) do
-        assert(type(ctx[k]) == type(v), "Didnt properly override: " .. tostring(k))
-    end
-    currentContext = ctx
-    currentContext:start()
+function lp.overrides.setPoints(ent, x)
+    -- sets points for `ent`s context
+    umg.melt("MUST OVERRIDE")
+end
+function lp.overrides.getPoints(ent)
+    -- gets points for `ent`s context
+    umg.melt("MUST OVERRIDE")
+end
+function lp.overrides.setMoney(ent, x)
+    -- sets money for `ent`s context
+    umg.melt("MUST OVERRIDE")
+end
+function lp.overrides.getMoney(ent)
+    -- gets money for `ent`s context
+    umg.melt("MUST OVERRIDE")
 end
 
-function lp.getContext()
-    -- gets the current game context
-    return currentContext
-end
 
-end
 
 
 
@@ -124,7 +123,8 @@ end
 
 function lp.setPoints(fromEnt, x)
     modifyTc(fromEnt, x)
-    modifyPoints(fromEnt, -x)
+    lp.overrides.setPoints(fromEnt, -x)
+    umg.call("lootplot:setMoney", fromEnt, x)
 end
 function lp.addPoints(fromEnt, x)
     modifyTc(fromEnt, x)
@@ -136,7 +136,7 @@ function lp.subtractPoints(fromEnt, x)
 end
 
 function lp.getPoints(ent)
-    return lp.getContext():getPoints(ent)
+    return lp.overrides.getPoints(ent)
 end
 
 
@@ -157,7 +157,7 @@ local function modifyMoney(fromEnt, x)
     lp.setMoney(fromEnt, val)
 end
 function lp.setMoney(fromEnt, x)
-    lp.getContext():setMoney(fromEnt, x)
+    lp.overrides.setMoney(fromEnt, x)
     umg.call("lootplot:setMoney", fromEnt, x)
 end
 function lp.addMoney(fromEnt, x)
@@ -170,7 +170,7 @@ function lp.subtractMoney(fromEnt, x)
 end
 
 function lp.getMoney(ent)
-    return lp.getContext():getMoney(ent)
+    return lp.overrides.getMoney(ent)
 end
 
 end
