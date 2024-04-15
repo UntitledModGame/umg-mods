@@ -1,0 +1,4 @@
+
+globals:
+  lp.main.constants:
+    any: true

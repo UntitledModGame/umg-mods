@@ -140,43 +140,22 @@ List of functions:
 ```lua
 
 -- shared:
-getWorld() --> gets from group("lpWorld")
 lp.overrides.getMoney()
 lp.overrides.getPoints()
-getTurn() -- the "turn" resets every time we go to a new level
-getLevel()
-getRequiredPoints()
 
 -- clientside:
-goNextTurn() -- sends a packet
+goNextRound() -- sends a packet
 
 -- serverside:
 syncValue("money" or "points" or "round", X)
 lose() -- shows "You lost!" screen
 nextLevel()
-nextTurn()
+nextRound()
 
 lp.overrides.setMoney()
 lp.overrides.setPoints()
 
 ```
-
-We probably want a seperate service for handling turns/levels....?
-Or do we take the L, and have it as one big, monolithic service...?
-We'd need a few systems within this:
-- syncing turns
-- win/lose conditions
-
-OK:
-Lets list *ALL* the things we need from the turn-service:
-
-- Functionality to win/progress to next level
-- Dispatching info to generation-mod queries 
-- Telling the client what the current status is 
-    - (maybe we dont actually need this???)
-    - (points and requiredPoints are already synced. 
-        Client can interpret from there.)
-
 
 
 
