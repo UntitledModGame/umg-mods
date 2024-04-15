@@ -11,44 +11,18 @@ Kill the loot-monster.
 
 ]]
 
-local Context = objects.Class("lootplot.main:Context")
 
 
 
 
-
---[[
-    *kinda* hacky, shitty packets here.
-    OH WELL! :--)
-]]
 umg.definePacket("lootplot.main:nextRound", {
     typelist = {}
 })
+
+local nextRound
 if server then
-    server.on("lootplot.main:nextRound", function()
-        -- trust the client :shrug:
-        local ctx = lp.getContext()
-        ctx:nextRound()
-    end)
-end
 
-
-
-
-function Context:sync(field, value)
-    assert(server, "?")
-    server.broadcast("lootplot.main:syncContextField", field, value)
-end
-
-
-function Context:setRound()
-end
-function Context:getRound()
-end
-
-
-
-function Context:nextRound()
+function nextRound()
     -- Progresses to next round.
     assert(server,"wot wot")
 
@@ -73,18 +47,52 @@ function Context:nextRound()
     end
 end
 
+-- Just trust the client :shrug:
+server.on("lootplot.main:nextRound", nextRound)
 
-function Context:nextRound()
+else
+
+function nextRound()
     client.send("lootplot.main:nextRound")
+end
+
 end
 
 
 
-function Context:init()
+
+
+umg.defineEntityType("lootplot.main:world", {
+    lootplotWorld = true 
+    -- smol, hacky component to uniquely identify this entity
+})
+
+
+
+local lpWorldGroup = umg.group("lootplotWorld")
+local function get(field)
+    -- this is pretty darn hacky and bad.
+    local worldEnt = lpWorldGroup[1]
+    if worldEnt then
+        return worldEnt.data[field]
+    end
+    return 0
+end
+
+
+local function sync(field, value)
+    assert(server, "?")
+    local worldEnt = getWorld()
+    server.broadcast("lootplot.main:syncContextField", field, value)
+end
+
+
+
+
+
+local function init()
     self.money = 0
-
     self.round = 0 -- how many "turns" the player has taken
-
     self.level = 0 -- how many loot-monsters the player has killed
 
     self.points = 0
@@ -109,10 +117,16 @@ local function createWorld()
         constants.WORLD_PLOT_SIZE
     )
 
+    --[[
+        the reason we save world-data inside the entity,
+        is because if we go to save the world, the world-data will be
+        saved alongside the world-entity.
+    ]]
     worldEnt.data = {
         money = constants.STARTING_MONEY,
         points = constants.STARTING_POINTS,
         round = constants.STARTING_ROUND,
+        level = constants.STARTING_LEVEL
     }
 
     return worldEnt
@@ -148,36 +162,40 @@ end
 
 
 
-function Context:start()
-    local worldEnt = createWorld(self)
+
+local worldEnt = nil
+
+umg.on("@createWorld", function()
+    worldEnt = createWorld(self)
     addBaseSlots(worldEnt)
     addShopSlots(worldEnt)
-    self.worldEnt = worldEnt
-end
+end)
 
 
 
-function Context:playerJoin(clientId)
+umg.on("@playerJoin", function(clientId)
     local p = server.entities.player(clientId)
     p.x,p.y = 200, 100
     p.moveX, p.moveY = 0,0
-end
+end)
 
 
+
+
+if server then
 function lp.overrides.setPoints(ent, x)
-    points = x
+    data.points = x
 end
-function lp.overrides.getPoints(ent)
-    return points
+function lp.overrides.setMoney(ent, x)
+    data.money = x
+end
 end
 
-function lp.overrides.setMoney(ent, x)
-    money = x
+function lp.overrides.getPoints(ent)
+    return data.points
 end
 function lp.overrides.getMoney(ent)
-    return money
+    return data.money
 end
 
 
-
-return Context

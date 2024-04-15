@@ -78,12 +78,6 @@ globals:
   lp.Pipeline:
     any: true
 
-  lp.startGame:
-    args:
-    - type: table
-  lp.getContext:
-    args: []
-
   lp.options:
     any: true
 
