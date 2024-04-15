@@ -33,7 +33,7 @@ end
 local function addBaseSlots(plot)
     -- adds basic slots to be overridden
     local grid = plot.grid
-    grid:foreachInArea(8,11, 3,6, function(val, x,y)
+    grid:foreachInArea(9,11, 4,6, function(val, x,y)
         local i = grid:coordsToIndex(x,y)
         local ppos = lp.PPos({slot=i, plot=plot})
 
@@ -43,7 +43,7 @@ local function addBaseSlots(plot)
 end
 local function addShopSlots(plot)
     local grid = plot.grid
-    grid:foreachInArea(3,6, 3,6, function(val, x,y)
+    grid:foreachInArea(4,6, 6,7, function(val, x,y)
         local i = grid:coordsToIndex(x,y)
         local ppos = lp.PPos({slot=i, plot=plot})
 

@@ -14,13 +14,9 @@ function Scene:init(args)
             return math.clamp(ctx.points / ctx.requiredPoints, 0,1)
         end
     })
-    self.startButton = ui.elements.Button({
-        text = "nextRound",
-        onClick = function()
-        end
-    })
+    self.nextRoundButton = ui.elements.NextRoundbutton()
     self:addChild(self.monsterBar)
-    self:addChild(self.startButton)
+    self:addChild(self.nextRoundButton)
 end
 
 function Scene:addLootplotElement(element)
@@ -33,7 +29,7 @@ function Scene:onRender(x,y,w,h)
     local header, _main = r:splitVertical(0.15, 0.85)
     local startRound, _, monsterBar = header:splitHorizontal(0.2, 0.05, 0.8)
 
-    self.startButton:render(startRound:get())
+    self.nextRoundButton:render(startRound:get())
     self.monsterBar:render(monsterBar:get())
 end
 

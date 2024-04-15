@@ -35,6 +35,7 @@ function Context:init(ent)
     assert(umg.exists(ent), "Must pass an entity!")
     self.ownerEnt = ent
 
+    local constants = lp.main.constants
     self.money = constants.STARTING_MONEY
     self.points = constants.STARTING_POINTS
     self.round = constants.STARTING_ROUND
@@ -110,7 +111,7 @@ local function nextRound(self)
 
     -- activate all slots:
     lp.Bufferer()
-        :all()
+        :all(ent)
         :slots() -- ppos-->slot
         :execute(function(slotEnt)
             lp.activate(slotEnt)
@@ -156,26 +157,25 @@ points are shared between all players.
 money is also shared between all players.
 
 ]]
-local getCtx = lp.main.getContext
 if server then
 function lp.overrides.setPoints(ent, x)
-    local ctx = getCtx()
+    local ctx = lp.main.getContext()
     ctx.points = x
     ctx:syncValue("points")
 end
 function lp.overrides.setMoney(ent, x)
-    local ctx = getCtx()
+    local ctx = lp.main.getContext()
     ctx.money = x
     ctx:syncValue("money")
 end
 end
 
 function lp.overrides.getPoints(ent)
-    local ctx = getCtx()
+    local ctx = lp.main.getContext()
     return ctx.points
 end
 function lp.overrides.getMoney(ent)
-    local ctx = getCtx()
+    local ctx = lp.main.getContext()
     return ctx.money
 end
 

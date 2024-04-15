@@ -91,11 +91,12 @@ end
 
 
 local foreachInAreaTc = typecheck.assert(
+    "table", 
     "number", "number", "number", "number", 
     "function"
 )
 function Grid:foreachInArea(x1,x2, y1,y2, func)
-    foreachInAreaTc(self, func)
+    foreachInAreaTc(self, x1,x2,y1,y2, func)
     for x=x1, x2 do
         for y=y1, y2 do
             local v = self:get(x,y)
