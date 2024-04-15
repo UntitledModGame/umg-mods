@@ -21,20 +21,6 @@ Get enough points to kill the loot-monster.
 local Context = objects.Class("lootplot.main:Context")
 
 
-local currentContext = nil
-
-
-local lpWorldGroup = umg.group("lootplotContext")
-lpWorldGroup:onAdded(function(ent)
-    if not currentContext then
-        currentContext = ent.context
-    else
-        -- TODO: change this to a log, as opposed to a print
-        print("WARNING::: Duplicate lootplot.main context created!!")
-    end
-end)
-
-
 umg.definePacket("lootplot.main:syncContextValue", {
     typelist = {"entity", "string", "number"}
 })
@@ -83,22 +69,12 @@ end
 
 
 
-
-
-
-
---[[
-
-roundService.
-
-Handles progression between rounds, 
-and *kinda* acts like a game-state-y object.
-
-]]
-
-
-local ws = require("shared.worldService")
-
+function Context:canGoNextRound()
+    local ent = self.ownerEnt
+    local pipeline = ent.plot.pipeline
+    -- we can only progress to the next round if the pipeline is empty.
+    return pipeline:isEmpty()
+end
 
 
 umg.definePacket("lootplot.main:nextRound", {
@@ -107,7 +83,7 @@ umg.definePacket("lootplot.main:nextRound", {
 
 if server then
 
-local function resetFields(self)
+local function nextLevel(self)
     -- reset points:
     self.round = 0
     self.points = 0
@@ -115,18 +91,18 @@ local function resetFields(self)
     -- to the loot-monster maybe?
     self.level = self.level + 1
     self.requiredPoints = 0
-    self:syncAll()
 end
 
 
-local function lose()
+local function lose(self)
     -- todo; prolly need to send some message to client-side,
     -- and make the client open up some widget or something displaying:
     -- "YOU LOST".
+    umg.melt("lost game!")
 end
 
 
-local function nextRound()
+local function nextRound(self)
     -- Progresses to next round.
     assert(server,"wot wot")
 
@@ -143,37 +119,30 @@ local function nextRound()
     -- TODO: Give reward-money at end of round
 
     self.round = self.round + 1
-    
     umg.call("lootplot.main:finishRound")
 
-    if ws.get("points") > ws.get("requiredPoints") then
+    if self.points >= self.requiredPoints then
         -- win condition!!
         nextLevel(self)
-    end
-    if self.round >= lp.main.constants.ROUNDS_PER_LEVEL then
+    elseif self.round >= lp.main.constants.ROUNDS_PER_LEVEL then
         -- lose!
         lose(self)
     end
+    self:sync()
 end
 
 -- Just trust the client :shrug:
-server.on("lootplot.main:nextRound", nextRound)
+server.on("lootplot.main:nextRound", function()
+    nextRound(lp.main.getContext())
+end)
 
 else
 
-function requestNextRound()
+function Context:goNextRound()
     client.send("lootplot.main:nextRound")
 end
 
 end
-
-
-
-
-
-
-
-
 
 
 
@@ -187,22 +156,27 @@ points are shared between all players.
 money is also shared between all players.
 
 ]]
+local getCtx = lp.main.getContext
 if server then
 function lp.overrides.setPoints(ent, x)
-    currentContext.points = x
-    currentContext:syncValue("points")
+    local ctx = getCtx()
+    ctx.points = x
+    ctx:syncValue("points")
 end
 function lp.overrides.setMoney(ent, x)
-    currentContext.money = x
-    currentContext:syncValue("money")
+    local ctx = getCtx()
+    ctx.money = x
+    ctx:syncValue("money")
 end
 end
 
 function lp.overrides.getPoints(ent)
-    return currentContext.points
+    local ctx = getCtx()
+    return ctx.points
 end
 function lp.overrides.getMoney(ent)
-    return currentContext.money
+    local ctx = getCtx()
+    return ctx.money
 end
 
 

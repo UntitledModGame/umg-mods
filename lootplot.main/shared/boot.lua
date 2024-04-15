@@ -5,7 +5,6 @@ local Context = require("shared.Context")
 
 umg.defineEntityType("lootplot.main:world", {})
 
-local constants = require("shared.constants")
 
 local function createWorld()
     local wEnt = server.entities.world()
@@ -14,8 +13,8 @@ local function createWorld()
 
     wEnt.plot = lp.Plot(
         wEnt, 
-        constants.WORLD_PLOT_SIZE, 
-        constants.WORLD_PLOT_SIZE
+        lp.main.constants.WORLD_PLOT_SIZE, 
+        lp.main.constants.WORLD_PLOT_SIZE
     )
 
     -- the reason we save Context inside an entity,

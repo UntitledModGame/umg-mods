@@ -43,3 +43,8 @@ function Pipeline:tick()
     end
 end
 
+
+function Pipeline:isEmpty()
+    return self.buffer:size() == 0
+end
+

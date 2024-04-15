@@ -8,10 +8,10 @@ function Scene:init(args)
     self:makeRoot()
     self:setPassthrough(true)
 
-    self.progressBar = ui.elements.MonsterBar({
+    self.monsterBar = ui.elements.MonsterBar({
         getProgress = function()
-            local game = lp.getContext()
-            return math.clamp(game.points / game.requiredPoints, 0,1)
+            local ctx = lp.main.getContext()
+            return math.clamp(ctx.points / ctx.requiredPoints, 0,1)
         end
     })
     self.startButton = ui.elements.Button({
@@ -19,7 +19,7 @@ function Scene:init(args)
         onClick = function()
         end
     })
-    self:addChild(self.progressBar)
+    self:addChild(self.monsterBar)
     self:addChild(self.startButton)
 end
 
@@ -31,10 +31,10 @@ function Scene:onRender(x,y,w,h)
     local r = ui.Region(x,y,w,h)
 
     local header, _main = r:splitVertical(0.15, 0.85)
-    local startRound, _, progressBar = header:splitHorizontal(0.2, 0.05, 0.8)
+    local startRound, _, monsterBar = header:splitHorizontal(0.2, 0.05, 0.8)
 
     self.startButton:render(startRound:get())
-    self.progressBar:render(progressBar:get())
+    self.monsterBar:render(monsterBar:get())
 end
 
 
