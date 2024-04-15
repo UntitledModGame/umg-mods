@@ -3,6 +3,8 @@
     lootplot.main does not do any global exports;
         but rather, exports a `main` table to the existing `lp` namespace.
 ]]
+
+-- selene: allow(incorrect_standard_library_use)
 lp.main = {}
 
 

@@ -1,0 +1,71 @@
+
+local Context = require("shared.Context")
+
+
+
+umg.defineEntityType("lootplot.main:world", {})
+
+local constants = require("shared.constants")
+
+local function createWorld()
+    local wEnt = server.entities.world()
+    wEnt.x = 0
+    wEnt.y = 0
+
+    wEnt.plot = lp.Plot(
+        wEnt, 
+        constants.WORLD_PLOT_SIZE, 
+        constants.WORLD_PLOT_SIZE
+    )
+
+    -- the reason we save Context inside an entity,
+    -- is because if we go to save the world, the world-data will be
+    -- saved alongside the world-entity.
+    wEnt.lootplotContext = Context(wEnt)
+    return wEnt
+end
+
+
+--[[
+==============================
+    World-generation code:
+==============================
+]]
+local function addBaseSlots(plot)
+    -- adds basic slots to be overridden
+    local grid = plot.grid
+    grid:foreachInArea(8,11, 3,6, function(val, x,y)
+        local i = grid:coordsToIndex(x,y)
+        local ppos = lp.PPos({slot=i, plot=plot})
+
+        local basicSlot = server.entities.slot()
+        lp.setSlot(ppos, basicSlot)
+    end)
+end
+local function addShopSlots(plot)
+    local grid = plot.grid
+    grid:foreachInArea(3,6, 3,6, function(val, x,y)
+        local i = grid:coordsToIndex(x,y)
+        local ppos = lp.PPos({slot=i, plot=plot})
+
+        local basicSlot = server.entities.slot()
+        lp.setSlot(ppos, basicSlot)
+    end)
+end
+
+
+
+umg.on("@createWorld", function()
+    local ent = createWorld()
+    addBaseSlots(ent.plot)
+    addShopSlots(ent.plot)
+end)
+
+
+
+umg.on("@playerJoin", function(clientId)
+    local p = server.entities.player(clientId)
+    p.x,p.y = 200, 100
+    p.moveX, p.moveY = 0,0
+end)
+

@@ -19,14 +19,15 @@ umg.definePacket("lootplot.main:nextRound", {
 
 if server then
 
-local function nextLevel()
+local function resetFields(self)
     -- reset points:
-    ws.set("round", 0)
-    ws.set("points", 0)
+    self.round = 0
+    self.points = 0
     -- TODO: Some visual-update should be done here, 
     -- to the loot-monster maybe?
-    ws.set("level", ws.get("level") + 1)
-    ws.set("requiredPoints", 0)
+    self.level = self.level + 1
+    self.requiredPoints = 0
+    self:syncAll()
 end
 
 
@@ -53,18 +54,17 @@ local function nextRound()
 
     -- TODO: Give reward-money at end of round
 
-    local round1 = ws.get("round") + 1
-    ws.set("round", round1)
+    self.round = self.round + 1
     
     umg.call("lootplot.main:finishRound")
 
     if ws.get("points") > ws.get("requiredPoints") then
         -- win condition!!
-        nextLevel()
+        nextLevel(self)
     end
-    if round1 >= lp.main.constants.ROUNDS_PER_LEVEL then
+    if self.round >= lp.main.constants.ROUNDS_PER_LEVEL then
         -- lose!
-        lose()
+        lose(self)
     end
 end
 
