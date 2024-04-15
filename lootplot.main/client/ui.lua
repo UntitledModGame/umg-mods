@@ -26,10 +26,10 @@ end
 function Scene:onRender(x,y,w,h)
     local r = ui.Region(x,y,w,h)
 
-    local header, _main = r:splitVertical(0.15, 0.85)
+    local header, _main = r:splitVertical(0.2, 0.8)
     local startRound, _, monsterBar = header:splitHorizontal(0.2, 0.05, 0.8)
 
-    self.nextRoundButton:render(startRound:get())
+    self.nextRoundButton:render(startRound:pad(0.15):get())
     self.monsterBar:render(monsterBar:get())
 end
 
