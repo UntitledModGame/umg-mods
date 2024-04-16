@@ -22,7 +22,7 @@ function NextRoundbutton:init(args)
     self:addChild(self.box)
 
     self.text = ui.elements.Text({
-        text = "Next"
+        text = "Ready"
     })
     self:addChild(self.text)
 end
