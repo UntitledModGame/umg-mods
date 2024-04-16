@@ -16,7 +16,7 @@ local currentContext = nil
 local lpWorldGroup = umg.group("lootplotContext")
 lpWorldGroup:onAdded(function(ent)
     if not currentContext then
-        currentContext = ent.context
+        currentContext = ent.lootplotContext
     else
         -- TODO: change this to a log, as opposed to a print
         print("WARNING::: Duplicate lootplot.main context created!!")
@@ -24,6 +24,7 @@ lpWorldGroup:onAdded(function(ent)
 end)
 
 function main.getContext()
+    assert(currentContext, "No context???")
     return currentContext
 end
 end

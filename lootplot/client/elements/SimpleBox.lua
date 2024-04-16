@@ -1,6 +1,8 @@
 
 --[[
-    A simple colored-box element
+    A simple colored-box element.
+
+    The width of this box scales with respect to
 ]]
 
 local SimpleBox = ui.Element("lootplot:SimpleBox")
@@ -11,7 +13,7 @@ local lg=love.graphics
 function SimpleBox:init(args)
     typecheck.assertKeys(args, {"color"})
     self.color = objects.Color(args.color)
-    self.thickness = 4 -- thickness of corner
+    self.thickness = 2 -- thickness of corner
     self.rounding = args.rounding or 0
 end
 
@@ -36,10 +38,9 @@ local function rect(x,y,w,h, rx,ry, hasRounding)
 end
 
 function SimpleBox:onRender(x,y,w,h)
-    local t = self.thickness
+    local t = math.floor(self.thickness * lg.getWidth()/500)
     local t2 = t*2
     local t4 = t*4
-
 
     local r = self.rounding
     local hasRounding = (r > 0)
