@@ -345,6 +345,24 @@ function lp.addAugment(ent, augment, val)
 end
 
 
+
+
+
+local strTabTc = typecheck.assert("string", "table")
+
+function lp.defineItem(name, itemType)
+    strTabTc(name, itemType)
+    umg.defineEntityType(name, itemType)
+end
+
+function lp.defineSlot(name, slotType)
+    strTabTc(name, slotType)
+    umg.defineEntityType(name, slotType)
+end
+
+
+
+
 umg.expose("lp", lp)
 
 return lp

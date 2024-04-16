@@ -47,8 +47,6 @@ since the shop would just be a regular inventory, with reroll+buyable slots.
 
 - Round end: kill all the items around this entity
 
-- On reroll: Reduce all prices by 1
-
 - End of round: Multiply shop prices by -1. Then, destroy this item.
 
 - Gear: When rotated, rotate all touching items.

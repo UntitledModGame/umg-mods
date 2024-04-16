@@ -3,7 +3,6 @@
 # Events:
 What events should we have?
 
-- ent is rerolled
 - ent swaps positions
 - ent is rotated
 
@@ -26,6 +25,5 @@ What events should we have?
 - round starts
 - round ends
 
-- reroll button is clicked
 
 
