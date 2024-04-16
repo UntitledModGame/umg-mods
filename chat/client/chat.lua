@@ -24,7 +24,7 @@ local CHAT_WRAP_WIDTH = 300
 
 local TARGET_CHAT_HEIGHT = 6 -- This number is actually quite arbitrary
 
-
+local lg=love.graphics
 
 
 
@@ -54,11 +54,11 @@ end)
 local HEIGHT_TEST_CHARS = "abc"
 
 
-local curFont = love.graphics.getFont()
-local curFontHeight = love.graphics.getFont():getHeight(HEIGHT_TEST_CHARS)
+local curFont = lg.getFont()
+local curFontHeight = lg.getFont():getHeight(HEIGHT_TEST_CHARS)
 local curTime = love.timer.getTime()
 local curHeight = CHATBOX_HEIGHT
-local curScreenHeight = love.graphics.getHeight()
+local curScreenHeight = lg.getHeight()
 local curChatScale = TARGET_CHAT_HEIGHT / curFontHeight
 
 
@@ -69,11 +69,11 @@ local isTyping = false
 local function drawCursor(opacity)
     local x = CHATBOX_START_X + curFont:getWidth(currMessage) * curChatScale
     local y = curScreenHeight - curHeight
-    love.graphics.push("all")
+    lg.push("all")
     opacity = math.floor(opacity + 0.65)
-    love.graphics.setColor(0,0,0,opacity)
-    love.graphics.rectangle("fill", x, y, 4, 10)
-    love.graphics.pop()
+    lg.setColor(0,0,0,opacity)
+    lg.rectangle("fill", x, y, 4, 10)
+    lg.pop()
 end
 
 
@@ -87,10 +87,10 @@ local function drawMessage(msg, opacity)
     local newlines = #wrappedtxt
     curHeight = curHeight + ((newlines * (curFontHeight)) + MESSAGE_SEP) * scale
     local y = curScreenHeight - curHeight
-    love.graphics.setColor(0.1,0.1,0.1,opacity)
-    love.graphics.printf(msg, CHATBOX_START_X - BACKDROP_SEP, y - BACKDROP_SEP, wrapWidth, "left", 0, scale,scale)    
-    love.graphics.setColor(1,1,1,opacity)
-    love.graphics.printf(msg, CHATBOX_START_X, y, wrapWidth, "left", 0, scale,scale)
+    lg.setColor(0.1,0.1,0.1,opacity)
+    lg.printf(msg, CHATBOX_START_X - BACKDROP_SEP, y - BACKDROP_SEP, wrapWidth, "left", 0, scale,scale)    
+    lg.setColor(1,1,1,opacity)
+    lg.printf(msg, CHATBOX_START_X, y, wrapWidth, "left", 0, scale,scale)
 end
 
 
@@ -119,10 +119,10 @@ umg.on("rendering:drawUI", function()
         draw the chat:
     ]]
     curTime = love.timer.getTime()
-    curFont = love.graphics.getFont()
-    curFontHeight = love.graphics.getFont():getHeight(HEIGHT_TEST_CHARS)
+    curFont = lg.getFont()
+    curFontHeight = lg.getFont():getHeight(HEIGHT_TEST_CHARS)
     curHeight = CHATBOX_HEIGHT
-    curScreenHeight = love.graphics.getHeight()
+    curScreenHeight = lg.getHeight()
     --[[
         TODO: Scale the chat somehow.
 
@@ -130,7 +130,7 @@ umg.on("rendering:drawUI", function()
     ]]
     curChatScale = TARGET_CHAT_HEIGHT / curFontHeight
 
-    love.graphics.push("all")
+    lg.push("all")
     if isTyping then
         local opacity = (math.sin(curTime * 12) + 1) / 2
         drawMessage(currMessage, 1)
@@ -138,7 +138,7 @@ umg.on("rendering:drawUI", function()
     end
 
     chatHistory:foreach(iterMessage)
-    love.graphics.pop()
+    lg.pop()
 end)
 
 
@@ -179,7 +179,7 @@ local listener = input.InputListener({priority = 5})
 
 
 
-listener:onTextInput(function(t)
+listener:onTextInput(function(_self, t)
     if isTyping then
         currMessage = currMessage .. t
     end
@@ -218,27 +218,21 @@ local function inputTyping(controlEnum)
             currMessage = string.sub(currMessage, 1, byteoffset - 1)
         end
     elseif controlEnum == chatControls.CHAT then
-        isTyping = not isTyping
+        if #currMessage>0 then
+            chat.message(currMessage)
+            currMessage = ''
+        end
+        isTyping = false
     elseif controlEnum == "ui:EXIT" then
         isTyping = false
     end
 end
 
 
-local function inputNotTyping(controlEnum)
-    if controlEnum == chatControls.CHAT then
-        if isTyping then
-            if #currMessage>0 then
-                chat.message(currMessage)
-                currMessage = ''
-            end
-        end
-        isTyping = not isTyping
-    elseif controlEnum == chatControls.OPEN_COMMAND then
+local function inputNotTyping(cEnum)
+    if cEnum == chatControls.CHAT or cEnum == chatControls.OPEN_COMMAND then
         -- shorthand for typing commands
-        if not isTyping then
-            isTyping = true
-        end
+        isTyping = true
     end
 end
 
