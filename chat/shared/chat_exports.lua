@@ -15,6 +15,10 @@ else
 local chatCl = require("client.chat")
 chat.message = chatCl.message
 
+-- can override these if we want
+chat.ChatBox = require("client.ChatBox")
+chat.ChatMessage = require("client.ChatMessage")
+
 end
 
 

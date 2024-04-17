@@ -85,4 +85,15 @@ But we need a few things:
 
 
 
+# New Chat widget, to work with UI mod:
+Message --> represents a singular message  
+ChatBox --> represents the whole chat element.  
+
+`ChatBox` contains multiple `ChatMessage`s.
+
+Question:  
+How should `ChatMessage`s be created?  
+Perhaps we call `ChatBox:pushMessage(str)` or something....?
+Internally, this would create a `ChatMessage` object.
+
 

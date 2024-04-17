@@ -1,39 +1,21 @@
 
 
-
 local chat = {}
 
 
-local LinkedList = require("_libs.doubly_linked_list")
-
 local chatControls = require("client.chatControls")
-
 
 local constants = require("constants")
 
 
-local MAX_CHATHISTORY_SIZE = 300 -- After this many messages, messages begin to be deleted.
+local lg=love.graphics
 
-
-
-local chatHistory = LinkedList.new()
-
-
-local function newMessageObject(msg)
-    return {
-        message = msg;
-        time = love.timer.getTime()
-    }
-end
 
 
 
 client.on("chat:message", function(msg)
     -- TODO: Do colors and stuff here.
-    chatHistory:pushf(newMessageObject(msg))
-    if chatHistory:count() >= MAX_CHATHISTORY_SIZE then
-        chatHistory:popl()
-    end
+    chatBox:pushMessage(msg)
 end)
 
 
@@ -156,6 +138,21 @@ listener:onUpdate(function(self)
     if isTyping then
         self:lockTextInput()
     end
+end)
+
+
+
+umg.on("rendering:drawUI", function()
+    --[[
+        draw the chat:
+    ]]
+    lg.push("all")
+    chatBox:render(0,0,lg.getDimensions())
+    if isTyping then
+        drawMessage(currMessage, 1)
+        drawCursor()
+    end
+    lg.pop()
 end)
 
 
