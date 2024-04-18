@@ -154,11 +154,6 @@ function _M:range(from, to)
 end
 
 
---[[
-    OLI MONKEYPATCH:
-    foreach takes a function, that returns whether it should continue
-    each iteration.
-]]
 function _M:foreach(func, reverse)
     local step,idx,value
     if reverse then
@@ -171,9 +166,8 @@ function _M:foreach(func, reverse)
         value = self._first
     end
 
-    local continue = true
-    while value and continue do
-        continue = func(value, idx)
+    while value do
+        func(value, idx)
         idx = idx + step
         if reverse then
             value = self._prev[value]

@@ -96,4 +96,29 @@ How should `ChatMessage`s be created?
 Perhaps we call `ChatBox:pushMessage(str)` or something....?
 Internally, this would create a `ChatMessage` object.
 
+For when we are "typing", how should we handle this?
+We want to keep it as assumptionless/extensive as possible.  
+
+IDEA: We implement the ChatBox to render the currentMessage.
+This way, the `ChatBox` can render the currentmessage.
+In the future, this would allow us to do stuff like spellcheck,
+auto-complete, etc etc.
+
+we push each character to the buffer manually,
+and submit messages manually:
+```lua
+ChatBox:inputCharacter(char)
+
+ChatBox:submitMessage() -- submits message (client presses `enter`)
+
+ChatBox:openChat() -- opens chat (client presses `enter`)
+ChatBox:closeChat() -- opens chat (client presses `enter`)
+
+ChatBox:isChatOpen() -- checks whether box is open (or not)
+```
+
+
+
+
+
 

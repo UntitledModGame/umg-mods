@@ -5,9 +5,6 @@ local ChatBox = ui.Element("chat:ChatBox")
 local LinkedList = require("_libs.doubly_linked_list")
 
 
-local MESSAGE_DECAY_TIME = 5 -- after X seconds, messages will start to fade.
-local MESSAGE_FADE_TIME = 0.5 -- how long it takes for msgs to fade.
-
 
 local lg=love.graphics
 
@@ -15,17 +12,18 @@ local lg=love.graphics
 
 function ChatBox:init()
     self.maxMessages = 20
+
+    self.currentMessage = ""
+    
+    self.isChatOpen = false
+
     self.heightRatio = 0.5 
     -- should take up this percentage of the screen, vertically
 
-    self.MAX_CHATHISTORY_SIZE = 300 -- After this many messages, messages begin to be deleted.
-    
     self.messages = LinkedList.new()
 end
 
 
-
-local HEIGHT_TEST_CHARS = "abc"
 
 
 local function drawCursor(x,y,w,h)
@@ -39,33 +37,57 @@ end
 
 
 
-local function iterMessage(messageObj, region)
-    local dt = item - messageObj.time
-    if dt > MESSAGE_DECAY_TIME then
-        if dt > (MESSAGE_DECAY_TIME + MESSAGE_FADE_TIME) then
-            return false -- no more messages to be drawn.
-            -- break iteration.
-        else
-            -- this message is fading:
-            drawMessage(messageObj.message, 1-(dt-MESSAGE_DECAY_TIME)/MESSAGE_FADE_TIME)
-            return true -- continue iter
-        end
-    else -- draw message at full opacity
-        drawMessage(messageObj.message, 1)
-        return true -- continue iter
+function ChatBox:inputText(txt)
+    self.currentMessage = self.currentMessage .. txt
+end
+
+function ChatBox:deleteText(numChars)
+    numChars = numChars or 1
+    local len = #self.currentMessage
+    self.currentMessage = self.currentMessage:sub(1, len-numChars)
+end
+
+
+function ChatBox:submitMessage()
+    if #self.currentMessage <= 0 then
+        return
+    end
+    chat.message(self.currentMessage)
+    self.currentMessage = ""
+    self:closeChat()
+end
+
+
+function ChatBox:openChat()
+    self.isChatOpen = true
+end
+function ChatBox:closeChat()
+    self.isChatOpen = false
+end
+
+
+function ChatBox:isChatOpen()
+    -- checks whether box is open (or not)
+end
+
+
+function ChatBox:pushMessage(str)
+    self.messages:pushf(ui.ChatMessage({
+        message = str
+    }))
+    if self.messages:count() >= chat.constants.MESSAGE_HISTORY_SIZE then
+        self.messages:popl()
     end
 end
 
 
 
 
-
-function ChatBox:pushMessage(str)
-    self.messages:pushf(ChatMessage({
-        message = str
-    }))
-    if self.messages:count() >= self.MAX_CHATHISTORY_SIZE then
-        self.messages:popl()
+local function iterMessage(chatMsg, region)
+    if chatMsg:isDone() then
+        return false -- no more messages to be drawn.
+    else -- draw message at full opacity
+        chatMsg:render(region:get())
     end
 end
 
@@ -77,9 +99,12 @@ function ChatBox:onRender(x,y,w,h)
 
     local regions = r:grid(1,self.maxMessages)
 
-    for i=#regions,1,-1 do
-        local obj = regions[i]
-    end
+    self.messages:foreach(function(chatMsg, i)
+        local reg = regions[i]
+        if reg then
+            chatMsg:render(reg:get())
+        end
+    end)
 end
 
 return ChatBox

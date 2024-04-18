@@ -142,16 +142,22 @@ end)
 
 
 
+umg.on("@load", function()
+    local chatBox = ui.ChatBox()
+end)
+
+
 umg.on("rendering:drawUI", function()
     --[[
         draw the chat:
     ]]
     lg.push("all")
-    chatBox:render(0,0,lg.getDimensions())
     if isTyping then
-        drawMessage(currMessage, 1)
-        drawCursor()
+        chatBox:setChatOpen(true)
+    else
+        chatBox:setChatOpen(false)
     end
+    chatBox:render(0,0,lg.getDimensions())
     lg.pop()
 end)
 
