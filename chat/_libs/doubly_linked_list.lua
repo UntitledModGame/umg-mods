@@ -179,6 +179,38 @@ end
 
 
 
+
+--[[
+    OLI_MONKEYPATCH:
+    Returning true from `func` will break the loop
+]]
+function _M:foreachWithBreak(func, reverse)
+    local step,idx,value
+    if reverse then
+        step = -1
+        idx = self._count
+        value = self._last
+    else
+        step = 1
+        idx = 1
+        value = self._first
+    end
+
+    while value do
+        local shouldBreak = func(value, idx)
+        if shouldBreak then
+            return
+        end
+        idx = idx + step
+        if reverse then
+            value = self._prev[value]
+        else            
+            value = self._next[value]
+        end
+    end
+end
+
+
 -- return nil for walk
 local function _return_nil()
 end

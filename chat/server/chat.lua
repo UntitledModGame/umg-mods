@@ -43,13 +43,10 @@ server.on("chat:message", function(sender, message, channel)
     if commandChars[message:sub(1,1)] then
         return  -- nope!
     end
-    if not channel then
-        -- TODO: Do colored names here
-        local msg = "[" .. sender .. "]" .. " " .. message
-        server.broadcast("chat:message", msg)
-    else
-        print("TODO: Do chat message channels")
-    end
+
+    -- TODO: Do colored names here
+    local msg = "[" .. sender .. "]" .. " " .. message
+    server.broadcast("chat:message", msg, channel)
 end)
 
 

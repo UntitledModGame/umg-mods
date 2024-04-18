@@ -13,17 +13,20 @@ local lg=love.graphics
 
 
 
-client.on("chat:message", function(msg)
-    -- TODO: Do colors and stuff here.
-    chatBox:pushMessage(msg)
+local chatBox
+
+umg.on("@load", function()
+    chatBox = ui.elements.ChatBox()
 end)
 
 
 
-local currMessage = ""
-local isTyping = false
 
-
+client.on("chat:message", function(msg)
+    -- TODO: Do colors and stuff here.
+    print("CHAT MSG: ", msg)
+    chatBox:pushMessage(msg)
+end)
 
 
 
@@ -64,8 +67,8 @@ local listener = input.InputListener({priority = 5})
 
 
 listener:onTextInput(function(_self, t)
-    if isTyping then
-        currMessage = currMessage .. t
+    if chatBox:isChatOpen() then
+        chatBox:inputText(t)
     end
 end)
 
@@ -94,29 +97,18 @@ end
 
 local function inputTyping(controlEnum)
     if controlEnum == chatControls.BACKSPACE then
-        -- get the byte offset to the last UTF-8 character in the string.
-        local byteoffset = utf8.offset(currMessage, -1)
-        if byteoffset then
-            -- remove the last UTF-8 character.
-            -- string.sub operates on bytes rather than UTF-8 characters, so we couldn't do string.sub(text, 1, -2).
-            currMessage = string.sub(currMessage, 1, byteoffset - 1)
-        end
+        chatBox:deleteText(1)
     elseif controlEnum == chatControls.CHAT then
-        if #currMessage>0 then
-            chat.message(currMessage)
-            currMessage = ''
-        end
-        isTyping = false
+        chatBox:submitMessage()
     elseif controlEnum == "ui:EXIT" then
-        isTyping = false
+        chatBox:closeChat()
     end
 end
 
 
 local function inputNotTyping(cEnum)
     if cEnum == chatControls.CHAT or cEnum == chatControls.OPEN_COMMAND then
-        -- shorthand for typing commands
-        isTyping = true
+        chatBox:openChat()
     end
 end
 
@@ -125,7 +117,7 @@ listener:onAnyPressed(function(_self, controlEnum)
     --[[
         TODO: Do we need to do blocking here???
     ]]
-    if isTyping then
+    if chatBox:isChatOpen() then
         inputTyping(controlEnum)
     else
         inputNotTyping(controlEnum)
@@ -135,15 +127,9 @@ end)
 
 
 listener:onUpdate(function(self)
-    if isTyping then
+    if chatBox and chatBox:isChatOpen() then
         self:lockTextInput()
     end
-end)
-
-
-
-umg.on("@load", function()
-    local chatBox = ui.ChatBox()
 end)
 
 
@@ -152,11 +138,6 @@ umg.on("rendering:drawUI", function()
         draw the chat:
     ]]
     lg.push("all")
-    if isTyping then
-        chatBox:setChatOpen(true)
-    else
-        chatBox:setChatOpen(false)
-    end
     chatBox:render(0,0,lg.getDimensions())
     lg.pop()
 end)

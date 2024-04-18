@@ -39,6 +39,16 @@ function Array:clear()
 end
 
 
+function Array:reverse()
+    -- reverses the array in-place
+    local n = self:size()
+    local mid = math.floor(n / 2)
+    for i = 1, mid do
+        self[i], self[n - i + 1] = self[n - i + 1], self[i]
+    end
+    return self
+end
+
 
 -- Returns the size of the array
 function Array:size()
