@@ -64,12 +64,6 @@ end
 
 
 
-lp.options = require("shared.options")
-
-
-
-
-
 --[[
     everything in this table must be overridden
     by some playable lootplot mod.
@@ -366,6 +360,7 @@ end
 
 lp.constants = {
     WORLD_SLOT_DISTANCE = 26, -- distance slots are apart in the world.
+    PIPELINE_DELAY = 0.2
 }
 
 

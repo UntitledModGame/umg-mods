@@ -81,8 +81,11 @@ function Plot:buffer(fn, ...)
     --[[
         runs a function within a plot, buffered.
     ]]
+    error([[
+        TODO: remove the delay from the pipeline
+    ]])
     local delay = umg.ask("lootplot:getPipelineDelay", self) or 0
-    delay = delay + lp.options.PIPELINE_DELAY
+    delay = delay + lp.constants.PIPELINE_DELAY
     local mult = umg.ask("lootplot:getPipelineDelayMultiplier", self)
     self.pipeline:push(fn, delay*mult, ...)
 end
