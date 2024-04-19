@@ -23,6 +23,11 @@ local function getPPos(clientId)
 end
 
 
+local function invalidEntityType(clientId, etype)
+    chat.privateMessage(clientId, "Invalid entity type: " .. tostring(etype))
+end
+
+
 chat.handleCommand("spawnItem", {
     adminLevel = 120,
     arguments = {
@@ -34,6 +39,10 @@ chat.handleCommand("spawnItem", {
         end
 
         local ctor = server.entities[etype]
+        if not ctor then
+            invalidEntityType(clientId, etype)
+            return
+        end
         local ppos = getPPos(clientId)
         local slotEnt = lp.posToSlot(ppos)
         if slotEnt then
@@ -57,6 +66,10 @@ chat.handleCommand("spawnSlot", {
         end
 
         local ctor = server.entities[etype]
+        if not ctor then
+            invalidEntityType(clientId, etype)
+            return
+        end
         local ppos = getPPos(clientId)
         local oldSlot = lp.posToSlot(ppos)
         if oldSlot then

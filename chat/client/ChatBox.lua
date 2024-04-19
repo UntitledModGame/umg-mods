@@ -61,11 +61,10 @@ end
 
 
 function ChatBox:submitMessage()
-    if #self.currentMessage <= 0 then
-        return
+    if #self.currentMessage > 0 then
+        chat.message(self.currentMessage)
+        self.currentMessage = ""
     end
-    chat.message(self.currentMessage)
-    self.currentMessage = ""
     self:closeChat()
 end
 
@@ -101,7 +100,7 @@ end
 
 local TEST_CHARS = "yb" -- need tall and short-chars for test
 
-function ChatBox:renderCurrentMessage(x,y,_w,h)
+function ChatBox:renderCurrentMessage(x,y,w,h)
     -- renders the message that is being typed
     local font = lg.getFont()
 
@@ -112,6 +111,8 @@ function ChatBox:renderCurrentMessage(x,y,_w,h)
     local t = love.timer.getTime()
     local msg = self.currentMessage .. (math.floor(t*2)%2==0 and "|" or "")
 
+    lg.setColor(0,0,0,1)
+    lg.rectangle("fill",x,y,w,h)
     lg.setColor(chat.constants.CHAT_MESSAGE_COLOR)
     lg.printf(msg, x, y, 10000, "left", 0, scale, scale)
 end

@@ -107,7 +107,7 @@ end
 
 
 local function inputNotTyping(cEnum)
-    if cEnum == chatControls.CHAT or cEnum == chatControls.OPEN_COMMAND then
+    if cEnum == chatControls.CHAT or cEnum == chatControls.COMMAND then
         chatBox:openChat()
     end
 end
