@@ -34,6 +34,7 @@ local VALUES = {
 function Context:init(ent)
     assert(umg.exists(ent), "Must pass an entity!")
     self.ownerEnt = ent
+    assert(ent.plot, "Needs a plot!")
 
     local constants = lp.main.constants
     self.money = constants.STARTING_MONEY
@@ -50,6 +51,12 @@ function Context:sync()
         self:syncValue(field)
     end
 end
+
+
+function Context:getPlot()
+    return self.ownerEnt.plot
+end
+
 
 
 function Context:syncValue(key)

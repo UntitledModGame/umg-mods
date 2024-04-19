@@ -137,7 +137,7 @@ function ChatBox:onRender(x,y,w,h)
         -- even if no messages are visible. Oh well!
         local reg = regions[i+1]
 
-        local opacity = 1 - (chatMsg:getLifetime()-DECAY_TIME)/FADE_TIME
+        local opacity = math.min(1, 1 - (chatMsg:getLifetime()-DECAY_TIME)/FADE_TIME)
         if self:isChatOpen() then
             -- if chat is open, messages are always visible
             opacity = 1

@@ -136,6 +136,52 @@ function Plot:foreachItem(func)
 end
 
 
+function Plot:pposToWorldCoords(ppos)
+    --[[
+        returns plot-position as a dimensionVector
+    ]]
+    local plotEnt = self.ownerEnt
+    assert(plotEnt.x and plotEnt.y, "Cannot get world position of a Plot when owner ent doesn't have x,y components")
+    local ix,iy = ppos:getCoords()
+    local slotDist = lp.constants.WORLD_SLOT_DISTANCE
+    local x = plotEnt.x + ix*slotDist
+    local y = plotEnt.y + iy*slotDist
+    return {
+        x = x, y = y,
+        dimension = plotEnt.dimension
+    }
+end
+
+
+
+local function round(x)
+    return math.floor(x+0.5)
+end
+
+function Plot:getClosestPPos(x,y)
+    --[[
+        gets the closest ppos to a (x,y) coord pair.
+        NOTE:
+        If the (x,y) coords is out of bounds, 
+        it will STILL return the closest match!
+    ]]
+    local plotEnt = self.ownerEnt
+    local slotDist = lp.constants.WORLD_SLOT_DISTANCE
+    local ix = round((x/slotDist) - plotEnt.x)
+    local iy = round((y/slotDist) - plotEnt.y)
+
+    local grid = self.grid
+    ix = math.clamp(ix, 0, grid.width-1)
+    iy = math.clamp(iy, 0, grid.height-1)
+
+    local i = grid:coordsToIndex(ix,iy)
+    return lp.PPos({
+        slot = i,
+        plot = self
+    })
+end
+
+
 
 return Plot
 

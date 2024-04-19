@@ -363,6 +363,15 @@ end
 
 
 
+
+lp.constants = {
+    WORLD_SLOT_DISTANCE = 26, -- distance slots are apart in the world.
+}
+
+
+
+
+
 umg.expose("lp", lp)
 
 return lp

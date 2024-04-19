@@ -81,3 +81,5 @@ globals:
   lp.options:
     any: true
 
+  lp.constants.WORLD_SLOT_DISTANCE:
+    property: read-only
