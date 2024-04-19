@@ -14,7 +14,9 @@ local worldPlotEnts = umg.group("plot", "x", "y")
 
 
 local function updateItem(itemEnt, slotEnt)
-    itemEnt.targetX, itemEnt.targetY = slotEnt.x, slotEnt.y
+    assert(slotEnt.x and slotEnt.y, "???")
+    itemEnt.targetX = slotEnt.x
+    itemEnt.targetY = slotEnt.y
 end
 
 
@@ -26,8 +28,8 @@ local function updateSlot(slotEnt, ppos)
         towards those values automatically via some other system:
         umg.group("targetX", "targetY")
     ]]
-    local pos = ppos:getWorldPos()
-    slotEnt.x, slotEnt.y = pos.x, pos.y
+    local dvec = ppos:getWorldPos()
+    slotEnt.x, slotEnt.y = dvec.x, dvec.y
 
     local item = lp.posToItem(ppos)
     if item then
@@ -46,4 +48,20 @@ umg.on("@tick", function(dt)
     end
 end)
 
+
+
+
+
+
+
+local targetEnts = umg.group("targetX", "targetY")
+
+umg.on("@tick", function(dt)
+    for _, ent in ipairs(targetEnts) do
+        -- TODO: 
+        -- Do lerping/spring behaviour in future.
+        ent.x = ent.targetX
+        ent.y = ent.targetY
+    end
+end)
 

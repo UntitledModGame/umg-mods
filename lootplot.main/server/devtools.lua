@@ -49,6 +49,8 @@ chat.handleCommand("spawnItem", {
             -- can
             local itemEnt = ctor()
             lp.attachItem(itemEnt, slotEnt)
+        else
+            chat.privateMessage(clientId, "Cannot spawn item; not over a slot.")
         end
     end
 })
@@ -79,4 +81,17 @@ chat.handleCommand("spawnSlot", {
         lp.setSlot(ppos, slotEnt)
     end
 })
+
+
+chat.handleCommand("spawnSlot", {
+    adminLevel = 120,
+    arguments = {},
+    handler = function()
+        if server then
+            local ctx = lp.main.getContext()
+            ctx:goNextRound()
+        end
+    end
+})
+
 

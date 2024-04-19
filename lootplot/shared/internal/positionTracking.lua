@@ -50,7 +50,7 @@ function ptrack.set(ent, ppos)
     posTc(ppos)
     positionRef[ent] = ppos
     if ent.item then
-        ptrack.set(ent, ppos)
+        ptrack.set(ent.item, ppos)
     end
 end
 
@@ -60,6 +60,9 @@ local function stillValid(ppos, ent)
     -- check if ppos is still valid for `ent`:
     -- (ppos will be valid if we can verify 
     --  that its still within the same slot.)
+    if not ppos then
+        return
+    end
     local slotEnt = lp.posToSlot(ppos)
     if slotEnt == ent then
         return true

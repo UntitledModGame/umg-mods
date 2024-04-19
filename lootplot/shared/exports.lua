@@ -352,7 +352,7 @@ local strTabTc = typecheck.assert("string", "table")
 
 function lp.defineItem(name, itemType)
     strTabTc(name, itemType)
-    umg.defineEntityType(name, itemType)
+    return umg.defineEntityType(name, itemType)
 end
 
 function lp.defineSlot(name, slotType)
