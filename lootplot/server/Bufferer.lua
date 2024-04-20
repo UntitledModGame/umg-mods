@@ -19,7 +19,17 @@ lp.Bufferer()
 
 ]]
 
+local CONVERSIONS = objects.Enum({
+    TO_ITEM = true,
+    TO_SLOT = true,
+})
+
 function Bufferer:init()
+    self.filters = objects.Array() -- Array<filterFunc>
+    self.positions = objects.Array()-- Array<PPos>
+    self.filters = objects.Array()-- Array<filterFunc>
+
+    self.conversion = false -- 
 end
 
 
