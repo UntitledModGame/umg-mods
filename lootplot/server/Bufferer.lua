@@ -34,36 +34,55 @@ function Bufferer:init()
     self.conversion = false -- no conversion; remain as ppos
 
     self._delay = DEFAULT_BUFFERER_DELAY
-    self.execution = objects.Array()
+    self.execution = false
 end
 
 
 
-local addTc = typecheck.assert("ppos")
+local posTc = typecheck.assert("ppos")
 
 function Bufferer:add(ppos)
-    addTc(ppos)
+    posTc(ppos)
     self.positions:add(ppos)
+    return self
 end
 
 function Bufferer:touching(ent)
     --TODO: wire this up with shape API
     local ppos = lp.getPos(ent)
     self:add(ppos)
+    return self
+end
+
+function Bufferer:all(plot_or_ppos)
+    assert(plot_or_ppos, "needs plot as arg")
+    local plot = plot_or_ppos
+    if plot_or_ppos.plot then
+        -- Q: WTF is this code???
+        -- Ans: It's converting ppos --> plot.
+        plot = plot_or_ppos.plot
+    end
+    plot:foreach(function(pos)
+        self:add(pos)
+    end)
+    return self
 end
 
 
 function Bufferer:items()
     self.conversion = CONVERSIONS.ITEM
+    return self
 end
 
 function Bufferer:slots()
     self.conversion = CONVERSIONS.SLOT
+    return self
 end
 
 
 function Bufferer:delay(x)
     self._delay = self._delay + x
+    return self
 end
 
 
@@ -87,16 +106,6 @@ I think the "only" real way we can implement this is by
 pushing a TONNE of functions to the pipeline, 
 and doing the filters in-place, within the functions.
     That is, IF we only push to the pipeline once...
-
-
-ALTERNATIVELY:
-----------
-What happens if we push to the pipeline multiple times?
-Ie; encapsulate each bufferer function as some `Instruction` object,
-And then, instructions will push the next instruction once they r done executing.
-Like a big linked-list.
-
-Do some thinking.
 ]]
 
 
@@ -115,6 +124,7 @@ local function step(self, ppos)
     end
 
     self.execution(ppos, val)
+
     if self._delay then
         lp.wait(ppos, self._delay)
     end
@@ -122,7 +132,8 @@ end
 
 
 local function finalize(self)
-    for i, ppos in ipairs(self.positions) do
+    for _i, ppos in ipairs(self.positions) do
+        -- this is quite inefficient! Oh well lol
         lp.buffer(ppos, function()
             step(self, ppos)
         end)
@@ -131,22 +142,23 @@ end
 
 
 
+local funcTc = typecheck.assert("function")
+
 function Bufferer:execute(func)
-    assert((not func) or type(func)=="function", "?")
+    funcTc(func)
+    assert(not self.execution, "wot? cant use a buffer twice bruv")
     self.execution = func
     finalize(self)
 end
 
 
-
-local funcTc = typecheck.assert("function")
-
 function Bufferer:filter(func)
     --[[
-        filter: function(ppos, itemEnt|slotEnt|nil) -> boolean
+        func: function(ppos, itemEnt|slotEnt|nil) -> boolean
     ]]
     funcTc(func)
     self.filters:add(func)
+    return self
 end
 
 

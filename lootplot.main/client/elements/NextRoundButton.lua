@@ -29,7 +29,7 @@ end
 
 
 
-function NextRoundbutton:onClick()
+function NextRoundbutton:onClickPrimary()
     local ctx = lp.main.getContext()
     if ctx:canGoNextRound() then
         ctx:goNextRound()

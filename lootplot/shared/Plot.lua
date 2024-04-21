@@ -10,6 +10,8 @@ the owner entity MUST reference plot by `ent.plot = Plot(...)`
 
 ]]
 
+local Pipeline = require("shared.Pipeline")
+
 local Plot = objects.Class("lootplot:Plot")
 
 
@@ -21,7 +23,7 @@ function Plot:init(ownerEnt, width, height)
 
     ownerEnt.plot = self
 
-    self.pipeline = lp.Pipeline()
+    self.pipeline = Pipeline()
 
     self.ownerEnt = ownerEnt
     self.grid = objects.Grid(width,height)
@@ -81,13 +83,7 @@ function Plot:buffer(fn, ...)
     --[[
         runs a function within a plot, buffered.
     ]]
-    error([[
-        TODO: remove the delay from the pipeline
-    ]])
-    local delay = umg.ask("lootplot:getPipelineDelay", self) or 0
-    delay = delay + lp.constants.PIPELINE_DELAY
-    local mult = umg.ask("lootplot:getPipelineDelayMultiplier", self)
-    self.pipeline:push(fn, delay*mult, ...)
+    self.pipeline:push(fn, ...)
 end
 
 

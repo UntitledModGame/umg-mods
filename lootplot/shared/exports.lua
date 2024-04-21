@@ -13,12 +13,13 @@ local lp = {}
 
 
 
+if server then
 local bufferTc = typecheck.assert("ppos", "function")
 function lp.buffer(ppos, func)
     --[[
         basic action-buffering, with 0 arguments for function.
     ]]
-    bufferTc(ppos)
+    bufferTc(ppos, func)
     ppos.plot:buffer(func)
 end
 
@@ -28,13 +29,14 @@ function lp.wait(ppos, time)
     ppos.plot:wait(time)
 end
 
+lp.Bufferer = require("server.Bufferer")
+end
 
 
 
 lp.PPos = require("shared.PPos")
 
 lp.Plot = require("shared.Plot")
-lp.Pipeline = require("shared.Pipeline")
 
 
 lp.posTc = typecheck.assert("ppos")

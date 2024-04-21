@@ -18,18 +18,18 @@ function Pipeline:init()
 end
 
 
-function Pipeline:push(fn, delay, ...)
+function Pipeline:push(fn, ...)
     self.buffer:add({
         func = fn,
         args = {...},
-        delay = delay or 0
     })
 end
 
 
 function Pipeline:wait(delay)
-    local time = umg.getWorldTime()
-    self.nextExecuteTime = time + delay
+    self.buffer:add({
+        delay = delay
+    })
 end
 
 
@@ -38,8 +38,12 @@ function Pipeline:tick()
     
     if time > self.nextExecuteTime then
         local obj = self.buffer:pop()
-        obj.func(unpack(obj.args))
-        self:wait(obj.delay)
+        if obj.func then
+            obj.func(unpack(obj.args))
+        end
+        if obj.delay then
+            self.nextExecuteTime = self.nextExecuteTime + obj.delay
+        end
     end
 end
 

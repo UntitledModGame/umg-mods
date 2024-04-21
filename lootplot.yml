@@ -84,7 +84,7 @@ globals:
 
   lp.Plot:
     any: true
-  lp.Pipeline:
+  lp.Bufferer:
     any: true
 
   lp.options:
