@@ -278,10 +278,13 @@ end
 
 
 function lp.activate(ent)
-    --[[
-        todo:
-        this should almost definitely be an RPC
-    ]]
+    if ent.onActivate then
+        ent:onActivate()
+    end
+    umg.call("lootplot:entityActivated", ent)
+    if ent.item then
+        lp.activate(ent.item)
+    end
 end
 
 
@@ -323,12 +326,22 @@ function lp.rerollItem(slotEnt_or_ppos)
 end
 
 function lp.trySpawnItem(ppos, itemEType)
-    local slotEnt = lp.posToItem(ppos)
-    if slotEnt then
+    local slotEnt = lp.posToSlot(ppos)
+    local preItem = lp.posToItem(ppos)
+    if slotEnt and (not preItem) then
         local itemEnt = lp.spawn(itemEType)
         lp.attachItem(itemEnt, slotEnt)
         return itemEnt
     end
+end
+
+function lp.forceSpawnItem(ppos, itemEType)
+    
+end
+
+
+function lp.spawn(itemEType)
+    return itemEType()
 end
 
 

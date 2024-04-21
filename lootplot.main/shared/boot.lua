@@ -39,6 +39,7 @@ local function addBaseSlots(plot)
 
         local basicSlot = server.entities.slot()
         lp.setSlot(ppos, basicSlot)
+        lp.trySpawnItem(ppos, server.entities.bb)
     end)
 end
 local function addShopSlots(plot)
@@ -66,5 +67,16 @@ umg.on("@playerJoin", function(clientId)
     local p = server.entities.player(clientId)
     p.x,p.y = 200, 100
     p.moveX, p.moveY = 0,0
+end)
+
+
+
+umg.on("@tick", function()
+    if server then
+        if lp.main.isReady() then
+            local ctx = lp.main.getContext()
+            ctx:sync()
+        end
+    end
 end)
 

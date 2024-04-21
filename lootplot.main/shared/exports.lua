@@ -23,15 +23,19 @@ lpWorldGroup:onAdded(function(ent)
     end
 end)
 
+function main.isReady()
+    return currentContext
+end
+
 function main.getContext()
-    assert(currentContext, "No context???")
+    assert(main.isReady(), "Not ready yet! (Check using lp.main.isReady() )")
     return currentContext
 end
 end
 
 
 
-main.constants = {
+main.constants = setmetatable({
     --[[
         feel free to override any of these.
         Access via `lootplot.main.constants`
@@ -40,8 +44,9 @@ main.constants = {
 
     STARTING_MONEY = 10,
     STARTING_POINTS = 0,
+    STARTING_ROUND = 0,
     STARTING_LEVEL = 0,
 
     ROUNDS_PER_LEVEL = 4
-}
+},{__index=function(msg,k,v) error("undefined const: " .. tostring(k)) end})
 

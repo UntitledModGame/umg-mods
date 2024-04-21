@@ -69,7 +69,7 @@ end
 
 if client then
     client.on("lootplot.main:syncContextValue", function(ent, field, val)
-        ent.context[field] = val
+        ent.lootplotContext[field] = val
     end)
 end
 
