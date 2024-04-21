@@ -76,6 +76,7 @@ umg.on("@tick", function()
         if lp.main.isReady() then
             local ctx = lp.main.getContext()
             ctx:sync()
+            ctx:tick()
         end
     end
 end)

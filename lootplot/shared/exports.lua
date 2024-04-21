@@ -329,19 +329,16 @@ function lp.trySpawnItem(ppos, itemEType)
     local slotEnt = lp.posToSlot(ppos)
     local preItem = lp.posToItem(ppos)
     if slotEnt and (not preItem) then
-        local itemEnt = lp.spawn(itemEType)
-        lp.attachItem(itemEnt, slotEnt)
-        return itemEnt
+        lp.forceSpawnItem(ppos, itemEType)
     end
 end
 
 function lp.forceSpawnItem(ppos, itemEType)
-    
-end
-
-
-function lp.spawn(itemEType)
-    return itemEType()
+    local slotEnt = lp.posToSlot(ppos)
+    assert(slotEnt, "forceSpawnItem requires a slot!")
+    local itemEnt = itemEType()
+    lp.attachItem(itemEnt, slotEnt)
+    return itemEnt
 end
 
 

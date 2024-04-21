@@ -52,6 +52,11 @@ function Context:sync()
     end
 end
 
+function Context:tick()
+    local plot = self:getPlot()
+    plot:tick()
+end
+
 
 function Context:getPlot()
     return self.ownerEnt.plot

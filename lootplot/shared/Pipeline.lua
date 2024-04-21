@@ -33,16 +33,22 @@ function Pipeline:wait(delay)
 end
 
 
+local function pollObj(self, obj)
+    if obj.func then
+        obj.func(unpack(obj.args))
+    end
+    if obj.delay then
+        self.nextExecuteTime = self.nextExecuteTime + obj.delay
+    end
+end
+
 function Pipeline:tick()
     local time = umg.getWorldTime()
     
     if time > self.nextExecuteTime then
         local obj = self.buffer:pop()
-        if obj.func then
-            obj.func(unpack(obj.args))
-        end
-        if obj.delay then
-            self.nextExecuteTime = self.nextExecuteTime + obj.delay
+        if obj then
+            pollObj(self, obj)
         end
     end
 end

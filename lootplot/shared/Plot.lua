@@ -95,7 +95,7 @@ end
 
 
 function Plot:tick()
-    self.pipeline:step()
+    self.pipeline:tick()
 end
 
 
