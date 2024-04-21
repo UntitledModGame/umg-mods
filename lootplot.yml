@@ -64,6 +64,15 @@ globals:
     - type: any
     - type: any
 
+  lp.buffer:
+    args:
+    - type: table
+    - type: function
+  lp.wait:
+    args:
+    - type: table
+    - type: number
+
   RPC:
     args:
     - type: string
