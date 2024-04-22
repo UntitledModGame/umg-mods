@@ -64,7 +64,7 @@ globals:
     - type: any
     - type: any
 
-  lp.buffer:
+  lp.queue:
     args:
     - type: table
     - type: function

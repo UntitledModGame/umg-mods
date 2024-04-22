@@ -133,7 +133,7 @@ end
 local function finalize(self)
     for _i, ppos in ipairs(self.positions) do
         -- this is quite inefficient! Oh well lol
-        lp.buffer(ppos, function()
+        lp.queue(ppos, function()
             step(self, ppos)
         end)
     end

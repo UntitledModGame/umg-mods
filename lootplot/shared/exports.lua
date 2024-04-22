@@ -14,12 +14,12 @@ local lp = {}
 
 
 if server then
-local bufferTc = typecheck.assert("ppos", "function")
-function lp.buffer(ppos, func)
+local queueTc = typecheck.assert("ppos", "function")
+function lp.queue(ppos, func)
     --[[
         basic action-buffering, with 0 arguments for function.
     ]]
-    bufferTc(ppos, func)
+    queueTc(ppos, func)
     ppos.plot:buffer(func)
 end
 
