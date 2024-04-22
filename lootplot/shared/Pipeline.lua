@@ -37,8 +37,9 @@ local function pollObj(self, obj)
     if obj.func then
         obj.func(unpack(obj.args))
     end
+    local time = love.timer.getTime()
     if obj.delay then
-        self.nextExecuteTime = self.nextExecuteTime + obj.delay
+        self.nextExecuteTime = time + obj.delay
     end
 end
 

@@ -101,7 +101,6 @@ end
 --[[
 Finalizes the buffer, and pushes a bunch of functions to the bufferer.
 
-Hmm.. this will be hard to implement.
 I think the "only" real way we can implement this is by
 pushing a TONNE of functions to the pipeline, 
 and doing the filters in-place, within the functions.

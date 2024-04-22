@@ -160,3 +160,17 @@ lp.overrides.setPoints()
 
 
 
+```lua
+
+-- PLANNING for activation/buffering API:
+local function activate(ent)
+    for _, e in ipairs(neighbours) do
+        lp.activate()
+        lp.yield()
+    end
+end
+
+
+
+```
+

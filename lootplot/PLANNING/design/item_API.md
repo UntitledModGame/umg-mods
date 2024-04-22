@@ -10,6 +10,8 @@ defineItem({
         ... -- activates an item instantly
     end,
 })
+
+
 ```
 
 
@@ -40,3 +42,25 @@ local CustomBufferer = objects.Class(name)
 
 ```
 
+
+######
+# Ideation:
+######
+
+```lua
+
+--[[
+    IDEATION:
+]]
+defineItem("mod:myItem", {
+
+    activationBuffer = lp.Bufferer()
+        :touching()
+        :items()
+        :execute(func)
+})
+
+
+
+
+```

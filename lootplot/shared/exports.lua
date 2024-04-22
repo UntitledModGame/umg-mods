@@ -283,6 +283,7 @@ function lp.activate(ent)
     end
     umg.call("lootplot:entityActivated", ent)
     if ent.item then
+        assert(not ent.item.item, "Items cant hold items, WTF!")
         lp.activate(ent.item)
     end
 end
