@@ -79,7 +79,7 @@ end
 
 
 
-function Plot:buffer(fn, ...)
+function Plot:queue(fn, ...)
     --[[
         runs a function within a plot, buffered.
     ]]

@@ -63,11 +63,13 @@ Array.length = Array.size -- alias
 -- Removes item from array at index
 -- (if index is nil, pops from the end of array.)
 function Array:remove(i)
+    i = i or self.len
     if i and (not (1 <= i and i <= self.len)) then
         umg.melt("Array index out of range: " .. tostring(i))
     end
-    table.remove(self, i)
+    local obj = table.remove(self, i)
     self.len = self.len - 1
+    return obj
 end
 
 -- alias

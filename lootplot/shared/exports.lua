@@ -18,9 +18,15 @@ local queueTc = typecheck.assert("ppos", "function")
 function lp.queue(ppos, func)
     --[[
         basic action-buffering, with 0 arguments for function.
+
+        NOTE:  This function name is a bit confusing!!!
+            It doesn't actually add `func` to a queue;
+            it adds it to a LIFO stack.
+            I just think that `lp.queue` is a more sensible name than 
+                `lp.push` or `lp.buffer`
     ]]
     queueTc(ppos, func)
-    ppos.plot:buffer(func)
+    ppos.plot:queue(func)
 end
 
 local waitTc = typecheck.assert("ppos", "number")
