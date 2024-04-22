@@ -88,7 +88,7 @@ end
 
 
 function Plot:wait(time)
-    local mult = umg.ask("lootplot:getPipelineDelayMultiplier", self)
+    local mult = umg.ask("lootplot:getPipelineDelayMultiplier", self) or 1
     self.pipeline:wait(time * mult)
 end
 

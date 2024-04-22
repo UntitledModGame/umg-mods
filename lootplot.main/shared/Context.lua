@@ -125,7 +125,7 @@ local function nextRound(self)
     lp.Bufferer()
         :all(self:getPlot())
         :slots() -- ppos-->slot
-        :execute(function(slotEnt)
+        :execute(function(_ppos, slotEnt)
             lp.activate(slotEnt)
         end)
 

@@ -46,6 +46,8 @@ lp.Plot = require("shared.Plot")
 
 
 lp.posTc = typecheck.assert("ppos")
+local entityTc = typecheck.assert("entity")
+
 
 --[[
     Positioning:
@@ -63,8 +65,10 @@ function lp.posToItem(ppos)
     end
 end
 
+
 function lp.getPos(ent)
     -- Gets the ppos of an ent
+    entityTc(ent)
     local ppos = ptrack.get(ent)
     return ppos
 end
@@ -113,20 +117,21 @@ Depending on the gamemode; this will be handled in different ways.
 ]]
 local function modifyPoints(fromEnt, x)
     assert(server,"??")
-    local multiplier = umg.ask("lootplot:getPointMultiplier", fromEnt, x)
+    local multiplier = umg.ask("lootplot:getPointMultiplier", fromEnt, x) or 1
     local val = x*multiplier
     if val > 0 then
         umg.call("lootplot:pointsAdded", fromEnt, val)
     elseif val < 0 then
         umg.call("lootplot:pointsSubtracted", fromEnt, val)
     end
-    lp.setPoints(fromEnt, val)
+    local points = lp.getPoints(fromEnt)
+    lp.setPoints(fromEnt, points + val)
 end
 
 function lp.setPoints(fromEnt, x)
     modifyTc(fromEnt, x)
-    lp.overrides.setPoints(fromEnt, -x)
-    umg.call("lootplot:setMoney", fromEnt, x)
+    lp.overrides.setPoints(fromEnt, x)
+    umg.call("lootplot:pointsChanged", fromEnt, x)
 end
 function lp.addPoints(fromEnt, x)
     modifyTc(fromEnt, x)
@@ -138,6 +143,7 @@ function lp.subtractPoints(fromEnt, x)
 end
 
 function lp.getPoints(ent)
+    entityTc(ent)
     return lp.overrides.getPoints(ent)
 end
 
@@ -149,18 +155,19 @@ end
 ]]
 local function modifyMoney(fromEnt, x)
     assert(server,"??")
-    local multiplier = umg.ask("lootplot:getMoneyMultiplier", fromEnt)
+    local multiplier = umg.ask("lootplot:getMoneyMultiplier", fromEnt) or 1
     local val = x*multiplier
     if val > 0 then
         umg.call("lootplot:moneyAdded", fromEnt, val)
     elseif val < 0 then
         umg.call("lootplot:moneySubtracted", fromEnt, val)
     end
-    lp.setMoney(fromEnt, val)
+    local money = lp.getMoney(fromEnt)
+    lp.setMoney(fromEnt, money + val)
 end
 function lp.setMoney(fromEnt, x)
     lp.overrides.setMoney(fromEnt, x)
-    umg.call("lootplot:setMoney", fromEnt, x)
+    umg.call("lootplot:moneyChanged", fromEnt, x)
 end
 function lp.addMoney(fromEnt, x)
     modifyTc(fromEnt, x)
@@ -172,6 +179,7 @@ function lp.subtractMoney(fromEnt, x)
 end
 
 function lp.getMoney(ent)
+    entityTc(ent)
     return lp.overrides.getMoney(ent)
 end
 
@@ -284,6 +292,7 @@ end
 
 
 function lp.activate(ent)
+    entityTc(ent)
     if ent.onActivate then
         ent:onActivate()
     end
@@ -296,6 +305,7 @@ end
 
 
 function lp.destroy(ent)
+    entityTc(ent)
     assert(server,"?")
     if umg.exists(ent) then
         ptrack.set(ent, nil)

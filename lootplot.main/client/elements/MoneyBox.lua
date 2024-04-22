@@ -25,8 +25,10 @@ end
 
 
 function MoneyBox:onRender(x,y,w,h)
-    local money = lp.getMoney() -- we dont need to pass an entity here;
-    -- because under lootplot.main, money is shared between ALL ents.
+    -- TODO: this is a BIIIT hacky...
+    --  OH WELL LOL!
+    local ctx = lp.main.getContext()
+    local money = ctx.money
 
     if self.lastMoney ~= money then
         self.text:setText("$" .. money)

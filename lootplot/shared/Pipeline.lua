@@ -47,7 +47,7 @@ function Pipeline:tick()
     local time = umg.getWorldTime()
     
     local buf = self.buffer
-    if (time > self.nextExecuteTime) and (buf:size() > 0) then
+    while (time > self.nextExecuteTime) and (buf:size() > 0) do
         local obj = buf:pop()
         pollObj(self, obj)
     end

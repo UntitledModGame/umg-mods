@@ -7,8 +7,8 @@ lp.defineItem("bb", {
     description = "Generates a point",
 
     onActivate = function(ent)
-        print("hi?")
         lp.addPoints(ent, 1)
+        lp.addMoney(ent, 1)
     end
 })
 

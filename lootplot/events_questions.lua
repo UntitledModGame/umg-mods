@@ -15,10 +15,11 @@ umg.defineEvent("lootplot:entityRerolled")
 
 umg.defineEvent("lootplot:moneyAdded")
 umg.defineEvent("lootplot:moneySubtracted")
+umg.defineEvent("lootplot:moneyChanged")
 
 umg.defineEvent("lootplot:pointsAdded")
 umg.defineEvent("lootplot:pointsSubtracted")
-
+umg.defineEvent("lootplot:pointsChanged")
 
 
 

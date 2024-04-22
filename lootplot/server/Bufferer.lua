@@ -21,8 +21,8 @@ lp.Bufferer()
 local DEFAULT_BUFFERER_DELAY = 0.2
 
 local CONVERSIONS = objects.Enum({
-    ITEM = true,
-    SLOT = true
+    ITEM = "ITEM",
+    SLOT = "SLOT"
 })
 
 function Bufferer:init()
