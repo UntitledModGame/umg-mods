@@ -51,6 +51,7 @@ function Bufferer:touching(ent)
     --TODO: wire this up with shape API
     local ppos = lp.getPos(ent)
     self:add(ppos)
+    umg.melt("NYI")
     return self
 end
 
@@ -81,7 +82,7 @@ end
 
 
 function Bufferer:delay(x)
-    self._delay = self._delay + x
+    self._delay = x
     return self
 end
 
