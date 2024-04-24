@@ -35,8 +35,8 @@ end
 
 
 local function canMoveFromTo(srcSlot, targetSlot)
-    local item = srcSlot.item
-    if not umg.exists(srcSlot.item) then
+    local item = srcSlot.containedItem
+    if not umg.exists(item) then
         return false
     end
     if lp.questions.couldHoldItem(targetSlot, item) and lp.questions.canRemoveItem(srcSlot) then
@@ -46,7 +46,7 @@ end
 
 
 local function hasItem(slotEnt)
-    return umg.exists(slotEnt.item)
+    return umg.exists(slotEnt.containedItem)
 end
 
 
@@ -85,8 +85,8 @@ end
 
 local function click(slotEnt)
     if isInteractable(slotEnt) then
-        -- interact!
-        -- (ie; reroll button or something)
+        -- An "interactable" slot in the world.
+        --  for example: an in-world reroll button.
     else
         -- else, select:
         selectedSlot = slotEnt
@@ -110,6 +110,11 @@ function selection.getSelected()
     validate()
     return selectedSlot
 end
+
+
+
+components.project()
+
 
 
 

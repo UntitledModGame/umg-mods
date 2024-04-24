@@ -60,8 +60,8 @@ end
 function lp.posToItem(ppos)
     lp.posTc(ppos)
     local slot = lp.posToSlot(ppos)
-    if slot and umg.exists(slot.item) then
-        return slot.item
+    if slot and umg.exists(slot.containedItem) then
+        return slot.containedItem
     end
 end
 
@@ -223,11 +223,11 @@ lp.detachItem = RPC("lootplot:detachItem", {ENT}, function(item)
     -- removes an entity from a plot. position info is nilled.
     local ppos = ptrack.get(item)
     local slot = ppos and lp.posToItem(ppos)
-    if (not slot) or (slot.item ~= item) then
+    if (not slot) or (slot.containedItem ~= item) then
         return
     end
     -- OK: Item is upon the slot, we just need to remove it.
-    slot.item = nil
+    slot.containedItem = nil
     ptrack.set(item, nil)
 end)
 
@@ -235,11 +235,11 @@ end)
 lp.attachItem = RPC("lootplot:attachItem", {ENT,ENT}, function(item, slotEnt)
     assert(not ptrack.get(item), "Item attached somewhere else")
     local ppos = lp.getPos(slotEnt)
-    if umg.exists(slotEnt.item) then
+    if umg.exists(slotEnt.containedItem) then
         -- if item already exists: Destroy it and overwrite.
-        lp.destroy(slotEnt.item)
+        lp.destroy(slotEnt.containedItem)
     end
-    slotEnt.item = item
+    slotEnt.containedItem = item
     ptrack.set(item, ppos)
 end)
 
@@ -297,9 +297,9 @@ function lp.activate(ent)
         ent:onActivate()
     end
     umg.call("lootplot:entityActivated", ent)
-    if ent.item then
-        assert(not ent.item.item, "Items cant hold items, WTF!")
-        lp.activate(ent.item)
+    if ent.containedItem then
+        assert(not ent.containedItem.containedItem, "Items cant hold items, WTF!")
+        lp.activate(ent.containedItem)
     end
 end
 
@@ -401,10 +401,10 @@ lp.questions = {}
 
 function lp.questions.canRemoveItem(slotEnt)
     -- whether or not we can REMOVE an item from slotEnt.
-    if not umg.exists(slotEnt.item) then
+    if not umg.exists(slotEnt.containedItem) then
         return false -- no item to remove!
     end
-    return umg.ask("lootplot:isItemRemovalBlocked", slotEnt, slotEnt.item)
+    return umg.ask("lootplot:isItemRemovalBlocked", slotEnt, slotEnt.containedItem)
 end
 
 function lp.questions.couldHoldItem(targSlotEnt, itemEnt)
@@ -420,7 +420,7 @@ end
 
 function lp.questions.canAddItem(slotEnt, itemEnt)
     -- whether or not we can ADD an item to slotEnt.
-    if umg.exists(slotEnt.item) then
+    if umg.exists(slotEnt.containedItem) then
         return false
     end
     return lp.couldHoldItem(slotEnt, itemEnt)
