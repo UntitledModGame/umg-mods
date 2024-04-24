@@ -28,22 +28,26 @@ end
 
 
 
-local function canMoveItem(slotEnt)
+local function hasMovableItem(slotEnt)
     return umg.exists(slotEnt.item) and slots.canMoveItem(slotEnt)
 end
 
 
-local function doubleInteraction(ent1, ent2)
-    if canMoveItem(ent1) and canMoveItem(ent2) then
+local function trySwapItems(ent1, ent2)
+    if hasMovableItem(ent1) and hasMovableItem(ent2) then
         -- swap em!
     else
         -- One (or both) slots can't move items:
-
+        --[[
+            TODO: put some juice here;
+                - shake the items...?
+                - emit a BUZZ sound to imply failure...?
+        ]]
     end
 end
 
 
-local function singleInteraction(slotEnt)
+local function click(slotEnt)
     if isInteractable(slotEnt) then
         -- interact!
         -- (ie; reroll button or something)
@@ -58,10 +62,10 @@ function selection.click(slotEnt)
     validate()
     if selectedSlot then
         if slotEnt ~= selectedSlot then
-            doubleInteraction(slotEnt, selectedSlot)
+            trySwapItems(slotEnt, selectedSlot)
         end
     else
-        singleInteraction(slotEnt)
+        click(slotEnt)
     end
 end
 

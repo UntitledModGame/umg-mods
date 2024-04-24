@@ -133,7 +133,18 @@ We could also have `enemies` being a separate mod.
 ^^^ This would make lootplot easier to mod in the future;
 Since it's likely that the API would become more user-friendly.
 
+## BURN MOD- Juice's ideas:
+IDEA:
+Have augments:
+```
+Flammable:
+    When lit on fire, spreads fire in a plus-shape.
 
+Burnable:
+    Gets destroyed when lit on fire.
+```
+By default, all `PLANT` items are `flammable`.
+Also, by default, all `PLANT` items 
 
 
 
