@@ -27,22 +27,58 @@ local function validate()
 end
 
 
-
-local function hasMovableItem(slotEnt)
-    return umg.exists(slotEnt.item) and slots.canMoveItem(slotEnt)
+local function isInteractable(slotEnt)
+    return false -- just for now.
 end
 
 
-local function trySwapItems(ent1, ent2)
-    if hasMovableItem(ent1) and hasMovableItem(ent2) then
-        -- swap em!
+
+
+local function canMoveFromTo(srcSlot, targetSlot)
+    local item = srcSlot.item
+    if not umg.exists(srcSlot.item) then
+        return false
+    end
+    if lp.questions.couldHoldItem(targetSlot, item) and lp.questions.canRemoveItem(srcSlot) then
+        return true
+    end
+end
+
+
+local function hasItem(slotEnt)
+    return umg.exists(slotEnt.item)
+end
+
+
+local function canSwap(slot1, slot2)
+    return canMoveFromTo(slot1, slot2) and canMoveFromTo(slot2, slot1)
+end
+
+local function deny(slotEnt)
+    --[[
+        TODO: put some juice here;
+            - shake the slot...?
+            - emit a BUZZ sound to imply failure...?
+    ]]
+    umg.melt("todo: make deny juice")
+end
+
+
+local function tryMove(slot1, slot2)
+    if hasItem(slot2) then
+        -- then we try to swap items
+        if canSwap(slot1, slot2) then
+            umg.melt("TODO: Swap slot1 <--> slot2")
+        else
+            deny(slot1)
+            deny(slot2)
+        end
     else
-        -- One (or both) slots can't move items:
-        --[[
-            TODO: put some juice here;
-                - shake the items...?
-                - emit a BUZZ sound to imply failure...?
-        ]]
+        -- Else, try move slot1 item --> slot2
+        if canMoveFromTo(slot1, slot2) then
+            assert(not hasItem(slot2),"???") -- just to be safe lol
+            umg.melt("TODO: Move slot1 --> slot2")
+        end
     end
 end
 
@@ -62,7 +98,7 @@ function selection.click(slotEnt)
     validate()
     if selectedSlot then
         if slotEnt ~= selectedSlot then
-            trySwapItems(slotEnt, selectedSlot)
+            tryMove(slotEnt, selectedSlot)
         end
     else
         click(slotEnt)

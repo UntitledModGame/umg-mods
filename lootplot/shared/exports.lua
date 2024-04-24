@@ -197,7 +197,7 @@ function lp.setSlot(ppos, slotEnt)
     -- directly sets a slot.
     -- (If a previous slot existed, destroy it.)
     setSlotTc(ppos, slotEnt)
-    local prevEnt = lp.posToItem(ppos)
+    local prevEnt = lp.posToSlot(ppos)
     if prevEnt then
         lp.destroy(prevEnt)
     end
@@ -381,6 +381,39 @@ end
 function lp.defineSlot(name, slotType)
     strTabTc(name, slotType)
     umg.defineEntityType(name, slotType)
+end
+
+
+
+
+
+lp.questions = {}
+
+function lp.questions.canRemoveItem(slotEnt)
+    -- whether or not we can REMOVE an item from slotEnt.
+    if not umg.exists(slotEnt.item) then
+        return false -- no item to remove!
+    end
+    return umg.ask("lootplot:isItemRemovalBlocked", slotEnt, slotEnt.item)
+end
+
+function lp.questions.couldHoldItem(targSlotEnt, itemEnt)
+    --[[
+        checks whether or not a slot COULD hold the item,
+
+        We need this check for swapping items.
+        (If we use `canAddItem` when swapping items, then we will always
+            get false, because theres another item in the slot.)
+    ]]
+    return umg.ask("lootplot:isItemAdditionBlocked", targSlotEnt, itemEnt)
+end
+
+function lp.questions.canAddItem(slotEnt, itemEnt)
+    -- whether or not we can ADD an item to slotEnt.
+    if umg.exists(slotEnt.item) then
+        return false
+    end
+    return lp.couldHoldItem(slotEnt, itemEnt)
 end
 
 
