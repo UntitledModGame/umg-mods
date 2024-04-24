@@ -389,6 +389,16 @@ end
 
 lp.questions = {}
 
+--[[
+    TODO:
+    Should we be exporting these functions..?
+    Idk...  do some thinking.
+    It feels a bit "weird".
+
+    The fact that they are namespaced is MAYBE an indication 
+    that we should remove them.
+]]
+
 function lp.questions.canRemoveItem(slotEnt)
     -- whether or not we can REMOVE an item from slotEnt.
     if not umg.exists(slotEnt.item) then
