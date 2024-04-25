@@ -14,6 +14,8 @@ local Pipeline = require("shared.Pipeline")
 
 local Plot = objects.Class("lootplot:Plot")
 
+local ptrack = require("shared.internal.positionTracking")
+
 
 
 
@@ -26,7 +28,25 @@ function Plot:init(ownerEnt, width, height)
     self.pipeline = Pipeline()
 
     self.ownerEnt = ownerEnt
-    self.grid = objects.Grid(width,height)
+
+    self.grid = objects.Grid(width,height) -- dummy grid; contains nothing
+
+    self.slotGrid = objects.Grid(width,height) -- contains slots
+    self.itemGrid = objects.Grid(width,height) -- contains items
+
+    -- entities that we have already seen.
+    --[[
+        NOTE:
+        `seenEntities` doesnt do anything rn,
+        but if we want our code to be a bit more defensive in the future,
+        we can use this to check for duplicates.
+
+        (Can be used for asserting that the same entity doesnt exist in
+            multiple slots)
+    ]]
+    self.seenEntities = {--[[
+        [ent] = boolean
+    ]]}
 end
 
 
@@ -36,17 +56,16 @@ end
 local INDEX = "number"
 local ENT = "entity"
 
-umg.definePacket("lootplot:setPlotSlot", {
-    typelist = {ENT, INDEX, ENT}
-})
-
-umg.definePacket("lootplot:clearPlotSlot", {
-    typelist = {ENT, INDEX}
-})
+umg.definePacket("lootplot:setPlotSlot", {typelist = {ENT, INDEX, ENT}})
+umg.definePacket("lootplot:clearPlotSlot", {typelist = {ENT, INDEX}})
 
 function Plot:setSlot(index, slotEnt)
     local x,y = self.grid:indexToCoords(index)
-    self.grid:set(x,y, slotEnt)
+    self.slotGrid:set(x,y, slotEnt)
+    ptrack.set(slotEnt, lp.PPos({
+        slot=index,
+        plot=self
+    }))
     if server then
         local plotEnt = self.ownerEnt
         if slotEnt then
@@ -56,7 +75,6 @@ function Plot:setSlot(index, slotEnt)
         end
     end
 end
-
 
 if client then
     client.on("lootplot:setPlotSlot", function(plotEnt, index, slotEnt)
@@ -69,19 +87,61 @@ end
 
 
 
+
+
+umg.definePacket("lootplot:setPlotItem", {typelist = {ENT, INDEX, ENT}})
+umg.definePacket("lootplot:clearPlotItem", {typelist = {ENT, INDEX}})
+
+function Plot:setItem(index, itemEnt)
+    local x,y = self.grid:indexToCoords(index)
+    self.itemGrid:set(x,y, itemEnt)
+    ptrack.set(itemEnt, lp.PPos({
+        slot=index,
+        plot=self
+    }))
+    if server then
+        local plotEnt = self.ownerEnt
+        if itemEnt then
+            server.broadcast("lootplot:setPlotItem", plotEnt, index, itemEnt)
+        else
+            server.broadcast("lootplot:clearPlotItem", plotEnt, index)
+        end
+    end
+end
+
+if client then
+    client.on("lootplot:setPlotItem", function(plotEnt, index, itemEnt)
+        plotEnt.plot:setItem(index, itemEnt)
+    end)
+    client.on("lootplot:clearPlotItem", function(plotEnt, index)
+        plotEnt.plot:setItem(index, nil)
+    end)
+end
+
+
+
+
+
 function Plot:getSlot(index)
     local x,y = self.grid:indexToCoords(index)
-    local e = self.grid:get(x,y)
+    local e = self.slotGrid:get(x,y)
+    if umg.exists(e) then
+        return e
+    end
+end
+
+function Plot:getItem(index)
+    local x,y = self.grid:indexToCoords(index)
+    local e = self.itemGrid:get(x,y)
     if umg.exists(e) then
         return e
     end
 end
 
 
-
 function Plot:foreachInArea(x1,x2, y1,y2, func)
     local grid = self.grid
-    return grid:foreachInArea(function(_val,x,y)
+    return grid:foreachInArea(x1,x2,y1,y2, function(_val,x,y)
         local i = grid:coordsToIndex(x,y)
         local ppos = lp.PPos({slot=i, plot=self})
         func(ppos)
@@ -124,7 +184,7 @@ function Plot:foreach(func)
     --[[
         loops over all of the plot, including empty slots
     ]]
-    self.grid:foreach(function(_ent, x, y)
+    self.grid:foreach(function(_val, x, y)
         local slotI = self.grid:coordsToIndex(x,y)
         local ppos = lp.PPos({
             plot = self,

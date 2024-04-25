@@ -59,10 +59,7 @@ end
 
 function lp.posToItem(ppos)
     lp.posTc(ppos)
-    local slot = lp.posToSlot(ppos)
-    if slot and umg.exists(slot.containedItem) then
-        return slot.containedItem
-    end
+    return ppos.plot:getItem(ppos.slot)
 end
 
 
@@ -208,7 +205,6 @@ function lp.setSlot(ppos, slotEnt)
         lp.destroy(prevEnt)
     end
     ppos.plot:setSlot(ppos.slot, slotEnt)
-    ptrack.set(slotEnt, ppos)
 end
 
 
@@ -223,30 +219,20 @@ end
 --[[
     Movement of items:
 ]]
-local ENT = "entity"
-
-lp.detachItem = RPC("lootplot:detachItem", {ENT}, function(item)
+function lp.detachItem(itemEnt)
     -- removes an entity from a plot. position info is nilled.
-    local ppos = ptrack.get(item)
-    local slot = ppos and lp.posToSlot(ppos)
-    ptrack.clear(item)
-    if (slot) and (slot.containedItem == item) then
-        -- OK: Item is upon the slot, we just need to remove it.
-        slot.containedItem = nil
+    local ppos = ptrack.get(itemEnt)
+    if ppos then
+        ppos.plot:setItem(ppos.slot, itemEnt)
+        ptrack.clear(itemEnt)
     end
-end)
+end
 
 
-lp.attachItem = RPC("lootplot:attachItem", {ENT,ENT}, function(item, slotEnt)
-    assert(not ptrack.get(item), "Item attached somewhere else")
-    local ppos = lp.getPos(slotEnt)
-    if server and umg.exists(slotEnt.containedItem) then
-        -- if item already exists: Destroy it and overwrite.
-        lp.destroy(slotEnt.containedItem)
-    end
-    slotEnt.containedItem = item
-    ptrack.set(item, ppos)
-end)
+function lp.attachItem(itemEnt, ppos)
+    assert(not ptrack.get(itemEnt), "Item attached somewhere else")
+    ppos.plot:setItem(ppos.slot, itemEnt)
+end
 
 
 
@@ -270,28 +256,28 @@ local function ensureSlot(slotEnt_or_ppos)
     if not slotEnt then
         umg.melt("Invalid slot-entity (or position) for slot!", 3)
     end
-    return slotEnt
+    return slotEnt, ppos
 end
 
 
 function lp.moveItem(item, slotEnt_or_ppos)
     -- moves an item to a position
     assertServer()
-    local slotEnt = ensureSlot(slotEnt_or_ppos)
+    local _slotEnt,ppos = ensureSlot(slotEnt_or_ppos)
     lp.detachItem(item)
-    lp.attachItem(item, slotEnt)
+    lp.attachItem(item, ppos)
 end
 
 
 local ent2Tc = typecheck.assert("entity", "entity")
 function lp.swapItems(item1, item2)
     ent2Tc(item1, item2)
-    local slot1, slot2 = lp.posToSlot(lp.getPos(item1)), lp.posToSlot(lp.getPos(item2))
-    assert(slot1 and slot2, "Cannot swap nil-position")
+    local ppos1, ppos2 = lp.getPos(item1), lp.getPos(item2)
+    assert(ppos1 and ppos2, "Cannot swap nil-position")
     lp.detachItem(item1)
     lp.detachItem(item2)
-    lp.attachItem(item1, slot2)
-    lp.attachItem(item2, slot1)
+    lp.attachItem(item1, ppos1)
+    lp.attachItem(item2, ppos2)
 end
 
 
@@ -356,10 +342,8 @@ function lp.trySpawnItem(ppos, itemEType)
 end
 
 function lp.forceSpawnItem(ppos, itemEType)
-    local slotEnt = lp.posToSlot(ppos)
-    assert(slotEnt, "forceSpawnItem requires a slot!")
     local itemEnt = itemEType()
-    lp.attachItem(itemEnt, slotEnt)
+    lp.attachItem(itemEnt, ppos)
     return itemEnt
 end
 

@@ -49,17 +49,11 @@ local setTc = typecheck.assert("voidEntity", "ppos")
 function ptrack.set(ent, ppos)
     setTc(ent, ppos)
     positionRef[ent] = ppos
-    if ent.containedItem then
-        ptrack.set(ent.containedItem, ppos)
-    end
 end
 
 
 function ptrack.clear(ent)
     positionRef[ent] = nil
-    if ent.containedItem then
-        ptrack.set(ent.containedItem, nil)
-    end
 end
 
 

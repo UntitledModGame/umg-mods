@@ -6,8 +6,6 @@
 
 ```lua
 
-ent.containedItem = itemEnt
-
 
 ent.plot = Plot()
 
