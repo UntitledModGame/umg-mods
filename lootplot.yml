@@ -73,6 +73,16 @@ globals:
     - type: table
     - type: number
 
+  lp.defineItem:
+    args:
+    - type: string
+    - type: table
+
+  lp.defineSlot:
+    args:
+    - type: string
+    - type: table
+
   RPC:
     args:
     - type: string

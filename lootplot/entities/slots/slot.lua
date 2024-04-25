@@ -1,6 +1,6 @@
 
 
-return umg.defineEntityType("lootplot:slot", {
+return lp.defineSlot("lootplot:slot", {
     image = "slot"
 })
 

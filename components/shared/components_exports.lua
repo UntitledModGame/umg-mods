@@ -20,6 +20,7 @@ end
 local typechecking = require("shared.typechecking")
 
 function components.defineComponent(comp, options)
+    options = options or {}
     if options.type then
         typechecking.defineType(comp, options.type)
     end
