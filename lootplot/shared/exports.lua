@@ -102,6 +102,12 @@ end
 
 
 
+local function assertServer()
+    if not server then
+        umg.melt("This can only be called on client-side!", 3)
+    end
+end
+
 
 --[[
     Money/point services:
@@ -116,7 +122,7 @@ local modifyTc = typecheck.assert("entity", "number")
 Depending on the gamemode; this will be handled in different ways.
 ]]
 local function modifyPoints(fromEnt, x)
-    assert(server,"??")
+    assertServer()
     local multiplier = umg.ask("lootplot:getPointMultiplier", fromEnt, x) or 1
     local val = x*multiplier
     if val > 0 then
@@ -154,7 +160,7 @@ end
 (So for example, it could be a slot, or an item.)
 ]]
 local function modifyMoney(fromEnt, x)
-    assert(server,"??")
+    assertServer()
     local multiplier = umg.ask("lootplot:getMoneyMultiplier", fromEnt) or 1
     local val = x*multiplier
     if val > 0 then
@@ -222,20 +228,19 @@ local ENT = "entity"
 lp.detachItem = RPC("lootplot:detachItem", {ENT}, function(item)
     -- removes an entity from a plot. position info is nilled.
     local ppos = ptrack.get(item)
-    local slot = ppos and lp.posToItem(ppos)
-    if (not slot) or (slot.containedItem ~= item) then
-        return
+    local slot = ppos and lp.posToSlot(ppos)
+    ptrack.clear(item)
+    if (slot) and (slot.containedItem == item) then
+        -- OK: Item is upon the slot, we just need to remove it.
+        slot.containedItem = nil
     end
-    -- OK: Item is upon the slot, we just need to remove it.
-    slot.containedItem = nil
-    ptrack.set(item, nil)
 end)
 
 
 lp.attachItem = RPC("lootplot:attachItem", {ENT,ENT}, function(item, slotEnt)
     assert(not ptrack.get(item), "Item attached somewhere else")
     local ppos = lp.getPos(slotEnt)
-    if umg.exists(slotEnt.containedItem) then
+    if server and umg.exists(slotEnt.containedItem) then
         -- if item already exists: Destroy it and overwrite.
         lp.destroy(slotEnt.containedItem)
     end
@@ -271,7 +276,7 @@ end
 
 function lp.moveItem(item, slotEnt_or_ppos)
     -- moves an item to a position
-    assert(server, "?")
+    assertServer()
     local slotEnt = ensureSlot(slotEnt_or_ppos)
     lp.detachItem(item)
     lp.attachItem(item, slotEnt)
@@ -306,10 +311,10 @@ end
 
 function lp.destroy(ent)
     entityTc(ent)
-    assert(server,"?")
+    assertServer()
     if umg.exists(ent) then
-        ptrack.set(ent, nil)
-        health.kill(ent)
+        ptrack.clear(ent)
+        health.server.kill(ent)
     end
 end
 

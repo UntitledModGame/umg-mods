@@ -79,6 +79,27 @@ end
 
 
 
+function Plot:foreachInArea(x1,x2, y1,y2, func)
+    local grid = self.grid
+    return grid:foreachInArea(function(_val,x,y)
+        local i = grid:coordsToIndex(x,y)
+        local ppos = lp.PPos({slot=i, plot=self})
+        func(ppos)
+    end)
+end
+
+
+
+function Plot:indexToCoords(slotIndex)
+    return self.grid:indexToCoords(slotIndex)
+end
+
+function Plot:coordsToIndex(x,y)
+    return self.grid:coordsToIndex(x,y)
+end
+
+
+
 function Plot:queue(fn, ...)
     --[[
         runs a function within a plot, buffered.

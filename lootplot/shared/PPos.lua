@@ -41,10 +41,10 @@ local number2Tc = typecheck.assert("number", "number")
 function PPos:move(dx, dy)
     number2Tc(dx, dy)
     local plot = self.plot
-    local x,y = plot.grid:indexToCoords(self.slot)
+    local x,y = plot:indexToCoords(self.slot)
     x = x + dx
     y = y + dy
-    local newSlot = plot.grid:coordsToIndex(x,y)
+    local newSlot = plot:coordsToIndex(x,y)
     return PPos({
         plot = plot,
         slot = newSlot,
@@ -79,7 +79,7 @@ end
 
 function PPos:getCoords()
     -- gets XY coords of PPos
-    return self.plot.grid:indexToCoords(self.slot)
+    return self.plot:indexToCoords(self.slot)
 end
 
 
@@ -87,13 +87,6 @@ function PPos:getWorldPos()
     return self.plot:pposToWorldCoords(self)
 end
 
-
-
-function PPos:isInPlot()
-    local grid = self.plot.grid
-    local x,y = grid:indexToCoords(self.slot)
-    return grid:contains(x,y)
-end
 
 
 

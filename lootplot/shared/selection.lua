@@ -113,20 +113,20 @@ end)
 
 
 
-local function tryMove(slot1, slot2)
-    if hasItem(slot2) then
+local function tryMove(srcSlot, targSlot)
+    if hasItem(targSlot) then
         -- then we try to swap items
-        if canSwap(slot1, slot2) then
-            swapSlotItems(slot1, slot2)
+        if canSwap(srcSlot, targSlot) then
+            swapSlotItems(srcSlot, targSlot)
         else
-            deny(slot1)
-            deny(slot2)
+            deny(srcSlot)
+            deny(targSlot)
         end
     else
         -- Else, try move slot1 item --> slot2
-        if canMoveFromTo(slot1, slot2) then
-            assert(not hasItem(slot2),"???") -- just to be safe lol
-            moveSlotItem(slot1, slot2)
+        if canMoveFromTo(srcSlot, targSlot) then
+            assert(not hasItem(targSlot),"???") -- just to be safe lol
+            moveSlotItem(srcSlot, targSlot)
         end
     end
 end
@@ -147,7 +147,7 @@ function selection.click(slotEnt)
     validate()
     if selectedSlot then
         if slotEnt ~= selectedSlot then
-            tryMove(slotEnt, selectedSlot)
+            tryMove(selectedSlot, slotEnt)
         end
         reset()
     else

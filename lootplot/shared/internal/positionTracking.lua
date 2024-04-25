@@ -45,12 +45,20 @@ end)
 
 
 
-local posTc = typecheck.assert("ppos")
+local setTc = typecheck.assert("voidEntity", "ppos")
 function ptrack.set(ent, ppos)
-    posTc(ppos)
+    setTc(ent, ppos)
     positionRef[ent] = ppos
     if ent.containedItem then
         ptrack.set(ent.containedItem, ppos)
+    end
+end
+
+
+function ptrack.clear(ent)
+    positionRef[ent] = nil
+    if ent.containedItem then
+        ptrack.set(ent.containedItem, nil)
     end
 end
 
@@ -85,19 +93,25 @@ end
 
 
 
-local event 
+local updEvent 
 if server then
-    event = "@tick"
+    updEvent = "@tick"
 else
-    event = "@update"
+    updEvent = "@update"
 end
 
-umg.on(event, function(dt)
+
+
+local function updatePlot(plotEnt)
+    local plot = plotEnt.plot
+    plot:foreachSlot(function(slotEnt, ppos)
+        ptrack.set(slotEnt, ppos)
+    end)
+end
+
+umg.on(updEvent, function(dt)
     for _, plotEnt in ipairs(plotEnts) do
-        local plot = plotEnt.plot
-        plot:foreachSlot(function(slotEnt, ppos)
-            ptrack.set(slotEnt, ppos)
-        end)
+        updatePlot(plotEnt)
     end
 end)
 
