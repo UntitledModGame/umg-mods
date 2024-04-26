@@ -288,9 +288,14 @@ function lp.activate(ent)
         ent:onActivate()
     end
     umg.call("lootplot:entityActivated", ent)
-    if ent.containedItem then
-        assert(not ent.containedItem.containedItem, "Items cant hold items, WTF!")
-        lp.activate(ent.containedItem)
+    if ent.slot then
+        -- attempt to activate the item on slot:
+        assert(not ent.item, "Cannot be both an item and a slot!")
+        local ppos = lp.getPos(ent)
+        local item = lp.getItem(ppos)
+        if item then
+            lp.activate(item)
+        end
     end
 end
 
@@ -364,13 +369,13 @@ local strTabTc = typecheck.assert("string", "table")
 
 function lp.defineItem(name, itemType)
     strTabTc(name, itemType)
-    itemType.lpSlot = true
+    itemType.slot = true
     return umg.defineEntityType(name, itemType)
 end
 
 function lp.defineSlot(name, slotType)
     strTabTc(name, slotType)
-    slotType.lpSlot = true
+    slotType.item = true
     umg.defineEntityType(name, slotType)
 end
 

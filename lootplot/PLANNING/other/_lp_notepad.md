@@ -160,17 +160,41 @@ lp.overrides.setPoints()
 
 
 
+
+# Slot / activation planning:
+We have a few questions.
+
+- When a slot activates, should the item in the slot also activate?
+    - IDEA: Pass in `ppos` instead of an entity to activate?
+    - (New api: `lp.activateEntity`, `lp.activate(ppos)`)
+- Do we need `lp.[detach/attach]Item`?
+    - hmm, mayb not.
+
+Currently, we have two "layers" to represent both "items" and "slots".
+How about we make layers "generic"; such that future mods can add their
+own custom layers?
+like:
 ```lua
-
--- PLANNING for activation/buffering API:
-local function activate(ent)
-    for _, e in ipairs(neighbours) do
-        lp.activate()
-        lp.yield()
-    end
-end
-
-
-
+--plot ctor:
+self.layers = {
+    ["slot"] = Grid(),
+    ["item"] = Grid(),
+    -- ... can define custom ones too!
+}
 ```
+And then a component upon the entity:
+```lua
+ent.layer = "slot" or "item"
+```
+
+This also works great, because it means that we can make `Plot:set` more generic. (only need one sync mechanism.)
+
+ALSO:
+It means that entities CANNOT be bound to more than one layer type at once,
+which is great!
+
+
+
+-------------
+
 

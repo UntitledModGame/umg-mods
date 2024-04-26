@@ -1,16 +1,9 @@
 
 
 -- 
-components.defineComponent("lpSlot")
-components.defineComponent("lpItem")
+components.defineComponent("slot")
+components.defineComponent("item")
 
-
-
-
-
-
-components.defineComponent("containedItem")
--- ent.containedItem = itemEnt
 
 
 components.defineComponent("plot")

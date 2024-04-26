@@ -17,15 +17,24 @@ local selection = {}
 
 
 
+local selectedPPos
 local selectedSlot
 
 
 local function reset()
+    selectedPPos = nil
     selectedSlot = nil
 end
 
 local function validate()
-    if selectedSlot and (not umg.exists(selectedSlot)) then
+    if not selectedPPos then 
+        return -- nothing to validate
+    end
+    if (not umg.exists(selectedSlot)) then
+        reset()
+    end
+    local slot = lp.posToSlot(selectedPPos)
+    if slot ~= selectedSlot then
         reset()
     end
 end
@@ -138,7 +147,7 @@ local function click(slotEnt)
         --  for example: an in-world reroll button.
     else
         -- else, select:
-        selectedSlot = slotEnt
+        selectSlot(slotEnt)
     end
 end
 
@@ -165,7 +174,7 @@ end
 
 
 
-components.project("lpSlot", "clickable")
+components.project("slot", "clickable")
 
 if client then
     umg.on("clickables:entityClickedClient", function(slotEnt, clientId)
