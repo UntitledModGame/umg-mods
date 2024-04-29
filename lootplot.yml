@@ -3,7 +3,9 @@ globals:
   lp.activate:
     args:
     - type: any
-
+  lp.activateEntity:
+    args:
+    - type: any
   lp.setSlot:
     args:
     - type: any

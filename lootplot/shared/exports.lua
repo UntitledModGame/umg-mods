@@ -282,7 +282,7 @@ end
 
 
 
-function lp.activate(ent)
+function lp.activateEntity(ent)
     entityTc(ent)
     if ent.onActivate then
         ent:onActivate()
@@ -292,13 +292,25 @@ function lp.activate(ent)
         -- attempt to activate the item on slot:
         assert(not ent.item, "Cannot be both an item and a slot!")
         local ppos = lp.getPos(ent)
-        local item = lp.getItem(ppos)
+        local item = lp.posToItem(ppos)
         if item then
-            lp.activate(item)
+            lp.activateEntity(item)
         end
     end
 end
 
+
+function lp.activateEntity(pos)
+    lp.posTc(pos)
+    local item = lp.posToItem(pos)
+    if item then
+        lp.activateEntity(item)
+    end    
+    local slot = lp.posToItem(pos)
+    if slot then
+        lp.activateEntity(slot)
+    end
+end
 
 function lp.destroy(ent)
     entityTc(ent)

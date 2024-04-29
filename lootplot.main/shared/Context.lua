@@ -127,7 +127,7 @@ local function nextRound(self)
         :slots() -- ppos-->slot
         :delay(0.2)
         :execute(function(_ppos, slotEnt)
-            lp.activate(slotEnt)
+            lp.activateEntity(slotEnt)
         end)
 
     -- TODO: Give reward-money at end of round
