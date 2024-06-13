@@ -67,19 +67,46 @@ TODO:
 Use these methods instead
 
 ]]
+local INDEX = "number"
+local ENT = "entity"
+
+umg.definePacket("lootplot:setPlotEntry", {typelist = {ENT, INDEX, ENT}})
+umg.definePacket("lootplot:clearPlotEntry", {typelist = {ENT, INDEX}})
+
 
 function Plot:set(index, ent)
     --[[
         ent needs ent.layer comp
     ]]
     assert(ent:isSharedComponent("layer"))
+    --[[
+        TODO: Should we guard against multiple attachment???
+        hmmm... 
+        Future mods may need this bahaviour
+    ]]
+    assert(not ptrack.get(ent), "attached somewhere else")
+
+    local x,y = self.grid:indexToCoords(index)
+    self.slotGrid:set(x,y, ent)
+    ptrack.set(ent, lp.PPos({
+        slot=index,
+        plot=self
+    }))
+    if server then
+        local plotEnt = self.ownerEnt
+        server.broadcast("lootplot:setPlotEntry", plotEnt, index, ent)
+    end
 end
 
 function Plot:clear(index, layer)
     --[[
         layer: string layer name
     ]]
-    assert(self.layers[layer], "invalid layer")
+    if server then
+        local plotEnt = self.ownerEnt
+        assert(self.layers[layer], "invalid layer")
+        server.broadcast("lootplot:clearPlotEntry", plotEnt, index)
+    end
 end
 
 

@@ -90,5 +90,12 @@ end
 
 
 
+function PPos:set(ent)
+    return self.plot:set(self.slot, ent)
+end
+
+
+
+
 
 return PPos

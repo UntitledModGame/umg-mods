@@ -48,7 +48,7 @@ chat.handleCommand("spawnItem", {
         if slotEnt then
             -- can
             local itemEnt = ctor()
-            lp.attachItem(itemEnt, slotEnt)
+            ppos:set(itemEnt)
         else
             chat.privateMessage(clientId, "Cannot spawn item; not over a slot.")
         end

@@ -216,23 +216,6 @@ end
 
 
 
---[[
-    Movement of items:
-]]
-function lp.detachItem(itemEnt)
-    -- removes an entity from a plot. position info is nilled.
-    local ppos = ptrack.get(itemEnt)
-    if ppos then
-        ppos.plot:setItem(ppos.slot, itemEnt)
-        ptrack.clear(itemEnt)
-    end
-end
-
-
-function lp.attachItem(itemEnt, ppos)
-    assert(not ptrack.get(itemEnt), "Item attached somewhere else")
-    ppos.plot:setItem(ppos.slot, itemEnt)
-end
 
 
 
@@ -260,12 +243,19 @@ local function ensureSlot(slotEnt_or_ppos)
 end
 
 
+local function detach(ent)
+    local ppos = lp.getPos(ent)
+    if ppos then
+        ppos:clear()
+    end
+end
+
 function lp.moveItem(item, slotEnt_or_ppos)
     -- moves an item to a position
-    assertServer()
+    assertServer()    
     local _slotEnt,ppos = ensureSlot(slotEnt_or_ppos)
-    lp.detachItem(item)
-    lp.attachItem(item, ppos)
+    detach(item)
+    ppos:set(item)
 end
 
 
@@ -274,10 +264,10 @@ function lp.swapItems(item1, item2)
     ent2Tc(item1, item2)
     local ppos1, ppos2 = lp.getPos(item1), lp.getPos(item2)
     assert(ppos1 and ppos2, "Cannot swap nil-position")
-    lp.detachItem(item1)
-    lp.detachItem(item2)
-    lp.attachItem(item1, ppos1)
-    lp.attachItem(item2, ppos2)
+    detach(item1)
+    detach(item2)
+    ppos1:set(item2)
+    ppos2:set(item1)
 end
 
 
@@ -360,7 +350,7 @@ end
 
 function lp.forceSpawnItem(ppos, itemEType)
     local itemEnt = itemEType()
-    lp.attachItem(itemEnt, ppos)
+    ppos:set(itemEnt)
     return itemEnt
 end
 

@@ -33,13 +33,6 @@ globals:
     - type: any
     - type: any
 
-  lp.detachItem:
-    args:
-    - type: any
-  lp.attachItem:
-    args:
-    - type: any
-    - type: any
   lp.swapItems:
     args:
     - type: any
