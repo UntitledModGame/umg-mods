@@ -29,10 +29,20 @@ function Plot:init(ownerEnt, width, height)
 
     self.ownerEnt = ownerEnt
 
-    self.grid = objects.Grid(width,height) -- dummy grid; contains nothing
+    self.grid = objects.Grid(width,height) -- dummy grid; contains nothing.
 
     self.slotGrid = objects.Grid(width,height) -- contains slots
     self.itemGrid = objects.Grid(width,height) -- contains items
+
+    self.layers = {
+        --[[
+            todo: Do we want custom Layer objects here,
+            instead of Grid objects?
+        ]]
+        ["slot"] = objects.Grid(),
+        ["item"] = objects.Grid(),
+        -- ... can define custom ones too!
+    }
 
     -- entities that we have already seen.
     --[[
@@ -48,6 +58,35 @@ function Plot:init(ownerEnt, width, height)
         [ent] = boolean
     ]]}
 end
+
+
+
+--[[
+
+TODO: 
+Use these methods instead
+
+]]
+
+function Plot:set(index, ent)
+    --[[
+        ent needs ent.layer comp
+    ]]
+    assert(ent:isSharedComponent("layer"))
+end
+
+function Plot:clear(index, layer)
+    --[[
+        layer: string layer name
+    ]]
+    assert(self.layers[layer], "invalid layer")
+end
+
+
+
+
+
+
 
 
 

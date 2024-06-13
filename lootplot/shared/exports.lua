@@ -300,13 +300,13 @@ function lp.activateEntity(ent)
 end
 
 
-function lp.activateEntity(pos)
+function lp.activate(pos)
     lp.posTc(pos)
     local item = lp.posToItem(pos)
     if item then
         lp.activateEntity(item)
     end    
-    local slot = lp.posToItem(pos)
+    local slot = lp.posToSlot(pos)
     if slot then
         lp.activateEntity(slot)
     end
