@@ -110,79 +110,16 @@ function Plot:clear(index, layer)
 end
 
 
-
-
-
-
-
-
-
-
-
-local INDEX = "number"
-local ENT = "entity"
-
-umg.definePacket("lootplot:setPlotSlot", {typelist = {ENT, INDEX, ENT}})
-umg.definePacket("lootplot:clearPlotSlot", {typelist = {ENT, INDEX}})
-
-function Plot:setSlot(index, slotEnt)
-    local x,y = self.grid:indexToCoords(index)
-    self.slotGrid:set(x,y, slotEnt)
-    ptrack.set(slotEnt, lp.PPos({
-        slot=index,
-        plot=self
-    }))
-    if server then
-        local plotEnt = self.ownerEnt
-        if slotEnt then
-            server.broadcast("lootplot:setPlotSlot", plotEnt, index, slotEnt)
-        else
-            server.broadcast("lootplot:clearPlotSlot", plotEnt, index)
-        end
-    end
-end
-
 if client then
-    client.on("lootplot:setPlotSlot", function(plotEnt, index, slotEnt)
-        plotEnt.plot:setSlot(index, slotEnt)
+    client.on("lootplot:setPlotEntry", function(plotEnt, index, slotEnt)
+        plotEnt.plot:set(index, slotEnt)
     end)
-    client.on("lootplot:clearPlotSlot", function(plotEnt, index)
-        plotEnt.plot:setSlot(index, nil)
-    end)
-end
-
-
-
-
-
-umg.definePacket("lootplot:setPlotItem", {typelist = {ENT, INDEX, ENT}})
-umg.definePacket("lootplot:clearPlotItem", {typelist = {ENT, INDEX}})
-
-function Plot:setItem(index, itemEnt)
-    local x,y = self.grid:indexToCoords(index)
-    self.itemGrid:set(x,y, itemEnt)
-    ptrack.set(itemEnt, lp.PPos({
-        slot=index,
-        plot=self
-    }))
-    if server then
-        local plotEnt = self.ownerEnt
-        if itemEnt then
-            server.broadcast("lootplot:setPlotItem", plotEnt, index, itemEnt)
-        else
-            server.broadcast("lootplot:clearPlotItem", plotEnt, index)
-        end
-    end
-end
-
-if client then
-    client.on("lootplot:setPlotItem", function(plotEnt, index, itemEnt)
-        plotEnt.plot:setItem(index, itemEnt)
-    end)
-    client.on("lootplot:clearPlotItem", function(plotEnt, index)
-        plotEnt.plot:setItem(index, nil)
+    client.on("lootplot:clearPlotEntry", function(plotEnt, index)
+        plotEnt.plot:set(index)
     end)
 end
+
+
 
 
 
