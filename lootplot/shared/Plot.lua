@@ -31,16 +31,13 @@ function Plot:init(ownerEnt, width, height)
 
     self.grid = objects.Grid(width,height) -- dummy grid; contains nothing.
 
-    self.slotGrid = objects.Grid(width,height) -- contains slots
-    self.itemGrid = objects.Grid(width,height) -- contains items
-
     self.layers = {
         --[[
             todo: Do we want custom Layer objects here,
             instead of Grid objects?
         ]]
-        ["slot"] = objects.Grid(),
-        ["item"] = objects.Grid(),
+        ["slot"] = objects.Grid(width,height),
+        ["item"] = objects.Grid(width,height),
         -- ... can define custom ones too!
     }
 
@@ -87,7 +84,8 @@ function Plot:set(index, ent)
     assert(not ptrack.get(ent), "attached somewhere else")
 
     local x,y = self.grid:indexToCoords(index)
-    self.slotGrid:set(x,y, ent)
+    local grid = self.layers[ent.layer]
+    grid:set(x,y, ent)
     ptrack.set(ent, lp.PPos({
         slot=index,
         plot=self
@@ -98,24 +96,30 @@ function Plot:set(index, ent)
     end
 end
 
+
+local clearTc = typecheck.assert('number', 'string')
 function Plot:clear(index, layer)
     --[[
         layer: string layer name
     ]]
+    clearTc(index, layer)
+    local x,y = self.grid:indexToCoords(index)
+    local grid = self.layers[layer]
+    grid:set(x,y, nil)
     if server then
         local plotEnt = self.ownerEnt
         assert(self.layers[layer], "invalid layer")
-        server.broadcast("lootplot:clearPlotEntry", plotEnt, index)
+        server.broadcast("lootplot:clearPlotEntry", plotEnt, index, layer)
     end
 end
 
 
 if client then
-    client.on("lootplot:setPlotEntry", function(plotEnt, index, slotEnt)
-        plotEnt.plot:set(index, slotEnt)
+    client.on("lootplot:setPlotEntry", function(plotEnt, index, ent)
+        plotEnt.plot:set(index, ent)
     end)
-    client.on("lootplot:clearPlotEntry", function(plotEnt, index)
-        plotEnt.plot:set(index)
+    client.on("lootplot:clearPlotEntry", function(plotEnt, index, layer)
+        plotEnt.plot:clear(index, layer)
     end)
 end
 
@@ -127,7 +131,7 @@ end
 
 function Plot:getSlot(index)
     local x,y = self.grid:indexToCoords(index)
-    local e = self.slotGrid:get(x,y)
+    local e = self.layers.slot:get(x,y)
     if umg.exists(e) then
         return e
     end
@@ -135,7 +139,8 @@ end
 
 function Plot:getItem(index)
     local x,y = self.grid:indexToCoords(index)
-    local e = self.itemGrid:get(x,y)
+    -- This is a bit hacky accessing the item layer directly
+    local e = self.layers.item:get(x,y)
     if umg.exists(e) then
         return e
     end

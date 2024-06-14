@@ -2,7 +2,7 @@
 --[[
 
 Global api helper methods.
-
+slotGrid
 ]]
 
 local ptrack = require("shared.internal.positionTracking")
@@ -204,7 +204,7 @@ function lp.setSlot(ppos, slotEnt)
     if prevEnt then
         lp.destroy(prevEnt)
     end
-    ppos.plot:setSlot(ppos.slot, slotEnt)
+    ppos.plot:set(ppos.slot, slotEnt)
 end
 
 
@@ -371,13 +371,15 @@ local strTabTc = typecheck.assert("string", "table")
 
 function lp.defineItem(name, itemType)
     strTabTc(name, itemType)
-    itemType.slot = true
+    itemType.item = true
+    itemType.layer = "item"
     return umg.defineEntityType(name, itemType)
 end
 
 function lp.defineSlot(name, slotType)
     strTabTc(name, slotType)
-    slotType.item = true
+    slotType.slot = true
+    slotType.layer = "slot"
     umg.defineEntityType(name, slotType)
 end
 
