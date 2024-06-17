@@ -119,7 +119,7 @@ function(clientId, srcSlotEnt, targetSlotEnt)
     -- TODO: check validity of arguments (bad actor could send any entity)
     -- TODO: check that we actually CAN move the items
     -- TODO: use qbus; check if we have permission
-    local item = lp.slotToItem(srcSlot)
+    local item = lp.slotToItem(srcSlotEnt)
     if item then
         lp.moveItem(item, targetSlotEnt)
     end

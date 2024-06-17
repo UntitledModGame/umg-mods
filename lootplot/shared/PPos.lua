@@ -95,6 +95,11 @@ function PPos:set(ent)
 end
 
 
+function PPos:clear(ent)
+    return self.plot:clear(self.slot, ent.layer)
+end
+
+
 
 
 

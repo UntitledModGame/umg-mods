@@ -261,6 +261,12 @@ local function detach(ent)
     end
 end
 
+--[[
+todo
+do we need this function?
+we could rename it to addItem....?
+and then expose a detachItem function
+]]
 function lp.moveItem(item, slotEnt_or_ppos)
     -- moves an item to a position
     assertServer()    
