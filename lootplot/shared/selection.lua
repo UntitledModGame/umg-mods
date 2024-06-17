@@ -26,6 +26,13 @@ local function reset()
     selectedSlot = nil
 end
 
+
+local function selectSlot(slotEnt)
+    selectedPPos = lp.getPos(slotEnt)
+    selectedSlot = slotEnt
+end
+
+
 local function validate()
     if not selectedPPos then 
         return -- nothing to validate
@@ -45,11 +52,9 @@ local function isInteractable(slotEnt)
 end
 
 
-
-
 local function canMoveFromTo(srcSlot, targetSlot)
-    local item = srcSlot.containedItem
-    if not umg.exists(item) then
+    local item = lp.slotToItem(srcSlot)
+    if not item then
         return false
     end
     if questions.couldHoldItem(targetSlot, item) and questions.canRemoveItem(srcSlot) then
@@ -59,7 +64,7 @@ end
 
 
 local function hasItem(slotEnt)
-    return umg.exists(slotEnt.containedItem)
+    return lp.slotToItem(slotEnt)
 end
 
 
@@ -104,7 +109,9 @@ function(clientId, slotEnt1, slotEnt2)
     -- TODO: check validity of arguments (bad actor could send any entity)
     -- TODO: check that we actually CAN move the items
     -- TODO: use qbus; check if we have permission
-    lp.swapItems(slotEnt1.containedItem, slotEnt2.containedItem)
+    local item1 = lp.slotToItem(slotEnt1)
+    local item2 = lp.slotToItem(slotEnt2)
+    lp.swapItems(item1, item2)
 end)
 
 local moveSlotItem = removeServerCall("lootplot:moveSlotItem", ENT_2, 
@@ -112,7 +119,7 @@ function(clientId, srcSlotEnt, targetSlotEnt)
     -- TODO: check validity of arguments (bad actor could send any entity)
     -- TODO: check that we actually CAN move the items
     -- TODO: use qbus; check if we have permission
-    local item = srcSlotEnt.containedItem
+    local item = lp.slotToItem(srcSlot)
     if item then
         lp.moveItem(item, targetSlotEnt)
     end
@@ -139,6 +146,7 @@ local function tryMove(srcSlot, targSlot)
         end
     end
 end
+
 
 
 local function click(slotEnt)
@@ -174,9 +182,10 @@ end
 
 
 
-components.project("slot", "clickable")
 
 if client then
+    components.project("slot", "clickable")
+
     umg.on("clickables:entityClickedClient", function(slotEnt, clientId)
         selection.click(slotEnt)
     end)

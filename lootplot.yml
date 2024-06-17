@@ -20,6 +20,9 @@ globals:
   lp.posToItem:
     args:
     - type: any
+  lp.slotToItem:
+    args:
+    - type: any
 
   lp.destroy:
     args:

@@ -21,7 +21,7 @@ function questions.canRemoveItem(ppos)
     return not umg.ask("lootplot:isItemRemovalBlocked", slotEnt, itemEnt)
 end
 
-function questions.couldHoldItem(ppos, itemEnt)
+function questions.couldHoldItem(slotEnt, itemEnt)
     --[[
         checks whether or not a slot COULD hold the item,
 
@@ -29,12 +29,12 @@ function questions.couldHoldItem(ppos, itemEnt)
         (If we use `canAddItem` when swapping items, then we will always
             get false, because theres another item in the slot.)
     ]]
-    return not umg.ask("lootplot:isItemAdditionBlocked", targSlotEnt, itemEnt)
+    return not umg.ask("lootplot:isItemAdditionBlocked", slotEnt, itemEnt)
 end
 
 function questions.canAddItem(slotEnt, itemEnt)
     -- whether or not we can ADD an item to slotEnt.
-    if umg.exists(slotEnt.containedItem) then
+    if lp.slotToItem(slotEnt) then
         return false
     end
     return questions.couldHoldItem(slotEnt, itemEnt)

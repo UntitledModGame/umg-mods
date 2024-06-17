@@ -62,6 +62,17 @@ function lp.posToItem(ppos)
     return ppos.plot:getItem(ppos.slot)
 end
 
+function lp.slotToItem(slotEnt)
+    local ppos = lp.getPos(slotEnt)
+    if not ppos then
+        return nil
+    end
+    local item = lp.posToItem(ppos)
+    if ppos and umg.exists(item) then
+        return item
+    end
+end
+
 
 function lp.getPos(ent)
     -- Gets the ppos of an ent
