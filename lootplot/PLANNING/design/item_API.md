@@ -1,20 +1,6 @@
 
 # Item-API and execution planning:
 
-IDEA: Have no implicit buffering. Implicit = bad.
-We should have tooling to help with buffering, tho.
-
-```lua
-defineItem({
-    onActivate = function(ent)
-        ... -- activates an item instantly
-    end,
-})
-
-
-```
-
-
 ## Execution API:
 ```lua
 defineItem({
@@ -42,25 +28,3 @@ local CustomBufferer = objects.Class(name)
 
 ```
 
-
-######
-# Ideation:
-######
-
-```lua
-
---[[
-    IDEATION:
-]]
-defineItem("mod:myItem", {
-
-    activationBuffer = lp.Bufferer()
-        :touching()
-        :items()
-        :execute(func)
-})
-
-
-
-
-```

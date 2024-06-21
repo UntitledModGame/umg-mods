@@ -64,10 +64,15 @@ since the shop would just be a regular inventory, with reroll+buyable slots.
 
 - When item is destroyed: Give the above item `contagion`.
     - `contagion`: Start of round: 
-        Clone a `doomed` self into all touching slots, 
+        Clone a `doomed` self into all touching empty slots, 
             and remove `contagion` augment.
 
 - End of round: Create `doomed` slots in a ROOK shape. 
     Does not overwrite.
 
+RULEBENDER IDEA:
+This item doesn't do anything on its own.
+However, it has two buttons bound to it:
+    - Copy: Copies the current plot
+    - Paste: Returns the plot to its saved state, and deletes all items of type `self`
 

@@ -44,7 +44,7 @@ Shop slots:
     Items in these slots can be purchased
 Dead slots:
     Items in these slots do not activate.
-    By default; shops/inventories have "Dead" slots.
+    By default; shops/inventories are "Dead" slots.
 
 
 
