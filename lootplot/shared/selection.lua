@@ -8,7 +8,6 @@ and interacting with said slots.
 
 ]]
 
-local questions = require("shared.questions")
 
 
 local selection = {}
@@ -52,12 +51,52 @@ local function isInteractable(slotEnt)
 end
 
 
+--[[
+    TODO:
+    Should we be exporting these functions..?
+    Maybe some systems will want to know whether an item can be moved or not;
+    Example:
+    ITEM- if all touching items cannot move,
+        gain +10 points
+
+    For now, embrace yagni.
+]]
+local function canRemoveItem(slotEnt)
+    -- whether or not we can REMOVE an item at ppos
+    local ppos = lp.getPos(slotEnt)
+    local itemEnt = lp.posToItem(ppos)
+    if not (itemEnt and slotEnt) then
+        return false -- no item to remove!
+    end
+    return not umg.ask("lootplot:isItemRemovalBlocked", slotEnt, itemEnt)
+end
+
+local function couldHoldItem(slotEnt, itemEnt)
+    --[[
+        checks whether or not a slot COULD hold the item,
+
+        We need this check for swapping items.
+        (If we use `canAddItem` when swapping items, then we will always
+            get false, because theres another item in the slot.)
+    ]]
+    return not umg.ask("lootplot:isItemAdditionBlocked", slotEnt, itemEnt)
+end
+
+local function canAddItem(slotEnt, itemEnt)
+    -- whether or not we can ADD an item to slotEnt.
+    if lp.slotToItem(slotEnt) then
+        return false
+    end
+    return couldHoldItem(slotEnt, itemEnt)
+end
+
+
 local function canMoveFromTo(srcSlot, targetSlot)
     local item = lp.slotToItem(srcSlot)
     if not item then
         return false
     end
-    if questions.couldHoldItem(targetSlot, item) and questions.canRemoveItem(srcSlot) then
+    if couldHoldItem(targetSlot, item) and canRemoveItem(srcSlot) then
         return true
     end
 end
@@ -111,7 +150,9 @@ function(clientId, slotEnt1, slotEnt2)
     -- TODO: use qbus; check if we have permission
     local item1 = lp.slotToItem(slotEnt1)
     local item2 = lp.slotToItem(slotEnt2)
-    lp.swapItems(item1, item2)
+    if canSwap(slotEnt1, slotEnt2) then
+        lp.swapItems(item1, item2)
+    end
 end)
 
 local moveSlotItem = removeServerCall("lootplot:moveSlotItem", ENT_2, 
@@ -120,7 +161,7 @@ function(clientId, srcSlotEnt, targetSlotEnt)
     -- TODO: check that we actually CAN move the items
     -- TODO: use qbus; check if we have permission
     local item = lp.slotToItem(srcSlotEnt)
-    if item then
+    if item and canMoveFromTo(srcSlotEnt, targetSlotEnt) then
         lp.moveItem(item, targetSlotEnt)
     end
 end)
@@ -206,3 +247,4 @@ end
 
 
 return selection
+

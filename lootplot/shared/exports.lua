@@ -257,7 +257,7 @@ end
 local function detach(ent)
     local ppos = lp.getPos(ent)
     if ppos then
-        ppos:clear()
+        ppos:clear(ent)
     end
 end
 
