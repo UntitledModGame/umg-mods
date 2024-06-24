@@ -162,6 +162,7 @@ function(clientId, srcSlotEnt, targetSlotEnt)
     -- TODO: use qbus; check if we have permission
     local item = lp.slotToItem(srcSlotEnt)
     if item and canMoveFromTo(srcSlotEnt, targetSlotEnt) then
+        assert(item.item and srcSlotEnt.slot and targetSlotEnt.slot, "?")
         lp.moveItem(item, targetSlotEnt)
     end
 end)

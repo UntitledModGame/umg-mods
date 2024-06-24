@@ -397,6 +397,7 @@ function lp.defineSlot(name, slotType)
     strTabTc(name, slotType)
     slotType.slot = true
     slotType.layer = "slot"
+    slotType.drawDepth = -50
     umg.defineEntityType(name, slotType)
 end
 
