@@ -47,7 +47,7 @@ end
 
 
 local function isInteractable(slotEnt)
-    return false -- just for now.
+    return slotEnt.slotInteractable
 end
 
 
@@ -195,6 +195,11 @@ local function click(slotEnt)
     if isInteractable(slotEnt) then
         -- An "interactable" slot in the world.
         --  for example: an in-world reroll button.
+        if lp.canActivateEntity(slotEnt) then
+            -- We also should do some other checks passing in the client that clicked!
+            -- Maybe we should unify this with interactable...?
+            lp.activateEntity(slotEnt)
+        end
     else
         -- else, select:
         selectSlot(slotEnt)
