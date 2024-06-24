@@ -289,6 +289,11 @@ end
 
 
 
+function lp.canActivateEntity(ent)
+    -- TODO: use a question bus here!
+    return true
+end
+
 function lp.activateEntity(ent)
     entityTc(ent)
     if ent.onActivate then

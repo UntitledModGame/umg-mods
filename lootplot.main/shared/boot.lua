@@ -35,6 +35,10 @@ local function addBaseSlots(plot)
     plot:foreachInArea(9,11, 4,6, function(ppos)
         local basicSlot = server.entities.slot()
         lp.setSlot(ppos, basicSlot)
+        -- lp.trySpawnItem(ppos, server.entities.bb)
+    end)
+    -- Spawn only one item for debug purposes
+    plot:foreachInArea(10,10, 5,5, function(ppos)
         lp.trySpawnItem(ppos, server.entities.bb)
     end)
 end
