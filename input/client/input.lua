@@ -7,7 +7,7 @@ TODO: Allow for even more custom stuff, like joysticks
 
 ]]
 
-
+---@type input.InputListener[]
 local sortedListeners = {}
 
 
@@ -66,6 +66,8 @@ end
 
 local InputListener = require("client.InputListener")
 
+---@param args? {priority?:integer}
+---@return input.InputListener
 function input.InputListener(args)
     args = args or {}
     local listener = InputListener({
@@ -78,7 +80,8 @@ function input.InputListener(args)
 end
 
 
-
+---@param listener input.InputListener
+---@param dt number
 local function update(listener, dt)
     for _, event in ipairs(eventBuffer) do
         local controlEnum = event.controlEnum
@@ -170,30 +173,29 @@ umg.on("@mousemoved", function(x,y,dx,dy)
     })
 end)
 
-
-
+---TODO: provide support for controllers in future here.
+---
+---We should probably create a separate module for the pointer...?
+---Because we want to add a TONNE of flexibility.
+---@return number,number
 function input.getPointerPosition()
-    --[[
-        TODO: provide support for controllers in future here.
-
-        We should probably create a separate module for the pointer...?
-        Because we want to add a TONNE of flexibility.
-    ]]
     return love.mouse.getPosition()
 end
 
 
-
+---@param controls string[]
 function input.defineControls(controls)
     assert(#controls > 0, "No controls defined?")
     controlManager:defineControls(controls)
 end
 
+---@param controls table<string, string[]>
 function input.setControls(controls)
     controlManager:setControls(controls)
 end
 
-
+---@param x any
+---@return boolean
 function input.isValidControl(x)
     return controlManager:isValidControl(x)
 end
