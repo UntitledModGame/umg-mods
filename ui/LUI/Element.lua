@@ -3,6 +3,20 @@
 local util = require("LUI.util")
 
 
+--[[
+todo: annotate this properly in the future
+]]
+
+--- A UI element as part of the LUI library.
+---@class Element
+---@field onTextInput function
+---@field onControlRelease function
+---@field onControlPress function
+---@field onResize function
+---@field onPointerMoved function
+---@field onRender function
+---@field onAddChild function
+---@field onRemoveChild function
 local Element = {}
 
 
@@ -22,11 +36,6 @@ local function forcePropagateToChildren(self, funcName, ...)
     end
 end
 
-
-
-function Element:getParent()
-    return self._parent
-end
 
 
 
@@ -67,11 +76,13 @@ end
 
 
 local bindTc = typecheck.assert("table", "entity")
+---@param ent Entity
 function Element:bindEntity(ent)
     bindTc(self, ent)
     self._entity = ent
 end
 
+---@return Entity?
 function Element:getEntity()
     local e = self._entity
     if umg.exists(e) then
@@ -82,6 +93,7 @@ end
 
 
 
+---@return boolean
 function Element:isRoot()
     -- element with no parent = root element
     return not self._parent
@@ -98,6 +110,8 @@ function Element:makeRoot()
     self._markedAsRoot = true
 end
 
+--- Pointer events will pass through this element
+---@param bool boolean
 function Element:setPassthrough(bool)
     self._passThrough = bool
 end
@@ -124,6 +138,9 @@ local function assertChildElemValid(elem)
 end
 
 
+--- Adds a child element to this element's hierarchy.
+--- Must be called when using nested elements.
+---@param childElem Element
 function Element:addChild(childElem)
     if self:hasChild(childElem) then
         return --already has.
@@ -137,6 +154,8 @@ function Element:addChild(childElem)
 end
 
 
+--- Removes a child element from this element's hierarchy.
+---@param childElem Element
 function Element:removeChild(childElem)
     if not self:hasChild(childElem) then
         return
@@ -149,6 +168,8 @@ function Element:removeChild(childElem)
 end
 
 
+---@param childElem Element
+---@return boolean
 function Element:hasChild(childElem)
     return self._childElementHash[childElem]
 end
@@ -166,6 +187,7 @@ local function setView(self, x,y,w,h)
 end
 
 
+---@return number,number,number,number
 function Element:getView()
     local view = self._view
     return view.x,view.y,view.w,view.h
@@ -184,6 +206,11 @@ local function activate(self)
 end
 
 
+--- Starts stenciling
+---@param x number
+---@param y number
+---@param w number
+---@param h number
 function Element:startStencil(x,y,w,h)
     local function stencil()
         love.graphics.rectangle("fill",x,y,w,h)
@@ -198,6 +225,11 @@ function Element:endStencil()
 end
 
 
+--- Renders an element
+---@param x number
+---@param y number
+---@param w number
+---@param h number
 function Element:render(x,y,w,h)
     if self:isRoot() and (not self._markedAsRoot) then
         umg.melt("Attempt to render uncontained element!", 2)
@@ -260,6 +292,11 @@ end
 
 
 
+--- Call when the pointer moves (mouse)
+---@param x number
+---@param y number
+---@param dx number
+---@param dy number
 function Element:pointerMoved(x,y, dx, dy)
     util.tryCall(self.onPointerMoved, self, x,y, dx,dy)
     umg.call("ui:elementPointerMoved", self, x,y, dx,dy)
@@ -347,7 +384,7 @@ end
 
 function Element:controlPressed(controlEnum)
     --[[
-        this function will return `true` is the controlEnum should be blocked
+        this function will return `true` if the controlEnum should be blocked
             for other systems;
         false, otherwise.
     ]]
@@ -388,11 +425,13 @@ end
 
 
 
+---@return Element|false
 function Element:getParent()
     return self._parent
 end
 
 
+---@return Element[]
 function Element:getChildren()
     return self._children
 end
@@ -506,12 +545,16 @@ function Element:unfocus()
 end
 
 
+--- returns if the element is focused or not
+---@return boolean
 function Element:isFocused()
     local root = self:getRoot()
     return root:getFocusedChild() == self
 end
 
 
+--- Gets the focused child element
+---@return Element
 function Element:getFocusedChild()
     return self._focusedChild
 end
@@ -520,12 +563,16 @@ end
 
 
 
-
+--- Checks whether an element is being hovered by the pointer or not
+---@return boolean
 function Element:isHovered()
     return self._hovered
 end
 
 
+--- Checks whether element as active or not. <br>
+--- If an element was rendered the previous frame, then its active
+---@return boolean
 function Element:isActive()
     --[[
         returns whether an element is active or not.
@@ -540,19 +587,28 @@ end
 
 
 local isPressedByTc = typecheck.assert("control")
+
+--- Returns true if the element is pressed by some control
+---@param controlEnum string
+---@return boolean
 function Element:isPressedBy(controlEnum)
     -- returns true iff the element is clicked on by
     isPressedByTc(controlEnum)
     return self._isPressedBy[controlEnum]
 end
 
--- QOL helper func:
+--- Checks if the element is clicked
+---@return boolean
 function Element:isClicked()
     return self:isPressedBy("input:CLICK_PRIMARY")
 end
 
 
 
+--- returns true if (x,y) is inside element bounds
+---@param x number
+---@param y number
+---@return boolean
 function Element:contains(x,y)
     -- returns true if (x,y) is inside element bounds
     local X,Y,W,H = self:getView()
@@ -563,6 +619,8 @@ end
 
 
 
+--- it gets the element name 
+---@return string
 function Element:getType()
     -- defined by ElementClass
     return self._elementName

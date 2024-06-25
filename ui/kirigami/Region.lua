@@ -23,7 +23,9 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ]]
 
+---@class Region
 local Region = {}
+
 local Region_mt = {__index = Region}
 
 
@@ -60,6 +62,12 @@ end
 
 
 
+--- Creates a new region
+---@param x number?
+---@param y number?
+---@param w number?
+---@param h number?
+---@return Region
 local function newRegion(x,y,w,h)
     if not x then
         -- default region is empty
@@ -106,6 +114,9 @@ local function getRatios(...)
     return ratios
 end
 
+--- Splits a region vertically
+---@param ... number
+---@return Region
 function Region:splitVertical(...)
     --[[
         splits a region vertically.
