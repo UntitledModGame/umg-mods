@@ -1,25 +1,17 @@
+---@meta
 
-
-local reducers = {}
---[[
-
-These are mainly supposed to be used with the umg.ask() function,
-as the reducer.
-
-]]
+reducers = {}
 
 ---@param a boolean
 ---@param b boolean
 ---@return boolean
 function reducers.OR(a,b)
-    return a or b
 end
 
 ---@param a boolean
 ---@param b boolean
 ---@return boolean
 function reducers.AND(a,b)
-    return a and b
 end
 
 ---takes two inputs a,b
@@ -28,10 +20,6 @@ end
 ---@param b any
 ---@return any
 function reducers.EXISTS(a, b)
-    if umg.exists(a) then
-        return a
-    end
-    return b
 end
 
 ---TODO: Should we have the defaults (or 0) here?
@@ -40,7 +28,6 @@ end
 ---@param b number
 ---@return number
 function reducers.ADD(a,b)
-    return (a or 0) + (b or 0)
 end
 reducers.SUM = reducers.ADD
 
@@ -51,7 +38,6 @@ reducers.SUM = reducers.ADD
 ---@param b number
 ---@return number
 function reducers.MULTIPLY(a,b)
-    return (a or 1) * (b or 1)
 end
 
 ---combines vectors together by adding.
@@ -62,7 +48,6 @@ end
 ---@param y2 number
 ---@return number,number
 function reducers.ADD_VECTOR(x1,x2, y1,y2)
-    return x1 + x2, y1 + y2
 end
 
 ---combines 3d vectors together by adding.
@@ -75,7 +60,6 @@ end
 ---@param z2 number
 ---@return number,number,number
 function reducers.ADD_VECTOR3(x1,x2, y1,y2, z1,z2)
-    return x1 + x2, y1 + y2, z1+z2
 end
 
 ---combines vectors together by multiplying.
@@ -86,11 +70,7 @@ end
 ---@param y2 number
 ---@return number,number
 function reducers.MULTIPLY_VECTOR(x1,x2, y1,y2)
-    return x1 * x2, y1 * y2
 end
-
--- default priority
-local D_PRIO = -9999
 
 ---Treats the 2nd answer-value as the priority.
 ---Returns the answer with the highest priority.
@@ -121,10 +101,6 @@ local D_PRIO = -9999
 ---@param prio_b number
 ---@return any,number
 function reducers.PRIORITY(a, b, prio_a, prio_b)
-    if (prio_a or D_PRIO) > (prio_b or D_PRIO) then
-        return a, prio_a
-    end
-    return b, prio_b
 end
 
 
@@ -148,39 +124,15 @@ end
 ---@param prio_2 integer
 ---@return any,any,integer
 function reducers.PRIORITY_DOUBLE(x1,x2, y1,y2, prio_1, prio_2)
-    if (prio_1 or D_PRIO) > (prio_2 or D_PRIO) then
-        return x1, y1, prio_1
-    end
-    return x2, y2, prio_2
 end
-
-
-
-
 reducers.MIN = math.min
-
 reducers.MAX = math.max
-
-
-
-local UNIQUE_MT = {}
 
 ---@generic T
 ---@param arr_a T[]
 ---@param arr_b T[]
 ---@return T[]
 function reducers.MERGE_ARRAYS(arr_a, arr_b)
-    assert(type(arr_a) == "table", "Should be a table!")
-    assert(type(arr_b) == "table", "Should be a table!")
-
-    local new = {}
-    for i=1, #arr_a do
-        table.insert(new, arr_a[i])
-    end
-    for i=1, #arr_b do
-        table.insert(new, arr_b[i])
-    end
-    return new
 end
 
 ---returns the FIRST truthy result
@@ -189,10 +141,6 @@ end
 ---@param b any
 ---@return any
 function reducers.FIRST(a, b)
-    if a then
-        return a
-    end
-    return b
 end
 
 
@@ -202,10 +150,6 @@ end
 ---@param b any
 ---@return any
 function reducers.LAST(a, b)
-    if b then
-        return b
-    end
-    return a
 end
 
 ---Reducer function that collects all single inputs into an array.
@@ -218,21 +162,6 @@ end
 ---@param b T
 ---@return T[]
 function reducers.SINGLE_COLLECT(a, b)
-    local ret = a
-    if getmetatable(ret) ~= UNIQUE_MT then
-        --[[
-        this is kinda hacky lmao!
-        Basically, we need to be able to add any type to the array.
-        So we set a unique metatable (UNIQUE_MT)
-        ]]
-        ret = setmetatable({}, UNIQUE_MT)
-        table.insert(ret, a)
-    end
-    table.insert(ret, b)
-    return ret
 end
 
-
-
-
-umg.expose("reducers", reducers)
+return reducers
