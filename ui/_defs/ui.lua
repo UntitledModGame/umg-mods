@@ -26,11 +26,9 @@ end
 function Element:getEntity()
 end
 
-
 ---@return boolean
 function Element:isRoot()
 end
-
 
 --[[
     Denotes this element as a "Root" element.
@@ -46,28 +44,21 @@ end
 function Element:setPassthrough(bool)
 end
 
-
-
-
 --- Adds a child element to this element's hierarchy.
 --- Must be called when using nested elements.
 ---@param childElem Element
 function Element:addChild(childElem)
 end
 
-
 --- Removes a child element from this element's hierarchy.
 ---@param childElem Element
 function Element:removeChild(childElem)
 end
 
-
 ---@param childElem Element
 ---@return boolean
 function Element:hasChild(childElem)
 end
-
-
 
 ---@return number,number,number,number
 function Element:getView()
@@ -78,31 +69,27 @@ end
 ---@param y number
 ---@param w number
 ---@param h number
-function Element:startStencil(x,y,w,h)
+function Element:startStencil(x, y, w, h)
 end
-
 
 function Element:endStencil()
 end
-
 
 --- Renders an element
 ---@param x number
 ---@param y number
 ---@param w number
 ---@param h number
-function Element:render(x,y,w,h)
+function Element:render(x, y, w, h)
 end
-
 
 --- Call when the pointer moves (mouse)
 ---@param x number
 ---@param y number
 ---@param dx number
 ---@param dy number
-function Element:pointerMoved(x,y, dx, dy)
+function Element:pointerMoved(x, y, dx, dy)
 end
-
 
 --- Should be called when a control is pressed. will return `true` if the controlEnum should be blocked for other systems; false, otherwise.
 ---@param controlEnum string
@@ -115,22 +102,18 @@ end
 function Element:controlReleased(controlEnum)
 end
 
-
 ---@param text string
 function Element:textInput(text)
 end
 
-
 ---@param x number
 ---@param y number
-function Element:resize(x,y)
+function Element:resize(x, y)
 end
-
 
 ---@return Element|false
 function Element:getParent()
 end
-
 
 ---@return Element[]
 function Element:getChildren()
@@ -141,62 +124,50 @@ end
 function Element:getRoot()
 end
 
-
 --- Gets the parent ent, walking up the elements hierarchy if needed
 ---@return EntityClass|table<string, any>
 function Element:getParentEntity()
 end
 
-
-
 --- If no args are passed to `:render(x,y,w,h)`,
---- then we will use these 
+--- then we will use these
 ---@param x number
 ---@param y number
 ---@param w number
 ---@param h number
-function Element:setDefaultRegion(x,y,w,h)
+function Element:setDefaultRegion(x, y, w, h)
 end
-
 
 ---@return number,number,number,number
 function Element:getDefaultRegion()
 end
 
-
 function Element:focus()
 end
 
-
-
 function Element:unfocus()
 end
-
 
 --- returns if the element is focused or not
 ---@return boolean
 function Element:isFocused()
 end
 
-
 --- Gets the focused child element
 ---@return Element
 function Element:getFocusedChild()
 end
-
 
 --- Checks whether an element is being hovered by the pointer or not
 ---@return boolean
 function Element:isHovered()
 end
 
-
 --- Checks whether element as active or not. <br>
 --- If an element was rendered the previous frame, then its active
 ---@return boolean
 function Element:isActive()
 end
-
 
 --- Returns true if the element is pressed by some control
 ---@param controlEnum string
@@ -213,18 +184,13 @@ end
 ---@param x number
 ---@param y number
 ---@return boolean
-function Element:contains(x,y)
+function Element:contains(x, y)
 end
 
---- it gets the element name 
+--- it gets the element name
 ---@return string
 function Element:getType()
 end
-
-
-
-
-
 
 ---@type table<string, fun(...): Element>)
 ui.elements = require("client.elements")
@@ -234,4 +200,3 @@ ui.Region = require("kirigami.Region")
 
 
 umg.expose("ui", ui)
-

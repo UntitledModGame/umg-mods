@@ -32,7 +32,7 @@ local ElementClass_mt = {
 }
 
 
----@class ElementsClass
+---@class ElementClass
 ---@field onTextInput function
 ---@field onControlRelease function
 ---@field onControlPress function
@@ -43,6 +43,10 @@ local ElementClass_mt = {
 ---@field onRemoveChild function
 local ElementClass = {}
 
+
+--- Creates a new ElementClass
+---@param elementName string
+---@return ElementClass
 local function newElementClass(elementName)
     --[[
         two layers of __index here;
