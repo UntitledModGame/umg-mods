@@ -139,6 +139,9 @@ function Region:splitVertical(...)
 end
 
 
+--- Splits a region vertically
+---@param ... number
+---@return Region
 function Region:splitHorizontal(...)
     --[[
         Same as vertical, but in other direction
@@ -159,6 +162,10 @@ end
 
 
 
+--- Splits a region into a grid
+---@param rows number
+---@param cols number
+---@return Region
 function Region:grid(rows, cols)
     local w, h = self.w/rows, self.h/cols
     local regions = {}
@@ -176,11 +183,17 @@ function Region:grid(rows, cols)
 end
 
 
+--- Splits a region into rows
+---@param rows number
+---@return Region
 function Region:rows(rows)
   return self:grid(rows, 1)
 end
 
 
+--- Splits a region into columns
+---@param columns number
+---@return Region
 function Region:columns(columns)
   return self:grid(1, columns)
 end
@@ -200,6 +213,12 @@ end
 
 
 
+--- Returns a new padded region; padded by pixels
+---@param left number
+---@param top number
+---@param right number
+---@param bot number
+---@return Region
 function Region:padPixels(left, top, right, bot)
     --[[
         Creates an inner region, with padding on sides.
@@ -222,6 +241,13 @@ local function maxHalf(x)
 end
 
 
+--- Returns a new padded region; padded by ratio
+--- For example, :pad(0.1) will give 10% padding to ALL sides.
+---@param left number
+---@param top number
+---@param right number
+---@param bot number
+---@return Region
 function Region:pad(left, top, right, bot)
     --[[
         Pads a region, percentage wise.
@@ -241,10 +267,12 @@ function Region:pad(left, top, right, bot)
 end
 
 
+--[[
+    grows a region to width/height
+]]
+---@param width number
+---@param height number
 function Region:growTo(width, height)
-    --[[
-        grows a region to width/height
-    ]]
     width, height = getWH(width, height)
     local w = math.max(width, self.w)
     local h = math.max(height, self.h)
@@ -255,10 +283,12 @@ function Region:growTo(width, height)
 end
 
 
+--[[
+    shrinks a region to width/height
+]]
+---@param width number
+---@param height number
 function Region:shrinkTo(width, height)
-    --[[
-        shrinks a region to width/height
-    ]]
     width, height = getWH(width, height)
     local w = math.min(width, self.w)
     local h = math.min(height, self.h)
@@ -270,9 +300,12 @@ end
 
 
 
+--- Gets the scale such that a region fits (width, height) bounds.
+---@param width number
+---@param height number
+---@return number
 function Region:getScaleToFit(width, height)
     --[[
-        gets the scale such that a region fits (width, height) bounds.
     ]]
     width, height = getWH(width, height)
     local w, h = self.w, self.h
@@ -287,19 +320,33 @@ end
 
 
 
+--- Returns a new region that is scaled to fit certain boundaries
+---@param width number
+---@param height number
+---@return Region
 function Region:scaleToFit(width, height)
     local scale = self:getScaleToFit(width, height)
     local w, h = self.w, self.h
     return newRegion(self.x, self.y, w*scale, h*scale)
 end
 
+
+--- Returns a new scaled region
+---@param sx number
+---@param sy number
+---@return Region
 function Region:scale(sx, sy)
     sx = sx or 1
     sy = sy or 1
     return newRegion(self.x, self.y, self.w*sx, self.h*sy)
 end
 
-
+--- Directly sets the view of a region
+---@param x number
+---@param y number
+---@param w number
+---@param h number
+---@return Region
 function Region:set(x,y,w,h)
     return newRegion(
         x or self.x,
