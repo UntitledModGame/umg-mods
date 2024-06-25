@@ -117,7 +117,7 @@ function Heap:clone()
 	return newHeap
 end
 
-function Heap:heapify(oldTable, comparator)
+function Heap.heapify(oldTable, comparator)
 	local newHeap = Heap.new(comparator)
 	for i = #oldTable, 1, -1 do
 		newHeap:insert(oldTable[i])

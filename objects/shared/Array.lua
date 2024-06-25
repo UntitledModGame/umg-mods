@@ -132,7 +132,7 @@ function Array:map(func)
     local newArray = Array()
     for i=1, self.len do
         local item = func(self[i])
-        if item then
+        if item ~= nil then
             newArray:add(item)
         end
     end
