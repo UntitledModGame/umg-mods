@@ -16,7 +16,6 @@ sync.getTimeOfLastTick = tickDelta.getTimeOfLastTick
 local control = require("shared.control")
 
 sync.isControlledBy = control.isControlledBy
-sync.getController = control.getController
 
 if client then
     -- only available clientside
