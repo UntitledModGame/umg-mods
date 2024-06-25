@@ -66,9 +66,10 @@ Use these methods instead
 ]]
 local INDEX = "number"
 local ENT = "entity"
+local LAYER = "string"
 
 umg.definePacket("lootplot:setPlotEntry", {typelist = {ENT, INDEX, ENT}})
-umg.definePacket("lootplot:clearPlotEntry", {typelist = {ENT, INDEX}})
+umg.definePacket("lootplot:clearPlotEntry", {typelist = {ENT, INDEX, LAYER}})
 
 
 function Plot:set(index, ent)

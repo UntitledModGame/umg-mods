@@ -257,7 +257,7 @@ end
 local function detach(ent)
     local ppos = lp.getPos(ent)
     if ppos then
-        ppos:clear()
+        ppos:clear(ent)
     end
 end
 
@@ -288,6 +288,11 @@ function lp.swapItems(item1, item2)
 end
 
 
+
+function lp.canActivateEntity(ent)
+    -- TODO: use a question bus here!
+    return true
+end
 
 function lp.activateEntity(ent)
     entityTc(ent)
@@ -397,6 +402,7 @@ function lp.defineSlot(name, slotType)
     strTabTc(name, slotType)
     slotType.slot = true
     slotType.layer = "slot"
+    slotType.drawDepth = -50
     umg.defineEntityType(name, slotType)
 end
 
