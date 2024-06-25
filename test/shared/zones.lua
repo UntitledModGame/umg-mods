@@ -110,11 +110,3 @@ else
     clientId = client.getClient()
 end
 assert(clientId,"?")
-
-
-umg.answer("sync:getController", function(ent)
-    if inRangeOf(ent, cyanZone) then
-        return clientId
-    end
-    return nil
-end)

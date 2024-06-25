@@ -128,7 +128,7 @@ local function shouldUpdate(ent)
         return sync.isClientControlling(ent)
     else
         -- serverside:
-        return not sync.getController(ent)
+        return not ent.controller
     end
 
     -- if server then
