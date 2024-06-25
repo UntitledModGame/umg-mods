@@ -9,14 +9,6 @@ todo: annotate this properly in the future
 
 --- A UI element as part of the LUI library.
 ---@class Element
----@field onTextInput function
----@field onControlRelease function
----@field onControlPress function
----@field onResize function
----@field onPointerMoved function
----@field onRender function
----@field onAddChild function
----@field onRemoveChild function
 local Element = {}
 
 
@@ -100,13 +92,13 @@ function Element:isRoot()
 end
 
 
-function Element:makeRoot()
-    --[[
-        Denotes this element as a "Root" element.
-        This basically tells us that we can draw this element in a detatched fashion.
+--[[
+    Denotes this element as a "Root" element.
+    This basically tells us that we can draw this element in a detatched fashion.
 
-        (For example, a "Scene" is a good example of a "Root" element)
-    ]]
+    (For example, a "Scene" is a good example of a "Root" element)
+]]
+function Element:makeRoot()
     self._markedAsRoot = true
 end
 
@@ -382,6 +374,9 @@ local function dispatchControl(self, controlEnum)
 end
 
 
+--- Should be called when a control is pressed. will return `true` if the controlEnum should be blocked for other systems; false, otherwise.
+---@param controlEnum string
+---@return boolean
 function Element:controlPressed(controlEnum)
     --[[
         this function will return `true` if the controlEnum should be blocked
@@ -397,6 +392,8 @@ function Element:controlPressed(controlEnum)
     return consumed
 end
 
+--- Should be called when a control is released.
+---@param controlEnum string
 function Element:controlReleased(controlEnum)
     -- should be called when mouse is released ANYWHERE in the scene
     if not self._isPressedBy[controlEnum] then
@@ -411,12 +408,15 @@ function Element:controlReleased(controlEnum)
 end
 
 
+---@param text string
 function Element:textInput(text)
     util.tryCall(self.onTextInput, self, text)
     propagateToActiveChildren(self, "textInput", text)
 end
 
 
+---@param x number
+---@param y number
 function Element:resize(x,y)
     util.tryCall(self.onResize, self, x, y)
     propagateToActiveChildren(self, "resize", x, y)
@@ -444,6 +444,7 @@ end
 
 local MAX_DEPTH = 10000
 
+---@return Element
 function Element:getRoot()
     -- gets the root ancestor of this element
     local elem = self
@@ -459,6 +460,8 @@ function Element:getRoot()
 end
 
 
+--- Gets the parent ent, walking up the elements hierarchy if needed
+---@return EntityClass|table<string, any>
 function Element:getParentEntity()
     -- Gets the entity that this element "belongs" to.
     -- Walks up the element heirarchy if needed.
@@ -479,6 +482,12 @@ end
 
 
 
+--- If no args are passed to `:render(x,y,w,h)`,
+--- then we will use these 
+---@param x number
+---@param y number
+---@param w number
+---@param h number
 function Element:setDefaultRegion(x,y,w,h)
     --[[
         if no args are passed to `:render(x,y,w,h)`,
@@ -493,6 +502,7 @@ function Element:setDefaultRegion(x,y,w,h)
 end
 
 
+---@return number,number,number,number
 function Element:getDefaultRegion()
     local r = self._defaultRegion
     return r.x,r.y, r.w,r.h

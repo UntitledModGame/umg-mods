@@ -32,6 +32,17 @@ local ElementClass_mt = {
 }
 
 
+---@class ElementsClass
+---@field onTextInput function
+---@field onControlRelease function
+---@field onControlPress function
+---@field onResize function
+---@field onPointerMoved function
+---@field onRender function
+---@field onAddChild function
+---@field onRemoveChild function
+local ElementClass = {}
+
 local function newElementClass(elementName)
     --[[
         two layers of __index here;
