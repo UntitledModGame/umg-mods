@@ -6,6 +6,7 @@
     happening on screen; as opposed to everything triggering everything else.
 ]]
 
+---@class lootplot.Pipeline: objects.Class
 local Pipeline = objects.Class("lootplot:Pipeline")
 
 
@@ -25,7 +26,7 @@ function Pipeline:push(fn, ...)
     })
 end
 
-
+---@param delay number
 function Pipeline:wait(delay)
     self.buffer:add({
         delay = delay
@@ -53,10 +54,10 @@ function Pipeline:tick()
     end
 end
 
-
+---@return boolean
 function Pipeline:isEmpty()
     return self.buffer:size() == 0
 end
 
-
+---@cast Pipeline +fun():lootplot.Pipeline
 return Pipeline

@@ -12,6 +12,7 @@ the owner entity MUST reference plot by `ent.plot = Plot(...)`
 
 local Pipeline = require("shared.Pipeline")
 
+---@class lootplot.Plot: objects.Class
 local Plot = objects.Class("lootplot:Plot")
 
 local ptrack = require("shared.internal.positionTracking")
@@ -20,6 +21,9 @@ local ptrack = require("shared.internal.positionTracking")
 
 
 local plotTc = typecheck.assert("entity", "number", "number")
+---@param ownerEnt Entity
+---@param width integer
+---@param height integer
 function Plot:init(ownerEnt, width, height)
     plotTc(ownerEnt, width, height)
 
@@ -71,7 +75,8 @@ local LAYER = "string"
 umg.definePacket("lootplot:setPlotEntry", {typelist = {ENT, INDEX, ENT}})
 umg.definePacket("lootplot:clearPlotEntry", {typelist = {ENT, INDEX, LAYER}})
 
-
+---@param index integer
+---@param ent lootplot.LayerEntity needs ent.layer comp
 function Plot:set(index, ent)
     --[[
         ent needs ent.layer comp
@@ -99,10 +104,9 @@ end
 
 
 local clearTc = typecheck.assert('number', 'string')
+---@param index integer
+---@param layer string layer name
 function Plot:clear(index, layer)
-    --[[
-        layer: string layer name
-    ]]
     clearTc(index, layer)
     local x,y = self.grid:indexToCoords(index)
     local grid = self.layers[layer]
@@ -129,7 +133,8 @@ end
 
 
 
-
+---@param index integer
+---@return lootplot.SlotEntity?
 function Plot:getSlot(index)
     local x,y = self.grid:indexToCoords(index)
     local e = self.layers.slot:get(x,y)
@@ -138,6 +143,8 @@ function Plot:getSlot(index)
     end
 end
 
+---@param index integer
+---@return lootplot.ItemEntity?
 function Plot:getItem(index)
     local x,y = self.grid:indexToCoords(index)
     -- This is a bit hacky accessing the item layer directly
@@ -147,7 +154,11 @@ function Plot:getItem(index)
     end
 end
 
-
+---@param x1 integer
+---@param x2 integer
+---@param y1 integer
+---@param y2 integer
+---@param func fun(ppos:lootplot.PPos)
 function Plot:foreachInArea(x1,x2, y1,y2, func)
     local grid = self.grid
     return grid:foreachInArea(x1,x2,y1,y2, function(_val,x,y)
@@ -158,25 +169,28 @@ function Plot:foreachInArea(x1,x2, y1,y2, func)
 end
 
 
-
+---@param slotIndex integer
+---@return integer,integer
 function Plot:indexToCoords(slotIndex)
     return self.grid:indexToCoords(slotIndex)
 end
 
+---@param x integer
+---@param y integer
+---@return integer
 function Plot:coordsToIndex(x,y)
     return self.grid:coordsToIndex(x,y)
 end
 
 
-
+---runs a function within a plot, buffered.
+---@param fn fun(...:any)
+---@param ... any
 function Plot:queue(fn, ...)
-    --[[
-        runs a function within a plot, buffered.
-    ]]
     self.pipeline:push(fn, ...)
 end
 
-
+---@param time number
 function Plot:wait(time)
     local mult = umg.ask("lootplot:getPipelineDelayMultiplier", self) or 1
     self.pipeline:wait(time * mult)
@@ -188,11 +202,9 @@ function Plot:tick()
     self.pipeline:tick()
 end
 
-
+---loops over all of the plot, including empty slots
+---@param func fun(ppos:lootplot.PPos)
 function Plot:foreach(func)
-    --[[
-        loops over all of the plot, including empty slots
-    ]]
     self.grid:foreach(function(_val, x, y)
         local slotI = self.grid:coordsToIndex(x,y)
         local ppos = lp.PPos({
@@ -203,9 +215,9 @@ function Plot:foreach(func)
     end)
 end
 
-
+---loops over all slot-entities in plot
+---@param func fun(ent:lootplot.SlotEntity,ppos:lootplot.PPos)
 function Plot:foreachSlot(func)
-    -- loops over all slot-entities in plot
     self:foreach(function(ppos)
         local slotEnt = lp.posToSlot(ppos)
         if slotEnt then
@@ -214,8 +226,9 @@ function Plot:foreachSlot(func)
     end)
 end
 
+---loops over all item-entities in plot
+---@param func fun(ent:lootplot.ItemEntity,ppos:lootplot.PPos)
 function Plot:foreachItem(func)
-    -- loops over all item-entities in plot
     self:foreach(function(ppos)
         local itemEnt = lp.posToItem(ppos)
         if itemEnt then
@@ -224,11 +237,10 @@ function Plot:foreachItem(func)
     end)
 end
 
-
+---returns plot-position as a dimensionVector
+---@param ppos lootplot.PPos
+---@return spatial.DimensionVector
 function Plot:pposToWorldCoords(ppos)
-    --[[
-        returns plot-position as a dimensionVector
-    ]]
     local plotEnt = self.ownerEnt
     assert(plotEnt.x and plotEnt.y, "Cannot get world position of a Plot when owner ent doesn't have x,y components")
     local ix,iy = ppos:getCoords()
@@ -242,22 +254,19 @@ function Plot:pposToWorldCoords(ppos)
 end
 
 
-
-local function round(x)
-    return math.floor(x+0.5)
-end
-
+---gets the closest ppos to a (x,y) coord pair.
+---
+---**NOTE:**
+---If the (x,y) coords is out of bounds, 
+---it will STILL return the closest match!
+---@param x number
+---@param y number
+---@return lootplot.PPos
 function Plot:getClosestPPos(x,y)
-    --[[
-        gets the closest ppos to a (x,y) coord pair.
-        NOTE:
-        If the (x,y) coords is out of bounds, 
-        it will STILL return the closest match!
-    ]]
     local plotEnt = self.ownerEnt
     local slotDist = lp.constants.WORLD_SLOT_DISTANCE
-    local ix = round((x/slotDist) - plotEnt.x)
-    local iy = round((y/slotDist) - plotEnt.y)
+    local ix = math.round((x/slotDist) - plotEnt.x)
+    local iy = math.round((y/slotDist) - plotEnt.y)
 
     local grid = self.grid
     ix = math.clamp(ix, 0, grid.width-1)
@@ -271,6 +280,6 @@ function Plot:getClosestPPos(x,y)
 end
 
 
-
+---@cast Plot +fun(ownerEnt:Entity,width:integer,height:integer):lootplot.Plot
 return Plot
 

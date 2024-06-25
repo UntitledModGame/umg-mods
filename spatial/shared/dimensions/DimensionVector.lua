@@ -39,6 +39,12 @@ functions that can take either a DimensionVector, or an entity.
     They are just POD.
 ]]
 
+---@class spatial.DimensionVector
+---@field public x number
+---@field public y number
+---@field public z number?
+---@field public dimension string?
+---@alias spatial.DVector spatial.DimensionVector
 
 local ndvTc1 = typecheck.assert("number", "number", "string?", "number?")
 local ndvTc2 = typecheck.assert({

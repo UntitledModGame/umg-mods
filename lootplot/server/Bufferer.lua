@@ -1,4 +1,4 @@
-
+---@class lootplot.Bufferer: objects.Class
 local Bufferer = objects.Class("lootplot:Bufferer")
 --[[
 
@@ -40,13 +40,16 @@ end
 
 
 local posTc = typecheck.assert("ppos")
-
+---@param ppos lootplot.PPos
+---@return lootplot.Bufferer
 function Bufferer:add(ppos)
     posTc(ppos)
     self.positions:add(ppos)
     return self
 end
 
+---@param ent lootplot.LayerEntity
+---@return lootplot.Bufferer
 function Bufferer:touching(ent)
     --TODO: wire this up with shape API
     local ppos = lp.getPos(ent)
@@ -55,6 +58,8 @@ function Bufferer:touching(ent)
     return self
 end
 
+---@param plot_or_ppos lootplot.Plot|lootplot.PPos
+---@return lootplot.Bufferer
 function Bufferer:all(plot_or_ppos)
     assert(plot_or_ppos, "needs plot as arg")
     local plot = plot_or_ppos
@@ -63,24 +68,27 @@ function Bufferer:all(plot_or_ppos)
         -- Ans: It's converting ppos --> plot.
         plot = plot_or_ppos.plot
     end
+    ---@cast plot lootplot.Plot
     plot:foreach(function(pos)
         self:add(pos)
     end)
     return self
 end
 
-
+---@return lootplot.Bufferer
 function Bufferer:items()
     self.conversion = CONVERSIONS.ITEM
     return self
 end
 
+---@return lootplot.Bufferer
 function Bufferer:slots()
     self.conversion = CONVERSIONS.SLOT
     return self
 end
 
-
+---@param x number
+---@return lootplot.Bufferer
 function Bufferer:delay(x)
     self._delay = x
     return self
@@ -143,7 +151,7 @@ end
 
 
 local funcTc = typecheck.assert("function")
-
+---@param func fun(ppos:lootplot.PPos,ent?:Entity)
 function Bufferer:execute(func)
     funcTc(func)
     assert(not self.execution, "wot? cant use a buffer twice bruv")
@@ -151,11 +159,9 @@ function Bufferer:execute(func)
     finalize(self)
 end
 
-
+---@param func fun(ppos:lootplot.PPos,ent?:Entity):boolean
+---@return lootplot.Bufferer
 function Bufferer:filter(func)
-    --[[
-        func: function(ppos, itemEnt|slotEnt|nil) -> boolean
-    ]]
     funcTc(func)
     self.filters:add(func)
     return self
@@ -163,6 +169,6 @@ end
 
 
 
-
+---@cast Bufferer +fun():lootplot.Bufferer
 return Bufferer
 

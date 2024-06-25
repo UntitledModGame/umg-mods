@@ -15,21 +15,25 @@ local lp = {}
 
 if server then
 local queueTc = typecheck.assert("ppos", "function")
+---basic action-buffering, with 0 arguments for function.
+---
+---NOTE:  This function name is a bit confusing!!!
+---    It doesn't actually add `func` to a queue;
+---    it adds it to a LIFO stack.
+---    I just think that `lp.queue` is a more sensible name than 
+---        `lp.push` or `lp.buffer`
+---@param ppos lootplot.PPos
+---@param func fun()
 function lp.queue(ppos, func)
     --[[
-        basic action-buffering, with 0 arguments for function.
-
-        NOTE:  This function name is a bit confusing!!!
-            It doesn't actually add `func` to a queue;
-            it adds it to a LIFO stack.
-            I just think that `lp.queue` is a more sensible name than 
-                `lp.push` or `lp.buffer`
     ]]
     queueTc(ppos, func)
     ppos.plot:queue(func)
 end
 
 local waitTc = typecheck.assert("ppos", "number")
+---@param ppos lootplot.PPos
+---@param time number
 function lp.wait(ppos, time)
     waitTc(ppos, time)
     ppos.plot:wait(time)
@@ -52,16 +56,21 @@ local entityTc = typecheck.assert("entity")
 --[[
     Positioning:
 ]]
+---@param ppos lootplot.PPos
+---@return lootplot.SlotEntity?
 function lp.posToSlot(ppos)
     lp.posTc(ppos)
     return ppos.plot:getSlot(ppos.slot)
 end
 
+---@param ppos lootplot.PPos
 function lp.posToItem(ppos)
     lp.posTc(ppos)
     return ppos.plot:getItem(ppos.slot)
 end
 
+---@param slotEnt lootplot.SlotEntity
+---@return lootplot.ItemEntity?
 function lp.slotToItem(slotEnt)
     local ppos = lp.getPos(slotEnt)
     if not ppos then
@@ -73,7 +82,8 @@ function lp.slotToItem(slotEnt)
     end
 end
 
-
+---@param ent lootplot.LayerEntity
+---@return lootplot.PPos?
 function lp.getPos(ent)
     -- Gets the ppos of an ent
     entityTc(ent)
@@ -142,20 +152,30 @@ local function modifyPoints(fromEnt, x)
     lp.setPoints(fromEnt, points + val)
 end
 
+---@param fromEnt Entity
+---@param x number
 function lp.setPoints(fromEnt, x)
     modifyTc(fromEnt, x)
     lp.overrides.setPoints(fromEnt, x)
     umg.call("lootplot:pointsChanged", fromEnt, x)
 end
+
+---@param fromEnt Entity
+---@param x number
 function lp.addPoints(fromEnt, x)
     modifyTc(fromEnt, x)
     modifyPoints(fromEnt, x)
 end
+
+---@param fromEnt Entity
+---@param x number
 function lp.subtractPoints(fromEnt, x)
     modifyTc(fromEnt, x)
     modifyPoints(fromEnt, -x)
 end
 
+---@param ent Entity
+---@return number
 function lp.getPoints(ent)
     entityTc(ent)
     return lp.overrides.getPoints(ent)
@@ -179,19 +199,30 @@ local function modifyMoney(fromEnt, x)
     local money = lp.getMoney(fromEnt)
     lp.setMoney(fromEnt, money + val)
 end
+
+---@param fromEnt Entity
+---@param x number
 function lp.setMoney(fromEnt, x)
     lp.overrides.setMoney(fromEnt, x)
     umg.call("lootplot:moneyChanged", fromEnt, x)
 end
+
+---@param fromEnt Entity
+---@param x number
 function lp.addMoney(fromEnt, x)
     modifyTc(fromEnt, x)
     modifyMoney(fromEnt, x)
 end
+
+---@param fromEnt Entity
+---@param x number
 function lp.subtractMoney(fromEnt, x)
     modifyTc(fromEnt, x)
     modifyMoney(fromEnt, -x)
 end
 
+---@param ent Entity
+---@return number
 function lp.getMoney(ent)
     entityTc(ent)
     return lp.overrides.getMoney(ent)
@@ -206,7 +237,8 @@ end
 
 
 local setSlotTc = typecheck.assert("ppos", "entity")
-
+---@param ppos lootplot.PPos
+---@param slotEnt lootplot.SlotEntity
 function lp.setSlot(ppos, slotEnt)
     -- directly sets a slot.
     -- (If a previous slot existed, destroy it.)
@@ -267,9 +299,11 @@ do we need this function?
 we could rename it to addItem....?
 and then expose a detachItem function
 ]]
+---@param item lootplot.ItemEntity
+---@param slotEnt_or_ppos lootplot.SlotEntity|lootplot.PPos
 function lp.moveItem(item, slotEnt_or_ppos)
     -- moves an item to a position
-    assertServer()    
+    assertServer()
     local _slotEnt,ppos = ensureSlot(slotEnt_or_ppos)
     detach(item)
     ppos:set(item)
@@ -277,6 +311,8 @@ end
 
 
 local ent2Tc = typecheck.assert("entity", "entity")
+---@param item1 lootplot.ItemEntity
+---@param item2 lootplot.ItemEntity
 function lp.swapItems(item1, item2)
     ent2Tc(item1, item2)
     local ppos1, ppos2 = lp.getPos(item1), lp.getPos(item2)
@@ -288,12 +324,14 @@ function lp.swapItems(item1, item2)
 end
 
 
-
+---@param ent Entity
+---@return boolean
 function lp.canActivateEntity(ent)
     -- TODO: use a question bus here!
     return true
 end
 
+---@param ent Entity
 function lp.activateEntity(ent)
     entityTc(ent)
     if ent.onActivate then
@@ -304,14 +342,16 @@ function lp.activateEntity(ent)
         -- attempt to activate the item on slot:
         assert(not ent.item, "Cannot be both an item and a slot!")
         local ppos = lp.getPos(ent)
-        local item = lp.posToItem(ppos)
-        if item then
-            lp.activateEntity(item)
+        if ppos then
+            local item = lp.posToItem(ppos)
+            if item then
+                lp.activateEntity(item)
+            end
         end
     end
 end
 
-
+---@param pos lootplot.PPos
 function lp.activate(pos)
     lp.posTc(pos)
     local item = lp.posToItem(pos)
@@ -324,6 +364,7 @@ function lp.activate(pos)
     end
 end
 
+---@param ent Entity
 function lp.destroy(ent)
     entityTc(ent)
     assertServer()
@@ -333,19 +374,25 @@ function lp.destroy(ent)
     end
 end
 
-
+---@param ppos lootplot.ItemEntity
 function lp.sellItem(ppos)
     -- sells the item at `ppos`
     umg.melt("nyi")
 end
 
+---@param ent lootplot.LayerEntity
+---@param angle number
 function lp.rotate(ent, angle)
     -- TODO.
     -- rotates `ent` by an angle.
     --  ent can be a slot OR an item
 end
 
+---@generic T: EntityClass
+---@param ent T
+---@return T
 function lp.clone(ent)
+    ---@diagnostic disable-next-line: undefined-field
     local cloned = ent:clone()
     --[[
         TODO: emit events here
@@ -353,15 +400,20 @@ function lp.clone(ent)
     return cloned
 end
 
-function lp.rerollItem(slotEnt_or_ppos)
-    local slotEnt = ensureSlot(slotEnt_or_ppos)
+---@param itemEnt lootplot.ItemEntity
+function lp.rerollItem(itemEnt)
+    local slotEnt = ensureSlot(itemEnt)
     local ppos = lp.getPos(slotEnt)
-    local itemEnt = lp.posToItem(ppos)
-    -- destroy item,
-    lp.destroy(itemEnt) 
-    -- then, create a new item:
+    if ppos then
+        local itemEnt = lp.posToItem(ppos)
+        -- destroy item,
+        lp.destroy(itemEnt)
+        -- then, create a new item:
+    end
 end
 
+---@param ppos lootplot.PPos
+---@param itemEType fun():lootplot.ItemEntity
 function lp.trySpawnItem(ppos, itemEType)
     local slotEnt = lp.posToSlot(ppos)
     local preItem = lp.posToItem(ppos)
@@ -370,6 +422,9 @@ function lp.trySpawnItem(ppos, itemEType)
     end
 end
 
+---@param ppos lootplot.PPos
+---@param itemEType fun():lootplot.ItemEntity
+---@return lootplot.ItemEntity
 function lp.forceSpawnItem(ppos, itemEType)
     local itemEnt = itemEType()
     ppos:set(itemEnt)
@@ -385,12 +440,19 @@ function lp.addAugment(ent, augment, val)
     umg.melt("nyi")
 end
 
-
-
-
+---@class lootplot.LayerEntityClass: EntityClass
+---@field public layer string
+---@alias lootplot.LayerEntity lootplot.LayerEntityClass|Entity
 
 local strTabTc = typecheck.assert("string", "table")
 
+---@class lootplot.ItemEntityClass: EntityClass
+---@field public item true
+---@field public layer "item"
+---@alias lootplot.ItemEntity lootplot.ItemEntityClass|lootplot.LayerEntity|Entity
+
+---@param name string
+---@param itemType table<string, any>
 function lp.defineItem(name, itemType)
     strTabTc(name, itemType)
     itemType.item = true
@@ -398,12 +460,20 @@ function lp.defineItem(name, itemType)
     return umg.defineEntityType(name, itemType)
 end
 
+---@class lootplot.SlotEntityClass: EntityClass
+---@field public slot true
+---@field public layer "slot"
+---@field public drawDepth integer
+---@alias lootplot.SlotEntity lootplot.SlotEntityClass|lootplot.LayerEntity|Entity
+
+---@param name string
+---@param slotType table<string, any>
 function lp.defineSlot(name, slotType)
     strTabTc(name, slotType)
     slotType.slot = true
     slotType.layer = "slot"
     slotType.drawDepth = -50
-    umg.defineEntityType(name, slotType)
+    return umg.defineEntityType(name, slotType)
 end
 
 
