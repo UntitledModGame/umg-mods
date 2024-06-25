@@ -6,7 +6,7 @@ Big class that handles all controls, and control-locking.
 
 ]]
 
-
+---@class input.ControlManager: objects.Class
 local ControlManager = objects.Class("input:ControlManager")
 
 
@@ -92,9 +92,6 @@ local function assertValidInput(inputVal)
         umg.melt("Invalid input family: " .. tostring(inputVal))
     end
 end
-
-
-
 
 function ControlManager:init(args)
     typecheck.assertKeys(args, {
@@ -418,7 +415,7 @@ function ControlManager:resetLocks()
     self.familyLocks = {}
 end
 
-
-
+---@alias input.ControlManagerArgs {onControlPressed:fun(controlEnum:any),onControlReleased:fun(controlEnum:any)}
+---@cast ControlManager +fun(args:input.ControlManagerArgs):input.ControlManager
 return ControlManager
 

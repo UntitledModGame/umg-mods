@@ -1,5 +1,5 @@
 
-
+---@class ui.elements
 local elements = {--[[
     Element registry: 
     Keeps track of all created Element-Types.
@@ -18,6 +18,9 @@ end
 
 
 local defineElementTc = typecheck.assert("string", "table")
+
+---@param elementName string
+---@param elementClass ElementClass
 function elements.defineElement(elementName, elementClass)
     defineElementTc(elementName, elementClass)
     if elements[elementName] then
