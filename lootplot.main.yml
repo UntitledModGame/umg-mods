@@ -1,7 +1,0 @@
-
-globals:
-  lp.main.constants:
-    any: true
-  lp.main.getContext:
-    any: true
-
