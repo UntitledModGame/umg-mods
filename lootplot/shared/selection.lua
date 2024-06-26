@@ -9,11 +9,15 @@ and interacting with said slots.
 ]]
 
 
-
+local util = require("shared.util")
 local selection = {}
 
 
-
+local buttonScene
+if client then
+    ---@type lootplot.ButtonScene
+    buttonScene = require("client.ui")
+end
 
 
 local selectedPPos
@@ -21,14 +25,26 @@ local selectedSlot
 
 
 local function reset()
+    buttonScene:clear()
     selectedPPos = nil
     selectedSlot = nil
 end
+selection.reset = reset
 
 
 local function selectSlot(slotEnt)
     selectedPPos = lp.getPos(slotEnt)
     selectedSlot = slotEnt
+
+    if lp.slotToItem(slotEnt) then
+        local buttonList = objects.Array()
+        umg.call("lootplot:pollSlotButtons", selectedPPos, buttonList)
+        buttonList:add(ui.elements.Button({
+            onClick = reset,
+            text = "Cancel"
+        }))
+        buttonScene:setButtons(buttonList)
+    end
 end
 
 
@@ -63,8 +79,7 @@ end
 ]]
 local function canRemoveItem(slotEnt)
     -- whether or not we can REMOVE an item at ppos
-    local ppos = lp.getPos(slotEnt)
-    local itemEnt = lp.posToItem(ppos)
+    local itemEnt = lp.slotToItem(slotEnt)
     if not (itemEnt and slotEnt) then
         return false -- no item to remove!
     end
@@ -122,28 +137,9 @@ local function deny(slotEnt)
 end
 
 
-
-
-local function removeServerCall(name, args, func)
-    umg.definePacket(name, {
-        typelist = args
-    })
-
-    if server then
-        server.on(name, func)
-    end
-
-    local function call(...)
-        assert(client,"?")
-        client.send(name, ...)
-    end
-    return call
-end
-
-
 local ENT_2 = {"entity", "entity"}
 
-local swapSlotItems = removeServerCall("lootplot:swapSlotItems", ENT_2, 
+local swapSlotItems = util.remoteServerCall("lootplot:swapSlotItems", ENT_2, 
 function(clientId, slotEnt1, slotEnt2)
     -- TODO: check validity of arguments (bad actor could send any entity)
     -- TODO: check that we actually CAN move the items
@@ -155,7 +151,7 @@ function(clientId, slotEnt1, slotEnt2)
     end
 end)
 
-local moveSlotItem = removeServerCall("lootplot:moveSlotItem", ENT_2, 
+local moveSlotItem = util.remoteServerCall("lootplot:moveSlotItem", ENT_2, 
 function(clientId, srcSlotEnt, targetSlotEnt)
     -- TODO: check validity of arguments (bad actor could send any entity)
     -- TODO: check that we actually CAN move the items
@@ -251,6 +247,6 @@ end
 
 
 
-
-return selection
-
+if client then
+    return selection
+end

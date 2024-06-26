@@ -21,7 +21,7 @@ umg.defineEvent("lootplot:pointsAdded")
 umg.defineEvent("lootplot:pointsSubtracted")
 umg.defineEvent("lootplot:pointsChanged")
 
-
+umg.defineEvent("lootplot:pollSlotButtons")
 
 umg.defineQuestion("lootplot:isActivationBlocked", reducers.OR)
 
@@ -37,3 +37,5 @@ umg.defineQuestion("lootplot:getPipelineDelay", reducers.ADD)
 umg.defineQuestion("lootplot:isItemRemovalBlocked", reducers.OR)
 umg.defineQuestion("lootplot:isItemAdditionBlocked", reducers.OR)
 
+umg.defineQuestion("lootplot:getEntitySellMultiplier", reducers.MULTIPLY)
+umg.defineQuestion("lootplot:getEntitySellModifier", reducers.ADD)

@@ -29,6 +29,7 @@ function lp.posToSlot(ppos)
 end
 
 ---@param ppos lootplot.PPos
+---@return lootplot.ItemEntity?
 function lp.posToItem(ppos)
 end
 

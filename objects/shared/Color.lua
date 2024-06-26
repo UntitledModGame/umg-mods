@@ -193,9 +193,8 @@ end
 function color:__call(r, g, b, a)
     local obj = nil
 
-    if type(r) == "number" then
+    if type(r) == "number" and type(g) == "number" and type(b) == "number" then
         obj = {r or 1, g or 1, b or 1, a or 1}
-
     elseif type(r) == "string" or type(r) == "number" then
         obj = {hex_to_rgba(r)}
     elseif type(r) == "table" then

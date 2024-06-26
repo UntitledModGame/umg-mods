@@ -116,7 +116,7 @@ end
 
 --- Splits a region vertically
 ---@param ... number
----@return Region
+---@return Region ...
 function Region:splitVertical(...)
     --[[
         splits a region vertically.
@@ -165,7 +165,7 @@ end
 --- Splits a region into a grid
 ---@param rows number
 ---@param cols number
----@return Region
+---@return Region[]
 function Region:grid(rows, cols)
     local w, h = self.w/rows, self.h/cols
     local regions = {}
@@ -247,6 +247,7 @@ end
 ---@param top number
 ---@param right number
 ---@param bot number
+---@overload fun(self:Region,pad:number):Region
 ---@return Region
 function Region:pad(left, top, right, bot)
     --[[
@@ -499,7 +500,7 @@ function Region:getCenter()
     return (self.x + self.w/2), (self.y + self.h/2)
 end
 
-
+---@return number,number,number,number
 function Region:get()
     return self.x,self.y, self.w,self.h
 end
