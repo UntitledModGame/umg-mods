@@ -30,34 +30,37 @@ end
     World-generation code:
 ==============================
 ]]
-local function addBaseSlots(plot)
+---@param plot lootplot.Plot
+local function initializeSlots(plot)
     -- adds basic slots to be overridden
     plot:foreachInArea(9,11, 4,6, function(ppos)
         local basicSlot = server.entities.slot()
         lp.setSlot(ppos, basicSlot)
         -- lp.trySpawnItem(ppos, server.entities.bb)
     end)
-    -- Spawn only one item for debug purposes
-    plot:foreachInArea(10,10, 5,5, function(ppos)
-        lp.trySpawnItem(ppos, server.entities.bb)
-    end)
-end
-local function addShopSlots(plot)
+    -- Add shop slots
     plot:foreachInArea(4,6, 6,7, function(ppos)
         local basicSlot = server.entities.slot()
         lp.setSlot(ppos, basicSlot)
     end)
 end
 
-
+---@param plot lootplot.Plot
+local function initializeItems(plot)
+    -- Spawn only one item for debug purposes
+    plot:foreachInArea(10,10, 5,5, function(ppos)
+        lp.trySpawnItem(ppos, server.entities.bb)
+    end)
+    plot:foreachInArea(4,4, 6,6, function(ppos)
+        lp.trySpawnItem(ppos, server.entities.strawberry)
+    end)
+end
 
 umg.on("@createWorld", function()
     local ent = createWorld()
-    addBaseSlots(ent.plot)
-    addShopSlots(ent.plot)
+    initializeSlots(ent.plot)
+    initializeItems(ent.plot)
 end)
-
-
 
 umg.on("@playerJoin", function(clientId)
     local p = server.entities.player(clientId)

@@ -78,6 +78,7 @@ end
 
 
 ---Returns the size of the array
+---@return integer
 function Array:size()
 end
 Array.length = Array.size
