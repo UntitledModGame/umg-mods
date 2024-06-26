@@ -27,12 +27,10 @@ end
 
 
 function TestContext:update(dt)
-    if self.coro
 end
 
 
 local function incrementTick(self)
-    if self.expectedTick
 end
 
 
