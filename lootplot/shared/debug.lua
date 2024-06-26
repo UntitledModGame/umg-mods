@@ -7,7 +7,16 @@ umg.on("@tick", function()
     for _, ent in ipairs(h)do
         local ppos = lp.getPos(ent)
         if ppos then
-            print(ent.x, ent.y, ppos.slot)
+            print("DBG::", ent.x, ent.y, ppos.slot)
+        end
+    end
+end)
+
+
+umg.on("@debugComponentChange", function (ent, comp, val)
+    if client and ent.item and comp == "x" then
+        if val-math.floor(val)>0.3 then
+            --umg.melt("1.")
         end
     end
 end)

@@ -294,10 +294,28 @@ local function setupClientNumberLerper(compName, options)
         local time = love.timer.getTime()
         local t = min(1, max(0, (time - getTimeOfLastTick()) / getTickDelta()))
         for _, ent in ipairs(group) do
-            if lerpValues and lerpValues[ent] then
+            if lerpValues[ent] then
                 local oldVal = previousLerpValues[ent]
                 local targetVal = lerpValues[ent]
                 ent[compName] = getLerpValue(oldVal, targetVal, t)
+            end
+        end
+    end)
+
+    umg.on("@tick", function()
+        --[[
+        BUG AND SOLUTION:
+        It looks like the auto sync functionality is working completely fine, EXCEPT when there is not a fluid continuum of packets.
+        The way the auto lerping works is that the next packet resets the value of the previous lerp.
+        But.... If only one packet is sent, the lerp value isn't reset fully
+        The solution to this is quite simple: reset the lerpValues manually BEFORE each tick
+
+        This is what this function is doing.
+        ]]
+        for _, ent in ipairs(group) do
+            if lerpValues[ent] then
+                ent[compName] = lerpValues[ent]
+                previousLerpValues[ent] = lerpValues[ent]
             end
         end
     end)
