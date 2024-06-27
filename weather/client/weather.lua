@@ -67,7 +67,7 @@ SunBeam  =  +Sunniness
 
 ]]
 function weather.setWeatherState(wstate)
-    wstate = table.copy(wstate)
+    wstate = table.deepCopy(wstate)
     for key,val in pairs(weatherState) do
         wstate[key] = wstate[key] or val
     end

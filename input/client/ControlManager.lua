@@ -182,7 +182,7 @@ function ControlManager:setControls(mapping)
             [CONTROL_ENUM] --> { inputVal1, inputVal2, ... }
         }
     ]]
-    mapping = table.copy(mapping) -- defensive copy, since we mutate
+    mapping = table.deepCopy(mapping) -- defensive copy, since we mutate
     -- copy over old controls:
     for controlEnum, inputValList in pairs(self.controlToInputs) do
         mapping[controlEnum] = mapping[controlEnum] or inputValList
