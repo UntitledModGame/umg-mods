@@ -3,6 +3,9 @@
 
 ```c
 
+
+
+// Number properties:
 buyPrice
 sellPrice
 
@@ -19,10 +22,13 @@ moneyGenerated
 
 
 // Bool properties:
-canMove
+/// player-interaction:
+isMovable
+isDestroyable
+isSellable
 
-canSell
+/// world-based:
+canActivate
 
-isActivationBlocked
 ```
 
