@@ -3,7 +3,7 @@
 local effects = require("shared.effects")
 local shouldApplyEffect = require("shared.should_apply")
 
-
+---@class effects.PropertyEffects: objects.Class
 local PropertyEffects = objects.Class("effects:PropertyEffects")
 
 
@@ -153,6 +153,7 @@ end
 ]]
 umg.answer("properties:getPropertyMultiplier", function(ent, property)
     if ent.propertyEffects then
+        local propEH = ent.propertyEffects ---@type effects.PropertyEffects
         return ent.propertyEffects:getMultiplier(property)
     end
 end)
@@ -160,14 +161,15 @@ end)
 
 umg.answer("properties:getPropertyModifier", function(ent, property)
     if ent.propertyEffects then
-        return ent.propertyEffects:getModifier(property)
+        local propEH = ent.propertyEffects ---@type effects.PropertyEffects
+        return propEH:getModifier(property)
     end
 end)
 
 
 umg.answer("properties:getPropertyClamp", function(ent, property)
     if ent.propertyEffects then
-        local propEH = ent.propertyEffects
+        local propEH = ent.propertyEffects ---@type effects.PropertyEffects
         return propEH:getMinClamp(property), propEH:getMaxClamp(property)
     end
 end)

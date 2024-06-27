@@ -18,4 +18,5 @@ local function clampCombiner(min1, min2, max1, max2)
 end
 
 umg.defineQuestion("properties:getPropertyClamp", clampCombiner)
-
+umg.defineQuestion("properties:canPropertyBeTrue", reducers.OR)
+umg.defineQuestion("properties:isPropertyFalse", reducers.OR)

@@ -56,7 +56,7 @@ function Set:has(obj)
 end
 Set.contains = Set.has -- alias
 
----@cast Set +fun(initial:any[]):objects.Set
+---@cast Set +fun(initial?:any[]):objects.Set
 
 ---@class objects.Array: objects.Class
 local Array = {}

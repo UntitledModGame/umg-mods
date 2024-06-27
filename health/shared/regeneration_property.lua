@@ -1,6 +1,6 @@
 
 
-properties.defineProperty("regeneration", {
+properties.defineNumberProperty("regeneration", {
     base = "baseRegeneration",
     default = 0
 })

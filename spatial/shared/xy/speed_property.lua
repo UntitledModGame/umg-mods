@@ -4,7 +4,7 @@
 local options = require("shared.options")
 
 
-properties.defineProperty("speed", {
+properties.defineNumberProperty("speed", {
     base = "baseSpeed",
     default = options.DEFAULT_SPEED,
     shouldComputeClientside = true,

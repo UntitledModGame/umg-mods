@@ -1,6 +1,6 @@
 
 
-properties.defineProperty("maxHealth", {
+properties.defineNumberProperty("maxHealth", {
     base = "baseMaxHealth",
     default = 50,
 

@@ -21,7 +21,7 @@ But a hummingbird has HIGH agility, (= 0.95)
 ]]
 
 
-properties.defineProperty("agility", {
+properties.defineNumberProperty("agility", {
     base = "baseAgility",
     default = 0.6,
     shouldComputeClientside = true,
