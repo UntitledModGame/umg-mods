@@ -34,7 +34,7 @@ end
 
 ---@param property string
 ---@return boolean,string
-function isProperty(property)
+local function isProperty(property)
     return (not not propertyToConfig[property]), "expected property"
 end
 
