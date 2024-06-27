@@ -23,12 +23,13 @@ moneyGenerated
 
 // Bool properties:
 /// player-interaction:
-isMovable
-isDestroyable
-isSellable
+canMove
+canDestroy
+canSell // <-- do we need this? same as canDestroy...?
 
 /// world-based:
 canActivate
+canReroll //(useful for shop locks)
 
 ```
 
