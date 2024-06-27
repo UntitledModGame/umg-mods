@@ -6,6 +6,18 @@ local Class = {}
 function Class:init(...)
 end
 
+---@param otherClass any
+---@return boolean
+function Class:isInstance(otherClass)
+end
+
+---@generic T: objects.Class
+---@param cls T
+---@param otherClass objects.Class
+---@return T
+function Class.implement(cls, otherClass)
+end
+
 ---@cast Class +fun(name:string):objects.Class
 
 ---@class objects.Set: objects.Class

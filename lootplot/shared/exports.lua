@@ -457,6 +457,8 @@ function lp.defineItem(name, itemType)
     strTabTc(name, itemType)
     itemType.item = true
     itemType.layer = "item"
+    itemType.baseSellPrice = itemType.baseSellPrice or 1
+    itemType.baseBuyPrice = itemType.baseBuyPrice or 2
     return umg.defineEntityType(name, itemType)
 end
 

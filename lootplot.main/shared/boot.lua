@@ -40,7 +40,7 @@ local function initializeSlots(plot)
     end)
     -- Add shop slots
     plot:foreachInArea(4,6, 6,7, function(ppos)
-        local basicSlot = server.entities.slot()
+        local basicSlot = server.entities.shopSlot()
         lp.setSlot(ppos, basicSlot)
     end)
 end

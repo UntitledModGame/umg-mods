@@ -5,7 +5,7 @@ lp.defineItem("strawberry", {
 
     name = "Strawberry",
     description = "We can do anything we want",
-    buyPrice = 5,
+    baseBuyPrice = 5,
 
     onActivate = function(ent)
         lp.addPoints(ent, 1)

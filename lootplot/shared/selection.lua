@@ -32,7 +32,16 @@ end
 selection.reset = reset
 
 
+local function isButtonSlot(slotEnt)
+    return slotEnt.buttonSlot
+end
+
+---@param slotEnt lootplot.SlotEntity
 local function selectSlot(slotEnt)
+    if isButtonSlot(slotEnt) then
+        return
+    end
+
     selectedPPos = lp.getPos(slotEnt)
     selectedSlot = slotEnt
 
@@ -46,6 +55,7 @@ local function selectSlot(slotEnt)
         buttonScene:setButtons(buttonList)
     end
 end
+selection.selectSlot = selectSlot
 
 
 local function validate()
@@ -59,11 +69,6 @@ local function validate()
     if slot ~= selectedSlot then
         reset()
     end
-end
-
-
-local function isInteractable(slotEnt)
-    return slotEnt.slotInteractable
 end
 
 
@@ -188,7 +193,7 @@ end
 
 
 local function click(slotEnt)
-    if isInteractable(slotEnt) then
+    if isButtonSlot(slotEnt) then
         -- An "interactable" slot in the world.
         --  for example: an in-world reroll button.
         if lp.canActivateEntity(slotEnt) then

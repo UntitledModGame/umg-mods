@@ -1,3 +1,5 @@
+---@meta
+
 sync = {}
 
 ---@param eventName string

@@ -168,7 +168,7 @@ end
 
 local function addFlips(tiling)
     if tiling.canFlipHorizontal then
-        local newLayout = table.copy(tiling.layout)
+        local newLayout = table.deepCopy(tiling.layout)
         newLayout[1] = reverse(newLayout[1])
         newLayout[2] = reverse(newLayout[2])
         newLayout[3] = reverse(newLayout[3])
@@ -177,7 +177,7 @@ local function addFlips(tiling)
     end
 
     if tiling.canFlipVertical then
-        local newLayout = table.copy(tiling.layout)
+        local newLayout = table.deepCopy(tiling.layout)
         newLayout[1], newLayout[3] = newLayout[3], newLayout[1]
         newLayout.scaleY = -1
         tryAddLayout(tiling.allLayouts, newLayout)
