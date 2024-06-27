@@ -1,23 +1,25 @@
 
----@class lootplot.SellButton: Element
-local SellButton = ui.Element("lootplot:SellButton")
+---@class lootplot.CostButton: Element
+local CostButton = ui.Element("lootplot:CostButton")
 
 
 local DEFAULT_PADDING = 12
 
 local lg=love.graphics
 
+local TABLE_ARGS = {"text", "onClick", "getCost"}
 
-function SellButton:init(args)
-    typecheck.assertKeys(args, {"onSell", "getPrice"})
-    self.onClick = args.onSell
-    self.getPrice = args.getPrice
-    self.text = "Sell"
+function CostButton:init(args)
+    typecheck.assertKeys(args, TABLE_ARGS)
+    self.onClick = args.onClick
+    self.getCost = args.getCost
+    self.prefix = args.text
+    self.text = ""
     self.padding = args.padding or DEFAULT_PADDING
 end
 
 ---@private
-function SellButton:_ensureTextElement()
+function CostButton:_ensureTextElement()
     if not self.textElement then
         self.textElement = ui.elements.Text({
             text = self.text
@@ -34,15 +36,15 @@ end
 
 
 
-function SellButton:onRender(x,y,w,h)
+function CostButton:onRender(x,y,w,h)
     local r = ui.Region(x,y,w,h)
     lg.setColor(self.backgroundColor or objects.Color.WHITE)
     lg.rectangle("fill", r:get())
     lg.setColor(self.outlineColor or objects.Color.BLACK)
     lg.rectangle("line", r:get())
 
-    local price = self.getPrice()
-    self.text = "Sell: "..price
+    local cost = self.getCost()
+    self.text = self.prefix..": "..cost
 
     self:_ensureTextElement()
     self.textElement:render(x,y,w,h)
@@ -50,12 +52,12 @@ end
 
 
 
-function SellButton:onClickPrimary()
-    self:onClick(self.entity)
+function CostButton:onClickPrimary()
+    self:onClick()
 end
 
 
 
 
-return SellButton
+return CostButton
 
