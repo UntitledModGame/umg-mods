@@ -1,11 +1,16 @@
 
 local Picker = require("shared.Picker")
 
-
+---@class generation.Query: objects.Class
+---@operator call:any
 local Query = objects.Class("generation:Query")
 
+---@class generation._Pick
+---@field package chance number
+---@field package entry any
 
 local ARGS = {"rng", "generator"}
+---@param args {rng:love.RandomGenerator,generator:generation.Generator}
 function Query:init(args)
     typecheck.assertKeys(args, ARGS)
 
@@ -13,9 +18,8 @@ function Query:init(args)
     self.rng = args.rng
     self.generator = args.generator
 
-    self.seenPicks = {--[[
-        [entry] -> {chance=X, entry=X}
-    ]]}
+    ---@type table<any, generation._Pick>
+    self.seenPicks = {}
     self.picks = objects.Array(--[[
         {chance=X, entry=X}
     ]])
@@ -28,8 +32,6 @@ function Query:init(args)
 
     self.nestedQueries = objects.Set()
 end
-
-
 
 local finalize
 
@@ -44,17 +46,18 @@ function Query:__call()
     local result = self.picker:pick(r1,r2)
     if Query:isInstance(result) then
         -- its a nested query: call again
+        ---@cast result generation.Query
         return result()
     end
     return result -- else, its an entry.
 end
 
-
+---@return boolean
 function Query:isEmpty()
     return #self.picks <= 0
 end
 
-
+---@return generation._Pick
 local function newPick(entry, chance)
     return {
         entry = entry,
@@ -77,6 +80,9 @@ end
 
 local addTc = typecheck.assert("table", "any", "number")
 
+---@param entry_or_query any
+---@param chance number
+---@return generation.Query
 function Query:add(entry_or_query, chance)
     --[[
         TODO:
@@ -100,13 +106,16 @@ function Query:add(entry_or_query, chance)
     return self
 end
 
-
+---@param f fun(entry:any,traits:table<string,any>,chance:number):boolean
+---@return generation.Query
 function Query:filter(f)
     self.filters:add(f)
     markOutdated(self)
     return self
 end
 
+---@param f fun(entry:any,traits:table<string,any>,chance:number):number
+---@return generation.Query
 function Query:adjustChances(f)
     self.chanceAdjusters:add(f)
     markOutdated(self)
@@ -125,13 +134,11 @@ local function addDefault(self, entry)
     self:add(entry, chance)
 end
 
-
+---adds entries with ALL of the traits listed.
+---@param ... string
+---@return generation.Query
 function Query:addEntriesWith(...)
-    --[[
-        adds entries with ALL of the traits listed.
-    ]]
-    local traits = {...}
-    local entries = self.generator:getEntriesWith(traits)
+    local entries = self.generator:getEntriesWith(...)
     for _, entry in ipairs(entries) do
         addDefault(self, entry)
     end
@@ -165,7 +172,8 @@ local function applyFilters(self, pick)
     return true
 end
 
-
+---@param self generation.Query
+---@param pick generation._Pick
 local function applyChanceAdjustment(self, pick)
     local entry = pick.entry
     if Query:isInstance(entry) then
