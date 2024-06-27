@@ -15,5 +15,13 @@ pointsGenerated
 moneyGenerated
 
 
+
+
+
+// Bool properties:
+canMove
+
+canSell
+
 ```
 

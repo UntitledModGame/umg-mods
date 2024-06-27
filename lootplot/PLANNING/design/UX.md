@@ -24,11 +24,12 @@ At the base-level, there is ONE base interaction:
 ### Shops / selling:
 How do shops/selling work with this...???
 ---->
-When a slot-item is selected, a UI-buttons should pop-up at the bottom:
+When a slot-item is selected, UI-buttons should pop-up at the bottom:
 Buttons:
 ```
 sell ($X)   [only appears if item/slot is sellable]
 buy ($X)    [only appears if slot is buyable]
+destroy ($X)
 cancel  (will deselect slot)
 ```
 **SUPER IMPORTANT:**
