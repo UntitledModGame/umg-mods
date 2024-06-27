@@ -23,5 +23,6 @@ canMove
 
 canSell
 
+isActivationBlocked
 ```
 

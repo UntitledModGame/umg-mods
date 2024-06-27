@@ -75,7 +75,8 @@ defineSlot("superSlot", {
 
     -- Modifies properties the item it holds:
     itemEffects = {
-        -- +4 power, x2 buyPrice
+        -- item in this slot get: 
+		--		+4 power, x2 buyPrice
         multipliers = { buyPrice = 2 },
         modifiers = { power = 4 }
     }

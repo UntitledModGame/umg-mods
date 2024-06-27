@@ -62,6 +62,8 @@ since the shop would just be a regular inventory, with reroll+buyable slots.
 - When item is cloned: 
     Transform the cloned item into the item that is above this item
 
+- 
+
 - When item is destroyed: Give the above item `contagion`.
     - `contagion`: Start of round: 
         Clone a `doomed` self into all touching empty slots, 

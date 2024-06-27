@@ -37,5 +37,3 @@ umg.defineQuestion("lootplot:getPipelineDelay", reducers.ADD)
 umg.defineQuestion("lootplot:isItemRemovalBlocked", reducers.OR)
 umg.defineQuestion("lootplot:isItemAdditionBlocked", reducers.OR)
 
-umg.defineQuestion("lootplot:getEntitySellMultiplier", reducers.MULTIPLY)
-umg.defineQuestion("lootplot:getEntitySellModifier", reducers.ADD)
