@@ -13,6 +13,16 @@ Important things to note:
 
 ----
 
+
+
+
+
+
+
+----
+
+# ENT DEFINITION EXAMPLES:
+
 ## Reroll/Spawner slot definition:
 ```lua
 defineSlot("rerollSlot", {

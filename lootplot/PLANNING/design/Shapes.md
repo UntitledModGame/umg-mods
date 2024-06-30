@@ -2,6 +2,14 @@
 
 Shapes determine what is targeted.
 
+---
+
+
+For now, shapes only exist upon items.
+This is to keep things simple. We don't want to overcomplicate it
+
+
+----
 
 # SHAPES:
 King
