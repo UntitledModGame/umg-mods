@@ -31,28 +31,11 @@ The player can expand their plot with new slots.
 (See: `Creating-Slots` below)
 
 Different slots can do different things:
-- Blue slot: items activate twice
+- Blue slot: items pulses twice
 - White slot: item is protected from death
 - Pink slot: item is rerolled at the end of round
 - Golden slot: ....
 you get the idea.
-
-*Important note:*
-Inventories are also made out of `Slots` too!!
-This means that if you have an item, say:
-```
-On round end:
-    10% chance to self-destruct, and turn slot into a gold slot
-```
-With a good setup, this item should be able to activate on the board,
-*AND* inside the inventory; to change the inv slot to gold.
-That would be VERY VERY ELEGANT AND COOL.
-
-Idea: we should probably represent this by having a `Grid` object.
-There should be a `Grid` object in the inv-ent,
-And there should also be a `Grid` object in the world too.
-
-YES. This ^^^ is an extremely beautiful idea.
 
 ## Creating-Slots
 The player cannot purchase slots directly.

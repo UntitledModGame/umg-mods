@@ -121,7 +121,7 @@ local function nextRound(self)
 
     umg.call("lootplot.main:startRound")
 
-    -- activate all slots:
+    -- pulse all slots:
     lp.Bufferer()
         :all(self:getPlot())
         :slots() -- ppos-->slot

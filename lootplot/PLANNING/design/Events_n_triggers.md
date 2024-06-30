@@ -6,7 +6,7 @@ What events should we have?
 - ent swaps positions
 - ent is rotated
 
-- ent activates
+- ent pulses
 - ent generates score
 - ent generates money
 
