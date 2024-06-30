@@ -175,6 +175,11 @@ Make sure that items can be upgraded.
 
 
 # Augments:
+"Augments" are entities that describe custom modifiers.
+Augments can be applied to slots OR items.
+(See `Augments.md`)
+
+
 
 # Enemies!
 Enemies are a REALLY cool idea for LootPlot.
@@ -193,7 +198,6 @@ For example:
 - Skeleton: Applies `doomed` debuff to a random item each round.
 - SpiderRat: Steals 3 gold every round
 - Salamander: Ignites all slots in a ROOK shape. 10% chance to destroy slot.
-------
 - Tophat: Convert random slots into BUY slots. 
     (Forces the player to buy back their own items)
 - Monocle: Disables all `fiscal`-trait items in QUEEN shape.

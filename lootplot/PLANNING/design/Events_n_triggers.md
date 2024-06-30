@@ -1,6 +1,6 @@
 
 
-# Events:
+# Events and triggers:
 What events should we have?
 
 - ent swaps positions
@@ -22,8 +22,7 @@ What events should we have?
 - ent is created
 - ent dies/is destroyed
 
-- round starts
-- round ends
+- reset
 
 
 
