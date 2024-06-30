@@ -2,10 +2,6 @@
 
 # LOOTPLOT
 
-## JAM GAME: 
-7 DAYS to finish this.
-Plan out each day in full.
-
 
 ## Game overview:
 Have a big 2d plane of items.
@@ -149,22 +145,8 @@ Also, by default, all `PLANT` items
 
 
 # Shape ideas:
-King
-Bishop
-Rook
-Queen
-Knight
-Dot (the square beneath the item)
-Ring (square O shape)
-Plus (rook with 1 range)
-Cross (bishop with 1 range)
-Pawn (3 squares above)
-### We can also have union shapes:
-Queen-Bishop
-King-Knight
-Rook-Knight
-Rook-King
-
+Shapes determine what items can target.
+(See shapes.md)
 
 
 # Cool synergy example:
@@ -182,34 +164,17 @@ Add multipliers.
 Add scaling to items.
 Add open-ended combos.
 Add long-term investment
-# On the flip side: Ensure that late-game isn't *boring!*
+## On the flip side: Ensure that late-game isn't *boring!*
 In Bloons TD5, for example, late-game kinda gets boring once you get everything.
 Design the game such that late-game is interesting, please! :)
-
+## flip side 2: Try to avoid the board getting too busy late-game.
+Make sure that items can be upgraded.
+(If items can't be upgraded, the board will fill up and be too busy.)
 
 
 
 
 # Augments:
-"Augments" are little flags that describe custom behaviour upon entities.
-Augments can be applied to slots OR items.
-Entities will naturally spawn in the shop with augments, OR, they may be
-applied by other entities.
-## Regular Augments:
-- Delicate: Will be destroyed when rotated
-- Fragile: Will be destroyed when moved
-- Dicey: Will reroll at the start of the round
-- Explosive: When destroyed, will destroy neighbouring entities
-- Nulled: This cannot activate
-- Sticky: This item cannot be sold
-## Variable Augments:
-- Revive-X: When destroyed, will revive itself X times, as a clone
-- Doomed-X: Dies after X rounds
-- Blessed-X: Will activate X times
-- Golden-X: Gives $X when activated
-- Loaned-X: Lose $X when activated. Cannot activate with no money
-
-
 
 # Enemies!
 Enemies are a REALLY cool idea for LootPlot.
@@ -220,6 +185,7 @@ For example:
     - steal money
     - duplicate themselves
     - apply modifiers to items
+
 -------
 ## ENEMY IDEAS:
 - Zombie: Will spawns copies of itself. Subtracts 5 points per round.

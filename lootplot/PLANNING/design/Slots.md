@@ -1,11 +1,14 @@
 
-## ASSUMPTION LESS DEVELOPMENT:
-We don’t need to be as assumption-less as we have been.
-Remember; Some assumptions can be done really beautifully, if the right stuff is assumed, and other stuff is left decoupled.
 
+# Slot
+Slots live in `Plot`s.
 
+A Slot is like a container for an item to exist in.
+Can be placed in the world; but also exist within inventories.
 
-
+Important things to note:
+- `Slot`s CANNOT be moved out of a `Plot`.
+    - They can only be deleted/augmented.
 
 
 ----

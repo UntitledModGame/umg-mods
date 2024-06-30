@@ -7,6 +7,15 @@ List of crazy/wacky ideas/mechanics that could be used:
 
 
 
+## SUPER-WEAPON: Generic Augments/Modifiers!!!
+REMEMBER TO ABUSE THE ECS-NATURE OF LOOTPLOT!!
+Tried to make as many components as possible be generic; that is, works on both slots and items.
+
+
+
+
+
+
 # Supers + Combo-slots:
 supers + comboslots: (todo: think of better name plz)
 supers could be special items that are made by "merging" other items.
