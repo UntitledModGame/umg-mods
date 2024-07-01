@@ -1,8 +1,5 @@
 
 
-
-
--- 
 components.defineComponent("slot")
 components.defineComponent("item")
 
@@ -10,8 +7,9 @@ components.defineComponent("item")
 components.defineComponent("plot")
 -- ent.plot = Plot()
 
-components.defineComponent("slotInteractable")
--- Flag component denoting slot intractable
+
+components.defineComponent("buttonSlot")
+-- Flag component denoting whether a slot is a bottom
 
 
 
@@ -63,12 +61,27 @@ defineBasicBoolean("canMove", "baseCanMove")
 
 defineBasicBoolean("canDestroy", "baseCanDestroy")
 
+defineBasicBoolean("", "")
+--[[
+It would be nice to have a unified property that represents
+whether we have access over an item or not.
+
+This way, shopSlots would be able to tag into this property only.
+The same could be used for enemy item or other exotic item
+
+Or maybe it's just best to keep the components horizontally decoupled.
+Be assumptionless.
+Doesn't matter if the shop slot definition is a bit more bloated.
+]]
+
 defineBasicBoolean("canSell", "baseCanSell")-- Do we need this??
 -- This is almost identical to canDestroy
 
 defineBasicBoolean("canActivate", "baseCanActivate")
 
-defineBasicBoolean("canReroll", "baseCanReroll")
+defineBasicBoolean("canSlotPropagate", "baseCanSlotPropagate")
+-- Whether a slot will propagate the trigger to the item
+-- TO DO: Do we want different behavior based on trigger types?
 
 
 --[[

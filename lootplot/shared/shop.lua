@@ -45,9 +45,9 @@ function shopService.buy(ent)
 end
 
 umg.on("lootplot:pollSlotButtons", function(ppos, list)
-    local ent = lp.posToItem(ppos)
+    local itemEnt = lp.posToItem(ppos)
     local slotEnt = lp.posToSlot(ppos)
-    if not (ent and slotEnt) then
+    if not (itemEnt and slotEnt) then
         return
     end
 
@@ -55,13 +55,13 @@ umg.on("lootplot:pollSlotButtons", function(ppos, list)
         -- add buy button
         list:add(ui.elements.CostButton({
             onClick = function()
-                if shopService.buy(ent) then
+                if shopService.buy(itemEnt) then
                     selection.reset()
                     selection.selectSlot(slotEnt)
                 end
             end,
             getCost = function()
-                return ent.buyPrice
+                return itemEnt.buyPrice
             end,
             text = "Buy"
         }))
@@ -69,13 +69,13 @@ umg.on("lootplot:pollSlotButtons", function(ppos, list)
         list:add(ui.elements.CostButton({
             onClick = function()
                 print("Destroy or sell pressed")
-                sellItem(ent)
+                sellItem(itemEnt)
                 selection.reset()
             end,
             getCost = function()
-                return math.abs(ent.sellPrice)
+                return math.abs(itemEnt.sellPrice)
             end,
-            text = ent.sellPrice > 0 and "Sell" or "Destroy"
+            text = itemEnt.sellPrice > 0 and "Sell" or "Destroy"
         }))
     end
 end)

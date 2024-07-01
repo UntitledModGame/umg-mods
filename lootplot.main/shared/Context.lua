@@ -127,6 +127,7 @@ local function nextRound(self)
         :slots() -- ppos-->slot
         :delay(0.2)
         :execute(function(_ppos, slotEnt)
+            print("TODO: we should be calling pulse here instead!")
             lp.activateEntity(slotEnt)
         end)
 
