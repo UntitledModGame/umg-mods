@@ -198,3 +198,28 @@ which is great!
 -------------
 
 
+# Warts that still need to be worked out:
+
+How should trigger propagation be done?
+We could just do it at the very base level...
+As in, propagate at the call site itself.
+
+
+----------
+
+
+How are we going to do shop slots?
+
+I am still very torn;
+On one hand we want to decouple components as much as possible,
+But on the other hand, there is a whole family of components that are very closely related-
+```
+hasAccess
+-->
+
+
+```
+
+
+
+
