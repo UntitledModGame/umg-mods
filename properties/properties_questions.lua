@@ -1,9 +1,7 @@
 
 
 umg.defineQuestion("properties:getPropertyMultiplier", reducers.MULTIPLY)
-
 umg.defineQuestion("properties:getPropertyModifier", reducers.ADD)
-
 
 local max, min = math.max, math.min
 local function clampCombiner(min1, min2, max1, max2)
@@ -18,5 +16,10 @@ local function clampCombiner(min1, min2, max1, max2)
 end
 
 umg.defineQuestion("properties:getPropertyClamp", clampCombiner)
+
+
+
+
+
 umg.defineQuestion("properties:canPropertyBeTrue", reducers.OR)
 umg.defineQuestion("properties:isPropertyFalse", reducers.OR)
