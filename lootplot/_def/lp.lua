@@ -197,6 +197,21 @@ end
 function lp.defineSlot(name, slotType)
 end
 
+---@param name string
+function lp.defineTrigger(name)
+end
+
+---@param name string
+---@param ent Entity
+function lp.triggerEntity(name, ent)
+end
+
+---@param name string
+---@param ent Entity
+---@return boolean
+function lp.canTrigger(name, ent)
+end
+
 lp.constants = {}
 ---@type integer
 lp.constants.WORLD_SLOT_DISTANCE = 26

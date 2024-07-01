@@ -6,6 +6,7 @@ slotGrid
 ]]
 
 local ptrack = require("shared.internal.positionTracking")
+local trigger = require("shared.trigger")
 
 
 
@@ -338,17 +339,6 @@ function lp.activateEntity(ent)
         ent:onActivate()
     end
     umg.call("lootplot:entityActivated", ent)
-    if ent.slot then
-        -- attempt to activate the item on slot:
-        assert(not ent.item, "Cannot be both an item and a slot!")
-        local ppos = lp.getPos(ent)
-        if ppos then
-            local item = lp.posToItem(ppos)
-            if item then
-                lp.activateEntity(item)
-            end
-        end
-    end
 end
 
 ---@param pos lootplot.PPos
@@ -459,6 +449,7 @@ function lp.defineItem(name, itemType)
     itemType.layer = "item"
     itemType.baseSellPrice = itemType.baseSellPrice or 1
     itemType.baseBuyPrice = itemType.baseBuyPrice or 2
+    itemType.triggers = itemType.triggers or {"PULSE"}
     return umg.defineEntityType(name, itemType)
 end
 
@@ -475,12 +466,16 @@ function lp.defineSlot(name, slotType)
     slotType.slot = true
     slotType.layer = "slot"
     slotType.drawDepth = -50
+    slotType.triggers = slotType.triggers or {"PULSE"}
+    if slotType.baseCanSlotPropagate == nil then
+        slotType.baseCanSlotPropagate = true
+    end
     return umg.defineEntityType(name, slotType)
 end
 
-
-
-
+lp.defineTrigger = trigger.defineTrigger
+lp.triggerEntity = trigger.triggerEntity
+lp.canTrigger = trigger.canTrigger
 
 
 

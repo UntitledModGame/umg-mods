@@ -17,7 +17,7 @@ Get enough points to kill the loot-monster.
 
 ]]
 
-
+---@class lootplot.Context: objects.Class
 local Context = objects.Class("lootplot.main:Context")
 
 
@@ -57,7 +57,7 @@ function Context:tick()
     plot:tick()
 end
 
-
+---@return lootplot.Plot
 function Context:getPlot()
     return self.ownerEnt.plot
 end
@@ -114,7 +114,7 @@ local function lose(self)
     umg.melt("lost game!")
 end
 
-
+---@param self lootplot.Context
 local function nextRound(self)
     -- Progresses to next round.
     assert(server,"wot wot")
@@ -127,14 +127,15 @@ local function nextRound(self)
         :slots() -- ppos-->slot
         :delay(0.2)
         :execute(function(_ppos, slotEnt)
-            print("TODO: we should be calling pulse here instead!")
-            lp.activateEntity(slotEnt)
+            lp.triggerEntity("PULSE", slotEnt)
+            -- lp.activateEntity(slotEnt)
         end)
 
     -- TODO: Give reward-money at end of round
 
     self.round = self.round + 1
     umg.call("lootplot.main:finishRound")
+    self:getPlot():reset()
 
     if self.points >= self.requiredPoints then
         -- win condition!!

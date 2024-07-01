@@ -279,6 +279,20 @@ function Plot:getClosestPPos(x,y)
     })
 end
 
+---@param triggerName string
+function Plot:trigger(triggerName)
+    self:foreach(function(ppos)
+        local slotEnt = lp.posToSlot(ppos)
+
+        if slotEnt then
+            lp.triggerEntity(triggerName, slotEnt)
+        end
+    end)
+end
+
+function Plot:reset()
+    return self:trigger("RESET")
+end
 
 ---@cast Plot +fun(ownerEnt:Entity,width:integer,height:integer):lootplot.Plot
 return Plot
