@@ -171,15 +171,25 @@ elseif client then
     tickEvent = "@update"
 end
 
-local function updateGroup(group, property, config)
+local computePropertyFunction = {
+    number = computeNumberProperty,
+    boolean = computeBooleanProperty
+}
+
+---@param group EntityGroup
+---@param property string
+---@param type "number"|"boolean"
+---@param config property._AnyConfig
+local function updateGroup(group, property, type, config)
     -- updates all entities in a group:
     for _, ent in ipairs(group) do
-        ent[property] = computeNumberProperty(ent, property, config)
+        ent[property] = computePropertyFunction[type](ent, property, config)
     end
 end
 
 local function makePropertyGroup(property)
-    local config = getConfig(property).config
+    local propconfig = getConfig(property)
+    local config = propconfig.config
     local group = makeGroup(property, config)
 
     local count = 1
@@ -190,7 +200,7 @@ local function makePropertyGroup(property)
         -- only update after we have skipped `skips` times.
         -- This allows us to make property calculation more "lazy"
         if count > skips then
-            updateGroup(group, property, config)
+            updateGroup(group, property, propconfig.type, config)
             count = 1
         end
     end)
@@ -204,7 +214,7 @@ local function defineProperty(property, type, config)
         umg.melt("Property is already defined: " .. tostring(property))
     end
 
-    propertyToConfig[property] = {type = "number", config = config}
+    propertyToConfig[property] = {type = type, config = config}
 
     if server then
         makeBasePropertyGroup(property)
@@ -253,14 +263,10 @@ local defineBooleanTc = typecheck.assert("string", booleanConfigTableType)
 ---@param config property.BooleanPropertyConfig
 function properties.defineBooleanProperty(property, config)
     defineBooleanTc(property, config)
-    return defineProperty(property, "number", config)
+    return defineProperty(property, "boolean", config)
 end
 
 local computeTc = typecheck.assert("entity", "property")
-local computePropertyFunction = {
-    number = computeNumberProperty,
-    boolean = computeBooleanProperty
-}
 
 ---Computes a property
 ---@param ent Entity
