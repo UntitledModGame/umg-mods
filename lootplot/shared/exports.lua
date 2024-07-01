@@ -92,8 +92,16 @@ function lp.getPos(ent)
     return ppos
 end
 
+---@param itemEnt lootplot.ItemEntity
+function lp.itemToSlot(itemEnt)
+    local ppos = lp.getPos(itemEnt)
 
+    if ppos then
+        return lp.posToSlot(ppos)
+    end
 
+    return nil
+end
 
 --[[
     everything in this table must be overridden

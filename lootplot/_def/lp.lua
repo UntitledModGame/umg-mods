@@ -38,6 +38,11 @@ end
 function lp.slotToItem(slotEnt)
 end
 
+---@param itemEnt lootplot.ItemEntity
+---@return lootplot.SlotEntity?
+function lp.itemToSlot(itemEnt)
+end
+
 ---@param ent lootplot.LayerEntity
 ---@return lootplot.PPos?
 function lp.getPos(ent)
