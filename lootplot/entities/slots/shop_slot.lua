@@ -7,5 +7,8 @@ return lp.defineSlot("lootplot:shopSlot", {
     triggers = {"REROLL", "PULSE"},
     itemSpawner = lp.ITEM_GENERATOR:createQuery():addAllEntries(),
     itemReroller = lp.ITEM_GENERATOR:createQuery():addAllEntries(),
+    onActivate = function(shopEnt)
+        shopEnt.shopLock = true
+    end
 })
 

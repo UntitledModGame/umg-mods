@@ -28,8 +28,6 @@ function(clientId, itemEnt)
         lp.subtractMoney(itemEnt, itemEnt.buyPrice)
         itemEnt.ownerPlayer = clientId -- mark as owned by player
         slotEnt.shopLock = false
-        -- sync.syncComponent(itemEnt, "ownerPlayer")
-        -- sync.syncComponent(slotEnt, "shopLock")
     end
 end)
 
@@ -64,7 +62,7 @@ umg.on("lootplot:pollSlotButtons", function(ppos, list)
             onClick = function()
                 if shopService.buy(itemEnt) then
                     selection.reset()
-                    selection.selectSlot(slotEnt)
+                    -- selection.selectSlot(slotEnt)
                 end
             end,
             getCost = function()
@@ -102,4 +100,8 @@ umg.answer("lootplot:hasPlayerAccess", function(ent, clientId)
     end
 
     return true
+end)
+
+umg.answer("lootplot:isItemAdditionBlocked", function(slotEnt)
+    return not not slotEnt:hasComponent("shopLock")
 end)
