@@ -12,7 +12,7 @@ return umg.defineEntityType("lootplot:player", {
     initVxVy = true,
     cameraFollow = true;
 
-    image = "slot",
+    image = "player",
 
     init = initPlayer,
 })

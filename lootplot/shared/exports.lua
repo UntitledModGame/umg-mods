@@ -493,6 +493,10 @@ end
 ---@return lootplot.ItemEntity
 function lp.forceSpawnItem(ppos, itemEType)
     local itemEnt = itemEType()
+    local prevItem = lp.posToItem(ppos)
+    if prevItem then
+        prevItem:delete()
+    end
     ppos:set(itemEnt)
     return itemEnt
 end
