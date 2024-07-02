@@ -412,7 +412,7 @@ end
 ---@param y1 integer
 ---@param y2 integer
 ---@param func fun(value:any,x:integer,y:integer)
-function Grid:foreachInArea(x1,x2, y1,y2, func)
+function Grid:foreachInArea(x1,y1, x2,y2, func)
 end
 
 ---@cast Grid +fun(width:integer,height:integer):objects.Grid

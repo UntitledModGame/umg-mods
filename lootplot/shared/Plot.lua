@@ -159,9 +159,9 @@ end
 ---@param y1 integer
 ---@param y2 integer
 ---@param func fun(ppos:lootplot.PPos)
-function Plot:foreachInArea(x1,x2, y1,y2, func)
+function Plot:foreachInArea(x1, y1, x2, y2, func)
     local grid = self.grid
-    return grid:foreachInArea(x1,x2,y1,y2, function(_val,x,y)
+    return grid:foreachInArea(x1, y1, x2, y2, function(_val,x,y)
         local i = grid:coordsToIndex(x,y)
         local ppos = lp.PPos({slot=i, plot=self})
         func(ppos)

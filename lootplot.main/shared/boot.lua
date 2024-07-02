@@ -33,13 +33,23 @@ end
 ---@param plot lootplot.Plot
 local function initializeSlots(plot)
     -- adds basic slots to be overridden
-    plot:foreachInArea(9,11, 4,6, function(ppos)
+    -- plot:foreachInArea(9,11, 4,6, function(ppos)
+    --     local basicSlot = server.entities.slot()
+    --     lp.setSlot(ppos, basicSlot)
+    --     -- lp.trySpawnItem(ppos, server.entities.bb)
+    -- end)
+    -- -- Add shop slots
+    -- plot:foreachInArea(4,6, 6,7, function(ppos)
+    --     local basicSlot = server.entities.shopSlot()
+    --     lp.setSlot(ppos, basicSlot)
+    -- end)
+    plot:foreachInArea(9, 4, 11, 6, function(ppos)
         local basicSlot = server.entities.slot()
         lp.setSlot(ppos, basicSlot)
         -- lp.trySpawnItem(ppos, server.entities.bb)
     end)
     -- Add shop slots
-    plot:foreachInArea(4,6, 6,7, function(ppos)
+    plot:foreachInArea(4, 6, 6, 7, function(ppos)
         local basicSlot = server.entities.shopSlot()
         lp.setSlot(ppos, basicSlot)
     end)
@@ -49,17 +59,17 @@ end
 ---@param plot lootplot.Plot
 local function initializeItems(clientId, plot)
     -- Spawn only one item for debug purposes
-    -- TODO: remove this stuff
-    plot:foreachInArea(10,10, 5,5, function(ppos)
+    -- -- TODO: remove this stuff
+    plot:foreachInArea(10, 5, 10, 5, function(ppos)
         lp.trySpawnItem(ppos, server.entities.bb).ownerPlayer = clientId
     end)
-    plot:foreachInArea(10,10, 4,4, function(ppos)
+    plot:foreachInArea(10, 4, 10, 4, function(ppos)
         lp.trySpawnItem(ppos, server.entities.strawberry).ownerPlayer = clientId
     end)
-    plot:foreachInArea(11,11, 6,6, function(ppos)
+    plot:foreachInArea(11, 6, 11, 6, function(ppos)
         lp.trySpawnItem(ppos, server.entities.bb)
     end)
-    plot:foreachInArea(4,4, 6,6, function(ppos)
+    plot:foreachInArea(4, 6, 4, 6, function(ppos)
         lp.trySpawnItem(ppos, server.entities.strawberry)
     end)
 end
