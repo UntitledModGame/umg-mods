@@ -31,6 +31,8 @@ function Query:init(args)
     self.picker = nil
 
     self.nestedQueries = objects.Set()
+
+    self.bufferedEntries = objects.Array()
 end
 
 local finalize
@@ -129,6 +131,7 @@ local function getTraits(self, entry)
     return self.generator:getTraits(entry)
 end
 
+---@param self generation.Query
 local function addDefault(self, entry)
     local chance = self.generator:getDefaultChance(entry)
     self:add(entry, chance)
@@ -138,19 +141,21 @@ end
 ---@param ... string
 ---@return generation.Query
 function Query:addEntriesWith(...)
-    local entries = self.generator:getEntriesWith(...)
-    for _, entry in ipairs(entries) do
-        addDefault(self, entry)
-    end
+    self.bufferedEntries:add({...})
+    -- local entries = self.generator:getEntriesWith(...)
+    -- for _, entry in ipairs(entries) do
+    --     addDefault(self, entry)
+    -- end
     return self
 end
 
 
 
 function Query:addAllEntries()
-    for _, entry in ipairs(self.generator:getAllEntries()) do
-        addDefault(self, entry)
-    end
+    self.bufferedEntries:add({})
+    -- for _, entry in ipairs(self.generator:getAllEntries()) do
+    --     addDefault(self, entry)
+    -- end
     return self
 end
 
@@ -190,9 +195,30 @@ local function applyChanceAdjustment(self, pick)
     return newPick(pick.entry, newChance)
 end
 
+---@param self generation.Query
+local function finalizeBufferedEntries(self)
+    for _, bufferedEntry in ipairs(self.bufferedEntries) do
+        if #bufferedEntry > 0 then
+            local entries = self.generator:getEntriesWith(unpack(bufferedEntry))
+            for _, entry in ipairs(entries) do
+                addDefault(self, entry)
+            end
+        else
+            for _, entry in ipairs(self.generator:getAllEntries()) do
+                addDefault(self, entry)
+            end
+        end
+    end
 
+    self.bufferedEntries:clear()
+end
 
+---@param self generation.Query
 function finalize(self)
+    if self.bufferedEntries:size() > 0 then
+        finalizeBufferedEntries(self)
+    end
+
     if self:isEmpty() then
         umg.melt("Cannot finalize query! (There are no possible results.)")
     end

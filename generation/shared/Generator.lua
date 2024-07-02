@@ -51,7 +51,7 @@ function Generator:defineEntry(entry, options)
     options = options or {}
     local entryObj = {
         defaultChance = options.defaultChance or 1,
-        traits = table.deepCopy(options.traits) or {},
+        traits = table.deepCopy(options.traits or {}),
         entry = entry
     }
     assertPositiveNumber(entryObj.defaultChance)
@@ -136,7 +136,7 @@ function Generator:getTraits(entry)
 end
 
 ---@param entry string
----@return integer
+---@return number
 function Generator:getDefaultChance(entry)
     strTc(entry)
     local obj = self.nameToEntryObj[entry]
