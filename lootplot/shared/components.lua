@@ -57,11 +57,9 @@ end
 --[[
     boolean properties for lootplot
 ]]
-defineBasicBoolean("canMove", "baseCanMove")
+defineBasicBoolean("canItemMove", "baseCanItemMove")
 
 defineBasicBoolean("canBeDestroyed", "baseCanBeDestroyed")
-
-defineBasicBoolean("canPlayerAccess", "baseCanPlayerAccess")
 
 defineBasicBoolean("canActivate", "baseCanActivate")
 
