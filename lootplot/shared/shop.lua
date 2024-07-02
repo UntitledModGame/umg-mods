@@ -23,7 +23,14 @@ local buyItem = util.remoteServerCall("lootplot:buyItem", ENT_1,
 function(clientId, itemEnt)
     -- TODO: check validity of arguments (bad actor could send any entity)
     -- TODO: check that we are allowed to do this!!!
-    lp.subtractMoney(itemEnt, itemEnt.buyPrice)
+    local slotEnt = lp.itemToSlot(itemEnt)
+    if slotEnt then
+        lp.subtractMoney(itemEnt, itemEnt.buyPrice)
+        itemEnt.ownerPlayer = clientId -- mark as owned by player
+        slotEnt.shopLock = false
+        -- sync.syncComponent(itemEnt, "ownerPlayer")
+        -- sync.syncComponent(slotEnt, "shopLock")
+    end
 end)
 
 ---@param ent lootplot.ItemEntity
@@ -51,7 +58,7 @@ umg.on("lootplot:pollSlotButtons", function(ppos, list)
         return
     end
 
-    if slotEnt.shopSlot then
+    if slotEnt.shopLock then
         -- add buy button
         list:add(ui.elements.CostButton({
             onClick = function()
@@ -63,19 +70,36 @@ umg.on("lootplot:pollSlotButtons", function(ppos, list)
             getCost = function()
                 return itemEnt.buyPrice
             end,
+            canClick = function()
+                return lp.getMoney(itemEnt) >= itemEnt.buyPrice
+            end,
             text = "Buy"
         }))
     else
         list:add(ui.elements.CostButton({
             onClick = function()
-                print("Destroy or sell pressed")
-                sellItem(itemEnt)
-                selection.reset()
+                if lp.canPlayerAccess(itemEnt, client.getClient()) then
+                    shopService.sell(itemEnt)
+                    selection.reset()
+                end
             end,
             getCost = function()
                 return math.abs(itemEnt.sellPrice)
             end,
+            canClick = function()
+                return lp.canPlayerAccess(itemEnt, client.getClient())
+            end,
             text = itemEnt.sellPrice > 0 and "Sell" or "Destroy"
         }))
     end
+end)
+
+umg.answer("lootplot:hasPlayerAccess", function(ent, clientId)
+    local slotEnt = lp.isItemEntity(ent) and lp.itemToSlot(ent)
+
+    if slotEnt then
+        return not slotEnt.shopLock
+    end
+
+    return true
 end)

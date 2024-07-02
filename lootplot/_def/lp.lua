@@ -217,6 +217,12 @@ end
 function lp.canTrigger(name, ent)
 end
 
+---@param ent Entity
+---@param clientId string
+---@return boolean
+function lp.canPlayerAccess(ent, clientId)
+end
+
 lp.constants = {}
 ---@type integer
 lp.constants.WORLD_SLOT_DISTANCE = 26

@@ -83,6 +83,18 @@ function lp.slotToItem(slotEnt)
     end
 end
 
+---@param ent Entity
+---@return boolean
+function lp.isSlotEntity(ent)
+    return not not ent.slot
+end
+
+---@param ent Entity
+---@return boolean
+function lp.isItemEntity(ent)
+    return not not ent.item
+end
+
 ---@param ent lootplot.LayerEntity
 ---@return lootplot.PPos?
 function lp.getPos(ent)
@@ -485,7 +497,12 @@ lp.defineTrigger = trigger.defineTrigger
 lp.triggerEntity = trigger.triggerEntity
 lp.canTrigger = trigger.canTrigger
 
-
+---@param ent Entity
+---@param clientId string
+---@return boolean
+function lp.canPlayerAccess(ent, clientId)
+    return umg.ask("lootplot:hasPlayerAccess", ent, clientId)
+end
 
 lp.constants = {
     WORLD_SLOT_DISTANCE = 26, -- distance slots are apart in the world.

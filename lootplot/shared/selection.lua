@@ -82,13 +82,17 @@ end
 
     For now, embrace yagni.
 ]]
-local function canRemoveItem(slotEnt)
+---@param clientId string
+---@param slotEnt lootplot.SlotEntity
+local function canRemoveItem(clientId, slotEnt)
     -- whether or not we can REMOVE an item at ppos
     local itemEnt = lp.slotToItem(slotEnt)
+
     if not (itemEnt and slotEnt) then
         return false -- no item to remove!
     end
-    return not umg.ask("lootplot:isItemRemovalBlocked", slotEnt, itemEnt)
+
+    return lp.canPlayerAccess(itemEnt, clientId) and not umg.ask("lootplot:isItemRemovalBlocked", slotEnt, itemEnt)
 end
 
 local function couldHoldItem(slotEnt, itemEnt)
@@ -110,13 +114,15 @@ local function canAddItem(slotEnt, itemEnt)
     return couldHoldItem(slotEnt, itemEnt)
 end
 
-
-local function canMoveFromTo(srcSlot, targetSlot)
+---@param clientId string
+---@param srcSlot lootplot.SlotEntity
+---@param targetSlot lootplot.SlotEntity
+local function canMoveFromTo(clientId, srcSlot, targetSlot)
     local item = lp.slotToItem(srcSlot)
     if not item then
         return false
     end
-    if couldHoldItem(targetSlot, item) and canRemoveItem(srcSlot) then
+    if couldHoldItem(targetSlot, item) and canRemoveItem(clientId, srcSlot) then
         return true
     end
 end
@@ -126,9 +132,11 @@ local function hasItem(slotEnt)
     return lp.slotToItem(slotEnt)
 end
 
-
-local function canSwap(slot1, slot2)
-    return canMoveFromTo(slot1, slot2) and canMoveFromTo(slot2, slot1)
+---@param clientId string
+---@param slot1 lootplot.SlotEntity
+---@param slot2 lootplot.SlotEntity
+local function canSwap(clientId, slot1, slot2)
+    return canMoveFromTo(clientId, slot1, slot2) and canMoveFromTo(clientId, slot2, slot1)
 end
 
 local function deny(slotEnt)
@@ -151,7 +159,7 @@ function(clientId, slotEnt1, slotEnt2)
     -- TODO: use qbus; check if we have permission
     local item1 = lp.slotToItem(slotEnt1)
     local item2 = lp.slotToItem(slotEnt2)
-    if canSwap(slotEnt1, slotEnt2) then
+    if canSwap(clientId, slotEnt1, slotEnt2) then
         lp.swapItems(item1, item2)
     end
 end)
@@ -162,20 +170,20 @@ function(clientId, srcSlotEnt, targetSlotEnt)
     -- TODO: check that we actually CAN move the items
     -- TODO: use qbus; check if we have permission
     local item = lp.slotToItem(srcSlotEnt)
-    if item and canMoveFromTo(srcSlotEnt, targetSlotEnt) then
+    if item and canMoveFromTo(clientId, srcSlotEnt, targetSlotEnt) then
         assert(item.item and srcSlotEnt.slot and targetSlotEnt.slot, "?")
         lp.moveItem(item, targetSlotEnt)
     end
 end)
 
 
-
-
-
-local function tryMove(srcSlot, targSlot)
+---@param clientId string
+---@param srcSlot lootplot.SlotEntity
+---@param targSlot lootplot.SlotEntity
+local function tryMove(clientId, srcSlot, targSlot)
     if hasItem(targSlot) then
         -- then we try to swap items
-        if canSwap(srcSlot, targSlot) then
+        if canSwap(clientId, srcSlot, targSlot) then
             swapSlotItems(srcSlot, targSlot)
         else
             deny(srcSlot)
@@ -183,7 +191,7 @@ local function tryMove(srcSlot, targSlot)
         end
     else
         -- Else, try move slot1 item --> slot2
-        if canMoveFromTo(srcSlot, targSlot) then
+        if canMoveFromTo(clientId, srcSlot, targSlot) then
             assert(not hasItem(targSlot),"???") -- just to be safe lol
             moveSlotItem(srcSlot, targSlot)
         end
@@ -207,12 +215,13 @@ local function click(slotEnt)
     end
 end
 
-
-function selection.click(slotEnt)
+---@param clientId string
+---@param slotEnt lootplot.SlotEntity
+function selection.click(clientId, slotEnt)
     validate()
     if selectedSlot then
         if slotEnt ~= selectedSlot then
-            tryMove(selectedSlot, slotEnt)
+            tryMove(clientId, selectedSlot, slotEnt)
         end
         reset()
     else
@@ -234,8 +243,10 @@ end
 if client then
     components.project("slot", "clickable")
 
-    umg.on("clickables:entityClickedClient", function(slotEnt, clientId)
-        selection.click(slotEnt)
+    umg.on("clickables:entityClickedClient", function(slotEnt, button)
+        if button == 1 then
+            selection.click(client.getClient(), slotEnt)
+        end
     end)
 
     local lg=love.graphics

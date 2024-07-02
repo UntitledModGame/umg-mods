@@ -84,3 +84,5 @@ defineBasicNumber("moneyGenerated", {base="baseMoneyGenerated", default=0})
 defineBasicNumber("power", {base="basePower", default=0})
 -- TODO: should we keep this property?
 
+sync.autoSyncComponent("shopLock", {type = "boolean"})
+sync.autoSyncComponent("ownerPlayer", {type = "string"})

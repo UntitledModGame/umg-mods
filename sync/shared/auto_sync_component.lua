@@ -231,8 +231,11 @@ end
     makes stuff a lot smoother.
 ]]
 
-
-function setLerpValue(ent, compName, compVal, options)
+---@param ent Entity
+---@param compName string
+---@param compVal number
+---@param options table
+local function setLerpValue(ent, compName, compVal, options)
     local lerpValues = options.lerpValues
     local previousLerpValues = options.previousLerpValues
 
@@ -321,9 +324,10 @@ local function setupClientNumberLerper(compName, options)
     end)
 end
 
-
-
-
+---@param ent Entity
+---@param compName string
+---@param compVal any
+---@param options table
 local function syncComponentClient(ent, compName, compVal, options)
     if options.lerp and type(compVal) == "number" then
         setLerpValue(ent, compName, compVal, options)
@@ -362,9 +366,8 @@ end
 
 
 
-
-
-
+---@param compName string
+---@param options table
 local function setupClientReceiver(compName, options)
     --[[
         receives packets from server.

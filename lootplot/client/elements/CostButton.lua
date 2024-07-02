@@ -13,6 +13,7 @@ function CostButton:init(args)
     typecheck.assertKeys(args, TABLE_ARGS)
     self.onClick = args.onClick
     self.getCost = args.getCost
+    self.canClick = args.canClick
     self.prefix = args.text
     self.text = ""
     self.padding = args.padding or DEFAULT_PADDING
@@ -53,7 +54,9 @@ end
 
 
 function CostButton:onClickPrimary()
-    self:onClick()
+    if self.canClick and self.canClick() then
+        self:onClick()
+    end
 end
 
 
