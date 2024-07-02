@@ -59,23 +59,9 @@ end
 ]]
 defineBasicBoolean("canMove", "baseCanMove")
 
-defineBasicBoolean("canDestroy", "baseCanDestroy")
+defineBasicBoolean("canBeDestroyed", "baseCanBeDestroyed")
 
-defineBasicBoolean("", "")
---[[
-It would be nice to have a unified property that represents
-whether we have access over an item or not.
-
-This way, shopSlots would be able to tag into this property only.
-The same could be used for enemy item or other exotic item
-
-Or maybe it's just best to keep the components horizontally decoupled.
-Be assumptionless.
-Doesn't matter if the shop slot definition is a bit more bloated.
-]]
-
-defineBasicBoolean("canSell", "baseCanSell")-- Do we need this??
--- This is almost identical to canDestroy
+defineBasicBoolean("canPlayerAccess", "baseCanPlayerAccess")
 
 defineBasicBoolean("canActivate", "baseCanActivate")
 

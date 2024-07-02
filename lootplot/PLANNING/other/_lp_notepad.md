@@ -216,9 +216,51 @@ But on the other hand, there is a whole family of components that are very close
 ```
 hasAccess
 -->
-
-
+canMove
+canDestroy
 ```
+
+There's also an issue with current bool properties:
+It's unclear whether the properties are applied to the player actions,
+Or whether they are applied to the system.
+
+For example:
+`canMove` -->
+Does this imply that only the player can't move it?
+Orders this imply that the item can't move at all...?
+
+
+
+
+
+## IDEA:
+We make a big assumption about player interaction.
+Assume that all player interaction falls under the following things:
+```
+moving items
+destroying/selling items
+using buttons on items
+```
+
+From there we can have a highly unified API:
+```lua
+lp.canPlayerAccess(ent,clientId)
+
+umg.answer("lootplot:canPlayerAccess", function(ent, clientId)end)
+
+defineBasicBoolean("canPlayerAccess", "baseCanPlayerAccess")
+```
+
+(We will also have a bool properly: `canPlayerAccess`)
+The selection service will need to accommodate for this.
+
+---
+
+What's really beautiful about this, is that enemies can reuse this api in the future.
+Also this makes multiplayer lot easier.
+
+
+
 
 
 
