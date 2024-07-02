@@ -133,16 +133,35 @@ local function tryMove(clientId, srcSlot, targSlot)
 end
 
 
+local swapSlotItems = util.remoteServerCall("lootplot:swapSlotItems", ENT_2, 
+function(clientId, slotEnt1, slotEnt2)
+    -- TODO: check validity of arguments (bad actor could send any entity)
+    -- TODO: check that we actually CAN move the items
+    -- TODO: use qbus; check if we have permission
+    local item1 = lp.slotToItem(slotEnt1)
+    local item2 = lp.slotToItem(slotEnt2)
+    if lp.canSwap(slotEnt1, slotEnt2) and lp.canPlayerAccess(slotEnt1, clientId) and lp.canPlayerAccess(slotEnt2, clientId) then
+        lp.swapItems(slotEnt1, slotEnt2)
+    end
+end)
+
+local ENT_1 = {"entity"}
+
+local activateOnServer = util.remoteServerCall("lootplot:clickSlotButton", ENT_1,
+function(clientId, slotEnt)
+    -- An "interactable" slot in the world.
+    --  for example: an in-world reroll button.
+    if lp.canPlayerAccess(slotEnt, clientId) and lp.canActivateEntity(slotEnt) then
+        -- We also should do some other checks passing in the client that clicked!
+        -- Maybe we should unify this with interactable...?
+        lp.activateEntity(slotEnt)
+    end
+end)
+
 
 local function click(slotEnt)
     if isButtonSlot(slotEnt) then
-        -- An "interactable" slot in the world.
-        --  for example: an in-world reroll button.
-        if lp.canActivateEntity(slotEnt) then
-            -- We also should do some other checks passing in the client that clicked!
-            -- Maybe we should unify this with interactable...?
-            lp.activateEntity(slotEnt)
-        end
+        activateOnServer(slotEnt)
     else
         -- else, select:
         selectSlot(slotEnt)

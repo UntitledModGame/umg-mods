@@ -31,27 +31,29 @@ end
 ==============================
 ]]
 ---@param plot lootplot.Plot
-local function initializeSlots(plot)
+local function initializeSlots(clientId, plot)
     -- adds basic slots to be overridden
-    -- plot:foreachInArea(9,11, 4,6, function(ppos)
-    --     local basicSlot = server.entities.slot()
-    --     lp.setSlot(ppos, basicSlot)
-    --     -- lp.trySpawnItem(ppos, server.entities.bb)
-    -- end)
-    -- -- Add shop slots
-    -- plot:foreachInArea(4,6, 6,7, function(ppos)
-    --     local basicSlot = server.entities.shopSlot()
-    --     lp.setSlot(ppos, basicSlot)
-    -- end)
     plot:foreachInArea(9, 4, 11, 6, function(ppos)
-        local basicSlot = server.entities.slot()
-        lp.setSlot(ppos, basicSlot)
-        -- lp.trySpawnItem(ppos, server.entities.bb)
+        local slot = server.entities.slot()
+        slot.ownerPlayer = clientId
+        lp.setSlot(ppos, slot)
     end)
     -- Add shop slots
     plot:foreachInArea(4, 6, 6, 7, function(ppos)
-        local basicSlot = server.entities.shopSlot()
-        lp.setSlot(ppos, basicSlot)
+        local slot = server.entities.shopSlot()
+        slot.ownerPlayer = clientId
+        lp.setSlot(ppos, slot)
+    end)
+    -- Add null slot
+    plot:foreachInArea(4, 2, 6, 2, function(ppos)
+        local slot = server.entities.nullSlot()
+        slot.ownerPlayer = clientId
+        lp.setSlot(ppos, slot)
+    end)
+    plot:foreachInArea(5, 3, 5, 3, function(ppos)
+        local slot = server.entities.rerollButtonSlot()
+        slot.ownerPlayer = clientId
+        lp.setSlot(ppos, slot)
     end)
 end
 
@@ -76,8 +78,9 @@ end
 
 umg.on("@createWorld", function()
     local ent = createWorld()
-    initializeSlots(ent.plot)
-    initializeItems(server.getHostClient(), ent.plot)
+    local clientId = server.getHostClient()
+    initializeSlots(clientId, ent.plot)
+    initializeItems(clientId, ent.plot)
 end)
 
 umg.on("@playerJoin", function(clientId)

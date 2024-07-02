@@ -29,7 +29,6 @@ function trigger.triggerEntity(name, ent)
         end
     end
 
-    print("triggerEntity", ent, ent.triggers, ent.slot, ent.canSlotPropagate)
     if ent.slot and ent.canSlotPropagate then
         local itemEnt = lp.slotToItem(ent)
         if itemEnt then

@@ -526,7 +526,8 @@ function lp.defineItem(name, itemType)
     itemType.baseSellPrice = itemType.baseSellPrice or 1
     itemType.baseBuyPrice = itemType.baseBuyPrice or 2
     itemType.triggers = itemType.triggers or {"PULSE"}
-    return umg.defineEntityType(name, itemType)
+    umg.defineEntityType(name, itemType)
+    lp.ITEM_GENERATOR:defineEntry(name)
 end
 
 ---@class lootplot.SlotEntityClass: EntityClass
@@ -546,7 +547,8 @@ function lp.defineSlot(name, slotType)
     if slotType.baseCanSlotPropagate == nil then
         slotType.baseCanSlotPropagate = true
     end
-    return umg.defineEntityType(name, slotType)
+    umg.defineEntityType(name, slotType)
+    lp.SLOT_GENERATOR:defineEntry(name)
 end
 
 ---@param name string
@@ -568,7 +570,7 @@ function lp.canTrigger(name, ent)
     return trigger.canTrigger(name, ent)
 end
 
----@param ent Entity
+---@param ent lootplot.ItemEntity|lootplot.SlotEntity
 ---@param clientId string
 ---@return boolean
 function lp.canPlayerAccess(ent, clientId)
@@ -580,9 +582,8 @@ lp.constants = {
     PIPELINE_DELAY = 0.2
 }
 
-
-
-
+lp.ITEM_GENERATOR = generation.Generator()
+lp.SLOT_GENERATOR = generation.Generator()
 
 umg.expose("lp", lp)
 

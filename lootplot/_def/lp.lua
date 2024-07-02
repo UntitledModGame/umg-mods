@@ -220,7 +220,7 @@ end
 function lp.canTrigger(name, ent)
 end
 
----@param ent Entity
+---@param ent lootplot.ItemEntity|lootplot.SlotEntity
 ---@param clientId string
 ---@return boolean
 function lp.canPlayerAccess(ent, clientId)
@@ -231,5 +231,9 @@ lp.constants = {}
 lp.constants.WORLD_SLOT_DISTANCE = 26
 ---@type number
 lp.constants.PIPELINE_DELAY = 0.2
+---@type generation.Generator
+lp.SLOT_GENERATOR = nil
+---@type generation.Generator
+lp.ITEM_GENERATOR = nil
 
 return lp

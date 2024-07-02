@@ -2,6 +2,10 @@
 
 return lp.defineSlot("lootplot:shopSlot", {
     image = "slot",
-    shopLock = true
+    color = {1, 1, 0.6},
+    shopLock = true,
+    triggers = {"REROLL", "PULSE"},
+    itemSpawner = lp.ITEM_GENERATOR:createQuery():addAllEntries(),
+    itemReroller = lp.ITEM_GENERATOR:createQuery():addAllEntries(),
 })
 
