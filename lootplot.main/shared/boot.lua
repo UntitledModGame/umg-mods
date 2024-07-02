@@ -45,10 +45,18 @@ local function initializeSlots(plot)
     end)
 end
 
+---@param clientId string
 ---@param plot lootplot.Plot
-local function initializeItems(plot)
+local function initializeItems(clientId, plot)
     -- Spawn only one item for debug purposes
+    -- TODO: remove this stuff
     plot:foreachInArea(10,10, 5,5, function(ppos)
+        lp.trySpawnItem(ppos, server.entities.bb).ownerPlayer = clientId
+    end)
+    plot:foreachInArea(10,10, 4,4, function(ppos)
+        lp.trySpawnItem(ppos, server.entities.strawberry).ownerPlayer = clientId
+    end)
+    plot:foreachInArea(11,11, 6,6, function(ppos)
         lp.trySpawnItem(ppos, server.entities.bb)
     end)
     plot:foreachInArea(4,4, 6,6, function(ppos)
@@ -59,7 +67,7 @@ end
 umg.on("@createWorld", function()
     local ent = createWorld()
     initializeSlots(ent.plot)
-    initializeItems(ent.plot)
+    initializeItems(server.getHostClient(), ent.plot)
 end)
 
 umg.on("@playerJoin", function(clientId)

@@ -2,17 +2,21 @@
 
 lp = {}
 
+---basic action-buffering, with 0 arguments for function.
+---
+---NOTE:  This function name is a bit confusing!!!
+---    It doesn't actually add `func` to a queue;
+---    it adds it to a LIFO stack.
+---    I just think that `lp.queue` is a more sensible name than 
+---        `lp.push` or `lp.buffer`
 ---@param ppos lootplot.PPos
 ---@param func fun()
 function lp.queue(ppos, func)
 end
 
----@param ppos lootplot.PPos
----@param time number
 function lp.wait(ppos, time)
 end
 
----@type lootplot.Bufferer|fun():lootplot.Bufferer
 lp.Bufferer = require("server.Bufferer")
 ---@type lootplot.PPos|fun(args:{slot:integer,plot:lootplot.Plot,rotation?:number}):lootplot.PPos
 lp.PPos = require("shared.PPos")
@@ -23,6 +27,9 @@ lp.Plot = require("shared.Plot")
 function lp.posTc(x)
 end
 
+--[[
+    Positioning:
+]]
 ---@param ppos lootplot.PPos
 ---@return lootplot.SlotEntity?
 function lp.posToSlot(ppos)
@@ -38,14 +45,23 @@ end
 function lp.slotToItem(slotEnt)
 end
 
----@param itemEnt lootplot.ItemEntity
----@return lootplot.SlotEntity?
-function lp.itemToSlot(itemEnt)
+---@param ent Entity
+---@return boolean
+function lp.isSlotEntity(ent)
+end
+
+---@param ent Entity
+---@return boolean
+function lp.isItemEntity(ent)
 end
 
 ---@param ent lootplot.LayerEntity
 ---@return lootplot.PPos?
 function lp.getPos(ent)
+end
+
+---@param itemEnt lootplot.ItemEntity
+function lp.itemToSlot(itemEnt)
 end
 
 --[[
@@ -55,26 +71,15 @@ end
 lp.overrides = {}
 
 function lp.overrides.setPoints(ent, x)
-    -- sets points for `ent`s context
-    umg.melt("MUST OVERRIDE")
-end
-function lp.overrides.getPoints(ent)
-    -- gets points for `ent`s context
-    umg.melt("MUST OVERRIDE")
-end
-function lp.overrides.setMoney(ent, x)
-    -- sets money for `ent`s context
-    umg.melt("MUST OVERRIDE")
-end
-function lp.overrides.getMoney(ent)
-    -- gets money for `ent`s context
-    umg.melt("MUST OVERRIDE")
 end
 
-local function assertServer()
-    if not server then
-        umg.melt("This can only be called on client-side!", 3)
-    end
+function lp.overrides.getPoints(ent)
+end
+
+function lp.overrides.setMoney(ent, x)
+end
+
+function lp.overrides.getMoney(ent)
 end
 
 ---@param fromEnt Entity
@@ -122,22 +127,18 @@ end
 function lp.setSlot(ppos, slotEnt)
 end
 
---[[
-todo
-do we need this function?
-we could rename it to addItem....?
-and then expose a detachItem function
-]]
----@param item lootplot.ItemEntity
----@param slotEnt_or_ppos lootplot.SlotEntity|lootplot.PPos
-function lp.moveItem(item, slotEnt_or_ppos)
+---This one needs valid slot but does not require item to be present.
+---If item is not present, it acts as move.
+---@param slotEnt1 lootplot.SlotEntity
+---@param slotEnt2 lootplot.SlotEntity
+function lp.swapItems(slotEnt1, slotEnt2)
 end
 
----@param item1 lootplot.ItemEntity
----@param item2 lootplot.ItemEntity
-function lp.swapItems(item1, item2)
+---@param slot1 lootplot.SlotEntity
+---@param slot2 lootplot.SlotEntity
+---@return boolean
+function lp.canSwap(slot1, slot2)
 end
-
 
 ---@param ent Entity
 ---@return boolean
@@ -177,6 +178,7 @@ end
 
 ---@param ppos lootplot.PPos
 ---@param itemEType fun():lootplot.ItemEntity
+---@return lootplot.ItemEntity?
 function lp.trySpawnItem(ppos, itemEType)
 end
 
@@ -205,6 +207,7 @@ end
 ---@param name string
 function lp.defineTrigger(name)
 end
+
 
 ---@param name string
 ---@param ent Entity

@@ -38,6 +38,10 @@ end
 
 ---@param slotEnt lootplot.SlotEntity
 local function selectSlot(slotEnt)
+    if not lp.slotToItem(slotEnt) then
+        return
+    end
+
     if isButtonSlot(slotEnt) then
         return
     end
@@ -59,7 +63,7 @@ selection.selectSlot = selectSlot
 
 
 local function validate()
-    if not selectedPPos then 
+    if not selectedPPos then
         return -- nothing to validate
     end
     if (not umg.exists(selectedSlot)) then
@@ -71,72 +75,12 @@ local function validate()
     end
 end
 
-
---[[
-    TODO:
-    Should we be exporting these functions..?
-    Maybe some systems will want to know whether an item can be moved or not;
-    Example:
-    ITEM- if all touching items cannot move,
-        gain +10 points
-
-    For now, embrace yagni.
-]]
----@param clientId string
----@param slotEnt lootplot.SlotEntity
-local function canRemoveItem(clientId, slotEnt)
-    -- whether or not we can REMOVE an item at ppos
-    local itemEnt = lp.slotToItem(slotEnt)
-
-    if not (itemEnt and slotEnt) then
-        return false -- no item to remove!
-    end
-
-    return lp.canPlayerAccess(itemEnt, clientId) and not umg.ask("lootplot:isItemRemovalBlocked", slotEnt, itemEnt)
-end
-
-local function couldHoldItem(slotEnt, itemEnt)
-    --[[
-        checks whether or not a slot COULD hold the item,
-
-        We need this check for swapping items.
-        (If we use `canAddItem` when swapping items, then we will always
-            get false, because theres another item in the slot.)
-    ]]
-    return not umg.ask("lootplot:isItemAdditionBlocked", slotEnt, itemEnt)
-end
-
 local function canAddItem(slotEnt, itemEnt)
     -- whether or not we can ADD an item to slotEnt.
     if lp.slotToItem(slotEnt) then
         return false
     end
     return couldHoldItem(slotEnt, itemEnt)
-end
-
----@param clientId string
----@param srcSlot lootplot.SlotEntity
----@param targetSlot lootplot.SlotEntity
-local function canMoveFromTo(clientId, srcSlot, targetSlot)
-    local item = lp.slotToItem(srcSlot)
-    if not item then
-        return false
-    end
-    if couldHoldItem(targetSlot, item) and canRemoveItem(clientId, srcSlot) then
-        return true
-    end
-end
-
-
-local function hasItem(slotEnt)
-    return lp.slotToItem(slotEnt)
-end
-
----@param clientId string
----@param slot1 lootplot.SlotEntity
----@param slot2 lootplot.SlotEntity
-local function canSwap(clientId, slot1, slot2)
-    return canMoveFromTo(clientId, slot1, slot2) and canMoveFromTo(clientId, slot2, slot1)
 end
 
 local function deny(slotEnt)
@@ -159,42 +103,32 @@ function(clientId, slotEnt1, slotEnt2)
     -- TODO: use qbus; check if we have permission
     local item1 = lp.slotToItem(slotEnt1)
     local item2 = lp.slotToItem(slotEnt2)
-    if canSwap(clientId, slotEnt1, slotEnt2) then
-        lp.swapItems(item1, item2)
+    if lp.canSwap(slotEnt1, slotEnt2) then
+        lp.swapItems(slotEnt1, slotEnt2)
     end
 end)
 
-local moveSlotItem = util.remoteServerCall("lootplot:moveSlotItem", ENT_2, 
-function(clientId, srcSlotEnt, targetSlotEnt)
-    -- TODO: check validity of arguments (bad actor could send any entity)
-    -- TODO: check that we actually CAN move the items
-    -- TODO: use qbus; check if we have permission
-    local item = lp.slotToItem(srcSlotEnt)
-    if item and canMoveFromTo(clientId, srcSlotEnt, targetSlotEnt) then
-        assert(item.item and srcSlotEnt.slot and targetSlotEnt.slot, "?")
-        lp.moveItem(item, targetSlotEnt)
-    end
-end)
+---@param slotEnt lootplot.SlotEntity
+---@param clientId string
+local function hasAccess(slotEnt, clientId)
+    local itemEnt = lp.slotToItem(slotEnt)
 
+    if itemEnt then
+        return lp.canPlayerAccess(itemEnt, clientId)
+    end
+
+    return true
+end
 
 ---@param clientId string
 ---@param srcSlot lootplot.SlotEntity
 ---@param targSlot lootplot.SlotEntity
 local function tryMove(clientId, srcSlot, targSlot)
-    if hasItem(targSlot) then
-        -- then we try to swap items
-        if canSwap(clientId, srcSlot, targSlot) then
-            swapSlotItems(srcSlot, targSlot)
-        else
-            deny(srcSlot)
-            deny(targSlot)
-        end
+    if lp.canSwap(srcSlot, targSlot) and hasAccess(srcSlot, clientId) and hasAccess(targSlot, clientId) then
+        swapSlotItems(srcSlot, targSlot)
     else
-        -- Else, try move slot1 item --> slot2
-        if canMoveFromTo(clientId, srcSlot, targSlot) then
-            assert(not hasItem(targSlot),"???") -- just to be safe lol
-            moveSlotItem(srcSlot, targSlot)
-        end
+        deny(srcSlot)
+        deny(targSlot)
     end
 end
 

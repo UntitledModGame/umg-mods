@@ -65,6 +65,7 @@ function lp.posToSlot(ppos)
 end
 
 ---@param ppos lootplot.PPos
+---@return lootplot.ItemEntity?
 function lp.posToItem(ppos)
     lp.posTc(ppos)
     return ppos.plot:getItem(ppos.slot)
@@ -314,36 +315,89 @@ local function detach(ent)
     end
 end
 
---[[
-todo
-do we need this function?
-we could rename it to addItem....?
-and then expose a detachItem function
-]]
----@param item lootplot.ItemEntity
----@param slotEnt_or_ppos lootplot.SlotEntity|lootplot.PPos
-function lp.moveItem(item, slotEnt_or_ppos)
-    -- moves an item to a position
-    assertServer()
-    local _slotEnt,ppos = ensureSlot(slotEnt_or_ppos)
-    detach(item)
-    ppos:set(item)
-end
-
-
 local ent2Tc = typecheck.assert("entity", "entity")
----@param item1 lootplot.ItemEntity
----@param item2 lootplot.ItemEntity
-function lp.swapItems(item1, item2)
-    ent2Tc(item1, item2)
-    local ppos1, ppos2 = lp.getPos(item1), lp.getPos(item2)
+
+---This one needs valid slot but does not require item to be present.
+---If item is not present, it acts as move.
+---@param slotEnt1 lootplot.SlotEntity
+---@param slotEnt2 lootplot.SlotEntity
+function lp.swapItems(slotEnt1, slotEnt2)
+    ent2Tc(slotEnt1, slotEnt2)
+
+    local item1 = lp.slotToItem(slotEnt1)
+    local item2 = lp.slotToItem(slotEnt2)
+    local ppos1, ppos2 = lp.getPos(slotEnt1), lp.getPos(slotEnt2)
     assert(ppos1 and ppos2, "Cannot swap nil-position")
-    detach(item1)
-    detach(item2)
-    ppos1:set(item2)
-    ppos2:set(item1)
+
+    if item1 then
+        ppos1:clear(item1)
+    end
+
+    if item2 then
+        ppos2:clear(item2)
+    end
+
+    if item1 then
+        ppos2:set(item1)
+    end
+
+    if item2 then
+        ppos1:set(item2)
+    end
 end
 
+--[[
+    TODO:
+    Should we be exporting these functions..?
+    Maybe some systems will want to know whether an item can be moved or not;
+    Example:
+    ITEM- if all touching items cannot move,
+        gain +10 points
+
+    For now, embrace yagni.
+]]
+---@param slotEnt lootplot.SlotEntity
+local function canRemoveItemOrNoItem(slotEnt)
+    -- whether or not we can REMOVE an item at ppos
+    local itemEnt = lp.slotToItem(slotEnt)
+
+    if itemEnt then
+        return not umg.ask("lootplot:isItemRemovalBlocked", slotEnt, itemEnt)
+    end
+
+    return true
+end
+
+---@param slotEnt lootplot.SlotEntity
+---@param itemEnt lootplot.ItemEntity?
+---@return boolean
+local function couldHoldItem(slotEnt, itemEnt)
+    --[[
+        checks whether or not a slot COULD hold the item,
+
+        We need this check for swapping items.
+        (If we use `canAddItem` when swapping items, then we will always
+            get false, because theres another item in the slot.)
+    ]]
+    if itemEnt then
+        return not umg.ask("lootplot:isItemAdditionBlocked", slotEnt, itemEnt)
+    end
+
+    return true
+end
+
+---@param srcSlot lootplot.SlotEntity
+---@param targetSlot lootplot.SlotEntity
+local function canMoveFromTo(srcSlot, targetSlot)
+    return couldHoldItem(targetSlot, lp.slotToItem(srcSlot)) and canRemoveItemOrNoItem(srcSlot)
+end
+
+---@param slot1 lootplot.SlotEntity
+---@param slot2 lootplot.SlotEntity
+---@return boolean
+function lp.canSwap(slot1, slot2)
+    return canMoveFromTo(slot1, slot2) and canMoveFromTo(slot2, slot1)
+end
 
 ---@param ent Entity
 ---@return boolean
@@ -424,12 +478,14 @@ end
 
 ---@param ppos lootplot.PPos
 ---@param itemEType fun():lootplot.ItemEntity
+---@return lootplot.ItemEntity?
 function lp.trySpawnItem(ppos, itemEType)
     local slotEnt = lp.posToSlot(ppos)
     local preItem = lp.posToItem(ppos)
     if slotEnt and (not preItem) then
-        lp.forceSpawnItem(ppos, itemEType)
+        return lp.forceSpawnItem(ppos, itemEType)
     end
+    return nil
 end
 
 ---@param ppos lootplot.PPos
@@ -493,9 +549,24 @@ function lp.defineSlot(name, slotType)
     return umg.defineEntityType(name, slotType)
 end
 
-lp.defineTrigger = trigger.defineTrigger
-lp.triggerEntity = trigger.triggerEntity
-lp.canTrigger = trigger.canTrigger
+---@param name string
+function lp.defineTrigger(name)
+    return trigger.defineTrigger(name)
+end
+
+
+---@param name string
+---@param ent Entity
+function lp.triggerEntity(name, ent)
+    return trigger.triggerEntity(name, ent)
+end
+
+---@param name string
+---@param ent Entity
+---@return boolean
+function lp.canTrigger(name, ent)
+    return trigger.canTrigger(name, ent)
+end
 
 ---@param ent Entity
 ---@param clientId string
