@@ -55,18 +55,24 @@ local function evalBoolProp(slotEnt, prop)
 end
 
 umg.answer("properties:canPropertyBeTrue", function(itemEnt, prop)
-    local slotEnt = lp.itemToSlot(itemEnt)
-    return slotEnt and evalBoolProp(slotEnt, prop)
+    if lp.isItemEntity(itemEnt) then
+        local slotEnt = lp.itemToSlot(itemEnt)
+        return slotEnt and evalBoolProp(slotEnt, prop)
+    end
+
+    return false
 end)
 
 
 umg.answer("properties:isPropertyFalse", function(itemEnt, prop)
-    local slotEnt = lp.itemToSlot(itemEnt)
+    if lp.isItemEntity(itemEnt) then
+        local slotEnt = lp.itemToSlot(itemEnt)
 
-    if slotEnt then
-        if slotEnt.itemBooleanEffects then
-            if slotEnt.itemBooleanEffects[prop] ~= nil then
-                return not evalBoolProp(slotEnt, prop)
+        if slotEnt then
+            if slotEnt.itemBooleanEffects then
+                if slotEnt.itemBooleanEffects[prop] ~= nil then
+                    return not evalBoolProp(slotEnt, prop)
+                end
             end
         end
     end
