@@ -8,6 +8,12 @@ slotGrid
 local ptrack = require("shared.internal.positionTracking")
 local trigger = require("shared.trigger")
 
+-- Shape exports
+local Shape = require("shared.Shape")
+local CustomShape = require("shared.shapes.Custom")
+local KingShape = require("shared.shapes.King")
+local UnionShape = require("shared.shapes.Union")
+local UniDirectionalShape = require("shared.shapes.UniDirectional")
 
 
 local lp = {}
@@ -585,6 +591,57 @@ lp.constants = {
     WORLD_SLOT_DISTANCE = 26, -- distance slots are apart in the world.
     PIPELINE_DELAY = 0.2
 }
+
+local MAX_DISTANCE = 40
+
+lp.shape = {
+    -- This is the class objects
+    Shape = Shape,
+    KingShape = KingShape,
+    UnionShape = UnionShape,
+    UniDirectionalShape = UniDirectionalShape,
+}
+
+-- Simple helper
+
+---@param size integer?
+function lp.shape.PlusShape(size)
+    return UnionShape(
+        UniDirectionalShape(1, 0, size),
+        UniDirectionalShape(0, 1, size),
+        UniDirectionalShape(-1, 0, size),
+        UniDirectionalShape(0, -1, size)
+    )
+end
+
+---@param size integer?
+function lp.shape.CrossShape(size)
+    return UnionShape(
+        UniDirectionalShape(1, 1, size),
+        UniDirectionalShape(-1, 1, size),
+        UniDirectionalShape(-1, -1, size),
+        UniDirectionalShape(1, -1, size)
+    )
+end
+
+-- Pre-defined shape instance
+lp.shape.KING = KingShape(1)
+lp.shape.LARGE_KING = KingShape(2)
+lp.shape.ROOK = lp.shape.PlusShape(MAX_DISTANCE)
+lp.shape.BISHOP = lp.shape.CrossShape(MAX_DISTANCE)
+lp.shape.QUEEN = UnionShape(lp.shape.ROOK, lp.shape.BISHOP)
+lp.shape.KNIGHT = CustomShape(function(ppos)
+    local result = objects.Array()
+
+    for mx = -1, 1, 2 do
+        for my = -1, 1, 2 do
+            Shape.tryInsertPosition(ppos, 2 * mx, 1 * my, result)
+            Shape.tryInsertPosition(ppos, 1 * mx, 2 * my, result)
+        end
+    end
+
+    return result
+end)
 
 lp.ITEM_GENERATOR = generation.Generator()
 lp.SLOT_GENERATOR = generation.Generator()

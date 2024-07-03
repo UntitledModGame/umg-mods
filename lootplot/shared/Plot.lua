@@ -58,9 +58,13 @@ function Plot:init(ownerEnt, width, height)
     self.seenEntities = {--[[
         [ent] = boolean
     ]]}
+
+    self.width, self.height = width, height
 end
 
-
+function Plot:getDimensions()
+    return self.width, self.height
+end
 
 --[[
 
