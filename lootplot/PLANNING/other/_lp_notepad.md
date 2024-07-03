@@ -262,6 +262,8 @@ Also this makes multiplayer lot easier.
 
 
 
+QUESTION:::
+- Should `trigger` cause implicit buffering on activation???
 
 
 

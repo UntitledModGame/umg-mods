@@ -24,6 +24,8 @@ function trigger.triggerEntity(name, ent)
     if ent.triggers then
         for _, t in ipairs(ent.triggers) do
             if t == name then
+                -- TODO:::
+                -- Should we have implicit buffering here????
                 lp.activateEntity(ent)
             end
         end
