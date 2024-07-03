@@ -47,11 +47,20 @@ function Image:setImage(x)
 end
 
 
+function Image:getImageRegion(x,y,w,h)
+    local region = ui.Region(x,y,w,h)
+    local iw, ih = getDimensions(self.image)
+    local imgRegion = ui.Region(0,0,iw,ih)
+    local scale = imgRegion:getScaleToFit(region)
+    return region:shrinkTo(iw*scale,ih*scale):center(region)
+end
+
+
 function Image:scaleRegionToFit(region)
     --[[
         Scales `region` such that it fits the image perfectly.
     ]] 
-    local iw, ih = self.image:getDimensions()
+    local iw, ih = getDimensions(self.image)
     local imgRegion = ui.Region(0,0,iw,ih)
     return imgRegion:scaleToFit(region)
 end

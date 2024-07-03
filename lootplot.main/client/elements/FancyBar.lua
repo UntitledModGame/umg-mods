@@ -9,7 +9,6 @@ local CATCHUP_BAR_DURATION = 0.15
 function FancyBar:init(args)
     ---@type fun():(number,number)
     self.getProgress = args.getProgress
-    self.prefixText = args.text
     self.mainColor = {
         hue = args.mainColor.hue,
         saturation = args.mainColor.saturation,
@@ -41,16 +40,17 @@ end
 ---@param h number
 function FancyBar.drawFancyBar(hue, saturation, alpha, x, y, w, h)
     local region = ui.Region(x, y, w, h)
-    local top, mid1, mid2, bottom = region:splitVertical(1, 3, 3, 1)
+    local mid1, mid2, bottom = region:splitVertical(4, 3, 1)
+    local _,highlight,_ = mid1:splitVertical(1,1,2)
 
-    love.graphics.setColor(HSLToRGBWithAlpha(hue, saturation, 0.9, alpha))
-    love.graphics.rectangle("fill", top:get())
     love.graphics.setColor(HSLToRGBWithAlpha(hue, saturation, 0.7, alpha))
     love.graphics.rectangle("fill", mid1:get())
     love.graphics.setColor(HSLToRGBWithAlpha(hue, saturation, 0.5, alpha))
     love.graphics.rectangle("fill", mid2:get())
     love.graphics.setColor(HSLToRGBWithAlpha(hue, saturation, 0.3, alpha))
     love.graphics.rectangle("fill", bottom:get())
+    love.graphics.setColor(HSLToRGBWithAlpha(hue, saturation, 0.9, alpha))
+    love.graphics.rectangle("fill", highlight:pad(0.08,0,0.08,0):get())
 end
 
 function FancyBar:_updateCatchup(value)
@@ -129,10 +129,6 @@ function FancyBar:onRender(x,y,w,h)
         actualBarRegion:get()
     )
     lg.setColor(1,1,1,1)
-
-    if self.prefixText then
-        lg.print(string.format("%s: %.14g/%.14g", self.prefixText, value, maxValue), x,y)
-    end
 end
 
 return FancyBar

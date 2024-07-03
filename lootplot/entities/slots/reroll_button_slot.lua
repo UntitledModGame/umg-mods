@@ -1,5 +1,6 @@
 return lp.defineSlot("lootplot:rerollButtonSlot", {
     image = "slot",
+    triggers={},
     color = {1, 0.6, 0.9},
     buttonSlot = true,
     onActivate = function(ent)

@@ -8,26 +8,16 @@ function Scene:init(args)
     self:makeRoot()
     self:setPassthrough(true)
 
-    self.monsterBar = ui.elements.FancyBar({
+    self.pointsBar = ui.elements.PointsBar({
         getProgress = function()
             local ctx = lp.main.getContext()
-            return ctx.points, ctx.requiredPoints
+            return ctx.requiredPoints-ctx.points, ctx.requiredPoints
         end,
-        text = "Points",
-        mainColor = {
-            hue = 0,
-            saturation = 1
-        },
-        catchUpColor = {
-            hue = 50,
-            saturation = 1
-        },
-        outlineWidth = 0.01,
     })
     self.nextRoundButton = ui.elements.NextRoundbutton()
     self.moneyBox = ui.elements.MoneyBox()
 
-    self:addChild(self.monsterBar)
+    self:addChild(self.pointsBar)
     self:addChild(self.nextRoundButton)
     self:addChild(self.moneyBox)
 end
@@ -40,10 +30,10 @@ function Scene:onRender(x,y,w,h)
     local r = ui.Region(x,y,w,h)
 
     local header, lower, _main = r:splitVertical(0.2, 0.1, 0.7)
-    local monsterBar, _, startRound = header:splitHorizontal(0.8, 0.05, 0.2)
+    local pointsBar, _, startRound = header:splitHorizontal(0.8, 0.05, 0.2)
 
     self.nextRoundButton:render(startRound:pad(0.15):get())
-    self.monsterBar:render(monsterBar:pad(0.03,0.1,0.03,0.1):get())
+    self.pointsBar:render(pointsBar:pad(0.03,0.12,0.03,0.12):get())
 
     local moneyBox,_ = lower:splitHorizontal(0.15, 0.85)
     self.moneyBox:render(moneyBox:pad(0.2):get())
