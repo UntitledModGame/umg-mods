@@ -226,11 +226,52 @@ end
 function lp.canPlayerAccess(ent, clientId)
 end
 
+---@param itemEnt lootplot.ItemEntity
+---@return objects.Array?
+function lp.getTargets(itemEnt)
+end
+
 lp.constants = {}
 ---@type integer
 lp.constants.WORLD_SLOT_DISTANCE = 26
 ---@type number
 lp.constants.PIPELINE_DELAY = 0.2
+
+lp.shape = {}
+---@type lootplot.Shape
+lp.shape.Shape = nil
+---@type lootplot.KingShape_M
+lp.shape.KingShape = nil
+---@type lootplot.UnionShape_M
+lp.shape.UnionShape = nil
+---@type lootplot.UniDirectionalShape_M
+lp.shape.UniDirectionalShape = nil
+
+---@param size integer?
+---@return lootplot.Shape
+function lp.shape.PlusShape(size)
+end
+
+---@param size integer?
+---@return lootplot.Shape
+function lp.shape.CrossShape(size)
+end
+
+---@type lootplot.Shape
+lp.shape.KING = nil
+---@type lootplot.Shape
+lp.shape.LARGE_KING = nil
+---@type lootplot.Shape
+lp.shape.ROOK = nil
+---@type lootplot.Shape
+lp.shape.BISHOP = nil
+---@type lootplot.Shape
+lp.shape.QUEEN = nil
+---@type lootplot.Shape
+lp.shape.KNIGHT = nil
+---@type lootplot.Shape
+lp.shape.ABOVE = nil
+
 ---@type generation.Generator
 lp.SLOT_GENERATOR = nil
 ---@type generation.Generator

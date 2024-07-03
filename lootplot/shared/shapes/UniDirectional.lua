@@ -26,5 +26,6 @@ function UniDirectionalShape:getTargets(ppos)
     return result
 end
 
----@cast UniDirectionalShape +fun(dx:integer,dy:integer,length:integer?):lootplot.UniDirectionalShape
+---@alias lootplot.UniDirectionalShape_M lootplot.UniDirectionalShape|fun(dx:integer,dy:integer,length:integer?):lootplot.UniDirectionalShape
+---@cast UniDirectionalShape +lootplot.UniDirectionalShape_M
 return UniDirectionalShape

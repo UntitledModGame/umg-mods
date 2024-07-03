@@ -35,5 +35,6 @@ function UnionShape:getTargets(ppos)
     return newTargets
 end
 
----@cast UnionShape +fun(shape1:lootplot.Shape,shape2:lootplot.Shape,...:lootplot.Shape):lootplot.UnionShape
+---@alias lootplot.UnionShape_M lootplot.UnionShape|fun(shape1:lootplot.Shape,shape2:lootplot.Shape,...:lootplot.Shape):lootplot.UnionShape
+---@cast UnionShape +lootplot.UnionShape_M
 return UnionShape

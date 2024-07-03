@@ -26,5 +26,6 @@ function KingShape:getTargets(ppos)
     return result
 end
 
----@cast KingShape +fun(size:integer?):lootplot.KingShape
+---@alias lootplot.KingShape_M lootplot.KingShape|fun(size:integer?):lootplot.KingShape
+---@cast KingShape +lootplot.KingShape_M
 return KingShape

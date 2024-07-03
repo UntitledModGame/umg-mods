@@ -587,6 +587,17 @@ function lp.canPlayerAccess(ent, clientId)
     return umg.ask("lootplot:hasPlayerAccess", ent, clientId)
 end
 
+---@param itemEnt lootplot.ItemEntity
+---@return objects.Array?
+function lp.getTargets(itemEnt)
+    local pos = lp.getPos(itemEnt)
+    if itemEnt.shape and pos then
+        return itemEnt.shape:getTargets(pos)
+    end
+
+    return nil
+end
+
 lp.constants = {
     WORLD_SLOT_DISTANCE = 26, -- distance slots are apart in the world.
     PIPELINE_DELAY = 0.2
@@ -642,6 +653,7 @@ lp.shape.KNIGHT = CustomShape(function(ppos)
 
     return result
 end)
+lp.shape.ABOVE = UniDirectionalShape(0, -1, 1)
 
 lp.ITEM_GENERATOR = generation.Generator()
 lp.SLOT_GENERATOR = generation.Generator()
