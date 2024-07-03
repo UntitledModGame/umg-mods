@@ -1,18 +1,28 @@
 
 
 
-
+---@class lootplot.main.Scene: Element
 local Scene = ui.Element("lootplot.main:Screen")
 
 function Scene:init(args)
     self:makeRoot()
     self:setPassthrough(true)
 
-    self.monsterBar = ui.elements.MonsterBar({
+    self.monsterBar = ui.elements.FancyBar({
         getProgress = function()
             local ctx = lp.main.getContext()
-            return math.clamp(ctx.points / ctx.requiredPoints, 0,1)
-        end
+            return ctx.points, ctx.requiredPoints
+        end,
+        text = "Points",
+        mainColor = {
+            hue = 0,
+            saturation = 1
+        },
+        catchUpColor = {
+            hue = 50,
+            saturation = 1
+        },
+        outlineWidth = 0.01,
     })
     self.nextRoundButton = ui.elements.NextRoundbutton()
     self.moneyBox = ui.elements.MoneyBox()

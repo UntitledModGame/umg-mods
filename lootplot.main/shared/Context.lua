@@ -41,7 +41,7 @@ function Context:init(ent)
     self.points = constants.STARTING_POINTS
     self.round = constants.STARTING_ROUND
     self.level = constants.STARTING_LEVEL
-    self.requiredPoints = 0
+    self.requiredPoints = 100
 end
 
 
