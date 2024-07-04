@@ -211,7 +211,12 @@ end
 
 ---@param name string
 ---@param ent Entity
-function lp.triggerEntity(name, ent)
+function lp.tryTriggerEntity(name, ent)
+end
+
+---@param name string
+---@param ent Entity
+function lp.forceTriggerEntity(name, ent)
 end
 
 ---@param name string

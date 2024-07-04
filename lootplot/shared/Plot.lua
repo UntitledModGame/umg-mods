@@ -289,7 +289,7 @@ function Plot:trigger(triggerName)
         local slotEnt = lp.posToSlot(ppos)
 
         if slotEnt then
-            lp.triggerEntity(triggerName, slotEnt)
+            lp.tryTriggerEntity(triggerName, slotEnt)
         end
     end)
 end
