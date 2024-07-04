@@ -5,11 +5,11 @@ local Bufferer = objects.Class("lootplot:Bufferer")
 
 lp.Bufferer()
     -- a `Bufferer` is a data structure that executes code, buffered
-    :touching(ent)
+    :addTargets(ent)
     :filter(func) -- func(ppos) -> bool
-    :items() -- ppos-->item
+    :to("item" or "slot") -- ppos-->item or ppos->slot
     :delay(0.1) -- 0.1 delay between each execution
-    :execute(function()
+    :execute(function(ppos, item_or_slot)
         -- Do something with `touching` items:
         ...
     end)
@@ -48,13 +48,17 @@ function Bufferer:add(ppos)
     return self
 end
 
----@param ent lootplot.LayerEntity
+---@param ent lootplot.ItemEntity
 ---@return lootplot.Bufferer
-function Bufferer:touching(ent)
-    --TODO: wire this up with shape API
-    local ppos = lp.getPos(ent)
-    self:add(ppos)
-    umg.melt("NYI")
+function Bufferer:addTargets(ent)
+    local pposes = lp.getTargets(ent)
+
+    if pposes then
+        for _, ppos in ipairs(pposes) do
+            self:add(ppos)
+        end
+    end
+
     return self
 end
 
@@ -75,15 +79,15 @@ function Bufferer:all(plot_or_ppos)
     return self
 end
 
+---@param towhat? "ITEM"|"SLOT"
 ---@return lootplot.Bufferer
-function Bufferer:items()
-    self.conversion = CONVERSIONS.ITEM
-    return self
-end
+function Bufferer:to(towhat)
+    if towhat then
+        self.conversion = CONVERSIONS[towhat]
+    else
+        self.conversion = false
+    end
 
----@return lootplot.Bufferer
-function Bufferer:slots()
-    self.conversion = CONVERSIONS.SLOT
     return self
 end
 
@@ -116,7 +120,8 @@ and doing the filters in-place, within the functions.
     That is, IF we only push to the pipeline once...
 ]]
 
-
+---@param self lootplot.Bufferer
+---@param ppos lootplot.PPos
 local function step(self, ppos)
     local val = tryConvert(self, ppos)
     if self.conversion and (not val) then

@@ -40,19 +40,24 @@ local ROTATIONS = {
 local number2Tc = typecheck.assert("number", "number")
 ---@param dx integer
 ---@param dy integer
----@return lootplot.PPos
+---@return lootplot.PPos?
 function PPos:move(dx, dy)
     number2Tc(dx, dy)
     local plot = self.plot
     local x,y = plot:indexToCoords(self.slot)
     x = x + dx
     y = y + dy
-    local newSlot = plot:coordsToIndex(x,y)
-    return PPos({
-        plot = plot,
-        slot = newSlot,
-        rotation = self.rotation
-    })
+
+    if self.plot.grid:contains(x, y) then
+        local newSlot = plot:coordsToIndex(x,y)
+        return PPos({
+            plot = plot,
+            slot = newSlot,
+            rotation = self.rotation
+        })
+    end
+
+    return nil
 end
 
 
@@ -60,25 +65,28 @@ end
 ---But I dont forsee this game becoming heavy performance-wise.
 ---So its gonna slide for now.
 ---@param n integer
----@return lootplot.PPos
+---@return lootplot.PPos?
 function PPos:up(n)
     n = n or 1
     return self:move(0,-n)
 end
+
 ---@param n integer
----@return lootplot.PPos
+---@return lootplot.PPos?
 function PPos:left(n)
     n = n or 1
     return self:move(-n,0)
 end
+
 ---@param n integer
----@return lootplot.PPos
+---@return lootplot.PPos?
 function PPos:right(n)
     n = n or 1
     return self:move(n,0)
 end
+
 ---@param n integer
----@return lootplot.PPos
+---@return lootplot.PPos?
 function PPos:down(n)
     n = n or 1
     return self:move(0,n)
@@ -89,6 +97,11 @@ end
 function PPos:getCoords()
     -- gets XY coords of PPos
     return self.plot:indexToCoords(self.slot)
+end
+
+---@return integer
+function PPos:getSlotIndex()
+    return self.slot
 end
 
 ---@return spatial.DimensionVector
