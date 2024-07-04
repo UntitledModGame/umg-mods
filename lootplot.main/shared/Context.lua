@@ -124,7 +124,7 @@ local function nextRound(self)
     -- pulse all slots:
     lp.Bufferer()
         :all(self:getPlot())
-        :slots() -- ppos-->slot
+        :to("SLOT") -- ppos-->slot
         :delay(0.2)
         :execute(function(_ppos, slotEnt)
             lp.tryTriggerEntity("PULSE", slotEnt)

@@ -7,14 +7,8 @@ slotGrid
 
 local ptrack = require("shared.internal.positionTracking")
 local trigger = require("shared.trigger")
+local selection = require("shared.selection")
 local util = require("shared.util")
-
--- Shape exports
-local Shape = require("shared.Shape")
-local CustomShape = require("shared.shapes.Custom")
-local KingShape = require("shared.shapes.King")
-local UnionShape = require("shared.shapes.Union")
-local UniDirectionalShape = require("shared.shapes.UniDirectional")
 
 
 local lp = {}
@@ -533,6 +527,14 @@ local strTabTc = typecheck.assert("string", "table")
 ---@class lootplot.ItemEntityClass: EntityClass
 ---@field public item true
 ---@field public layer "item"
+---@field public triggers lootplot.Trigger[]
+---@field public buyPrice number
+---@field public pointsGenerated number
+---@field public moneyGenerated number
+---@field public targetShape lootplot.targets.Shape?
+---@field public canItemMove boolean
+---@field public canBeDestroyed boolean
+---@field public canActivate boolean
 ---@alias lootplot.ItemEntity lootplot.ItemEntityClass|lootplot.LayerEntity|Entity
 
 ---@param name string
@@ -552,6 +554,16 @@ end
 ---@field public slot true
 ---@field public layer "slot"
 ---@field public drawDepth integer
+---@field public pointsGenerated number
+---@field public moneyGenerated number
+---@field public canBeDestroyed boolean
+---@field public canActivate boolean
+---@field public canSlotPropagate boolean
+---@field public buttonSlot boolean
+---@field public onActivate? fun(ent:lootplot.SlotEntity)
+---@field public shopLock boolean
+---@field public itemSpawner generation.Query?
+---@field public itemReroller generation.Query?
 ---@alias lootplot.SlotEntity lootplot.SlotEntityClass|lootplot.LayerEntity|Entity
 
 ---@param name string
@@ -605,89 +617,16 @@ function lp.canPlayerAccess(ent, clientId)
     return umg.ask("lootplot:hasPlayerAccess", ent, clientId)
 end
 
----@param basePPos lootplot.PPos
-local function sortPPos(basePPos)
-    ---@param a lootplot.PPos
-    ---@param b lootplot.PPos
-    return function(a, b)
-        return util.chebyshevDistance(a:getDifference(basePPos)) < util.chebyshevDistance(b:getDifference(basePPos))
-    end
-end
-
----@param itemEnt lootplot.ItemEntity
----@return objects.Array?
-function lp.getTargets(itemEnt)
-    local pos = lp.getPos(itemEnt)
-    local targets
-
-    if itemEnt.shape and pos then
-        targets = itemEnt.shape:getTargets(pos)
-        ---@cast targets objects.Array
-
-        if targets then
-            targets:sortInPlace(sortPPos(pos))
-        end
-    end
-
-    return targets
+---@return lootplot.Selected?
+function lp.getCurrentSelection()
+    assert(client, "client-side only")
+    return selection.getSelected()
 end
 
 lp.constants = {
     WORLD_SLOT_DISTANCE = 26, -- distance slots are apart in the world.
     PIPELINE_DELAY = 0.2
 }
-
-local MAX_DISTANCE = 40
-
-lp.shape = {
-    -- This is the class objects
-    Shape = Shape,
-    KingShape = KingShape,
-    UnionShape = UnionShape,
-    UniDirectionalShape = UniDirectionalShape,
-}
-
--- Simple helper
-
----@param size integer?
-function lp.shape.PlusShape(size)
-    return UnionShape(
-        UniDirectionalShape(1, 0, size),
-        UniDirectionalShape(0, 1, size),
-        UniDirectionalShape(-1, 0, size),
-        UniDirectionalShape(0, -1, size)
-    )
-end
-
----@param size integer?
-function lp.shape.CrossShape(size)
-    return UnionShape(
-        UniDirectionalShape(1, 1, size),
-        UniDirectionalShape(-1, 1, size),
-        UniDirectionalShape(-1, -1, size),
-        UniDirectionalShape(1, -1, size)
-    )
-end
-
--- Pre-defined shape instance
-lp.shape.KING = KingShape(1)
-lp.shape.LARGE_KING = KingShape(2)
-lp.shape.ROOK = lp.shape.PlusShape(MAX_DISTANCE)
-lp.shape.BISHOP = lp.shape.CrossShape(MAX_DISTANCE)
-lp.shape.QUEEN = UnionShape(lp.shape.ROOK, lp.shape.BISHOP)
-lp.shape.KNIGHT = CustomShape(function(ppos)
-    local result = objects.Array()
-
-    for mx = -1, 1, 2 do
-        for my = -1, 1, 2 do
-            Shape.tryInsertPosition(ppos, 2 * mx, 1 * my, result)
-            Shape.tryInsertPosition(ppos, 1 * mx, 2 * my, result)
-        end
-    end
-
-    return result
-end)
-lp.shape.ABOVE = UniDirectionalShape(0, -1, 1)
 
 lp.ITEM_GENERATOR = generation.Generator()
 lp.SLOT_GENERATOR = generation.Generator()

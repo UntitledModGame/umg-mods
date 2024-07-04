@@ -5,11 +5,15 @@ lp.defineItem("kiwi", {
     description = "https://www.youtube.com/watch?v=Qk4KcP1VGIc",
     baseBuyPrice = 5,
 
-    shape = lp.shape.ROOK,
+    targetShape = lp.targets.ROOK_SHAPE,
 
     onActivate = function(ent)
         lp.addPoints(ent, 1)
         lp.addMoney(ent, 1)
-    end
+    end,
+
+    activateTargetItems = function(ent, ppos, targetEnt)
+        print("🥝🥝🥝 kiwi tongue needle activator 🥝🥝🥝", ent, ppos, targetEnt)
+    end,
 })
 

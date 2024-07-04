@@ -1,11 +1,11 @@
 local Shape = require("shared.Shape")
 
----@class lootplot.UnionShape: lootplot.Shape
-local UnionShape = objects.Class("lootplot:UnionShape"):implement(Shape)
+---@class lootplot.targets.UnionShape: lootplot.targets.Shape
+local UnionShape = objects.Class("lootplot.targets:UnionShape"):implement(Shape)
 
----@param shape1 lootplot.Shape
----@param shape2 lootplot.Shape
----@param ... lootplot.Shape
+---@param shape1 lootplot.targets.Shape
+---@param shape2 lootplot.targets.Shape
+---@param ... lootplot.targets.Shape
 function UnionShape:init(shape1, shape2, ...)
     self.shapes = {shape1, shape2, ...}
 end
@@ -35,6 +35,6 @@ function UnionShape:getTargets(ppos)
     return newTargets
 end
 
----@alias lootplot.UnionShape_M lootplot.UnionShape|fun(shape1:lootplot.Shape,shape2:lootplot.Shape,...:lootplot.Shape):lootplot.UnionShape
+---@alias lootplot.UnionShape_M lootplot.targets.UnionShape|fun(shape1:lootplot.targets.Shape,shape2:lootplot.targets.Shape,...:lootplot.targets.Shape):lootplot.targets.UnionShape
 ---@cast UnionShape +lootplot.UnionShape_M
 return UnionShape

@@ -1,7 +1,7 @@
 local Shape = require("shared.Shape")
 
----@class lootplot.KingShape: lootplot.Shape
-local KingShape = objects.Class("lootplot:KingShape"):implement(Shape)
+---@class lootplot.targets.KingShape: lootplot.targets.Shape
+local KingShape = objects.Class("lootplot.targets:KingShape"):implement(Shape)
 
 
 ---@param size integer?
@@ -24,6 +24,6 @@ function KingShape:getTargets(ppos)
     return result
 end
 
----@alias lootplot.KingShape_M lootplot.KingShape|fun(size:integer?):lootplot.KingShape
+---@alias lootplot.KingShape_M lootplot.targets.KingShape|fun(size:integer?):lootplot.targets.KingShape
 ---@cast KingShape +lootplot.KingShape_M
 return KingShape

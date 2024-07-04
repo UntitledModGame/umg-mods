@@ -21,12 +21,22 @@ end
 
 
 
----@type {ppos:lootplot.PPos,slot:lootplot.SlotEntity,time:number,targets:objects.Array?}?
+---@class lootplot.Selected
+---@field public ppos lootplot.PPos
+---@field public slot lootplot.SlotEntity
+---@field public time number
+
+---@type lootplot.Selected?
 local selected = nil
 
 
 function selection.reset()
     buttonScene:clear()
+
+    if selected then
+        umg.call("lootplot:selectionChanged", nil)
+    end
+
     selected = nil
 end
 
@@ -53,6 +63,7 @@ local function selectSlot(slotEnt)
             slot = slotEnt,
             time = love.timer.getTime()
         }
+        umg.call("lootplot:selectionChanged", selected)
 
         local itemEnt = lp.slotToItem(slotEnt)
         if itemEnt then
@@ -63,8 +74,6 @@ local function selectSlot(slotEnt)
                 text = "Cancel"
             }))
             buttonScene:setButtons(buttonList)
-
-            selected.targets = lp.getTargets(itemEnt)
         end
     end
 end
@@ -196,19 +205,8 @@ end
 
 function selection.getSelected()
     validate()
-    return selected and selected.slot
+    return selected
 end
-
----@param ppos lootplot.PPos
----@param progress number
-local function renderSelectionTarget(ppos, progress)
-    local worldPos = ppos:getWorldPos()
-    love.graphics.circle("line", worldPos.x, worldPos.y, 8 * progress)
-end
-
-
-local FADE_IN = 0.1
-local DELAY_PER_UNIT = 0.04
 
 if client then
     components.project("slot", "clickable")
@@ -227,29 +225,6 @@ if client then
                 lg.setColor(1,0,0)
                 lg.circle("line",ent.x,ent.y,14)
             lg.pop()
-        end
-    end)
-
-    umg.on("rendering:drawEffects", function(camera)
-        if selected and selected.targets then
-            local t = love.timer.getTime()
-
-            lg.setColor(1, 0.5, 0)
-            for _, ppos in ipairs(selected.targets) do
-                local dist = util.chebyshevDistance(selected.ppos:getDifference(ppos))
-                local elapsedTime = t - selected.time
-                local showTime = dist * DELAY_PER_UNIT
-                local fadeTime = showTime - FADE_IN
-
-                if elapsedTime < fadeTime then
-                    -- Assume selected.targets is sorted by their Chebyshev distance
-                    -- so we're not interested on the next item.
-                    break
-                end
-
-                renderSelectionTarget(ppos, math.min(elapsedTime-fadeTime, FADE_IN) / FADE_IN)
-            end
-            lg.setColor(1, 1, 1)
         end
     end)
 end

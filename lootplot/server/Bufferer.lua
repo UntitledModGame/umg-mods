@@ -5,7 +5,7 @@ local Bufferer = objects.Class("lootplot:Bufferer")
 
 lp.Bufferer()
     -- a `Bufferer` is a data structure that executes code, buffered
-    :addTargets(ent)
+    :addAll(targets)
     :filter(func) -- func(ppos) -> bool
     :to("item" or "slot") -- ppos-->item or ppos->slot
     :delay(0.1) -- 0.1 delay between each execution
@@ -48,15 +48,10 @@ function Bufferer:add(ppos)
     return self
 end
 
----@param ent lootplot.ItemEntity
----@return lootplot.Bufferer
-function Bufferer:addTargets(ent)
-    local pposes = lp.getTargets(ent)
-
-    if pposes then
-        for _, ppos in ipairs(pposes) do
-            self:add(ppos)
-        end
+---@param pposes lootplot.PPos[]|objects.Array
+function Bufferer:addAll(pposes)
+    for _, ppos in ipairs(pposes) do
+        self:add(ppos)
     end
 
     return self
