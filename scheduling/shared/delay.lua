@@ -1,70 +1,98 @@
 
 
-local times = {}
---[[
-Each `delay` object is represented as a table:
-{
-    ...  --> the arguments to the function
-    func = func -- The func is constructed with varargs saved as a closure (bad but oh well)
-    time = time
-}
-]]
+---@param a scheduling.Delay
+---@param b scheduling.Delay
+local timers = objects.Heap(function(a, b)
+    return a:_exectime() < b:_exectime()
+end)
 
+local curTime = 0
 
+---@class scheduling.Delay: objects.Class
+local Delay = objects.Class("scheduling:Delay")
 
---[[
-    TODO: We shouldn't need to binarySearch here,
-    we should be using a heap instead.
-]]
-local function binarySearch(arr, target_time)
-    --[[
-        returns what the index should be for a target time in `arr`.
-        (This function will ensure that the list remains sorted)
-    ]]
-	local low = 1
-	local high = #arr
-	while low <= high do
-		local mid = math.floor((low + high) / 2)
-		local mid_val = arr[mid]
-		if target_time > mid_val.endTime then
-			high = mid - 1
-		else
-			low = mid + 1
-		end
-	end
-    return low
+---@generic T
+---@param time number
+---@param func fun(...:T)
+---@param ... T
+function Delay:init(time, func, ...)
+    ---@private
+    self.func = func
+    ---@private
+    self.args = {...}
+    ---@private
+    self.issueTime = curTime
+    ---@private
+    self.delay = time
+    ---@private
+    self.cancelled = false
+    ---@private
+    self.ran = false
+    timers:insert(self)
 end
 
+---@return boolean @If delay has been cancelled successfully (and not previously cancelled)
+function Delay:cancel()
+    if not self.cancelled then
+        self.cancelled = true
+        return true
+    end
 
-local curTime = love.timer.getTime()
+    return false
+end
 
+---@return boolean @If delay has been executed
+function Delay:hasExecuted()
+    return self.ran
+end
 
+---@return number @Time remaining before the delay is executed, or 0 if it already is.
+function Delay:timeUntilExecution()
+    return math.max(self.issueTime + self.delay - curTime, 0)
+end
+
+---@return boolean @Is timer cancelled?
+function Delay:isCancelled()
+    return self.cancelled
+end
+
+---@return number
+---@package
+function Delay:_exectime()
+    return self.issueTime + self.delay
+end
+
+---@package
+function Delay:_run()
+    self.func(unpack(self.args))
+end
 
 -- TODO: Should this be using state:gameUpdate???
+---@param dt number
 umg.on("@update", function(dt)
     curTime = curTime + dt
-    local i = #times
-    while (i>0) and (curTime >= times[i].endTime) do
-        local obj = times[i]
-        times[i] = nil
-        obj.func(unpack(obj))
-        i = i - 1
+
+    while true do
+        local delay = timers:peek()
+        ---@cast delay scheduling.Delay?
+
+        if not delay then
+            break
+        end
+
+        if delay:isCancelled() then
+            -- Simply pop this delay, but don't execute it.
+            timers:pop()
+        elseif curTime >= delay:_exectime() then
+            -- Execute this delay
+            timers:pop()
+            delay:_run()
+        else
+            -- Assume heap is sorted, there should be no delay next to it that
+            -- has execution time lower than the first.
+            break
+        end
     end
 end)
 
-
-
-local function delay(time, func, ...)
-    local obj = {
-        func = func;
-        endTime = curTime + time,
-        ...
-    }
-    local index = binarySearch(times, obj.endTime)
-    table.insert(times, index, obj)
-end
-
-
-
-return delay
-
+return Delay
