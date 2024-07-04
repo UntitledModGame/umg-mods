@@ -25,6 +25,8 @@ umg.defineEvent("lootplot:pollSlotButtons")
 
 umg.defineEvent("lootplot:entityTriggered")
 
+umg.defineEvent("lootplot:selectionChanged")
+
 umg.defineQuestion("lootplot:isActivationBlocked", reducers.OR)
 
 

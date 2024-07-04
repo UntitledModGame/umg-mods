@@ -48,20 +48,6 @@ function Bufferer:add(ppos)
     return self
 end
 
----@param ent lootplot.ItemEntity
----@return lootplot.Bufferer
-function Bufferer:addTargets(ent)
-    local pposes = lp.getTargets(ent)
-
-    if pposes then
-        for _, ppos in ipairs(pposes) do
-            self:add(ppos)
-        end
-    end
-
-    return self
-end
-
 ---@param plot_or_ppos lootplot.Plot|lootplot.PPos
 ---@return lootplot.Bufferer
 function Bufferer:all(plot_or_ppos)

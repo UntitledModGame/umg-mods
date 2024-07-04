@@ -1,5 +1,5 @@
----@class lootplot.Shape: objects.Class
-local Shape = objects.Class("lootplot:Shape")
+---@class lootplot.targets.Shape: objects.Class
+local Shape = objects.Class("lootplot.targets:Shape")
 
 function Shape:init()
 end

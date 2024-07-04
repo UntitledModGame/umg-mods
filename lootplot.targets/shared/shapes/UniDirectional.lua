@@ -1,7 +1,7 @@
 local Shape = require("shared.Shape")
 
----@class lootplot.UniDirectionalShape: lootplot.Shape
-local UniDirectionalShape = objects.Class("lootplot:UniDirectionalShape"):implement(Shape)
+---@class lootplot.targets.UniDirectionalShape: lootplot.targets.Shape
+local UniDirectionalShape = objects.Class("lootplot.targets:UniDirectionalShape"):implement(Shape)
 
 ---@param dx integer
 ---@param dy integer
@@ -26,6 +26,6 @@ function UniDirectionalShape:getTargets(ppos)
     return result
 end
 
----@alias lootplot.UniDirectionalShape_M lootplot.UniDirectionalShape|fun(dx:integer,dy:integer,length:integer?):lootplot.UniDirectionalShape
+---@alias lootplot.UniDirectionalShape_M lootplot.targets.UniDirectionalShape|fun(dx:integer,dy:integer,length:integer?):lootplot.targets.UniDirectionalShape
 ---@cast UniDirectionalShape +lootplot.UniDirectionalShape_M
 return UniDirectionalShape
