@@ -30,10 +30,10 @@ function Scene:onRender(x,y,w,h)
     local r = ui.Region(x,y,w,h)
 
     local header, lower, _main = r:splitVertical(0.2, 0.1, 0.7)
-    local pointsBar, _, startRound = header:splitHorizontal(0.8, 0.05, 0.2)
+    local _, pointsBar, startRound = header:splitHorizontal(0.05, 0.9, 0.05)
 
     self.nextRoundButton:render(startRound:pad(0.15):get())
-    self.pointsBar:render(pointsBar:pad(0.03,0.12,0.03,0.12):get())
+    self.pointsBar:render(pointsBar:get())
 
     local moneyBox,_ = lower:splitHorizontal(0.15, 0.85)
     self.moneyBox:render(moneyBox:pad(0.2):get())
