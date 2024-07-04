@@ -28,7 +28,6 @@ umg.defineEvent("lootplot:pollSlotButtons")
 
 
 umg.defineEvent("lootplot:selectionChanged")
-umg.defineQuestion("lootplot:isActivationBlocked", reducers.OR)
 
 
 umg.defineQuestion("lootplot:getMoneyMultiplier", reducers.MULTIPLY)
