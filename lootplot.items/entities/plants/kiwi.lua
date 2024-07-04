@@ -4,7 +4,8 @@ lp.defineItem("kiwi", {
     name = "Kiwi",
     description = "https://www.youtube.com/watch?v=Qk4KcP1VGIc",
     baseBuyPrice = 5,
-    shape = lp.shape.KING,
+
+    shape = lp.shape.ROOK,
 
     onActivate = function(ent)
         lp.addPoints(ent, 1)

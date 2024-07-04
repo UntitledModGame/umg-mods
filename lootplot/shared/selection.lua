@@ -208,7 +208,7 @@ end
 
 
 local FADE_IN = 0.1
-local DISTANCE_DELAY_MULT = 0.01
+local DELAY_PER_UNIT = 0.04
 
 if client then
     components.project("slot", "clickable")
@@ -236,18 +236,18 @@ if client then
 
             lg.setColor(1, 0.5, 0)
             for _, ppos in ipairs(selected.targets) do
-                local timediff = t - selected.time
-                local currentRenderDistance = timediff / DISTANCE_DELAY_MULT
                 local dist = util.chebyshevDistance(selected.ppos:getDifference(ppos))
+                local elapsedTime = t - selected.time
+                local showTime = dist * DELAY_PER_UNIT
+                local fadeTime = showTime - FADE_IN
 
-                if dist > math.ceil(currentRenderDistance) then
+                if elapsedTime < fadeTime then
                     -- Assume selected.targets is sorted by their Chebyshev distance
                     -- so we're not interested on the next item.
                     break
                 end
 
-                local fadeTime = timediff - math.floor(currentRenderDistance) * DISTANCE_DELAY_MULT
-                renderSelectionTarget(ppos, math.min(fadeTime, FADE_IN) / FADE_IN)
+                renderSelectionTarget(ppos, math.min(elapsedTime-fadeTime, FADE_IN) / FADE_IN)
             end
             lg.setColor(1, 1, 1)
         end
