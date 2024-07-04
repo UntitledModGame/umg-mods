@@ -33,7 +33,7 @@ function PointsBar:onRender(x,y,w,h)
     
     local imgR = self.imageElement:getImageRegion(r)
 
-    self.fancyBar:render(imgR:pad(0.1,0.35,0.1,0.35):get())
+    self.fancyBar:render(imgR:pad(0.1,0.4,0.1,0.38):get())
     self.imageElement:render(imgR:get())
 end
 
