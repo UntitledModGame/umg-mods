@@ -101,6 +101,9 @@ local function updatePlot(plotEnt)
     plot:foreachSlot(function(slotEnt, ppos)
         ptrack.set(slotEnt, ppos)
     end)
+    plot:foreachItem(function(itemEnt, ppos)
+        ptrack.set(itemEnt, ppos)
+    end)
 end
 
 umg.on(updEvent, function(dt)
