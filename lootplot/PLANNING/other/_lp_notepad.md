@@ -164,12 +164,6 @@ lp.overrides.setPoints()
 # Slot / activation planning:
 We have a few questions.
 
-- When a slot activates, should the item in the slot also activate?
-    - IDEA: Pass in `ppos` instead of an entity to activate?
-    - (New api: `lp.activateEntity`, `lp.activate(ppos)`)
-- Do we need `lp.[detach/attach]Item`?
-    - hmm, mayb not.
-
 Currently, we have two "layers" to represent both "items" and "slots".
 How about we make layers "generic"; such that future mods can add their
 own custom layers?

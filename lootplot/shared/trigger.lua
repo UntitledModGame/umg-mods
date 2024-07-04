@@ -26,7 +26,8 @@ function trigger.triggerEntity(name, ent)
             if t == name then
                 -- TODO:::
                 -- Should we have implicit buffering here????
-                lp.activateEntity(ent)
+                -- ANS: Probably not, no.
+                lp.tryActivateEntity(ent)
             end
         end
     end
