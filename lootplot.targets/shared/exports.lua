@@ -74,9 +74,8 @@ function targets.getTargets(itemEnt)
     local pos = lp.getPos(itemEnt)
     local tgt
 
-    if itemEnt.shape and pos then
-        tgt = itemEnt.shape:getTargets(pos)
-        ---@cast tgt objects.Array
+    if itemEnt.targetShape and pos then
+        tgt = itemEnt.targetShape:getTargets(pos)
 
         if tgt then
             tgt:sortInPlace(sortPPos(pos))
