@@ -3,8 +3,6 @@ local Shape = require("shared.Shape")
 ---@class lootplot.KingShape: lootplot.Shape
 local KingShape = objects.Class("lootplot:KingShape"):implement(Shape)
 
-local OFFSETS = {-1, 0, 1}
-local LARGE_OFFSETS = {-2, -1, 0, 1, 2}
 
 ---@param size integer?
 function KingShape:init(size)
@@ -17,7 +15,7 @@ function KingShape:getTargets(ppos)
 
     for dx = -self.size, self.size do
         for dy = -self.size, self.size do
-            if dx ~= 0 and dy ~= 0 then
+            if not (dx == 0 and dy == 0) then
                 Shape.tryInsertPosition(ppos, dx, dy, result)
             end
         end

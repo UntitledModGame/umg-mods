@@ -239,7 +239,6 @@ if client then
                 local timediff = t - selected.time
                 local currentRenderDistance = timediff / DISTANCE_DELAY_MULT
                 local dist = util.chebyshevDistance(selected.ppos:getDifference(ppos))
-                print("DRAW EFFECT ✨✨✨",ppos, timediff, currentRenderDistance, dist)
 
                 if dist > math.ceil(currentRenderDistance) then
                     -- Assume selected.targets is sorted by their Chebyshev distance
