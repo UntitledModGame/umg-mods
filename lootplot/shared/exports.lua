@@ -7,6 +7,7 @@ slotGrid
 
 local ptrack = require("shared.internal.positionTracking")
 local trigger = require("shared.trigger")
+local util = require("shared.util")
 
 -- Shape exports
 local Shape = require("shared.Shape")
@@ -587,15 +588,31 @@ function lp.canPlayerAccess(ent, clientId)
     return umg.ask("lootplot:hasPlayerAccess", ent, clientId)
 end
 
+---@param basePPos lootplot.PPos
+local function sortPPos(basePPos)
+    ---@param a lootplot.PPos
+    ---@param b lootplot.PPos
+    return function(a, b)
+        return util.chebyshevDistance(a:getDifference(basePPos)) < util.chebyshevDistance(b:getDifference(basePPos))
+    end
+end
+
 ---@param itemEnt lootplot.ItemEntity
 ---@return objects.Array?
 function lp.getTargets(itemEnt)
     local pos = lp.getPos(itemEnt)
+    local targets
+
     if itemEnt.shape and pos then
-        return itemEnt.shape:getTargets(pos)
+        targets = itemEnt.shape:getTargets(pos)
+        ---@cast targets objects.Array
+
+        if targets then
+            targets:sortInPlace(sortPPos(pos))
+        end
     end
 
-    return nil
+    return targets
 end
 
 lp.constants = {

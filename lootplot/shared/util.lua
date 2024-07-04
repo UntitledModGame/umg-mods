@@ -1,5 +1,8 @@
 local util = {}
 
+---@param name string
+---@param args string[]
+---@param func function
 function util.remoteServerCall(name, args, func)
     umg.definePacket(name, {
         typelist = args
@@ -14,6 +17,12 @@ function util.remoteServerCall(name, args, func)
         client.send(name, ...)
     end
     return call
+end
+
+---@param dx number
+---@param dy number
+function util.chebyshevDistance(dx, dy)
+    return math.max(math.abs(dx), math.abs(dy))
 end
 
 return util

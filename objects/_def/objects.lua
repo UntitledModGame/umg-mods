@@ -132,6 +132,11 @@ end
 function Array:map(func)
 end
 
+---@param comparator? fun(a:any,b:any):boolean
+---@return objects.Array
+function Array:sortInPlace(comparator)
+end
+
 ---@cast Array +fun(initial:any[]?):objects.Array
 
 ---@class objects.Heap: objects.Class

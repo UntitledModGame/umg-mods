@@ -139,6 +139,11 @@ function Array:map(func)
     return newArray
 end
 
-
+---@param comparator? fun(a:any,b:any):boolean
+---@return objects.Array
+function Array:sortInPlace(comparator)
+    table.sort(self, comparator)
+    return self
+end
 
 return Array

@@ -121,8 +121,16 @@ function PPos:clear(ent)
     return self.plot:clear(self.slot, ent.layer)
 end
 
+---This gets the delta positions of `other` - `self`.
+---@param other lootplot.PPos
+function PPos:getDifference(other)
+    if self.plot ~= other.plot then
+        return math.huge, math.huge
+    end
 
-
-
+    local x1, y1 = self.plot:indexToCoords(self.slot)
+    local x2, y2 = self.plot:indexToCoords(other.slot)
+    return x2 - x1, y2 - y1
+end
 
 return PPos

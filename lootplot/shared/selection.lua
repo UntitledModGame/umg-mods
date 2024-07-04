@@ -20,16 +20,15 @@ if client then
 end
 
 
-local selectedPPos
-local selectedSlot
+
+---@type {ppos:lootplot.PPos,slot:lootplot.SlotEntity,time:number,targets:objects.Array?}?
+local selected = nil
 
 
-local function reset()
+function selection.reset()
     buttonScene:clear()
-    selectedPPos = nil
-    selectedSlot = nil
+    selected = nil
 end
-selection.reset = reset
 
 
 local function isButtonSlot(slotEnt)
@@ -46,32 +45,44 @@ local function selectSlot(slotEnt)
         return
     end
 
-    selectedPPos = lp.getPos(slotEnt)
-    selectedSlot = slotEnt
+    local ppos = lp.getPos(slotEnt)
 
-    if lp.slotToItem(slotEnt) then
-        local buttonList = objects.Array()
-        umg.call("lootplot:pollSlotButtons", selectedPPos, buttonList)
-        buttonList:add(ui.elements.Button({
-            onClick = reset,
-            text = "Cancel"
-        }))
-        buttonScene:setButtons(buttonList)
+    if ppos then
+        selected = {
+            ppos = ppos,
+            slot = slotEnt,
+            time = love.timer.getTime()
+        }
+
+        local itemEnt = lp.slotToItem(slotEnt)
+        if itemEnt then
+            local buttonList = objects.Array()
+            umg.call("lootplot:pollSlotButtons", selected.ppos, buttonList)
+            buttonList:add(ui.elements.Button({
+                onClick = selection.reset,
+                text = "Cancel"
+            }))
+            buttonScene:setButtons(buttonList)
+
+            selected.targets = lp.getTargets(itemEnt)
+        end
     end
 end
 selection.selectSlot = selectSlot
 
 
 local function validate()
-    if not selectedPPos then
+    if not selected then
         return -- nothing to validate
     end
-    if (not umg.exists(selectedSlot)) then
-        reset()
+
+    if (not umg.exists(selected.slot)) then
+        selection.reset()
     end
-    local slot = lp.posToSlot(selectedPPos)
-    if slot ~= selectedSlot then
-        reset()
+
+    local slot = lp.posToSlot(selected.ppos)
+    if slot ~= selected.slot then
+        selection.reset()
     end
 end
 
@@ -172,11 +183,11 @@ end
 ---@param slotEnt lootplot.SlotEntity
 function selection.click(clientId, slotEnt)
     validate()
-    if selectedSlot then
-        if slotEnt ~= selectedSlot then
-            tryMove(clientId, selectedSlot, slotEnt)
+    if selected and selected.slot then
+        if slotEnt ~= selected.slot then
+            tryMove(clientId, selected.slot, slotEnt)
         end
-        reset()
+        selection.reset()
     else
         click(slotEnt)
     end
@@ -185,13 +196,19 @@ end
 
 function selection.getSelected()
     validate()
-    return selectedSlot
+    return selected and selected.slot
+end
+
+---@param ppos lootplot.PPos
+---@param progress number
+local function renderSelectionTarget(ppos, progress)
+    local worldPos = ppos:getWorldPos()
+    love.graphics.circle("line", worldPos.x, worldPos.y, 8 * progress)
 end
 
 
-
-
-
+local FADE_IN = 0.1
+local DISTANCE_DELAY_MULT = 0.01
 
 if client then
     components.project("slot", "clickable")
@@ -203,12 +220,37 @@ if client then
     end)
 
     local lg=love.graphics
+
     umg.on("rendering:drawEntity", -10, function(ent)
-        if ent == selectedSlot then
+        if selected and ent == selected.slot then
             lg.push("all")
-                love.graphics.setColor(1,0,0)
-                love.graphics.circle("line",ent.x,ent.y,14)
+                lg.setColor(1,0,0)
+                lg.circle("line",ent.x,ent.y,14)
             lg.pop()
+        end
+    end)
+
+    umg.on("rendering:drawEffects", function(camera)
+        if selected and selected.targets then
+            local t = love.timer.getTime()
+
+            lg.setColor(1, 0.5, 0)
+            for _, ppos in ipairs(selected.targets) do
+                local timediff = t - selected.time
+                local currentRenderDistance = timediff / DISTANCE_DELAY_MULT
+                local dist = util.chebyshevDistance(selected.ppos:getDifference(ppos))
+                print("DRAW EFFECT ✨✨✨",ppos, timediff, currentRenderDistance, dist)
+
+                if dist > math.ceil(currentRenderDistance) then
+                    -- Assume selected.targets is sorted by their Chebyshev distance
+                    -- so we're not interested on the next item.
+                    break
+                end
+
+                local fadeTime = timediff - math.floor(currentRenderDistance) * DISTANCE_DELAY_MULT
+                renderSelectionTarget(ppos, math.min(fadeTime, FADE_IN) / FADE_IN)
+            end
+            lg.setColor(1, 1, 1)
         end
     end)
 end
