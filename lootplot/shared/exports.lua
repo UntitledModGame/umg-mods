@@ -520,6 +520,14 @@ local strTabTc = typecheck.assert("string", "table")
 ---@class lootplot.ItemEntityClass: EntityClass
 ---@field public item true
 ---@field public layer "item"
+---@field public triggers lootplot.Trigger[]
+---@field public buyPrice number
+---@field public pointsGenerated number
+---@field public moneyGenerated number
+---@field public targetShape lootplot.targets.Shape?
+---@field public canItemMove boolean
+---@field public canBeDestroyed boolean
+---@field public canActivate boolean
 ---@alias lootplot.ItemEntity lootplot.ItemEntityClass|lootplot.LayerEntity|Entity
 
 ---@param name string
@@ -539,6 +547,16 @@ end
 ---@field public slot true
 ---@field public layer "slot"
 ---@field public drawDepth integer
+---@field public pointsGenerated number
+---@field public moneyGenerated number
+---@field public canBeDestroyed boolean
+---@field public canActivate boolean
+---@field public canSlotPropagate boolean
+---@field public buttonSlot boolean
+---@field public onActivate? fun(ent:lootplot.SlotEntity)
+---@field public shopLock boolean
+---@field public itemSpawner generation.Query?
+---@field public itemReroller generation.Query?
 ---@alias lootplot.SlotEntity lootplot.SlotEntityClass|lootplot.LayerEntity|Entity
 
 ---@param name string
