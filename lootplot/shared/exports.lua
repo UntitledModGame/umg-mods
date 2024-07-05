@@ -511,6 +511,7 @@ function lp.forceSpawnItem(ppos, itemEType)
         prevItem:delete()
     end
     ppos:set(itemEnt)
+    umg.call("lootplot:entitySpawned", itemEnt)
     return itemEnt
 end
 

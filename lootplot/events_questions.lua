@@ -7,7 +7,7 @@ umg.defineEvent("lootplot:itemRemovedFromSlot")
 
 umg.defineEvent("lootplot:plotActivated")
 
-
+umg.defineEvent("lootplot:entitySpawned")
 umg.defineEvent("lootplot:entityActivated")
 umg.defineEvent("lootplot:entityActivationBlocked")
 umg.defineQuestion("lootplot:isActivationBlocked", reducers.OR)
