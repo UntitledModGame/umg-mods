@@ -35,7 +35,7 @@ umg.on("rendering:drawEntity", function(ent, x,y, rot, sx,sy, kx,ky)
         x, y,
         rot, 
         sx, sy,
-        ox, oy,
+        nil, nil,
         kx,ky
     )
 end)
