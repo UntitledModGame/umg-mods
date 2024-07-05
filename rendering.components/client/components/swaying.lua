@@ -49,5 +49,6 @@ umg.answer("rendering:getShearXY", function(ent)
         local sway_factor = getSwayFactor(ent)
         return sway_factor, 0
     end
+    return 0,0
 end)
 

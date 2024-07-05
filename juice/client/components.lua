@@ -40,22 +40,100 @@ local function joltFunc(t, duration, freq)
 end
 
 
+
+
+ent:addComponent("rotationJuice", {
+    start = love.timer.getTime(), 
+    duration = 2,
+    type = "EASE"
+
+    --optional
+    multiplier = math.rad(30), 
+    offset = 0,
+})
+
+
+ent:addComponent("scaleXYJuice", {
+    start = love.timer.getTime(), 
+    duration = 2,
+
+    x = {
+        type = "EASE"
+        multiplier = math.rad(30), 
+        offset = 0,
+    },
+    y = {
+        type = "EASE"
+        multiplier = math.rad(30), 
+        offset = 0,
+    }
+})
+
+
+
 ]]
 
 
-local function type()
 
+---@class juice._ValueGetter
+---@field public transition string The transition func name
+---@field public multiplier? number
+---@field public offset? number
+
+
+
+
+---@param comp {duration:number, start:number}|juice._ValueGetter
+---@return number|false
+local function getValue(comp)
+    local func = juice.getTransition(comp.transition)
+    local t = (love.timer.getTime() - comp.start) / comp.duration
+    if t > 1 then
+        return false
+    end
+    return (comp.offset or 0) + (comp.multiplier or 1) * func(t)
 end
+
+
+
+---@param comp {duration:number, start:number, x?: juice._ValueGetter, y?: juice._ValueGetter}
+---@return number|false, number|false
+local function getValue2(comp)
+    local t = (love.timer.getTime() - comp.start) / comp.duration
+    if t > 1 then
+        return false,false
+    end
+    ---@type boolean|number, boolean|number
+    local x, y = false,false
+    do
+        local getter = comp.x
+        if getter then
+            local func = juice.getTransition(getter.transition)
+            local cache = func(t)
+            x = (getter.offset or 0) + (getter.multiplier or 1) * func(t)
+        end
+    end
+    do
+        local getter = comp.y
+        if getter then
+            local func = juice.getTransition(getter.transition)
+            local cache = func(t)
+            y = (getter.offset or 0) + (getter.multiplier or 1) * func(t)
+        end
+    end
+    return x,y
+end
+
 
 
 ---@param ent Entity
 umg.answer("rendering:getRotation", function(ent)
     if ent:hasComponent("rotationJuice") then
-        local t = love.timer.getTime() - ent.rotationJuice.start
-        if t >= ent.rotationJuice.duration then
+        local val = getValue(ent.rotationJuice)
+        if not val then
             ent:removeComponent("rotationJuice")
         else
-            return joltFunc(t, ent.rotationJuice.duration, ent.rotationJuice.freq) * ent.rotationJuice.amp
+            return val
         end
     end
 
@@ -67,11 +145,11 @@ end)
 ---@param ent Entity
 umg.answer("rendering:getScale", function(ent)
     if ent:hasComponent("scaleJuice") then
-        local t = love.timer.getTime() - ent.scaleJuice.start
-        if t >= ent.scaleJuice.duration then
+        local val = getValue(ent.scaleJuice)
+        if not val then
             ent:removeComponent("scaleJuice")
         else
-            return 1 + math.sin(t * math.pi / ent.scaleJuice.duration) * ent.scaleJuice.amp
+            return val
         end
     end
 

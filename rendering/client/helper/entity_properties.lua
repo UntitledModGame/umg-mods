@@ -18,17 +18,17 @@ end
 
 function entityProperties.getScaleXY(ent)
     local sx, sy = umg_ask("rendering:getScaleXY", ent)
-    return (ent.scaleX or 0) + sx, (ent.scaleY or 0) + sy
+    return (ent.scaleX or 1) * (sx or 1), (ent.scaleY or 1) * (sy or 1)
 end
 
 function entityProperties.getOffsetXY(ent)
     local ox, oy = umg_ask("rendering:getOffsetXY", ent)
-    return (ent.ox or 0) + ox, (ent.oy or 0) + oy
+    return (ent.ox or 0) + (ox or 0), (ent.oy or 0) + (oy or 0)
 end
 
 function entityProperties.getShearXY(ent)
     local kx, ky = umg_ask("rendering:getShearXY", ent)
-    return (ent.shearX or 0) + kx, (ent.shearY or 0) + ky
+    return (ent.shearX or 0) + (kx or 0), (ent.shearY or 0) + (ky or 0)
 end
 
 

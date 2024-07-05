@@ -49,7 +49,7 @@ umg.defineQuestion("rendering:getScale", MULT)
 umg.defineQuestion("rendering:getScaleXY", reducers.MULTIPLY_VECTOR)
 
 -- gets offsets of an entity for draw position
-umg.defineQuestion("rendering:getOffsetXY", ADD)
+umg.defineQuestion("rendering:getOffsetXY", reducers.ADD_VECTOR)
 
 -- shear of entity
 umg.defineQuestion("rendering:getShearXY", reducers.ADD_VECTOR)
