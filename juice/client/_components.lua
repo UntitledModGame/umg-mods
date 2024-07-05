@@ -1,45 +1,18 @@
 
 --[[
 
-
----@param x number
-local function quint(x)
-    return x * x * x * x * x
-end
-
----@param x number
-local function sine(x)
-    return math.sin(x * math.pi / 2)
-end
-
----@param f fun(x:number):number
-local function makeOut(f)
-    ---@param x number
-    return function(x)
-        return 1 - f(1 - x)
-    end
-end
-
-local outQuint = makeOut(quint)
-
----@param t number
----@param duration number
----@param freq number
-local function joltFunc(t, duration, freq)
-    local x = t / duration
-    local f = math.sin(math.sqrt(x) * math.pi * freq)
-    local ease
-
-    if x < 0.2 then
-        ease = outQuint(x / 0.2)
-    else
-        ease = (1 - sine((x - 0.2) / 0.8))
-    end
-
-    return ease * f
-end
+==================
+API IDEAS:
 
 
+TODO:
+Should we even keep this mod and api?
+Do sme more thinking.
+It's a good idea i think.
+But maybe stuff like scaleXY, shearXY, etc, need to be extrapolated
+into a properties-like setup, like properties mod.
+
+==================
 
 
 ent:addComponent("rotationJuice", {
@@ -178,12 +151,3 @@ umg.answer("rendering:getOffsetXY", function(ent)
 end)
 
 
-
-
----@param ent Entity
-umg.answer("rendering:getScaleXY", function(ent)
-    if ent:hasComponent("flipJuice") then
-        return handleFlipJuice(ent) or 1, 1
-    end
-    return 1, 1
-end)
