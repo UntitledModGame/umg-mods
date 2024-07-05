@@ -52,6 +52,7 @@ umg.defineQuestion("rendering:getRotation", ADD)
 -- visual scale of entity
 umg.defineQuestion("rendering:getScale", MULT)
 -- TODO: Change these two to getScaleXY?
+-- umg.defineQuestion("rendering:getScaleXY", MULT)
 umg.defineQuestion("rendering:getScaleX", MULT)
 umg.defineQuestion("rendering:getScaleY", MULT)
 
