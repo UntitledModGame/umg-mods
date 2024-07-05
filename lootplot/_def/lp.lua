@@ -146,8 +146,13 @@ function lp.canActivateEntity(ent)
 end
 
 ---@param ent Entity
-function lp.activateEntity(ent)
+function lp.tryActivateEntity(ent)
 end
+
+---@param ent Entity
+function lp.forceActivateEntity(ent)
+end
+
 
 ---@param pos lootplot.PPos
 function lp.activate(pos)
@@ -188,11 +193,6 @@ end
 function lp.forceSpawnItem(ppos, itemEType)
 end
 
-function lp.removeAugment(ent, augment)
-end
-
-function lp.addAugment(ent, augment, val)
-end
 
 ---@param name string
 ---@param itemType table<string, any>
@@ -211,7 +211,12 @@ end
 
 ---@param name string
 ---@param ent Entity
-function lp.triggerEntity(name, ent)
+function lp.tryTriggerEntity(name, ent)
+end
+
+---@param name string
+---@param ent Entity
+function lp.forceTriggerEntity(name, ent)
 end
 
 ---@param name string

@@ -408,7 +408,7 @@ function lp.canActivateEntity(ent)
 end
 
 ---@param ent Entity
-function lp.activateEntity(ent)
+function lp.forceActivateEntity(ent)
     entityTc(ent)
     if ent.onActivate then
         ent:onActivate()
@@ -416,16 +416,28 @@ function lp.activateEntity(ent)
     umg.call("lootplot:entityActivated", ent)
 end
 
+---@param ent Entity
+function lp.tryActivateEntity(ent)
+    entityTc(ent)
+    if lp.canActivateEntity(ent) then
+        lp.forceActivateEntity(ent)
+        return true
+    else
+        umg.call("lootplot:entityActivationBlocked", ent)
+        return false
+    end
+end
+
 ---@param pos lootplot.PPos
 function lp.activate(pos)
     lp.posTc(pos)
     local item = lp.posToItem(pos)
     if item then
-        lp.activateEntity(item)
+        lp.tryActivateEntity(item)
     end    
     local slot = lp.posToSlot(pos)
     if slot then
-        lp.activateEntity(slot)
+        lp.tryActivateEntity(slot)
     end
 end
 
@@ -504,12 +516,7 @@ end
 
 
 
-function lp.removeAugment(ent, augment)
-    umg.melt("nyi")
-end
-function lp.addAugment(ent, augment, val)
-    umg.melt("nyi")
-end
+
 
 ---@class lootplot.LayerEntityClass: EntityClass
 ---@field public layer string
@@ -582,7 +589,17 @@ end
 
 ---@param name string
 ---@param ent Entity
-function lp.triggerEntity(name, ent)
+function lp.tryTriggerEntity(name, ent)
+    if lp.canTrigger(name, ent) then
+        lp.forceTriggerEntity(name, ent)
+        return true
+    end
+    return false
+end
+
+---@param name string
+---@param ent Entity
+function lp.forceTriggerEntity(name, ent)
     return trigger.triggerEntity(name, ent)
 end
 

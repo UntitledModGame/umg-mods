@@ -171,10 +171,10 @@ local activateOnServer = util.remoteServerCall("lootplot:clickSlotButton", ENT_1
 function(clientId, slotEnt)
     -- An "interactable" slot in the world.
     --  for example: an in-world reroll button.
-    if lp.canPlayerAccess(slotEnt, clientId) and lp.canActivateEntity(slotEnt) then
+    if lp.canPlayerAccess(slotEnt, clientId) then
         -- We also should do some other checks passing in the client that clicked!
         -- Maybe we should unify this with interactable...?
-        lp.activateEntity(slotEnt)
+        lp.tryActivateEntity(slotEnt)
     end
 end)
 
