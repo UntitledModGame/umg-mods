@@ -45,7 +45,7 @@ end
 ent:addComponent("rotationJuice", {
     start = love.timer.getTime(), 
     duration = 2,
-    type = "EASE"
+    transition = math.sin
 
     --optional
     multiplier = math.rad(30), 
@@ -58,12 +58,12 @@ ent:addComponent("scaleXYJuice", {
     duration = 2,
 
     x = {
-        type = "EASE"
+        transition = math.sin
         multiplier = math.rad(30), 
         offset = 0,
     },
     y = {
-        type = "EASE"
+        transition = math.cos
         multiplier = math.rad(30), 
         offset = 0,
     }
@@ -76,7 +76,7 @@ ent:addComponent("scaleXYJuice", {
 
 
 ---@class juice._ValueGetter
----@field public transition string The transition func name
+---@field public transition fun(number): number
 ---@field public multiplier? number
 ---@field public offset? number
 
@@ -86,29 +86,28 @@ ent:addComponent("scaleXYJuice", {
 ---@param comp {duration:number, start:number}|juice._ValueGetter
 ---@return number|false
 local function getValue(comp)
-    local func = juice.getTransition(comp.transition)
     local t = (love.timer.getTime() - comp.start) / comp.duration
     if t > 1 then
         return false
     end
-    return (comp.offset or 0) + (comp.multiplier or 1) * func(t)
+    return (comp.offset or 0) + (comp.multiplier or 1) * comp.transition(t)
 end
 
 
 
 ---@param comp {duration:number, start:number, x?: juice._ValueGetter, y?: juice._ValueGetter}
+---@param default number
 ---@return number|false, number|false
-local function getValue2(comp)
+local function getValue2(comp, default)
     local t = (love.timer.getTime() - comp.start) / comp.duration
     if t > 1 then
-        return false,false
+        return default, default
     end
-    ---@type boolean|number, boolean|number
-    local x, y = false,false
+    local x, y = default, default
     do
         local getter = comp.x
         if getter then
-            local func = juice.getTransition(getter.transition)
+            local func = getter.transition
             local cache = func(t)
             x = (getter.offset or 0) + (getter.multiplier or 1) * func(t)
         end
@@ -116,12 +115,11 @@ local function getValue2(comp)
     do
         local getter = comp.y
         if getter then
-            local func = juice.getTransition(getter.transition)
+            local func = getter.transition
             local cache = func(t)
             y = (getter.offset or 0) + (getter.multiplier or 1) * func(t)
         end
     end
-    return x,y
 end
 
 
@@ -181,16 +179,6 @@ end)
 
 
 
----@param ent Entity
-local function handleFlipJuice(ent)
-    local t = love.timer.getTime() - ent.flipJuice.start
-    if t >= ent.flipJuice.duration then
-        ent:removeComponent("flipJuice")
-        return nil
-    else
-        return t / ent.flipJuice.duration
-    end
-end
 
 ---@param ent Entity
 umg.answer("rendering:getScaleXY", function(ent)
@@ -199,11 +187,3 @@ umg.answer("rendering:getScaleXY", function(ent)
     end
     return 1, 1
 end)
-
-umg.answer("rendering:getRotation", function(ent)
-    if ent:hasComponent("flipJuice") then
-        return (1 - (handleFlipJuice(ent) or 1)) * math.pi / 4
-    end
-    return 0
-end)
-

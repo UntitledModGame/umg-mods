@@ -21,9 +21,9 @@ local outQuint = makeOut(quint)
 ---@param t number
 ---@param duration number
 ---@param freq number
-local function joltFunc(t, duration, freq)
-    local x = t / duration
-    local f = math.sin(math.sqrt(x) * math.pi * freq)
+local function joltFunc(x)
+    local FREQ = 2
+    local f = math.sin(math.sqrt(x) * math.pi * FREQ)
     local ease
 
     if x < 0.2 then
@@ -40,7 +40,11 @@ end
 ---@param ent lootplot.LayerEntity
 umg.on("lootplot:entityActivated", function(ent)
     if ent.drawable then
-        ent:addComponent("rotationJuice", {freq = 2, amp = math.rad(30), start = love.timer.getTime(), duration = 2})
+        ent:addComponent("rotationJuice", {
+            amp = math.rad(30), 
+            start = love.timer.getTime(), 
+            duration = 2
+        })
     end
 end)
 
@@ -50,7 +54,11 @@ umg.on("lootplot:selectionChanged", function(selected)
         local itemEnt = lp.slotToItem(selected.slot)
 
         if itemEnt then
-            itemEnt:addComponent("scaleJuice", {amp = 0.2, start = love.timer.getTime(), duration = 0.5})
+            itemEnt:addComponent("scaleJuice", {
+                amp = 0.2, 
+                start = love.timer.getTime(), 
+                duration = 0.5
+            })
         end
     end
 end)
