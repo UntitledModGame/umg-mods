@@ -6,7 +6,7 @@ group:onAdded(function(ent)
 end)
 
 ---@param ent Entity
-umg.answer("rendering:getOffsetY", function(ent)
+umg.answer("rendering:getOffsetXY", function(ent)
     if ent:hasComponent("bobbingJuice") then
         -- Compute offset
         local offset = ent.bobbingJuice.offset
@@ -17,8 +17,8 @@ umg.answer("rendering:getOffsetY", function(ent)
         end
 
         local t = (love.timer.getTime() + offset) % period
-        return math.sin(2 * math.pi * t / period) * 0.25
+        return 0, math.sin(2 * math.pi * t / period) * 0.25
     end
 
-    return 0
+    return 0,0
 end)

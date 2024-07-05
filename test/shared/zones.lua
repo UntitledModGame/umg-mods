@@ -55,11 +55,6 @@ if client then
 local C = 0.3
 
 
-umg.answer("rendering:getScale", function(ent)
-    if inRangeOf(ent, yellowZone) then
-        return 2
-    end
-end)
 umg.answer("rendering:getColor", function(ent)
     if inRangeOf(ent, yellowZone) then
         return 1,1,C
@@ -68,19 +63,11 @@ end)
 
 
 
-
-umg.answer("rendering:getScaleX", function(ent)
-    if inRangeOf(ent, magZone) then
-        return 2
-    end
-end)
 umg.answer("rendering:getColor", function(ent)
     if inRangeOf(ent, magZone) then
         return 1,C,1
     end
 end)
-
-
 
 
 
@@ -91,7 +78,6 @@ umg.answer("rendering:getColor", function(ent)
 end)
 
 end
-
 
 
 umg.answer("spatial:getVelocityMultiplier", function(ent)

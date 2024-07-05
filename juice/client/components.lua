@@ -92,20 +92,13 @@ local function handleDenyJuice(ent, freq)
     end
 end
 
----@param ent Entity
-umg.answer("rendering:getOffsetX", function(ent)
-    if ent:hasComponent("denyJuice") then
-        return handleDenyJuice(ent, ent.denyJuice.xfreq)
-    end
-    return 0
-end)
 
 ---@param ent Entity
-umg.answer("rendering:getOffsetY", function(ent)
+umg.answer("rendering:getOffsetXY", function(ent)
     if ent:hasComponent("denyJuice") then
-        return handleDenyJuice(ent, ent.denyJuice.yfreq)
+        return handleDenyJuice(ent, ent.denyJuice.xfreq),0
     end
-    return 0
+    return 0,0
 end)
 
 
@@ -122,11 +115,11 @@ local function handleFlipJuice(ent)
 end
 
 ---@param ent Entity
-umg.answer("rendering:getScaleX", function(ent)
+umg.answer("rendering:getScaleXY", function(ent)
     if ent:hasComponent("flipJuice") then
-        return handleFlipJuice(ent) or 1
+        return handleFlipJuice(ent) or 1, 1
     end
-    return 1
+    return 1, 1
 end)
 
 umg.answer("rendering:getRotation", function(ent)

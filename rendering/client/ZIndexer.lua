@@ -25,12 +25,9 @@ local entityProperties = require("client.helper.entity_properties")
 local getRotation = entityProperties.getRotation
 
 local getScale = entityProperties.getScale
-local getScaleX = entityProperties.getScaleX
-local getScaleY = entityProperties.getScaleY
-local getOffsetX = entityProperties.getOffsetX
-local getOffsetY = entityProperties.getOffsetY
-local getShearX = entityProperties.getShearX
-local getShearY = entityProperties.getShearY
+local getScaleXY = entityProperties.getScaleXY
+local getOffsetXY = entityProperties.getOffsetXY
+local getShearXY = entityProperties.getShearXY
 
 
 
@@ -179,16 +176,17 @@ end
 
 
 local function drawWorldEntity(ent)
-    local x = ent.x - getOffsetX(ent)
-    local y = getDrawY(ent.y - getOffsetY(ent), ent.z)
+    local ox,oy = getOffsetXY(ent)
+    local x = ent.x - ox
+    local y = getDrawY(ent.y - oy, ent.z)
 
     local rot = getRotation(ent)
-    local scale = getScale(ent)
-    local sx = getScaleX(ent) * scale
-    local sy = getScaleY(ent) * scale
 
-    local kx, ky = getShearX(ent), getShearY(ent)
-    drawEntity(ent, x,y, rot, sx,sy, kx,ky)
+    local scale = getScale(ent)
+    local sx,sy = getScaleXY(ent)
+
+    local kx, ky = getShearXY(ent)
+    drawEntity(ent, x,y, rot, sx*scale,sy*scale, kx,ky)
 end
 
 

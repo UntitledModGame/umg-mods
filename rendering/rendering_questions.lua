@@ -40,26 +40,20 @@ umg.defineQuestion("rendering:getCameraPosition", reducers.PRIORITY_DOUBLE)
 -- Is the entity hidden? answers should return true or false
 umg.defineQuestion("rendering:isHidden", reducers.OR)
 
--- gets offsets of an entity for draw position
--- TODO: Change these to to getOffsetXY?
-umg.defineQuestion("rendering:getOffsetX", ADD)
-umg.defineQuestion("rendering:getOffsetY", ADD)
-
-
 -- get entity rotation
 umg.defineQuestion("rendering:getRotation", ADD)
 
 -- visual scale of entity
 umg.defineQuestion("rendering:getScale", MULT)
--- TODO: Change these two to getScaleXY?
--- umg.defineQuestion("rendering:getScaleXY", MULT)
-umg.defineQuestion("rendering:getScaleX", MULT)
-umg.defineQuestion("rendering:getScaleY", MULT)
+
+umg.defineQuestion("rendering:getScaleXY", reducers.MULTIPLY_VECTOR)
+
+-- gets offsets of an entity for draw position
+umg.defineQuestion("rendering:getOffsetXY", ADD)
 
 -- shear of entity
--- TODO: Change these two to getShearXY?
-umg.defineQuestion("rendering:getShearX", ADD)
-umg.defineQuestion("rendering:getShearY", ADD)
+umg.defineQuestion("rendering:getShearXY", reducers.ADD_VECTOR)
+
 
 
 --[[

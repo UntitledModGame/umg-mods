@@ -32,21 +32,21 @@ local function getBobFactor(ent)
 end
 
 
-umg.answer("rendering:getOffsetY", function(ent)
+umg.answer("rendering:getOffsetXY", function(ent)
     if ent.bobbing then
         local _quad_w, quad_height = rendering.getImageSize(ent.image)
         local bob_factor = getBobFactor(ent)
-        return quad_height * bob_factor
+        return 0, quad_height * bob_factor
     end
-    return 0
+    return 0, 0
 end)
 
 
-umg.answer("rendering:getScaleY", function(ent)
+umg.answer("rendering:getScaleXY", function(ent)
     if ent.bobbing then
         local bob_factor = getBobFactor(ent)
-        return 1 + bob_factor
+        return 1, 1 + bob_factor
     end
-    return 1
+    return 1, 1
 end)
 

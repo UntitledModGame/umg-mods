@@ -33,21 +33,21 @@ local function getSwayFactor(ent)
 end
 
 
-umg.answer("rendering:getOffsetX", function(ent)
+umg.answer("rendering:getOffsetXY", function(ent)
     if ent.swaying then
         local ox, _oy = rendering.getImageOffsets(ent.image)
         local quad_width = ox * 2
         local sway_factor = getSwayFactor(ent)
-        return quad_width * sway_factor
+        return quad_width * sway_factor, 0
     end
-    return 0
+    return 0, 0
 end)
 
 
-umg.answer("rendering:getShearX", function(ent)
+umg.answer("rendering:getShearXY", function(ent)
     if ent.swaying then
         local sway_factor = getSwayFactor(ent)
-        return sway_factor
+        return sway_factor, 0
     end
 end)
 
