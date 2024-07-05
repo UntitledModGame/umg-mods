@@ -37,7 +37,6 @@ end
 juice.newParticleSystem = require("client.particles")
 
 
-juice.title = require("client.title")
 
 
 umg.expose("juice", juice)

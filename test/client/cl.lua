@@ -60,7 +60,6 @@ umg.on("@keypressed", function(k,scancode)
     end
     if scancode == "e" then
         local e = getPlayerWithXY()
-        juice.shockwave(e)
         makeClientBlock(e)
     end
     if scancode == "space" then
