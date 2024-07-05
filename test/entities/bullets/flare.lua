@@ -6,16 +6,9 @@ local SHAPE = love.physics.newCircleShape(1)
 
 local flareParticles
 if client then
-    flareParticles = juice.newParticleSystem({
-        "circ4", "circ3", "circ2", "circ1"
-    })
-    flareParticles:setParticleLifetime(0.4,0.9)
-    flareParticles:setColors(
-        1,1,1,1,
-        0.6,0.6,0.6,0.5
-    )
-    flareParticles:setEmissionRate(100) -- TODO: this doesn't FRICKEN work!!!!
-    flareParticles:setEmissionArea("uniform", 1, 1, 0)
+    --[[
+    TODO do particles
+    ]]
 end
 
 
@@ -24,8 +17,6 @@ return umg.defineEntityType("flare", {
     drawable = true,
 
     image = "shotgunshell",
-
-    particles = flareParticles,
 
     physics = {
         shape = SHAPE,
