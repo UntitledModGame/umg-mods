@@ -3,15 +3,27 @@
 
 local lg=love.graphics
 
-local SHADOW_OFFSET = 3
 local ORDER = -10
 
-umg.on("rendering:drawEntity", ORDER, function(slotEnt, x,y, ...)
-    if lp.isSlotEntity(slotEnt) and slotEnt.image then
+umg.on("rendering:drawEntity", ORDER, function(ent, x,y, ...)
+    if ent.image then
         -- draw shadow
+        local offset = 2
+        if ent.slot then
+            offset = 3
+        end
+
+        error([[
+            todo: make not hardcoded
+            should have `ent.imageShadow = { offset = N, opacity = X }`
+
+            create lp:defineSlot and lp:defineItem callbacks.
+            Add shadow there
+        ]])
+        
         lg.push("all")
         lg.setColor(0,0,0,0.4)
-        rendering.drawImage(slotEnt.image, x+SHADOW_OFFSET,y+SHADOW_OFFSET, ...)
+        rendering.drawImage(ent.image, x+offset,y+offset, ...)
         lg.pop()
     end
 end)
