@@ -116,7 +116,7 @@ end)
 ---@param ent lootplot.LayerEntity
 umg.on("lootplot:entityActivated", function(ent)
     if ent.drawable then
-        ent:addComponent("joltJuice", {freq = 2, amp = math.rad(30), start = love.timer.getTime(), duration = 2})
+        ent:addComponent("joltJuice", {freq = 2, amp = math.rad(20), start = love.timer.getTime(), duration = 0.4})
     end
 end)
 
@@ -126,7 +126,7 @@ umg.on("lootplot:selectionChanged", function(selected)
         local itemEnt = lp.slotToItem(selected.slot)
 
         if itemEnt then
-            itemEnt:addComponent("bulgeJuice", {amp = 0.2, start = love.timer.getTime(), duration = 0.5})
+            itemEnt:addComponent("bulgeJuice", {amp = 0.3, start = love.timer.getTime(), duration = 0.4})
         end
     end
 end)

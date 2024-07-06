@@ -28,6 +28,10 @@ local function updateItem(itemEnt, slotEnt)
     assert(slotEnt.x and slotEnt.y, "???")
     itemEnt.targetX = slotEnt.x
     itemEnt.targetY = slotEnt.y
+    if not (itemEnt.x and itemEnt.y) then
+        itemEnt.x = slotEnt.x
+        itemEnt.y = slotEnt.y
+    end
 end
 
 
@@ -70,15 +74,12 @@ sync.autoSyncComponent("targetY", {type="number", lerp=false})
 
 if client then
 
-local targetEnts = umg.group("targetX", "targetY")
+local targetEnts = umg.group("targetX", "targetY", "x", "y")
 
 local SPEED = 8
 
 umg.on("@update", function(dt)
     for _, ent in ipairs(targetEnts) do
-        ent.x = ent.x or 0
-        ent.y = ent.y or 0
-
         local dx,dy = ent.targetX-ent.x, ent.targetY-ent.y
         ent.x = ent.x + dt*dx*SPEED
         ent.y = ent.y + dt*dy*SPEED
