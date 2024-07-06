@@ -7,8 +7,19 @@ Positioning code.
 Automatically sets positions of entities according to their ppos.
 
 
+================================
+================================
+TODO::
+We need to someone make this code less assumption-ful,
+to allow future mods to override lerping behaviour!
+====
+================================
+
+
 ]]
 
+
+if server then
 
 local worldPlotEnts = umg.group("plot", "x", "y")
 
@@ -48,20 +59,30 @@ umg.on("@tick", function(dt)
     end
 end)
 
+end
 
 
 
+sync.autoSyncComponent("targetX", {type="number", lerp=false})
+sync.autoSyncComponent("targetY", {type="number", lerp=false})
 
 
+
+if client then
 
 local targetEnts = umg.group("targetX", "targetY")
 
-umg.on("@tick", function(dt)
+local SPEED = 8
+
+umg.on("@update", function(dt)
     for _, ent in ipairs(targetEnts) do
-        -- TODO: 
-        -- Do lerping/spring behaviour in future.
-        ent.x = ent.targetX
-        ent.y = ent.targetY
+        ent.x = ent.x or 0
+        ent.y = ent.y or 0
+
+        local dx,dy = ent.targetX-ent.x, ent.targetY-ent.y
+        ent.x = ent.x + dt*dx*SPEED
+        ent.y = ent.y + dt*dy*SPEED
     end
 end)
 
+end

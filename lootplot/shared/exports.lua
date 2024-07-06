@@ -582,7 +582,7 @@ function lp.defineSlot(name, slotType)
     strTabTc(name, slotType)
     slotType.slot = true
     slotType.layer = "slot"
-    slotType.drawDepth = -50
+    slotType.drawDepth = -600
     slotType.triggers = slotType.triggers or {"PULSE"}
     if slotType.baseCanSlotPropagate == nil then
         slotType.baseCanSlotPropagate = true
