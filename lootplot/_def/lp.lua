@@ -177,10 +177,6 @@ end
 function lp.clone(ent)
 end
 
----@param itemEnt lootplot.ItemEntity
-function lp.rerollItem(itemEnt)
-end
-
 ---@param ppos lootplot.PPos
 ---@param itemEType fun():lootplot.ItemEntity
 ---@return lootplot.ItemEntity?

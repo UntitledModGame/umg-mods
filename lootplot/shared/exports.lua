@@ -309,13 +309,6 @@ local function ensureSlot(slotEnt_or_ppos)
 end
 
 
-local function detach(ent)
-    local ppos = lp.getPos(ent)
-    if ppos then
-        ppos:clear(ent)
-    end
-end
-
 local ent2Tc = typecheck.assert("entity", "entity")
 
 ---This one needs valid slot but does not require item to be present.
@@ -477,17 +470,6 @@ function lp.clone(ent)
     return cloned
 end
 
----@param itemEnt lootplot.ItemEntity
-function lp.rerollItem(itemEnt)
-    local slotEnt = ensureSlot(itemEnt)
-    local ppos = lp.getPos(slotEnt)
-    if ppos then
-        local itemEnt = lp.posToItem(ppos)
-        -- destroy item,
-        lp.destroy(itemEnt)
-        -- then, create a new item:
-    end
-end
 
 ---@param ppos lootplot.PPos
 ---@param itemEType fun():lootplot.ItemEntity
@@ -513,6 +495,33 @@ function lp.forceSpawnItem(ppos, itemEType)
     ppos:set(itemEnt)
     umg.call("lootplot:entitySpawned", itemEnt)
     return itemEnt
+end
+
+
+---@param ppos lootplot.PPos
+---@param slotEType fun():lootplot.SlotEntity
+---@return lootplot.SlotEntity?
+function lp.trySpawnSlot(ppos, slotEType)
+    local preSlotEnt = lp.posToSlot(ppos)
+    if not preSlotEnt then
+        -- if theres no slot already, spawn:
+        return lp.forceSpawnSlot(ppos, slotEType)
+    end
+    return nil
+end
+
+---@param ppos lootplot.PPos
+---@param slotEType fun():lootplot.SlotEntity
+---@return lootplot.SlotEntity
+function lp.forceSpawnSlot(ppos, slotEType)
+    local preSlotEnt = lp.posToSlot(ppos)
+    if preSlotEnt then
+        preSlotEnt:delete()
+    end
+    local slotEnt = slotEType()
+    lp.setSlot(ppos, slotEnt)
+    umg.call("lootplot:entitySpawned", slotEnt)
+    return slotEnt
 end
 
 
