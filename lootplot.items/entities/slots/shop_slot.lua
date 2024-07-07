@@ -1,7 +1,7 @@
 
 
 return lp.defineSlot("lootplot:shopSlot", {
-    image = "slot",
+    image = "cloth_slot_2",
     color = {1, 1, 0.6},
     shopLock = true,
     triggers = {"REROLL", "PULSE"},
