@@ -1,4 +1,7 @@
 {
     "type": "playable",
-    "uses": ["lootplot", "lootplot.items", "lootplot.slots", "lootplot.juice"]
+    "uses": [
+        "lootplot", "lootplot.items", "lootplot.slots", "lootplot.juice",
+        "spatial.lootplot"
+    ]
 }
