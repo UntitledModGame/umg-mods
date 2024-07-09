@@ -497,5 +497,6 @@ color.RGBtoHSL = rgb_to_hsl
 color.HEXtoRGBA = hex_to_rgba
 color.RGBAtoHEX = rgba_to_hex
 color.validateHEX = validate_hex
+color.isColor = isColor
 
 return color
