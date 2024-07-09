@@ -11,12 +11,11 @@ local Character = require("client.Character")
 function Text:init(text, args)
     args = args or {}
 
-    ---@type {call:boolean,effects:{inst:any,update:fun(self:any,subtext:text.Character?,dt:number)}[],text:string?,evaltext:string?,subtexts:text.Character[]}[]
+    ---@type {call:boolean,effects:{inst:any,update:fun(self:any,subtext:text.Character[])}[],text:string?,evaltext:string?,subtexts:text.Character[]}[]
     self.evals = {}
     self.variables = args.variables or _G
     self.effectGroup = args.effectGroup or defaultEffectGroup
     self.font = args.font or love.graphics.getFont()
-    self.maxWidth = args.maxWidth or math.huge
 
     self.fontHeight = self.font:getHeight()
     self.lines = 1
@@ -193,14 +192,14 @@ function Text:_parse(text)
                 end
 
                 -- Make effect
-                local effectInfo = self.effectGroup:getEffectInfo(effectName)
-                if not effectInfo then
+                local effectFunc = self.effectGroup:getEffectInfo(effectName)
+                if not effectFunc then
                     umg.melt(string.format("col %d: effect %q does not exist", i - #effectName, effectName))
                 end
 
                 activeEffects[#activeEffects+1] = {
-                    inst = effectInfo.maker(effectArgs),
-                    update = effectInfo.update
+                    inst = effectArgs,
+                    update = effectFunc
                 }
                 activeEffectNames[#activeEffectNames+1] = effectName
                 effectArgs = {} -- Note: cannot use table.clear here
@@ -294,11 +293,6 @@ function Text:_parse(text)
     if #activeEffectNames > 0 then
         umg.melt(string.format("col %d: unclosed effect %q", i, activeEffectNames[#activeEffectNames]))
     end
-
-    -- DEBUG
-    for _, eval in ipairs(self.evals) do
-        print("eval 🍓🍓🍓", _, eval.text, eval.evaltext)
-    end
 end
 
 ---@param eval {call:boolean,effects:{inst:any,update:fun(self:any,subtext:text.Character?,dt:number)}[],text:string?,evaltext:string?,subtexts:text.Character[]}
@@ -313,9 +307,9 @@ function Text:_updateSubtext(eval, start)
         if eval.subtexts[i] then
             subtext = eval.subtexts[i]
             -- This is quite hacky of calling :init() directly.
-            subtext:init(char, start, self.font:getWidth(char), self.fontHeight)
+            subtext:init(self.font, char, start)
         else
-            subtext = Character(char, start, self.font:getWidth(char), self.fontHeight)
+            subtext = Character(self.font, char, start)
             eval.subtexts[#eval.subtexts+1] = subtext
         end
 
@@ -334,12 +328,11 @@ local function iterArraysWithOffset(t, i)
     return ipairs(table), t, i
 end
 
----Update the rich text effect.
----@param dt number Time elapsed since last frame, in seconds.
-function Text:update(dt)
+---This (re)build the subtexts.
+---@private
+function Text:_rebuildAllSubtextsOfEvals()
     local start = 1
 
-    -- Stage 1: (Re)build subtexts.
     for _, eval in ipairs(self.evals) do
         if eval.text then
             -- Evaluate string interpolator
@@ -361,14 +354,21 @@ function Text:update(dt)
             start = start + #eval.subtexts
         end
     end
+end
 
-    -- Stage 2: Reset subtext effects
+---This reset the previous effect subtext values.
+---@private
+function Text:_resetSubtextEffects()
     for _, eval in ipairs(self.evals) do
         for i = 1, #eval.evaltext do
             eval.subtexts[i]:reset()
         end
     end
+end
 
+---Apply effects to the characters.
+---@private
+function Text:_applyEffects()
     -- Stage 3: Update subtext effects
     ---@type text.Character[]
     local toEvaluate = {}
@@ -395,61 +395,32 @@ function Text:update(dt)
                         toEvaluate[#toEvaluate+1] = st
                     end
                 else
-                    -- Stop here, this effect no longer affect this eval.
+                    -- Stop here, this effect no longer affect this (and subsequent) eval.
                     break
                 end
             end
 
-            effect.update(effect.inst, toEvaluate, dt)
+            effect.update(effect.inst, toEvaluate)
             table.clear(toEvaluate)
         end
     end
-
-    -- TODO: Should we update text positions in here?
 end
 
 ---@param subtexts text.Character[]
 ---@param x number
 ---@param y number
----@param r number
----@param g number
----@param b number
----@param a number
-function Text:_drawSubtexts(subtexts, x, y, r, g, b, a)
+---@private
+function Text:_makeSubtextPositionAbsolute(subtexts, x, y)
     for _, subtext in ipairs(subtexts) do
-        local c1, c2, c3, c4 = subtext:getColor():getRGBA()
         local tx, ty = subtext:getPosition()
-        local angle = subtext:getRotation()
-        local sx, sy = subtext:getScale()
-        local ox, oy = subtext:getOffset()
-        local kx, ky = subtext:getShear()
-        -- print("Subtext 🥝🥝🥝", subtext:getChar(), x, y, tx, ty)
-        love.graphics.setColor(r * c1, g * c2, b * c3, a * c4)
-        love.graphics.print(
-            subtext:getChar(),
-            self.font,
-            x + tx, y + ty, angle,
-            sx, sy, ox, oy, kx, ky
-        )
+        subtext:setPosition(x + tx, y + ty)
     end
 end
 
----Draw the rich text effect.
----@param x number
----@param y number
----@param r number?
----@param sx number?
----@param sy number?
----@param ox number?
----@param oy number?
----@param kx number?
----@param ky number?
----@overload fun(self:text.Text,transform:love.Transform)
-function Text:draw(x, y, r, sx, sy, ox, oy, kx, ky)
-    love.graphics.push("all")
-    love.graphics.applyTransform(x, y, r, sx, sy, ox, oy, kx, ky)
-
-    local currentColor = objects.Color(love.graphics.getColor())
+---This computes the text placement.
+---@param maxwidth number
+---@private
+function Text:_computeTextPositions(maxwidth)
     ---@type text.Character[]
     local sentence = {}
     local sentenceWidth = 0
@@ -458,6 +429,7 @@ function Text:draw(x, y, r, sx, sy, ox, oy, kx, ky)
     local line = 0
     local lineWidth = 0
     local hasDrawnCurrentLine = false
+    local lastIsWhitespace = false
 
     for _, eval in ipairs(self.evals) do
         for i = 1, (eval.evaltext and #eval.evaltext or 0) do
@@ -471,8 +443,8 @@ function Text:draw(x, y, r, sx, sy, ox, oy, kx, ky)
             end
 
             if char == "\n" then
-                -- Flush
-                self:_drawSubtexts(sentence, lineWidth, line * self.fontHeight, currentColor:getRGBA())
+                -- Flush current sentences
+                self:_makeSubtextPositionAbsolute(sentence, lineWidth, line * self.fontHeight)
                 table.clear(sentence)
 
                 -- Move it to next line
@@ -481,19 +453,22 @@ function Text:draw(x, y, r, sx, sy, ox, oy, kx, ky)
                 kerning = 0
                 sentenceWidth = 0
                 hasDrawnCurrentLine = false
-            end
-
-            if char == " " or char == "\t" then
-                -- Flush
-                self:_drawSubtexts(sentence, lineWidth, line * self.fontHeight, currentColor:getRGBA())
+                lastIsWhitespace = false
+            elseif char == " " or char == "\t" then
+                lastIsWhitespace = true
+            elseif lastIsWhitespace then
+                -- Flush current sentence
+                self:_makeSubtextPositionAbsolute(sentence, lineWidth, line * self.fontHeight)
                 table.clear(sentence)
                 lineWidth = lineWidth + sentenceWidth
                 sentenceWidth = 0
                 hasDrawnCurrentLine = true
-            elseif (lineWidth + sentenceWidth + width + kerning) >= self.maxWidth then
-                if not hasDrawnCurrentLine then
-                    -- Edge case: The whole sentence does not fit. Draw right now.
-                    self:_drawSubtexts(sentence, lineWidth, line * self.fontHeight, currentColor:getRGBA())
+                lastIsWhitespace = false
+                lastSubtext = nil
+            elseif (lineWidth + sentenceWidth + width + kerning) >= maxwidth then
+                if (not hasDrawnCurrentLine) or lastIsWhitespace then
+                    -- The whole sentence does not fit.
+                    self:_makeSubtextPositionAbsolute(sentence, lineWidth, line * self.fontHeight)
                     table.clear(sentence)
                     sentenceWidth = 0
                 end
@@ -503,6 +478,10 @@ function Text:draw(x, y, r, sx, sy, ox, oy, kx, ky)
                 lineWidth = 0
                 kerning = 0
                 hasDrawnCurrentLine = false
+                lastIsWhitespace = false
+                lastSubtext = nil
+            else
+                lastIsWhitespace = false
             end
 
             local subx, suby = subtext:getPosition()
@@ -512,10 +491,71 @@ function Text:draw(x, y, r, sx, sy, ox, oy, kx, ky)
         end
     end
 
-    -- Draw last sentence
-    self:_drawSubtexts(sentence, lineWidth, line * self.fontHeight, currentColor:getRGBA())
+    -- Update last sentence
+    self:_makeSubtextPositionAbsolute(sentence, lineWidth, line * self.fontHeight)
+end
+
+---Draw the rich text effect.
+---@param x number
+---@param y number
+---@param rot number?
+---@param sx number?
+---@param sy number?
+---@param ox number?
+---@param oy number?
+---@param kx number?
+---@param ky number?
+---@private
+function Text:_draw(x, y, rot, sx, sy, ox, oy, kx, ky)
+    love.graphics.push("all")
+    love.graphics.applyTransform(x, y, rot, sx, sy, ox, oy, kx, ky)
+
+    local r, g, b, a = love.graphics.getColor()
+
+    for _, eval in ipairs(self.evals) do
+        for _, subtext in ipairs(eval.subtexts) do
+            subtext:draw(r, g, b, a)
+        end
+    end
 
     love.graphics.pop()
+end
+
+---@param obj any
+---@param t string
+---@return boolean
+local function isLOVEType(obj, t)
+    return type(obj) == "userdata" and obj.typeOf and obj:typeOf(t)
+end
+
+---Draw the rich text effect.
+---@param transform love.Transform
+---@param maxwidth number? Maximum width the text can occupy before breaking sentence to next line.
+---@diagnostic disable-next-line: duplicate-set-field
+function Text:draw(transform, maxwidth) end
+
+---Draw the rich text effect.
+---@param x number
+---@param y number
+---@param maxwidth number? Maximum width the text can occupy before breaking sentence to next line.
+---@param r number?
+---@param sx number?
+---@param sy number?
+---@param ox number?
+---@param oy number?
+---@param kx number?
+---@param ky number?
+---@diagnostic disable-next-line: duplicate-set-field
+function Text:draw(x, y, maxwidth, r, sx, sy, ox, oy, kx, ky)
+    if isLOVEType(x, "Transform") then
+        maxwidth = y
+    end
+
+    self:_rebuildAllSubtextsOfEvals()
+    self:_resetSubtextEffects()
+    self:_computeTextPositions(maxwidth or math.huge)
+    self:_applyEffects()
+    self:_draw(x, y, r, sx, sy, ox, oy, kx, ky)
 end
 
 if false then

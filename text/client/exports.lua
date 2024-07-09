@@ -10,17 +10,15 @@ text.Text = require("client.Text")
 ---@field public font? love.Font Font object to use (defaults to current font).
 ---@field public variables? table<string, any> Variable store to use (defaults to _G).
 ---@field public effectGroup? text.EffectGroup Effect group to use (defaults to default effect group).
----@field public maxWidth? number Maximum width of the text before it can go to the next line.
 
 local defaultEffectGroup = require("client.defaultEffectGroup")
 
 ---Add new effect for rich text formatting to the default effect group.
 ---@generic T
 ---@param name string Effect name.
----@param effectupdate fun(context:T,characters:text.Character[],dt:number) Function that apply the effect to subtext.
----@param argtransform? fun(args:table<string,number>):T Argument transformer function.
-function text.addEffect(name, effectupdate, argtransform)
-    return defaultEffectGroup:addEffect(name, effectupdate, argtransform)
+---@param effectupdate fun(context:T,characters:text.Character[]) Function that apply the effect to subtext.
+function text.addEffect(name, effectupdate)
+    return defaultEffectGroup:addEffect(name, effectupdate)
 end
 
 ---Remove the effect from the default effect group.

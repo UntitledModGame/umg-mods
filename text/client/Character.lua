@@ -3,16 +3,16 @@ if false then utf8 = require("utf8") end -- sumneko hack
 ---@class text.Character: objects.Class
 local Character = objects.Class("text:Character")
 
+---@param font love.Font
 ---@param char string
 ---@param start integer
----@param width number
----@param height number
-function Character:init(char, start, width, height)
+function Character:init(font, char, start)
+    self.font = font
     self.char = char
     self.start = start
     self.length = utf8.len(char)
-    self.width = width
-    self.height = height
+    self.width = font:getWidth(char)
+    self.height = font:getHeight()
     self:reset()
 end
 
@@ -40,7 +40,7 @@ end
 
 ---Return the length of character(s) in this subtext.
 ---
----The returned length is Unicode-aware, which may not same as `#SubText:getChar()`.
+---The returned length is Unicode-aware, which may not same as `#Character:getChar()`.
 ---@return integer length Length of the character(s).
 function Character:getLength()
     return self.length
@@ -145,14 +145,38 @@ function Character:setShear(kx, ky)
     self.kx, self.ky = kx, ky
 end
 
+---Draw the character with specified color.
+---
+---The color will be multiplied with the assigned character color. If in doubt, just pass 1 for all.
+---@param r number
+---@param g number
+---@param b number
+---@param a number
+---@param overridecolor boolean? Should the specified color override the character color?
+function Character:draw(r, g, b, a, overridecolor)
+    if overridecolor then
+        love.graphics.setColor(r, g, b, a)
+    else
+        local c1, c2, c3, c4 = self:getColor():getRGBA()
+        love.graphics.setColor(r * c1, g * c2, b * c3, a * c4)
+    end
+    love.graphics.print(
+        self.char,
+        self.font,
+        self.x, self.y, self.r,
+        self.sx, self.sy,
+        self.ox, self.oy,
+        self.kx, self.ky
+    )
+end
+
 if false then
+    ---@param font love.Font
     ---@param char string
     ---@param start integer
-    ---@param width number
-    ---@param height number
     ---@return text.Character
     ---@diagnostic disable-next-line: cast-local-type, missing-return
-    function Character(char, start, width, height) end
+    function Character(font, char, start) end
 end
 
 return Character
