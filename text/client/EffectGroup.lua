@@ -53,7 +53,7 @@ end
 ---Since `argtransform` is nil, `args` will still be the effect key-value arguments.
 ---@generic T
 ---@param name string Effect name.
----@param effectupdate fun(context:T,subtext:text.SubText[],dt:number) Function that apply the effect to subtext.
+---@param effectupdate fun(context:T,subtexts:text.SubText[],dt:number) Function that apply the effect to subtext.
 ---@param argtransform? fun(args:table<string,number>):T Argument transformer function.
 function EffectGroup:addEffect(name, effectupdate, argtransform)
     self.effectList[name] = {

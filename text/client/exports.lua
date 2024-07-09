@@ -1,9 +1,8 @@
 ---@meta
 
 local text = {}
-if true then _G.text = text end
+if false then _G.text = text end
 
-text.Effect = require("client.Effect")
 text.EffectGroup = require("client.EffectGroup")
 text.Text = require("client.Text")
 
@@ -18,7 +17,7 @@ local defaultEffectGroup = require("client.defaultEffectGroup")
 ---Add new effect for rich text formatting to the default effect group.
 ---@generic T
 ---@param name string Effect name.
----@param effectupdate fun(context:T,subtext:text.SubText[],dt:number) Function that apply the effect to subtext.
+---@param effectupdate fun(context:T,subtexts:text.SubText[],dt:number) Function that apply the effect to subtext.
 ---@param argtransform? fun(args:table<string,number>):T Argument transformer function.
 function text.addEffect(name, effectupdate, argtransform)
     return defaultEffectGroup:addEffect(name, effectupdate, argtransform)
@@ -36,5 +35,7 @@ end
 function text.cloneDefaultEffectGroup()
     return defaultEffectGroup:clone()
 end
+
+umg.expose("text", text)
 
 return text

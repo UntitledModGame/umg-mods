@@ -1,4 +1,4 @@
-local utf8 = require("utf8")
+if false then utf8 = require("utf8") end -- sumneko hack
 
 ---@class text.SubText: objects.Class
 local SubText = objects.Class("text:SubText")
