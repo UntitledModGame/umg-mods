@@ -414,6 +414,9 @@ function Text:_makeSubtextPositionAbsolute(subtexts, x, y)
     for _, subtext in ipairs(subtexts) do
         local tx, ty = subtext:getPosition()
         subtext:setPosition(x + tx, y + ty)
+
+        -- Apply pre-effects
+        self:effectCharacter(subtext)
     end
 end
 
@@ -556,6 +559,13 @@ function Text:draw(x, y, maxwidth, r, sx, sy, ox, oy, kx, ky)
     self:_computeTextPositions(maxwidth or math.huge)
     self:_applyEffects()
     self:_draw(x, y, r, sx, sy, ox, oy, kx, ky)
+end
+
+---Called on every characters that will be drawn on screen.
+---
+---Can be overridden by user
+---@param char text.Character
+function Text:effectCharacter(char)
 end
 
 if false then

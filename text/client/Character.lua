@@ -145,6 +145,18 @@ function Character:setShear(kx, ky)
     self.kx, self.ky = kx, ky
 end
 
+function Character:getFont()
+    return self.font
+end
+
+---Changes the font used for rendering.
+---
+---Caveat: Spacing calculation and kerning uses the Text font.
+---@param font love.Font
+function Character:setFont(font)
+    self.font = font
+end
+
 ---Draw the character with specified color.
 ---
 ---The color will be multiplied with the assigned character color. If in doubt, just pass 1 for all.
