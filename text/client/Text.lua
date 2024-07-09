@@ -1,18 +1,17 @@
-local love = require("love")
-local utf8 = require("utf8")
+if false then utf8 = require("utf8") end -- sumneko hack
 
 ---@class text.Text: objects.Class
 local Text = objects.Class("text:Text")
 
 local defaultEffectGroup = require("client.defaultEffectGroup")
-local SubText = require("client.SubText")
+local Character = require("client.Character")
 
 ---@param text string
 ---@param args text.TextArgs?
 function Text:init(text, args)
     args = args or {}
 
-    ---@type {call:boolean,effects:{inst:any,update:fun(self:any,subtext:text.SubText?,dt:number)}[],text:string?,evaltext:string?,subtexts:text.SubText[]}[]
+    ---@type {call:boolean,effects:{inst:any,update:fun(self:any,subtext:text.Character?,dt:number)}[],text:string?,evaltext:string?,subtexts:text.Character[]}[]
     self.evals = {}
     self.variables = args.variables or _G
     self.effectGroup = args.effectGroup or defaultEffectGroup
@@ -43,7 +42,6 @@ end
 function Text:_parse(text)
     ---@type string[]
     local tempchar = {} -- This keep all the raw characters.
-    ---@type text.Effect[]
     local activeEffects = {} -- This keep the list of effect instances.
     ---@type string[]
     local activeEffectNames = {} -- This keep the list of effect names. The indices matches the activeEffects table.
@@ -157,7 +155,7 @@ function Text:_parse(text)
                     end
 
                     if not found then
-                        umg.melt(string.format("col %d: found no matching %q effect tag", i - #ename, ename))
+                        umg.melt(string.format("col %d: found no opening %q effect tag", i - #ename, ename))
                     end
 
                     endOfEffect = false
@@ -204,6 +202,7 @@ function Text:_parse(text)
                     inst = effectInfo.maker(effectArgs),
                     update = effectInfo.update
                 }
+                activeEffectNames[#activeEffectNames+1] = effectName
                 effectArgs = {} -- Note: cannot use table.clear here
                 effectName = nil
                 effectKey = nil
@@ -232,10 +231,10 @@ function Text:_parse(text)
                 effectKey = flushTempChar()
                 -- Case: {effect key=value}
                 --                  ^ = i
-            elseif isValidVariableCharacter(c, #tempchar == 0) then
-                -- Either specifying effect name or effect key
+            elseif isValidVariableCharacter(c, #tempchar == 0) or effectKey then
+                -- Either specifying effect name, effect key, or effect value
                 -- Case: {effect key=value}
-                --        ^^^^^^ ^^^ = i
+                --        ^^^^^^ ^^^ ^^^^^ = i
                 tempchar[#tempchar+1] = char
             else
                 if effectName then
@@ -267,6 +266,8 @@ function Text:_parse(text)
                 else
                     umg.melt(string.format("col %d: invalid character %q when specifying effect name", i, char))
                 end
+
+                maybeBracket = false
             end
         elseif maybeClosingBracket then
             if char == "}" then
@@ -293,9 +294,14 @@ function Text:_parse(text)
     if #activeEffectNames > 0 then
         umg.melt(string.format("col %d: unclosed effect %q", i, activeEffectNames[#activeEffectNames]))
     end
+
+    -- DEBUG
+    for _, eval in ipairs(self.evals) do
+        print("eval 🍓🍓🍓", _, eval.text, eval.evaltext)
+    end
 end
 
----@param eval {call:boolean,effects:{inst:any,update:fun(self:any,subtext:text.SubText?,dt:number)}[],text:string?,evaltext:string?,subtexts:text.SubText[]}
+---@param eval {call:boolean,effects:{inst:any,update:fun(self:any,subtext:text.Character?,dt:number)}[],text:string?,evaltext:string?,subtexts:text.Character[]}
 ---@private
 function Text:_updateSubtext(eval, start)
     local i = 0
@@ -309,7 +315,7 @@ function Text:_updateSubtext(eval, start)
             -- This is quite hacky of calling :init() directly.
             subtext:init(char, start, self.font:getWidth(char), self.fontHeight)
         else
-            subtext = SubText(char, start, self.font:getWidth(char), self.fontHeight)
+            subtext = Character(char, start, self.font:getWidth(char), self.fontHeight)
             eval.subtexts[#eval.subtexts+1] = subtext
         end
 
@@ -364,7 +370,7 @@ function Text:update(dt)
     end
 
     -- Stage 3: Update subtext effects
-    ---@type text.SubText[]
+    ---@type text.Character[]
     local toEvaluate = {}
     for i, eval in ipairs(self.evals) do
         for _, effect in ipairs(eval.effects) do
@@ -402,7 +408,7 @@ function Text:update(dt)
     -- TODO: Should we update text positions in here?
 end
 
----@param subtexts text.SubText[]
+---@param subtexts text.Character[]
 ---@param x number
 ---@param y number
 ---@param r number
@@ -417,6 +423,7 @@ function Text:_drawSubtexts(subtexts, x, y, r, g, b, a)
         local sx, sy = subtext:getScale()
         local ox, oy = subtext:getOffset()
         local kx, ky = subtext:getShear()
+        -- print("Subtext 🥝🥝🥝", subtext:getChar(), x, y, tx, ty)
         love.graphics.setColor(r * c1, g * c2, b * c3, a * c4)
         love.graphics.print(
             subtext:getChar(),
@@ -443,10 +450,10 @@ function Text:draw(x, y, r, sx, sy, ox, oy, kx, ky)
     love.graphics.applyTransform(x, y, r, sx, sy, ox, oy, kx, ky)
 
     local currentColor = objects.Color(love.graphics.getColor())
-    ---@type text.SubText[]
+    ---@type text.Character[]
     local sentence = {}
     local sentenceWidth = 0
-    ---@type text.SubText?
+    ---@type text.Character?
     local lastSubtext = nil
     local line = 0
     local lineWidth = 0
@@ -488,6 +495,7 @@ function Text:draw(x, y, r, sx, sy, ox, oy, kx, ky)
                     -- Edge case: The whole sentence does not fit. Draw right now.
                     self:_drawSubtexts(sentence, lineWidth, line * self.fontHeight, currentColor:getRGBA())
                     table.clear(sentence)
+                    sentenceWidth = 0
                 end
 
                 -- Move it to next line
@@ -497,7 +505,10 @@ function Text:draw(x, y, r, sx, sy, ox, oy, kx, ky)
                 hasDrawnCurrentLine = false
             end
 
+            local subx, suby = subtext:getPosition()
+            subtext:setPosition(subx + sentenceWidth, suby)
             sentenceWidth = sentenceWidth + width + kerning
+            sentence[#sentence+1] = subtext
         end
     end
 

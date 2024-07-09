@@ -8,7 +8,7 @@ local function dummyArgTransformer(args)
 end
 
 function EffectGroup:init()
-    ---@type {update:fun(context:any,subtext:text.SubText,dt:number),maker:fun(args:table<string,number>):any}[]
+    ---@type {update:fun(context:any,subtext:text.Character,dt:number),maker:fun(args:table<string,number>):any}[]
     self.effectList = {}
 end
 
@@ -28,10 +28,10 @@ end
 ---    self.speed = args.speed
 ---end
 ---
----function MyEffect:update(subtexts, dt)
+---function MyEffect:update(characters, dt)
 ---    self.duration = (self.duration + dt * self.speed) % 1
----    for i, subtext in ipairs(subtexts) do
----        subtext:setColor((self.duration + i/127.5) % 1, 1, 1)
+---    for i, char in ipairs(characters) do
+---        char:setColor((self.duration + i/127.5) % 1, 1, 1)
 ---    end
 ---end
 ---
@@ -44,16 +44,16 @@ end
 ---
 ---Now here's an example of stateless effect:
 ---```lua
----effectGroup:addEffect("color", function(args, subtext)
----    for i, subtext in ipairs(subtexts) do
----        subtext:setColor(args.r, args.g, args.b)
+---effectGroup:addEffect("color", function(args, characters)
+---    for i, char in ipairs(characters) do
+---        char:setColor(args.r, args.g, args.b)
 ---    end
 ---end)
 ---```
 ---Since `argtransform` is nil, `args` will still be the effect key-value arguments.
 ---@generic T
 ---@param name string Effect name.
----@param effectupdate fun(context:T,subtexts:text.SubText[],dt:number) Function that apply the effect to subtext.
+---@param effectupdate fun(context:T,characters:text.Character[],dt:number) Function that apply the effect to subtext.
 ---@param argtransform? fun(args:table<string,number>):T Argument transformer function.
 function EffectGroup:addEffect(name, effectupdate, argtransform)
     self.effectList[name] = {
