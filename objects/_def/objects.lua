@@ -365,6 +365,11 @@ end
 function Color.validateHEX(hex)
 end
 
+---@param c any
+---@return boolean
+function Color.isColor(c)
+end
+
 ---@cast Color +fun(r:number,g:number,b:number,a:number):objects.Color
 ---@cast Color +fun(hex:integer|string):objects.Color
 ---@cast Color +fun(color:number[]):objects.Color
