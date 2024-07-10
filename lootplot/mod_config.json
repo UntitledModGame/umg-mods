@@ -7,6 +7,7 @@
         "health", "scheduling", "initializers",
         "components", "effects", "execution",
         "chat", "commands", "vignette", 
-        "borders", "items", "generation", "clickables"
+        "borders", "items", "generation", "clickables",
+        "text"
     ]
 }

@@ -296,6 +296,8 @@ function Text:_parse(text)
 end
 
 ---@param eval {call:boolean,effects:{inst:any,update:fun(self:any,subtext:text.Character?,dt:number)}[],text:string?,evaltext:string?,subtexts:text.Character[]}
+---@param start integer
+---@return integer
 ---@private
 function Text:_updateSubtext(eval, start)
     local i = 0
@@ -566,6 +568,35 @@ end
 ---Can be overridden by user
 ---@param char text.Character
 function Text:effectCharacter(char)
+end
+
+---Retrieve the font object used to create this rich text
+---@return love.Font
+function Text:getFont()
+    return self.font
+end
+
+---Retrieve the unformatted string of this rich text effect.
+---@return string string The plain text (without effect tags and with string interpolation value evaluated) in this string
+function Text:getString()
+    self:_rebuildAllSubtextsOfEvals()
+    local result = {}
+
+    for _, eval in ipairs(self.evals) do
+        result[#result+1] = eval.evaltext
+    end
+
+    return table.concat(result)
+end
+Text.__tostring = Text.getString
+
+---Retrieve the list of texts in this Text object without all the effect text.
+---@param maxwidth number
+---@return number maxwidth Maximum width that the text occupy.
+---@return string[] strings List of lines.
+function Text:getWrap(maxwidth)
+    local text = self:getString()
+    return self.font:getWrap(text, maxwidth)
 end
 
 if false then
