@@ -1,3 +1,5 @@
+local hoverables = {}
+
 local hoverEnts = umg.group("x", "y", "hoverable")
 local hoveredEntities = objects.Set()
 
@@ -58,3 +60,24 @@ listener:onPointerMoved(function(l, x, y)
         tryEndHover(ent, worldX, worldY)
     end
 end)
+
+---Check if the specified entity in being hovered by the pointer right now.
+---@param ent Entity
+---@return boolean
+function hoverables.isHovered(ent)
+    return hoveredEntities:has(ent)
+end
+
+---Get list of entities currently behing hovered by the pointer.
+---@return objects.Array entities List of entities.
+function hoverables.getHoveredEntities()
+    local result = objects.Array()
+
+    for _, ent in ipairs(hoveredEntities) do
+        result:add(ent)
+    end
+
+    return result
+end
+
+return hoverables
