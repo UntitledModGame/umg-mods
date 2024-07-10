@@ -35,5 +35,6 @@ function text.cloneDefaultEffectGroup()
 end
 
 umg.expose("text", text)
+require("client.base_effect")() -- Expose default effects
 
 return text
