@@ -26,15 +26,6 @@ umg.defineEvent("lootplot:pointsChanged")
 
 umg.defineEvent("lootplot:pollSlotButtons")
 
-
-umg.defineEvent("lootplot:selectionChanged")
-
-umg.defineEvent("lootplot:endHoverItem")
-umg.defineEvent("lootplot:startHoverItem")
-umg.defineEvent("lootplot:endHoverSlot")
-umg.defineEvent("lootplot:startHoverSlot")
-
-
 umg.defineQuestion("lootplot:getMoneyMultiplier", reducers.MULTIPLY)
 umg.defineQuestion("lootplot:getPointMultiplier", reducers.MULTIPLY)
 
@@ -48,3 +39,14 @@ umg.defineQuestion("lootplot:isItemAdditionBlocked", reducers.OR)
 
 
 umg.defineQuestion("lootplot:hasPlayerAccess", reducers.AND)
+
+if client then
+    umg.defineEvent("lootplot:selectionChanged")
+
+    umg.defineEvent("lootplot:endHoverItem")
+    umg.defineEvent("lootplot:startHoverItem")
+    umg.defineEvent("lootplot:endHoverSlot")
+    umg.defineEvent("lootplot:startHoverSlot")
+
+    umg.defineEvent("lootplot:populateDescription")
+end

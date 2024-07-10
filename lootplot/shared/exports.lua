@@ -8,13 +8,19 @@ slotGrid
 local ptrack = require("shared.internal.positionTracking")
 local trigger = require("shared.trigger")
 local selection = require("shared.selection")
-local util = require("shared.util")
 
 
 local lp = {}
 
 if client then
 lp.DescriptionBox = require("client.DescriptionBox")
+
+---@param ent Entity
+---@param dbox lootplot.DescriptionBox
+function lp.populateLongDescription(ent, dbox)
+    umg.call("lootplot:populateDescription", ent, dbox)
+end
+
 end
 
 if server then
@@ -558,6 +564,8 @@ function lp.defineItem(name, itemType)
     itemType.baseSellPrice = itemType.baseSellPrice or 1
     itemType.baseBuyPrice = itemType.baseBuyPrice or 2
     itemType.triggers = itemType.triggers or {"PULSE"}
+    itemType.hoverable = true
+    itemType.hoverableDistance = 8
     umg.defineEntityType(name, itemType)
     lp.ITEM_GENERATOR:defineEntry(name)
 end
@@ -586,6 +594,8 @@ function lp.defineSlot(name, slotType)
     slotType.layer = "slot"
     slotType.drawDepth = -600
     slotType.triggers = slotType.triggers or {"PULSE"}
+    slotType.hoverable = true
+    slotType.hoverableDistance = 11
     if slotType.baseCanSlotPropagate == nil then
         slotType.baseCanSlotPropagate = true
     end

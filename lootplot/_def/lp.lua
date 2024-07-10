@@ -2,6 +2,15 @@
 
 lp = {}
 
+---@module "client.DescriptionBox"
+lp.DescriptionBox = require("client.DescriptionBox")
+
+---@param ent Entity
+---@param dbox lootplot.DescriptionBox
+function lp.populateLongDescription(ent, dbox)
+    umg.call("lootplot:populateDescription", ent, dbox)
+end
+
 ---basic action-buffering, with 0 arguments for function.
 ---
 ---NOTE:  This function name is a bit confusing!!!
@@ -17,8 +26,6 @@ end
 function lp.wait(ppos, time)
 end
 
----@module "client.DescriptionBox"
-lp.DescriptionBox = require("client.DescriptionBox")
 ---@module "server.Bufferer"
 lp.Bufferer = require("server.Bufferer")
 ---@type lootplot.PPos|fun(args:{slot:integer,plot:lootplot.Plot,rotation?:number}):lootplot.PPos

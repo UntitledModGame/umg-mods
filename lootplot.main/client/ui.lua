@@ -16,6 +16,10 @@ function Scene:init(args)
     })
     self.nextRoundButton = ui.elements.NextRoundbutton()
     self.moneyBox = ui.elements.MoneyBox()
+    ---@type lootplot.DescriptionBox?
+    self.itemDescription = nil
+    ---@type lootplot.DescriptionBox?
+    self.slotDescription = nil
 
     self:addChild(self.pointsBar)
     self:addChild(self.nextRoundButton)
@@ -26,10 +30,25 @@ function Scene:addLootplotElement(element)
     self:addChild(element)
 end
 
+---@param dbox lootplot.DescriptionBox
+---@param region Region
+local function drawDescription(dbox, region)
+    local x, y, w, h = region:get()
+    local bestHeight = select(2, dbox:getBestFitDimensions(w))
+    local container = ui.Region(0, 0, w, bestHeight)
+    local centerContainer = container:center(region)
+
+    x, y, w, h = centerContainer:get()
+    love.graphics.setColor(0, 0, 0, 0.5)
+    love.graphics.rectangle("fill", x - 5, y - 5, w + 10, h + 10, 10, 10)
+    love.graphics.setColor(1, 1, 1)
+    dbox:draw(x, y, w, h)
+end
+
 function Scene:onRender(x,y,w,h)
     local r = ui.Region(x,y,w,h)
 
-    local header, lower, _main = r:splitVertical(0.2, 0.1, 0.7)
+    local header, lower, main = r:splitVertical(0.2, 0.1, 0.7)
     local _, pointsBar, startRound = header:splitHorizontal(0.05, 0.9, 0.05)
 
     self.nextRoundButton:render(startRound:pad(0.15):get())
@@ -37,15 +56,45 @@ function Scene:onRender(x,y,w,h)
 
     local moneyBox,_ = lower:splitHorizontal(0.15, 0.85)
     self.moneyBox:render(moneyBox:pad(0.2):get())
+
+    local leftDesc, _, rightDesc = main:pad(0.05):splitHorizontal(1, 2, 1)
+    if self.itemDescription then
+        drawDescription(self.itemDescription, leftDesc)
+    end
+    if self.slotDescription then
+        drawDescription(self.slotDescription, rightDesc)
+    end
+end
+
+---@param itemEnt lootplot.ItemEntity?
+function Scene:setItemDescription(itemEnt)
+    if itemEnt then
+        self.itemDescription = lp.DescriptionBox()
+        self.slotDescription:addText(itemEnt.name or itemEnt:type())
+        self.itemDescription:addText(itemEnt.description or "No description available")
+        self.itemDescription:newline()
+        lp.populateLongDescription(itemEnt, self.itemDescription)
+    else
+        self.itemDescription = nil
+    end
+end
+
+---@param slotEnt lootplot.SlotEntity?
+function Scene:setSlotDescription(slotEnt)
+    if slotEnt then
+        self.slotDescription = lp.DescriptionBox()
+        self.slotDescription:addText(slotEnt.name or slotEnt:type())
+        self.slotDescription:addText(slotEnt.description or "No description available")
+        self.slotDescription:newline()
+        lp.populateLongDescription(slotEnt, self.slotDescription)
+    else
+        self.slotDescription = nil
+    end
 end
 
 
 
-
-
-
-
-
+---@type lootplot.main.Scene
 local scene = Scene()
 
 umg.on("rendering:drawUI", function()
@@ -80,4 +129,20 @@ end)
 
 umg.on("@resize", function(x,y)
     scene:resize(x,y)
+end)
+
+umg.on("lootplot:startHoverItem", function(ent)
+    scene:setItemDescription(ent)
+end)
+
+umg.on("lootplot:startHoverSlot", function(ent)
+    scene:setSlotDescription(ent)
+end)
+
+umg.on("lootplot:endHoverItem", function(ent)
+    scene:setItemDescription(nil)
+end)
+
+umg.on("lootplot:endHoverSlot", function(ent)
+    scene:setSlotDescription(nil)
 end)
