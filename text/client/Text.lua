@@ -502,20 +502,8 @@ function Text:_computeTextPositions(maxwidth)
 end
 
 ---Draw the rich text effect.
----@param x number
----@param y number
----@param rot number?
----@param sx number?
----@param sy number?
----@param ox number?
----@param oy number?
----@param kx number?
----@param ky number?
 ---@private
-function Text:_draw(x, y, rot, sx, sy, ox, oy, kx, ky)
-    love.graphics.push("all")
-    love.graphics.applyTransform(x, y, rot, sx, sy, ox, oy, kx, ky)
-
+function Text:_draw()
     local r, g, b, a = love.graphics.getColor()
 
     for _, eval in ipairs(self.evals) do
@@ -523,8 +511,6 @@ function Text:_draw(x, y, rot, sx, sy, ox, oy, kx, ky)
             subtext:draw(r, g, b, a)
         end
     end
-
-    love.graphics.pop()
 end
 
 ---@param obj any
@@ -544,7 +530,7 @@ function Text:draw(transform, maxwidth) end
 ---@param x number
 ---@param y number
 ---@param maxwidth number? Maximum width the text can occupy before breaking sentence to next line.
----@param r number?
+---@param rot number?
 ---@param sx number?
 ---@param sy number?
 ---@param ox number?
@@ -552,7 +538,7 @@ function Text:draw(transform, maxwidth) end
 ---@param kx number?
 ---@param ky number?
 ---@diagnostic disable-next-line: duplicate-set-field
-function Text:draw(x, y, maxwidth, r, sx, sy, ox, oy, kx, ky)
+function Text:draw(x, y, maxwidth, rot, sx, sy, ox, oy, kx, ky)
     if isLOVEType(x, "Transform") then
         maxwidth = y
     end
@@ -560,8 +546,14 @@ function Text:draw(x, y, maxwidth, r, sx, sy, ox, oy, kx, ky)
     self:_rebuildAllSubtextsOfEvals()
     self:_resetSubtextEffects()
     self:_computeTextPositions(maxwidth or math.huge)
+
+    love.graphics.push("all")
+    love.graphics.applyTransform(x, y, rot, sx, sy, ox, oy, kx, ky)
+
     self:_applyEffects()
-    self:_draw(x, y, r, sx, sy, ox, oy, kx, ky)
+    self:_draw()
+
+    love.graphics.pop()
 end
 
 ---Called on every characters that will be drawn on screen.
