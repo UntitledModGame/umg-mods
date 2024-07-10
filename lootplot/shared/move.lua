@@ -1,4 +1,20 @@
 
+--[[
+
+
+DISCLAIMER:::
+
+This code REALLY shouldnt be handled here!!!
+(It's supposed to be handled in spatial.defaults)
+
+But we need it here, because spatial.defaults has a bunch of 
+other stuff like syncing that we don't want.
+
+In the future it would be a lot better if spatial as a whole was a lot more assumptionless, yet powerful to use.
+
+We would probably need contracts for this though.
+
+]]
 
 local moveGroup = umg.group("x", "y", "vx", "vy")
 
