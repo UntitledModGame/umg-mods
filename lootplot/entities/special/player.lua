@@ -6,10 +6,10 @@ local function initPlayer(ent, clientId)
 end
 
 return umg.defineEntityType("lootplot:player", {
-    speed = 600,
+    speed = 300,
     cameraFollow = true;
 
-    image = "player",
+    topdownControl = {},
 
     init = initPlayer,
 })
