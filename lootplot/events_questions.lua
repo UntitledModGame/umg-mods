@@ -29,6 +29,11 @@ umg.defineEvent("lootplot:pollSlotButtons")
 
 umg.defineEvent("lootplot:selectionChanged")
 
+umg.defineEvent("lootplot:endHoverItem")
+umg.defineEvent("lootplot:startHoverItem")
+umg.defineEvent("lootplot:endHoverSlot")
+umg.defineEvent("lootplot:startHoverSlot")
+
 
 umg.defineQuestion("lootplot:getMoneyMultiplier", reducers.MULTIPLY)
 umg.defineQuestion("lootplot:getPointMultiplier", reducers.MULTIPLY)

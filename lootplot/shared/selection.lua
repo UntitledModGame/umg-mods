@@ -227,6 +227,36 @@ if client then
             lg.pop()
         end
     end)
+
+    local hoveredSlot, hoveredItem
+
+    umg.on("hoverables:startHover", function(ent)
+        if lp.isItemEntity(ent) then
+            if hoveredItem then
+                umg.call("lootplot:endHoverItem", hoveredItem)
+            end
+
+            hoveredItem = ent
+            umg.call("lootplot:startHoverItem", ent)
+        elseif lp.isSlotEntity(ent) and hoveredSlot == nil then
+            if hoveredSlot then
+                umg.call("lootplot:endHoverSlot", hoveredSlot)
+            end
+
+            hoveredSlot = ent
+            umg.call("lootplot:startHoverSlot", ent)
+        end
+    end)
+
+    umg.on("hoverables:endHover", function(ent)
+        if ent == hoveredItem then
+            hoveredItem = nil
+            umg.call("lootplot:endHoverItem", ent)
+        elseif ent == hoveredSlot then
+            hoveredSlot = nil
+            umg.call("lootplot:endHoverSlot", ent)
+        end
+    end)
 end
 
 

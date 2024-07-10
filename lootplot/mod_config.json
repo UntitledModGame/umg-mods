@@ -8,6 +8,6 @@
         "components", "effects", "execution",
         "chat", "commands", "vignette", 
         "borders", "items", "generation", "clickables",
-        "text"
+        "text", "hoverables"
     ]
 }
