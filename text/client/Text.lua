@@ -249,6 +249,7 @@ function Text:_parse(text)
                 -- Case: {{effect}}
                 --       ?^ = i
                 tempchar[#tempchar+1] = "{"
+                maybeBracket = false
             else
                 flush(hasInterp, interpCall)
                 openingBracket = true
