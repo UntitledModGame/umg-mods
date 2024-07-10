@@ -60,7 +60,7 @@ function DescriptionBox:draw(x, y, w, h)
             local strings = select(2, self.font:getWrap(text, w))
             local height = #strings * self.font:getHeight()
 
-            if (currentHeight + height) >= h then
+            if (currentHeight + height) > h then
                 -- Stop and don't render this content
                 break
             end
@@ -79,7 +79,7 @@ function DescriptionBox:draw(x, y, w, h)
             local strings = select(2, richText:getWrap(w))
             local height = #strings * font:getHeight()
 
-            if (currentHeight + height) >= h then
+            if (currentHeight + height) > h then
                 -- Stop and don't render this content
                 break
             end
@@ -93,7 +93,7 @@ function DescriptionBox:draw(x, y, w, h)
             local func = content.data ---@cast func lootplot.DescriptionBoxFunction
             local height = content.height or 0
 
-            if (currentHeight + height) >= h then
+            if (currentHeight + height) > h then
                 -- Stop and don't render this content
                 break
             end

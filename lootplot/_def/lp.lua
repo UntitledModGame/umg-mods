@@ -17,6 +17,9 @@ end
 function lp.wait(ppos, time)
 end
 
+---@module "client.DescriptionBox"
+lp.DescriptionBox = require("client.DescriptionBox")
+---@module "server.Bufferer"
 lp.Bufferer = require("server.Bufferer")
 ---@type lootplot.PPos|fun(args:{slot:integer,plot:lootplot.Plot,rotation?:number}):lootplot.PPos
 lp.PPos = require("shared.PPos")

@@ -13,7 +13,9 @@ local util = require("shared.util")
 
 local lp = {}
 
-
+if client then
+lp.DescriptionBox = require("client.DescriptionBox")
+end
 
 if server then
 local queueTc = typecheck.assert("ppos", "function")
