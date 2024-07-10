@@ -70,7 +70,7 @@ end
 function Scene:setItemDescription(itemEnt)
     if itemEnt then
         self.itemDescription = lp.DescriptionBox()
-        self.slotDescription:addText(itemEnt.name or itemEnt:type())
+        self.itemDescription:addText(itemEnt.name or itemEnt:type())
         self.itemDescription:addText(itemEnt.description or "No description available")
         self.itemDescription:newline()
         lp.populateLongDescription(itemEnt, self.itemDescription)

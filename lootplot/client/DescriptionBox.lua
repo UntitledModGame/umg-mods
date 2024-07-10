@@ -66,7 +66,7 @@ function DescriptionBox:draw(x, y, w, h)
             end
 
             love.graphics.setColor(r, g, b, a)
-            love.graphics.printf(text, self.font, x, y, w, "left")
+            love.graphics.printf(text, self.font, x, y + currentHeight, w, "left")
 
             lastFont = self.font
             currentHeight = currentHeight + height
@@ -85,7 +85,7 @@ function DescriptionBox:draw(x, y, w, h)
             end
 
             love.graphics.setColor(r, g, b, a)
-            richText:draw(x, y, w)
+            richText:draw(x, y + currentHeight, w)
 
             lastFont = font
             currentHeight = currentHeight + height
