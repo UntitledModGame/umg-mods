@@ -151,46 +151,34 @@ server.on("lootplot.main:nextRound", function()
     nextRound(lp.main.getContext())
 end)
 
-else
+--[[
+points are shared between all players.
+money is also shared between all players.
+]]
+function Context:setPoints(ent, x)
+    self.points = x
+    self:syncValue("points")
+end
+
+function Context:setMoney(ent, x)
+    self.money = x
+    self:syncValue("money")
+end
+
+else -- this is client-side
 
 function Context:goNextRound()
     client.send("lootplot.main:nextRound")
 end
 
+end -- if server
+
+function Context:getPoints(ent)
+    return self.points
 end
 
-
-
-
-
-
-
---[[
-
-points are shared between all players.
-money is also shared between all players.
-
-]]
-if server then
-function lp.overrides.setPoints(ent, x)
-    local ctx = lp.main.getContext()
-    ctx.points = x
-    ctx:syncValue("points")
-end
-function lp.overrides.setMoney(ent, x)
-    local ctx = lp.main.getContext()
-    ctx.money = x
-    ctx:syncValue("money")
-end
-end
-
-function lp.overrides.getPoints(ent)
-    local ctx = lp.main.getContext()
-    return ctx.points
-end
-function lp.overrides.getMoney(ent)
-    local ctx = lp.main.getContext()
-    return ctx.money
+function Context:getMoney(ent)
+    return self.money
 end
 
 

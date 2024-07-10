@@ -74,22 +74,15 @@ end
 function lp.itemToSlot(itemEnt)
 end
 
---[[
-    everything in this table must be overridden
-    by some playable lootplot mod.
-]]
-lp.overrides = {}
+---@class lootplot.InitArgs
+---@field public getMoney fun(self:any,ent:lootplot.LayerEntity):number?
+---@field public setMoney fun(self:any,ent:lootplot.LayerEntity,value:number)
+---@field public getPoints fun(self:any,ent:lootplot.LayerEntity):number?
+---@field public setPoints fun(self:any,ent:lootplot.LayerEntity,value:number)
 
-function lp.overrides.setPoints(ent, x)
-end
-
-function lp.overrides.getPoints(ent)
-end
-
-function lp.overrides.setMoney(ent, x)
-end
-
-function lp.overrides.getMoney(ent)
+---Playable lootplot mod must call this function once (and only once) with initialization args.
+---@param context lootplot.InitArgs
+function lp.initialize(context)
 end
 
 ---@param fromEnt Entity
