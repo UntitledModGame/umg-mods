@@ -1,7 +1,7 @@
 umg.answer("lootplot:hasPlayerAccess", function(ent)
     local ppos = lp.getPos(ent)
     if ppos then
-        return not ppos.plot:isPipelineRunning()
+        return not ppos:getPlot():isPipelineRunning()
     end
     return true
 end)

@@ -21,7 +21,7 @@ local actions = {}
 local function toBufferedWithPPos(fn)
     local function func(ppos, ...)
         lp.posTc(ppos)
-        local plot = ppos.plot
+        local plot = ppos:getPlot()
         plot:buffer(fn, ppos, ...)
     end
     return func
@@ -35,7 +35,7 @@ local function toBufferedWithEnt(fn)
         -- HMMM::
         -- if ppos is nil here... should we melt??
         if ppos then
-            local plot = ppos.plot
+            local plot = ppos:getPlot()
             plot:buffer(fn, ppos, ...)
         end
     end

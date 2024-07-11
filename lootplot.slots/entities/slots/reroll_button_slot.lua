@@ -5,7 +5,7 @@ return lp.defineSlot("lootplot:rerollButtonSlot", {
     onActivate = function(ent)
         local ppos = lp.getPos(ent)
         if ppos then
-            ppos.plot:trigger("REROLL")
+            ppos:getPlot():trigger("REROLL")
         end
     end,
 })

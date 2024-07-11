@@ -5,7 +5,7 @@ components.defineComponent("item")
 
 
 components.defineComponent("plot")
--- ent.plot = Plot()
+-- ent.plot = Plot
 
 
 components.defineComponent("buttonSlot")

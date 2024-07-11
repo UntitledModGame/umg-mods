@@ -62,10 +62,10 @@ end
 function Bufferer:all(plot_or_ppos)
     assert(plot_or_ppos, "needs plot as arg")
     local plot = plot_or_ppos
-    if plot_or_ppos.plot then
+    if plot_or_ppos.getPlot then
         -- Q: WTF is this code???
         -- Ans: It's converting ppos --> plot.
-        plot = plot_or_ppos.plot
+        plot = plot_or_ppos:getPlot()
     end
     ---@cast plot lootplot.Plot
     plot:foreach(function(pos)

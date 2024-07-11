@@ -135,6 +135,9 @@ end
 
 
 
+function Plot:getOwnerEntity()
+    return self.ownerEnt
+end
 
 
 ---@param index integer

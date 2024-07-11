@@ -19,12 +19,22 @@ At it's core, a plotPosition is a struct:
 local PPos = objects.Class("lootplot:PPos")
 _G.PPos = PPos
 
----@param ppos {slot:integer,plot:lootplot.Plot,rotation?:number}
-function PPos:init(ppos)
-    lp.posTc(ppos)
-    self.slot = ppos.slot
-    self.plot = ppos.plot
-    self.rotation = ppos.rotation or 0
+---@param args {slot:integer,plot:lootplot.Plot?,plotEntity:Entity?,rotation?:number}
+function PPos:init(args)
+    lp.posTc(args)
+    self.slot = args.slot
+    if args.plotEntity then
+        self.plotEntity =  args.plotEntity
+    elseif args.plot then
+        self.plotEntity = args.plot:getOwnerEntity()
+    end
+    self.rotation = args.rotation or 0
+end
+
+
+---@return lootplot.Plot
+function PPos:getPlot()
+    return self.plotEntity.plot
 end
 
 

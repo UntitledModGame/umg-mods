@@ -38,7 +38,7 @@ function lp.queue(ppos, func)
     --[[
     ]]
     queueTc(ppos, func)
-    ppos.plot:queue(func)
+    ppos:getPlot():queue(func)
 end
 
 local waitTc = typecheck.assert("ppos", "number")
@@ -46,7 +46,7 @@ local waitTc = typecheck.assert("ppos", "number")
 ---@param time number
 function lp.wait(ppos, time)
     waitTc(ppos, time)
-    ppos.plot:wait(time)
+    ppos:getPlot():wait(time)
 end
 
 lp.Bufferer = require("server.Bufferer")
@@ -70,14 +70,16 @@ local entityTc = typecheck.assert("entity")
 ---@return lootplot.SlotEntity?
 function lp.posToSlot(ppos)
     lp.posTc(ppos)
-    return ppos.plot:getSlot(ppos.slot)
+    local plot = ppos:getPlot()
+    return plot:getSlot(ppos.slot)
 end
 
 ---@param ppos lootplot.PPos
 ---@return lootplot.ItemEntity?
 function lp.posToItem(ppos)
     lp.posTc(ppos)
-    return ppos.plot:getItem(ppos.slot)
+    local plot = ppos:getPlot()
+    return plot:getItem(ppos.slot)
 end
 
 ---@param slotEnt lootplot.SlotEntity
@@ -267,7 +269,7 @@ function lp.setSlot(ppos, slotEnt)
     if prevEnt then
         lp.destroy(prevEnt)
     end
-    ppos.plot:set(ppos.slot, slotEnt)
+    ppos:getPlot():set(ppos.slot, slotEnt)
 end
 
 
