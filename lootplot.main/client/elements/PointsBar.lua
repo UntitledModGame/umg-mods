@@ -25,9 +25,9 @@ function PointsBar:init(args)
 
     self.pointsVariable = {points = 0, requiredPoints = 0}
     self.pointsText = ui.elements.RichText({
-        text = "{outline}Points: {$points}/{$requiredPoints}{/outline}",
+        text = "{outline}Req. Points: {$points}/{$requiredPoints}{/outline}",
         variables = self.pointsVariable,
-        scale = 0.25
+        scale = 0.4
     })
 
     self:addChild(self.fancyBar)
@@ -38,7 +38,8 @@ end
 
 function PointsBar:onRender(x,y,w,h)
     local context = lp.main.getContext()
-    self.pointsVariable.points, self.pointsVariable.requiredPoints = context.points, context.requiredPoints
+    self.pointsVariable.requiredPoints = context.requiredPoints
+    self.pointsVariable.points = math.max(context.requiredPoints - context.points, 0)
 
     local r = ui.Region(x,y,w,h)
 
