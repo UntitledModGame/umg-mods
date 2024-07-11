@@ -24,6 +24,7 @@ function PPos:init(args)
     lp.posTc(args)
     self.slot = args.slot
     if args.plotEntity then
+        assert(args.plotEntity.plot, "Invalid plot entity! (needs .plot comp)")
         self.plotEntity =  args.plotEntity
     elseif args.plot then
         self.plotEntity = args.plot:getOwnerEntity()
