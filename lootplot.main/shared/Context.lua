@@ -28,9 +28,11 @@ local VALUES = {
     money=true,
     points=true,requiredPoints=true,
     level=true, round=true,
-    maxRound=true
+    maxRound=true,
+    state=true
 }
-
+local DURING_ROUND = 1
+local BETWEEN_ROUND = 0
 
 function Context:init(ent)
     assert(umg.exists(ent), "Must pass an entity!")
@@ -44,6 +46,7 @@ function Context:init(ent)
     self.level = constants.STARTING_LEVEL
     self.requiredPoints = lp.main.getRequiredPoints(self.level)
     self.maxRound = lp.main.getMaxRound(self.level)
+    self.state = BETWEEN_ROUND
 end
 
 
@@ -64,7 +67,9 @@ function Context:getPlot()
     return self.ownerEnt.plot
 end
 
-
+function Context:isDuringRound()
+    return self.state == DURING_ROUND
+end
 
 function Context:syncValue(key)
     assert(server, "This function can only be called on server-side.")
@@ -100,7 +105,7 @@ if server then
 
 function Context:nextLevel()
     -- reset points:
-    self.round = 0
+    self.round = 1
     self.points = 0
     -- TODO: Some visual-update should be done here, 
     -- to the loot-monster maybe?
@@ -120,8 +125,32 @@ end
 
 ---@param self lootplot.Context
 function Context:nextRound()
+    if self:isDuringRound() then
+        -- Nope.
+        return
+    end
+
     -- Progresses to next round.
     umg.call("lootplot.main:startRound")
+    self.state = DURING_ROUND
+    self:syncValue("state")
+
+    self:getPlot():queue(function()
+        self.round = self.round + 1
+        umg.call("lootplot.main:finishRound")
+        self:getPlot():reset()
+        self.state = BETWEEN_ROUND
+
+        if self.points >= self.requiredPoints then
+            -- win condition!!
+            self:nextLevel()
+        elseif self.round > self.maxRound then
+            -- lose!
+            self:lose()
+        end
+        self:sync()
+        print("nextRound finish")
+    end)
 
     -- pulse all slots:
     lp.Bufferer()
@@ -131,21 +160,7 @@ function Context:nextRound()
         :execute(function(_ppos, slotEnt)
             lp.tryTriggerEntity("PULSE", slotEnt)
         end)
-
-    -- TODO: Give reward-money at end of round
-
-    self.round = self.round + 1
-    umg.call("lootplot.main:finishRound")
-    self:getPlot():reset()
-
-    if self.points >= self.requiredPoints then
-        -- win condition!!
-        self:nextLevel()
-    elseif self.round > self.maxRound then
-        -- lose!
-        self:lose()
-    end
-    self:sync()
+    print("nextRound")
 end
 
 -- Just trust the client :shrug:

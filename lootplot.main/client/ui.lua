@@ -49,6 +49,7 @@ local function drawDescription(dbox, region)
 end
 
 function Scene:onRender(x,y,w,h)
+    local context = lp.main.getContext()
     local r = ui.Region(x,y,w,h)
 
     local left, middle, right = r:pad(0.025):splitHorizontal(2, 5, 2)
@@ -58,7 +59,9 @@ function Scene:onRender(x,y,w,h)
     local moneyRegion, leftDescRegion = rest:splitVertical(1, 5)
 
     self.levelStatus:render(levelStatusRegion:get())
-    self.nextRoundButton:render(nextRoundRegion:get())
+    if not context:isDuringRound() then
+        self.nextRoundButton:render(nextRoundRegion:get())
+    end
     self.pointsBar:render(pointsBarRegion:get())
     self.moneyBox:render(moneyRegion:pad(0, 0.2, 0, 0.2):get())
 

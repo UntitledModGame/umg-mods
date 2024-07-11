@@ -106,7 +106,7 @@ function FancyBar:onRender(x,y,w,h)
 
     -- Draw the bar
     local actualBarRegion, catchupRegion
-    if self:_updateCatchup(value) then
+    if self:_updateCatchup(math.max(value, 0)) then
         actualBarRegion, catchupRegion = barRegion:splitHorizontal(
             value,
             self.catchUpValue - value,
