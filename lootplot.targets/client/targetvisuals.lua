@@ -8,7 +8,7 @@ local DELAY_PER_UNIT = 0.04
 local function renderSelectionTarget(ppos, progress)
     local worldPos = ppos:getWorldPos()
     local rot = (progress-1) * 3
-    rendering.drawImage("target_visual", worldPos.x, worldPos.y, rot, progress, progress)
+    rendering.drawImage("plus_visual", worldPos.x, worldPos.y, rot, progress, progress)
 end
 
 ---@type lootplot.Selected?
