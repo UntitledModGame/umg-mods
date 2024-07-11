@@ -471,7 +471,7 @@ function Text:_computeTextPositions(maxwidth)
                 hasDrawnCurrentLine = true
                 lastIsWhitespace = false
                 lastSubtext = nil
-            elseif (lineWidth + sentenceWidth + width + kerning) >= maxwidth then
+            elseif (lineWidth + sentenceWidth + width + kerning) > maxwidth then
                 if (not hasDrawnCurrentLine) or lastIsWhitespace then
                     -- The whole sentence does not fit.
                     self:_makeSubtextPositionAbsolute(sentence, lineWidth, line * self.fontHeight)

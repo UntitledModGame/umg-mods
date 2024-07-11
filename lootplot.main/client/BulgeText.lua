@@ -34,6 +34,10 @@ function BulgeText:draw(x, y, maxwidth, rot, sx, sy, ox, oy, kx, ky)
     love.graphics.pop()
 end
 
+function BulgeText:bulge()
+    self.constructTime = love.timer.getTime()
+end
+
 if false then
     ---@param text string
     ---@param args? text.TextArgs|{stepPerChar:number?,bulgeDuration:number?}

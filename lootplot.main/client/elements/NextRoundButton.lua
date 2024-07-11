@@ -21,8 +21,9 @@ function NextRoundbutton:init(args)
     })
     self:addChild(self.box)
 
-    self.readyText = ui.elements.Text({
-        text = "Ready"
+    self.readyText = ui.elements.RichText({
+        text = "{wavy amp=2}Ready{/wavy}",
+        color = objects.Color.BLACK
     })
     self.roundText = ui.elements.Text({
         text = "Round 0/0"
