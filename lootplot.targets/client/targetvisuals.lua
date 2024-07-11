@@ -7,7 +7,8 @@ local DELAY_PER_UNIT = 0.04
 ---@param progress number
 local function renderSelectionTarget(ppos, progress)
     local worldPos = ppos:getWorldPos()
-    love.graphics.circle("line", worldPos.x, worldPos.y, 8 * progress)
+    local rot = (progress-1) * 3
+    rendering.drawImage("target_visual", worldPos.x, worldPos.y, rot, progress, progress)
 end
 
 ---@type lootplot.Selected?
@@ -32,7 +33,7 @@ umg.on("rendering:drawEffects", function(camera)
     if selected and selectionTargets then
         local t = love.timer.getTime()
 
-        love.graphics.setColor(1, 0.5, 0)
+        love.graphics.setColor(1,1,1)
         for _, ppos in ipairs(selectionTargets) do
             local dist = util.chebyshevDistance(selected.ppos:getDifference(ppos))
             local elapsedTime = t - selected.time
