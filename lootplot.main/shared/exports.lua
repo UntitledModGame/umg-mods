@@ -6,8 +6,7 @@
 
 -- selene: allow(incorrect_standard_library_use)
 assert(not lp.main, "invalid mod setup")
-lp.main = {}
-local main = lp.main
+local main = {}
 
 
 
@@ -26,11 +25,12 @@ lpWorldGroup:onAdded(function(ent)
 end)
 
 function main.isReady()
-    return currentContext
+    return not not currentContext
 end
 
+---@return lootplot.Context
 function main.getContext()
-    assert(main.isReady(), "Not ready yet! (Check using lp.main.isReady() )")
+    assert(currentContext, "Not ready yet! (Check using lp.main.isReady() )")
     return currentContext
 end
 end
@@ -39,6 +39,7 @@ end
 local EARLY_LEVELS = {
     5,5, 10, 60, 400
 }
+---@param levelNumber integer
 function main.getRequiredPoints(levelNumber)
     --[[
     levelNumber starts at 1, goes up infinitely.
@@ -54,6 +55,11 @@ function main.getRequiredPoints(levelNumber)
     return math.floor(levelNumber^2.6 / 10) * 100
 end
 
+---@param levelNumber integer
+function main.getMaxRound(levelNumber)
+    return 4 -- chosen by fair dice roll.
+             -- guaranteed to be random.
+end
 
 main.constants = setmetatable({
     --[[
@@ -64,9 +70,8 @@ main.constants = setmetatable({
 
     STARTING_MONEY = 10,
     STARTING_POINTS = 0,
-    STARTING_ROUND = 0,
-    STARTING_LEVEL = 0,
-
-    ROUNDS_PER_LEVEL = 4
+    STARTING_ROUND = 1,
+    STARTING_LEVEL = 1,
 },{__index=function(msg,k,v) error("undefined const: " .. tostring(k)) end})
 
+lp.main = main

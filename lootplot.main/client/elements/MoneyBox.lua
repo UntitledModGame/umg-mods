@@ -3,7 +3,7 @@ local MoneyBox = ui.Element("lootplot.main:MoneyBox")
 
 
 local boxColor = objects.Color(1,1,1,1)
-local textColor = objects.Color(1, 215/255, 0, 1)
+local textColor = objects.Color(love.math.colorFromBytes(53, 112, 58))
 
 
 function MoneyBox:init(args)
@@ -11,7 +11,7 @@ function MoneyBox:init(args)
 
     self.box = ui.elements.SimpleBox({
         color = boxColor,
-        rounding = 0,
+        rounding = 4,
         thickness = 0.5
     })
     self:addChild(self.box)

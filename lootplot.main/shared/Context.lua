@@ -25,9 +25,10 @@ umg.definePacket("lootplot.main:syncContextValue", {
     typelist = {"entity", "string", "number"}
 })
 local VALUES = {
-    money=true, 
+    money=true,
     points=true,requiredPoints=true,
-    level=true, round=true
+    level=true, round=true,
+    maxRound=true
 }
 
 
@@ -41,7 +42,8 @@ function Context:init(ent)
     self.points = constants.STARTING_POINTS
     self.round = constants.STARTING_ROUND
     self.level = constants.STARTING_LEVEL
-    self.requiredPoints = 100
+    self.requiredPoints = lp.main.getRequiredPoints(self.level)
+    self.maxRound = lp.main.getMaxRound(self.level)
 end
 
 
@@ -96,18 +98,20 @@ umg.definePacket("lootplot.main:nextRound", {
 
 if server then
 
-local function nextLevel(self)
+function Context:nextLevel()
     -- reset points:
     self.round = 0
     self.points = 0
     -- TODO: Some visual-update should be done here, 
     -- to the loot-monster maybe?
     self.level = self.level + 1
-    self.requiredPoints = 0
+    self.requiredPoints = lp.main.getRequiredPoints(self.level)
+    self.maxRound = lp.main.getMaxRound(self.level)
+    self:sync()
 end
 
 
-local function lose(self)
+function Context:lose()
     -- todo; prolly need to send some message to client-side,
     -- and make the client open up some widget or something displaying:
     -- "YOU LOST".
@@ -115,10 +119,8 @@ local function lose(self)
 end
 
 ---@param self lootplot.Context
-local function nextRound(self)
+function Context:nextRound()
     -- Progresses to next round.
-    assert(server,"wot wot")
-
     umg.call("lootplot.main:startRound")
 
     -- pulse all slots:
@@ -138,17 +140,17 @@ local function nextRound(self)
 
     if self.points >= self.requiredPoints then
         -- win condition!!
-        nextLevel(self)
-    elseif self.round >= lp.main.constants.ROUNDS_PER_LEVEL then
+        self:nextLevel()
+    elseif self.round > self.maxRound then
         -- lose!
-        lose(self)
+        self:lose()
     end
     self:sync()
 end
 
 -- Just trust the client :shrug:
 server.on("lootplot.main:nextRound", function()
-    nextRound(lp.main.getContext())
+    lp.main.getContext():nextRound()
 end)
 
 --[[
@@ -181,9 +183,9 @@ function Context:getMoney(ent)
     return self.money
 end
 
-
-
-
+function Context:getCurrentRound()
+    return self.round
+end
 
 
 

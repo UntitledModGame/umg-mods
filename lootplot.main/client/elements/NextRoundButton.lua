@@ -1,9 +1,9 @@
-
+---@class lootplot.main.NextRoundbutton: Element
 local NextRoundbutton = ui.Element("lootplot.main:NextRoundbutton")
 
 
 
-local color = objects.Color(241/255,196/255,15/255,1)
+local color = objects.Color(love.math.colorFromBytes(241, 196, 15, 255))
 
 local hovColor = color:clone()
 do
@@ -21,10 +21,14 @@ function NextRoundbutton:init(args)
     })
     self:addChild(self.box)
 
-    self.text = ui.elements.Text({
+    self.readyText = ui.elements.Text({
         text = "Ready"
     })
-    self:addChild(self.text)
+    self.roundText = ui.elements.Text({
+        text = "Round 0/0"
+    })
+    self:addChild(self.readyText)
+    self:addChild(self.roundText)
 end
 
 
@@ -45,7 +49,11 @@ function NextRoundbutton:onRender(x,y,w,h)
     end
     self.box:render(x,y,w,h)
 
-    local r = ui.Region(x,y,w,h):pad(0.08)
-    self.text:render(r:get())
+    local context = lp.main.getContext()
+    self.roundText:setText(string.format("Round %d/%d", context.round, context.maxRound))
+
+    local topTextRegion, bottomTextRegion = ui.Region(x,y,w,h):pad(0.08):splitVertical(3, 2)
+    self.readyText:render(topTextRegion:get())
+    self.roundText:render(bottomTextRegion:get())
 end
 

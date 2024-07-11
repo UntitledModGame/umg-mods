@@ -141,7 +141,7 @@ end
 
 --- Splits a region vertically
 ---@param ... number
----@return Region
+---@return Region ...
 function Region:splitHorizontal(...)
     --[[
         Same as vertical, but in other direction

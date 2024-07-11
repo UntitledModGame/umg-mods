@@ -16,6 +16,7 @@ function Scene:init(args)
         end,
     })
     self.nextRoundButton = ui.elements.NextRoundbutton()
+    self.levelStatus = ui.elements.LevelStatus()
     self.moneyBox = ui.elements.MoneyBox()
     ---@type lootplot.DescriptionBox?
     self.itemDescription = nil
@@ -25,6 +26,7 @@ function Scene:init(args)
     self:addChild(self.pointsBar)
     self:addChild(self.nextRoundButton)
     self:addChild(self.moneyBox)
+    self:addChild(self.levelStatus)
 end
 
 function Scene:addLootplotElement(element)
@@ -49,22 +51,42 @@ end
 function Scene:onRender(x,y,w,h)
     local r = ui.Region(x,y,w,h)
 
-    local header, lower, main = r:splitVertical(0.2, 0.1, 0.7)
-    local _, pointsBar, startRound = header:splitHorizontal(0.05, 0.9, 0.05)
+    local left, middle, right = r:pad(0.025):splitHorizontal(2, 5, 2)
+    local levelStatusRegion, rest = left:splitVertical(1, 4)
+    local pointsBarRegion = middle:splitVertical(1, 4)
+    local nextRoundRegion, rest2 = right:splitVertical(1, 4)
+    local moneyRegion, leftDescRegion = rest:splitVertical(1, 5)
 
-    self.nextRoundButton:render(startRound:pad(0.15):get())
-    self.pointsBar:render(pointsBar:get())
+    self.levelStatus:render(levelStatusRegion:get())
+    self.nextRoundButton:render(nextRoundRegion:get())
+    self.pointsBar:render(pointsBarRegion:get())
+    self.moneyBox:render(moneyRegion:pad(0, 0.2, 0, 0.2):get())
 
-    local moneyBox,_ = lower:splitHorizontal(0.15, 0.85)
-    self.moneyBox:render(moneyBox:pad(0.2):get())
-
-    local leftDesc, _, rightDesc = main:pad(0.05):splitHorizontal(1, 2, 1)
     if self.itemDescription then
-        drawDescription(self.itemDescription, leftDesc)
+        drawDescription(self.itemDescription, leftDescRegion)
     end
     if self.slotDescription then
-        drawDescription(self.slotDescription, rightDesc)
+        local rightDescRegion = select(2, rest2:splitVertical(1, 5))
+        drawDescription(self.slotDescription, rightDescRegion)
     end
+
+    -- local header, lower, main = r:splitVertical(0.2, 0.1, 0.7)
+    -- local levelStatus, pointsBar, startRound = header:splitHorizontal(1, 2, 1)
+
+    -- self.levelStatus:render(levelStatus:pad(0.15):get())
+    -- self.nextRoundButton:render(startRound:pad(0.15):get())
+    -- self.pointsBar:render(pointsBar:get())
+
+    -- local moneyBox,_ = lower:splitHorizontal(0.15, 0.85)
+    -- self.moneyBox:render(moneyBox:pad(0.2):get())
+
+    -- local leftDesc, _, rightDesc = main:pad(0.05):splitHorizontal(1, 2, 1)
+    -- if self.itemDescription then
+    --     drawDescription(self.itemDescription, leftDesc)
+    -- end
+    -- if self.slotDescription then
+    --     drawDescription(self.slotDescription, rightDesc)
+    -- end
 end
 
 ---@param itemEnt lootplot.ItemEntity?
