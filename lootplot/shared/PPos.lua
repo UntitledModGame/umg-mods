@@ -54,12 +54,12 @@ local number2Tc = typecheck.assert("number", "number")
 ---@return lootplot.PPos?
 function PPos:move(dx, dy)
     number2Tc(dx, dy)
-    local plot = self.plot
+    local plot = self:getPlot()
     local x,y = plot:indexToCoords(self.slot)
     x = x + dx
     y = y + dy
 
-    if self.plot.grid:contains(x, y) then
+    if plot.grid:contains(x, y) then
         local newSlot = plot:coordsToIndex(x,y)
         return PPos({
             plot = plot,
@@ -107,7 +107,7 @@ end
 ---@return integer,integer
 function PPos:getCoords()
     -- gets XY coords of PPos
-    return self.plot:indexToCoords(self.slot)
+    return self:getPlot():indexToCoords(self.slot)
 end
 
 ---@return integer
@@ -117,30 +117,31 @@ end
 
 ---@return spatial.DimensionVector
 function PPos:getWorldPos()
-    return self.plot:pposToWorldCoords(self)
+    return self:getPlot():pposToWorldCoords(self)
 end
 
 
 
 ---@param ent lootplot.LayerEntity
 function PPos:set(ent)
-    return self.plot:set(self.slot, ent)
+    return self:getPlot():set(self.slot, ent)
 end
 
 ---@param ent lootplot.LayerEntity
 function PPos:clear(ent)
-    return self.plot:clear(self.slot, ent.layer)
+    return self:getPlot():clear(self.slot, ent.layer)
 end
 
 ---This gets the delta positions of `other` - `self`.
 ---@param other lootplot.PPos
 function PPos:getDifference(other)
-    if self.plot ~= other.plot then
+    local plot = self:getPlot()
+    if plot ~= other:getPlot() then
         return math.huge, math.huge
     end
 
-    local x1, y1 = self.plot:indexToCoords(self.slot)
-    local x2, y2 = self.plot:indexToCoords(other.slot)
+    local x1, y1 = plot:indexToCoords(self.slot)
+    local x2, y2 = plot:indexToCoords(other.slot)
     return x2 - x1, y2 - y1
 end
 
