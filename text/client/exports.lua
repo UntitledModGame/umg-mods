@@ -42,7 +42,7 @@ end
 ---Escape effect tag and string interpolation in the text.
 ---@param str string
 function text.escape(str)
-    return str:gsub("[{|}]", rep2)
+    return (str:gsub("[{|}]", rep2))
 end
 
 umg.expose("text", text)
