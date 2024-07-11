@@ -298,6 +298,10 @@ function Plot:reset()
     return self:trigger("RESET")
 end
 
+function Plot:isPipelineRunning()
+    return not self.pipeline:isEmpty()
+end
+
 ---@cast Plot +fun(ownerEnt:Entity,width:integer,height:integer):lootplot.Plot
 return Plot
 

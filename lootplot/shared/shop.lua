@@ -91,17 +91,3 @@ umg.on("lootplot:pollSlotButtons", function(ppos, list)
         }))
     end
 end)
-
-umg.answer("lootplot:hasPlayerAccess", function(ent, clientId)
-    local slotEnt = lp.isItemEntity(ent) and lp.itemToSlot(ent)
-
-    if slotEnt then
-        return not slotEnt.shopLock
-    end
-
-    return true
-end)
-
-umg.answer("lootplot:isItemAdditionBlocked", function(slotEnt)
-    return not not slotEnt:hasComponent("shopLock")
-end)

@@ -3,6 +3,7 @@
 
 ---@class lootplot.main.Scene: Element
 local Scene = ui.Element("lootplot.main:Screen")
+local BulgeText = require("client.BulgeText")
 
 function Scene:init(args)
     self:makeRoot()
@@ -71,7 +72,7 @@ function Scene:setItemDescription(itemEnt)
     if itemEnt then
         self.itemDescription = lp.DescriptionBox()
         self.itemDescription:addText(itemEnt.name or itemEnt:type())
-        self.itemDescription:addText(itemEnt.description or "No description available")
+        self.itemDescription:addText(BulgeText(text.escape(itemEnt.description or "No description available")))
         self.itemDescription:newline()
         lp.populateLongDescription(itemEnt, self.itemDescription)
     else
