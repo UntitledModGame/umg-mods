@@ -5,6 +5,7 @@
 ]]
 
 -- selene: allow(incorrect_standard_library_use)
+assert(not lp.main, "invalid mod setup")
 lp.main = {}
 local main = lp.main
 
@@ -17,6 +18,7 @@ local lpWorldGroup = umg.group("lootplotContext")
 lpWorldGroup:onAdded(function(ent)
     if not currentContext then
         currentContext = ent.lootplotContext
+        lp.initialize(currentContext)
     else
         -- TODO: change this to a log, as opposed to a print
         print("WARNING::: Duplicate lootplot.main context created!!")

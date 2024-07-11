@@ -125,30 +125,15 @@ function lp.itemToSlot(itemEnt)
     return nil
 end
 
---[[
-    everything in this table must be overridden
-    by some playable lootplot mod.
-]]
-lp.overrides = {}
+---@type lootplot.InitArgs?
+local contextInstance = nil
 
-function lp.overrides.setPoints(ent, x)
-    -- sets points for `ent`s context
-    umg.melt("MUST OVERRIDE")
+---@param context lootplot.InitArgs
+function lp.initialize(context)
+    assert(contextInstance == nil, "lootplot already initialized")
+    assert(context, "missing context")
+    contextInstance = context
 end
-function lp.overrides.getPoints(ent)
-    -- gets points for `ent`s context
-    umg.melt("MUST OVERRIDE")
-end
-function lp.overrides.setMoney(ent, x)
-    -- sets money for `ent`s context
-    umg.melt("MUST OVERRIDE")
-end
-function lp.overrides.getMoney(ent)
-    -- gets money for `ent`s context
-    umg.melt("MUST OVERRIDE")
-end
-
-
 
 
 local function assertServer()
@@ -186,8 +171,9 @@ end
 ---@param fromEnt Entity
 ---@param x number
 function lp.setPoints(fromEnt, x)
+    assert(contextInstance, "lootplot is not initialized")
     modifyTc(fromEnt, x)
-    lp.overrides.setPoints(fromEnt, x)
+    contextInstance:setPoints(fromEnt, x)
     umg.call("lootplot:pointsChanged", fromEnt, x)
 end
 
@@ -206,10 +192,11 @@ function lp.subtractPoints(fromEnt, x)
 end
 
 ---@param ent Entity
----@return number
+---@return number?
 function lp.getPoints(ent)
+    assert(contextInstance, "lootplot is not initialized")
     entityTc(ent)
-    return lp.overrides.getPoints(ent)
+    return contextInstance:getPoints(ent)
 end
 
 
@@ -234,7 +221,8 @@ end
 ---@param fromEnt Entity
 ---@param x number
 function lp.setMoney(fromEnt, x)
-    lp.overrides.setMoney(fromEnt, x)
+    assert(contextInstance, "lootplot is not initialized")
+    contextInstance:setMoney(fromEnt, x)
     umg.call("lootplot:moneyChanged", fromEnt, x)
 end
 
@@ -253,10 +241,11 @@ function lp.subtractMoney(fromEnt, x)
 end
 
 ---@param ent Entity
----@return number
+---@return number?
 function lp.getMoney(ent)
+    assert(contextInstance, "lootplot is not initialized")
     entityTc(ent)
-    return lp.overrides.getMoney(ent)
+    return contextInstance:getMoney(ent)
 end
 
 end

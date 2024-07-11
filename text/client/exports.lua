@@ -34,6 +34,18 @@ function text.cloneDefaultEffectGroup()
     return defaultEffectGroup:clone()
 end
 
+---@param s string
+local function rep2(s)
+    return s:rep(2)
+end
+
+---Escape effect tag and string interpolation in the text.
+---@param str string
+function text.escape(str)
+    return str:gsub("[{|}]", rep2)
+end
+
 umg.expose("text", text)
+require("client.base_effect")() -- Expose default effects
 
 return text
