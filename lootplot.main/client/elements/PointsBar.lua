@@ -1,4 +1,4 @@
-
+local fonts = require("client.fonts")
 
 ---@class lootplot.main.PointsBar: Element
 local PointsBar = ui.Element("lootplot.main:PointsBar")
@@ -27,7 +27,8 @@ function PointsBar:init(args)
     self.pointsText = ui.elements.RichText({
         text = "{outline}Req. Points: {$points}/{$requiredPoints}{/outline}",
         variables = self.pointsVariable,
-        scale = 0.4
+        scale = 0.375,
+        font = fonts.getSmallFont()
     })
 
     self:addChild(self.fancyBar)

@@ -1,3 +1,6 @@
+local fonts = require("client.fonts")
+local BulgeText = require("client.BulgeText")
+
 ---@class lootplot.main.LevelStatus: Element
 local LevelStatus = ui.Element("lootplot.main:LevelStatus")
 
@@ -14,7 +17,8 @@ function LevelStatus:init()
     self:addChild(self.mainBox)
 
     self.levelText = ui.elements.Text({
-        text = "Level"
+        text = "Level",
+        font = fonts.getLargeFont()
     })
     self:addChild(self.levelText)
 
@@ -23,14 +27,23 @@ function LevelStatus:init()
         rounding = 4,
         thickness = 1
     })
-    self.levelNumberText = ui.elements.Text({text = "1"})
+    self.levelNumberText = ui.elements.RichText({
+        text = "1",
+        font = fonts.getLargeFont(),
+        class = BulgeText,
+        color = objects.Color.BLACK
+    })
+    self.currentLevel = 1
     self.levelBox:addChild(self.levelNumberText)
     self:addChild(self.levelBox)
 end
 
 function LevelStatus:onRender(x,y,w,h)
     local context = lp.main.getContext()
-    self.levelNumberText:setText(tostring(context.level))
+    if self.currentLevel ~= context.level then
+        self.levelNumberText:setFormattedString(tostring(context.level))
+        self.currentLevel = context.level
+    end
 
     local r = ui.Region(x, y, w, h):pad(0.08)
     self.mainBox:render(x, y, w, h)

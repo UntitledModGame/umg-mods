@@ -17,7 +17,7 @@ local function getTextSize(font, text, wrap)
 end
 
 
----@param args string|{text:string,scale?:number,variables?:table,color?:objects.Color,wrap?:number,class?:(fun(text:string,args:table):text.Text),effectGroup?:text.EffectGroup}
+---@param args string|{text:string,font?:love.Font,scale?:number,variables?:table,color?:objects.Color,wrap?:number,class?:(fun(text:string,args:table):text.Text),effectGroup?:text.EffectGroup}
 function RichText:init(args)
     local textString
 
@@ -26,6 +26,7 @@ function RichText:init(args)
     self.color = objects.Color.WHITE
     self.effectGroup = nil
     self.vars = _G
+    self.font = love.graphics.getFont()
 
     if type(args) == "string" then
         textString = args
@@ -36,6 +37,7 @@ function RichText:init(args)
         self.wrap = args.wrap -- whether we do text wrapping
         self.vars = args.variables or _G
         self.scale = args.scale or 1
+        self.font = args.font or self.font
         self.richTextConstructor = args.class or text.Text
     end
 
@@ -47,7 +49,11 @@ end
 local DEFAULT_COLOR = {0,0,0}
 
 function RichText:setFormattedString(text)
-    self.richText = self.richTextConstructor(text, {effectGroup = self.effectGroup, variables = self.vars})
+    self.richText = self.richTextConstructor(text, {
+        font = self.font,
+        effectGroup = self.effectGroup,
+        variables = self.vars
+    })
 end
 
 function RichText:onRender(x,y,w,h)
@@ -65,19 +71,15 @@ function RichText:onRender(x,y,w,h)
     local scale = math.min(w/limit, h/th) * self.scale
     local drawX, drawY = math.floor(x+w/2), math.floor(y+h/2)
 
-    lg.setColor(self.color)
+    local r, g, b, a = love.graphics.getColor()
+    lg.setColor(self.color * objects.Color(r, g, b, a))
     self.richText:draw(drawX, drawY, limit, 0, scale, scale, tw / 2, th / 2)
+    love.graphics.setColor(r, g, b, a)
 end
 
-
-function RichText:setText(text)
-    self.text = text
+function RichText:getRichText()
+    return self.richText
 end
-
-function RichText:getText()
-    return self.text
-end
-
 
 return RichText
 

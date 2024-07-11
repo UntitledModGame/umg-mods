@@ -27,11 +27,9 @@ function BulgeText:effectCharacter(char)
     char:setScale(scale, scale)
 end
 
-function BulgeText:draw(x, y, maxwidth, rot, sx, sy, ox, oy, kx, ky)
-    love.graphics.push()
+function BulgeText:applyAdditionalTransform()
     love.graphics.translate(0, self.fontHeight / 2)
-    text.Text.draw(self, x, y, maxwidth, rot, sx, sy, ox, oy, kx, ky)
-    love.graphics.pop()
+    return false
 end
 
 function BulgeText:bulge()
@@ -41,7 +39,7 @@ end
 if false then
     ---@param text string
     ---@param args? text.TextArgs|{stepPerChar:number?,bulgeDuration:number?}
-    ---@return text.Text
+    ---@return lootplot.main.BulgeText
     ---@diagnostic disable-next-line: missing-return, cast-local-type
     function BulgeText(text, args) end
 end

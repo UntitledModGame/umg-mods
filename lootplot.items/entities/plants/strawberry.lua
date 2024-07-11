@@ -9,7 +9,8 @@ lp.defineItem("strawberry", {
 
     onActivate = function(ent)
         lp.addPoints(ent, 1)
-        lp.addMoney(ent, 1)
+        -- lp.addMoney(ent, 1)
+        lp.subtractMoney(ent, 1)
     end
 })
 

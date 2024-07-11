@@ -1,5 +1,5 @@
 
-
+---@class ui.Text: Element
 local Text = ui.Element("ui:Text")
 --[[
 
@@ -12,34 +12,31 @@ automatically fit the given box.
 
 local lg = love.graphics
 
-
-local function getTextSize(self)
-    local font = love.graphics.getFont()
-    local width
-    if self.wrap then
-        width = font:getWrap(self.text, self.wrap)
-    else
-        width = font:getWidth(self.text)
-    end
-    local _, newlineCount = self.text:gsub('\n', '\n')
-    local height = font:getHeight() * (newlineCount + 1)
-    return width, height
+---@param font love.Font
+---@param text string
+---@param wrap number?
+---@return number,number
+local function getTextSize(font, text, wrap)
+    local width, lines = font:getWrap(text, wrap or 2147483647)
+    return width, #lines * font:getHeight()
 end
 
 
 
 function Text:init(args)
+    self.font = love.graphics.getFont()
     if type(args) == "string" then
         self.text = args
     else
         self.text = args.text
         self.wrap = args.wrap -- whether we do text wrapping
+        self.font = args.font or self.font
     end
-    
+
     self.scale = args.scale or 1
     self.align = args.align or "left"
 
-    self.color = args.color 
+    self.color = args.color
 
     self.outline = args.outline
     self.outlineColor = args.outlineColor
@@ -55,7 +52,7 @@ local DEFAULT_COLOR = {0,0,0}
 
 
 function Text:onRender(x,y,w,h)
-    local tw, th = getTextSize(self)
+    local tw, th = getTextSize(self.font, self.text, self.wrap)
     --[[
         TODO: do we want to propagate the text size to the parent
             somehow...?
@@ -75,12 +72,12 @@ function Text:onRender(x,y,w,h)
         lg.setColor(outlineColor)
         for ox=-am, am, am*2 do
             for oy=-am, am, am*2 do
-                lg.printf(self.text, drawX + ox, drawY + oy, limit, self.align, 0, scale, scale, tw/2, th/2)
+                lg.printf(self.text, self.font, drawX + ox, drawY + oy, limit, self.align, 0, scale, scale, tw/2, th/2)
             end
         end
     end
     lg.setColor(color)
-    lg.printf(self.text, drawX, drawY, limit, self.align, 0, scale, scale, tw/2, th/2)
+    lg.printf(self.text, self.font, drawX, drawY, limit, self.align, 0, scale, scale, tw/2, th/2)
 end
 
 

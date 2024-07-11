@@ -96,7 +96,7 @@ function Text:_parse(text)
         if openingBracket then
             if hasInterp then
                 -- Currently in string interpolation
-                if interpCall then
+                if interpCall and not interpCallConfirmed then
                     if char == ")" then
                         interpCallConfirmed = true
                     else
@@ -507,8 +507,8 @@ function Text:_draw()
     local r, g, b, a = love.graphics.getColor()
 
     for _, eval in ipairs(self.evals) do
-        for _, subtext in ipairs(eval.subtexts) do
-            subtext:draw(r, g, b, a)
+        for i = 1, #eval.evaltext do
+            eval.subtexts[i]:draw(r, g, b, a)
         end
     end
 end
@@ -550,8 +550,14 @@ function Text:draw(x, y, maxwidth, rot, sx, sy, ox, oy, kx, ky)
     love.graphics.push("all")
     love.graphics.applyTransform(x, y, rot, sx, sy, ox, oy, kx, ky)
 
+    local stackPushed = self:applyAdditionalTransform()
+
     self:_applyEffects()
     self:_draw()
+
+    if stackPushed then
+        love.graphics.pop()
+    end
 
     love.graphics.pop()
 end
@@ -561,6 +567,14 @@ end
 ---Can be overridden by user
 ---@param char text.Character
 function Text:effectCharacter(char)
+end
+
+---Called on every draw call.
+---
+---Can be overridden by user
+---@return boolean stackpush Is new transformation stack is pushed?
+function Text:applyAdditionalTransform()
+    return false
 end
 
 ---Retrieve the font object used to create this rich text
