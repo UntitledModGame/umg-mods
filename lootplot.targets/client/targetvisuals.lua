@@ -51,3 +51,21 @@ umg.on("rendering:drawEffects", function(camera)
         love.graphics.setColor(1, 1, 1)
     end
 end)
+
+
+
+require("shared.events_questions")
+
+local LIFETIME = 0.4
+
+umg.on("lootplot.targets:targetActivated", function (ent, ppos)
+    local ent = client.entities.empty()
+    ent.color = objects.Color.RED
+    ent.image = "plus"
+    ent.fade = {
+        component = "lifetime",
+        multiplier = 1/LIFETIME -- we want to scale from 0->1
+    }
+    ent.lifetime = LIFETIME
+end)
+

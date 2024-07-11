@@ -8,6 +8,7 @@ local function activateTargets(targetFunc, ent, targets, conversion)
         :to(conversion)
         :execute(function(ppos, targetEnt)
             targetFunc(ent, ppos, targetEnt)
+            umg.call("lootplot.targets:targetActivated", ent, ppos, targetEnt)
         end)
 end
 
@@ -18,11 +19,14 @@ umg.on("lootplot:entityActivated", function(ent)
         ---@cast ent lootplot.ItemEntity
         local targets = lp.targets.getTargets(ent)
 
-        if targets then
+        if targets and ent.activateTargets then
             local to = ent.targetType
-            if (not VALIDS[to]) then
+            if (to and (not VALIDS[to])) then
                 error("Invalid targetType: " .. tostring(to))
             end 
+            umg.melt([[
+                need to implement ppos plot referencing!!!
+            ]])
             activateTargets(ent.activateTargets, ent, targets, to)
         end
     end
