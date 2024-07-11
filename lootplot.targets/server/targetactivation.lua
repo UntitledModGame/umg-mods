@@ -11,23 +11,19 @@ local function activateTargets(targetFunc, ent, targets, conversion)
         end)
 end
 
+local VALIDS = {SLOT=true, ITEM=true}
+
 umg.on("lootplot:entityActivated", function(ent)
     if lp.isItemEntity(ent) then
         ---@cast ent lootplot.ItemEntity
         local targets = lp.targets.getTargets(ent)
 
         if targets then
-            if ent.activateTargetItems then
-                activateTargets(ent.activateTargetItems, ent, targets, "ITEM")
-            end
-
-            if ent.activateTargetPositions then
-                activateTargets(ent.activateTargetPositions, ent, targets, nil)
-            end
-
-            if ent.activateTargetSlots then
-                activateTargets(ent.activateTargetSlots, ent, targets, "SLOT")
-            end
+            local to = ent.targetType
+            if (not VALIDS[to]) then
+                error("Invalid targetType: " .. tostring(to))
+            end 
+            activateTargets(ent.activateTargets, ent, targets, to)
         end
     end
 end)

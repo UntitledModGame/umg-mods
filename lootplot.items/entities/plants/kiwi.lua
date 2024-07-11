@@ -12,7 +12,7 @@ lp.defineItem("kiwi", {
         lp.addMoney(ent, 1)
     end,
 
-    activateTargetItems = function(ent, ppos, targetEnt)
+    activateTargets = function(ent, ppos, targetEnt)
         print("🥝🥝🥝 kiwi tongue needle activator 🥝🥝🥝", ent, ppos, targetEnt)
     end,
 })
