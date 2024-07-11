@@ -34,6 +34,24 @@ end
 end
 
 
+local EARLY_LEVELS = {
+    5,5, 10, 60, 400
+}
+function main.getRequiredPoints(levelNumber)
+    --[[
+    levelNumber starts at 1, goes up infinitely.
+    ]]
+    if EARLY_LEVELS[levelNumber] then
+        return EARLY_LEVELS[levelNumber]
+    end
+    --[[
+    TODO: add a difficulty multiplier here?
+    ]]
+
+    -- todo: could make this exponential
+    return math.floor(levelNumber^2.6 / 10) * 100
+end
+
 
 main.constants = setmetatable({
     --[[
