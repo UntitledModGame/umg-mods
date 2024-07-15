@@ -33,15 +33,14 @@ function RichText:init(args)
         self.font = args.font or self.font
     end
 
-    if text.Text:isInstance(textString) then
-        ---@cast textString text.Text
-        self.richText = textString
-    else
-        ---@cast textString string
+    if type(textString) == "string" then
         self.richText = constructor(textString, {
             variables = vars,
             effectGroup = effectGroup
         })
+    else
+        ---@cast textString text.Text
+        self.richText = textString
     end
 end
 
@@ -73,6 +72,11 @@ end
 
 function RichText:getRichText()
     return self.richText
+end
+
+---@param rt text.Text
+function RichText:setRichText(rt)
+    self.richText = rt
 end
 
 return RichText

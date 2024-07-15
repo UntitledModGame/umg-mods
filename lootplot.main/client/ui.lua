@@ -22,6 +22,7 @@ function Scene:init(args)
     self.itemDescription = nil
     ---@type lootplot.DescriptionBox?
     self.slotDescription = nil
+    self.slotActionButtons = {}
 
     self:addChild(self.pointsBar)
     self:addChild(self.nextRoundButton)
@@ -73,23 +74,15 @@ function Scene:onRender(x,y,w,h)
         drawDescription(self.slotDescription, rightDescRegion)
     end
 
-    -- local header, lower, main = r:splitVertical(0.2, 0.1, 0.7)
-    -- local levelStatus, pointsBar, startRound = header:splitHorizontal(1, 2, 1)
+    if #self.slotActionButtons > 0 then
+        local _, bottomArea = r:splitVertical(3, 1)
+        local grid = bottomArea:grid(#self.slotActionButtons, 1)
 
-    -- self.levelStatus:render(levelStatus:pad(0.15):get())
-    -- self.nextRoundButton:render(startRound:pad(0.15):get())
-    -- self.pointsBar:render(pointsBar:get())
-
-    -- local moneyBox,_ = lower:splitHorizontal(0.15, 0.85)
-    -- self.moneyBox:render(moneyBox:pad(0.2):get())
-
-    -- local leftDesc, _, rightDesc = main:pad(0.05):splitHorizontal(1, 2, 1)
-    -- if self.itemDescription then
-    --     drawDescription(self.itemDescription, leftDesc)
-    -- end
-    -- if self.slotDescription then
-    --     drawDescription(self.slotDescription, rightDesc)
-    -- end
+        for i, button in ipairs(self.slotActionButtons) do
+            local region = grid[i]:pad(0.1)
+            button:render(region:get())
+        end
+    end
 end
 
 ---@param itemEnt lootplot.ItemEntity?
@@ -118,13 +111,40 @@ function Scene:setSlotDescription(slotEnt)
     end
 end
 
+---@param actions lootplot.SlotAction[]?
+function Scene:setActionButtons(actions)
+    -- Remove existing buttons
+    for _, b in ipairs(self.slotActionButtons) do
+        self:removeChild(b)
+    end
 
+    table.clear(self.slotActionButtons)
+
+    -- Add new buttons
+    if actions then
+        for _, b in ipairs(actions) do
+            local button = ui.elements.ActionButton(b)
+            self:addChild(button)
+            self.slotActionButtons[#self.slotActionButtons+1] = button
+        end
+    end
+end
 
 ---@type lootplot.main.Scene
 local scene = Scene()
 
 umg.on("rendering:drawUI", function()
     scene:render(0,0,love.graphics.getDimensions())
+end)
+
+-- Handles action button selection
+---@param selection lootplot.Selected
+umg.on("lootplot:selectionChanged", function(selection)
+    if selection then
+        scene:setActionButtons(selection.actions)
+    else
+        scene:setActionButtons()
+    end
 end)
 
 local listener = input.InputListener({

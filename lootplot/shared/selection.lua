@@ -12,27 +12,23 @@ and interacting with said slots.
 local util = require("shared.util")
 local selection = {}
 
-
-local buttonScene
-if client then
-    ---@type lootplot.ButtonScene
-    buttonScene = require("client.ui")
-end
-
-
+---@class lootplot.SlotAction
+---@field public text string|{format:string,variables?:table<string,any>}
+---@field public onClick fun()
+---@field public onDraw? fun(x:number,y:number,w:number,h:number)
+---@field public priority? number
 
 ---@class lootplot.Selected
 ---@field public ppos lootplot.PPos
 ---@field public slot lootplot.SlotEntity
 ---@field public time number
+---@field public actions? lootplot.SlotAction[]
 
 ---@type lootplot.Selected?
 local selected = nil
 
 
 function selection.reset()
-    buttonScene:clear()
-
     if selected then
         umg.call("lootplot:selectionChanged", nil)
     end
@@ -63,22 +59,33 @@ local function selectSlot(slotEnt)
             slot = slotEnt,
             time = love.timer.getTime()
         }
-        umg.call("lootplot:selectionChanged", selected)
 
         local itemEnt = lp.slotToItem(slotEnt)
         if itemEnt then
-            local buttonList = objects.Array()
-            umg.call("lootplot:pollSlotButtons", selected.ppos, buttonList)
-            buttonList:add(ui.elements.Button({
-                onClick = selection.reset,
-                text = "Cancel"
-            }))
-            buttonScene:setButtons(buttonList)
+            selected.actions = umg.ask("lootplot:pollSlotButtons", ppos)
+            table.sort(selected.actions, function(a, b)
+                local pa, pb = a.priority or 0, b.priority or 0
+                if pa == pb then
+                    return a.text < b.text
+                else
+                    return pa < pb
+                end
+            end)
         end
+
+        umg.call("lootplot:selectionChanged", selected)
     end
 end
 selection.selectSlot = selectSlot
 
+-- This handles the "Cancel" button
+umg.answer("lootplot:pollSlotButtons", function(ppos)
+    return {
+        text = "Cancel",
+        onClick = selection.reset,
+        priority = math.huge
+    }
+end)
 
 local function validate()
     if not selected then

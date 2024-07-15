@@ -24,7 +24,7 @@ umg.defineEvent("lootplot:pointsAdded")
 umg.defineEvent("lootplot:pointsSubtracted")
 umg.defineEvent("lootplot:pointsChanged")
 
-umg.defineEvent("lootplot:pollSlotButtons")
+umg.defineQuestion("lootplot:pollSlotButtons", reducers.SINGLE_COLLECT)
 
 umg.defineQuestion("lootplot:getMoneyMultiplier", reducers.MULTIPLY)
 umg.defineQuestion("lootplot:getPointMultiplier", reducers.MULTIPLY)

@@ -27,10 +27,18 @@ function LevelStatus:init()
         rounding = 4,
         thickness = 1
     })
+    self.levelNumberRichText = BulgeText("{$level()}", {
+        variables = {
+            level = function ()
+                local context = lp.main.getContext()
+                return context.level
+            end
+        }
+    })
+    print("🍓🍓🍓😋", text.Text:isInstance(self.levelNumberRichText), BulgeText:isInstance(self.levelNumberRichText))
     self.levelNumberText = ui.elements.RichText({
-        text = "1",
+        text = self.levelNumberRichText,
         font = fonts.getLargeFont(),
-        class = BulgeText,
         color = objects.Color.BLACK
     })
     self.currentLevel = 1
@@ -41,7 +49,7 @@ end
 function LevelStatus:onRender(x,y,w,h)
     local context = lp.main.getContext()
     if self.currentLevel ~= context.level then
-        self.levelNumberText:setFormattedString(tostring(context.level))
+        self.levelNumberRichText:bulge()
         self.currentLevel = context.level
     end
 
