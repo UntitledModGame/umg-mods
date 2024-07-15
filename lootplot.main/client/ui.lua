@@ -41,11 +41,11 @@ end
 local function drawDescription(progress, dbox, region)
     local x, y, w, h = region:get()
     local bestHeight = select(2, dbox:getBestFitDimensions(w))
-    local container = ui.Region(0, 0, w, bestHeight)
-    local centerContainer = container:center(region)
+    -- local container = ui.Region(0, 0, w, bestHeight)
+    -- local centerContainer = container:center(region)
     local theHeight = math.min(progress, bestHeight)
 
-    x, y, w, h = centerContainer:get()
+    -- x, y, w, h = container:get()
     love.graphics.setColor(0, 0, 0, 0.5)
     love.graphics.rectangle("fill", x - 5, y - 5, w + 10, theHeight + 10, 10, 10)
     love.graphics.setColor(1, 1, 1)
@@ -67,7 +67,7 @@ function Scene:onRender(x,y,w,h)
     local pointsBarRegion = middle:splitVertical(1, 4)
     local nextRoundRegion, rest2 = right:splitVertical(1, 4)
     local moneyRegion, leftDescRegion = rest:splitVertical(1, 5)
-    local speed = h * 1.5
+    local descriptionOpenSpeed = h * 1.5
 
     self.levelStatus:render(levelStatusRegion:get())
     if not context:isDuringRound() then
@@ -76,16 +76,23 @@ function Scene:onRender(x,y,w,h)
     self.pointsBar:render(pointsBarRegion:get())
     self.moneyBox:render(moneyRegion:pad(0, 0.2, 0, 0.2):get())
 
+    local mx, my = input.getPointerPosition()
+
     if self.itemDescription then
-        self.itemDescriptionTime = self.itemDescriptionTime + love.timer.getDelta() * speed
-        if drawDescription(self.itemDescriptionTime, self.itemDescription, leftDescRegion) then
+        local descW, descH = select(2, leftDescRegion:get())
+        local descRegion = ui.Region(mx + 16, my + 16, descW, descH)
+        self.itemDescriptionTime = self.itemDescriptionTime + love.timer.getDelta() * descriptionOpenSpeed
+        if drawDescription(self.itemDescriptionTime, self.itemDescription, descRegion) then
             self.itemDescription:resetRichText()
         end
     end
+
     if self.slotDescription then
         local rightDescRegion = select(2, rest2:splitVertical(1, 5))
-        self.slotDescriptionTime = self.slotDescriptionTime + love.timer.getDelta() * speed
-        if drawDescription(self.slotDescriptionTime, self.slotDescription, rightDescRegion) then
+        local descW, descH = select(2, rightDescRegion:get())
+        local descRegion = ui.Region(mx - 16 - descW, my + 16, descW, descH)
+        self.slotDescriptionTime = self.slotDescriptionTime + love.timer.getDelta() * descriptionOpenSpeed
+        if drawDescription(self.slotDescriptionTime, self.slotDescription, descRegion) then
             self.slotDescription:resetRichText()
         end
     end
