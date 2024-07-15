@@ -95,6 +95,17 @@ umg.on("lootplot.targets:targetActivated", function (itemEnt, ppos)
     ent.color = objects.Color.RED
     ent.image = getTargetImage(itemEnt)
 
+    --[[
+        TODO:
+        This is terrible!
+        We shouldn't be using this component here.
+        This component belongs to the lootplot.juice mod; 
+        NOT lp.targets mod!!!
+        Should we specify lp.juice as a dependency?
+        Not sure if I am happy with that.
+    ]]
+    ent.joltJuice = {freq = 2, amp = math.rad(20), start = love.timer.getTime(), duration = 0.4}
+
     ent.lifetime = LIFETIME
     -- ^^^ delete self after X seconds
 end)
