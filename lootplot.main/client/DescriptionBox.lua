@@ -1,5 +1,5 @@
----@class lootplot.DescriptionBox: objects.Class
-local DescriptionBox = objects.Class("lootplot:DescriptionBox")
+---@class lootplot.main.DescriptionBox: objects.Class
+local DescriptionBox = objects.Class("lootplot.main:DescriptionBox")
 
 local BASIC_TEXT_TYPE = "basictext"
 local RICH_TEXT_TYPE = "richtext"
@@ -7,26 +7,28 @@ local DRAWABLE_TYPE = "drawable"
 local NEWLINE_TYPE = "\n"
 
 ---@alias lootplot.DescriptionBoxFunction fun(x:number,y:number,w:number,h:number)
----@class lootplot._DescriptionBoxData
+---@class lootplot.main._DescriptionBoxData
 ---@field public type string
 ---@field public height integer?
 ---@field public data text.Text|string|lootplot.DescriptionBoxFunction
+---@field public font love.Font?
 
----@param font love.Font?
-function DescriptionBox:init(font)
+---@param defaultFont love.Font?
+function DescriptionBox:init(defaultFont)
     ---@private
-    self.contents = {} ---@type lootplot._DescriptionBoxData[]
+    self.contents = {} ---@type lootplot.main._DescriptionBoxData[]
     ---@private
-    self.font = font or love.graphics.getFont()
+    self.defaultFont = defaultFont or love.graphics.getFont()
 end
 
 ---Add plain text or rich text to the description box.
 ---@param text text.Text|string (Rich) text to add.
-function DescriptionBox:addText(text)
+---@param font love.Font? Font to use when rendering this.
+function DescriptionBox:addText(text, font)
     if type(text) == "string" then
-        self.contents[#self.contents+1] = {type = BASIC_TEXT_TYPE, data = text}
+        self.contents[#self.contents+1] = {type = BASIC_TEXT_TYPE, data = text, font = font}
     else
-        self.contents[#self.contents+1] = {type = RICH_TEXT_TYPE, data = text}
+        self.contents[#self.contents+1] = {type = RICH_TEXT_TYPE, data = text, font = font}
     end
 end
 
@@ -52,12 +54,14 @@ end
 function DescriptionBox:draw(x, y, w, h)
     local r, g, b, a = love.graphics.getColor()
     local currentHeight = 0
+    local lastFont = self.defaultFont
 
     for _, content in ipairs(self.contents) do
         if content.type == BASIC_TEXT_TYPE then
             local text = content.data ---@cast text string
-            local strings = select(2, self.font:getWrap(text, w))
-            local height = #strings * self.font:getHeight()
+            local font = content.font or self.defaultFont
+            local strings = select(2, font:getWrap(text, w))
+            local height = #strings * font:getHeight()
 
             if (currentHeight + height) > h then
                 -- Stop and don't render this content
@@ -65,16 +69,18 @@ function DescriptionBox:draw(x, y, w, h)
             end
 
             love.graphics.setColor(r, g, b, a)
-            love.graphics.printf(text, self.font, x, y + currentHeight, w, "left")
+            love.graphics.printf(text, font, x, y + currentHeight, w, "left")
 
             currentHeight = currentHeight + height
+            lastFont = font
         elseif content.type == NEWLINE_TYPE then
             -- Let's put the blame on next element
-            currentHeight = currentHeight + self.font:getHeight()
+            currentHeight = currentHeight + lastFont:getHeight()
         elseif content.type == RICH_TEXT_TYPE then
             local richText = content.data ---@cast richText text.Text
-            local strings = select(2, richText:getWrap(w, self.font))
-            local height = #strings * self.font:getHeight()
+            local font = content.font or self.defaultFont
+            local strings = select(2, richText:getWrap(w, font))
+            local height = #strings * font:getHeight()
 
             if (currentHeight + height) > h then
                 -- Stop and don't render this content
@@ -82,9 +88,10 @@ function DescriptionBox:draw(x, y, w, h)
             end
 
             love.graphics.setColor(r, g, b, a)
-            richText:draw(self.font, x, y + currentHeight, w)
+            richText:draw(font, x, y + currentHeight, w)
 
             currentHeight = currentHeight + height
+            lastFont = font
         elseif content.type == DRAWABLE_TYPE then
             local func = content.data ---@cast func lootplot.DescriptionBoxFunction
             local height = content.height or 0
@@ -113,24 +120,27 @@ end
 function DescriptionBox:getBestFitDimensions(maxWidth)
     local currentWidth = 0
     local currentHeight = 0
-    local lastFont = self.font -- For computing newlines
+    local lastFont = self.defaultFont -- For computing newlines
 
     for _, content in ipairs(self.contents) do
         if content.type == BASIC_TEXT_TYPE then
             local text = content.data ---@cast text string
-            local width, strings = self.font:getWrap(text, maxWidth)
+            local font = content.font or self.defaultFont
+            local width, strings = font:getWrap(text, maxWidth)
 
-            lastFont = self.font
             currentWidth = math.max(currentWidth, width)
-            currentHeight = currentHeight + #strings * self.font:getHeight()
+            currentHeight = currentHeight + #strings * font:getHeight()
+            lastFont = font
         elseif content.type == NEWLINE_TYPE then
             currentHeight = currentHeight + lastFont:getHeight()
         elseif content.type == RICH_TEXT_TYPE then
             local richText = content.data ---@cast richText text.Text
-            local width, strings = richText:getWrap(maxWidth, self.font)
+            local font = content.font or self.defaultFont
+            local width, strings = richText:getWrap(maxWidth, font)
 
             currentWidth = math.max(currentWidth, width)
-            currentHeight = currentHeight + #strings * self.font:getHeight()
+            currentHeight = currentHeight + #strings * font:getHeight()
+            lastFont = font
         elseif content.type == DRAWABLE_TYPE then
             currentHeight = currentHeight + (content.height or 0)
         end
@@ -142,7 +152,7 @@ end
 if false then
     ---Create new description box.
     ---@param font love.Font? Default font object to use (defaults to `love.graphics.getFont()`).
-    ---@return lootplot.DescriptionBox
+    ---@return lootplot.main.DescriptionBox
     ---@diagnostic disable-next-line: missing-return, cast-local-type
     function DescriptionBox(font) end
 end

@@ -13,14 +13,20 @@ local selection = require("shared.selection")
 local lp = {}
 
 if client then
-lp.DescriptionBox = require("client.DescriptionBox")
 
 ---@param ent Entity
----@param dbox lootplot.DescriptionBox
-function lp.populateLongDescription(ent, dbox)
-    umg.call("lootplot:populateDescription", ent, dbox)
+function lp.getLongDescription(ent)
+    local array = objects.Array()
+    umg.call("lootplot:populateDescription", ent, array)
+    return array
 end
 
+end
+
+---@param ent Entity
+---@return string
+function lp.getEntityName(ent)
+    return ent.name or ent:type()
 end
 
 if server then

@@ -2,13 +2,14 @@
 
 lp = {}
 
----@module "client.DescriptionBox"
-lp.DescriptionBox = require("client.DescriptionBox")
+---@param ent Entity
+---@return objects.Array
+function lp.getLongDescription(ent)
+end
 
 ---@param ent Entity
----@param dbox lootplot.DescriptionBox
-function lp.populateLongDescription(ent, dbox)
-    umg.call("lootplot:populateDescription", ent, dbox)
+---@return string
+function lp.getEntityName(ent)
 end
 
 ---basic action-buffering, with 0 arguments for function.

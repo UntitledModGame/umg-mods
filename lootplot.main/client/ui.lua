@@ -1,9 +1,10 @@
+local BulgeText = require("client.BulgeText")
+local DescriptionBox = require("client.DescriptionBox")
 
-
+local fonts = require("client.fonts")
 
 ---@class lootplot.main.Scene: Element
 local Scene = ui.Element("lootplot.main:Screen")
-local BulgeText = require("client.BulgeText")
 
 function Scene:init(args)
     self:makeRoot()
@@ -18,9 +19,7 @@ function Scene:init(args)
     self.nextRoundButton = ui.elements.NextRoundbutton()
     self.levelStatus = ui.elements.LevelStatus()
     self.moneyBox = ui.elements.MoneyBox()
-    ---@type lootplot.DescriptionBox?
     self.itemDescription = nil
-    ---@type lootplot.DescriptionBox?
     self.slotDescription = nil
     self.slotActionButtons = {}
 
@@ -34,7 +33,7 @@ function Scene:addLootplotElement(element)
     self:addChild(element)
 end
 
----@param dbox lootplot.DescriptionBox
+---@param dbox lootplot.main.DescriptionBox
 ---@param region Region
 local function drawDescription(dbox, region)
     local x, y, w, h = region:get()
@@ -85,14 +84,30 @@ function Scene:onRender(x,y,w,h)
     end
 end
 
+local function populateDescriptionBox(entity)
+    local description = lp.getLongDescription(entity)
+    local dbox = DescriptionBox(fonts.getSmallFont(32))
+
+    dbox:addText(lp.getEntityName(entity), fonts.getLargeFont(32))
+    dbox:newline()
+
+    if description:size() == 0 then
+        description:add("No description available")
+    end
+
+    for _, descriptionText in ipairs(description) do
+        if #descriptionText > 0 then
+            dbox:addText(BulgeText(text.escape(descriptionText)))
+        end
+    end
+
+    return dbox
+end
+
 ---@param itemEnt lootplot.ItemEntity?
 function Scene:setItemDescription(itemEnt)
     if itemEnt then
-        self.itemDescription = lp.DescriptionBox()
-        self.itemDescription:addText(itemEnt.name or itemEnt:type())
-        self.itemDescription:addText(BulgeText(text.escape(itemEnt.description or "No description available")))
-        self.itemDescription:newline()
-        lp.populateLongDescription(itemEnt, self.itemDescription)
+        self.itemDescription = populateDescriptionBox(itemEnt)
     else
         self.itemDescription = nil
     end
@@ -101,11 +116,7 @@ end
 ---@param slotEnt lootplot.SlotEntity?
 function Scene:setSlotDescription(slotEnt)
     if slotEnt then
-        self.slotDescription = lp.DescriptionBox()
-        self.slotDescription:addText(slotEnt.name or slotEnt:type())
-        self.slotDescription:addText(slotEnt.description or "No description available")
-        self.slotDescription:newline()
-        lp.populateLongDescription(slotEnt, self.slotDescription)
+        self.slotDescription = populateDescriptionBox(slotEnt)
     else
         self.slotDescription = nil
     end

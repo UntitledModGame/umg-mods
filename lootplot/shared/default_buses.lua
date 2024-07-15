@@ -1,3 +1,11 @@
+if client then
+    umg.on("lootplot:populateDescription", function(ent, dest)
+        if ent.description then
+            dest:add(ent.description)
+        end
+    end)
+end
+
 umg.answer("lootplot:hasPlayerAccess", function(ent)
     local ppos = lp.getPos(ent)
     if ppos then
