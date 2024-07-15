@@ -1,3 +1,8 @@
+
+local util = require("shared.util")
+
+
+
 ---@param targetFunc function
 ---@param ent lootplot.ItemEntity
 ---@param targets objects.Array
@@ -6,6 +11,7 @@ local function activateTargets(targetFunc, ent, targets, conversion)
     lp.Bufferer()
         :addAll(targets)
         :to(conversion)
+        :filter(util.canTarget)
         :execute(function(ppos, targetEnt)
             targetFunc(ent, ppos, targetEnt)
             umg.call("lootplot.targets:targetActivated", ent, ppos, targetEnt)

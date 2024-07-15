@@ -5,10 +5,11 @@ local DELAY_PER_UNIT = 0.04
 
 ---@param ppos lootplot.PPos
 ---@param progress number
-local function renderSelectionTarget(ppos, progress)
+local function renderSelectionTarget(ppos, image, progress, opacity)
     local worldPos = ppos:getWorldPos()
     local rot = (progress-1) * 3
-    rendering.drawImage("plus_visual", worldPos.x, worldPos.y, rot, progress, progress)
+    love.graphics.setColor(1,1,1,opacity)
+    rendering.drawImage(image, worldPos.x, worldPos.y, rot, progress, progress)
 end
 
 ---@type lootplot.Selected?
@@ -29,6 +30,27 @@ umg.on("lootplot:selectionChanged", function(s)
     end
 end)
 
+
+
+
+local function getTargetImage(item)
+    if item.targetVisual then
+        return item.targetVisual
+    end
+    return "target_plus"
+end
+
+
+
+local function getOpacity(item, ppos)
+    if util.canTarget(item, ppos) then
+        return 1
+    end
+    return 0.07
+end
+
+
+
 umg.on("rendering:drawEffects", function(camera)
     if selected and selectionTargets then
         local t = love.timer.getTime()
@@ -45,8 +67,14 @@ umg.on("rendering:drawEffects", function(camera)
                 -- so we're not interested on the next item.
                 break
             end
-
-            renderSelectionTarget(ppos, math.min(elapsedTime-fadeTime, FADE_IN) / FADE_IN)
+            
+            local item = lp.posToItem(selected.ppos)
+            if item then
+                local img = getTargetImage(item)
+                local progress = math.min(elapsedTime-fadeTime, FADE_IN) / FADE_IN
+                local opacity = getOpacity(item, ppos)
+                renderSelectionTarget(ppos, img, progress, opacity)
+            end
         end
         love.graphics.setColor(1, 1, 1)
     end
@@ -58,14 +86,16 @@ require("shared.events_questions")
 
 local LIFETIME = 0.4
 
-umg.on("lootplot.targets:targetActivated", function (ent, ppos)
+umg.on("lootplot.targets:targetActivated", function (itemEnt, ppos)
     local ent = client.entities.empty()
+    
+    local dvec = ppos:getWorldPos()
+    ent.x,ent.y, ent.dimension = dvec.x, dvec.y, dvec.dimension
+
     ent.color = objects.Color.RED
-    ent.image = "plus"
-    ent.fade = {
-        component = "lifetime",
-        multiplier = 1/LIFETIME -- we want to scale from 0->1
-    }
+    ent.image = getTargetImage(itemEnt)
+
     ent.lifetime = LIFETIME
+    -- ^^^ delete self after X seconds
 end)
 
