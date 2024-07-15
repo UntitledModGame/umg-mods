@@ -35,7 +35,6 @@ function LevelStatus:init()
             end
         }
     })
-    print("🍓🍓🍓😋", text.Text:isInstance(self.levelNumberRichText), BulgeText:isInstance(self.levelNumberRichText))
     self.levelNumberText = ui.elements.RichText({
         text = self.levelNumberRichText,
         font = fonts.getLargeFont(),
