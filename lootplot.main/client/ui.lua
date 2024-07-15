@@ -20,7 +20,9 @@ function Scene:init(args)
     self.levelStatus = ui.elements.LevelStatus()
     self.moneyBox = ui.elements.MoneyBox()
     self.itemDescription = nil
+    self.itemDescriptionTime = 0
     self.slotDescription = nil
+    self.slotDescriptionTime = 0
     self.slotActionButtons = {}
 
     self:addChild(self.pointsBar)
@@ -33,19 +35,27 @@ function Scene:addLootplotElement(element)
     self:addChild(element)
 end
 
+---@param progress number
 ---@param dbox lootplot.main.DescriptionBox
 ---@param region Region
-local function drawDescription(dbox, region)
+local function drawDescription(progress, dbox, region)
     local x, y, w, h = region:get()
     local bestHeight = select(2, dbox:getBestFitDimensions(w))
     local container = ui.Region(0, 0, w, bestHeight)
     local centerContainer = container:center(region)
+    local theHeight = math.min(progress, bestHeight)
 
     x, y, w, h = centerContainer:get()
     love.graphics.setColor(0, 0, 0, 0.5)
-    love.graphics.rectangle("fill", x - 5, y - 5, w + 10, h + 10, 10, 10)
+    love.graphics.rectangle("fill", x - 5, y - 5, w + 10, theHeight + 10, 10, 10)
     love.graphics.setColor(1, 1, 1)
-    dbox:draw(x, y, w, h)
+
+    if progress >= h then
+        dbox:draw(x, y, w, h)
+        return false
+    end
+
+    return true
 end
 
 function Scene:onRender(x,y,w,h)
@@ -57,6 +67,7 @@ function Scene:onRender(x,y,w,h)
     local pointsBarRegion = middle:splitVertical(1, 4)
     local nextRoundRegion, rest2 = right:splitVertical(1, 4)
     local moneyRegion, leftDescRegion = rest:splitVertical(1, 5)
+    local speed = h * 1.5
 
     self.levelStatus:render(levelStatusRegion:get())
     if not context:isDuringRound() then
@@ -66,11 +77,17 @@ function Scene:onRender(x,y,w,h)
     self.moneyBox:render(moneyRegion:pad(0, 0.2, 0, 0.2):get())
 
     if self.itemDescription then
-        drawDescription(self.itemDescription, leftDescRegion)
+        self.itemDescriptionTime = self.itemDescriptionTime + love.timer.getDelta() * speed
+        if drawDescription(self.itemDescriptionTime, self.itemDescription, leftDescRegion) then
+            self.itemDescription:resetRichText()
+        end
     end
     if self.slotDescription then
         local rightDescRegion = select(2, rest2:splitVertical(1, 5))
-        drawDescription(self.slotDescription, rightDescRegion)
+        self.slotDescriptionTime = self.slotDescriptionTime + love.timer.getDelta() * speed
+        if drawDescription(self.slotDescriptionTime, self.slotDescription, rightDescRegion) then
+            self.slotDescription:resetRichText()
+        end
     end
 
     if #self.slotActionButtons > 0 then
@@ -111,6 +128,7 @@ function Scene:setItemDescription(itemEnt)
     else
         self.itemDescription = nil
     end
+    self.itemDescriptionTime = 0
 end
 
 ---@param slotEnt lootplot.SlotEntity?
@@ -120,6 +138,7 @@ function Scene:setSlotDescription(slotEnt)
     else
         self.slotDescription = nil
     end
+    self.slotDescriptionTime = 0
 end
 
 ---@param actions lootplot.SlotAction[]?
@@ -188,18 +207,50 @@ umg.on("@resize", function(x,y)
     scene:resize(x,y)
 end)
 
+local SHOW_DESCRIPTION_AFTER = 0.5
+local selectedItem = nil
+local selectedSlot = nil
+local itemHoverTime = 0
+local slotHoverTime = 0
+
+umg.on("@update", function(dt)
+    if selectedItem then
+        if itemHoverTime < SHOW_DESCRIPTION_AFTER then
+            itemHoverTime = itemHoverTime + dt
+
+            if itemHoverTime >= SHOW_DESCRIPTION_AFTER then
+                scene:setItemDescription(selectedItem)
+            end
+        end
+    end
+
+    if selectedSlot then
+        if slotHoverTime < SHOW_DESCRIPTION_AFTER then
+            slotHoverTime = slotHoverTime + dt
+
+            if slotHoverTime >= SHOW_DESCRIPTION_AFTER then
+                scene:setSlotDescription(selectedSlot)
+            end
+        end
+    end
+end)
+
 umg.on("lootplot:startHoverItem", function(ent)
-    scene:setItemDescription(ent)
+    selectedItem = ent
+    itemHoverTime = 0
 end)
 
 umg.on("lootplot:startHoverSlot", function(ent)
-    scene:setSlotDescription(ent)
+    selectedSlot = ent
+    slotHoverTime = 0
 end)
 
 umg.on("lootplot:endHoverItem", function(ent)
+    selectedItem = nil
     scene:setItemDescription(nil)
 end)
 
 umg.on("lootplot:endHoverSlot", function(ent)
+    selectedSlot = nil
     scene:setSlotDescription(nil)
 end)

@@ -48,6 +48,14 @@ function DescriptionBox:newline()
     self.contents[#self.contents+1] = {type = NEWLINE_TYPE, data = "\n"}
 end
 
+function DescriptionBox:resetRichText()
+    for _, c in ipairs(self.contents) do
+        if c.type == RICH_TEXT_TYPE then
+            c.data:reset()
+        end
+    end
+end
+
 ---Draw the description box.
 ---@param x number X position of the description box.
 ---@param y number Y position of the description box.
