@@ -209,7 +209,7 @@ function reducers.LAST(a, b)
 end
 
 ---Reducer function that collects all single inputs into an array.
-
+---
 ---The way this works, is the first argument `a` is treated
 ---as an array.
 ---`a` is then continuously passed to the next arguments.
@@ -219,6 +219,7 @@ end
 ---@return T[]
 function reducers.SINGLE_COLLECT(a, b)
     local ret = a
+
     if getmetatable(ret) ~= UNIQUE_MT then
         --[[
         this is kinda hacky lmao!
@@ -226,9 +227,15 @@ function reducers.SINGLE_COLLECT(a, b)
         So we set a unique metatable (UNIQUE_MT)
         ]]
         ret = setmetatable({}, UNIQUE_MT)
-        table.insert(ret, a)
+        if a ~= nil then
+            table.insert(ret, a)
+        end
     end
-    table.insert(ret, b)
+
+    if b ~= nil then
+        table.insert(ret, b)
+    end
+
     return ret
 end
 
