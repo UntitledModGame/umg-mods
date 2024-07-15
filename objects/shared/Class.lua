@@ -81,7 +81,9 @@ local function Class(name)
     function class:implement(otherClass)
         tableTc(self, otherClass)
         assertStaticCall(self, class)
-        self.___implementors[otherClass] = true
+        if otherClass.___implementors then
+            otherClass.___implementors[self] = true
+        end
         for k,v in pairs(otherClass) do
             if not self[k] then
                 self[k] = v
