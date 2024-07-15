@@ -24,9 +24,6 @@ umg.on("lootplot:entityActivated", function(ent)
             if (to and (not VALIDS[to])) then
                 error("Invalid targetType: " .. tostring(to))
             end 
-            umg.melt([[
-                need to implement ppos plot referencing!!!
-            ]])
             activateTargets(ent.activateTargets, ent, targets, to)
         end
     end
