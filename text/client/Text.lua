@@ -605,6 +605,12 @@ function Text:getWrap(maxwidth, font)
     return f:getWrap(text, maxwidth)
 end
 
+---Reset derived class-specific data.
+---
+---By default, this function does nothing. Can be overridden by user
+function Text:reset()
+end
+
 if false then
     ---@param text string
     ---@param args text.TextArgs?

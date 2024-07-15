@@ -48,7 +48,7 @@ end
 function LevelStatus:onRender(x,y,w,h)
     local context = lp.main.getContext()
     if self.currentLevel ~= context.level then
-        self.levelNumberRichText:bulge()
+        self.levelNumberRichText:reset()
         self.currentLevel = context.level
     end
 

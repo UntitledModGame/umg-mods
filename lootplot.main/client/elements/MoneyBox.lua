@@ -27,7 +27,7 @@ function MoneyBox:init(args)
         local money = lp.main.getContext().money
         if money > self.richTextVars.money then
             -- Replay bulge
-            self.text:getRichText():bulge()
+            self.text:getRichText():reset()
             self.richTextVars.shakeDuration = 0
         elseif money < self.richTextVars.money then
             -- Shake it

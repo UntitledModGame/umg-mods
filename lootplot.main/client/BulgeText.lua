@@ -33,7 +33,7 @@ function BulgeText:applyAdditionalTransform(font)
     return false
 end
 
-function BulgeText:bulge()
+function BulgeText:reset()
     self.constructTime = love.timer.getTime()
 end
 
