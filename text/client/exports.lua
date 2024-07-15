@@ -7,7 +7,6 @@ text.EffectGroup = require("client.EffectGroup")
 text.Text = require("client.Text")
 
 ---@class text.TextArgs
----@field public font? love.Font Font object to use (defaults to current font).
 ---@field public variables? table<string, any> Variable store to use (defaults to _G).
 ---@field public effectGroup? text.EffectGroup Effect group to use (defaults to default effect group).
 

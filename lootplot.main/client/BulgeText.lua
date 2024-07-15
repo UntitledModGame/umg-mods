@@ -27,8 +27,9 @@ function BulgeText:effectCharacter(char)
     char:setScale(scale, scale)
 end
 
-function BulgeText:applyAdditionalTransform()
-    love.graphics.translate(0, self.fontHeight / 2)
+---@param font love.Font Font object used.
+function BulgeText:applyAdditionalTransform(font)
+    love.graphics.translate(0, font:getHeight() / 2)
     return false
 end
 
