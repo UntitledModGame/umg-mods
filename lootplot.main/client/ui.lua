@@ -19,6 +19,8 @@ function Scene:init(args)
     self.nextRoundButton = ui.elements.NextRoundbutton()
     self.levelStatus = ui.elements.LevelStatus()
     self.moneyBox = ui.elements.MoneyBox()
+    self.itemDescriptionSelected = nil
+    self.itemDescriptionSelectedTime = 0
     self.itemDescription = nil
     self.itemDescriptionTime = 0
     self.slotDescription = nil
@@ -35,22 +37,33 @@ function Scene:addLootplotElement(element)
     self:addChild(element)
 end
 
+local function drawBoxTransparent(x, y, w, h)
+    love.graphics.setColor(0, 0, 0, 0.5)
+    love.graphics.rectangle("fill", x, y, w, h, 10, 10)
+    love.graphics.setColor(1, 1, 1)
+end
+
+local function drawBoxOpaque(x, y, w, h)
+    return ui.elements.SimpleBox.draw(objects.Color.WHITE, x, y, w, h, 10, 4)
+end
+
 ---@param progress number
 ---@param dbox lootplot.main.DescriptionBox
+---@param color objects.Color
 ---@param region Region
-local function drawDescription(progress, dbox, region)
+---@param backgroundDrawer fun(x:number,y:number,w:number,h:number)
+local function drawDescription(progress, dbox, color, region, backgroundDrawer)
     local x, y, w, h = region:get()
     local bestHeight = select(2, dbox:getBestFitDimensions(w))
     -- local container = ui.Region(0, 0, w, bestHeight)
     -- local centerContainer = container:center(region)
     local theHeight = math.min(progress, bestHeight)
 
-    -- x, y, w, h = container:get()
-    love.graphics.setColor(0, 0, 0, 0.5)
-    love.graphics.rectangle("fill", x - 5, y - 5, w + 10, theHeight + 10, 10, 10)
+    backgroundDrawer(x - 5, y - 5, w + 10, theHeight + 10)
     love.graphics.setColor(1, 1, 1)
 
     if progress >= h then
+        love.graphics.setColor(color)
         dbox:draw(x, y, w, h)
         return false
     end
@@ -82,7 +95,7 @@ function Scene:onRender(x,y,w,h)
         local descW, descH = select(2, leftDescRegion:get())
         local descRegion = ui.Region(mx + 16, my + 16, descW, descH)
         self.itemDescriptionTime = self.itemDescriptionTime + love.timer.getDelta() * descriptionOpenSpeed
-        if drawDescription(self.itemDescriptionTime, self.itemDescription, descRegion) then
+        if drawDescription(self.itemDescriptionTime, self.itemDescription, objects.Color.WHITE, descRegion, drawBoxTransparent) then
             self.itemDescription:resetRichText()
         end
     end
@@ -92,8 +105,16 @@ function Scene:onRender(x,y,w,h)
         local descW, descH = select(2, rightDescRegion:get())
         local descRegion = ui.Region(mx - 16 - descW, my + 16, descW, descH)
         self.slotDescriptionTime = self.slotDescriptionTime + love.timer.getDelta() * descriptionOpenSpeed
-        if drawDescription(self.slotDescriptionTime, self.slotDescription, descRegion) then
+        if drawDescription(self.slotDescriptionTime, self.slotDescription, objects.Color.WHITE, descRegion, drawBoxTransparent) then
             self.slotDescription:resetRichText()
+        end
+    end
+
+    if self.itemDescriptionSelected then
+        local rightDescRegion = select(2, rest2:splitVertical(1, 5))
+        self.itemDescriptionSelectedTime = self.itemDescriptionSelectedTime + love.timer.getDelta() * descriptionOpenSpeed
+        if drawDescription(self.itemDescriptionSelectedTime, self.itemDescriptionSelected, objects.Color.BLACK, rightDescRegion, drawBoxOpaque) then
+            self.itemDescriptionSelected:resetRichText()
         end
     end
 
@@ -138,6 +159,16 @@ function Scene:setItemDescription(itemEnt)
     self.itemDescriptionTime = 0
 end
 
+---@param itemEnt lootplot.ItemEntity?
+function Scene:setSelectedItemDescription(itemEnt)
+    if itemEnt then
+        self.itemDescriptionSelected = populateDescriptionBox(itemEnt)
+    else
+        self.itemDescriptionSelected = nil
+    end
+    self.itemDescriptionSelectedTime = 0
+end
+
 ---@param slotEnt lootplot.SlotEntity?
 function Scene:setSlotDescription(slotEnt)
     if slotEnt then
@@ -177,8 +208,16 @@ end)
 -- Handles action button selection
 ---@param selection lootplot.Selected
 umg.on("lootplot:selectionChanged", function(selection)
+    scene:setSelectedItemDescription()
+
     if selection then
         scene:setActionButtons(selection.actions)
+
+        local itemEnt = lp.posToItem(selection.ppos)
+
+        if itemEnt then
+            scene:setSelectedItemDescription(itemEnt)
+        end
     else
         scene:setActionButtons()
     end

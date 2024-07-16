@@ -245,7 +245,7 @@ if client then
 
             hoveredItem = ent
             umg.call("lootplot:startHoverItem", ent)
-        elseif lp.isSlotEntity(ent) and hoveredSlot == nil then
+        elseif lp.isSlotEntity(ent) then
             if hoveredSlot then
                 umg.call("lootplot:endHoverSlot", hoveredSlot)
             end
