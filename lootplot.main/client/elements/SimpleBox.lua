@@ -5,7 +5,8 @@
     The width of this box scales with respect to
 ]]
 
-local SimpleBox = ui.Element("lootplot:SimpleBox")
+---@class lootplot.main.SimpleBox: Element
+local SimpleBox = ui.Element("lootplot.main:SimpleBox")
 
 local lg=love.graphics
 
@@ -38,11 +39,25 @@ local function rect(x,y,w,h, rx,ry, hasRounding)
 end
 
 function SimpleBox:onRender(x,y,w,h)
-    local t = math.floor(self.thickness * lg.getWidth()/500)
+    return SimpleBox.draw(self.color, x, y, w, h, self.rounding, self.thickness)
+end
+
+---@param color objects.Color
+---@param x number
+---@param y number
+---@param w number
+---@param h number
+---@param rounding number?
+---@param thickness number?
+function SimpleBox.draw(color, x, y, w, h, rounding, thickness)
+    rounding = rounding or 0
+    thickness = thickness or 0
+
+    local t = math.floor(thickness * lg.getWidth()/500)
     local t2 = t*2
     local t4 = t*4
 
-    local r = self.rounding
+    local r = rounding
     local hasRounding = (r > 0)
 
     lg.setColor(1,1,1)
@@ -51,7 +66,8 @@ function SimpleBox:onRender(x,y,w,h)
     lg.setColor(0,0,0)
     rect(x-t,y-t, w+t2,h+t2, r+t,r+t, hasRounding)
 
-    lg.setColor(self.color)
+    lg.setColor(color)
     rect(x,y, w,h, r,r, hasRounding)
 end
 
+return SimpleBox
