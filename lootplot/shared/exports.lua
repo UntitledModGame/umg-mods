@@ -562,6 +562,7 @@ function lp.defineItem(name, itemType)
     itemType.baseBuyPrice = itemType.baseBuyPrice or 2
     itemType.triggers = itemType.triggers or {"PULSE"}
     itemType.hitboxDistance = itemType.hitboxDistance or 8
+    itemType.hoverable = true
     umg.defineEntityType(name, itemType)
     lp.ITEM_GENERATOR:defineEntry(name)
 end
@@ -593,6 +594,7 @@ function lp.defineSlot(name, slotType)
     slotType.drawDepth = -600
     slotType.triggers = slotType.triggers or {"PULSE"}
     slotType.hitboxArea = slotType.hitboxArea or DEFAULT_SLOT_HITBOX_AREA
+    slotType.hoverable = true
     if slotType.baseCanSlotPropagate == nil then
         slotType.baseCanSlotPropagate = true
     end
