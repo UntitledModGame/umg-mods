@@ -153,7 +153,7 @@ function reducers.LAST(a, b)
 end
 
 ---Reducer function that collects all single inputs into an array.
-
+---
 ---The way this works, is the first argument `a` is treated
 ---as an array.
 ---`a` is then continuously passed to the next arguments.

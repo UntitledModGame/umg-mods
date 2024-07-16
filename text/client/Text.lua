@@ -15,10 +15,6 @@ function Text:init(text, args)
     self.evals = {}
     self.variables = args.variables or _G
     self.effectGroup = args.effectGroup or defaultEffectGroup
-    self.font = args.font or love.graphics.getFont()
-
-    self.fontHeight = self.font:getHeight()
-    self.lines = 1
 
     self:_parse(text)
 end
@@ -86,7 +82,6 @@ function Text:_parse(text)
     local effectKey = nil
     local i = 1 -- Character position index, in UTF-8 text
     local effectArgs = {}
-    self.lines = 1
 
     table.clear(self.evals)
 
@@ -296,11 +291,12 @@ function Text:_parse(text)
     end
 end
 
+---@param font love.Font
 ---@param eval {call:boolean,effects:{inst:any,update:fun(self:any,subtext:text.Character?,dt:number)}[],text:string?,evaltext:string?,subtexts:text.Character[]}
 ---@param start integer
 ---@return integer
 ---@private
-function Text:_updateSubtext(eval, start)
+function Text:_updateSubtext(font, eval, start)
     local i = 0
     for _, c in utf8.codes(eval.evaltext) do
         i = i + 1
@@ -310,9 +306,9 @@ function Text:_updateSubtext(eval, start)
         if eval.subtexts[i] then
             subtext = eval.subtexts[i]
             -- This is quite hacky of calling :init() directly.
-            subtext:init(self.font, char, start)
+            subtext:init(font, char, start)
         else
-            subtext = Character(self.font, char, start)
+            subtext = Character(font, char, start)
             eval.subtexts[#eval.subtexts+1] = subtext
         end
 
@@ -332,8 +328,9 @@ local function iterArraysWithOffset(t, i)
 end
 
 ---This (re)build the subtexts.
+---@param font love.Font
 ---@private
-function Text:_rebuildAllSubtextsOfEvals()
+function Text:_rebuildAllSubtextsOfEvals(font)
     local start = 1
 
     for _, eval in ipairs(self.evals) do
@@ -348,11 +345,11 @@ function Text:_rebuildAllSubtextsOfEvals()
 
             if interpData ~= eval.evaltext then
                 eval.evaltext = interpData
-                start = self:_updateSubtext(eval, start)
+                start = self:_updateSubtext(font, eval, start)
             end
         elseif #eval.subtexts == 0 then
             -- Only update subtext once
-            start = self:_updateSubtext(eval, start)
+            start = self:_updateSubtext(font, eval, start)
         else
             start = start + #eval.subtexts
         end
@@ -424,9 +421,10 @@ function Text:_makeSubtextPositionAbsolute(subtexts, x, y)
 end
 
 ---This computes the text placement.
+---@param font love.Font
 ---@param maxwidth number
 ---@private
-function Text:_computeTextPositions(maxwidth)
+function Text:_computeTextPositions(font, maxwidth)
     ---@type text.Character[]
     local sentence = {}
     local sentenceWidth = 0
@@ -436,6 +434,7 @@ function Text:_computeTextPositions(maxwidth)
     local lineWidth = 0
     local hasDrawnCurrentLine = false
     local lastIsWhitespace = false
+    local fontHeight = font:getHeight()
 
     for _, eval in ipairs(self.evals) do
         for i = 1, (eval.evaltext and #eval.evaltext or 0) do
@@ -445,12 +444,12 @@ function Text:_computeTextPositions(maxwidth)
             local kerning = 0
 
             if lastSubtext then
-                kerning = self.font:getKerning(lastSubtext:getChar(), subtext:getChar())
+                kerning = font:getKerning(lastSubtext:getChar(), subtext:getChar())
             end
 
             if char == "\n" then
                 -- Flush current sentences
-                self:_makeSubtextPositionAbsolute(sentence, lineWidth, line * self.fontHeight)
+                self:_makeSubtextPositionAbsolute(sentence, lineWidth, line * fontHeight)
                 table.clear(sentence)
 
                 -- Move it to next line
@@ -464,7 +463,7 @@ function Text:_computeTextPositions(maxwidth)
                 lastIsWhitespace = true
             elseif lastIsWhitespace then
                 -- Flush current sentence
-                self:_makeSubtextPositionAbsolute(sentence, lineWidth, line * self.fontHeight)
+                self:_makeSubtextPositionAbsolute(sentence, lineWidth, line * fontHeight)
                 table.clear(sentence)
                 lineWidth = lineWidth + sentenceWidth
                 sentenceWidth = 0
@@ -474,7 +473,7 @@ function Text:_computeTextPositions(maxwidth)
             elseif (lineWidth + sentenceWidth + width + kerning) > maxwidth then
                 if (not hasDrawnCurrentLine) or lastIsWhitespace then
                     -- The whole sentence does not fit.
-                    self:_makeSubtextPositionAbsolute(sentence, lineWidth, line * self.fontHeight)
+                    self:_makeSubtextPositionAbsolute(sentence, lineWidth, line * fontHeight)
                     table.clear(sentence)
                     sentenceWidth = 0
                 end
@@ -498,7 +497,7 @@ function Text:_computeTextPositions(maxwidth)
     end
 
     -- Update last sentence
-    self:_makeSubtextPositionAbsolute(sentence, lineWidth, line * self.fontHeight)
+    self:_makeSubtextPositionAbsolute(sentence, lineWidth, line * fontHeight)
 end
 
 ---Draw the rich text effect.
@@ -521,36 +520,38 @@ local function isLOVEType(obj, t)
 end
 
 ---Draw the rich text effect.
----@param transform love.Transform
+---@param font love.Font Font object to use.
+---@param transform love.Transform Transformation matrix.
 ---@param maxwidth number? Maximum width the text can occupy before breaking sentence to next line.
 ---@diagnostic disable-next-line: duplicate-set-field
-function Text:draw(transform, maxwidth) end
+function Text:draw(font, transform, maxwidth) end
 
 ---Draw the rich text effect.
----@param x number
----@param y number
+---@param font love.Font Font object to use.
+---@param x number X position
+---@param y number Y position
 ---@param maxwidth number? Maximum width the text can occupy before breaking sentence to next line.
----@param rot number?
----@param sx number?
----@param sy number?
----@param ox number?
----@param oy number?
----@param kx number?
----@param ky number?
+---@param rot number? Rotation
+---@param sx number? X scale
+---@param sy number? Y scale
+---@param ox number? X origin
+---@param oy number? Y origin
+---@param kx number? X shear
+---@param ky number? Y shear
 ---@diagnostic disable-next-line: duplicate-set-field
-function Text:draw(x, y, maxwidth, rot, sx, sy, ox, oy, kx, ky)
+function Text:draw(font, x, y, maxwidth, rot, sx, sy, ox, oy, kx, ky)
     if isLOVEType(x, "Transform") then
         maxwidth = y
     end
 
-    self:_rebuildAllSubtextsOfEvals()
+    self:_rebuildAllSubtextsOfEvals(font)
     self:_resetSubtextEffects()
-    self:_computeTextPositions(maxwidth or math.huge)
+    self:_computeTextPositions(font, maxwidth or math.huge)
 
     love.graphics.push("all")
     love.graphics.applyTransform(x, y, rot, sx, sy, ox, oy, kx, ky)
 
-    local stackPushed = self:applyAdditionalTransform()
+    local stackPushed = self:applyAdditionalTransform(font)
 
     self:_applyEffects()
     self:_draw()
@@ -572,21 +573,17 @@ end
 ---Called on every draw call.
 ---
 ---Can be overridden by user
+---@param font love.Font Font object used.
 ---@return boolean stackpush Is new transformation stack is pushed?
-function Text:applyAdditionalTransform()
+function Text:applyAdditionalTransform(font)
     return false
 end
 
----Retrieve the font object used to create this rich text
----@return love.Font
-function Text:getFont()
-    return self.font
-end
-
 ---Retrieve the unformatted string of this rich text effect.
+---@param font love.Font?
 ---@return string string The plain text (without effect tags and with string interpolation value evaluated) in this string
-function Text:getString()
-    self:_rebuildAllSubtextsOfEvals()
+function Text:getString(font)
+    self:_rebuildAllSubtextsOfEvals(font or love.graphics.getFont())
     local result = {}
 
     for _, eval in ipairs(self.evals) do
@@ -598,12 +595,20 @@ end
 Text.__tostring = Text.getString
 
 ---Retrieve the list of texts in this Text object without all the effect text.
----@param maxwidth number
+---@param maxwidth number Maximum width before word-wrapping.
+---@param font? love.Font Font object to use.
 ---@return number maxwidth Maximum width that the text occupy.
 ---@return string[] strings List of lines.
-function Text:getWrap(maxwidth)
-    local text = self:getString()
-    return self.font:getWrap(text, maxwidth)
+function Text:getWrap(maxwidth, font)
+    local text = self:getString(font)
+    local f = font or love.graphics.getFont()
+    return f:getWrap(text, maxwidth)
+end
+
+---Reset derived class-specific data.
+---
+---By default, this function does nothing. Can be overridden by user
+function Text:reset()
 end
 
 if false then

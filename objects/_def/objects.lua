@@ -6,9 +6,10 @@ local Class = {}
 function Class:init(...)
 end
 
----@param otherClass any
+---@param self objects.Class Class object variable
+---@param other any Instance to check
 ---@return boolean
-function Class:isInstance(otherClass)
+function Class:isInstance(other)
 end
 
 ---@generic T: objects.Class

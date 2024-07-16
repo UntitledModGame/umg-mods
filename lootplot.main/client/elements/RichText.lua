@@ -8,58 +8,52 @@ automatically fit the given box + support for rich formatting.
 
 local lg = love.graphics
 
----@param font love.Font
----@param text string
----@param wrap number?
-local function getTextSize(font, text, wrap)
-    local width, lines = font:getWrap(text, wrap or 2147483647)
-    return width, #lines * font:getHeight()
-end
-
-
----@param args string|{text:string,font?:love.Font,scale?:number,variables?:table,color?:objects.Color,wrap?:number,class?:(fun(text:string,args:table):text.Text),effectGroup?:text.EffectGroup}
+---@param args string|{text:string|text.Text,font?:love.Font,scale?:number,variables?:table,color?:objects.Color,wrap?:number,class?:(fun(text:string,args:table):text.Text),effectGroup?:text.EffectGroup}
 function RichText:init(args)
     local textString
+    local constructor = text.Text
+    local effectGroup = nil
+    local vars = _G
 
-    self.richTextConstructor = text.Text
     self.scale = 1
     self.color = objects.Color.WHITE
-    self.effectGroup = nil
-    self.vars = _G
     self.font = love.graphics.getFont()
 
     if type(args) == "string" then
         textString = args
     else
         textString = args.text
+        vars = args.variables or _G
+        constructor = args.class or text.Text
+        effectGroup = args.effectGroup
+
         self.color = args.color or objects.Color.WHITE
-        self.effectGroup = args.effectGroup
         self.wrap = args.wrap -- whether we do text wrapping
-        self.vars = args.variables or _G
         self.scale = args.scale or 1
         self.font = args.font or self.font
-        self.richTextConstructor = args.class or text.Text
     end
 
-    self:setFormattedString(textString)
+    if text.Text:isInstance(textString) then
+        ---@cast textString text.Text
+        self.richText = textString
+    else
+        ---@cast textString string
+        self.richText = constructor(textString, {
+            variables = vars,
+            effectGroup = effectGroup
+        })
+    end
 end
 
 
 
 local DEFAULT_COLOR = {0,0,0}
 
-function RichText:setFormattedString(text)
-    self.richText = self.richTextConstructor(text, {
-        font = self.font,
-        effectGroup = self.effectGroup,
-        variables = self.vars
-    })
-end
 
 function RichText:onRender(x,y,w,h)
     local wrapval = self.wrap or 2147483647
-    local tw, tlines = self.richText:getWrap(self.wrap or wrapval)
-    local th = #tlines * self.richText:getFont():getHeight()
+    local tw, tlines = self.richText:getWrap(self.wrap or wrapval, self.font)
+    local th = #tlines * self.font:getHeight()
     --[[
         TODO: do we want to propagate the text size to the parent
             somehow...?
@@ -73,12 +67,17 @@ function RichText:onRender(x,y,w,h)
 
     local r, g, b, a = love.graphics.getColor()
     lg.setColor(self.color * objects.Color(r, g, b, a))
-    self.richText:draw(drawX, drawY, limit, 0, scale, scale, tw / 2, th / 2)
+    self.richText:draw(self.font, drawX, drawY, limit, 0, scale, scale, tw / 2, th / 2)
     love.graphics.setColor(r, g, b, a)
 end
 
 function RichText:getRichText()
     return self.richText
+end
+
+---@param rt text.Text
+function RichText:setRichText(rt)
+    self.richText = rt
 end
 
 return RichText

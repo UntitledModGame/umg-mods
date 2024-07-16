@@ -49,45 +49,48 @@ function shopService.buy(ent)
     return false
 end
 
-umg.on("lootplot:pollSlotButtons", function(ppos, list)
+-- This handles buy/sell/destroy button
+umg.answer("lootplot:pollSlotButtons", function(ppos)
     local itemEnt = lp.posToItem(ppos)
     local slotEnt = lp.posToSlot(ppos)
     if not (itemEnt and slotEnt) then
-        return
+        return nil
     end
 
     if slotEnt.shopLock then
         -- add buy button
-        list:add(ui.elements.CostButton({
+        return {
+            text = text.Text("Buy (${$buyPrice})", {
+                variables = itemEnt
+            }),
             onClick = function()
                 if shopService.buy(itemEnt) then
                     selection.reset()
                     -- selection.selectSlot(slotEnt)
                 end
             end,
-            getCost = function()
-                return itemEnt.buyPrice
-            end,
-            canClick = function()
-                return lp.getMoney(itemEnt) >= itemEnt.buyPrice
-            end,
-            text = "Buy"
-        }))
+            priority = 0,
+        }
     else
-        list:add(ui.elements.CostButton({
+        local kind = itemEnt.sellPrice > 0 and "Sell" or "Destroy"
+        return {
+            text = text.Text(kind.." (${$getPrice()})", {
+                variables = {
+                    getPrice = function()
+                        return math.abs(itemEnt.sellPrice)
+                    end
+                }
+            }),
             onClick = function()
                 if lp.canPlayerAccess(itemEnt, client.getClient()) then
                     shopService.sell(itemEnt)
                     selection.reset()
                 end
             end,
-            getCost = function()
-                return math.abs(itemEnt.sellPrice)
-            end,
             canClick = function()
                 return lp.canPlayerAccess(itemEnt, client.getClient())
             end,
-            text = itemEnt.sellPrice > 0 and "Sell" or "Destroy"
-        }))
+            priority = 0,
+        }
     end
 end)
