@@ -55,8 +55,12 @@ end)
 
 local DEFAULT_CLICKABLE_DISTANCE = 30
 
-local function inRange(ent, dist)
-    return (ent.clickableDistance or DEFAULT_CLICKABLE_DISTANCE) >= dist
+local function inRange(ent, x, y)
+    if hitboxes.hasHitbox(ent) then
+        return hitboxes.isHit(ent, x, y)
+    else
+        return math.sqrt((ent.x - x) ^ 2 + (ent.y - y) ^ 2) <= DEFAULT_CLICKABLE_DISTANCE
+    end
 end
 
 local function clickEntityClient(ent, button, worldX, worldY, dimension)
@@ -79,11 +83,9 @@ local function click(self, controlEnum, button)
     for _, ent in clickEntPartition:iterator(dvec) do
         local x, y = ent.x, rendering.getDrawY(ent.y, ent.z)
         local dist = math.distance(x-worldX, y-worldY)
-        if dist < bestDist then
-            if inRange(ent, dist) then
-                bestEnt = ent
-                bestDist = dist
-            end
+        if dist < bestDist and inRange(ent, worldX, worldY) then
+            bestEnt = ent
+            bestDist = dist
         end
     end
 

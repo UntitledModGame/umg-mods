@@ -561,8 +561,7 @@ function lp.defineItem(name, itemType)
     itemType.baseSellPrice = itemType.baseSellPrice or 1
     itemType.baseBuyPrice = itemType.baseBuyPrice or 2
     itemType.triggers = itemType.triggers or {"PULSE"}
-    itemType.hoverable = true
-    itemType.hoverableDistance = 8
+    itemType.hitboxDistance = itemType.hitboxDistance or 8
     umg.defineEntityType(name, itemType)
     lp.ITEM_GENERATOR:defineEntry(name)
 end
@@ -583,6 +582,8 @@ end
 ---@field public itemReroller generation.Query?
 ---@alias lootplot.SlotEntity lootplot.SlotEntityClass|lootplot.LayerEntity|Entity
 
+local DEFAULT_SLOT_HITBOX_AREA = {width = 22, height = 22, ox = 0, oy = 0}
+
 ---@param name string
 ---@param slotType table<string, any>
 function lp.defineSlot(name, slotType)
@@ -591,8 +592,7 @@ function lp.defineSlot(name, slotType)
     slotType.layer = "slot"
     slotType.drawDepth = -600
     slotType.triggers = slotType.triggers or {"PULSE"}
-    slotType.hoverable = true
-    slotType.hoverableDistance = 11
+    slotType.hitboxArea = slotType.hitboxArea or DEFAULT_SLOT_HITBOX_AREA
     if slotType.baseCanSlotPropagate == nil then
         slotType.baseCanSlotPropagate = true
     end

@@ -22,8 +22,12 @@ end)
 
 local DEFAULT_HOVERABLE_DISTANCE = 30
 
-local function inRange(ent, dist)
-    return (ent.hoverableDistance or DEFAULT_HOVERABLE_DISTANCE) >= dist
+local function inRange(ent, x, y)
+    if hitboxes.hasHitbox(ent) then
+        return hitboxes.isHit(ent, x, y)
+    else
+        return math.sqrt((ent.x - x) ^ 2 + (ent.y - y) ^ 2) <= DEFAULT_HOVERABLE_DISTANCE
+    end
 end
 
 local function tryStartHover(ent)
@@ -34,9 +38,7 @@ local function tryStartHover(ent)
 end
 
 local function tryEndHover(ent, worldX, worldY)
-    local drawX, drawY = ent.x, rendering.getDrawY(ent.y, ent.z)
-    local dist = math.distance(drawX - worldX, drawY - worldY)
-    if not inRange(ent, dist) then
+    if not inRange(ent, worldX, worldY) then
         hoveredEntities:remove(ent)
         umg.call("hoverables:endHover", ent)
     end
@@ -49,9 +51,7 @@ listener:onPointerMoved(function(l, x, y)
     local dvec = currentCamera:getDimensionVector()
 
     for _, ent in hoverEntPartition:iterator(dvec) do
-        local drawX, drawY = ent.x, rendering.getDrawY(ent.y, ent.z)
-        local dist = math.distance(drawX - worldX, drawY - worldY)
-        if inRange(ent, dist) then
+        if inRange(ent, worldX, worldY) then
             tryStartHover(ent)
         end
     end

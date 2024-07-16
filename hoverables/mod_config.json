@@ -1,4 +1,4 @@
 {
     "type": "base",
-    "uses": ["spatial", "input", "components", "objects", "rendering"]
+    "uses": ["spatial", "input", "components", "objects", "rendering", "hitboxes"]
 }
