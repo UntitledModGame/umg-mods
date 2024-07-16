@@ -35,6 +35,21 @@ The idea of `Supers` would solve this very well!! :)
 
 
 
+# FUEL ITEMS
+Some items should act more as fuel then regular items.
+
+## For example:
+Compost bin:
+If targeting 4 botanic items, delete all target items and generate 15 points
+-->
+Manure: (has botanic trait)
+This item does nothing.
+its main purpose is to be used as "fuel" (by compost bin in this scenario)
+
+
+
+
+
 ## World slots:
 Buyable slots/rerollable slots should be able to exist in the WORLD PLOT.
 This... would be extremely beautiful.

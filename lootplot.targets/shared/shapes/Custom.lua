@@ -1,6 +1,5 @@
 local Shape = require("shared.Shape")
 
-local DIRECTION = {-1, 1}
 
 ---@class lootplot.targets.CustomShape: lootplot.targets.Shape
 local CustomShape = objects.Class("lootplot.targets:CustomShape"):implement(Shape)

@@ -18,7 +18,7 @@ local function activateTargets(targetFunc, ent, targets, conversion)
         end)
 end
 
-local VALIDS = {SLOT=true, ITEM=true}
+local VALIDS = {SLOT=true, ITEM=true, NO_ITEM=true, NO_SLOT=true}
 
 umg.on("lootplot:entityActivated", function(ent)
     if lp.isItemEntity(ent) then

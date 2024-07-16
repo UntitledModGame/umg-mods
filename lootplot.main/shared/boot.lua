@@ -33,7 +33,7 @@ end
 ---@param plot lootplot.Plot
 local function initializeSlots(clientId, plot)
     -- adds basic slots to be overridden
-    plot:foreachInArea(9, 4, 13, 8, function(ppos)
+    plot:foreachInArea(9, 6, 13, 9, function(ppos)
         lp.forceSpawnSlot(ppos, server.entities.slot).ownerPlayer = clientId
     end)
     -- Add shop slots
@@ -54,17 +54,11 @@ end
 local function initializeItems(clientId, plot)
     -- Spawn only one item for debug purposes
     -- -- TODO: remove this stuff
-    plot:foreachInArea(10, 5, 10, 5, function(ppos)
+    plot:foreachInArea(9, 6, 9, 6, function(ppos)
         lp.trySpawnItem(ppos, server.entities.bb).ownerPlayer = clientId
     end)
-    plot:foreachInArea(10, 4, 10, 4, function(ppos)
+    plot:foreachInArea(9, 7, 9, 7, function(ppos)
         lp.trySpawnItem(ppos, server.entities.strawberry).ownerPlayer = clientId
-    end)
-    plot:foreachInArea(11, 6, 11, 6, function(ppos)
-        lp.trySpawnItem(ppos, server.entities.bb)
-    end)
-    plot:foreachInArea(4, 6, 4, 6, function(ppos)
-        lp.trySpawnItem(ppos, server.entities.strawberry)
     end)
     plot:foreachInArea(12, 7, 12, 7, function(ppos)
         lp.trySpawnItem(ppos, server.entities.kiwi).ownerPlayer = clientId

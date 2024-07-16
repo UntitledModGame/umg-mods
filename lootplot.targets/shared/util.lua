@@ -7,14 +7,17 @@ function util.chebyshevDistance(dx, dy)
 end
 
 
-
-local function tryGetVal(targeterEnt, ppos)
+local function tryConvert(targeterEnt, ppos)
     if targeterEnt.targetType == "ITEM" then
-        return lp.posToItem(ppos)
+        return true, lp.posToItem(ppos)
     elseif targeterEnt.targetType == "SLOT" then
-        return lp.posToSlot(ppos)
+        return true, lp.posToSlot(ppos)
+    elseif targeterEnt.targetType == "NO_ITEM" then
+        return not lp.posToItem(ppos)
+    elseif targeterEnt.targetType == "NO_SLOT" then
+        return not lp.posToSlot(ppos)
     end
-    return nil
+    return false
 end
 
 
@@ -26,9 +29,9 @@ local function checkFilter(targeterEnt, ppos, val)
 end
 
 function util.canTarget(targeterEnt, ppos)
-    local val = tryGetVal(targeterEnt, ppos)
+    local ok,val = tryConvert(targeterEnt, ppos)
     if targeterEnt.targetType then
-        if val then
+        if ok then
             return checkFilter(targeterEnt, ppos, val)
         end
         return false -- cannot target empty!

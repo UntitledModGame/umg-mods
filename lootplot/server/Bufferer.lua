@@ -22,7 +22,9 @@ local DEFAULT_BUFFERER_DELAY = 0.2
 
 local CONVERSIONS = objects.Enum({
     ITEM = "ITEM",
-    SLOT = "SLOT"
+    SLOT = "SLOT",
+    NO_ITEM = "NO_ITEM", -- ppos with no item
+    NO_SLOT = "NO_SLOT", -- ppos with no slot
 })
 
 function Bufferer:init()
@@ -74,7 +76,7 @@ function Bufferer:all(plot_or_ppos)
     return self
 end
 
----@param towhat? "ITEM"|"SLOT"
+---@param towhat? "ITEM"|"SLOT"|"NO_SLOT"|"NO_ITEM"
 ---@return lootplot.Bufferer
 function Bufferer:to(towhat)
     if towhat then
@@ -97,11 +99,17 @@ end
 
 local function tryConvert(self, ppos)
     if self.conversion == CONVERSIONS.ITEM then
-        return lp.posToItem(ppos)
+        local item = lp.posToItem(ppos)
+        return (not not item), item
     elseif self.conversion == CONVERSIONS.SLOT then
-        return lp.posToSlot(ppos)
+        local slot = lp.posToSlot(ppos)
+        return (not not slot), slot
+    elseif self.conversion == CONVERSIONS.NO_ITEM then
+        return not lp.posToItem(ppos)
+    elseif self.conversion == CONVERSIONS.NO_SLOT then
+        return not lp.posToSlot(ppos)
     end
-    return nil
+    return false
 end
 
 
@@ -118,15 +126,15 @@ and doing the filters in-place, within the functions.
 ---@param self lootplot.Bufferer
 ---@param ppos lootplot.PPos
 local function step(self, ppos)
-    local val = tryConvert(self, ppos)
-    if self.conversion and (not val) then
+    local ok, val = tryConvert(self, ppos)
+    if self.conversion and (not ok) then
         -- no slot, or no item!
         return
     end
 
     for _, f in ipairs(self.filters) do
-        local ok = f(ppos, val)
-        if not ok then
+        local ok1 = f(ppos, val)
+        if not ok1 then
             return
         end
     end
