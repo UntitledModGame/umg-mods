@@ -178,8 +178,12 @@ end
 function lp.setPoints(fromEnt, x)
     assert(contextInstance, "lootplot is not initialized")
     modifyTc(fromEnt, x)
-    contextInstance:setPoints(fromEnt, x)
-    umg.call("lootplot:pointsChanged", fromEnt, x)
+    local oldVal = contextInstance:getPoints(fromEnt)
+    if oldVal then
+        local delta = x - oldVal
+        contextInstance:setPoints(fromEnt, x)
+        umg.call("lootplot:pointsChanged", fromEnt, delta, oldVal, x)
+    end
 end
 
 ---@param fromEnt Entity
@@ -224,8 +228,12 @@ end
 ---@param x number
 function lp.setMoney(fromEnt, x)
     assert(contextInstance, "lootplot is not initialized")
-    contextInstance:setMoney(fromEnt, x)
-    umg.call("lootplot:moneyChanged", fromEnt, x)
+    local oldVal = contextInstance:getMoney(fromEnt)
+    if oldVal then
+        local delta = x - oldVal
+        contextInstance:setMoney(fromEnt, x)
+        umg.call("lootplot:moneyChanged", fromEnt, delta, oldVal, x)
+    end
 end
 
 ---@param fromEnt Entity
