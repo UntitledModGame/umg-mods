@@ -60,7 +60,7 @@ umg.answer("lootplot:pollSlotButtons", function(ppos)
     if slotEnt.shopLock then
         -- add buy button
         return {
-            text = text.Text("Buy (${$buyPrice})", {
+            text = text.RichText("Buy (${$buyPrice})", {
                 variables = itemEnt
             }),
             onClick = function()
@@ -74,7 +74,7 @@ umg.answer("lootplot:pollSlotButtons", function(ppos)
     else
         local kind = itemEnt.sellPrice > 0 and "Sell" or "Destroy"
         return {
-            text = text.Text(kind.." (${$getPrice()})", {
+            text = text.RichText(kind.." (${$getPrice()})", {
                 variables = {
                     getPrice = function()
                         return math.abs(itemEnt.sellPrice)

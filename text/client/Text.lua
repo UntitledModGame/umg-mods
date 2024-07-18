@@ -1,14 +1,14 @@
 if false then utf8 = require("utf8") end -- sumneko hack
 
----@class text.Text: objects.Class
-local Text = objects.Class("text:Text")
+---@class text.RichText: objects.Class
+local RichText = objects.Class("text:RichText")
 
 local defaultEffectGroup = require("client.defaultEffectGroup")
 local Character = require("client.Character")
 
 ---@param text string
 ---@param args text.TextArgs?
-function Text:init(text, args)
+function RichText:init(text, args)
     args = args or {}
 
     ---@type {call:boolean,effects:{inst:any,update:fun(self:any,subtext:text.Character[])}[],text:string?,evaltext:string?,subtexts:text.Character[]}[]
@@ -34,7 +34,7 @@ end
 
 ---@param text string
 ---@private
-function Text:_parse(text)
+function RichText:_parse(text)
     ---@type string[]
     local tempchar = {} -- This keep all the raw characters.
     local activeEffects = {} -- This keep the list of effect instances.
@@ -296,7 +296,7 @@ end
 ---@param start integer
 ---@return integer
 ---@private
-function Text:_updateSubtext(font, eval, start)
+function RichText:_updateSubtext(font, eval, start)
     local i = 0
     for _, c in utf8.codes(eval.evaltext) do
         i = i + 1
@@ -330,7 +330,7 @@ end
 ---This (re)build the subtexts.
 ---@param font love.Font
 ---@private
-function Text:_rebuildAllSubtextsOfEvals(font)
+function RichText:_rebuildAllSubtextsOfEvals(font)
     local start = 1
 
     for _, eval in ipairs(self.evals) do
@@ -358,7 +358,7 @@ end
 
 ---This reset the previous effect subtext values.
 ---@private
-function Text:_resetSubtextEffects()
+function RichText:_resetSubtextEffects()
     for _, eval in ipairs(self.evals) do
         for i = 1, #eval.evaltext do
             eval.subtexts[i]:reset()
@@ -368,7 +368,7 @@ end
 
 ---Apply effects to the characters.
 ---@private
-function Text:_applyEffects()
+function RichText:_applyEffects()
     -- Stage 3: Update subtext effects
     ---@type text.Character[]
     local toEvaluate = {}
@@ -410,7 +410,7 @@ end
 ---@param x number
 ---@param y number
 ---@private
-function Text:_makeSubtextPositionAbsolute(subtexts, x, y)
+function RichText:_makeSubtextPositionAbsolute(subtexts, x, y)
     for _, subtext in ipairs(subtexts) do
         local tx, ty = subtext:getPosition()
         subtext:setPosition(x + tx, y + ty)
@@ -424,7 +424,7 @@ end
 ---@param font love.Font
 ---@param maxwidth number
 ---@private
-function Text:_computeTextPositions(font, maxwidth)
+function RichText:_computeTextPositions(font, maxwidth)
     ---@type text.Character[]
     local sentence = {}
     local sentenceWidth = 0
@@ -502,7 +502,7 @@ end
 
 ---Draw the rich text effect.
 ---@private
-function Text:_draw()
+function RichText:_draw()
     local r, g, b, a = love.graphics.getColor()
 
     for _, eval in ipairs(self.evals) do
@@ -524,7 +524,7 @@ end
 ---@param transform love.Transform Transformation matrix.
 ---@param maxwidth number? Maximum width the text can occupy before breaking sentence to next line.
 ---@diagnostic disable-next-line: duplicate-set-field
-function Text:draw(font, transform, maxwidth) end
+function RichText:draw(font, transform, maxwidth) end
 
 ---Draw the rich text effect.
 ---@param font love.Font Font object to use.
@@ -539,7 +539,7 @@ function Text:draw(font, transform, maxwidth) end
 ---@param kx number? X shear
 ---@param ky number? Y shear
 ---@diagnostic disable-next-line: duplicate-set-field
-function Text:draw(font, x, y, maxwidth, rot, sx, sy, ox, oy, kx, ky)
+function RichText:draw(font, x, y, maxwidth, rot, sx, sy, ox, oy, kx, ky)
     if isLOVEType(x, "Transform") then
         maxwidth = y
     end
@@ -567,7 +567,7 @@ end
 ---
 ---Can be overridden by user
 ---@param char text.Character
-function Text:effectCharacter(char)
+function RichText:effectCharacter(char)
 end
 
 ---Called on every draw call.
@@ -575,14 +575,14 @@ end
 ---Can be overridden by user
 ---@param font love.Font Font object used.
 ---@return boolean stackpush Is new transformation stack is pushed?
-function Text:applyAdditionalTransform(font)
+function RichText:applyAdditionalTransform(font)
     return false
 end
 
 ---Retrieve the unformatted string of this rich text effect.
 ---@param font love.Font?
 ---@return string string The plain text (without effect tags and with string interpolation value evaluated) in this string
-function Text:getString(font)
+function RichText:getString(font)
     self:_rebuildAllSubtextsOfEvals(font or love.graphics.getFont())
     local result = {}
 
@@ -592,14 +592,14 @@ function Text:getString(font)
 
     return table.concat(result)
 end
-Text.__tostring = Text.getString
+RichText.__tostring = RichText.getString
 
 ---Retrieve the list of texts in this Text object without all the effect text.
 ---@param maxwidth number Maximum width before word-wrapping.
 ---@param font? love.Font Font object to use.
 ---@return number maxwidth Maximum width that the text occupy.
 ---@return string[] strings List of lines.
-function Text:getWrap(maxwidth, font)
+function RichText:getWrap(maxwidth, font)
     local text = self:getString(font)
     local f = font or love.graphics.getFont()
     return f:getWrap(text, maxwidth)
@@ -608,15 +608,15 @@ end
 ---Reset derived class-specific data.
 ---
 ---By default, this function does nothing. Can be overridden by user
-function Text:reset()
+function RichText:reset()
 end
 
 if false then
     ---@param text string
     ---@param args text.TextArgs?
-    ---@return text.Text
+    ---@return text.RichText
     ---@diagnostic disable-next-line: missing-return, cast-local-type
-    function Text(text, args) end
+    function RichText(text, args) end
 end
 
-return Text
+return RichText

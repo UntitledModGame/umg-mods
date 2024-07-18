@@ -1,8 +1,8 @@
----@class lootplot.main.BulgeText: text.Text
-local BulgeText = objects.Class("lootplot.main:BulgeText"):implement(text.Text)
+---@class lootplot.main.BulgeText: text.RichText
+local BulgeText = objects.Class("lootplot.main:BulgeText"):implement(text.RichText)
 
 function BulgeText:init(txt, args)
-    text.Text.init(self, txt, args)
+    text.RichText.init(self, txt, args)
     self.constructTime = love.timer.getTime()
     self.timeStepPerCharacter = args and args.stepPerChar or 0.05 -- 50ms
     self.totalDurationPerCharacter = args and args.bulgeDuration or 0.2 -- 200ms

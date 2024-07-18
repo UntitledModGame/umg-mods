@@ -8,10 +8,10 @@ automatically fit the given box + support for rich formatting.
 
 local lg = love.graphics
 
----@param args string|{text:string|text.Text,font?:love.Font,scale?:number,variables?:table,color?:objects.Color,wrap?:number,class?:(fun(text:string,args:table):text.Text),effectGroup?:text.EffectGroup}
+---@param args string|{text:string|text.RichText,font?:love.Font,scale?:number,variables?:table,color?:objects.Color,wrap?:number,class?:(fun(text:string,args:table):text.RichText),effectGroup?:text.EffectGroup}
 function RichText:init(args)
     local textString
-    local constructor = text.Text
+    local constructor = text.RichText
     local effectGroup = nil
     local vars = _G
 
@@ -24,7 +24,7 @@ function RichText:init(args)
     else
         textString = args.text
         vars = args.variables or _G
-        constructor = args.class or text.Text
+        constructor = args.class or text.RichText
         effectGroup = args.effectGroup
 
         self.color = args.color or objects.Color.WHITE
@@ -33,8 +33,8 @@ function RichText:init(args)
         self.font = args.font or self.font
     end
 
-    if text.Text:isInstance(textString) then
-        ---@cast textString text.Text
+    if text.RichText:isInstance(textString) then
+        ---@cast textString text.RichText
         self.richText = textString
     else
         ---@cast textString string
@@ -75,7 +75,7 @@ function RichText:getRichText()
     return self.richText
 end
 
----@param rt text.Text
+---@param rt text.RichText
 function RichText:setRichText(rt)
     self.richText = rt
 end

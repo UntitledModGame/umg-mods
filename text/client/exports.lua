@@ -4,7 +4,7 @@ local text = {}
 if false then _G.text = text end
 
 text.EffectGroup = require("client.EffectGroup")
-text.Text = require("client.Text")
+text.RichText = require("client.Text")
 
 ---@class text.TextArgs
 ---@field public variables? table<string, any> Variable store to use (defaults to _G).

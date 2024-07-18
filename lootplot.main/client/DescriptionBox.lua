@@ -12,7 +12,7 @@ local FACTOR = 4
 ---@class lootplot.main._DescriptionBoxData
 ---@field public type string
 ---@field public height integer?
----@field public data text.Text|string|lootplot.DescriptionBoxFunction
+---@field public data text.RichText|string|lootplot.DescriptionBoxFunction
 ---@field public font love.Font?
 
 ---@param defaultFont love.Font?
@@ -24,7 +24,7 @@ function DescriptionBox:init(defaultFont)
 end
 
 ---Add plain text or rich text to the description box.
----@param text text.Text|string (Rich) text to add.
+---@param text text.RichText|string (Rich) text to add.
 ---@param font love.Font? Font to use when rendering this.
 function DescriptionBox:addText(text, font)
     if type(text) == "string" then
@@ -88,7 +88,7 @@ function DescriptionBox:draw(x, y, w, h)
             -- Let's put the blame on next element
             currentHeight = currentHeight + lastFont:getHeight() * scale
         elseif content.type == RICH_TEXT_TYPE then
-            local richText = content.data ---@cast richText text.Text
+            local richText = content.data ---@cast richText text.RichText
             local font = content.font or self.defaultFont
             local strings = select(2, richText:getWrap(w / scale, font))
             local height = #strings * font:getHeight() * scale
@@ -146,7 +146,7 @@ function DescriptionBox:getBestFitDimensions(maxWidth)
         elseif content.type == NEWLINE_TYPE then
             currentHeight = currentHeight + lastFont:getHeight() * scale
         elseif content.type == RICH_TEXT_TYPE then
-            local richText = content.data ---@cast richText text.Text
+            local richText = content.data ---@cast richText text.RichText
             local font = content.font or self.defaultFont
             local width, strings = richText:getWrap(maxWidth / scale, font)
 

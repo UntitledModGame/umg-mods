@@ -16,7 +16,7 @@ function ActionButton:init(args)
     self.canClick = args.canClick
     self.padding = args.padding or DEFAULT_PADDING
 
-    local constructor = text.Text:isInstance(args.text) and ui.elements.RichText or ui.elements.Text
+    local constructor = text.RichText:isInstance(args.text) and ui.elements.RichText or ui.elements.Text
     self.textElement = constructor({
         text = args.text,
         color = objects.Color.BLACK,
