@@ -16,13 +16,9 @@ umg.defineEvent("lootplot:entityTriggered")
 umg.defineQuestion("lootplot:isTriggerBlocked", reducers.OR)
 
 
-umg.defineEvent("lootplot:moneyAdded")
-umg.defineEvent("lootplot:moneySubtracted")
 umg.defineEvent("lootplot:moneyChanged")
-
-umg.defineEvent("lootplot:pointsAdded")
-umg.defineEvent("lootplot:pointsSubtracted")
 umg.defineEvent("lootplot:pointsChanged")
+
 
 umg.defineQuestion("lootplot:pollSlotButtons", reducers.SINGLE_COLLECT)
 

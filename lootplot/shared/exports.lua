@@ -165,15 +165,12 @@ Depending on the gamemode; this will be handled in different ways.
 ]]
 local function modifyPoints(fromEnt, x)
     assertServer()
-    local multiplier = umg.ask("lootplot:getPointMultiplier", fromEnt, x) or 1
-    local val = x*multiplier
-    if val > 0 then
-        umg.call("lootplot:pointsAdded", fromEnt, val)
-    elseif val < 0 then
-        umg.call("lootplot:pointsSubtracted", fromEnt, val)
-    end
     local points = lp.getPoints(fromEnt)
-    lp.setPoints(fromEnt, points + val)
+    if points then
+        local multiplier = umg.ask("lootplot:getPointMultiplier", fromEnt, x) or 1
+        local val = x*multiplier
+        lp.setPoints(fromEnt, points + val)
+    end
 end
 
 ---@param fromEnt Entity
@@ -215,15 +212,12 @@ end
 ]]
 local function modifyMoney(fromEnt, x)
     assertServer()
-    local multiplier = umg.ask("lootplot:getMoneyMultiplier", fromEnt) or 1
-    local val = x*multiplier
-    if val > 0 then
-        umg.call("lootplot:moneyAdded", fromEnt, val)
-    elseif val < 0 then
-        umg.call("lootplot:moneySubtracted", fromEnt, val)
-    end
     local money = lp.getMoney(fromEnt)
-    lp.setMoney(fromEnt, money + val)
+    if money then
+        local multiplier = umg.ask("lootplot:getMoneyMultiplier", fromEnt) or 1
+        local val = x*multiplier
+        lp.setMoney(fromEnt, money + val)
+    end
 end
 
 ---@param fromEnt Entity
