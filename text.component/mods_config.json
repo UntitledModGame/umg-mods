@@ -1,0 +1,5 @@
+{
+    "type": "base",
+    "uses": ["objects", "typecheck", "rendering", "text", "components"]
+}
+

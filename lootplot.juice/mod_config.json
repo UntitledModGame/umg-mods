@@ -1,4 +1,4 @@
 {
     "type": "base",
-    "uses": ["lootplot", "rendering"]
+    "uses": ["lootplot", "rendering", "rendering.components"]
 }

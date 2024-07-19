@@ -16,7 +16,7 @@ local DEFAULT_SPIN_MAGNITUDE = 1;
 local PI2 = math.pi * 2
 
 
-umg.answer("rendering:getScaleX", function(ent)
+umg.answer("rendering:getScaleXY", function(ent)
     --[[
         returns the scale_x multiplier for spinning component.
         Default is 1.
@@ -26,8 +26,8 @@ umg.answer("rendering:getScaleX", function(ent)
         local period = (spinning.period or DEFAULT_SPIN_PERIOD)
         local offset = (ent.id % 31) / period
         local mag = spinning.magnitude or DEFAULT_SPIN_MAGNITUDE
-        return mag * sin(tick * PI2 / period + offset)
+        return mag * sin(tick * PI2 / period + offset),1
     else
-        return 1
+        return 1,1
     end
 end)
