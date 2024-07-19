@@ -292,30 +292,6 @@ end
 
 
 
-
-local function ensureSlot(slotEnt_or_ppos)
-    --[[
-        Takes a slotEnt OR ppos,
-        and returns a slotEnt.
-
-        If anything is invalid, melts.
-    ]]
-    local ppos
-    if ptrack.get(slotEnt_or_ppos) then
-        -- its a slotEnt!
-        ppos = lp.getPos(slotEnt_or_ppos)
-    else
-        ppos = slotEnt_or_ppos
-    end
-
-    local slotEnt = lp.posToSlot(ppos)
-    if not slotEnt then
-        umg.melt("Invalid slot-entity (or position) for slot!", 3)
-    end
-    return slotEnt, ppos
-end
-
-
 local ent2Tc = typecheck.assert("entity", "entity")
 
 ---This one needs valid slot but does not require item to be present.
@@ -403,13 +379,13 @@ end
 ---@param ent Entity
 ---@return boolean
 function lp.canActivateEntity(ent)
-    -- TODO: use a question bus here!
-    return true
+    return umg.ask("lootplot:isActivationBlocked", ent)
 end
 
 ---@param ent Entity
 function lp.forceActivateEntity(ent)
     entityTc(ent)
+    ent.activationCount = (ent.activationCount or 0) + 1
     if ent.onActivate then
         ent:onActivate()
     end
@@ -534,6 +510,21 @@ end
 
 
 
+local DEFAULT_PROPS = {
+    "pointsGenerated", 
+    "moneyGenerated", 
+    "maxActivations"
+}
+
+local function giveSharedComponents(etype)
+    for _, prop in ipairs(DEFAULT_PROPS) do
+        local base = properties.getBase(prop)
+        assert(base,"?")
+        -- ensure base exists:
+        etype[base] = etype[base] or properties.getDefault(prop)
+    end
+end
+
 
 ---@class lootplot.LayerEntityClass: EntityClass
 ---@field public layer string
@@ -565,6 +556,7 @@ function lp.defineItem(name, itemType)
     itemType.triggers = itemType.triggers or {"PULSE"}
     itemType.hitboxDistance = itemType.hitboxDistance or 8
     itemType.hoverable = true
+    giveSharedComponents(itemType)
     umg.defineEntityType(name, itemType)
     lp.ITEM_GENERATOR:defineEntry(name)
 end
@@ -600,6 +592,7 @@ function lp.defineSlot(name, slotType)
     if slotType.baseCanSlotPropagate == nil then
         slotType.baseCanSlotPropagate = true
     end
+    giveSharedComponents(slotType)
     umg.defineEntityType(name, slotType)
     lp.SLOT_GENERATOR:defineEntry(name)
 end

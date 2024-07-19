@@ -294,6 +294,15 @@ function properties.getDefault(property)
     end
 end
 
+---Gets the base property (e.g. maxHealth -> baseMaxHealth)
+---@param property string
+---@return string?
+function properties.getBase(property)
+    local config = propertyToConfig[property]
+    if config and config.config.base then
+        return config.config.base
+    end
+end
 
 ---@return string[]
 function properties.getAllProperties()

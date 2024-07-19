@@ -54,6 +54,12 @@ end
 
 
 
+sync.autoSyncComponent("activationCount", {
+    type = "number",
+    lerp = false,
+})
+
+
 --[[
     boolean properties for lootplot
 ]]

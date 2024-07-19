@@ -134,7 +134,7 @@ end)
 ---@param ent lootplot.LayerEntity
 umg.on("lootplot:entityActivationBlocked", function(ent)
     if ent.drawable then
-        ent:addComponent("denyJuice", {xfreq = 15, yfreq = 0, amp = 2, start = love.timer.getTime(), duration = 0.6})
+        ent:addComponent("denyJuice", {xfreq = 18, yfreq = 0, amp = 1, start = love.timer.getTime(), duration = 0.3})
     end
 end)
 

@@ -31,6 +31,12 @@ end
 function properties.getAllProperties()
 end
 
+---Gets the base property (e.g. maxHealth -> baseMaxHealth)
+---@param property string
+---@return string?
+function properties.getBase(property)
+end
+
 ---Gets property type (or `nil` if property doesn't exist)
 ---@param property string
 ---@return "boolean"|"number"|nil
