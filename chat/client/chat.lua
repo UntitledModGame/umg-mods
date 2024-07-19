@@ -32,7 +32,7 @@ end)
 
 
 
-love.keyboard.setKeyRepeat(true)
+-- love.keyboard.setKeyRepeat(true)
 
 
 local function parseCommandArg(arg)

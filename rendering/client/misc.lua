@@ -7,7 +7,6 @@ A bunch of useful functions that don't really belong elsewhere.
 ]]
 
 
-local currentCamera = require("client.current_camera")
 local entityProperties = require("client.helper.entity_properties")
 
 local constants = require("client.constants")
@@ -46,7 +45,7 @@ local function isOnScreen(dVec, leighway)
     -- false otherwise.
     local x, y, dimension = dVec.x, getDrawY(dVec.y, dVec.z), dVec.dimension
     local w,h = screenWidth, screenHeight
-    local camera = currentCamera.getCamera()
+    local camera = camera.get()
     if camera:getDimension() ~= (dimension or DEFAULT_DIMENSION) then
         return false -- camera is looking at a different dimension
     end

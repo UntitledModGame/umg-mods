@@ -8,10 +8,6 @@ Will emit draw calls based on position, and in correct order.
 
 
 
-local currentCamera = require("client.current_camera")
-
-local constants = require("client.constants")
-
 local DimensionZIndexer = require("client.DimensionZIndexer")
 
 
@@ -41,12 +37,6 @@ end)
 
 
 
-umg.on("@resize", function()
-    local w,h = love.graphics.getDimensions()
-    local camera = currentCamera.getCamera()
-    camera.w = w
-    camera.h = h
-end)
 
 
 

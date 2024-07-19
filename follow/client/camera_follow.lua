@@ -1,12 +1,10 @@
 
 
-local CAMERA_PRIORITY = 0
-
-local follow_x = 0
-local follow_y = 0
+local CAMERA_PRIORITY = 50
 
 local followGroup = umg.group("cameraFollow")
 
+local CAMERA = camera.Camera(0, 0, nil, nil, 3)
 
 umg.on("@update", function()
     local sum_x = 0
@@ -22,13 +20,16 @@ umg.on("@update", function()
     end
 
     if len > 0 then
-        follow_x = sum_x / len
-        follow_y = sum_y / len
+        CAMERA:setPos(sum_x / len, sum_y / len)
     end
 end)
 
-
-umg.answer("rendering:getCameraPosition", function()
-    return follow_x, follow_y, CAMERA_PRIORITY
+umg.answer("camera:getCamera", function()
+    return CAMERA, CAMERA_PRIORITY
 end)
 
+umg.on("@resize", function(w, h)
+    CAMERA:setViewportDimensions(w, h)
+end)
+
+return CAMERA

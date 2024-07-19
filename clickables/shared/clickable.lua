@@ -74,8 +74,9 @@ end
 
 
 local function click(self, controlEnum, button)
-    local worldX, worldY = rendering.toWorldCoords(input.getPointerPosition())
-    local dvec = rendering.getCamera():getDimensionVector()
+    local camera = camera.get()
+    local worldX, worldY = camera:toWorldCoords(input.getPointerPosition())
+    local dvec = camera:getDimensionVector()
 
     local bestDist = math.huge
     local bestEnt = nil
@@ -90,7 +91,6 @@ local function click(self, controlEnum, button)
     end
 
     if bestEnt then
-        local camera = rendering.getCamera()
         local dimension = camera:getDimension()
         client.send("clickables:entityClickedOnClient", bestEnt, button, worldX, worldY, dimension)
         clickEntityClient(bestEnt, button, worldX, worldY, dimension)

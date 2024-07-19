@@ -46,8 +46,8 @@ end
 
 local listener = input.InputListener({priority = 0})
 listener:onPointerMoved(function(l, x, y)
-    local currentCamera = rendering.getCamera()
-    local worldX, worldY = rendering.toWorldCoords(x, y)
+    local currentCamera = camera.get()
+    local worldX, worldY = currentCamera:toWorldCoords(x, y)
     local dvec = currentCamera:getDimensionVector()
 
     for _, ent in hoverEntPartition:iterator(dvec) do

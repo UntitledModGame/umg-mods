@@ -78,7 +78,7 @@ local function drawGround(obj)
     local images = obj.images
     local w,h = love.graphics.getDimensions()
 
-    local camera = rendering.getCamera()
+    local camera = camera.get()
     local start_x, start_y = camera:toWorldCoords(0,0)
     local endx, endy = camera:toWorldCoords(w,h)
 
@@ -87,9 +87,8 @@ local function drawGround(obj)
     endx, endy = endx+LEIGHWAY, endy+LEIGHWAY
 
     local tw,th = math.max(obj.tileWidth-1,1), math.max(obj.tileHeight-1,1)
-    
-    local dx = camera.x % tw
-    local dy = camera.y % th
+    local cx, cy = camera:getPos()
+    local dx, dy = cx % tw, cy % th
 
     -- add tw*4 and th*4 onto the ground so quads don't "leak"
     for x = start_x - dx, endx+tw*4, tw do

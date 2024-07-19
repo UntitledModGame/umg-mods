@@ -6,13 +6,15 @@
 -- that this notice and any copyright notices are preserved. It is offered
 -- with no warrany, not even implied.
 
+-- Modified by UMG Developer Team to acomodate UMG environment
+
 -- Cache some functions into locals
 local newTransform = love.math.newTransform
 local replaceTransform, applyTransform, push, pop, getWidth, getHeight
 local getScissor, intersectScissor, setScissor
 local xfSetXf, xfGetMatrix
 do
-  local lg = love.graphics
+  local lg = love.graphics or {}
   replaceTransform = lg.replaceTransform
   applyTransform = lg.applyTransform
   push = lg.push
@@ -22,7 +24,7 @@ do
   getScissor = lg.getScissor
   intersectScissor = lg.intersectScissor
   setScissor = lg.setScissor
-  local Xf = debug.getregistry().Transform
+  local Xf = newTransform()
   xfSetXf = Xf.setTransformation
   xfGetMatrix = Xf.getMatrix
 end
@@ -150,17 +152,17 @@ function Camera:getTransform()
   return self.xf
 end
 
-
 function Camera:getPos()
-  return self.x, self.y, self.dimension
+  return self.x, self.y
 end
 
-function Camera:getDimension()
-    return self.dimension
+function Camera:getX()
+  return self.x
 end
 
-
-
+function Camera:getY()
+  return self.y
+end
 
 function Camera:getZoom()
   return self.zoom
@@ -191,7 +193,6 @@ function Camera:getVPFocusPoint()
          vp[2] + (vp[4] or getHeight()) * vp[6]
 end
 
-
 function Camera.new(x, y, zoom, angle, vpx, vpy, vpw, vph, cx, cy)
   vpx, vpy = vpx or 0, vpy or 0
   vpw, vph = vpw or false, vph or false
@@ -214,4 +215,3 @@ function Camera.new(x, y, zoom, angle, vpx, vpy, vpw, vph, cx, cy)
 end
 
 return setmetatable(Camera, CameraClassMT)
-
