@@ -77,7 +77,7 @@ end
 
 local assertControl = typecheck.assert("control")
 local controlFuncTc = typecheck.assert("control|table", "function")
----@param controlEnum string
+---@param controlEnum string|string[]
 ---@param func input.InputListenerKeyCallback
 function InputListener:onPressed(controlEnum, func)
     controlFuncTc(controlEnum, func)
