@@ -50,7 +50,7 @@ function shopService.buy(ent)
 end
 
 -- This handles buy/sell/destroy button
-umg.answer("lootplot:pollSlotButtons", function(ppos)
+umg.answer("lootplot:pollSelectionButtons", function(ppos)
     local itemEnt = lp.posToItem(ppos)
     local slotEnt = lp.posToSlot(ppos)
     if not (itemEnt and slotEnt) then
@@ -67,7 +67,13 @@ umg.answer("lootplot:pollSlotButtons", function(ppos)
             onClick = function()
                 if shopService.buy(itemEnt) then
                     selection.reset()
-                    -- selection.selectSlot(slotEnt)
+                    --[[
+                    Don't open selection buttons; 
+                    (for 2 reasons)
+                    1: The data is outdated, (serv hasnt responded yet) and we will get wrong buttons
+                    2: the player has just purchased the item, and won't be interested in selling it anyway!!
+                    ]]
+                    selection.selectSlotNoButtons(slotEnt)
                 end
             end,
             priority = 0,

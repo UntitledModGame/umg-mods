@@ -42,9 +42,24 @@ local function isButtonSlot(slotEnt)
     return slotEnt.buttonSlot
 end
 
+local function pollSelectButtons(ppos, selected)
+    selected.actions = umg.ask("lootplot:pollSelectionButtons", ppos)
+    table.sort(selected.actions, function(a, b)
+        local pa, pb = a.priority or 0, b.priority or 0
+        if pa == pb then
+            return a.text < b.text
+        else
+            return pa < pb
+        end
+    end)
+end
+
 ---@param slotEnt lootplot.SlotEntity
-local function selectSlot(slotEnt)
-    if not lp.slotToItem(slotEnt) then
+---@param dontOpenButtons boolean Don't open selection buttons?
+local function selectSlot(slotEnt, dontOpenButtons)
+    local ppos = lp.getPos(slotEnt)
+    local itemEnt = lp.slotToItem(slotEnt)
+    if not (itemEnt and ppos) then
         return
     end
 
@@ -52,35 +67,29 @@ local function selectSlot(slotEnt)
         return
     end
 
-    local ppos = lp.getPos(slotEnt)
+    selected = {
+        ppos = ppos,
+        slot = slotEnt,
+        time = love.timer.getTime()
+    }
 
-    if ppos then
-        selected = {
-            ppos = ppos,
-            slot = slotEnt,
-            time = love.timer.getTime()
-        }
-
-        local itemEnt = lp.slotToItem(slotEnt)
-        if itemEnt then
-            selected.actions = umg.ask("lootplot:pollSlotButtons", ppos)
-            table.sort(selected.actions, function(a, b)
-                local pa, pb = a.priority or 0, b.priority or 0
-                if pa == pb then
-                    return a.text < b.text
-                else
-                    return pa < pb
-                end
-            end)
-        end
-
-        umg.call("lootplot:selectionChanged", selected)
+    if not dontOpenButtons then
+        pollSelectButtons(ppos, selected)
     end
+
+    umg.call("lootplot:selectionChanged", selected)
 end
-selection.selectSlot = selectSlot
+
+function selection.selectSlot(slotEnt)
+    selectSlot(slotEnt, false)
+end
+
+function selection.selectSlotNoButtons(slotEnt)
+    selectSlot(slotEnt, true)
+end
 
 -- This handles the "Cancel" button
-umg.answer("lootplot:pollSlotButtons", function(ppos)
+umg.answer("lootplot:pollSelectionButtons", function(ppos)
     return {
         text = "Cancel",
         color = objects.Color.RED,
