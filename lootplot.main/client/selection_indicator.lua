@@ -34,11 +34,15 @@ umg.on("lootplot:endHoverSlot", function()
 end)
 
 umg.on("rendering:drawEffects", function(camera)
-    if selectedSlot and selectedItem then
+    if umg.exists(selectedSlot) and umg.exists(selectedItem) then
+        ---@cast selectedSlot Entity
+        ---@cast selectedItem Entity
+
         local x, y = camera:toWorldCoords(input.getPointerPosition())
         local state = 1
 
-        if hoveredSlot and hoveredSlot ~= selectedSlot then
+        if umg.exists(hoveredSlot) and hoveredSlot ~= selectedSlot then
+            ---@cast hoveredSlot Entity
             x, y = hoveredSlot.x, hoveredSlot.y
             if lp.canSwap(selectedSlot, hoveredSlot) and lp.canPlayerAccess(selectedItem, client.getClient()) then
                 state = 2
@@ -60,7 +64,5 @@ umg.on("rendering:drawEffects", function(camera)
             local dotY = math.sin(angle) * dotDistance + selectedSlot.y
             drawDottedIndicator(dotX, dotY)
         end
-
-        -- love.graphics.line(selectedSlot.x, selectedSlot.y, x, y)
     end
 end)
