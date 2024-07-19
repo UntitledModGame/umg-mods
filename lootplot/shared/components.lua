@@ -75,7 +75,7 @@ defineBasicNumber("sellPrice", {base="baseSellPrice", default=1})
 
 defineBasicNumber("buyPrice", {base="baseBuyPrice", default=1})
 
-defineBasicNumber("maxActivations", {base="baseMaxActivations", default=10})
+defineBasicNumber("maxActivations", {base="baseMaxActivations", default=5})
 
 defineBasicNumber("pointsGenerated", {base="basePointsGenerated", default=0})
 
