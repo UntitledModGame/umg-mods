@@ -21,6 +21,8 @@ function camera.getGlobalCamera()
     return globalCamera
 end
 
+camera.Camera = Camera
+
 if client then
     umg.on("@resize", function(w, h)
         globalCamera:setViewportDimensions(w, h)
