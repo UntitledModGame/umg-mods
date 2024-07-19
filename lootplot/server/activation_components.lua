@@ -17,15 +17,3 @@ umg.answer("lootplot:isActivationBlocked", function(ent)
     return (ent.activationCount or 0) >= ent.maxActivations
 end)
 
-
-local ORDER=10
-umg.on("lootplot:entityTriggered", ORDER, function(name, ent)
-    -- reset activationCount on RESET trigger.
-
-    -- TODO: Should this be here...??? its a bit... weird.
-    -- it doesn't feel "right" checking the RESET trigger directly... mehhh
-    if name == "RESET" then
-        ent.activationCount = 0
-    end
-end)
-

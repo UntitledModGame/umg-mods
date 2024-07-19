@@ -379,7 +379,7 @@ end
 ---@param ent Entity
 ---@return boolean
 function lp.canActivateEntity(ent)
-    return umg.ask("lootplot:isActivationBlocked", ent)
+    return not umg.ask("lootplot:isActivationBlocked", ent)
 end
 
 ---@param ent Entity
@@ -415,6 +415,13 @@ function lp.activate(pos)
     if slot then
         lp.tryActivateEntity(slot)
     end
+end
+
+--- @param ent Entity
+--- Resets an entity (ie. resets activationCount)
+function lp.reset(ent)
+    ent.activationCount = 0
+    umg.call("lootplot:entityReset", ent)
 end
 
 ---@param ent Entity

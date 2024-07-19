@@ -12,6 +12,9 @@ umg.defineEvent("lootplot:entityActivated")
 umg.defineEvent("lootplot:entityActivationBlocked")
 umg.defineQuestion("lootplot:isActivationBlocked", reducers.OR)
 
+umg.defineEvent("lootplot:entityReset")
+
+
 umg.defineEvent("lootplot:entityTriggered")
 umg.defineQuestion("lootplot:isTriggerBlocked", reducers.OR)
 

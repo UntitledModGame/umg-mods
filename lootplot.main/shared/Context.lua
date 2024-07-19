@@ -123,6 +123,21 @@ function Context:lose()
     umg.melt("lost game!")
 end
 
+
+local function resetPlot(plot)
+    --[[
+    TODO: should this be a method on the plot?
+    ]]
+    plot:foreachItem(function(ent, _ppos)
+        lp.reset(ent)
+    end)
+    plot:foreachSlot(function(ent, _ppos)
+        lp.reset(ent)
+    end)
+    plot:trigger("RESET")
+end
+
+
 ---@param self lootplot.Context
 function Context:nextRound()
     if self:isDuringRound() then
@@ -135,7 +150,10 @@ function Context:nextRound()
     self.state = DURING_ROUND
     self:syncValue("state")
 
-    self:getPlot():queue(function()
+    local plot = self:getPlot()
+    resetPlot(plot)
+
+    plot:queue(function()
         self.round = self.round + 1
         umg.call("lootplot.main:finishRound")
         self:getPlot():reset()
@@ -154,7 +172,7 @@ function Context:nextRound()
 
     -- pulse all slots:
     lp.Bufferer()
-        :all(self:getPlot())
+        :all(plot)
         :to("SLOT") -- ppos-->slot
         :delay(0.2)
         :execute(function(_ppos, slotEnt)
