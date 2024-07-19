@@ -76,10 +76,11 @@ function Scene:onRender(x,y,w,h)
     local r = ui.Region(x,y,w,h)
 
     local left, middle, right = r:pad(0.025):splitHorizontal(2, 5, 2)
-    local levelStatusRegion, rest = left:splitVertical(1, 4)
-    local pointsBarRegion = middle:splitVertical(1, 4)
-    local nextRoundRegion, rest2 = right:splitVertical(1, 4)
-    local moneyRegion, leftDescRegion = rest:splitVertical(1, 5)
+    local HEADER_RATIO = 5
+    local levelStatusRegion, rest = left:splitVertical(1, HEADER_RATIO)
+    local pointsBarRegion = middle:splitVertical(1, HEADER_RATIO)
+    local nextRoundRegion, rest2 = right:splitVertical(1, HEADER_RATIO)
+    local moneyRegion, leftDescRegion = rest:splitVertical(1, 4)
     local descriptionOpenSpeed = h * 1.5
 
     self.levelStatus:render(levelStatusRegion:get())
@@ -119,7 +120,8 @@ function Scene:onRender(x,y,w,h)
     end
 
     if #self.slotActionButtons > 0 then
-        local _, bottomArea = r:splitVertical(3, 1)
+        local _, bottomArea = r:splitVertical(5, 1)
+        _,bottomArea = bottomArea:splitHorizontal(1,3,1)
         local grid = bottomArea:grid(#self.slotActionButtons, 1)
 
         for i, button in ipairs(self.slotActionButtons) do

@@ -63,6 +63,7 @@ umg.answer("lootplot:pollSlotButtons", function(ppos)
             text = text.RichText("Buy (${$buyPrice})", {
                 variables = itemEnt
             }),
+            color = objects.Color.GREEN,
             onClick = function()
                 if shopService.buy(itemEnt) then
                     selection.reset()
@@ -72,7 +73,8 @@ umg.answer("lootplot:pollSlotButtons", function(ppos)
             priority = 0,
         }
     else
-        local kind = itemEnt.sellPrice > 0 and "Sell" or "Destroy"
+        local isSell = itemEnt.sellPrice > 0
+        local kind = isSell and "Sell" or "Destroy"
         return {
             text = text.RichText(kind.." (${$getPrice()})", {
                 variables = {
@@ -81,6 +83,7 @@ umg.answer("lootplot:pollSlotButtons", function(ppos)
                     end
                 }
             }),
+            color = isSell and objects.Color.GOLD or objects.Color.RED,
             onClick = function()
                 if lp.canPlayerAccess(itemEnt, client.getClient()) then
                     shopService.sell(itemEnt)

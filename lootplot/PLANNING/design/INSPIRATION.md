@@ -83,6 +83,15 @@ since the shop would just be a regular inventory, with reroll+buyable slots.
 
 - Compost: convert all `botanic` items in range to `fertilizer`.
 
+- Judge Gavel: For every target item:
+    If target has {divine, evil} traits:
+        Generate +1 points
+
+- Rocket: Cannot be moved by the player. 
+    When activated, if next to {fuel} item, move up 1 space, delete the {fuel} item, and double it's point multiplier. 
+
+
+
 - When item is cloned: 
     Transform the cloned item into the item that is above this item
 

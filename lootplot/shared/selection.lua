@@ -17,6 +17,7 @@ local selection = {}
 ---@field public onClick fun()
 ---@field public onDraw? fun(x:number,y:number,w:number,h:number)
 ---@field public priority? number
+---@field public color? objects.Color
 
 ---@class lootplot.Selected
 ---@field public ppos lootplot.PPos
@@ -82,6 +83,7 @@ selection.selectSlot = selectSlot
 umg.answer("lootplot:pollSlotButtons", function(ppos)
     return {
         text = "Cancel",
+        color = objects.Color.RED,
         onClick = selection.reset,
         priority = math.huge
     }
@@ -102,13 +104,6 @@ local function validate()
     end
 end
 
-local function canAddItem(slotEnt, itemEnt)
-    -- whether or not we can ADD an item to slotEnt.
-    if lp.slotToItem(slotEnt) then
-        return false
-    end
-    return couldHoldItem(slotEnt, itemEnt)
-end
 
 local function deny(slotEnt)
     --[[

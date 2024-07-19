@@ -22,15 +22,17 @@ function ActionButton:init(args)
         color = objects.Color.BLACK,
         font = fonts.getLargeFont()
     })
+    self.simpleBox = ui.elements.SimpleBox({
+        color = args.color or objects.Color.WHITE,
+        rounding = 11
+    })
+    self:addChild(self.simpleBox)
     self:addChild(self.textElement)
 end
 
 
 function ActionButton:onRender(x,y,w,h)
-    lg.setColor(self.backgroundColor or objects.Color.WHITE)
-    lg.rectangle("fill", x, y, w, h)
-    lg.setColor(self.outlineColor or objects.Color.BLACK)
-    lg.rectangle("line", x, y, w, h)
+    self.simpleBox:render(x,y,w,h)
     self.textElement:render(x, y, w, h)
 end
 
