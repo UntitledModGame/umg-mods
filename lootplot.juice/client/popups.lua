@@ -1,6 +1,7 @@
 
 local LIFETIME = 0.4
 local VEL = 200
+local ROT = 1
 
 local function makePopup(dvec, txt, color, velY)
     local ent = client.entities.empty()
@@ -12,6 +13,12 @@ local function makePopup(dvec, txt, color, velY)
 
     ent.text = txt
     ent.scale=0.75
+
+    ent.rot = (love.math.random() * ROT) - ROT/2
+    ent.drawDepth = 100
+    ent.shadow = {
+        offset = 2
+    }
 
     ent.bulgeJuice = {freq = 2, amp = math.rad(20), start = love.timer.getTime(), duration = 0.4}
 

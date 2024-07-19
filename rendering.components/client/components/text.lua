@@ -9,7 +9,7 @@ umg.on("rendering:drawEntity", ORDER, function(ent, x,y, rot, sx,sy)
     end
 
     local text = ent.text
-    local font = love.graphics.getFont()
+    local font = ent.font or love.graphics.getFont()
 
     if type(text) == "string" then
         local width = font:getWidth(text)
