@@ -11,10 +11,7 @@ local misc = require("client.misc")
 
 
 
--- access to custom cameras
----@deprecated access it through camera.Camera
-rendering.Camera = camera.Camera
----@deprecated access it through camera.get
+---@deprecated replaced by camera.get
 rendering.getCamera = camera.get
 
 
@@ -47,13 +44,7 @@ rendering.drawImage = require("client.helper.draw_image");
 
 
 
----@deprecated
-function rendering.toScreenCoords(world_x, world_y)
-    local cam = rendering.getCamera()
-    return cam:toCameraCoords(world_x, world_y)
-end
-
----@deprecated
+---@deprecated use camera.get():toWorldCoords(x,y)
 function rendering.toWorldCoords(x,y)
     local cam = rendering.getCamera()
     return cam:toWorldCoords(x,y)

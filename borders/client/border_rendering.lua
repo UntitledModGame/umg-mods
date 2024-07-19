@@ -28,9 +28,9 @@ local DIAGONAL_SIZE = 80
 
 local function drawDiagonalBars()
     love.graphics.rotate(math.pi/4)
-    local cam = rendering.getCamera()
-    local cx, cy = cam.x, cam.y
-    local dy = (cy - cx) / math.sqrt(2) 
+    local cam = camera.get()
+    local cx, cy = cam:getPos()
+    local dy = (cy - cx) / math.sqrt(2)
     for i=-50, 50 do
         love.graphics.rectangle(
             "fill", -0xffffff, dy + i * DIAGONAL_SIZE,
@@ -53,7 +53,7 @@ local function setupCanvas(border)
     love.graphics.setColor(DIAGONAL_COLOR)
     drawDiagonalBars()
     love.graphics.pop()
-    
+
     love.graphics.setColor(1,1,1)
     love.graphics.rectangle("fill", border.x, border.y, border.width, border.height)
 

@@ -5,6 +5,7 @@
         "rendering",
         "scheduling",
         "objects",
-        "typecheck"
+        "typecheck",
+        "camera"
     ]
 }
