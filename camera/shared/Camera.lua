@@ -44,6 +44,7 @@ if false then
 end
 
 ---Duplicate the current camera.
+---@return camera.Camera
 function Camera:clone()
     local x, y = self:getPos()
     local w, h = self:getViewportDimensions()
@@ -131,30 +132,6 @@ end
 ---@param h number Screen height.
 function Camera:setViewportDimensions(w, h)
     return self.cam11:setViewport(0, 0, w, h)
-end
-
---------------------------------------------------------
--- Deprecated/unavailable functions in new Camera API --
---------------------------------------------------------
-
----@deprecated
-function Camera:attach()
-    umg.melt("replace Camera:attach() with rendering.attachCamera(Camera)")
-end
-
----@deprecated
-function Camera:detach()
-    umg.melt("replace Camera:detach() with rendering.detachCamera(Camera)")
-end
-
----@deprecated
-function Camera:update(dt)
-    umg.melt("Camera:update() is no longer supported")
-end
-
----@deprecated
-function Camera:draw()
-    umg.melt("Camera:draw() is no longer supported")
 end
 
 return Camera

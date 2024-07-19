@@ -10,14 +10,6 @@ local misc = require("client.misc")
 
 
 
-
----@deprecated replaced by camera.get
-rendering.getCamera = camera.get
-
-
-
-
-
 rendering.isOnScreen = misc.isOnScreen
 
 rendering.drawEntity = misc.drawEntity
@@ -39,16 +31,6 @@ rendering.getImageSize = imageSizes.getImageSize
 
 
 rendering.drawImage = require("client.helper.draw_image");
-
-
-
-
-
----@deprecated use camera.get():toWorldCoords(x,y)
-function rendering.toWorldCoords(x,y)
-    local cam = rendering.getCamera()
-    return cam:toWorldCoords(x,y)
-end
 
 
 rendering.animate = animate.animate;

@@ -15,12 +15,6 @@ function camera.get()
     return umg.ask("camera:getCamera")
 end
 
----Get the global camera object.
----@deprecated
-function camera.getGlobalCamera()
-    return globalCamera
-end
-
 camera.Camera = Camera
 
 if client then
