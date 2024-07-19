@@ -9,14 +9,13 @@ local animate = require("client.animate")
 local misc = require("client.misc")
 
 
-local currentCamera = require("client.current_camera")
-local cameraLib = require("libs.camera")
 
 
 -- access to custom cameras
-rendering.Camera = cameraLib
-
-rendering.getCamera = currentCamera.getCamera
+---@deprecated access it through camera.Camera
+rendering.Camera = camera.Camera
+---@deprecated access it through camera.get
+rendering.getCamera = camera.get
 
 
 
@@ -48,13 +47,13 @@ rendering.drawImage = require("client.helper.draw_image");
 
 
 
-
+---@deprecated
 function rendering.toScreenCoords(world_x, world_y)
     local cam = rendering.getCamera()
     return cam:toCameraCoords(world_x, world_y)
 end
 
-
+---@deprecated
 function rendering.toWorldCoords(x,y)
     local cam = rendering.getCamera()
     return cam:toWorldCoords(x,y)

@@ -3,6 +3,6 @@
     "uses": [
         "objects", "typecheck", "reducers",
         "state", "spatial", "scheduling",
-        "components"
+        "components", "camera"
     ]
 }

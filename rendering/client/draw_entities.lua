@@ -41,12 +41,6 @@ end)
 
 
 
-umg.on("@resize", function()
-    local w,h = love.graphics.getDimensions()
-    local camera = currentCamera.getCamera()
-    camera.w = w
-    camera.h = h
-end)
 
 
 
