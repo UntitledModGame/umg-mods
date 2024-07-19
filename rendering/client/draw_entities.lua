@@ -8,10 +8,6 @@ Will emit draw calls based on position, and in correct order.
 
 
 
-local currentCamera = require("client.current_camera")
-
-local constants = require("client.constants")
-
 local DimensionZIndexer = require("client.DimensionZIndexer")
 
 
