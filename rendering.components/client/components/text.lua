@@ -1,4 +1,6 @@
 
+components.project("text", "drawable")
+
 local ORDER = 1 -- draw text on top of ent
 
 umg.on("rendering:drawEntity", ORDER, function(ent, x,y, rot, sx,sy)
