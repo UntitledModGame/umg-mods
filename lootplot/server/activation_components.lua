@@ -13,7 +13,6 @@ end)
 
 
 umg.answer("lootplot:isActivationBlocked", function(ent)
-    print(ent.activationCount or 0, ent.maxActivations)
     return (ent.activationCount or 0) >= ent.maxActivations
 end)
 
