@@ -12,15 +12,15 @@ local function makePopup(dvec, txt, color, velY)
     ent.color = color
 
     ent.text = txt
-    ent.scale=0.75
 
     ent.rot = (love.math.random() * ROT) - ROT/2
     ent.drawDepth = 100
     ent.shadow = {
-        offset = 2
+        offset = 1
     }
 
-    ent.bulgeJuice = {freq = 2, amp = math.rad(20), start = love.timer.getTime(), duration = 0.4}
+    ent.scale=1/6
+    ent.bulgeJuice = {freq = 2, amp = 6, start = love.timer.getTime(), duration = LIFETIME}
 
     ent.lifetime = LIFETIME
     -- ^^^ delete self after X seconds
@@ -29,7 +29,7 @@ end
 
 umg.on("lootplot:moneyChanged", function(ent, delta)
     if delta > 0 then
-        local txt = "$"
+        local txt = "$" .. tostring(math.floor(delta+0.5))
         makePopup(ent, txt, objects.Color.GOLD, VEL)
     end
 end)

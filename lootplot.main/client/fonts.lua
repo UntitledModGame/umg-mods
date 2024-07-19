@@ -22,4 +22,7 @@ end
 fonts.getLargeFont = makeLoader(LARGE_FONT_FILE, setmetatable({}, {__mode = "v"}))
 fonts.getSmallFont = makeLoader(SMALL_FONT_FILE, setmetatable({}, {__mode = "v"}))
 
+-- set global default font:
+love.graphics.setFont(fonts.getSmallFont(16))
+
 return fonts

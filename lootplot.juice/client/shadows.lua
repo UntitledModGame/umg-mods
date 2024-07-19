@@ -7,7 +7,7 @@ umg.on("@newEntityType", function(etype)
         }
     elseif etype.item then
         etype.imageShadow = {
-            offset = 0.5
+            offset = 1
         }
     end
 end)
