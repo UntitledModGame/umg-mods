@@ -31,6 +31,27 @@ function Camera:init(x, y, w, h, scale, rotation)
     self.dimension = spatial.getDefaultDimension()
 end
 
+if false then
+    ---Create new camera object.
+    ---@param x number X position of the camera in the world (center on the screen).
+    ---@param y number Y position of the camera in the world (center on the screen).
+    ---@param w number? Width of the viewport.
+    ---@param h number? Height of the viewport.
+    ---@param scale number? Camera scale.
+    ---@param rotation number? Camera rotation.
+    ---@return camera.Camera
+    function Camera(x, y, w, h, scale, rotation) end ---@diagnostic disable-line: cast-local-type, missing-return
+end
+
+---Duplicate the current camera.
+function Camera:clone()
+    local x, y = self:getPos()
+    local w, h = self:getViewportDimensions()
+    local scale = self:getZoom()
+    local angle = self:getAngle()
+    return Camera(x, y, w, h, scale, angle)
+end
+
 function Camera:setDimension(dimension)
     self.dimension = spatial.getDimension(dimension)
 end
@@ -134,18 +155,6 @@ end
 ---@deprecated
 function Camera:draw()
     umg.melt("Camera:draw() is no longer supported")
-end
-
-if false then
-    ---Create new camera object.
-    ---@param x number X position of the camera in the world (center on the screen).
-    ---@param y number Y position of the camera in the world (center on the screen).
-    ---@param w number? Width of the viewport.
-    ---@param h number? Height of the viewport.
-    ---@param scale number? Camera scale.
-    ---@param rotation number? Camera rotation.
-    ---@return camera.Camera
-    function Camera(x, y, w, h, scale, rotation) end ---@diagnostic disable-line: cast-local-type, missing-return
 end
 
 return Camera
