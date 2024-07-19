@@ -15,7 +15,7 @@ local cam = newCamera(0, 0, nil, nil, DEFAULT_ZOOM, 0)
 
 cam:setDimension(spatial.getDefaultDimension())
 
-
+---@return rendering.Camera
 function currentCamera.getCamera()
     --[[
         TODO: we may want to override this function in the

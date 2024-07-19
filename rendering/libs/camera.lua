@@ -69,31 +69,48 @@ local function getShakeAmplitude(self, t)
 end
 
 -- Camera
+---@class rendering.Camera
 local Camera = {}
 Camera.__index = Camera
 
-local function new(x, y, w, h, scale, rotation)
-    return setmetatable({
-        x = x or (w or love.graphics.getWidth())/2, y = y or (h or love.graphics.getHeight())/2,
-        mx = x or (w or love.graphics.getWidth())/2, my = y or (h or love.graphics.getHeight())/2,
-        screen_x = x or (w or love.graphics.getWidth())/2, screen_y = y or (h or love.graphics.getHeight())/2,
-        w = w or love.graphics.getWidth(), h = h or love.graphics.getHeight(),
-        scale = scale or 1,
-        rotation = rotation or 0,
-        horizontal_shakes = {}, vertical_shakes = {},
-        target_x = nil, target_y = nil,
-        scroll_x = 0, scroll_y = 0,
-        last_target_x = nil, last_target_y = nil,
-        follow_lerp_x = 1, follow_lerp_y = 1,
-        follow_lead_x = 0, follow_lead_y = 0,
-        deadzone = nil, bound = nil,
-        draw_deadzone = false,
-        flash_duration = 1, flash_timer = 0, flash_color = {0, 0, 0, 1},
-        last_horizontal_shake_amount = 0, last_vertical_shake_amount = 0,
-        fade_duration = 1, fade_timer = 0, fade_color = {0, 0, 0, 0},
-    }, Camera)
+function Camera:new(x, y, w, h, scale, rotation)
+    self.x, self.y = x or (w or love.graphics.getWidth())/2, y or (h or love.graphics.getHeight())/2
+    self.mx, self.my = x or (w or love.graphics.getWidth())/2, y or (h or love.graphics.getHeight())/2
+    self.screen_x = x or (w or love.graphics.getWidth())/2 self.screen_y = y or (h or love.graphics.getHeight())/2
+    self.w = w or love.graphics.getWidth()
+    self.h = h or love.graphics.getHeight()
+    self.scale = scale or 1
+    self.rotation = rotation or 0
+    self.horizontal_shakes = {}
+    self.vertical_shakes = {}
+    self.target_x = nil
+    self.target_y = nil
+    self.scroll_x = 0
+    self.scroll_y = 0
+    self.last_target_x = nil
+    self.last_target_y = nil
+    self.follow_lerp_x = 1
+    self.follow_lerp_y = 1
+    self.follow_lead_x = 0
+    self.follow_lead_y = 0
+    self.deadzone = nil
+    self.bound = nil
+    self.draw_deadzone = false
+    self.flash_duration = 1
+    self.flash_timer = 0
+    self.flash_color = {0, 0, 0, 1}
+    self.last_horizontal_shake_amount = 0
+    self.last_vertical_shake_amount = 0
+    self.fade_duration = 1
+    self.fade_timer = 0
+    self.fade_color = {0, 0, 0, 0}
 end
 
+local function new(x, y, w, h, scale, rotation)
+    local cam = setmetatable({}, Camera)
+    cam:new(x, y, w, h, scale, rotation)
+    return cam
+end
 
 function Camera:attach()
     love.graphics.push()

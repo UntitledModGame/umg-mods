@@ -1,7 +1,7 @@
-
+---@meta
 
 local rendering = {}
-
+if false then _G.rendering = rendering end
 
 
 local animate = require("client.animate")
