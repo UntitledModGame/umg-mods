@@ -81,7 +81,7 @@ function Scene:onRender(x,y,w,h)
     local pointsBarRegion = middle:splitVertical(1, HEADER_RATIO)
     local nextRoundRegion, rest2 = right:splitVertical(1, HEADER_RATIO)
     local moneyRegion, leftDescRegion = rest:splitVertical(1, 4)
-    local descriptionOpenSpeed = h * 1.5
+    local descriptionOpenSpeed = h * 3
 
     self.levelStatus:render(levelStatusRegion:get())
     if not context:isDuringRound() then
@@ -99,9 +99,7 @@ function Scene:onRender(x,y,w,h)
         if drawDescription(self.itemDescriptionTime, self.itemDescription, objects.Color.WHITE, descRegion, drawBoxTransparent) then
             self.itemDescription:resetRichText()
         end
-    end
-
-    if self.slotDescription then
+    elseif self.slotDescription then
         local rightDescRegion = select(2, rest2:splitVertical(1, 5))
         local descW, descH = select(2, rightDescRegion:get())
         local descRegion = ui.Region(mx - 16 - descW, my + 16, descW, descH)
