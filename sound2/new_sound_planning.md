@@ -10,6 +10,10 @@ We definitely want some unified questions and events
 umg.ask("sound:getVolume", soundName, source, ent)
 umg.ask("sound:getSemitoneOffset", soundName, source, ent)
 
+umg.ask("sound:shouldPreventSoundFromPlaying", soundName, source, ent)
+-- we prevent this sound from being played?
+-- (EG. cram-optimization)
+
 umg.call("sound:transformSound", soundName, source, ent)
 ```
 
@@ -65,6 +69,8 @@ This would be solved if we passed a unified sound object:
 umg.call("sound:transformSound", soundObj, ent)
 ```
 
+DOWNSIDE OF HAVING `soundObj`: extra layer of bloat.
+
 
 ## Cram Optimization:
 Another thing we must consider is cram optimization.
@@ -89,31 +95,30 @@ Don't forget that we have weak references to work with!!!
 ## Tagging through folder names:
 let's say we have an asset:
 `assets/sounds/sfx/explosions/explode1.wav`
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## API DRAFT: 
 ```lua
-sound.defineTag("mod:tag1")
+for _, asset in iterateAllAssets() do
+  local folders = getFolderSet(umg.getAssetDirectory(asset)) 
+  -- folders: Set{sounds, sfx, explosions}
+  if folders:has("sfx") then
+    asset:tag("sfx")
+  end
+end
+```
+I like the idea of putting all the sound effects in one folder, 
+and not worrying about needing to tag them properly.
 
-sound.tag("sound1", {"tag1", "tag2", ...}) -- "sound1" is the actual audio file
-sound.untag("sound1", {"tag1", "tag2", ...})
-
-sound.hasTag("sound1", "tag1")
 
 
+
+
+
+
+
+
+
+
+## FINAL DRAFT API:
+```lua
 sound.play("sound1", {
     entity = ent,
 
@@ -125,13 +130,43 @@ sound.play("sound1", {
 })
 
 
-sound.stopAll(tag)
-sound.stop("sound1")
+source = sound.obtain("sound1") -- Receive Source from the pool.
+-- `source` should be the ONLY reference to the source in the entire program!!!
 
-source = sound.obtain("sound1") -- Receive Source from the pool
 sound.release(source) -- Send Source back to the pool
 
 source = sound.getTemplate("sound1") -- Template
 
 
+--[[
+TODO: what to do about tagging?
+]]
+
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+## FULL RESTART:
+Sometimes, instead of perfecting an idea,
+the best course of action is to destroy it.
+
+Let's go back to basics:
+What do we truly need from this API?
+
+- Unified tag support
+- Single source for event and question emission (sound.play)
+- source/soundName cohesion
+
+
+
+
