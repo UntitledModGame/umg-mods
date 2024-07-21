@@ -41,9 +41,29 @@ local source = sounds.getTemplateSource("my_file")
 source:tag("sfx")
 ```
 
-In general I'm a bit worried about just floating the API.
+In general I'm a bit worried about just bloating the API.
 maybe I'm overthinking though.
 
+We could do this:
+```lua
+soundObj {
+    source = ...
+    soundName = ...
+}
+
+sounds.tag("soundName" or soundObj, "myTag")
+```
+
+Another thing that I'm not happy about:
+```lua
+umg.call("sound:transformSound", soundName, source, ent)
+```
+We pass both soundName and source into the event.
+It just feels very bad.  
+This would be solved if we passed a unified sound object:
+```lua
+umg.call("sound:transformSound", soundObj, ent)
+```
 
 
 ## Cram Optimization:
@@ -59,14 +79,16 @@ If we have a KD tree, (2 dim space, 1 dim time, 1 dim of soundType,)
 then we could check for cramming and apply the optimization.
 
 
+
 ## Weak refs:
 Don't forget that we have weak references to work with!!!
 (It's not actually that hacky, we just gotta be careful)
 
 
 
-
-
+## Tagging through folder names:
+let's say we have an asset:
+`assets/sounds/sfx/explosions/explode1.wav`
 
 
 
@@ -94,10 +116,12 @@ sound.hasTag("sound1", "tag1")
 
 sound.play("sound1", {
     entity = ent,
-    volume = 1.0,
-    pitch = 1.0,
-    effects = {effectlist},
-    filter = filter_if_any
+
+    source? = loveSource
+    volume? = 1.0,
+    pitch? = 1.0,
+    effects? = {effectlist},
+    filter? = filter
 })
 
 
