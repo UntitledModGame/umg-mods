@@ -19,6 +19,9 @@ Potion items:
 Dark items:
 - Related to death somehow
 
+Plant items:
+- Related to spawning / growth
+
 Yellow/golden coloured items:
 - Related to money somehow
 
