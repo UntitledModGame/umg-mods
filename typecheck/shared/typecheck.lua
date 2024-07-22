@@ -261,7 +261,22 @@ function typecheck.addType(typeName, check)
     typecheck[typeName] = check
 end
 
+-- LOVE types
+local loveTypes = {
+    "Source",
+    "Quad"
+}
+for _, lt in ipairs(loveTypes) do
+    local errmsg = "Expected "..lt.." LOVE object"
+    typecheck.addType("love:"..lt, function(x)
+        local ok = not not (type(x) == "userdata" and x.typeOf and x:typeOf(lt))
+        return ok, errmsg
+    end)
+end
 
-
+typecheck.addType("love", function(x)
+    local ok = not not (type(x) == "userdata" and x.typeOf and x:typeOf("Object"))
+    return ok, "Expected LOVE object"
+end)
 
 return typecheck
