@@ -84,13 +84,14 @@ end)
 
 require("shared.events_questions")
 
-local LIFETIME = 0.4
+local LIFETIME = 0.5
 
 umg.on("lootplot.targets:targetActivated", function (itemEnt, ppos)
     local ent = client.entities.empty()
     
     local dvec = ppos:getWorldPos()
-    ent.x,ent.y, ent.dimension = dvec.x, dvec.y, dvec.dimension
+    ent.x,ent.y, ent.dimension = itemEnt.x, itemEnt.y, itemEnt.dimension
+    ent.targetX, ent.targetY = dvec.x, dvec.y
 
     ent.color = objects.Color.RED
     ent.image = getTargetImage(itemEnt)
@@ -109,4 +110,5 @@ umg.on("lootplot.targets:targetActivated", function (itemEnt, ppos)
     ent.lifetime = LIFETIME
     -- ^^^ delete self after X seconds
 end)
+
 
