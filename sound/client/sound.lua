@@ -47,21 +47,6 @@ local function assertTag(tag)
     end
 end
 
-local STREAM_ON_DISK_SIZE = 1 * 1000 * 1000 -- 1MB
-
----@param deflist objects.Set
----@param dirobj umg.DirectoryObject
----@param prefix string
----@param suffix string
----@param tags string[]
-local function defineSoundRecursive(deflist, dirobj, prefix, suffix, tags)
-    local locallyLoaded = objects.Set()
-
-    -- TODO: Replace with DirectoryObject walker
-    for _, file in ipairs(love.filesystem.getDirectoryItems(dirobj)) do
-    end
-end
-
 typecheck.addType("sound", function(x)
     return not not isDefined(x), "expected defined sound name"
 end)
@@ -126,17 +111,24 @@ function sound.defineSoundsInDirectory(dirobj, prefix, tags, suffix)
             local info = dirobj:getInfo(fullpath)
 
             if info and info.type ~= "directory" then
-                -- Try loading it
-                local stream = info.size >= STREAM_ON_DISK_SIZE and "file" or "memory"
-                local success, source = pcall(love.audio.newSource, fullpath, "stream", stream)
+                local filedata = dirobj:newFileData(fullpath)
 
-                if success then
-                    if deflist:has(filename) then
-                        umg.melt("duplicate sound '"..filename.."' defined during iterating directory")
+                if filedata then
+                    -- Try loading it
+                    local success, source = pcall(love.audio.newSource, filedata, "stream", "memory")
+                    filedata:release()
+
+                    if success then
+                        if deflist:has(filename) then
+                            source:release()
+                            umg.melt("duplicate sound '"..filename.."' defined during iterating directory")
+                        end
+
+                        deflist:add(filename)
+                        defineSound(prefix..filename..suffix, source)
+                    else
+                        umg.log.error("attempt to load as source", fullpath, source)
                     end
-
-                    deflist:add(filename)
-                    defineSound(prefix..filename..suffix, source)
                 end
             end
         end
