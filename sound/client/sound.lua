@@ -47,60 +47,18 @@ local function assertTag(tag)
     end
 end
 
-
----@param fullpath string
-local function extractFilename(fullpath)
-    local rev = fullpath:reverse()
-    local ext = (rev:find(".", 1, true) or 0) + 1
-    local pathsep = (rev:find("/", 1, true) or (#rev + 1)) - 1
-
-    if ext >= pathsep then
-        -- Crossed path separator boundary
-        ext = 1
-    end
-
-    return rev:sub(ext, pathsep):reverse()
-end
-
 local STREAM_ON_DISK_SIZE = 1 * 1000 * 1000 -- 1MB
 
 ---@param deflist objects.Set
----@param path string
+---@param dirobj umg.DirectoryObject
 ---@param prefix string
 ---@param suffix string
 ---@param tags string[]
-local function defineSoundRecursive(deflist, path, prefix, suffix, tags)
+local function defineSoundRecursive(deflist, dirobj, prefix, suffix, tags)
     local locallyLoaded = objects.Set()
 
     -- TODO: Replace with DirectoryObject walker
-    for _, file in ipairs(love.filesystem.getDirectoryItems(path)) do
-        if file:sub(1, 1) ~= "_" then
-            local fullpath = path.."/"..file
-            local info = love.filesystem.getInfo(fullpath)
-
-            if info then
-                if info.type == "directory" then
-                    defineSoundRecursive(deflist, fullpath, prefix, suffix, tags)
-                elseif info.type ~= "other" then
-                    -- Try loading it
-                    local stream = info.size >= STREAM_ON_DISK_SIZE and "file" or "memory"
-                    local success, source = pcall(love.audio.newSource, fullpath, "stream", stream)
-
-                    if success then
-                        local name = extractFilename(file)
-                        if deflist:has(name) then
-                            umg.melt("duplicate sound '"..name.."' defined during iterating directory")
-                        elseif locallyLoaded:has(name) then
-                            umg.log.warn("sound '"..name.."' already defined with different extension and will be overridden")
-                        end
-
-                        locallyLoaded:add(name)
-                        deflist:add(name)
-                        defineSound(prefix..name..suffix, source)
-                    end
-                end
-            end
-        end
+    for _, file in ipairs(love.filesystem.getDirectoryItems(dirobj)) do
     end
 end
 
@@ -134,7 +92,7 @@ function sound.isDefined(name)
     return isDefined(name)
 end
 
-local defineSoundsInDirectoryTc = typecheck.assert("string", "string?", "table?", "string?")
+local defineSoundsInDirectoryTc = typecheck.assert("table", "string?", "table?", "string?")
 
 ---Define sounds in a directory, **recursively**. Any errors on loading the sound in the directory will be silently
 ---ignored (the sound will not be defined). By default sound less than 1MB will be loaded in-memory while sound larger
@@ -143,28 +101,46 @@ local defineSoundsInDirectoryTc = typecheck.assert("string", "string?", "table?"
 ---
 ---The sound will be defined with `<prefix><filename><suffix>`.
 ---
----**Note**: If there's multiple sound name with different extension, a warning will be issued.
----
----**Warning**: If there's multiple sound name in different directory, an error will be issued.
----@param path string Directory, of the current loading mod, to iterate.
+---**Warning**: If there's multiple sound name in with different extension or in a different directory, an error will
+---be issued.
+---@param dirobj umg.DirectoryObject Directory, of the current loading mod, to iterate.
 ---@param prefix string? Prefix to add to the sound name (default is empty string).
 ---@param tags string[]? List of tags to add when defining the sound.
 ---@param suffix string? Suffix to add to the sound name (default is empty string).
-function sound.defineSoundsInDirectory(path, prefix, tags, suffix)
-    defineSoundsInDirectoryTc(path, prefix, tags, suffix)
+function sound.defineSoundsInDirectory(dirobj, prefix, tags, suffix)
+    defineSoundsInDirectoryTc(dirobj, prefix, tags, suffix)
 
-    -- validate tags in here so the recursive function don't have to
+    prefix = prefix or ""
+    suffix = suffix or ""
+    -- validate tags
     tags = tags or {}
     for _, tag in ipairs(tags) do
         assertTag(tag)
     end
 
-    if path:sub(-1) == "/" then
-        -- Strip trailing slash
-        path = path:sub(1, -2)
-    end
+    local deflist = objects.Set()
 
-    return defineSoundRecursive(objects.Set(), path, prefix or "", suffix or "", tags)
+    return dirobj:foreachFile("", function (path, filename, extension)
+        if filename:sub(1, 1) ~= "_" then
+            local fullpath = path.."/"..filename..(extension or "")
+            local info = dirobj:getInfo(fullpath)
+
+            if info and info.type ~= "directory" then
+                -- Try loading it
+                local stream = info.size >= STREAM_ON_DISK_SIZE and "file" or "memory"
+                local success, source = pcall(love.audio.newSource, fullpath, "stream", stream)
+
+                if success then
+                    if deflist:has(filename) then
+                        umg.melt("duplicate sound '"..filename.."' defined during iterating directory")
+                    end
+
+                    deflist:add(filename)
+                    defineSound(prefix..filename..suffix, source)
+                end
+            end
+        end
+    end)
 end
 
 local validSoundTc = typecheck.assert("sound")
