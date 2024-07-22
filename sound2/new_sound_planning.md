@@ -119,14 +119,17 @@ and not worrying about needing to tag them properly.
 
 ## FINAL DRAFT API:
 ```lua
-sound.play("sound1", {
+local source = sound.play("sound1", {
     entity = ent,
 
-    source? = loveSource
     volume? = 1.0,
     pitch? = 1.0,
     effects? = {effectlist},
     filter? = filter
+
+    source? = loveSource, -- can define own pooling!!!
+    -- (We should check sound.getType(source) == "sound1" here!!)
+    --  It is very flexible.
 })
 
 
@@ -136,10 +139,20 @@ source = sound.obtain("sound1") -- Receive Source from the pool.
 sound.release(source) -- Send Source back to the pool
 
 source = sound.getTemplate("sound1") -- Template
-
-
+local soundName = sound.getType(source)
 --[[
-TODO: what to do about tagging?
+internally, we have a weak table:
+{ [source] = "sound1" }
+]]
+
+sounds.defineTag("mod:myTag")
+
+sounds.tag("sound1", TAG)
+sounds.hasTag("sound1", TAG)
+
+sounds.tagDirectory("assets/sfx", "sound:sfx")
+--[[
+Tags all sounds in the directory. (walks nested directories too)
 ]]
 
 ```
