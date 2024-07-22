@@ -225,6 +225,10 @@ end
 function lp.canTrigger(name, ent)
 end
 
+---@return lootplot.Selected?
+function lp.getCurrentSelection()
+end
+
 ---@param ent lootplot.ItemEntity|lootplot.SlotEntity
 ---@param clientId string
 ---@return boolean

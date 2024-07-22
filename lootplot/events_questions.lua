@@ -48,4 +48,6 @@ if client then
     umg.defineEvent("lootplot:startHoverSlot")
 
     umg.defineEvent("lootplot:populateDescription")
+
+    umg.defineQuestion("lootplot:getItemTargetPosition", reducers.PRIORITY_DOUBLE)
 end

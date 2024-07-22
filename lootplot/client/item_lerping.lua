@@ -6,28 +6,25 @@ Positioning code.
 
 Automatically sets positions of entities according to their ppos.
 
-
-================================
-================================
-TODO::
-We need to someone make this code less assumption-ful,
-to allow future mods to override lerping behaviour!
-====
-================================
-
-
 ]]
-
-
-if server then
 
 local worldPlotEnts = umg.group("plot", "x", "y")
 
 
+
 local function updateItem(itemEnt, slotEnt)
     assert(slotEnt.x and slotEnt.y, "???")
-    itemEnt.targetX = slotEnt.x
-    itemEnt.targetY = slotEnt.y
+    
+    -- the target position the item should lerp to.
+    local targetX, targetY = umg.ask("lootplot:getItemTargetPosition", itemEnt)
+    if targetX then
+        itemEnt.targetX = targetX
+        itemEnt.targetY = targetY
+    else
+        itemEnt.targetX = slotEnt.x
+        itemEnt.targetY = slotEnt.y
+    end
+
     if not (itemEnt.x and itemEnt.y) then
         itemEnt.x = slotEnt.x
         itemEnt.y = slotEnt.y
@@ -36,13 +33,6 @@ end
 
 
 local function updateSlot(slotEnt, ppos)
-    --[[
-        TODO: In future:::
-        We shouldn't set `x,y` values here;
-        we should set `targetX,targetY`, and then the entity should lerp
-        towards those values automatically via some other system:
-        umg.group("targetX", "targetY")
-    ]]
     local dvec = ppos:getWorldPos()
     slotEnt.x, slotEnt.y = dvec.x, dvec.y
 
@@ -63,16 +53,7 @@ umg.on("@tick", function(dt)
     end
 end)
 
-end
 
-
-
-sync.autoSyncComponent("targetX", {type="number", lerp=false})
-sync.autoSyncComponent("targetY", {type="number", lerp=false})
-
-
-
-if client then
 
 local targetEnts = umg.group("targetX", "targetY", "x", "y")
 
@@ -86,4 +67,3 @@ umg.on("@update", function(dt)
     end
 end)
 
-end

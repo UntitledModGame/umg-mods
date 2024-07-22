@@ -268,6 +268,7 @@ if client then
             umg.call("lootplot:endHoverSlot", ent)
         end
     end)
+
 end
 
 

@@ -118,7 +118,6 @@ end)
 local CAMERA_PRIORITY = 51
 
 umg.answer("camera:getCamera", function()
-    print(PAN_CAMERA)
     return PAN_CAMERA or CAMERA, CAMERA_PRIORITY
 end)
 
