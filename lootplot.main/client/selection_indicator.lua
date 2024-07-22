@@ -31,10 +31,12 @@ end)
 
 umg.answer("lootplot:getItemTargetPosition", function(itemEnt)
     if itemEnt == selectedItem and umg.exists(selectedItem) then
-        local camera = camera.get()
-        local tx,ty = camera:toWorldCoords(input.getPointerPosition())
-        local prio = 1
-        return tx,ty, prio
+        if lp.canPlayerAccess(itemEnt, client.getClient()) then
+            local camera = camera.get()
+            local tx,ty = camera:toWorldCoords(input.getPointerPosition())
+            local prio = 1
+            return tx,ty, prio
+        end
     end
 end)
 
@@ -47,10 +49,22 @@ local COLORS = {
     objects.Color.RED
 }
 
+local lg=love.graphics
+
+
+local function drawSlotIndicator(ppos, color)
+    lg.push("all")
+    love.graphics.setColor(color)
+    local dvec = ppos:getWorldPos()
+    rendering.drawImage("select", dvec.x, dvec.y)
+    lg.pop()
+end
+
+
 umg.on("rendering:drawEffects", function(camera)
-    if umg.exists(selectedSlot) and umg.exists(selectedItem) then
-        ---@cast selectedSlot Entity
+    if umg.exists(selectedSlot) and umg.exists(selectedItem) and lp.canPlayerAccess(selectedItem, client.getClient()) then
         ---@cast selectedItem Entity
+        ---@cast selectedSlot Entity
 
         local state = nil
         local x, y = camera:toWorldCoords(input.getPointerPosition())
@@ -66,8 +80,18 @@ umg.on("rendering:drawEffects", function(camera)
 
             local ppos = lp.getPos(hoveredSlot)
             if state and ppos then
-                rendering.drawImage(ppos:getWorldPos()
+                local col = COLORS[state]
+                drawSlotIndicator(ppos, col)
             end
         end
+    end
+end)
+
+
+
+umg.on("rendering:drawEntity", 10, function(ent)
+    local selected = lp.getCurrentSelection()
+    if selected and ent == selected.slot then
+        drawSlotIndicator(selected.ppos, objects.Color.WHITE)
     end
 end)

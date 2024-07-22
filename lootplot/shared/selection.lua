@@ -228,17 +228,6 @@ if client then
         end
     end)
 
-    local lg=love.graphics
-
-    umg.on("rendering:drawEntity", -10, function(ent)
-        if selected and ent == selected.slot then
-            lg.push("all")
-                lg.setColor(1,0,0)
-                lg.circle("line",ent.x,ent.y,14)
-            lg.pop()
-        end
-    end)
-
     local hoveredSlot, hoveredItem
 
     umg.on("hoverables:startHover", function(ent)
