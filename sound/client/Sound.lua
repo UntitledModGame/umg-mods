@@ -1,0 +1,107 @@
+local BaseSound = require("client.BaseSound")
+
+---@type table<sound.Sound, boolean>
+local sounds = setmetatable({}, {__mode = "k"})
+
+---@class sound.Sound: sound.BaseSound
+local Sound = objects.Class("sound:Sound"):implement(BaseSound)
+
+---@param audioName string
+---@param volume number?
+---@param pitch number?
+function Sound:init(audioName, volume, pitch)
+    if not audio.isDefined(audioName) then
+        umg.melt("audio '"..audioName.."' is not defined")
+    end
+
+    self.name = audioName
+    self.volume = volume or 1
+    self.pitch = pitch or 1
+    ---@type love.Source[]
+    self.pool = {} -- unused sources
+    ---@type love.Source[]
+    self.playing = {} -- currently playing
+    assert(self.pitch > 0, "invalid pitch value")
+    sounds[self] = true
+end
+
+if false then
+    ---Create new, pooled sound object.
+    ---@param audioName string Valid audio name.
+    ---@param volume number? Default volume multiplier (default is 1)
+    ---@param pitch number? Default pitch multiplier (default is 1; 0 is not a valid value).
+    ---@return sound.Sound
+    ---@nodiscard
+    ---@diagnostic disable-next-line: cast-local-type, missing-return
+    function Sound(audioName, volume, pitch) end
+end
+
+---Play a sound.
+---
+---Note that the returned source is managed by the respective sound classes and may be pooled.
+---@param ent Entity? Additional entity to associate with the sound.
+---@param volume number? The volume of the audio.
+---@param pitch number? The pitch multiplier of the audio (0 is not a valid value).
+---@return love.Source source The played source.
+function Sound:play(ent, volume, pitch)
+    assert(pitch > 0, "invalid pitch value")
+
+    local source
+
+    if #self.pool > 0 then
+        source = table.remove(self.pool, 1)
+    else
+        source = audio.getSource(self.name)
+    end
+
+    source:stop()
+    return audio.play(self.name, {
+        entity = ent,
+        volume = (volume or 1) * self.volume,
+        pitch = (pitch or 1) * self.pitch,
+        source = source,
+    })
+end
+
+---@package
+function Sound:_update()
+    for i = #self.playing, 1, -1 do
+        local source = self.playing[i]
+        if not source:isPlaying() and source:tell() == 0 then
+            -- Reset source state
+            source:setPitch(1)
+            source:setVolume(1)
+            source:setLooping(false)
+
+            if source:getChannelCount() == 1 then
+                source:setAirAbsorption(0)
+                source:setAttenuationDistances(1, 3.402823466e+38)
+                source:setCone(math.pi * 2, math.pi * 2, 0)
+                source:setDirection(0, 0, 0)
+                source:setPosition(0, 0, 0)
+                source:setRelative(false)
+                source:setRolloff(1)
+                source:setVelocity(0, 0, 0)
+            end
+
+            if audio.canUseEffect() then
+                for _, e in ipairs(source:getActiveEffects()) do
+                    source:setEffect(e, false)
+                end
+
+                source:setFilter()
+            end
+
+            table.remove(self.playing, i)
+            self.pool[#self.pool+1] = source
+        end
+    end
+end
+
+umg.on("@update", function()
+    for k in pairs(sounds) do
+        k:_update()
+    end
+end)
+
+return Sound
