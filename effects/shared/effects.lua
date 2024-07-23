@@ -108,7 +108,7 @@ end
 
 
 local validQuestions = {--[[
-    [questionName] -> true
+    [questionName] -> reducer
 ]]}
 
 function effects.askQuestion(ent, questionName, ...)
@@ -120,15 +120,17 @@ function effects.askQuestion(ent, questionName, ...)
     end
 end
 
-function effects.defineEffectQuestion(name)
-    validQuestions[name] = true
+local defTc = typecheck.assert("string", "function")
+function effects.defineEffectQuestion(name, reducer)
+    defTc(name, reducer)
+    validQuestions[name] = reducer
 end
 
 
 
 
 local validEvents = {--[[
-    [questionName] -> true
+    [eventName] -> true
 ]]}
 
 function effects.callEvent(ent, eventName, ...)

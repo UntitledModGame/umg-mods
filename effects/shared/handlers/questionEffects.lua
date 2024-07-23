@@ -54,7 +54,7 @@ local function findFirstValidAnswer(effectSet, ownerEnt, ...)
 end
 
 
-function QuestionEffects:ask(questionName, ...)
+function QuestionEffects:ask(questionName, reducer, ...)
     local set = self.questionToEffectSet[questionName]
     if (not set) or (#set <= 0) then
         return -- no questions listening. RIP.
@@ -70,7 +70,6 @@ function QuestionEffects:ask(questionName, ...)
 
     -- Now, do a manual reduction of answers:
     local ans1, ans2, ans3
-    local reducer = umg.getQuestionReducer(questionName)
     do 
     local effectEnt = set[startIndex]
     ans1, ans2, ans3 = getAnswer(ownerEnt, effectEnt, ...)
