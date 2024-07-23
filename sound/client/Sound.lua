@@ -68,6 +68,22 @@ function Sound:_update()
     for i = #self.playing, 1, -1 do
         local source = self.playing[i]
         if not source:isPlaying() and source:tell() == 0 then
+            -- Reset source state
+            source:setPitch(1)
+            source:setVolume(1)
+            source:setLooping(false)
+
+            if source:getChannelCount() == 1 then
+                source:setAirAbsorption(0)
+                source:setAttenuationDistances(1, 3.402823466e+38)
+                source:setCone(math.pi * 2, math.pi * 2, 0)
+                source:setDirection(0, 0, 0)
+                source:setPosition(0, 0, 0)
+                source:setRelative(false)
+                source:setRolloff(1)
+                source:setVelocity(0, 0, 0)
+            end
+
             if audio.canUseEffect() then
                 for _, e in ipairs(source:getActiveEffects()) do
                     source:setEffect(e, false)
