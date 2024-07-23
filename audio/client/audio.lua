@@ -238,7 +238,7 @@ function audio.play(name, args)
 
     local source = args.source
     if source then
-        audio.getName(source)
+        assert(audio.getName(source) == name, "invalid existing source passed")
     else
         source = audio.getSource(name)
     end
