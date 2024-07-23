@@ -18,28 +18,6 @@ listener system:
 
 
 
-### Example:
-Ice-block: Prevent any items in range from moving
-- This needs `entityProperty` system
-
-Hmm: We should attempt to use the `properties` mod here.
-
-But, with this, we will need booleans as a valid property type.
-Maybe questions like:
-```lua
-umg.ask("properties:canPropertyBeTrue") -- OR reducer
-umg.ask("properties:isPropertyFalse") -- OR reducer
-```
-
-And then, for `defineProperty`, split into two:
-```lua
-properties.defineNumberProperty("speed", {...})
-properties.defineNumberProperty("canMove", {...})
-```
-
-
-
-
 
 
 
