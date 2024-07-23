@@ -33,8 +33,10 @@ Financial items;
 - item: generate points equal to 20% of the current balance
 
 Rulebender:
-- item: copycat (copies below item)
 - item: when sold/destroyed, trigger all target items
+- item: when activated, transform into above item
+- gift-box: after 3 activations, transform into a rare item
+- gift-box: after 3 activations, transform into a rare item
 Emergent items:
 - item: triggers pulse for all target items
 - item: triggers reroll for all target items
@@ -60,17 +62,29 @@ Scaling items
 
 
 ## SLOTS:
-- Gold slot: item's moneyGenerated is multiplied by 2
-- Glass-slot: item's pointsGenerated is multiplied by 2
+- Gold slot: generates $1 on activation
 - Diamond slot: pulses twice
+- Glass-slot: has a 10% chance of breaking on activation
 - Null-slot: doesn't activate
-- Shop-slot: self-explanatory
 - Reroll-slot: self-explanatory
-- dirt-slot
+- Dirt-slot
+- Shop-slot: self-explanatory
+- Epic-shop-slot: Shop slot, always spawns items of epic-rarity or above. Only rerolls on `RESET` trigger.
 
 ## Button slots:
-- Reroll-button: click to reroll. Cost=$2
-- Gold-question-button: click to activate plot. Cost=$5
+- Reroll-button: click to reroll. Cost=$2  (MAX-USES: 10)
+- Activate-button: click to activate plot. Cost=$5  (MAX-USES: 10) yellow-question-mark button
+
+
+-------------
+-------------
+-------------
+
+## STRETCH-GOAL: Augment ideas:
+- augment: increase maxActivations by 3
+- augment: generate +4 points on activation
+- cracked-augment: Is destroyed after X activations
+
 
 
 
@@ -79,7 +93,12 @@ Scaling items
 # STUFF WE NEED AS OF 23/07/2024:
 # ============
 - We need a basic trait system
-- We also need descriptions for shapes
+- We also need descriptions/naming for shapes
+- Need descriptions for basic properties
+- Need a rarity system, and pass a proper table to `generation:addEntry`
+- Need `activateCost` component; for reroll-button aand 
+
+
 
 
 
