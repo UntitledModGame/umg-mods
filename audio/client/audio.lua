@@ -243,8 +243,8 @@ function audio.play(name, args)
         source = audio.getSource(name)
     end
 
-    local volume = (args.volume or 1) * umg.ask("sound:getVolume", name, source, args.entity)
-    local semitone = umg.ask("sound:getSemitoneOffset", name, source, args.entity)
+    local volume = (args.volume or 1) * audio.getVolume(name, source, args.entity)
+    local semitone = audio.getSemitoneOffset(name, source, args.entity)
     local pitch = (args.pitch or 1) * 2 ^ (semitone / 12)
 
     source:setVolume(volume)
@@ -260,7 +260,7 @@ function audio.play(name, args)
         source:setFilter(args.filter)
     end
 
-    umg.call("audio:transform", name, source, args.entity)
+    audio.transform(name, source, args.entity)
 
     source:play()
     return source
@@ -274,6 +274,65 @@ end
 ---@nodiscard
 function audio.canUseEffect()
     return EFFECT_SUPPORTED
+end
+
+---Retrieve the volume of the audio using question bus.
+---@param name string Valid audio name.
+---@param source love.Source Source associated with the audio with name of `name`.
+---@param entity Entity? Entity to pass to the event bus.
+---@return number volume The volume of the audio.
+function audio.getVolume(name, source, entity)
+    assert(audio.getName(source) == name, "invalid source passed")
+    return umg.ask("sound:getVolume", name, source, entity)
+end
+
+---Retrieve the semitone offset of the audio using question bus.
+---@param name string Valid audio name.
+---@param source love.Source Source associated with the audio with name of `name`.
+---@param entity Entity? Entity to pass to the event bus.
+---@return number volume The volume of the audio.
+function audio.getSemitoneOffset(name, source, entity)
+    assert(audio.getName(source) == name, "invalid source passed")
+    return umg.ask("audio:getSemitoneOffset", name, source, entity)
+end
+
+---Apply transformation to the audio, such as applying effects, by calling the event buses.
+---@param name string Valid audio name.
+---@param source love.Source Source associated with the audio with name of `name`.
+---@param entity Entity? Entity to pass to the event bus.
+function audio.transform(name, source, entity)
+    assert(audio.getName(source) == name, "invalid source passed")
+    umg.call("audio:transform", name, source, entity)
+end
+
+---A helper function to reset whole state of an audio Source.
+---@param source love.Source Source to reset its state.
+function audio.resetSource(source)
+    source:stop()
+    source:seek(0)
+    source:setVolumeLimits(0, 1)
+    source:setPitch(1)
+    source:setVolume(1)
+    source:setLooping(false)
+
+    if source:getChannelCount() == 1 then
+        source:setAirAbsorption(0)
+        source:setAttenuationDistances(1, 3.402823466e+38) -- float max value
+        source:setCone(math.pi * 2, math.pi * 2, 0)
+        source:setDirection(0, 0, 0)
+        source:setPosition(0, 0, 0)
+        source:setRelative(false)
+        source:setRolloff(1)
+        source:setVelocity(0, 0, 0)
+    end
+
+    if audio.canUseEffect() then
+        for _, e in ipairs(source:getActiveEffects()) do
+            source:setEffect(e, false)
+        end
+
+        source:setFilter()
+    end
 end
 
 umg.answer("audio:getVolume", function()
