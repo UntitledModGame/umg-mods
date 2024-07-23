@@ -1,11 +1,11 @@
-local sound = {}
-if false then _G.sound = sound end
+local audio = {}
+if false then _G.audio = audio end
 
 ---@type table<string, love.Source>
-local definedSounds = {}
+local definedAudios = {}
 local definedTags = objects.Set()
 ---@type table<string, objects.Set>
-local tagsOfSounds = {} -- [sound] = Set[tags]
+local tagsOfAudios = {} -- [audio] = Set[tags]
 ---@type table<love.Source, string>
 local nameBySource = setmetatable({}, {__mode = "k"})
 
@@ -14,22 +14,22 @@ local EFFECT_SUPPORTED = love.audio.isEffectsSupported()
 ---@param name string
 ---@param source love.Source
 local function defineSound(name, source)
-    if definedSounds[name] then
-        definedSounds[name]:stop()
-        definedSounds[name]:release()
+    if definedAudios[name] then
+        definedAudios[name]:stop()
+        definedAudios[name]:release()
     end
 
-    definedSounds[name] = source
+    definedAudios[name] = source
 
-    if not tagsOfSounds then
-        tagsOfSounds[name] = objects.Set()
+    if not tagsOfAudios then
+        tagsOfAudios[name] = objects.Set()
     end
 end
 
 ---@param name string
 ---@return boolean
 local function isDefined(name)
-    return not not (type(name) == "string" and definedSounds[name])
+    return not not (type(name) == "string" and definedAudios[name])
 end
 
 ---@param tag string
@@ -43,56 +43,55 @@ end
 
 local function assertTag(tag)
     if not isValidTag(tag) then
-        umg.melt("tag '"..tag.."' is not a valid sound tag", 2)
+        umg.melt("tag '"..tag.."' is not a valid audio tag", 2)
     end
 end
 
-typecheck.addType("sound", function(x)
-    return not not isDefined(x), "expected defined sound name"
+typecheck.addType("audio", function(x)
+    return not not isDefined(x), "expected defined audio name"
 end)
 
-typecheck.addType("soundtag", function(x)
-    return isValidTag(x), "expected valid sound tag name"
+typecheck.addType("audiotag", function(x)
+    return isValidTag(x), "expected valid audio tag name"
 end)
 
 local defineSoundTc = typecheck.assert("string", "love:Source")
 
 ---Define a new sound.
 ---
----If a sound with name `name` is already defined, it will be overwriten. Use `sound.isDefined` to check.
+---If an audio with name `name` is already defined, it will be overwriten. Use `sound.isDefined` to check.
 ---
----IF a sound with name `name` is redefined, the tags will not be cleared.
+---IF an audio with name `name` is redefined, the tags will not be cleared.
 ---@param name string Name of the sound.
 ---@param source love.Source Audio source template.
-function sound.defineSound(name, source)
+function audio.defineAudio(name, source)
     defineSoundTc(name, source)
     return defineSound(name, source)
 end
 
----Check if a sound with name `name` has been defined.
----@param name string Sound name to check.
+---Check if an audio with name `name` has been defined.
+---@param name string audio name to check.
 ---@return boolean
 ---@nodiscard
-function sound.isDefined(name)
+function audio.isDefined(name)
     return isDefined(name)
 end
 
 local defineSoundsInDirectoryTc = typecheck.assert("table", "string?", "table?", "string?")
 
----Define sounds in a directory, **recursively**. Any errors on loading the sound in the directory will be silently
----ignored (the sound will not be defined). By default sound less than 1MB will be loaded in-memory while sound larger
----than that will be streamed on-disk. If you need fine-grained control/exception on certain sound, re-define them
----using `sound.defineSound`.
+---Define audios in a directory, **recursively**. Any errors on loading the audio in the directory will be silently
+---ignored (the audio will not be defined). If you need fine-grained control/exception on certain sound, re-define
+---them using `audio.defineAudio`.
 ---
 ---The sound will be defined with `<prefix><filename><suffix>`.
 ---
----**Warning**: If there's multiple sound name in with different extension or in a different directory, an error will
+---**Warning**: If there's multiple audio name in with different extension or in a different directory, an error will
 ---be issued.
 ---@param dirobj umg.DirectoryObject Directory, of the current loading mod, to iterate.
----@param prefix string? Prefix to add to the sound name (default is empty string).
+---@param prefix string? Prefix to add to the audio name (default is empty string).
 ---@param tags string[]? List of tags to add when defining the sound.
----@param suffix string? Suffix to add to the sound name (default is empty string).
-function sound.defineSoundsInDirectory(dirobj, prefix, tags, suffix)
+---@param suffix string? Suffix to add to the audio name (default is empty string).
+function audio.defineAudiosInDirectory(dirobj, prefix, tags, suffix)
     defineSoundsInDirectoryTc(dirobj, prefix, tags, suffix)
 
     prefix = prefix or ""
@@ -137,24 +136,25 @@ end
 
 local validSoundTc = typecheck.assert("sound")
 
----Retrieve the LOVE Source object of sound `name`.
----@param name string
+---Retrieve the LOVE Source object of audio `name`.
+---@param name string Valid audio name.
 ---@return love.Source
 ---@nodiscard
-function sound.getSource(name)
+function audio.getSource(name)
     validSoundTc(name)
 
-    local source = definedSounds[name]:clone()
+    local source = definedAudios[name]:clone()
     nameBySource[source] = name
     return source
 end
 
 local getNameTc = typecheck.assert("love:Source")
 
----Retrieve the sound name based on the LOVE Source object.
+---Retrieve the audio name based on the LOVE Source object.
 ---@param source love.Source
 ---@return string
-function sound.getName(source)
+---@nodiscard
+function audio.getName(source)
     getNameTc(source)
 
     local name = nameBySource[source]
@@ -167,11 +167,11 @@ end
 
 local defineTagTc = typecheck.assert("string")
 
----Define a new tag that can be used to tag sounds.
+---Define a new tag that can be used to tag audios.
 ---
 ---Defining existing tag is not allowed.
 ---@param tag string
-function sound.defineTag(tag)
+function audio.defineTag(tag)
     defineTagTc(tag)
     if isValidTag(tag) then
         umg.melt("tag '"..tag.."' already defined")
@@ -181,37 +181,38 @@ function sound.defineTag(tag)
 end
 
 ---Add tag to the sound with name of `name`
----@param name string Valid sound name.
+---@param name string Valid audio name.
 ---@param ... string List of valid tags to assign.
-function sound.tag(name, ...)
+function audio.tag(name, ...)
     validSoundTc(name)
     for i = 1, select("#", ...) do
         local tag = select(i, ...)
         assertTag(tag)
-        tagsOfSounds[name]:add(tag)
+        tagsOfAudios[name]:add(tag)
     end
 end
 
----Remove tag from the sound with name of `name`
----@param name string Valid sound name.
+---Remove tags from the audio with name of `name`
+---@param name string Valid audio name.
 ---@param ... string List of valid tags to unassign.
-function sound.untag(name, ...)
+function audio.untag(name, ...)
     validSoundTc(name)
     for i = 1, select("#", ...) do
         local tag = select(i, ...)
         assertTag(tag)
-        tagsOfSounds[name]:remove(tag)
+        tagsOfAudios[name]:remove(tag)
     end
 end
 
 local hasTagTc = typecheck.assert("sound", "soundtag")
 
----@param name string Valid sound name.
+---Check if an audio is tagged with specific tag.
+---@param name string Valid audio name.
 ---@param tag string Valid tag name to check.
 ---@return boolean
-function sound.hasTag(name, tag)
+function audio.hasTag(name, tag)
     hasTagTc(name, tag)
-    return tagsOfSounds[name]:has(tag)
+    return tagsOfAudios[name]:has(tag)
 end
 
 ---@class sound.PlayArgs
@@ -220,13 +221,13 @@ end
 ---@field public pitch number? Pitch of the source (0 is not a valid value; default to 1.0)
 ---@field public effects table<string, boolean|table<string, any>>? Effects to apply to the source.
 ---@field public filter table<string, any>? Filter to apply to the source.
----@field public source love.Source? Existing source to reuse instead (must be retrieved from `sound.getSource()`)
+---@field public source love.Source? Existing source to reuse instead (must be retrieved from `audio.getSource()`)
 
----Play a sound with name `name` and return the underlying LOVE Source object.
----@param name string Valid sound name.
+---Play an audio with name `name` and return the underlying LOVE Source object.
+---@param name string Valid audio name.
 ---@param args sound.PlayArgs? Play arguments.
 ---@return love.Source
-function sound.play(name, args)
+function audio.play(name, args)
     --[[
     effects? = {[effectlist] = true|{effectparams}},
     filter? = filter
@@ -237,9 +238,9 @@ function sound.play(name, args)
 
     local source = args.source
     if source then
-        sound.getName(source)
+        audio.getName(source)
     else
-        source = sound.getSource(name)
+        source = audio.getSource(name)
     end
 
     local volume = (args.volume or 1) * umg.ask("sound:getVolume", name, source, args.entity)
@@ -259,7 +260,7 @@ function sound.play(name, args)
         source:setFilter(args.filter)
     end
 
-    umg.call("sound:transform", name, source, args.entity)
+    umg.call("audio:transform", name, source, args.entity)
 
     source:play()
     return source
@@ -271,18 +272,18 @@ end
 ---behavior.
 ---@return boolean
 ---@nodiscard
-function sound.canUseEffect()
+function audio.canUseEffect()
     return EFFECT_SUPPORTED
 end
 
-umg.answer("sound:getVolume", function()
+umg.answer("audio:getVolume", function()
     return 1
 end)
 
-umg.answer("sound:getSemitoneOffset", function()
+umg.answer("audio:getSemitoneOffset", function()
     return 0
 end)
 
-umg.expose("sound", sound)
+umg.expose("audio", audio)
 
-return sound
+return audio
