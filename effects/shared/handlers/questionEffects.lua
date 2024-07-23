@@ -95,38 +95,6 @@ end
 
 
 
-
-local answeredQuestions = {--[[
-    Checks whether we already have a listener setup for this question
-
-    [questionName] -> true
-]]}
-
-
-
-local function ensureAnswerer(questionName)
-    --[[
-        creates an question-listener for `questionName` at runtime,
-        (if one doesn't already exist.)
-
-        This function only works when the effect entity is
-            the first argument passed into the question.
-    ]]
-    if answeredQuestions[questionName] then
-        return -- we already have a listener here
-    end
-
-    umg.answer(questionName, function(ent, ...)
-        if ent.questionEffects then
-            return ent.questionEffects:ask(questionName, ...)
-        end
-    end)
-
-    answeredQuestions[questionName] = true
-end
-
-
-
 function QuestionEffects:addEffect(effectEnt)
     local question = effectEnt.questionEffect.question
     local set = self.questionToEffectSet[question]
@@ -135,7 +103,6 @@ function QuestionEffects:addEffect(effectEnt)
         self.questionToEffectSet[question] = set
     end
 
-    ensureAnswerer(question)
     set:add(effectEnt)
 end
 

@@ -4,6 +4,7 @@ local shouldApplyEffect = require("shared.should_apply")
 
 
 
+---@class EventEffects
 local EventEffects = objects.Class("effects:EventEffects")
 
 
@@ -70,37 +71,6 @@ end
 
 
 
-local listenedEvents = {--[[
-    Checks whether we already have a listener setup for this event
-
-    [eventName] -> true
-]]}
-
-
-
-local function ensureEventListener(eventName)
-    --[[
-        creates an event-listener for `eventName` at runtime,
-        (if one doesn't already exist.)
-
-        This function only works when the effect entity is
-            the first argument passed into the event.
-    ]]
-    if listenedEvents[eventName] then
-        return -- we already have a listener here
-    end
-
-    umg.on(eventName, function(ent, ...)
-        if ent.eventEffects then
-            ent.eventEffects:call(eventName, ...)
-        end
-    end)
-
-    listenedEvents[eventName] = true
-end
-
-
-
 function EventEffects:addEffect(effectEnt)
     local event = effectEnt.eventEffect.event
     local set = self.eventToEffectSet[event]
@@ -109,7 +79,6 @@ function EventEffects:addEffect(effectEnt)
         self.eventToEffectSet[event] = set
     end
 
-    ensureEventListener(event)
     set:add(effectEnt)
 end
 

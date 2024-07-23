@@ -93,11 +93,59 @@ effects.canAddEffect = canAddEffect
 effects.canRemoveEffect = canRemoveEffect
 
 
+function effects.getEffects(ent)
+    return ent.effects or objects.EMPTY
+end
+
+
 
 if client then
     client.on("effects:addEffect", addEffect)
     client.on("effects:removeEffect", removeEffect)
 end
+
+
+
+
+local validQuestions = {--[[
+    [questionName] -> true
+]]}
+
+function effects.askQuestion(ent, questionName, ...)
+    if ent.questionEffects then
+        if not (validQuestions[questionName]) then
+            umg.melt("Effect question not defined: " .. tostring(questionName))
+        end
+        return ent.questionEffects:ask(questionName, ...)
+    end
+end
+
+function effects.defineEffectQuestion(name)
+    validQuestions[name] = true
+end
+
+
+
+
+local validEvents = {--[[
+    [questionName] -> true
+]]}
+
+function effects.callEvent(ent, eventName, ...)
+    if ent.eventEffects then
+        if not (validEvents[eventName]) then
+            umg.melt("Effect question not defined: " .. tostring(eventName))
+        end
+        ent.eventEffects:call(eventName, ...)
+    end
+end
+
+function effects.defineEffectEvent(eventName)
+    validEvents[eventName] = true
+end
+
+
+
 
 
 

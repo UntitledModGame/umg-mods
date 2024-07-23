@@ -1,0 +1,4 @@
+{
+    "type": "addon",
+    "uses": ["lootplot"]
+}
