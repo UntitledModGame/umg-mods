@@ -654,16 +654,7 @@ lp.constants = {
 
 
 -- Can override rarities in this table:
----@type {[number|string]: lootplot.Rarity}
-lp.rarities = {}
-
-local rarities = require("shared.rarities")
-for i, r in ipairs(rarities) do
-    r.index = i
-    lp.rarities[r.name] = r
-    lp.rarities[r.index] = r
-end
-
+lp.rarities = require("shared.rarities")
 
 
 lp.ITEM_GENERATOR = generation.Generator()

@@ -241,6 +241,30 @@ lp.constants.WORLD_SLOT_DISTANCE = 26
 ---@type number
 lp.constants.PIPELINE_DELAY = 0.2
 
+
+
+---@return lootplot.Rarity
+local function newRarity(name, rarity_weight, color)
+    return {
+        color = color,
+        index = 1,
+        name = name,
+        rarityWeight = rarity_weight
+    }
+end
+
+lp.rarities = {
+    COMMON = newRarity(),
+    UNCOMMON = newRarity(),
+    RARE = newRarity(),
+    EPIC = newRarity(),
+    LEGENDARY = newRarity(),
+    MYTHIC = newRarity(),
+    UNIQUE = newRarity(),
+}
+
+
+
 ---@type generation.Generator
 lp.SLOT_GENERATOR = nil
 ---@type generation.Generator
