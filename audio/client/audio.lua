@@ -134,7 +134,7 @@ function audio.defineAudiosInDirectory(dirobj, prefix, tags, suffix)
     end)
 end
 
-local validSoundTc = typecheck.assert("sound")
+local validSoundTc = typecheck.assert("audio")
 
 ---Retrieve the LOVE Source object of audio `name`.
 ---@param name string Valid audio name.
@@ -204,7 +204,7 @@ function audio.untag(name, ...)
     end
 end
 
-local hasTagTc = typecheck.assert("sound", "soundtag")
+local hasTagTc = typecheck.assert("audio", "audiotag")
 
 ---Check if an audio is tagged with specific tag.
 ---@param name string Valid audio name.
@@ -345,14 +345,6 @@ function audio.resetSource(source)
         source:setFilter()
     end
 end
-
-umg.answer("audio:getVolume", function()
-    return 1
-end)
-
-umg.answer("audio:getSemitoneOffset", function()
-    return 0
-end)
 
 umg.expose("audio", audio)
 
