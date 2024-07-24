@@ -20,31 +20,35 @@ targets.UniDirectionalShape = UniDirectionalShape
 -- Simple helper
 
 ---@param size integer?
-function targets.PlusShape(size)
+---@param name string?
+function targets.PlusShape(size, name)
     return UnionShape(
         UniDirectionalShape(1, 0, size),
         UniDirectionalShape(0, 1, size),
         UniDirectionalShape(-1, 0, size),
-        UniDirectionalShape(0, -1, size)
+        UniDirectionalShape(0, -1, size),
+        name or "Plus Shape"
     )
 end
 
 ---@param size integer?
-function targets.CrossShape(size)
+---@param name string?
+function targets.CrossShape(size, name)
     return UnionShape(
         UniDirectionalShape(1, 1, size),
         UniDirectionalShape(-1, 1, size),
         UniDirectionalShape(-1, -1, size),
-        UniDirectionalShape(1, -1, size)
+        UniDirectionalShape(1, -1, size),
+        name or "Cross Shape"
     )
 end
 
 -- Pre-defined shape instance
 targets.KING_SHAPE = KingShape(1)
 targets.LARGE_KING_SHAPE = KingShape(2)
-targets.ROOK_SHAPE = targets.PlusShape(MAX_DISTANCE)
-targets.BISHOP_SHAPE = targets.CrossShape(MAX_DISTANCE)
-targets.QUEEN_SHAPE = UnionShape(targets.ROOK_SHAPE, targets.BISHOP_SHAPE)
+targets.ROOK_SHAPE = targets.PlusShape(MAX_DISTANCE, "ROOK")
+targets.BISHOP_SHAPE = targets.CrossShape(MAX_DISTANCE, "BISHOP")
+targets.QUEEN_SHAPE = UnionShape(targets.ROOK_SHAPE, targets.BISHOP_SHAPE, "QUEEN")
 targets.KNIGHT_SHAPE = CustomShape(function(ppos)
     local result = objects.Array()
 
@@ -56,8 +60,8 @@ targets.KNIGHT_SHAPE = CustomShape(function(ppos)
     end
 
     return result
-end)
-targets.ABOVE_SHAPE = UniDirectionalShape(0, -1, 1)
+end, "KNIGHT")
+targets.ABOVE_SHAPE = UniDirectionalShape(0, -1, 1, "ABOVE")
 
 ---@param basePPos lootplot.PPos
 local function sortPPos(basePPos)

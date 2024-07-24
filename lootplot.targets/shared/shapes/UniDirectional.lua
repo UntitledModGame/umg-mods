@@ -6,7 +6,9 @@ local UniDirectionalShape = objects.Class("lootplot.targets:UniDirectionalShape"
 ---@param dx integer
 ---@param dy integer
 ---@param length integer?
-function UniDirectionalShape:init(dx, dy, length)
+---@param name string?
+function UniDirectionalShape:init(dx, dy, length, name)
+    Shape.init(self, name or "Uni-directional Shape")
     self.length = length or 1
     self.dx = dx
     self.dy = dy
@@ -26,6 +28,6 @@ function UniDirectionalShape:getTargets(ppos)
     return result
 end
 
----@alias lootplot.UniDirectionalShape_M lootplot.targets.UniDirectionalShape|fun(dx:integer,dy:integer,length:integer?):lootplot.targets.UniDirectionalShape
+---@alias lootplot.UniDirectionalShape_M lootplot.targets.UniDirectionalShape|fun(dx:integer,dy:integer,length:integer?,name:string?):lootplot.targets.UniDirectionalShape
 ---@cast UniDirectionalShape +lootplot.UniDirectionalShape_M
 return UniDirectionalShape

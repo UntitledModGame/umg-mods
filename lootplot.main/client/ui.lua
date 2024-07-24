@@ -21,10 +21,8 @@ function Scene:init(args)
     self.moneyBox = ui.elements.MoneyBox()
     self.itemDescriptionSelected = nil
     self.itemDescriptionSelectedTime = 0
-    self.itemDescription = nil
-    self.itemDescriptionTime = 0
-    self.slotDescription = nil
-    self.slotDescriptionTime = 0
+    self.cursorDescription = nil
+    self.cursorDescriptionTime = 0
     self.slotActionButtons = {}
 
     self:addChild(self.pointsBar)
@@ -92,20 +90,12 @@ function Scene:onRender(x,y,w,h)
 
     local mx, my = input.getPointerPosition()
 
-    if self.itemDescription then
+    if self.cursorDescription then
         local descW, descH = select(2, leftDescRegion:get())
-        local descRegion = ui.Region(mx + 16, my + 16, descW, descH)
-        self.itemDescriptionTime = self.itemDescriptionTime + love.timer.getDelta() * descriptionOpenSpeed
-        if drawDescription(self.itemDescriptionTime, self.itemDescription, objects.Color.WHITE, descRegion, drawBoxTransparent) then
-            self.itemDescription:resetRichText()
-        end
-    elseif self.slotDescription then
-        local rightDescRegion = select(2, rest2:splitVertical(1, 5))
-        local descW, descH = select(2, rightDescRegion:get())
         local descRegion = ui.Region(mx - 16 - descW, my + 16, descW, descH)
-        self.slotDescriptionTime = self.slotDescriptionTime + love.timer.getDelta() * descriptionOpenSpeed
-        if drawDescription(self.slotDescriptionTime, self.slotDescription, objects.Color.WHITE, descRegion, drawBoxTransparent) then
-            self.slotDescription:resetRichText()
+        self.cursorDescriptionTime = self.cursorDescriptionTime + love.timer.getDelta() * descriptionOpenSpeed
+        if drawDescription(self.cursorDescriptionTime, self.cursorDescription, objects.Color.WHITE, descRegion, drawBoxTransparent) then
+            self.cursorDescription:resetRichText()
         end
     end
 
@@ -150,13 +140,13 @@ local function populateDescriptionBox(entity)
 end
 
 ---@param itemEnt lootplot.ItemEntity?
-function Scene:setItemDescription(itemEnt)
+function Scene:setCursorDescription(itemEnt)
     if itemEnt then
-        self.itemDescription = populateDescriptionBox(itemEnt)
+        self.cursorDescription = populateDescriptionBox(itemEnt)
     else
-        self.itemDescription = nil
+        self.cursorDescription = nil
     end
-    self.itemDescriptionTime = 0
+    self.cursorDescriptionTime = 0
 end
 
 ---@param itemEnt lootplot.ItemEntity?
@@ -167,16 +157,6 @@ function Scene:setSelectedItemDescription(itemEnt)
         self.itemDescriptionSelected = nil
     end
     self.itemDescriptionSelectedTime = 0
-end
-
----@param slotEnt lootplot.SlotEntity?
-function Scene:setSlotDescription(slotEnt)
-    if slotEnt then
-        self.slotDescription = populateDescriptionBox(slotEnt)
-    else
-        self.slotDescription = nil
-    end
-    self.slotDescriptionTime = 0
 end
 
 ---@param actions lootplot.SlotAction[]?
@@ -254,36 +234,20 @@ umg.on("@resize", function(x,y)
 end)
 
 local SHOW_DESCRIPTION_AFTER = 0.5
-local selectedItem = nil
 local selectedSlot = nil
-local itemHoverTime = 0
 local slotHoverTime = 0
 
 umg.on("@update", function(dt)
-    if selectedItem then
-        if itemHoverTime < SHOW_DESCRIPTION_AFTER then
-            itemHoverTime = itemHoverTime + dt
-
-            if itemHoverTime >= SHOW_DESCRIPTION_AFTER then
-                scene:setItemDescription(selectedItem)
-            end
-        end
-    end
-
     if selectedSlot then
         if slotHoverTime < SHOW_DESCRIPTION_AFTER then
             slotHoverTime = slotHoverTime + dt
 
             if slotHoverTime >= SHOW_DESCRIPTION_AFTER then
-                scene:setSlotDescription(selectedSlot)
+                local itemEnt = lp.slotToItem(selectedSlot)
+                scene:setCursorDescription(itemEnt or selectedSlot)
             end
         end
     end
-end)
-
-umg.on("lootplot:startHoverItem", function(ent)
-    selectedItem = ent
-    itemHoverTime = 0
 end)
 
 umg.on("lootplot:startHoverSlot", function(ent)
@@ -291,12 +255,7 @@ umg.on("lootplot:startHoverSlot", function(ent)
     slotHoverTime = 0
 end)
 
-umg.on("lootplot:endHoverItem", function(ent)
-    selectedItem = nil
-    scene:setItemDescription(nil)
-end)
-
 umg.on("lootplot:endHoverSlot", function(ent)
     selectedSlot = nil
-    scene:setSlotDescription(nil)
+    scene:setCursorDescription()
 end)
