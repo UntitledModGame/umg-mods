@@ -96,7 +96,7 @@ Scaling items
 - We also need descriptions/naming for shapes
 - Need descriptions for basic properties
 - Need a rarity system, and pass a proper table to `generation:addEntry`
-- Need `activateCost` component; for reroll-button aand 
+- Need `activateCost` component; for reroll-button
 
 
 
