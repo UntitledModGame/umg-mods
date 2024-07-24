@@ -5,7 +5,9 @@ local Shape = require("shared.Shape")
 local CustomShape = objects.Class("lootplot.targets:CustomShape"):implement(Shape)
 
 ---@param func fun(ppos:lootplot.PPos):objects.Array
-function CustomShape:init(func)
+---@param name string?
+function CustomShape:init(func, name)
+    Shape.init(self, name or "Custom Shape")
     self.func = func
 end
 
@@ -15,5 +17,5 @@ function CustomShape:getTargets(ppos)
     return self.func(ppos)
 end
 
----@cast CustomShape +fun(func:fun(ppos:lootplot.PPos):objects.Array):lootplot.targets.CustomShape
+---@cast CustomShape +fun(func:(fun(ppos:lootplot.PPos):objects.Array),name:string?):lootplot.targets.CustomShape
 return CustomShape

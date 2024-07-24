@@ -5,8 +5,10 @@ local KingShape = objects.Class("lootplot.targets:KingShape"):implement(Shape)
 
 
 ---@param size integer?
-function KingShape:init(size)
+---@param name string?
+function KingShape:init(size, name)
     self.size = size or 1
+    Shape.init(self, name or ("KING-"..self.size))
 end
 
 ---@param ppos lootplot.PPos
@@ -24,6 +26,6 @@ function KingShape:getTargets(ppos)
     return result
 end
 
----@alias lootplot.KingShape_M lootplot.targets.KingShape|fun(size:integer?):lootplot.targets.KingShape
+---@alias lootplot.KingShape_M lootplot.targets.KingShape|fun(size:integer?,name:string?):lootplot.targets.KingShape
 ---@cast KingShape +lootplot.KingShape_M
 return KingShape
