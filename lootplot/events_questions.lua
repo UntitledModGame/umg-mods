@@ -3,9 +3,8 @@
 umg.defineEvent("lootplot:itemAddedToSlot")
 umg.defineEvent("lootplot:itemRemovedFromSlot")
 
-
-
-umg.defineEvent("lootplot:plotActivated")
+umg.defineEvent("lootplot:traitAdded")
+umg.defineEvent("lootplot:traitRemoved")
 
 umg.defineEvent("lootplot:entitySpawned")
 umg.defineEvent("lootplot:entityActivated")

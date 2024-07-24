@@ -515,6 +515,12 @@ function lp.forceSpawnSlot(ppos, slotEType)
 end
 
 
+local traits = require("shared.traits")
+lp.addTrait = traits.addTrait
+lp.removeTrait = traits.removeTrait
+lp.hasTrait = traits.hasTrait
+lp.defineTrait = traits.defineTrait
+
 
 
 local DEFAULT_PROPS = {
@@ -523,13 +529,15 @@ local DEFAULT_PROPS = {
     "maxActivations"
 }
 
-local function giveSharedComponents(etype)
+local function giveCommonComponents(etype)
     for _, prop in ipairs(DEFAULT_PROPS) do
         local base = properties.getBase(prop)
         assert(base,"?")
         -- ensure base exists:
         etype[base] = etype[base] or properties.getDefault(prop)
     end
+
+    etype.baseTraits = etype.baseTraits or objects.Set()
 end
 
 
@@ -563,7 +571,7 @@ function lp.defineItem(name, itemType)
     itemType.triggers = itemType.triggers or {"PULSE"}
     itemType.hitboxDistance = itemType.hitboxDistance or 8
     itemType.hoverable = true
-    giveSharedComponents(itemType)
+    giveCommonComponents(itemType)
     umg.defineEntityType(name, itemType)
     lp.ITEM_GENERATOR:defineEntry(name)
 end
@@ -599,7 +607,7 @@ function lp.defineSlot(name, slotType)
     if slotType.baseCanSlotPropagate == nil then
         slotType.baseCanSlotPropagate = true
     end
-    giveSharedComponents(slotType)
+    giveCommonComponents(slotType)
     umg.defineEntityType(name, slotType)
     lp.SLOT_GENERATOR:defineEntry(name)
 end
