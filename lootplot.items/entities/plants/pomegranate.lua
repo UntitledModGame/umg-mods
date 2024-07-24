@@ -6,6 +6,9 @@ lp.defineItem("pomegranate", {
     description = "Generate slots",
     baseBuyPrice = 5,
 
+    rarity = lp.rarities.COMMON,
+    baseTraits = {},
+
     targetShape = lp.targets.KING_SHAPE,
 
     targetType = "NO_SLOT",

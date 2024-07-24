@@ -265,6 +265,13 @@ lp.rarities = {
 
 
 
+local traits = require("shared.traits")
+lp.addTrait = traits.addTrait
+lp.removeTrait = traits.removeTrait
+lp.hasTrait = traits.hasTrait
+lp.defineTrait = traits.defineTrait
+
+
 ---@type generation.Generator
 lp.SLOT_GENERATOR = nil
 ---@type generation.Generator

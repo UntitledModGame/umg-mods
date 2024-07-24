@@ -142,20 +142,14 @@ end
 ---@return generation.Query
 function Query:addEntriesWith(...)
     self.bufferedEntries:add({...})
-    -- local entries = self.generator:getEntriesWith(...)
-    -- for _, entry in ipairs(entries) do
-    --     addDefault(self, entry)
-    -- end
     return self
 end
 
 
 
 function Query:addAllEntries()
+    -- empty table indicates ALL possible entries.
     self.bufferedEntries:add({})
-    -- for _, entry in ipairs(self.generator:getAllEntries()) do
-    --     addDefault(self, entry)
-    -- end
     return self
 end
 

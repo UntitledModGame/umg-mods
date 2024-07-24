@@ -538,6 +538,16 @@ local function giveCommonComponents(etype)
     end
 
     etype.baseTraits = etype.baseTraits or objects.Set()
+    etype.rarity = etype.rarity or lp.rarities.COMMON
+    assert(etype.rarity.rarityWeight, "Invalid rarity: " .. type(etype.rarity))
+end
+
+local function keys(sset)
+    local ks = {}
+    for _, val in ipairs(sset) do
+        ks[val] = true
+    end
+    return ks
 end
 
 
@@ -573,7 +583,10 @@ function lp.defineItem(name, itemType)
     itemType.hoverable = true
     giveCommonComponents(itemType)
     umg.defineEntityType(name, itemType)
-    lp.ITEM_GENERATOR:defineEntry(name)
+    lp.ITEM_GENERATOR:defineEntry(name, {
+        defaultChance = itemType.rarity.rarityWeight,
+        traits = keys(itemType.baseTraits)
+    })
 end
 
 ---@class lootplot.SlotEntityClass: EntityClass
@@ -609,7 +622,10 @@ function lp.defineSlot(name, slotType)
     end
     giveCommonComponents(slotType)
     umg.defineEntityType(name, slotType)
-    lp.SLOT_GENERATOR:defineEntry(name)
+    lp.SLOT_GENERATOR:defineEntry(name, {
+        defaultChance = slotType.rarity.rarityWeight,
+        traits = keys(slotType.baseTraits)
+    })
 end
 
 ---@param name string
