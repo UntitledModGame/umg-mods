@@ -44,6 +44,31 @@ function text.escape(str)
     return (str:gsub("[{|}]", rep2))
 end
 
+local escapermt = {}
+
+function escapermt:__call()
+    return string.format("{$%s()}", self.name)
+end
+
+function escapermt:__index(k)
+    return setmetatable({name = k}, escapermt)
+end
+
+function escapermt:__tostring()
+    return string.format("{$%s}", self.name)
+end
+
+local escaper = setmetatable({name = ""}, escapermt)
+
+---Clear tags on rich text, optionally interpolating them if needed.
+---@param str string
+---@param variables table<string, any>?
+function text.clear(str, variables)
+    -- HACK: There should be cleaner way to do this
+    local rt = text.RichText(str, {variables = variables or escaper})
+    return rt:getString()
+end
+
 umg.expose("text", text)
 require("client.base_effect")() -- Expose default effects
 
