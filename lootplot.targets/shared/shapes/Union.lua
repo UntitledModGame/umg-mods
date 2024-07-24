@@ -5,9 +5,19 @@ local UnionShape = objects.Class("lootplot.targets:UnionShape"):implement(Shape)
 
 ---@param shape1 lootplot.targets.Shape
 ---@param shape2 lootplot.targets.Shape
----@param ... lootplot.targets.Shape
+---@param ... lootplot.targets.Shape|string
 function UnionShape:init(shape1, shape2, ...)
     self.shapes = {shape1, shape2, ...}
+
+    local last = self.shapes[#self.shapes]
+    local name = "Union Shape"
+    if type(last) == "string" then
+        -- This is the name
+        table.remove(self.shapes)
+        name = last
+    end
+
+    Shape.init(self, name)
 end
 
 ---@param pposes objects.Array
@@ -35,6 +45,6 @@ function UnionShape:getTargets(ppos)
     return newTargets
 end
 
----@alias lootplot.UnionShape_M lootplot.targets.UnionShape|fun(shape1:lootplot.targets.Shape,shape2:lootplot.targets.Shape,...:lootplot.targets.Shape):lootplot.targets.UnionShape
+---@alias lootplot.UnionShape_M lootplot.targets.UnionShape|fun(shape1:lootplot.targets.Shape,shape2:lootplot.targets.Shape,...:lootplot.targets.Shape|string):lootplot.targets.UnionShape
 ---@cast UnionShape +lootplot.UnionShape_M
 return UnionShape
