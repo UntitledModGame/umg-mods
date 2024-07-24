@@ -651,6 +651,21 @@ lp.constants = {
     PIPELINE_DELAY = 0.2
 }
 
+
+
+-- Can override rarities in this table:
+---@type {[number|string]: lootplot.Rarity}
+lp.rarities = {}
+
+local rarities = require("shared.rarities")
+for i, r in ipairs(rarities) do
+    r.index = i
+    lp.rarities[r.name] = r
+    lp.rarities[r.index] = r
+end
+
+
+
 lp.ITEM_GENERATOR = generation.Generator()
 lp.SLOT_GENERATOR = generation.Generator()
 
