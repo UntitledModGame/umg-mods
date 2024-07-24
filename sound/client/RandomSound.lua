@@ -1,4 +1,4 @@
-local BaseSound = objects.Class("sound:BaseSound")
+local BaseSound = require("client.BaseSound")
 
 ---@class sound.RandomSound: sound.BaseSound
 local RandomSound = objects.Class("sound:RandomSound"):implement(BaseSound)

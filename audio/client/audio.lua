@@ -91,7 +91,7 @@ local defineSoundsInDirectoryTc = typecheck.assert("table", "string?", "table?",
 ---@param prefix string? Prefix to add to the audio name (default is empty string).
 ---@param tags string[]? List of tags to add when defining the sound.
 ---@param suffix string? Suffix to add to the audio name (default is empty string).
-function audio.defineAudiosInDirectory(dirobj, prefix, tags, suffix)
+function audio.defineAudioInDirectory(dirobj, prefix, tags, suffix)
     defineSoundsInDirectoryTc(dirobj, prefix, tags, suffix)
 
     prefix = prefix or ""
@@ -283,7 +283,7 @@ end
 ---@nodiscard
 function audio.getVolume(name, source, entity)
     assert(audio.getName(source) == name, "invalid source passed")
-    return umg.ask("sound:getVolume", name, source, entity)
+    return umg.ask("audio:getVolume", name, source, entity)
 end
 
 ---Retrieve the semitone offset of the audio using question bus.
