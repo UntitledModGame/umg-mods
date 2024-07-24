@@ -244,8 +244,7 @@ function audio.play(name, args)
     end
 
     local volume = (args.volume or 1) * audio.getVolume(name, source, args.entity)
-    local semitone = audio.getSemitoneOffset(name, source, args.entity)
-    local pitch = (args.pitch or 1) * 2 ^ (semitone / 12)
+    local pitch = (args.pitch or 1) * audio.getPitch(name, source, args.entity)
 
     source:setVolume(volume)
     source:setPitch(pitch)
@@ -281,6 +280,7 @@ end
 ---@param source love.Source Source associated with the audio with name of `name`.
 ---@param entity Entity? Entity to pass to the event bus.
 ---@return number volume The volume of the audio.
+---@nodiscard
 function audio.getVolume(name, source, entity)
     assert(audio.getName(source) == name, "invalid source passed")
     return umg.ask("sound:getVolume", name, source, entity)
@@ -291,9 +291,20 @@ end
 ---@param source love.Source Source associated with the audio with name of `name`.
 ---@param entity Entity? Entity to pass to the event bus.
 ---@return number volume The volume of the audio.
+---@nodiscard
 function audio.getSemitoneOffset(name, source, entity)
     assert(audio.getName(source) == name, "invalid source passed")
     return umg.ask("audio:getSemitoneOffset", name, source, entity)
+end
+
+---Shorthand of `2 ^ (audio.getSemitoneOffset(...) / 12)`.
+---@param name string Valid audio name.
+---@param source love.Source Source associated with the audio with name of `name`.
+---@param entity Entity? Entity to pass to the event bus.
+---@return number volume The volume of the audio.
+---@nodiscard
+function audio.getPitch(name, source, entity)
+    return 2 ^ (audio.getSemitoneOffset(name, source, entity) / 12)
 end
 
 ---Apply transformation to the audio, such as applying effects, by calling the event buses.
