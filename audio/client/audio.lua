@@ -346,14 +346,6 @@ function audio.resetSource(source)
     end
 end
 
-umg.answer("audio:getVolume", function()
-    return 1
-end)
-
-umg.answer("audio:getSemitoneOffset", function()
-    return 0
-end)
-
 umg.expose("audio", audio)
 
 return audio
