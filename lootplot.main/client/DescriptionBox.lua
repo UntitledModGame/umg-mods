@@ -25,10 +25,7 @@ end
 ---@param text string Text to add.
 ---@param font love.Font? Font to use when rendering this.
 function DescriptionBox:addText(text, font)
-    if type(text) == "string" then
-        self.contents[#self.contents+1] = {type = BASIC_TEXT_TYPE, data = text, font = font}
-    else
-    end
+    self.contents[#self.contents+1] = {type = BASIC_TEXT_TYPE, data = text, font = font}
 end
 
 ---Add rich text to the description box.
