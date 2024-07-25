@@ -69,6 +69,9 @@ function text.clear(str, variables)
     return rt:getString()
 end
 
+---@module "client.stateless"
+text.printRichText = require("client.stateless")
+
 umg.expose("text", text)
 require("client.base_effect")() -- Expose default effects
 
