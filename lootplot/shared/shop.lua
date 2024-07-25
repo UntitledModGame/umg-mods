@@ -76,6 +76,9 @@ umg.answer("lootplot:pollSelectionButtons", function(ppos)
                     selection.selectSlotNoButtons(slotEnt)
                 end
             end,
+            canClick = function()
+                return lp.getMoney(itemEnt) >= itemEnt.buyPrice
+            end,
             priority = 0,
         }
     else

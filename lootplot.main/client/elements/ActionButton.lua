@@ -47,7 +47,10 @@ end
 
 function ActionButton:onClickPrimary()
     if (self.canClick and self.canClick()) or (not self.canClick) then
+        audio.play("lootplot.sound:click", {volume = 0.35, pitch = 1.1})
         self:onClick()
+    else
+        audio.play("lootplot.sound:deny_click", {volume = 0.5})
     end
 end
 
