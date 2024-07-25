@@ -63,6 +63,13 @@ function Sound:play(ent, volume, pitch)
     })
 end
 
+
+---@return number
+function Sound:getPlayingCount()
+    return #self.playing
+end
+
+
 ---@package
 function Sound:_update()
     for i = #self.playing, 1, -1 do
