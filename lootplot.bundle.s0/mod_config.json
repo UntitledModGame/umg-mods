@@ -1,0 +1,10 @@
+{
+    "type": "bundle",
+    "uses": [
+        "lootplot.main",
+        "lootplot.items", 
+        "lootplot.slots", 
+        "lootplot.juice", 
+        "lootplot.sound"
+    ]
+}

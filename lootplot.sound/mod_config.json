@@ -1,3 +1,3 @@
 {
-    "uses": ["lootplot", "sound", "audio"]
+    "uses": ["lootplot", "sound", "audio", "lootplot.targets"]
 }

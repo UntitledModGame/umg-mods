@@ -21,6 +21,6 @@ function LootplotSound:play(ent)
 end
 
 
----@cast LootplotSound +fun(soundName:string, volume?:number, pitch?:number, maxSounds?:number): lootplot.sound.LootplotSound
+---@cast LootplotSound +fun(soundName:string, volume?:number, pitch?:number, maxSounds?:number, pitchVar?:number): lootplot.sound.LootplotSound
 return LootplotSound
 
