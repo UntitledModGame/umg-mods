@@ -43,7 +43,7 @@ local drawState = {
     lastSubtext = nil,
     hasDrawnCurrentLine = false,
     lastIsWhitespace = false,
-    currentLine = 1,
+    currentLine = 0,
 }
 
 local function resetDrawState()
@@ -53,12 +53,16 @@ local function resetDrawState()
     drawState.lastSubtext = nil
     drawState.hasDrawnCurrentLine = false
     drawState.lastIsWhitespace = false
-    drawState.currentLine = 1
+    drawState.currentLine = 0
 end
 
+---@param r number
+---@param g number
+---@param b number
+---@param a number
 ---@param x number
 ---@param y number
-local function flushCurrentWords(x, y)
+local function flushCurrentWords(r, g, b, a, x, y)
     for _, charInfo in ipairs(drawState.currentWord) do
         local tx, ty = charInfo[1]:getPosition()
         charInfo[1]:setPosition(x + tx, y + ty)
@@ -67,6 +71,7 @@ local function flushCurrentWords(x, y)
             eff.func(eff.args, charInfo[1])
         end
 
+        charInfo[1]:draw(r, g, b, a)
         storeCharacterCache(charInfo[1])
     end
 
@@ -77,11 +82,23 @@ end
 ---@param maxWidth number
 ---@param fontHeight number
 ---@param index integer
----@param character string
+---@param character string?
 ---@param effects {name:string,args:table,func:fun(args:table,character:text.Character)}[]
-local function drawSingle(font, maxWidth, fontHeight, index, character, effects)
+---@param r number
+---@param g number
+---@param b number
+---@param a number
+local function drawSingle(font, maxWidth, fontHeight, index, character, effects, r, g, b, a)
+    if character == nil then
+        -- Flush
+        flushCurrentWords(r, g, b, a, drawState.textLineX, drawState.currentLine * fontHeight)
+        resetDrawState()
+        return
+    end
+
     local subtext = pollCharacterCache(font, character, index)
     local char = subtext:getChar()
+    assert(char == character)
     local width = subtext:getDimensions()
     local kerning = 0
 
@@ -91,7 +108,7 @@ local function drawSingle(font, maxWidth, fontHeight, index, character, effects)
 
     if char == "\n" then
         -- Flush current sentences
-        flushCurrentWords(drawState.textLineX, drawState.currentLine * fontHeight)
+        flushCurrentWords(r, g, b, a, drawState.textLineX, drawState.currentLine * fontHeight)
 
         -- Move it to next line
         drawState.textLineX = 0
@@ -104,7 +121,7 @@ local function drawSingle(font, maxWidth, fontHeight, index, character, effects)
         drawState.lastIsWhitespace = true
     elseif drawState.lastIsWhitespace then
         -- Flush current sentence
-        flushCurrentWords(drawState.textLineX, drawState.currentLine * fontHeight)
+        flushCurrentWords(r, g, b, a, drawState.textLineX, drawState.currentLine * fontHeight)
 
         drawState.textLineX = drawState.textLineX + drawState.currentWordWidth
         drawState.currentWordWidth = 0
@@ -114,7 +131,7 @@ local function drawSingle(font, maxWidth, fontHeight, index, character, effects)
     elseif (drawState.textLineX + drawState.currentWordWidth + width + kerning) > maxWidth then
         if (not drawState.hasDrawnCurrentLine) or drawState.lastIsWhitespace then
             -- The whole word does not fit.
-            flushCurrentWords(drawState.textLineX, drawState.currentLine * fontHeight)
+            flushCurrentWords(r, g, b, a, drawState.textLineX, drawState.currentLine * fontHeight)
             drawState.currentWordWidth = 0
         end
 
@@ -165,12 +182,11 @@ end
 
 ---Draw rich text directly without state.
 ---@param txt string Formatted rich text
----@param eg text.EffectGroup|nil Effect group
 ---@param limit number
 ---@param transform love.Transform
 ---@return boolean,(string|nil)
 ---@diagnostic disable-next-line: missing-return
-local function drawRichText(txt, eg, limit, transform) end
+local function drawRichText(txt, limit, transform) end
 
 ---Draw rich text directly without state.
 ---@param txt string Formatted rich text
@@ -188,9 +204,18 @@ function drawRichText(txt, x, y, limit, rot, sx, sy, ox, oy, kx, ky)
     if isLOVEType(y, "Transform") then
         limit = x
         x = y
+        y = nil
+        rot = nil
+        sx = nil
+        sy = nil
+        ox = nil
+        oy = nil
+        kx = nil
+        ky = nil
     end
 
     local font = love.graphics.getFont()
+    local r, g, b, a = love.graphics.getColor()
 
     love.graphics.push("all")
     love.graphics.applyTransform(x, y, rot, sx, sy, ox, oy, kx, ky)
@@ -221,10 +246,10 @@ function drawRichText(txt, x, y, limit, rot, sx, sy, ox, oy, kx, ky)
                     local found = false
                     local ename = concatAndClean(buffer)
 
-                    for j = #effects, 1, -1 do
-                        if effects[j].name == ename then
+                    for k = #effects, 1, -1 do
+                        if effects[k].name == ename then
                             -- Remove the effect out
-                            table.remove(effects, j)
+                            table.remove(effects, k)
                             found = true
                             break
                         end
@@ -245,7 +270,7 @@ function drawRichText(txt, x, y, limit, rot, sx, sy, ox, oy, kx, ky)
                 end
             -- The rest of this must be specifying effect right now
             elseif char == "}" then
-                -- End of effect
+                -- End of effect define
                 if effectKey then
                     -- End of specifying effect value
                     -- Case: {effect key=value}
@@ -265,27 +290,40 @@ function drawRichText(txt, x, y, limit, rot, sx, sy, ox, oy, kx, ky)
                     -- Incomplete effect key
                     return stopErr("col %d: effect key is incomplete", i)
                 else
+                end
+
+                if not effectName then
+                    -- Make effect
                     effectName = concatAndClean(buffer)
-                end
+                    local effectFunc = defaultEffectGroup:getEffectInfo(effectName)
+                    if not effectFunc then
+                        return stopErr("col %d: effect %q does not exist", i - #effectName, effectName)
+                    end
 
-                -- Make effect
-                local effectFunc = defaultEffectGroup:getEffectInfo(effectName)
-                if not effectFunc then
-                    return stopErr("col %d: effect %q does not exist", i - #effectName, effectName)
+                    effects[#effects+1] = {
+                        name = effectName,
+                        args = {},
+                        func = effectFunc,
+                    }
                 end
-
-                effects[#effects+1] = {
-                    name = effectName,
-                    args = {},
-                    func = effectFunc,
-                }
                 effectName = nil
                 effectKey = nil
                 openingBracket = false
             elseif char == " " then
                 -- Indicate starting new effect parameter
                 if not effectName then
+                    -- Make effect
                     effectName = concatAndClean(buffer)
+                    local effectFunc = defaultEffectGroup:getEffectInfo(effectName)
+                    if not effectFunc then
+                        return stopErr("col %d: effect %q does not exist", i - #effectName, effectName)
+                    end
+
+                    effects[#effects+1] = {
+                        name = effectName,
+                        args = {},
+                        func = effectFunc,
+                    }
                 elseif effectKey then
                     -- TODO: Deduplicate
                     if #buffer == 0 then
@@ -324,7 +362,7 @@ function drawRichText(txt, x, y, limit, rot, sx, sy, ox, oy, kx, ky)
                 -- Escape the tag
                 -- Case: {{effect}}
                 --       ?^ = i
-                drawSingle(font, fontHeight, limit, j, char, effects)
+                drawSingle(font, limit, fontHeight, j, char, effects, r, g, b, a)
                 j = j + 1
                 maybeOpeningBracket = false
             else
@@ -346,7 +384,7 @@ function drawRichText(txt, x, y, limit, rot, sx, sy, ox, oy, kx, ky)
             if char == "}" then
                 -- Case: {{effect}}
                 --               ?^ = i
-                drawSingle(font, fontHeight, limit, j, char, effects)
+                drawSingle(font, limit, fontHeight, j, char, effects, r, g, b, a)
                 j = j + 1
                 maybeClosingBracket = false
             else
@@ -357,7 +395,7 @@ function drawRichText(txt, x, y, limit, rot, sx, sy, ox, oy, kx, ky)
         elseif char == "}" then
             maybeClosingBracket = true
         elseif isCharDrawable(c) then
-            drawSingle(font, fontHeight, limit, j, char, effects)
+            drawSingle(font, limit, fontHeight, j, char, effects, r, g, b, a)
             j = j + 1
         end
 
@@ -372,6 +410,9 @@ function drawRichText(txt, x, y, limit, rot, sx, sy, ox, oy, kx, ky)
 
         return stopErr("col %d: unclosed effect: %s", i, table.concat(names, ", "))
     end
+
+    -- Flush
+    drawSingle(font, limit, fontHeight, 0, nil, effects, r, g, b, a)
 
     love.graphics.pop()
     return true

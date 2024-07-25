@@ -15,7 +15,7 @@ local defaultEffectGroup = require("client.defaultEffectGroup")
 ---Add new effect for rich text formatting to the default effect group.
 ---@generic T
 ---@param name string Effect name.
----@param effectupdate fun(context:T,characters:text.Character[]) Function that apply the effect to subtext.
+---@param effectupdate fun(context:T,characters:text.Character) Function that apply the effect to subtext.
 function text.addEffect(name, effectupdate)
     return defaultEffectGroup:addEffect(name, effectupdate)
 end
