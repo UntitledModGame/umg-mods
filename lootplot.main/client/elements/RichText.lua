@@ -45,7 +45,7 @@ local function getTextSize(font, text, wrap)
 end
 
 function RichText:onRender(x,y,w,h)
-    local tw, th = getTextSize(self.font, self.text, self.wrap)
+    local tw, th = getTextSize(self.font, assert(text.clear(self.text)), self.wrap)
     --[[
         TODO: do we want to propagate the text size to the parent
             somehow...?
@@ -56,7 +56,6 @@ function RichText:onRender(x,y,w,h)
     local limit = self.wrap or tw
     local scale = math.min(w/limit, h/th) * self.scale
     local drawX, drawY = math.floor(x+w/2), math.floor(y+h/2)
-    print(scale, self.scale)
 
     local r, g, b, a = love.graphics.getColor()
     local oldfont = lg.getFont()
