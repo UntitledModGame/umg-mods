@@ -39,6 +39,15 @@ umg.on("lootplot.targets:targetActivated", function(ent)
 end)
 
 
+local spawnItem = LootplotSound("lootplot.sound:spawn_entity", 1, 1.5, 10, 0.3)
+local spawnSlot = LootplotSound("lootplot.sound:spawn_entity", 1, 1.5, 10, 0.3)
+umg.on("lootplot:entitySpawned", function(ent)
+    if lp.isItemEntity(ent) then
+        spawnItem:play(ent)
+    else
+        spawnSlot:play(ent)
+    end
+end)
 
 
 local select = LootplotSound("lootplot.sound:select_item", 0.36, 1, 20)
