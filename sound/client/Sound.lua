@@ -44,7 +44,8 @@ end
 ---@param pitch number? The pitch multiplier of the audio (0 is not a valid value).
 ---@return love.Source source The played source.
 function Sound:play(ent, volume, pitch)
-    assert(pitch > 0, "invalid pitch value")
+    pitch = pitch or 1
+    volume = volume or 1
 
     local source
 
@@ -57,8 +58,8 @@ function Sound:play(ent, volume, pitch)
     source:stop()
     return audio.play(self.name, {
         entity = ent,
-        volume = (volume or 1) * self.volume,
-        pitch = (pitch or 1) * self.pitch,
+        volume = volume * self.volume,
+        pitch = pitch * self.pitch,
         source = source,
     })
 end

@@ -1,5 +1,7 @@
 
 
+local LootplotSound = require("client.LootplotSound")
+
 local dirObj = umg.newDirectoryObject("assets/sfx")
 
 audio.defineAudioInDirectory(
@@ -7,36 +9,33 @@ audio.defineAudioInDirectory(
 )
 
 
+local itemActivate = LootplotSound("lootplot.sound:activate", 0.7, 1, 20)
 umg.on("lootplot:entityActivated", function(ent)
     if lp.isItemEntity(ent) then
-        audio.play("lootplot.sound:activate", {
-            entity = ent
-        })
+        itemActivate:play(ent)
     else
 
     end
 end)
 
 
+local pointsChanged = LootplotSound("lootplot.sound:collect_point", 1, 0.8, 20)
 umg.on("lootplot:pointsChanged", function(ent)
-    audio.play("lootplot.sound:collect_point", {
-        entity = ent
-    })
+    pointsChanged:play(ent)
 end)
 
 
+local entityActivationBlocked = LootplotSound("lootplot.sound:deny_activation", 0.5, 1, 15)
 umg.on("lootplot:entityActivationBlocked", function(ent)
-    audio.play("lootplot.sound:deny_activation", {
-        entity = ent
-    })
+    entityActivationBlocked:play(ent)
 end)
 
 
+
+local select = LootplotSound("lootplot.sound:select_item", 0.36, 1, 20)
 umg.on("lootplot:selectionChanged", function(selection)
     if selection then
-        audio.play("lootplot.sound:select_item", {
-            entity = selection.slot
-        })
+        select:play(selection.slot)
     else
         -- TODO:
         -- play sound for selection deselect?
