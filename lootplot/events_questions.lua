@@ -48,5 +48,7 @@ if client then
 
     umg.defineEvent("lootplot:populateDescription")
 
+    umg.defineEvent("lootplot:denySlotInteraction")
+
     umg.defineQuestion("lootplot:getItemTargetPosition", reducers.PRIORITY_DOUBLE)
 end

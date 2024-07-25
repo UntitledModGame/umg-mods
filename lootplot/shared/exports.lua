@@ -393,6 +393,7 @@ function lp.forceActivateEntity(ent)
 end
 
 ---@param ent Entity
+---@return boolean
 function lp.tryActivateEntity(ent)
     entityTc(ent)
     if lp.canActivateEntity(ent) then

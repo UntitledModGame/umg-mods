@@ -115,13 +115,7 @@ end
 
 
 local function deny(slotEnt)
-    --[[
-        TODO: put some juice here;
-            - shake the slot...?
-            - emit a BUZZ sound to imply failure...?
-    ]]
-    print("DENY! wot wot")
-    --umg.melt("todo: make deny juice")
+    umg.call("lootplot:denySlotInteraction", slotEnt)
 end
 
 
@@ -132,8 +126,6 @@ function(clientId, slotEnt1, slotEnt2)
     -- TODO: check validity of arguments (bad actor could send any entity)
     -- TODO: check that we actually CAN move the items
     -- TODO: use qbus; check if we have permission
-    local item1 = lp.slotToItem(slotEnt1)
-    local item2 = lp.slotToItem(slotEnt2)
     if lp.canSwap(slotEnt1, slotEnt2) then
         lp.swapItems(slotEnt1, slotEnt2)
     end
@@ -164,18 +156,6 @@ local function tryMove(clientId, srcSlot, targSlot)
 end
 
 
-local swapSlotItems = util.remoteServerCall("lootplot:swapSlotItems", ENT_2, 
-function(clientId, slotEnt1, slotEnt2)
-    -- TODO: check validity of arguments (bad actor could send any entity)
-    -- TODO: check that we actually CAN move the items
-    -- TODO: use qbus; check if we have permission
-    local item1 = lp.slotToItem(slotEnt1)
-    local item2 = lp.slotToItem(slotEnt2)
-    if lp.canSwap(slotEnt1, slotEnt2) and lp.canPlayerAccess(slotEnt1, clientId) and lp.canPlayerAccess(slotEnt2, clientId) then
-        lp.swapItems(slotEnt1, slotEnt2)
-    end
-end)
-
 local ENT_1 = {"entity"}
 
 local activateOnServer = util.remoteServerCall("lootplot:clickSlotButton", ENT_1,
@@ -195,7 +175,7 @@ local function click(slotEnt)
         activateOnServer(slotEnt)
     else
         -- else, select:
-        selectSlot(slotEnt)
+        selection.selectSlot(slotEnt)
     end
 end
 

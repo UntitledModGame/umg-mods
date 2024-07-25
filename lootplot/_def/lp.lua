@@ -150,6 +150,7 @@ function lp.canActivateEntity(ent)
 end
 
 ---@param ent Entity
+---@return boolean
 function lp.tryActivateEntity(ent)
 end
 
