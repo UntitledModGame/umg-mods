@@ -10,7 +10,7 @@ audio.defineAudioInDirectory(
 
 
 local activateItem = LootplotSound("lootplot.sound:activate_item", 0.7, 1)
-local activateSlot = LootplotSound("lootplot.sound:activate_slot", 0.05, 1.1)
+local activateSlot = LootplotSound("lootplot.sound:click", 0.12, 0.25)
 umg.on("lootplot:entityActivated", function(ent)
     if lp.isItemEntity(ent) then
         activateItem:play(ent)
@@ -35,8 +35,8 @@ end)
 
 
 local wooshSound = sound.RandomSound(
-    LootplotSound("lootplot.sound:woosh1", 0.8, 1, 10, 0.2),
-    LootplotSound("lootplot.sound:woosh2", 0.55, 1, 10, 0.2)
+    LootplotSound("lootplot.sound:woosh1a", 0.8, 1, 10, 0.2),
+    LootplotSound("lootplot.sound:woosh2a", 0.55, 1, 10, 0.2)
 )
 umg.on("lootplot:itemMoved", function(ent)
     wooshSound:play(ent)
@@ -60,13 +60,14 @@ umg.on("lootplot:entitySpawned", function(ent)
 end)
 
 
-local select = LootplotSound("lootplot.sound:select_item", 0.26, 1, 20)
+local select = LootplotSound("lootplot.sound:select_item", 0.26, 3, 20)
+local reverseSelect = LootplotSound("lootplot.sound:reverse_select_item", 0.26, 3, 20)
+
 umg.on("lootplot:selectionChanged", function(selection)
     if selection then
         select:play(selection.slot)
     else
-        -- TODO:
-        -- play sound for selection deselect?
+        reverseSelect:play()
     end
 end)
 
