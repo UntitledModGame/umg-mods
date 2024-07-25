@@ -16,9 +16,15 @@ function ActionButton:init(args)
     self.canClick = args.canClick
     self.padding = args.padding or DEFAULT_PADDING
 
-    local constructor = text.RichText:isInstance(args.text) and ui.elements.RichText or ui.elements.Text
-    self.textElement = constructor({
-        text = args.text,
+    if type(args.text) == "function" then
+        self.textGetter = args.text
+    else
+        function self.textGetter()
+            return tostring(args.text)
+        end
+    end
+
+    self.textElement = ui.elements.Text({
         color = objects.Color.BLACK,
         font = fonts.getLargeFont()
     })
@@ -32,6 +38,7 @@ end
 
 
 function ActionButton:onRender(x,y,w,h)
+    self.textElement:setText(self.textGetter())
     self.simpleBox:render(x,y,w,h)
     self.textElement:render(x, y, w, h)
 end

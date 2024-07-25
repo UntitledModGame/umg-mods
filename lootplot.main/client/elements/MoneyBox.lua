@@ -1,5 +1,4 @@
 local fonts = require("client.fonts")
-local BulgeText = require("client.BulgeText")
 
 ---@class lootplot.main.MoneyBox: Element
 local MoneyBox = ui.Element("lootplot.main:MoneyBox")
@@ -19,28 +18,22 @@ function MoneyBox:init(args)
     })
     self:addChild(self.box)
 
-    self.richTextVars = {
-        money = 0, -- to track old money value
-        shakeDuration = 0
-    }
-    self.richTextVars.getMoney = function()
+    self.money = 0 -- to track old money value
+    self.shakeDuration = 0
+
+    function self.getMoney()
         local money = lp.main.getContext().money
-        if money > self.richTextVars.money then
-            -- Replay bulge
-            self.text:getRichText():reset()
-            self.richTextVars.shakeDuration = 0
-        elseif money < self.richTextVars.money then
+        if money > self.money then
+            self.shakeDuration = 0
+        elseif money < self.money then
             -- Shake it
-            self.richTextVars.shakeDuration = love.timer.getTime() + 0.7
+            self.shakeDuration = love.timer.getTime() + 0.7
         end
-        self.richTextVars.money = money
         return money
     end
+
     self.text = ui.elements.RichText({
-        text = "${$getMoney()}",
-        variables = self.richTextVars,
-        font = fonts.getLargeFont(),
-        class = BulgeText
+        font = fonts.getLargeFont()
     })
     self:addChild(self.text)
 end
@@ -63,10 +56,11 @@ function MoneyBox:onRender(x,y,w,h)
     -- end
 
     self.box:render(x,y,w,h)
+    self.text:setText("$"..self.getMoney())
 
     local r = ui.Region(x,y,w,h):pad(0.08)
     local ox, oy = 0, 0
-    if self.richTextVars.shakeDuration > love.timer.getTime() then
+    if self.shakeDuration > love.timer.getTime() then
         ox = (love.math.random() * 2 - 1) * 3
         oy = (love.math.random() * 2 - 1) * 3
         love.graphics.setColor(textColorSubtract)
