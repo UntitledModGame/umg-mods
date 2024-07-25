@@ -10,9 +10,10 @@ function localization.localize(text)
     return text
 end
 
-function localization.localizef(text)
+function localization.localizef(text, variables)
     --[[
-        localizes text, but ignores everything inside `{}` brackets.
+        localizes text, 
+        and interpolates all variables inside %{name} brackets.
     ]]
     return text
 end
