@@ -285,10 +285,6 @@ function RichText:_parse(text)
     end
 
     flush(hasInterp, interpCall)
-
-    if #activeEffectNames > 0 then
-        umg.melt(string.format("col %d: unclosed effect %q", i, activeEffectNames[#activeEffectNames]))
-    end
 end
 
 ---@param font love.Font

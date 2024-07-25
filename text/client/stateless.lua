@@ -403,15 +403,6 @@ function drawRichText(txt, font, x, y, limit, rot, sx, sy, ox, oy, kx, ky)
         i = i + 1
     end
 
-    if #effects > 0 then
-        local names = {}
-        for _, e in ipairs(effects) do
-            names[#names+1] = e.name
-        end
-
-        return stopErr("col %d: unclosed effect: %s", i, table.concat(names, ", "))
-    end
-
     -- Flush
     drawSingle(font, limit, fontHeight, 0, nil, effects, r, g, b, a)
 
