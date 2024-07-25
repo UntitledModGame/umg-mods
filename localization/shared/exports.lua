@@ -1,21 +1,18 @@
-
 local localization = {}
+if false then _G.localization = localization end
 
+local interpolate = require("shared.interpolate")
 
-function localization.localize(text)
+---@param text string String to translate
+---@param variables table<string, any>? Variable to interpolate
+---@param args table? Reserved for future use
+---@return any
+function localization.localize(text, variables, args)
     --[[
     dummy for now.
     In future, add proper translation
     ]]
-    return text
-end
-
-function localization.localizef(text, variables)
-    --[[
-        localizes text, 
-        and interpolates all variables inside %{name} brackets.
-    ]]
-    return text
+    return variables and interpolate(text, variables) or text
 end
 
 
