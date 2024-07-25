@@ -2,14 +2,14 @@
 local EffectGroup = objects.Class("text:EffectGroup")
 
 function EffectGroup:init()
-    ---@type table<string, fun(context:any,characters:text.Character[])>
+    ---@type table<string, fun(context:any,characters:text.Character)>
     self.effectList = {}
 end
 
 ---Add new effect for rich text formatting.
 ---@generic T
 ---@param name string Effect name.
----@param effectupdate fun(context:T,characters:text.Character[]) Function that apply the effect to subtext.
+---@param effectupdate fun(context:T,characters:text.Character) Function that apply the effect to subtext.
 function EffectGroup:addEffect(name, effectupdate)
     self.effectList[name] = effectupdate
 end

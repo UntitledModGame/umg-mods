@@ -8,52 +8,44 @@ automatically fit the given box + support for rich formatting.
 
 local lg = love.graphics
 
----@param args string|{text:string|text.RichText,font?:love.Font,scale?:number,variables?:table,color?:objects.Color,wrap?:number,class?:(fun(text:string,args:table):text.RichText),effectGroup?:text.EffectGroup}
+---@param args string|{text:string,font?:love.Font,scale?:number,color?:objects.Color,wrap?:number}
 function RichText:init(args)
-    local textString
-    local constructor = text.RichText
-    local effectGroup = nil
-    local vars = _G
-
     self.scale = 1
     self.color = objects.Color.WHITE
     self.font = love.graphics.getFont()
+    self.text = ""
 
     if type(args) == "string" then
-        textString = args
+        self.text = args
     else
-        textString = args.text
-        vars = args.variables or _G
-        constructor = args.class or text.RichText
-        effectGroup = args.effectGroup
-
+        self.text = args.text or ""
         self.color = args.color or objects.Color.WHITE
         self.wrap = args.wrap -- whether we do text wrapping
         self.scale = args.scale or 1
         self.font = args.font or self.font
     end
-
-    if text.RichText:isInstance(textString) then
-        ---@cast textString text.RichText
-        self.richText = textString
-    else
-        ---@cast textString string
-        self.richText = constructor(textString, {
-            variables = vars,
-            effectGroup = effectGroup
-        })
-    end
 end
 
+function RichText:getText()
+    return self.text
+end
 
+---@param text string
+function RichText:setText(text)
+    self.text = text
+end
 
-local DEFAULT_COLOR = {0,0,0}
-
+---@param font love.Font
+---@param text string
+---@param wrap number?
+---@return number,number
+local function getTextSize(font, text, wrap)
+    local width, lines = font:getWrap(text, wrap or 2147483647)
+    return width, #lines * font:getHeight()
+end
 
 function RichText:onRender(x,y,w,h)
-    local wrapval = self.wrap or 2147483647
-    local tw, tlines = self.richText:getWrap(self.wrap or wrapval, self.font)
-    local th = #tlines * self.font:getHeight()
+    local tw, th = getTextSize(self.font, assert(text.clear(self.text)), self.wrap)
     --[[
         TODO: do we want to propagate the text size to the parent
             somehow...?
@@ -66,18 +58,12 @@ function RichText:onRender(x,y,w,h)
     local drawX, drawY = math.floor(x+w/2), math.floor(y+h/2)
 
     local r, g, b, a = love.graphics.getColor()
+    local oldfont = lg.getFont()
     lg.setColor(self.color * objects.Color(r, g, b, a))
-    self.richText:draw(self.font, drawX, drawY, limit, 0, scale, scale, tw / 2, th / 2)
-    love.graphics.setColor(r, g, b, a)
-end
-
-function RichText:getRichText()
-    return self.richText
-end
-
----@param rt text.RichText
-function RichText:setRichText(rt)
-    self.richText = rt
+    text.printRichText(self.text, self.font, drawX, drawY, limit, 0, scale, scale, tw / 2, th / 2)
+    -- love.graphics.printf(self.text, drawX, drawY, limit, "left", 0, scale, scale, tw / 2, th / 2)
+    lg.setFont(oldfont)
+    lg.setColor(r, g, b, a)
 end
 
 return RichText

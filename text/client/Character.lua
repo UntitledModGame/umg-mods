@@ -155,6 +155,8 @@ end
 ---@param font love.Font
 function Character:setFont(font)
     self.font = font
+    self.width = font:getWidth(self.char)
+    self.height = font:getHeight()
 end
 
 ---Draw the character with specified color.
@@ -187,6 +189,7 @@ if false then
     ---@param char string
     ---@param start integer
     ---@return text.Character
+    ---@nodiscard
     ---@diagnostic disable-next-line: cast-local-type, missing-return
     function Character(font, char, start) end
 end

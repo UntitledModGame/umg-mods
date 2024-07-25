@@ -1,4 +1,3 @@
-local BulgeText = require("client.BulgeText")
 local DescriptionBox = require("client.DescriptionBox")
 
 local fonts = require("client.fonts")
@@ -94,17 +93,13 @@ function Scene:onRender(x,y,w,h)
         local descW, descH = select(2, leftDescRegion:get())
         local descRegion = ui.Region(mx - 16 - descW, my + 16, descW, descH)
         self.cursorDescriptionTime = self.cursorDescriptionTime + love.timer.getDelta() * descriptionOpenSpeed
-        if drawDescription(self.cursorDescriptionTime, self.cursorDescription, objects.Color.WHITE, descRegion, drawBoxTransparent) then
-            self.cursorDescription:resetRichText()
-        end
+        drawDescription(self.cursorDescriptionTime, self.cursorDescription, objects.Color.WHITE, descRegion, drawBoxTransparent)
     end
 
     if self.itemDescriptionSelected then
         local rightDescRegion = select(2, rest2:splitVertical(1, 5))
         self.itemDescriptionSelectedTime = self.itemDescriptionSelectedTime + love.timer.getDelta() * descriptionOpenSpeed
-        if drawDescription(self.itemDescriptionSelectedTime, self.itemDescriptionSelected, objects.Color.BLACK, rightDescRegion, drawBoxOpaque) then
-            self.itemDescriptionSelected:resetRichText()
-        end
+        drawDescription(self.itemDescriptionSelectedTime, self.itemDescriptionSelected, objects.Color.BLACK, rightDescRegion, drawBoxOpaque)
     end
 
     if #self.slotActionButtons > 0 then
@@ -123,7 +118,7 @@ local function populateDescriptionBox(entity)
     local description = lp.getLongDescription(entity)
     local dbox = DescriptionBox(fonts.getSmallFont(32))
 
-    dbox:addText(lp.getEntityName(entity), fonts.getLargeFont(32))
+    dbox:addRichText("{wavy}"..text.escape(lp.getEntityName(entity)).."{/wavy}", fonts.getLargeFont(32))
     dbox:newline()
 
     if description:size() == 0 then
@@ -132,7 +127,7 @@ local function populateDescriptionBox(entity)
 
     for _, descriptionText in ipairs(description) do
         if #descriptionText > 0 then
-            dbox:addText(BulgeText(text.escape(descriptionText)))
+            dbox:addText(descriptionText, fonts.getSmallFont(32))
         end
     end
 
