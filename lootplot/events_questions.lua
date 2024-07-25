@@ -17,6 +17,7 @@ umg.defineEvent("lootplot:entityReset")
 umg.defineEvent("lootplot:entityTriggered")
 umg.defineQuestion("lootplot:isTriggerBlocked", reducers.OR)
 
+umg.defineEvent("lootplot:itemMoved")
 
 umg.defineEvent("lootplot:moneyChanged")
 umg.defineEvent("lootplot:pointsChanged")

@@ -300,6 +300,11 @@ local ent2Tc = typecheck.assert("entity", "entity")
 ---@param slotEnt2 lootplot.SlotEntity
 function lp.swapItems(slotEnt1, slotEnt2)
     ent2Tc(slotEnt1, slotEnt2)
+    assertServer()
+
+    if slotEnt1 == slotEnt2 then
+        return -- short-circuit
+    end
 
     local item1 = lp.slotToItem(slotEnt1)
     local item2 = lp.slotToItem(slotEnt2)
@@ -316,10 +321,12 @@ function lp.swapItems(slotEnt1, slotEnt2)
 
     if item1 then
         ppos2:set(item1)
+        umg.call("lootplot:itemMoved", item1, ppos1, ppos2)
     end
 
     if item2 then
         ppos1:set(item2)
+        umg.call("lootplot:itemMoved", item2, ppos2, ppos1)
     end
 end
 

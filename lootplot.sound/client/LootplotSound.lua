@@ -1,5 +1,5 @@
 
----@class lootplot.sound.LootplotSound
+---@class lootplot.sound.LootplotSound: sound.BaseSound
 local LootplotSound = objects.Class("lootplot.sound:LootplotSound")
     :implement(sound.BaseSound)
 

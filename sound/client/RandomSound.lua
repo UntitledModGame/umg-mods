@@ -25,7 +25,7 @@ end
 ---@param pitch number? The pitch multiplier of the audio (0 is not a valid value).
 ---@return love.Source source The played source.
 function RandomSound:play(ent, volume, pitch)
-    return table.pick_random(self.sounds):play(ent, volume, pitch)
+    return table.random(self.sounds):play(ent, volume, pitch)
 end
 
 return RandomSound
