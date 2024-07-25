@@ -1,5 +1,4 @@
 local fonts = require("client.fonts")
-local BulgeText = require("client.BulgeText")
 
 ---@class lootplot.main.MoneyBox: Element
 local MoneyBox = ui.Element("lootplot.main:MoneyBox")

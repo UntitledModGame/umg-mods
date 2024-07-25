@@ -6,13 +6,11 @@ local RICH_TEXT_TYPE = "richtext"
 local DRAWABLE_TYPE = "drawable"
 local NEWLINE_TYPE = "\n"
 
-local FACTOR = 4
-
 ---@alias lootplot.DescriptionBoxFunction fun(x:number,y:number,w:number,h:number)
 ---@class lootplot.main._DescriptionBoxData
 ---@field public type string
 ---@field public height integer?
----@field public data text.RichText|string|lootplot.DescriptionBoxFunction
+---@field public data string|lootplot.DescriptionBoxFunction
 ---@field public font love.Font?
 
 ---@param defaultFont love.Font?
@@ -23,15 +21,21 @@ function DescriptionBox:init(defaultFont)
     self.defaultFont = defaultFont or love.graphics.getFont()
 end
 
----Add plain text or rich text to the description box.
----@param text text.RichText|string (Rich) text to add.
+---Add plain text to the description box.
+---@param text string Text to add.
 ---@param font love.Font? Font to use when rendering this.
 function DescriptionBox:addText(text, font)
     if type(text) == "string" then
         self.contents[#self.contents+1] = {type = BASIC_TEXT_TYPE, data = text, font = font}
     else
-        self.contents[#self.contents+1] = {type = RICH_TEXT_TYPE, data = text, font = font}
     end
+end
+
+---Add rich text to the description box.
+---@param text string Formatted rich text to add.
+---@param font love.Font? Font to use when rendering this.
+function DescriptionBox:addRichText(text, font)
+    self.contents[#self.contents+1] = {type = RICH_TEXT_TYPE, data = text, font = font}
 end
 
 ---Add arbitrary drawable to the description box.
@@ -46,14 +50,6 @@ end
 ---Newline height will be computed using the last font used.
 function DescriptionBox:newline()
     self.contents[#self.contents+1] = {type = NEWLINE_TYPE, data = "\n"}
-end
-
-function DescriptionBox:resetRichText()
-    for _, c in ipairs(self.contents) do
-        if c.type == RICH_TEXT_TYPE then
-            c.data:reset()
-        end
-    end
 end
 
 ---Draw the description box.
@@ -88,9 +84,9 @@ function DescriptionBox:draw(x, y, w, h)
             -- Let's put the blame on next element
             currentHeight = currentHeight + lastFont:getHeight() * scale
         elseif content.type == RICH_TEXT_TYPE then
-            local richText = content.data ---@cast richText text.RichText
+            local str = content.data ---@cast str string
             local font = content.font or self.defaultFont
-            local strings = select(2, richText:getWrap(w / scale, font))
+            local strings = select(2, font:getWrap(text.clear(str) or str, w / scale))
             local height = #strings * font:getHeight() * scale
 
             if (currentHeight + height) > h then
@@ -99,7 +95,7 @@ function DescriptionBox:draw(x, y, w, h)
             end
 
             love.graphics.setColor(r, g, b, a)
-            richText:draw(font, x, y + currentHeight, w / scale, 0, scale, scale)
+            text.printRichText(str, font, x, y + currentHeight, w / scale, 0, scale, scale)
 
             currentHeight = currentHeight + height
             lastFont = font
@@ -135,24 +131,20 @@ function DescriptionBox:getBestFitDimensions(maxWidth)
     local scale = love.graphics.getWidth() / 1280
 
     for _, content in ipairs(self.contents) do
-        if content.type == BASIC_TEXT_TYPE then
-            local text = content.data ---@cast text string
+        if content.type == BASIC_TEXT_TYPE or content.type == RICH_TEXT_TYPE then
+            local str = content.data ---@cast str string
             local font = content.font or self.defaultFont
-            local width, strings = font:getWrap(text, maxWidth / scale)
+
+            if content.type == RICH_TEXT_TYPE then
+                str = text.clear(str) or str
+            end
+            local width, strings = font:getWrap(str, maxWidth / scale)
 
             currentWidth = math.max(currentWidth, width * scale)
             currentHeight = currentHeight + #strings * font:getHeight() * scale
             lastFont = font
         elseif content.type == NEWLINE_TYPE then
             currentHeight = currentHeight + lastFont:getHeight() * scale
-        elseif content.type == RICH_TEXT_TYPE then
-            local richText = content.data ---@cast richText text.RichText
-            local font = content.font or self.defaultFont
-            local width, strings = richText:getWrap(maxWidth / scale, font)
-
-            currentWidth = math.max(currentWidth, width * scale)
-            currentHeight = currentHeight + #strings * font:getHeight() * scale
-            lastFont = font
         elseif content.type == DRAWABLE_TYPE then
             currentHeight = currentHeight + (content.height or 0) * scale
         end

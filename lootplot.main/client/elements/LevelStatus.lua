@@ -1,5 +1,4 @@
 local fonts = require("client.fonts")
-local BulgeText = require("client.BulgeText")
 
 ---@class lootplot.main.LevelStatus: Element
 local LevelStatus = ui.Element("lootplot.main:LevelStatus")
