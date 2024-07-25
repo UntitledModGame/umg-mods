@@ -9,12 +9,13 @@ audio.defineAudioInDirectory(
 )
 
 
-local itemActivate = LootplotSound("lootplot.sound:activate", 0.7, 1, 20)
+local activateItem = LootplotSound("lootplot.sound:activate_item", 0.7, 1, 20)
+local activateSlot = LootplotSound("lootplot.sound:activate_slot", 0.05, 1.1, 20)
 umg.on("lootplot:entityActivated", function(ent)
     if lp.isItemEntity(ent) then
-        itemActivate:play(ent)
-    else
-
+        activateItem:play(ent)
+    elseif lp.isSlotEntity(ent) then
+        activateSlot:play(ent)
     end
 end)
 
@@ -25,7 +26,7 @@ umg.on("lootplot:pointsChanged", function(ent)
 end)
 
 
-local entityActivationBlocked = LootplotSound("lootplot.sound:deny_activation", 0.5, 1, 15)
+local entityActivationBlocked = LootplotSound("lootplot.sound:deny_activation", 0.15, 1, 15)
 umg.on("lootplot:entityActivationBlocked", function(ent)
     entityActivationBlocked:play(ent)
 end)
