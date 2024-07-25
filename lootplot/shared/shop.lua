@@ -60,9 +60,9 @@ umg.answer("lootplot:pollSelectionButtons", function(ppos)
     if slotEnt.shopLock then
         -- add buy button
         return {
-            text = text.RichText("Buy (${$buyPrice})", {
-                variables = itemEnt
-            }),
+            text = function()
+                return "Buy ($"..itemEnt.buyPrice..")"
+            end,
             color = objects.Color.GREEN,
             onClick = function()
                 if shopService.buy(itemEnt) then
@@ -80,15 +80,11 @@ umg.answer("lootplot:pollSelectionButtons", function(ppos)
         }
     else
         local isSell = itemEnt.sellPrice > 0
-        local kind = isSell and "Sell" or "Destroy"
+        local kind = itemEnt.sellPrice > 0 and "Sell" or "Destroy"
         return {
-            text = text.RichText(kind.." (${$getPrice()})", {
-                variables = {
-                    getPrice = function()
-                        return math.abs(itemEnt.sellPrice)
-                    end
-                }
-            }),
+            text = function()
+                return kind.." ($"..math.abs(itemEnt.sellPrice)..")"
+            end,
             color = isSell and objects.Color.GOLD or objects.Color.RED,
             onClick = function()
                 if lp.canPlayerAccess(itemEnt, client.getClient()) then
