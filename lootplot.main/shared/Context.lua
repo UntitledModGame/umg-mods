@@ -178,7 +178,6 @@ function Context:nextRound()
         :execute(function(_ppos, slotEnt)
             lp.tryTriggerEntity("PULSE", slotEnt)
         end)
-    print("nextRound")
 end
 
 -- Just trust the client :shrug:

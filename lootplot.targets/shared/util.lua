@@ -9,9 +9,11 @@ end
 
 local function tryConvert(targeterEnt, ppos)
     if targeterEnt.targetType == "ITEM" then
-        return true, lp.posToItem(ppos)
+        local item = lp.posToItem(ppos)
+        return (not not item), item
     elseif targeterEnt.targetType == "SLOT" then
-        return true, lp.posToSlot(ppos)
+        local slot = lp.posToSlot(ppos)
+        return (not not slot), slot
     elseif targeterEnt.targetType == "NO_ITEM" then
         return not lp.posToItem(ppos)
     elseif targeterEnt.targetType == "NO_SLOT" then
