@@ -174,7 +174,6 @@ local function drawRichText(txt, eg, limit, transform) end
 
 ---Draw rich text directly without state.
 ---@param txt string Formatted rich text
----@param eg text.EffectGroup|nil Effect group
 ---@param x number
 ---@param y number
 ---@param limit number
@@ -185,13 +184,12 @@ local function drawRichText(txt, eg, limit, transform) end
 ---@param oy number?
 ---@param kx number?
 ---@param ky number?
-function drawRichText(txt, eg, x, y, limit, rot, sx, sy, ox, oy, kx, ky)
+function drawRichText(txt, x, y, limit, rot, sx, sy, ox, oy, kx, ky)
     if isLOVEType(y, "Transform") then
         limit = x
         x = y
     end
 
-    eg = eg or defaultEffectGroup
     local font = love.graphics.getFont()
 
     love.graphics.push("all")
@@ -271,7 +269,7 @@ function drawRichText(txt, eg, x, y, limit, rot, sx, sy, ox, oy, kx, ky)
                 end
 
                 -- Make effect
-                local effectFunc = eg:getEffectInfo(effectName)
+                local effectFunc = defaultEffectGroup:getEffectInfo(effectName)
                 if not effectFunc then
                     return stopErr("col %d: effect %q does not exist", i - #effectName, effectName)
                 end
