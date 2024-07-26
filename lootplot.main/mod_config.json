@@ -1,8 +1,10 @@
 {
     "type": "playable",
     "uses": [
+        "audio",
         "lootplot",
         "lootplot.items",
-        "lootplot.slot"
+        "lootplot.slot",
+        "lootplot.sound"
     ]
 }
