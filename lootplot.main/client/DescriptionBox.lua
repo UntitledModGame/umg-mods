@@ -1,7 +1,6 @@
 ---@class lootplot.main.DescriptionBox: objects.Class
 local DescriptionBox = objects.Class("lootplot.main:DescriptionBox")
 
-local BASIC_TEXT_TYPE = "basictext"
 local RICH_TEXT_TYPE = "richtext"
 local DRAWABLE_TYPE = "drawable"
 local NEWLINE_TYPE = "\n"
@@ -10,7 +9,7 @@ local NEWLINE_TYPE = "\n"
 ---@class lootplot.main._DescriptionBoxData
 ---@field public type string
 ---@field public height integer?
----@field public data string|lootplot.DescriptionBoxFunction
+---@field public data string|fun():string|lootplot.DescriptionBoxFunction
 ---@field public font love.Font?
 
 ---@param defaultFont love.Font?
@@ -21,15 +20,8 @@ function DescriptionBox:init(defaultFont)
     self.defaultFont = defaultFont or love.graphics.getFont()
 end
 
----Add plain text to the description box.
----@param text string Text to add.
----@param font love.Font? Font to use when rendering this.
-function DescriptionBox:addText(text, font)
-    self.contents[#self.contents+1] = {type = BASIC_TEXT_TYPE, data = text, font = font}
-end
-
 ---Add rich text to the description box.
----@param text string Formatted rich text to add.
+---@param text string|fun():string Formatted rich text to add.
 ---@param font love.Font? Font to use when rendering this.
 function DescriptionBox:addRichText(text, font)
     self.contents[#self.contents+1] = {type = RICH_TEXT_TYPE, data = text, font = font}
@@ -61,27 +53,15 @@ function DescriptionBox:draw(x, y, w, h)
     local lastFont = self.defaultFont
 
     for _, content in ipairs(self.contents) do
-        if content.type == BASIC_TEXT_TYPE then
-            local text = content.data ---@cast text string
-            local font = content.font or self.defaultFont
-            local strings = select(2, font:getWrap(text, w / scale))
-            local height = #strings * font:getHeight() * scale
-
-            if (currentHeight + height) > h then
-                -- Stop and don't render this content
-                break
-            end
-
-            love.graphics.setColor(r, g, b, a)
-            love.graphics.printf(text, font, x, y + currentHeight, w / scale, "left", 0, scale, scale)
-
-            currentHeight = currentHeight + height
-            lastFont = font
-        elseif content.type == NEWLINE_TYPE then
+        if content.type == NEWLINE_TYPE then
             -- Let's put the blame on next element
             currentHeight = currentHeight + lastFont:getHeight() * scale
         elseif content.type == RICH_TEXT_TYPE then
-            local str = content.data ---@cast str string
+            local str = content.data 
+            if type(str) == "function" then
+                str = str()
+            end
+            ---@cast str string
             local font = content.font or self.defaultFont
             local strings = select(2, font:getWrap(text.clear(str) or str, w / scale))
             local height = #strings * font:getHeight() * scale
@@ -128,13 +108,13 @@ function DescriptionBox:getBestFitDimensions(maxWidth)
     local scale = love.graphics.getWidth() / 1280
 
     for _, content in ipairs(self.contents) do
-        if content.type == BASIC_TEXT_TYPE or content.type == RICH_TEXT_TYPE then
+        if content.type == RICH_TEXT_TYPE then
             local str = content.data ---@cast str string
+            if type(str) == "function" then
+                str = str()
+            end
             local font = content.font or self.defaultFont
 
-            if content.type == RICH_TEXT_TYPE then
-                str = text.clear(str) or str
-            end
             local width, strings = font:getWrap(str, maxWidth / scale)
 
             currentWidth = math.max(currentWidth, width * scale)

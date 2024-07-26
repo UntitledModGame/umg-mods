@@ -3,26 +3,31 @@
 local loc = localization.localize
 
 
+local function funcLocEnt(txt, ent, ctx)
+    --[[
+    we need a function to interpolate the variables per frame!
+    ]]
+    return function()
+        return loc(txt, ent, ctx) 
+    end
+end
+
+
+
 umg.on("lootplot:populateDescription", -10, function(ent, arr)
-    if ent.maxActivations then
-        arr:add(loc(
-            "Maximum activations: {c r=1 b=0 g=0}%{maxActivations}",
-            ent
-        ))
-        
-        if ent.activationCount then
+    if ent.maxActivations and ent.activationCount then
+        arr:add(function ()
             local remaining = ent.maxActivations - ent.activationCount
-            if remaining <= 0 then
-                arr:add(loc("{i}{c r=1 b=0 g=0}No activations remaining!"))
+            local vars = {
+                remaining = remaining,
+                total = ent.maxActivations
+            }
+            if remaining > 0 then
+                return loc("Activations: {c r=0.2 b=0.3 g=1}%{remaining}/%{total}", vars)
             else
-                arr:add(loc(
-                    "Activations remaining: {c r=1 b=0.5 g=0.4}%{remaining}", {
-                        remaining = remaining
-                    }
-                ))
+                return loc("{c r=1 b=0.1 g=0.15}No Activations: %{remaining}/%{total}", vars)
             end
-        end
-        arr:add("")--newline
+        end)
     end
 end)
 
@@ -39,9 +44,9 @@ umg.on("lootplot:populateDescription", function(ent, arr)
     end
 
     if pgen > 0 then
-        arr:add(loc("Generates {pointsGenerated} points!", ent, VERB_CTX))
+        arr:add(funcLocEnt("Generates {pointsGenerated} points!", ent, VERB_CTX))
     else
-        arr:add(loc("Steals {pointsGenerated} points!", ent, VERB_CTX))
+        arr:add(funcLocEnt("Steals {pointsGenerated} points!", ent, VERB_CTX))
     end
 end)
 
@@ -53,10 +58,10 @@ umg.on("lootplot:populateDescription", function(ent, arr)
     end
 
     if mEarn > 0 then
-        arr:add(loc("{c }Earns ${moneyGenerated} when activated", ent, VERB_CTX))
+        arr:add(funcLocEnt("{c r=0.5 g=1 b=0.4}Earns ${moneyGenerated} when activated", ent, VERB_CTX))
     else
-        arr:add(loc(
-            "{c r=1 g=0 b=0}{i}Steals {/i}{/c}{c r=1 g=0.87 b=0}${moneyGenerated} when activated", 
+        arr:add(funcLocEnt(
+            "{c r=1 g=0.2 b=0}{i}Steals {/i}{/c}{c r=1 g=0.87 b=0}${moneyGenerated} when activated", 
             ent, 
             VERB_CTX
         ))

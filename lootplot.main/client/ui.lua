@@ -40,8 +40,9 @@ local function drawBoxTransparent(x, y, w, h)
     love.graphics.setColor(1, 1, 1)
 end
 
-local function drawBoxOpaque(x, y, w, h)
-    return ui.elements.SimpleBox.draw(objects.Color.WHITE, x, y, w, h, 10, 4)
+local COLOR = {27/255, 27/255, 54/255}
+local function drawSideBox(x, y, w, h)
+    return ui.elements.SimpleBox.draw(COLOR, x, y, w, h, 10, 4)
 end
 
 ---@param progress number
@@ -77,8 +78,8 @@ function Scene:onRender(x,y,w,h)
     local levelStatusRegion, rest = left:splitVertical(1, HEADER_RATIO)
     local pointsBarRegion = middle:splitVertical(1, HEADER_RATIO)
     local nextRoundRegion, rest2 = right:splitVertical(1, HEADER_RATIO)
-    local moneyRegion, leftDescRegion = rest:splitVertical(1, 4)
-    local descriptionOpenSpeed = h * 3
+    local moneyRegion = rest:splitVertical(1, 4)
+    local descriptionOpenSpeed = h * 9
 
     self.levelStatus:render(levelStatusRegion:get())
     if not context:isDuringRound() then
@@ -90,7 +91,8 @@ function Scene:onRender(x,y,w,h)
     local mx, my = input.getPointerPosition()
 
     if self.cursorDescription then
-        local descW, descH = select(2, leftDescRegion:get())
+        local cursorDescRegion = ui.Region(0,0, w/3, h/2)
+        local _,_, descW, descH = cursorDescRegion:get()
         local descRegion = ui.Region(mx - 16 - descW, my + 16, descW, descH)
         self.cursorDescriptionTime = self.cursorDescriptionTime + love.timer.getDelta() * descriptionOpenSpeed
         drawDescription(self.cursorDescriptionTime, self.cursorDescription, objects.Color.WHITE, descRegion, drawBoxTransparent)
@@ -99,7 +101,7 @@ function Scene:onRender(x,y,w,h)
     if self.itemDescriptionSelected then
         local rightDescRegion = select(2, rest2:splitVertical(1, 5))
         self.itemDescriptionSelectedTime = self.itemDescriptionSelectedTime + love.timer.getDelta() * descriptionOpenSpeed
-        drawDescription(self.itemDescriptionSelectedTime, self.itemDescriptionSelected, objects.Color.BLACK, rightDescRegion, drawBoxOpaque)
+        drawDescription(self.itemDescriptionSelectedTime, self.itemDescriptionSelected, objects.Color.WHITE, rightDescRegion, drawSideBox)
     end
 
     if #self.slotActionButtons > 0 then
@@ -126,18 +128,16 @@ local function populateDescriptionBox(entity)
     end
 
     for _, descriptionText in ipairs(description) do
-        if #descriptionText > 0 then
-            dbox:addRichText(descriptionText, fonts.getSmallFont(32))
-        end
+        dbox:addRichText(descriptionText, fonts.getSmallFont(32))
     end
 
     return dbox
 end
 
----@param itemEnt lootplot.ItemEntity?
-function Scene:setCursorDescription(itemEnt)
-    if itemEnt then
-        self.cursorDescription = populateDescriptionBox(itemEnt)
+---@param ent lootplot.LayerEntity?
+function Scene:setCursorDescription(ent)
+    if ent then
+        self.cursorDescription = populateDescriptionBox(ent)
     else
         self.cursorDescription = nil
     end

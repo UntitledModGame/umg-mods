@@ -25,7 +25,7 @@ function ActionButton:init(args)
     end
 
     self.textElement = ui.elements.Text({
-        color = objects.Color.BLACK,
+        color = objects.Color.WHITE,
         font = fonts.getLargeFont()
     })
     self.simpleBox = ui.elements.SimpleBox({
@@ -40,6 +40,12 @@ end
 function ActionButton:onRender(x,y,w,h)
     self.textElement:setText(self.textGetter())
     self.simpleBox:render(x,y,w,h)
+    local txtR = ui.Region(x,y,w,h):pad(0.1)
+    x,y,w,h = txtR:get()
+    self.textElement.color = objects.Color.BLACK
+    local off = math.floor(h/18)
+    self.textElement:render(x-off, y-off, w, h)
+    self.textElement.color = objects.Color.WHITE
     self.textElement:render(x, y, w, h)
 end
 

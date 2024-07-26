@@ -24,12 +24,18 @@ local function interpolate(text, vars)
             table.clear(buffer)
 
             if value == nil then
+                --[[
+                the reason we do this is to signal to other systems 
+                that the {} should be ignored.
+                (In UMG, double {{ implies an ESCAPED bracket sequence.)
+                ]]
                 value = "%{{"..variableName.."}}"
             else
                 value = tostring(value)
             end
 
             result[#result+1] = value
+            inVariableName = false
         elseif maybeOpening then
             if char == "{" then
                 -- String interpolation opening tag confirmed
