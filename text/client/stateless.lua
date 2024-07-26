@@ -4,12 +4,14 @@ local Character = require("client.Character")
 local defaultEffectGroup = require("client.defaultEffectGroup")
 
 ---@param fmt string
-local function stopErr(fmt, ...)
-    local txt = string.format(fmt, ...)
+local function stopErr(txt, fmt, ...)
     love.graphics.pop()
 
     -- TODO: Debug check
-    umg.melt(txt, 2)
+    if true then
+        txt = "Error in richtext: " .. txt .. "\n" .. string.format(fmt, ...)
+        umg.melt(txt, 2)
+    end
     return false, txt
 end
 
@@ -257,7 +259,7 @@ function drawRichText(txt, font, x, y, limit, rot, sx, sy, ox, oy, kx, ky)
                     end
 
                     if not found then
-                        return stopErr("col %d: found no opening %q effect tag", i - #ename, ename)
+                        return stopErr(txt, "col %d: found no opening %q effect tag", i - #ename, ename)
                     end
 
                     endOfEffect = false
@@ -267,7 +269,7 @@ function drawRichText(txt, font, x, y, limit, rot, sx, sy, ox, oy, kx, ky)
                     --         ^^^^^^ = i
                     buffer[#buffer+1] = char
                 else
-                    return stopErr("col %d: invalid identifier character %q when specifying effect name", i, char)
+                    return stopErr(txt, "col %d: invalid identifier character %q when specifying effect name", i, char)
                 end
             -- The rest of this must be specifying effect right now
             elseif char == "}" then
@@ -277,20 +279,19 @@ function drawRichText(txt, font, x, y, limit, rot, sx, sy, ox, oy, kx, ky)
                     -- Case: {effect key=value}
                     --                        ^ = i
                     if #buffer == 0 then
-                        return stopErr("col %d: effect value is empty", i - 1)
+                        return stopErr(txt, "col %d: effect value is empty", i - 1)
                     end
 
                     local effectValueStr = concatAndClean(buffer)
                     local effectValue = tonumber(effectValueStr)
                     if effectValue == nil then
-                        return stopErr("col %d: effect value %q cannot be converted to number", i - #effectValue, effectValue)
+                        return stopErr(txt, "col %d: effect value %q cannot be converted to number", i - #effectValue, effectValue)
                     end
 
                     effects[#effects].args[effectKey] = effectValue
                 elseif effectName then
                     -- Incomplete effect key
-                    return stopErr("col %d: effect key is incomplete", i)
-                else
+                    return stopErr(txt, "col %d: effect key is incomplete", i)
                 end
 
                 if not effectName then
@@ -298,7 +299,7 @@ function drawRichText(txt, font, x, y, limit, rot, sx, sy, ox, oy, kx, ky)
                     effectName = concatAndClean(buffer)
                     local effectFunc = defaultEffectGroup:getEffectInfo(effectName)
                     if not effectFunc then
-                        return stopErr("col %d: effect %q does not exist", i - #effectName, effectName)
+                        return stopErr(txt, "col %d: effect %q does not exist", i - #effectName, effectName)
                     end
 
                     effects[#effects+1] = {
@@ -317,7 +318,7 @@ function drawRichText(txt, font, x, y, limit, rot, sx, sy, ox, oy, kx, ky)
                     effectName = concatAndClean(buffer)
                     local effectFunc = defaultEffectGroup:getEffectInfo(effectName)
                     if not effectFunc then
-                        return stopErr("col %d: effect %q does not exist", i - #effectName, effectName)
+                        return stopErr(txt, "col %d: effect %q does not exist", i - #effectName, effectName)
                     end
 
                     effects[#effects+1] = {
@@ -328,13 +329,13 @@ function drawRichText(txt, font, x, y, limit, rot, sx, sy, ox, oy, kx, ky)
                 elseif effectKey then
                     -- TODO: Deduplicate
                     if #buffer == 0 then
-                        return stopErr("col %d: effect value is empty", i - 1)
+                        return stopErr(txt, "col %d: effect value is empty", i - 1)
                     end
 
                     local effectValueStr = concatAndClean(buffer)
                     local effectValue = tonumber(effectValueStr)
                     if effectValue == nil then
-                        return stopErr("col %d: effect value %q cannot be converted to number", i - #effectValue, effectValue)
+                        return stopErr(txt, "col %d: effect value %q cannot be converted to number", i - #effectValue, effectValue)
                     end
 
                     effects[#effects].args[effectKey] = effectValue
@@ -352,9 +353,9 @@ function drawRichText(txt, font, x, y, limit, rot, sx, sy, ox, oy, kx, ky)
                 buffer[#buffer+1] = char
             else
                 if effectName then
-                    return stopErr("col %d: invalid character %q when specifying effect key", i, char)
+                    return stopErr(txt, "col %d: invalid character %q when specifying effect key", i, char)
                 else
-                    return stopErr("col %d: invalid character %q when specifying effect name", i, char)
+                    return stopErr(txt, "col %d: invalid character %q when specifying effect name", i, char)
                 end
             end
         elseif maybeOpeningBracket then
@@ -376,7 +377,7 @@ function drawRichText(txt, font, x, y, limit, rot, sx, sy, ox, oy, kx, ky)
                     -- New effect
                     buffer[#buffer+1] = char
                 else
-                    return stopErr("col %d: invalid character %q when specifying effect name", i, char)
+                    return stopErr(txt, "col %d: invalid character %q when specifying effect name", i, char)
                 end
 
                 maybeOpeningBracket = false
@@ -389,7 +390,7 @@ function drawRichText(txt, font, x, y, limit, rot, sx, sy, ox, oy, kx, ky)
                 j = j + 1
                 maybeClosingBracket = false
             else
-                return stopErr("col %d: unexpected character %q while parsing", i, char)
+                return stopErr(txt, "col %d: unexpected character %q while parsing", i, char)
             end
         elseif char == "{" then
             maybeOpeningBracket = true
