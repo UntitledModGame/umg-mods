@@ -2,7 +2,7 @@ lp.defineItem("kiwi", {
     image = "kiwi",
 
     name = "Kiwi",
-    description = "https://www.youtube.com/watch?v=Qk4KcP1VGIc",
+    description = "The fruit, not the bird!",
     baseBuyPrice = 5,
 
     rarity = lp.rarities.COMMON,

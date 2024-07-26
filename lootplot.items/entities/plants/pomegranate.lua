@@ -2,8 +2,9 @@
 lp.defineItem("pomegranate", {
     image = "pomegranate",
 
-    name = "pomegranate",
-    description = "Generate slots",
+    name = localization.localize("pomegranate"),
+    description = localization.localize("Generates normal slots"),
+
     baseBuyPrice = 5,
 
     rarity = lp.rarities.COMMON,

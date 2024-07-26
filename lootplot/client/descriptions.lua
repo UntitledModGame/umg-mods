@@ -14,7 +14,7 @@ end
 
 
 
-umg.on("lootplot:populateDescription", -10, function(ent, arr)
+umg.on("lootplot:populateDescription", function(ent, arr)
     if ent.maxActivations and ent.activationCount then
         arr:add(function ()
             local remaining = ent.maxActivations - ent.activationCount
@@ -31,6 +31,12 @@ umg.on("lootplot:populateDescription", -10, function(ent, arr)
     end
 end)
 
+
+umg.on("lootplot:populateDescription", -10, function(ent, dest)
+    if ent.description then
+        dest:add(ent.description)
+    end
+end)
 
 
 local VERB_CTX = {

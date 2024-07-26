@@ -3,15 +3,13 @@
 lp.defineItem("bb", {
     image = "blueberry",
 
-    name = "Blueberry",
-    description = "Generates a point",
+    name = localization.localize("Blueberry"),
+    description = localization.localize("A Blue berry!"),
 
     rarity = lp.rarities.COMMON,
     baseTraits = {},
 
-    onActivate = function(ent)
-        lp.addPoints(ent, 1)
-        lp.addMoney(ent, 1)
-    end
+    basePointsGenerated = 1,
+    baseMoneyGenerated = 1,
 })
 

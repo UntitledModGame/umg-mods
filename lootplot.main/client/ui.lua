@@ -123,10 +123,6 @@ local function populateDescriptionBox(entity)
     dbox:addRichText("{wavy}"..text.escape(lp.getEntityName(entity)).."{/wavy}", fonts.getLargeFont(32))
     dbox:newline()
 
-    if description:size() == 0 then
-        description:add("No description available")
-    end
-
     for _, descriptionText in ipairs(description) do
         dbox:addRichText(descriptionText, fonts.getSmallFont(32))
     end
