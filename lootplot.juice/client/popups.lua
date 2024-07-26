@@ -3,11 +3,11 @@ local LIFETIME = 0.4
 local VEL = 200
 local ROT = 1
 
-local function makePopup(dvec, txt, color, velY)
+local function makePopup(dvec, txt, color)
     local ent = client.entities.empty()
     ent.x,ent.y, ent.dimension = dvec.x, dvec.y, dvec.dimension
     ent.vx = 0
-    ent.vy = velY
+    ent.vy = -VEL
 
     ent.color = color
 
@@ -19,8 +19,10 @@ local function makePopup(dvec, txt, color, velY)
         offset = 1
     }
 
-    ent.scale=1/6
-    ent.bulgeJuice = {freq = 2, amp = 6, start = love.timer.getTime(), duration = LIFETIME}
+    local AMP = 6
+    local SCALE = 2
+    ent.scale=(1/AMP) * SCALE
+    ent.bulgeJuice = {freq = 2, amp = AMP, start = love.timer.getTime(), duration = LIFETIME}
 
     ent.lifetime = LIFETIME
     -- ^^^ delete self after X seconds
@@ -28,15 +30,21 @@ end
 
 
 umg.on("lootplot:moneyChanged", function(ent, delta)
-    if delta > 0 then
+    if delta > 0.5 then
         local txt = "$" .. tostring(math.floor(delta+0.5))
-        makePopup(ent, txt, objects.Color.GOLD, VEL)
+        makePopup(ent, txt, objects.Color.GOLD)
+    elseif delta < -0.5 then
+        local txt = "-$" .. tostring(math.floor(-delta+0.5))
+        makePopup(ent, txt, objects.Color.RED)
     end
 end)
 
 umg.on("lootplot:pointsChanged", function(ent, delta)
-    if delta > 0 then
+    if delta > 0.5 then
         local txt = "+" .. tostring(math.floor(delta+0.5))
-        makePopup(ent, txt, objects.Color.RED, -VEL)
+        makePopup(ent, txt, objects.Color.BLUE)
+    elseif delta < -0.5 then
+        local txt = "+" .. tostring(math.floor(-delta+0.5))
+        makePopup(ent, txt, objects.Color.DARK_RED)
     end
 end)
