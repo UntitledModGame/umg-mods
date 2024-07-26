@@ -127,7 +127,7 @@ local function populateDescriptionBox(entity)
 
     for _, descriptionText in ipairs(description) do
         if #descriptionText > 0 then
-            dbox:addText(descriptionText, fonts.getSmallFont(32))
+            dbox:addRichText(descriptionText, fonts.getSmallFont(32))
         end
     end
 
