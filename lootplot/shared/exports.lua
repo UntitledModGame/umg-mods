@@ -17,6 +17,21 @@ if client then
 ---@param ent Entity
 function lp.getLongDescription(ent)
     local array = objects.Array()
+    --[[
+    lootplot:populateDescription event ordering:
+    (ie with umg.on(ev, ORDER, func)  )
+    This is where stuff should be placed:
+
+    ORDER = -inf item name
+    ORDER = -10 basic description
+
+    ORDER = 10 trigger
+    ORDER = 20 filter
+    ORDER = 30 action
+
+    ORDER = 50 misc
+    ORDER = 60 important misc
+    ]]
     umg.call("lootplot:populateDescription", ent, array)
     return array
 end
@@ -544,13 +559,18 @@ local function giveCommonComponents(etype)
         -- ensure base exists:
         etype[base] = etype[base] or properties.getDefault(prop)
     end
-
-    etype.baseTraits = etype.baseTraits or objects.Set()
-    etype.rarity = etype.rarity or lp.rarities.COMMON
-    assert(etype.rarity.rarityWeight, "Invalid rarity: " .. type(etype.rarity))
 end
 
+
+local function getChance(etype)
+    return umg.ask("lootplot:getEntityTypeSpawnChance", etype) or 1
+end
+
+
 local function keys(sset)
+    if not sset then
+        return {}
+    end
     local ks = {}
     for _, val in ipairs(sset) do
         ks[val] = true
@@ -592,7 +612,7 @@ function lp.defineItem(name, itemType)
     giveCommonComponents(itemType)
     umg.defineEntityType(name, itemType)
     lp.ITEM_GENERATOR:defineEntry(name, {
-        defaultChance = itemType.rarity.rarityWeight,
+        defaultChance = getChance(itemType),
         traits = keys(itemType.baseTraits)
     })
 end
@@ -631,7 +651,7 @@ function lp.defineSlot(name, slotType)
     giveCommonComponents(slotType)
     umg.defineEntityType(name, slotType)
     lp.SLOT_GENERATOR:defineEntry(name, {
-        defaultChance = slotType.rarity.rarityWeight,
+        defaultChance = getChance(slotType),
         traits = keys(slotType.baseTraits)
     })
 end

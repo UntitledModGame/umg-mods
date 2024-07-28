@@ -12,7 +12,15 @@ local function funcLocEnt(txt, ent, ctx)
     end
 end
 
+--[[
 
+ORDER = 10 trigger
+ORDER = 20 filter
+ORDER = 30 action
+
+ORDER = 50 misc
+ORDER = 60 important misc
+]]
 
 umg.on("lootplot:populateDescription", function(ent, arr)
     if ent.maxActivations and ent.activationCount then

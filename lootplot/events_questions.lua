@@ -23,6 +23,8 @@ umg.defineEvent("lootplot:moneyChanged")
 umg.defineEvent("lootplot:pointsChanged")
 
 
+umg.defineQuestion("lootplot:getEntityTypeSpawnChance", reducers.MULTIPLY)
+
 umg.defineQuestion("lootplot:pollSelectionButtons", reducers.SINGLE_COLLECT)
 
 umg.defineQuestion("lootplot:getMoneyMultiplier", reducers.MULTIPLY)
