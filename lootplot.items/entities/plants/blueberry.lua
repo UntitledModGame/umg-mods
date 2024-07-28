@@ -6,7 +6,7 @@ lp.defineItem("bb", {
     name = localization.localize("Blueberry"),
     description = localization.localize("A Blue berry!"),
 
-    rarity = lp.rarities.COMMON,
+    rarity = lp.rarities.EPIC,
     baseTraits = {},
 
     basePointsGenerated = 1,

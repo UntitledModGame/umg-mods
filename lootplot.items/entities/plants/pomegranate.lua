@@ -7,7 +7,7 @@ lp.defineItem("pomegranate", {
 
     baseBuyPrice = 5,
 
-    rarity = lp.rarities.COMMON,
+    rarity = lp.rarities.UNCOMMON,
     baseTraits = {},
 
     targetShape = lp.targets.KING_SHAPE,

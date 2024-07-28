@@ -22,7 +22,7 @@ ORDER = 50 misc
 ORDER = 60 important misc
 ]]
 
-umg.on("lootplot:populateDescription", function(ent, arr)
+umg.on("lootplot:populateDescription", 0, function(ent, arr)
     if ent.maxActivations and ent.activationCount then
         arr:add(function ()
             local remaining = ent.maxActivations - ent.activationCount
@@ -51,7 +51,7 @@ local VERB_CTX = {
     context = "Should be translated within a verb context"
 }
 
-umg.on("lootplot:populateDescription", function(ent, arr)
+umg.on("lootplot:populateDescription", 10, function(ent, arr)
     local pgen = ent.pointsGenerated
     if pgen ~= 0 then
         if pgen > 0 then

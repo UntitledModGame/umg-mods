@@ -20,17 +20,6 @@ local function hsl(h,s,l)
 end
 
 
-local DEFAULT_RARITIES = {
-    COMMON = newRarity("COMMON",   2,   hsl(110, 35, 55)),
-    UNCOMMON = newRarity("UNCOMMON", 1.5, hsl(150, 66, 55)),
-    RARE = newRarity("RARE",     1,   hsl(220, 90, 55)),
-    EPIC = newRarity("EPIC",     0.4, hsl(275, 100,45)),
-    LEGENDARY = newRarity("LEGENDARY",0.04,hsl(50, 90, 40)),
-    MYTHIC = newRarity("MYTHIC",   0.004,hsl(330, 100, 35)),
-    UNIQUE = newRarity("UNIQUE",   0.00, objects.Color.WHITE),
-}
-
-
 umg.answer("lootplot:getEntityTypeSpawnChance", function(etype)
     local rarity = etype.rarity
     ---@cast rarity lootplot.Rarity
@@ -55,4 +44,15 @@ if client then
 end
 
 
-return DEFAULT_RARITIES
+
+-- Can override rarities in this table:
+lp.rarities = {
+    COMMON = newRarity("COMMON",   2,   hsl(110, 35, 55)),
+    UNCOMMON = newRarity("UNCOMMON", 1.5, hsl(150, 66, 55)),
+    RARE = newRarity("RARE",     1,   hsl(220, 90, 55)),
+    EPIC = newRarity("EPIC",     0.4, hsl(275, 100,45)),
+    LEGENDARY = newRarity("LEGENDARY",0.04,hsl(50, 90, 40)),
+    MYTHIC = newRarity("MYTHIC",   0.004,hsl(330, 100, 35)),
+    UNIQUE = newRarity("UNIQUE",   0.00, objects.Color.WHITE),
+}
+

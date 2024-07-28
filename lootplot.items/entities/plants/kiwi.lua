@@ -5,7 +5,7 @@ lp.defineItem("kiwi", {
     description = "The fruit, not the bird!",
     baseBuyPrice = 5,
 
-    rarity = lp.rarities.COMMON,
+    rarity = lp.rarities.RARE,
     baseTraits = {},
 
     targetShape = lp.targets.ROOK_SHAPE,

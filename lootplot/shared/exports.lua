@@ -704,11 +704,6 @@ lp.constants = {
 }
 
 
-
--- Can override rarities in this table:
-lp.rarities = require("shared.rarities")
-
-
 lp.ITEM_GENERATOR = generation.Generator()
 lp.SLOT_GENERATOR = generation.Generator()
 
