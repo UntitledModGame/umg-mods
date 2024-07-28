@@ -1,0 +1,55 @@
+
+local loc = localization.localize
+
+--[[
+
+ORDER = 10 trigger
+ORDER = 20 filter
+ORDER = 30 action
+
+ORDER = 50 misc
+ORDER = 60 important misc
+
+]]
+
+-- we want to be rendered as part of the action;
+-- And we want target-stuff rendered together;
+-- hence the 32.* range.
+local TARGET_SHAPE_ORDER = 32.4
+local TARGET_FILTER_ORDER = 32.5
+local TARGET_ACTIVATE_ORDER = 32.6
+
+local BRIEF_CTX = {
+    context = "Keep it brief, concise, and straightforward!"
+}
+
+
+umg.on("lootplot:populateDescription", TARGET_SHAPE_ORDER, function(ent, arr)
+    if ent.targetShape then
+        arr:add(loc("For all targets: ",nil,BRIEF_CTX))
+    end
+end)
+
+
+
+
+umg.on("lootplot:populateDescription", TARGET_FILTER_ORDER, function(ent, arr)
+    if ent.targetShape and ent.targetTraitFilter then
+        arr:add(loc("If target has %{trait} trait: ", {
+            trait = ent.targetTraitFilter
+        }, BRIEF_CTX))
+    end
+end)
+
+
+
+
+
+umg.on("lootplot:populateDescription", TARGET_ACTIVATE_ORDER, function(ent, arr)
+    if ent.targetShape and ent.targetActivationDescription then
+        -- should already be localized:
+        arr:add(ent.targetActivationDescription)
+    end
+end)
+
+

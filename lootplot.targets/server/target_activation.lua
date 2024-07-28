@@ -3,17 +3,18 @@ local util = require("shared.util")
 
 
 
----@param targetFunc function
 ---@param ent lootplot.ItemEntity
 ---@param targets objects.Array
 ---@param conversion? "ITEM"|"SLOT"
-local function activateTargets(targetFunc, ent, targets, conversion)
+local function activateTargets(ent, targets, conversion)
     lp.Bufferer()
         :addAll(targets)
         :to(conversion)
         :filter(util.canTarget)
         :execute(function(ppos, targetEnt)
-            targetFunc(ent, ppos, targetEnt)
+            if ent.activateTargets then
+                ent:activateTargets(ppos, targetEnt)
+            end
             umg.call("lootplot.targets:targetActivated", ent, ppos, targetEnt)
         end)
 end
@@ -25,12 +26,12 @@ umg.on("lootplot:entityActivated", function(ent)
         ---@cast ent lootplot.ItemEntity
         local targets = lp.targets.getTargets(ent)
 
-        if targets and ent.activateTargets then
+        if targets then
             local to = ent.targetType
             if (to and (not VALIDS[to])) then
                 error("Invalid targetType: " .. tostring(to))
             end 
-            activateTargets(ent.activateTargets, ent, targets, to)
+            activateTargets(ent, targets, to)
         end
     end
 end)

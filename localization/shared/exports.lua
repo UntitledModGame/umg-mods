@@ -3,6 +3,7 @@ if false then _G.localization = localization end
 
 local interpolate = require("shared.interpolate")
 
+--- Translates a string.
 ---@param text string String to translate
 ---@param variables table<string, any>? Variable to interpolate
 ---@param args table? Reserved for future use

@@ -1,3 +1,6 @@
+
+require("shared.events_questions")
+
 local util = {}
 
 ---@param dx number
@@ -27,7 +30,7 @@ local function checkFilter(targeterEnt, ppos, val)
     if targeterEnt.targetFilter then
         return targeterEnt.targetFilter(targeterEnt, ppos, val)
     end
-    return true
+    return umg.ask("lootplot.targets:canTarget", targeterEnt, ppos, val)
 end
 
 function util.canTarget(targeterEnt, ppos)

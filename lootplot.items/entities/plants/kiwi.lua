@@ -2,7 +2,6 @@ lp.defineItem("kiwi", {
     image = "kiwi",
 
     name = "Kiwi",
-    description = "The fruit, not the bird!",
     baseBuyPrice = 5,
 
     rarity = lp.rarities.RARE,
@@ -13,5 +12,6 @@ lp.defineItem("kiwi", {
     activateTargets = function(ent, ppos, targetEnt)
         lp.tryActivateEntity(targetEnt)
     end,
+    targetActivationDescription = localization.localize("Pulses item.")
 })
 

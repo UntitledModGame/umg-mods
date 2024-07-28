@@ -1,4 +1,4 @@
 {
     "type": "base",
-    "uses": ["lootplot.targets", "lootplot"]
+    "uses": ["lootplot.targets", "lootplot", "lootplot.rarities"]
 }
