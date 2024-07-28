@@ -51,5 +51,7 @@ if client then
 
     umg.defineEvent("lootplot:denySlotInteraction")
 
+    umg.defineEvent("lootplot:tryMoveItemsClient")
+
     umg.defineQuestion("lootplot:getItemTargetPosition", reducers.PRIORITY_DOUBLE)
 end

@@ -148,6 +148,9 @@ end
 ---@param targSlot lootplot.SlotEntity
 local function tryMove(clientId, srcSlot, targSlot)
     if lp.canSwap(srcSlot, targSlot) and hasAccess(srcSlot, clientId) and hasAccess(targSlot, clientId) then
+        -- TODO: this event a bit bloaty/weird!!!
+        -- redo/unify this when we get consumable items working.
+        umg.call("lootplot:tryMoveItemsClient", srcSlot, targSlot)
         swapSlotItems(srcSlot, targSlot)
     else
         deny(srcSlot)

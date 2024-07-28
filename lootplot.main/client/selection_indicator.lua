@@ -29,16 +29,55 @@ umg.on("lootplot:endHoverSlot", function()
 end)
 
 
+local PRIO_MOUSE = 10
 umg.answer("lootplot:getItemTargetPosition", function(itemEnt)
     if itemEnt == selectedItem and umg.exists(selectedItem) then
         if lp.canPlayerAccess(itemEnt, client.getClient()) then
             local camera = camera.get()
             local tx,ty = camera:toWorldCoords(input.getPointerPosition())
-            local prio = 1
-            return tx,ty, prio
+            return tx,ty, PRIO_MOUSE
         end
     end
 end)
+
+local PRIO_LOCK = 6
+umg.answer("lootplot:getItemTargetPosition", function(itemEnt)
+    if itemEnt.targetPositionLock then
+        local tpl = itemEnt.targetPositionLock
+        if tpl.endTime > love.timer.getTime() then
+            itemEnt:removeComponent("targetPositionLock")
+        end
+        return tpl.x, tpl.y, PRIO_LOCK
+    end
+end)
+
+
+
+local DURATION = 0.4
+
+local function applyLerpLock(ent, targX, targY)
+    --[[
+    locks the ent at the current position.
+    The reason we need this is because the server updated ppos is going
+    to be delayed; so as a hack fix, we lock the ent in place early.
+    (It expires after DURATION seconds in the event that the move failed)
+    ]]
+    ent.targetPositionLock = {
+        endTime = love.timer.getTime() + DURATION,
+        x = targX,
+        y = targY
+    } 
+end
+
+umg.on("lootplot:tryMoveItemsClient", function(slot1, slot2)
+    local item = lp.slotToItem(slot1)
+    local dvec = lp.getPos(slot2):getWorldPos()
+    local targX, targY = dvec.x, dvec.y
+    if item then
+        applyLerpLock(item, targX, targY)
+    end
+end)
+
 
 
 local CAN_MOVE = 1
