@@ -26,16 +26,15 @@ local BRIEF_CTX = {
 
 umg.on("lootplot:populateDescription", TARGET_SHAPE_ORDER, function(ent, arr)
     if ent.targetShape then
-        arr:add(loc("For all targets: ",nil,BRIEF_CTX))
+        arr:add(loc("{c r=1 g=0.55 b=0.1}For all targets: ",nil,BRIEF_CTX))
     end
 end)
 
 
 
-
 umg.on("lootplot:populateDescription", TARGET_FILTER_ORDER, function(ent, arr)
     if ent.targetShape and ent.targetTraitFilter then
-        arr:add(loc("If target has %{trait} trait: ", {
+        arr:add(loc("{c r=1 g=0.55 b=0.1}  If target has %{trait} trait: ", {
             trait = ent.targetTraitFilter
         }, BRIEF_CTX))
     end
@@ -48,8 +47,19 @@ end)
 umg.on("lootplot:populateDescription", TARGET_ACTIVATE_ORDER, function(ent, arr)
     if ent.targetShape and ent.targetActivationDescription then
         -- should already be localized:
-        arr:add(ent.targetActivationDescription)
+        arr:add("{c r=1 g=0.55 b=0.1}" .. ent.targetActivationDescription)
     end
 end)
 
+
+local MISC_ORDER = 50
+
+umg.on("lootplot:populateDescription", MISC_ORDER, function(ent, arr)
+    if ent.targetShape then
+        -- should already be localized:
+        arr:add(loc("Shape: {wavy}{c r=1 g=0.55 b=0.1}%{shapeName}", {
+            shapeName = ent.targetShape:getName()
+        }))
+    end
+end)
 

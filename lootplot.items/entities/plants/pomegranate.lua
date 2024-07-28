@@ -3,7 +3,7 @@ lp.defineItem("pomegranate", {
     image = "pomegranate",
 
     name = localization.localize("pomegranate"),
-    description = localization.localize("Generates normal slots"),
+    targetActivationDescription = localization.localize("Generates normal slots"),
 
     baseBuyPrice = 5,
 
