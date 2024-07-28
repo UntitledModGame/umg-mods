@@ -36,7 +36,9 @@ Rulebender:
 - item: when sold/destroyed, trigger all target items
 - item: when activated, transform into above item
 - gift-box: after 3 activations, transform into a rare item
-- gift-box: after 3 activations, transform into a rare item
+- dollar-box: transform into a rare item that costs $1 to use
+- pandoras-box: spawn a rare item in an ABOVE shape that has only 1 use
+
 Emergent items:
 - item: triggers pulse for all target items
 - item: triggers reroll for all target items

@@ -2,7 +2,8 @@
 ---@alias lootplot.Rarity {color:objects.Color, index:number, name:string, rarityWeight:number, displayString:string}
 ---@return lootplot.Rarity
 local function newRarity(name, rarity_weight, color)
-    local cStr = ("Rarity: {wavy}{c r=%f g=%f b=%f}"):format(color.r, color.g, color.b)
+    local cStr = localization.localize("Rarity: {wavy}{c r=%f g=%f b=%f}")
+        :format(color.r, color.g, color.b)
     return {
         color = color,
         index = 1,

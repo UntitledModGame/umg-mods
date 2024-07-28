@@ -61,7 +61,9 @@ targets.KNIGHT_SHAPE = CustomShape(function(ppos)
 
     return result
 end, "KNIGHT")
+
 targets.ABOVE_SHAPE = UniDirectionalShape(0, -1, 1, "ABOVE")
+targets.BELOW_SHAPE = UniDirectionalShape(0, 1, 1, "BELOW")
 
 ---@param basePPos lootplot.PPos
 local function sortPPos(basePPos)
