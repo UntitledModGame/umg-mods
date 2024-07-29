@@ -11,6 +11,12 @@ components.defineComponent("plot")
 components.defineComponent("buttonSlot")
 -- Flag component denoting whether a slot is a bottom
 
+components.defineComponent("shopLock")
+-- for shop-slots
+
+components.defineComponent("costToUse")
+
+
 
 
 

@@ -7,6 +7,8 @@ lp.defineItem("kiwi", {
     rarity = lp.rarities.RARE,
     baseTraits = {},
 
+    baseMoneyGenerated = -1,
+
     targetShape = lp.targets.ROOK_SHAPE,
     targetType = "ITEM",
     activateTargets = function(ent, ppos, targetEnt)

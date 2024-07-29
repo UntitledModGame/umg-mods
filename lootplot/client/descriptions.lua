@@ -47,6 +47,8 @@ umg.on("lootplot:populateDescription", -10, function(ent, dest)
 end)
 
 
+
+
 local VERB_CTX = {
     context = "Should be translated within a verb context"
 }
@@ -57,7 +59,7 @@ umg.on("lootplot:populateDescription", 10, function(ent, arr)
         if pgen > 0 then
             arr:add(funcLocEnt("{c r=0.4 g=0.4 b=1}Generates %{pointsGenerated} point(s)", ent, VERB_CTX))
         else
-            arr:add(funcLocEnt("{c r=1 g=0 b=0.2}Steals %{pointsGenerated} point(s)", ent, VERB_CTX))
+            arr:add(funcLocEnt("{c r=1 g=0 b=0.2}Steals %{pointsGenerated} point(s)!", ent, VERB_CTX))
         end
     end
 
@@ -67,7 +69,7 @@ umg.on("lootplot:populateDescription", 10, function(ent, arr)
             arr:add(funcLocEnt("{c r=0.5 g=1 b=0.4}Earns $%{moneyGenerated}", ent, VERB_CTX))
         else
             arr:add(funcLocEnt(
-                "{c r=1 g=0.2 b=0}{i}Steals {/i}{/c}{c r=1 g=0.87 b=0}$%{moneyGenerated}", 
+                "{c r=1 g=0.2 b=0}Steals {/c}{c r=1 g=0.87 b=0}$%{moneyGenerated}!", 
                 ent, 
                 VERB_CTX
             ))
@@ -75,3 +77,13 @@ umg.on("lootplot:populateDescription", 10, function(ent, arr)
     end
 end)
 
+
+
+umg.on("lootplot:populateDescription", 50, function(ent, arr)
+    if ent.moneyGenerated and ent.moneyGenerated < 0 then
+        arr:add(funcLocEnt(
+            "{c r=1 g=1 b=0.4}{i}Requires money to activate.", 
+            ent
+        ))
+    end
+end)
