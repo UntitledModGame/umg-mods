@@ -457,6 +457,7 @@ end
 function lp.forceActivateEntity(ent)
     entityTc(ent)
     ent.activationCount = (ent.activationCount or 0) + 1
+    ent.totalActivationCount = (ent.totalActivationCount or 0) + 1
     if ent.onActivate then
         ent:onActivate()
     end

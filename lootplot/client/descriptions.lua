@@ -87,3 +87,16 @@ umg.on("lootplot:populateDescription", 50, function(ent, arr)
         ))
     end
 end)
+
+
+umg.on("lootplot:populateDescription", 50, function(ent, arr)
+    local t = ent.traits
+    if t and #t > 0 then
+        arr:add(loc("Traits: "))
+        for _, t in ipairs(t) do
+            arr:add(" {c r=0.4 g=0.2 b=1}{wavy}" .. t)
+        end
+        arr:add("")
+    end
+end)
+

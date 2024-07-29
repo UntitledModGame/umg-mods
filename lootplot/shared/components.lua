@@ -60,6 +60,11 @@ end
 
 
 
+sync.autoSyncComponent("totalActivationCount", {
+    type = "number",
+    lerp = false,
+})
+
 sync.autoSyncComponent("activationCount", {
     type = "number",
     lerp = false,
