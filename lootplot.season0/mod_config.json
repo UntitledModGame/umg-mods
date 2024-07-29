@@ -1,0 +1,3 @@
+{
+    "uses": ["lootplot.targets", "lootplot", "lootplot.rarities"]
+}

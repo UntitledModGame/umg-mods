@@ -2,8 +2,7 @@
     "type": "bundle",
     "uses": [
         "lootplot.main",
-        "lootplot.items", 
-        "lootplot.slots", 
+        "lootplot.content.s0", 
         "lootplot.juice", 
         "lootplot.sound"
     ]

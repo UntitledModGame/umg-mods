@@ -3,7 +3,7 @@
     "uses": [
         "audio",
         "lootplot",
-        "lootplot.items",
+        "lootplot.content.s0",
         "lootplot.slot",
         "lootplot.sound"
     ]
