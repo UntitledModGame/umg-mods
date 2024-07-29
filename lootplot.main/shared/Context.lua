@@ -26,6 +26,7 @@ umg.definePacket("lootplot.main:syncContextValue", {
 })
 local VALUES = {
     money=true,
+    combo=true,
     points=true,requiredPoints=true,
     level=true, round=true,
     maxRound=true,
@@ -40,6 +41,7 @@ function Context:init(ent)
     assert(ent.plot, "Needs a plot!")
 
     local constants = lp.main.constants
+    self.combo = 0
     self.money = constants.STARTING_MONEY
     self.points = constants.STARTING_POINTS
     self.round = constants.STARTING_ROUND
@@ -176,6 +178,7 @@ function Context:nextRound()
         :to("SLOT") -- ppos-->slot
         :delay(0.2)
         :execute(function(_ppos, slotEnt)
+            lp.resetCombo(slotEnt)
             lp.tryTriggerEntity("PULSE", slotEnt)
         end)
 end
@@ -199,6 +202,11 @@ function Context:setMoney(ent, x)
     self:syncValue("money")
 end
 
+function Context:setCombo(ent, x)
+    self.combo = x
+    self:syncValue("combo")
+end
+
 else -- this is client-side
 
 function Context:goNextRound()
@@ -214,6 +222,11 @@ end
 function Context:getMoney(ent)
     return self.money
 end
+
+function Context:getCombo(ent)
+    return self.combo
+end
+
 
 function Context:getCurrentRound()
     return self.round

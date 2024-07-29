@@ -148,6 +148,14 @@ function lp.itemToSlot(itemEnt)
     return nil
 end
 
+
+
+local REQUIRED_CONTEXT_KEYS = {
+    "getPoints",
+    "getMoney",
+    "getCombo",
+}
+
 ---@type lootplot.InitArgs?
 local contextInstance = nil
 
@@ -155,6 +163,9 @@ local contextInstance = nil
 function lp.initialize(context)
     assert(contextInstance == nil, "lootplot already initialized")
     assert(context, "missing context")
+    for _, k in ipairs(REQUIRED_CONTEXT_KEYS)do
+        assert(context[k], "Missing function in Context: " .. k)
+    end
     contextInstance = context
 end
 
@@ -271,6 +282,44 @@ function lp.getMoney(ent)
     assert(contextInstance, "lootplot is not initialized")
     entityTc(ent)
     return contextInstance:getMoney(ent)
+end
+
+
+local function setCombo(fromEnt, newVal)
+    assert(contextInstance, "lootplot is not initialized")
+    assertServer()
+    local oldVal = contextInstance:getCombo(fromEnt)
+    if oldVal then
+        local delta = newVal - oldVal
+        umg.call("lootplot:comboChanged", fromEnt, delta, oldVal, newVal)
+        contextInstance:setCombo(fromEnt, newVal)
+    end
+end
+
+---@param ent Entity
+---@param x? number
+function lp.incrementCombo(ent, x)
+    entityTc(ent)
+    assert(contextInstance, "lootplot is not initialized")
+    local oldVal = contextInstance:getCombo(ent)
+    if oldVal then
+        setCombo(ent, math.max(0, oldVal + (x or 1)))
+    end
+end
+
+---@param ent Entity
+function lp.resetCombo(ent)
+    entityTc(ent)
+    assert(contextInstance, "lootplot is not initialized")
+    setCombo(ent, 0)
+end
+
+---@param ent Entity
+---@return number?
+function lp.getCombo(ent)
+    entityTc(ent)
+    assert(contextInstance, "lootplot is not initialized")
+    return contextInstance:getCombo(ent)
 end
 
 end

@@ -48,3 +48,10 @@ umg.on("lootplot:pointsChanged", function(ent, delta)
         makePopup(ent, txt, objects.Color.DARK_RED)
     end
 end)
+
+umg.on("lootplot:pointsChanged", function(ent, delta, oldVal, newVal)
+    if newVal > 5 then
+        local txt = localization.localize("COMBO: ") .. tostring(math.floor(newVal+0.5))
+        makePopup(ent, txt, objects.Color.YELLOW)
+    end
+end)

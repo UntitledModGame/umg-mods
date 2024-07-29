@@ -64,6 +64,26 @@ umg.on("lootplot:entityActivated", function(ent)
     end
 end)
 
+
+
+
+--[[
+TODO:
+should these be here???
+Hmm...
+]]
+umg.on("lootplot:entityActivated", function(ent)
+    lp.incrementCombo(ent)
+end)
+umg.on("lootplot:entityReset", function(ent)
+    --[[
+    TODO: does this even make sense??
+    ]]
+    lp.resetCombo(ent)
+end)
+
+
+
 end
 
 

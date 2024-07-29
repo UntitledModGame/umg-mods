@@ -21,6 +21,7 @@ umg.defineEvent("lootplot:itemMoved")
 
 umg.defineEvent("lootplot:moneyChanged")
 umg.defineEvent("lootplot:pointsChanged")
+umg.defineEvent("lootplot:comboChanged")
 
 
 umg.defineQuestion("lootplot:getEntityTypeSpawnChance", reducers.MULTIPLY)
