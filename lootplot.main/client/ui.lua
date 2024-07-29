@@ -1,4 +1,6 @@
 local DescriptionBox = require("client.DescriptionBox")
+local CloudBackground = require("client.backgrounds.CloudBackground")
+local backgroundManager = require("client.background_manager")
 
 local fonts = require("client.fonts")
 local musicManager = require("client.music_manager")
@@ -228,6 +230,8 @@ end)
 local SHOW_DESCRIPTION_AFTER = 0.5
 local selectedSlot = nil
 local slotHoverTime = 0
+
+backgroundManager.setBackground(CloudBackground())
 
 umg.on("@update", function(dt)
     if selectedSlot then
