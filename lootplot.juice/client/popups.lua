@@ -3,11 +3,11 @@ local LIFETIME = 0.4
 local VEL = 200
 local ROT = 1
 
-local function makePopup(dvec, txt, color)
+local function makePopup(dvec, txt, color, vel)
     local ent = client.entities.empty()
     ent.x,ent.y, ent.dimension = dvec.x, dvec.y, dvec.dimension
     ent.vx = 0
-    ent.vy = -VEL
+    ent.vy = vel or -VEL
 
     ent.color = color
 
@@ -49,9 +49,9 @@ umg.on("lootplot:pointsChanged", function(ent, delta)
     end
 end)
 
-umg.on("lootplot:pointsChanged", function(ent, delta, oldVal, newVal)
-    if newVal > 5 then
+umg.on("lootplot:comboChanged", function(ent, delta, oldVal, newVal)
+    if newVal > 4 and (newVal % 5 == 0) then
         local txt = localization.localize("COMBO: ") .. tostring(math.floor(newVal+0.5))
-        makePopup(ent, txt, objects.Color.YELLOW)
+        makePopup(ent, txt, objects.Color.YELLOW, VEL)
     end
 end)
