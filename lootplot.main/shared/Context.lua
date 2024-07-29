@@ -151,7 +151,6 @@ function Context:nextRound()
     self:syncValue("state")
 
     local plot = self:getPlot()
-    resetPlot(plot)
 
     plot:queue(function()
         self.round = self.round + 1
@@ -159,6 +158,7 @@ function Context:nextRound()
         self:getPlot():reset()
         self.state = BETWEEN_ROUND
 
+        resetPlot(plot)
         if self.points >= self.requiredPoints then
             -- win condition!!
             self:nextLevel()
