@@ -1,6 +1,7 @@
 local DescriptionBox = require("client.DescriptionBox")
 
 local fonts = require("client.fonts")
+local musicManager = require("client.music_manager")
 
 ---@class lootplot.main.Scene: Element
 local Scene = ui.Element("lootplot.main:Screen")
@@ -250,3 +251,5 @@ umg.on("lootplot:endHoverSlot", function(ent)
     selectedSlot = nil
     scene:setCursorDescription()
 end)
+
+musicManager.playNormalBGM()

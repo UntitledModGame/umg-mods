@@ -2,6 +2,7 @@
     "type": "playable",
     "uses": [
         "audio",
+        "music",
         "lootplot",
         "lootplot.content.s0",
         "lootplot.slots",
