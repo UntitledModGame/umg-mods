@@ -8,6 +8,8 @@ function CloudBackground:init()
     self.cloudCanvases = {}
     self.cloudInstance = {}
     self.directionAngle = 0
+    self.timeUntilDirectionChange = 0
+    self.changeOfDirectionAngle = 0
     self.rng = love.math.newRandomGenerator(12345, 67890)
     self.parallaxDistance = 25
 end
@@ -176,7 +178,7 @@ function CloudBackground:setupTableForTopDown(t, width, height, outside)
     t.speed = t.speed + (self.rng:random() * 2 - 1) * 0.1 * t.speed
 
     -- Compute direction deviation
-    local value = self.rng:random()
+    local value = self.rng:random() * 2 - 1
     local deviation = value ^ 3
     t.directionDeviation = deviation * math.pi / 4
 end
@@ -211,6 +213,19 @@ function CloudBackground:update(dt)
     if #self.cloudCanvases == 0 then
         self:setup()
     end
+
+    if self.timeUntilDirectionChange <= 0 then
+        local MIN_CHANGE_TIME = 60
+        local MAX_CHANGE_TIME = 500
+
+        local value = self.rng:random() * 2 - 1
+        local angleChange = (value ^ 3) * math.pi
+        local duration = MIN_CHANGE_TIME + self.rng:random() * (MAX_CHANGE_TIME - MIN_CHANGE_TIME)
+        self.changeOfDirectionAngle = angleChange / duration
+        self.timeUntilDirectionChange = duration
+    end
+    self.timeUntilDirectionChange = self.timeUntilDirectionChange - dt
+    self.directionAngle = (self.directionAngle + self.changeOfDirectionAngle * dt) % (2 * math.pi)
 
     local width, height = love.graphics.getDimensions()
 
