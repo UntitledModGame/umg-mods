@@ -223,15 +223,18 @@ listener:onPointerMoved(function(_self, x,y, dx,dy)
     scene:pointerMoved(x,y, dx,dy)
 end)
 
+local CLOUD_BACKGROUND = CloudBackground()
+
 umg.on("@resize", function(x,y)
     scene:resize(x,y)
+    CLOUD_BACKGROUND:resize(x, y)
 end)
 
 local SHOW_DESCRIPTION_AFTER = 0.5
 local selectedSlot = nil
 local slotHoverTime = 0
 
-backgroundManager.setBackground(CloudBackground())
+backgroundManager.setBackground(CLOUD_BACKGROUND)
 
 umg.on("@update", function(dt)
     if selectedSlot then

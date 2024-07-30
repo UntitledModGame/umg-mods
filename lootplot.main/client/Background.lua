@@ -9,4 +9,9 @@ end
 function Background:draw(opacity)
 end
 
+---@param width number
+---@param height number
+function Background:resize(width, height)
+end
+
 return Background

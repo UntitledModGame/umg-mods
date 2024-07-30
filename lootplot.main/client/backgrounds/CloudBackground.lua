@@ -226,7 +226,7 @@ function CloudBackground:update(dt)
         local boundingBox = math.max(inst.texture:getDimensions()) * CloudBackground.getScale(inst.type)
         if not CloudBackground.isCloudInArea(inst.x, inst.y, width, height, boundingBox) then
             -- Rebuild clouds
-            self:setupTableForTopDown(inst, width * 2, height * 2, true)
+            self:setupTableForTopDown(inst, width, height, true)
         end
     end
 end
@@ -267,6 +267,14 @@ function CloudBackground:draw(opacity)
             scale * inst.flipY,
             tx / 2, ty / 2
         )
+    end
+end
+
+function CloudBackground:resize(width, height)
+    -- Rebuild every clouds
+    for _, inst in ipairs(self.cloudInstance) do
+        -- Rebuild clouds
+        self:setupTableForTopDown(inst, width, height, false)
     end
 end
 
