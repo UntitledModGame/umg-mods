@@ -10,7 +10,7 @@ function SequentialPlaylist:init(...)
     self.internalPlayingIndex = 1
     self.names = {}
     self.sources = {}
-    self.currentlyPlayingRemoved = true
+    self.currentlyPlayingRemoved = false
 
     for i = 1, select("#", ...) do
         self:add(select(i, ...))
@@ -70,9 +70,10 @@ end
 function SequentialPlaylist:songFinished(source)
     if not self.currentlyPlayingRemoved then
         -- Advance
-        self.internalPlayingIndex = (self.internalPlayingIndex - 1) % #self.sources + 1
+        self.internalPlayingIndex = self.internalPlayingIndex % #self.sources + 1
     end
 
+    self.currentlyPlayingRemoved = false
     self.pos = 0
     audio.resetSource(source)
 end
