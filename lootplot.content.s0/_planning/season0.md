@@ -47,7 +47,12 @@ Shape transformer items
 - item: give rook shape to above item
 - item: give king shape to above item
 - item: give plus shape to above item
-- item: swap shapes of above and below items
+
+Swapper items:
+- Star card: swap shapes of above and below items (ONE TIME USE)
+- Diamonds card: swap traits of above and below items (ONE TIME USE)
+- Clubs card: swap positions of above and below items
+
 
 Slot generator/transformer items
 - item: Convert the below slot into a shop slot
@@ -60,7 +65,6 @@ Scaling items
 
 *SPECIAL ITEMS*: Cannot be obtained via random generation! Can only be spawned by other items
 - grass-item: generates 1 point
-- super-plant: generates 
 
 
 ## SLOTS:
