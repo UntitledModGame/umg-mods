@@ -2,6 +2,7 @@
 # SEASON 0 CONTENT PLANNING:
 
 
+targets.ABOVE_BELOW_SHAPE = UniDirectionalShape(0, 1, 1, "ABOVE-BELOW")
 
 ### Mechanics:
 
@@ -14,7 +15,7 @@ Plant items: (Plants can only spawn on `dirt` slot)
 
 Food items: (consumables)
 - blueberry: gives +1 pointsGenerated to all target items (ONE TIME USE)  (shape=ABOVE_SHAPE)
-- strawberry: gives +1 maxActivations to target item (ONE TIME USE)  (shape=ABOVE_SHAPE)
+- lychee: gives +1 maxActivations to target item (ONE TIME USE)  (shape=ABOVE_SHAPE)
 - item: Generates normal slots in a PLUS shape (ONE TIME USE)
 - item: Clone the above slot into a KING shape (ONE TIME USE)
 - item: Transforms below slot into a GOLD or DIAMOND slot (ONE TIME USE)
@@ -49,9 +50,9 @@ Shape transformer items
 - item: give plus shape to above item
 
 Swapper items:
-- Star card: swap shapes of above and below items (ONE TIME USE)
-- Diamonds card: swap traits of above and below items (ONE TIME USE)
-- Clubs card: swap positions of above and below items
+- Star card: shuffle shapes of target items (ONE TIME USE)
+- Diamonds card: shuffle traits of target items (ONE TIME USE)
+- Spades card: Shuffle positions of target items
 
 
 Slot generator/transformer items

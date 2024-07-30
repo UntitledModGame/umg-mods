@@ -27,7 +27,7 @@ function targets.PlusShape(size, name)
         UniDirectionalShape(0, 1, size),
         UniDirectionalShape(-1, 0, size),
         UniDirectionalShape(0, -1, size),
-        name or "Plus Shape"
+        name or ("PLUS-" .. tostring(size))
     )
 end
 
@@ -39,7 +39,7 @@ function targets.CrossShape(size, name)
         UniDirectionalShape(-1, 1, size),
         UniDirectionalShape(-1, -1, size),
         UniDirectionalShape(1, -1, size),
-        name or "Cross Shape"
+        name or ("CROSS-" .. tostring(size))
     )
 end
 
@@ -64,6 +64,9 @@ end, "KNIGHT")
 
 targets.ABOVE_SHAPE = UniDirectionalShape(0, -1, 1, "ABOVE")
 targets.BELOW_SHAPE = UniDirectionalShape(0, 1, 1, "BELOW")
+
+targets.ABOVE_BELOW_SHAPE = UnionShape(targets.ABOVE_SHAPE, targets.BELOW_SHAPE, "ABOVE-BELOW")
+
 
 ---@param basePPos lootplot.PPos
 local function sortPPos(basePPos)

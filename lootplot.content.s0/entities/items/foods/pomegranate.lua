@@ -10,7 +10,7 @@ lp.defineItem("pomegranate", {
     rarity = lp.rarities.UNCOMMON,
     baseTraits = {},
 
-    targetShape = lp.targets.KING_SHAPE,
+    targetShape = lp.targets.PlusShape(1),
 
     targetType = "NO_SLOT",
     activateTargets = function(ent, ppos, targetEnt)
