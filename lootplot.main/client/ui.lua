@@ -1,6 +1,9 @@
 local DescriptionBox = require("client.DescriptionBox")
+local CloudBackground = require("client.backgrounds.CloudBackground")
+local backgroundManager = require("client.background_manager")
 
 local fonts = require("client.fonts")
+local musicManager = require("client.music_manager")
 
 ---@class lootplot.main.Scene: Element
 local Scene = ui.Element("lootplot.main:Screen")
@@ -220,13 +223,18 @@ listener:onPointerMoved(function(_self, x,y, dx,dy)
     scene:pointerMoved(x,y, dx,dy)
 end)
 
+local CLOUD_BACKGROUND = CloudBackground()
+
 umg.on("@resize", function(x,y)
     scene:resize(x,y)
+    CLOUD_BACKGROUND:resize(x, y)
 end)
 
 local SHOW_DESCRIPTION_AFTER = 0.5
 local selectedSlot = nil
 local slotHoverTime = 0
+
+backgroundManager.setBackground(CLOUD_BACKGROUND)
 
 umg.on("@update", function(dt)
     if selectedSlot then
@@ -250,3 +258,5 @@ umg.on("lootplot:endHoverSlot", function(ent)
     selectedSlot = nil
     scene:setCursorDescription()
 end)
+
+musicManager.playNormalBGM()

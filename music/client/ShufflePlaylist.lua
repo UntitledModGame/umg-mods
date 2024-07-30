@@ -10,7 +10,7 @@ function ShufflePlaylist:init(...)
     self.internalPlayingIndex = 1
     self.names = {}
     self.sources = {}
-    self.currentlyPlayingRemoved = true
+    self.currentlyPlayingRemoved = false
     self.dirty = false
 
     for i = 1, select("#", ...) do
@@ -44,6 +44,7 @@ function ShufflePlaylist:_reshuffle()
             self.sources[i], self.sources[j] = self.sources[j], self.sources[i]
             self.names[i], self.names[j] = self.names[j], self.names[i]
         end
+        self.dirty = false
     end
 end
 
@@ -85,10 +86,11 @@ end
 function ShufflePlaylist:songFinished(source)
     if not self.currentlyPlayingRemoved then
         -- Advance
-        self.internalPlayingIndex = (self.internalPlayingIndex - 1) % #self.sources + 1
+        self.internalPlayingIndex = self.internalPlayingIndex % #self.sources + 1
         self.dirty = #self.sources > 1 and self.internalPlayingIndex == 1
     end
 
+    self.currentlyPlayingRemoved = false
     self.pos = 0
     audio.resetSource(source)
 end

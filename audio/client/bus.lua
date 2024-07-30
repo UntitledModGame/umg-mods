@@ -4,7 +4,7 @@ umg.defineQuestion("audio:getVolume", reducers.MULTIPLY) -- parameters: audioNam
 umg.defineQuestion("audio:getSemitoneOffset", reducers.ADD) -- parameters: audioName, source, entity
 
 umg.answer("audio:getVolume", function()
-    return 1
+    return client.getMasterVolume()
 end)
 
 umg.answer("audio:getSemitoneOffset", function()
