@@ -243,8 +243,9 @@ function audio.play(name, args)
         source = audio.getSource(name)
     end
 
-    local volume = (args.volume or 1) * audio.getVolume(name, source, args.entity)
-    local pitch = (args.pitch or 1) * audio.getPitch(name, source, args.entity)
+    local template = definedAudios[name]
+    local volume = (args.volume or 1) * template:getVolume() * audio.getVolume(name, source, args.entity)
+    local pitch = (args.pitch or 1) * template:getPitch() * audio.getPitch(name, source, args.entity)
 
     source:setVolume(volume)
     source:setPitch(pitch)
