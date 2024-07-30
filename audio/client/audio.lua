@@ -21,7 +21,7 @@ local function defineSound(name, source)
 
     definedAudios[name] = source
 
-    if not tagsOfAudios then
+    if not tagsOfAudios[name] then
         tagsOfAudios[name] = objects.Set()
     end
 end
