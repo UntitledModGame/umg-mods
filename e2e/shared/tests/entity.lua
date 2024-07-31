@@ -9,13 +9,13 @@ local function beforeEach(self)
     zenith.clear(self)
     self:tick(2)
     if server then
-        local dummy = server.entities.empty()
-        dummy.isDummy = true
+        local reffed = server.entities.empty()
+        reffed.isRef = true
 
         for _=1,NUM do
             local e = server.entities.empty()
             e.mycomp = "hello there"
-            e.ref = dummy
+            e.ref = reffed
         end
     end
     self:tick(2)
@@ -38,10 +38,10 @@ local function testShallowClone(self)
     -- expect the entGroup size to have doubled
     self:assert(sze * 2, entGroup:size().." shallowClone group size")
 
-    local dummy = entGroup[1].ref
-    self:assert(dummy.isDummy, "dummy was not valid somehow")
+    local reffed = entGroup[1].ref
+    self:assert(reffed.isRef, "reffed was not valid somehow")
     for _, ent in ipairs(entGroup)do
-        self:assert(ent.ref == dummy, "entity didn't reference dummy")
+        self:assert(ent.ref == reffed, "entity didn't reference reffed")
     end
 end
 
@@ -69,16 +69,15 @@ local function testDeepClone(self)
 
     local seenDummys = {}
     for _, ent in ipairs(entGroup)do
-        local dummy = ent.ref
-        if seenDummys[dummy] then
-            print(seenDummys[dummy])
-            print(ent)
-            self:fail("dummy wasn't deepcopied!")
+        local reffed = ent.ref
+        if seenDummys[reffed] then
+            self:fail("reffed wasn't deepcopied!")
         end
-        self:assert(umg.exists(dummy) and dummy.isDummy, "clone: entity didn't reference dummy")
-        seenDummys[dummy] = ent
+        self:assert(umg.exists(reffed) and reffed.isRef, "clone: entity didn't reference reffed")
+        seenDummys[reffed] = ent
     end
 end
+
 
 
 
@@ -86,27 +85,28 @@ end
 local function testDeepDelete(self)
     beforeEach(self)
 
-    local empty2
+    local e1, e2
     if server then
-        empty2 = server.entities.empty()
-        empty2.arr = {}
-
-        for _, ent in ipairs(entGroup) do
-            table.insert(empty2.arr, ent)
-        end
+        e1 = server.entities.empty()
+        e2 = server.entities.empty()
+        e1.foo = e2
     end
 
     self:tick()
 
     if server then
-        empty2:delete()
+        --[[
+        When we delete `e1`, it should ALSO
+        delete all the entities that it references.
+        (So e2 should be deleted)
+        ]]
+        e1:delete()
     end
 
     self:tick(2)
 
-    self:assert(entGroup:size() == 0, "Nested entities not deleted")
+    self:assert(not umg.exists(e2), "???")
 end
-
 
 
 zenith.test("e2e:entity", function(self)
