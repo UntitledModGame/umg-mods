@@ -1,21 +1,23 @@
+local function add(x, y)
+    return x + y
+end
 
+zenith.test("e2e:buses", function(self)
+    umg.defineEvent("e2e:event_bus_test")
 
+    umg.defineQuestion("e2e:question_bus_test", add)
 
-zenith.test(function(self)
-    umg.defineEvent("umg_e2e_tests:ev")
-    local add = function(x,y) return x+y end
-    umg.defineQuestion("umg_e2e_tests:my_question", add)
-
-    umg.answer("umg_e2e_tests:my_question", function(x)
+    umg.answer("e2e:question_bus_test", function(x)
         return x
     end)
-    umg.answer("umg_e2e_tests:my_question", function(x)
+    umg.answer("e2e:question_bus_test", function(x)
         return x * 2
     end)
 
-    umg.on("umg_e2e_tests:ev", math.max)
+    umg.on("e2e:event_bus_test", function(val)
+        self:assert(val == 1, "Expected 1")
+    end)
 
-    self:assert(umg.ask("umg_e2e_tests:my_question", 3) == (3*2 + 3), "Expected 9")
-    umg.call("umg_e2e_tests:ev", 1)
+    self:assert(umg.ask("e2e:question_bus_test", 3) == (3*2 + 3), "Expected 9")
+    umg.call("e2e:event_bus_test", 1)
 end)
-
