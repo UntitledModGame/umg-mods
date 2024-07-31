@@ -12,8 +12,8 @@ local function activateTargets(ent, targets, conversion)
         :to(conversion)
         :filter(util.canTarget)
         :execute(function(ppos, targetEnt)
-            if ent.activateTargets then
-                ent:activateTargets(ppos, targetEnt)
+            if ent.targetActivate then
+                ent:targetActivate(ppos, targetEnt)
             end
             umg.call("lootplot.targets:targetActivated", ent, ppos, targetEnt)
         end)

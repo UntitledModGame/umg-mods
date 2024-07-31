@@ -5,6 +5,8 @@
 
 ### Mechanics:
 
+KEY: ^ = havent got image yet!
+
 ## ITEMS:
 Botanic items: (Plants can only spawn on `dirt` slot)
 - ^Grass seeds: spawns *grass-item* on all target dirt slots

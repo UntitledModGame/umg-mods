@@ -7,7 +7,7 @@
 targetType = "SLOT" or "ITEM" or "NO_SLOT" or "NO_ITEM"
 
 
-targetActivation = function(ent, ppos, targetEnt_or_nil)
+targetActivate = function(ent, ppos, targetEnt_or_nil)
     ...
 end
 
