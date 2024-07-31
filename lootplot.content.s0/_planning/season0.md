@@ -16,33 +16,33 @@ Plant items: (Plants can only spawn on `dirt` slot)
 Food items: (consumables)
 - blueberry: gives +1 pointsGenerated to all target items (ONE TIME USE)  (shape=ABOVE_SHAPE)
 - lychee: gives +1 maxActivations to target item (ONE TIME USE)  (shape=ABOVE_SHAPE)
-- item: Generates normal slots in a PLUS shape (ONE TIME USE)
-- item: Clone the above slot into a KING shape (ONE TIME USE)
-- item: Transforms below slot into a GOLD or DIAMOND slot (ONE TIME USE)
+- Pomegranate: Generates normal slots in a PLUS shape (ONE TIME USE)
+- Apple: Transforms below slot into a GOLD or DIAMOND slot (ONE TIME USE)
+- Gapple: Clones the above slot in a KING shape (ONE TIME USE)
 
 Destructive items:
-- item: destroys target items, generates +5 points for each
-- item: destroys target slots, earns $1 for each
-- item: when destroyed, generates +10 points
-- item: destroy all target items, permanently gain +0.2 pointsGenerated for each
+- Dark skull: destroys target items, generates +5 points for each
+- Profit purger: destroys target slots, earns $1 for each
+- Dark flint: when destroyed, generates +10 points
+- Reaper: destroy all target items, permanently gain +0.2 pointsGenerated for each
 
-Financial items; 
-- item: earn 1 money
-- item: earn money equal to 5% of current balance
-- item: earn money equal to 50% of points generated of above item
-- item: after 3 rounds, give 10 gold (ONE TIME USE)
-- item: generate points equal to 20% of the current balance
+Fiscal items; 
+- Gold sword: earn 1 money
+- King Ring: earn money equal to 5% of current balance
+- Gold Axe: earn money equal to 50% of points generated of above item
+- Golden fruit: after 3 activations, give 10 gold (ONE TIME USE)
+- Bishop ring: generate points equal to 20% of the current balance
 
 Rulebender:
-- item: when sold/destroyed, trigger all target items
-- item: when activated, transform into above item
+- Red cap: when sold/destroyed, pulse all targets
+- Green cap: when sold/destroyed, reroll all targets
+- Purple cap: when sold/destroyed, transform into a random target item
+- Magic radish: when activated, transform into above item
 - gift-box: after 3 activations, transform into a rare item
 - dollar-box: transform into a rare item that costs $1 to use
 - pandoras-box: spawn a rare item in an ABOVE shape that has only 1 use
-
-Emergent items:
-- item: triggers pulse for all target items
-- item: triggers reroll for all target items
+- Red shield: triggers pulse for all target items
+- Green shield: triggers reroll for all target items
 
 Shape transformer items
 - item: give rook shape to above item
