@@ -18,7 +18,7 @@ lp.defineItem("bb", {
     targetActivationDescription = loc("Gives +1 points generates to target item"),
 
     targetActivate = function (selfEnt, ppos, targetEnt)
-        lp.addBuff(targetEnt, "pointsGenerated", 1, selfEnt)
+        properties.addPermanent(targetEnt, "pointsGenerated", 1, selfEnt)
     end
 })
 
@@ -36,7 +36,7 @@ lp.defineItem("lychee", {
     targetActivationDescription = loc("Gives +1 activations to target item"),
 
     targetActivate = function (selfEnt, ppos, targetEnt)
-        lp.addBuff(targetEnt, "pointsGenerated", 1, selfEnt)
+        properties.addPermanent(targetEnt, "maxActivations", 1, selfEnt)
     end
 })
 
