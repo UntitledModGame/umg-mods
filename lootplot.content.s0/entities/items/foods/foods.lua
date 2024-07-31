@@ -43,7 +43,7 @@ lp.defineItem("lychee", {
         Should we have a buffing system here?
 
         API IDEA:
-        `lp.buff(ent, "baseMaxActivations", 1, srcEnt?)`
+        `lp.buff(ent, "maxActivations", 1, srcEnt?)`
         ]]
         targetEnt.baseMaxActivations = targetEnt.baseMaxActivations + 1
     end
