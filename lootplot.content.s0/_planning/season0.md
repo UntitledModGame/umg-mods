@@ -45,6 +45,7 @@ Rulebender:
 - ^Dollar-box: transform into a rare item that costs $1 to use
 - ^Pandoras-box: spawn a rare item in an ABOVE shape that has only 1 use
 - ^Boomerang: +1 points. Uses all activations at once.
+- ^Glass-potion: +1 points. Uses all activations at once.
 - Red shield: triggers pulse for all target items
 - Green shield: triggers reroll for all target items
 
@@ -74,9 +75,12 @@ Scaling items
 
 
 ## SLOTS:
-- Gold slot: generates $1 on activation
+- Gold slot: The only slot-type that can hold LEGENDARY items.
 - Diamond slot: pulses twice
-- Glass-slot: has a 10% chance of breaking on activation
+- Glass-slot: has a 20% chance of breaking on activation
+    - NOTE: Glass-slots are REALLY easy to generate!
+    - (eg. generate glass slots in a ROOK shape)
+    - But they are risky, since they will destroy your items.
 - Null-slot: doesn't activate
 - Reroll-slot: self-explanatory
 - Dirt-slot
