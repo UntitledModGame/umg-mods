@@ -2,10 +2,10 @@ lp.defineItem("lootplot.content.s0:spartan_helmet", {
     image = "spartan_helmet",
 
     name = localization.localize("Spartan Helmet"),
-    description = localization.localize("Give +0.5 permanent pointsGenerated to all target items"),
 
     targetType = "ITEM",
     targetShape = lp.targets.PlusShape(1, "Plus Shape"),
+    targetActivationDescription = localization.localize("Give +0.5 permanent pointsGenerated to all target items"),
     targetActivate = function(selfEnt, ppos, targetEnt)
         properties.addPermanent(targetEnt, "pointsGenerated", 0.5, selfEnt)
     end

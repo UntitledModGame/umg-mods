@@ -4,7 +4,7 @@ local function defineBook(id, name, description, targetSlot)
     return lp.defineItem("lootplot.content.s0:"..id, {
         image = id,
         name = loc(name),
-        description = loc(description),
+
         targetType = "SLOT",
         targetShape = lp.targets.ABOVE_SHAPE,
         targetActivationDescription = loc(description),

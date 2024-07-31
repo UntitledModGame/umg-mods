@@ -1,12 +1,13 @@
 local loc = localization.localize
 
+---@param shape lootplot.targets.ShapeData
 ---@param action fun(selfEnt:lootplot.ItemEntity)
 local function defineCard(id, name, description, shape, onetime, action)
     local t = {
         image = id,
         name = loc(name),
-        description = loc(description),
         targetType = "ITEM",
+        targetActivationDescription = loc(description),
         targetShape = shape,
         onActivate = action
     }
@@ -25,17 +26,28 @@ defineCard("star_card",
         local targets = lp.targets.getTargets(selfEnt)
 
         if targets then
-            -- Shuffle it
-            for i = #targets, 2, -1 do
-                local j = math.random(1, i)
-                targets[i], targets[j] = targets[j], targets[i]
+            local itemEntities = {}
+            local itemEntShapes = {}
+
+            for _, ppos in ipairs(targets) do
+                local itemEnt = lp.posToItem(ppos)
+                if itemEnt then
+                    itemEntities[#itemEntities+1] = itemEnt
+                    itemEntShapes[#itemEntities] = itemEnt.targetShape
+                end
             end
 
-            for i = 1, #targets - 1 do
-                local e1 = targets[i]
-                local e2 = targets[i + 1]
-                -- Does this work?
-                e1.targetShape, e2.targetShape = e2.targetShape, e1.targetShape
+            -- Shuffle shapes
+            for i = #itemEntShapes, 2, -1 do
+                local j = math.random(1, i)
+                itemEntShapes[i], itemEntShapes[j] = itemEntShapes[j], itemEntShapes[i]
+            end
+
+            -- Assign shapes
+            for i, itemEnt in ipairs(itemEntities) do
+                if itemEnt.targetShape ~= itemEntShapes[i] then
+                    lp.targets.setTargetShape(itemEnt, itemEntShapes[i])
+                end
             end
         end
     end
