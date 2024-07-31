@@ -14,11 +14,11 @@ components.defineComponent("buttonSlot")
 components.defineComponent("shopLock")
 -- for shop-slots
 
-components.defineComponent("costToUse")
+components.defineComponent("doomCount")
+-- how many activations until deletion
 
-
-
-
+components.defineComponent("activationCount")
+components.defineComponent("totalActivationCount")
 
 
 
@@ -59,6 +59,10 @@ end
 
 
 
+sync.autoSyncComponent("doomCount", {
+    type = "number",
+    lerp = false,
+})
 
 sync.autoSyncComponent("totalActivationCount", {
     type = "number",
@@ -98,8 +102,6 @@ defineBasicNumber("pointsGenerated", {base="basePointsGenerated", default=0})
 
 defineBasicNumber("moneyGenerated", {base="baseMoneyGenerated", default=0})
 
-defineBasicNumber("power", {base="basePower", default=0})
--- TODO: should we keep this property?
 
 sync.autoSyncComponent("shopLock", {type = "boolean"})
 sync.autoSyncComponent("ownerPlayer", {type = "string"})

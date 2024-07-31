@@ -83,6 +83,14 @@ umg.on("lootplot:entityReset", function(ent)
 end)
 
 
+umg.on("lootplot:entityActivated", function(ent)
+    if ent.doomCount then
+        ent.doomCount = ent.doomCount - 1
+        if ent.doomCount <= 0 then
+            lp.destroy(ent)
+        end
+    end
+end)
 
 end
 

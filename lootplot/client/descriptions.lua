@@ -78,6 +78,23 @@ umg.on("lootplot:populateDescription", 10, function(ent, arr)
 end)
 
 
+umg.on("lootplot:populateDescription", 50, function(ent, arr)
+    if ent.doomCount then
+        if ent.doomCount == 1 then
+            arr:add(funcLocEnt(
+                "{c r=0.46 g=0 b=0.6}DOOMED:{/c} {c r=0.7 g=0.3 b=1}Destroyed when activated!", 
+                ent
+            ))
+        else
+            arr:add(funcLocEnt(
+                "{c r=0.46 g=0 b=0.6}DOOMED:{/c} {c r=0.7 g=0.3 b=1}Destroyed after %{doomCount} activations!", 
+                ent
+            ))
+        end
+    end
+end)
+
+
 
 umg.on("lootplot:populateDescription", 50, function(ent, arr)
     if ent.moneyGenerated and ent.moneyGenerated < 0 then
