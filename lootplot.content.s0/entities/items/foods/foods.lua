@@ -13,7 +13,9 @@ lp.defineItem("bb", {
     rarity = lp.rarities.UNCOMMON,
     baseTraits = {},
 
+    targetType = "ITEM",
     targetShape = lp.targets.ABOVE_SHAPE,
+    targetActivationDescription = loc("Gives +1 points generates to target item"),
 
     targetActivate = function (selfEnt, ppos, targetEnt)
         --[[
@@ -34,8 +36,9 @@ lp.defineItem("lychee", {
     rarity = lp.rarities.UNCOMMON,
     baseTraits = {},
 
+    targetType = "ITEM",
     targetShape = lp.targets.ABOVE_SHAPE,
-    targetDescription = loc("Gives +1 activations to target item"),
+    targetActivationDescription = loc("Gives +1 activations to target item"),
 
     targetActivate = function (selfEnt, ppos, targetEnt)
         --[[
