@@ -18,12 +18,7 @@ lp.defineItem("bb", {
     targetActivationDescription = loc("Gives +1 points generates to target item"),
 
     targetActivate = function (selfEnt, ppos, targetEnt)
-        --[[
-        TODO:::
-        Should we have a buffing system here?
-        `lp.buff()`? 
-        ]]
-        targetEnt.basePointsGenerated = targetEnt.basePointsGenerated + 1
+        lp.addBuff(targetEnt, "pointsGenerated", 1, selfEnt)
     end
 })
 
@@ -41,14 +36,7 @@ lp.defineItem("lychee", {
     targetActivationDescription = loc("Gives +1 activations to target item"),
 
     targetActivate = function (selfEnt, ppos, targetEnt)
-        --[[
-        TODO:::
-        Should we have a buffing system here?
-
-        API IDEA:
-        `lp.buff(ent, "maxActivations", 1, srcEnt?)`
-        ]]
-        targetEnt.baseMaxActivations = targetEnt.baseMaxActivations + 1
+        lp.addBuff(targetEnt, "pointsGenerated", 1, selfEnt)
     end
 })
 

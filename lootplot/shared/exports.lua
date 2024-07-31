@@ -533,6 +533,23 @@ function lp.clone(ent)
     return cloned
 end
 
+---@param ent Entity
+---@param property string
+---@param amount number
+---@param srcEnt_or_nil Entity? entity that invoked the buff (maybe nil)
+function lp.addBuff(ent, property, amount, srcEnt_or_nil)
+    -- Permanently buffs an entity by adding a flat modifier
+end
+
+---@param ent Entity
+---@param property string
+---@param amount number
+---@param srcEnt_or_nil Entity? entity that invoked the buff (maybe nil)
+function lp.multBuff(ent, property, amount, srcEnt_or_nil)
+    -- Permanently buffs an entity with a multiplier
+end
+
+
 
 ---@param ppos lootplot.PPos
 ---@param itemEType fun():lootplot.ItemEntity
