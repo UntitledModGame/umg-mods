@@ -2,21 +2,21 @@
 # SEASON 0 CONTENT PLANNING:
 
 
-targets.ABOVE_BELOW_SHAPE = UniDirectionalShape(0, 1, 1, "ABOVE-BELOW")
 
 ### Mechanics:
 
 ## ITEMS:
-Plant items: (Plants can only spawn on `dirt` slot)
-- item: spawns *grass-item* on all target dirt slots
-- item: spawns blueberry-items on all target dirt slots
-- item: generates +1 point for every target empty slot
-- item: generates +2 points for every target plant item
+Botanic items: (Plants can only spawn on `dirt` slot)
+- ^Grass seeds: spawns *grass-item* on all target dirt slots
+- ^Blue seeds: spawns blueberry-items on all target dirt slots
+- ITEM: generates +3 points for every target empty slot
+- ITEM: generates +5 points for every target plant item
 
 Food items: (consumables)
 - blueberry: gives +1 pointsGenerated to all target items (ONE TIME USE)  (shape=ABOVE_SHAPE)
 - lychee: gives +1 maxActivations to target item (ONE TIME USE)  (shape=ABOVE_SHAPE)
-- Pomegranate: Generates normal slots in a PLUS shape (ONE TIME USE)
+--- Slot-food items:
+- Pomegranate: Generates normal slots in a KING shape (ONE TIME USE)
 - Apple: Transforms below slot into a GOLD or DIAMOND slot (ONE TIME USE)
 - Gapple: Clones the above slot in a KING shape (ONE TIME USE)
 
@@ -25,10 +25,11 @@ Destructive items:
 - Profit purger: destroys target slots, earns $1 for each
 - Dark flint: when destroyed, generates +10 points
 - Reaper: destroy all target items, permanently gain +0.2 pointsGenerated for each
+- ^Empty couldron: destroy all target slots, gain +5 points for each
 
 Fiscal items; 
 - Gold sword: earn 1 money
-- King Ring: earn money equal to 5% of current balance
+- King ring: earn money equal to 5% of current balance
 - Gold Axe: earn money equal to 50% of points generated of above item
 - Golden fruit: after 3 activations, give 10 gold (ONE TIME USE)
 - Bishop ring: generate points equal to 20% of the current balance
@@ -38,28 +39,30 @@ Rulebender:
 - Green cap: when sold/destroyed, reroll all targets
 - Purple cap: when sold/destroyed, transform into a random target item
 - Magic radish: when activated, transform into above item
-- gift-box: after 3 activations, transform into a rare item
-- dollar-box: transform into a rare item that costs $1 to use
-- pandoras-box: spawn a rare item in an ABOVE shape that has only 1 use
+- ^Gift-box: after 3 activations, transform into a rare item
+- ^Dollar-box: transform into a rare item that costs $1 to use
+- ^Pandoras-box: spawn a rare item in an ABOVE shape that has only 1 use
+- ^Boomerang: +1 points. Uses all activations at once.
 - Red shield: triggers pulse for all target items
 - Green shield: triggers reroll for all target items
 
-Shape transformer items
-- item: give rook shape to above item
-- item: give king shape to above item
-- item: give plus shape to above item
+Glove items: (Shape transformers)
+- ^Quartz glove: give rook shape to above item
+- ^Ruby glove: give king shape to above item
+- ^Copper glove: give plus shape to above item
+- ^Wooden glove: give plus shape to above item
 
-Swapper items:
-- Star card: shuffle shapes of target items (ONE TIME USE)
-- Diamonds card: shuffle traits of target items (ONE TIME USE)
-- Spades card: Shuffle positions of target items
+Card items: (Swappers)
+- ^Star card: shuffle shapes of target items (ONE TIME USE)
+- ^Diamonds card: shuffle traits of target items (ONE TIME USE)
+- ^Spades card: Shuffle positions of target items
 
-
-Slot generator/transformer items
-- item: Convert the below slot into a shop slot
-- item: Convert the below slot into a reroll slot
-- item: Convert target slots into dirt slots
-- item: Nullifies the below slot
+Book items: (Slot transformers) (Default shape=ABOVE)
+- Book of basics: Convert target slots into normal slots
+- Book of shopping: Convert target slots into shop slots
+- Book of rerolling: Convert target slots into reroll slots
+- Book of farming: Convert target slots into dirt slots
+- Empty book: Coverts target slots into NULL slots
 
 Scaling items
 - item: give +1 permanent pointsGenerated to a random target item
