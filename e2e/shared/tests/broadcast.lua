@@ -4,17 +4,15 @@
 ]]
 
 
-umg.definePacket("umg_e2e_tests:packet1", {
-    typelist={}
-})
+umg.definePacket("e2e:an_example_test", {typelist = {"string"}})
+umg.definePacket("e2e:tests_send_to_server", {typelist = {"string", "number"}})
 
 
-
-zenith.test(function(self)
+zenith.test("e2e:broadcast", function(self)
     local recvd = false
 
     if client then
-        client.on("an_example_test", function(msg)
+        client.on("e2e:an_example_test", function(msg)
             recvd = true
             self:assert(msg == "hi")
         end)
@@ -23,7 +21,7 @@ zenith.test(function(self)
     self:tick()
 
     if server then
-        server.broadcast("an_example_test", "hi")
+        server.broadcast("e2e:an_example_test", "hi")
     end
 
     self:tick(2)
@@ -39,7 +37,7 @@ zenith.test(function(self)
     local aRecv, bRecv
 
     if server then
-        server.on("umg_e2e_tests:send_to_server", function(sender, a, b)
+        server.on("e2e:tests_send_to_server", function(sender, a, b)
             aRecv, bRecv = a, b
         end)
     end
@@ -50,7 +48,7 @@ zenith.test(function(self)
     local str = "all goods"
     if client then
         aRecv, bRecv = str, 2
-        client.send("umg_e2e_tests:send_to_server", aRecv, bRecv)
+        client.send("e2e:tests_send_to_server", aRecv, bRecv)
     end
 
     self:tick(2)

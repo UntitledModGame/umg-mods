@@ -90,17 +90,17 @@ end
 
 
 
-zenith.test(function(self)
-    self:clear()
+zenith.test("e2e:component_rem_add", function(self)
+    zenith.clear(self)
     addComp(self)
 
-    self:clear()
+    zenith.clear(self)
     removeComp(self)
 
-    self:clear()
+    zenith.clear(self)
     addCompFalse(self)
 
-    self:clear()
+    zenith.clear(self)
     addThenRemoveInstant(self)
 end)
 
