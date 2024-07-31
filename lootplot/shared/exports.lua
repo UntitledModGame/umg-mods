@@ -659,7 +659,7 @@ local strTabTc = typecheck.assert("string", "table")
 ---@field public buyPrice number
 ---@field public pointsGenerated number
 ---@field public moneyGenerated number
----@field public targetShape lootplot.targets.Shape?
+---@field public targetShape lootplot.targets.ShapeData?
 ---@field public canItemMove boolean
 ---@field public canBeDestroyed boolean
 ---@field public canActivate boolean

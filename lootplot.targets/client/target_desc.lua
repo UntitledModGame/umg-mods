@@ -58,7 +58,7 @@ umg.on("lootplot:populateDescription", MISC_ORDER, function(ent, arr)
     if ent.targetShape then
         -- should already be localized:
         arr:add(loc("Shape: {wavy}{c r=1 g=0.55 b=0.1}%{shapeName}", {
-            shapeName = ent.targetShape:getName()
+            shapeName = ent.targetShape.name
         }))
     end
 end)

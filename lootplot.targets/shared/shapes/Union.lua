@@ -1,50 +1,50 @@
-local Shape = require("shared.Shape")
+---@class lootplot.targets.CoordinateSet: objects.Class
+local CoordinateSet = objects.Class("lootplot.targets:CoordinateSet")
 
----@class lootplot.targets.UnionShape: lootplot.targets.Shape
-local UnionShape = objects.Class("lootplot.targets:UnionShape"):implement(Shape)
-
----@param shape1 lootplot.targets.Shape
----@param shape2 lootplot.targets.Shape
----@param ... lootplot.targets.Shape|string
-function UnionShape:init(shape1, shape2, ...)
-    self.shapes = {shape1, shape2, ...}
-
-    local last = self.shapes[#self.shapes]
-    local name = "Union Shape"
-    if type(last) == "string" then
-        -- This is the name
-        table.remove(self.shapes)
-        name = last
-    end
-
-    Shape.init(self, name)
+---@param x integer
+---@param y integer
+local function coordsToString(x, y)
+    x = x % 4294967296
+    y = y % 4294967296
+    return string.char(
+        x % 256,
+        (x / 256) % 256,
+        (x / 65536) % 256,
+        (x / 16777216) % 256,
+        y % 256,
+        (y / 256) % 256,
+        (y / 65536) % 256,
+        (y / 16777216) % 256
+    )
 end
 
----@param pposes objects.Array
----@param dest objects.Array
----@param set objects.Set
-local function insertNonDuplicatePPos(pposes, dest, set)
-    for _, t in ipairs(pposes) do
-        ---@cast t lootplot.PPos
-        if not set:contains(t:getSlotIndex()) then
-            dest:add(t)
+---@param shape1 lootplot.targets.ShapeData
+---@param shape2 lootplot.targets.ShapeData
+---@param ... lootplot.targets.ShapeData|string
+---@return lootplot.targets.ShapeData
+return function(shape1, shape2, ...)
+    local shapes = {shape1, shape2, ...}
+
+    local name = "Union Shape"
+    if type(shapes[#shapes]) == "string" then
+        -- This is the name
+        name = table.remove(shapes)
+    end
+
+    local coords = {}
+    local coordsSet = objects.Set()
+
+    for _, shape in ipairs(shapes) do
+        for _, coord in ipairs(shape.relativeCoords) do
+            local key = coordsToString(coord[1], coord[2])
+            if not coordsSet:has(key) then
+                coords[#coords+1] = coord
+            end
         end
     end
+
+    return {
+        name = name,
+        relativeCoords = coords
+    }
 end
-
----@param ppos lootplot.PPos
----@return objects.Array
-function UnionShape:getTargets(ppos)
-    local usedIndex = objects.Set()
-    local newTargets = objects.Array()
-
-    for _, s in ipairs(self.shapes) do
-        insertNonDuplicatePPos(s:getTargets(ppos), newTargets, usedIndex)
-    end
-
-    return newTargets
-end
-
----@alias lootplot.UnionShape_M lootplot.targets.UnionShape|fun(shape1:lootplot.targets.Shape,shape2:lootplot.targets.Shape,...:lootplot.targets.Shape|string):lootplot.targets.UnionShape
----@cast UnionShape +lootplot.UnionShape_M
-return UnionShape
