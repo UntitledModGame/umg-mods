@@ -2,17 +2,18 @@ local targets = {}
 
 local util = require("shared.util")
 
+---@class lootplot.targets.ShapeData
+---@field name string
+---@field relativeCoords {[1]:integer,[2]:integer}[]
+
 -- Shape exports
-local Shape = require("shared.Shape")
-local CustomShape = require("shared.shapes.Custom")
 local KingShape = require("shared.shapes.King")
 local UnionShape = require("shared.shapes.Union")
 local UniDirectionalShape = require("shared.shapes.UniDirectional")
 
 local MAX_DISTANCE = 40
 
--- This is the class objects
-targets.Shape = Shape
+-- This is the shape generator function
 targets.KingShape = KingShape
 targets.UnionShape = UnionShape
 targets.UniDirectionalShape = UniDirectionalShape
@@ -49,18 +50,20 @@ targets.LARGE_KING_SHAPE = KingShape(2)
 targets.ROOK_SHAPE = targets.PlusShape(MAX_DISTANCE, "ROOK")
 targets.BISHOP_SHAPE = targets.CrossShape(MAX_DISTANCE, "BISHOP")
 targets.QUEEN_SHAPE = UnionShape(targets.ROOK_SHAPE, targets.BISHOP_SHAPE, "QUEEN")
-targets.KNIGHT_SHAPE = CustomShape(function(ppos)
-    local result = objects.Array()
-
-    for mx = -1, 1, 2 do
-        for my = -1, 1, 2 do
-            Shape.tryInsertPosition(ppos, 2 * mx, 1 * my, result)
-            Shape.tryInsertPosition(ppos, 1 * mx, 2 * my, result)
-        end
-    end
-
-    return result
-end, "KNIGHT")
+---@type lootplot.targets.ShapeData
+targets.KNIGHT_SHAPE = {
+    name = "KNIGHT",
+    relativeCoords = {
+        {-2, -1},
+        {-1, -2},
+        {-2, 1},
+        {-1, 2},
+        {2, -1},
+        {1, -2},
+        {2, 1},
+        {1, 2},
+    }
+}
 
 targets.ABOVE_SHAPE = UniDirectionalShape(0, -1, 1, "ABOVE")
 targets.BELOW_SHAPE = UniDirectionalShape(0, 1, 1, "BELOW")
@@ -81,19 +84,34 @@ end
 ---@return objects.Array?
 function targets.getTargets(itemEnt)
     local pos = lp.getPos(itemEnt)
-    local tgt
+    local targetList
 
     if itemEnt.targetShape and pos then
-        tgt = itemEnt.targetShape:getTargets(pos)
+        targetList = objects.Array()
 
-        if tgt then
-            tgt:sortInPlace(sortPPos(pos))
+        for _, coords in ipairs(itemEnt.targetShape.relativeCoords) do
+            local newPpos = pos:move(coords[1], coords[2])
+
+            if newPpos then
+                targetList:add(newPpos)
+            end
+        end
+
+        if targetList then
+            targetList:sortInPlace(sortPPos(pos))
         end
     end
 
-    return tgt
+    return targetList
 end
 
--- How dare you overwriting lp.targets before us! You deserve getting rickrolled!
-assert(not lp.targets, "Never gonna give you up, never gonna let you down!")
+---@param itemEnt lootplot.ItemEntity
+---@param shape lootplot.targets.ShapeData
+function targets.setTargetShape(itemEnt, shape)
+    itemEnt.targetShape = shape
+    sync.syncComponent(itemEnt, "targetShape")
+end
+
+-- How dare you overwriting lp.targets before us!
+assert(not lp.targets, "\27]8;;https://youtu.be/dQw4w9WgXcQ\27\\Unexpected error! open the link for more information.\27]8;;\27\\")
 lp.targets = targets
