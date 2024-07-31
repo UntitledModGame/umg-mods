@@ -1,37 +1,57 @@
----@param name string
----@param path string
----@param volume number?
-local function define(name, path, volume)
-    local source = love.audio.newSource(path, "stream", "file")
-    source:setVolume(volume or 1)
+
+local function define(name, path)
+    local ok, source = pcall(love.audio.newSource,path, "stream", "file")
+    if not ok then
+        umg.melt("Couldnt load music" .. tostring(path))
+    end
     audio.defineAudio(name, source)
     audio.tag(name, "audio:music")
 end
 
-define("lootplot.main:bgm1", "assets/music/Galactic Rap.mp3", 0.7)
-define("lootplot.main:bgm2", "assets/music/密約.mp3", 0.7)
-define("lootplot.main:bgm3", "assets/music/Old_Fashion.mp3", 0.7)
-define("lootplot.main:bgm4", "assets/music/One Sly Move.mp3", 0.7)
-define("lootplot.main:bgm5", "assets/music/Suave Standpipe.mp3", 0.7)
-define("lootplot.main:boss_bgm1", "assets/music/Dream Catcher.mp3", 0.7)
-define("lootplot.main:boss_bgm2", "assets/music/BGM_-_027_-_Mist_In_The_Dark.mp3", 0.7)
-define("lootplot.main:boss_bgm3", "assets/music/破滅を呼びしモノ.mp3", 0.7)
+
+local epic = objects.Array()
+local normal = objects.Array()
+
+
+local dirObj = umg.newDirectoryObject("")
+
+local function load(arr, path, filename, extension)
+    if filename:sub(1, 1) == "_" then
+        return -- ignore
+    end
+    local fullpath = path.."/"..filename..(extension or "")
+    local id = "lootplot.main:" .. filename
+    define(id, fullpath)
+    arr:add(id)
+end
+
+
+dirObj:foreachFile("assets/music/normal", function(path, filename, extension)
+    load(normal, path, filename, extension)
+end)
+
+dirObj:foreachFile("assets/music/epic", function(path, filename, extension)
+    load(epic, path, filename, extension)
+end)
+
+
+local function setVolume(id, x)
+    audio.getSource(id):setVolume(0.7)
+end
+--[[
+If we want to change volume of any music, do it here:
+
+setVolume("lootplot.main:zigzag.mp3", 0.7)
+
+]]
+
 
 local musicManager = {}
 
-musicManager.normalBGMPlaylist = music.ShufflePlaylist(
-    "lootplot.main:bgm1",
-    "lootplot.main:bgm2",
-    "lootplot.main:bgm3",
-    "lootplot.main:bgm4",
-    "lootplot.main:bgm5"
-)
+musicManager.normalBGMPlaylist = music.ShufflePlaylist(unpack(normal))
 
-musicManager.bossBGMPlaylist = music.ShufflePlaylist(
-    "lootplot.main:boss_bgm1",
-    "lootplot.main:boss_bgm2",
-    "lootplot.main:boss_bgm3"
-)
+musicManager.bossBGMPlaylist = music.ShufflePlaylist(unpack(epic))
+
 
 function musicManager.playNormalBGM()
     return music.play(musicManager.normalBGMPlaylist)

@@ -9,11 +9,6 @@ assets/music/Dream Catcher.mp3:
 Licensed under Creative Commons: By Attribution 4.0 License
 http://creativecommons.org/licenses/by/4.0/
 
-assets/music/Galactic Rap.mp3:
-"Galactic Rap" by Kevin MacLeod (incompetech.com)
-Licensed under Creative Commons: By Attribution 4.0 License
-http://creativecommons.org/licenses/by/4.0/
-
 assets/music/One Sly Move.mp3:
 "One Sly Move" by Kevin MacLeod (incompetech.com)
 Licensed under Creative Commons: By Attribution 4.0 License
@@ -29,17 +24,17 @@ assets/music/破滅を呼びしモノ.mp3: https://dova-s.jp/EN/bgm/play20864.ht
 Licensed under DOVA-SYNDROME License
 https://dova-s.jp/EN/_contents/license/
 
-assets/music/密約.mp3: https://dova-s.jp/EN/bgm/play20862.html
-"Secret Deal" by Heitaro Ashibe (dova-s.jp)
-Licensed under DOVA-SYNDROME License
-https://dova-s.jp/EN/_contents/license/
-
-assets/music/Old_Fashion.mp3: https://dova-s.jp/EN/bgm/play20899.html
-"Old Fashion" by TECHNOTRAIN (dova-s.jp)
-Licensed under DOVA-SYNDROME License
-https://dova-s.jp/EN/_contents/license/
-
 assets/music/BGM_-_027_-_Mist_In_The_Dark.mp3: https://dova-s.jp/EN/bgm/play20866.html
 "Mist In The Dark" by Sound Of Incense (dova-s.jp)
 Licensed under DOVA-SYNDROME License
 https://dova-s.jp/EN/_contents/license/
+
+"ZigZag" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+
+"Thief in the Night" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+
+
