@@ -4,9 +4,9 @@ local entGroup = umg.group("mycomp")
 
 local NUM = 3
 
-
+---@param self zenith.TestContext
 local function beforeEach(self)
-    self:clear()
+    zenith.clear(self)
     self:tick(2)
     if server then
         local dummy = server.entities.empty()
@@ -21,7 +21,7 @@ local function beforeEach(self)
     self:tick(2)
 end
 
-
+---@param self zenith.TestContext
 local function testShallowClone(self)
     beforeEach(self)
 
@@ -36,7 +36,7 @@ local function testShallowClone(self)
     self:tick(4)
 
     -- expect the entGroup size to have doubled
-    self:assert(sze * 2, entGroup:size(), "shallowClone group size")
+    self:assert(sze * 2, entGroup:size().." shallowClone group size")
 
     local dummy = entGroup[1].ref
     self:assert(dummy.isDummy, "dummy was not valid somehow")
@@ -46,7 +46,7 @@ local function testShallowClone(self)
 end
 
 
-
+---@param self zenith.TestContext
 local function testDeepClone(self)
     beforeEach(self)
 
@@ -82,7 +82,7 @@ end
 
 
 
-
+---@param self zenith.TestContext
 local function testDeepDelete(self)
     beforeEach(self)
 
@@ -109,11 +109,11 @@ end
 
 
 
-zenith.test(function(self)
+zenith.test("e2e:entity", function(self)
     testShallowClone(self)
 
     testDeepClone(self)
-    
+
     testDeepDelete(self)
 end)
 
