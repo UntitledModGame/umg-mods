@@ -21,13 +21,17 @@ Food items: (consumables)
 - Pomegranate: Generates normal slots in a KING shape (ONE TIME USE)
 - Apple: Transforms below slot into a GOLD or DIAMOND slot (ONE TIME USE)
 - Gapple: Clones the above slot in a KING shape (ONE TIME USE)
+- Red cap: when sold/destroyed, pulse all targets
+- Green cap: when sold/destroyed, reroll all targets
+- Purple cap: when sold/destroyed, transform into a random target item
+- Magic radish: when activated, transform into above item
 
 Destructive items:
 - Dark skull: destroys target items, generates +5 points for each
 - Profit purger: destroys target slots, earns $1 for each
 - Dark flint: when destroyed, generates +10 points
 - Reaper: destroy all target items, permanently gain +0.2 pointsGenerated for each
-- ^Empty couldron: destroy all target slots, gain +5 points for each
+- Empty couldron: destroy all target slots, gain +5 points for each
 
 Fiscal items; 
 - Gold sword: earn 1 money
@@ -37,10 +41,6 @@ Fiscal items;
 - Bishop ring: generate points equal to 20% of the current balance
 
 Rulebender:
-- Red cap: when sold/destroyed, pulse all targets
-- Green cap: when sold/destroyed, reroll all targets
-- Purple cap: when sold/destroyed, transform into a random target item
-- Magic radish: when activated, transform into above item
 - ^Gift-box: after 3 activations, transform into a rare item
 - ^Dollar-box: transform into a rare item that costs $1 to use
 - ^Pandoras-box: spawn a rare item in an ABOVE shape that has only 1 use
@@ -49,15 +49,15 @@ Rulebender:
 - Green shield: triggers reroll for all target items
 
 Glove items: (Shape transformers)
-- ^Quartz glove: give rook shape to above item
-- ^Ruby glove: give king shape to above item
-- ^Copper glove: give plus shape to above item
-- ^Wooden glove: give plus shape to above item
+- Quartz glove: give rook shape to above item
+- Ruby glove: give king shape to above item
+- Copper glove: give plus shape to above item
+- Wooden glove: give plus shape to above item
 
 Card items: (Swappers)
-- ^Star card: shuffle shapes of target items (ONE TIME USE)
-- ^Diamonds card: shuffle traits of target items (ONE TIME USE)
-- ^Spades card: Shuffle positions of target items
+- Star card: shuffle shapes of target items (ONE TIME USE)
+- Diamonds card: shuffle traits of target items (ONE TIME USE)
+- Spades card: Shuffle positions of target items
 
 Book items: (Slot transformers) (Default shape=ABOVE)
 - Book of basics: Convert target slots into normal slots
@@ -67,7 +67,7 @@ Book items: (Slot transformers) (Default shape=ABOVE)
 - Empty book: Coverts target slots into NULL slots
 
 Scaling items
-- item: give +1 permanent pointsGenerated to a random target item
+- spartan_helmet: give +1 permanent pointsGenerated to a random target item
 
 *SPECIAL ITEMS*: Cannot be obtained via random generation! Can only be spawned by other items
 - grass-item: generates 1 point
