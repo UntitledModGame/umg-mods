@@ -1,10 +1,10 @@
 
-lp.defineItem("pomegranate", {
+lp.defineItem("lootplot.content.s0:pomegranate", {
     image = "pomegranate",
 
     name = localization.localize("pomegranate"),
     targetActivationDescription = localization.localize("Generates normal slots"),
-
+    doomCount = 1,
     baseBuyPrice = 5,
 
     rarity = lp.rarities.UNCOMMON,
