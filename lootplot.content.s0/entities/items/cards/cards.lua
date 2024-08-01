@@ -1,22 +1,5 @@
 local loc = localization.localize
 
----@param shape lootplot.targets.ShapeData
----@param action fun(selfEnt:lootplot.ItemEntity)
-local function defineCard(id, name, description, shape, onetime, action)
-    local t = {
-        image = id,
-        name = loc(name),
-        targetType = "ITEM",
-        targetActivationDescription = loc(description),
-        targetShape = shape,
-        onActivate = action
-    }
-    if onetime then
-        t.doomCount = 1
-    end
-    return lp.defineItem("lootplot.content.s0:"..id, t)
-end
-
 lp.defineItem("lootplot.content.s0:star_card", {
     image = "star_card",
     name = loc("Star Card"),
