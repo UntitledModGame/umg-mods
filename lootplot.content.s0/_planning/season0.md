@@ -9,8 +9,8 @@ KEY: ^ = havent got image yet!
 
 ## ITEMS:
 Botanic items: (Plants can only spawn on `dirt` slot)
-- ^Grass seeds: spawns *grass-item* on all target dirt slots
-- ^Blue seeds: spawns blueberry-items on all target dirt slots
+- Grass seeds: spawns *grass-item* on all target dirt slots
+- Blue seeds: spawns blueberry-items on all target dirt slots
 - ITEM: generates +3 points for every target empty slot
 - ITEM: generates +5 points for every target plant item
 
@@ -25,6 +25,7 @@ Food items: (consumables)
 - Green cap: when sold/destroyed, reroll all targets
 - Purple cap: when sold/destroyed, transform into a random target item
 - Magic radish: when activated, transform into above item
+- Glass bottle: when activated, spawn glass-slots in a QUEEN-4 shape (ONE TIME USE)
 
 Destructive items:
 - Dark skull: destroys target items, generates +5 points for each
@@ -41,11 +42,10 @@ Fiscal items;
 - Bishop ring: generate points equal to 20% of the current balance
 
 Rulebender:
-- ^Gift-box: after 3 activations, transform into a rare item
-- ^Dollar-box: transform into a rare item that costs $1 to use
-- ^Pandoras-box: spawn a rare item in an ABOVE shape that has only 1 use
-- ^Boomerang: +1 points. Uses all activations at once.
-- ^Glass-potion: +1 points. Uses all activations at once.
+- Gift-box: after 3 activations, transform into a rare item
+- Dollar-box: transform into a rare item that costs $1 to use
+- Pandoras-box: spawn a rare item in an ABOVE shape that has only 1 use
+- Boomerang: +1 points. Uses all activations at once.
 - Red shield: triggers pulse for all target items
 - Green shield: triggers reroll for all target items
 
