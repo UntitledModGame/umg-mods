@@ -1,4 +1,4 @@
-lp.defineTrait("lootplot.content.s0:PLANT_TRAIT")
+
 
 return lp.defineSlot("lootplot.content.s0:dirt_slot", {
     image = "dirt_slot",

@@ -651,7 +651,7 @@ lp.addTrait = traits.addTrait
 lp.removeTrait = traits.removeTrait
 lp.hasTrait = traits.hasTrait
 lp.defineTrait = traits.defineTrait
-
+lp.getTraitDisplayName = traits.getDisplayName
 
 
 local DEFAULT_PROPS = {
