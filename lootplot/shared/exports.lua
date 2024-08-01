@@ -494,6 +494,7 @@ end
 --- Resets an entity (ie. resets activationCount)
 function lp.reset(ent)
     ent.activationCount = 0
+    lp.tryTriggerEntity("RESET", ent)
     umg.call("lootplot:entityReset", ent)
 end
 
@@ -502,10 +503,12 @@ function lp.destroy(ent)
     entityTc(ent)
     assertServer()
     if umg.exists(ent) then
+        lp.tryTriggerEntity("DESTROY", ent)
+        umg.call("lootplot:entityDestroyed", ent)
         ptrack.clear(ent)
-        health.server.kill(ent)
     end
 end
+
 
 ---@param ppos lootplot.ItemEntity
 function lp.sellItem(ppos)

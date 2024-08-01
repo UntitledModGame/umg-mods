@@ -4,7 +4,7 @@
         "typecheck", "sync", "objects", "state",
         "input", "rendering", "reducers", "physics",
         "control", "spatial", "follow", "juice", "audio",
-        "health", "scheduling", "initializers",
+        "scheduling", "initializers",
         "components", "effects", "execution",
         "chat", "commands", "vignette", 
         "borders", "generation", "clickables",
