@@ -50,7 +50,7 @@ lp.defineItem("lootplot.content.s0:reaper", {
     targetActivationDescription = loc("Destroy all target items, permanently gain +0.2 to generated points for each."),
     targetActivate = function(selfEnt, ppos, targetEnt)
         lp.destroy(targetEnt)
-        PROPERTY_MODIFY(selfEnt, "pointsGenerated", 0.2)
+        lp.modifierBuff(selfEnt, "pointsGenerated", 0.2)
     end
 })
 

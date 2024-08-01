@@ -18,7 +18,7 @@ lp.defineItem("lootplot.content.s0:blueberry", {
     targetActivationDescription = loc("Gives +1 points generates to target item"),
 
     targetActivate = function (selfEnt, ppos, targetEnt)
-        properties.addPermanent(targetEnt, "pointsGenerated", 1, selfEnt)
+        return lp.modifierBuff(targetEnt, "pointsGenerated", 1, selfEnt)
     end
 })
 
@@ -36,7 +36,7 @@ lp.defineItem("lootplot.content.s0:lychee", {
     targetActivationDescription = loc("Gives +1 activations to target item"),
 
     targetActivate = function (selfEnt, ppos, targetEnt)
-        PROPERTY_MODIFY(targetEnt, "maxActivations", 1, selfEnt)
+        lp.modifierBuff(targetEnt, "maxActivations", 1, selfEnt)
     end
 })
 

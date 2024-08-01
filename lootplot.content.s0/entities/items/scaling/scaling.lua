@@ -7,6 +7,6 @@ lp.defineItem("lootplot.content.s0:spartan_helmet", {
     targetShape = lp.targets.PlusShape(1),
     targetActivationDescription = localization.localize("Give all target items +0.5 to the generated points permanently."),
     targetActivate = function(selfEnt, ppos, targetEnt)
-        PROPERTY_MODIFY(targetEnt, "pointsGenerated", 0.5, selfEnt)
+        lp.modifierBuff(targetEnt, "pointsGenerated", 0.5, selfEnt)
     end
 })
