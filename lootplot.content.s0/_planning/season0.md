@@ -28,11 +28,14 @@ Food items: (consumables)
 - Glass bottle: when activated, spawn glass-slots in a QUEEN-4 shape (ONE TIME USE)
 
 Destructive items:
-- Dark skull: destroys target items, generates +5 points for each
-- Profit purger: destroys target slots, earns $1 for each
+- Dark skull: destroys target items, generates `self.pointsGenerated` points for each
+    - basePointsGenerated = 4
+- Profit purger: destroys target slots, earns `self.moneyGenerated` for each
+    - baseMoneyGenerated = 0.5
 - Dark flint: when destroyed, generates +10 points
 - Reaper: destroy all target items, permanently gain +0.2 pointsGenerated for each
-- Empty couldron: destroy all target slots, gain +5 points for each
+- Empty couldron: destroy all target slots, gain `self.pointsGenerated` points for each
+    - basePointsGenerated = 4
 
 Fiscal items; 
 - Gold sword: earn 1 money
