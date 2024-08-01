@@ -33,9 +33,9 @@ end)
 
 
 umg.on("lootplot:populateDescription", TARGET_FILTER_ORDER, function(ent, arr)
-    if ent.targetShape and ent.targetTraitFilter then
+    if ent.targetShape and ent.targetTraits then
         arr:add(loc("{c r=1 g=0.55 b=0.1}  If target has %{trait} trait: ", {
-            trait = ent.targetTraitFilter
+            trait = ent.targetTraits
         }, BRIEF_CTX))
     end
 end)

@@ -1,11 +1,18 @@
 
 
 umg.answer("lootplot.targets:canTarget", function(ent, ppos, targEnt)
-    if ent.targetMatchTrait then
+    if ent.targetTraits then
         if umg.exists(targEnt) then
-            return lp.hasTrait(ent.targetTraitFilter)
+            for _, trait in ipairs(ent.targetTraits) do
+                if lp.hasTrait(ent, trait) then
+                    return true
+                end
+            end
         end
+
+        return false
     end
+
     return true
 end)
 
