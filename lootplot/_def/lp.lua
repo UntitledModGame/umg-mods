@@ -212,6 +212,17 @@ end
 function lp.forceSpawnItem(ppos, itemEType)
 end
 
+---@param ppos lootplot.PPos
+---@param slotEType fun():lootplot.SlotEntity
+---@return lootplot.SlotEntity?
+function lp.trySpawnSlot(ppos, slotEType)
+end
+
+---@param ppos lootplot.PPos
+---@param slotEType fun():lootplot.SlotEntity
+---@return lootplot.SlotEntity
+function lp.forceSpawnSlot(ppos, slotEType)
+end
 
 ---@param name string
 ---@param itemType table<string, any>
