@@ -184,6 +184,22 @@ end
 function lp.clone(ent)
 end
 
+--- Applies a PERMANENT modifier increase to an entity property
+---@param ent Entity
+---@param property string
+---@param amount number
+---@param srcEnt_or_nil Entity? entity that invoked the buff (maybe nil)
+function lp.modifierBuff(ent, property, amount, srcEnt_or_nil)
+end
+
+--- Applies a PERMANENT multiplier change to an entity property
+---@param ent Entity
+---@param property string
+---@param amount number
+---@param srcEnt_or_nil Entity? entity that invoked the buff (maybe nil)
+function lp.multiplierBuff(ent, property, amount, srcEnt_or_nil)
+end
+
 ---@param ppos lootplot.PPos
 ---@param itemEType fun():lootplot.ItemEntity
 ---@return lootplot.ItemEntity?

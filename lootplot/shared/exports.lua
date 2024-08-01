@@ -536,20 +536,49 @@ function lp.clone(ent)
     return cloned
 end
 
----@param ent Entity
----@param property string
----@param amount number
----@param srcEnt_or_nil Entity? entity that invoked the buff (maybe nil)
-function lp.addBuff(ent, property, amount, srcEnt_or_nil)
-    -- Permanently buffs an entity by adding a flat modifier
+
+local function ensureDynamicProperties(ent)
+    assertServer()
+    if not ent:isRegularComponent("lootplotProperties") then
+        ent.lootplotProperties = {
+            multipliers = {--[[
+                [prop] = {....}
+            ]]},
+            modifiers = {--[[
+                [prop] = {....}
+            ]]}
+        }
+    end
+end
+
+local function append(tabl, prop, x, operation)
+    if not tabl[prop] then
+        tabl[prop] = x
+    else
+        tabl[prop] = operation(tabl[prop], x)
+    end
 end
 
 ---@param ent Entity
 ---@param property string
 ---@param amount number
 ---@param srcEnt_or_nil Entity? entity that invoked the buff (maybe nil)
-function lp.multBuff(ent, property, amount, srcEnt_or_nil)
+function lp.modifierBuff(ent, property, amount, srcEnt_or_nil)
+    -- Permanently buffs an entity by adding a flat modifier
+    ensureDynamicProperties(ent)
+    append(ent.lootplotProperties.modifiers, property, amount, reducers.ADD)
+    umg.call("lootplot:entityBuffed", property, srcEnt_or_nil)
+end
+
+---@param ent Entity
+---@param property string
+---@param amount number
+---@param srcEnt_or_nil Entity? entity that invoked the buff (maybe nil)
+function lp.multiplierBuff(ent, property, amount, srcEnt_or_nil)
     -- Permanently buffs an entity with a multiplier
+    ensureDynamicProperties(ent)
+    append(ent.lootplotProperties.multipliers, property, amount, reducers.MULTIPLY)
+    umg.call("lootplot:entityBuffed", property, srcEnt_or_nil)
 end
 
 

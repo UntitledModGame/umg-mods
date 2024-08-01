@@ -1,5 +1,29 @@
 
 
+umg.answer("properties:getPropertyMultiplier", function(ent, prop)
+    if ent.lootplotProperties then
+        local val = ent.lootplotProperties.multipliers[prop]
+        if val then
+            return val
+        end
+    end
+    return 1
+end)
+
+umg.answer("properties:getPropertyModifier", function(ent, prop)
+    
+    if ent.lootplotProperties then
+        local val = ent.lootplotProperties.modifiers[prop]
+        if val then
+            return val
+        end
+    end
+    return 0
+end)
+
+
+
+
 umg.answer("lootplot:hasPlayerAccess", function(ent)
     local ppos = lp.getPos(ent)
     if ppos then
