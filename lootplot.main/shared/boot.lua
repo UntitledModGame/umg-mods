@@ -55,7 +55,7 @@ local function initializeItems(clientId, plot)
     -- Spawn only one item for debug purposes
     -- -- TODO: remove this stuff
     plot:foreachInArea(9, 6, 9, 6, function(ppos)
-        lp.trySpawnItem(ppos, server.entities.bb).ownerPlayer = clientId
+        lp.trySpawnItem(ppos, server.entities.blueberry).ownerPlayer = clientId
     end)
     plot:foreachInArea(9, 7, 9, 7, function(ppos)
         lp.trySpawnItem(ppos, server.entities.strawberry).ownerPlayer = clientId

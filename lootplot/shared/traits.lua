@@ -55,7 +55,7 @@ end
 ---@return boolean
 function traits.hasTrait(ent, trait)
     ttc(ent, trait)
-    return ent.traits:has(trait)
+    return not not (ent.traits and ent.traits:has(trait))
 end
 
 ---@param traitName string
