@@ -46,8 +46,18 @@ end)
 
 umg.on("lootplot:populateDescription", TARGET_ACTIVATE_ORDER, function(ent, arr)
     if ent.targetShape and ent.targetActivationDescription then
-        -- should already be localized:
-        arr:add("{c r=1 g=0.55 b=0.1}" .. ent.targetActivationDescription)
+        local typ = type(ent.targetActivationDescription)
+        if typ == "string" then
+            -- should already be localized:
+            arr:add("{c r=1 g=0.55 b=0.1}" .. ent.targetActivationDescription)
+        elseif typ == "function" then
+            arr:add(function()
+                -- need to pass ent manually as a closure
+                if umg.exists(ent) then
+                    return ent.targetActivationDescription(ent)
+                end
+            end)
+        end
     end
 end)
 

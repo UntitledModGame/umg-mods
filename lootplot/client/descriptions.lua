@@ -8,7 +8,10 @@ local function funcLocEnt(txt, ent, ctx)
     we need a function to interpolate the variables per frame!
     ]]
     return function()
-        return loc(txt, ent, ctx) 
+        if umg.exists(ent) then
+            return loc(txt, ent, ctx) 
+        end
+        return loc("INVALID ENTITY")
     end
 end
 
@@ -40,9 +43,20 @@ umg.on("lootplot:populateDescription", 0, function(ent, arr)
 end)
 
 
-umg.on("lootplot:populateDescription", -10, function(ent, dest)
+umg.on("lootplot:populateDescription", -10, function(ent, arr)
     if ent.description then
-        dest:add(ent.description)
+        local typ = type(ent.description)
+        if typ == "string" then
+            -- should already be localized:
+            arr:add(ent.description)
+        elseif typ == "function" then
+            arr:add(function()
+                -- need to pass ent manually as a closure
+                if umg.exists(ent) then
+                    return ent.description(ent)
+                end
+            end)
+        end
     end
 end)
 
