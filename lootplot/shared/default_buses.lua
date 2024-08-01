@@ -46,10 +46,6 @@ umg.answer("lootplot:hasPlayerAccess", function(ent)
     return true
 end)
 
-umg.answer("lootplot:isItemAdditionBlocked", function(slotEnt)
-    -- shop slots cant hold items!
-    return not not slotEnt:hasComponent("shopLock")
-end)
 
 umg.answer("lootplot:isItemAdditionBlocked", function(slotEnt)
     -- button slots cant hold items!
