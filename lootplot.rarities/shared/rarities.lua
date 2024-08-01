@@ -57,3 +57,9 @@ lp.rarities = {
     UNIQUE = newRarity("UNIQUE",   0.00, objects.Color.WHITE),
 }
 
+---@param r1 lootplot.Rarity
+---@param r2 lootplot.Rarity
+function lp.rarities.compare(r1, r2)
+    local rarityDiff = r2.rarityWeight - r1.rarityWeight
+    return rarityDiff == 0 and 0 or rarityDiff / math.abs(rarityDiff)
+end

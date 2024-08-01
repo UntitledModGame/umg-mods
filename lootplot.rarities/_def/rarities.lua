@@ -4,7 +4,11 @@
 local function newRarity(name, rarity_weight, color)
 end
 
-
+---@param r1 lootplot.Rarity
+---@param r2 lootplot.Rarity
+---@return number comparison 1 if `r1` rarer than `r2`, 0 if `r1` is as rare as `r2`, -1 if `r2` is rarer than `r1`.
+function lp.rarities.compare(r1, r2)
+end
 
 
 -- Can override rarities in this table:
