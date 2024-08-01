@@ -38,14 +38,14 @@ local function initializeSlots(clientId, plot)
     end)
     -- Add shop slots
     plot:foreachInArea(4, 6, 6, 7, function(ppos)
-        lp.forceSpawnSlot(ppos, server.entities.shopSlot).ownerPlayer = clientId
+        lp.forceSpawnSlot(ppos, server.entities.shop_slot).ownerPlayer = clientId
     end)
     -- Add null slot
     plot:foreachInArea(4, 2, 6, 2, function(ppos)
-        lp.forceSpawnSlot(ppos, server.entities.nullSlot).ownerPlayer = clientId
+        lp.forceSpawnSlot(ppos, server.entities.null_slot).ownerPlayer = clientId
     end)
     plot:foreachInArea(5, 3, 5, 3, function(ppos)
-        lp.forceSpawnSlot(ppos, server.entities.rerollButtonSlot).ownerPlayer = clientId
+        lp.forceSpawnSlot(ppos, server.entities.reroll_button_slot).ownerPlayer = clientId
     end)
 end
 

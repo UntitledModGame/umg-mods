@@ -1,4 +1,4 @@
-return lp.defineSlot("lootplot:rerollButtonSlot", {
+return lp.defineSlot("lootplot.content.s0:reroll_button_slot", {
     image = "reroll_button_up",
     activateAnimation = {
         activate = "reroll_button_hold",
