@@ -9,7 +9,7 @@ local function defineBook(id, name, description, targetSlot)
         targetShape = lp.targets.ABOVE_SHAPE,
         targetActivationDescription = loc(description),
         targetActivate = function(selfEnt, ppos, targetEnt)
-            local newSlotEnt = server.entities["lootplot.content.s0"..targetSlot]()
+            local newSlotEnt = server.entities["lootplot.content.s0:"..targetSlot]()
             lp.setSlot(ppos, newSlotEnt)
         end
     })

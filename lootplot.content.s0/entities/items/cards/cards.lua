@@ -17,12 +17,13 @@ local function defineCard(id, name, description, shape, onetime, action)
     return lp.defineItem("lootplot.content.s0:"..id, t)
 end
 
-defineCard("star_card",
-    "Star Card",
-    "Shuffle shapes of target items (ONE TIME USE)",
-    lp.targets.ABOVE_BELOW_SHAPE,
-    true,
-    function(selfEnt)
+lp.defineItem("lootplot.content.s0:star_card", {
+    image = "star_card",
+    name = loc("Star Card"),
+    targetType = "ITEM",
+    targetActivationDescription = loc("Shuffle shapes of target items (ONE TIME USE)"),
+    targetShape = lp.targets.ABOVE_BELOW_SHAPE,
+    onActivate = function(selfEnt)
         local targets = lp.targets.getTargets(selfEnt)
 
         if targets then
@@ -51,25 +52,27 @@ defineCard("star_card",
             end
         end
     end
-)
+})
 
-defineCard("diamonds_card",
-    "Diamonds Card",
-    "Shuffle traits of target items (ONE TIME USE)",
-    lp.targets.ABOVE_BELOW_SHAPE,
-    true,
-    function(selfEnt)
+lp.defineItem("lootplot.content.s0:diamonds_card", {
+    image = "diamonds_card",
+    name = loc("Diamonds Card"),
+    targetType = "ITEM",
+    targetActivationDescription = loc("Shuffle traits of target items (ONE TIME USE)"),
+    targetShape = lp.targets.ABOVE_BELOW_SHAPE,
+    onActivate = function(selfEnt)
         local targets = lp.targets.getTargets(selfEnt)
         -- TODO
     end
-)
+})
 
-defineCard("spades_card",
-    "Spades Card",
-    "Shuffle positions of target items",
-    lp.targets.ABOVE_BELOW_SHAPE,
-    false,
-    function(selfEnt)
+lp.defineItem("lootplot.content.s0:spades_card", {
+    image = "spades_card",
+    name = loc("Spades Card"),
+    targetType = "ITEM",
+    targetActivationDescription = loc("Shuffle positions of target items"),
+    targetShape = lp.targets.ABOVE_BELOW_SHAPE,
+    onActivate = function(selfEnt)
         local targets = lp.targets.getTargets(selfEnt)
 
         if targets then
@@ -91,4 +94,4 @@ defineCard("spades_card",
             end
         end
     end
-)
+})
