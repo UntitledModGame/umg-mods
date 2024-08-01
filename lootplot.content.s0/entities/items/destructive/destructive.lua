@@ -8,7 +8,7 @@ lp.defineItem("lootplot.content.s0:dark_skull", {
     targetType = "ITEM",
     targetShape = lp.targets.KING_SHAPE,
     targetActivationDescription = function(selfEnt)
-        return loc("Destroys target items, generates {c r=0.4 g=0.4}%{pointsGenerated}{/c} point(s) for each.", selfEnt)
+        return loc("Destroys target item, generate {c r=0.4 g=0.4}%{pointsGenerated}{/c} point(s).", selfEnt)
     end,
     targetActivate = function(selfEnt, ppos, targetEnt)
         lp.destroy(targetEnt)
@@ -24,7 +24,7 @@ lp.defineItem("lootplot.content.s0:profit_purger", {
     targetType = "SLOT",
     targetShape = lp.targets.CrossShape(2, "BISHOP-2"),
     targetActivationDescription = function(selfEnt)
-        return loc("Destroys target slots, earns {c r=0.5 b=0.4}%{moneyGenerated}{/c} for each.", selfEnt)
+        return loc("Destroys target slot, earn(s) {c r=0.5 b=0.4}%{moneyGenerated}{/c} for each.", selfEnt)
     end,
     targetActivate = function(selfEnt, ppos, targetEnt)
         lp.destroy(targetEnt)
@@ -35,7 +35,7 @@ lp.defineItem("lootplot.content.s0:profit_purger", {
 lp.defineItem("lootplot.content.s0:dark_flint", {
     image = "dark_flint",
     name = loc("Dark Flint"),
-    description = loc("When destroyed, generates +10 points."),
+    description = loc("When destroyed, generate +10 points."),
     triggers = {"DESTROY"},
     basePointsGenerated = 10
 })
@@ -47,7 +47,7 @@ lp.defineItem("lootplot.content.s0:reaper", {
 
     targetType = "ITEM",
     targetShape = lp.targets.PlusShape(1),
-    targetActivationDescription = loc("Destroy all target items, permanently gain +0.2 to generated points for each."),
+    targetActivationDescription = loc("Destroy all target item, permanently gain +0.2 to generated points of current item."),
     targetActivate = function(selfEnt, ppos, targetEnt)
         lp.destroy(targetEnt)
         lp.modifierBuff(selfEnt, "pointsGenerated", 0.2)
@@ -62,7 +62,7 @@ lp.defineItem("lootplot.content.s0:empty_cauldron", {
     targetType = "SLOT",
     targetShape = lp.targets.KING_SHAPE,
     targetActivationDescription = function(selfEnt)
-        return loc("Destroys target slots, gain {c r=0.4 g=0.4}%{pointsGenerated}{/c} point(s) for each.", selfEnt)
+        return loc("Destroys target slot, gain {c r=0.4 g=0.4}%{pointsGenerated}{/c} point(s).", selfEnt)
     end,
     targetActivate = function(selfEnt, ppos, targetEnt)
         lp.destroy(targetEnt)

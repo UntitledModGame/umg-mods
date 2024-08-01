@@ -23,7 +23,7 @@ lp.defineItem("lootplot.content.s0:gold_axe", {
     image = "gold_axe",
     name = loc("Golden Axe"),
 
-    targetActivationDescription = loc("Earn money equal to 50% of points generated of above item."),
+    targetActivationDescription = loc("Earn money equal to 50% of points generated of target item."),
     targetType = "ITEM",
     targetShape = lp.targets.ABOVE_SHAPE,
     targetActivate = function(selfEnt, ppos, targetEnt)

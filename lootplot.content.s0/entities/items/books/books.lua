@@ -19,21 +19,21 @@ end
 
 defineBook("book_of_basics",
     "Book of Basics",
-    "Convert target slots into normal slots",
+    "Convert target slot into Normal Slot.",
     "slot"
 )
 defineBook("book_of_farming",
     "Book of Farming",
-    "Convert target slots into dirt slots",
+    "Convert target slot into Dirt Slot.",
     "dirt_slot"
 )
 defineBook("book_of_rerolling",
     "Book of Rerolling",
-    "Convert target slots into reroll slots",
+    "Convert target slot into Reroll Slot.",
     "reroll_slot"
 )
 defineBook("book_of_shopping",
     "Book of Shopping",
-    "Convert target slots into shop slots",
+    "Convert target slot into Shop Slot.",
     "shop_slot"
 )

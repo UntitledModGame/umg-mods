@@ -15,7 +15,7 @@ lp.defineItem("lootplot.content.s0:blueberry", {
 
     targetType = "ITEM",
     targetShape = lp.targets.ABOVE_SHAPE,
-    targetActivationDescription = loc("Gives +1 points generates to target item"),
+    targetActivationDescription = loc("Adds +1 of generated point to target item"),
 
     targetActivate = function (selfEnt, ppos, targetEnt)
         return lp.modifierBuff(targetEnt, "pointsGenerated", 1, selfEnt)
@@ -33,7 +33,7 @@ lp.defineItem("lootplot.content.s0:lychee", {
 
     targetType = "ITEM",
     targetShape = lp.targets.ABOVE_SHAPE,
-    targetActivationDescription = loc("Gives +1 activations to target item"),
+    targetActivationDescription = loc("Gives +1 activation to target item"),
 
     targetActivate = function (selfEnt, ppos, targetEnt)
         lp.modifierBuff(targetEnt, "maxActivations", 1, selfEnt)
@@ -46,8 +46,8 @@ lp.defineItem("lootplot.content.s0:apple", {
     doomCount = 1,
 
     targetType = "SLOT",
-    targetShape = lp.targets.UniDirectionalShape(0, 1, 1, "BELOW-1"),
-    targetActivationDescription = loc("Transforms below slot into a GOLD or DIAMOND slot."),
+    targetShape = lp.targets.BELOW_SHAPE,
+    targetActivationDescription = loc("Transforms into a GOLD or DIAMOND slot."),
     targetActivate = function(selfEnt, ppos, targetEnt)
         -- TODO: Better randomizer, I think?
         local newSlotType = math.random(0, 1) == 0 and
