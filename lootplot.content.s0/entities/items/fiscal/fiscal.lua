@@ -37,10 +37,12 @@ lp.defineItem("lootplot.content.s0:gold_axe", {
 lp.defineItem("lootplot.content.s0:golden_fruit", {
     image = "golden_fruit",
     name = loc("Golden Fruit"),
-    description = loc("After 3 activations, give 10 gold. (ONE TIME USE)"),
+    description = loc("After 3 activations, give 10 money."),
     doomCount = 3,
     onActivate = function(selfEnt)
-        return lp.addMoney(selfEnt, 10)
+        if selfEnt.totalActivationCount >= 3 then
+            return lp.addMoney(selfEnt, 10)
+        end
     end
 })
 

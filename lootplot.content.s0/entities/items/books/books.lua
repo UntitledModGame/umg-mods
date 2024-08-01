@@ -9,8 +9,10 @@ local function defineBook(id, name, description, targetSlot)
         targetShape = lp.targets.ABOVE_SHAPE,
         targetActivationDescription = loc(description),
         targetActivate = function(selfEnt, ppos, targetEnt)
-            local newSlotEnt = server.entities["lootplot.content.s0:"..targetSlot]()
-            lp.setSlot(ppos, newSlotEnt)
+            local newSlotEnt = server.entities["lootplot.content.s0:"..targetSlot]
+            if newSlotEnt then
+                lp.forceSpawnSlot(ppos, newSlotEnt)
+            end
         end
     })
 end
@@ -33,5 +35,5 @@ defineBook("book_of_rerolling",
 defineBook("book_of_shopping",
     "Book of Shopping",
     "Convert target slots into shop slots",
-    "shopSlot"
+    "shop_slot"
 )

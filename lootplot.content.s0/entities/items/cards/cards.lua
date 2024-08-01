@@ -4,7 +4,7 @@ lp.defineItem("lootplot.content.s0:star_card", {
     image = "star_card",
     name = loc("Star Card"),
     targetType = "ITEM",
-    targetActivationDescription = loc("Shuffle shapes of target items (ONE TIME USE)"),
+    targetActivationDescription = loc("Shuffle shapes of target items."),
     targetShape = lp.targets.ABOVE_BELOW_SHAPE,
     onActivate = function(selfEnt)
         local targets = lp.targets.getTargets(selfEnt)
@@ -41,7 +41,7 @@ lp.defineItem("lootplot.content.s0:diamonds_card", {
     image = "diamonds_card",
     name = loc("Diamonds Card"),
     targetType = "ITEM",
-    targetActivationDescription = loc("Shuffle traits of target items (ONE TIME USE)"),
+    targetActivationDescription = loc("Shuffle traits of target items."),
     targetShape = lp.targets.ABOVE_BELOW_SHAPE,
     onActivate = function(selfEnt)
         local targets = lp.targets.getTargets(selfEnt)

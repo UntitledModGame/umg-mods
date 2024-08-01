@@ -12,7 +12,7 @@ local rareItemReroller = lp.ITEM_GENERATOR
 lp.defineItem("lootplot.content.s0:gift_box", {
     image = "gift_box",
     name = loc("Gift Box"),
-    description = loc("After 3 activations, transform into a rare item."),
+    description = loc("After 3 activations, transform into a RARE item."),
     onActivate = function(selfEnt)
         if selfEnt.totalActivationCount >= 3 then
             local ppos = lp.getPos(selfEnt)
@@ -30,7 +30,7 @@ lp.defineItem("lootplot.content.s0:gift_box", {
 lp.defineItem("lootplot.content.s0:money_box", {
     image = "money_box",
     name = loc("Dollar Box"),
-    description = loc("Transform into a rare item that costs $1 to use"),
+    description = loc("Transform into a RARE item that costs $1 to use"),
     baseMoneyGenerated = -1,
     onActivate = function(selfEnt)
         local ppos = lp.getPos(selfEnt)

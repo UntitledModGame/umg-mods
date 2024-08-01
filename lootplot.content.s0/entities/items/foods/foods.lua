@@ -54,9 +54,9 @@ lp.defineItem("lootplot.content.s0:apple", {
             "lootplot.content.s0:gold_slot" or
             "lootplot.content.s0:diamond_slot"
         local etype = server.entities[newSlotType]
-        local newSlotEnt = etype()
-        newSlotEnt.ownerPlayer = targetEnt.ownerPlayer
-        lp.setSlot(ppos, newSlotEnt)
+        if etype then
+            lp.forceSpawnSlot(ppos, etype)
+        end
     end
 })
 
@@ -66,13 +66,13 @@ lp.defineItem("lootplot.content.s0:gapple", {
     doomCount = 1,
 
     targetType = "NO_SLOT",
-    targetShape = lp.targets.UniDirectionalShape(0, 1, 1, "BELOW-1"),
-    targetActivationDescription = loc("Clones the current slot the item is in, in a KING shape (ONE TIME USE)."),
+    targetShape = lp.targets.KING_SHAPE,
+    targetActivationDescription = loc("Clones the current slot the item is in."),
     targetActivate = function(selfEnt, ppos)
         local etype = server.entities[selfEnt:ent()]
-        local newSlotEnt = etype()
-        newSlotEnt.ownerPlayer = selfEnt.ownerPlayer
-        lp.setSlot(ppos, newSlotEnt)
+        if etype then
+            lp.forceSpawnSlot(ppos, etype)
+        end
     end
 })
 
@@ -82,7 +82,7 @@ lp.defineItem("lootplot.content.s0:magic_radish", {
 
     targetType = "ITEM",
     targetShape = lp.targets.ABOVE_SHAPE,
-    targetActivationDescription = loc("Transform into above item"),
+    targetActivationDescription = loc("Transform into above item."),
     targetActivate = function(selfEnt, ppos, targetEnt)
         local selfPPos = lp.getPos(selfEnt)
 
@@ -103,11 +103,11 @@ lp.defineItem("lootplot.content.s0:glass_bottle", {
         lp.targets.CrossShape(4),
         "QUEEN-4"
     ),
-    targetActivationDescription = loc("spawn glass-slots in a QUEEN-4 shape (ONE TIME USE)."),
+    targetActivationDescription = loc("spawn Glass Slots."),
     targetActivate = function(selfEnt, ppos)
         local etype = server.entities["lootplot.content.s0:glass_slot"]
-        local slotEnt = etype()
-        slotEnt.ownerPlayer = selfEnt.ownerPlayer
-        return lp.setSlot(ppos, slotEnt)
+        if etype then
+            lp.forceSpawnSlot(ppos, etype)
+        end
     end
 })
