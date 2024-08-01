@@ -192,7 +192,7 @@ end
 
 ---@param ppos lootplot.PPos
 ---@param itemEType fun():lootplot.ItemEntity
----@return lootplot.ItemEntity
+---@return lootplot.ItemEntity?
 function lp.forceSpawnItem(ppos, itemEType)
 end
 

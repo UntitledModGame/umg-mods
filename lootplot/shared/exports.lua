@@ -565,16 +565,25 @@ end
 
 ---@param ppos lootplot.PPos
 ---@param itemEType fun():lootplot.ItemEntity
----@return lootplot.ItemEntity
+---@return lootplot.ItemEntity?
 function lp.forceSpawnItem(ppos, itemEType)
     local itemEnt = itemEType()
     local prevItem = lp.posToItem(ppos)
     if prevItem then
         prevItem:delete()
     end
-    ppos:set(itemEnt)
-    umg.call("lootplot:entitySpawned", itemEnt)
-    return itemEnt
+    local slotEnt = lp.posToSlot(ppos)
+    if slotEnt and couldHoldItem(slotEnt, itemEnt) then
+        ppos:set(itemEnt)
+        umg.call("lootplot:entitySpawned", itemEnt)
+        return itemEnt
+    else
+        -- delete the item: it doesnt fit in slot.
+        -- (The reason we needed to create item is because 
+        --   we needed to do `couldHoldItem` check)
+        itemEnt:delete()
+    end
+    return nil
 end
 
 
