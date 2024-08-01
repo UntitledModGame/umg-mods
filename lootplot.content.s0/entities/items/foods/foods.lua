@@ -60,7 +60,21 @@ lp.defineItem("lootplot.content.s0:apple", {
     end
 })
 
--- TODO: Gapple
+lp.defineItem("lootplot.content.s0:gapple", {
+    image = "gapple",
+    name = loc("Gapple"),
+    doomCount = 1,
+
+    targetType = "NO_SLOT",
+    targetShape = lp.targets.UniDirectionalShape(0, 1, 1, "BELOW-1"),
+    targetActivationDescription = loc("Clones the current slot the item is in, in a KING shape (ONE TIME USE)."),
+    targetActivate = function(selfEnt, ppos)
+        local etype = server.entities[selfEnt:ent()]
+        local newSlotEnt = etype()
+        newSlotEnt.ownerPlayer = selfEnt.ownerPlayer
+        lp.setSlot(ppos, newSlotEnt)
+    end
+})
 
 lp.defineItem("lootplot.content.s0:magic_radish", {
     image = "magic_radish",
