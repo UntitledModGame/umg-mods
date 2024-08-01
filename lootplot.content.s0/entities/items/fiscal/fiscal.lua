@@ -13,7 +13,9 @@ lp.defineItem("lootplot.content.s0:king_ring", {
     description = loc("Earn money equal to 5% of current balance."),
     onActivate = function(selfEnt)
         local money = lp.getMoney(selfEnt)
-        lp.addMoney(selfEnt, money * 0.05)
+        if money then
+            lp.addMoney(selfEnt, money * 0.05)
+        end
     end
 })
 
@@ -52,6 +54,8 @@ lp.defineItem("lootplot.content.s0:bishop_ring", {
     description = loc("Generate points equal to 20% of the current balance."),
     onActivate = function(selfEnt)
         local money = lp.getMoney(selfEnt)
-        return lp.addPoints(selfEnt, money * 0.2)
+        if money then
+            return lp.addPoints(selfEnt, money * 0.2)
+        end
     end
 })
