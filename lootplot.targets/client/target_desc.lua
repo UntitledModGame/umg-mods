@@ -4,7 +4,7 @@ local loc = localization.localize
 
 local TARGET_COLOR = {1, 0.55, 0.1}
 
-text.addEffect("lp_targetColor", function(args, char)
+text.defineEffect("lp_targetColor", function(args, char)
     char:setColor(TARGET_COLOR)
 end)
 

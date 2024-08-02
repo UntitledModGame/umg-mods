@@ -3,10 +3,10 @@ return function()
         local color = objects.Color(args.r or 1, args.g or 1, args.b or 1, args.a or 1)
         char:setColor(color)
     end
-    text.addEffect("color", colorEffect)
-    text.addEffect("c", colorEffect)
+    text.defineEffect("color", colorEffect)
+    text.defineEffect("c", colorEffect)
 
-    text.addEffect("i", function(args, char)
+    text.defineEffect("i", function(args, char)
         local skewness = args.skew or 1
         char:setShear(-skewness / 4, 0)
     end)

@@ -4,14 +4,14 @@ umg.on("@update", function(dt)
     wavyTimer = wavyTimer + dt
 end)
 
-text.addEffect("wavy", function(args, char)
+text.defineEffect("wavy", function(args, char)
     local f = args.freq or 1
     local amp = args.amp or 1
     local dy = math.sin(2 * math.pi * f * wavyTimer + char:getIndex() - 1) * amp
     char:setOffset(0, dy)
 end)
 
-text.addEffect("u", function(_, char)
+text.defineEffect("u", function(_, char)
     local r, g, b, a = love.graphics.getColor()
     local c1, c2, c3, c4 = char:getColor():getRGBA()
     local x, y = char:getPosition()
@@ -21,7 +21,7 @@ text.addEffect("u", function(_, char)
     love.graphics.setColor(r, g, b, a)
 end)
 
-text.addEffect("outline", function(args, char)
+text.defineEffect("outline", function(args, char)
     local thickness = args.thickness or 1
     local r, g, b, a = love.graphics.getColor()
 

@@ -22,11 +22,11 @@ local function assertNameValid(name)
     end
 end
 
----Add new effect for rich text formatting to the default effect group.
+--- Define a new effect for rich text formatting 
 ---@generic T
 ---@param name string Effect name.
 ---@param effectupdate fun(context:T,characters:text.Character) Function that apply the effect to subtext.
-function text.addEffect(name, effectupdate)
+function text.defineEffect(name, effectupdate)
     assertNameValid(name)
     return defaultEffectGroup:addEffect(name, effectupdate)
 end
