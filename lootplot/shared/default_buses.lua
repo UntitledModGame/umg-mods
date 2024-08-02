@@ -103,7 +103,8 @@ umg.on("lootplot:entityReset", function(ent)
 end)
 
 
-umg.on("lootplot:entityActivated", function(ent)
+local LAST_ORDER = 0xffffffffffff
+umg.on("lootplot:entityActivated", LAST_ORDER, function(ent)
     if ent.doomCount then
         ent.doomCount = ent.doomCount - 1
         if ent.doomCount <= 0 then
