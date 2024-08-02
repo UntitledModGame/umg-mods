@@ -23,16 +23,19 @@ lp.defineItem("lootplot.content.s0:gold_axe", {
     image = "gold_axe",
     name = loc("Golden Axe"),
 
-    targetActivationDescription = loc("Earn money equal to 50% of points generated of target item."),
+    baseMoneyGenerated = 1,
+    targetActivationDescription = loc("Earn money if item generates at least 10 points."),
     targetType = "ITEM",
-    targetShape = lp.targets.ABOVE_SHAPE,
-    targetActivate = function(selfEnt, ppos, targetEnt)
+    targetShape = lp.targets.KNIGHT_SHAPE,
+    targetFilter = function(selfEnt, ppos, targetEnt)
         local generatedPoints = targetEnt.pointsGenerated or 0
-        local money = generatedPoints / 2
-
-        if money > 0 then
-            lp.addMoney(selfEnt, money)
+        if generatedPoints and generatedPoints > 10 then
+            return true
         end
+        return false
+    end,
+    targetActivate = function(selfEnt, ppos, targetEnt)
+        lp.addMoney(selfEnt, selfEnt.moneyGenerated or 0)
     end
 })
 
