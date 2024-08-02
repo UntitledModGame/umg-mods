@@ -506,6 +506,7 @@ function lp.destroy(ent)
         lp.tryTriggerEntity("DESTROY", ent)
         umg.call("lootplot:entityDestroyed", ent)
         ptrack.clear(ent)
+        ent:delete()
     end
 end
 
