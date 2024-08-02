@@ -12,11 +12,22 @@ text.RichText = require("client.Text")
 
 local defaultEffectGroup = require("client.defaultEffectGroup")
 
+local INVALID_CHARS = ".%:{}"
+local function assertNameValid(name)
+    for ci = 1,#INVALID_CHARS do
+        local c = INVALID_CHARS:sub(ci,ci)
+        if name:find("%"..c) then
+            umg.melt("Invalid character in name:  " .. c, 3)
+        end
+    end
+end
+
 ---Add new effect for rich text formatting to the default effect group.
 ---@generic T
 ---@param name string Effect name.
 ---@param effectupdate fun(context:T,characters:text.Character) Function that apply the effect to subtext.
 function text.addEffect(name, effectupdate)
+    assertNameValid(name)
     return defaultEffectGroup:addEffect(name, effectupdate)
 end
 

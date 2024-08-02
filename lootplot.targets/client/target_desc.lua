@@ -1,6 +1,14 @@
 
 local loc = localization.localize
 
+
+local TARGET_COLOR = {1, 0.55, 0.1}
+
+text.addEffect("lp_targetColor", function(args, char)
+    char:setColor(TARGET_COLOR)
+end)
+
+
 --[[
 
 ORDER = 10 trigger
@@ -26,7 +34,7 @@ local BRIEF_CTX = {
 
 umg.on("lootplot:populateDescription", TARGET_SHAPE_ORDER, function(ent, arr)
     if ent.targetShape then
-        arr:add(loc("{c r=1 g=0.55 b=0.1}For all targets: ",nil,BRIEF_CTX))
+        arr:add(loc("{lp_targetColor}For all targets: ",nil,BRIEF_CTX))
     end
 end)
 
@@ -34,7 +42,7 @@ end)
 
 umg.on("lootplot:populateDescription", TARGET_FILTER_ORDER, function(ent, arr)
     if ent.targetShape and ent.targetTrait then
-        arr:add(loc("{c r=1 g=0.55 b=0.1}  If target has %{trait} trait: ", {
+        arr:add(loc("{lp_targetColor}  If target has %{trait} trait: ", {
             trait = lp.getTraitDisplayName(ent.targetTrait)
         }, BRIEF_CTX))
     end
@@ -49,7 +57,7 @@ umg.on("lootplot:populateDescription", TARGET_ACTIVATE_ORDER, function(ent, arr)
         local typ = type(ent.targetActivationDescription)
         if typ == "string" then
             -- should already be localized:
-            arr:add("{c r=1 g=0.55 b=0.1}" .. ent.targetActivationDescription)
+            arr:add("{lp_targetColor}" .. ent.targetActivationDescription)
         elseif typ == "function" then
             arr:add(function()
                 -- need to pass ent manually as a closure
@@ -67,7 +75,7 @@ local MISC_ORDER = 50
 umg.on("lootplot:populateDescription", MISC_ORDER, function(ent, arr)
     if ent.targetShape then
         -- should already be localized:
-        arr:add(loc("Shape: {wavy}{c r=1 g=0.55 b=0.1}%{shapeName}", {
+        arr:add(loc("Shape: {wavy}{lp_targetColor}%{shapeName}", {
             shapeName = ent.targetShape.name
         }))
     end

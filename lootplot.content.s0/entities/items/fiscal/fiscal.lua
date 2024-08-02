@@ -24,7 +24,7 @@ lp.defineItem("lootplot.content.s0:gold_axe", {
     name = loc("Golden Axe"),
 
     baseMoneyGenerated = 1,
-    targetActivationDescription = loc("Earn money if item generates at least 10 points."),
+    targetActivationDescription = loc("{lp_targetColor}Earn money if item generates at least 10 points."),
     targetType = "ITEM",
     targetShape = lp.targets.KNIGHT_SHAPE,
     targetFilter = function(selfEnt, ppos, targetEnt)

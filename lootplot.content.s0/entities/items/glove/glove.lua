@@ -16,24 +16,24 @@ end
 
 defineGlove("quartz_glove",
     "Quartz Glove",
-    "Give ROOK shape to above item.",
+    "Give ROOK shape to item.",
     lp.targets.PlusShape(10, "ROOK-10")
 )
 
 defineGlove("ruby_glove",
     "Ruby Glove",
-    "Give KING shape to above item.",
+    "Give KING shape to item.",
     lp.targets.KING_SHAPE
 )
 
 defineGlove("copper_glove",
     "Ruby Glove",
-    "Give PLUS shape to above item.",
+    "Give PLUS shape to item.",
     lp.targets.PlusShape(1)
 )
 
 defineGlove("wooden_glove",
     "Ruby Glove",
-    "Give ABOVE shape to above item.",
+    "Give ABOVE shape to item.",
     lp.targets.ABOVE_SHAPE
 )
