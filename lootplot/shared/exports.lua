@@ -56,8 +56,6 @@ local queueTc = typecheck.assert("ppos", "function")
 ---@param ppos lootplot.PPos
 ---@param func fun()
 function lp.queue(ppos, func)
-    --[[
-    ]]
     queueTc(ppos, func)
     ppos:getPlot():queue(func)
 end
@@ -638,7 +636,7 @@ end
 function lp.forceSpawnSlot(ppos, slotEType)
     local preSlotEnt = lp.posToSlot(ppos)
     if preSlotEnt then
-        preSlotEnt:delete()
+        lp.destroy(preSlotEnt)
     end
     local slotEnt = slotEType()
     lp.setSlot(ppos, slotEnt)

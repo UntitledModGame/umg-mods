@@ -103,12 +103,17 @@ umg.on("lootplot:entityReset", function(ent)
 end)
 
 
-local LAST_ORDER = 0xffffffffffff
-umg.on("lootplot:entityActivated", LAST_ORDER, function(ent)
+local FIRST_ORDER = -0xffffffffffff
+umg.on("lootplot:entityActivated", FIRST_ORDER, function(ent)
     if ent.doomCount then
         ent.doomCount = ent.doomCount - 1
-        if ent.doomCount <= 0 then
-            lp.destroy(ent)
+        local ppos = lp.getPos(ent)
+        if ppos and ent.doomCount <= 0 then
+            lp.queue(ppos, function()
+                if umg.exists(ent) then
+                    lp.destroy(ent)
+                end
+            end)
         end
     end
 end)
