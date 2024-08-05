@@ -15,10 +15,10 @@ lp.defineItem("lootplot.content.s0:blueberry", {
 
     targetType = "ITEM",
     targetShape = lp.targets.ABOVE_SHAPE,
-    targetActivationDescription = loc("Adds +1 of generated point to target item"),
+    targetActivationDescription = loc("{lp_targetColor}Adds +3 points-generated to target item"),
 
     targetActivate = function (selfEnt, ppos, targetEnt)
-        return lp.modifierBuff(targetEnt, "pointsGenerated", 1, selfEnt)
+        return lp.modifierBuff(targetEnt, "pointsGenerated", 3, selfEnt)
     end
 })
 

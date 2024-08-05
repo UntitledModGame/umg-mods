@@ -5,6 +5,7 @@ return lp.defineSlot("lootplot.content.s0:reroll_button_slot", {
         idle = "reroll_button_up",
         duration = 0.4
     },
+    baseMaxActivations = 100,
     triggers = {},
     buttonSlot = true,
     onActivate = function(ent)

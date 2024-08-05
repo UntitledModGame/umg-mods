@@ -3,6 +3,7 @@
 return lp.defineSlot("lootplot.content.s0:shop_slot", {
     image = "cloth_slot_2",
     color = {1, 1, 0.6},
+    baseMaxActivations = 100,
     shopLock = true,
     name = localization.localize("Shop slot"),
     triggers = {"REROLL", "PULSE"},

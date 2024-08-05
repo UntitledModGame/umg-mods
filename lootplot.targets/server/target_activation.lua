@@ -10,7 +10,13 @@ local function activateTargets(ent, targets, conversion)
     lp.Bufferer()
         :addAll(targets)
         :to(conversion)
-        :filter(util.canTarget)
+        :filter(function(ppos)
+            -- this is a bit janky, but oh well
+            if umg.exists(ent)then
+                return util.canTarget(ent, ppos)
+            end
+            return false
+        end)
         :execute(function(ppos, targetEnt)
             if umg.exists(ent) then
                 if ent.targetActivate then
