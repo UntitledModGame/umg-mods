@@ -55,7 +55,7 @@ lp.defineItem("lootplot.content.s0:apple", {
             "lootplot.content.s0:diamond_slot"
         local etype = server.entities[newSlotType]
         if etype then
-            lp.forceSpawnSlot(ppos, etype)
+            lp.forceSpawnSlot(ppos, etype, selfEnt.lootplotTeam)
         end
     end
 })
@@ -71,7 +71,7 @@ lp.defineItem("lootplot.content.s0:gapple", {
     targetActivate = function(selfEnt, ppos)
         local etype = server.entities[selfEnt:ent()]
         if etype then
-            lp.forceSpawnSlot(ppos, etype)
+            lp.forceSpawnSlot(ppos, etype, selfEnt.lootplotTeam)
         end
     end
 })
@@ -87,7 +87,7 @@ lp.defineItem("lootplot.content.s0:magic_radish", {
         local selfPPos = lp.getPos(selfEnt)
 
         if selfPPos then
-            lp.forceSpawnItem(selfPPos, server.entities[targetEnt:type()])
+            lp.forceSpawnItem(selfPPos, server.entities[targetEnt:type()], selfEnt.lootplotTeam)
         end
     end
 })

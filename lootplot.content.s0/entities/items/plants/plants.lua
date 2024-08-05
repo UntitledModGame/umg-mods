@@ -15,7 +15,7 @@ local function defseed(image, name, itemid)
         targetActivate = function(selfEnt, ppos, targetEnt)
             local etype = server.entities["lootplot.content.s0:"..itemid]
             if etype then
-                return lp.trySpawnItem(ppos, etype)
+                return lp.trySpawnItem(ppos, etype, selfEnt.lootplotTeam)
             end
         end
     })
