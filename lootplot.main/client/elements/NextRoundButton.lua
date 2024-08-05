@@ -38,15 +38,6 @@ end
 
 
 
-function NextRoundbutton:onClickPrimary()
-    local ctx = lp.main.getContext()
-    if ctx:canGoNextRound() then
-        audio.play("lootplot.sound:click", {volume = 0.35, pitch = 1.1})
-        ctx:goNextRound()
-    end
-end
-
-
 function NextRoundbutton:onRender(x,y,w,h)
     if self:isHovered() then
         self.box:setColor(hovColor)

@@ -19,8 +19,7 @@ lpWorldGroup:onAdded(function(ent)
         currentContext = ent.lootplotContext
         lp.initialize(currentContext)
     else
-        -- TODO: change this to a log, as opposed to a print
-        print("WARNING::: Duplicate lootplot.main context created!!")
+        umg.log.fatal("WARNING::: Duplicate lootplot.main context created!!")
     end
 end)
 
@@ -35,31 +34,6 @@ function main.getContext()
 end
 end
 
-
-local EARLY_LEVELS = {
-    5,5, 10, 60, 400
-}
----@param levelNumber integer
-function main.getRequiredPoints(levelNumber)
-    --[[
-    levelNumber starts at 1, goes up infinitely.
-    ]]
-    if EARLY_LEVELS[levelNumber] then
-        return EARLY_LEVELS[levelNumber]
-    end
-    --[[
-    TODO: add a difficulty multiplier here?
-    ]]
-
-    -- todo: could make this exponential
-    return math.floor(levelNumber^2.6 / 10) * 100
-end
-
----@param levelNumber integer
-function main.getMaxRound(levelNumber)
-    return 4 -- chosen by fair dice roll.
-             -- guaranteed to be random.
-end
 
 main.constants = setmetatable({
     --[[

@@ -33,36 +33,30 @@ end
 ---@param plot lootplot.Plot
 local function initializeSlots(clientId, plot)
     -- adds basic slots to be overridden
-    plot:foreachInArea(9, 6, 13, 9, function(ppos)
+    plot:foreachInArea(9, 6, 11, 8, function(ppos)
         lp.forceSpawnSlot(ppos, server.entities.slot).ownerPlayer = clientId
     end)
-    -- Add shop slots
-    plot:foreachInArea(4, 6, 6, 7, function(ppos)
+
+    -- Add shop slots + reroll
+    plot:foreachInArea(6, 6, 6, 8, function(ppos)
         lp.forceSpawnSlot(ppos, server.entities.shop_slot).ownerPlayer = clientId
     end)
-    -- Add null slot
-    plot:foreachInArea(4, 2, 6, 2, function(ppos)
-        lp.forceSpawnSlot(ppos, server.entities.null_slot).ownerPlayer = clientId
-    end)
-    plot:foreachInArea(5, 3, 5, 3, function(ppos)
+    plot:foreachInArea(5, 7, 5, 7, function(ppos)
         lp.forceSpawnSlot(ppos, server.entities.reroll_button_slot).ownerPlayer = clientId
+    end)
+
+    -- Start-round button
+    plot:foreachInArea(6, 4, 6, 4, function(ppos)
+        lp.forceSpawnSlot(ppos, server.entities.next_round_button_slot).ownerPlayer = clientId
     end)
 end
 
 ---@param clientId string
 ---@param plot lootplot.Plot
 local function initializeItems(clientId, plot)
-    -- Spawn only one item for debug purposes
-    -- -- TODO: remove this stuff
-    plot:foreachInArea(9, 6, 9, 6, function(ppos)
-        lp.trySpawnItem(ppos, server.entities.blueberry).ownerPlayer = clientId
-    end)
-    plot:foreachInArea(9, 7, 9, 7, function(ppos)
-        lp.trySpawnItem(ppos, server.entities.strawberry).ownerPlayer = clientId
-    end)
-    plot:foreachInArea(12, 7, 12, 7, function(ppos)
-        lp.trySpawnItem(ppos, server.entities.kiwi).ownerPlayer = clientId
-    end)
+    --[[
+    TODO: put doom-clock here.
+    ]]
 end
 
 umg.on("@createWorld", function()

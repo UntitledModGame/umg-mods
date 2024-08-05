@@ -27,13 +27,8 @@ umg.definePacket("lootplot.main:syncContextValue", {
 local VALUES = {
     money=true,
     combo=true,
-    points=true,requiredPoints=true,
-    level=true, round=true,
-    maxRound=true,
-    state=true
+    points=true,
 }
-local DURING_ROUND = 1
-local BETWEEN_ROUND = 0
 
 function Context:init(ent)
     assert(umg.exists(ent), "Must pass an entity!")
@@ -44,11 +39,6 @@ function Context:init(ent)
     self.combo = 0
     self.money = constants.STARTING_MONEY
     self.points = constants.STARTING_POINTS
-    self.round = constants.STARTING_ROUND
-    self.level = constants.STARTING_LEVEL
-    self.requiredPoints = lp.main.getRequiredPoints(self.level)
-    self.maxRound = lp.main.getMaxRound(self.level)
-    self.state = BETWEEN_ROUND
 end
 
 
@@ -69,9 +59,6 @@ function Context:getPlot()
     return self.ownerEnt.plot
 end
 
-function Context:isDuringRound()
-    return self.state == DURING_ROUND
-end
 
 function Context:syncValue(key)
     assert(server, "This function can only be called on server-side.")
@@ -93,9 +80,9 @@ end
 
 function Context:canGoNextRound()
     local ent = self.ownerEnt
-    local pipeline = ent.plot.pipeline
+    local plot = ent.plot
     -- we can only progress to the next round if the pipeline is empty.
-    return pipeline:isEmpty()
+    return not plot:isPipelineRunning()
 end
 
 
@@ -104,89 +91,6 @@ umg.definePacket("lootplot.main:nextRound", {
 })
 
 if server then
-
-function Context:nextLevel()
-    -- reset points:
-    self.round = 1
-    self.points = 0
-    -- TODO: Some visual-update should be done here, 
-    -- to the loot-monster maybe?
-    self.level = self.level + 1
-    self.requiredPoints = lp.main.getRequiredPoints(self.level)
-    self.maxRound = lp.main.getMaxRound(self.level)
-    self:sync()
-end
-
-
-function Context:lose()
-    -- todo; prolly need to send some message to client-side,
-    -- and make the client open up some widget or something displaying:
-    -- "YOU LOST".
-    umg.melt("lost game!")
-end
-
-
-local function resetPlot(plot)
-    --[[
-    TODO: should this be a method on the plot?
-    ]]
-    plot:foreachItem(function(ent, _ppos)
-        lp.reset(ent)
-    end)
-    plot:foreachSlot(function(ent, _ppos)
-        lp.reset(ent)
-    end)
-    plot:trigger("RESET")
-end
-
-
----@param self lootplot.Context
-function Context:nextRound()
-    if self:isDuringRound() then
-        -- Nope.
-        return
-    end
-
-    -- Progresses to next round.
-    umg.call("lootplot.main:startRound")
-    self.state = DURING_ROUND
-    self:syncValue("state")
-
-    local plot = self:getPlot()
-
-    plot:queue(function()
-        self.round = self.round + 1
-        umg.call("lootplot.main:finishRound")
-        self:getPlot():reset()
-        self.state = BETWEEN_ROUND
-
-        resetPlot(plot)
-        if self.points >= self.requiredPoints then
-            -- win condition!!
-            self:nextLevel()
-        elseif self.round > self.maxRound then
-            -- lose!
-            self:lose()
-        end
-        self:sync()
-        print("nextRound finish")
-    end)
-
-    -- pulse all slots:
-    lp.Bufferer()
-        :all(plot)
-        :to("SLOT") -- ppos-->slot
-        :delay(0.2)
-        :execute(function(_ppos, slotEnt)
-            lp.resetCombo(slotEnt)
-            lp.tryTriggerEntity("PULSE", slotEnt)
-        end)
-end
-
--- Just trust the client :shrug:
-server.on("lootplot.main:nextRound", function()
-    lp.main.getContext():nextRound()
-end)
 
 --[[
 points are shared between all players.
