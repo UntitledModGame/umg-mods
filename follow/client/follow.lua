@@ -52,6 +52,10 @@ function follow.getZoomFactor()
     return targetZoomFactor
 end
 
+function follow.getZoomFactorRange()
+    return MIN_ZOOM_FACTOR, MAX_ZOOM_FACTOR
+end
+
 local MIN_ZOOM_SPEED = 0.0000001
 local MAX_ZOOM_SPEED = 100000000
 function follow.setZoomSpeed(speed)
@@ -71,7 +75,6 @@ local function updateZoomValues(dt)
     displayZoomFactor = (1 - t) * previousZoomFactor + t * targetZoomFactor
 
     local z = computeScaleValue(displayZoomFactor)
-    umg.log.trace("Zooming from to", CAMERA:getZoom(), z)
     CAMERA:setZoom(z)
     if PAN_CAMERA then
         PAN_CAMERA:setZoom(z)
