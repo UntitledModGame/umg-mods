@@ -85,25 +85,6 @@ local listener = input.InputListener({priority = 0})
 
 
 listener:onPressed({"input:SCROLL_UP", "input:SCROLL_DOWN"}, function(self, controlEnum)
-    -- local speed = zoom_speed or DEFAULT_ZOOM_SPEED
-    -- local factor = 1
-    -- if controlEnum == "input:SCROLL_UP" then
-    --     -- zoom in:
-    --     factor = (1+(1/speed))
-    -- else 
-    --     -- else, zoom out:
-    --     factor = (1-(1/speed))
-    -- end
-
-    -- -- now clamp:
-    -- local z = math.clamp(CAMERA:getZoom() * factor, MIN_ZOOM, MAX_ZOOM)
-    -- umg.log.trace("Zooming from to", CAMERA:getZoom(), z)
-    -- CAMERA:setZoom(z)
-    -- if PAN_CAMERA then
-    --     PAN_CAMERA:setZoom(z)
-    -- end
-
-    -- self:claim(controlEnum)
     local zf = follow.getZoomFactor()
     if controlEnum == "input:SCROLL_UP" then
         -- zoom in:
