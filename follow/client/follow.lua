@@ -1,9 +1,10 @@
-
+---@meta
 require("client.followControls")
 
 
 
 local follow = {}
+if false then _G.follow = follow end
 
 local CAMERA = require("client.camera_follow")
 local PAN_CAMERA
@@ -22,13 +23,20 @@ local previousZoomFactor = DEFAULT_ZOOM_FACTOR
 local displayZoomFactor = DEFAULT_ZOOM_FACTOR
 local zoomFactorLerp = 1
 
+---@param value number
 local function computeScaleValue(value)
     return DEFAULT_ZOOM_MULTIPLER * 2 ^ (value * ZOOM_FACTOR_MULTIPLER)
 end
 
----@param display boolean?
+---@param display? boolean|number Should use display or compute scale for specific zoom factor.
 function follow.getScaleFromZoom(display)
-    return computeScaleValue(display and displayZoomFactor or targetZoomFactor)
+    local value
+    if type(display) == "number" then
+        value = display
+    else
+        value = display and displayZoomFactor or targetZoomFactor
+    end
+    return computeScaleValue(value)
 end
 
 function follow.setMaxZoom(max_zoom)
