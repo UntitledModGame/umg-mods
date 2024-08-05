@@ -11,7 +11,7 @@ function CloudBackground:init()
     self.timeUntilDirectionChange = 0
     self.changeOfDirectionAngle = 0
     self.rng = love.math.newRandomGenerator(12345, 67890)
-    self.parallaxDistance = 25
+    self.parallaxDifferenceMultipler = 0.2
 end
 
 if false then
@@ -41,6 +41,7 @@ local function distance(x1, y1, x2, y2)
 	return math.sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2)
 end
 
+---@param cloudtype integer
 ---@private
 function CloudBackground.getScale(cloudtype)
     return (1 + (4 - cloudtype) / 4) * 2.5
@@ -119,57 +120,71 @@ function CloudBackground.bakeTopDownClouds(rng, canvas)
     love.graphics.pop()
 end
 
+local windowModeFlag = {} -- for caching
+---@private
+function CloudBackground.getCameraBoundingBoxInWorld()
+    local minzf = follow.getZoomFactorRange()
+    local scale = follow.getScaleFromZoom(minzf)
+    local worldX, worldY = camera.get():getPos()
+    local flags = select(3, love.window.getMode(windowModeFlag))
+    local desktopW, desktopH = love.window.getDesktopDimensions(flags.displayindex)
+    local scaledW = desktopW / scale
+    local scaledH = desktopH / scale
+    return worldX - scaledW / 2, worldY - scaledH / 2, scaledW, scaledH
+end
+
 ---@param x number
 ---@param y number
----@param width number
----@param height number
----@param boundingBox number
+---@param worldX number
+---@param worldY number
+---@param worldW number
+---@param worldH number
+---@param tolerance number?
 ---@private
-function CloudBackground.isCloudInArea(x, y, width, height, boundingBox)
-    local x1 = -boundingBox * 1.5
-    local y1 = -boundingBox * 1.5
-    local x2 = width + boundingBox * 1.5
-    local y2 = height + boundingBox * 1.5
+function CloudBackground.isPointInArea(x, y, worldX, worldY, worldW, worldH, tolerance)
+    tolerance = tolerance or 0
+    local x1 = worldX - tolerance
+    local y1 = worldY - tolerance
+    local x2 = worldX + worldW + tolerance
+    local y2 = worldY + worldH + tolerance
     return x >= x1 and y >= y1 and x <= x2 and y <= y2
 end
 
-local function makeAngleSigned(angle)
-    angle = angle % 360
-    return angle > 180 and 360 - angle or angle
+---@return number
+local function getCloudBoundingBox(t)
+    return math.max(t.texture:getDimensions()) * CloudBackground.getScale(t.type)
 end
 
 ---@param t table
----@param width number
----@param height number
+---@param worldX number
+---@param worldY number
+---@param worldW number
+---@param worldH number
 ---@param outside boolean
 ---@private
-function CloudBackground:setupTableForTopDown(t, width, height, outside)
+function CloudBackground:setupTableForTopDown(t, worldX, worldY, worldW, worldH, outside)
     t.texture = self.cloudCanvases[self.rng:random(#self.cloudCanvases)]
     t.type = self.rng:random(1, 4) -- 1 = top, 2 = mid1, 3 = mid2, 4 = bottom
 
-    local boundingBox = math.max(t.texture:getDimensions()) * CloudBackground.getScale(t.type)
-    local minPos = -boundingBox * 1.5
-    local maxWidth = width + boundingBox * 1.5
-    local maxHeight = height + boundingBox * 1.5
+    local boundingBox = getCloudBoundingBox(t)
+    local offScreenX = worldX - boundingBox
+    local offScreenY = worldY - boundingBox
+    local offScreenW = worldW + boundingBox * 2
+    local offScreenH = worldH + boundingBox * 2
 
     if outside then
         -- Spawn the clouds outside the screen
         local x, y
-        local halfBB = boundingBox / 2
-        local minPos2 = -halfBB - self.parallaxDistance
         repeat
-            x = self.rng:random() * (maxWidth - minPos) + minPos
-            y = self.rng:random() * (maxHeight - minPos) + minPos
-            local posCond = not (
-                (x >= minPos2 and x < (width + halfBB + self.parallaxDistance)) and
-                (y >= minPos2 and y < (height + halfBB + self.parallaxDistance))
-            )
-        until posCond and math.abs(makeAngleSigned(math.deg(math.atan2(height / 2 - y, width / 2 - x) - self.directionAngle))) <= 90
+            x = self.rng:random() * offScreenW + offScreenX
+            y = self.rng:random() * offScreenH + offScreenY
+        until not CloudBackground.isPointInArea(x, y, worldX, worldY, worldW, worldH, boundingBox / 2)
         t.x = x
         t.y = y
     else
-        t.x = self.rng:random() * (maxWidth - minPos) + minPos
-        t.y = self.rng:random() * (maxHeight - minPos) + minPos
+        -- Just anywhere
+        t.x = self.rng:random() * offScreenW + offScreenX
+        t.y = self.rng:random() * offScreenH + offScreenY
     end
     t.flipX = self.rng:random(0, 1) * 2 - 1
     t.flipY = self.rng:random(0, 1) * 2 - 1
@@ -183,12 +198,14 @@ function CloudBackground:setupTableForTopDown(t, width, height, outside)
     t.directionDeviation = deviation * math.pi / 4
 end
 
+---@param worldX number
+---@param worldY number
+---@param worldW number
+---@param worldH number
 ---@private
-function CloudBackground:setup()
+function CloudBackground:setup(worldX, worldY, worldW, worldH)
     local CLOUD_VARIATION = 10
     local CLOUD_INSTANCES = 100
-
-    local width, height = love.graphics.getDimensions()
 
     for _ = 1, CLOUD_VARIATION do
         local canvas = CloudBackground.makeCanvasForTopDown(self.rng, 1 + self.rng:random())
@@ -199,7 +216,7 @@ function CloudBackground:setup()
 
     for _ = 1, CLOUD_INSTANCES do
         local t = {}
-        self:setupTableForTopDown(t, width, height, false)
+        self:setupTableForTopDown(t, worldX, worldY, worldW, worldH, false)
         self.cloudInstance[#self.cloudInstance+1] = t
     end
 end
@@ -210,8 +227,10 @@ function CloudBackground.sortTopDownLayer(a, b)
 end
 
 function CloudBackground:update(dt)
+    local worldX, worldY, worldW, worldH = CloudBackground.getCameraBoundingBoxInWorld()
+
     if #self.cloudCanvases == 0 then
-        self:setup()
+        self:setup(worldX, worldY, worldW, worldH)
     end
 
     if self.timeUntilDirectionChange <= 0 then
@@ -227,8 +246,6 @@ function CloudBackground:update(dt)
     self.timeUntilDirectionChange = self.timeUntilDirectionChange - dt
     self.directionAngle = (self.directionAngle + self.changeOfDirectionAngle * dt) % (2 * math.pi)
 
-    local width, height = love.graphics.getDimensions()
-
     for _, inst in ipairs(self.cloudInstance) do
         local angle = self.directionAngle + inst.directionDeviation
         local d = inst.speed * dt
@@ -238,10 +255,10 @@ function CloudBackground:update(dt)
         inst.x = inst.x + dx
         inst.y = inst.y + dy
 
-        local boundingBox = math.max(inst.texture:getDimensions()) * CloudBackground.getScale(inst.type)
-        if not CloudBackground.isCloudInArea(inst.x, inst.y, width, height, boundingBox) then
+        local boundingBox = getCloudBoundingBox(inst) * 1.5
+        if not CloudBackground.isPointInArea(inst.x, inst.y, worldX, worldY, worldW, worldH, boundingBox) then
             -- Rebuild clouds
-            self:setupTableForTopDown(inst, width, height, true)
+            self:setupTableForTopDown(inst, worldX, worldY, worldW, worldH, true)
         end
     end
 end
@@ -255,24 +272,24 @@ local CLOUD_COLOR_LEVEL = {
 }
 
 function CloudBackground:draw(opacity)
-    local width, height = love.graphics.getDimensions()
+    local worldX, worldY, worldW, worldH = CloudBackground.getCameraBoundingBoxInWorld()
     local colorOpacity = objects.Color(1, 1, 1, opacity)
 
     love.graphics.setColor(BACKGROUND_COLOR * colorOpacity)
-    love.graphics.rectangle("fill", 0, 0, width, height)
+    love.graphics.rectangle("fill", worldX, worldY, worldW, worldH)
 
     table.sort(self.cloudInstance, CloudBackground.sortTopDownLayer)
 
     -- Compute parallax
-    local cx, cy = width / 2, height / 2
-    local mx, my = input.getPointerPosition()
-    local px = (cx - mx) * self.parallaxDistance / cx
-    local py = (cy - my) * self.parallaxDistance / cy
+    local cx, cy = (worldX + worldW) / 2, (worldY + worldH) / 2
 
     -- Draw clouds
     for _, inst in ipairs(self.cloudInstance) do
         local tx, ty = inst.texture:getDimensions()
         local scale = CloudBackground.getScale(inst.type)
+        local px = (inst.x - cx) * self.parallaxDifferenceMultipler
+        local py = (inst.y - cy) * self.parallaxDifferenceMultipler
+
         love.graphics.setColor(CLOUD_COLOR_LEVEL[inst.type] * colorOpacity)
         love.graphics.draw(
             inst.texture,
@@ -282,14 +299,6 @@ function CloudBackground:draw(opacity)
             scale * inst.flipY,
             tx / 2, ty / 2
         )
-    end
-end
-
-function CloudBackground:resize(width, height)
-    -- Rebuild every clouds
-    for _, inst in ipairs(self.cloudInstance) do
-        -- Rebuild clouds
-        self:setupTableForTopDown(inst, width, height, false)
     end
 end
 

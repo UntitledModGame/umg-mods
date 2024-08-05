@@ -1,29 +1,68 @@
-
+---@meta
 require("client.followControls")
 
 
 
 local follow = {}
+if false then _G.follow = follow end
 
 local CAMERA = require("client.camera_follow")
 local PAN_CAMERA
 
-local zoom_speed = nil
-
 local DEFAULT_ZOOM_SPEED = 22
+local DEFAULT_ZOOM_FACTOR = 0
+local DEFAULT_ZOOM_MULTIPLER = CAMERA:getZoom()
+local ZOOM_FACTOR_MULTIPLER = 0.2
 
-local MAX_ZOOM = 10
-local MIN_ZOOM = 0.1
+local MIN_ZOOM_FACTOR = -10
+local MAX_ZOOM_FACTOR = 10
 
+local zoom_speed = DEFAULT_ZOOM_SPEED
+local targetZoomFactor = DEFAULT_ZOOM_FACTOR
+local previousZoomFactor = DEFAULT_ZOOM_FACTOR
+local displayZoomFactor = DEFAULT_ZOOM_FACTOR
+local zoomFactorLerp = 1
+
+---@param value number
+local function computeScaleValue(value)
+    return DEFAULT_ZOOM_MULTIPLER * 2 ^ (value * ZOOM_FACTOR_MULTIPLER)
+end
+
+---@param display? boolean|number Should use display or compute scale for specific zoom factor.
+function follow.getScaleFromZoom(display)
+    local value
+    if type(display) == "number" then
+        value = display
+    else
+        value = display and displayZoomFactor or targetZoomFactor
+    end
+    return computeScaleValue(value)
+end
 
 function follow.setMaxZoom(max_zoom)
-    MAX_ZOOM = max_zoom
+    MAX_ZOOM_FACTOR = max_zoom
 end
 
 function follow.setMinZoom(min_zoom)
-    MIN_ZOOM = min_zoom
+    MIN_ZOOM_FACTOR = min_zoom
 end
 
+function follow.getCurrentZoomMultipler()
+    return DEFAULT_ZOOM_MULTIPLER
+end
+
+---@param zm number
+function follow.setZoomMultipler(zm)
+    DEFAULT_ZOOM_MULTIPLER = zm
+end
+
+function follow.getZoomFactor()
+    return targetZoomFactor
+end
+
+function follow.getZoomFactorRange()
+    return MIN_ZOOM_FACTOR, MAX_ZOOM_FACTOR
+end
 
 local MIN_ZOOM_SPEED = 0.0000001
 local MAX_ZOOM_SPEED = 100000000
@@ -31,28 +70,36 @@ function follow.setZoomSpeed(speed)
     zoom_speed = math.clamp(speed, MIN_ZOOM_SPEED, MAX_ZOOM_SPEED)
 end
 
+---@param zf number
+function follow.initiateZoom(zf)
+    previousZoomFactor = displayZoomFactor
+    targetZoomFactor = math.clamp(zf, MIN_ZOOM_FACTOR, MAX_ZOOM_FACTOR)
+    zoomFactorLerp = 0
+end
 
+local function updateZoomValues(dt)
+    zoomFactorLerp = math.clamp(zoomFactorLerp + dt * zoom_speed, 0, 1)
+    local t = zoomFactorLerp * zoomFactorLerp -- make it quadratic smooth
+    displayZoomFactor = (1 - t) * previousZoomFactor + t * targetZoomFactor
 
+    local z = computeScaleValue(displayZoomFactor)
+    CAMERA:setZoom(z)
+    if PAN_CAMERA then
+        PAN_CAMERA:setZoom(z)
+    end
+end
 
 local listener = input.InputListener({priority = 0})
 
 
 listener:onPressed({"input:SCROLL_UP", "input:SCROLL_DOWN"}, function(self, controlEnum)
-    local speed = zoom_speed or DEFAULT_ZOOM_SPEED
-    local factor = 1
+    local zf = follow.getZoomFactor()
     if controlEnum == "input:SCROLL_UP" then
         -- zoom in:
-        factor = (1+(1/speed))
+        follow.initiateZoom(zf + 1)
     else 
         -- else, zoom out:
-        factor = (1-(1/speed))
-    end
-
-    -- now clamp:
-    local z = math.clamp(CAMERA:getZoom() * factor, MIN_ZOOM, MAX_ZOOM)
-    CAMERA:setZoom(z)
-    if PAN_CAMERA then
-        PAN_CAMERA:setZoom(z)
+        follow.initiateZoom(zf - 1)
     end
 
     self:claim(controlEnum)
@@ -126,6 +173,8 @@ umg.on("@update", function(dt)
         -- move the camera if the mouse is near edge of screen
         followMouseNearEdge(dt)
     end
+
+    updateZoomValues(dt)
 end)
 
 umg.expose("follow", follow)

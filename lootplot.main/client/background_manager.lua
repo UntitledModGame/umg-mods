@@ -9,8 +9,6 @@ local currentBackground = nil
 local interpolationTime = 0
 local swapTime = 0
 
-local loadPhase = true
-
 ---@param background lootplot.main.Background?
 ---@param interpTime number?
 function backgroundManager.setBackground(background, interpTime)
@@ -46,7 +44,7 @@ umg.on("@update", function(dt)
     end
 end)
 
-umg.on("@draw", -100, function()
+umg.on("rendering:drawBackground", function()
     if interpolationTime > 0 then
         local interpolationValue = swapTime / interpolationTime
 
