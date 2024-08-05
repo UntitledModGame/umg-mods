@@ -202,26 +202,30 @@ end
 
 ---@param ppos lootplot.PPos
 ---@param itemEType fun():lootplot.ItemEntity
+---@param team string
 ---@return lootplot.ItemEntity?
-function lp.trySpawnItem(ppos, itemEType)
+function lp.trySpawnItem(ppos, itemEType, team)
 end
 
 ---@param ppos lootplot.PPos
 ---@param itemEType fun():lootplot.ItemEntity
+---@param team string
 ---@return lootplot.ItemEntity?
-function lp.forceSpawnItem(ppos, itemEType)
+function lp.forceSpawnItem(ppos, itemEType, team)
 end
 
 ---@param ppos lootplot.PPos
 ---@param slotEType fun():lootplot.SlotEntity
+---@param team string
 ---@return lootplot.SlotEntity?
-function lp.trySpawnSlot(ppos, slotEType)
+function lp.trySpawnSlot(ppos, slotEType, team)
 end
 
 ---@param ppos lootplot.PPos
 ---@param slotEType fun():lootplot.SlotEntity
+---@param team string
 ---@return lootplot.SlotEntity
-function lp.forceSpawnSlot(ppos, slotEType)
+function lp.forceSpawnSlot(ppos, slotEType, team)
 end
 
 ---@param name string

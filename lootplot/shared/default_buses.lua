@@ -32,9 +32,6 @@ umg.answer("lootplot:hasPlayerAccess", function(ent)
     return true
 end)
 
-umg.answer("lootplot:hasPlayerAccess", function(ent, clientId)
-    return ent.ownerPlayer == clientId
-end)
 
 umg.answer("lootplot:hasPlayerAccess", function(ent)
     local slotEnt = lp.isItemEntity(ent) and lp.itemToSlot(ent)

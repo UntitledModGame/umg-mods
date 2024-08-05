@@ -26,7 +26,7 @@ function(clientId, itemEnt)
     local slotEnt = lp.itemToSlot(itemEnt)
     if slotEnt then
         lp.subtractMoney(itemEnt, itemEnt.buyPrice)
-        itemEnt.ownerPlayer = clientId -- mark as owned by player
+        itemEnt.lootplotTeam = clientId -- mark as owned by player
         slotEnt.shopLock = false
     end
 end)

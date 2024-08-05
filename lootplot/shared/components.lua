@@ -104,4 +104,4 @@ defineBasicNumber("moneyGenerated", {base="baseMoneyGenerated", default=0})
 
 
 sync.autoSyncComponent("shopLock", {type = "boolean"})
-sync.autoSyncComponent("ownerPlayer", {type = "string"})
+sync.autoSyncComponent("lootplotTeam", {type = "string"})

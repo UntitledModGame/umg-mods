@@ -34,20 +34,20 @@ end
 local function initializeSlots(clientId, plot)
     -- adds basic slots to be overridden
     plot:foreachInArea(9, 6, 11, 8, function(ppos)
-        lp.forceSpawnSlot(ppos, server.entities.slot).ownerPlayer = clientId
+        lp.forceSpawnSlot(ppos, server.entities.slot, clientId)
     end)
 
     -- Add shop slots + reroll
     plot:foreachInArea(6, 6, 6, 8, function(ppos)
-        lp.forceSpawnSlot(ppos, server.entities.shop_slot).ownerPlayer = clientId
+        lp.forceSpawnSlot(ppos, server.entities.shop_slot, clientId)
     end)
     plot:foreachInArea(5, 7, 5, 7, function(ppos)
-        lp.forceSpawnSlot(ppos, server.entities.reroll_button_slot).ownerPlayer = clientId
+        lp.forceSpawnSlot(ppos, server.entities.reroll_button_slot, clientId)
     end)
 
     -- Start-round button
     plot:foreachInArea(6, 4, 6, 4, function(ppos)
-        lp.forceSpawnSlot(ppos, server.entities.next_round_button_slot).ownerPlayer = clientId
+        lp.forceSpawnSlot(ppos, server.entities.next_round_button_slot, clientId)
     end)
 end
 
