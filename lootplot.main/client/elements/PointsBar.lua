@@ -19,18 +19,20 @@ function PointsBar:init(args)
         outlineWidth = 0.01,
     })
 
-    self.imageElement = ui.elements.Image({
-        image="points_bar"
-    })
-
     self.pointsText = ui.elements.RichText({
         text = "{outline}Req. Points: 0/0{/outline}",
         scale = 0.375,
         font = fonts.getSmallFont()
     })
 
+    self.box = ui.elements.SimpleBox({
+        color = {1,1,1,0},
+        rounding = 4,
+        thickness = 1
+    })
+    self:addChild(self.box)
+
     self:addChild(self.fancyBar)
-    self:addChild(self.imageElement)
     self:addChild(self.pointsText)
 end
 
@@ -42,13 +44,10 @@ function PointsBar:onRender(x,y,w,h)
         math.min(math.max(context.requiredPoints - context.points, 0), context.requiredPoints), context.requiredPoints
     ))
 
-    local r = ui.Region(x,y,w,h)
+    local r = ui.Region(x,y,w,h):pad(0.05, 0.02, 0.05, 0.02)
 
-    local imgR = self.imageElement:getImageRegion(r)
-
-    self.fancyBar:render(imgR:pad(0.1,0.4,0.1,0.38):get())
-    self.imageElement:render(imgR:get())
-    self.pointsText:render(imgR:get())
+    self.box:render(r:get())
+    self.fancyBar:render(r:get())
 end
 
 return PointsBar
