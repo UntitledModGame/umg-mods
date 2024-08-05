@@ -227,7 +227,6 @@ local CLOUD_BACKGROUND = CloudBackground()
 
 umg.on("@resize", function(x,y)
     scene:resize(x,y)
-    CLOUD_BACKGROUND:resize(x, y)
 end)
 
 local SHOW_DESCRIPTION_AFTER = 0.5
