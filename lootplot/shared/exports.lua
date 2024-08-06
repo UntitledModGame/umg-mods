@@ -601,7 +601,7 @@ end
 ---@return lootplot.ItemEntity?
 function lp.forceSpawnItem(ppos, itemEType, team)
     local itemEnt = itemEType()
-    itemEnt.lootplotTeam = team
+    itemEnt.lootplotTeam = team or "?"
     local prevItem = lp.posToItem(ppos)
     if prevItem then
         prevItem:delete()
@@ -644,7 +644,7 @@ function lp.forceSpawnSlot(ppos, slotEType, team)
         lp.destroy(preSlotEnt)
     end
     local slotEnt = slotEType()
-    slotEnt.lootplotTeam = team
+    slotEnt.lootplotTeam = team or "?"
     lp.setSlot(ppos, slotEnt)
     umg.call("lootplot:entitySpawned", slotEnt)
     return slotEnt
