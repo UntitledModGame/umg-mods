@@ -297,9 +297,6 @@ function Plot:trigger(triggerName)
     end)
 end
 
-function Plot:reset()
-    return self:trigger("RESET")
-end
 
 function Plot:isPipelineRunning()
     return not self.pipeline:isEmpty()

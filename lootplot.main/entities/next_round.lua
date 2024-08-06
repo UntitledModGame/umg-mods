@@ -9,16 +9,6 @@ Progresses to next-round, be activating and resetting the whole slot.
 
 ]]
 
-local function resetPlot(plot)
-    plot:foreachItem(function(ent, _ppos)
-        lp.reset(ent)
-    end)
-    plot:foreachSlot(function(ent, _ppos)
-        lp.reset(ent)
-    end)
-    plot:trigger("RESET")
-end
-
 
 ---@param ent Entity
 ---@param ppos lootplot.PPos
@@ -27,8 +17,7 @@ local function startRound(ent, ppos)
 
     lp.queue(ppos, function()
         -- This will execute LAST.
-        plot:reset()
-        resetPlot(plot)
+        plot:trigger("RESET")
     end)
 
     -- pulse all slots:
