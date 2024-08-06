@@ -39,6 +39,7 @@ local function nextLevel(ent)
     ent.level = ent.level + 1
     ent.requiredPoints = getRequiredPoints(ent.level)
     ent.numberOfRounds = 4
+    lp.setPoints(ent, 0)
     sync(ent)
 end
 
@@ -57,23 +58,26 @@ end
 
 lp.defineItem("lootplot.main:doom_clock", {
     name = loc("Doom clock"),
+    image = "doom_clock",
     triggers = {"RESET"},
     description = loc("This item serves as the Win/Lose condition."),
     rarity = lp.rarities.UNIQUE,
 
     init = function(ent)
-        ent.round = constants.STARTING_ROUND
-        ent.requiredPoints = lp.main.getRequiredPoints(ent.level)
-        ent.level = constants.STARTING_LEVEL
+        ent.round = lp.main.constants.STARTING_ROUND
+        ent.level = lp.main.constants.STARTING_LEVEL
+        ent.requiredPoints = getRequiredPoints(ent.level)
         ent.numberOfRounds = 4
     end,
 
     onActivate = function(ent)
+        print("ACTIVATE DOOM CLOCK!!")
         ent.round = ent.round + 1
-        if ent.points >= ent.requiredPoints then
+        local points = lp.getPoints(ent)
+        if points >= ent.requiredPoints then
             -- win condition!!
             nextLevel(ent)
-        elseif ent.round > ent.maxRound then
+        elseif ent.round > ent.numberOfRounds then
             -- lose!
             lose()
         end

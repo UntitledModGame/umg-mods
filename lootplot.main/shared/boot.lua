@@ -57,6 +57,10 @@ local function initializeItems(clientId, plot)
     --[[
     TODO: put doom-clock here.
     ]]
+    plot:foreachInArea(10, 4, 10, 4, function (ppos)
+        lp.forceSpawnSlot(ppos, server.entities.slot, clientId)
+        lp.forceSpawnItem(ppos, server.entities.doom_clock, clientId)
+    end)
 end
 
 umg.on("@createWorld", function()
