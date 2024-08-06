@@ -15,10 +15,10 @@ lp.defineItem("lootplot.content.s0:blueberry", {
 
     targetType = "ITEM",
     targetShape = lp.targets.ABOVE_SHAPE,
-    targetActivationDescription = loc("Adds +1 of generated point to target item"),
+    targetActivationDescription = loc("{lp_targetColor}Adds +3 points-generated to target item"),
 
     targetActivate = function (selfEnt, ppos, targetEnt)
-        return lp.modifierBuff(targetEnt, "pointsGenerated", 1, selfEnt)
+        return lp.modifierBuff(targetEnt, "pointsGenerated", 3, selfEnt)
     end
 })
 
@@ -55,7 +55,7 @@ lp.defineItem("lootplot.content.s0:apple", {
             "lootplot.content.s0:diamond_slot"
         local etype = server.entities[newSlotType]
         if etype then
-            lp.forceSpawnSlot(ppos, etype)
+            lp.forceSpawnSlot(ppos, etype, selfEnt.lootplotTeam)
         end
     end
 })
@@ -71,7 +71,7 @@ lp.defineItem("lootplot.content.s0:gapple", {
     targetActivate = function(selfEnt, ppos)
         local etype = server.entities[selfEnt:ent()]
         if etype then
-            lp.forceSpawnSlot(ppos, etype)
+            lp.forceSpawnSlot(ppos, etype, selfEnt.lootplotTeam)
         end
     end
 })
@@ -87,7 +87,7 @@ lp.defineItem("lootplot.content.s0:magic_radish", {
         local selfPPos = lp.getPos(selfEnt)
 
         if selfPPos then
-            lp.forceSpawnItem(selfPPos, server.entities[targetEnt:type()])
+            lp.forceSpawnItem(selfPPos, server.entities[targetEnt:type()], selfEnt.lootplotTeam)
         end
     end
 })
@@ -107,17 +107,7 @@ lp.defineItem("lootplot.content.s0:glass_bottle", {
     targetActivate = function(selfEnt, ppos)
         local etype = server.entities["lootplot.content.s0:glass_slot"]
         if etype then
-            local e = lp.trySpawnSlot(ppos, etype)
-            if e then
-                --[[
-                    TODO: THIS IS ABSOLUTE DOG WATER!
-                    We shouldn't be setting .ownerPlayer component in here.
-                    There should be an easier api to automatically inherit, or something.
-
-                    We should make it as easy as possible to spawn items and slots.
-                ]]
-                e.ownerPlayer = selfEnt.ownerPlayer
-            end
+            lp.trySpawnSlot(ppos, etype, selfEnt.lootplotTeam)
         end
     end
 })
@@ -138,17 +128,7 @@ lp.defineItem("lootplot.content.s0:pomegranate", {
     targetShape = lp.targets.PlusShape(1),
 
     targetActivate = function(ent, ppos, targetEnt)
-        local e = lp.forceSpawnSlot(ppos, server.entities.slot)
-        if e then
-            --[[
-                TODO: THIS IS ABSOLUTE DOG WATER!
-                We shouldn't be setting .ownerPlayer component in here.
-                There should be an easier api to automatically inherit, or something.
-
-                We should make it as easy as possible to spawn items and slots.
-            ]]
-            e.ownerPlayer = ent.ownerPlayer
-        end
+        lp.forceSpawnSlot(ppos, server.entities.slot, ent.lootplotTeam)
     end,
 })
 

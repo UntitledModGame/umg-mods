@@ -44,7 +44,7 @@ end
 ---@param cloudtype integer
 ---@private
 function CloudBackground.getScale(cloudtype)
-    return (1 + (4 - cloudtype) / 4) * 2.5
+    return (1 + (4 - cloudtype) / 4)
 end
 
 ---@param rng love.RandomGenerator

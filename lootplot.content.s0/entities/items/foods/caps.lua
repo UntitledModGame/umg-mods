@@ -39,7 +39,7 @@ lp.defineItem("lootplot.content.s0:cap_purple", {
         if ppos then
             local etype = server.entities[randomizer()]
             if etype then
-                lp.forceSpawnItem(ppos, etype)
+                lp.forceSpawnItem(ppos, etype, selfEnt.lootplotTeam)
             end
         end
     end

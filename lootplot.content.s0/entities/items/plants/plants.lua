@@ -9,13 +9,13 @@ local function defseed(image, name, itemid)
         targetShape = lp.targets.LARGE_KING_SHAPE,
         targetTrait = "lootplot.content.s0:PLANT_TRAIT",
         targetActivationDescription = function()
-            local etype = server.entities["lootplot.content.s0:"..itemid]
-            return loc("Spawn %{name}", etype)
+            local etype = (client or server).entities["lootplot.content.s0:"..itemid]
+            return loc("{lp_targetColor}Spawn %{name}", etype)
         end,
         targetActivate = function(selfEnt, ppos, targetEnt)
             local etype = server.entities["lootplot.content.s0:"..itemid]
             if etype then
-                return lp.trySpawnItem(ppos, etype)
+                return lp.trySpawnItem(ppos, etype, selfEnt.lootplotTeam)
             end
         end
     })

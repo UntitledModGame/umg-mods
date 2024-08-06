@@ -6,8 +6,6 @@ local ActionButton = ui.Element("lootplot.main:ActionButton")
 
 local DEFAULT_PADDING = 12
 
-local lg=love.graphics
-
 local TABLE_ARGS = {"text", "onClick"}
 
 function ActionButton:init(args)

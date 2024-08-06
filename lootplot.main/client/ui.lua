@@ -12,13 +12,6 @@ function Scene:init(args)
     self:makeRoot()
     self:setPassthrough(true)
 
-    self.pointsBar = ui.elements.PointsBar({
-        getProgress = function()
-            local ctx = lp.main.getContext()
-            return ctx.requiredPoints-ctx.points, ctx.requiredPoints
-        end,
-    })
-    self.nextRoundButton = ui.elements.NextRoundbutton()
     self.levelStatus = ui.elements.LevelStatus()
     self.moneyBox = ui.elements.MoneyBox()
     self.itemDescriptionSelected = nil
@@ -27,15 +20,10 @@ function Scene:init(args)
     self.cursorDescriptionTime = 0
     self.slotActionButtons = {}
 
-    self:addChild(self.pointsBar)
-    self:addChild(self.nextRoundButton)
     self:addChild(self.moneyBox)
     self:addChild(self.levelStatus)
 end
 
-function Scene:addLootplotElement(element)
-    self:addChild(element)
-end
 
 local function drawBoxTransparent(x, y, w, h)
     love.graphics.setColor(0, 0, 0, 0.5)
@@ -73,22 +61,16 @@ local function drawDescription(progress, dbox, color, region, backgroundDrawer)
 end
 
 function Scene:onRender(x,y,w,h)
-    local context = lp.main.getContext()
     local r = ui.Region(x,y,w,h)
 
     local left, middle, right = r:pad(0.025):splitHorizontal(2, 5, 2)
     local HEADER_RATIO = 5
     local levelStatusRegion, rest = left:splitVertical(1, HEADER_RATIO)
-    local pointsBarRegion = middle:splitVertical(1, HEADER_RATIO)
-    local nextRoundRegion, rest2 = right:splitVertical(1, HEADER_RATIO)
+    local _, rest2 = right:splitVertical(1, HEADER_RATIO)
     local moneyRegion = rest:splitVertical(1, 4)
     local descriptionOpenSpeed = h * 9
 
     self.levelStatus:render(levelStatusRegion:get())
-    if not context:isDuringRound() then
-        self.nextRoundButton:render(nextRoundRegion:get())
-    end
-    self.pointsBar:render(pointsBarRegion:get())
     self.moneyBox:render(moneyRegion:pad(0, 0.2, 0, 0.2):get())
 
     local mx, my = input.getPointerPosition()

@@ -19,7 +19,7 @@ umg.on("lootplot:entityActivated", function(ent)
         if itemEnt and ppos then
             local itemReroller = ent.itemReroller ---@type generation.Query
             local entName = itemReroller()
-            lp.forceSpawnItem(ppos, server.entities[entName])
+            lp.forceSpawnItem(ppos, server.entities[entName], ent.lootplotTeam)
         end
     end
 end)
