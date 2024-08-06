@@ -120,7 +120,11 @@ function PPos:getWorldPos()
     return self:getPlot():pposToWorldCoords(self)
 end
 
-
+function PPos:__tostring()
+    local plot = self:getPlot()
+    local x, y = plot:indexToCoords(self.slot)
+    return string.format("(%d, %d; index=%d, plot=%p)", x, y, self.slot, plot)
+end
 
 ---@param ent lootplot.LayerEntity
 function PPos:set(ent)
