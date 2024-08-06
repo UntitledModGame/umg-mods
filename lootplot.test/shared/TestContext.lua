@@ -71,6 +71,8 @@ function TestContext:isPipelineEmpty()
     return self.ownerEnt.plot.pipeline:isEmpty()
 end
 
+if server then
+
 function TestContext:setPoints(ent, x)
     self.points = x
     self:syncValue("points")
@@ -84,6 +86,8 @@ end
 function TestContext:setCombo(ent, x)
     self.combo = x
     self:syncValue("combo")
+end
+
 end
 
 function TestContext:getPoints(ent)

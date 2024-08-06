@@ -16,12 +16,32 @@ function Screen:onRender(x, y, w, h)
         love.graphics.print("Money: "..context:getMoney(), x + 4, y + 20)
         love.graphics.print("Points: "..context:getPoints(), x + 4, y + 36)
     end
+
+    if testData.isLITReady() then
+        love.graphics.printf("Press spacebar to activate random item", x, h - 20, w, "center")
+    end
 end
 
 ---@param name string
 function Screen:setTestName(name)
     self.testName = name
 end
+
+
+input.defineControls({"lootplot.test:TriggerLIT"})
+input.setControls({
+    ["lootplot.test:TriggerLIT"] = {"key:space"},
+})
+
+local listener = input.InputListener()
+
+listener:onPressed("lootplot.test:TriggerLIT", function(self, controlEnum)
+    if testData.isLITReady() then
+        testData.triggerLIT()
+    end
+
+    self:claim(controlEnum)
+end)
 
 local screenInstance = Screen()
 testData.setScreenUI(screenInstance)
