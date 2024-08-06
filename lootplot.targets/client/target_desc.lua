@@ -42,7 +42,7 @@ end)
 
 umg.on("lootplot:populateDescription", TARGET_FILTER_ORDER, function(ent, arr)
     if ent.targetShape and ent.targetTrait then
-        arr:add(loc("{lp_targetColor}  If target has %{trait} trait: ", {
+        arr:add(loc("{lp_targetColor}If target has %{trait} trait: ", {
             trait = lp.getTraitDisplayName(ent.targetTrait)
         }, BRIEF_CTX))
     end
