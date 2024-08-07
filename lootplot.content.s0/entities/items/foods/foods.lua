@@ -125,7 +125,7 @@ lp.defineItem("lootplot.content.s0:pomegranate", {
     baseTraits = {},
 
     targetType = "NO_SLOT",
-    targetShape = lp.targets.PlusShape(1),
+    targetShape = lp.targets.KING_SHAPE,
 
     targetActivate = function(ent, ppos, targetEnt)
         lp.forceSpawnSlot(ppos, server.entities.slot, ent.lootplotTeam)
