@@ -63,6 +63,22 @@ lp.defineItem("lootplot.main:doom_clock", {
     description = loc("This item serves as the Win/Lose condition."),
     rarity = lp.rarities.UNIQUE,
 
+    onDraw = function(ent, x,y, rot, sx,sy, kx,ky)
+        --[[
+        generally, we shouldnt use `onDraw` for entities;
+        But this is a very special case :)
+        ]]
+        local roundCount = loc("Round %{round}/%{numberOfRounds}", ent)
+
+        local needPoints = loc("Need %{required} points", {
+            required = math.max(0, ent.requiredPoints - lp.getPoints(ent))
+        })
+        local font = love.graphics.getFont()
+        local limit = 0xffff
+        text.printRichText(roundCount, font, x,y, limit, rot, sx,sy, kx,ky)
+        text.printRichText(needPoints, font, x,y, limit, rot, sx,sy, kx,ky)
+    end,
+
     init = function(ent)
         ent.round = lp.main.constants.STARTING_ROUND
         ent.level = lp.main.constants.STARTING_LEVEL
@@ -71,7 +87,6 @@ lp.defineItem("lootplot.main:doom_clock", {
     end,
 
     onActivate = function(ent)
-        print("ACTIVATE DOOM CLOCK!!")
         ent.round = ent.round + 1
         local points = lp.getPoints(ent)
         if points >= ent.requiredPoints then

@@ -42,17 +42,24 @@ umg.on("rendering:drawEntity", ORDER, function(ent, x,y, rot, sx,sy)
         return
     end
 
+    local limit = 0xfffff
+    local font = love.graphics.getFont()
     local txt = ent.text
+    local dx, dy = 0,0
 
     if type(txt) == "table" then
+        dx, dy = txt.ox or 0, txt.oy or 0
+        font = txt.font or love.graphics.getFont()
         txt = getText(ent, txt)
-        local font = txt.font or love.graphics.getFont()
-        text.printRichText(txt, font, x,y, rot, sx,sy)
-    elseif type(txt) == "string" then
-        local font = love.graphics.getFont()
-        text.printRichText(txt, font, x,y, rot, sx,sy)
-    else
-        umg.melt("")
     end
+
+    assert(type(txt)=="string", "???")
+    local escpTxt = text.escape(txt)
+    --[[
+    TODO: offsets should automatically be centered as per text.printRichText call!
+    ]]
+    local ox = font:getWrap(escpTxt, limit)
+    local oy = font:getHeight()
+    text.printRichText(txt, font, x+dx,y+dy, limit, rot, sx,sy, ox/2, oy/2)
 end)
 

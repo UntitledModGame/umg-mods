@@ -39,6 +39,12 @@ lp.defineSlot("lootplot.main:next_round_button_slot", {
         idle = "button_up",
         duration = 0.4
     },
+
+    text = {
+        text = "Next Round!",
+        oy = -16
+    },
+
     baseMaxActivations = 100,
     triggers = {},
     buttonSlot = true,
