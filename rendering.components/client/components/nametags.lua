@@ -16,8 +16,7 @@ components.project("nametag", "text", function(ent)
         default = DEFAULT,
         component = "controller",
         oy = nametag.oy or EXTRA_OY,
-        background = BACKGROUND_COLOR,
-        disableScaling = true
+        background = BACKGROUND_COLOR
     }
 end)
 

@@ -1,29 +1,58 @@
 
-components.project("text", "drawable")
 
-local ORDER = 1 -- draw text on top of ent
+components.project("text", "drawable")
+--[[
+
+ent.text = "my_txt" 
+
+OR 
+
+ent.text = {
+    text = "my_txt",
+    getText = function(ent) return "txt_dynamic" end
+    ox = 0,
+    oy = 0
+}
+
+]]
+
+local function getText(ent, tabl)
+    if tabl.text then
+        return tabl.text
+    end
+
+    if tabl.component and ent[tabl.component] then
+        -- component referencing idiom:
+        return ent[tabl.component]
+    end
+
+    if tabl.getText then
+        return tabl.getText(ent)
+    end
+
+    return tabl.default or ""
+end
+
+
+
+local ORDER=1 -- draw on top of ent
 
 umg.on("rendering:drawEntity", ORDER, function(ent, x,y, rot, sx,sy)
     if not ent.text then
         return
     end
 
-    local text = ent.text
-    local font = ent.font or love.graphics.getFont()
+    local txt = ent.text
 
-    if type(text) == "string" then
-        local width = font:getWidth(text)
-        local height = font:getHeight()
-
-        love.graphics.print(
-            text, 
-            x, 
-            y,
-            rot, sx, sy,
-            width/2, height/2
-        )
+    if type(txt) == "table" then
+        txt = getText(ent, txt)
+        local font = txt.font or love.graphics.getFont()
+        text.printRichText(txt, font, x,y, rot, sx,sy)
+    elseif type(txt) == "string" then
+        local font = love.graphics.getFont()
+        text.printRichText(txt, font, x,y, rot, sx,sy)
     else
-        text:draw(font, x,y, 10000, rot, sx,sy)
+        umg.melt("")
     end
 end)
 
