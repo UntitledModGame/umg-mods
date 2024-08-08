@@ -71,7 +71,7 @@ local function getSlotRegion(self, slotRegion, slot)
     return r
         :shrinkTo(minn,minn)
         :center(r)
-        :pad(self.slotPadding)
+        :padRatio(self.slotPadding)
 end
 
 
@@ -91,7 +91,7 @@ function GridInventory:onRender(x,y,w,h)
         -- button within the title region.
     end
 
-    local slotRegion = body:pad(self.borderPadding)
+    local slotRegion = body:padRatio(self.borderPadding)
     for slot, slotElem in ipairs(self.slotElements) do
         assert(slot == slotElem:getSlot(), "???")
         local r = getSlotRegion(self, slotRegion, slot)

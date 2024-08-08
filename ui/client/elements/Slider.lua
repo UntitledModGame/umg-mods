@@ -94,7 +94,7 @@ local THUMB_RATIO = 4
 function Slider:onRender(x,y,w,h)
     local region = ui.Region(x,y,w,h)
     lg.setColor(0.5,0.5,0.5)
-    local lineRegion = region:pad(0,0.4,0,0.4)
+    local lineRegion = region:padRatio(0,0.4,0,0.4)
     lg.rectangle("fill",lineRegion:get())
     
     local thumbWidth = w/THUMB_RATIO
@@ -102,7 +102,7 @@ function Slider:onRender(x,y,w,h)
     self.position = computePosition(self, self.value)
     local thumbRegion = region
         :set(nil,nil,w/THUMB_RATIO,nil)
-        :offset(self.position, 0)
+        :movePixels(self.position, 0)
         :clampInside(region)
     self.thumb:render(thumbRegion:get())
 end

@@ -43,12 +43,12 @@ function LevelStatus:onRender(x,y,w,h)
         self.currentLevel = context.level
     end
 
-    local r = ui.Region(x, y, w, h):pad(0.08)
+    local r = ui.Region(x, y, w, h):padRatio(0.08)
     self.mainBox:render(x, y, w, h)
 
     local topTextRegion, bottomTextRegion = r:splitVertical(3, 5)
     self.levelText:render(topTextRegion:get())
-    local levelNumberRegion = bottomTextRegion:pad(0.1, 0.2, 0.1, 0.1)
+    local levelNumberRegion = bottomTextRegion:padRatio(0.1, 0.2, 0.1, 0.1)
     self.levelBox:render(levelNumberRegion:get())
     self.levelNumberText:render(levelNumberRegion:get())
 end
