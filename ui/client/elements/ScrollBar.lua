@@ -96,7 +96,7 @@ function ScrollBar:onRender(x,y,w,h)
     self.totalSize = h - thumbSize
     local thumbRegion = region
         :set(nil,nil,nil,thumbSize)
-        :movePixels(0, self.position)
+        :moveUnit(0, self.position)
         :clampInside(region)
     self.thumb:render(thumbRegion:get())
 end

@@ -102,7 +102,7 @@ function Slider:onRender(x,y,w,h)
     self.position = computePosition(self, self.value)
     local thumbRegion = region
         :set(nil,nil,w/THUMB_RATIO,nil)
-        :movePixels(self.position, 0)
+        :moveUnit(self.position, 0)
         :clampInside(region)
     self.thumb:render(thumbRegion:get())
 end
