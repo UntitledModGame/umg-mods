@@ -5,7 +5,7 @@ umg.on("lootplot:entityActivated", function(ent)
         if ppos then
             local itemSpawner = ent.itemSpawner ---@type generation.Query
             local entName = itemSpawner()
-            lp.trySpawnItem(ppos, server.entities[entName])
+            lp.trySpawnItem(ppos, server.entities[entName], ent.lootplotTeam)
         end
     end
 end)
