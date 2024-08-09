@@ -41,6 +41,7 @@ umg.defineQuestion("lootplot:getPipelineDelay", reducers.ADD)
 umg.defineQuestion("lootplot:isItemRemovalBlocked", reducers.OR)
 umg.defineQuestion("lootplot:isItemAdditionBlocked", reducers.OR)
 
+umg.defineQuestion("lootplot:canItemFloat", reducers.OR)
 
 umg.defineQuestion("lootplot:hasPlayerAccess", reducers.AND)
 

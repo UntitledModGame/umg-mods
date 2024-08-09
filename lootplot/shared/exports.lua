@@ -658,6 +658,13 @@ lp.hasTrait = traits.hasTrait
 lp.defineTrait = traits.defineTrait
 lp.getTraitDisplayName = traits.getDisplayName
 
+--- Returns whether an item can float (exist without a slot) or not.
+---@param itemEnt lootplot.ItemEntity
+---@return boolean
+function lp.canItemFloat(itemEnt)
+    return itemEnt.canItemFloat or umg.ask("lootplot:canItemFloat", itemEnt)
+end
+
 
 local DEFAULT_PROPS = {
     "pointsGenerated", 
