@@ -34,7 +34,7 @@ function ButtonScene:onRender(x,y,w,h)
     local array = bot:grid(self.buttons:size(), 1)
 
     for i, button in ipairs(self.buttons) do
-        local region = array[i]:padRatio(0.1)
+        local region = array[i]:padRatio(0.2)
         button:render(region:get())
     end
 end

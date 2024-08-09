@@ -259,14 +259,16 @@ function Region:padRatio(left, top, right, bot)
         For example, :pad(0.1) will give 10% padding to ALL sides.
     ]]
     assert(type(left) == "number", "need a number for padding")
+    local minWH = math.min(self.w, self.h)
+    local ratioH = ((top or bot) and self.h) or minWH
+    local ratioW = (right and self.w) or minWH
     left = max1(left)
     top = max1(top or left)
     bot = max1(bot or top)
     right = max1(right or left)
 
-    local ratioMul = math.min(self.w, self.h)
-    left, right = left*ratioMul/2, right*ratioMul/2
-    top, bot = top*ratioMul/2, bot*ratioMul/2
+    left, right = left*ratioW/2, right*ratioW/2
+    top, bot = top*ratioH/2, bot*ratioH/2
 
     return pad(self, top, left, bot, right)
 end

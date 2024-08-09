@@ -48,7 +48,7 @@ function LevelStatus:onRender(x,y,w,h)
 
     local topTextRegion, bottomTextRegion = r:splitVertical(3, 5)
     self.levelText:render(topTextRegion:get())
-    local levelNumberRegion = bottomTextRegion:padRatio(0.1, 0.2, 0.1, 0.1)
+    local levelNumberRegion = bottomTextRegion:padRatio(0.2, 0.4, 0.2, 0.2)
     self.levelBox:render(levelNumberRegion:get())
     self.levelNumberText:render(levelNumberRegion:get())
 end

@@ -63,15 +63,15 @@ end
 function Scene:onRender(x,y,w,h)
     local r = ui.Region(x,y,w,h)
 
-    local left, middle, right = r:padRatio(0.025):splitHorizontal(2, 5, 2)
+    local left, middle, right = r:padRatio(0.05):splitHorizontal(2, 5, 2)
     local HEADER_RATIO = 5
     local levelStatusRegion, rest = left:splitVertical(1, HEADER_RATIO)
     local _, rest2 = right:splitVertical(1, HEADER_RATIO)
     local moneyRegion = rest:splitVertical(1, 4)
     local descriptionOpenSpeed = h * 9
 
-    self.levelStatus:render(levelStatusRegion:get())
-    self.moneyBox:render(moneyRegion:padRatio(0, 0.2, 0, 0.2):get())
+    self.levelStatus:render(levelStatusRegion:padRatio(0.1):get())
+    self.moneyBox:render(moneyRegion:padRatio(0.1):padRatio(0, 0.4, 0, 0.4):get())
 
     local mx, my = input.getPointerPosition()
 
@@ -95,7 +95,7 @@ function Scene:onRender(x,y,w,h)
         local grid = bottomArea:grid(#self.slotActionButtons, 1)
 
         for i, button in ipairs(self.slotActionButtons) do
-            local region = grid[i]:padRatio(0.1)
+            local region = grid[i]:padRatio(0.2)
             button:render(region:get())
         end
     end
