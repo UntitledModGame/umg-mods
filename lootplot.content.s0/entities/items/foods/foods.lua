@@ -68,8 +68,12 @@ lp.defineItem("lootplot.content.s0:gapple", {
     targetType = "NO_SLOT",
     targetShape = lp.targets.KING_SHAPE,
     targetActivationDescription = loc("Clones the current slot the item is in."),
-    targetActivate = function(selfEnt, ppos)
-        local etype = server.entities[selfEnt:ent()]
+    targetActivate = function(selfEnt, ppos, ent)
+        local slotEnt = lp.itemToSlot(selfEnt)
+        local etype
+        if slotEnt then
+            etype = slotEnt:getEntityType()
+        end
         if etype then
             lp.forceSpawnSlot(ppos, etype, selfEnt.lootplotTeam)
         end

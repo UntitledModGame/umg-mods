@@ -18,6 +18,7 @@ local function startRound(ent, ppos)
     lp.queue(ppos, function()
         -- This will execute LAST.
         plot:trigger("RESET")
+        lp.addMoney(ent, 8)
     end)
 
     -- pulse all slots:

@@ -56,3 +56,18 @@ lp.defineItem("lootplot.content.s0:cherry", {
 
 
 
+
+lp.defineItem("lootplot.content.s0:iron_sword", {
+    image = "iron_sword",
+
+    name = localization.localize("Iron sword"),
+    baseBuyPrice = 2,
+
+    rarity = lp.rarities.COMMON,
+    baseTraits = {},
+
+    basePointsGenerated = 4,
+})
+
+
+
