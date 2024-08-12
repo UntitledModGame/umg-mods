@@ -82,17 +82,18 @@ text.printRich = drawRichText
 ---@param x number
 ---@param y number
 ---@param limit number
+---@param align love.AlignMode (justify is not supported)
 ---@param rot number?
 ---@param sx number?
 ---@param sy number?
-function text.printRichCentered(txt, font, x, y, limit, rot, sx, sy)
+function text.printRichCentered(txt, font, x, y, limit, align, rot, sx, sy)
     local parsed = assert(parser.ensure(txt))
     local clear = text.clear(txt)
     local width, wrap = font:getWrap(clear, limit)
 
     local ox = width / 2
     local oy = #wrap * font:getHeight() / 2
-    return drawRichText(parsed, font, x, y, limit, rot, sx, sy, ox, oy)
+    return drawRichText(parsed, font, x, y, limit, align, rot, sx, sy, ox, oy)
 end
 
 umg.expose("text", text)
