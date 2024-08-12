@@ -4,6 +4,7 @@
         "audio",
         "music",
         "lootplot",
+        "lootplot.targets",
         "lootplot.content.s0",
         "lootplot.slots",
         "lootplot.sound"

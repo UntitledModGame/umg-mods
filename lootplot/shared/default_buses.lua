@@ -83,23 +83,6 @@ end)
 
 
 
-
---[[
-TODO:
-should these be here???
-Hmm...
-]]
-umg.on("lootplot:entityActivated", function(ent)
-    lp.incrementCombo(ent)
-end)
-umg.on("lootplot:entityReset", function(ent)
-    --[[
-    TODO: does this even make sense??
-    ]]
-    lp.resetCombo(ent)
-end)
-
-
 local FIRST_ORDER = -0xffffffffffff
 umg.on("lootplot:entityActivated", FIRST_ORDER, function(ent)
     if ent.doomCount then
