@@ -1,0 +1,10 @@
+{
+    "type": "playable",
+    "uses": [
+        "lootplot",
+        "lootplot.content.s0", 
+        "lootplot.juice", 
+        "lootplot.sound",
+        "zenith"
+    ]
+}
