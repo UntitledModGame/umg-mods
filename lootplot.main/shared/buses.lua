@@ -7,6 +7,7 @@ TODO:
 should these be here???
 ]]
 
+if server then
 
 umg.on("lootplot:entityActivated", function(ent)
     lp.incrementCombo(ent)
@@ -25,6 +26,6 @@ umg.on("lootplot:entityReset", function(ent)
     lp.resetCombo(ent)
 end)
 
-
+end
 
 
