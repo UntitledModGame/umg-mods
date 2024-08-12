@@ -20,15 +20,17 @@ end)
 
 
 umg.on("@tick", function(dt)
-    local ctx = lp.main.getContext()
-    if not ctx then return end
+    if lp.main.isReady() then
+        local ctx = lp.main.getContext()
 
-    local p = ctx:getPlot()
-    local ent = p:getOwnerEntity()
-    if not p:isPipelineRunning() then
-        lp.resetCombo(ent)
+        local p = ctx:getPlot()
+        local ent = p:getOwnerEntity()
+        if not p:isPipelineRunning() then
+            lp.resetCombo(ent)
+        end
     end
 end)
+
 
 end
 
