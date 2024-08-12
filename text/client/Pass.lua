@@ -89,6 +89,11 @@ function Pass:getCharacterWidth(char)
     return value
 end
 
+---@param char string
+local function isWhitespace(char)
+    return char == " " or char == "\t"
+end
+
 function Pass:flushLine()
     if #self.bufferedLine > 0 then
         local offsetX = 0
@@ -96,6 +101,17 @@ function Pass:flushLine()
 
         if self.align ~= "left" then
             offsetX = self.maxWidth - self.bufferedLineWidth
+
+            -- Don't take whitespace width at the end of line into account.
+            for i = #self.bufferedLine, 1, -1 do
+                local char = self.bufferedLine[i]
+                if isWhitespace(char) then
+                    local kerning = self:getKerning(self.bufferedLine[i - 1] or " ", char)
+                    offsetX = offsetX + kerning + self:getCharacterWidth(char)
+                else
+                    break
+                end
+            end
 
             if self.align == "center" then
                 offsetX = offsetX / 2
@@ -157,8 +173,15 @@ function Pass:flushWord()
         return self:flushWordNow()
     else
         -- Flush to newline
-        self:flushLine()
-        return self:flushWordNow()
+        if self.bufferedLineWidth > 0 then
+            -- Existing word has been added. Flush current line then the word.
+            self:flushLine()
+            self:flushWordNow()
+        else
+            -- No existing word. Flush word then current line.
+            self:flushWordNow()
+            self:flushLine()
+        end
     end
 end
 
@@ -190,7 +213,7 @@ function Pass:add(char)
     if char == nil or char == "\n" then
         self:flushWord()
         self:flushLine()
-    elseif char == " " or char == "\t" then
+    elseif isWhitespace(char) then
         -- Whitespace
         if not self.bufferingWhitespace then
             self:flushWord()

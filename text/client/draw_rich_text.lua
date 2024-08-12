@@ -46,7 +46,7 @@ function drawRichText(txt, font, x, y, limit, align, rot, sx, sy, ox, oy, kx, ky
     love.graphics.applyTransform(x, y, rot, sx, sy, ox, oy, kx, ky)
 
     local r, g, b, a = love.graphics.getColor()
-    local passInstance = Pass(font, limit, "left", {r, g, b, a})
+    local passInstance = Pass(font, limit, align, {r, g, b, a})
 
     for _, data in ipairs(assert(parser.ensure(txt))) do
         if type(data) == "table" then

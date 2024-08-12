@@ -4,6 +4,7 @@ print(parsed, #text.clear(parsed))
 umg.on("@draw", function()
     love.graphics.setColor(1, 1, 1)
     text.printRich(parsed, love.graphics.getFont(), 0, 0, 200, "left")
+    love.graphics.line(200, 0, 200, 1000)
 end)
 
 local wavyTimer = 0
