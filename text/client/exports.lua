@@ -44,21 +44,58 @@ function text.cloneDefaultEffectGroup()
     return defaultEffectGroup:clone()
 end
 
----@param s string
-local function rep2(s)
-    return s:rep(2)
+---@module "client.parser"
+local parser = require("client.parser")
+
+---Parse rich text to a table of text and effects.
+---Note that this only parses the rich text and does not applies effect.
+---@param txt string Formatted rich text
+---@return text.ParsedText?,string?
+function text.parseRichText(txt)
+    return parser.ensure(txt)
 end
 
----Escape effect tag and string interpolation in the text.
----@param str string
-function text.escape(str)
-    return (str:gsub("[{|}]", rep2))
+text.parsedToString = parser.tostring
+text.escape = parser.escape
+
+---Clear tags on rich text.
+---@param txt text.ParsedText|string
+---@return string
+function text.clear(txt)
+    local parsed = assert(parser.ensure(txt))
+    local result = {}
+
+    for _, data in ipairs(parsed) do
+        if type(data) == "string" then
+            result[#result+1] = data
+        end
+    end
+
+    return table.concat(result)
 end
 
----@module "client.clear"
-text.clear = require("client.clear")
----@module "client.stateless"
-text.printRichText = require("client.stateless")
+local drawRichText = require("client.draw_rich_text")
+text.printRichText = drawRichText
+
+---@param txt text.ParsedText|string
+---@param font love.Font
+---@param x number
+---@param y number
+---@param limit number
+---@param rot number?
+---@param sx number?
+---@param sy number?
+function text.printRichTextCentered(txt, font, x, y, limit, rot, sx, sy)
+    local parsed = assert(parser.ensure(txt))
+    local clear = text.clear(txt)
+    local width, wrap = font:getWrap(clear, limit)
+
+    local ox = width / 2
+    local oy = #wrap * font:getHeight() / 2
+    return drawRichText(parsed, font, x, y, limit, rot, sx, sy, ox, oy)
+end
+
+-- text.printRichText = require("client.stateless")
 
 umg.expose("text", text)
 require("client.base_effect")() -- Expose default effects
