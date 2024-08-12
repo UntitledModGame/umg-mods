@@ -72,7 +72,7 @@ function DescriptionBox:draw(x, y, w, h)
             end
 
             love.graphics.setColor(r, g, b, a)
-            text.printRichText(str, font, x, y + currentHeight, w / scale, 0, scale, scale)
+            text.printRich(str, font, x, y + currentHeight, w / scale, "left", 0, scale, scale)
 
             currentHeight = currentHeight + height
             lastFont = font

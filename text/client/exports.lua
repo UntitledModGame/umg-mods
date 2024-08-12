@@ -75,7 +75,7 @@ function text.clear(txt)
 end
 
 local drawRichText = require("client.draw_rich_text")
-text.printRichText = drawRichText
+text.printRich = drawRichText
 
 ---@param txt text.ParsedText|string
 ---@param font love.Font
@@ -85,7 +85,7 @@ text.printRichText = drawRichText
 ---@param rot number?
 ---@param sx number?
 ---@param sy number?
-function text.printRichTextCentered(txt, font, x, y, limit, rot, sx, sy)
+function text.printRichCentered(txt, font, x, y, limit, rot, sx, sy)
     local parsed = assert(parser.ensure(txt))
     local clear = text.clear(txt)
     local width, wrap = font:getWrap(clear, limit)

@@ -11,10 +11,11 @@ local drawRichText
 ---@param txt text.ParsedText|string Formatted rich text string or parsed rich text data.
 ---@param font love.Font Font object to use
 ---@param limit number Maximum width before word-wrapping.
+---@param align love.AlignMode (justify is not supported)
 ---@param transform love.Transform Transformation stack to apply.
 ---@return boolean,(string|nil)
 ---@diagnostic disable-next-line: missing-return
-function drawRichText(txt, font, limit, transform) end
+function drawRichText(txt, font, transform, limit, align) end
 
 ---Draw rich text directly without state.
 ---@param txt text.ParsedText|string Formatted rich text string or parsed rich text data.
@@ -22,6 +23,7 @@ function drawRichText(txt, font, limit, transform) end
 ---@param x number
 ---@param y number
 ---@param limit number Maximum width before word-wrapping.
+---@param align love.AlignMode (justify is not supported)
 ---@param rot number?
 ---@param sx number?
 ---@param sy number?
@@ -30,18 +32,14 @@ function drawRichText(txt, font, limit, transform) end
 ---@param kx number?
 ---@param ky number?
 ---@return boolean,(string|nil)
-function drawRichText(txt, font, x, y, limit, rot, sx, sy, ox, oy, kx, ky)
-    if typecheck["love:Transform"](y) then
-        limit = x
-        x = y
-        y = nil
-        rot = nil
-        sx = nil
-        sy = nil
-        ox = nil
-        oy = nil
-        kx = nil
-        ky = nil
+function drawRichText(txt, font, x, y, limit, align, rot, sx, sy, ox, oy, kx, ky)
+    if typecheck["love:Transform"](x) then
+        align = limit
+        limit = y
+        y, rot = nil, nil
+        sx, sy = nil, nil
+        ox, oy = nil, nil
+        kx, ky = nil, nil
     end
 
     love.graphics.push("all")
