@@ -19,11 +19,15 @@ end)
 
 
 
-umg.on("lootplot:entityReset", function(ent)
-    --[[
-    TODO: does this even make sense??
-    ]]
-    lp.resetCombo(ent)
+umg.on("@tick", function(dt)
+    local ctx = lp.main.getContext()
+    if not ctx then return end
+
+    local p = ctx:getPlot()
+    local ent = p:getOwnerEntity()
+    if not p:isPipelineRunning() then
+        lp.resetCombo(ent)
+    end
 end)
 
 end
