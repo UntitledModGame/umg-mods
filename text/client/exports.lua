@@ -95,8 +95,6 @@ function text.printRichTextCentered(txt, font, x, y, limit, rot, sx, sy)
     return drawRichText(parsed, font, x, y, limit, rot, sx, sy, ox, oy)
 end
 
--- text.printRichText = require("client.stateless")
-
 umg.expose("text", text)
 require("client.base_effect")() -- Expose default effects
 
