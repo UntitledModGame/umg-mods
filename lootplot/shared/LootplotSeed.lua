@@ -23,11 +23,11 @@ local MAX_SEED = 16 ^ SEED_SIZE
 ---@param seed? number|string
 function LootplotSeed:init(seed)
     if not seed then
-        love.math.random(0,MAX_SEED-1)
+        seed = love.math.getRandomSeed() % MAX_SEED
     end
     if type(seed) == "string" then
         seed = stringToNum(seed)
-        assert(seed <= MAX_SEED, "?")
+        assert(seed <= MAX_SEED, "Seed too big")
     end
     self.seed = seed
 

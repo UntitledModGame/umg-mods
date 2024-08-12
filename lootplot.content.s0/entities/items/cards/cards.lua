@@ -59,7 +59,7 @@ lp.defineItem("lootplot.content.s0:spades_card", {
         local targets = lp.targets.getTargets(selfEnt)
 
         if targets then
-            local slots = targets:map(lp.itemToSlot)
+            local slots = targets:map(lp.posToSlot)
 
             -- Shuffle it
             for i = #slots, 2, -1 do
