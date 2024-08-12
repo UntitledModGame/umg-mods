@@ -63,7 +63,7 @@ function DescriptionBox:draw(x, y, w, h)
             end
             ---@cast str string
             local font = content.font or self.defaultFont
-            local strings = select(2, font:getWrap(text.clear(str) or str, w / scale))
+            local strings = select(2, font:getWrap(text.stripEffects(str) or str, w / scale))
             local height = #strings * font:getHeight() * scale
 
             if (currentHeight + height) > h then

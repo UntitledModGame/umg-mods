@@ -105,7 +105,7 @@ local function populateDescriptionBox(entity)
     local description = lp.getLongDescription(entity)
     local dbox = DescriptionBox(fonts.getSmallFont(32))
 
-    dbox:addRichText("{wavy}"..text.escape(lp.getEntityName(entity)).."{/wavy}", fonts.getLargeFont(32))
+    dbox:addRichText("{wavy}"..text.escapeRichTextSyntax(lp.getEntityName(entity)).."{/wavy}", fonts.getLargeFont(32))
     dbox:newline()
 
     for _, descriptionText in ipairs(description) do

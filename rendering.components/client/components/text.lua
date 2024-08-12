@@ -54,7 +54,7 @@ umg.on("rendering:drawEntity", ORDER, function(ent, x,y, rot, sx,sy)
     end
 
     assert(type(txt)=="string", "???")
-    local escpTxt = text.escape(txt)
+    local escpTxt = text.escapeRichTextSyntax(txt)
     --[[
     TODO: offsets should automatically be centered as per text.printRich call!
     ]]

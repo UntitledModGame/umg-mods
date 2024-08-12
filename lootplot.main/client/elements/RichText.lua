@@ -45,7 +45,7 @@ local function getTextSize(font, text, wrap)
 end
 
 function RichText:onRender(x,y,w,h)
-    local tw, th = getTextSize(self.font, assert(text.clear(self.text)), self.wrap)
+    local tw, th = getTextSize(self.font, assert(text.stripEffects(self.text)), self.wrap)
     --[[
         TODO: do we want to propagate the text size to the parent
             somehow...?

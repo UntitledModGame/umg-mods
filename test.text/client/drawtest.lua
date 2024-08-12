@@ -1,5 +1,5 @@
 local parsed = assert(text.parseRichText("{wavy}The {c r=0 b=0}quick brown fox jumps over the lazy{/c} dog{/wavy}"))
-print(parsed, #text.clear(parsed))
+print(parsed, #text.stripEffects(parsed))
 
 umg.on("@draw", function()
     love.graphics.setColor(1, 1, 1)

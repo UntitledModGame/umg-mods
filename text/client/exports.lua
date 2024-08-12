@@ -56,12 +56,12 @@ function text.parseRichText(txt)
 end
 
 text.parsedToString = parser.tostring
-text.escape = parser.escape
+text.escapeRichTextSyntax = parser.escape
 
 ---Clear tags on rich text.
 ---@param txt text.ParsedText|string
 ---@return string
-function text.clear(txt)
+function text.stripEffects(txt)
     local parsed = assert(parser.ensure(txt))
     local result = {}
 
@@ -88,7 +88,7 @@ text.printRich = drawRichText
 ---@param sy number?
 function text.printRichCentered(txt, font, x, y, limit, align, rot, sx, sy)
     local parsed = assert(parser.ensure(txt))
-    local clear = text.clear(txt)
+    local clear = text.stripEffects(txt)
     local width, wrap = font:getWrap(clear, limit)
 
     local ox = width / 2
