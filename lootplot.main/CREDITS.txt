@@ -19,7 +19,7 @@ assets/music/Suave Standpipe.mp3:
 Licensed under Creative Commons: By Attribution 4.0 License
 http://creativecommons.org/licenses/by/4.0/
 
-assets/music/破滅を呼びしモノ.mp3: https://dova-s.jp/EN/bgm/play20864.html
+assets/music/chinese_chars.mp3: https://dova-s.jp/EN/bgm/play20864.html
 "An unknown thing that brings about destruction" by alaki paca (dova-s.jp)
 Licensed under DOVA-SYNDROME License
 https://dova-s.jp/EN/_contents/license/

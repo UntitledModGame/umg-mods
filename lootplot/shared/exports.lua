@@ -601,7 +601,7 @@ end
 ---@return lootplot.ItemEntity?
 function lp.forceSpawnItem(ppos, itemEType, team)
     local itemEnt = itemEType()
-    itemEnt.lootplotTeam = team
+    itemEnt.lootplotTeam = team or "?"
     local prevItem = lp.posToItem(ppos)
     if prevItem then
         prevItem:delete()
@@ -644,7 +644,7 @@ function lp.forceSpawnSlot(ppos, slotEType, team)
         lp.destroy(preSlotEnt)
     end
     local slotEnt = slotEType()
-    slotEnt.lootplotTeam = team
+    slotEnt.lootplotTeam = team or "?"
     lp.setSlot(ppos, slotEnt)
     umg.call("lootplot:entitySpawned", slotEnt)
     return slotEnt
@@ -657,6 +657,13 @@ lp.removeTrait = traits.removeTrait
 lp.hasTrait = traits.hasTrait
 lp.defineTrait = traits.defineTrait
 lp.getTraitDisplayName = traits.getDisplayName
+
+--- Returns whether an item can float (exist without a slot) or not.
+---@param itemEnt lootplot.ItemEntity
+---@return boolean
+function lp.canItemFloat(itemEnt)
+    return itemEnt.canItemFloat or umg.ask("lootplot:canItemFloat", itemEnt)
+end
 
 
 local DEFAULT_PROPS = {
@@ -817,8 +824,15 @@ lp.constants = {
 }
 
 
-lp.ITEM_GENERATOR = generation.Generator()
-lp.SLOT_GENERATOR = generation.Generator()
+local LootplotSeed = require("shared.LootplotSeed")
+--[[
+TODO: allow for custom seeds here.
+pass thru launch-options...?
+]]
+lp.seed = LootplotSeed()
+
+lp.ITEM_GENERATOR = generation.Generator(lp.seed.rerollRNG)
+lp.SLOT_GENERATOR = generation.Generator(lp.seed.rerollRNG)
 
 umg.expose("lp", lp)
 

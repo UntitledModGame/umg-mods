@@ -32,6 +32,21 @@ local function getRequiredPoints(levelNumber)
 end
 
 
+local function lose()
+    --[[
+    TODO: proper lose-screen here.
+    ]]
+    umg.melt("YOU LOSE! LOL")
+end
+
+local function syncEntity(ent)
+    sync.syncComponent(ent, "round")
+    sync.syncComponent(ent, "level")
+    sync.syncComponent(ent, "requiredPoints")
+    sync.syncComponent(ent, "numberOfRounds")
+end
+
+
 
 local function nextLevel(ent)
     -- reset points:
@@ -40,19 +55,7 @@ local function nextLevel(ent)
     ent.requiredPoints = getRequiredPoints(ent.level)
     ent.numberOfRounds = 4
     lp.setPoints(ent, 0)
-    sync(ent)
-end
-
-
-local function lose()
-    --[[
-    TODO: proper lose-screen here.
-    ]]
-    umg.melt("NYI")
-end
-
-local function sync(ent)
-    return
+    syncEntity(ent)
 end
 
 
@@ -63,6 +66,25 @@ lp.defineItem("lootplot.main:doom_clock", {
     description = loc("This item serves as the Win/Lose condition."),
     rarity = lp.rarities.UNIQUE,
 
+    onDraw = function(ent, x,y, rot, sx,sy, kx,ky)
+        --[[
+        generally, we shouldnt use `onDraw` for entities;
+        But this is a very special case :)
+        ]]
+        local roundCount = loc("Round %{round}/%{numberOfRounds}", ent)
+
+        local needPoints = loc("Need %{required} points", {
+            required = math.max(0, ent.requiredPoints - lp.getPoints(ent))
+        })
+        local font = love.graphics.getFont()
+        local oy = font:getHeight()
+        local limit = 0xffff
+        local roundCountOX = font:getWidth(text.escape(roundCount))/2
+        local needPointsOX = font:getWidth(text.escape(needPoints))/2
+        text.printRichText(roundCount, font, x - roundCountOX, y - oy/2 + oy, limit, rot, sx,sy, kx,ky)
+        text.printRichText(needPoints, font, x - needPointsOX, y - oy/2 - oy, limit, rot, sx,sy, kx,ky)
+    end,
+
     init = function(ent)
         ent.round = lp.main.constants.STARTING_ROUND
         ent.level = lp.main.constants.STARTING_LEVEL
@@ -71,7 +93,6 @@ lp.defineItem("lootplot.main:doom_clock", {
     end,
 
     onActivate = function(ent)
-        print("ACTIVATE DOOM CLOCK!!")
         ent.round = ent.round + 1
         local points = lp.getPoints(ent)
         if points >= ent.requiredPoints then
@@ -81,7 +102,7 @@ lp.defineItem("lootplot.main:doom_clock", {
             -- lose!
             lose()
         end
-        sync(ent)
+        syncEntity(ent)
     end
 })
 

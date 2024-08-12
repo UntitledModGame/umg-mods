@@ -50,7 +50,7 @@ lp.defineItem("lootplot.content.s0:pandoras_box", {
 
     targetType = "SLOT",
     targetShape = lp.targets.ABOVE_SHAPE,
-    targetActivationDescription = loc("Spawn a RARE item in an ABOVE shape that has only 1 use."),
+    targetActivationDescription = loc("{lp_targetColor}Spawn a RARE item in an ABOVE shape that has only 1 use."),
     targetActivate = function(selfEnt, ppos, targetEnt)
         local etype = server.entities[rareItemReroller()]
 
@@ -75,7 +75,7 @@ lp.defineItem("lootplot.content.s0:red_shield", {
 
     targetType = "ITEM",
     targetShape = lp.targets.KING_SHAPE,
-    targetActivationDescription = loc("Triggers PULSE for all target items."),
+    targetActivationDescription = loc("{lp_targetColor}Triggers PULSE for all target items."),
     targetActivate = function(selfEnt, ppos, targetEnt)
         lp.tryTriggerEntity("PULSE", targetEnt)
     end
@@ -87,7 +87,7 @@ lp.defineItem("lootplot.content.s0:green_shield", {
 
     targetType = "ITEM",
     targetShape = lp.targets.KING_SHAPE,
-    targetActivationDescription = loc("Triggers REROLL for all target items."),
+    targetActivationDescription = loc("{lp_targetColor}Triggers REROLL for all target items."),
     targetActivate = function(selfEnt, ppos, targetEnt)
         lp.tryTriggerEntity("REROLL", targetEnt)
     end

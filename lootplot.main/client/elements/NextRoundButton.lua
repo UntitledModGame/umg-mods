@@ -49,7 +49,7 @@ function NextRoundbutton:onRender(x,y,w,h)
     local context = lp.main.getContext()
     self.roundText:setText(string.format("Round %d/%d", context.round, context.maxRound))
 
-    local topTextRegion, bottomTextRegion = ui.Region(x,y,w,h):pad(0.08):splitVertical(3, 2)
+    local topTextRegion, bottomTextRegion = ui.Region(x,y,w,h):padRatio(0.08):splitVertical(3, 2)
     self.readyText:render(topTextRegion:get())
     self.roundText:render(bottomTextRegion:get())
 end

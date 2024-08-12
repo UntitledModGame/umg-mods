@@ -50,7 +50,7 @@ function FancyBar.drawFancyBar(hue, saturation, alpha, x, y, w, h)
     love.graphics.setColor(HSLToRGBWithAlpha(hue, saturation, 0.3, alpha))
     love.graphics.rectangle("fill", bottom:get())
     love.graphics.setColor(HSLToRGBWithAlpha(hue, saturation, 0.85, alpha))
-    love.graphics.rectangle("fill", highlight:pad(0.08,0,0.08,0):get())
+    love.graphics.rectangle("fill", highlight:padRatio(0.08,0,0.08,0):get())
 end
 
 function FancyBar:_updateCatchup(value)

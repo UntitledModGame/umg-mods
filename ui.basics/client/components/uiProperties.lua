@@ -47,7 +47,7 @@ local function dragElement(ent, luiElem, dx, dy)
     local child = getClickedOnChild(luiElem)
     if not child then
         -- if child isn't clicked on; then drag.
-        ent.ui.region = ent.ui.region:offset(dx, dy)
+        ent.ui.region = ent.ui.region:moveUnit(dx, dy)
     end
 end
 

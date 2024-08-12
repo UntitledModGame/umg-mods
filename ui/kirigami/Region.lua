@@ -23,7 +23,11 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ]]
 
----@class Region
+---@class ui.Region
+---@field x number
+---@field y number
+---@field w number
+---@field h number
 local Region = {}
 
 local Region_mt = {__index = Region}
@@ -67,7 +71,7 @@ end
 ---@param y number?
 ---@param w number?
 ---@param h number?
----@return Region
+---@return ui.Region
 local function newRegion(x,y,w,h)
     if not x then
         -- default region is empty
@@ -116,7 +120,7 @@ end
 
 --- Splits a region vertically
 ---@param ... number
----@return Region ...
+---@return ui.Region ...
 function Region:splitVertical(...)
     --[[
         splits a region vertically.
@@ -141,7 +145,7 @@ end
 
 --- Splits a region vertically
 ---@param ... number
----@return Region ...
+---@return ui.Region ...
 function Region:splitHorizontal(...)
     --[[
         Same as vertical, but in other direction
@@ -165,7 +169,7 @@ end
 --- Splits a region into a grid
 ---@param rows number
 ---@param cols number
----@return Region[]
+---@return ui.Region[]
 function Region:grid(rows, cols)
     local w, h = self.w/rows, self.h/cols
     local regions = {}
@@ -185,7 +189,7 @@ end
 
 --- Splits a region into rows
 ---@param rows number
----@return Region
+---@return ui.Region
 function Region:rows(rows)
   return self:grid(rows, 1)
 end
@@ -193,7 +197,7 @@ end
 
 --- Splits a region into columns
 ---@param columns number
----@return Region
+---@return ui.Region
 function Region:columns(columns)
   return self:grid(1, columns)
 end
@@ -213,19 +217,19 @@ end
 
 
 
---- Returns a new padded region; padded by pixels
+--- Returns a new padded region; padded by direct numbers
 ---@param left number
 ---@param top number
 ---@param right number
 ---@param bot number
----@return Region
-function Region:padPixels(left, top, right, bot)
+---@return ui.Region
+function Region:padUnit(left, top, right, bot)
     --[[
         Creates an inner region, with padding on sides.
 
-        :pad(v) -- pads all sides by v.
-        :pad(a,b) -- pads  by `a`, and y-sides by `b`.
-        :pad(top,left,bot,right) -- pads all sides independently
+        :padUnit(v) -- pads all sides by v.
+        :padUnit(a,b) -- pads  by `a`, and y-sides by `b`.
+        :padUnit(top,left,bot,right) -- pads all sides independently
     ]]
     assert(type(left) == "number", "need a number for padding")
     top = top or left -- If top not specified, defaults to left.
@@ -235,37 +239,47 @@ function Region:padPixels(left, top, right, bot)
 end
 
 
-
-local function maxHalf(x)
-    return math.min(0.5, x)
+local function max1(x)
+    return math.min(1, x)
 end
 
-
 --- Returns a new padded region; padded by ratio
---- For example, :pad(0.1) will give 10% padding to ALL sides.
+--- For example, :pad(0.1) will give 10% padding to ALL sides; 
+--- (picking the smallest side as a padder)
+--- :pad(1) will give 100% padding, and make the region disappear.
 ---@param left number
 ---@param top number
 ---@param right number
 ---@param bot number
----@overload fun(self:Region,pad:number):Region
----@return Region
-function Region:pad(left, top, right, bot)
+---@overload fun(self:ui.Region,pad:number):ui.Region
+---@return ui.Region
+function Region:padRatio(left, top, right, bot)
     --[[
         Pads a region, percentage wise.
         For example, :pad(0.1) will give 10% padding to ALL sides.
     ]]
     assert(type(left) == "number", "need a number for padding")
-    left = maxHalf(left)
-    top = maxHalf(top or left)
-    bot = maxHalf(bot or top)
-    right = maxHalf(right or left)
+    local minWH = math.min(self.w, self.h)
+    local ratioH = ((top or bot) and self.h) or minWH
+    local ratioW = (right and self.w) or minWH
+    left = max1(left)
+    top = max1(top or left)
+    bot = max1(bot or top)
+    right = max1(right or left)
 
-    local w,h = self.w, self.h
-    left, right = left*w, right*w
-    top, bot = top*h, bot*h
+    left, right = left*ratioW/2, right*ratioW/2
+    top, bot = top*ratioH/2, bot*ratioH/2
 
     return pad(self, top, left, bot, right)
 end
+
+
+
+---@deprecated
+Region.padPixels = Region.padUnit
+
+---@deprecated
+Region.pad = Region.padRatio
 
 
 --[[
@@ -321,33 +335,77 @@ end
 
 
 
+--- Shrinks a region, reducing its width XOR height 
+--- such that it fits a given ratio
+---@param ratioW number
+---@param ratioH number
+---@return ui.Region
+function Region:shrinkToAspectRatio(ratioW, ratioH)
+    local selfR = self.w / self.h
+    local passR = ratioW / ratioH
+
+    if selfR > passR then
+        -- width too big, height too small
+        return self:set(nil, nil, self.h/passR, nil)
+    elseif passR > selfR then
+        -- height too big, width too small
+        return self:set(nil, nil, nil, self.w/passR)
+    end
+    return self
+end
+
+
+--- Grows a region, increasing its width XOR height 
+--- such that it fits a given ratio
+---@param ratioW number
+---@param ratioH number
+---@return ui.Region
+function Region:growToAspectRatio(ratioW, ratioH)
+    local selfR = self.w / self.h
+    local passR = ratioW / ratioH
+
+    if selfR > passR then
+        -- width too big, height too small
+        return self:set(nil, nil, nil, self.w/passR)
+    elseif passR > selfR then
+        -- height too big, width too small
+        return self:set(nil, nil, self.h/passR, nil)
+    end
+    return self
+end
+
+
+
+
+
 --- Returns a new region that is scaled to fit certain boundaries
 ---@param width number
 ---@param height number
----@return Region
+---@return ui.Region, number
 function Region:scaleToFit(width, height)
     local scale = self:getScaleToFit(width, height)
     local w, h = self.w, self.h
-    return newRegion(self.x, self.y, w*scale, h*scale)
+    return newRegion(self.x, self.y, w*scale, h*scale), scale
 end
+
 
 
 --- Returns a new scaled region
 ---@param sx number
----@param sy number
----@return Region
+---@param sy? number
+---@return ui.Region
 function Region:scale(sx, sy)
-    sx = sx or 1
-    sy = sy or 1
+    sx = sx
+    sy = sy or sx
     return newRegion(self.x, self.y, self.w*sx, self.h*sy)
 end
 
 --- Directly sets the view of a region
----@param x number
----@param y number
----@param w number
----@param h number
----@return Region
+---@param x? number
+---@param y? number
+---@param w? number
+---@param h? number
+---@return ui.Region
 function Region:set(x,y,w,h)
     return newRegion(
         x or self.x,
@@ -405,10 +463,13 @@ local function getEnd(self)
 end
 
 
+--- Intersects 2 regions.
+--- opposite of `union`.
+--- useful for putting a MAXIMUM on region size
+---@param other any
+---@return ui.Region
 function Region:intersection(other)
     --[[
-        Intersects 2 regions.
-        opposite of `union`
     
         :intersection is useful for putting a MAXIMUM on region size
     ]]
@@ -428,6 +489,11 @@ function Region:intersection(other)
 end
 
 
+--- Takes the union between 2 regions
+--- opposite of `intersection`
+--- :union is useful for putting a MINIMUM on region size.
+--- @param other ui.Region
+--- @return ui.Region
 function Region:union(other)
     --[[
         Takes the union between 2 regions
@@ -473,7 +539,13 @@ end
 
 
 
+---@deprecated
 function Region:offset(ox, oy)
+    return self:moveUnit(ox, oy)
+end
+
+
+function Region:moveUnit(ox, oy)
     ox = ox or 0
     oy = oy or 0
     if ox ~= 0 or oy ~= 0 then
@@ -482,6 +554,45 @@ function Region:offset(ox, oy)
     return self
 end
 
+function Region:moveRatio(ratioX, ratioY)
+    local w,h = self:size()
+    local ox = (ratioX or 0) * w
+    local oy = (ratioY or 0) * h
+    return self:moveUnit(self.x+ox, self.y+oy)
+end
+
+
+---@param r2 ui.Region 
+---@return ui.Region
+function Region:attachToTopOf(r2)
+    local top = r2.y
+    local top_minus_h = top - self.h
+    return self:set(nil, top_minus_h, nil, nil)
+end
+
+---@param r2 ui.Region 
+---@return ui.Region
+function Region:attachToBottomOf(r2)
+    local bottom = r2.y + r2.h
+    return self:set(nil, bottom, nil, nil)
+end
+
+
+---@param r2 ui.Region 
+---@return ui.Region
+function Region:attachToLeftOf(r2)
+    local left = r2.x
+    local left_minus_w = left - self.w
+    return self:set(left_minus_w, nil, nil, nil)
+end
+
+
+---@param r2 ui.Region 
+---@return ui.Region
+function Region:attachToRightOf(r2)
+    local right = r2.x + r2.h
+    return self:set(right, nil, nil, nil)
+end
 
 
 
@@ -495,6 +606,7 @@ end
 
 
 
+---@return number,number
 function Region:getCenter()
     -- returns (x,y) position of center of region
     return (self.x + self.w/2), (self.y + self.h/2)
@@ -504,6 +616,12 @@ end
 function Region:get()
     return self.x,self.y, self.w,self.h
 end
+
+---@return number,number
+function Region:size()
+    return self.w,self.h
+end
+
 
 
 return newRegion

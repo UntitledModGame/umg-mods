@@ -284,6 +284,8 @@ lp.hasTrait = traits.hasTrait
 lp.defineTrait = traits.defineTrait
 lp.getTraitDisplayName = traits.getDisplayName
 
+---@type lootplot.LootplotSeed
+lp.SEED = nil
 
 ---@type generation.Generator
 lp.SLOT_GENERATOR = nil

@@ -30,7 +30,7 @@ function Image:onRender(x,y,w,h)
     local region = ui.Region(x,y,w,h)
     local imgRegion = ui.Region(0,0,iw,ih)
 
-    local padded = region:pad(0.05)
+    local padded = region:padRatio(0.05)
     local scale = imgRegion:getScaleToFit(padded)
     -- useful idiom when we want to scale image/text ^^^^
 

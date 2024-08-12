@@ -23,7 +23,7 @@ function BasicBox:onRender(x,y,w,h)
     lg.setColor(0.5,0.5,0.5)
     lg.rectangle("fill",x,y,w,h)
     local r = ui.Region(x,y,w,h)
-        :pad(0.2)
+        :padRatio(0.4)
     self.button:render(r:get())
 end
 

@@ -58,7 +58,7 @@ function MoneyBox:onRender(x,y,w,h)
     self.box:render(x,y,w,h)
     self.text:setText("$"..self.getMoney())
 
-    local r = ui.Region(x,y,w,h):pad(0.08)
+    local r = ui.Region(x,y,w,h):padRatio(0.08)
     local ox, oy = 0, 0
     if self.shakeDuration > love.timer.getTime() then
         ox = (love.math.random() * 2 - 1) * 3
