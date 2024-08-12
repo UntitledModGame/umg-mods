@@ -824,8 +824,15 @@ lp.constants = {
 }
 
 
-lp.ITEM_GENERATOR = generation.Generator()
-lp.SLOT_GENERATOR = generation.Generator()
+local LootplotSeed = require("shared.LootplotSeed")
+--[[
+TODO: allow for custom seeds here.
+pass thru launch-options...?
+]]
+lp.seed = LootplotSeed()
+
+lp.ITEM_GENERATOR = generation.Generator(lp.seed.rerollRNG)
+lp.SLOT_GENERATOR = generation.Generator(lp.seed.rerollRNG)
 
 umg.expose("lp", lp)
 
