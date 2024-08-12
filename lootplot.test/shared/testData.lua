@@ -93,7 +93,7 @@ elseif server then
 
 server.on("lootplot.test:updateLITStatus", function(activate)
     if activate and testData.litReady and testData.largeItemTest then
-        testData.largeItemTest:activateItem()
+        testData.largeItemTest:activateItems()
         testData.litReady = false
         server.broadcast("lootplot.test:updateLITStatus", false)
     end

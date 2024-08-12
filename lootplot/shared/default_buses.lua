@@ -54,7 +54,6 @@ umg.answer("lootplot:isActivationBlocked", function(ent)
     local money = lp.getMoney(ent)
     if ent.moneyGenerated and money then
         if ent.moneyGenerated + money < 0 then
-            print("YO?",ent.moneyGenerated, money)
             return true
         end
     end
@@ -64,7 +63,7 @@ end)
 
 
 umg.answer("lootplot:isActivationBlocked", function(ent)
-    return (ent.activationCount or 0) >= ent.maxActivations
+    return (ent.activationCount or 0) >= (ent.maxActivations or -1)
 end)
 
 

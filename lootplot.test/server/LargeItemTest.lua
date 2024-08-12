@@ -50,7 +50,7 @@ function LargeItemTest:canActivateItem()
     return testData.getContext():getPlot().pipeline:isEmpty()
 end
 
-function LargeItemTest:activateItem()
+function LargeItemTest:activateItems()
     -- Pick random PPos
     local w, h = testData.getPlotDimensions()
     local x, y, ppos
@@ -62,7 +62,7 @@ function LargeItemTest:activateItem()
 
     umg.log.info("Attempt to trigger slot at "..tostring(ppos))
     lp.Bufferer()
-        :add(ppos)
+        :all(ppos:getPlot())
         :to("SLOT") -- ppos-->slot
         :delay(0.5)
         :execute(function(_ppos, slotEnt)
