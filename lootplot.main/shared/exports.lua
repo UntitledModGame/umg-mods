@@ -9,8 +9,6 @@ assert(not lp.main, "invalid mod setup")
 local main = {}
 
 
-
-do
 local currentContext = nil
 
 local lpWorldGroup = umg.group("lootplotContext")
@@ -32,6 +30,11 @@ function main.getContext()
     assert(currentContext, "Not ready yet! (Check using lp.main.isReady() )")
     return currentContext
 end
+
+local winLose = require("shared.win_lose")
+
+if server then
+    main.endGame = winLose.endGame
 end
 
 

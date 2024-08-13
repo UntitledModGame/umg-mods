@@ -13,6 +13,10 @@ function Button:init(args)
     self.onClick = args.onClick
     self.text = args.text
     self.padding = args.padding or DEFAULT_PADDING
+    self.font = args.font or love.graphics.getFont()
+    self.backgroundColor = args.backgroundColor
+    self.outlineColor = args.outlineColor
+    self.textColor = args.textColor
     if args.image then
         self.imageElement = ui.elements.Image({
             image = args.image
@@ -25,7 +29,9 @@ end
 local function ensureTextElement(self)
     if not self.textElement then
         self.textElement = ui.elements.Text({
-            text = self.text
+            text = self.text,
+            font = self.font,
+            color = self.textColor,
         })
         self:addChild(self.textElement)
     end
