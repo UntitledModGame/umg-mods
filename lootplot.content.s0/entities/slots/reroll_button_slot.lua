@@ -1,4 +1,10 @@
 return lp.defineSlot("lootplot.content.s0:reroll_button_slot", {
+
+    name = localization.localize("Reroll button"),
+    description = localization.localize("Click to reroll!"),
+
+    baseMoneyGenerated = -1,
+
     image = "reroll_button_up",
     activateAnimation = {
         activate = "reroll_button_hold",

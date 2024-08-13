@@ -37,6 +37,10 @@ end
 
 lp.defineSlot("lootplot.main:next_round_button_slot", {
     image = "start_button_up",
+
+    name = localization.localize("Next round button"),
+    description = localization.localize("Click to go to the next round"),
+
     activateAnimation = {
         activate = "start_button_hold",
         idle = "start_button_up",
