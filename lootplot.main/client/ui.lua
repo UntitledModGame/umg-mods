@@ -5,6 +5,8 @@ local backgroundManager = require("client.background_manager")
 local fonts = require("client.fonts")
 local musicManager = require("client.music_manager")
 
+local winLose = require("shared.win_lose")
+
 ---@class lootplot.main.Scene: Element
 local Scene = ui.Element("lootplot.main:Screen")
 
@@ -14,14 +16,22 @@ function Scene:init(args)
 
     self.levelStatus = ui.elements.LevelStatus()
     self.moneyBox = ui.elements.MoneyBox()
+    self.endGameDialog = ui.elements.EndGameScene({
+        onDismiss = function()
+            self.renderEndGameDialog = false
+        end
+    })
+
     self.itemDescriptionSelected = nil
     self.itemDescriptionSelectedTime = 0
     self.cursorDescription = nil
     self.cursorDescriptionTime = 0
+    self.renderEndGameDialog = false
     self.slotActionButtons = {}
 
     self:addChild(self.moneyBox)
     self:addChild(self.levelStatus)
+    self:addChild(self.endGameDialog)
 end
 
 
@@ -99,6 +109,11 @@ function Scene:onRender(x,y,w,h)
             button:render(region:get())
         end
     end
+
+    if self.renderEndGameDialog then
+        local dialog = r:padRatio(0.3)
+        self.endGameDialog:render(dialog:get())
+    end
 end
 
 local function populateDescriptionBox(entity)
@@ -154,8 +169,18 @@ function Scene:setActionButtons(actions)
     end
 end
 
+---@param win boolean
+function Scene:showEndGameDialog(win)
+    self.endGameDialog:setWinning(win)
+    self.renderEndGameDialog = true
+end
+
 ---@type lootplot.main.Scene
 local scene = Scene()
+
+winLose.setEndGameCallback(function(win)
+    scene:showEndGameDialog(win)
+end)
 
 umg.on("rendering:drawUI", function()
     scene:render(0,0,love.graphics.getDimensions())
