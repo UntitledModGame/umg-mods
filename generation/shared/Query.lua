@@ -154,6 +154,16 @@ function Query:addAllEntries()
 end
 
 
+function Query:refresh()
+    --[[
+    refreshes the query, causing the chance-adjusters and filters
+    to be applied again.
+    
+    Useful when our filters/chance-adjusters tag onto global state.
+    ]]
+    self.outdated = true
+end
+
 
 local function applyFilters(self, pick)
     local entry = pick.entry
