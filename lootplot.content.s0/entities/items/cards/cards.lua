@@ -54,7 +54,7 @@ lp.defineItem("lootplot.content.s0:spades_card", {
     name = loc("Spades Card"),
     targetType = "ITEM",
     targetActivationDescription = loc("{lp_targetColor}Shuffle positions of target items"),
-    targetShape = lp.targets.ABOVE_BELOW_SHAPE,
+    targetShape = lp.targets.KING_SHAPE,
     onActivate = function(selfEnt)
         local targets = lp.targets.getTargets(selfEnt)
 
