@@ -90,7 +90,8 @@ local entityTc = typecheck.assert("entity")
 function lp.posToSlot(ppos)
     lp.posTc(ppos)
     local plot = ppos:getPlot()
-    return plot:getSlot(ppos.slot)
+    local x,y = plot:indexToCoords(ppos.slot)
+    return plot:getSlot(x,y)
 end
 
 ---@param ppos lootplot.PPos
@@ -98,7 +99,8 @@ end
 function lp.posToItem(ppos)
     lp.posTc(ppos)
     local plot = ppos:getPlot()
-    return plot:getItem(ppos.slot)
+    local x,y = plot:indexToCoords(ppos.slot)
+    return plot:getItem(x,y)
 end
 
 ---@param slotEnt lootplot.SlotEntity

@@ -59,12 +59,10 @@ local function nextLevel(ent)
 end
 
 
-lp.defineItem("lootplot.main:doom_clock", {
-    name = loc("Doom clock"),
+umg.defineEntityType("lootplot.main:doom_clock", {
     image = "doom_clock",
-    triggers = {"RESET"},
-    description = loc("This item serves as the Win/Lose condition."),
-    rarity = lp.rarities.UNIQUE,
+
+    layer = "world",
 
     onDraw = function(ent, x,y, rot, sx,sy, kx,ky)
         --[[
@@ -73,19 +71,18 @@ lp.defineItem("lootplot.main:doom_clock", {
         ]]
         local roundCount = loc("Round %{round}/%{numberOfRounds}", ent)
 
-        local needPoints = loc("Need %{required} points", {
-            required = math.max(0, ent.requiredPoints - lp.getPoints(ent))
+        local needPoints = loc("Points: %{points}/%{requiredPoints}", {
+            points = math.min(lp.getPoints(ent), ent.requiredPoints),
+            requiredPoints = ent.requiredPoints
         })
         local font = love.graphics.getFont()
         local oy = font:getHeight()
         local limit = 0xffff
-        local roundCountOX = font:getWidth(text.escapeRichTextSyntax(roundCount))/2
-        local needPointsOX = font:getWidth(text.escapeRichTextSyntax(needPoints))/2
-        text.printRich(roundCount, font, x - roundCountOX, y - oy/2 + oy, limit, "left", rot, sx,sy, kx,ky)
-        text.printRich(needPoints, font, x - needPointsOX, y - oy/2 - oy, limit, "left", rot, sx,sy, kx,ky)
+        text.printRichCentered(roundCount, font, x, y, limit, "left", rot, sx,sy, kx,ky)
+        text.printRichCentered(needPoints, font, x, y - oy, limit, "left", rot, sx,sy, kx,ky)
     end,
 
-    init = function(ent)
+    init = function(ent, x, y)
         ent.round = lp.main.constants.STARTING_ROUND
         ent.level = lp.main.constants.STARTING_LEVEL
         ent.requiredPoints = getRequiredPoints(ent.level)

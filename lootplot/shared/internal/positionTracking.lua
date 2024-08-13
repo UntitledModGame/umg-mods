@@ -98,11 +98,8 @@ end
 
 local function updatePlot(plotEnt)
     local plot = plotEnt.plot
-    plot:foreachSlot(function(slotEnt, ppos)
-        ptrack.set(slotEnt, ppos)
-    end)
-    plot:foreachItem(function(itemEnt, ppos)
-        ptrack.set(itemEnt, ppos)
+    plot:foreachLayerEntry(function(ent, ppos, _layer)
+        ptrack.set(ent, ppos)
     end)
 end
 

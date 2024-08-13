@@ -54,13 +54,8 @@ end
 ---@param clientId string
 ---@param plot lootplot.Plot
 local function initializeItems(clientId, plot)
-    --[[
-    TODO: put doom-clock here.
-    ]]
-    plot:foreachInArea(10, 4, 10, 4, function (ppos)
-        lp.forceSpawnSlot(ppos, server.entities.slot, clientId)
-        lp.forceSpawnItem(ppos, server.entities.doom_clock, clientId)
-    end)
+    local dclock = server.entities.doom_clock()
+    plot:set(10,4, dclock)
 end
 
 umg.on("@createWorld", function()

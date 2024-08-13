@@ -42,6 +42,10 @@ function Plot:init(ownerEnt, width, height)
         ]]
         ["slot"] = objects.Grid(width,height),
         ["item"] = objects.Grid(width,height),
+
+        -- ents that are part of the world itself
+        -- (ie text, bosses, etc)
+        ["world"] = objects.Grid(width,height)
         -- ... can define custom ones too!
     }
 
@@ -79,9 +83,10 @@ local LAYER = "string"
 umg.definePacket("lootplot:setPlotEntry", {typelist = {ENT, INDEX, ENT}})
 umg.definePacket("lootplot:clearPlotEntry", {typelist = {ENT, INDEX, LAYER}})
 
----@param index integer
+---@param x integer
+---@param y integer
 ---@param ent lootplot.LayerEntity needs ent.layer comp
-function Plot:set(index, ent)
+function Plot:set(x, y, ent)
     --[[
         ent needs ent.layer comp
     ]]
@@ -93,8 +98,8 @@ function Plot:set(index, ent)
     ]]
     assert(not ptrack.get(ent), "attached somewhere else")
 
-    local x,y = self.grid:indexToCoords(index)
     local grid = self.layers[ent.layer]
+    local index = self:coordsToIndex(x,y)
     grid:set(x,y, ent)
     ptrack.set(ent, lp.PPos({
         slot=index,
@@ -125,7 +130,9 @@ end
 
 if client then
     client.on("lootplot:setPlotEntry", function(plotEnt, index, ent)
-        plotEnt.plot:set(index, ent)
+        local plot = plotEnt.plot
+        local x,y = plot:coordsToIndex(index)
+        plot:set(x, y, ent)
     end)
     client.on("lootplot:clearPlotEntry", function(plotEnt, index, layer)
         plotEnt.plot:clear(index, layer)
@@ -140,25 +147,31 @@ function Plot:getOwnerEntity()
 end
 
 
----@param index integer
----@return lootplot.SlotEntity?
-function Plot:getSlot(index)
-    local x,y = self.grid:indexToCoords(index)
-    local e = self.layers.slot:get(x,y)
-    if umg.exists(e) then
-        return e
+function Plot:get(layer, x,y)
+    local grid = self.layers[layer]
+    if not grid then
+        error("Invalid layer: " .. tostring(layer))
+    end
+    assert(self.grid:contains(x,y), "out of bounds!")
+    local ent = grid:get(x,y)
+    if umg.exists(ent) then
+        return ent
     end
 end
 
----@param index integer
+
+---@param x integer
+---@param y integer
+---@return lootplot.SlotEntity?
+function Plot:getSlot(x, y)
+    return self:get("slot", x, y)
+end
+
+---@param x integer
+---@param y integer
 ---@return lootplot.ItemEntity?
-function Plot:getItem(index)
-    local x,y = self.grid:indexToCoords(index)
-    -- This is a bit hacky accessing the item layer directly
-    local e = self.layers.item:get(x,y)
-    if umg.exists(e) then
-        return e
-    end
+function Plot:getItem(x, y)
+    return self:get("item", x,y)
 end
 
 ---@param x1 integer
@@ -243,6 +256,21 @@ function Plot:foreachItem(func)
         end
     end)
 end
+
+
+---@param func fun(ent:Entity,ppos:lootplot.PPos,layer:string)
+function Plot:foreachLayerEntry(func)
+    for layer, _ in pairs(self.layers) do
+        self:foreach(function(ppos)
+            local x,y = self:indexToCoords(ppos.slot)
+            local ent = self:get(layer, x,y)
+            if ent then
+                func(ppos, ent, layer)
+            end
+        end)
+    end
+end
+
 
 ---returns plot-position as a dimensionVector
 ---@param ppos lootplot.PPos
