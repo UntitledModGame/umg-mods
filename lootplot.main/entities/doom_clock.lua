@@ -36,7 +36,8 @@ local function lose()
     --[[
     TODO: proper lose-screen here.
     ]]
-    umg.melt("YOU LOSE! LOL")
+    -- umg.melt("YOU LOSE! LOL")
+    lp.main.endGame(nil, false)
 end
 
 local function syncEntity(ent)
