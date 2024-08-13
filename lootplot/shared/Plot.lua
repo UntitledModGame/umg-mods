@@ -83,6 +83,9 @@ local LAYER = "string"
 umg.definePacket("lootplot:setPlotEntry", {typelist = {ENT, INDEX, ENT}})
 umg.definePacket("lootplot:clearPlotEntry", {typelist = {ENT, INDEX, LAYER}})
 
+
+local setTc = typecheck.assert("number", "number", "entity")
+
 ---@param x integer
 ---@param y integer
 ---@param ent lootplot.LayerEntity needs ent.layer comp
@@ -90,6 +93,7 @@ function Plot:set(x, y, ent)
     --[[
         ent needs ent.layer comp
     ]]
+    setTc(x,y,ent)
     assert(ent:isSharedComponent("layer"))
     --[[
         TODO: Should we guard against multiple attachment???
@@ -131,7 +135,7 @@ end
 if client then
     client.on("lootplot:setPlotEntry", function(plotEnt, index, ent)
         local plot = plotEnt.plot
-        local x,y = plot:coordsToIndex(index)
+        local x,y = plot:indexToCoords(index)
         plot:set(x, y, ent)
     end)
     client.on("lootplot:clearPlotEntry", function(plotEnt, index, layer)
@@ -147,7 +151,9 @@ function Plot:getOwnerEntity()
 end
 
 
+local getTc = typecheck.assert("string", "number", "number")
 function Plot:get(layer, x,y)
+    getTc(layer, x,y)
     local grid = self.layers[layer]
     if not grid then
         error("Invalid layer: " .. tostring(layer))
@@ -258,14 +264,14 @@ function Plot:foreachItem(func)
 end
 
 
----@param func fun(ent:Entity,ppos:lootplot.PPos,layer:string)
+---@param func fun(ent: Entity, ppos:lootplot.PPos, layer:string)
 function Plot:foreachLayerEntry(func)
     for layer, _ in pairs(self.layers) do
         self:foreach(function(ppos)
             local x,y = self:indexToCoords(ppos.slot)
             local ent = self:get(layer, x,y)
             if ent then
-                func(ppos, ent, layer)
+                func(ent, ppos, layer)
             end
         end)
     end

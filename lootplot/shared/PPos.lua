@@ -128,7 +128,13 @@ end
 
 ---@param ent lootplot.LayerEntity
 function PPos:set(ent)
-    return self:getPlot():set(self.slot, ent)
+    --[[
+    WARNING: This is a very low-level function!!!
+        dont call this unless ur a pro
+    ]]
+    local plot = self:getPlot()
+    local x,y = plot:indexToCoords(self.slot)
+    return plot:set(x,y, ent)
 end
 
 ---@param ent lootplot.LayerEntity

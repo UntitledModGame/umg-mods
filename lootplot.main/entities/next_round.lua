@@ -17,7 +17,9 @@ local function startRound(ent, ppos)
 
     lp.queue(ppos, function()
         -- This will execute LAST.
-        plot:trigger("RESET")
+        plot:foreachLayerEntry(function(ent, ppos, layer)
+            lp.reset(ent)
+        end)
         lp.addMoney(ent, 8)
     end)
 

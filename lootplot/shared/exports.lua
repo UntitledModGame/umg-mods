@@ -341,7 +341,7 @@ function lp.setSlot(ppos, slotEnt)
     if prevEnt then
         lp.destroy(prevEnt)
     end
-    ppos:getPlot():set(ppos.slot, slotEnt)
+    ppos:set(slotEnt)
 end
 
 
@@ -496,6 +496,9 @@ function lp.reset(ent)
     ent.activationCount = 0
     lp.tryTriggerEntity("RESET", ent)
     umg.call("lootplot:entityReset", ent)
+    if ent.onReset then
+        ent:onReset()
+    end
 end
 
 ---@param ent Entity
