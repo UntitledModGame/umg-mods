@@ -54,12 +54,12 @@ umg.on("rendering:drawEntity", ORDER, function(ent, x,y, rot, sx,sy)
     end
 
     assert(type(txt)=="string", "???")
-    local escpTxt = text.escape(txt)
+    local escpTxt = text.escapeRichTextSyntax(txt)
     --[[
-    TODO: offsets should automatically be centered as per text.printRichText call!
+    TODO: offsets should automatically be centered as per text.printRich call!
     ]]
     local ox = font:getWrap(escpTxt, limit)
     local oy = font:getHeight()
-    text.printRichText(txt, font, x+dx,y+dy, limit, rot, sx,sy, ox/2, oy/2)
+    text.printRich(txt, font, x+dx,y+dy, limit, "left", rot, sx,sy, ox/2, oy/2)
 end)
 

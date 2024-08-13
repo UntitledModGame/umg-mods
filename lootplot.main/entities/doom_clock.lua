@@ -79,10 +79,10 @@ lp.defineItem("lootplot.main:doom_clock", {
         local font = love.graphics.getFont()
         local oy = font:getHeight()
         local limit = 0xffff
-        local roundCountOX = font:getWidth(text.escape(roundCount))/2
-        local needPointsOX = font:getWidth(text.escape(needPoints))/2
-        text.printRichText(roundCount, font, x - roundCountOX, y - oy/2 + oy, limit, rot, sx,sy, kx,ky)
-        text.printRichText(needPoints, font, x - needPointsOX, y - oy/2 - oy, limit, rot, sx,sy, kx,ky)
+        local roundCountOX = font:getWidth(text.escapeRichTextSyntax(roundCount))/2
+        local needPointsOX = font:getWidth(text.escapeRichTextSyntax(needPoints))/2
+        text.printRich(roundCount, font, x - roundCountOX, y - oy/2 + oy, limit, "left", rot, sx,sy, kx,ky)
+        text.printRich(needPoints, font, x - needPointsOX, y - oy/2 - oy, limit, "left", rot, sx,sy, kx,ky)
     end,
 
     init = function(ent)

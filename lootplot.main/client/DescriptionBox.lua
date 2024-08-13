@@ -63,7 +63,7 @@ function DescriptionBox:draw(x, y, w, h)
             end
             ---@cast str string
             local font = content.font or self.defaultFont
-            local strings = select(2, font:getWrap(text.clear(str) or str, w / scale))
+            local strings = select(2, font:getWrap(text.stripEffects(str) or str, w / scale))
             local height = #strings * font:getHeight() * scale
 
             if (currentHeight + height) > h then
@@ -72,7 +72,7 @@ function DescriptionBox:draw(x, y, w, h)
             end
 
             love.graphics.setColor(r, g, b, a)
-            text.printRichText(str, font, x, y + currentHeight, w / scale, 0, scale, scale)
+            text.printRich(str, font, x, y + currentHeight, w / scale, "left", 0, scale, scale)
 
             currentHeight = currentHeight + height
             lastFont = font

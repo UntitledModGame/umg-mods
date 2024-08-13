@@ -264,7 +264,8 @@ end
 -- LOVE types
 local loveTypes = {
     "Source",
-    "Quad"
+    "Transform",
+    "Quad",
 }
 for _, lt in ipairs(loveTypes) do
     local errmsg = "Expected "..lt.." LOVE object"
