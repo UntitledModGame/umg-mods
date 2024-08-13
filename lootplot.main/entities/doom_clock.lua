@@ -33,10 +33,6 @@ end
 
 
 local function lose()
-    --[[
-    TODO: proper lose-screen here.
-    ]]
-    -- umg.melt("YOU LOSE! LOL")
     lp.main.endGame(nil, false)
 end
 
@@ -77,13 +73,12 @@ umg.defineEntityType("lootplot.main:doom_clock", {
             requiredPoints = ent.requiredPoints
         })
         local font = love.graphics.getFont()
-        local oy = font:getHeight()
         local limit = 0xffff
-        text.printRichCentered(roundCount, font, x, y, limit, "left", rot, sx,sy, kx,ky)
-        text.printRichCentered(needPoints, font, x, y - oy, limit, "left", rot, sx,sy, kx,ky)
+        text.printRichCentered(roundCount, font, x, y + 16, limit, "left", rot, sx,sy, kx,ky)
+        text.printRichCentered(needPoints, font, x, y - 18, limit, "left", rot, sx,sy, kx,ky)
     end,
 
-    init = function(ent, x, y)
+    init = function(ent)
         ent.round = lp.main.constants.STARTING_ROUND
         ent.level = lp.main.constants.STARTING_LEVEL
         ent.requiredPoints = getRequiredPoints(ent.level)

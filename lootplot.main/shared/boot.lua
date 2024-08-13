@@ -56,6 +56,11 @@ end
 local function initializeItems(clientId, plot)
     local dclock = server.entities.doom_clock()
     plot:set(10,4, dclock)
+    local ppos = plot:getPPos(10,4)
+    local v = ppos:getWorldPos()
+    dclock.x = v.x
+    dclock.y = v.y
+    dclock.dimension = v.dimension
 end
 
 umg.on("@createWorld", function()

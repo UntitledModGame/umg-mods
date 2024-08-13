@@ -36,10 +36,10 @@ end
 
 
 lp.defineSlot("lootplot.main:next_round_button_slot", {
-    image = "button_up",
+    image = "start_button_up",
     activateAnimation = {
-        activate = "button_hold",
-        idle = "button_up",
+        activate = "start_button_hold",
+        idle = "start_button_up",
         duration = 0.4
     },
 

@@ -105,10 +105,7 @@ function Plot:set(x, y, ent)
     local grid = self.layers[ent.layer]
     local index = self:coordsToIndex(x,y)
     grid:set(x,y, ent)
-    ptrack.set(ent, lp.PPos({
-        slot=index,
-        plot=self
-    }))
+    ptrack.set(ent, self:getPPos(x,y))
     if server then
         local plotEnt = self.ownerEnt
         server.broadcast("lootplot:setPlotEntry", plotEnt, index, ent)
@@ -164,6 +161,20 @@ function Plot:get(layer, x,y)
         return ent
     end
 end
+
+
+---comment
+---@param x number
+---@param y number
+---@return lootplot.PPos
+function Plot:getPPos(x,y)
+    local index = self:coordsToIndex(x,y)
+    return lp.PPos({
+        slot=index,
+        plot=self
+    })
+end
+
 
 
 ---@param x integer

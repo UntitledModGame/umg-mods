@@ -263,7 +263,7 @@ function CloudBackground:update(dt)
     end
 end
 
-local BACKGROUND_COLOR = objects.Color("#FF7F91FF") -- sky
+local BACKGROUND_COLOR = objects.Color("#FF8FA1FF") -- sky
 local CLOUD_COLOR_LEVEL = {
     objects.Color("#FFD1D8FF"), -- top cloud
     objects.Color("#FFBDC6FF"), -- mid1 cloud
