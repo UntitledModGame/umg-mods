@@ -410,7 +410,10 @@ local function canRemoveItemOrNoItem(slotEnt)
     local itemEnt = lp.slotToItem(slotEnt)
 
     if itemEnt then
-        return not umg.ask("lootplot:isItemRemovalBlocked", slotEnt, itemEnt)
+        if slotEnt.canRemoveItemFromSlot and (not slotEnt:canRemoveItemFromSlot(itemEnt, itemEnt)) then
+            return false
+        end
+        return umg.ask("lootplot:canRemoveItemFromSlot", slotEnt, itemEnt)
     end
 
     return true
@@ -427,8 +430,11 @@ local function couldHoldItem(slotEnt, itemEnt)
         (If we use `canAddItem` when swapping items, then we will always
             get false, because theres another item in the slot.)
     ]]
-    if itemEnt then
-        return not umg.ask("lootplot:isItemAdditionBlocked", slotEnt, itemEnt)
+    if umg.exists(itemEnt) then
+        if slotEnt.canAddItemToSlot and (not slotEnt:canAddItemToSlot(itemEnt, itemEnt)) then
+            return false
+        end
+        return umg.ask("lootplot:canAddItemToSlot", slotEnt, itemEnt)
     end
 
     return true

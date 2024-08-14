@@ -44,10 +44,16 @@ umg.answer("lootplot:hasPlayerAccess", function(ent)
 end)
 
 
-umg.answer("lootplot:isItemAdditionBlocked", function(slotEnt)
+umg.answer("lootplot:canAddItemToSlot", function(slotEnt)
     -- button slots cant hold items!
-    return not not slotEnt:hasComponent("buttonSlot")
+    return not slotEnt:hasComponent("buttonSlot")
 end)
+
+umg.answer("lootplot:canRemoveItemFromSlot", function(slotEnt, _)
+    -- we need this to return true coz we are using AND reducer!
+    return true
+end)
+
 
 
 umg.answer("lootplot:isActivationBlocked", function(ent)
