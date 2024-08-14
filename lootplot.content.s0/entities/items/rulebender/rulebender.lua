@@ -43,7 +43,10 @@ lp.defineItem("lootplot.content.s0:money_box", {
             local etype = server.entities[rareItemReroller()]
 
             if etype then
-                lp.forceSpawnItem(ppos, etype, selfEnt.lootplotTeam)
+                local e = lp.forceSpawnItem(ppos, etype, selfEnt.lootplotTeam)
+                if e then
+                    e.baseMoneyGenerated = -1
+                end
             end
         end
     end
@@ -60,7 +63,10 @@ lp.defineItem("lootplot.content.s0:pandoras_box", {
         local etype = server.entities[rareItemReroller()]
 
         if etype then
-            lp.trySpawnItem(ppos, etype, selfEnt.lootplotTeam)
+            local e = lp.trySpawnItem(ppos, etype, selfEnt.lootplotTeam)
+            if e then
+                e.doomCount = 1
+            end
         end
     end
 })

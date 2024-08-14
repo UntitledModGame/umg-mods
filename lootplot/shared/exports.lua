@@ -410,7 +410,7 @@ local function canRemoveItemOrNoItem(slotEnt)
     local itemEnt = lp.slotToItem(slotEnt)
 
     if itemEnt then
-        if slotEnt.canRemoveItemFromSlot and (not slotEnt:canRemoveItemFromSlot(itemEnt, itemEnt)) then
+        if slotEnt.canRemoveItemFromSlot and (not slotEnt:canRemoveItemFromSlot(itemEnt)) then
             return false
         end
         return umg.ask("lootplot:canRemoveItemFromSlot", slotEnt, itemEnt)
@@ -431,7 +431,7 @@ local function couldHoldItem(slotEnt, itemEnt)
             get false, because theres another item in the slot.)
     ]]
     if umg.exists(itemEnt) then
-        if slotEnt.canAddItemToSlot and (not slotEnt:canAddItemToSlot(itemEnt, itemEnt)) then
+        if slotEnt.canAddItemToSlot and (not slotEnt:canAddItemToSlot(itemEnt)) then
             return false
         end
         return umg.ask("lootplot:canAddItemToSlot", slotEnt, itemEnt)
