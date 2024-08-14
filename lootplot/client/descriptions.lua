@@ -113,7 +113,7 @@ end)
 umg.on("lootplot:populateDescription", 50, function(ent, arr)
     if ent.moneyGenerated and ent.moneyGenerated < 0 then
         arr:add(funcLocEnt(
-            "{c r=1 g=1 b=0.4}{i}Requires money to activate.", 
+            "{c r=1 g=1 b=0.4}Requires money to activate.", 
             ent
         ))
     end

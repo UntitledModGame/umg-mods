@@ -49,6 +49,10 @@ local function initializeSlots(clientId, plot)
     plot:foreachInArea(6, 4, 6, 4, function(ppos)
         lp.forceSpawnSlot(ppos, server.entities.next_round_button_slot, clientId)
     end)
+
+    plot:foreachInArea(2, 2, 2, 2, function(ppos)
+        lp.forceSpawnSlot(ppos, server.entities.reroll_slot, clientId)
+    end)
 end
 
 ---@param clientId string

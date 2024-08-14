@@ -17,7 +17,7 @@ local function defineCap(image, name, trigger)
 
         targetType = "SLOT",
         targetShape = lp.targets.PlusShape(2, "ROOK-2"),
-        targetActivationDescription = loc("When sold/destroyed, "..trigger.." target."),
+        targetActivationDescription = loc(trigger.." target."),
         targetActivate = function(selfEnt, ppos, targetEnt)
             return lp.tryTriggerEntity(trigger, targetEnt)
         end
