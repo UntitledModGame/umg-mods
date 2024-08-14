@@ -14,6 +14,15 @@ return lp.defineSlot("lootplot.content.s0:dirt_slot", {
         if math.random() < 0.5 then
             ent.scaleY = -1
         end
+    end,
+
+    canAddItemToSlot = function(slotEnt, itemEnt)
+        if itemEnt.rarity then
+            local rare = lp.rarities.getWeight(lp.rarities.RARE)
+            local itemRarity = lp.rarities.getWeight(itemEnt.rarity)
+            return itemRarity < rare
+        end
+        return true -- no rarity.. i guess its fine? 
     end
 })
 

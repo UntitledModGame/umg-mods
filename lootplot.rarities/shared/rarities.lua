@@ -58,8 +58,7 @@ lp.rarities = {
 }
 
 ---@param r1 lootplot.Rarity
----@param r2 lootplot.Rarity
-function lp.rarities.compare(r1, r2)
-    local rarityDiff = r2.rarityWeight - r1.rarityWeight
-    return rarityDiff == 0 and 0 or rarityDiff / math.abs(rarityDiff)
+---@return number Rarity-weight of the rarity object. Lower means more rare.
+function lp.rarities.getWeight(r1)
+    return r1.rarityWeight
 end

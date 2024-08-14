@@ -5,7 +5,12 @@ local rareItemReroller = lp.ITEM_GENERATOR
     :addAllEntries()
     :filter(function(entry, traits, chance)
         local etype = server.entities[entry]
-        return etype and etype.rarity and lp.rarities.compare(etype.rarity, lp.rarities.RARE) >= 0
+        if etype and etype.rarity then
+            local rare = lp.rarities.getWeight(lp.rarities.RARE)
+            local etypeRarity = lp.rarities.getWeight(etype.rarity)
+            return etypeRarity >= rare
+        end
+        return false
     end
 )
 
