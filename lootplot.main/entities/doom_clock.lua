@@ -62,6 +62,8 @@ umg.defineEntityType("lootplot.main:doom_clock", {
     layer = "world",
     triggers = {"RESET"},
 
+    baseMaxActivations = 100,
+
     onDraw = function(ent, x,y, rot, sx,sy, kx,ky)
         --[[
         generally, we shouldnt use `onDraw` for entities;
@@ -87,7 +89,6 @@ umg.defineEntityType("lootplot.main:doom_clock", {
     end,
 
     onActivate = function(ent)
-        umg.melt("YASS.")
         ent.round = ent.round + 1
         local points = lp.getPoints(ent)
         if points >= ent.requiredPoints then
