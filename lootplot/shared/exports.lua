@@ -693,7 +693,7 @@ local function giveCommonComponents(etype)
 end
 
 
-local function getChance(etype)
+local function getSpawnChance(etype)
     return umg.ask("lootplot:getEntityTypeSpawnChance", etype) or 1
 end
 
@@ -743,7 +743,7 @@ function lp.defineItem(name, itemType)
     giveCommonComponents(itemType)
     umg.defineEntityType(name, itemType)
     lp.ITEM_GENERATOR:defineEntry(name, {
-        defaultChance = getChance(itemType),
+        defaultChance = getSpawnChance(itemType),
         traits = keys(itemType.baseTraits)
     })
 end
@@ -782,7 +782,7 @@ function lp.defineSlot(name, slotType)
     giveCommonComponents(slotType)
     umg.defineEntityType(name, slotType)
     lp.SLOT_GENERATOR:defineEntry(name, {
-        defaultChance = getChance(slotType),
+        defaultChance = getSpawnChance(slotType),
         traits = keys(slotType.baseTraits)
     })
 end
