@@ -11,37 +11,68 @@ local n9pObjects = setmetatable({}, {__mode = "v"})
 -- If `n9slice` high-level function doesn't suit your needs, access the library functions directly here.
 n9slice.n9p = n9p
 
-local loadFromImageQuadTc = typecheck.assert("love:Texture|love:ImageData", "love:Quad", "boolean?")
+local loadFromImageQuadTc = typecheck.assert("love:Texture|love:ImageData", "love:Quad", "table?")
+
+---@class n9slice.settings
+---@field public template? love.ImageData Use this template to scan stretchable areas.
+---@field public stretchType? n9p.QuadDrawMode How to seamlessly resize stretchable areas? ("keep" is not a valid value)
 
 ---@param texture love.Texture|love.ImageData Texture atlas.
 ---@param quad love.Quad Subregion of the texture atlas to consider.
----@param tile boolean? Tile the stretchable area instead of stretching it?
-function n9slice.loadFromImageQuad(texture, quad, tile)
-    loadFromImageQuadTc(texture, quad, tile)
+---@param settings n9slice.settings? Additional settings. See the `n9slice.settings` type for more information.
+function n9slice.loadFromImageQuad(texture, quad, settings)
+    loadFromImageQuadTc(texture, quad, settings)
 
     local x, y, w, h = quad:getViewport()
-    local imagedata
-    if typecheck["love:Texture"](texture) then
-        ---@cast texture love.Texture
-        -- FIXME: This is slow. Is it cheaper to just re-load the ImageData?
-        imagedata = love.graphics.readbackTexture(texture, nil, 1, x, y, w, h)
+    local templating = false
+    local imagedata = nil
+    local tile = false
+
+    if settings then
+        if settings.template then
+            imagedata = settings.template
+            templating = true
+        end
+
+        tile = settings.stretchType == "repeat"
+    end
+
+    -- Do not alter subregion when using a template
+    local subregion = nil
+    if templating then
+        local tw, th = imagedata:getDimensions()
+        if (tw - 2) ~= w or (th - 2) ~= h then
+            umg.melt("invalid template dimensions. Expected "..tw.."x"..th..", got "..w.."x"..h.." (note, template dimensions must be 2px larger than the quad)")
+        end
+
+        subregion = {x = x, y = y, w = w, h = h}
     else
-        ---@cast texture love.ImageData
-        imagedata = love.image.newImageData(w, h, texture:getFormat())
-        imagedata:paste(texture, 0, 0, x, y, w, h)
+        subregion = {x = x + 1, y = y + 1, w = w - 2, h = h - 2}
+    end
+
+    if not imagedata then
+        if typecheck["love:Texture"](texture) then
+            ---@cast texture love.Texture
+            -- FIXME: This is slow. Is it cheaper to just re-load the ImageData?
+            imagedata = love.graphics.readbackTexture(texture, nil, 1, x, y, w, h)
+        else
+            ---@cast texture love.ImageData
+            imagedata = love.image.newImageData(w, h, texture:getFormat())
+            imagedata:paste(texture, 0, 0, x, y, w, h)
+        end
     end
 
     return n9p.loadFromImage(imagedata, {
         texture = texture,
-        tile = not not tile,
-        subregion = {x = x + 1, y = y + 1, w = w - 2, h = h - 2}
+        tile = tile,
+        subregion = subregion
     })
 end
 
 ---@param name string Name of the assets. Must be available in `client.assets.images`.
----@param tile boolean? Tile the stretchable area instead of stretching it?
+---@param settings n9slice.settings? Additional settings. See the `n9slice.settings` type for more information.
 ---@return n9p.Instance
-function n9slice.loadFromAssets(name, tile)
+function n9slice.loadFromAssets(name, settings)
     local n9pInstance = n9pObjects[name]
 
     if not n9pInstance then
@@ -50,7 +81,7 @@ function n9slice.loadFromAssets(name, tile)
             umg.melt("assets '"..name.."' does not exist")
         end
 
-        n9pInstance = n9slice.loadFromImageQuad(client.atlas:getTexture(), quad)
+        n9pInstance = n9slice.loadFromImageQuad(client.atlas:getTexture(), quad, settings)
         n9pObjects[name] = n9pInstance
     end
 
