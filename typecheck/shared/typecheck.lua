@@ -263,7 +263,9 @@ end
 
 -- LOVE types
 local loveTypes = {
+    "ImageData",
     "Source",
+    "Texture",
     "Transform",
     "Quad",
 }
