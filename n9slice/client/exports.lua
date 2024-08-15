@@ -89,11 +89,11 @@ function n9slice.loadFromAssets(name, settings)
 end
 
 ---@param path string Path to the 9-sliced image file.
----@param tile boolean? Tile the stretchable area instead of stretching it?
+---@param stretchType? n9p.QuadDrawMode How to seamlessly resize stretchable areas? ("keep" is not a valid value)
 ---@return n9p.Instance
-function n9slice.loadFromPath(path, tile)
+function n9slice.loadFromPath(path, stretchType)
     local imageData = love.image.newImageData(path)
-    return n9p.loadFromImage(imageData, {tile = not not tile})
+    return n9p.loadFromImage(imageData, {tile = stretchType == "repeat"})
 end
 
 umg.expose("n9slice")
