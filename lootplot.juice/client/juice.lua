@@ -116,7 +116,10 @@ end)
 ---@param ent lootplot.LayerEntity
 umg.on("lootplot:entityActivated", function(ent)
     if ent.drawable then
-        ent:addComponent("joltJuice", {freq = 2, amp = math.rad(20), start = love.timer.getTime(), duration = 0.4})
+        local duration = 0.33
+        local start = love.timer.getTime()
+        ent:addComponent("joltJuice", {freq = 2, amp = math.rad(20), start = start, duration = duration})
+        ent:addComponent("bulgeJuice", {amp = 0.15, start = start, duration = duration})
     end
 end)
 
