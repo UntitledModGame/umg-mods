@@ -22,7 +22,12 @@ local function defseed(image, name, itemid)
 end
 
 defseed("shrub_seeds", "Shrub Seeds", "shrub")
-defseed("blue_seeds", "Blueberry Seeds", "blueberry")
+
+--[[
+TODO: Change this. Why tf are we spawning blueberries???
+Change to a custom item please. Something more specialized.
+]]
+-- defseed("blue_seeds", "Blueberry Seeds", "blueberry")
 
 lp.defineItem("lootplot.content.s0:shrub", {
     image = "shrub",

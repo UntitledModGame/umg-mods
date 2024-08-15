@@ -15,8 +15,8 @@ Botanic items: (Plants can only spawn on `dirt` slot)
 - ITEM: generates +5 points for every target plant item
 
 Food items: (consumables)
-- blueberry: gives +1 pointsGenerated to all target items (ONE TIME USE)  (shape=ABOVE_SHAPE)
-- lychee: gives +1 maxActivations to target item (ONE TIME USE)  (shape=ABOVE_SHAPE)
+- blueberry: gives +2 doomCount to all target items (ONE TIME USE)  (shape=ABOVE_SHAPE)
+- lychee: gives +5 maxActivations to target item (ONE TIME USE)  (shape=ABOVE_SHAPE)
 --- Slot-food items:
 - Pomegranate: Generates normal slots in a KING shape (ONE TIME USE)
 - Apple: Transforms below slot into a GOLD or DIAMOND slot (ONE TIME USE)

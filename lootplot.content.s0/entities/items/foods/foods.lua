@@ -8,17 +8,19 @@ lp.defineItem("lootplot.content.s0:blueberry", {
     image = "blueberry",
 
     name = loc("Blueberry"),
-    description = loc("A Blue berry!"),
 
     rarity = lp.rarities.UNCOMMON,
     baseTraits = {},
 
     targetType = "ITEM",
+    doomCount = 1,
     targetShape = lp.targets.ABOVE_SHAPE,
-    targetActivationDescription = loc("{lp_targetColor}Adds +3 points-generated to target item"),
+    targetActivationDescription = loc("{lp_targetColor}Adds 2 Doom-count to item"),
 
     targetActivate = function (selfEnt, ppos, targetEnt)
-        return lp.modifierBuff(targetEnt, "pointsGenerated", 3, selfEnt)
+        if targetEnt.doomCount then
+            targetEnt.doomCount = targetEnt.doomCount + 2
+        end
     end
 })
 
@@ -33,10 +35,10 @@ lp.defineItem("lootplot.content.s0:lychee", {
 
     targetType = "ITEM",
     targetShape = lp.targets.ABOVE_SHAPE,
-    targetActivationDescription = loc("Gives +1 activation to target item"),
+    targetActivationDescription = loc("{lp_targetColor}Gives +5 max-activations to target item"),
 
     targetActivate = function (selfEnt, ppos, targetEnt)
-        lp.modifierBuff(targetEnt, "maxActivations", 1, selfEnt)
+        lp.modifierBuff(targetEnt, "maxActivations", 5, selfEnt)
     end
 })
 
