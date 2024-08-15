@@ -3,6 +3,7 @@
     "uses": [
         "audio",
         "music",
+        "n9slice",
         "lootplot",
         "lootplot.targets",
         "lootplot.content.s0",
