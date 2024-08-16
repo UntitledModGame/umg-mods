@@ -22,6 +22,7 @@ targets.UniDirectionalShape = UniDirectionalShape
 
 ---@param size integer?
 ---@param name string?
+---@return lootplot.targets.ShapeData
 function targets.PlusShape(size, name)
     return UnionShape(
         UniDirectionalShape(1, 0, size),
@@ -34,6 +35,7 @@ end
 
 ---@param size integer?
 ---@param name string?
+---@return lootplot.targets.ShapeData
 function targets.CrossShape(size, name)
     return UnionShape(
         UniDirectionalShape(1, 1, size),
@@ -43,6 +45,17 @@ function targets.CrossShape(size, name)
         name or ("CROSS-" .. tostring(size))
     )
 end
+
+---@param size integer?
+---@return lootplot.targets.ShapeData
+function targets.QueenShape(size, name)
+    return UnionShape(
+        targets.PlusShape(size),
+        targets.CrossShape(size),
+        name or ("QUEEN-" .. tostring(size))
+    )
+end
+
 
 -- Pre-defined shape instance
 targets.KING_SHAPE = KingShape(1)

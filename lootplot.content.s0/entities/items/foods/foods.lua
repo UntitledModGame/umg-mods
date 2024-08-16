@@ -104,11 +104,8 @@ lp.defineItem("lootplot.content.s0:glass_bottle", {
     doomCount = 1,
 
     targetType = "NO_SLOT",
-    targetShape = lp.targets.UnionShape(
-        lp.targets.PlusShape(4),
-        lp.targets.CrossShape(4),
-        "QUEEN-4"
-    ),
+    targetShape = lp.targets.QueenShape(4),
+
     targetActivationDescription = loc("spawn Glass Slots."),
     targetActivate = function(selfEnt, ppos)
         local etype = server.entities["lootplot.content.s0:glass_slot"]
