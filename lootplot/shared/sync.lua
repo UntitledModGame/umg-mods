@@ -9,4 +9,5 @@ sync.proxyEventToClient("lootplot:itemMoved")
 sync.proxyEventToClient("lootplot:moneyChanged")
 sync.proxyEventToClient("lootplot:pointsChanged")
 sync.proxyEventToClient("lootplot:comboChanged")
+sync.proxyEventToClient("lootplot:levelChanged")
 

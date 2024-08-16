@@ -22,7 +22,8 @@ umg.definePacket("lootplot.test:syncContextValue", {
 local VALUES = {
     money = true,
     points = true,
-    combo = true
+    combo = true,
+    level = true
 }
 
 function TestContext:init(ent)
@@ -31,6 +32,7 @@ function TestContext:init(ent)
     assert(ent.plot, "Needs a plot!")
 
     self.combo = 0
+    self.level = 0
     self.money = 0
     self.points = 0
 end
@@ -88,6 +90,11 @@ function TestContext:setCombo(ent, x)
     self:syncValue("combo")
 end
 
+function TestContext:setLevel(ent, x)
+    self.level = x
+    self:syncValue("level")
+end
+
 end
 
 function TestContext:getPoints(ent)
@@ -100,6 +107,10 @@ end
 
 function TestContext:getCombo(ent)
     return self.combo
+end
+
+function TestContext:getLevel(ent)
+    return self.level
 end
 
 return TestContext
