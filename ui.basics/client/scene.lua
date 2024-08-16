@@ -61,6 +61,13 @@ end)
 
 
 
+umg.melt([[
+
+todo: this code is deprecated and trash.
+
+maybe delete this entire mod, even?
+
+]])
 local uiGroup = umg.group("ui")
 
 uiGroup:onAdded(function(ent)

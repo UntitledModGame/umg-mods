@@ -61,8 +61,6 @@ function Element:setup()
     -- For example, a `Scene` is regarded as a root element.
 
     self._focusedChild = false
-
-    self._entity = false -- the entity that is bound to this element
 end
 
 
@@ -419,7 +417,7 @@ end
 ---@param y number
 function Element:resize(x,y)
     util.tryCall(self.onResize, self, x, y)
-    propagateToActiveChildren(self, "resize", x, y)
+    forcePropagateToChildren(self, "resize", x, y)
 end
 
 
@@ -454,27 +452,6 @@ function Element:getRoot()
             elem = parent
         else
             return elem -- its the root!
-        end
-    end
-    maxDepthMelt()
-end
-
-
---- Gets the parent ent, walking up the elements hierarchy if needed
----@return EntityClass|table<string, any>
-function Element:getParentEntity()
-    -- Gets the entity that this element "belongs" to.
-    -- Walks up the element heirarchy if needed.
-    local elem = self
-    for _=1,MAX_DEPTH do
-        local ent = elem:getEntity()
-        if ent then
-            return ent
-        end
-        elem = elem:getParent()
-        if not elem then
-            -- no entity in heirarchy.
-            return nil
         end
     end
     maxDepthMelt()

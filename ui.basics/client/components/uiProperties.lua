@@ -53,6 +53,7 @@ end
 
 umg.on("ui:elementPointerMoved", function(luiElem, x,y, dx,dy)
     if luiElem:isClicked() then
+        umg.melt("TODO: refactor this. :getEntity is deprecated")
         local ent = luiElem:getEntity()
         if ent and ent.uiProperties and ent.uiProperties.draggable then
             dragElement(ent, luiElem, dx, dy)
