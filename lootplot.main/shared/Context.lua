@@ -28,6 +28,7 @@ local VALUES = {
     money=true,
     combo=true,
     points=true,
+    level=true,
 }
 
 function Context:init(ent)
@@ -37,6 +38,7 @@ function Context:init(ent)
 
     local constants = lp.main.constants
     self.combo = 0
+    self.level = 1
     self.money = constants.STARTING_MONEY
     self.points = constants.STARTING_POINTS
 end
@@ -76,20 +78,6 @@ end
 
 
 
-
-
-function Context:canGoNextRound()
-    local ent = self.ownerEnt
-    local plot = ent.plot
-    -- we can only progress to the next round if the pipeline is empty.
-    return not plot:isPipelineRunning()
-end
-
-
-umg.definePacket("lootplot.main:nextRound", {
-    typelist = {}
-})
-
 if server then
 
 --[[
@@ -111,10 +99,9 @@ function Context:setCombo(ent, x)
     self:syncValue("combo")
 end
 
-else -- this is client-side
-
-function Context:goNextRound()
-    client.send("lootplot.main:nextRound")
+function Context:setLevel(ent, x)
+    self.level = x
+    self:syncValue("level")
 end
 
 end -- if server
@@ -131,9 +118,8 @@ function Context:getCombo(ent)
     return self.combo
 end
 
-
-function Context:getCurrentRound()
-    return self.round
+function Context:getLevel(ent)
+    return self.level
 end
 
 

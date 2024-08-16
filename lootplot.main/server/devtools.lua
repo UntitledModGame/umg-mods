@@ -81,17 +81,3 @@ chat.handleCommand("spawnSlot", {
         lp.setSlot(ppos, slotEnt)
     end
 })
-
-
-chat.handleCommand("spawnSlot", {
-    adminLevel = 120,
-    arguments = {},
-    handler = function()
-        if server then
-            local ctx = lp.main.getContext()
-            ctx:goNextRound()
-        end
-    end
-})
-
-

@@ -327,6 +327,29 @@ end
 
 
 
+local function setLevel(fromEnt, newVal)
+    assert(contextInstance, "lootplot is not initialized")
+    assertServer()
+    local oldVal = contextInstance:getLevel(fromEnt)
+    if oldVal and newVal ~= oldVal then
+        umg.call("lootplot:levelChanged", fromEnt, oldVal, newVal)
+        contextInstance:setLevel(fromEnt, newVal)
+    end
+end
+
+---@param ent Entity
+---@param x? number
+function lp.setLevel(ent, x)
+    entityTc(ent)
+    setLevel(ent, x)
+end
+
+---@param ent Entity
+function lp.getLevel(ent)
+    entityTc(ent)
+    assert(contextInstance, "lootplot is not initialized")
+    return contextInstance:getLevel(ent)
+end
 
 
 
