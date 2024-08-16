@@ -168,10 +168,10 @@ function Element:getView()
 end
 
 
-local function deactivateheirarchy(self)
+local function deactivateHeirarchy(self)
     self._active = false
     for _, childElem in ipairs(self._children) do
-        deactivateheirarchy(childElem)
+        deactivateHeirarchy(childElem)
     end
 end
 
@@ -208,7 +208,7 @@ function Element:render(x,y,w,h)
     if self:isRoot() and (not self._markedAsRoot) then
         umg.melt("Attempt to render uncontained element!", 2)
     end
-    deactivateheirarchy(self)
+    deactivateHeirarchy(self)
     activate(self)
 
     util.tryCall(self.onRender, self, x,y,w,h)
@@ -346,9 +346,8 @@ local function dispatchControl(self, controlEnum)
             util.tryCall(self.onClickSecondary, self)
         end
         consumed = not self._passThrough
-    else
-        consumed = util.tryCall(self.onControlPress, self, controlEnum)
     end
+    consumed = util.tryCall(self.onControlPress, self, controlEnum) or consumed
 
     umg.call("ui:elementControlPressed", self, controlEnum)
     self._isPressedBy[controlEnum] = true
