@@ -65,22 +65,6 @@ end
 
 
 
-local bindTc = typecheck.assert("table", "entity")
----@param ent Entity
-function Element:bindEntity(ent)
-    bindTc(self, ent)
-    self._entity = ent
-end
-
----@return Entity?
-function Element:getEntity()
-    local e = self._entity
-    if umg.exists(e) then
-        return e
-    end
-end
-
-
 
 
 ---@return boolean
