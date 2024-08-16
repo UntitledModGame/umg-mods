@@ -93,6 +93,7 @@ umg.defineEntityType("lootplot.main:doom_clock", {
         local points = lp.getPoints(ent)
         if points >= ent.requiredPoints then
             -- win condition!!
+            lp.main.endGame(nil, true)
             nextLevel(ent)
         elseif ent.round > ent.numberOfRounds then
             -- lose!
