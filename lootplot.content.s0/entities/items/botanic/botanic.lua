@@ -22,16 +22,20 @@ local function defseed(image, name, itemid)
 end
 
 defseed("shrub_seeds", "Shrub Seeds", "shrub")
-
---[[
-TODO: Change this. Why tf are we spawning blueberries???
-Change to a custom item please. Something more specialized.
-]]
--- defseed("blue_seeds", "Blueberry Seeds", "blueberry")
+defseed("blue_seeds", "Blue Seeds", "blue_shrub")
 
 lp.defineItem("lootplot.content.s0:shrub", {
     image = "shrub",
     name = loc("Shrub"),
     basePointsGenerated = 1,
+    rarity = lp.rarities.UNIQUE,
+})
+
+lp.defineItem("lootplot.content.s0:blue_shrub", {
+    image = "shrub",
+    triggers = {"DESTROY"},
+    name = loc("Blue shrub"),
+    description = loc("Activates when destroyed"),
+    basePointsGenerated = 3,
     rarity = lp.rarities.UNIQUE,
 })

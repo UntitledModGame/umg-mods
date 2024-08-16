@@ -21,6 +21,7 @@ components.defineComponent("activationCount")
 components.defineComponent("totalActivationCount")
 
 
+components.defineComponent("doomCount")
 
 
 --[[
