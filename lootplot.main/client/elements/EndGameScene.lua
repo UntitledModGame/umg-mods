@@ -37,11 +37,12 @@ function EndGameScene:init(args)
         scale = 2,
     })
 
+    self:addChild(self.okButtonRed)
+    self:addChild(self.okButtonGreen)
+
     self:addChild(self.background)
     self:addChild(self.titleText)
     self:addChild(self.descriptionText)
-    self:addChild(self.okButtonRed)
-    self:addChild(self.okButtonGreen)
     self:setWinning(false)
 end
 
@@ -71,11 +72,9 @@ function EndGameScene:onRender(x, y, w, h)
     self.titleText:render(titleText:get())
     self.descriptionText:render(content:get())
 
-    if self.win then
-        self.okButtonGreen:render(button:get())
-    else
-        self.okButtonRed:render(button:get())
-    end
+    local a,b = button:splitHorizontal(1,1)
+    self.okButtonGreen:render(a:get())
+    self.okButtonRed:render(b:get())
 end
 
 return EndGameScene
