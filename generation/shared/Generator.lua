@@ -4,6 +4,7 @@
 ---@field protected weights number[]
 ---@field protected cumulativeWeights number[]
 ---@field protected traits (table<string,any>?)[]
+---@field protected addedEntries objects.Set
 local Generator = objects.Class("generation:Generator")
 
 ---Cannot use table.shallowCopy as it stops on first nil.
@@ -40,6 +41,7 @@ function Generator:init(rng)
     self.weights = {}
     self.cumulativeWeights = {} -- for fast lookup
     self.traits = {}
+    self.addedEntries = objects.Set()
 end
 
 if false then
@@ -59,6 +61,28 @@ function Generator:clone(rng)
     copyByAmount(self.weights, gen.weights, #self.entries)
     copyByAmount(self.cumulativeWeights, gen.cumulativeWeights, #self.entries)
     copyByAmount(self.traits, gen.traits, #self.entries)
+    gen.addedEntries = objects.Set(self.addedEntries)
+    return gen
+end
+
+---Clones and filter the items in the pool so that entires that didn't pass the filter function won't be in the newly
+---created generator.
+---
+---This is more efficient alternative to `Generator:clone()` followed by `Generator:filter()`.
+---@param rng love.RandomGenerator? Random number generator to use, or `nil` to create new one.
+---@param filterFunction fun(entry:any,traits:table<string,any>?):boolean Filter funtion that returns `true` to allow the item in the new generator, `false` otherwise.
+function Generator:cloneWithFilter(rng, filterFunction)
+    local gen = Generator(rng)
+    local tempOptions = {weight = 1, traits = nil}
+
+    for i, entry in ipairs(self.entries) do
+        if filterFunction(entry, self.traits[i]) then
+            tempOptions.weight = self.weights[i]
+            tempOptions.traits = self.traits[i]
+            gen:add(entry, tempOptions)
+        end
+    end
+
     return gen
 end
 
@@ -70,13 +94,15 @@ end
 ---@field public weight number?
 ---@field public traits table<string,any>?
 
----Add new entry to the generator. Note that you can add multiple entries.
+---Add new entry to the generator. Note that you **can't** add multiple entries.
 ---
 ---**This mutates the `Generator`.**
 ---@param entry any Entry to add (any type except `nil` is allowed)
 ---@param options generator.GeneratorEntryOptions? Additional options to specify.
 function Generator:add(entry, options)
     assert(entry ~= nil, "entry must be non-nil value")
+    assert(not self.addedEntries:has(entry), "attempt to add duplicate entry")
+
     local weight = 1
     local traits = nil
 
@@ -90,6 +116,27 @@ function Generator:add(entry, options)
     self.weights[next] = weight
     self.cumulativeWeights[next] = (self.cumulativeWeights[next - 1] or 0) + weight
     self.traits[next] = traits
+end
+
+---Removes an item from the entry.
+---
+---**This mutates the `Generator`.**
+---@param entry any Entry to remove.
+function Generator:remove(entry)
+    assert(entry ~= nil, "entry must be non-nil value")
+
+    for i, existingEntry in ipairs(self.entries) do
+        if existingEntry == entry then
+            shift(self.entries, 1, i, #self.entries)
+            shift(self.weights, 1, i, #self.entries)
+            shift(self.cumulativeWeights, 1, i, #self.entries)
+            shift(self.traits, 1, i, #self.entries)
+            self:_updateCumulativeWeights(i)
+            return true
+        end
+    end
+
+    return false
 end
 
 ---@param start integer?
@@ -109,15 +156,14 @@ end
 ---Filters items in the pool so that entires that didn't pass the filter function will be removed.
 ---
 ---**This mutates the `Generator`.**
----@param filterFunction fun(entry:any,traits:table<string,any>?,...:any):boolean Filter funtion that returns `true` to keep the item, `false` to remove.
----@param ... any Additional
-function Generator:filter(filterFunction, ...)
+---@param filterFunction fun(entry:any,traits:table<string,any>?):boolean Filter funtion that returns `true` to keep the item, `false` to remove.
+function Generator:filter(filterFunction)
     local newEntries = {}
     local newWeights = {}
     local newTraits = {}
 
     for i, entry in ipairs(self.entries) do
-        if filterFunction(entry, self.traits[i], ...) then
+        if filterFunction(entry, self.traits[i]) then
             local next = #newEntries + 1
             newEntries[next] = entry
             newWeights[next] = self.weights[i]
@@ -135,7 +181,7 @@ end
 ---Updates the weight of items in the pool.
 ---
 ---**This mutates the `Generator`.**
----@param transformWeightFunction fun(item:any,currentWeight:number,traits:table<string,any>?,...:any):number Function that returns new weight of specified item.
+---@param transformWeightFunction fun(item:any,currentWeight:number,traits:table<string,any>?):number Function that returns new weight of specified item.
 function Generator:updateWeights(transformWeightFunction)
     for i, entry in ipairs(self.entries) do
         self.weights[i] = transformWeightFunction(entry, self.weights[i], self.traits[i])
@@ -171,10 +217,9 @@ function Generator:_findIndexByCWeight(cweight)
 end
 
 ---Get random entry from the generator. This keep the entry in the generator.
----@param filterFunction (fun(entry:any,traits:table<string,any>?,...:any):boolean)? Filter funtion that returns `true` to consider the item, `false` to reroll.
----@param ... any Additional user parameters to pass to the filter function.
+---@param filterFunction (fun(entry:any,traits:table<string,any>?):boolean)? Filter funtion that returns `true` to consider the item, `false` to reroll.
 ---@return any
-function Generator:query(filterFunction, ...)
+function Generator:query(filterFunction)
     filterFunction = filterFunction or dummyTrue
     assert(#self.entries > 0, "no items in entry")
 
@@ -183,7 +228,7 @@ function Generator:query(filterFunction, ...)
         local index = assert(self:_findIndexByCWeight(dice), "internal error")
         local entry = self.entries[index]
 
-        if filterFunction(entry, self.traits[index], ...) then
+        if filterFunction(entry, self.traits[index]) then
             return entry
         end
     end
@@ -192,10 +237,9 @@ end
 ---Get random entry from the generator. This **removes** the entry in the generator.
 ---
 ---**This mutates the `Generator`.**
----@param filterFunction (fun(entry:any,traits:table<string,any>?,...:any):boolean)? Filter funtion that returns `true` to consider the item, `false` to reroll.
----@param ... any Additional user parameters to pass to the filter function.
+---@param filterFunction (fun(entry:any,traits:table<string,any>?):boolean)? Filter funtion that returns `true` to consider the item, `false` to reroll.
 ---@return any
-function Generator:queryAndPop(filterFunction, ...)
+function Generator:queryAndPop(filterFunction)
     filterFunction = filterFunction or dummyTrue
     assert(#self.entries > 0, "no items in entry")
 
@@ -204,7 +248,7 @@ function Generator:queryAndPop(filterFunction, ...)
         local index = assert(self:_findIndexByCWeight(dice), "internal error")
         local entry = self.entries[index]
 
-        if filterFunction(entry, self.traits[index], ...) then
+        if filterFunction(entry, self.traits[index]) then
             shift(self.entries, 1, index, #self.entries)
             shift(self.weights, 1, index, #self.entries)
             shift(self.cumulativeWeights, 1, index, #self.entries)
