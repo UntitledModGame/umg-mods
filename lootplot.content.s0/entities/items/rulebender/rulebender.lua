@@ -1,18 +1,21 @@
 local loc = localization.localize
 
-local rareItemReroller = lp.ITEM_GENERATOR
-    :createQuery()
-    :addAllEntries()
-    :filter(function(entry, traits, chance)
-        local etype = server.entities[entry]
-        if etype and etype.rarity then
-            local rare = lp.rarities.getWeight(lp.rarities.RARE)
-            local etypeRarity = lp.rarities.getWeight(etype.rarity)
-            return etypeRarity >= rare
-        end
-        return false
+---@param entry string
+local function rareItemFilter(entry)
+    local etype = server.entities[entry]
+
+    if etype and etype.rarity then
+        local rare = lp.rarities.getWeight(lp.rarities.RARE)
+        local etypeRarity = lp.rarities.getWeight(etype.rarity)
+        return etypeRarity >= rare
     end
-)
+
+    return false
+end
+
+local function rareItemReroller()
+    return lp.ITEM_GENERATOR:query(rareItemFilter)
+end
 
 lp.defineItem("lootplot.content.s0:gift_box", {
     image = "gift_box",

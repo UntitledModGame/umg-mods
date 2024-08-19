@@ -765,8 +765,8 @@ function lp.defineItem(name, itemType)
     itemType.hoverable = true
     giveCommonComponents(itemType)
     umg.defineEntityType(name, itemType)
-    lp.ITEM_GENERATOR:defineEntry(name, {
-        defaultChance = getSpawnChance(itemType),
+    lp.ITEM_GENERATOR:add(name, {
+        weight = getSpawnChance(itemType),
         traits = keys(itemType.baseTraits)
     })
 end
@@ -804,8 +804,8 @@ function lp.defineSlot(name, slotType)
     end
     giveCommonComponents(slotType)
     umg.defineEntityType(name, slotType)
-    lp.SLOT_GENERATOR:defineEntry(name, {
-        defaultChance = getSpawnChance(slotType),
+    lp.SLOT_GENERATOR:add(name, {
+        weight = getSpawnChance(slotType),
         traits = keys(slotType.baseTraits)
     })
 end
@@ -863,10 +863,10 @@ local LootplotSeed = require("shared.LootplotSeed")
 TODO: allow for custom seeds here.
 pass thru launch-options...?
 ]]
-lp.seed = LootplotSeed()
+lp.SEED = LootplotSeed()
 
-lp.ITEM_GENERATOR = generation.LegacyGenerator(lp.seed.rerollRNG)
-lp.SLOT_GENERATOR = generation.LegacyGenerator(lp.seed.rerollRNG)
+lp.ITEM_GENERATOR = generation.Generator(lp.seed.rerollRNG)
+lp.SLOT_GENERATOR = generation.Generator(lp.seed.rerollRNG)
 
 umg.expose("lp", lp)
 

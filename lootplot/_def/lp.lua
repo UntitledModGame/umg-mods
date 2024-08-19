@@ -287,9 +287,9 @@ lp.getTraitDisplayName = traits.getDisplayName
 ---@type lootplot.LootplotSeed
 lp.SEED = nil
 
----@type generation.LegacyGenerator
+---@type generation.Generator
 lp.SLOT_GENERATOR = nil
----@type generation.LegacyGenerator
+---@type generation.Generator
 lp.ITEM_GENERATOR = nil
 
 return lp
