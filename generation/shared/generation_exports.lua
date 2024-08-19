@@ -1,6 +1,8 @@
+---@meta
 local generation = {}
+if false then _G.generation = generation end
 
-generation.Generator = require("shared.Generator")
+generation.LegacyGenerator = require("shared.LegacyGenerator")
 
 umg.expose("generation", generation)
 

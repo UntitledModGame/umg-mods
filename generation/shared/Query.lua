@@ -10,7 +10,7 @@ local Query = objects.Class("generation:Query")
 ---@field package entry any
 
 local ARGS = {"rng", "generator"}
----@param args {rng:love.RandomGenerator,generator:generation.Generator}
+---@param args {rng:love.RandomGenerator,generator:generation.LegacyGenerator}
 function Query:init(args)
     typecheck.assertKeys(args, ARGS)
 

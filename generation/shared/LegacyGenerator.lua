@@ -1,7 +1,7 @@
 local Query = require("shared.Query")
 
----@class generation.Generator: objects.Class
-local Generator = objects.Class("generation:Generator")
+---@class generation.LegacyGenerator: objects.Class
+local Generator = objects.Class("generation:LegacyGenerator")
 
 ---@param rng love.RandomGenerator?
 function Generator:init(rng)
@@ -70,7 +70,7 @@ end
 
 local EMPTY_SET = objects.Set()
 
----@param self generation.Generator
+---@param self generation.LegacyGenerator
 ---@param traits string[]
 local function findSmallestTraitSet(self, traits)
     --[[
@@ -146,5 +146,5 @@ function Generator:getDefaultChance(entry)
     return 1
 end
 
----@cast Generator +fun(rng:love.RandomGenerator?):generation.Generator
+---@cast Generator +fun(rng:love.RandomGenerator?):generation.LegacyGenerator
 return Generator
