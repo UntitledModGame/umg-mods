@@ -215,6 +215,13 @@ listener:onAnyPressed(function(self, controlEnum)
     end
 end)
 
+listener:onPressed({"input:CLICK_PRIMARY", "input:CLICK_SECONDARY"}, function(self, controlEnum)
+    local x,y = input.getPointerPosition()
+    if scene:controlClicked(controlEnum,x,y) then
+        self:claim(controlEnum)
+    end
+end)
+
 listener:onAnyReleased(function(_self, controlEnum)
     scene:controlReleased(controlEnum)
 end)

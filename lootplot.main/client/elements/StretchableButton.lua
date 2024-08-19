@@ -43,28 +43,32 @@ local function ensureTextElement(self)
         self.button:setContent(self.textElement)
     end
 
-    if self.textElement.text ~= self.text then
+    if self.textElement:getText() ~= self.text then
         -- we need to update!
-        self.textElement.text = self.text
+        self.textElement:setText(self.text)
     end
 end
 
 function StretchableButton:onRender(x,y,w,h)
     local r = ui.Region(x,y,w,h)
     ensureTextElement(self)
-    lg.setColor(objects.Color.WHITE)
+    if self:isHovered() then
+        lg.setColor(0.5,0.5,0.5)
+    else
+        lg.setColor(objects.Color.WHITE)
+    end
     self.button:render(x, y, w, h)
 end
 
 function StretchableButton:onClickPrimary(cont)
     -- Cannot use self:isClicked() because it's set AFTER this callback.
-    ensureTextElement(self)
     self.button:setN9P(self.n9pButtonPressed)
+    umg.log.trace("CLICK")
 end
 
 function StretchableButton:onControlRelease(cont)
     if cont == "input:CLICK_PRIMARY" then
-        ensureTextElement(self)
+        umg.log.trace("RELEASE")
         self.button:setN9P(self.n9pButton)
         self:onClick()
     end
