@@ -11,19 +11,23 @@ local n9pObjects = setmetatable({}, {__mode = "v"})
 -- If `n9slice` high-level function doesn't suit your needs, access the library functions directly here.
 n9slice.n9p = n9p
 
-local loadFromImageQuadTc = typecheck.assert("love:Texture|love:ImageData", "love:Quad", "table?")
+local loadFromImageQuadTc = typecheck.assert("love:Texture|love:ImageData", "love:Quad?", "table?")
 
 ---@class n9slice.settings
 ---@field public template? love.ImageData Use this template to scan stretchable areas.
 ---@field public stretchType? n9p.QuadDrawMode How to seamlessly resize stretchable areas? ("keep" is not a valid value)
 
 ---@param texture love.Texture|love.ImageData Texture atlas.
----@param quad love.Quad Subregion of the texture atlas to consider.
+---@param quad love.Quad|nil Subregion of the texture atlas to consider or `nil` for the whole texture atlas.
 ---@param settings n9slice.settings? Additional settings. See the `n9slice.settings` type for more information.
 function n9slice.loadFromImageQuad(texture, quad, settings)
     loadFromImageQuadTc(texture, quad, settings)
 
-    local x, y, w, h = quad:getViewport()
+    local x, y, w, h = 0, 0, texture:getDimensions()
+    if quad then
+        x, y, w, h = quad:getViewport()
+    end
+
     local templating = false
     local imagedata = nil
     local tile = false
@@ -96,5 +100,5 @@ function n9slice.loadFromPath(path, stretchType)
     return n9p.loadFromImage(imageData, {tile = stretchType == "repeat"})
 end
 
-umg.expose("n9slice")
+umg.expose("n9slice", n9slice)
 return n9slice

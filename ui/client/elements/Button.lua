@@ -9,8 +9,8 @@ local lg=love.graphics
 
 
 function Button:init(args)
-    typecheck.assertKeys(args, {"onClick"})
-    self.onClick = args.onClick
+    typecheck.assertKeys(args, {"click"})
+    self.click = args.click
     self.text = args.text
     self.padding = args.padding or DEFAULT_PADDING
     self.font = args.font or love.graphics.getFont()
@@ -64,8 +64,10 @@ end
 
 
 
-function Button:onClickPrimary()
-    self:onClick()
+function Button:onClick(controlEnum)
+    if controlEnum == "input:CLICK_PRIMARY" then
+        self:click()
+    end
 end
 
 

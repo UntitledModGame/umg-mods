@@ -215,6 +215,14 @@ listener:onAnyPressed(function(self, controlEnum)
     end
 end)
 
+listener:onPressed({"input:CLICK_PRIMARY", "input:CLICK_SECONDARY"}, function(self, controlEnum)
+    local x,y = input.getPointerPosition()
+    local consumed = scene:controlClicked(controlEnum,x,y)
+    if consumed then
+        self:claim(controlEnum)
+    end
+end)
+
 listener:onAnyReleased(function(_self, controlEnum)
     scene:controlReleased(controlEnum)
 end)
@@ -244,6 +252,7 @@ backgroundManager.setBackground(CLOUD_BACKGROUND)
 
 umg.on("@update", function(dt)
     if umg.exists(selectedSlot) then
+        ---@cast selectedSlot Entity
         if slotHoverTime < SHOW_DESCRIPTION_AFTER then
             slotHoverTime = slotHoverTime + dt
 

@@ -39,6 +39,10 @@ function Element:setup()
     ]]}
     self._children = {}
 
+    self._orderedChildren = {}
+    -- stack of children elements in order of rendering, per last :render() call.
+    -- Useful for mouse-clicks and such.
+
     self._parent = false
     -- Parent of this element.
     -- Could be a Scene, or a parent Element
@@ -61,26 +65,8 @@ function Element:setup()
     -- For example, a `Scene` is regarded as a root element.
 
     self._focusedChild = false
-
-    self._entity = false -- the entity that is bound to this element
 end
 
-
-
-local bindTc = typecheck.assert("table", "entity")
----@param ent Entity
-function Element:bindEntity(ent)
-    bindTc(self, ent)
-    self._entity = ent
-end
-
----@return Entity?
-function Element:getEntity()
-    local e = self._entity
-    if umg.exists(e) then
-        return e
-    end
-end
 
 
 
@@ -186,10 +172,10 @@ function Element:getView()
 end
 
 
-local function deactivateheirarchy(self)
+local function deactivateChildren(self)
     self._active = false
     for _, childElem in ipairs(self._children) do
-        deactivateheirarchy(childElem)
+        deactivateChildren(childElem)
     end
 end
 
@@ -217,6 +203,13 @@ function Element:endStencil()
 end
 
 
+local function childRendered(self, child)
+    if self:hasChild(child) then
+        table.insert(self._orderedChildren, child)
+    end
+end
+
+
 --- Renders an element
 ---@param x number
 ---@param y number
@@ -226,7 +219,14 @@ function Element:render(x,y,w,h)
     if self:isRoot() and (not self._markedAsRoot) then
         umg.melt("Attempt to render uncontained element!", 2)
     end
-    deactivateheirarchy(self)
+
+    table.clear(self._orderedChildren)
+    local parent = self:getParent()
+    if parent then
+        childRendered(parent, self)
+    end
+
+    deactivateChildren(self)
     activate(self)
 
     util.tryCall(self.onRender, self, x,y,w,h)
@@ -240,7 +240,7 @@ end
 local function getCapturedChild(self, x, y)
     -- returns the child that is "captured" by position (x,y),
     -- (Or nil if there is none.)
-    local children = self:getChildren()
+    local children = self._orderedChildren
     -- iterate backwards, because last child is the "top" child.
     for i=#children, 1, -1 do
         local child = children[i]
@@ -325,21 +325,6 @@ local function shouldAcceptControl(self, controlEnum)
 end
 
 
-local clickControls = objects.Enum({
-    --[[
-    by default, these controls are special; 
-        since they are tied directly to the pointer.
-    They also will block more aggressively;
-    (For example; if you click on a UI element, the click will be blocked, 
-    and will not propagate to external systems)
-    ]]
-    "input:CLICK_PRIMARY",
-    "input:CLICK_SECONDARY"
-})
-for controlEnum, _v in pairs(clickControls) do 
-    assert(input.isValidControl(controlEnum))
-end
-
 
 local function propagatePressToChildren(self, controlEnum)
     local consumed = false
@@ -354,20 +339,19 @@ local function propagatePressToChildren(self, controlEnum)
 end
 
 
-local function dispatchControl(self, controlEnum)
-    local consumed
-    if clickControls:has(controlEnum) then
-        -- it's special!
-        if controlEnum == clickControls["input:CLICK_PRIMARY"] then
-            util.tryCall(self.onClickPrimary, self)
-        elseif controlEnum == clickControls["input:CLICK_SECONDARY"] then
-            util.tryCall(self.onClickSecondary, self)
-        end
-        consumed = not self._passThrough
-    else
-        consumed = util.tryCall(self.onControlPress, self, controlEnum)
+local function propagateClickToChildren(self, controlEnum, pX, pY)
+    local consumed = false
+    local child = getCapturedChild(self, pX, pY)
+    if child then
+        consumed = child:controlClicked(controlEnum, pX, pY)
     end
+    return consumed
+end
 
+
+
+local function dispatchControl(self, controlEnum)
+    local consumed = util.tryCall(self.onControlPress, self, controlEnum) or consumed
     umg.call("ui:elementControlPressed", self, controlEnum)
     self._isPressedBy[controlEnum] = true
     return consumed
@@ -388,7 +372,25 @@ function Element:controlPressed(controlEnum)
     end
 
     local consumed = dispatchControl(self, controlEnum)
-    consumed = propagatePressToChildren(self, controlEnum) or consumed
+    consumed = consumed or propagatePressToChildren(self, controlEnum)
+    return consumed
+end
+
+
+function Element:controlClicked(controlEnum, pX, pY)
+    --[[
+        this function will return `true` if the controlEnum should be blocked
+            for other systems;
+        false, otherwise.
+    ]]
+    if not shouldAcceptControl(self, controlEnum) then
+        return false
+    end
+
+    local consumed = dispatchControl(self, controlEnum)
+    consumed = util.tryCall(self.onClick, self, controlEnum) or consumed
+    consumed = consumed or propagateClickToChildren(self, controlEnum, pX, pY)
+    consumed = consumed or (self:isHovered() and (not self._passThrough))
     return consumed
 end
 
@@ -419,7 +421,7 @@ end
 ---@param y number
 function Element:resize(x,y)
     util.tryCall(self.onResize, self, x, y)
-    propagateToActiveChildren(self, "resize", x, y)
+    forcePropagateToChildren(self, "resize", x, y)
 end
 
 
@@ -454,27 +456,6 @@ function Element:getRoot()
             elem = parent
         else
             return elem -- its the root!
-        end
-    end
-    maxDepthMelt()
-end
-
-
---- Gets the parent ent, walking up the elements hierarchy if needed
----@return EntityClass|table<string, any>
-function Element:getParentEntity()
-    -- Gets the entity that this element "belongs" to.
-    -- Walks up the element heirarchy if needed.
-    local elem = self
-    for _=1,MAX_DEPTH do
-        local ent = elem:getEntity()
-        if ent then
-            return ent
-        end
-        elem = elem:getParent()
-        if not elem then
-            -- no entity in heirarchy.
-            return nil
         end
     end
     maxDepthMelt()

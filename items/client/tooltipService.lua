@@ -25,14 +25,6 @@ local function check(slotElem)
     if not slotElem:isHovered() then
         return false
     end
-    local ent = slotElem:getParentEntity()
-    if not umg.exists(ent) then
-        return false
-    end
-    if not ui.basics.SCENE:isOpen(ent) then
-        return false
-    end
-    return true
 end
 
 

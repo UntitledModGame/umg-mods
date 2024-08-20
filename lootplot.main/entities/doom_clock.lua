@@ -44,13 +44,14 @@ local function syncEntity(ent)
 end
 
 
+local NUM_ROUNDS = 1
 
 local function nextLevel(ent)
     -- reset points:
     ent.round = 1
     ent.level = ent.level + 1
     ent.requiredPoints = getRequiredPoints(ent.level)
-    ent.numberOfRounds = 4
+    ent.numberOfRounds = NUM_ROUNDS
     lp.setPoints(ent, 0)
     syncEntity(ent)
 end
@@ -85,7 +86,7 @@ umg.defineEntityType("lootplot.main:doom_clock", {
         ent.round = lp.main.constants.STARTING_ROUND
         ent.level = lp.main.constants.STARTING_LEVEL
         ent.requiredPoints = getRequiredPoints(ent.level)
-        ent.numberOfRounds = 4
+        ent.numberOfRounds = NUM_ROUNDS
     end,
 
     onActivate = function(ent)
@@ -93,6 +94,7 @@ umg.defineEntityType("lootplot.main:doom_clock", {
         local points = lp.getPoints(ent)
         if points >= ent.requiredPoints then
             -- win condition!!
+            lp.main.endGame(nil, true)
             nextLevel(ent)
         elseif ent.round > ent.numberOfRounds then
             -- lose!

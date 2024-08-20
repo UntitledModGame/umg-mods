@@ -27,6 +27,10 @@ end
 
 function toggleables.closeAll()
     local closebuf = objects.Array()
+    umg.melt([[
+        TODO: ui.basics.getOpenElements should iterate over ui entities instead,
+        since elem:getEntity() has been removed
+    ]])
     for _, elem in ipairs(ui.basics.getOpenElements()) do
         local ent = elem:getEntity()
         if isToggleable(ent) then

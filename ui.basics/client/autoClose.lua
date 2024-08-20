@@ -17,6 +17,11 @@ umg.on("@update", scheduling.skip(SKIPS, function()
     local remBuffer = objects.Array()
     -- Close all UIs that we no-longer have access to.
     for _, element in ipairs(ui.basics.getOpenElements()) do
+
+        umg.melt([[
+            TODO: ui.basics.getOpenElements should iterate over ui entities instead,
+            since elem:getEntity() has been removed
+        ]])
         local e = element:getEntity()
         if e and (e.authorizable) then
             local hasAuth = getAuthorizedControlEntity(e)
