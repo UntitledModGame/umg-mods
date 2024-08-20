@@ -122,21 +122,24 @@ end
 ---
 ---**This mutates the `Generator`.**
 ---@param entry any Entry to remove.
+---@return generation.EntryOptions?
 function Generator:remove(entry)
     assert(entry ~= nil, "entry must be non-nil value")
 
     for i, existingEntry in ipairs(self.entries) do
         if existingEntry == entry then
+            local opts = {weights = self.weights[i], traits = self.traits[i]}
             shift(self.entries, 1, i, #self.entries)
             shift(self.weights, 1, i, #self.entries)
             shift(self.cumulativeWeights, 1, i, #self.entries)
             shift(self.traits, 1, i, #self.entries)
+            self.addedEntries:remove(entry)
             self:_updateCumulativeWeights(i)
-            return true
+            return opts
         end
     end
 
-    return false
+    return nil
 end
 
 ---@param start integer?
@@ -223,38 +226,21 @@ function Generator:query(filterFunction)
     filterFunction = filterFunction or dummyTrue
     assert(#self.entries > 0, "no items in entry")
 
-    while true do
+    local filtered = {}
+    local filteredCount = 0
+
+    while filteredCount < #self.entries do
         local dice = self.rng:random() * self.cumulativeWeights[#self.entries]
         local index = assert(self:_findIndexByCWeight(dice), "internal error")
         local entry = self.entries[index]
 
         if filterFunction(entry, self.traits[index]) then
             return entry
-        end
-    end
-end
-
----Get random entry from the generator. This **removes** the entry in the generator.
----
----**This mutates the `Generator`.**
----@param filterFunction (fun(entry:any,traits:table<string,any>?):boolean)? Filter funtion that returns `true` to consider the item, `false` to reroll.
----@return any
-function Generator:queryAndPop(filterFunction)
-    filterFunction = filterFunction or dummyTrue
-    assert(#self.entries > 0, "no items in entry")
-
-    while true do
-        local dice = self.rng:random() * self.cumulativeWeights[#self.entries]
-        local index = assert(self:_findIndexByCWeight(dice), "internal error")
-        local entry = self.entries[index]
-
-        if filterFunction(entry, self.traits[index]) then
-            shift(self.entries, 1, index, #self.entries)
-            shift(self.weights, 1, index, #self.entries)
-            shift(self.cumulativeWeights, 1, index, #self.entries)
-            shift(self.traits, 1, index, #self.entries)
-            self:_updateCumulativeWeights(index)
-            return entry
+        else
+            if not filtered[index] then
+                filteredCount = filteredCount + 1
+                filtered[index] = true
+            end
         end
     end
 end
