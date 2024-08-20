@@ -33,7 +33,7 @@ function drawRichText(txt, font, transform, limit, align) end
 ---@param ky number?
 ---@return boolean,(string|nil)
 function drawRichText(txt, font, x, y, limit, align, rot, sx, sy, ox, oy, kx, ky)
-    if typecheck["love:Transform"](x) then
+    if typecheck.isType(x, "love:Transform") then
         align = limit
         limit = y
         y, rot = nil, nil

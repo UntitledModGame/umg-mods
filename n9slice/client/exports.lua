@@ -55,7 +55,7 @@ function n9slice.loadFromImageQuad(texture, quad, settings)
     end
 
     if not imagedata then
-        if typecheck["love:Texture"](texture) then
+        if typecheck.isType(texture, "love:Texture") then
             ---@cast texture love.Texture
             -- FIXME: This is slow. Is it cheaper to just re-load the ImageData?
             imagedata = love.graphics.readbackTexture(texture, nil, 1, x, y, w, h)

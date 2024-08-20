@@ -8,61 +8,63 @@ local floor = math.floor
 local select = select
 
 
-function typecheck.any()
+local types = {}
+
+function types.any()
     return true
 end
 
 
-function typecheck.int(x)
+function types.int(x)
     return (type(x) == "number") and floor(x) == x, "expected integer, (not float!)"
 end
-typecheck.integer = typecheck.int
+types.integer = types.int
 
 
-function typecheck.num(x)
+function types.num(x)
     return type(x) == "number", "expected number"
 end
-typecheck.number = typecheck.num
+types.number = types.num
 
 
-function typecheck.string(x)
+function types.string(x)
     return type(x) == "string", "expected string"
 end
-typecheck.str = typecheck.string
+types.str = types.string
 
 
-function typecheck.table(x)
+function types.table(x)
     return type(x) == "table",  "expected table"
 end
 
 
-function typecheck.userdata(x)
+function types.userdata(x)
     return type(x) == "userdata", "expected userdata"
 end
 
 
-function typecheck.func(x)
+function types.func(x)
     return type(x) == "function", "expected function"
 end
-typecheck["function"] = typecheck.func
-typecheck.fn = typecheck.func
+types["function"] = types.func
+types.fn = types.func
 
 
-function typecheck.boolean(x)
+function types.boolean(x)
     return type(x) == "boolean", "expected boolean"
 end
-typecheck.bool = typecheck.boolean
+types.bool = types.boolean
 
 
 
-function typecheck.entity(x)
+function types.entity(x)
     return umg.exists(x), "expected entity"
 end
-typecheck.ent = typecheck.entity
+types.ent = types.entity
 
 
 
-function typecheck.voidEntity(x)
+function types.voidEntity(x)
     -- an entity that may or may not exist
     -- (ie an entity thats just been created)
     return umg.isEntity(x), "expected void entity"
@@ -70,7 +72,7 @@ end
 
 
 local allGroup = umg.group()
-function typecheck.trueEntity(x)
+function types.trueEntity(x)
     --[[
         a "true" entity is an entity that exists in allGroup.
     ]]
@@ -80,13 +82,11 @@ end
 
 
 
-function typecheck.optional(f)
+local function optional(f)
     return function(x)
         return x == nil or f(x)
     end
 end
-
-
 
 
 local parseToFunction -- need to define here for mutual recursion
@@ -119,9 +119,9 @@ function parseToFunction(str)
         -- if string contains question mark, treat the argument as optional.
         str = str:gsub("%?","")
         local func = parseToFunction(str)
-        return typecheck.optional(func)
-    elseif typecheck[str] then
-        return typecheck[str]
+        return optional(func)
+    elseif types[str] then
+        return types[str]
     end
     umg.melt("malformed typecheck string: " .. tostring(str))
 end
@@ -235,6 +235,13 @@ end
 
 
 
+function typecheck.isType(x, typeName)
+    assert(types[typeName], "Invalid type!")
+    return types[typeName](x)
+end
+
+
+
 function typecheck.assertKeys(tabl, keys)
     --[[
         asserts that `tabl` is a table, 
@@ -256,9 +263,9 @@ end
 local addTypeTc = typecheck.assert("string", "function")
 function typecheck.addType(typeName, check)
     addTypeTc(typeName, check)
-    assert(not typecheck[typeName], "Overwriting existing type!")
+    assert(not types[typeName], "Overwriting existing type!")
 
-    typecheck[typeName] = check
+    types[typeName] = check
 end
 
 -- LOVE types
