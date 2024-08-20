@@ -10,7 +10,7 @@ local TABLE_ARGS = {"text", "onClick"}
 
 function ActionButton:init(args)
     typecheck.assertKeys(args, TABLE_ARGS)
-    self.onClick = args.onClick
+    self.click = args.onClick
     self.canClick = args.canClick
     self.padding = args.padding or DEFAULT_PADDING
 
@@ -49,10 +49,10 @@ end
 
 
 
-function ActionButton:onClickPrimary()
+function ActionButton:onClick()
     if (self.canClick and self.canClick()) or (not self.canClick) then
         audio.play("lootplot.sound:click", {volume = 0.35, pitch = 1.1})
-        self:onClick()
+        self:click()
     else
         audio.play("lootplot.sound:deny_click", {volume = 0.5})
     end

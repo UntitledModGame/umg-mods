@@ -10,7 +10,7 @@ local BUTTON_PRESSED_PATH = "assets/images/buttons/%s_pressed_big.png"
 
 function StretchableButton:init(args)
     typecheck.assertKeys(args, {"onClick", "color"})
-    self.onClick = args.onClick
+    self.click = args.onClick
     self.text = args.text
     self.font = args.font or lg.getFont()
     self.outlineColor = args.outlineColor
@@ -60,17 +60,17 @@ function StretchableButton:onRender(x,y,w,h)
     self.button:render(x, y, w, h)
 end
 
-function StretchableButton:onClickPrimary(cont)
+function StretchableButton:onClick(cont)
     -- Cannot use self:isClicked() because it's set AFTER this callback.
-    self.button:setN9P(self.n9pButtonPressed)
-    umg.log.trace("CLICK")
+    if cont == "input:CLICK_PRIMARY" then
+        self.button:setN9P(self.n9pButtonPressed)
+    end
 end
 
 function StretchableButton:onControlRelease(cont)
     if cont == "input:CLICK_PRIMARY" then
-        umg.log.trace("RELEASE")
         self.button:setN9P(self.n9pButton)
-        self:onClick()
+        self:click()
     end
 end
 

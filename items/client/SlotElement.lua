@@ -121,12 +121,12 @@ end
 
 
 
-function SlotElement:onClickPrimary()
-    slotService.interactPrimary(self)
-end
-
-function SlotElement:onClickSecondary()
-    slotService.interactSecondary(self)
+function SlotElement:onClick(controlEnum)
+    if controlEnum == "input:CLICK_PRIMARY" then
+        slotService.interactPrimary(self)
+    elseif controlEnum == "input:CLICK_PRIMARY" then
+        slotService.interactSecondary(self)
+    end
 end
 
 

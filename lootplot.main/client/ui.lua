@@ -217,7 +217,8 @@ end)
 
 listener:onPressed({"input:CLICK_PRIMARY", "input:CLICK_SECONDARY"}, function(self, controlEnum)
     local x,y = input.getPointerPosition()
-    if scene:controlClicked(controlEnum,x,y) then
+    local consumed = scene:controlClicked(controlEnum,x,y)
+    if consumed then
         self:claim(controlEnum)
     end
 end)
