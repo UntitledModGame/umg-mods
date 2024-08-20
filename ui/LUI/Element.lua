@@ -388,7 +388,9 @@ function Element:controlClicked(controlEnum, pX, pY)
     end
 
     local consumed = dispatchControl(self, controlEnum)
+    consumed = util.tryCall(self.onClick, self, controlEnum) or consumed
     consumed = consumed or propagateClickToChildren(self, controlEnum, pX, pY)
+    consumed = consumed or (self:isHovered() and (not self._passThrough))
     return consumed
 end
 

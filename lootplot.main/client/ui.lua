@@ -252,6 +252,7 @@ backgroundManager.setBackground(CLOUD_BACKGROUND)
 
 umg.on("@update", function(dt)
     if umg.exists(selectedSlot) then
+        ---@cast selectedSlot Entity
         if slotHoverTime < SHOW_DESCRIPTION_AFTER then
             slotHoverTime = slotHoverTime + dt
 
