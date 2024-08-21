@@ -35,12 +35,10 @@ function StretchableButton:init(args)
         stretchType = "repeat",
     })
 
-    self.button = ui.elements.StretchableBox(
-        "orange_big", {width = 8, height = 8}, {
-            scale = 2,
-            stretchType = "repeat",
-        }
-    )
+    self.button = ui.elements.StretchableBox("orange_big", 8, 8, {
+        scale = 2,
+        stretchType = "repeat",
+    })
 
     self:addChild(self.buttonPressed)
     self:addChild(self.button)
