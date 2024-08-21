@@ -146,7 +146,7 @@ local function parseTableType(tableType)
     end
 
     local function check(x)
-        local typeOk, er1 = typecheck.table(x) 
+        local typeOk, er1 = types.table(x)
         if not typeOk then
             return nil, er1
         end
