@@ -8,7 +8,8 @@ local DELAY_PER_UNIT = 0.04
 local function renderSelectionTarget(ppos, image, progress, opacity)
     local worldPos = ppos:getWorldPos()
     local rot = (progress-1) * 3
-    love.graphics.setColor(1,1,1,opacity)
+    local c = lp.targets.TARGET_COLOR
+    love.graphics.setColor(c[1],c[2],c[3],opacity)
     rendering.drawImage(image, worldPos.x, worldPos.y, rot, progress, progress)
 end
 

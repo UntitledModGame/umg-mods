@@ -88,7 +88,7 @@ lp.defineItem("lootplot.content.s0:magic_radish", {
 
     targetType = "ITEM",
     targetShape = lp.targets.ABOVE_SHAPE,
-    targetActivationDescription = loc("Transform into above item."),
+    targetActivationDescription = loc("Transforms into random target item."),
     targetActivate = function(selfEnt, ppos, targetEnt)
         local selfPPos = lp.getPos(selfEnt)
 

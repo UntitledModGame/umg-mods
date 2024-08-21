@@ -36,7 +36,7 @@ function n9slice.new(args)
         subX, subY, subW, subH = args.quad:getViewport()
     end
 
-    local cW, cH = args.cornerSize.width, args.cornerSize.height
+    local cW, cH = args.cornerWidth, args.cornerHeight
 
     local obj = n9slice.n9p.newBuilder()
         :addHorizontalSlice(cW, subW - cW, shouldTile)

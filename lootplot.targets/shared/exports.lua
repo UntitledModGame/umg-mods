@@ -125,6 +125,10 @@ function targets.setTargetShape(itemEnt, shape)
     sync.syncComponent(itemEnt, "targetShape")
 end
 
+
+targets.TARGET_COLOR = {1, 0.55, 0.1}
+
+
 -- How dare you overwriting lp.targets before us!
 assert(not lp.targets, "\27]8;;https://youtu.be/dQw4w9WgXcQ\27\\Unexpected error! open the link for more information.\27]8;;\27\\")
 lp.targets = targets
