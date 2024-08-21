@@ -229,7 +229,14 @@ function finalize(self)
     local picks = self.picks
         :filter(function(pick) return applyFilters(self, pick) end)
         :map(function(pick) return applyChanceAdjustment(self, pick) end)
-    self.picker = Picker(picks)
+    local items = {}
+    local weights = {}
+
+    for _, pick in ipairs(picks) do
+        items[#items+1] = pick.entry
+        weights[#weights+1] = pick.chance
+    end
+    self.picker = Picker(items, weights)
     self.outdated = false
 end
 
