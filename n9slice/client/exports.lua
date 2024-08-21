@@ -17,12 +17,11 @@ n9slice.n9p = n9p
 ---| "repeat"
 
 
----@alias n9slice.CornerSize {width: number, height: number} Basic square padding
-
 
 ---@class n9slice.args
 ---@field public image love.Texture
----@field public cornerSize n9slice.CornerSize
+---@field public cornerWidth number
+---@field public cornerHeight number
 ---@field public quad? love.Quad
 ---@field public stretchType? n9slice.StretchType
 

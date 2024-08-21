@@ -30,12 +30,10 @@ function StretchableButton:init(args)
     self.outlineColor = args.outlineColor
     self.textColor = args.textColor or objects.Color.WHITE
 
-    self.buttonPressed = ui.elements.StretchableBox(
-        "orange_pressed_big", {width = 8, height = 8}, {
-            scale = 2,
-            stretchType = "repeat",
-        }
-    )
+    self.buttonPressed = ui.elements.StretchableBox("orange_pressed_big", 8, 8, {
+        scale = 2,
+        stretchType = "repeat",
+    })
 
     self.button = ui.elements.StretchableBox(
         "orange_big", {width = 8, height = 8}, {
@@ -53,12 +51,12 @@ end
 
 
 function StretchableButton:onRender(x,y,w,h)
-    local r = ui.Region(x,y,w,h)
     if self:isHovered() then
         lg.setColor(0.5,0.5,0.5)
     else
         lg.setColor(objects.Color.WHITE)
     end
+
     if self:isPressedBy("input:CLICK_PRIMARY") then
         self.buttonPressed:render(x,y,w,h)
     else

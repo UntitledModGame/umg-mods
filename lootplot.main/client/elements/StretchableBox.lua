@@ -3,9 +3,10 @@ local StretchableBox = ui.Element("lootplot.main:StretchableBox")
 
 
 ---@param quadName string
----@param cornerSize n9slice.CornerSize
+---@param cornerWidth number
+---@param cornerHeight number
 ---@param args? {stretchType?: n9slice.StretchType, content?: any, scale?:number}
-function StretchableBox:init(quadName, cornerSize, args)
+function StretchableBox:init(quadName, cornerWidth, cornerHeight, args)
     args = args or {}
 
     self.scale = 1
@@ -16,7 +17,8 @@ function StretchableBox:init(quadName, cornerSize, args)
     self.n9p = n9slice.new({
         image = client.atlas:getTexture(),
         quad = quad,
-        cornerSize = cornerSize,
+        cornerWidth = cornerWidth,
+        cornerHeight = cornerHeight,
         stretchType = args.stretchType
     })
 

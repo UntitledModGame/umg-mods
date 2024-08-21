@@ -26,7 +26,7 @@ function ActionButton:init(args)
         color = objects.Color.WHITE,
         font = fonts.getLargeFont()
     })
-    self.box = ui.elements.StretchableBox("orange_big", {width = 8, height = 8}, {
+    self.box = ui.elements.StretchableBox("orange_big", 8, 8, {
         scale = 2,
         stretchType = "repeat",
     })

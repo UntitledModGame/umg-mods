@@ -9,12 +9,10 @@ local EndGameScene = ui.Element("lootplot.main:EndGameScene")
 function EndGameScene:init(args)
     typecheck.assertKeys(args, {"onDismiss"})
 
-    self.background = ui.elements.StretchableBox(
-        "orange_pressed_big", {width = 8, height = 8}, {
-            scale = 2,
-            stretchType = "repeat",
-        }
-    )
+    self.background = ui.elements.StretchableBox("orange_pressed_big", 8, 8, {
+        scale = 2,
+        stretchType = "repeat",
+    })
 
     self.titleText = ui.elements.RichText({
         font = fonts.getLargeFont()
