@@ -1,24 +1,32 @@
 ---@class lootplot.main.StretchableBox: Element
 local StretchableBox = ui.Element("lootplot.main:StretchableBox")
 
----@param n9pinst n9p.Instance
-function StretchableBox:init(n9pinst, args)
-    self.n9p = n9pinst
+
+---@param quadName string
+---@param cornerSize n9slice.CornerSize
+---@param args? {stretchType?: n9slice.StretchType, content?: any, scale?:number}
+function StretchableBox:init(quadName, cornerSize, args)
+    args = args or {}
+
     self.scale = 1
     self.content = nil
 
-    if args then
-        self.scale = args.scale or self.scale
-        if args.content then
-            self:setContent(args.content)
-        end
+    local quad = client.assets.images[quadName]
+    assert(quad, "?")
+    self.n9p = n9slice.new({
+        image = client.atlas:getTexture(),
+        quad = quad,
+        cornerSize = cornerSize,
+        stretchType = args.stretchType
+    })
+
+    self.scale = args.scale or self.scale
+    if args.content then
+        self:setContent(args.content)
     end
 end
 
-function StretchableBox:setN9P(n9pinst)
-    assert(n9pinst)
-    self.n9p = n9pinst
-end
+
 
 ---@param content Element?
 function StretchableBox:setContent(content)

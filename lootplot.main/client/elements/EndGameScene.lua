@@ -1,5 +1,5 @@
 local fonts = require("client.fonts")
-local imageConst = require("client.image_const")
+
 
 local loc = localization.localize
 
@@ -10,11 +10,10 @@ function EndGameScene:init(args)
     typecheck.assertKeys(args, {"onDismiss"})
 
     self.background = ui.elements.StretchableBox(
-        n9slice.loadFromImageQuad(love.graphics.newImage("assets/images/buttons/orange_pressed_big.png"), nil, {
+        "orange_pressed_big", {width = 8, height = 8}, {
+            scale = 2,
             stretchType = "repeat",
-            template = imageConst.NINEPATCH_PRESSED_TEMPLATE
-        }),
-        {scale = 2}
+        }
     )
 
     self.titleText = ui.elements.RichText({

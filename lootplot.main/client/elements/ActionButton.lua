@@ -26,18 +26,18 @@ function ActionButton:init(args)
         color = objects.Color.WHITE,
         font = fonts.getLargeFont()
     })
-    self.simpleBox = ui.elements.SimpleBox({
-        color = args.color or objects.Color.WHITE,
-        rounding = 11
+    self.box = ui.elements.StretchableBox("orange_big", {width = 8, height = 8}, {
+        scale = 2,
+        stretchType = "repeat",
     })
-    self:addChild(self.simpleBox)
+    self:addChild(self.box)
     self:addChild(self.textElement)
 end
 
 
 function ActionButton:onRender(x,y,w,h)
     self.textElement:setText(self.textGetter())
-    self.simpleBox:render(x,y,w,h)
+    self.box:render(x,y,w,h)
     local txtR = ui.Region(x,y,w,h):padRatio(0.1)
     x,y,w,h = txtR:get()
     self.textElement.color = objects.Color.BLACK

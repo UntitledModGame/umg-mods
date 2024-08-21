@@ -44,7 +44,7 @@ local function syncEntity(ent)
 end
 
 
-local NUM_ROUNDS = 1
+local NUM_ROUNDS = 4
 
 local function nextLevel(ent)
     -- reset points:

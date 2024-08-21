@@ -4,18 +4,54 @@ local n9p = require("lib.n9p")
 local n9slice = {}
 if false then _G.n9slice = n9slice end
 
----@type table<string, n9p.Instance>
-local n9pObjects = setmetatable({}, {__mode = "v"})
 
 -- Direct access to NPad93's 9-patch slice library.
 -- If `n9slice` high-level function doesn't suit your needs, access the library functions directly here.
 n9slice.n9p = n9p
 
-local loadFromImageQuadTc = typecheck.assert("love:Texture|love:ImageData", "love:Quad?", "table?")
 
----@class n9slice.settings
----@field public template? love.ImageData Use this template to scan stretchable areas.
----@field public stretchType? n9p.QuadDrawMode How to seamlessly resize stretchable areas? ("keep" is not a valid value)
+---@alias n9slice.StretchType
+--- Scale to fit.
+---| "stretch"
+--- Tile to fit (don't scale).
+---| "repeat"
+
+
+---@alias n9slice.CornerSize {width: number, height: number} Basic square padding
+
+
+---@class n9slice.args
+---@field public image love.Texture
+---@field public cornerSize n9slice.CornerSize
+---@field public quad? love.Quad
+---@field public stretchType? n9slice.StretchType
+
+
+---@param args n9slice.args
+function n9slice.new(args)
+    local shouldTile = args.stretchType == "repeat"
+    local tW, tH = args.image:getPixelDimensions()
+
+    local subX, subY, subW, subH = 0, 0, tW, tH
+    if args.quad then
+        subX, subY, subW, subH = args.quad:getViewport()
+    end
+
+    local cW, cH = args.cornerSize.width, args.cornerSize.height
+
+    local obj = n9slice.n9p.newBuilder()
+        :addHorizontalSlice(cW, subW - cW, shouldTile)
+        :addVerticalSlice(cH, subH - cH, shouldTile)
+        :setHorizontalPadding(cW, subW - cW)
+        :setVerticalPadding(cH, subH - cH)
+        :build(tW, tH, subX, subY, subW, subH)
+
+    obj:setTexture(args.image)
+    return obj
+end
+
+
+local loadFromImageQuadTc = typecheck.assert("love:Texture|love:ImageData", "love:Quad?", "table?")
 
 ---@param texture love.Texture|love.ImageData Texture atlas.
 ---@param quad love.Quad|nil Subregion of the texture atlas to consider or `nil` for the whole texture atlas.
@@ -32,14 +68,13 @@ function n9slice.loadFromImageQuad(texture, quad, settings)
     local imagedata = nil
     local tile = false
 
-    if settings then
-        if settings.template then
-            imagedata = settings.template
-            templating = true
-        end
-
-        tile = settings.stretchType == "repeat"
+    settings = settings or {}
+    if settings.template then
+        imagedata = settings.template
+        templating = true
     end
+
+    tile = settings.stretchType == "repeat"
 
     -- Do not alter subregion when using a template
     local subregion = nil
@@ -66,6 +101,8 @@ function n9slice.loadFromImageQuad(texture, quad, settings)
         end
     end
 
+    local obj
+
     return n9p.loadFromImage(imagedata, {
         texture = texture,
         tile = tile,
@@ -90,14 +127,6 @@ function n9slice.loadFromAssets(name, settings)
     end
 
     return n9pInstance
-end
-
----@param path string Path to the 9-sliced image file.
----@param stretchType? n9p.QuadDrawMode How to seamlessly resize stretchable areas? ("keep" is not a valid value)
----@return n9p.Instance
-function n9slice.loadFromPath(path, stretchType)
-    local imageData = love.image.newImageData(path)
-    return n9p.loadFromImage(imageData, {tile = stretchType == "repeat"})
 end
 
 umg.expose("n9slice", n9slice)
