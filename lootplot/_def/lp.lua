@@ -287,9 +287,12 @@ lp.getTraitDisplayName = traits.getDisplayName
 ---@type lootplot.LootplotSeed
 lp.SEED = nil
 
----@type generation.Generator
-lp.SLOT_GENERATOR = nil
----@type generation.Generator
-lp.ITEM_GENERATOR = nil
+---@param level integer?
+---@return generation.Generator
+function lp.getItemGenerator(level) end
+
+---@param level integer?
+---@return generation.Generator
+function lp.getSlotGenerator(level) end
 
 return lp

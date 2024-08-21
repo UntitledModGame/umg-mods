@@ -7,14 +7,14 @@ local function rareItemFilter(entry)
     if etype and etype.rarity then
         local rare = lp.rarities.getWeight(lp.rarities.RARE)
         local etypeRarity = lp.rarities.getWeight(etype.rarity)
-        return etypeRarity >= rare
+        return etypeRarity >= rare and 1 or 0
     end
 
-    return false
+    return 0
 end
 
 local function rareItemReroller()
-    return lp.ITEM_GENERATOR:query(rareItemFilter)
+    return lp.getItemGenerator():query(rareItemFilter)
 end
 
 lp.defineItem("lootplot.content.s0:gift_box", {

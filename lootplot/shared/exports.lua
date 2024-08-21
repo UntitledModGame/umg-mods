@@ -765,10 +765,7 @@ function lp.defineItem(name, itemType)
     itemType.hoverable = true
     giveCommonComponents(itemType)
     umg.defineEntityType(name, itemType)
-    lp.ITEM_GENERATOR:add(name, {
-        weight = getSpawnChance(itemType),
-        traits = keys(itemType.baseTraits)
-    })
+    lp.ITEM_GENERATOR:add(name, getSpawnChance(itemType))
 end
 
 ---@class lootplot.SlotEntityClass: EntityClass
@@ -804,10 +801,7 @@ function lp.defineSlot(name, slotType)
     end
     giveCommonComponents(slotType)
     umg.defineEntityType(name, slotType)
-    lp.SLOT_GENERATOR:add(name, {
-        weight = getSpawnChance(slotType),
-        traits = keys(slotType.baseTraits)
-    })
+    lp.SLOT_GENERATOR:add(name, getSpawnChance(slotType))
 end
 
 ---@param name string
@@ -850,6 +844,18 @@ end
 function lp.getCurrentSelection()
     assert(client, "client-side only")
     return selection.getSelected()
+end
+
+---@param level integer?
+function lp.getItemGenerator(level)
+    -- TODO: Filter items by specific level.
+    return lp.ITEM_GENERATOR
+end
+
+---@param level integer?
+function lp.getSlotGenerator(level)
+    -- TODO: Filter slots by specific level.
+    return lp.SLOT_GENERATOR
 end
 
 lp.constants = {
