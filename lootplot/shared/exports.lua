@@ -871,8 +871,8 @@ pass thru launch-options...?
 ]]
 lp.SEED = LootplotSeed()
 
-lp.ITEM_GENERATOR = generation.Generator(lp.seed.rerollRNG)
-lp.SLOT_GENERATOR = generation.Generator(lp.seed.rerollRNG)
+lp.ITEM_GENERATOR = generation.Generator(lp.SEED.rerollRNG)
+lp.SLOT_GENERATOR = generation.Generator(lp.SEED.rerollRNG)
 
 umg.expose("lp", lp)
 
