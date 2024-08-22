@@ -4,7 +4,6 @@ local Picker = require("shared.Picker")
 ---@field protected rng love.RandomGenerator
 ---@field protected entries any[]
 ---@field protected weights number[]
----@field protected filtered table<integer,boolean>
 ---@field protected picker generation.Picker?
 local Generator = objects.Class("generation:Generator")
 
@@ -14,7 +13,6 @@ function Generator:init(rng)
     self.rng = rng or love.math.newRandomGenerator(love.math.random(0, 2147483647))
     self.entries = {}
     self.weights = {}
-    self.filtered = {}
     self.picker = nil
 end
 
@@ -41,11 +39,13 @@ local function keepWeights(_, currentWeight)
     return currentWeight
 end
 
+---@alias generation.CloneOptions {filter?:(fun(item:any,weight:number):boolean),adjustWeights?:(fun(item:any,currentWeight:number):number)}? Additional table options: `filter` to specify clone filtering, `adjustWeights` to adjust the weights of items in cloned generator.
+
 ---Clones the generator while at same time filter out items and re-adjust the item weights if necessary.
 ---
 ---This is more efficient alternative to `Generator:clone()` followed by `Generator:filter()` and/or `Generator:adjustWeights()`.
 ---@param rng love.RandomGenerator Random number generator to use.
----@param options {filter?:(fun(item:any,weight:number):boolean),adjustWeights?:(fun(item:any,currentWeight:number):number)}? Additional table options: `filter` to specify clone filtering, `adjustWeights` to adjust the weights of items in cloned generator.
+---@param options generation.CloneOptions
 ---@return generation.Generator
 function Generator:cloneWith(rng, options)
     local gen = Generator(rng)
@@ -119,6 +119,24 @@ function Generator:adjustWeights(transformWeightFunction)
     return self:cloneWith(self.rng, {adjustWeights = transformWeightFunction})
 end
 
+
+local function ensurePickerExists(self)
+    if self.picker then
+        return
+    end
+
+    local itemIndices = {}
+    for i = 1, #self.entries do
+        itemIndices[i] = i
+    end
+    self.picker = Picker(itemIndices, self.weights)
+end
+
+
+
+
+local NUM_TRIES = 500
+
 local function alwaysPick()
     return 1
 end
@@ -130,32 +148,21 @@ function Generator:query(pickChanceFunction)
     pickChanceFunction = pickChanceFunction or alwaysPick
     assert(#self.entries > 0, "no items in entry")
 
-    if not self.picker then
-        local itemIndices = {}
-        for i = 1, #self.entries do
-            itemIndices[i] = i
-        end
+    ensurePickerExists(self)
 
-        self.picker = Picker(itemIndices, self.weights)
-    end
+    local i = 0
+    local weightCache = {}
 
-    local filteredCount = 0
-    table.clear(self.filtered)
-
-    while filteredCount < #self.entries do
+    while i < NUM_TRIES do
         local index = self.picker:pick(self.rng)
 
-        if not self.filtered[index]  then
-            local entry = self.entries[index]
-            local chance = math.clamp(pickChanceFunction(entry, self.weights[index]), 0, 1)
-
-            if self.rng:random() < chance then
-                return entry
-            elseif chance == 0 then
-                filteredCount = filteredCount + 1
-                self.filtered[index] = true
-            end
+        local entry = self.entries[index]
+        local chance = weightCache[index] or math.clamp(pickChanceFunction(entry, self.weights[index]), 0, 1)
+        weightCache[index] = chance
+        if self.rng:random() < chance then
+            return entry
         end
+        i = i + 1
     end
 
     umg.melt("all items are filtered out")
