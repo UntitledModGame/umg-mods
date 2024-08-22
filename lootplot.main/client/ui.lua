@@ -49,7 +49,7 @@ end
 ---@param progress number
 ---@param dbox lootplot.main.DescriptionBox
 ---@param color objects.Color
----@param region Region
+---@param region ui.Region
 ---@param backgroundDrawer fun(x:number,y:number,w:number,h:number)
 local function drawDescription(progress, dbox, color, region, backgroundDrawer)
     local x, y, w, h = region:get()
@@ -83,12 +83,16 @@ function Scene:onRender(x,y,w,h)
     self.levelStatus:render(levelStatusRegion:padRatio(0.1):get())
     self.moneyBox:render(moneyRegion:padRatio(0.1):padRatio(0, 0.4, 0, 0.4):get())
 
-    local mx, my = input.getPointerPosition()
-
     if self.cursorDescription then
-        local cursorDescRegion = ui.Region(0,0, w/3, h/2)
-        local _,_, descW, descH = cursorDescRegion:get()
-        local descRegion = ui.Region(mx - 16 - descW, my + 16, descW, descH)
+        local mx, my = input.getPointerPosition()
+        local descW = w/3
+        local descH = select(2, self.cursorDescription:getBestFitDimensions(descW))
+        local descRegion = ui.Region(
+            math.max(mx - 16 - descW, 16),
+            math.min(my + 16, h - descH - 16),
+            descW,
+            descH
+        )
         self.cursorDescriptionTime = self.cursorDescriptionTime + love.timer.getDelta() * descriptionOpenSpeed
         drawDescription(self.cursorDescriptionTime, self.cursorDescription, objects.Color.WHITE, descRegion, drawBoxTransparent)
     end
