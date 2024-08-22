@@ -765,10 +765,7 @@ function lp.defineItem(name, itemType)
     itemType.hoverable = true
     giveCommonComponents(itemType)
     umg.defineEntityType(name, itemType)
-    lp.ITEM_GENERATOR:defineEntry(name, {
-        defaultChance = getSpawnChance(itemType),
-        traits = keys(itemType.baseTraits)
-    })
+    lp.ITEM_GENERATOR:add(name, getSpawnChance(itemType))
 end
 
 ---@class lootplot.SlotEntityClass: EntityClass
@@ -804,10 +801,7 @@ function lp.defineSlot(name, slotType)
     end
     giveCommonComponents(slotType)
     umg.defineEntityType(name, slotType)
-    lp.SLOT_GENERATOR:defineEntry(name, {
-        defaultChance = getSpawnChance(slotType),
-        traits = keys(slotType.baseTraits)
-    })
+    lp.SLOT_GENERATOR:add(name, getSpawnChance(slotType))
 end
 
 ---@param name string
@@ -852,6 +846,18 @@ function lp.getCurrentSelection()
     return selection.getSelected()
 end
 
+---@param level integer?
+function lp.getItemGenerator(level)
+    -- TODO: Filter items by specific level.
+    return lp.ITEM_GENERATOR
+end
+
+---@param level integer?
+function lp.getSlotGenerator(level)
+    -- TODO: Filter slots by specific level.
+    return lp.SLOT_GENERATOR
+end
+
 lp.constants = {
     WORLD_SLOT_DISTANCE = 26, -- distance slots are apart in the world.
     PIPELINE_DELAY = 0.2
@@ -863,10 +869,10 @@ local LootplotSeed = require("shared.LootplotSeed")
 TODO: allow for custom seeds here.
 pass thru launch-options...?
 ]]
-lp.seed = LootplotSeed()
+lp.SEED = LootplotSeed()
 
-lp.ITEM_GENERATOR = generation.Generator(lp.seed.rerollRNG)
-lp.SLOT_GENERATOR = generation.Generator(lp.seed.rerollRNG)
+lp.ITEM_GENERATOR = generation.Generator(lp.SEED.rerollRNG)
+lp.SLOT_GENERATOR = generation.Generator(lp.SEED.rerollRNG)
 
 umg.expose("lp", lp)
 

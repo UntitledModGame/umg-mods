@@ -7,8 +7,8 @@ return lp.defineSlot("lootplot.content.s0:shop_slot", {
     shopLock = true,
     name = localization.localize("Shop slot"),
     triggers = {"REROLL", "PULSE"},
-    itemSpawner = lp.ITEM_GENERATOR:createQuery():addAllEntries(),
-    itemReroller = lp.ITEM_GENERATOR:createQuery():addAllEntries(),
+    itemSpawner = {},
+    itemReroller = {},
     baseCanSlotPropagate = false,
     onActivate = function(shopEnt)
         shopEnt.shopLock = true

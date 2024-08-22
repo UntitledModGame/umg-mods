@@ -3,8 +3,8 @@ umg.on("lootplot:entityActivated", function(ent)
     if lp.isSlotEntity(ent) and ent.itemSpawner then
         local ppos = lp.getPos(ent)
         if ppos then
-            local itemSpawner = ent.itemSpawner ---@type generation.Query
-            local entName = itemSpawner()
+            local itemSpawner = lp.getItemGenerator()
+            local entName = itemSpawner:query()
             lp.trySpawnItem(ppos, server.entities[entName], ent.lootplotTeam)
         end
     end
@@ -17,8 +17,8 @@ umg.on("lootplot:entityActivated", function(ent)
         local ppos = lp.getPos(ent)
 
         if itemEnt and ppos then
-            local itemReroller = ent.itemReroller ---@type generation.Query
-            local entName = itemReroller()
+            local itemReroller = lp.getItemGenerator()
+            local entName = itemReroller:query()
             lp.forceSpawnItem(ppos, server.entities[entName], ent.lootplotTeam)
         end
     end

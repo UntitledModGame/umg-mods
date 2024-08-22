@@ -1,150 +1,179 @@
-local Query = require("shared.Query")
+local Picker = require("shared.Picker")
 
----@class generation.Generator: objects.Class
+---@class (exact) generation.Generator: objects.Class
+---@field protected rng love.RandomGenerator
+---@field protected entries any[]
+---@field protected weights number[]
+---@field protected filtered table<integer,boolean>
+---@field protected picker generation.Picker?
 local Generator = objects.Class("generation:Generator")
+
+---@generic T
+---@param t T[]
+---@param amount integer
+---@param start integer?
+---@param tablength integer?
+local function shift(t, amount, start, tablength)
+    start = start or 1
+    tablength = tablength or #t
+
+    for i = start, tablength do
+        t[i] = t[i + amount]
+    end
+
+    t[tablength - amount + 1] = nil
+end
 
 ---@param rng love.RandomGenerator?
 function Generator:init(rng)
-    self.rng = rng or love.math.newRandomGenerator()
-
-    self.traitToEntries = {--[[
-        [tag] -> Set([entry1, entry2, ...])
-    ]]}
-
-    self.allEntries = objects.Set()
-
-    self.nameToEntryObj = {--[[
-        [entryName] -> entryObject
-    ]]}
+    self.rng = rng or love.math.newRandomGenerator(love.math.random(0, 2147483647))
+    self.entries = {}
+    self.weights = {}
+    self.filtered = {}
+    self.picker = nil
 end
 
----@param rng love.RandomGenerator?
----@return generation.Query
-function Generator:createQuery(rng)
-    -- get the entries, and filter them:
-    local query = Query({
-        rng = rng or self.rng,
-        generator = self
-    })
-    return query
+if false then
+    ---Create a new Generator object.
+    ---@param rng love.RandomGenerator? Random number generator to use, or `nil` to create new one.
+    ---@return generation.Generator
+    function Generator(rng) end ---@diagnostic disable-line: missing-return, cast-local-type
 end
 
-local function assertPositiveNumber(x)
-    if type(x) ~= "number" or x < 0 then
-        umg.melt("Chance values must be positive numbers!")
-    end
+---Duplicate the current generator. The duplicated generator has independent state with the original generator.
+---Any mutable operators done by the duplicated generator won't affect the original generator.
+---@param rng love.RandomGenerator? Random number generator to use, or `nil` to share with current random number generator.
+---@return generation.Generator
+function Generator:clone(rng)
+    return self:cloneWith(rng or self.rng)
 end
 
+local function dummyTrue()
+    return true
+end
 
+local function keepWeights(_, currentWeight)
+    return currentWeight
+end
 
+---Clones the generator while at same time filter out items and re-adjust the item weights if necessary.
+---
+---This is more efficient alternative to `Generator:clone()` followed by `Generator:filter()` and/or `Generator:adjustWeights()`.
+---@param rng love.RandomGenerator Random number generator to use.
+---@param options {filter?:(fun(item:any,weight:number):boolean),adjustWeights?:(fun(item:any,currentWeight:number):number)}? Additional table options: `filter` to specify clone filtering, `adjustWeights` to adjust the weights of items in cloned generator.
+---@return generation.Generator
+function Generator:cloneWith(rng, options)
+    local gen = Generator(rng)
+    local filter = dummyTrue
+    local adjustWeights = keepWeights
 
-local defineEntryTc = typecheck.assert("table", "any", "table?")
-
----@class generation.EntryOptions
----@field public defaultChance? integer
----@field public traits table<string, any>?
-
----@param entry string
----@param options generation.EntryOptions?
-function Generator:defineEntry(entry, options)
-    defineEntryTc(self, entry, options)
-    options = options or {}
-    local entryObj = {
-        defaultChance = options.defaultChance or 1,
-        traits = table.deepCopy(options.traits or {}),
-        entry = entry
-    }
-    assertPositiveNumber(entryObj.defaultChance)
-
-    for trait in pairs(entryObj.traits) do
-        assert(type(trait) == "string", "Traits of entries must be strings!")
-        local set = self.traitToEntries[trait] or objects.Set()
-        self.traitToEntries[trait] = set
-        set:add(entry)
+    if options then
+        filter = options.filter or filter
+        adjustWeights = options.adjustWeights or adjustWeights
     end
 
-    self.allEntries:add(entry)
-    self.nameToEntryObj[entry] = entryObj
-end
+    for i, entry in ipairs(self.entries) do
+        local weight = self.weights[i]
+        if filter(entry, weight) then
+            weight = adjustWeights(entry, weight)
 
-
-local EMPTY_SET = objects.Set()
-
----@param self generation.Generator
----@param traits string[]
-local function findSmallestTraitSet(self, traits)
-    --[[
-        finds the trait that has the smallest number of entries,
-        from a given list of traits.
-    ]]
-    local bestSize = math.huge
-    local set = nil
-
-    for _, t in ipairs(traits) do
-        local traitSet = self.traitToEntries[t] or EMPTY_SET
-        local size = #traitSet
-        if size < bestSize then
-            bestSize = size
-            set = traitSet
+            if weight > 0 then
+                gen:add(entry, weight)
+            end
         end
     end
 
-    return set or EMPTY_SET
+    return gen
 end
 
----@param ... string
----@return objects.Set
-function Generator:getEntriesWith(...)
-    if select("#", ...) == 1 then
-        -- shortcircuit for efficiency
-        return self.traitToEntries[select(1, ...)] or EMPTY_SET
-    end
-
-    local traits = {...}
-    local entrySet = findSmallestTraitSet(self, traits)
-
-    for _, trait in ipairs(traits) do
-        assert(type(trait) == "string", "Traits must be strings!")
-        local traitSet = self.traitToEntries[trait] or EMPTY_SET
-        entrySet = entrySet:intersection(traitSet)
-    end
-
-    return entrySet
+function Generator:getEntryCount()
+    return #self.entries
 end
 
----@return objects.Set
-function Generator:getAllEntries()
-    return self.allEntries
+---Add new entry to the generator.
+---
+---**This mutates the `Generator`.**
+---@param entry any Entry to add (any type except `nil` is allowed)
+---@param weight number? The entry weight (default to 1)
+function Generator:add(entry, weight)
+    assert(entry ~= nil, "entry must be non-nil value")
+
+    local next = #self.entries + 1
+    self.entries[next] = entry
+    self.weights[next] = weight
+    return next
 end
 
+---Removes first occurence of item from the entry.
+---
+---**This mutates the `Generator`.**
+---@param entry any Entry to remove.
+---@return number? @The removed entry weight, or `nil` if not found.
+function Generator:remove(entry)
+    assert(entry ~= nil, "entry must be non-nil value")
 
-local EMPTY = {}
-
-local strTc = typecheck.assert("string")
----@param entry string
----@return table
-function Generator:getTraits(entry)
-    strTc(entry)
-    local obj = self.nameToEntryObj[entry]
-    local result = EMPTY
-
-    if obj and obj.traits then
-        result = table.shallowCopy(obj.traits)
+    for i, existingEntry in ipairs(self.entries) do
+        if existingEntry == entry then
+            table.remove(self.entries, i)
+            return table.remove(self.weights, i)
+        end
     end
 
-    return result
+    return nil
 end
 
----@param entry string
----@return number
-function Generator:getDefaultChance(entry)
-    strTc(entry)
-    local obj = self.nameToEntryObj[entry]
-    if obj then
-        return obj.defaultChance or 1
-    end
+---Filters items in the pool so that entires that didn't pass the filter function will be removed.
+---@param filterFunction fun(entry:any,weight:number):boolean Filter funtion that returns `true` to keep the item, `false` to remove.
+function Generator:filter(filterFunction)
+    return self:cloneWith(self.rng, {filter = filterFunction})
+end
+
+---Creates new generator that contains same set of items but with modified weights according to a function.
+---@param transformWeightFunction fun(item:any,currentWeight:number):number Function that returns new weight of specified item.
+function Generator:adjustWeights(transformWeightFunction)
+    return self:cloneWith(self.rng, {adjustWeights = transformWeightFunction})
+end
+
+local function alwaysPick()
     return 1
 end
 
----@cast Generator +fun(rng:love.RandomGenerator?):generation.Generator
+---Get random entry from the generator.
+---@param pickChanceFunction (fun(entry:any,weight:table<string,any>?):number)? Function that returns the chance of an item being picked. 1 means pick always, 0 means fully skip this item (filtered out), anything inbetween is the chance of said entry be accepted or be rerolled.
+---@return any
+function Generator:query(pickChanceFunction)
+    pickChanceFunction = pickChanceFunction or alwaysPick
+    assert(#self.entries > 0, "no items in entry")
+
+    if not self.picker then
+        local itemIndices = {}
+        for i = 1, #self.entries do
+            itemIndices[i] = i
+        end
+
+        self.picker = Picker(itemIndices, self.weights)
+    end
+
+    local filteredCount = 0
+    table.clear(self.filtered)
+
+    while filteredCount < #self.entries do
+        local index = self.picker:pick(self.rng)
+
+        if not self.filtered[index]  then
+            local entry = self.entries[index]
+            local chance = math.clamp(pickChanceFunction(entry, self.weights[index]), 0, 1)
+
+            if self.rng:random() < chance then
+                return entry
+            elseif chance == 0 then
+                filteredCount = filteredCount + 1
+                self.filtered[index] = true
+            end
+        end
+    end
+
+    umg.melt("all items are filtered out")
+end
+
 return Generator

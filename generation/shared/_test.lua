@@ -9,11 +9,11 @@
 
 
 
-local Generator = require("shared.Generator")
+local LegacyGenerator = require("shared.LegacyGenerator")
 
 
 
-local gen = Generator()
+local gen = LegacyGenerator()
 
 local function defTestEntry(name, traits, chance)
     local traitHash = {}

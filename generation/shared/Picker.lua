@@ -17,31 +17,13 @@ https://www.keithschwarz.com/darts-dice-coins/
 
 ]]
 
-
+---@class generation.Picker: objects.Class
 local Picker = objects.Class("generation:Picker")
 
-
-function Picker:init(pickList) 
-    --[[
-        pickList = {
-            {chance=X, entry=X},
-            {chance=X, entry=X},
-            {chance=X, entry=X},
-            ...
-        }
-    ]]
-    local weights = {}
-    self.entryList = {}
-    local seen = {}
-    for i,pick in ipairs(pickList) do
-        local entry, chance = pick.entry, pick.chance
-        self.entryList[i] = entry
-        if seen[entry] then
-            umg.melt("Duplicate entry in query: " .. tostring(entry))
-        end
-        seen[entry] = true
-        weights[i] = chance
-    end
+---@param items any[]
+---@param weights number[]
+function Picker:init(items, weights)
+    self.entryList = table.shallowCopy(items)
 
     local total = 0
     for _,v in ipairs(weights) do
@@ -49,11 +31,11 @@ function Picker:init(pickList)
         total = total + v
     end
 
-    assert(total > 0, "total weight must be positive")
     local normalize = #weights / total
     local norm = {}
     local small_stack = {}
     local big_stack = {}
+
     for i,w in ipairs(weights) do
         norm[i] = w * normalize
         if norm[i] < 1 then
@@ -73,15 +55,15 @@ function Picker:init(pickList)
         norm[large] = norm[large] + norm[small] - 1
         if norm[large] < 1 then
             table.insert(small_stack, large)
-        else 
+        else
             table.insert(big_stack, large)
         end
     end
 
-    for _, v in ipairs(big_stack) do 
+    for _, v in ipairs(big_stack) do
         prob[v] = 1
     end
-    for _, v in ipairs(small_stack) do 
+    for _, v in ipairs(small_stack) do
         prob[v] = 1
     end
 
@@ -90,7 +72,12 @@ function Picker:init(pickList)
     self.n = #weights
 end
 
-
+if false then
+    ---@param items any[]
+    ---@param weights number[]
+    ---@return generation.Picker
+    function Picker(items, weights) end ---@diagnostic disable-line: cast-local-type, missing-return
+end
 
 
 local function pickIndex(self, rand, rand2)
@@ -107,7 +94,18 @@ end
 --[[
     The Vose Alias method requires TWO random variables to work properly.
 ]]
-function Picker:pick(rand1, rand2)
+---@param rng {random:fun(self:any):number}?
+---@return any
+function Picker:pick(rng)
+    local rand1, rand2
+    if rng then
+        rand1 = rng:random()
+        rand2 = rng:random()
+    else
+        rand1 = math.random()
+        rand2 = math.random()
+    end
+
     local i = pickIndex(self, rand1, rand2)
     return self.entryList[i]
 end

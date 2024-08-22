@@ -26,7 +26,6 @@ end
 
 defineCap("cap_red", "Red Cap", "PULSE")
 defineCap("cap_green", "Green Cap", "REROLL")
-local randomizer = lp.ITEM_GENERATOR:createQuery():addAllEntries()
 
 lp.defineItem("lootplot.content.s0:cap_purple", {
     image = "cap_purple",
@@ -37,7 +36,8 @@ lp.defineItem("lootplot.content.s0:cap_purple", {
     onActivate = function(selfEnt)
         local ppos = lp.getPos(selfEnt)
         if ppos then
-            local etype = server.entities[randomizer()]
+            local itemGen = lp.getItemGenerator()
+            local etype = server.entities[itemGen:query()]
             if etype then
                 lp.forceSpawnItem(ppos, etype, selfEnt.lootplotTeam)
             end
