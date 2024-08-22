@@ -29,20 +29,23 @@ n9slice.n9p = n9p
 ---@param args n9slice.args
 function n9slice.new(args)
     local shouldTile = args.stretchType == "repeat"
-    local tW, tH = args.image:getPixelDimensions()
+    local tW, tH = args.image:getDimensions()
 
     local subX, subY, subW, subH = 0, 0, tW, tH
     if args.quad then
         subX, subY, subW, subH = args.quad:getViewport()
     end
 
-    local cW, cH = args.cornerWidth, args.cornerHeight
+    local startX = subX + args.cornerWidth
+    local startY = subY + args.cornerHeight
+    local endX = subX + subW - args.cornerWidth
+    local endY = subY + subH - args.cornerHeight
 
-    local obj = n9slice.n9p.newBuilder()
-        :addHorizontalSlice(cW, subW - cW, shouldTile)
-        :addVerticalSlice(cH, subH - cH, shouldTile)
-        :setHorizontalPadding(cW, subW - cW)
-        :setVerticalPadding(cH, subH - cH)
+    local obj = n9p.newBuilder()
+        :addHorizontalSlice(startX, endX, shouldTile)
+        :addVerticalSlice(startY, endY, shouldTile)
+        :setHorizontalPadding(startX, endX)
+        :setVerticalPadding(startY, endY)
         :build(tW, tH, subX, subY, subW, subH)
 
     obj:setTexture(args.image)
