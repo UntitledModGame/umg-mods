@@ -1,9 +1,12 @@
+local Element = require("client.newElement")
+local Region = require("kirigami.Region")
 
-local Slider = ui.Element("ui:Slider")
+---@class ui.Slider: Element
+local Slider = Element("ui:Slider")
 
 
 
-local Thumb = ui.Element("ui:Thumb")
+local Thumb = Element("ui:Thumb")
 
 
 local function clamp(x, min, max)
@@ -52,6 +55,7 @@ end
 function Thumb:onPointerMoved(x,_y, dx, _dy)
     if self:isClicked() then
         local parent = self:getParent()
+        ---@cast parent ui.Slider
         dx = getLimitedDelta(self, x, dx)
         parent.position = clamp(parent.position + dx, 0, parent.totalSize)
         parent.value = computeValue(parent, parent.position)
@@ -73,7 +77,7 @@ end
 
 
 
-
+---@param args {onValueChanged:fun(self:ui.Slider,value:number),min:number,max:number}
 function Slider:init(args)
     typecheck.assertKeys(args, {"onValueChanged", "min", "max"})
     self.onValueChanged = args.onValueChanged
@@ -87,12 +91,17 @@ function Slider:init(args)
     self:addChild(self.thumb)
 end
 
+if false then
+    ---@param args {onValueChanged:fun(self:ui.Slider,value:number),min:number,max:number}
+    ---@return ui.Slider
+    function Slider(args) end
+end
 
 local THUMB_RATIO = 4
 
 
 function Slider:onRender(x,y,w,h)
-    local region = ui.Region(x,y,w,h)
+    local region = Region(x,y,w,h)
     lg.setColor(0.5,0.5,0.5)
     local lineRegion = region:padRatio(0,0.4,0,0.4)
     lg.rectangle("fill",lineRegion:get())

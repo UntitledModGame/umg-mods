@@ -1,9 +1,10 @@
+local Element = require("client.newElement")
+local Region = require("kirigami.Region")
 
+---@class ui.ScrollBar: Element
+local ScrollBar = Element("ui:ScrollBar")
 
-local ScrollBar = ui.Element("ui:ScrollBar")
-
-
-local ScrollThumb = ui.Element("ui:ScrollThumb")
+local ScrollThumb = Element("ui:ScrollThumb")
 
 
 local function clamp(x, min, max)
@@ -56,6 +57,7 @@ end
 
 local EMPTY = {}
 
+---@param args? {sensitivity:number?}
 function ScrollBar:init(args)
     args = args or EMPTY
     self.position = 0
@@ -64,6 +66,11 @@ function ScrollBar:init(args)
     self.thumb = ScrollThumb(self, args)
 end
 
+if false then
+    ---@param args? {sensitivity:number?}
+    ---@return ui.ScrollBar
+    function ScrollBar(args) end
+end
 
 function ScrollBar:scroll(dy)
     local delta = -dy * self.sensitivity
@@ -88,10 +95,10 @@ end
 local THUMB_RATIO = 5 -- thumb is 5 times smaller than scrollbar
 
 function ScrollBar:onRender(x,y,w,h)
-    local region = ui.Region(x,y,w,h)
+    local region = Region(x,y,w,h)
     love.graphics.setColor(0.5,0.5,0.5)
     love.graphics.rectangle("line",region:get())
-    
+
     local thumbSize = h/THUMB_RATIO
     self.totalSize = h - thumbSize
     local thumbRegion = region

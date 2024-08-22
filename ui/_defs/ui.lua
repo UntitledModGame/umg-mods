@@ -1,7 +1,6 @@
 ---@meta
 
 ui = {}
----@type table<string, fun(...):Element>
 ui.elements = require("client.elements")
 ---@type fun(x?:number,y?:number,w?:number,h?:number):ui.Region
 ui.Region = require("kirigami.Region")
