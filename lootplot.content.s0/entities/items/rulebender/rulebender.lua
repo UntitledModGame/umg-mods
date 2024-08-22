@@ -11,14 +11,15 @@ local function rareItemFilter(entry)
     return false
 end
 
+
+---@type generation.Generator
 local rareItemGen
-umg.on("@load", function()
-    rareItemGen = lp.newItemGenerator({
-        filter = rareItemFilter
-    })
-end)
 
 local function generateRareItem(ent)
+    rareItemGen = rareItemGen or lp.newItemGenerator({
+        filter = rareItemFilter
+    })
+
     local itemName = rareItemGen
         :query(function(entityType)
             return lp.getDynamicSpawnChance(entityType, ent)
@@ -86,10 +87,22 @@ lp.defineItem("lootplot.content.s0:pandoras_box", {
 
 
 lp.defineItem("lootplot.content.s0:boomerang", {
-    image = "boomerang",
     name = loc("Boomerang"),
-    description = loc("+1 points. Uses all activations at once."),
-    -- TODO: Oli, please implement this OK!
+    description = loc("The boomerang never stops!"),
+
+    image = "boomerang",
+
+    basePointsGenerated = 1,
+    baseMaxActivations = 10,
+    rarity = lp.rarities.RARE,
+
+    onActivate = function(selfEnt, ppos)
+        lp.queue(ppos, function ()
+            if umg.exists(selfEnt) then
+                lp.tryActivateEntity(selfEnt)
+            end
+        end)
+    end
 })
 
 

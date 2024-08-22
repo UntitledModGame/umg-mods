@@ -1,12 +1,10 @@
 
 ---@type generation.Generator
-local itemGenerator
-umg.on("@load", function()
-    itemGenerator = lp.newItemGenerator()
-end)
+local itemGen
 
 local function generateItem(ent)
-    local itemName = itemGenerator
+    itemGen = itemGen or lp.newItemGenerator()
+    local itemName = itemGen
         :query(function(entityType)
             return lp.getDynamicSpawnChance(entityType, ent)
         end)
