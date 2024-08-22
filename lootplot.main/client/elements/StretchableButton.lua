@@ -5,6 +5,7 @@ local StretchableButton = ui.Element("lootplot.main:StretchableButton")
 
 local lg=love.graphics
 
+local BUTTON_PADDING = {4, 5, 5, 7}
 
 ---@param self lootplot.main.StretchableButton
 ---@param elem lootplot.main.StretchableBox
@@ -32,12 +33,12 @@ function StretchableButton:init(args)
     self.outlineColor = args.outlineColor
     self.textColor = args.textColor or objects.Color.WHITE
 
-    self.buttonPressed = StretchableBox(args.color.."_pressed_big", 8, 8, {
+    self.buttonPressed = StretchableBox(args.color.."_pressed_big", BUTTON_PADDING, {
         scale = 2,
         stretchType = "repeat",
     })
 
-    self.button = StretchableBox(args.color.."_big", 8, 8, {
+    self.button = StretchableBox(args.color.."_big", BUTTON_PADDING, {
         scale = 2,
         stretchType = "repeat",
     })

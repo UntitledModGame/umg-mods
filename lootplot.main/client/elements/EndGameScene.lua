@@ -11,7 +11,7 @@ local EndGameScene = ui.Element("lootplot.main:EndGameScene")
 function EndGameScene:init(args)
     typecheck.assertKeys(args, {"onDismiss"})
 
-    self.background = StretchableBox("orange_pressed_big", 8, 8, {
+    self.background = StretchableBox("orange_pressed_big", 8, {
         scale = 2,
         stretchType = "repeat",
     })
