@@ -5,15 +5,12 @@ umg.on("@load", function()
     itemGenerator = lp.newItemGenerator()
 end)
 
-
-local NULL_ITEM = "manure"
-
 local function generateItem(ent)
     local itemName = itemGenerator
         :query(function(entityType)
             return lp.getDynamicSpawnChance(entityType, ent)
         end)
-    return itemName or NULL_ITEM
+    return itemName or lp.FALLBACK_NULL_ITEM
 end
 
 
