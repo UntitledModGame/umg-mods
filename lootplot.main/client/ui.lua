@@ -1,8 +1,8 @@
-local ActionButton = require("client.elements.ActionButton")
 local EndGameScene = require("client.elements.EndGameScene")
 local LevelStatus = require("client.elements.LevelStatus")
 local MoneyBox = require("client.elements.MoneyBox")
 local SimpleBox = require("client.elements.SimpleBox")
+local StretchableButton = require("client.elements.StretchableButton")
 
 local DescriptionBox = require("client.DescriptionBox")
 local CloudBackground = require("client.backgrounds.CloudBackground")
@@ -160,6 +160,22 @@ function Scene:setSelectedItemDescription(itemEnt)
     self.itemDescriptionSelectedTime = 0
 end
 
+---@param action lootplot.SlotAction
+local function createActionButton(action)
+    return StretchableButton({
+        onClick = function()
+            if (action.canClick and action.canClick()) or (not action.canClick) then
+                audio.play("lootplot.sound:click", {volume = 0.35, pitch = 1.1})
+                action.onClick()
+            else
+                audio.play("lootplot.sound:deny_click", {volume = 0.5})
+            end
+        end,
+        text = action.text,
+        color = action.color or "orange",
+    })
+end
+
 ---@param actions lootplot.SlotAction[]?
 function Scene:setActionButtons(actions)
     -- Remove existing buttons
@@ -172,7 +188,7 @@ function Scene:setActionButtons(actions)
     -- Add new buttons
     if actions then
         for _, b in ipairs(actions) do
-            local button = ActionButton(b)
+            local button = createActionButton(b)
             self:addChild(button)
             self.slotActionButtons[#self.slotActionButtons+1] = button
         end

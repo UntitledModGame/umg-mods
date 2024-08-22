@@ -50,6 +50,10 @@ function StretchableBox:setContent(content)
     end
 end
 
+function StretchableBox:getContent()
+    return self.content
+end
+
 function StretchableBox:onRender(x, y, w, h)
     local width, height = w / self.scale, h / self.scale
     self.n9p:draw(x, y, width, height, 0, self.scale, self.scale)
@@ -62,6 +66,11 @@ function StretchableBox:onRender(x, y, w, h)
             cw * self.scale,
             ch * self.scale
         )
+        love.graphics.rectangle("line",
+        cx * self.scale + x,
+        cy * self.scale + y,
+        cw * self.scale,
+        ch * self.scale)
     end
 end
 

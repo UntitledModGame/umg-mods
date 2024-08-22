@@ -13,11 +13,11 @@ local util = require("shared.util")
 local selection = {}
 
 ---@class lootplot.SlotAction
----@field public text string|{format:string,variables?:table<string,any>}
+---@field public text string|fun():string
 ---@field public onClick fun()
----@field public onDraw? fun(x:number,y:number,w:number,h:number)
+---@field public canClick? fun():boolean
 ---@field public priority? number
----@field public color? objects.Color
+---@field public color? string
 
 ---@class lootplot.Selected
 ---@field public ppos lootplot.PPos
@@ -92,7 +92,7 @@ end
 umg.answer("lootplot:pollSelectionButtons", function(ppos)
     return {
         text = "Cancel",
-        color = objects.Color.RED,
+        color = "red",
         onClick = selection.reset,
         priority = math.huge
     }
