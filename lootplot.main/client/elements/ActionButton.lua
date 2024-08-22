@@ -1,4 +1,5 @@
 local fonts = require("client.fonts")
+local StretchableBox = require("client.elements.StretchableBox")
 
 ---@class lootplot.main.ActionButton: Element
 local ActionButton = ui.Element("lootplot.main:ActionButton")
@@ -28,7 +29,7 @@ function ActionButton:init(args)
         outline = 1,
         outlineColor = objects.Color.BLACK
     })
-    self.box = ui.elements.StretchableBox("orange_big", 8, 8, {
+    self.box = StretchableBox("orange_big", 8, 8, {
         scale = 2,
         stretchType = "repeat",
     })
@@ -36,6 +37,11 @@ function ActionButton:init(args)
     self:addChild(self.box)
 end
 
+if false then
+    ---@param args {text:string|(fun():string),onClick:function,canClick:function?,padding:number?}
+    ---@return lootplot.main.ActionButton
+    function ActionButton(args) end
+end
 
 function ActionButton:onRender(x,y,w,h)
     self.textElement:setText(self.textGetter())

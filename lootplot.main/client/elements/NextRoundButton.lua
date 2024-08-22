@@ -1,4 +1,5 @@
 local fonts = require("client.fonts")
+local RichText = require("client.elements.RichText")
 
 ---@class lootplot.main.NextRoundbutton: Element
 local NextRoundbutton = ui.Element("lootplot.main:NextRoundbutton")
@@ -23,7 +24,7 @@ function NextRoundbutton:init(args)
     })
     self:addChild(self.box)
 
-    self.readyText = ui.elements.RichText({
+    self.readyText = RichText({
         text = "{wavy amp=2}Ready{/wavy}",
         color = objects.Color.BLACK,
         font = fonts.getLargeFont()

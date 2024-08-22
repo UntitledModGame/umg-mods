@@ -28,7 +28,14 @@ function StretchableBox:init(quadName, cornerWidth, cornerHeight, args)
     end
 end
 
-
+if false then
+    ---@param quadName string
+    ---@param cornerWidth number
+    ---@param cornerHeight number
+    ---@param args? {stretchType?: n9slice.StretchType, content?: any, scale?:number}
+    ---@return lootplot.main.StretchableBox
+    function StretchableBox(quadName, cornerWidth, cornerHeight, args) end
+end
 
 ---@param content Element?
 function StretchableBox:setContent(content)

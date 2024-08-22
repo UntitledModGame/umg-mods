@@ -1,3 +1,4 @@
+local StretchableBox = require("client.elements.StretchableBox")
 
 ---@class lootplot.main.StretchableButton: Element
 local StretchableButton = ui.Element("lootplot.main:StretchableButton")
@@ -5,7 +6,7 @@ local StretchableButton = ui.Element("lootplot.main:StretchableButton")
 local lg=love.graphics
 
 
-
+---@param self lootplot.main.StretchableButton
 local function giveTextElement(self, elem)
     if not self.text then
         return
@@ -30,12 +31,12 @@ function StretchableButton:init(args)
     self.outlineColor = args.outlineColor
     self.textColor = args.textColor or objects.Color.WHITE
 
-    self.buttonPressed = ui.elements.StretchableBox("orange_pressed_big", 8, 8, {
+    self.buttonPressed = StretchableBox("orange_pressed_big", 8, 8, {
         scale = 2,
         stretchType = "repeat",
     })
 
-    self.button = ui.elements.StretchableBox("orange_big", 8, 8, {
+    self.button = StretchableBox("orange_big", 8, 8, {
         scale = 2,
         stretchType = "repeat",
     })
@@ -47,6 +48,11 @@ function StretchableButton:init(args)
     giveTextElement(self, self.buttonPressed)
 end
 
+if false then
+    ---@param args {onClick:function,color:string,text:string?,font:love.Font?,outlineColor:objects.Color?,textColor:objects.Color?}
+    ---@return lootplot.main.StretchableButton
+    function StretchableButton(args) end
+end
 
 function StretchableButton:onRender(x,y,w,h)
     if self:isHovered() then

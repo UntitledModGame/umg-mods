@@ -1,3 +1,9 @@
+local ActionButton = require("client.elements.ActionButton")
+local EndGameScene = require("client.elements.EndGameScene")
+local LevelStatus = require("client.elements.LevelStatus")
+local MoneyBox = require("client.elements.MoneyBox")
+local SimpleBox = require("client.elements.SimpleBox")
+
 local DescriptionBox = require("client.DescriptionBox")
 local CloudBackground = require("client.backgrounds.CloudBackground")
 local backgroundManager = require("client.background_manager")
@@ -14,9 +20,9 @@ function Scene:init(args)
     self:makeRoot()
     self:setPassthrough(true)
 
-    self.levelStatus = ui.elements.LevelStatus()
-    self.moneyBox = ui.elements.MoneyBox()
-    self.endGameDialog = ui.elements.EndGameScene({
+    self.levelStatus = LevelStatus()
+    self.moneyBox = MoneyBox()
+    self.endGameDialog = EndGameScene({
         onDismiss = function()
             self.renderEndGameDialog = false
         end
@@ -43,7 +49,7 @@ end
 
 local COLOR = {27/255, 27/255, 54/255}
 local function drawSideBox(x, y, w, h)
-    return ui.elements.SimpleBox.draw(COLOR, x, y, w, h, 10, 4)
+    return SimpleBox.draw(COLOR, x, y, w, h, 10, 4)
 end
 
 ---@param progress number
@@ -166,7 +172,7 @@ function Scene:setActionButtons(actions)
     -- Add new buttons
     if actions then
         for _, b in ipairs(actions) do
-            local button = ui.elements.ActionButton(b)
+            local button = ActionButton(b)
             self:addChild(button)
             self.slotActionButtons[#self.slotActionButtons+1] = button
         end

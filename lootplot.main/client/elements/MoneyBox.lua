@@ -1,4 +1,5 @@
 local fonts = require("client.fonts")
+local RichText = require("client.elements.RichText")
 
 ---@class lootplot.main.MoneyBox: Element
 local MoneyBox = ui.Element("lootplot.main:MoneyBox")
@@ -8,7 +9,7 @@ local textColor = objects.Color(love.math.colorFromBytes(53, 112, 58))
 local textColorSubtract = objects.Color(love.math.colorFromBytes(168, 30, 15))
 
 
-function MoneyBox:init(args)
+function MoneyBox:init()
     self.lastMoney = 0
 
     self.box = ui.elements.SimpleBox({
@@ -32,13 +33,20 @@ function MoneyBox:init(args)
         return money
     end
 
-    self.text = ui.elements.RichText({
+    self.text = RichText({
         font = fonts.getLargeFont()
     })
     self:addChild(self.text)
 end
 
----@param region Region
+if false then
+    ---@return lootplot.main.MoneyBox
+    function MoneyBox() end
+end
+
+---@param region ui.Region
+---@param ox number
+---@param oy number
 local function getRegionWithOffset(region, ox, oy)
     local x, y, w, h = region:get()
     return x + ox, y + oy, w, h
@@ -70,4 +78,4 @@ function MoneyBox:onRender(x,y,w,h)
     self.text:render(getRegionWithOffset(r, ox, oy))
 end
 
-
+return MoneyBox
