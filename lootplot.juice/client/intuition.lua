@@ -1,18 +1,27 @@
 local RENDER_AFTER_ENTITY_ORDER = 1
 
-local function entityHasPosition(ent)
-    return ent.x and ent.y
-end
+umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER, function(ent, x, y)
+    if ent.doomCount then
+        local q
 
-umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER, function(ent)
-    if entityHasPosition(ent) and ent.doomCount then
-        if lp.isItemEntity(ent) then
+        -- Note: This "if" order is also an optimization. There can be more slots than items
+        -- but it's unlikely that there are more items than slots.
+        if lp.isSlotEntity(ent) then
             if ent.doomCount <= 1 then
-                rendering.drawImage(client.assets.images.doom_count_visual, ent.x, ent.y)
+                q = client.assets.images.crack_effect_only
             elseif ent.doomCount < 5 then
-                rendering.drawImage(client.assets.images.doom_count_warning_visual, ent.x, ent.y)
+                q = client.assets.images.crack_small
+            end
+        elseif lp.isItemEntity(ent) then
+            if ent.doomCount <= 1 then
+                q = client.assets.images.doom_count_visual
+            elseif ent.doomCount < 5 then
+                q = client.assets.images.doom_count_warning_visual
             end
         end
-        -- TODO: Slot entity cracks.
+
+        if q then
+            rendering.drawImage(q, x, y)
+        end
     end
 end)
