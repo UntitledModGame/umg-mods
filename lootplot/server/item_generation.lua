@@ -1,12 +1,12 @@
+
+
+
 -- Item spawner generator
 umg.on("lootplot:entityActivated", function(ent)
     if lp.isSlotEntity(ent) and ent.itemSpawner then
         local ppos = lp.getPos(ent)
         if ppos then
-            local itemSpawner = lp.getItemGenerator()
-            local entName = itemSpawner:query(function (entityType)
-                return lp.getDynamicSpawnChance(entityType, ent)
-            end)
+            local entName = ent:itemSpawner() or lp.FALLBACK_NULL_ITEM
             lp.trySpawnItem(ppos, server.entities[entName], ent.lootplotTeam)
         end
     end
@@ -18,12 +18,8 @@ umg.on("lootplot:entityActivated", function(ent)
         local itemEnt = lp.slotToItem(ent)
         local ppos = lp.getPos(ent)
 
-
         if itemEnt and ppos then
-            local itemReroller = lp.getItemGenerator()
-            local entName = itemReroller:query(function (entityType)
-                return lp.getDynamicSpawnChance(entityType, ent)
-            end)
+            local entName = ent:itemReroller() or lp.FALLBACK_NULL_ITEM
             lp.forceSpawnItem(ppos, server.entities[entName], ent.lootplotTeam)
         end
     end

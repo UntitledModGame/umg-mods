@@ -3,19 +3,29 @@ local loc = localization.localize
 ---@param entry string
 local function rareItemFilter(entry)
     local etype = server.entities[entry]
-
     if etype and etype.rarity then
         local rare = lp.rarities.getWeight(lp.rarities.RARE)
         local etypeRarity = lp.rarities.getWeight(etype.rarity)
-        return etypeRarity >= rare and 1 or 0
+        return etypeRarity >= rare
     end
-
-    return 0
+    return false
 end
 
-local function rareItemReroller()
-    return lp.getItemGenerator():query(rareItemFilter)
+local rareItemGen
+umg.on("@load", function()
+    rareItemGen = lp.newItemGenerator({
+        filter = rareItemFilter
+    })
+end)
+
+local function generateRareItem(ent)
+    local itemName = rareItemGen
+        :query(function(entityType)
+            return lp.getDynamicSpawnChance(entityType, ent)
+        end)
+    return itemName or lp.FALLBACK_NULL_ITEM
 end
+
 
 lp.defineItem("lootplot.content.s0:gift_box", {
     image = "gift_box",
@@ -25,7 +35,7 @@ lp.defineItem("lootplot.content.s0:gift_box", {
         if selfEnt.totalActivationCount >= 3 then
             local ppos = lp.getPos(selfEnt)
             if ppos then
-                local etype = server.entities[rareItemReroller()]
+                local etype = server.entities[generateRareItem(selfEnt)]
 
                 if etype then
                     lp.forceSpawnItem(ppos, etype, selfEnt.lootplotTeam)
@@ -43,7 +53,7 @@ lp.defineItem("lootplot.content.s0:money_box", {
     onActivate = function(selfEnt)
         local ppos = lp.getPos(selfEnt)
         if ppos then
-            local etype = server.entities[rareItemReroller()]
+            local etype = server.entities[generateRareItem(selfEnt)]
 
             if etype then
                 local e = lp.forceSpawnItem(ppos, etype, selfEnt.lootplotTeam)
@@ -63,7 +73,7 @@ lp.defineItem("lootplot.content.s0:pandoras_box", {
     targetShape = lp.targets.ABOVE_SHAPE,
     targetActivationDescription = loc("{lp_targetColor}Spawn a RARE item in an ABOVE shape that has only 1 use."),
     targetActivate = function(selfEnt, ppos, targetEnt)
-        local etype = server.entities[rareItemReroller()]
+        local etype = server.entities[generateRareItem(selfEnt)]
 
         if etype then
             local e = lp.trySpawnItem(ppos, etype, selfEnt.lootplotTeam)

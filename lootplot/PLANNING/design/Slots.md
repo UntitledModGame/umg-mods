@@ -28,13 +28,25 @@ Important things to note:
 defineSlot("rerollSlot", {
 	-- Activate: Rerolls an existing item.
 	-- (if there is no item in the slot, do nothing)
-	itemReroller = generator:newQuery(...)
+	itemReroller = function()
+		if random() < 0.5 then
+			return "itemType1"
+		else
+			return "etypeName2"
+		end
+	end
 })
 
 defineSlot("spawnerSlot", {
 	-- Activate: Spawns a new item in slot.
 	-- (if theres already an item in the slot, do nothing)
-	itemSpawner = generator:newQuery(...)
+	itemSpawner = function()
+		if random() < 0.5 then
+			return "itemType1"
+		else
+			return "etypeName2"
+		end
+	end
 })
 
 -- Note that `itemReroller` and `itemSpawner` can coexist!!
@@ -65,8 +77,8 @@ We can combine our work from reroll and spawner slots:
 defineSlot("shopSlot", {
 	activation = {NORMAL, REROLL, RESET},
 
-	itemSpawner = generator:newQuery(...)
-	itemReroller = generator:newQuery(...)
+	itemSpawner = itemGenerator()
+	itemReroller = itemGenerator()
 	
 	onActivate = function(ent)
 		-- reroll item

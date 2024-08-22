@@ -166,6 +166,8 @@ function lp.initialize(context)
     for _, k in ipairs(REQUIRED_CONTEXT_KEYS)do
         assert(context[k], "Missing function in Context: " .. k)
     end
+    assert(lp.FALLBACK_NULL_ITEM, "Must provide fallback item")
+    assert(lp.FALLBACK_NULL_SLOT, "Must provide fallback slot")
     contextInstance = context
 end
 
@@ -739,6 +741,38 @@ function lp.getDynamicSpawnChance(entityType, generationEnt)
     return umg.ask("lootplot:getDynamicSpawnChance", entityType, generationEnt) or 1
 end
 
+lp.DEFAULT_ITEM_SPAWN = 1
+
+local LootplotSeed = require("shared.LootplotSeed")
+--[[
+TODO: allow for custom seeds here.
+pass thru launch-options...?
+]]
+lp.SEED = LootplotSeed()
+
+local ITEM_GENERATOR = generation.Generator(lp.SEED.rerollRNG)
+local SLOT_GENERATOR = generation.Generator(lp.SEED.rerollRNG)
+
+---@param args generation.CloneOptions
+---@return generation.Generator
+function lp.newItemGenerator(args)
+    return ITEM_GENERATOR:cloneWith(args)
+end
+
+---@param args generation.CloneOptions
+---@return generation.Generator
+function lp.newSlotGenerator(args)
+    return SLOT_GENERATOR:cloneWith(args)
+end
+
+-- If there is an error getting an entity, invalid data is deserialized,
+-- Or a generation query fails, 
+-- then we SHOULD fall back to these entity-types instead:
+lp.FALLBACK_NULL_ITEM = false
+lp.FALLBACK_NULL_SLOT = false
+-- Think of these as like "error types".
+-- NOTE:: THESE SHOULD BE OVERRIDDEN!
+
 
 
 ---@class lootplot.LayerEntityClass: EntityClass
@@ -773,7 +807,7 @@ function lp.defineItem(name, itemType)
     itemType.hoverable = true
     giveCommonComponents(itemType)
     umg.defineEntityType(name, itemType)
-    lp.ITEM_GENERATOR:add(name, getEntityTypeSpawnWeight(itemType))
+    ITEM_GENERATOR:add(name, getEntityTypeSpawnWeight(itemType))
 end
 
 ---@class lootplot.SlotEntityClass: EntityClass
@@ -788,8 +822,8 @@ end
 ---@field public buttonSlot boolean
 ---@field public onActivate? fun(ent:lootplot.SlotEntity)
 ---@field public shopLock boolean
----@field public itemSpawner generation.Query?
----@field public itemReroller generation.Query?
+---@field public itemSpawner? fun(ent:lootplot.SlotEntity): string
+---@field public itemReroller? fun(ent:lootplot.SlotEntity): string
 ---@alias lootplot.SlotEntity lootplot.SlotEntityClass|lootplot.LayerEntity|Entity
 
 local DEFAULT_SLOT_HITBOX_AREA = {width = 22, height = 22, ox = 0, oy = 0}
@@ -809,7 +843,7 @@ function lp.defineSlot(name, slotType)
     end
     giveCommonComponents(slotType)
     umg.defineEntityType(name, slotType)
-    lp.SLOT_GENERATOR:add(name, getEntityTypeSpawnWeight(slotType))
+    SLOT_GENERATOR:add(name, getEntityTypeSpawnWeight(slotType))
 end
 
 ---@param name string
@@ -855,33 +889,11 @@ function lp.getCurrentSelection()
 end
 
 
-local ITEM_GENERATOR = generation.Generator(lp.SEED.rerollRNG)
-local SLOT_GENERATOR = generation.Generator(lp.SEED.rerollRNG)
-
----@param args generation.CloneOptions
----@return generation.Generator
-function lp.newItemGenerator(args)
-    return ITEM_GENERATOR:cloneWith(args)
-end
-
----@param args generation.CloneOptions
----@return generation.Generator
-function lp.getSlotGenerator(args)
-    return SLOT_GENERATOR:cloneWith(args)
-end
 
 lp.constants = {
     WORLD_SLOT_DISTANCE = 26, -- distance slots are apart in the world.
     PIPELINE_DELAY = 0.2
 }
-
-
-local LootplotSeed = require("shared.LootplotSeed")
---[[
-TODO: allow for custom seeds here.
-pass thru launch-options...?
-]]
-lp.SEED = LootplotSeed()
 
 umg.expose("lp", lp)
 

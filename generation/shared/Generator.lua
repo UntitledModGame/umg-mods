@@ -135,6 +135,7 @@ end
 
 
 
+-- todo: should we make this number configurable??
 local NUM_TRIES = 500
 
 local function alwaysPick()
@@ -143,7 +144,7 @@ end
 
 ---Get random entry from the generator.
 ---@param pickChanceFunction (fun(entry:any,weight:table<string,any>?):number)? Function that returns the chance of an item being picked. 1 means pick always, 0 means fully skip this item (filtered out), anything inbetween is the chance of said entry be accepted or be rerolled.
----@return any
+---@return any?
 function Generator:query(pickChanceFunction)
     pickChanceFunction = pickChanceFunction or alwaysPick
     assert(#self.entries > 0, "no items in entry")
@@ -165,7 +166,7 @@ function Generator:query(pickChanceFunction)
         i = i + 1
     end
 
-    umg.melt("all items are filtered out")
+    return nil -- Query failed; looped for too long
 end
 
 return Generator

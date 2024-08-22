@@ -34,9 +34,10 @@ function LargeItemTest:setup()
         lp.forceSpawnSlot(ppos, slots[slotIndex][2])
     end)
 
+    local itemGen = lp.newItemGenerator()
     -- Spawn all items
     self.plot:foreach(function(ppos)
-        local entry = lp.getItemGenerator():query()
+        local entry = itemGen:query()
 
         umg.log.debug("spawning item", entry, "at ppos", tostring(ppos))
         if server then
