@@ -2,25 +2,24 @@
 return lp.defineSlot("lootplot.content.s0:diamond_slot", {
     image = "diamond_slot",
     name = localization.localize("Diamond slot"),
-    description = localization.localize("Activates three times"),
+    baseMaxActivations = 3,
+    description = localization.localize("Activates items three times"),
     onActivate = function(ent)
         local ppos = lp.getPos(ent)
-        if not ppos then return end
-
-        lp.queue(ppos, function ()
+        if not (ppos) then return end
+        lp.queue(ppos, function()
             local item = lp.slotToItem(ent)
             if item then
-                lp.tryTriggerEntity("PULSE", item)
+                lp.tryActivateEntity(item)
             end
         end)
-        
-        lp.queue(ppos, function ()
+
+        lp.queue(ppos, function()
             local item = lp.slotToItem(ent)
             if item then
-                lp.tryTriggerEntity("PULSE", item)
+                lp.tryActivateEntity(item)
             end
         end)
     end
 })
-
 
