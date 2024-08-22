@@ -27,7 +27,10 @@ umg.defineEvent("lootplot:comboChanged")
 umg.defineEvent("lootplot:levelChanged")
 
 
-umg.defineQuestion("lootplot:getEntityTypeSpawnChance", reducers.MULTIPLY)
+
+umg.defineQuestion("lootplot:getConstantSpawnWeight", reducers.MULTIPLY)
+umg.defineQuestion("lootplot:getDynamicSpawnChance", reducers.MULTIPLY)
+
 
 umg.defineQuestion("lootplot:pollSelectionButtons", reducers.SINGLE_COLLECT)
 

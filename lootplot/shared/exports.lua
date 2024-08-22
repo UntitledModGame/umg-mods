@@ -716,21 +716,29 @@ local function giveCommonComponents(etype)
 end
 
 
-local function getSpawnChance(etype)
-    return umg.ask("lootplot:getEntityTypeSpawnChance", etype) or 1
+
+
+
+--[[
+Q: whats the difference between these two?
+
+A: 
+getConstantSpawnWeight is called ONCE, at load-time.
+EntityTypes cannot change their weights after they are called.
+
+getDynamicSpawnChance is called multiple times at runtime, within
+the generation queries.
+(It is a lot less efficient, but provides for greater flexibility)
+]]
+local function getEntityTypeSpawnWeight(entityType)
+    return umg.ask("lootplot:getConstantSpawnWeight", entityType) or 1
 end
 
 
-local function keys(sset)
-    if not sset then
-        return {}
-    end
-    local ks = {}
-    for _, val in ipairs(sset) do
-        ks[val] = true
-    end
-    return ks
+function lp.getDynamicSpawnChance(entityType, generationEnt)
+    return umg.ask("lootplot:getDynamicSpawnChance", entityType, generationEnt) or 1
 end
+
 
 
 ---@class lootplot.LayerEntityClass: EntityClass
@@ -765,7 +773,7 @@ function lp.defineItem(name, itemType)
     itemType.hoverable = true
     giveCommonComponents(itemType)
     umg.defineEntityType(name, itemType)
-    lp.ITEM_GENERATOR:add(name, getSpawnChance(itemType))
+    lp.ITEM_GENERATOR:add(name, getEntityTypeSpawnWeight(itemType))
 end
 
 ---@class lootplot.SlotEntityClass: EntityClass
@@ -801,7 +809,7 @@ function lp.defineSlot(name, slotType)
     end
     giveCommonComponents(slotType)
     umg.defineEntityType(name, slotType)
-    lp.SLOT_GENERATOR:add(name, getSpawnChance(slotType))
+    lp.SLOT_GENERATOR:add(name, getEntityTypeSpawnWeight(slotType))
 end
 
 ---@param name string
@@ -846,16 +854,20 @@ function lp.getCurrentSelection()
     return selection.getSelected()
 end
 
----@param level integer?
-function lp.getItemGenerator(level)
-    -- TODO: Filter items by specific level.
-    return lp.ITEM_GENERATOR
+
+local ITEM_GENERATOR = generation.Generator(lp.SEED.rerollRNG)
+local SLOT_GENERATOR = generation.Generator(lp.SEED.rerollRNG)
+
+---@param args generation.CloneOptions
+---@return generation.Generator
+function lp.newItemGenerator(args)
+    return ITEM_GENERATOR:cloneWith(args)
 end
 
----@param level integer?
-function lp.getSlotGenerator(level)
-    -- TODO: Filter slots by specific level.
-    return lp.SLOT_GENERATOR
+---@param args generation.CloneOptions
+---@return generation.Generator
+function lp.getSlotGenerator(args)
+    return SLOT_GENERATOR:cloneWith(args)
 end
 
 lp.constants = {
@@ -870,9 +882,6 @@ TODO: allow for custom seeds here.
 pass thru launch-options...?
 ]]
 lp.SEED = LootplotSeed()
-
-lp.ITEM_GENERATOR = generation.Generator(lp.SEED.rerollRNG)
-lp.SLOT_GENERATOR = generation.Generator(lp.SEED.rerollRNG)
 
 umg.expose("lp", lp)
 
