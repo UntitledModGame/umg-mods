@@ -8,21 +8,6 @@ local Picker = require("shared.Picker")
 ---@field protected picker generation.Picker?
 local Generator = objects.Class("generation:Generator")
 
----@generic T
----@param t T[]
----@param amount integer
----@param start integer?
----@param tablength integer?
-local function shift(t, amount, start, tablength)
-    start = start or 1
-    tablength = tablength or #t
-
-    for i = start, tablength do
-        t[i] = t[i + amount]
-    end
-
-    t[tablength - amount + 1] = nil
-end
 
 ---@param rng love.RandomGenerator?
 function Generator:init(rng)
