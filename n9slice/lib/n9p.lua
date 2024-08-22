@@ -29,7 +29,11 @@ if love.getVersion() >= 12 then
 	applyTransform = love.graphics.applyTransform
 else
 	function applyTransform(x, y, a, sx, sy, ox, oy, kx, ky)
-		return love.graphics.applyTransform(love.math.newTransform(x, y, a, sx, sy, ox, oy, kx, ky))
+		if type(x) == "number" then
+			return love.graphics.applyTransform(love.math.newTransform(x, y, a, sx, sy, ox, oy, kx, ky))
+		else
+			return love.graphics.applyTransform(x)
+		end
 	end
 end
 
@@ -499,10 +503,12 @@ function Builder:build(textureWidth, textureHeight, subX, subY, subW, subH)
 		yoff = yoff + ymode[2]
 	end
 
-	local padX = self.padding[1]
-	local padY = self.padding[2]
-	local padW = textureWidth - math.min(self.padding[3] + 1, textureWidth)
-	local padH = textureHeight - math.min(self.padding[4] + 1, textureHeight)
+	local maxPadX = subX + subW
+	local maxPadY = subY + subH
+	local padX = math.max(self.padding[1] - subX, 0)
+	local padY = math.max(self.padding[2] - subY, 0)
+	local padW = maxPadX - math.min(self.padding[3] + 1, maxPadX)
+	local padH = maxPadY - math.min(self.padding[4] + 1, maxPadY)
 
 	return makeInstance(horz, vert, quads, {padX, padY, padW, padH})
 end

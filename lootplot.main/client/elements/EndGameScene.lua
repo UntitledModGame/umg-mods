@@ -70,11 +70,10 @@ function EndGameScene:onRender(x, y, w, h)
     self.titleText:render(titleText:get())
     self.descriptionText:render(content:get())
 
-    local a,b=button:splitHorizontal(1,1)
     if self.win then
-        self.okButtonGreen:render(a:get())
+        self.okButtonGreen:render(button:get())
     else
-        self.okButtonRed:render(b:get())
+        self.okButtonRed:render(button:get())
     end
 end
 
