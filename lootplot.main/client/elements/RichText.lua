@@ -26,6 +26,12 @@ function RichText:init(args)
     end
 end
 
+if false then
+    ---@param args string|{text:string,font?:love.Font,scale?:number,color?:objects.Color,wrap?:number}
+    ---@return lootplot.main.RichText
+    function RichText(args) end
+end
+
 function RichText:getText()
     return self.text
 end

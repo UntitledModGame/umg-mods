@@ -190,16 +190,14 @@ end
 ---@param w number
 ---@param h number
 function Element:startStencil(x,y,w,h)
-    local function stencil()
-        love.graphics.rectangle("fill",x,y,w,h)
-    end
-    love.graphics.stencil(stencil, "replace", 2)
-    love.graphics.setStencilTest("greater", 1)
+    love.graphics.setStencilMode("draw", 1)
+    love.graphics.rectangle("fill",x,y,w,h)
+    love.graphics.setStencilMode("test", 1)
 end
 
 
 function Element:endStencil()
-    love.graphics.setStencilTest()
+    love.graphics.setStencilMode("off")
 end
 
 

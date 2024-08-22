@@ -3,10 +3,9 @@ local StretchableBox = ui.Element("lootplot.main:StretchableBox")
 
 
 ---@param quadName string
----@param cornerWidth number
----@param cornerHeight number
+---@param padding number[]|number
 ---@param args? {stretchType?: n9slice.StretchType, content?: any, scale?:number}
-function StretchableBox:init(quadName, cornerWidth, cornerHeight, args)
+function StretchableBox:init(quadName, padding, args)
     args = args or {}
 
     self.scale = 1
@@ -17,8 +16,7 @@ function StretchableBox:init(quadName, cornerWidth, cornerHeight, args)
     self.n9p = n9slice.new({
         image = client.atlas:getTexture(),
         quad = quad,
-        cornerWidth = cornerWidth,
-        cornerHeight = cornerHeight,
+        padding = padding,
         stretchType = args.stretchType
     })
 
@@ -28,7 +26,13 @@ function StretchableBox:init(quadName, cornerWidth, cornerHeight, args)
     end
 end
 
-
+if false then
+    ---@param quadName string
+    ---@param padding number[]|number
+    ---@param args? {stretchType?: n9slice.StretchType, content?: any, scale?:number}
+    ---@return lootplot.main.StretchableBox
+    function StretchableBox(quadName, padding, args) end
+end
 
 ---@param content Element?
 function StretchableBox:setContent(content)
@@ -43,6 +47,10 @@ function StretchableBox:setContent(content)
     end
 end
 
+function StretchableBox:getContent()
+    return self.content
+end
+
 function StretchableBox:onRender(x, y, w, h)
     local width, height = w / self.scale, h / self.scale
     self.n9p:draw(x, y, width, height, 0, self.scale, self.scale)
@@ -55,6 +63,11 @@ function StretchableBox:onRender(x, y, w, h)
             cw * self.scale,
             ch * self.scale
         )
+        love.graphics.rectangle("line",
+        cx * self.scale + x,
+        cy * self.scale + y,
+        cw * self.scale,
+        ch * self.scale)
     end
 end
 

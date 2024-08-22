@@ -1,5 +1,6 @@
+local ChatMessage = require("client.ChatMessage")
 
-
+---@class chat.ChatBox: Element
 local ChatBox = ui.Element("chat:ChatBox")
 
 local LinkedList = require("_libs.doubly_linked_list")
@@ -86,7 +87,7 @@ end
 
 
 function ChatBox:pushMessage(str)
-    local elem = ui.elements.ChatMessage(str)
+    local elem = ChatMessage(str)
     self.messages:pushf(elem)
     self:addChild(elem)
 

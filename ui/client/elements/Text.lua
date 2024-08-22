@@ -1,6 +1,7 @@
+local Element = require("client.newElement")
 
 ---@class ui.Text: Element
-local Text = ui.Element("ui:Text")
+local Text = Element("ui:Text")
 --[[
 
 Text is a text element that will scale itself to
@@ -22,7 +23,7 @@ local function getTextSize(font, text, wrap)
 end
 
 
-
+---@param args string|{text:string,wrap:boolean?,font:love.Font?,scale:number?,align:love.AlignMode?,color:objects.Color?,outline:number?,outlineColor:objects.Color?}
 function Text:init(args)
     self.font = love.graphics.getFont()
     if type(args) == "string" then
@@ -45,7 +46,11 @@ function Text:init(args)
     end
 end
 
-
+if false then
+    ---@param args string|{text:string,wrap:boolean?,font:love.Font?,scale:number?,align:love.AlignMode?,color:objects.Color?,outline:number?,outlineColor:objects.Color?}
+    ---@return ui.Text
+    function Text(args) end
+end
 
 local DEFAULT_OUTLINE_COLOR = {1,1,1}
 local DEFAULT_COLOR = {0,0,0}

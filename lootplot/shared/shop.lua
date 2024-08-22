@@ -63,7 +63,7 @@ umg.answer("lootplot:pollSelectionButtons", function(ppos)
             text = function()
                 return "Buy ($"..itemEnt.buyPrice..")"
             end,
-            color = objects.Color.GREEN,
+            color = "green",
             onClick = function()
                 if shopService.buy(itemEnt) then
                     selection.reset()
@@ -88,7 +88,7 @@ umg.answer("lootplot:pollSelectionButtons", function(ppos)
             text = function()
                 return kind.." ($"..math.abs(itemEnt.sellPrice)..")"
             end,
-            color = isSell and objects.Color.GOLD or objects.Color.RED,
+            color = isSell and "yellow" or "red",
             onClick = function()
                 if lp.canPlayerAccess(itemEnt, client.getClient()) then
                     shopService.sell(itemEnt)

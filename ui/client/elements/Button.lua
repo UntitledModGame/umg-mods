@@ -1,6 +1,10 @@
+local Element = require("client.newElement")
+local Image = require("client.elements.Image")
+local Text = require("client.elements.Text")
+local Region = require("kirigami.Region")
 
-
-local Button = ui.Element("ui:Button")
+---@class ui.Button: Element
+local Button = Element("ui:Button")
 
 
 local DEFAULT_PADDING = 12
@@ -17,18 +21,25 @@ function Button:init(args)
     self.backgroundColor = args.backgroundColor
     self.outlineColor = args.outlineColor
     self.textColor = args.textColor
+    self.textElement = nil
     if args.image then
-        self.imageElement = ui.elements.Image({
+        self.imageElement = Image({
             image = args.image
         })
         self:addChild(self.imageElement)
     end
 end
 
+if false then
+    ---@param args {click:fun(self:ui.Button),text:string?,padding:number?,font:love.Font?,backgroundColor:objects.Color?,outlineColor:objects.Color?,textColor:objects.Color?,image:string?}
+    ---@return ui.Button
+    function Button(args) end
+end
 
+---@param self ui.Button
 local function ensureTextElement(self)
     if not self.textElement then
-        self.textElement = ui.elements.Text({
+        self.textElement = Text({
             text = self.text,
             font = self.font,
             color = self.textColor,
@@ -46,7 +57,7 @@ end
 
 
 function Button:onRender(x,y,w,h)
-    local r = ui.Region(x,y,w,h)
+    local r = Region(x,y,w,h)
     lg.setColor(self.backgroundColor or objects.Color.WHITE)
     lg.rectangle("fill", r:get())
     lg.setColor(self.outlineColor or objects.Color.BLACK)

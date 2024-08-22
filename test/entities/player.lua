@@ -72,8 +72,10 @@ return umg.defineEntityType("player", {
 
     onCreate = function(e)
         if client then
+            local GridInventory = require("client.GridInventoryElement")
+
             e.ui = {
-                element = ui.elements.GridInventory({
+                element = GridInventory({
                     inventory = e.inventory,
                     width = 6,
                     height = 5

@@ -1,5 +1,9 @@
+local Element = require("client.newElement")
+local ScrollBar = require("client.elements.ScrollBar")
+local Region = require("kirigami.Region")
 
-local ScrollBox = ui.Element("ui:ScrollBox")
+---@class ui.ScrollBox: Element
+local ScrollBox = Element("ui:ScrollBox")
 --[[
 
 ScrollBox
@@ -26,29 +30,33 @@ function ScrollBox:init(args)
     self:addChild(args.content)
     self.content = args.content
 
-    self.scroll = ui.elements.ScrollBar({
+    self.scroll = ScrollBar({
         sensitivity = args.sensitivity
     })
     self:addChild(self.scroll)
 end
 
-
+if false then
+    ---@param args {content:Element,scrollWidth:number?,sensitivity:number?}
+    ---@return ui.ScrollBox
+    function ScrollBox(args) end
+end
 
 function ScrollBox:onRender(x,y,w,h)
     love.graphics.rectangle("line",x,y,w,h)
-    local region = ui.Region(x,y,w,h)
+    local region = Region(x,y,w,h)
 
     -- common idiom to create fixed-size splits:
     local content, scroll = region:splitHorizontal(w-self.scrollWidth, self.scrollWidth)
 
     assert(self.content.getHeight, "Content inside of ScrollBox needs a :getHeight method!")
     local contentHeight = self.content:getHeight()
-    
+
     if h < contentHeight then
         self.scroll:render(scroll:get())
 
         local dy = -self.scroll:getScrollRatio() * (contentHeight - h)
-        local X,Y,W,_ = content:offset(0,dy):get()
+        local X,Y,W = content:moveUnit(0,dy):get()
         self:startStencil(region:get())
         self.content:render(X,Y,W,contentHeight)
         self:endStencil()

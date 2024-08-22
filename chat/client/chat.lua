@@ -2,7 +2,7 @@
 
 local chat = {}
 
-
+local ChatBox = require("client.ChatBox")
 local chatControls = require("client.chatControls")
 
 local constants = require("constants")
@@ -16,7 +16,7 @@ local lg=love.graphics
 local chatBox
 
 umg.on("@load", function()
-    chatBox = ui.elements.ChatBox()
+    chatBox = ChatBox()
 end)
 
 

@@ -1,5 +1,9 @@
+local Element = require("client.newElement")
+local Region = require("kirigami.Region")
+local Text = require("client.elements.Text")
 
-local Input = ui.Element("ui:Input")
+---@class ui.Input: Element
+local Input = Element("ui:Input")
 
 local DEFAULT_MAX_LENGTH = 50
 
@@ -8,7 +12,7 @@ local BLACK = {0,0,0}
 
 function Input:init(args)
     args = args or {}
-    self.text = ui.elements.Text({
+    self.text = Text({
         color = BLACK,
         text = args.startValue or ""
     })
@@ -21,10 +25,10 @@ end
 local lg=love.graphics
 
 function Input:onRender(x,y,w,h)
-    local region = ui.Region(x,y,w,h)
+    local region = Region(x,y,w,h)
     lg.rectangle("fill",x,y,w,h)
 
-    local textRegion = region:padPixels(10)
+    local textRegion = region:padUnit(10)
     if self:isFocused() then
         local _, cursorRegion = textRegion:splitHorizontal(0.9, 0.1)
         if math.floor(love.timer.getTime() * 2) % 2 == 0 then

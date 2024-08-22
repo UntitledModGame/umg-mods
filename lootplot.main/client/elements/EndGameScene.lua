@@ -1,5 +1,7 @@
 local fonts = require("client.fonts")
-
+local RichText = require("client.elements.RichText")
+local StretchableBox = require("client.elements.StretchableBox")
+local StretchableButton = require("client.elements.StretchableButton")
 
 local loc = localization.localize
 
@@ -9,25 +11,25 @@ local EndGameScene = ui.Element("lootplot.main:EndGameScene")
 function EndGameScene:init(args)
     typecheck.assertKeys(args, {"onDismiss"})
 
-    self.background = ui.elements.StretchableBox("orange_pressed_big", 8, 8, {
+    self.background = StretchableBox("orange_pressed_big", 8, {
         scale = 2,
         stretchType = "repeat",
     })
 
-    self.titleText = ui.elements.RichText({
+    self.titleText = RichText({
         font = fonts.getLargeFont()
     })
-    self.descriptionText = ui.elements.RichText({
+    self.descriptionText = RichText({
         font = fonts.getSmallFont()
     })
 
-    self.okButtonRed = ui.elements.StretchableButton({
+    self.okButtonRed = StretchableButton({
         onClick = args.onDismiss,
         color = "red",
         text = loc("Ok!"),
         scale = 2,
     })
-    self.okButtonGreen = ui.elements.StretchableButton({
+    self.okButtonGreen = StretchableButton({
         onClick = args.onDismiss,
         color = "green",
         text = loc("Ok!"),
