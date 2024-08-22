@@ -1,5 +1,6 @@
 local fonts = require("client.fonts")
 local RichText = require("client.elements.RichText")
+local SimpleBox = require("client.elements.SimpleBox")
 
 ---@class lootplot.main.MoneyBox: Element
 local MoneyBox = ui.Element("lootplot.main:MoneyBox")
@@ -12,7 +13,7 @@ local textColorSubtract = objects.Color(love.math.colorFromBytes(168, 30, 15))
 function MoneyBox:init()
     self.lastMoney = 0
 
-    self.box = ui.elements.SimpleBox({
+    self.box = SimpleBox({
         color = boxColor,
         rounding = 4,
         thickness = 0.5

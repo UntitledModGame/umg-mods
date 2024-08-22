@@ -10,7 +10,7 @@ local SimpleBox = ui.Element("lootplot.main:SimpleBox")
 
 local lg=love.graphics
 
-
+---@param args {color:objects.Color,rounding:number?}
 function SimpleBox:init(args)
     typecheck.assertKeys(args, {"color"})
     self.color = objects.Color(args.color)
@@ -18,6 +18,11 @@ function SimpleBox:init(args)
     self.rounding = args.rounding or 0
 end
 
+if false then
+    ---@param args {color:objects.Color,rounding:number?}
+    ---@return lootplot.main.SimpleBox
+    function SimpleBox(args) end
+end
 
 function SimpleBox:setColor(otherColor)
     -- avoid copy operation:

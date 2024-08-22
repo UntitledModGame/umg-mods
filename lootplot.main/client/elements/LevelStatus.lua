@@ -1,4 +1,5 @@
 local fonts = require("client.fonts")
+local SimpleBox = require("client.elements.SimpleBox")
 
 ---@class lootplot.main.LevelStatus: Element
 local LevelStatus = ui.Element("lootplot.main:LevelStatus")
@@ -8,7 +9,7 @@ local levelNumberBoxColor = objects.Color.WHITE
 
 function LevelStatus:init()
 
-    self.mainBox = ui.elements.SimpleBox({
+    self.mainBox = SimpleBox({
         color = mainBoxColor,
         rounding = 4,
         thickness = 0.5
@@ -21,7 +22,7 @@ function LevelStatus:init()
     })
     self:addChild(self.levelText)
 
-    self.levelBox = ui.elements.SimpleBox({
+    self.levelBox = SimpleBox({
         color = levelNumberBoxColor,
         rounding = 4,
         thickness = 1
