@@ -1,4 +1,4 @@
-
+---@meta
 local properties = {}
 if false then _G.properties = properties end
 
@@ -121,17 +121,8 @@ end
 ---@param property string
 ---@param config property.BooleanPropertyConfig
 local function computeBooleanProperty(ent, property, config)
-    local value = getBooleanBaseValue(ent, config)
-
-    if not value then
-        value = umg.ask("properties:canPropertyBeTrue", ent, property) or false
-    end
-
-    if value and umg.ask("properties:isPropertyFalse", ent, property) then
-        return false
-    end
-
-    return value
+    local value = not not getBooleanBaseValue(ent, config)
+    return value and umg.ask("properties:getBooleanPropertyValue", ent, property)
 end
 
 local EMPTY = {}
