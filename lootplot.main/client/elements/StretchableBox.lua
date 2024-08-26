@@ -63,11 +63,6 @@ function StretchableBox:onRender(x, y, w, h)
             cw * self.scale,
             ch * self.scale
         )
-        love.graphics.rectangle("line",
-        cx * self.scale + x,
-        cy * self.scale + y,
-        cw * self.scale,
-        ch * self.scale)
     end
 end
 
