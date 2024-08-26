@@ -62,8 +62,8 @@ end
 
 
 
-local listener = input.InputListener({priority = 5})
-
+local listener = input.InputListener()
+input.add(listener, 5)
 
 
 listener:onTextInput(function(_self, t)

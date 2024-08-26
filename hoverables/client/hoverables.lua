@@ -44,7 +44,8 @@ local function tryEndHover(ent, worldX, worldY)
     end
 end
 
-local listener = input.InputListener({priority = 0})
+local listener = input.InputListener()
+input.add(listener, 0)
 listener:onPointerMoved(function(l, x, y)
     local currentCamera = camera.get()
     local worldX, worldY = currentCamera:toWorldCoords(x, y)

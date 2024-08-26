@@ -21,9 +21,8 @@ end)
 
 
 
-local listener = input.InputListener({
-    priority = 10
-})
+local listener = input.InputListener()
+input.add(listener, 10)
 
 
 listener:onAnyPressed(function(self, controlEnum)

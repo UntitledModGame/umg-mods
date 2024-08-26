@@ -34,7 +34,8 @@ end
 if client then
 
 local clickEnts = umg.group("x", "y", "clickable")
-local listener = input.InputListener({priority = 0})
+local listener = input.InputListener()
+input.add(listener, 0)
 
 -- pretty arbitrary size, lol
 local clickEntPartition = spatial.DimensionPartition(200)

@@ -26,9 +26,8 @@ local controllableGroup = umg.group("topdownControl", "x", "y")
 
 
 
-local listener = input.InputListener({priority = -1})
-
-
+local listener = input.InputListener()
+input.add(listener, -1)
 
 
 
