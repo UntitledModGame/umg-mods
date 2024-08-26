@@ -1,6 +1,8 @@
-local properties = {}
 
----@class property._CommonConfig
+local properties = {}
+if false then _G.properties = properties end
+
+---@class property._CommonConfig: table
 ---@field public base string Reference to the base component.
 ---@field public requiredComponents string[]?
 ---@field public shouldComputeClientside boolean? (default false)
@@ -17,7 +19,7 @@ local properties = {}
 
 ---@alias property._AnyConfig property.NumberPropertyConfig|property.BooleanPropertyConfig
 
----@class property._Config
+---@class property._Config: table
 ---@field package type "number"|"boolean"
 ---@field package config property._AnyConfig
 
@@ -326,4 +328,5 @@ function properties.getPropertyType(property)
     end
 end
 
+umg.expose("properties", properties)
 return properties
