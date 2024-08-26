@@ -23,10 +23,13 @@ if false then _G.properties = properties end
 ---@field package type "number"|"boolean"
 ---@field package config property._AnyConfig
 
+
+
 local propertyToConfig = {--[[
     [propertyName] -> config
 ]]}
 ---@cast propertyToConfig table<string, property._Config>
+
 
 
 ---@param property string
@@ -41,6 +44,9 @@ local function isProperty(property)
 end
 
 typecheck.addType("property", isProperty)
+
+
+
 
 
 
@@ -117,6 +123,8 @@ local function computeNumberProperty(ent, property, config)
     return math.clamp(value, min, max)
 end
 
+
+
 ---@param ent Entity
 ---@param property string
 ---@param config property.BooleanPropertyConfig
@@ -124,6 +132,8 @@ local function computeBooleanProperty(ent, property, config)
     local value = not not getBooleanBaseValue(ent, config)
     return value and umg.ask("properties:getBooleanPropertyValue", ent, property)
 end
+
+
 
 local EMPTY = {}
 
@@ -134,6 +144,7 @@ local function makeGroup(comp, config)
     local extraComps = config.requiredComponents or EMPTY
     return umg.group(comp, unpack(extraComps))
 end
+
 
 local function makeBasePropertyGroup(property)
     assert(server,"?")
@@ -156,6 +167,9 @@ local function makeBasePropertyGroup(property)
         ent[property] = ent[baseProperty]
     end)
 end
+
+
+
 
 local tickEvent
 if server then
@@ -199,6 +213,7 @@ local function makePropertyGroup(property)
     end)
 end
 
+
 ---@param property string
 ---@param type "number"|"boolean"
 ---@param config property._AnyConfig
@@ -218,6 +233,9 @@ local function defineProperty(property, type, config)
         end
     end
 end
+
+
+
 
 local numberConfigTableType = {
     base = "string",
@@ -241,6 +259,9 @@ function properties.defineNumberProperty(property, config)
     return defineProperty(property, "number", config)
 end
 
+
+
+
 local booleanConfigTableType = {
     base = "string",
     default = "boolean?",
@@ -259,6 +280,9 @@ function properties.defineBooleanProperty(property, config)
     return defineProperty(property, "boolean", config)
 end
 
+
+
+
 local computeTc = typecheck.assert("entity", "property")
 
 ---Computes a property
@@ -270,6 +294,8 @@ function properties.computeProperty(ent, property)
     local config = propertyToConfig[property]
     return computePropertyFunction[config.type](ent, property, config.config)
 end
+
+
 
 local getDefaultTc = typecheck.assert("property")
 
@@ -287,6 +313,7 @@ function properties.getDefault(property)
     end
 end
 
+
 ---Gets the base property (e.g. maxHealth -> baseMaxHealth)
 ---@param property string
 ---@return string?
@@ -296,6 +323,7 @@ function properties.getBase(property)
         return config.config.base
     end
 end
+
 
 ---@return string[]
 function properties.getAllProperties()
@@ -307,6 +335,8 @@ function properties.getAllProperties()
 
     return result
 end
+
+
 
 ---Gets property type (or `nil` if property doesn't exist)
 ---@param property string
