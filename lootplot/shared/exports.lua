@@ -738,6 +738,12 @@ end
 
 
 function lp.getDynamicSpawnChance(entityType, generationEnt)
+    if entityType.minimumLevelToSpawn then
+        local level = lp.getLevel(generationEnt)
+        if level < entityType.minimumLevelToSpawn then
+            return 0
+        end
+    end
     return umg.ask("lootplot:getDynamicSpawnChance", entityType, generationEnt) or 1
 end
 

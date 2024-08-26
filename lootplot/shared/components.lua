@@ -21,7 +21,8 @@ components.defineComponent("activationCount")
 components.defineComponent("totalActivationCount")
 
 
-components.defineComponent("doomCount")
+components.defineComponent("minimumLevelToSpawn")
+
 
 
 --[[
