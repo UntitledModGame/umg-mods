@@ -17,12 +17,11 @@ local InputListener = objects.Class("input:InputListener")
 
 local dummy = function()end
 
-function InputListener:init(args)
-    typecheck.assertKeys(args, {"controlManager", "priority"})
+function InputListener:init()
     ---@private
-    self.controlManager = args.controlManager
+    self.controlManager = nil
     ---@private
-    self.priority = args.priority
+    self.priority = nil
 
     self.updateCallback = dummy
     self.pressCallbacks = {--[[
@@ -46,6 +45,7 @@ local lockControlTc = typecheck.assert("control")
 ---@param controlEnum string
 function InputListener:claim(controlEnum)
     lockControlTc(controlEnum)
+    assert(self.controlManager, "no attached control manager (forgot input.add?)")
     self.controlManager:lockControl(controlEnum, self)
 end
 
@@ -153,6 +153,14 @@ function InputListener:_dispatchRelease(controlEnum)
     func(self, controlEnum)
     self:anyReleaseCallback(controlEnum)
 end
+
+---@private
+function InputListener:_setControlManagerAndPriority(controlManager, priority)
+    self.controlManager = controlManager
+    self.priority = priority
+end
+
+
 
 ---@cast InputListener +fun(...):input.InputListener
 return InputListener
