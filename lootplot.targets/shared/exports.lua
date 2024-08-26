@@ -78,6 +78,13 @@ targets.KNIGHT_SHAPE = {
     }
 }
 
+targets.ON_SHAPE = {
+    name = "ON",
+    relativeCoords = {
+        {0,0}
+    }
+}
+
 targets.ABOVE_SHAPE = UniDirectionalShape(0, -1, 1, "ABOVE")
 targets.BELOW_SHAPE = UniDirectionalShape(0, 1, 1, "BELOW")
 
