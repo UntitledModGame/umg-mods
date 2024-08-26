@@ -21,5 +21,8 @@ umg.defineQuestion("properties:getPropertyClamp", clampCombiner)
 
 
 
-umg.defineQuestion("properties:canPropertyBeTrue", reducers.OR)
-umg.defineQuestion("properties:isPropertyFalse", reducers.OR)
+
+umg.defineQuestion("properties:getBooleanPropertyValue", reducers.AND)
+umg.answer("properties:getBooleanPropertyValue", function() -- default answer
+    return true
+end)
