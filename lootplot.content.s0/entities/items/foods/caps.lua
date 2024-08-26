@@ -36,7 +36,7 @@ lp.defineItem("lootplot.content.s0:cap_purple", {
     onActivate = function(selfEnt)
         local ppos = lp.getPos(selfEnt)
         if ppos then
-            local itemGen = lp.getItemGenerator()
+            local itemGen = lp.newItemGenerator()
             local etype = server.entities[itemGen:query()]
             if etype then
                 lp.forceSpawnItem(ppos, etype, selfEnt.lootplotTeam)

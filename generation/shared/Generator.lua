@@ -11,6 +11,7 @@ local Generator = objects.Class("generation:Generator")
 ---@param rng love.RandomGenerator?
 function Generator:init(rng)
     self.rng = rng or love.math.newRandomGenerator(love.math.random(0, 2147483647))
+    assert(typecheck.isType(self.rng, "love:RandomGenerator"))
     self.entries = {}
     self.weights = {}
     self.picker = nil

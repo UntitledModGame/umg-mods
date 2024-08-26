@@ -96,12 +96,16 @@ lp.defineItem("lootplot.content.s0:boomerang", {
     baseMaxActivations = 10,
     rarity = lp.rarities.RARE,
 
-    onActivate = function(selfEnt, ppos)
-        lp.queue(ppos, function ()
-            if umg.exists(selfEnt) then
-                lp.tryActivateEntity(selfEnt)
-            end
-        end)
+    onActivate = function(selfEnt)
+        local ppos = lp.getPos(selfEnt)
+
+        if ppos then
+            return lp.queue(ppos, function ()
+                if umg.exists(selfEnt) then
+                    lp.tryActivateEntity(selfEnt)
+                end
+            end)
+        end
     end
 })
 

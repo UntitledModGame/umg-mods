@@ -271,6 +271,7 @@ end
 -- LOVE types
 local loveTypes = {
     "ImageData",
+    "RandomGenerator",
     "Source",
     "Texture",
     "Transform",

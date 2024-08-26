@@ -756,13 +756,13 @@ local SLOT_GENERATOR = generation.Generator(lp.SEED.rerollRNG)
 ---@param args generation.CloneOptions
 ---@return generation.Generator
 function lp.newItemGenerator(args)
-    return ITEM_GENERATOR:cloneWith(args)
+    return ITEM_GENERATOR:cloneWith(lp.SEED.rerollRNG, args)
 end
 
 ---@param args generation.CloneOptions
 ---@return generation.Generator
 function lp.newSlotGenerator(args)
-    return SLOT_GENERATOR:cloneWith(args)
+    return SLOT_GENERATOR:cloneWith(lp.SEED.rerollRNG, args)
 end
 
 -- If there is an error getting an entity, invalid data is deserialized,
