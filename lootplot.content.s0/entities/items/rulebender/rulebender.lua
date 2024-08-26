@@ -121,15 +121,3 @@ lp.defineItem("lootplot.content.s0:red_shield", {
         lp.tryTriggerEntity("PULSE", targetEnt)
     end
 })
-
-lp.defineItem("lootplot.content.s0:green_shield", {
-    image = "green_shield",
-    name = loc("Green Shield"),
-
-    targetType = "ITEM",
-    targetShape = lp.targets.KING_SHAPE,
-    targetActivationDescription = loc("{lp_targetColor}Triggers REROLL for all target items."),
-    targetActivate = function(selfEnt, ppos, targetEnt)
-        lp.tryTriggerEntity("REROLL", targetEnt)
-    end
-})
