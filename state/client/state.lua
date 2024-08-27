@@ -85,5 +85,10 @@ end)
 
 
 
+-- Backward compatibility
+state.getGameTime = love.timer.getTime
+
+
+
 umg.expose("state", state)
 return state
