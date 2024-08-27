@@ -133,14 +133,14 @@ listener:onUpdate(function(self)
 end)
 
 
-umg.on("rendering:drawUI", function()
-    --[[
-        draw the chat:
-    ]]
-    lg.push("all")
-    chatBox:render(0,0,lg.getDimensions())
-    lg.pop()
-end)
+-- umg.on("rendering:drawUI", function()
+--     --[[
+--         draw the chat:
+--     ]]
+--     lg.push("all")
+--     chatBox:render(0,0,lg.getDimensions())
+--     lg.pop()
+-- end)
 
 
 

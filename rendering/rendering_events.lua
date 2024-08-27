@@ -23,8 +23,3 @@ umg.defineEvent("rendering:drawBackground")
 umg.defineEvent("rendering:drawEntities")
 -- Rendering effects:
 umg.defineEvent("rendering:drawEffects")
-
-
--- Rendering ui:
-umg.defineEvent("rendering:drawUI")
-
