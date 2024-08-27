@@ -28,7 +28,7 @@ local lifetimeGroup = umg.group("lifetime")
 local kill = require("shared.kill")
 
 
-umg.on("state:gameUpdate", function(dt)
+umg.on("@update", function(dt)
     for _, ent in ipairs(lifetimeGroup) do
         if ent:isOwned() then
             ent.lifetime = ent.lifetime - dt

@@ -39,7 +39,7 @@ end
 
 
 
-umg.on("state:gameUpdate", function(dt)
+umg.on("@update", function(dt)
     for _, ent in ipairs(moveGroup) do
         updateEnt(ent, dt)
     end

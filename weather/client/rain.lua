@@ -101,7 +101,7 @@ end
 
 
 
-umg.on("state:gameUpdate", function(dt)
+umg.on("@update", function(dt)
     for i=#rainDrops, 1, -1 do
         local rd = rainDrops[i]
         if rd then
