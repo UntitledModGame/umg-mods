@@ -5,7 +5,7 @@ if false then _G.rendering = rendering end
 
 
 local animate = require("client.animate")
-
+local draw = require("client.draw")
 local misc = require("client.misc")
 
 
@@ -13,6 +13,7 @@ local misc = require("client.misc")
 rendering.isOnScreen = misc.isOnScreen
 
 rendering.drawEntity = misc.drawEntity
+rendering.drawWorld = draw.drawWorld
 
 rendering.getDrawY = misc.getDrawY
 rendering.getDrawDepth = misc.getDrawDepth
