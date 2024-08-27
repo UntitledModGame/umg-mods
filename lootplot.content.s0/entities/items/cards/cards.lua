@@ -1,6 +1,18 @@
 local loc = localization.localize
 
-lp.defineItem("lootplot.content.s0:star_card", {
+
+
+local function defineCard(name, cardEType)
+    cardEType.rarity = cardEType.rarity or lp.rarities.RARE
+    cardEType.minimumLevelToSpawn = cardEType.minimumLevelToSpawn or 5
+
+    lp.defineItem(name, cardEType)
+end
+
+
+
+
+defineCard("lootplot.content.s0:star_card", {
     image = "star_card",
     name = loc("Star Card"),
     targetType = "ITEM",
@@ -37,7 +49,7 @@ lp.defineItem("lootplot.content.s0:star_card", {
     end
 })
 
-lp.defineItem("lootplot.content.s0:diamonds_card", {
+defineCard("lootplot.content.s0:diamonds_card", {
     image = "diamonds_card",
     name = loc("Diamonds Card"),
     targetType = "ITEM",
@@ -49,7 +61,7 @@ lp.defineItem("lootplot.content.s0:diamonds_card", {
     end
 })
 
-lp.defineItem("lootplot.content.s0:spades_card", {
+defineCard("lootplot.content.s0:spades_card", {
     image = "spades_card",
     name = loc("Spades Card"),
     targetType = "ITEM",

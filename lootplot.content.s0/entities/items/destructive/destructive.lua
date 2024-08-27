@@ -5,6 +5,9 @@ lp.defineItem("lootplot.content.s0:dark_skull", {
     name = loc("Dark Skull"),
     basePointsGenerated = 5,
 
+    rarity = lp.rarities.UNCOMMON,
+    minimumLevelToSpawn = 2,
+
     targetType = "ITEM",
     targetShape = lp.targets.KING_SHAPE,
     targetActivationDescription = function(selfEnt)
@@ -16,10 +19,14 @@ lp.defineItem("lootplot.content.s0:dark_skull", {
     end
 })
 
+
 lp.defineItem("lootplot.content.s0:profit_purger", {
     image = "profit_purger",
     name = loc("Profit Purger"),
     baseMoneyGenerated = 1,
+
+    rarity = lp.rarities.EPIC,
+    minimumLevelToSpawn = 2,
 
     targetType = "SLOT",
     targetShape = lp.targets.CrossShape(2, "BISHOP-2"),
@@ -32,18 +39,24 @@ lp.defineItem("lootplot.content.s0:profit_purger", {
     end
 })
 
+
 lp.defineItem("lootplot.content.s0:dark_flint", {
     image = "dark_flint",
     name = loc("Dark Flint"),
+    rarity = lp.rarities.COMMON,
     description = loc("When destroyed, generate +10 points."),
     triggers = {"DESTROY"},
     basePointsGenerated = 10
 })
 
+
 lp.defineItem("lootplot.content.s0:reaper", {
     image = "reaper",
     name = loc("Reaper"),
     basePointsGenerated = 4,
+
+    rarity = lp.rarities.RARE,
+    minimumLevelToSpawn = 2,
 
     targetType = "ITEM",
     targetShape = lp.targets.PlusShape(1),
@@ -54,10 +67,14 @@ lp.defineItem("lootplot.content.s0:reaper", {
     end
 })
 
+
 lp.defineItem("lootplot.content.s0:empty_cauldron", {
     image = "empty_cauldron",
     name = loc("Empty Cauldron"),
     basePointsGenerated = 5,
+
+    rarity = lp.rarities.UNCOMMON,
+    minimumLevelToSpawn = 2,
 
     targetType = "SLOT",
     targetShape = lp.targets.KING_SHAPE,

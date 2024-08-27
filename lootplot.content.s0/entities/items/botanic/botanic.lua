@@ -5,6 +5,9 @@ local function defseed(image, name, itemid)
         image = image,
         name = loc(name),
 
+        rarity = lp.rarities.COMMON,
+        minimumLevelToSpawn = 4,
+
         targetType = "SLOT",
         targetShape = lp.targets.LARGE_KING_SHAPE,
         targetTrait = "lootplot.content.s0:BOTANIC",
