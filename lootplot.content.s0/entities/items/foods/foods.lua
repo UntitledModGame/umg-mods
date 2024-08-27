@@ -145,7 +145,8 @@ defineFood("lootplot.content.s0:glass_bottle", {
     targetType = "NO_SLOT",
     targetShape = lp.targets.QueenShape(4),
 
-    targetActivationDescription = loc("Spawn a glass slot"),
+    targetActivationDescription = loc("Spawns glass slots"),
+
     targetActivate = function(selfEnt, ppos)
         local etype = server.entities["lootplot.content.s0:glass_slot"]
         if etype then
@@ -158,7 +159,7 @@ defineFood("lootplot.content.s0:glass_tube", {
     image = "glass_tube",
 
     name = localization.localize("Glass tube"),
-    targetActivationDescription = loc("Spawn a glass slot"),
+    targetActivationDescription = loc("Spawns glass slots"),
 
     rarity = lp.rarities.COMMON,
     minimumLevelToSpawn = 2,
@@ -218,4 +219,26 @@ defineFood("lootplot.content.s0:dragonfruit", {
 })
 
 
+
+defineFood("lootplot.content.s0:soy_sauce", {
+    image = "soy_sauce",
+
+    name = localization.localize("soy sauce"),
+    targetActivationDescription = localization.localize("Generates doomed-4 slots"),
+
+    rarity = lp.rarities.UNCOMMON,
+
+    baseBuyPrice = 4,
+    baseTraits = {},
+
+    targetType = "NO_SLOT",
+    targetShape = lp.targets.PlusShape(5),
+
+    targetActivate = function(ent, ppos)
+        local slotEnt = lp.trySpawnSlot(ppos, server.entities.slot, ent.lootplotTeam)
+        if slotEnt then
+            slotEnt.doomCount = 4
+        end
+    end,
+})
 
