@@ -1,4 +1,4 @@
-
+---@meta
 
 local typecheck = {}
 
@@ -200,7 +200,8 @@ local function makeErr(arg, err, i)
     return estring .. err_data
 end
 
-
+---@param ... table|string
+---@return fun(...:any)
 function typecheck.assert(...)
     local check_fns = {...}
     parseArgCheckers(check_fns)
@@ -216,7 +217,25 @@ function typecheck.assert(...)
     end
 end
 
+---asserts that `tabl` is a table, 
+---and that it has all of the keys listed in the `keys` table.
+---@generic T
+---@param tabl table<T, any>
+---@param keys T[]
+function typecheck.assertKeys(tabl, keys)
+    if type(tabl) ~= "table" then
+        umg.melt("Expected table, got: " .. type(tabl), 2)
+    end
+    for _, key in ipairs(keys) do
+        if tabl[key] == nil then
+            umg.melt("Missing key: " .. tostring(key), 2)
+        end
+    end
+end
 
+
+---@param ... string
+---@return fun(...:any):(boolean,string?)
 function typecheck.check(...)
     local check_fns = {...}
     parseArgCheckers(check_fns)
@@ -233,34 +252,77 @@ function typecheck.check(...)
     end
 end
 
-
-
+---@param x any
+---@param typeName string
 function typecheck.isType(x, typeName)
     assert(types[typeName], "Invalid type!")
     return types[typeName](x)
 end
 
+---Create a new "interface" typecheck function.
+---
+---Interface typecheck only consider function values and string keys and has cleaner error message compared to
+---`typecheck.assert({method = "function"})`.
+---@param interface table
+---@return fun(tabl:any):(boolean,string?)
+function typecheck.interface(interface)
+    assert(typecheck.isType(interface, "table"))
 
+    local methods = {}
 
-function typecheck.assertKeys(tabl, keys)
-    --[[
-        asserts that `tabl` is a table, 
-        and that it has all of the keys listed in the `keys` table.
-    ]]
-    if type(tabl) ~= "table" then
-        umg.melt("Expected table, got: " .. type(tabl), 2)
-    end
-    for _, key in ipairs(keys) do
-        if tabl[key] == nil then
-            umg.melt("Missing key: " .. tostring(key), 2)
+    for k, v in pairs(interface) do
+        if type(k) == "string" and type(v) == "function" then
+            methods[#methods+1] = k
         end
     end
 
+    if #methods == 0 then
+        umg.melt("no methods to check in this interface (use typecheck.assertKeys instead?)")
+    end
+
+    ---@param tabl any
+    ---@return boolean,string?
+    return function(tabl)
+        local status, err = typecheck.isType(tabl, "table")
+        if not status then
+            return status, err
+        end
+
+        ---@cast tabl table
+        local unimplemented = {"object does not adhere interface spec:"}
+        for _, method in ipairs(methods) do
+            local t = type(tabl[method])
+
+            if t == "nil" then
+                unimplemented[#unimplemented+1] = "unimplemented method '"..method.."'"
+            elseif t ~= "function" then
+                unimplemented[#unimplemented+1] = "method '"..method.."' is not a function (it was '"..t.."')"
+            end
+
+            -- If there are more than 3 errors, limit it to 3.
+            -- Note: 5 is used because the last message and the first message counts, so:
+            -- 3 (actual errors) + 2 (first and last message) = 5 (elements in table).
+            if #unimplemented >= 5 then
+                unimplemented[#unimplemented] = "... and more methods"
+                break
+            end
+        end
+
+        -- If there's only first message in the table, then it's not an error.
+        if #unimplemented > 1 then
+            return false, table.concat(unimplemented, "\n")
+        end
+
+        return true
+    end
 end
 
 
 
 local addTypeTc = typecheck.assert("string", "function")
+
+---@param typeName string
+---@param check fun(x:any):(boolean,string?)
 function typecheck.addType(typeName, check)
     addTypeTc(typeName, check)
     assert(not types[typeName], "Overwriting existing type!")
@@ -290,4 +352,5 @@ typecheck.addType("love", function(x)
     return ok, "Expected LOVE object"
 end)
 
+if false then _G.typecheck = typecheck end
 return typecheck

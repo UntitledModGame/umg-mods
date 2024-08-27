@@ -2,7 +2,7 @@
 local SHOULD_TEST = false --true
 if SHOULD_TEST then
     require("shared._typecheck_tests")
-    print("[typecheck mod] all tests passed")
+    umg.log.debug("all tests passed")
 end
 
 
