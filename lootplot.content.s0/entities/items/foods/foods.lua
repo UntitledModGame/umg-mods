@@ -3,8 +3,12 @@
 local loc = localization.localize
 
 
+local function defineFood(entName, etype)
+    etype.doomCount = etype.doomCount or 1
+end
 
-lp.defineItem("lootplot.content.s0:blueberry", {
+
+defineFood("lootplot.content.s0:blueberry", {
     image = "blueberry",
 
     name = loc("Blueberry"),
@@ -15,7 +19,6 @@ lp.defineItem("lootplot.content.s0:blueberry", {
     baseTraits = {},
 
     targetType = "ITEM",
-    doomCount = 1,
     targetShape = lp.targets.ABOVE_SHAPE,
     targetActivationDescription = loc("{lp_targetColor}Adds 2 Doom-count to item"),
 
@@ -27,7 +30,7 @@ lp.defineItem("lootplot.content.s0:blueberry", {
 })
 
 
-lp.defineItem("lootplot.content.s0:lychee", {
+defineFood("lootplot.content.s0:lychee", {
     image = "lychee",
 
     name = loc("Lychee"),
@@ -36,7 +39,6 @@ lp.defineItem("lootplot.content.s0:lychee", {
 
     rarity = lp.rarities.RARE,
     minimumLevelToSpawn = 6,
-    doomCount = 1,
 
     targetType = "ITEM",
     targetShape = lp.targets.ABOVE_SHAPE,
@@ -48,10 +50,9 @@ lp.defineItem("lootplot.content.s0:lychee", {
 })
 
 
-lp.defineItem("lootplot.content.s0:golden_apple", {
+defineFood("lootplot.content.s0:golden_apple", {
     image = "golden_apple",
     name = loc("Golden Apple"),
-    doomCount = 1,
 
     rarity = lp.rarities.UNCOMMON,
     minimumLevelToSpawn = 3,
@@ -69,10 +70,9 @@ lp.defineItem("lootplot.content.s0:golden_apple", {
 })
 
 
-lp.defineItem("lootplot.content.s0:diamond_apple", {
+defineFood("lootplot.content.s0:diamond_apple", {
     image = "diamond_apple",
     name = loc("Diamond Apple"),
-    doomCount = 1,
 
     rarity = lp.rarities.UNCOMMON,
     minimumLevelToSpawn = 3,
@@ -88,11 +88,9 @@ lp.defineItem("lootplot.content.s0:diamond_apple", {
     end
 })
 
-lp.defineItem("lootplot.content.s0:super_apple", {
+defineFood("lootplot.content.s0:super_apple", {
     image = "apple",
     name = loc("Super Apple"),
-
-    doomCount = 1,
 
     rarity = lp.rarities.EPIC,
     minimumLevelToSpawn = 6,
@@ -114,7 +112,7 @@ lp.defineItem("lootplot.content.s0:super_apple", {
 
 
 
-lp.defineItem("lootplot.content.s0:magic_radish", {
+defineFood("lootplot.content.s0:magic_radish", {
     image = "magic_radish",
     name = loc("Magic Radish"),
 
@@ -135,10 +133,11 @@ lp.defineItem("lootplot.content.s0:magic_radish", {
 
 
 
-lp.defineItem("lootplot.content.s0:glass_bottle", {
+
+
+defineFood("lootplot.content.s0:glass_bottle", {
     image = "glass_bottle",
     name = loc("Glass Bottle"),
-    doomCount = 1,
 
     rarity = lp.rarities.RARE,
     minimumLevelToSpawn = 2,
@@ -146,7 +145,27 @@ lp.defineItem("lootplot.content.s0:glass_bottle", {
     targetType = "NO_SLOT",
     targetShape = lp.targets.QueenShape(4),
 
-    targetActivationDescription = loc("spawn Glass Slots."),
+    targetActivationDescription = loc("Spawn a glass slot"),
+    targetActivate = function(selfEnt, ppos)
+        local etype = server.entities["lootplot.content.s0:glass_slot"]
+        if etype then
+            lp.trySpawnSlot(ppos, etype, selfEnt.lootplotTeam)
+        end
+    end
+})
+
+defineFood("lootplot.content.s0:glass_tube", {
+    image = "glass_tube",
+
+    name = localization.localize("Glass tube"),
+    targetActivationDescription = loc("Spawn a glass slot"),
+
+    rarity = lp.rarities.COMMON,
+    minimumLevelToSpawn = 2,
+
+    targetType = "NO_SLOT",
+    targetShape = lp.targets.CrossShape(4),
+
     targetActivate = function(selfEnt, ppos)
         local etype = server.entities["lootplot.content.s0:glass_slot"]
         if etype then
@@ -157,17 +176,17 @@ lp.defineItem("lootplot.content.s0:glass_bottle", {
 
 
 
-lp.defineItem("lootplot.content.s0:pomegranate", {
+
+
+defineFood("lootplot.content.s0:pomegranate", {
     image = "pomegranate",
 
     name = localization.localize("pomegranate"),
     targetActivationDescription = localization.localize("Generates normal slots"),
 
-    rarity = lp.rarities.COMMON,
+    rarity = lp.rarities.UNCOMMON,
 
-    doomCount = 1,
-
-    baseBuyPrice = 5,
+    baseBuyPrice = 4,
     baseTraits = {},
 
     targetType = "NO_SLOT",
@@ -177,5 +196,26 @@ lp.defineItem("lootplot.content.s0:pomegranate", {
         lp.forceSpawnSlot(ppos, server.entities.slot, ent.lootplotTeam)
     end,
 })
+
+
+defineFood("lootplot.content.s0:dragonfruit", {
+    image = "dragonfruit",
+
+    name = localization.localize("dragonfruit"),
+    targetActivationDescription = localization.localize("Generates normal slots"),
+
+    rarity = lp.rarities.UNCOMMON,
+
+    baseBuyPrice = 4,
+    baseTraits = {},
+
+    targetType = "NO_SLOT",
+    targetShape = lp.targets.PlusShape(2),
+
+    targetActivate = function(ent, ppos, targetEnt)
+        lp.forceSpawnSlot(ppos, server.entities.slot, ent.lootplotTeam)
+    end,
+})
+
 
 
