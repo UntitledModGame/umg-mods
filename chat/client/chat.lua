@@ -63,7 +63,7 @@ end
 
 
 local listener = input.InputListener()
-input.add(listener, 5)
+chat.listener = listener
 
 
 listener:onTextInput(function(_self, t)

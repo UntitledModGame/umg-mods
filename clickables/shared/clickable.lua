@@ -1,4 +1,6 @@
-
+---@meta
+local clickables = {}
+if false then _G.clickables = clickables end
 
 
 sync.proxyEventToClient("clickables:entityClicked")
@@ -35,7 +37,12 @@ if client then
 
 local clickEnts = umg.group("x", "y", "clickable")
 local listener = input.InputListener()
-input.add(listener, 0)
+
+function clickables.getListener()
+    return listener
+end
+
+
 
 -- pretty arbitrary size, lol
 local clickEntPartition = spatial.DimensionPartition(200)
@@ -136,3 +143,5 @@ end)
 
 
 
+umg.expose("clickables", clickables)
+return clickables

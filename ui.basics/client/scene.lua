@@ -22,7 +22,7 @@ local scene = Scene()
 
 
 local listener = input.InputListener()
-input.add(listener, 10)
+-- input.add(listener, 10)
 
 
 listener:onAnyPressed(function(self, controlEnum)

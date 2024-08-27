@@ -40,15 +40,22 @@ function LPState:init()
 end
 
 function LPState:onAdded(zorder)
-    return input.add(self.listener, zorder)
+    input.add(self.listener, zorder)
+    input.add(clickables.getListener(), zorder)
+    input.add(control.getListener(), zorder)
+    input.add(follow.getListener(), zorder)
+    input.add(hoverables.getListener(), zorder)
 end
 
 function LPState:onRemoved()
-    return input.remove(self.listener)
+    input.remove(self.listener)
+    input.remove(clickables.getListener())
+    input.remove(control.getListener())
+    input.remove(follow.getListener())
+    input.remove(hoverables.getListener())
 end
 
 function LPState:update(dt)
-    
 end
 
 function LPState:draw()

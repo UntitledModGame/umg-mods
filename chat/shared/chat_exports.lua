@@ -1,6 +1,7 @@
-
+---@meta
 
 local chat = {}
+if false then _G.chat = chat end
 
 
 if server then
@@ -29,6 +30,10 @@ chat.constants = {
 
     MESSAGE_HISTORY_SIZE = 300 -- After this many messages, messages begin to be deleted.
 }
+
+function chat.getListener()
+    return chatCl.listener
+end
 
 end
 

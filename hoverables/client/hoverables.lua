@@ -45,7 +45,8 @@ local function tryEndHover(ent, worldX, worldY)
 end
 
 local listener = input.InputListener()
-input.add(listener, 0)
+hoverables.listener = listener
+
 listener:onPointerMoved(function(l, x, y)
     local currentCamera = camera.get()
     local worldX, worldY = currentCamera:toWorldCoords(x, y)

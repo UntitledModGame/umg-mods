@@ -6,7 +6,7 @@ require("client.interactionControls")
 
 
 local listener = input.InputListener()
-input.add(listener, 2)
+-- input.add(listener, 2)
 
 local INTERACT = "ui.basics:TOGGLE"
 
