@@ -1,4 +1,4 @@
-
+---@meta
 
 local typecheck = {}
 
@@ -200,7 +200,8 @@ local function makeErr(arg, err, i)
     return estring .. err_data
 end
 
-
+---@param ... table|string
+---@return fun(...:any)
 function typecheck.assert(...)
     local check_fns = {...}
     parseArgCheckers(check_fns)
@@ -216,7 +217,25 @@ function typecheck.assert(...)
     end
 end
 
+---asserts that `tabl` is a table, 
+---and that it has all of the keys listed in the `keys` table.
+---@generic T
+---@param tabl table<T, any>
+---@param keys T[]
+function typecheck.assertKeys(tabl, keys)
+    if type(tabl) ~= "table" then
+        umg.melt("Expected table, got: " .. type(tabl), 2)
+    end
+    for _, key in ipairs(keys) do
+        if tabl[key] == nil then
+            umg.melt("Missing key: " .. tostring(key), 2)
+        end
+    end
+end
 
+
+---@param ... string
+---@return fun(...:any):(boolean,string?)
 function typecheck.check(...)
     local check_fns = {...}
     parseArgCheckers(check_fns)
@@ -233,8 +252,8 @@ function typecheck.check(...)
     end
 end
 
-
-
+---@param x any
+---@param typeName string
 function typecheck.isType(x, typeName)
     assert(types[typeName], "Invalid type!")
     return types[typeName](x)
@@ -242,25 +261,11 @@ end
 
 
 
-function typecheck.assertKeys(tabl, keys)
-    --[[
-        asserts that `tabl` is a table, 
-        and that it has all of the keys listed in the `keys` table.
-    ]]
-    if type(tabl) ~= "table" then
-        umg.melt("Expected table, got: " .. type(tabl), 2)
-    end
-    for _, key in ipairs(keys) do
-        if tabl[key] == nil then
-            umg.melt("Missing key: " .. tostring(key), 2)
-        end
-    end
-
-end
-
-
 
 local addTypeTc = typecheck.assert("string", "function")
+
+---@param typeName string
+---@param check fun(x:any):(boolean,string?)
 function typecheck.addType(typeName, check)
     addTypeTc(typeName, check)
     assert(not types[typeName], "Overwriting existing type!")
@@ -290,4 +295,5 @@ typecheck.addType("love", function(x)
     return ok, "Expected LOVE object"
 end)
 
+if false then _G.typecheck = typecheck end
 return typecheck
