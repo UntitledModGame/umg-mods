@@ -297,7 +297,7 @@ function typecheck.interface(interface)
         end
 
         if #unimplemented > 0 then
-            return false, table.concat(unimplemented, "\n")
+            return false, "object does not adhere interface spec:\n"..table.concat(unimplemented, "\n")
         end
 
         return true
