@@ -1,3 +1,5 @@
+local fonts = require("client.fonts")
+
 local EndGameScene = require("client.elements.EndGameScene")
 local LevelStatus = require("client.elements.LevelStatus")
 local MoneyBox = require("client.elements.MoneyBox")
@@ -5,18 +7,11 @@ local SimpleBox = require("client.elements.SimpleBox")
 local StretchableButton = require("client.elements.StretchableButton")
 
 local DescriptionBox = require("client.DescriptionBox")
-local CloudBackground = require("client.backgrounds.CloudBackground")
-local backgroundManager = require("client.background_manager")
-
-local fonts = require("client.fonts")
-local musicManager = require("client.music_manager")
-
-local winLose = require("shared.win_lose")
 
 ---@class lootplot.main.Scene: Element
 local Scene = ui.Element("lootplot.main:Screen")
 
-function Scene:init(args)
+function Scene:init()
     self:makeRoot()
     self:setPassthrough(true)
 
@@ -201,102 +196,4 @@ function Scene:showEndGameDialog(win)
     self.renderEndGameDialog = true
 end
 
----@type lootplot.main.Scene
-local scene = Scene()
-
-winLose.setEndGameCallback(function(win)
-    scene:showEndGameDialog(win)
-end)
-
-umg.on("rendering:drawUI", function()
-    scene:render(0,0,love.graphics.getDimensions())
-end)
-
--- Handles action button selection
----@param selection lootplot.Selected
-umg.on("lootplot:selectionChanged", function(selection)
-    scene:setSelectedItemDescription()
-
-    if selection then
-        scene:setActionButtons(selection.actions)
-
-        local itemEnt = lp.posToItem(selection.ppos)
-
-        if itemEnt then
-            scene:setSelectedItemDescription(itemEnt)
-        end
-    else
-        scene:setActionButtons()
-    end
-end)
-
-local listener = input.InputListener()
-input.add(listener, 10)
-
-listener:onAnyPressed(function(self, controlEnum)
-    local consumed = scene:controlPressed(controlEnum)
-    if consumed then
-        self:claim(controlEnum)
-    end
-end)
-
-listener:onPressed({"input:CLICK_PRIMARY", "input:CLICK_SECONDARY"}, function(self, controlEnum)
-    local x,y = input.getPointerPosition()
-    local consumed = scene:controlClicked(controlEnum,x,y)
-    if consumed then
-        self:claim(controlEnum)
-    end
-end)
-
-listener:onAnyReleased(function(_self, controlEnum)
-    scene:controlReleased(controlEnum)
-end)
-
-listener:onTextInput(function(self, txt)
-    local captured = scene:textInput(txt)
-    if captured then
-        self:lockTextInput()
-    end
-end)
-
-listener:onPointerMoved(function(_self, x,y, dx,dy)
-    scene:pointerMoved(x,y, dx,dy)
-end)
-
-local CLOUD_BACKGROUND = CloudBackground()
-
-umg.on("@resize", function(x,y)
-    scene:resize(x,y)
-end)
-
-local SHOW_DESCRIPTION_AFTER = 0.5
-local selectedSlot = nil
-local slotHoverTime = 0
-
-backgroundManager.setBackground(CLOUD_BACKGROUND)
-
-umg.on("@update", function(dt)
-    if umg.exists(selectedSlot) then
-        ---@cast selectedSlot Entity
-        if slotHoverTime < SHOW_DESCRIPTION_AFTER then
-            slotHoverTime = slotHoverTime + dt
-
-            if slotHoverTime >= SHOW_DESCRIPTION_AFTER then
-                local itemEnt = lp.slotToItem(selectedSlot)
-                scene:setCursorDescription(itemEnt or selectedSlot)
-            end
-        end
-    end
-end)
-
-umg.on("lootplot:startHoverSlot", function(ent)
-    selectedSlot = ent
-    slotHoverTime = 0
-end)
-
-umg.on("lootplot:endHoverSlot", function(ent)
-    selectedSlot = nil
-    scene:setCursorDescription()
-end)
-
-musicManager.playNormalBGM()
+return Scene
