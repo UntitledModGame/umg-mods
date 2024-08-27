@@ -259,6 +259,50 @@ function typecheck.isType(x, typeName)
     return types[typeName](x)
 end
 
+---Create a new "interface" typecheck function.
+---
+---Interface typecheck only consider function values and string keys and has cleaner error message compared to
+---`typecheck.assert({method = "function"})`.
+---@param interface table
+---@return fun(tabl:any):(boolean,string?)
+function typecheck.interface(interface)
+    assert(typecheck.isType(interface, "table"))
+
+    local methods = {}
+
+    for k, v in pairs(interface) do
+        if type(k) == "string" and type(v) == "function" then
+            methods[#methods+1] = k
+        end
+    end
+
+    ---@param tabl any
+    ---@return boolean,string?
+    return function(tabl)
+        local status, err = typecheck.isType(tabl, "table")
+        if not status then
+            return status, err
+        end
+
+        ---@cast tabl table
+        local unimplemented = {}
+        for _, method in ipairs(methods) do
+            local t = type(tabl[method])
+
+            if t == "nil" then
+                unimplemented[#unimplemented+1] = "unimplemented method '"..method.."'"
+            elseif t ~= "function" then
+                unimplemented[#unimplemented+1] = "method '"..method.."' is not a function (it was '"..t.."')"
+            end
+        end
+
+        if #unimplemented > 0 then
+            return false, table.concat(unimplemented, "\n")
+        end
+
+        return true
+    end
+end
 
 
 
