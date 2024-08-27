@@ -20,6 +20,9 @@ local function defineMush(image, name, args)
         triggers = {"PULSE"},
         doomCount = 1,
 
+        rarity = lp.rarities.UNCOMMON,
+        minimumLevelToSpawn = 3,
+
         targetType = "SLOT",
         targetShape = lp.targets.ON_SHAPE,
         targetActivationDescription = loc(args.description),

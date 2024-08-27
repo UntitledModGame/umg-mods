@@ -9,7 +9,9 @@ lp.defineItem("lootplot.content.s0:blueberry", {
 
     name = loc("Blueberry"),
 
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.EPIC,
+    minimumLevelToSpawn = 6,
+
     baseTraits = {},
 
     targetType = "ITEM",
@@ -30,8 +32,11 @@ lp.defineItem("lootplot.content.s0:lychee", {
 
     name = loc("Lychee"),
 
-    rarity = lp.rarities.UNCOMMON,
     baseTraits = {},
+
+    rarity = lp.rarities.RARE,
+    minimumLevelToSpawn = 6,
+    doomCount = 1,
 
     targetType = "ITEM",
     targetShape = lp.targets.ABOVE_SHAPE,
@@ -42,30 +47,55 @@ lp.defineItem("lootplot.content.s0:lychee", {
     end
 })
 
-lp.defineItem("lootplot.content.s0:apple", {
-    image = "apple",
-    name = loc("Apple"),
+
+lp.defineItem("lootplot.content.s0:golden_apple", {
+    image = "golden_apple",
+    name = loc("Golden Apple"),
     doomCount = 1,
 
+    rarity = lp.rarities.UNCOMMON,
+    minimumLevelToSpawn = 3,
+
     targetType = "SLOT",
-    targetShape = lp.targets.BELOW_SHAPE,
-    targetActivationDescription = loc("Transforms into a GOLD or DIAMOND slot."),
+    targetShape = lp.targets.ON_SHAPE,
+    targetActivationDescription = loc("Transforms into a GOLD slot."),
     targetActivate = function(selfEnt, ppos, targetEnt)
-        -- TODO: Better randomizer, I think?
-        local newSlotType = math.random(0, 1) == 0 and
-            "lootplot.content.s0:gold_slot" or
-            "lootplot.content.s0:diamond_slot"
-        local etype = server.entities[newSlotType]
+        -- "lootplot.content.s0:diamond_slot"
+        local etype = server.entities["lootplot.content.s0:gold_slot" ]
         if etype then
             lp.forceSpawnSlot(ppos, etype, selfEnt.lootplotTeam)
         end
     end
 })
 
-lp.defineItem("lootplot.content.s0:gapple", {
-    image = "gapple",
-    name = loc("Gapple"),
+
+lp.defineItem("lootplot.content.s0:diamond_apple", {
+    image = "diamond_apple",
+    name = loc("Diamond Apple"),
     doomCount = 1,
+
+    rarity = lp.rarities.UNCOMMON,
+    minimumLevelToSpawn = 3,
+
+    targetType = "SLOT",
+    targetShape = lp.targets.ON_SHAPE,
+    targetActivationDescription = loc("Transforms into a DIAMOND slot."),
+    targetActivate = function(selfEnt, ppos, targetEnt)
+        local etype = server.entities["lootplot.content.s0:diamond_slot"]
+        if etype then
+            lp.forceSpawnSlot(ppos, etype, selfEnt.lootplotTeam)
+        end
+    end
+})
+
+lp.defineItem("lootplot.content.s0:super_apple", {
+    image = "apple",
+    name = loc("Super Apple"),
+
+    doomCount = 1,
+
+    rarity = lp.rarities.EPIC,
+    minimumLevelToSpawn = 6,
 
     targetType = "NO_SLOT",
     targetShape = lp.targets.KING_SHAPE,
@@ -82,9 +112,14 @@ lp.defineItem("lootplot.content.s0:gapple", {
     end
 })
 
+
+
 lp.defineItem("lootplot.content.s0:magic_radish", {
     image = "magic_radish",
     name = loc("Magic Radish"),
+
+    minimumLevelToSpawn = 6,
+    rarity = lp.rarities.EPIC,
 
     targetType = "ITEM",
     targetShape = lp.targets.ABOVE_SHAPE,
@@ -98,10 +133,15 @@ lp.defineItem("lootplot.content.s0:magic_radish", {
     end
 })
 
+
+
 lp.defineItem("lootplot.content.s0:glass_bottle", {
     image = "glass_bottle",
     name = loc("Glass Bottle"),
     doomCount = 1,
+
+    rarity = lp.rarities.RARE,
+    minimumLevelToSpawn = 2,
 
     targetType = "NO_SLOT",
     targetShape = lp.targets.QueenShape(4),
@@ -115,16 +155,19 @@ lp.defineItem("lootplot.content.s0:glass_bottle", {
     end
 })
 
+
+
 lp.defineItem("lootplot.content.s0:pomegranate", {
     image = "pomegranate",
 
     name = localization.localize("pomegranate"),
     targetActivationDescription = localization.localize("Generates normal slots"),
 
-    doomCount = 1,
-    baseBuyPrice = 5,
+    rarity = lp.rarities.COMMON,
 
-    rarity = lp.rarities.UNCOMMON,
+    doomCount = 1,
+
+    baseBuyPrice = 5,
     baseTraits = {},
 
     targetType = "NO_SLOT",
