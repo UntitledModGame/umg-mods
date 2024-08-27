@@ -276,6 +276,10 @@ function typecheck.interface(interface)
         end
     end
 
+    if #methods == 0 then
+        umg.melt("no methods to check in this interface (use typecheck.assertKeys instead?)")
+    end
+
     ---@param tabl any
     ---@return boolean,string?
     return function(tabl)
@@ -285,7 +289,7 @@ function typecheck.interface(interface)
         end
 
         ---@cast tabl table
-        local unimplemented = {}
+        local unimplemented = {"object does not adhere interface spec:"}
         for _, method in ipairs(methods) do
             local t = type(tabl[method])
 
@@ -294,10 +298,19 @@ function typecheck.interface(interface)
             elseif t ~= "function" then
                 unimplemented[#unimplemented+1] = "method '"..method.."' is not a function (it was '"..t.."')"
             end
+
+            -- If there are more than 3 errors, limit it to 3.
+            -- Note: 5 is used because the last message and the first message counts, so:
+            -- 3 (actual errors) + 2 (first and last message) = 5 (elements in table).
+            if #unimplemented >= 5 then
+                unimplemented[#unimplemented] = "... and more methods"
+                break
+            end
         end
 
-        if #unimplemented > 0 then
-            return false, "object does not adhere interface spec:\n"..table.concat(unimplemented, "\n")
+        -- If there's only first message in the table, then it's not an error.
+        if #unimplemented > 1 then
+            return false, table.concat(unimplemented, "\n")
         end
 
         return true
