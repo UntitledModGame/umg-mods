@@ -18,9 +18,9 @@ return lp.defineSlot("lootplot.content.s0:dirt_slot", {
 
     canAddItemToSlot = function(slotEnt, itemEnt)
         if itemEnt.rarity then
-            local rare = lp.rarities.getWeight(lp.rarities.RARE)
-            local itemRarity = lp.rarities.getWeight(itemEnt.rarity)
-            return itemRarity < rare
+            local rareWeight = lp.rarities.getWeight(lp.rarities.RARE)
+            local itemWeight = lp.rarities.getWeight(itemEnt.rarity)
+            return itemWeight > rareWeight
         end
         return true -- no rarity.. i guess its fine? 
     end
