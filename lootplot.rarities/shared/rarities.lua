@@ -51,9 +51,9 @@ lp.rarities = {
     COMMON = newRarity("COMMON (I)", 2, hsl(110, 35, 55)),
     UNCOMMON = newRarity("UNCOMMON (II)", 1.5, hsl(150, 66, 55)),
     RARE = newRarity("RARE (III)", 1, hsl(220, 90, 55)),
-    EPIC = newRarity("EPIC (IV)", 0.4, hsl(275, 100,45)),
-    LEGENDARY = newRarity("LEGENDARY (V)",0.04,hsl(50, 90, 40)),
-    MYTHIC = newRarity("MYTHIC (VI)", 0.004,hsl(330, 100, 35)),
+    EPIC = newRarity("EPIC (IV)", 0.6, hsl(275, 100,45)),
+    LEGENDARY = newRarity("LEGENDARY (V)",0.1,hsl(50, 90, 40)),
+    MYTHIC = newRarity("MYTHIC (VI)", 0.02,hsl(330, 100, 35)),
     UNIQUE = newRarity("UNIQUE", 0.00, objects.Color.WHITE),
 }
 
