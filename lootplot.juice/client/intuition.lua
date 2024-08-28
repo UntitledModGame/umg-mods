@@ -1,6 +1,6 @@
 local RENDER_AFTER_ENTITY_ORDER = 1
 
-umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER, function(ent, x, y)
+umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER, function(ent, x,y, rot, sx,sy, kx,ky)
     if ent.doomCount then
         local q
 
@@ -8,7 +8,7 @@ umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER, function(ent, x, y)
         -- but it's unlikely that there are more items than slots.
         if lp.isSlotEntity(ent) then
             if ent.doomCount <= 1 then
-                q = client.assets.images.crack_effect_only
+                q = client.assets.images.crack_big
             elseif ent.doomCount < 5 then
                 q = client.assets.images.crack_small
             end
@@ -21,7 +21,7 @@ umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER, function(ent, x, y)
         end
 
         if q then
-            rendering.drawImage(q, x, y)
+            rendering.drawImage(q, x, y, rot, sx,sy, kx,ky)
         end
     end
 end)
