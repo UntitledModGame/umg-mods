@@ -4,7 +4,7 @@ local Background = require("client.Background")
 local CloudBackground = objects.Class("lootplot.main:CloudBackground"):implement(Background)
 
 function CloudBackground:init()
-    ---@type love.Texture[]
+    ---@type love.Texture[][]
     self.cloudCanvases = {}
     self.cloudInstance = {}
     self.directionAngle = 0
@@ -22,15 +22,16 @@ end
 
 ---@param rng love.RandomGenerator
 ---@param ratio number
+---@param sizemul number
 ---@private
-function CloudBackground.makeCanvasForTopDown(rng, ratio)
+function CloudBackground.makeCanvasForTopDown(rng, ratio, sizemul)
     local width = 50 + rng:random() * 100
 
     -- Make sure dimensions is divisible by 4
     width = math.ceil(width / 4) * 4
     local height = math.ceil(width / ratio / 4) * 4
 
-    return love.graphics.newCanvas(width, height, {dpiscale = 1})
+    return love.graphics.newCanvas(width * sizemul, height * sizemul, {dpiscale = 1})
 end
 
 ---@param x1 number
@@ -39,12 +40,6 @@ end
 ---@param y2 number
 local function distance(x1, y1, x2, y2)
 	return math.sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2)
-end
-
----@param cloudtype integer
----@private
-function CloudBackground.getScale(cloudtype)
-    return (1 + (4 - cloudtype) / 4)
 end
 
 ---@param rng love.RandomGenerator
@@ -152,7 +147,7 @@ end
 
 ---@return number
 local function getCloudBoundingBox(t)
-    return math.max(t.texture:getDimensions()) * CloudBackground.getScale(t.type)
+    return math.max(t.texture:getDimensions())
 end
 
 ---@param t table
@@ -163,8 +158,8 @@ end
 ---@param outside boolean
 ---@private
 function CloudBackground:setupTableForTopDown(t, worldX, worldY, worldW, worldH, outside)
-    t.texture = self.cloudCanvases[self.rng:random(#self.cloudCanvases)]
     t.type = self.rng:random(1, 4) -- 1 = top, 2 = mid1, 3 = mid2, 4 = bottom
+    t.texture = table.random(self.cloudCanvases[t.type], self.rng)
 
     local boundingBox = getCloudBoundingBox(t)
     local offScreenX = worldX - boundingBox
@@ -204,14 +199,21 @@ end
 ---@param worldH number
 ---@private
 function CloudBackground:setup(worldX, worldY, worldW, worldH)
-    local CLOUD_VARIATION = 10
+    local CLOUD_SIZES = 4
+    local CLOUD_VARIATION_BY_SIZE = 4
     local CLOUD_INSTANCES = 100
 
-    for _ = 1, CLOUD_VARIATION do
-        local canvas = CloudBackground.makeCanvasForTopDown(self.rng, 1 + self.rng:random())
-        canvas:setFilter("nearest", "nearest")
-        CloudBackground.bakeTopDownClouds(self.rng, canvas)
-        self.cloudCanvases[#self.cloudCanvases+1] = canvas
+    for s = 1, CLOUD_SIZES do
+        local cloudCanvas = {}
+
+        for _ = 1, CLOUD_VARIATION_BY_SIZE do
+            local canvas = CloudBackground.makeCanvasForTopDown(self.rng, 1 + self.rng:random(), s)
+            canvas:setFilter("nearest", "nearest")
+            CloudBackground.bakeTopDownClouds(self.rng, canvas)
+            cloudCanvas[#cloudCanvas+1] = canvas
+        end
+
+        self.cloudCanvases[#self.cloudCanvases+1] = cloudCanvas
     end
 
     for _ = 1, CLOUD_INSTANCES do
@@ -286,7 +288,6 @@ function CloudBackground:draw(opacity)
     -- Draw clouds
     for _, inst in ipairs(self.cloudInstance) do
         local tx, ty = inst.texture:getDimensions()
-        local scale = CloudBackground.getScale(inst.type)
         local px = (inst.x - cx) * self.parallaxDifferenceMultipler
         local py = (inst.y - cy) * self.parallaxDifferenceMultipler
 
@@ -295,8 +296,8 @@ function CloudBackground:draw(opacity)
             inst.texture,
             inst.x + px / inst.type, inst.y + py / inst.type,
             inst.rotate * math.pi / 2,
-            scale * inst.flipX,
-            scale * inst.flipY,
+            inst.flipX,
+            inst.flipY,
             tx / 2, ty / 2
         )
     end
