@@ -1,6 +1,6 @@
 
 
-local loc = localization.localize
+local loc = localization.newLocalizer()
 
 
 local function defineFood(entName, etype)

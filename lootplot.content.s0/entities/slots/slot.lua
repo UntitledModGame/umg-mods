@@ -1,7 +1,7 @@
-
+local loc = localization.newLocalizer()
 
 return lp.defineSlot("lootplot.content.s0:slot", {
     image = "slot",
-    name = localization.localize("Basic Slot")
+    name = loc("Basic Slot")
 })
 

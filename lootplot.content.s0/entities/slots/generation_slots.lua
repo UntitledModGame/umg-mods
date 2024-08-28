@@ -1,3 +1,4 @@
+local loc = localization.newLocalizer()
 
 ---@type generation.Generator
 local itemGen
@@ -18,7 +19,7 @@ lp.defineSlot("lootplot.content.s0:shop_slot", {
     color = {1, 1, 0.6},
     baseMaxActivations = 100,
     shopLock = true,
-    name = localization.localize("Shop slot"),
+    name = loc("Shop slot"),
     triggers = {"REROLL", "PULSE"},
     itemSpawner = generateItem,
     itemReroller = generateItem,
@@ -31,8 +32,8 @@ lp.defineSlot("lootplot.content.s0:shop_slot", {
 
 lp.defineSlot("lootplot.content.s0:reroll_slot", {
     image = "reroll_slot",
-    name = localization.localize("Reroll slot"),
-    description = localization.localize("Put an item inside to reroll it!"),
+    name = loc("Reroll slot"),
+    description = loc("Put an item inside to reroll it!"),
     triggers = {"REROLL", "PULSE"},
     itemReroller = generateItem,
     baseCanSlotPropagate = false,

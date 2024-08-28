@@ -1,5 +1,5 @@
 
-local loc = localization.localize
+local loc = localization.newLocalizer()
 
 
 lp.defineItem("lootplot.content.s0:manure", {
