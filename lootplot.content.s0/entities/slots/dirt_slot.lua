@@ -3,7 +3,7 @@
 return lp.defineSlot("lootplot.content.s0:dirt_slot", {
     image = "dirt_slot1",
     name = localization.localize("Dirt slot"),
-    description = localization.localize("Can hold {c r=0 g=1 b=0}{wavy}plant{/wavy}{/c} items"),
+    description = localization.localize("Can hold {c r=0 g=1 b=0}{wavy}plant{/wavy}{/c} items. Cannot hold RARE items."),
     baseTraits = {"lootplot.content.s0:BOTANIC"},
 
     init = function(ent)

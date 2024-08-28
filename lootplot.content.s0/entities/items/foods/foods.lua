@@ -5,6 +5,8 @@ local loc = localization.localize
 
 local function defineFood(entName, etype)
     etype.doomCount = etype.doomCount or 1
+
+    lp.defineItem(entName, etype)
 end
 
 
@@ -145,7 +147,7 @@ defineFood("lootplot.content.s0:glass_bottle", {
     targetType = "NO_SLOT",
     targetShape = lp.targets.QueenShape(4),
 
-    targetActivationDescription = loc("Spawns glass slots"),
+    targetActivationDescription = loc("{lp_targetColor}Spawns glass slots"),
 
     targetActivate = function(selfEnt, ppos)
         local etype = server.entities["lootplot.content.s0:glass_slot"]
@@ -158,8 +160,8 @@ defineFood("lootplot.content.s0:glass_bottle", {
 defineFood("lootplot.content.s0:glass_tube", {
     image = "glass_tube",
 
-    name = localization.localize("Glass tube"),
-    targetActivationDescription = loc("Spawns glass slots"),
+    name = loc("Glass tube"),
+    targetActivationDescription = loc("{lp_targetColor}Spawns glass slots"),
 
     rarity = lp.rarities.COMMON,
     minimumLevelToSpawn = 2,
@@ -182,8 +184,8 @@ defineFood("lootplot.content.s0:glass_tube", {
 defineFood("lootplot.content.s0:pomegranate", {
     image = "pomegranate",
 
-    name = localization.localize("pomegranate"),
-    targetActivationDescription = localization.localize("Generates normal slots"),
+    name = loc("pomegranate"),
+    targetActivationDescription = loc("{lp_targetColor}Spawns normal slots"),
 
     rarity = lp.rarities.UNCOMMON,
 
@@ -202,8 +204,8 @@ defineFood("lootplot.content.s0:pomegranate", {
 defineFood("lootplot.content.s0:dragonfruit", {
     image = "dragonfruit",
 
-    name = localization.localize("dragonfruit"),
-    targetActivationDescription = localization.localize("Generates normal slots"),
+    name = loc("dragonfruit"),
+    targetActivationDescription = loc("{lp_targetColor}Spawns normal slots"),
 
     rarity = lp.rarities.UNCOMMON,
 
@@ -223,8 +225,8 @@ defineFood("lootplot.content.s0:dragonfruit", {
 defineFood("lootplot.content.s0:soy_sauce", {
     image = "soy_sauce",
 
-    name = localization.localize("soy sauce"),
-    targetActivationDescription = localization.localize("Generates doomed-4 slots"),
+    name = loc("soy sauce"),
+    targetActivationDescription = loc("{lp_targetColor}Spawns doomed-4 slots"),
 
     rarity = lp.rarities.UNCOMMON,
 
@@ -239,6 +241,48 @@ defineFood("lootplot.content.s0:soy_sauce", {
         if slotEnt then
             slotEnt.doomCount = 4
         end
+    end,
+})
+
+
+defineFood("lootplot.content.s0:dirty_muffin", {
+    image = "dirty_muffin",
+
+    name = loc("Dirty Muffin"),
+    targetActivationDescription = loc("{lp_targetColor}Convert slots into dirt"),
+
+    rarity = lp.rarities.RARE,
+    minimumLevelToSpawn = 4,
+
+    baseBuyPrice = 2,
+    baseTraits = {},
+
+    targetType = "SLOT",
+    targetShape = lp.targets.LARGE_KING_SHAPE,
+
+    targetActivate = function(ent, ppos)
+        lp.forceSpawnSlot(ppos, server.entities.dirt_slot, ent.lootplotTeam)
+    end,
+})
+
+
+defineFood("lootplot.content.s0:coconut", {
+    image = "coconut",
+
+    name = loc("Coconut"),
+    targetActivationDescription = loc("{lp_targetColor}Spawns dirt slots"),
+
+    rarity = lp.rarities.COMMON,
+    minimumLevelToSpawn = 4,
+
+    baseBuyPrice = 4,
+    baseTraits = {},
+
+    targetType = "NO_SLOT",
+    targetShape = lp.targets.PlusShape(2),
+
+    targetActivate = function(ent, ppos)
+        lp.trySpawnSlot(ppos, server.entities.slot, ent.lootplotTeam)
     end,
 })
 
