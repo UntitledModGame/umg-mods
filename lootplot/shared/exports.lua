@@ -618,11 +618,14 @@ end
 
 
 
+local spawnTc = typecheck.assert("ppos", "any", "string")
+
 ---@param ppos lootplot.PPos
 ---@param itemEType fun():lootplot.ItemEntity
 ---@param team string
 ---@return lootplot.ItemEntity?
 function lp.trySpawnItem(ppos, itemEType, team)
+    spawnTc(ppos, itemEType, team)
     local slotEnt = lp.posToSlot(ppos)
     local preItem = lp.posToItem(ppos)
     if slotEnt and (not preItem) then
@@ -636,6 +639,7 @@ end
 ---@param team string
 ---@return lootplot.ItemEntity?
 function lp.forceSpawnItem(ppos, itemEType, team)
+    spawnTc(ppos, itemEType, team)
     local itemEnt = itemEType()
     itemEnt.lootplotTeam = team or "?"
     local prevItem = lp.posToItem(ppos)
