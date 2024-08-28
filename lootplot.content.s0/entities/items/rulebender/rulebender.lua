@@ -32,6 +32,12 @@ lp.defineItem("lootplot.content.s0:gift_box", {
     image = "gift_box",
     name = loc("Gift Box"),
     description = loc("After 3 activations, transform into a RARE item."),
+
+    rarity = lp.rarities.COMMON,
+    minimumLevelToSpawn = 2,
+
+    baseBuyPrice = 1,
+
     onActivate = function(selfEnt)
         if selfEnt.totalActivationCount >= 3 then
             local ppos = lp.getPos(selfEnt)
@@ -50,7 +56,12 @@ lp.defineItem("lootplot.content.s0:money_box", {
     image = "money_box",
     name = loc("Dollar Box"),
     description = loc("Transform into a RARE item that costs $1 to use"),
-    baseMoneyGenerated = -1,
+
+    rarity = lp.rarities.COMMON,
+    minimumLevelToSpawn = 2,
+
+    baseBuyPrice = 1,
+
     onActivate = function(selfEnt)
         local ppos = lp.getPos(selfEnt)
         if ppos then
@@ -69,6 +80,9 @@ lp.defineItem("lootplot.content.s0:money_box", {
 lp.defineItem("lootplot.content.s0:pandoras_box", {
     image = "pandoras_box",
     name = loc("Pandora's Box"),
+
+    rarity = lp.rarities.EPIC,
+    minimumLevelToSpawn = 4,
 
     targetType = "SLOT",
     targetShape = lp.targets.ABOVE_SHAPE,
@@ -94,6 +108,7 @@ lp.defineItem("lootplot.content.s0:boomerang", {
 
     basePointsGenerated = 1,
     baseMaxActivations = 10,
+
     rarity = lp.rarities.RARE,
 
     onActivate = function(selfEnt)
@@ -103,6 +118,7 @@ lp.defineItem("lootplot.content.s0:boomerang", {
             return lp.queue(ppos, function ()
                 if umg.exists(selfEnt) then
                     lp.tryActivateEntity(selfEnt)
+                    lp.wait(ppos, 0.3)
                 end
             end)
         end
@@ -113,6 +129,8 @@ lp.defineItem("lootplot.content.s0:boomerang", {
 lp.defineItem("lootplot.content.s0:red_shield", {
     image = "red_shield",
     name = loc("Red Shield"),
+
+    rarity = lp.rarities.RARE,
 
     targetType = "ITEM",
     targetShape = lp.targets.KING_SHAPE,
