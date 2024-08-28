@@ -2,11 +2,20 @@
 local loc = localization.localize
 
 
+local function defineMineral(name, etype)
+    etype.baseMaxActivations = etype.baseMaxActivations or 50
+    -- etype.baseTraits = {}
+
+    lp.defineItem(name, etype)
+end
+
+
+
 local function defineSword(mineral_type, name, tier)
     local etypeName = mineral_type .. "_sword"
     local image = mineral_type .. "_sword"
 
-    lp.defineItem(etypeName, {
+    defineMineral(etypeName, {
         basePointsGenerated = tier * 5,
         image = image,
         name = loc(name .. " Sword"),
@@ -24,7 +33,7 @@ local function defineAxe(mineral_type, name, tier)
     local etypeName = mineral_type .. "_axe"
     local image = mineral_type .. "_axe"
 
-    lp.defineItem(etypeName, {
+    defineMineral(etypeName, {
         image = image,
         name = loc(name .. " Axe"),
 
