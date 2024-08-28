@@ -64,10 +64,9 @@ defineFood("lootplot.content.s0:golden_apple", {
     targetActivationDescription = loc("Transforms into a GOLD slot."),
     targetActivate = function(selfEnt, ppos, targetEnt)
         -- "lootplot.content.s0:diamond_slot"
-        local etype = server.entities["lootplot.content.s0:gold_slot" ]
-        if etype then
-            lp.forceSpawnSlot(ppos, etype, selfEnt.lootplotTeam)
-        end
+        local etype = server.entities["lootplot.content.s0:golden_slot"]
+        assert(etype,"?")
+        lp.forceSpawnSlot(ppos, etype, selfEnt.lootplotTeam)
     end
 })
 
@@ -84,9 +83,8 @@ defineFood("lootplot.content.s0:diamond_apple", {
     targetActivationDescription = loc("Transforms into a DIAMOND slot."),
     targetActivate = function(selfEnt, ppos, targetEnt)
         local etype = server.entities["lootplot.content.s0:diamond_slot"]
-        if etype then
-            lp.forceSpawnSlot(ppos, etype, selfEnt.lootplotTeam)
-        end
+        assert(etype,"?")
+        lp.forceSpawnSlot(ppos, etype, selfEnt.lootplotTeam)
     end
 })
 
@@ -102,12 +100,9 @@ defineFood("lootplot.content.s0:super_apple", {
     targetActivationDescription = loc("Clones the current slot the item is in."),
     targetActivate = function(selfEnt, ppos, ent)
         local slotEnt = lp.itemToSlot(selfEnt)
-        local etype
         if slotEnt then
-            etype = slotEnt:getEntityType()
-        end
-        if etype then
-            lp.forceSpawnSlot(ppos, etype, selfEnt.lootplotTeam)
+            local clone = slotEnt:clone()
+            lp.setSlot(ppos, clone)
         end
     end
 })
@@ -282,7 +277,7 @@ defineFood("lootplot.content.s0:coconut", {
     targetShape = lp.targets.PlusShape(2),
 
     targetActivate = function(ent, ppos)
-        lp.trySpawnSlot(ppos, server.entities.slot, ent.lootplotTeam)
+        lp.trySpawnSlot(ppos, server.entities.dirt_slot, ent.lootplotTeam)
     end,
 })
 

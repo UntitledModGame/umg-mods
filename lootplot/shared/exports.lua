@@ -747,7 +747,7 @@ function lp.getDynamicSpawnChance(entityType, generationEnt)
     local maxLevel = entityType.maximumLevelToSpawn or math.huge
     if level then
         if (level > maxLevel) or (level < minLevel) then
-            return 0
+            return 1
         end
     end
 
