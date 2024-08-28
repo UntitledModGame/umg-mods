@@ -14,7 +14,7 @@ local function defineBook(id, name, description, targetSlot)
         targetActivate = function(selfEnt, ppos, targetEnt)
             local newSlotEnt = server.entities["lootplot.content.s0:"..targetSlot]
             if newSlotEnt then
-                lp.forceSpawnSlot(ppos, newSlotEnt)
+                lp.forceSpawnSlot(ppos, newSlotEnt, selfEnt.lootplotTeam)
             end
         end
     })

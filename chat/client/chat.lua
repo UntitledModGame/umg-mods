@@ -62,8 +62,8 @@ end
 
 
 
-local listener = input.InputListener({priority = 5})
-
+local listener = input.InputListener()
+chat.listener = listener
 
 
 listener:onTextInput(function(_self, t)
@@ -133,14 +133,14 @@ listener:onUpdate(function(self)
 end)
 
 
-umg.on("rendering:drawUI", function()
-    --[[
-        draw the chat:
-    ]]
-    lg.push("all")
-    chatBox:render(0,0,lg.getDimensions())
-    lg.pop()
-end)
+-- umg.on("rendering:drawUI", function()
+--     --[[
+--         draw the chat:
+--     ]]
+--     lg.push("all")
+--     chatBox:render(0,0,lg.getDimensions())
+--     lg.pop()
+-- end)
 
 
 

@@ -7,5 +7,9 @@ local h = require("client.hoverables")
 hoverables.isHovered = h.isHovered
 hoverables.getHoveredEntities = h.getHoveredEntities
 
-umg.expose("hoverables", h)
-return h
+function hoverables.getListener()
+    return h.listener
+end
+
+umg.expose("hoverables", hoverables)
+return hoverables

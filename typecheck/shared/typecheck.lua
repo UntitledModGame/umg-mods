@@ -200,7 +200,7 @@ local function makeErr(arg, err, i)
     return estring .. err_data
 end
 
----@param ... table|string
+---@param ... table|string|(fun(x:any):(boolean,string?))
 ---@return fun(...:any)
 function typecheck.assert(...)
     local check_fns = {...}

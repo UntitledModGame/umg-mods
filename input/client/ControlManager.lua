@@ -410,9 +410,18 @@ function ControlManager:lockControl(controlEnum, listenerObject)
 end
 
 
+function ControlManager:forceUnlockForListener(listenerObject)
+    for k, v in pairs(self.controlLocks) do
+        if v == listenerObject then
+            self.controlLocks[k] = nil
+        end
+    end
+end
+
+
 function ControlManager:resetLocks()
-    self.controlLocks = {}
-    self.familyLocks = {}
+    table.clear(self.controlLocks)
+    table.clear(self.familyLocks)
 end
 
 ---@alias input.ControlManagerArgs {onControlPressed:fun(controlEnum:any),onControlReleased:fun(controlEnum:any)}

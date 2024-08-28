@@ -5,7 +5,7 @@ Handles top-down player control
 
 
 ]]
-
+local topdownControl = {}
 
 
 
@@ -26,9 +26,7 @@ local controllableGroup = umg.group("topdownControl", "x", "y")
 
 
 
-local listener = input.InputListener({priority = -1})
-
-
+local listener = input.InputListener()
 
 
 
@@ -64,8 +62,9 @@ listener:onUpdate(function(self, dt)
 end)
 
 
-
+topdownControl.listener = listener
 
 end
 
 
+return topdownControl

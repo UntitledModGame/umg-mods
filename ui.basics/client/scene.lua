@@ -14,16 +14,15 @@ local Scene = require("client.SceneElement")
 local scene = Scene()
 
 
-umg.on("rendering:drawUI", function()
-    scene:render(ui.basics.getSceneRegion():get())
-end)
+-- umg.on("rendering:drawUI", function()
+--     scene:render(ui.basics.getSceneRegion():get())
+-- end)
 
 
 
 
-local listener = input.InputListener({
-    priority = 10
-})
+local listener = input.InputListener()
+-- input.add(listener, 10)
 
 
 listener:onAnyPressed(function(self, controlEnum)

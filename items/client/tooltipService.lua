@@ -120,16 +120,16 @@ end
 -- we need to render AFTER the ui.
 local ORDER = 2
 
-umg.on("rendering:drawUI", ORDER, function()
-    if currentTooltipSlot and check(currentTooltipSlot) then
-        local itemEnt = currentTooltipSlot:getItem()
-        if itemEnt then
-            drawTooltip(itemEnt)
-        end
-    else
-        currentTooltipSlot = nil
-    end
-end)
+-- umg.on("rendering:drawUI", ORDER, function()
+--     if currentTooltipSlot and check(currentTooltipSlot) then
+--         local itemEnt = currentTooltipSlot:getItem()
+--         if itemEnt then
+--             drawTooltip(itemEnt)
+--         end
+--     else
+--         currentTooltipSlot = nil
+--     end
+-- end)
 
 
 

@@ -28,7 +28,7 @@ local function hasPosition(ent)
     return ent.x and ent.y
 end
 
-umg.on("state:gameUpdate", function(dt)
+umg.on("@update", function(dt)
     for _, ent in ipairs(particleEntities)do
         ent.particles:update(dt)
         if hasPosition(ent) then
