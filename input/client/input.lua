@@ -1,4 +1,4 @@
-
+---@meta
 --[[
 
 abstracting away the input.
@@ -12,7 +12,7 @@ local sortedListeners = {}
 
 
 local input = {}
-
+if false then _G.input = input end
 
 --[[
     The reason we need to buffer events, is because listeners can
@@ -66,17 +66,30 @@ end
 
 local InputListener = require("client.InputListener")
 
----@param args? {priority?:integer}
 ---@return input.InputListener
-function input.InputListener(args)
-    args = args or {}
-    local listener = InputListener({
-        controlManager = controlManager,
-        priority = args.priority or DEFAULT_LISTENER_PRIORITY
-    })
+function input.InputListener()
+    return InputListener()
+end
+
+
+---@param listener input.InputListener
+---@param zorder integer
+function input.add(listener, zorder)
+    listener:_setControlManagerAndPriority(controlManager, zorder)
     table.insert(sortedListeners, listener)
     table.sort(sortedListeners, sortPrioKey)
-    return listener
+end
+
+---@param listener input.InputListener
+function input.remove(listener)
+    for i, l in ipairs(sortedListeners) do
+        if l == listener then
+            table.remove(sortedListeners, i)
+            controlManager:forceUnlockForListener(listener)
+            listener:_setControlManagerAndPriority()
+            return
+        end
+    end
 end
 
 
@@ -202,5 +215,5 @@ end
 
 
 
+umg.expose("input", input)
 return input
-

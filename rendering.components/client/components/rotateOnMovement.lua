@@ -13,7 +13,7 @@ local rotateOnMovementGroup = umg.group("vx", "vy", "rotateOnMovement")
 local DEFAULT_START_ANGLE = 0 -- radians
 
 
-umg.on("state:gameUpdate", function(dt)
+umg.on("@update", function(dt)
     --[[
         rotateOnMovement = {
             startAngle = 0 or nil

@@ -55,7 +55,8 @@ end
 
 if client then
 local controllableGroup = umg.group("inventory", "controllable", "clickToUseHoldItem")
-local listener = input.InputListener({priority = 2})
+local listener = input.InputListener()
+input.add(listener, 2)
 
 local function useItems()
     local used = false

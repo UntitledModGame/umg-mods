@@ -89,8 +89,7 @@ local function updateZoomValues(dt)
     end
 end
 
-local listener = input.InputListener({priority = 0})
-
+local listener = input.InputListener()
 
 listener:onPressed({"input:SCROLL_UP", "input:SCROLL_DOWN"}, function(self, controlEnum)
     local zf = follow.getZoomFactor()
@@ -105,6 +104,9 @@ listener:onPressed({"input:SCROLL_UP", "input:SCROLL_DOWN"}, function(self, cont
     self:claim(controlEnum)
 end)
 
+function follow.getListener()
+    return listener
+end
 
 
 

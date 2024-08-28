@@ -81,7 +81,7 @@ end
 
 
 
-umg.on("state:gameUpdate", function(dt)
+umg.on("@update", function(dt)
     --[[
         TODO:
         This is O(n^2). I don't like this!

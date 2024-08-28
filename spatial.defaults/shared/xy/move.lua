@@ -93,7 +93,7 @@ end
     We could instead run this code every tick instead...
     clients won't see a difference.
 ]]
-umg.on("state:gameUpdate", function(dt)
+umg.on("@update", function(dt)
     for _, ent in ipairs(moveGroup) do
         updateEnt(ent, dt)
     end

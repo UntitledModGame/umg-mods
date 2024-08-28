@@ -125,16 +125,16 @@ local lg = love.graphics
     because its kinda stupid.
 ]]
 
-local ORDER = 2
-umg.on("rendering:drawUI", ORDER, function()
-    local _,_,_,slotElem = getFocused()
-    if slotElem then
-        local x,y,w,hh = slotElem:getView()
-        local cX,cY = x+w/2, y+hh/2
-        lg.setLineWidth(5)
-        lg.line(cX,cY, input.getPointerPosition())
-    end
-end)
+-- local ORDER = 2
+-- umg.on("rendering:drawUI", ORDER, function()
+--     local _,_,_,slotElem = getFocused()
+--     if slotElem then
+--         local x,y,w,hh = slotElem:getView()
+--         local cX,cY = x+w/2, y+hh/2
+--         lg.setLineWidth(5)
+--         lg.line(cX,cY, input.getPointerPosition())
+--     end
+-- end)
 
 
 

@@ -29,17 +29,4 @@ end
 
 
 
-umg.on("state:drawWorld", function()
-    draw.drawWorld()
-end)
-
-
-
-
-umg.on("state:drawUI", function()
-    umg.call("rendering:drawUI")
-end)
-
-
-
 return draw

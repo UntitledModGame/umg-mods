@@ -34,7 +34,7 @@ local function updateEnt(ent)
 end
 
 
-umg.on("state:gameUpdate", function(dt)
+umg.on("@update", function(dt)
     tick = tick + dt
     for i=1, #animationGroup do
         local ent = animationGroup[i]
