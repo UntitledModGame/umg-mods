@@ -30,10 +30,18 @@ local BRIEF_CTX = {
     context = "Keep it brief, concise, and straightforward!"
 }
 
+local TARGET_TYPE_TEXT = {
+    SLOT = "{lp_targetColor}Targets slots:",
+    ITEM = "{lp_targetColor}Targets items:",
+    NO_SLOT = "{lp_targetColor}Targets empty spaces:",
+    NO_ITEM = "{lp_targetColor}Targets empty slots:",
+}
+local TARGET_TYPE_TEXT_FALLBACK = "{lp_targetColor}Targets unknown:"
 
 umg.on("lootplot:populateDescription", TARGET_SHAPE_ORDER, function(ent, arr)
     if ent.targetShape then
-        arr:add(loc("{lp_targetColor}For all targets: ",nil,BRIEF_CTX))
+        local targetText = TARGET_TYPE_TEXT[ent.targetType] or TARGET_TYPE_TEXT_FALLBACK
+        arr:add(loc(targetText,nil,BRIEF_CTX))
     end
 end)
 
