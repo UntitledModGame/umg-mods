@@ -1,3 +1,4 @@
+local AutoOutlineText = require("client.elements.AutoOutlineText")
 local StretchableBox = require("client.elements.StretchableBox")
 
 ---@class lootplot.main.StretchableButton: Element
@@ -14,7 +15,7 @@ local function giveTextElement(self, elem)
         return
     end
 
-    local textElement = ui.elements.Text({
+    local textElement = AutoOutlineText({
         text = tostring(self.text),
         font = self.font,
         color = self.textColor,
