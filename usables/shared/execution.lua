@@ -6,7 +6,7 @@ local execution = {}
 if server then
 function execution.execute(executableEnt)
     -- force-executes an entity
-    umg.call("execution:executeEntity", executableEnt)
+    umg.call("usables:executeEntity", executableEnt)
 end
 end
 
@@ -16,7 +16,7 @@ function execution.canExecute(executableEnt)
             return false
         end
     end
-    if umg.ask("execution:isExecutionBlocked", executableEnt) then
+    if umg.ask("usables:isExecutionBlocked", executableEnt) then
         return false
     end
     return true
@@ -27,7 +27,7 @@ end
 if server then
 function execution.useEntity(usableEnt, userEnt)
     -- force-uses an entity
-    umg.call("execution:useEntity", usableEnt, userEnt)
+    umg.call("usables:useEntity", usableEnt, userEnt)
 end
 end
 
@@ -40,7 +40,7 @@ function execution.canUse(usableEnt, userEnt)
             return false
         end
     end
-    if umg.ask("execution:isUsageBlocked", usableEnt, userEnt) then
+    if umg.ask("usables:isUsageBlocked", usableEnt, userEnt) then
         return false
     end
     return true
@@ -48,8 +48,8 @@ end
 
 
 
-sync.proxyEventToClient("execution:useEntity")
-sync.proxyEventToClient("execution:executeEntity")
+sync.proxyEventToClient("usables:useEntity")
+sync.proxyEventToClient("usables:executeEntity")
 
 
 
