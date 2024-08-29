@@ -6,10 +6,12 @@ local function defineGlove(id, name, description, giveShape)
         name = loc(name),
 
         targetType = "ITEM",
-        targetActivationDescription = loc(description),
+        targetActivationDescription = loc("{lp_targetColor}" .. description),
         targetShape = lp.targets.ABOVE_SHAPE,
         targetActivate = function(selfEnt, ppos, targetItemEnt)
             if targetItemEnt.targetShape then
+                -- dont wanna give shape to non-shape items.
+                -- HMM: Maybe this should change in future??
                 lp.targets.setTargetShape(targetItemEnt, giveShape)
             end
         end

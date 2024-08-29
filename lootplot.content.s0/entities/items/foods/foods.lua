@@ -304,3 +304,28 @@ defineFood("lootplot.content.s0:dirty_muffin", {
         lp.forceSpawnSlot(ppos, server.entities.dirt_slot, ent.lootplotTeam)
     end,
 })
+
+
+
+
+local function definePie(id, name, desc, giveShape)
+    defineFood("lootplot.content.s0:" .. id, {
+        image = id,
+        name = loc(name),
+
+        targetType = "ITEM",
+        targetActivationDescription = loc("{lp_targetColor}" .. desc),
+        targetShape = lp.targets.ABOVE_SHAPE,
+        targetActivate = function(selfEnt, ppos, targetItemEnt)
+            if targetItemEnt.targetShape then
+                -- dont wanna give shape to non-shape items.
+                -- HMM: Maybe this should change in future??
+                lp.targets.setTargetShape(targetItemEnt, giveShape)
+            end
+        end
+    })
+end
+
+definePie("scotch_pie", "Scotch Pie", "Gives ROOK Shape to item", lp.targets.PlusShape(10))
+definePie("berry_pie", "Berry Pie", "Gives KNIGHT Shape to item", lp.targets.KNIGHT_SHAPE)
+
