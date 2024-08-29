@@ -1,23 +1,9 @@
 
 
-base.client.groundTexture.setDefaultGround({
-    images = {"ground_texture_final4"},
-    color = {0.2,0.7,0.35}
-})
-
-
-
 umg.on("@load", function()
     vignette.setStrength(0.65)
 end)
 
-
-umg.on("@createWorld", function()
-    base.client.groundTexture.setGround("overworld", {
-        images = {"ground_texture_final4"},
-        color = {0.7,0.7,0.7}
-    })
-end)
 
 
 
@@ -61,12 +47,6 @@ umg.on("@keypressed", function(k,scancode)
     if scancode == "e" then
         local e = getPlayerWithXY()
         makeClientBlock(e)
-    end
-    if scancode == "space" then
-        local e = getPlayerWithXY()
-        if base.gravity.isOnGround(e) then
-            e.vz = 400
-        end
     end
 end)
 
