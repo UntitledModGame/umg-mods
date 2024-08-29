@@ -5,6 +5,6 @@
         "input", "rendering", "reducers", "physics",
         "control", "spatial", "follow", "juice", "audio",
         "health", "scheduling", "initializers",
-        "components", "effects", "execution"
+        "components", "effects", "usables"
     ]
 }
