@@ -1,1 +1,1 @@
-{"type":"base"}
+{"type":"base", "uses": ["json"]}
