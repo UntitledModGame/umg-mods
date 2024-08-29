@@ -9,7 +9,9 @@ local function defineGlove(id, name, description, giveShape)
         targetActivationDescription = loc(description),
         targetShape = lp.targets.ABOVE_SHAPE,
         targetActivate = function(selfEnt, ppos, targetItemEnt)
-            lp.targets.setTargetShape(targetItemEnt, giveShape)
+            if targetItemEnt.targetShape then
+                lp.targets.setTargetShape(targetItemEnt, giveShape)
+            end
         end
     })
 end
@@ -27,13 +29,7 @@ defineGlove("ruby_glove",
 )
 
 defineGlove("copper_glove",
-    "Ruby Glove",
-    "Give PLUS shape to item.",
-    lp.targets.PlusShape(1)
-)
-
-defineGlove("wooden_glove",
-    "Ruby Glove",
-    "Give ABOVE shape to item.",
-    lp.targets.ABOVE_SHAPE
+    "Copper Glove",
+    "Give KNIGHT shape to item.",
+    lp.targets.KNIGHT_SHAPE
 )
