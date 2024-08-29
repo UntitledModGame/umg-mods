@@ -102,6 +102,10 @@ defineFood("lootplot.content.s0:super_apple", {
         local slotEnt = lp.itemToSlot(selfEnt)
         if slotEnt then
             local clone = slotEnt:clone()
+            local oldSlot = lp.posToSlot(ppos)
+            if oldSlot then
+                lp.destroy(oldSlot)
+            end
             lp.setSlot(ppos, clone)
         end
     end
