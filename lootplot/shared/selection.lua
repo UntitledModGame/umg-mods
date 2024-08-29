@@ -118,19 +118,6 @@ local function deny(slotEnt)
     umg.call("lootplot:denySlotInteraction", slotEnt)
 end
 
-
-local ENT_2 = {"entity", "entity"}
-
-local swapSlotItems = util.remoteServerCall("lootplot:swapSlotItems", ENT_2, 
-function(clientId, slotEnt1, slotEnt2)
-    -- TODO: check validity of arguments (bad actor could send any entity)
-    -- TODO: check that we actually CAN move the items
-    -- TODO: use qbus; check if we have permission
-    if lp.canSwap(slotEnt1, slotEnt2) then
-        lp.swapItems(slotEnt1, slotEnt2)
-    end
-end)
-
 ---@param slotEnt lootplot.SlotEntity
 ---@param clientId string
 local function hasAccess(slotEnt, clientId)
@@ -142,6 +129,19 @@ local function hasAccess(slotEnt, clientId)
 
     return true
 end
+
+
+local ENT_2 = {"entity", "entity"}
+
+local swapSlotItems = util.remoteServerCall("lootplot:swapSlotItems", ENT_2, 
+function(clientId, slotEnt1, slotEnt2)
+    -- TODO: check validity of arguments (bad actor could send any entity)
+    -- TODO: check that we actually CAN move the items
+    -- TODO: use qbus; check if we have permission
+    if lp.canSwap(slotEnt1, slotEnt2) and hasAccess(slotEnt1, clientId) and hasAccess(slotEnt2, clientId) then
+        lp.swapItems(slotEnt1, slotEnt2)
+    end
+end)
 
 ---@param clientId string
 ---@param srcSlot lootplot.SlotEntity
