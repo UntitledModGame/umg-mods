@@ -55,3 +55,9 @@ umg.on("lootplot:comboChanged", function(ent, delta, oldVal, newVal)
         makePopup(ent, txt, objects.Color.YELLOW, VEL)
     end
 end)
+
+umg.on("lootplot:entityDestroyed", function(ent)
+    if ent:type() == "lootplot.content.s0:reroll_button_slot" then
+        makePopup(ent, "random() = 4", objects.Color.GREEN, VEL)
+    end
+end)

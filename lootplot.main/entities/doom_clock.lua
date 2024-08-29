@@ -32,9 +32,6 @@ local function getRequiredPoints(levelNumber)
 end
 
 
-local function lose()
-    lp.main.endGame(nil, false)
-end
 
 local function syncEntity(ent)
     sync.syncComponent(ent, "round")
@@ -98,7 +95,7 @@ umg.defineEntityType("lootplot.main:doom_clock", {
             nextLevel(ent)
         elseif ent.round > ent.numberOfRounds then
             -- lose!
-            lose()
+            lp.main.endGame(nil, false)
         end
         syncEntity(ent)
     end
