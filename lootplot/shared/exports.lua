@@ -542,6 +542,10 @@ function lp.destroy(ent)
         if ent.onDestroy then
             ent:onDestroy()
         end
+        local ppos = lp.getPos(ent)
+        if ppos then
+            ppos:clear(ent)
+        end
         ptrack.clear(ent)
         ent:delete()
     end
