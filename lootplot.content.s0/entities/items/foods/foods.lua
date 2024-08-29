@@ -150,9 +150,8 @@ defineFood("lootplot.content.s0:glass_bottle", {
 
     targetActivate = function(selfEnt, ppos)
         local etype = server.entities["lootplot.content.s0:glass_slot"]
-        if etype then
-            lp.trySpawnSlot(ppos, etype, selfEnt.lootplotTeam)
-        end
+        assert(etype, "?")
+        lp.trySpawnSlot(ppos, etype, selfEnt.lootplotTeam)
     end
 })
 
@@ -170,9 +169,8 @@ defineFood("lootplot.content.s0:glass_tube", {
 
     targetActivate = function(selfEnt, ppos)
         local etype = server.entities["lootplot.content.s0:glass_slot"]
-        if etype then
-            lp.trySpawnSlot(ppos, etype, selfEnt.lootplotTeam)
-        end
+        assert(etype, "?")
+        lp.trySpawnSlot(ppos, etype, selfEnt.lootplotTeam)
     end
 })
 
@@ -195,7 +193,27 @@ defineFood("lootplot.content.s0:pomegranate", {
     targetShape = lp.targets.KING_SHAPE,
 
     targetActivate = function(ent, ppos, targetEnt)
-        lp.forceSpawnSlot(ppos, server.entities.slot, ent.lootplotTeam)
+        lp.trySpawnSlot(ppos, server.entities.slot, ent.lootplotTeam)
+    end,
+})
+
+
+defineFood("lootplot.content.s0:stone_fruit", {
+    image = "stone_fruit",
+
+    name = loc("Stone fruit"),
+    targetActivationDescription = loc("{lp_targetColor}Spawns null slots"),
+
+    rarity = lp.rarities.UNCOMMON,
+
+    baseBuyPrice = 4,
+    baseTraits = {},
+
+    targetType = "NO_SLOT",
+    targetShape = lp.targets.KING_SHAPE,
+
+    targetActivate = function(ent, ppos, targetEnt)
+        lp.trySpawnSlot(ppos, server.entities.null_slot, ent.lootplotTeam)
     end,
 })
 
@@ -215,7 +233,7 @@ defineFood("lootplot.content.s0:dragonfruit", {
     targetShape = lp.targets.PlusShape(2),
 
     targetActivate = function(ent, ppos, targetEnt)
-        lp.forceSpawnSlot(ppos, server.entities.slot, ent.lootplotTeam)
+        lp.trySpawnSlot(ppos, server.entities.slot, ent.lootplotTeam)
     end,
 })
 
@@ -244,25 +262,6 @@ defineFood("lootplot.content.s0:soy_sauce", {
 })
 
 
-defineFood("lootplot.content.s0:dirty_muffin", {
-    image = "dirty_muffin",
-
-    name = loc("Dirty Muffin"),
-    targetActivationDescription = loc("{lp_targetColor}Convert slots into dirt"),
-
-    rarity = lp.rarities.RARE,
-    minimumLevelToSpawn = 4,
-
-    baseBuyPrice = 2,
-    baseTraits = {},
-
-    targetType = "SLOT",
-    targetShape = lp.targets.LARGE_KING_SHAPE,
-
-    targetActivate = function(ent, ppos)
-        lp.forceSpawnSlot(ppos, server.entities.dirt_slot, ent.lootplotTeam)
-    end,
-})
 
 
 defineFood("lootplot.content.s0:coconut", {
@@ -285,3 +284,23 @@ defineFood("lootplot.content.s0:coconut", {
     end,
 })
 
+
+defineFood("lootplot.content.s0:dirty_muffin", {
+    image = "dirty_muffin",
+
+    name = loc("Dirty Muffin"),
+    targetActivationDescription = loc("{lp_targetColor}Convert slots into dirt"),
+
+    rarity = lp.rarities.RARE,
+    minimumLevelToSpawn = 4,
+
+    baseBuyPrice = 2,
+    baseTraits = {},
+
+    targetType = "SLOT",
+    targetShape = lp.targets.LARGE_KING_SHAPE,
+
+    targetActivate = function(ent, ppos)
+        lp.forceSpawnSlot(ppos, server.entities.dirt_slot, ent.lootplotTeam)
+    end,
+})
