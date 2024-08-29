@@ -52,7 +52,7 @@ end
 
 
 
-umg.on("execution:useEntity", function(holderEnt, useEnt) 
+umg.on("usables:useEntity", function(holderEnt, useEnt) 
     local targX, targY = holderEnt.lookX, holderEnt.lookY
     if (not targX) or (not targY) then
         return
