@@ -75,8 +75,8 @@ function Text:onRender(x,y,w,h)
         local outlineColor = self.outlineColor or DEFAULT_OUTLINE_COLOR
         local am = self.outline
         lg.setColor(outlineColor)
-        for ox=-am, am, am*2 do
-            for oy=-am, am, am*2 do
+        for ox=-am, am, am do
+            for oy=-am, am, am do
                 lg.printf(self.text, self.font, drawX + ox, drawY + oy, limit, self.align, 0, scale, scale, tw/2, th/2)
             end
         end
