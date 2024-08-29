@@ -40,3 +40,9 @@ defineBook("book_of_shopping",
     "Convert target slot into Shop Slot.",
     "shop_slot"
 )
+defineBook("empty_book",
+    "Empty book",
+    "Convert target slot into Null Slot.",
+    "null_slot"
+)
+
