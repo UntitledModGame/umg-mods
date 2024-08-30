@@ -101,7 +101,7 @@ defineFood("lootplot.content.s0:super_apple", {
     targetActivate = function(selfEnt, ppos, ent)
         local slotEnt = lp.itemToSlot(selfEnt)
         if slotEnt then
-            local clone = slotEnt:clone()
+            local clone = lp.clone(selfEnt)
             local oldSlot = lp.posToSlot(ppos)
             if oldSlot then
                 lp.destroy(oldSlot)

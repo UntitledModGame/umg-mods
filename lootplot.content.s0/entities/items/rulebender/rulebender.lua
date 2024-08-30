@@ -77,6 +77,32 @@ lp.defineItem("lootplot.content.s0:money_box", {
     end
 })
 
+
+
+lp.defineItem("lootplot.content.s0:copycat", {
+    image = "copycat",
+    name = loc("Copycat"),
+
+    rarity = lp.rarities.RARE,
+    minimumLevelToSpawn = 4,
+
+    targetType = "NO_ITEM",
+    targetShape = lp.targets.PlusShape(1),
+    targetActivationDescription = loc("{lp_targetColor}Copies self into target slots"),
+    targetActivate = function(selfEnt, ppos, targetEnt)
+        local copyEnt = lp.clone(selfEnt)
+        lp.moveIntoTakenSlot()
+        local oldItem = lp.posToItem(ppos)
+        if oldItem then
+            lp.destroy(oldItem)
+        end
+        ppos:set(copyEnt)
+    end
+})
+
+
+
+
 lp.defineItem("lootplot.content.s0:pandoras_box", {
     image = "pandoras_box",
     name = loc("Pandora's Box"),
