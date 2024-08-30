@@ -18,7 +18,7 @@ local function tryConvert(targeterEnt, ppos)
         local slot = lp.posToSlot(ppos)
         return (not not slot), slot
     elseif targeterEnt.targetType == "NO_ITEM" then
-        return not lp.posToItem(ppos)
+        return lp.posToSlot(ppos) and (not lp.posToItem(ppos))
     elseif targeterEnt.targetType == "NO_SLOT" then
         return not lp.posToSlot(ppos)
     end
