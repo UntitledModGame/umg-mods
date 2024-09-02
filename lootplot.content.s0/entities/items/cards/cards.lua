@@ -16,7 +16,7 @@ defineCard("lootplot.content.s0:star_card", {
     image = "star_card",
     name = loc("Star Card"),
     targetType = "ITEM",
-    targetActivationDescription = loc("Shuffle shapes of target items."),
+    targetActivationDescription = loc("Shuffle shapes between target items"),
     targetShape = lp.targets.ABOVE_BELOW_SHAPE,
     onActivate = function(selfEnt)
         local targets = lp.targets.getTargets(selfEnt)
@@ -49,17 +49,19 @@ defineCard("lootplot.content.s0:star_card", {
     end
 })
 
+
 defineCard("lootplot.content.s0:diamonds_card", {
     image = "diamonds_card",
     name = loc("Diamonds Card"),
     targetType = "ITEM",
-    targetActivationDescription = loc("{lp_targetColor}Shuffle traits of target items."),
+    targetActivationDescription = loc("{lp_targetColor}Shuffle traits between target items"),
     targetShape = lp.targets.ABOVE_BELOW_SHAPE,
     onActivate = function(selfEnt)
         local targets = lp.targets.getTargets(selfEnt)
         -- TODO
     end
 })
+
 
 defineCard("lootplot.content.s0:spades_card", {
     image = "spades_card",
