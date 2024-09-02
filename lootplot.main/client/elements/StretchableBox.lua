@@ -1,14 +1,15 @@
+local globalScale = require("client.globalScale")
+
 ---@class lootplot.main.StretchableBox: Element
 local StretchableBox = ui.Element("lootplot.main:StretchableBox")
 
 
 ---@param quadName string
 ---@param padding number[]|number
----@param args? {stretchType?: n9slice.StretchType, content?: any, scale?:number}
+---@param args? {stretchType?: n9slice.StretchType, content?: any}
 function StretchableBox:init(quadName, padding, args)
     args = args or {}
 
-    self.scale = 1
     self.content = nil
 
     local quad = client.assets.images[quadName]
@@ -20,7 +21,6 @@ function StretchableBox:init(quadName, padding, args)
         stretchType = args.stretchType
     })
 
-    self.scale = args.scale or self.scale
     if args.content then
         self:setContent(args.content)
     end
@@ -29,7 +29,7 @@ end
 if false then
     ---@param quadName string
     ---@param padding number[]|number
-    ---@param args? {stretchType?: n9slice.StretchType, content?: any, scale?:number}
+    ---@param args? {stretchType?: n9slice.StretchType, content?: any}
     ---@return lootplot.main.StretchableBox
     function StretchableBox(quadName, padding, args) end
 end
@@ -52,16 +52,17 @@ function StretchableBox:getContent()
 end
 
 function StretchableBox:onRender(x, y, w, h)
-    local width, height = w / self.scale, h / self.scale
-    self.n9p:draw(x, y, width, height, 0, self.scale, self.scale)
+    local scale = globalScale.get()
+    local width, height = w / scale, h / scale
+    self.n9p:draw(x, y, width, height, 0, scale, scale)
 
     if self.content then
         local cx, cy, cw, ch = self.n9p:getContentArea(width, height)
         self.content:render(
-            cx * self.scale + x,
-            cy * self.scale + y,
-            cw * self.scale,
-            ch * self.scale
+            cx * scale + x,
+            cy * scale + y,
+            cw * scale,
+            ch * scale
         )
     end
 end
