@@ -27,6 +27,11 @@ ORDER = 60 important misc
 
 umg.on("lootplot:populateDescription", 0, function(ent, arr)
     if ent.maxActivations and ent.activationCount then
+        if ent.doomCount and (ent.doomCount < ent.activationCount) then
+            -- HACK: Doomcount check here.
+            return -- no point in displaying.
+        end
+
         arr:add(function ()
             local remaining = ent.maxActivations - ent.activationCount
             local vars = {
