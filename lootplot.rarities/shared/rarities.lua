@@ -2,14 +2,15 @@
 ---@alias lootplot.Rarity {color:objects.Color, index:number, name:string, rarityWeight:number, displayString:string}
 ---@return lootplot.Rarity
 local function newRarity(name, rarity_weight, color)
-    local cStr = localization.localize("Rarity: {wavy}{c r=%f g=%f b=%f}")
-        :format(color.r, color.g, color.b)
+    local cStr = localization.localize("{wavy}{c r=%f g=%f b=%f}%{name}{/c}{/wavy}", {
+        name = name
+    }):format(color.r, color.g, color.b)
     return {
         color = color,
         index = 1,
         name = name,
         rarityWeight = rarity_weight,
-        displayString = cStr .. name
+        displayString = cStr
     }
 end
 
@@ -37,9 +38,12 @@ if client then
     local ORDER = 50
     umg.on("lootplot:populateDescription", ORDER, function(ent, arr)
         local rarity = ent.rarity
-        ---@cast rarity lootplot.Rarity
         if rarity then
-            arr:add(rarity.displayString)
+            local descString = localization.localize("Rarity") .. ": " .. rarity.displayString
+            ---@cast rarity lootplot.Rarity
+            if rarity then
+                arr:add(descString)
+            end
         end
     end)
 end
@@ -52,8 +56,8 @@ lp.rarities = {
     UNCOMMON = newRarity("UNCOMMON (II)", 1.5, hsl(150, 66, 55)),
     RARE = newRarity("RARE (III)", 1, hsl(220, 90, 55)),
     EPIC = newRarity("EPIC (IV)", 0.6, hsl(275, 100,45)),
-    LEGENDARY = newRarity("LEGENDARY (V)",0.1,hsl(50, 90, 40)),
-    MYTHIC = newRarity("MYTHIC (VI)", 0.02,hsl(330, 100, 35)),
+    LEGENDARY = newRarity("LEGENDARY (V)",0.1, hsl(330, 100, 35)),
+    MYTHIC = newRarity("MYTHIC (VI)", 0.02, hsl(50, 90, 40)),
     UNIQUE = newRarity("UNIQUE", 0.00, objects.Color.WHITE),
 }
 
