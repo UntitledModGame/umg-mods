@@ -31,47 +31,44 @@ end
 lp.defineItem("lootplot.content.s0:gift_box", {
     image = "gift_box",
     name = loc("Gift Box"),
-    description = loc("After 3 activations, transform into a RARE item."),
 
-    rarity = lp.rarities.COMMON,
+    rarity = lp.rarities.UNCOMMON,
     minimumLevelToSpawn = 2,
 
-    baseBuyPrice = 1,
+    doomCount = 1,
 
-    onActivate = function(selfEnt)
-        if selfEnt.totalActivationCount >= 3 then
-            local ppos = lp.getPos(selfEnt)
-            if ppos then
-                local etype = server.entities[generateRareItem(selfEnt)]
+    baseBuyPrice = 3,
 
-                if etype then
-                    lp.forceSpawnItem(ppos, etype, selfEnt.lootplotTeam)
-                end
-            end
+    targetActivationDescription = loc("Spawn RARE items."),
+    targetShape = lp.targets.PlusShape(1),
+
+    targetActivate = function(selfEnt, ppos, targetEnt)
+        local etype = server.entities[generateRareItem(selfEnt)]
+        if etype then
+            lp.forceSpawnItem(ppos, etype, selfEnt.lootplotTeam)
         end
     end
 })
 
-lp.defineItem("lootplot.content.s0:money_box", {
-    image = "money_box",
-    name = loc("Dollar Box"),
-    description = loc("Transform into a RARE item that costs $1 to use"),
 
-    rarity = lp.rarities.COMMON,
-    minimumLevelToSpawn = 2,
 
-    baseBuyPrice = 1,
+lp.defineItem("lootplot.content.s0:pandoras_box", {
+    image = "pandoras_box",
+    name = loc("Pandora's Box"),
 
-    onActivate = function(selfEnt)
-        local ppos = lp.getPos(selfEnt)
-        if ppos then
-            local etype = server.entities[generateRareItem(selfEnt)]
+    rarity = lp.rarities.EPIC,
+    minimumLevelToSpawn = 4,
 
-            if etype then
-                local e = lp.forceSpawnItem(ppos, etype, selfEnt.lootplotTeam)
-                if e then
-                    e.baseMoneyGenerated = -1
-                end
+    targetType = "SLOT",
+    targetShape = lp.targets.ABOVE_SHAPE,
+    targetActivationDescription = loc("{lp_targetColor}Spawn a RARE item in an ABOVE shape that has only 1 use."),
+    targetActivate = function(selfEnt, ppos, targetEnt)
+        local etype = server.entities[generateRareItem(selfEnt)]
+
+        if etype then
+            local e = lp.trySpawnItem(ppos, etype, selfEnt.lootplotTeam)
+            if e then
+                e.doomCount = 1
             end
         end
     end
@@ -107,28 +104,6 @@ lp.defineItem("lootplot.content.s0:copycat", {
 
 
 
-lp.defineItem("lootplot.content.s0:pandoras_box", {
-    image = "pandoras_box",
-    name = loc("Pandora's Box"),
-
-    rarity = lp.rarities.EPIC,
-    minimumLevelToSpawn = 4,
-
-    targetType = "SLOT",
-    targetShape = lp.targets.ABOVE_SHAPE,
-    targetActivationDescription = loc("{lp_targetColor}Spawn a RARE item in an ABOVE shape that has only 1 use."),
-    targetActivate = function(selfEnt, ppos, targetEnt)
-        local etype = server.entities[generateRareItem(selfEnt)]
-
-        if etype then
-            local e = lp.trySpawnItem(ppos, etype, selfEnt.lootplotTeam)
-            if e then
-                e.doomCount = 1
-            end
-        end
-    end
-})
-
 
 lp.defineItem("lootplot.content.s0:boomerang", {
     name = loc("Boomerang"),
@@ -160,11 +135,11 @@ lp.defineItem("lootplot.content.s0:red_shield", {
     image = "red_shield",
     name = loc("Red Shield"),
 
-    rarity = lp.rarities.RARE,
+    rarity = lp.rarities.EPIC,
 
     targetType = "ITEM",
     targetShape = lp.targets.KING_SHAPE,
-    targetActivationDescription = loc("{lp_targetColor}Triggers PULSE for all target items."),
+    targetActivationDescription = loc("{lp_targetColor}Triggers all target items."),
     targetActivate = function(selfEnt, ppos, targetEnt)
         lp.tryTriggerEntity("PULSE", targetEnt)
     end

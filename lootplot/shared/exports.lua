@@ -481,6 +481,11 @@ end
 ---@param ent Entity
 ---@return boolean
 function lp.canActivateEntity(ent)
+    if ent.canActivate then
+        if not ent:canActivate() then
+            return false
+        end
+    end
     return not umg.ask("lootplot:isActivationBlocked", ent)
 end
 
