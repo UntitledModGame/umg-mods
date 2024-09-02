@@ -1,6 +1,6 @@
 local loc = localization.localize
 
-local function defineBook(id, name, description, targetSlot)
+local function defineBook(id, name, targetSlot, targetSlotName)
     return lp.defineItem("lootplot.content.s0:"..id, {
         image = id,
         name = loc(name),
@@ -10,7 +10,8 @@ local function defineBook(id, name, description, targetSlot)
 
         targetType = "SLOT",
         targetShape = lp.targets.ABOVE_SHAPE,
-        targetActivationDescription = loc(description),
+        targetActivationDescription = loc("{lp_targetColor}Converts target slot into " .. targetSlotName),
+
         targetActivate = function(selfEnt, ppos, targetEnt)
             local newSlotEnt = server.entities["lootplot.content.s0:"..targetSlot]
             if newSlotEnt then
@@ -22,27 +23,27 @@ end
 
 defineBook("book_of_basics",
     "Book of Basics",
-    "Convert target slot into Normal Slot.",
-    "slot"
+    "slot",
+    "Normal Slot"
 )
 defineBook("book_of_farming",
     "Book of Farming",
-    "Convert target slot into Dirt Slot.",
-    "dirt_slot"
+    "dirt_slot",
+    "Dirt Slot"
 )
 defineBook("book_of_rerolling",
     "Book of Rerolling",
-    "Convert target slot into Reroll Slot.",
-    "reroll_slot"
+    "reroll_slot",
+    "Reroll Slot"
 )
 defineBook("book_of_shopping",
     "Book of Shopping",
-    "Convert target slot into Shop Slot.",
-    "shop_slot"
+    "shop_slot",
+    "Shop Slot"
 )
 defineBook("empty_book",
     "Empty book",
-    "Convert target slot into Null Slot.",
-    "null_slot"
+    "null_slot",
+    "Null Slot"
 )
 

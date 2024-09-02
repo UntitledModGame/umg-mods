@@ -52,65 +52,6 @@ defineFood("lootplot.content.s0:lychee", {
 })
 
 
-defineFood("lootplot.content.s0:golden_apple", {
-    image = "golden_apple",
-    name = loc("Golden Apple"),
-
-    rarity = lp.rarities.UNCOMMON,
-    minimumLevelToSpawn = 3,
-
-    targetType = "SLOT",
-    targetShape = lp.targets.ON_SHAPE,
-    targetActivationDescription = loc("Transforms into a GOLD slot."),
-    targetActivate = function(selfEnt, ppos, targetEnt)
-        -- "lootplot.content.s0:diamond_slot"
-        local etype = server.entities["lootplot.content.s0:golden_slot"]
-        assert(etype,"?")
-        lp.forceSpawnSlot(ppos, etype, selfEnt.lootplotTeam)
-    end
-})
-
-
-defineFood("lootplot.content.s0:diamond_apple", {
-    image = "diamond_apple",
-    name = loc("Diamond Apple"),
-
-    rarity = lp.rarities.UNCOMMON,
-    minimumLevelToSpawn = 3,
-
-    targetType = "SLOT",
-    targetShape = lp.targets.ON_SHAPE,
-    targetActivationDescription = loc("Transforms into a DIAMOND slot."),
-    targetActivate = function(selfEnt, ppos, targetEnt)
-        local etype = server.entities["lootplot.content.s0:diamond_slot"]
-        assert(etype,"?")
-        lp.forceSpawnSlot(ppos, etype, selfEnt.lootplotTeam)
-    end
-})
-
-defineFood("lootplot.content.s0:super_apple", {
-    image = "apple",
-    name = loc("Super Apple"),
-
-    rarity = lp.rarities.EPIC,
-    minimumLevelToSpawn = 6,
-
-    targetType = "NO_SLOT",
-    targetShape = lp.targets.KING_SHAPE,
-    targetActivationDescription = loc("Clones the current slot the item is in."),
-    targetActivate = function(selfEnt, ppos, ent)
-        local slotEnt = lp.itemToSlot(selfEnt)
-        if slotEnt then
-            local clone = lp.clone(selfEnt)
-            local oldSlot = lp.posToSlot(ppos)
-            if oldSlot then
-                lp.destroy(oldSlot)
-            end
-            lp.setSlot(ppos, clone)
-        end
-    end
-})
-
 
 
 defineFood("lootplot.content.s0:magic_radish", {
@@ -136,174 +77,153 @@ defineFood("lootplot.content.s0:magic_radish", {
 
 
 
-defineFood("lootplot.content.s0:glass_bottle", {
-    image = "glass_bottle",
-    name = loc("Glass Bottle"),
 
-    rarity = lp.rarities.RARE,
-    minimumLevelToSpawn = 2,
-
-    targetType = "NO_SLOT",
-    targetShape = lp.targets.QueenShape(4),
-
-    targetActivationDescription = loc("{lp_targetColor}Spawns glass slots"),
-
-    targetActivate = function(selfEnt, ppos)
-        local etype = server.entities["lootplot.content.s0:glass_slot"]
-        assert(etype, "?")
-        lp.trySpawnSlot(ppos, etype, selfEnt.lootplotTeam)
-    end
-})
-
-defineFood("lootplot.content.s0:glass_tube", {
-    image = "glass_tube",
-
-    name = loc("Glass tube"),
-    targetActivationDescription = loc("{lp_targetColor}Spawns glass slots"),
-
-    rarity = lp.rarities.COMMON,
-    minimumLevelToSpawn = 2,
-
-    targetType = "NO_SLOT",
-    targetShape = lp.targets.CrossShape(4),
-
-    targetActivate = function(selfEnt, ppos)
-        local etype = server.entities["lootplot.content.s0:glass_slot"]
-        assert(etype, "?")
-        lp.trySpawnSlot(ppos, etype, selfEnt.lootplotTeam)
-    end
-})
+----------------------------------------------------------------------------
 
 
+local function defineSlotSpawner(id_image, name, spawnSlot, spawnSlotName, targetShape, extraComponents, slotModifier)
+    local entId = "lootplot.content.s0:" .. id_image
+    extraComponents = extraComponents or {}
 
+    local etype = {
+        image = id_image,
+        name = loc(name),
 
+        rarity = extraComponents.rarity or lp.rarities.UNCOMMON,
 
-defineFood("lootplot.content.s0:pomegranate", {
-    image = "pomegranate",
+        baseBuyPrice = 4,
 
-    name = loc("pomegranate"),
-    targetActivationDescription = loc("{lp_targetColor}Spawns normal slots"),
+        targetType = "NO_SLOT",
+        targetActivationDescription = loc("{lp_targetColor}Spawns a " .. spawnSlotName),
+        targetShape = targetShape,
 
-    rarity = lp.rarities.UNCOMMON,
-
-    baseBuyPrice = 4,
-    baseTraits = {},
-
-    targetType = "NO_SLOT",
-    targetShape = lp.targets.KING_SHAPE,
-
-    targetActivate = function(ent, ppos, targetEnt)
-        lp.trySpawnSlot(ppos, server.entities.slot, ent.lootplotTeam)
-    end,
-})
-
-
-defineFood("lootplot.content.s0:stone_fruit", {
-    image = "stone_fruit",
-
-    name = loc("Stone fruit"),
-    targetActivationDescription = loc("{lp_targetColor}Spawns null slots"),
-
-    rarity = lp.rarities.UNCOMMON,
-
-    baseBuyPrice = 4,
-    baseTraits = {},
-
-    targetType = "NO_SLOT",
-    targetShape = lp.targets.KING_SHAPE,
-
-    targetActivate = function(ent, ppos, targetEnt)
-        lp.trySpawnSlot(ppos, server.entities.null_slot, ent.lootplotTeam)
-    end,
-})
-
-
-defineFood("lootplot.content.s0:dragonfruit", {
-    image = "dragonfruit",
-
-    name = loc("dragonfruit"),
-    targetActivationDescription = loc("{lp_targetColor}Spawns normal slots"),
-
-    rarity = lp.rarities.UNCOMMON,
-
-    baseBuyPrice = 4,
-    baseTraits = {},
-
-    targetType = "NO_SLOT",
-    targetShape = lp.targets.PlusShape(2),
-
-    targetActivate = function(ent, ppos, targetEnt)
-        lp.trySpawnSlot(ppos, server.entities.slot, ent.lootplotTeam)
-    end,
-})
-
-
-
-defineFood("lootplot.content.s0:soy_sauce", {
-    image = "soy_sauce",
-
-    name = loc("soy sauce"),
-    targetActivationDescription = loc("{lp_targetColor}Spawns doomed-4 slots"),
-
-    rarity = lp.rarities.UNCOMMON,
-
-    baseBuyPrice = 4,
-    baseTraits = {},
-
-    targetType = "NO_SLOT",
-    targetShape = lp.targets.PlusShape(5),
-
-    targetActivate = function(ent, ppos)
-        local slotEnt = lp.trySpawnSlot(ppos, server.entities.slot, ent.lootplotTeam)
-        if slotEnt then
-            slotEnt.doomCount = 4
+        targetActivate = function (selfEnt, ppos)
+            local etype = server.entities["lootplot.content.s0:" .. spawnSlot]
+            assert(etype, "?")
+            local slotEnt = lp.trySpawnSlot(ppos, etype, selfEnt.lootplotTeam)
+            if slotModifier and slotEnt then
+                slotModifier(slotEnt, ppos, selfEnt)
+            end
         end
-    end,
+    }
+
+    for k,v in pairs(extraComponents) do
+        etype[k] = v
+    end
+
+    defineFood(entId, etype)
+end
+
+
+
+defineSlotSpawner("glass_bottle", "Glass Bottle", "glass_slot", "Glass Slot", lp.targets.QueenShape(4), {
+    rarity = lp.rarities.RARE,
+    minimumLevelToSpawn = 2,
 })
 
-
-
-
-defineFood("lootplot.content.s0:coconut", {
-    image = "coconut",
-
-    name = loc("Coconut"),
-    targetActivationDescription = loc("{lp_targetColor}Spawns dirt slots"),
-
+defineSlotSpawner("glass_tube", "Glass Bottle", "glass_slot", "Glass Slot", lp.targets.CrossShape(4), {
     rarity = lp.rarities.COMMON,
-    minimumLevelToSpawn = 4,
-
-    baseBuyPrice = 4,
-    baseTraits = {},
-
-    targetType = "NO_SLOT",
-    targetShape = lp.targets.PlusShape(2),
-
-    targetActivate = function(ent, ppos)
-        lp.trySpawnSlot(ppos, server.entities.dirt_slot, ent.lootplotTeam)
-    end,
+    minimumLevelToSpawn = 2,
 })
 
+defineSlotSpawner("pomegranate", "Pomegranate", "slot", "Normal Slot", lp.targets.KING_SHAPE, {
+    minimumLevelToSpawn = 2,
+})
 
-defineFood("lootplot.content.s0:dirty_muffin", {
-    image = "dirty_muffin",
+defineSlotSpawner("stone_fruit", "Stone fruit", "null_slot", "Null Slot", lp.targets.KING_SHAPE)
 
-    name = loc("Dirty Muffin"),
-    targetActivationDescription = loc("{lp_targetColor}Convert slots into dirt"),
 
+defineSlotSpawner("dragonfruit", "Dragonfruit", "slot", "Normal Slot", lp.targets.PlusShape(2))
+
+defineSlotSpawner("soy_sauce", "Soy Sauce", "slot", "Doomed-4 Slot", lp.targets.PlusShape(5), {}, function(slotEnt)
+    slotEnt.doomCount = 4
+end)
+
+
+defineSlotSpawner("coconut", "Coconut", "dirt_slot", "Dirt Slot", lp.targets.PlusShape(2), {
+    rarity = lp.rarities.COMMON,
+    minimumLevelToSpawn = 2,
+})
+
+----------------------------------------------------------------------------
+
+
+
+
+
+----------------------------------------------------------------------------
+
+local function defineSlotConverter(id_image, name, spawnSlot, spawnSlotName, targetShape, extraComponents)
+    local entId = "lootplot.content.s0:" .. id_image
+    extraComponents = extraComponents or {}
+
+    local etype = {
+        image = id_image,
+        name = loc(name),
+
+        targetType = "SLOT",
+        targetActivationDescription = loc("{lp_targetColor}Converts target slot into " .. spawnSlotName),
+        targetShape = targetShape,
+
+        targetActivate = function (selfEnt, ppos)
+            local etype = server.entities["lootplot.content.s0:" .. spawnSlot]
+            assert(etype, "?")
+            lp.forceSpawnSlot(ppos, etype, selfEnt.lootplotTeam)
+        end
+    }
+    for k,v in pairs(extraComponents) do
+        etype[k] = v
+    end
+    defineFood(entId, etype)
+end
+
+
+defineSlotConverter("dirty_muffin", "Dirty Muffin", "dirt_slot", "Dirt Slot", lp.targets.LARGE_KING_SHAPE, {
     rarity = lp.rarities.RARE,
     minimumLevelToSpawn = 4,
-
     baseBuyPrice = 2,
-    baseTraits = {},
-
-    targetType = "SLOT",
-    targetShape = lp.targets.LARGE_KING_SHAPE,
-
-    targetActivate = function(ent, ppos)
-        lp.forceSpawnSlot(ppos, server.entities.dirt_slot, ent.lootplotTeam)
-    end,
 })
+
+defineSlotConverter("golden_apple", "Golden Apple", "golden_slot", "Golden Slot", lp.targets.ON_SHAPE, {
+    rarity = lp.rarities.UNCOMMON,
+    minimumLevelToSpawn = 3,
+})
+
+defineSlotConverter("diamond_apple", "Diamond Apple", "diamond_slot", "Diamond Slot", lp.targets.ON_SHAPE, {
+    rarity = lp.rarities.UNCOMMON,
+    minimumLevelToSpawn = 3,
+})
+
+
+----------------------------------------------------------------------------
+
+
+defineFood("lootplot.content.s0:super_apple", {
+    image = "apple",
+    name = loc("Super Apple"),
+
+    rarity = lp.rarities.EPIC,
+    minimumLevelToSpawn = 6,
+
+    targetType = "NO_SLOT",
+    targetShape = lp.targets.KING_SHAPE,
+    targetActivationDescription = loc("Clones the current slot the item is in."),
+    targetActivate = function(selfEnt, ppos, ent)
+        local slotEnt = lp.itemToSlot(selfEnt)
+        if slotEnt then
+            local clone = lp.clone(selfEnt)
+            local oldSlot = lp.posToSlot(ppos)
+            if oldSlot then
+                lp.destroy(oldSlot)
+            end
+            lp.setSlot(ppos, clone)
+        end
+    end
+})
+
+----------------------------------------------------------------------------
+
+
 
 
 
