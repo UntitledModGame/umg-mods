@@ -621,6 +621,25 @@ end
 
 
 
+
+---@param ppos lootplot.PPos
+---@param itemEnt lootplot.ItemEntity
+function lp.trySetItem(ppos, itemEnt)
+    local slotEnt = lp.posToSlot(ppos)
+    if not slotEnt then
+        -- empty space!!!
+        if (not lp.posToItem(ppos)) and lp.canItemFloat(itemEnt) then
+            ppos:set(itemEnt)
+            return true
+        end
+    elseif couldHoldItem(slotEnt, itemEnt) then
+        ppos:set(itemEnt)
+        return true
+    end
+    return false
+end
+
+
 local spawnTc = typecheck.assert("ppos", "any", "string")
 
 ---@param ppos lootplot.PPos
@@ -629,9 +648,8 @@ local spawnTc = typecheck.assert("ppos", "any", "string")
 ---@return lootplot.ItemEntity?
 function lp.trySpawnItem(ppos, itemEType, team)
     spawnTc(ppos, itemEType, team)
-    local slotEnt = lp.posToSlot(ppos)
     local preItem = lp.posToItem(ppos)
-    if slotEnt and (not preItem) then
+    if (not preItem) then
         return lp.forceSpawnItem(ppos, itemEType, team)
     end
     return nil
@@ -649,9 +667,8 @@ function lp.forceSpawnItem(ppos, itemEType, team)
     if prevItem then
         prevItem:delete()
     end
-    local slotEnt = lp.posToSlot(ppos)
-    if slotEnt and couldHoldItem(slotEnt, itemEnt) then
-        ppos:set(itemEnt)
+
+    if lp.trySetItem(ppos, itemEnt) then
         umg.call("lootplot:entitySpawned", itemEnt)
         return itemEnt
     else

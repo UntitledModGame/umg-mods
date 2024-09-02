@@ -97,14 +97,10 @@ lp.defineItem("lootplot.content.s0:copycat", {
         if oldItem then
             lp.destroy(oldItem)
         end
-        --[[
-        TODO: WTF ARE WE DOING CALLING A LOW LEVEL FUNCTION LIKE THIS???
-        We should really expose a `lp.setItem` function for this instead.
-        
-        (Reason being, this doesnt actually check whether the slot CAN
-        hold an item or not.)
-        ]]
-        ppos:set(copyEnt)
+        local success = lp.trySetItem(ppos, copyEnt)
+        if not success then
+            copyEnt:delete()
+        end
     end
 })
 
