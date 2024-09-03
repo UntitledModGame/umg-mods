@@ -7,7 +7,9 @@ end)
 text.defineEffect("wavy", function(args, char)
     local f = args.freq or 1
     local amp = args.amp or 1
-    local dy = math.sin(2 * math.pi * f * wavyTimer + char:getIndex() - 1) * amp
+    local spacing = args.spacing or 1
+    local offset = (char:getIndex()-1) * spacing
+    local dy = math.sin(2 * math.pi * f * wavyTimer + offset) * amp
     char:setOffset(0, dy)
 end)
 
