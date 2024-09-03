@@ -462,7 +462,7 @@ end
 ---@param slotEnt lootplot.SlotEntity
 ---@param itemEnt lootplot.ItemEntity?
 ---@return boolean
-local function couldHoldItem(slotEnt, itemEnt)
+function lp.couldHoldItem(slotEnt, itemEnt)
     --[[
         checks whether or not a slot COULD hold the item,
 
@@ -480,10 +480,19 @@ local function couldHoldItem(slotEnt, itemEnt)
     return true
 end
 
+
+--- Returns whether an item can float (exist without a slot) or not.
+---@param itemEnt lootplot.ItemEntity
+---@return boolean
+function lp.canItemFloat(itemEnt)
+    return itemEnt.canItemFloat or umg.ask("lootplot:canItemFloat", itemEnt)
+end
+
+
 ---@param srcSlot lootplot.SlotEntity
 ---@param targetSlot lootplot.SlotEntity
 local function canMoveFromTo(srcSlot, targetSlot)
-    return couldHoldItem(targetSlot, lp.slotToItem(srcSlot)) and canRemoveItemOrNoItem(srcSlot)
+    return lp.couldHoldItem(targetSlot, lp.slotToItem(srcSlot)) and canRemoveItemOrNoItem(srcSlot)
 end
 
 ---@param slot1 lootplot.SlotEntity
@@ -656,7 +665,7 @@ function lp.trySetItem(ppos, itemEnt)
             ppos:set(itemEnt)
             return true
         end
-    elseif couldHoldItem(slotEnt, itemEnt) then
+    elseif lp.couldHoldItem(slotEnt, itemEnt) then
         ppos:set(itemEnt)
         return true
     end
@@ -698,7 +707,7 @@ function lp.forceSpawnItem(ppos, itemEType, team)
     else
         -- delete the item: it doesnt fit in slot.
         -- (The reason we needed to create item is because 
-        --   we needed to do `couldHoldItem` check)
+        --   we needed to do `lp.couldHoldItem` check)
         itemEnt:delete()
     end
     return nil
@@ -742,12 +751,6 @@ lp.hasTrait = traits.hasTrait
 lp.defineTrait = traits.defineTrait
 lp.getTraitDisplayName = traits.getDisplayName
 
---- Returns whether an item can float (exist without a slot) or not.
----@param itemEnt lootplot.ItemEntity
----@return boolean
-function lp.canItemFloat(itemEnt)
-    return itemEnt.canItemFloat or umg.ask("lootplot:canItemFloat", itemEnt)
-end
 
 
 local DEFAULT_PROPS = {
