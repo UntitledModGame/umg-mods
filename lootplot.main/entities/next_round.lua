@@ -16,6 +16,12 @@ local function startRound(ent, ppos)
     local plot = ppos:getPlot()
 
     lp.queue(ppos, function()
+        if not umg.exists(ent) then
+            -- Next round button is destroyed.
+            lp.main.endGame(nil, false)
+            return
+        end
+
         -- This will execute LAST.
         plot:foreachLayerEntry(function(ent, ppos, layer)
             lp.reset(ent)
