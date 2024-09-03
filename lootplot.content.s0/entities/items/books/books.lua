@@ -13,7 +13,14 @@ local function defineBook(id, name, targetSlot, targetSlotName)
         targetActivationDescription = loc("{lp_targetColor}Converts target slot into " .. targetSlotName),
 
         targetActivate = function(selfEnt, ppos, targetEnt)
-            local newSlotEnt = server.entities["lootplot.content.s0:"..targetSlot]
+            local targSlot
+            if type(targetSlot) == "function" then
+                targSlot = targetSlot(selfEnt)
+            else
+                targSlot = targetSlot
+            end
+
+            local newSlotEnt = server.entities["lootplot.content.s0:"..targSlot]
             if newSlotEnt then
                 lp.forceSpawnSlot(ppos, newSlotEnt, selfEnt.lootplotTeam)
             end
@@ -45,5 +52,23 @@ defineBook("empty_book",
     "Empty book",
     "null_slot",
     "Null Slot"
+)
+
+
+local mystery_slot_pool = {
+    "null_slot", "reroll_slot",
+    "dirt_slot", "glass_slot",
+    "reroll_button_slot",
+    "diamond_slot",
+    "golden_slot"
+}
+
+defineBook("book_of_mystery",
+    "Book of Mystery",
+    function()
+        local rng = lp.SEED.miscRNG
+        return table.random(mystery_slot_pool, rng)
+    end,
+    "{wavy amp=2}???"
 )
 
