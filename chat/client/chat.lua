@@ -8,8 +8,6 @@ local chatControls = require("client.chatControls")
 local constants = require("constants")
 
 
-local lg=love.graphics
-
 
 
 
@@ -24,7 +22,6 @@ end)
 
 client.on("chat:message", function(msg)
     -- TODO: Do colors and stuff here.
-    print("CHAT MSG: ", msg)
     chatBox:pushMessage(msg)
 end)
 

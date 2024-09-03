@@ -74,14 +74,14 @@ end
 
 ---@param listener input.InputListener
 ---@param zorder integer
-function input.add(listener, zorder)
+function input.addListener(listener, zorder)
     listener:_setControlManagerAndPriority(controlManager, zorder)
     table.insert(sortedListeners, listener)
     table.sort(sortedListeners, sortPrioKey)
 end
 
 ---@param listener input.InputListener
-function input.remove(listener)
+function input.removeListener(listener)
     for i, l in ipairs(sortedListeners) do
         if l == listener then
             table.remove(sortedListeners, i)

@@ -34,7 +34,7 @@ input.setControls({
 })
 
 local listener = input.InputListener()
-input.add(listener, 0)
+input.addListener(listener, 0)
 
 listener:onPressed("lootplot.test:TriggerLIT", function(self, controlEnum)
     if testData.isLITReady() then
