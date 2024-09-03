@@ -38,17 +38,13 @@ local function initializeSlots(clientId, plot)
     end)
 
     -- Add shop slots + reroll
-    plot:foreachInArea(6, 6, 6, 8, function(ppos)
+    plot:foreachInArea(5, 7, 7, 8, function(ppos)
         lp.forceSpawnSlot(ppos, server.entities.shop_slot, clientId)
     end)
-    plot:foreachInArea(5, 7, 5, 7, function(ppos)
-        lp.forceSpawnSlot(ppos, server.entities.reroll_button_slot, clientId)
-    end)
+    lp.forceSpawnSlot(plot:getPPos(6,6), server.entities.reroll_button_slot, clientId)
 
     -- Start-round button
-    plot:foreachInArea(6, 4, 6, 4, function(ppos)
-        lp.forceSpawnSlot(ppos, server.entities.next_round_button_slot, clientId)
-    end)
+    lp.forceSpawnSlot(plot:getPPos(6,4), server.entities.next_round_button_slot, clientId)
 end
 
 ---@param plot lootplot.Plot

@@ -1,8 +1,6 @@
 local fonts = require("client.fonts")
 
 local EndGameScene = require("client.elements.EndGameScene")
-local LevelStatus = require("client.elements.LevelStatus")
-local MoneyBox = require("client.elements.MoneyBox")
 local SimpleBox = require("client.elements.SimpleBox")
 local StretchableButton = require("client.elements.StretchableButton")
 
@@ -15,8 +13,6 @@ function Scene:init()
     self:makeRoot()
     self:setPassthrough(true)
 
-    self.levelStatus = LevelStatus()
-    self.moneyBox = MoneyBox()
     self.endGameDialog = EndGameScene({
         onDismiss = function()
             self.renderEndGameDialog = false
@@ -30,8 +26,6 @@ function Scene:init()
     self.renderEndGameDialog = false
     self.slotActionButtons = {}
 
-    self:addChild(self.moneyBox)
-    self:addChild(self.levelStatus)
     self:addChild(self.endGameDialog)
 end
 
@@ -74,15 +68,10 @@ end
 function Scene:onRender(x,y,w,h)
     local r = ui.Region(x,y,w,h)
 
-    local left, middle, right = r:padRatio(0.05):splitHorizontal(2, 5, 2)
+    local _, _, right = r:padRatio(0.05):splitHorizontal(2, 5, 2)
     local HEADER_RATIO = 5
-    local levelStatusRegion, rest = left:splitVertical(1, HEADER_RATIO)
     local _, rest2 = right:splitVertical(1, HEADER_RATIO)
-    local moneyRegion = rest:splitVertical(1, 4)
     local descriptionOpenSpeed = h * 9
-
-    self.levelStatus:render(levelStatusRegion:padRatio(0.1):get())
-    self.moneyBox:render(moneyRegion:padRatio(0.1):padRatio(0, 0.4, 0, 0.4):get())
 
     if self.cursorDescription then
         local mx, my = input.getPointerPosition()
