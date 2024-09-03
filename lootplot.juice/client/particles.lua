@@ -14,7 +14,7 @@ local function makeSparkPS(count)
     return spark
 end
 
-local function makeSpark(ent, count)
+local function makeSparkParticles(ent, count)
     local newEnt = client.entities.empty()
     newEnt.x, newEnt.y = ent.x, ent.y
     newEnt.dimension = ent.dimension
@@ -42,7 +42,7 @@ local function makeBallPS(count)
     return ball
 end
 
-local function makeBall(ent)
+local function makePallParticles(ent)
     local COUNT = 20
     local newEnt = client.entities.empty()
     newEnt.x, newEnt.y = ent.x, ent.y
@@ -56,15 +56,22 @@ local function makeBall(ent)
     newEnt.drawDepth = 100
 end
 
+local function hasPosition(ent)
+    return ent.x and ent.y
+end
+
+
 umg.on("lootplot:comboChanged", function(ent, delta, oldVal, newVal)
-    if newVal > 2 then
+    if (newVal > 2) and hasPosition(ent) then
         local particleCount = math.floor(math.sqrt(newVal) * 1)
-        makeSpark(ent, particleCount)
+        makeSparkParticles(ent, particleCount)
     end
 end)
 
 umg.on("lootplot:entityDestroyed", function(ent)
     if lp.isSlotEntity(ent) or lp.isItemEntity(ent) then
-        return makeBall(ent)
+        if hasPosition(ent) then
+            makePallParticles(ent)
+        end
     end
 end)

@@ -72,7 +72,7 @@ umg.defineEntityType("lootplot.main:doom_clock", {
         ]]
         local roundCount = loc("Round %{round}/%{numberOfRounds}", ent)
 
-        local needPoints = loc("Points: %{points}/%{requiredPoints}", {
+        local needPoints = loc("{wavy freq=0.5}{outline}Points: %{points}/%{requiredPoints}", {
             points = math.min(lp.getPoints(ent), ent.requiredPoints),
             requiredPoints = ent.requiredPoints
         })
