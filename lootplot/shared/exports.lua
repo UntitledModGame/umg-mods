@@ -60,6 +60,21 @@ function lp.queue(ppos, func)
     ppos:getPlot():queue(func)
 end
 
+
+local queueWithEntityTc = typecheck.assert("entity", "function")
+
+function lp.queueWithEntity(ent, func)
+    queueWithEntityTc(ent, func)
+    local ppos = lp.getPos(ent)
+    if ppos then
+        lp.queue(ppos, function()
+            if umg.exists(ent) then
+                func(ent)
+            end
+        end)
+    end
+end
+
 local waitTc = typecheck.assert("ppos", "number")
 ---@param ppos lootplot.PPos
 ---@param time number

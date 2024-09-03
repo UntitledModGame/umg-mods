@@ -41,7 +41,21 @@ function Context:init(ent)
     self.level = 1
     self.money = constants.STARTING_MONEY
     self.points = constants.STARTING_POINTS
+
+    -- doomClock is integral to lootplot.main gamemode,
+    -- since it tracks the current round/level.
+    self.doomClockEntity = nil
 end
+
+
+function Context:setDoomClock(ent)
+    self.doomClockEntity = ent
+end
+
+function Context:getDoomClock()
+    return self.doomClockEntity
+end
+
 
 
 function Context:sync()

@@ -70,16 +70,14 @@ umg.defineEntityType("lootplot.main:doom_clock", {
         generally, we shouldnt use `onDraw` for entities;
         But this is a very special case :)
         ]]
-        local roundCount = loc("Round %{round}/%{numberOfRounds}", ent)
-
-        local needPoints = loc("{wavy freq=0.5}{outline}Points: %{points}/%{requiredPoints}", {
+        local needPoints = loc("{wavy freq=0.5 spacing=0.4}{outline}Points: %{points}/%{requiredPoints}", {
             points = math.min(lp.getPoints(ent), ent.requiredPoints),
             requiredPoints = ent.requiredPoints
         })
         local font = love.graphics.getFont()
         local limit = 0xffff
-        text.printRichCentered(roundCount, font, x, y + 16, limit, "left", rot, sx,sy, kx,ky)
-        text.printRichCentered(needPoints, font, x, y - 18, limit, "left", rot, sx,sy, kx,ky)
+        local scale = 1.5
+        text.printRichCentered(needPoints, font, x, y - 18, limit, "left", rot, sx*scale,sy*scale, kx,ky)
     end,
 
     init = function(ent)

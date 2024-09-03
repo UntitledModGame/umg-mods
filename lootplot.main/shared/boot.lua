@@ -51,9 +51,9 @@ local function initializeSlots(clientId, plot)
     end)
 end
 
----@param clientId string
 ---@param plot lootplot.Plot
-local function initializeItems(clientId, plot)
+---@param worldEnt Entity
+local function initializeItems(plot, worldEnt)
     local dclock = server.entities.doom_clock()
     plot:set(10,4, dclock)
     local ppos = plot:getPPos(10,4)
@@ -61,13 +61,16 @@ local function initializeItems(clientId, plot)
     dclock.x = v.x
     dclock.y = v.y
     dclock.dimension = v.dimension
+
+    local context = worldEnt.lootplotContext
+    context:setDoomClock(dclock)
 end
 
 umg.on("@createWorld", function()
     local ent = createWorld()
     local clientId = server.getHostClient()
     initializeSlots(clientId, ent.plot)
-    initializeItems(clientId, ent.plot)
+    initializeItems(ent.plot, ent)
 end)
 
 umg.on("@playerJoin", function(clientId)

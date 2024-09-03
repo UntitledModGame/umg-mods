@@ -31,6 +31,17 @@ function main.getContext()
     return currentContext
 end
 
+
+function main.getRoundInfo()
+    local ctx = main.getContext()
+    local doomclock = ctx:getDoomClock()
+    --[[
+    todo: this is yucky, and tightly coupled to doomclock, in a WEIRD way.
+    ]]
+    return doomclock.round, doomclock.numberOfRounds
+end
+
+
 local winLose = require("shared.win_lose")
 
 if server then
