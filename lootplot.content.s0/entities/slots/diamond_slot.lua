@@ -7,20 +7,19 @@ return lp.defineSlot("lootplot.content.s0:diamond_slot", {
     onActivate = function(ent)
         local ppos = lp.getPos(ent)
         if not (ppos) then return end
-        lp.wait(ppos, 0.1)
 
         lp.queueWithEntity(ent, function()
             local item = lp.slotToItem(ent)
             if item then
+                lp.wait(ppos, 0.1)
                 lp.tryActivateEntity(item)
             end
         end)
 
-        lp.wait(ppos, 0.1)
-
         lp.queueWithEntity(ent, function()
             local item = lp.slotToItem(ent)
             if item then
+                lp.wait(ppos, 0.1)
                 lp.tryActivateEntity(item)
             end
         end)

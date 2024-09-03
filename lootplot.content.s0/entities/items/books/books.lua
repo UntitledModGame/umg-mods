@@ -66,6 +66,9 @@ local mystery_slot_pool = {
 defineBook("book_of_mystery",
     "Book of Mystery",
     function()
+        --[[
+        TODO: Use a proper query here please!!!
+        ]]
         local rng = lp.SEED.miscRNG
         return table.random(mystery_slot_pool, rng)
     end,
