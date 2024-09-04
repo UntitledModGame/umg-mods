@@ -36,9 +36,10 @@ local function drawBoxTransparent(x, y, w, h)
     love.graphics.setColor(1, 1, 1)
 end
 
-local COLOR = {27/255, 27/255, 54/255}
 local function drawSideBox(x, y, w, h)
-    return SimpleBox.draw(COLOR, x, y, w, h, 10, 4)
+    love.graphics.setColor(0, 0, 0, 0.8)
+    love.graphics.rectangle("fill", x, y, w, h, 10, 10)
+    love.graphics.setColor(1, 1, 1)
 end
 
 ---@param progress number
