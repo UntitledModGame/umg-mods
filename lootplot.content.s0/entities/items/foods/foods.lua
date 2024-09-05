@@ -116,7 +116,7 @@ end
 
 
 
-defineSlotSpawner("glass_bottle", "Glass Bottle", "glass_slot", "Glass Slot", lp.targets.QueenShape(4), {
+defineSlotSpawner("glass_bottle", "Glass Bottle", "glass_slot", "Glass Slot", lp.targets.PlusShape(5), {
     rarity = lp.rarities.RARE,
     minimumLevelToSpawn = 2,
 })
@@ -126,21 +126,21 @@ defineSlotSpawner("glass_tube", "Glass Bottle", "glass_slot", "Glass Slot", lp.t
     minimumLevelToSpawn = 2,
 })
 
-defineSlotSpawner("pomegranate", "Pomegranate", "slot", "Normal Slot", lp.targets.KING_SHAPE, {
+defineSlotSpawner("pomegranate", "Pomegranate", "slot", "Normal Slot", lp.targets.PlusShape(1), {
     minimumLevelToSpawn = 2,
 })
 
-defineSlotSpawner("stone_fruit", "Stone fruit", "null_slot", "Null Slot", lp.targets.KING_SHAPE)
+defineSlotSpawner("stone_fruit", "Stone fruit", "null_slot", "Null Slot", lp.targets.PlusShape(1))
 
 
-defineSlotSpawner("dragonfruit", "Dragonfruit", "slot", "Normal Slot", lp.targets.PlusShape(2))
+defineSlotSpawner("dragonfruit", "Dragonfruit", "slot", "Normal Slot", lp.targets.CrossShape(1))
 
-defineSlotSpawner("soy_sauce", "Soy Sauce", "slot", "Doomed-4 Slot", lp.targets.PlusShape(5), {}, function(slotEnt)
+defineSlotSpawner("soy_sauce", "Soy Sauce", "slot", "Doomed-4 Slot", lp.targets.PlusShape(3), {}, function(slotEnt)
     slotEnt.doomCount = 4
 end)
 
 
-defineSlotSpawner("coconut", "Coconut", "dirt_slot", "Dirt Slot", lp.targets.PlusShape(2), {
+defineSlotSpawner("coconut", "Coconut", "dirt_slot", "Dirt Slot", lp.targets.PlusShape(1), {
     rarity = lp.rarities.COMMON,
     minimumLevelToSpawn = 2,
 })
