@@ -56,7 +56,7 @@ main.constants = setmetatable({
     ]] 
     WORLD_PLOT_SIZE = 40,
 
-    STARTING_MONEY = 10,
+    STARTING_MONEY = 10000,
     STARTING_POINTS = 0,
     STARTING_ROUND = 1,
     STARTING_LEVEL = 1,

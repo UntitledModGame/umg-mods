@@ -1,9 +1,12 @@
 local loc = localization.localize
 
-local function defineGlove(id, name, description, giveShape)
+local function defineGlove(id, name, description, giveShape, rarity)
     return lp.defineItem("lootplot.content.s0:"..id, {
         image = id,
         name = loc(name),
+
+        rarity = rarity,
+        minimumLevelToSpawn = 4,
 
         targetType = "ITEM",
         targetActivationDescription = loc("{lp_targetColor}" .. description),
@@ -21,17 +24,20 @@ end
 defineGlove("quartz_glove",
     "Quartz Glove",
     "Give ROOK shape to item.",
-    lp.targets.PlusShape(10, "ROOK-10")
+    lp.targets.PlusShape(10, "ROOK-10"),
+    lp.rarities.LEGENDARY
 )
 
 defineGlove("ruby_glove",
     "Ruby Glove",
     "Give KING shape to item.",
-    lp.targets.KING_SHAPE
+    lp.targets.KING_SHAPE,
+    lp.rarities.EPIC
 )
 
 defineGlove("copper_glove",
     "Copper Glove",
     "Give KNIGHT shape to item.",
-    lp.targets.KNIGHT_SHAPE
+    lp.targets.KNIGHT_SHAPE,
+    lp.rarities.RARE
 )

@@ -233,6 +233,8 @@ local function definePie(id, name, desc, giveShape)
         image = id,
         name = loc(name),
 
+        rarity = lp.rarities.UNCOMMON,
+
         targetType = "ITEM",
         targetActivationDescription = loc("{lp_targetColor}" .. desc),
         targetShape = lp.targets.ABOVE_SHAPE,

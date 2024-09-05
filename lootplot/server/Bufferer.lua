@@ -18,7 +18,7 @@ lp.Bufferer()
 
 ]]
 
-local DEFAULT_BUFFERER_DELAY = 0.2
+local DEFAULT_BUFFERER_DELAY = 0.5
 
 local CONVERSIONS = objects.Enum({
     ITEM = "ITEM",

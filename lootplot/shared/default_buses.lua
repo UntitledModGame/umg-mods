@@ -9,7 +9,7 @@ end
 
 
 umg.answer("properties:getPropertyMultiplier", function(ent, prop)
-    if ent.lootplotProperties then
+    if ent.lootplotProperties and ent.lootplotProperties.multipliers then
         local val = ent.lootplotProperties.multipliers[prop]
         if val then
             return getVal(ent, val)
@@ -20,7 +20,7 @@ end)
 
 umg.answer("properties:getPropertyModifier", function(ent, prop)
     
-    if ent.lootplotProperties then
+    if ent.lootplotProperties and ent.lootplotProperties.modifiers then
         local val = ent.lootplotProperties.modifiers[prop]
         if val then
             return getVal(ent, val)

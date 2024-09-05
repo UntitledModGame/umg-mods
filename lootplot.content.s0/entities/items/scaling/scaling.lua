@@ -3,6 +3,8 @@ lp.defineItem("lootplot.content.s0:spartan_helmet", {
 
     name = localization.localize("Spartan Helmet"),
 
+    rarity = lp.rarities.RARE,
+
     targetType = "ITEM",
     targetShape = lp.targets.PlusShape(1),
     targetActivationDescription = localization.localize("{lp_targetColor}Buff all target items: +0.5 generated points."),

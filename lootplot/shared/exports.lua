@@ -788,17 +788,20 @@ local function getEntityTypeSpawnWeight(entityType)
 end
 
 
-function lp.getDynamicSpawnChance(entityType, generationEnt)
+function lp.getDynamicSpawnChance(etypeName, generationEnt)
     local level = lp.getLevel(generationEnt) or 0
-    local minLevel = entityType.minimumLevelToSpawn or -math.huge
-    local maxLevel = entityType.maximumLevelToSpawn or math.huge
+    local etype = server.entities[etypeName]
+    ---@cast etype +table<string, any>
     if level then
+        local minLevel = etype.minimumLevelToSpawn or -math.huge
+        local maxLevel = etype.maximumLevelToSpawn or math.huge
+        print("LVLVLVL",etype, level, minLevel, maxLevel)
         if (level > maxLevel) or (level < minLevel) then
-            return 1
+            return 0
         end
     end
 
-    return umg.ask("lootplot:getDynamicSpawnChance", entityType, generationEnt) or 1
+    return umg.ask("lootplot:getDynamicSpawnChance", etype, generationEnt) or 1
 end
 
 lp.DEFAULT_ITEM_SPAWN = 1

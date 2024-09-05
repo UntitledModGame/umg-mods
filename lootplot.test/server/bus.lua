@@ -1,4 +1,4 @@
 
 umg.answer("lootplot:getPipelineDelayMultiplier", function ()
-    return 0.05
+    return 1
 end)
