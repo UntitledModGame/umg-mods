@@ -1,6 +1,8 @@
 local fonts = require("client.fonts")
 
 local EndGameBox = require("client.elements.EndGameBox")
+local PauseBox = require("client.elements.PauseBox")
+
 local StretchableButton = require("client.elements.StretchableButton")
 
 local DescriptionBox = require("client.DescriptionBox")
@@ -12,27 +14,24 @@ function Scene:init()
     self:makeRoot()
     self:setPassthrough(true)
 
+    self.renderEndGameBox = false
     self.endGameBox = EndGameBox({
         onDismiss = function()
-            self.renderEndGameDialog = false
+            self.renderEndGameBox = false
         end
     })
 
-    -- self.pauseBox = EndGameBox({
-    --     onDismiss = function()
-    --         self.renderEndGameDialog = false
-    --     end
-    -- })
+    self.renderPauseBox = false
+    self.pauseBox = PauseBox()
 
     self.itemDescriptionSelected = nil
     self.itemDescriptionSelectedTime = 0
     self.cursorDescription = nil
     self.cursorDescriptionTime = 0
-    self.renderEndGameDialog = false
     self.slotActionButtons = {}
 
     self:addChild(self.endGameBox)
-    -- self:addChild(self.pauseBox)
+    self:addChild(self.pauseBox)
 end
 
 
@@ -111,11 +110,17 @@ function Scene:onRender(x,y,w,h)
         end
     end
 
-    if self.renderEndGameDialog then
+    if self.renderEndGameBox then
         local dialog = r:padRatio(0.3)
         self.endGameBox:render(dialog:get())
     end
+
+    if self.renderPauseBox then
+        local dialog = r:padRatio(0.3)
+        self.pauseBox:render(dialog:get())
+    end
 end
+
 
 local function populateDescriptionBox(entity)
     local description = lp.getLongDescription(entity)
@@ -189,7 +194,12 @@ end
 ---@param win boolean
 function Scene:showEndGameDialog(win)
     self.endGameBox:setWinning(win)
-    self.renderEndGameDialog = true
+    self.renderEndGameBox = true
+end
+
+
+function Scene:openPauseBox()
+    self.renderPauseBox = true
 end
 
 return Scene

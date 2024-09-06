@@ -13,7 +13,7 @@ function RichText:init(args)
     self.scale = 1
     self.color = objects.Color.WHITE
     self.font = love.graphics.getFont()
-    self.text = ""
+    self.text = args.text or ""
 
     if type(args) == "string" then
         self.text = args

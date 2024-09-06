@@ -15,6 +15,11 @@ function LPState:init()
         end
     end)
 
+    self.listener:onPressed({"input:ESCAPE"}, function(this, controlEnum)
+        self.scene:openPauseBox()
+        this:claim(controlEnum)
+    end)
+
     self.listener:onPressed({"input:CLICK_PRIMARY", "input:CLICK_SECONDARY"}, function(this, controlEnum)
         local x,y = input.getPointerPosition()
         local consumed = self.scene:controlClicked(controlEnum,x,y)

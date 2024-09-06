@@ -9,6 +9,8 @@ input.defineControls({
 
     "input:SCROLL_UP",
     "input:SCROLL_DOWN",
+
+    "input:ESCAPE",
 })
 
 
@@ -19,5 +21,7 @@ input.setControls({
 
     ["input:SCROLL_UP"] = {"scroll:up"},
     ["input:SCROLL_DOWN"] = {"scroll:down"},
+
+    ["input:ESCAPE"] = {"key:escape"},
 })
 
