@@ -54,8 +54,8 @@ function EndGameBox:setWinning(win)
         self.titleText:setText(loc("{c r=0.35 g=0.9 b=0.38}{wavy amp=2}You Win!!{/wavy}{/c}"))
         self.descriptionText:setText(loc("You win!"))
     else
-        self.titleText:setText(loc("{c r=0.9 g=0.3 b=0.1}{u}You Lose :({/u}{/c}"))
-        self.descriptionText:setText(loc("You lost!"))
+        self.titleText:setText(loc("{wavy}{c r=0.9 g=0.3 b=0.1}{u}You Lose :({/u}{/c}"))
+        self.descriptionText:setText(loc("Normally we would quit the game,\nbut since its a playtest, you can keep playing lol."))
     end
 end
 

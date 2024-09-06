@@ -18,11 +18,11 @@ function Scene:init()
         end
     })
 
-    self.endGameBox = EndGameBox({
-        onDismiss = function()
-            self.renderEndGameDialog = false
-        end
-    })
+    -- self.pauseBox = EndGameBox({
+    --     onDismiss = function()
+    --         self.renderEndGameDialog = false
+    --     end
+    -- })
 
     self.itemDescriptionSelected = nil
     self.itemDescriptionSelectedTime = 0
@@ -32,7 +32,7 @@ function Scene:init()
     self.slotActionButtons = {}
 
     self:addChild(self.endGameBox)
-    self:addChild(self.pauseBox)
+    -- self:addChild(self.pauseBox)
 end
 
 
