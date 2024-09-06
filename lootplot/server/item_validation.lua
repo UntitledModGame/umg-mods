@@ -24,12 +24,9 @@ local itemGroup = umg.group("item")
 
 local function isInvalid(itemEnt, ppos)
     if not ppos then
-        -- the item isn't in a plot... I guess we assume its valid?
-        -- maybe modder is storing it somewhere on purpose??
-
-        -- HMMM:  Maybe we should be returning `false` here?
-        -- Items are invalid without a ppos...
-        return true
+        -- if we dont have a `ppos`, then we have ZERO
+        -- information about the item. So just leave it be.
+        return false
     end
 
     local slotEnt = lp.posToSlot(ppos)
@@ -57,7 +54,7 @@ umg.on("@tick", scheduling.skip(3, function()
     end
 
     for itemEnt, t in pairs(timeouts) do
-        if t + TIMEOUT > time then
+        if t > time + TIMEOUT then
             if umg.exists(itemEnt) then
                 lp.destroy(itemEnt)
             end
