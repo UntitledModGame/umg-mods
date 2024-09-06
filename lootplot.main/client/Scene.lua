@@ -1,7 +1,6 @@
 local fonts = require("client.fonts")
 
-local EndGameScene = require("client.elements.EndGameScene")
-local SimpleBox = require("client.elements.SimpleBox")
+local EndGameBox = require("client.elements.EndGameBox")
 local StretchableButton = require("client.elements.StretchableButton")
 
 local DescriptionBox = require("client.DescriptionBox")
@@ -13,7 +12,13 @@ function Scene:init()
     self:makeRoot()
     self:setPassthrough(true)
 
-    self.endGameDialog = EndGameScene({
+    self.endGameBox = EndGameBox({
+        onDismiss = function()
+            self.renderEndGameDialog = false
+        end
+    })
+
+    self.endGameBox = EndGameBox({
         onDismiss = function()
             self.renderEndGameDialog = false
         end
@@ -26,7 +31,8 @@ function Scene:init()
     self.renderEndGameDialog = false
     self.slotActionButtons = {}
 
-    self:addChild(self.endGameDialog)
+    self:addChild(self.endGameBox)
+    self:addChild(self.pauseBox)
 end
 
 
@@ -107,7 +113,7 @@ function Scene:onRender(x,y,w,h)
 
     if self.renderEndGameDialog then
         local dialog = r:padRatio(0.3)
-        self.endGameDialog:render(dialog:get())
+        self.endGameBox:render(dialog:get())
     end
 end
 
@@ -182,7 +188,7 @@ end
 
 ---@param win boolean
 function Scene:showEndGameDialog(win)
-    self.endGameDialog:setWinning(win)
+    self.endGameBox:setWinning(win)
     self.renderEndGameDialog = true
 end
 

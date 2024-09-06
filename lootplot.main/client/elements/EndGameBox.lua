@@ -5,10 +5,10 @@ local StretchableButton = require("client.elements.StretchableButton")
 
 local loc = localization.localize
 
----@class lootplot.main.EndGameScene: Element
-local EndGameScene = ui.Element("lootplot.main:EndGameScene")
+---@class lootplot.main.EndGameBox: Element
+local EndGameBox = ui.Element("lootplot.main:EndGameBox")
 
-function EndGameScene:init(args)
+function EndGameBox:init(args)
     typecheck.assertKeys(args, {"onDismiss"})
 
     self.background = StretchableBox("orange_pressed_big", 8, {
@@ -26,13 +26,13 @@ function EndGameScene:init(args)
     self.okButtonRed = StretchableButton({
         onClick = args.onDismiss,
         color = "red",
-        text = loc("Ok!"),
+        text = loc("Ok lol!"),
         scale = 2,
     })
     self.okButtonGreen = StretchableButton({
         onClick = args.onDismiss,
         color = "green",
-        text = loc("Ok!"),
+        text = loc("Ok lol!"),
         scale = 2,
     })
 
@@ -47,21 +47,21 @@ function EndGameScene:init(args)
 end
 
 ---@param win boolean
-function EndGameScene:setWinning(win)
+function EndGameBox:setWinning(win)
     self.win = not not win
 
     if win then
         self.titleText:setText(loc("{c r=0.35 g=0.9 b=0.38}{wavy amp=2}You Win!!{/wavy}{/c}"))
-        self.descriptionText:setText(loc("You just won the game :coolbear:"))
+        self.descriptionText:setText(loc("You win!"))
     else
         self.titleText:setText(loc("{c r=0.9 g=0.3 b=0.1}{u}You Lose :({/u}{/c}"))
-        self.descriptionText:setText(loc("You lose the game :pensivebear:"))
+        self.descriptionText:setText(loc("You lost!"))
     end
 end
 
 local BACKGROUND_COLOR = objects.Color("#FF7A4C30")
 
-function EndGameScene:onRender(x, y, w, h)
+function EndGameBox:onRender(x, y, w, h)
     local region = ui.Region(x, y, w, h):padRatio(0.05)
     local titleTextBase, content, buttonBase = region:splitVertical(3, 9, 4)
     local titleText = titleTextBase:padUnit(0, 0, 0, 8)
@@ -79,4 +79,4 @@ function EndGameScene:onRender(x, y, w, h)
     end
 end
 
-return EndGameScene
+return EndGameBox
