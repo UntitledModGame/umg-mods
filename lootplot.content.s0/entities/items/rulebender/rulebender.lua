@@ -40,7 +40,7 @@ lp.defineItem("lootplot.content.s0:gift_box", {
     baseBuyPrice = 3,
 
     targetActivationDescription = loc("Spawn RARE items."),
-    targetShape = lp.targets.PlusShape(1),
+    targetShape = lp.targets.RookShape(1),
 
     targetActivate = function(selfEnt, ppos, targetEnt)
         local etype = server.entities[generateRareItem(selfEnt)]
@@ -86,7 +86,7 @@ lp.defineItem("lootplot.content.s0:copycat", {
     baseSellPrice = 0,
 
     targetType = "NO_ITEM",
-    targetShape = lp.targets.PlusShape(1),
+    targetShape = lp.targets.RookShape(1),
     targetActivationDescription = loc("{lp_targetColor}Copies self into target slots"),
     targetActivate = function(selfEnt, ppos, targetEnt)
         local copyEnt = lp.clone(selfEnt)

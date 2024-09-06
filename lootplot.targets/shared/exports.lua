@@ -23,26 +23,26 @@ targets.UniDirectionalShape = UniDirectionalShape
 ---@param size integer?
 ---@param name string?
 ---@return lootplot.targets.ShapeData
-function targets.PlusShape(size, name)
+function targets.RookShape(size, name)
     return UnionShape(
         UniDirectionalShape(1, 0, size),
         UniDirectionalShape(0, 1, size),
         UniDirectionalShape(-1, 0, size),
         UniDirectionalShape(0, -1, size),
-        name or ("PLUS-" .. tostring(size))
+        name or ("ROOK-" .. tostring(size))
     )
 end
 
 ---@param size integer?
 ---@param name string?
 ---@return lootplot.targets.ShapeData
-function targets.CrossShape(size, name)
+function targets.BishopShape(size, name)
     return UnionShape(
         UniDirectionalShape(1, 1, size),
         UniDirectionalShape(-1, 1, size),
         UniDirectionalShape(-1, -1, size),
         UniDirectionalShape(1, -1, size),
-        name or ("CROSS-" .. tostring(size))
+        name or ("BISHOP-" .. tostring(size))
     )
 end
 
@@ -50,8 +50,8 @@ end
 ---@return lootplot.targets.ShapeData
 function targets.QueenShape(size, name)
     return UnionShape(
-        targets.PlusShape(size),
-        targets.CrossShape(size),
+        targets.RookShape(size),
+        targets.BishopShape(size),
         name or ("QUEEN-" .. tostring(size))
     )
 end
@@ -60,9 +60,9 @@ end
 -- Pre-defined shape instance
 targets.KING_SHAPE = KingShape(1)
 targets.LARGE_KING_SHAPE = KingShape(2)
-targets.ROOK_SHAPE = targets.PlusShape(MAX_DISTANCE, "ROOK")
-targets.BISHOP_SHAPE = targets.CrossShape(MAX_DISTANCE, "BISHOP")
-targets.QUEEN_SHAPE = UnionShape(targets.ROOK_SHAPE, targets.BISHOP_SHAPE, "QUEEN")
+targets.ROOK_SHAPE = targets.RookShape(MAX_DISTANCE, "ROOK-BIG")
+targets.BISHOP_SHAPE = targets.BishopShape(MAX_DISTANCE, "BISHOP-BIG")
+targets.QUEEN_SHAPE = UnionShape(targets.ROOK_SHAPE, targets.BISHOP_SHAPE, "QUEEN-BIG")
 ---@type lootplot.targets.ShapeData
 targets.KNIGHT_SHAPE = {
     name = "KNIGHT",

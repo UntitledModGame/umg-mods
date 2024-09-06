@@ -29,7 +29,7 @@ lp.defineItem("lootplot.content.s0:profit_purger", {
     minimumLevelToSpawn = 2,
 
     targetType = "SLOT",
-    targetShape = lp.targets.CrossShape(2, "BISHOP-2"),
+    targetShape = lp.targets.BishopShape(2),
     targetActivationDescription = function(selfEnt)
         return loc("{lp_targetColor}Destroys target slot, earn(s) {c r=0.5 b=0.4}%{moneyGenerated}{/c}", selfEnt)
     end,
@@ -59,7 +59,7 @@ lp.defineItem("lootplot.content.s0:reaper", {
     minimumLevelToSpawn = 2,
 
     targetType = "ITEM",
-    targetShape = lp.targets.PlusShape(1),
+    targetShape = lp.targets.RookShape(1),
     targetActivationDescription = loc("{lp_targetColor}Destroy target items, permanently gain +3 points-generated"),
     targetActivate = function(selfEnt, ppos, targetEnt)
         lp.destroy(targetEnt)

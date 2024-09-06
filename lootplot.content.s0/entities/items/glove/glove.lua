@@ -24,7 +24,7 @@ end
 defineGlove("quartz_glove",
     "Quartz Glove",
     "Give ROOK shape to item.",
-    lp.targets.PlusShape(10, "ROOK-10"),
+    lp.targets.RookShape(10),
     lp.rarities.LEGENDARY
 )
 
