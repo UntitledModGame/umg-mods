@@ -795,13 +795,18 @@ function lp.getDynamicSpawnChance(etypeName, generationEnt)
     if level then
         local minLevel = etype.minimumLevelToSpawn or -math.huge
         local maxLevel = etype.maximumLevelToSpawn or math.huge
-        print("LVLVLVL",etype, level, minLevel, maxLevel)
         if (level > maxLevel) or (level < minLevel) then
             return 0
         end
     end
 
-    return umg.ask("lootplot:getDynamicSpawnChance", etype, generationEnt) or 1
+    local value = 1
+    if etype.getDynamicSpawnChance then
+        value = etype:getDynamicSpawnChance(generationEnt)
+    end
+
+    local qbusValue = umg.ask("lootplot:getDynamicSpawnChance", etype, generationEnt) or 1
+    return value * qbusValue
 end
 
 lp.DEFAULT_ITEM_SPAWN = 1

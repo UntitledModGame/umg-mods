@@ -22,6 +22,10 @@ components.defineComponent("totalActivationCount")
 
 
 components.defineComponent("minimumLevelToSpawn")
+components.defineComponent("maximumLevelToSpawn")
+
+-- function component
+components.defineComponent("getDynamicSpawnChance")
 
 
 
