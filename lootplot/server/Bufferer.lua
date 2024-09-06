@@ -18,7 +18,7 @@ lp.Bufferer()
 
 ]]
 
-local DEFAULT_BUFFERER_DELAY = 0.5
+local DEFAULT_BUFFERER_DELAY = 0.3
 
 local CONVERSIONS = objects.Enum({
     ITEM = "ITEM",
@@ -90,7 +90,7 @@ end
 
 ---@param x number
 ---@return lootplot.Bufferer
-function Bufferer:delay(x)
+function Bufferer:withDelay(x)
     self._delay = x
     return self
 end

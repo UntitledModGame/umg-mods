@@ -64,7 +64,7 @@ function LargeItemTest:activateItems()
     lp.Bufferer()
         :all(ppos:getPlot())
         :to("SLOT") -- ppos-->slot
-        :delay(0.5)
+        :withDelay(0.5)
         :execute(function(_ppos, slotEnt)
             lp.tryTriggerEntity("PULSE", slotEnt)
         end)

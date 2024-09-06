@@ -43,7 +43,6 @@ return lp.defineSlot("lootplot.content.s0:reroll_button_slot", {
             :all(ppos:getPlot())
             :to("SLOT") -- ppos-->slot
             :filter(hasRerollTrigger)
-            :delay(0.2)
             :execute(function(_ppos, slotEnt)
                 lp.resetCombo(slotEnt)
                 lp.tryTriggerEntity("REROLL", slotEnt)
