@@ -228,12 +228,13 @@ defineFood("lootplot.content.s0:super_apple", {
 
 
 
-local function definePie(id, name, desc, giveShape)
+local function definePie(id, name, desc, giveShape, rarity)
     defineFood("lootplot.content.s0:" .. id, {
         image = id,
         name = loc(name),
 
-        rarity = lp.rarities.UNCOMMON,
+        rarity = rarity,
+        minimumLevelToSpawn = 2,
 
         targetType = "ITEM",
         targetActivationDescription = loc("{lp_targetColor}" .. desc),
@@ -248,6 +249,6 @@ local function definePie(id, name, desc, giveShape)
     })
 end
 
-definePie("scotch_pie", "Scotch Pie", "Gives ROOK Shape to item", lp.targets.RookShape(10))
-definePie("berry_pie", "Berry Pie", "Gives KNIGHT Shape to item", lp.targets.KNIGHT_SHAPE)
+definePie("scotch_pie", "Scotch Pie", "Gives ROOK Shape to item", lp.targets.RookShape(10), lp.rarities.EPIC)
+definePie("berry_pie", "Berry Pie", "Gives KNIGHT Shape to item", lp.targets.KNIGHT_SHAPE, lp.rarities.UNCOMMON)
 
