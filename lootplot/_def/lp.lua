@@ -82,6 +82,8 @@ end
 ---@field public setPoints fun(self:any,ent:lootplot.LayerEntity,value:number)
 ---@field public getCombo fun(self:any,ent:lootplot.LayerEntity):number?
 ---@field public setCombo fun(self:any,ent:lootplot.LayerEntity,value:number)
+---@field public setLevel fun(self:any,ent:lootplot.LayerEntity):number?
+---@field public getLevel fun(self:any,ent:lootplot.LayerEntity,value:number)
 
 ---Playable lootplot mod must call this function once (and only once) with initialization args.
 ---@param context lootplot.InitArgs

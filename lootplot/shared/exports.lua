@@ -376,6 +376,7 @@ local setSlotTc = typecheck.assert("ppos", "entity")
 function lp.setSlot(ppos, slotEnt)
     -- directly sets a slot.
     -- (If a previous slot existed, destroy it.)
+    assert(slotEnt.slot, "Must be a slot entity")
     setSlotTc(ppos, slotEnt)
     local prevEnt = lp.posToSlot(ppos)
     if prevEnt then
@@ -658,6 +659,7 @@ end
 ---@param ppos lootplot.PPos
 ---@param itemEnt lootplot.ItemEntity
 function lp.trySetItem(ppos, itemEnt)
+    assert(itemEnt.item, "Must be a slot entity")
     local slotEnt = lp.posToSlot(ppos)
     if not slotEnt then
         -- empty space!!!
