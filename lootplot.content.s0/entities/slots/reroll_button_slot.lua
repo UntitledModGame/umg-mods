@@ -1,3 +1,15 @@
+
+local function hasRerollTrigger(ppos, ent)
+    for _,t in ipairs(ent.triggers)do
+        if t == "REROLL" then
+            return true
+        end
+    end
+    return false
+end
+
+
+
 return lp.defineSlot("lootplot.content.s0:reroll_button_slot", {
 
     name = localization.localize("Reroll button"),
@@ -25,8 +37,16 @@ return lp.defineSlot("lootplot.content.s0:reroll_button_slot", {
     buttonSlot = true,
     onActivate = function(ent)
         local ppos = lp.getPos(ent)
-        if ppos then
-            ppos:getPlot():trigger("REROLL")
-        end
+        if not ppos then return end
+
+        lp.Bufferer()
+            :all(ppos:getPlot())
+            :to("SLOT") -- ppos-->slot
+            :filter(hasRerollTrigger)
+            :delay(0.2)
+            :execute(function(_ppos, slotEnt)
+                lp.resetCombo(slotEnt)
+                lp.tryTriggerEntity("REROLL", slotEnt)
+            end)
     end,
 })

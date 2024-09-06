@@ -3,7 +3,7 @@
 
 -- Item spawner generator
 umg.on("lootplot:entityActivated", function(ent)
-    if lp.isSlotEntity(ent) and ent.itemSpawner then
+    if ent.itemSpawner and lp.isSlotEntity(ent) then
         local ppos = lp.getPos(ent)
         if ppos then
             local entName = ent:itemSpawner() or lp.FALLBACK_NULL_ITEM
@@ -14,7 +14,7 @@ end)
 
 -- Item reroller generator
 umg.on("lootplot:entityActivated", function(ent)
-    if lp.isSlotEntity(ent) and ent.itemReroller then
+    if ent.itemReroller and lp.isSlotEntity(ent) then
         local itemEnt = lp.slotToItem(ent)
         local ppos = lp.getPos(ent)
 
