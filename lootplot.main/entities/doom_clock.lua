@@ -72,12 +72,12 @@ umg.defineEntityType("lootplot.main:doom_clock", {
         But this is a very special case :)
         ]]
         local needPoints = loc("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}Points: %{points}/%{requiredPoints}", {
-            points = math.min(lp.getPoints(ent), ent.requiredPoints),
+            points = math.floor(math.min(lp.getPoints(ent), ent.requiredPoints)),
             requiredPoints = ent.requiredPoints
         })
 
         local money = loc("{wavy freq=0.6 spacing=0.8 amp=0.4}{outline}{c r=0.4 g=1 b=0.5}$ %{money}", {
-            money = lp.getMoney(ent)
+            money = math.floor(lp.getMoney(ent))
         })
 
         local font = love.graphics.getFont()
