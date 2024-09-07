@@ -12,7 +12,8 @@ end
 
 
 local function defineSword(mineral_type, name, tier)
-    local etypeName = mineral_type .. "_sword"
+    local namespace = umg.getModName() .. ":"
+    local etypeName = namespace .. mineral_type .. "_sword"
     local image = mineral_type .. "_sword"
 
     defineMineral(etypeName, {
@@ -30,7 +31,8 @@ end
 
 
 local function defineAxe(mineral_type, name, tier)
-    local etypeName = mineral_type .. "_axe"
+    local namespace = umg.getModName() .. ":"
+    local etypeName = namespace .. mineral_type .. "_axe"
     local image = mineral_type .. "_axe"
 
     defineMineral(etypeName, {
