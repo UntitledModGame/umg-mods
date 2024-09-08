@@ -406,7 +406,7 @@ local ent2Tc = typecheck.assert("entity", "entity")
 function lp.swapItems(slotEnt1, slotEnt2)
     ent2Tc(slotEnt1, slotEnt2)
     assertServer()
-
+    assert(slotEnt1.slot and slotEnt2.slot, "Need to swap slot entities!")
     if slotEnt1 == slotEnt2 then
         return -- short-circuit
     end
