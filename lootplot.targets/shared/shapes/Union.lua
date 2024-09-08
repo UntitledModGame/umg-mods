@@ -39,6 +39,7 @@ return function(shape1, shape2, ...)
             local key = coordsToString(coord[1], coord[2])
             if not coordsSet:has(key) then
                 coords[#coords+1] = coord
+                coordsSet:add(key)
             end
         end
     end
