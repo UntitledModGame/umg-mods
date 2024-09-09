@@ -60,6 +60,7 @@ end
 
 function Context:sync()
     -- syncs everything:
+    assert(server,"?")
     for field, _ in pairs(VALUES) do
         self:syncValue(field)
     end

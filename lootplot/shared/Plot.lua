@@ -29,7 +29,12 @@ function Plot:init(ownerEnt, width, height)
 
     ownerEnt.plot = self
 
-    self.pipeline = Pipeline()
+    if server then
+        self.pipeline = Pipeline()
+    end
+
+    -- needed for syncing
+    self._cachedIsPipelineRunning = false
 
     self.ownerEnt = ownerEnt
 
@@ -70,15 +75,13 @@ function Plot:getDimensions()
     return self.width, self.height
 end
 
---[[
 
-TODO: 
-Use these methods instead
 
-]]
+
 local INDEX = "number"
 local ENT = "entity"
 local LAYER = "string"
+local BOOL = "boolean"
 
 umg.definePacket("lootplot:setPlotEntry", {typelist = {ENT, INDEX, ENT}})
 umg.definePacket("lootplot:clearPlotEntry", {typelist = {ENT, INDEX, LAYER}})
@@ -129,6 +132,21 @@ function Plot:clear(index, layer)
 end
 
 
+
+umg.definePacket("lootplot:setPipelineRunningBool", {typelist = {ENT, BOOL}})
+
+function Plot:tick()
+    assert(server,"?")
+    self.pipeline:tick()
+    local oldIsRunnin = self._cachedIsPipelineRunning
+    local isRunnin = self:isPipelineRunning()
+    if oldIsRunnin ~= isRunnin then
+        server.broadcast("lootplot:setPipelineRunningBool", self.ownerEnt, isRunnin)
+        self._cachedIsPipelineRunning = isRunnin
+    end
+end
+
+
 if client then
     client.on("lootplot:setPlotEntry", function(plotEnt, index, ent)
         local plot = plotEnt.plot
@@ -137,6 +155,10 @@ if client then
     end)
     client.on("lootplot:clearPlotEntry", function(plotEnt, index, layer)
         plotEnt.plot:clear(index, layer)
+    end)
+
+    client.on("lootplot:setPipelineRunningBool", function(plotEnt, bool)
+        plotEnt.plot._cachedIsPipelineRunning = bool
     end)
 end
 
@@ -235,9 +257,6 @@ end
 
 
 
-function Plot:tick()
-    self.pipeline:tick()
-end
 
 ---loops over all of the plot, including empty slots
 ---@param func fun(ppos:lootplot.PPos)
@@ -344,7 +363,13 @@ end
 
 
 function Plot:isPipelineRunning()
-    return not self.pipeline:isEmpty()
+    if server then
+        return not self.pipeline:isEmpty()
+    else
+        -- pipeline is a server-side object! 
+        -- So we gotta use our synced value
+        return self._cachedIsPipelineRunning
+    end
 end
 
 ---@cast Plot +fun(ownerEnt:Entity,width:integer,height:integer):lootplot.Plot

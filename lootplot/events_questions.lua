@@ -28,6 +28,7 @@ umg.defineEvent("lootplot:levelChanged")
 
 
 
+-- TODO: should these be serverside only questions...?
 umg.defineQuestion("lootplot:getConstantSpawnWeight", reducers.MULTIPLY)
 umg.defineQuestion("lootplot:getDynamicSpawnChance", reducers.MULTIPLY)
 
@@ -38,8 +39,10 @@ umg.defineQuestion("lootplot:getMoneyMultiplier", reducers.MULTIPLY)
 umg.defineQuestion("lootplot:getPointMultiplier", reducers.MULTIPLY)
 
 
-umg.defineQuestion("lootplot:getPipelineDelayMultiplier", reducers.MULTIPLY)
-umg.defineQuestion("lootplot:getPipelineDelay", reducers.ADD)
+if server then
+    umg.defineQuestion("lootplot:getPipelineDelayMultiplier", reducers.MULTIPLY)
+    umg.defineQuestion("lootplot:getPipelineDelay", reducers.ADD)
+end
 
 
 umg.defineQuestion("lootplot:canRemoveItemFromSlot", reducers.AND)
