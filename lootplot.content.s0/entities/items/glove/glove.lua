@@ -23,14 +23,14 @@ end
 
 defineGlove("quartz_glove",
     "Quartz Glove",
-    "Give ROOK shape to item.",
+    "Give ROOK-10 shape to item.",
     lp.targets.RookShape(10),
     lp.rarities.LEGENDARY
 )
 
 defineGlove("ruby_glove",
     "Ruby Glove",
-    "Give KING shape to item.",
+    "Give KING-1 shape to item.",
     lp.targets.KING_SHAPE,
     lp.rarities.EPIC
 )

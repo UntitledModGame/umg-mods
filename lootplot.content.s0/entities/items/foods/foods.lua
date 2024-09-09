@@ -249,6 +249,6 @@ local function definePie(id, name, desc, giveShape, rarity)
     })
 end
 
-definePie("scotch_pie", "Scotch Pie", "Gives ROOK Shape to item", lp.targets.RookShape(10), lp.rarities.EPIC)
+definePie("scotch_pie", "Scotch Pie", "Gives ROOK-10 Shape to item", lp.targets.RookShape(10), lp.rarities.EPIC)
 definePie("berry_pie", "Berry Pie", "Gives KNIGHT Shape to item", lp.targets.KNIGHT_SHAPE, lp.rarities.UNCOMMON)
 
