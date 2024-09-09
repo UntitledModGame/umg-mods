@@ -52,6 +52,15 @@ umg.on("@update", function(dt)
     end
 end)
 
+umg.on("@quit", function()
+    if currentSource then
+        currentSource:stop()
+        currentSource = nil
+    end
+
+    currentMusicObject = nil
+end)
+
 music.SequentialPlaylist = require("client.SequentialPlaylist")
 music.ShufflePlaylist = require("client.ShufflePlaylist")
 
