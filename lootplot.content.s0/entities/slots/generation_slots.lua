@@ -32,6 +32,7 @@ lp.defineSlot("lootplot.content.s0:shop_slot", {
 lp.defineSlot("lootplot.content.s0:reroll_slot", {
     image = "reroll_slot",
     name = localization.localize("Reroll slot"),
+    description = localization.localize("Put an item inside to reroll it!"),
     triggers = {"REROLL", "PULSE"},
     itemReroller = generateItem,
     baseCanSlotPropagate = false,
