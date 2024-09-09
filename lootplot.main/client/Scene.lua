@@ -146,14 +146,9 @@ function Scene:setCursorDescription(ent)
     self.cursorDescriptionTime = 0
 end
 
+---@param self lootplot.main.Scene
 ---@param itemEnt lootplot.ItemEntity?
-function Scene:setSelectedItemDescription(itemEnt)
-    if itemEnt then
-        self.itemDescriptionSelected = populateDescriptionBox(itemEnt)
-    else
-        self.itemDescriptionSelected = nil
-    end
-    self.itemDescriptionSelectedTime = 0
+local function setSelectedItemDescription(self, itemEnt)
 end
 
 ---@param action lootplot.SlotAction
@@ -172,16 +167,17 @@ local function createActionButton(action)
     })
 end
 
----@param actions lootplot.SlotAction[]?
-function Scene:setActionButtons(actions)
+
+---@param selection lootplot.Selected?
+function Scene:setSelection(selection)
     -- Remove existing buttons
     for _, b in ipairs(self.slotActionButtons) do
         self:removeChild(b)
     end
-
     table.clear(self.slotActionButtons)
 
     -- Add new buttons
+    local actions = selection and selection.actions
     if actions then
         for _, b in ipairs(actions) do
             local button = createActionButton(b)
@@ -189,7 +185,19 @@ function Scene:setActionButtons(actions)
             self.slotActionButtons[#self.slotActionButtons+1] = button
         end
     end
+
+    local itemEnt
+    if selection then
+        itemEnt = lp.posToItem(selection.ppos)
+    end
+    if itemEnt then
+        self.itemDescriptionSelected = populateDescriptionBox(itemEnt or nil)
+    else
+        self.itemDescriptionSelected = nil
+    end
+    self.itemDescriptionSelectedTime = 0
 end
+
 
 ---@param win boolean
 function Scene:showEndGameDialog(win)

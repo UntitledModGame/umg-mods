@@ -951,10 +951,23 @@ function lp.canPlayerAccess(ent, clientId)
     return umg.ask("lootplot:hasPlayerAccess", ent, clientId)
 end
 
+
 ---@return lootplot.Selected?
 function lp.getCurrentSelection()
     assert(client, "client-side only")
-    return selection.getSelected()
+    return selection.getCurrentSelection()
+end
+
+---@return lootplot.EntityHover?
+function lp.getHoveredSlot()
+    assert(client, "client-side only")
+    return selection.getHoveredSlot()
+end
+
+---@return lootplot.EntityHover?
+function lp.getHoveredItem()
+    assert(client, "client-side only")
+    return selection.getHoveredItem()
 end
 
 

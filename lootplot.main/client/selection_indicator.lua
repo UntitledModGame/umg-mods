@@ -1,37 +1,12 @@
 
-local selectedSlot = nil
-local selectedItem = nil
-local hoveredSlot = nil
 
-
--- Handles action button selection
----@param selection lootplot.Selected
-umg.on("lootplot:selectionChanged", function(selection)
-    selectedSlot = nil
-    selectedItem = nil
-
-    if selection then
-        local itemEnt = lp.posToItem(selection.ppos)
-
-        if itemEnt then
-            selectedSlot = selection.slot
-            selectedItem = itemEnt
-        end
-    end
-end)
-
-umg.on("lootplot:startHoverSlot", function(ent)
-    hoveredSlot = ent
-end)
-
-umg.on("lootplot:endHoverSlot", function()
-    hoveredSlot = nil
-end)
 
 
 local PRIO_MOUSE = 10
 umg.answer("lootplot:getItemTargetPosition", function(itemEnt)
-    if itemEnt == selectedItem and umg.exists(selectedItem) then
+    local selection = lp.getCurrentSelection()
+    local selectedItem = selection and lp.posToItem(selection.ppos)
+    if itemEnt == selectedItem then
         if lp.canPlayerAccess(itemEnt, client.getClient()) then
             local camera = camera.get()
             local tx,ty = camera:toWorldCoords(input.getPointerPosition())
@@ -101,27 +76,37 @@ end
 
 
 umg.on("rendering:drawEffects", function(camera)
-    if umg.exists(selectedSlot) and umg.exists(selectedItem) and lp.canPlayerAccess(selectedItem, client.getClient()) then
-        ---@cast selectedItem Entity
-        ---@cast selectedSlot Entity
+    local selection = lp.getCurrentSelection()
+    if not selection then
+        return
+    end
 
-        local state = nil
-        local x, y = camera:toWorldCoords(input.getPointerPosition())
+    local selectedSlot = selection.slot
+    local selectedItem = lp.slotToItem(selectedSlot)
 
-        if umg.exists(hoveredSlot) and hoveredSlot ~= selectedSlot then
-            ---@cast hoveredSlot Entity
-            x, y = hoveredSlot.x, hoveredSlot.y
-            if lp.canSwap(selectedSlot, hoveredSlot) and lp.canPlayerAccess(selectedItem, client.getClient()) then
-                state = CAN_MOVE
-            else
-                state = CANNOT_MOVE
-            end
+    if (not selectedItem) or (not lp.canPlayerAccess(selectedItem, client.getClient())) then
+        -- cannot access item!
+        return
+    end
 
-            local ppos = lp.getPos(hoveredSlot)
-            if state and ppos then
-                local col = COLORS[state]
-                drawSlotIndicator(ppos, col)
-            end
+    ---@cast selectedItem Entity
+    ---@cast selectedSlot Entity
+    local state = nil
+
+    local slotHover = lp.getHoveredSlot()
+    local hoveredSlot = slotHover and slotHover.entity
+    if hoveredSlot and hoveredSlot ~= selectedSlot then
+        ---@cast hoveredSlot Entity
+        if lp.canSwap(selectedSlot, hoveredSlot) and lp.canPlayerAccess(selectedItem, client.getClient()) then
+            state = CAN_MOVE
+        else
+            state = CANNOT_MOVE
+        end
+
+        local ppos = lp.getPos(hoveredSlot)
+        if state and ppos then
+            local col = COLORS[state]
+            drawSlotIndicator(ppos, col)
         end
     end
 end)

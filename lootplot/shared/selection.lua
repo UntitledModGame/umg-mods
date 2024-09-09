@@ -197,7 +197,7 @@ function selection.click(clientId, slotEnt)
 end
 
 
-function selection.getSelected()
+function selection.getCurrentSelection()
     validate()
     return selected
 end
@@ -211,33 +211,56 @@ if client then
         end
     end)
 
-    local hoveredSlot, hoveredItem
+
+    ---@alias lootplot.EntityHover { entity: Entity, time: number }
+    ---@type lootplot.EntityHover?
+    local slotHover
+    ---@type lootplot.EntityHover?
+    local itemHover
+
+    function selection.getHoveredSlot()
+        if slotHover and umg.exists(slotHover.entity) then
+            return slotHover
+        else
+            slotHover = nil
+        end
+    end
+
+    function selection.getHoveredItem()
+        if itemHover and umg.exists(itemHover.entity) then
+            return itemHover
+        else
+            itemHover = nil
+        end
+    end
+
+    local function changeHover()
+        umg.call("lootplot:hoverChanged")
+    end
 
     umg.on("hoverables:startHover", function(ent)
         if lp.isItemEntity(ent) then
-            if hoveredItem then
-                umg.call("lootplot:endHoverItem", hoveredItem)
-            end
-
-            hoveredItem = ent
-            umg.call("lootplot:startHoverItem", ent)
+            itemHover = {
+                entity = ent,
+                time = love.timer.getTime()
+            }
+            changeHover()
         elseif lp.isSlotEntity(ent) then
-            if hoveredSlot then
-                umg.call("lootplot:endHoverSlot", hoveredSlot)
-            end
-
-            hoveredSlot = ent
-            umg.call("lootplot:startHoverSlot", ent)
+            slotHover = {
+                entity = ent,
+                time = love.timer.getTime()
+            }
+            changeHover()
         end
     end)
 
     umg.on("hoverables:endHover", function(ent)
-        if ent == hoveredItem then
-            hoveredItem = nil
-            umg.call("lootplot:endHoverItem", ent)
-        elseif ent == hoveredSlot then
-            hoveredSlot = nil
-            umg.call("lootplot:endHoverSlot", ent)
+        if ent == (slotHover and slotHover.entity) then
+            slotHover = nil
+            changeHover()
+        elseif ent == (itemHover and itemHover.entity) then
+            itemHover = nil
+            changeHover()
         end
     end)
 

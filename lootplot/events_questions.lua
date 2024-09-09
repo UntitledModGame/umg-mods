@@ -54,11 +54,7 @@ umg.defineQuestion("lootplot:hasPlayerAccess", reducers.AND)
 
 if client then
     umg.defineEvent("lootplot:selectionChanged")
-
-    umg.defineEvent("lootplot:endHoverItem")
-    umg.defineEvent("lootplot:startHoverItem")
-    umg.defineEvent("lootplot:endHoverSlot")
-    umg.defineEvent("lootplot:startHoverSlot")
+    umg.defineEvent("lootplot:hoverChanged")
 
     umg.defineEvent("lootplot:populateDescription")
 
