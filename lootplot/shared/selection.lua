@@ -23,6 +23,7 @@ local selection = {}
 ---@field public ppos lootplot.PPos
 ---@field public slot lootplot.SlotEntity
 ---@field public time number
+---@field public item lootplot.ItemEntity?
 ---@field public actions? lootplot.SlotAction[]
 
 ---@type lootplot.Selected?
@@ -70,7 +71,8 @@ local function selectSlot(slotEnt, dontOpenButtons)
     selected = {
         ppos = ppos,
         slot = slotEnt,
-        time = love.timer.getTime()
+        time = love.timer.getTime(),
+        item = lp.posToItem(ppos)
     }
 
     if not dontOpenButtons then
@@ -105,11 +107,26 @@ local function validate()
 
     if (not umg.exists(selected.slot)) then
         selection.reset()
+        return
     end
 
-    local slot = lp.posToSlot(selected.ppos)
-    if slot ~= selected.slot then
+    local realSlot = lp.posToSlot(selected.ppos)
+    if realSlot ~= selected.slot then
         selection.reset()
+        return
+    end
+
+    if selected.item then
+        if not umg.exists(selected.item) then
+            selection.reset()
+            return
+        end
+
+        local realItem = lp.posToItem(selected.ppos)
+        if realItem ~= selected.item then
+            selection.reset()
+            return
+        end
     end
 end
 

@@ -29,6 +29,7 @@ function Scene:init()
     self.cursorDescription = nil
     self.cursorDescriptionTime = 0
     self.slotActionButtons = {}
+    self.currentSelection = nil
 
     self:addChild(self.endGameBox)
     self:addChild(self.pauseBox)
@@ -71,6 +72,16 @@ local function drawDescription(progress, dbox, color, region, backgroundDrawer)
     return true
 end
 
+
+---@param self lootplot.main.Scene
+local function isSelectionValid(self)
+    local selection = lp.getCurrentSelection()
+    if selection and selection == self.currentSelection then
+        return true
+    end
+    return false
+end
+
 function Scene:onRender(x,y,w,h)
     local r = ui.Region(x,y,w,h)
 
@@ -78,6 +89,10 @@ function Scene:onRender(x,y,w,h)
     local HEADER_RATIO = 5
     local _, rest2 = right:splitVertical(1, HEADER_RATIO)
     local descriptionOpenSpeed = h * 9
+
+    if not isSelectionValid(self) then
+        self:setSelection(nil)
+    end
 
     if self.cursorDescription then
         local mx, my = input.getPointerPosition()
@@ -147,8 +162,18 @@ function Scene:setCursorDescription(ent)
 end
 
 ---@param self lootplot.main.Scene
----@param itemEnt lootplot.ItemEntity?
-local function setSelectedItemDescription(self, itemEnt)
+---@param selection lootplot.Selected?
+local function setSelectedItemDescription(self, selection)
+    local itemEnt
+    if selection then
+        itemEnt = lp.posToItem(selection.ppos)
+    end
+    if itemEnt then
+        self.itemDescriptionSelected = populateDescriptionBox(itemEnt or nil)
+    else
+        self.itemDescriptionSelected = nil
+    end
+    self.itemDescriptionSelectedTime = 0
 end
 
 ---@param action lootplot.SlotAction
@@ -170,6 +195,8 @@ end
 
 ---@param selection lootplot.Selected?
 function Scene:setSelection(selection)
+    self.currentSelection = selection
+
     -- Remove existing buttons
     for _, b in ipairs(self.slotActionButtons) do
         self:removeChild(b)
@@ -186,16 +213,7 @@ function Scene:setSelection(selection)
         end
     end
 
-    local itemEnt
-    if selection then
-        itemEnt = lp.posToItem(selection.ppos)
-    end
-    if itemEnt then
-        self.itemDescriptionSelected = populateDescriptionBox(itemEnt or nil)
-    else
-        self.itemDescriptionSelected = nil
-    end
-    self.itemDescriptionSelectedTime = 0
+    setSelectedItemDescription(self, selection)
 end
 
 
