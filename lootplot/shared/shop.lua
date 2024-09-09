@@ -5,19 +5,6 @@ local shopService = {}
 
 local ENT_1 = {"entity"}
 
-umg.definePacket("lootplot:sellItem", {typelist = ENT_1})
-local sellItem = util.remoteServerCall("lootplot:sellItem", ENT_1,
-function(clientId, itemEnt)
-    -- TODO: check validity of arguments (bad actor could send any entity)
-    -- TODO: check that we are allowed to do this!!!
-    if itemEnt.sellPrice > 0 then
-        lp.addMoney(itemEnt, itemEnt.sellPrice)
-    else
-        lp.subtractMoney(itemEnt, -itemEnt.sellPrice)
-    end
-
-    lp.destroy(itemEnt)
-end)
 
 local buyItem = util.remoteServerCall("lootplot:buyItem", ENT_1,
 function(clientId, itemEnt)
@@ -25,27 +12,21 @@ function(clientId, itemEnt)
     -- TODO: check that we are allowed to do this!!!
     local slotEnt = lp.itemToSlot(itemEnt)
     if slotEnt then
-        lp.subtractMoney(itemEnt, itemEnt.buyPrice)
+        lp.subtractMoney(itemEnt, itemEnt.price)
         itemEnt.lootplotTeam = clientId -- mark as owned by player
         slotEnt.shopLock = false
     end
 end)
 
----@param ent lootplot.ItemEntity
-function shopService.sell(ent)
-    sellItem(ent)
-    return true
-end
 
 ---@param ent lootplot.ItemEntity
 function shopService.buy(ent)
-    if lp.getMoney(ent) >= ent.buyPrice then
+    if lp.getMoney(ent) >= ent.price then
         buyItem(ent)
+        umg.log.trace("Buying item: ", ent)
         return true
-    else
-        print("Not enough money")
     end
-
+    umg.log.trace("Buy failed! ", ent)
     return false
 end
 
@@ -61,7 +42,7 @@ umg.answer("lootplot:pollSelectionButtons", function(ppos)
         -- add buy button
         return {
             text = function()
-                return "Buy ($"..itemEnt.buyPrice..")"
+                return "Buy ($"..itemEnt.price..")"
             end,
             color = "green",
             onClick = function()
@@ -77,26 +58,7 @@ umg.answer("lootplot:pollSelectionButtons", function(ppos)
                 end
             end,
             canClick = function()
-                return lp.getMoney(itemEnt) >= itemEnt.buyPrice
-            end,
-            priority = 0,
-        }
-    else
-        local isSell = itemEnt.sellPrice > 0
-        local kind = itemEnt.sellPrice > 0 and "Sell" or "Destroy"
-        return {
-            text = function()
-                return kind.." ($"..math.abs(itemEnt.sellPrice)..")"
-            end,
-            color = isSell and "yellow" or "red",
-            onClick = function()
-                if lp.canPlayerAccess(itemEnt, client.getClient()) then
-                    shopService.sell(itemEnt)
-                    selection.reset()
-                end
-            end,
-            canClick = function()
-                return lp.canPlayerAccess(itemEnt, client.getClient())
+                return lp.getMoney(itemEnt) >= itemEnt.price
             end,
             priority = 0,
         }

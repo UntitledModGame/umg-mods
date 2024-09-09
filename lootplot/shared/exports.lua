@@ -855,7 +855,7 @@ local strTabTc = typecheck.assert("string", "table")
 ---@field public item true
 ---@field public layer "item"
 ---@field public triggers lootplot.Trigger[]
----@field public buyPrice number
+---@field public basePrice number
 ---@field public pointsGenerated number
 ---@field public moneyGenerated number
 ---@field public targetShape lootplot.targets.ShapeData?
@@ -870,8 +870,7 @@ function lp.defineItem(name, itemType)
     strTabTc(name, itemType)
     itemType.item = true
     itemType.layer = "item"
-    itemType.baseSellPrice = itemType.baseSellPrice or 1
-    itemType.baseBuyPrice = itemType.baseBuyPrice or 2
+    itemType.basePrice = itemType.basePrice or 3
     itemType.triggers = itemType.triggers or {"PULSE"}
     itemType.hitboxDistance = itemType.hitboxDistance or 8
     itemType.hoverable = true

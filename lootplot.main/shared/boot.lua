@@ -43,6 +43,11 @@ local function initializeSlots(clientId, plot)
     end)
     lp.forceSpawnSlot(plot:getPPos(6,6), server.entities.reroll_button_slot, clientId)
 
+    -- Sell slots:
+    plot:foreachInArea(9, 10, 11, 10, function(ppos)
+        lp.forceSpawnSlot(ppos, server.entities.sell_slot, clientId)
+    end)
+
     -- Start-round button
     lp.forceSpawnSlot(plot:getPPos(6,4), server.entities.next_round_button_slot, clientId)
 end

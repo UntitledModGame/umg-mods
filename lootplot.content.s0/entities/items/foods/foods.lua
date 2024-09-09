@@ -91,7 +91,7 @@ local function defineSlotSpawner(id_image, name, spawnSlot, spawnSlotName, targe
 
         rarity = extraComponents.rarity or lp.rarities.UNCOMMON,
 
-        baseBuyPrice = 4,
+        basePrice = 4,
 
         targetType = "NO_SLOT",
         targetActivationDescription = loc("{lp_targetColor}Spawns a " .. spawnSlotName),
@@ -181,7 +181,7 @@ end
 defineSlotConverter("dirty_muffin", "Dirty Muffin", "dirt_slot", "Dirt Slot", lp.targets.LARGE_KING_SHAPE, {
     rarity = lp.rarities.RARE,
     minimumLevelToSpawn = 4,
-    baseBuyPrice = 2,
+    basePrice = 2,
 })
 
 defineSlotConverter("golden_apple", "Golden Apple", "golden_slot", "Golden Slot", lp.targets.ON_SHAPE, {

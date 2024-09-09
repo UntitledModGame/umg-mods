@@ -24,7 +24,7 @@ local function defineSword(mineral_type, name, tier)
         rarity = lp.rarities.COMMON,
 
         minimumLevelToSpawn = tier,
-        baseBuyPrice = 1 * tier,
+        basePrice = 1 * tier,
     })
 end
 
@@ -44,7 +44,7 @@ local function defineAxe(mineral_type, name, tier)
         rarity = lp.rarities.UNCOMMON,
 
         minimumLevelToSpawn = tier,
-        baseBuyPrice = 1 * tier,
+        basePrice = 2 * tier,
         basePointsGenerated = 2 * tier,
 
         targetType = "ITEM",

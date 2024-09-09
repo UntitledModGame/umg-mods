@@ -37,8 +37,6 @@ lp.defineItem("lootplot.content.s0:gift_box", {
 
     doomCount = 1,
 
-    baseBuyPrice = 3,
-
     targetActivationDescription = loc("Spawn RARE items."),
     targetShape = lp.targets.RookShape(1),
 
@@ -83,7 +81,7 @@ lp.defineItem("lootplot.content.s0:copycat", {
     rarity = lp.rarities.RARE,
     minimumLevelToSpawn = 4,
 
-    baseSellPrice = 0,
+    basePrice = 0,
 
     targetType = "NO_ITEM",
     targetShape = lp.targets.RookShape(1),

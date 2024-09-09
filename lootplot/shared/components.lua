@@ -98,9 +98,7 @@ defineBasicBoolean("canSlotPropagate", "baseCanSlotPropagate")
 --[[
     number properties for lootplot
 ]]
-defineBasicNumber("sellPrice", {base="baseSellPrice", default=1})
-
-defineBasicNumber("buyPrice", {base="baseBuyPrice", default=1})
+defineBasicNumber("price", {base="basePrice", default=1})
 
 defineBasicNumber("maxActivations", {base="baseMaxActivations", default=5})
 
