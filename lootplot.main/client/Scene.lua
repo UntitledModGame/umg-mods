@@ -7,10 +7,14 @@ local StretchableButton = require("client.elements.StretchableButton")
 
 local DescriptionBox = require("client.DescriptionBox")
 
+local loc = localization.localize
+
 ---@class lootplot.main.Scene: Element
 local Scene = ui.Element("lootplot.main:Screen")
 
 function Scene:init()
+    self.gameSpeedMultiplerFactor = 0 -- 2^n
+
     self:makeRoot()
     self:setPassthrough(true)
 
@@ -20,14 +24,39 @@ function Scene:init()
         end
     })
 
+    local SLIDER_SNAP_MULTIPLER = 20
     self.pauseBox = PauseBox({
         onQuit = client.disconnect,
         onResume = function()
             self.popupElement = nil
         end,
         setGameSpeed = function(speed)
-            -- TODO
-        end
+            if lp.main.isReady() then
+                lp.main.getContext():setSpeedMultipler(2 ^ speed)
+            end
+
+            self.gameSpeedMultiplerFactor = speed
+        end,
+
+        -- Ideally you should AVOID non-integer value within slider
+        -- because it can introduce floating point issue.
+        gameSpeedFormatter = function(valueFromSlider)
+            local value = math.floor(valueFromSlider) / SLIDER_SNAP_MULTIPLER
+            print(value, valueFromSlider)
+
+            local format
+            if value > 0 then
+                format = loc("Game Speed: %{num}x Faster", {num = string.format("%.3g", 2 ^ value)})
+            elseif value < 0 then
+                format = loc("Game Speed: %{num}x Slower", {num = string.format("%.3g", 2 ^ -value)})
+            else
+                format = loc("Game Speed: Normal")
+            end
+
+            return value, format
+        end,
+        currentGameSpeed = self.gameSpeedMultiplerFactor * SLIDER_SNAP_MULTIPLER,
+        gameSpeedRanges = {-2 * SLIDER_SNAP_MULTIPLER, 3 * SLIDER_SNAP_MULTIPLER}
     })
 
     self.itemDescriptionSelected = nil
