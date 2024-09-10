@@ -76,7 +76,7 @@ umg.on("lootplot:populateDescription", 10, function(ent, arr)
     local pgen = ent.pointsGenerated
     if pgen and pgen ~= 0 then
         if pgen > 0 then
-            arr:add(funcLocEnt("{c r=0.6 g=1 b=0.6}Generates %{pointsGenerated} point(s)", ent, VERB_CTX))
+            arr:add(funcLocEnt("{c r=0.3 g=1 b=0.3}Generates %{pointsGenerated} point(s)", ent, VERB_CTX))
         else
             arr:add(funcLocEnt("{c r=1 g=0 b=0.2}Steals %{pointsGenerated} point(s)!", ent, VERB_CTX))
         end
