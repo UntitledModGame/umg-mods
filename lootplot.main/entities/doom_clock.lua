@@ -113,6 +113,7 @@ if client then
 
 --[[
     This code tries to relocate the doom clock if ther are slot or item below it.
+    TODO: this is hacky, Maybe change this in the future
 ]]
 
 -- Plots to be tested for heurestic search
