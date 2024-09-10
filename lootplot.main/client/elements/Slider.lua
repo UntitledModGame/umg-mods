@@ -1,65 +1,3 @@
-
-local SCROLL_BUTTON = 1
-
-local function getLimitedDelta(elem, mouseX, dx)
-    --[[
-        This is to ensure that the thumb is moved in-tune with
-        the mouse.
-    ]]
-    local x,_y,w,_h = elem:getView()
-    if dx > 0 then
-        -- If mouse is behind elem, and we are dragging forward:
-        if mouseX < x then
-            return 0 -- set delta to 0
-        end
-    else
-        -- If mouse is ahead of elem, and we are dragging back:
-        if mouseX > x+w then
-            return 0 -- set delta to 0
-        end
-    end
-    return dx
-end
-
-local function computeValue(elem, position)
-    -- computes value from position
-    local mag = elem.max - elem.min
-    return elem.min + ((position/elem.totalSize) * mag)
-end
-
-
-
----@class lootplot.main.SliderThumb: Element
-local Thumb = ui.Element("lootplot.main:SliderThumb")
-
-function Thumb:init(atlas, left, center, right)
-    self.atlas = atlas
-    self.leftQuad = left
-    self.centerQuad = center
-    self.rightQuad = right
-end
-
-
-function Thumb:onPointerMoved(x, y, dx, dy, istouch)
-    if self:isClicked() then
-        local parent = self:getParent()
-        ---@cast parent lootplot.main.Slider
-        dx = getLimitedDelta(self, x, dx)
-        parent.position = math.clamp(parent.position + dx, 0, parent.totalSize)
-        parent.value = computeValue(parent, parent.position)
-        if parent.onValueChanged then
-            parent:onValueChanged(parent.value)
-        end
-    end
-end
-
-function Thumb:onRender(x,y,w,h)
-    ui.style:rectangle(x,y,w,h)
-end
-
-
-
-
 ---@class lootplot.main.Slider: Element
 local Slider = ui.Element("lootplot.main:Slider")
 
@@ -80,6 +18,7 @@ function Slider:init(args)
         padding = {4, 3},
         quad = client.assets.images.scrollbar
     })
+
     self.handleImage = client.assets.images.handle_4
 end
 
@@ -103,11 +42,13 @@ function Slider:onRender(x,y,w,h)
     self.lastWidth = w
     self.lastX = x
 
+    love.graphics.setColor(objects.Color.WHITE)
     -- FIXME: This slider has **fixed** height!
-    self.scrollBarSlice:draw(x, y + (w - 7 * THUMB_RATIO) / 2, w / THUMB_RATIO, 7, 0, THUMB_RATIO, THUMB_RATIO)
+    local yoff = y + (h - 7 * THUMB_RATIO)
+    self.scrollBarSlice:draw(x, yoff, w / THUMB_RATIO, 7, 0, THUMB_RATIO, THUMB_RATIO)
 
     local handleMaxValue = math.max(w - select(3, self.handleImage:getViewport()) * THUMB_RATIO, 1)
-    client.atlas:draw(self.handleImage, x + self.valueNormalized * handleMaxValue, y, 0, THUMB_RATIO, THUMB_RATIO)
+    client.atlas:draw(self.handleImage, x + self.valueNormalized * handleMaxValue, yoff, 0, THUMB_RATIO, THUMB_RATIO)
 end
 
 

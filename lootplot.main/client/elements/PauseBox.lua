@@ -48,10 +48,7 @@ function PauseBox:init(args)
         scale = 2
     })
 
-    self.gameSpeedLabel = ui.elements.Text({
-        text = select(2, args.gameSpeedFormatter(args.currentGameSpeed)),
-        color = objects.Color.WHITE
-    })
+    self.gameSpeedLabel = ui.elements.Text(select(2, args.gameSpeedFormatter(args.currentGameSpeed)))
     self.gameSpeedSlider = Slider({
         onValueChanged = function(_, value)
             local fixedValue, formatString = args.gameSpeedFormatter(value)
@@ -84,7 +81,6 @@ function PauseBox:onRender(x, y, w, h)
     local titleText = titleTextBase:padUnit(0, 0, 0, 8)
     self.titleText:render(titleText:get())
 
-    love.graphics.setColor(objects.Color.WHITE)
     local gameSpeedSliderBase = select(2, content:splitVertical(1, 2, 1))
     local gameSpeedSliderLabel, gameSpeedSlider = gameSpeedSliderBase:splitVertical(1, 1)
     self.gameSpeedLabel:render(gameSpeedSliderLabel:get())
