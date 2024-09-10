@@ -139,6 +139,32 @@ end
 
 
 
+-- Pipeline multipler
+umg.definePacket("lootplot.main:setSpeedMultipler", {typelist = {"number"}})
+local currentMultipler = 1
+
+---@param mult number
+function Context:setSpeedMultipler(mult)
+    if server then
+        currentMultipler = mult
+    else
+        client.send("lootplot.main:setSpeedMultipler", mult)
+    end
+end
+
+if server then
+
+server.on("lootplot.main:setSpeedMultipler", function(clientId, value)
+    if server.getHostClient() == clientId then
+        currentMultipler = value
+    end
+end)
+
+umg.answer("lootplot:getPipelineDelayMultiplier", function()
+    return 1 / currentMultipler
+end)
+
+end
 
 
 return Context

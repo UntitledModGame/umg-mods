@@ -78,4 +78,8 @@ function LPState:getScene()
     return self.scene
 end
 
+function LPState:getSpeedMultipler()
+    return 2 ^ self.scene.gameSpeedMultiplerFactor
+end
+
 return LPState

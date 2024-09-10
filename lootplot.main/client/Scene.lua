@@ -7,22 +7,54 @@ local StretchableButton = require("client.elements.StretchableButton")
 
 local DescriptionBox = require("client.DescriptionBox")
 
+local loc = localization.localize
+
 ---@class lootplot.main.Scene: Element
 local Scene = ui.Element("lootplot.main:Screen")
 
 function Scene:init()
+    self.gameSpeedMultiplerFactor = 0 -- 2^n
+
     self:makeRoot()
     self:setPassthrough(true)
 
-    self.renderEndGameBox = false
     self.endGameBox = EndGameBox({
         onDismiss = function()
-            self.renderEndGameBox = false
+            self.popupElement = nil
         end
     })
 
-    self.renderPauseBox = false
-    self.pauseBox = PauseBox()
+    local SLIDER_SNAP_MULTIPLER = 20
+    self.pauseBox = PauseBox({
+        onQuit = client.disconnect,
+        onResume = function()
+            self.popupElement = nil
+        end,
+        setGameSpeed = function(speed)
+            if lp.main.isReady() then
+                lp.main.getContext():setSpeedMultipler(2 ^ speed)
+            end
+
+            self.gameSpeedMultiplerFactor = speed
+        end,
+
+        -- Ideally you should AVOID non-integer value within slider
+        -- because it can introduce floating point issue.
+        gameSpeedFormatter = function(valueFromSlider)
+            local value = math.floor(valueFromSlider) / SLIDER_SNAP_MULTIPLER
+
+            local format
+            if value == 0 then
+                format = loc("Speed: Normal")
+            else
+                format = loc("Speed: %{num}x", {num = string.format("%.3g", 2 ^ value)})
+            end
+
+            return value, format
+        end,
+        currentGameSpeed = self.gameSpeedMultiplerFactor * SLIDER_SNAP_MULTIPLER,
+        gameSpeedRanges = {-2 * SLIDER_SNAP_MULTIPLER, 3 * SLIDER_SNAP_MULTIPLER}
+    })
 
     self.itemDescriptionSelected = nil
     self.itemDescriptionSelectedTime = 0
@@ -30,6 +62,8 @@ function Scene:init()
     self.cursorDescriptionTime = 0
     self.slotActionButtons = {}
     self.currentSelection = nil
+
+    self.popupElement = nil
 
     self:addChild(self.endGameBox)
     self:addChild(self.pauseBox)
@@ -125,14 +159,9 @@ function Scene:onRender(x,y,w,h)
         end
     end
 
-    if self.renderEndGameBox then
+    if self.popupElement then
         local dialog = r:padRatio(0.3)
-        self.endGameBox:render(dialog:get())
-    end
-
-    if self.renderPauseBox then
-        local dialog = r:padRatio(0.3)
-        self.pauseBox:render(dialog:get())
+        self.popupElement:render(dialog:get())
     end
 end
 
@@ -220,12 +249,12 @@ end
 ---@param win boolean
 function Scene:showEndGameDialog(win)
     self.endGameBox:setWinning(win)
-    self.renderEndGameBox = true
+    self.popupElement = self.endGameBox
 end
 
 
 function Scene:openPauseBox()
-    self.renderPauseBox = true
+    self.popupElement = self.pauseBox
 end
 
 return Scene
