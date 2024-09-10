@@ -18,6 +18,35 @@ local function coordsToString(x, y)
     )
 end
 
+
+local MAX_NAME_SIZE = 24
+
+local function makeConcatName(shapes)
+    -- try generate name from concatenating shapes
+    -- (If its too long, we fall back)
+    local concatName = shapes[1].name
+    for i=2, #shapes do
+        local shape = shapes[i]
+        local newName = concatName .. "-" .. shape.name
+        if #newName > MAX_NAME_SIZE then
+            return concatName
+        end
+        concatName = newName
+    end
+    return concatName
+end
+
+---@param shapes lootplot.targets.ShapeData[]
+local function getName(shapes)
+    if type(shapes[#shapes]) == "string" then
+        -- This is the name
+        return table.remove(shapes)
+    else
+        return makeConcatName(shapes)
+    end
+end
+
+
 ---@param shape1 lootplot.targets.ShapeData
 ---@param shape2 lootplot.targets.ShapeData
 ---@param ... lootplot.targets.ShapeData|string
@@ -25,11 +54,7 @@ end
 return function(shape1, shape2, ...)
     local shapes = {shape1, shape2, ...}
 
-    local name = "Union Shape"
-    if type(shapes[#shapes]) == "string" then
-        -- This is the name
-        name = table.remove(shapes)
-    end
+    local name = getName(shapes)
 
     local coords = {}
     local coordsSet = objects.Set()

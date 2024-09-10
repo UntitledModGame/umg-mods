@@ -244,9 +244,7 @@ local function definePie(id, name, desc, addShape, rarity)
             if oldShape then
                 local newShape = lp.targets.UnionShape(
                     targetItemEnt.targetShape,
-                    addShape,
-                    -- TODO: Do proper naming here, somehow
-                    "CUSTOM-SHAPE"
+                    addShape
                 )
                 if #newShape.relativeCoords > #oldShape.relativeCoords then
                     -- only overwrite if it changed
