@@ -63,19 +63,22 @@ function DescriptionBox:draw(x, y, w, h)
             end
             ---@cast str string
             local font = content.font or self.defaultFont
-            local strings = select(2, font:getWrap(text.stripEffects(str) or str, w / scale))
-            local height = #strings * font:getHeight() * scale
+            local stripped = text.stripEffects(str)
+            if str:gsub("[%s\t\n]", ""):len() > 0 then
+                local strings = select(2, font:getWrap(stripped or str, w / scale))
+                local height = #strings * font:getHeight() * scale
 
-            if (currentHeight + height) > h then
-                -- Stop and don't render this content
-                break
+                if (currentHeight + height) > h then
+                    -- Stop and don't render this content
+                    break
+                end
+
+                love.graphics.setColor(r, g, b, a)
+                text.printRich(str, font, x, y + currentHeight, w / scale, "left", 0, scale, scale)
+
+                currentHeight = currentHeight + height
+                lastFont = font
             end
-
-            love.graphics.setColor(r, g, b, a)
-            text.printRich(str, font, x, y + currentHeight, w / scale, "left", 0, scale, scale)
-
-            currentHeight = currentHeight + height
-            lastFont = font
         elseif content.type == DRAWABLE_TYPE then
             local func = content.data ---@cast func lootplot.DescriptionBoxFunction
             local height = content.height or 0
