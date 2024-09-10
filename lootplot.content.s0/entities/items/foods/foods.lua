@@ -228,7 +228,7 @@ defineFood("lootplot.content.s0:super_apple", {
 
 
 
-local function definePie(id, name, desc, giveShape, rarity)
+local function definePie(id, name, desc, addShape, rarity)
     defineFood("lootplot.content.s0:" .. id, {
         image = id,
         name = loc(name),
@@ -240,15 +240,23 @@ local function definePie(id, name, desc, giveShape, rarity)
         targetActivationDescription = loc("{lp_targetColor}" .. desc),
         targetShape = lp.targets.ABOVE_SHAPE,
         targetActivate = function(selfEnt, ppos, targetItemEnt)
-            if targetItemEnt.targetShape then
-                -- dont wanna give shape to non-shape items.
-                -- HMM: Maybe this should change in future??
-                lp.targets.setTargetShape(targetItemEnt, giveShape)
+            local oldShape = targetItemEnt.targetShape
+            if oldShape then
+                local newShape = lp.targets.UnionShape(
+                    targetItemEnt.targetShape,
+                    addShape,
+                    -- TODO: Do proper naming here, somehow
+                    "CUSTOM-SHAPE"
+                )
+                if #newShape.relativeCoords > #oldShape.relativeCoords then
+                    -- only overwrite if it changed
+                    lp.targets.setTargetShape(targetItemEnt, newShape)
+                end
             end
         end
     })
 end
 
-definePie("scotch_pie", "Scotch Pie", "Gives ROOK-10 Shape to item", lp.targets.RookShape(10), lp.rarities.EPIC)
-definePie("berry_pie", "Berry Pie", "Gives KNIGHT Shape to item", lp.targets.KNIGHT_SHAPE, lp.rarities.UNCOMMON)
+definePie("scotch_pie", "Scotch Pie", "Adds ROOK-10 Shape to item", lp.targets.RookShape(10), lp.rarities.EPIC)
+definePie("berry_pie", "Berry Pie", "Adds KNIGHT Shape to item", lp.targets.KNIGHT_SHAPE, lp.rarities.UNCOMMON)
 

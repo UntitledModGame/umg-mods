@@ -13,8 +13,6 @@ local function defineGlove(id, name, description, giveShape, rarity)
         targetShape = lp.targets.ABOVE_SHAPE,
         targetActivate = function(selfEnt, ppos, targetItemEnt)
             if targetItemEnt.targetShape then
-                -- dont wanna give shape to non-shape items.
-                -- HMM: Maybe this should change in future??
                 lp.targets.setTargetShape(targetItemEnt, giveShape)
             end
         end
@@ -23,21 +21,21 @@ end
 
 defineGlove("quartz_glove",
     "Quartz Glove",
-    "Give ROOK-10 shape to item.",
+    "Set item's shape to ROOK-10.",
     lp.targets.RookShape(10),
     lp.rarities.LEGENDARY
 )
 
 defineGlove("ruby_glove",
     "Ruby Glove",
-    "Give KING-1 shape to item.",
+    "Set item's shape to KING-1.",
     lp.targets.KING_SHAPE,
     lp.rarities.EPIC
 )
 
 defineGlove("copper_glove",
     "Copper Glove",
-    "Give KNIGHT shape to item.",
+    "Set item's shape to KNIGHT.",
     lp.targets.KNIGHT_SHAPE,
     lp.rarities.RARE
 )
