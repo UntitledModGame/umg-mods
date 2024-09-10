@@ -51,13 +51,9 @@ umg.on("@tick", scheduling.skip(3, function()
             -- reset.
             timeouts[itemEnt] = nil
         end
-    end
 
-    for itemEnt, t in pairs(timeouts) do
-        if t > time + TIMEOUT then
-            if umg.exists(itemEnt) then
-                lp.destroy(itemEnt)
-            end
+        if timeouts[itemEnt] and time > (timeouts[itemEnt] + TIMEOUT) then
+            lp.destroy(itemEnt)
         end
     end
 end))

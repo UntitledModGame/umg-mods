@@ -50,6 +50,6 @@ trigger.defineTrigger("PULSE")
 trigger.defineTrigger("RESET")
 trigger.defineTrigger("DESTROY")
 
----@alias lootplot.Trigger "REROLL"|"PULSE"|"RESET"
+---@alias lootplot.Trigger "REROLL"|"PULSE"|"RESET"|"DESTROY"
 
 return trigger
