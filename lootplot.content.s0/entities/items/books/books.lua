@@ -48,6 +48,11 @@ defineBook("book_of_shopping",
     "shop_slot",
     "Shop Slot"
 )
+defineBook("book_of_selling",
+    "Book of Selling",
+    "sell_slot",
+    "Sell Slot"
+)
 defineBook("empty_book",
     "Empty book",
     "null_slot",
