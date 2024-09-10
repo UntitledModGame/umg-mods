@@ -148,15 +148,35 @@ local function hasAccess(slotEnt, clientId)
 end
 
 
-local ENT_2 = {"entity", "entity"}
 
-local swapSlotItems = util.remoteServerCall("lootplot:swapSlotItems", ENT_2, 
+local EVICT_ARGS = {"string", "entity"}
+
+local itemEvictedFromSlot = util.remoteBroadcastToClient("lootplot:itemEvictedFromSlot", EVICT_ARGS,
+function(clientToSelect, evictedSlot)
+    --[[
+    QUESTION: Why dont we unicast here?
+    ANSWER: Because unicast packets are received BEFORE broadcast packets.
+    Which means that the slot/item positions are gonna be outdated;
+    the below code ASSUMES that lp.swapItems is called before this, in order for the selection to be valid.
+    ]]
+    if client.getClient() == clientToSelect then
+        selection.selectSlot(evictedSlot)
+    end
+end)
+
+
+local ENT_2_ARGS = {"entity", "entity"}
+
+local swapSlotItems = util.remoteCallToServer("lootplot:swapSlotItems", ENT_2_ARGS,
 function(clientId, slotEnt1, slotEnt2)
     -- TODO: check validity of arguments (bad actor could send any entity)
     -- TODO: check that we actually CAN move the items
     -- TODO: use qbus; check if we have permission
     if lp.canSwap(slotEnt1, slotEnt2) and hasAccess(slotEnt1, clientId) and hasAccess(slotEnt2, clientId) then
         lp.swapItems(slotEnt1, slotEnt2)
+        if lp.slotToItem(slotEnt1) then
+            itemEvictedFromSlot(clientId, slotEnt1)
+        end
     end
 end)
 
@@ -178,7 +198,7 @@ end
 
 local ENT_1 = {"entity"}
 
-local activateOnServer = util.remoteServerCall("lootplot:clickSlotButton", ENT_1,
+local activateOnServer = util.remoteCallToServer("lootplot:clickSlotButton", ENT_1,
 function(clientId, slotEnt)
     -- An "interactable" slot in the world.
     --  for example: an in-world reroll button.
