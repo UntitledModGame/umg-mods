@@ -105,7 +105,7 @@ lp.defineItem("lootplot.content.s0:copycat", {
 
 lp.defineItem("lootplot.content.s0:boomerang", {
     name = loc("Boomerang"),
-    description = loc("The boomerang never stops!"),
+    description = loc("Uses all activations at once"),
 
     image = "boomerang",
 

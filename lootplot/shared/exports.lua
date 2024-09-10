@@ -15,6 +15,7 @@ local lp = {}
 if client then
 
 ---@param ent Entity
+---@return (string | function)[]
 function lp.getLongDescription(ent)
     local array = objects.Array()
     --[[

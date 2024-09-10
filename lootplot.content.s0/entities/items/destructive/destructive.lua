@@ -44,7 +44,6 @@ lp.defineItem("lootplot.content.s0:dark_flint", {
     image = "dark_flint",
     name = loc("Dark Flint"),
     rarity = lp.rarities.COMMON,
-    description = loc("When destroyed, generate +10 points."),
     triggers = {"DESTROY"},
     basePointsGenerated = 10
 })
