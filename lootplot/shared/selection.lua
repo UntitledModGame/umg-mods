@@ -151,13 +151,13 @@ end
 
 local EVICT_ARGS = {"string", "entity"}
 
-local itemEvictedFromSlot = util.remoteBroadcastToClient("lootplot:itemEvictedFromSlot", EVICT_ARGS,
+local selectItemImmediately = util.remoteBroadcastToClient("lootplot:selectItemImmediately", EVICT_ARGS,
 function(clientToSelect, evictedSlot)
     --[[
     QUESTION: Why dont we unicast here?
-    ANSWER: Because unicast packets are received BEFORE broadcast packets.
-    Which means that the slot/item positions are gonna be outdated;
-    the below code ASSUMES that lp.swapItems is called before this, in order for the selection to be valid.
+    ANSWER: Coz unicast packets are received BEFORE broadcast packets.
+    Which means the slot/item positions are gonna be outdated.
+    this func ASSUMES that lp.swapItems is called prior, so we can make a valid selection.
     ]]
     if client.getClient() == clientToSelect then
         selection.selectSlot(evictedSlot)
@@ -175,7 +175,10 @@ function(clientId, slotEnt1, slotEnt2)
     if lp.canSwap(slotEnt1, slotEnt2) and hasAccess(slotEnt1, clientId) and hasAccess(slotEnt2, clientId) then
         lp.swapItems(slotEnt1, slotEnt2)
         if lp.slotToItem(slotEnt1) then
-            itemEvictedFromSlot(clientId, slotEnt1)
+            -- When we swap items, we automatically select the target item.
+            -- (GREAT FOR UX!!!)
+            -- (this needs to be a packet, because of latency/async reasons.)
+            selectItemImmediately(clientId, slotEnt1)
         end
     end
 end)
