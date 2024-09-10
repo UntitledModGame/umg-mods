@@ -6,10 +6,10 @@
 WHITE: Miscellaneous (item names / descriptions)
 
 GOLD,YELLOW: Money
-GREEN: Points
+GREEN: Points, Rerolling
 BLUE: Systems
 ORANGE: Target, shapes
-BLACK,DARK: Destruction, death
+BLACK,DARK,PURPLE: Destruction, death
 
 RED: Warning / Disabled / Blocked / Bad
 

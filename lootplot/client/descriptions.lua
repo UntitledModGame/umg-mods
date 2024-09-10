@@ -76,7 +76,7 @@ umg.on("lootplot:populateDescription", 10, function(ent, arr)
     local pgen = ent.pointsGenerated
     if pgen and pgen ~= 0 then
         if pgen > 0 then
-            arr:add(funcLocEnt("{c r=0.6 g=0.6 b=1}Generates %{pointsGenerated} point(s)", ent, VERB_CTX))
+            arr:add(funcLocEnt("{c r=0.6 g=1 b=0.6}Generates %{pointsGenerated} point(s)", ent, VERB_CTX))
         else
             arr:add(funcLocEnt("{c r=1 g=0 b=0.2}Steals %{pointsGenerated} point(s)!", ent, VERB_CTX))
         end
@@ -85,10 +85,10 @@ umg.on("lootplot:populateDescription", 10, function(ent, arr)
     local mEarn = ent.moneyGenerated
     if mEarn and mEarn ~= 0 then
         if mEarn > 0 then
-            arr:add(funcLocEnt("{c r=0.5 g=1 b=0.4}Earns $%{moneyGenerated}", ent, VERB_CTX))
+            arr:add(funcLocEnt("{c r=1 g=0.87 b=0.42}Earns $%{moneyGenerated}", ent, VERB_CTX))
         else
             arr:add(funcLocEnt(
-                "{c r=1 g=0.2 b=0}Steals {/c}{c r=1 g=0.87 b=0}$%{moneyGenerated}!", 
+                "{c r=1 g=0.2 b=0}Steals {/c}{c r=1 g=0.87 b=0.42}$%{moneyGenerated}!", 
                 ent, 
                 VERB_CTX
             ))
@@ -101,12 +101,12 @@ umg.on("lootplot:populateDescription", 50, function(ent, arr)
     if ent.doomCount then
         if ent.doomCount == 1 then
             arr:add(funcLocEnt(
-                "{c r=0.46 g=0 b=0.6}DOOMED %{doomCount}:{/c} {c r=0.7 g=0.3 b=1}Destroyed when activated!", 
+                "{wavy}{c r=0.7 g=0.3 b=1}DOOMED %{doomCount}:{/c}{/wavy} {c r=0.8 g=0.6 b=1}Destroyed when activated!", 
                 ent
             ))
         else
             arr:add(funcLocEnt(
-                "{c r=0.46 g=0 b=0.6}DOOMED %{doomCount}:{/c} {c r=0.7 g=0.3 b=1}Destroyed after %{doomCount} activations!", 
+                "{wavy}{c r=0.7 g=0.3 b=1}DOOMED %{doomCount}:{/c}{/wavy} {c r=0.8 g=0.6 b=1}Destroyed after %{doomCount} activations!", 
                 ent
             ))
         end
