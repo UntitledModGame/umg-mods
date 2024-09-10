@@ -14,15 +14,21 @@ function Scene:init()
     self:makeRoot()
     self:setPassthrough(true)
 
-    self.renderEndGameBox = false
     self.endGameBox = EndGameBox({
         onDismiss = function()
-            self.renderEndGameBox = false
+            self.popupElement = nil
         end
     })
 
-    self.renderPauseBox = false
-    self.pauseBox = PauseBox()
+    self.pauseBox = PauseBox({
+        onQuit = client.disconnect,
+        onResume = function()
+            self.popupElement = nil
+        end,
+        setGameSpeed = function(speed)
+            -- TODO
+        end
+    })
 
     self.itemDescriptionSelected = nil
     self.itemDescriptionSelectedTime = 0
@@ -30,6 +36,8 @@ function Scene:init()
     self.cursorDescriptionTime = 0
     self.slotActionButtons = {}
     self.currentSelection = nil
+
+    self.popupElement = nil
 
     self:addChild(self.endGameBox)
     self:addChild(self.pauseBox)
@@ -125,14 +133,9 @@ function Scene:onRender(x,y,w,h)
         end
     end
 
-    if self.renderEndGameBox then
+    if self.popupElement then
         local dialog = r:padRatio(0.3)
-        self.endGameBox:render(dialog:get())
-    end
-
-    if self.renderPauseBox then
-        local dialog = r:padRatio(0.3)
-        self.pauseBox:render(dialog:get())
+        self.popupElement:render(dialog:get())
     end
 end
 
@@ -220,12 +223,12 @@ end
 ---@param win boolean
 function Scene:showEndGameDialog(win)
     self.endGameBox:setWinning(win)
-    self.renderEndGameBox = true
+    self.popupElement = self.endGameBox
 end
 
 
 function Scene:openPauseBox()
-    self.renderPauseBox = true
+    self.popupElement = self.pauseBox
 end
 
 return Scene
