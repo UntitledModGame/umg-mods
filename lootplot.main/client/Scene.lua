@@ -42,7 +42,6 @@ function Scene:init()
         -- because it can introduce floating point issue.
         gameSpeedFormatter = function(valueFromSlider)
             local value = math.floor(valueFromSlider) / SLIDER_SNAP_MULTIPLER
-            print(value, valueFromSlider)
 
             local format
             if value > 0 then
