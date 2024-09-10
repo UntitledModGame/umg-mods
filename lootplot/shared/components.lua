@@ -88,8 +88,6 @@ defineBasicBoolean("canItemMove", "baseCanItemMove")
 
 defineBasicBoolean("canBeDestroyed", "baseCanBeDestroyed")
 
-defineBasicBoolean("canActivate", "baseCanActivate")
-
 defineBasicBoolean("canSlotPropagate", "baseCanSlotPropagate")
 -- Whether a slot will propagate the trigger to the item
 -- TO DO: Do we want different behavior based on trigger types?
