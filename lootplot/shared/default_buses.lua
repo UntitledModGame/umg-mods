@@ -19,7 +19,6 @@ umg.answer("properties:getPropertyMultiplier", function(ent, prop)
 end)
 
 umg.answer("properties:getPropertyModifier", function(ent, prop)
-    
     if ent.lootplotProperties and ent.lootplotProperties.modifiers then
         local val = ent.lootplotProperties.modifiers[prop]
         if val then
@@ -29,6 +28,26 @@ umg.answer("properties:getPropertyModifier", function(ent, prop)
     return 0
 end)
 
+
+umg.answer("properties:getPropertyClamp", function(ent, prop)
+    local min, max = -math.huge, math.huge
+
+    if ent.lootplotProperties and ent.lootplotProperties.maximums then
+        local val = ent.lootplotProperties.maximums[prop]
+        if val then
+            max = getVal(ent, val)
+        end
+    end
+
+    if ent.lootplotProperties and ent.lootplotProperties.minimums then
+        local val = ent.lootplotProperties.minimums[prop]
+        if val then
+            min = getVal(ent, val)
+        end
+    end
+
+    return min, max
+end)
 
 
 

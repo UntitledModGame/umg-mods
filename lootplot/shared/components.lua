@@ -60,6 +60,8 @@ local function defineBasicNumber(propName, args)
     sync.autoSyncComponent(propName, {
         type = "number",
         lerp = false,
+        -- gotta be super accurate with properties
+        numberSyncThreshold = 0.000001,
     })
 end
 

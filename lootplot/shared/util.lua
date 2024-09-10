@@ -3,7 +3,7 @@ local util = {}
 ---@param name string
 ---@param args string[]
 ---@param func function
-function util.remoteServerCall(name, args, func)
+function util.remoteCallToServer(name, args, func)
     umg.definePacket(name, {
         typelist = args
     })
@@ -18,6 +18,29 @@ function util.remoteServerCall(name, args, func)
     end
     return call
 end
+
+
+---@param name string
+---@param args string[]
+---@param func function
+function util.remoteBroadcastToClient(name, args, func)
+    umg.definePacket(name, {
+        typelist = args
+    })
+
+    if client then
+        client.on(name, func)
+    end
+
+    local function call(...)
+        assert(server,"?")
+        server.broadcast(name, ...)
+    end
+    return call
+end
+
+
+
 
 ---@param dx number
 ---@param dy number

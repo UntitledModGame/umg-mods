@@ -6,7 +6,7 @@ local shopService = {}
 local ENT_1 = {"entity"}
 
 
-local buyItem = util.remoteServerCall("lootplot:buyItem", ENT_1,
+local buyItem = util.remoteCallToServer("lootplot:buyItem", ENT_1,
 function(clientId, itemEnt)
     -- TODO: check validity of arguments (bad actor could send any entity)
     -- TODO: check that we are allowed to do this!!!

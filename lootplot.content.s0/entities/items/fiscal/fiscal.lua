@@ -9,22 +9,6 @@ lp.defineItem("lootplot.content.s0:gold_sword", {
 })
 
 
-lp.defineItem("lootplot.content.s0:king_ring", {
-    image = "king_ring",
-    name = loc("King Ring"),
-    description = loc("Earn money equal to 5% of current balance."),
-
-    rarity = lp.rarities.UNCOMMON,
-
-    onActivate = function(selfEnt)
-        local money = lp.getMoney(selfEnt)
-        if money then
-            lp.addMoney(selfEnt, money * 0.05)
-        end
-    end
-})
-
-
 lp.defineItem("lootplot.content.s0:gold_axe", {
     image = "gold_axe",
     name = loc("Golden Axe"),
@@ -67,17 +51,51 @@ lp.defineItem("lootplot.content.s0:golden_fruit", {
 })
 
 
+
+
+local function percentageOfBalanceGetter(percentage)
+    return function(ent)
+        local money = lp.getMoney(ent)
+        if money then
+            return money * percentage
+        end
+        return 0
+    end
+end
+
+
 lp.defineItem("lootplot.content.s0:bishop_ring", {
     image = "bishop_ring",
     name = loc("Bishop Ring"),
     description = loc("Generate points equal to 20% of the current balance."),
 
-    rarity = lp.rarities.UNCOMMON,
+    basePointsGenerated = 0,
 
-    onActivate = function(selfEnt)
-        local money = lp.getMoney(selfEnt)
-        if money then
-            return lp.addPoints(selfEnt, money * 0.2)
-        end
-    end
+    lootplotProperties = {
+        modifiers = {
+            pointsGenerated = percentageOfBalanceGetter(0.20)
+        }
+    },
+
+    rarity = lp.rarities.UNCOMMON,
+})
+
+
+lp.defineItem("lootplot.content.s0:king_ring", {
+    image = "king_ring",
+    name = loc("King Ring"),
+    description = loc("Earn money equal to 5% of current balance.\n(Max of $20)"),
+
+    baseMoneyGenerated = 0,
+
+    lootplotProperties = {
+        maximums = {
+            moneyGenerated = 20
+        },
+        modifiers = {
+            moneyGenerated = percentageOfBalanceGetter(0.05)
+        }
+    },
+
+    rarity = lp.rarities.UNCOMMON,
 })
