@@ -44,12 +44,10 @@ function Scene:init()
             local value = math.floor(valueFromSlider) / SLIDER_SNAP_MULTIPLER
 
             local format
-            if value > 0 then
-                format = loc("Game Speed: %{num}x Faster", {num = string.format("%.3g", 2 ^ value)})
-            elseif value < 0 then
-                format = loc("Game Speed: %{num}x Slower", {num = string.format("%.3g", 2 ^ -value)})
+            if value == 0 then
+                format = loc("Speed: Normal")
             else
-                format = loc("Game Speed: Normal")
+                format = loc("Speed: %{num}x", {num = string.format("%.3g", 2 ^ value)})
             end
 
             return value, format
