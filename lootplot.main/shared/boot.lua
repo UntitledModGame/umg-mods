@@ -56,8 +56,10 @@ end
 ---@param worldEnt Entity
 local function initializeItems(plot, worldEnt)
     local dclock = server.entities.doom_clock()
-    plot:set(10,4, dclock)
-    local ppos = plot:getPPos(10,4)
+    dclock._plotX = 10
+    dclock._plotY = 4
+    plot:set(dclock._plotX, dclock._plotY, dclock)
+    local ppos = plot:getPPos(dclock._plotX, dclock._plotY)
     local v = ppos:getWorldPos()
     dclock.x = v.x
     dclock.y = v.y
