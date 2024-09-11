@@ -1,5 +1,5 @@
 local LPState = require("client.LPState")
-local CloudBackground = require("client.backgrounds.CloudBackground")
+local PulsingCloudBackground = require("client.backgrounds.PulsingCloudBackground")
 local backgroundManager = require("client.background_manager")
 
 local musicManager = require("client.music_manager")
@@ -32,7 +32,13 @@ end)
 
 
 
-local CLOUD_BACKGROUND = CloudBackground()
+
+local W,H = 3000,1500
+local CLOUD_BACKGROUND = PulsingCloudBackground({
+    worldX = -W/2, worldY = -H/2,
+    worldWidth = W, worldHeight = H,
+    numberOfClouds = 100
+})
 
 local lastHoveredEntity = nil
 

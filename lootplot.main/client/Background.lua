@@ -1,6 +1,9 @@
 ---@class lootplot.main.Background: objects.Class
 local Background = objects.Class("lootplot.main:Background")
 
+function Background:init()
+end
+
 ---@param dt number
 function Background:update(dt)
 end
