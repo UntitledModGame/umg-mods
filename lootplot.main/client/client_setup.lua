@@ -34,34 +34,27 @@ end)
 
 local CLOUD_BACKGROUND = CloudBackground()
 
-local SHOW_DESCRIPTION_AFTER = 0.5
-local descriptionUpToDate = false
+local lastHoveredEntity = nil
 
 
 backgroundManager.setBackground(CLOUD_BACKGROUND)
 
 umg.on("@update", function(dt)
     local hovered = lp.getHoveredSlot()
-    if not hovered then
-        descriptionUpToDate = false
-        return
+    local hoveredEntity = nil
+
+    if hovered then
+        local slotEnt = hovered.entity
+        local itemEnt = lp.slotToItem(slotEnt)
+        hoveredEntity = itemEnt or slotEnt
     end
 
-    local time = love.timer.getTime()
-    if time > hovered.time + SHOW_DESCRIPTION_AFTER then
-        if not descriptionUpToDate then
-            local slotEnt = hovered.entity
-            local itemEnt = lp.slotToItem(slotEnt)
-            lpState:getScene():setCursorDescription(itemEnt or slotEnt)
-            descriptionUpToDate = true
-        end
+    if hoveredEntity ~= lastHoveredEntity then
+        lpState:getScene():setCursorDescription(hoveredEntity)
+        lastHoveredEntity = hoveredEntity
     end
 end)
 
-umg.on("lootplot:hoverChanged", function()
-    descriptionUpToDate = false
-    lpState:getScene():setCursorDescription(nil)
-end)
 
 
 state.push(lpState, 0)
