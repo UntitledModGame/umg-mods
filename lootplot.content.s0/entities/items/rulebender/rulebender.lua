@@ -171,15 +171,20 @@ lp.defineItem("lootplot.content.s0:orange_octopus", {
     }
 })
 
---[[
-    TODO:
-    Define dark_octopus here.
+lp.defineItem("lootplot.content.s0:dark_octopus", {
+    image = "dark_octopus",
+    name = loc("Dark Octopus"),
 
-    dark-octo should relate to destruction somehow;
-    yet should still be similar to the other octos.
+    rarity = lp.rarities.EPIC,
 
-    some ideas:
-    - trigger DESTROY for entity; without killing the entity.
-        - ^^^ I LOVE THIS IDEA!
-    - trigger ACTIVATE for entity; IFF the entity is DOOMED.
-]]
+    shape = lp.targets.KING_SHAPE,
+
+    target = {
+        type = "ITEM",
+        description = loc("{lp_targetColor}Triggers destroy on item, without destroying it."),
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.tryTriggerEntity("DESTROY", targetEnt)
+        end
+    }
+})
+
