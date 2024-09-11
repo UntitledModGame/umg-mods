@@ -23,7 +23,7 @@ local EMPTY = {}
 
 ---@param name string
 ---@param ent Entity
-function trigger.triggerEntity(name, ent)
+function trigger.tryTriggerEntity(name, ent)
     assert(server, "server-side function only")
     triggerTc(name, ent)
 
@@ -31,15 +31,18 @@ function trigger.triggerEntity(name, ent)
     if canTrigger then
         umg.call("lootplot:entityTriggered", name, ent)
         lp.tryActivateEntity(ent)
+    else
+        umg.call("lootplot:entityTriggerFailed", name, ent)
     end
 
     -- TODO: should this be inside the `if canTrigger` if block???
     if ent.slot and ent.canSlotPropagate then
         local itemEnt = lp.slotToItem(ent)
         if itemEnt then
-            trigger.triggerEntity(name, itemEnt)
+            trigger.tryTriggerEntity(name, itemEnt)
         end
     end
+    return canTrigger
 end
 
 ---@param name string

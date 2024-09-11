@@ -142,6 +142,14 @@ umg.on("lootplot:entityActivationBlocked", function(ent)
 end)
 
 ---@param ent lootplot.LayerEntity
+umg.on("lootplot:entityTriggerFailed", function(triggerName, ent)
+    if ent.drawable then
+        ent:addComponent("denyJuice", {xfreq = 0, yfreq = 10, amp = 1, start = love.timer.getTime(), duration = 0.25})
+    end
+end)
+
+
+---@param ent lootplot.LayerEntity
 umg.on("lootplot:entitySpawned", function(ent)
     if ent.drawable then
         ent:addComponent("flipJuice", {start = love.timer.getTime(), duration = 0.4})
