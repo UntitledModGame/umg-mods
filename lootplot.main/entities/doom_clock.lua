@@ -76,7 +76,7 @@ umg.defineEntityType("lootplot.main:doom_clock", {
         if points > ent.requiredPoints then
             colorEffect = "{c r=0.1 g=1 b=0.2}"
         else
-            colorEffect = "{c r=1 g=0.8 b=0.7}"
+            colorEffect = "{c r=1 g=1 b=1}"
         end
 
         local needPoints = loc("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}Points: %{colorEffect}%{points}{/c}/%{requiredPoints}", {
@@ -85,7 +85,7 @@ umg.defineEntityType("lootplot.main:doom_clock", {
             colorEffect = colorEffect
         })
 
-        local money = loc("{wavy freq=0.6 spacing=0.8 amp=0.4}{outline}{c r=0.4 g=1 b=0.5}$ %{money}", {
+        local money = loc("{wavy freq=0.6 spacing=0.8 amp=0.4}{outline}{c r=1 g=0.843 b=0.1}$ %{money}", {
             money = math.floor(lp.getMoney(ent))
         })
 

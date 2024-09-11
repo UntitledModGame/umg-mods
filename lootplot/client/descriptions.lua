@@ -106,10 +106,10 @@ umg.on("lootplot:populateDescription", 30, function(ent, arr)
     local mEarn = ent.moneyGenerated
     if mEarn and mEarn ~= 0 then
         if mEarn > 0 then
-            arr:add(funcLocEnt("{c r=1 g=0.87 b=0.42}Earns $%{moneyGenerated}", ent, VERB_CTX))
+            arr:add(funcLocEnt("{c r=1 g=0.843 b=0.1}Earns $%{moneyGenerated}", ent, VERB_CTX))
         else
             arr:add(funcLocEnt(
-                "{c r=1 g=0.2 b=0}Steals {/c}{c r=1 g=0.87 b=0.42}$%{moneyGenerated}!", 
+                "{c r=1 g=0.2 b=0}Steals {/c}{c r=1 g=0.843 b=0.1}$%{moneyGenerated}!", 
                 ent, 
                 VERB_CTX
             ))
