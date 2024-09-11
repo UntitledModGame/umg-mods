@@ -926,17 +926,12 @@ end
 ---@param ent Entity
 function lp.tryTriggerEntity(name, ent)
     if lp.canTrigger(name, ent) then
-        lp.forceTriggerEntity(name, ent)
+        trigger.triggerEntity(name, ent)
         return true
     end
     return false
 end
 
----@param name string
----@param ent Entity
-function lp.forceTriggerEntity(name, ent)
-    return trigger.triggerEntity(name, ent)
-end
 
 ---@param name string
 ---@param ent Entity

@@ -250,10 +250,6 @@ end
 function lp.tryTriggerEntity(name, ent)
 end
 
----@param name string
----@param ent Entity
-function lp.forceTriggerEntity(name, ent)
-end
 
 ---@param name string
 ---@param ent Entity

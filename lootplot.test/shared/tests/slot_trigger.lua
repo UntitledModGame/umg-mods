@@ -19,7 +19,7 @@ return function()
         self:assert(slot, "expected slot, got nil")
         ---@cast slot lootplot.SlotEntity
 
-        if server then lp.forceTriggerEntity("PULSE", slot) end
+        if server then lp.tryTriggerEntity("PULSE", slot) end
         self:tick(20)
     end)
 
@@ -35,7 +35,7 @@ return function()
         self:assert(slot, "expected slot, got nil")
         ---@cast slot lootplot.SlotEntity
 
-        if server then lp.forceTriggerEntity("REROLL", slot) end
+        if server then lp.tryTriggerEntity("REROLL", slot) end
         self:tick(20)
     end)
 end
