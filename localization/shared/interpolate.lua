@@ -1,59 +1,43 @@
 ---@param text string
 ---@param vars table<string, any>
 local function interpolate(text, vars)
-    local maybeOpening = false
-    local inVariableName = false
-    local buffer = {}
-    local result = {}
+    ---@param str string
+    local interpolated = text:gsub("(%%+{[^}]+})", function(str)
+        local percentages = 0
 
-    -- Note: It doesn't matter if we're using UTF-8-aware or not.
-    for i = 1, #text do
-        local char = text:sub(i, i)
-
-        if char == "%" then
-            if maybeOpening then
-                -- Escape
-                maybeOpening = false
-                result[#result+1] = "%"
+        for i = 1, #str do
+            if str:sub(i, i) == "%" then
+                percentages = percentages + 1
             else
-                maybeOpening = true
+                break
             end
-        elseif char == "}" and inVariableName then
-            local variableName = table.concat(buffer)
-            local value = vars[variableName]
-            table.clear(buffer)
+        end
 
-            if value == nil then
+        assert(percentages > 0)
+        local result = str:sub(percentages + 1)
+        if percentages % 2 == 1 then
+            -- We're interpolating
+            local variableData = str:sub(percentages + 2, -2)
+            local variable, format = variableData:match("([^:]+):?(.*)")
+
+            local value = vars[variable]
+            if #format > 0 then
+                result = string.format("%"..format, value)
+            elseif value == nil then
                 --[[
                 the reason we do this is to signal to other systems 
                 that the {} should be ignored.
                 (In UMG, double {{ implies an ESCAPED bracket sequence.)
                 ]]
-                value = "%{{"..variableName.."}}"
+                result = "%{{"..variable.."}}"
             else
-                value = tostring(value)
+                result = tostring(value)
             end
-
-            result[#result+1] = value
-            inVariableName = false
-        elseif maybeOpening then
-            if char == "{" then
-                -- String interpolation opening tag confirmed
-                inVariableName = true
-            else
-                -- Invalid
-                result[#result+1] = "%"
-                result[#result+1] = char
-            end
-            maybeOpening = false
-        elseif inVariableName then
-            buffer[#buffer+1] = char
-        else
-            result[#result+1] = char
         end
-    end
 
-    return table.concat(result)
+        return string.rep("%", percentages / 2)..result
+    end)
+    return interpolated
 end
 
 return interpolate
