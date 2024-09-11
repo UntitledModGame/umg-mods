@@ -12,11 +12,11 @@ text.RichText = require("client.Text")
 
 local defaultEffectGroup = require("client.defaultEffectGroup")
 
-local INVALID_CHARS = ".%:{}"
+local INVALID_CHARS = "%{}"
 local function assertNameValid(name)
     for ci = 1,#INVALID_CHARS do
         local c = INVALID_CHARS:sub(ci,ci)
-        if name:find("%"..c) then
+        if name:find(c, 1, true) then
             umg.melt("Invalid character in name:  " .. c, 3)
         end
     end

@@ -10,7 +10,7 @@ local function isValidVariableCharacter(char, excludenum)
     if excludenum then
         return char == 95 or (char >= 65 and char <= 90) or (char >= 97 and char <= 122)
     else
-        return (char >= 48 and char <= 57) or isValidVariableCharacter(char, true)
+        return (char >= 48 and char <= 58) or char == 46 or isValidVariableCharacter(char, true)
     end
 end
 
