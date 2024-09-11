@@ -15,6 +15,9 @@ end
 defineCard("lootplot.content.s0:star_card", {
     image = "star_card",
     name = loc("Star Card"),
+
+    rarity = lp.rarities.LEGENDARY,
+
     targetType = "ITEM",
     targetActivationDescription = loc("Shuffle shapes between target items"),
     targetShape = lp.targets.ABOVE_BELOW_SHAPE,
