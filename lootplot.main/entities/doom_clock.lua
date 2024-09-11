@@ -71,9 +71,18 @@ umg.defineEntityType("lootplot.main:doom_clock", {
         generally, we shouldnt use `onDraw` for entities;
         But this is a very special case :)
         ]]
-        local needPoints = loc("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}Points: %{points}/%{requiredPoints}", {
-            points = math.floor(math.min(lp.getPoints(ent), ent.requiredPoints)),
-            requiredPoints = ent.requiredPoints
+        local points = lp.getPoints(ent)
+        local colorEffect
+        if points > ent.requiredPoints then
+            colorEffect = "{c r=0.1 g=1 b=0.2}"
+        else
+            colorEffect = "{c r=1 g=0.8 b=0.7}"
+        end
+
+        local needPoints = loc("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}Points: %{colorEffect}%{points}{/c}/%{requiredPoints}", {
+            points = points,
+            requiredPoints = ent.requiredPoints,
+            colorEffect = colorEffect
         })
 
         local money = loc("{wavy freq=0.6 spacing=0.8 amp=0.4}{outline}{c r=0.4 g=1 b=0.5}$ %{money}", {
