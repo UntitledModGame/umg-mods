@@ -137,19 +137,49 @@ lp.defineItem("lootplot.content.s0:boomerang", {
 })
 
 
-lp.defineItem("lootplot.content.s0:red_shield", {
-    image = "red_shield",
-    name = loc("Red Shield"),
+lp.defineItem("lootplot.content.s0:pink_octopus", {
+    image = "pink_octopus",
+    name = loc("Pink Octopus"),
+
+    rarity = lp.rarities.RARE,
+
+    shape = lp.targets.KING_SHAPE,
+
+    target = {
+        type = "ITEM",
+        description = loc("{lp_targetColor}Triggers item."),
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.tryTriggerEntity("PULSE", targetEnt)
+        end
+    }
+})
+
+lp.defineItem("lootplot.content.s0:orange_octopus", {
+    image = "orange_octopus",
+    name = loc("Orange Octopus"),
 
     rarity = lp.rarities.EPIC,
 
     shape = lp.targets.KING_SHAPE,
 
     target = {
-        type = "ITEM",
-        description = loc("{lp_targetColor}Triggers all target items."),
+        type = "SLOT",
+        description = loc("{lp_targetColor}Triggers slot."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.tryTriggerEntity("PULSE", targetEnt)
         end
     }
 })
+
+--[[
+    TODO:
+    Define dark_octopus here.
+
+    dark-octo should relate to destruction somehow;
+    yet should still be similar to the other octos.
+
+    some ideas:
+    - trigger DESTROY for entity; without killing the entity.
+        - ^^^ I LOVE THIS IDEA!
+    - trigger ACTIVATE for entity; IFF the entity is DOOMED.
+]]
