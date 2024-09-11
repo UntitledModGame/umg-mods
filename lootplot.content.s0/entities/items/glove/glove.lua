@@ -8,14 +8,17 @@ local function defineGlove(id, name, description, giveShape, rarity)
         rarity = rarity,
         minimumLevelToSpawn = 4,
 
-        targetType = "ITEM",
-        targetActivationDescription = loc("{lp_targetColor}" .. description),
-        targetShape = lp.targets.ABOVE_SHAPE,
-        targetActivate = function(selfEnt, ppos, targetItemEnt)
-            if targetItemEnt.targetShape then
-                lp.targets.setTargetShape(targetItemEnt, giveShape)
+        shape = lp.targets.ABOVE_SHAPE,
+
+        target = {
+            type = "ITEM",
+            description = loc("{lp_targetColor}" .. description),
+            activate = function(selfEnt, ppos, targetItemEnt)
+                if targetItemEnt.shape then
+                    lp.targets.setShape(targetItemEnt, giveShape)
+                end
             end
-        end
+        }
     })
 end
 

@@ -11,15 +11,16 @@ end
 
 
 local function tryConvert(targeterEnt, ppos)
-    if targeterEnt.targetType == "ITEM" then
+    local target = targeterEnt.target
+    if target.type == "ITEM" then
         local item = lp.posToItem(ppos)
         return (not not item), item
-    elseif targeterEnt.targetType == "SLOT" then
+    elseif target.type == "SLOT" then
         local slot = lp.posToSlot(ppos)
         return (not not slot), slot
-    elseif targeterEnt.targetType == "NO_ITEM" then
+    elseif target.type == "NO_ITEM" then
         return lp.posToSlot(ppos) and (not lp.posToItem(ppos))
-    elseif targeterEnt.targetType == "NO_SLOT" then
+    elseif target.type == "NO_SLOT" then
         return not lp.posToSlot(ppos)
     end
     return false
@@ -27,15 +28,17 @@ end
 
 
 local function checkFilter(targeterEnt, ppos, val)
-    if targeterEnt.targetFilter then
-        return targeterEnt.targetFilter(targeterEnt, ppos, val)
+    if targeterEnt.target.filter then
+        return targeterEnt.target.filter(targeterEnt, ppos, val)
     end
     return umg.ask("lootplot.targets:canTarget", targeterEnt, ppos, val)
 end
 
 function util.canTarget(targeterEnt, ppos)
+    local target = targeterEnt.target
+    assert(target, "Not a target entity?")
     local ok,val = tryConvert(targeterEnt, ppos)
-    if targeterEnt.targetType then
+    if target.type then
         if ok then
             return checkFilter(targeterEnt, ppos, val)
         end

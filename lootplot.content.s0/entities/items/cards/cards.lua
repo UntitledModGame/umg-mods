@@ -18,9 +18,13 @@ defineCard("lootplot.content.s0:star_card", {
 
     rarity = lp.rarities.LEGENDARY,
 
-    targetType = "ITEM",
-    targetActivationDescription = loc("Shuffle shapes between target items"),
-    targetShape = lp.targets.ABOVE_BELOW_SHAPE,
+    shape = lp.targets.ABOVE_BELOW_SHAPE,
+
+    target = {
+        type = "ITEM",
+        description = loc("Shuffle shapes between target items"),
+    },
+
     onActivate = function(selfEnt)
         local targets = lp.targets.getTargets(selfEnt)
 
@@ -32,7 +36,7 @@ defineCard("lootplot.content.s0:star_card", {
                 local itemEnt = lp.posToItem(ppos)
                 if itemEnt then
                     itemEntities[#itemEntities+1] = itemEnt
-                    itemEntShapes[#itemEntities] = itemEnt.targetShape
+                    itemEntShapes[#itemEntities] = itemEnt.shape
                 end
             end
 
@@ -44,8 +48,8 @@ defineCard("lootplot.content.s0:star_card", {
 
             -- Assign shapes
             for i, itemEnt in ipairs(itemEntities) do
-                if itemEnt.targetShape ~= itemEntShapes[i] then
-                    lp.targets.setTargetShape(itemEnt, itemEntShapes[i])
+                if itemEnt.shape ~= itemEntShapes[i] then
+                    lp.targets.setShape(itemEnt, itemEntShapes[i])
                 end
             end
         end
@@ -56,9 +60,11 @@ defineCard("lootplot.content.s0:star_card", {
 defineCard("lootplot.content.s0:diamonds_card", {
     image = "diamonds_card",
     name = loc("Diamonds Card"),
-    targetType = "ITEM",
-    targetActivationDescription = loc("{lp_targetColor}Shuffle traits between target items"),
-    targetShape = lp.targets.ABOVE_BELOW_SHAPE,
+    shape = lp.targets.ABOVE_BELOW_SHAPE,
+    target = {
+        type = "ITEM",
+        description = loc("{lp_targetColor}Shuffle traits between target items"),
+    },
     onActivate = function(selfEnt)
         local targets = lp.targets.getTargets(selfEnt)
         -- TODO
@@ -69,9 +75,14 @@ defineCard("lootplot.content.s0:diamonds_card", {
 defineCard("lootplot.content.s0:spades_card", {
     image = "spades_card",
     name = loc("Spades Card"),
-    targetType = "ITEM",
-    targetActivationDescription = loc("{lp_targetColor}Shuffle positions of target items"),
-    targetShape = lp.targets.KING_SHAPE,
+
+    shape = lp.targets.KING_SHAPE,
+
+    target = {
+        type = "ITEM",
+        description = loc("{lp_targetColor}Shuffle positions of target items"),
+    },
+
     onActivate = function(selfEnt)
         local targets = lp.targets.getTargets(selfEnt)
 

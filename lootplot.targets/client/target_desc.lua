@@ -39,37 +39,43 @@ local TARGET_TYPE_TEXT = {
 local TARGET_TYPE_TEXT_FALLBACK = "{lp_targetColor}Targets unknown:"
 
 umg.on("lootplot:populateDescription", TARGET_SHAPE_ORDER, function(ent, arr)
-    if ent.targetShape then
-        local targetText = TARGET_TYPE_TEXT[ent.targetType] or TARGET_TYPE_TEXT_FALLBACK
+    if ent.target and ent.shape then
+        local targetText = TARGET_TYPE_TEXT[ent.target.type] or TARGET_TYPE_TEXT_FALLBACK
         arr:add(loc(targetText,nil,BRIEF_CTX))
     end
 end)
 
 
 
-umg.on("lootplot:populateDescription", TARGET_FILTER_ORDER, function(ent, arr)
-    if ent.targetShape and ent.targetTrait then
-        arr:add(loc("{lp_targetColor}If target has %{trait} trait: ", {
-            trait = lp.getTraitDisplayName(ent.targetTrait)
-        }, BRIEF_CTX))
-    end
-end)
+
+--- TODO:
+--- REMOVE THIS, it sucks.
+--- targetTrait isnt used anywhere, coz its dumb. just use filter, dummy!
+--
+-- umg.on("lootplot:populateDescription", TARGET_FILTER_ORDER, function(ent, arr)
+--     if ent.target and ent.target.trait then
+--         arr:add(loc("{lp_targetColor}If target has %{trait} trait: ", {
+--             trait = lp.getTraitDisplayName(ent.targetTrait)
+--         }, BRIEF_CTX))
+--     end
+-- end)
 
 
 
 
 
 umg.on("lootplot:populateDescription", TARGET_ACTIVATE_ORDER, function(ent, arr)
-    if ent.targetShape and ent.targetActivationDescription then
-        local typ = type(ent.targetActivationDescription)
+    if ent.target and ent.target.description then
+        local desc = ent.target.description
+        local typ = type(desc)
         if typ == "string" then
             -- should already be localized:
-            arr:add("{lp_targetColor}" .. ent.targetActivationDescription)
+            arr:add("{lp_targetColor}" .. desc)
         elseif typ == "function" then
             arr:add(function()
                 -- need to pass ent manually as a closure
                 if umg.exists(ent) then
-                    return ent.targetActivationDescription(ent)
+                    return desc(ent)
                 end
             end)
         end
@@ -80,10 +86,10 @@ end)
 local MISC_ORDER = 50
 
 umg.on("lootplot:populateDescription", MISC_ORDER, function(ent, arr)
-    if ent.targetShape then
+    if ent.shape then
         -- should already be localized:
         arr:add(loc("Shape: {wavy}{lp_targetColor}%{shapeName}", {
-            shapeName = ent.targetShape.name
+            shapeName = ent.shape.name
         }))
     end
 end)

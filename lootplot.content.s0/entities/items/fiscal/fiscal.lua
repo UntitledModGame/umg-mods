@@ -14,23 +14,26 @@ lp.defineItem("lootplot.content.s0:gold_axe", {
     name = loc("Golden Axe"),
 
     baseMoneyGenerated = 1,
-    targetActivationDescription = loc("{lp_targetColor}Earn money if item generates points."),
 
     rarity = lp.rarities.RARE,
     minimumLevelToSpawn = 4,
 
-    targetType = "ITEM",
-    targetShape = lp.targets.KNIGHT_SHAPE,
-    targetFilter = function(selfEnt, ppos, targetEnt)
-        local pGen = targetEnt.pointsGenerated or 0
-        if pGen and pGen > 0 then
-            return true
+    shape = lp.targets.KNIGHT_SHAPE,
+
+    target = {
+        description = loc("{lp_targetColor}Earn money if item generates points."),
+        type = "ITEM",
+        filter = function(selfEnt, ppos, targetEnt)
+            local pGen = targetEnt.pointsGenerated or 0
+            if pGen and pGen > 0 then
+                return true
+            end
+            return false
+        end,
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.addMoney(selfEnt, selfEnt.moneyGenerated or 0)
         end
-        return false
-    end,
-    targetActivate = function(selfEnt, ppos, targetEnt)
-        lp.addMoney(selfEnt, selfEnt.moneyGenerated or 0)
-    end
+    }
 })
 
 

@@ -8,23 +8,26 @@ local function defineBook(id, name, targetSlot, targetSlotName)
         minimumLevelToSpawn = 2,
         rarity = lp.rarities.UNCOMMON,
 
-        targetType = "SLOT",
-        targetShape = lp.targets.ABOVE_SHAPE,
-        targetActivationDescription = loc("{lp_targetColor}Converts target slot into " .. targetSlotName),
+        shape = lp.targets.ABOVE_SHAPE,
 
-        targetActivate = function(selfEnt, ppos, targetEnt)
-            local targSlot
-            if type(targetSlot) == "function" then
-                targSlot = targetSlot(selfEnt)
-            else
-                targSlot = targetSlot
-            end
+        target = {
+            type = "SLOT",
+            description = loc("{lp_targetColor}Converts target slot into " .. targetSlotName),
 
-            local newSlotEnt = server.entities["lootplot.content.s0:"..targSlot]
-            if newSlotEnt then
-                lp.forceSpawnSlot(ppos, newSlotEnt, selfEnt.lootplotTeam)
+            activate = function(selfEnt, ppos, targetEnt)
+                local targSlot
+                if type(targetSlot) == "function" then
+                    targSlot = targetSlot(selfEnt)
+                else
+                    targSlot = targetSlot
+                end
+
+                local newSlotEnt = server.entities["lootplot.content.s0:"..targSlot]
+                if newSlotEnt then
+                    lp.forceSpawnSlot(ppos, newSlotEnt, selfEnt.lootplotTeam)
+                end
             end
-        end
+        }
     })
 end
 

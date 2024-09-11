@@ -37,15 +37,17 @@ lp.defineItem("lootplot.content.s0:gift_box", {
 
     doomCount = 1,
 
-    targetActivationDescription = loc("Spawn RARE items."),
-    targetShape = lp.targets.RookShape(1),
+    shape = lp.targets.RookShape(1),
 
-    targetActivate = function(selfEnt, ppos, targetEnt)
-        local etype = server.entities[generateRareItem(selfEnt)]
-        if etype then
-            lp.forceSpawnItem(ppos, etype, selfEnt.lootplotTeam)
+    target = {
+        description = loc("Spawn RARE items."),
+        activate = function(selfEnt, ppos, targetEnt)
+            local etype = server.entities[generateRareItem(selfEnt)]
+            if etype then
+                lp.forceSpawnItem(ppos, etype, selfEnt.lootplotTeam)
+            end
         end
-    end
+    }
 })
 
 
@@ -57,19 +59,22 @@ lp.defineItem("lootplot.content.s0:pandoras_box", {
     rarity = lp.rarities.EPIC,
     minimumLevelToSpawn = 4,
 
-    targetType = "SLOT",
-    targetShape = lp.targets.ABOVE_SHAPE,
-    targetActivationDescription = loc("{lp_targetColor}Spawn a RARE item in an ABOVE shape that has only 1 use."),
-    targetActivate = function(selfEnt, ppos, targetEnt)
-        local etype = server.entities[generateRareItem(selfEnt)]
+    shape = lp.targets.ABOVE_SHAPE,
 
-        if etype then
-            local e = lp.trySpawnItem(ppos, etype, selfEnt.lootplotTeam)
-            if e then
-                e.doomCount = 1
+    target = {
+        type = "SLOT",
+        description = loc("{lp_targetColor}Spawn a RARE item in an ABOVE shape that has only 1 use."),
+        activate = function(selfEnt, ppos, targetEnt)
+            local etype = server.entities[generateRareItem(selfEnt)]
+
+            if etype then
+                local e = lp.trySpawnItem(ppos, etype, selfEnt.lootplotTeam)
+                if e then
+                    e.doomCount = 1
+                end
             end
         end
-    end
+    }
 })
 
 
@@ -83,20 +88,23 @@ lp.defineItem("lootplot.content.s0:copycat", {
 
     basePrice = 0,
 
-    targetType = "NO_ITEM",
-    targetShape = lp.targets.RookShape(1),
-    targetActivationDescription = loc("{lp_targetColor}Copies self into target slots"),
-    targetActivate = function(selfEnt, ppos, targetEnt)
-        local copyEnt = lp.clone(selfEnt)
-        local oldItem = lp.posToItem(ppos)
-        if oldItem then
-            lp.destroy(oldItem)
+    shape = lp.targets.RookShape(1),
+
+    target = {
+        type = "NO_ITEM",
+        description = loc("{lp_targetColor}Copies self into target slots"),
+        activate = function(selfEnt, ppos, targetEnt)
+            local copyEnt = lp.clone(selfEnt)
+            local oldItem = lp.posToItem(ppos)
+            if oldItem then
+                lp.destroy(oldItem)
+            end
+            local success = lp.trySetItem(ppos, copyEnt)
+            if not success then
+                copyEnt:delete()
+            end
         end
-        local success = lp.trySetItem(ppos, copyEnt)
-        if not success then
-            copyEnt:delete()
-        end
-    end
+    }
 })
 
 
@@ -135,10 +143,13 @@ lp.defineItem("lootplot.content.s0:red_shield", {
 
     rarity = lp.rarities.EPIC,
 
-    targetType = "ITEM",
-    targetShape = lp.targets.KING_SHAPE,
-    targetActivationDescription = loc("{lp_targetColor}Triggers all target items."),
-    targetActivate = function(selfEnt, ppos, targetEnt)
-        lp.tryTriggerEntity("PULSE", targetEnt)
-    end
+    shape = lp.targets.KING_SHAPE,
+
+    target = {
+        type = "ITEM",
+        description = loc("{lp_targetColor}Triggers all target items."),
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.tryTriggerEntity("PULSE", targetEnt)
+        end
+    }
 })

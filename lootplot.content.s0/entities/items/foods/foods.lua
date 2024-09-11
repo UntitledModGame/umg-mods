@@ -20,15 +20,17 @@ defineFood("lootplot.content.s0:blueberry", {
 
     baseTraits = {},
 
-    targetType = "ITEM",
-    targetShape = lp.targets.ABOVE_SHAPE,
-    targetActivationDescription = loc("{lp_targetColor}Adds 2 Doom-count to item"),
+    shape = lp.targets.ABOVE_SHAPE,
 
-    targetActivate = function (selfEnt, ppos, targetEnt)
-        if targetEnt.doomCount then
-            targetEnt.doomCount = targetEnt.doomCount + 2
+    target = {
+        type = "ITEM",
+        description = loc("{lp_targetColor}Adds 2 Doom-count to item"),
+        activate = function (selfEnt, ppos, targetEnt)
+            if targetEnt.doomCount then
+                targetEnt.doomCount = targetEnt.doomCount + 2
+            end
         end
-    end
+    }
 })
 
 
@@ -42,13 +44,16 @@ defineFood("lootplot.content.s0:lychee", {
     rarity = lp.rarities.RARE,
     minimumLevelToSpawn = 6,
 
-    targetType = "ITEM",
-    targetShape = lp.targets.ABOVE_SHAPE,
-    targetActivationDescription = loc("{lp_targetColor}Gives +5 max-activations to target item"),
+    shape = lp.targets.ABOVE_SHAPE,
 
-    targetActivate = function (selfEnt, ppos, targetEnt)
-        lp.modifierBuff(targetEnt, "maxActivations", 5, selfEnt)
-    end
+    target = {
+        type = "ITEM",
+        description = loc("{lp_targetColor}Gives +5 max-activations to target item"),
+
+        activate = function (selfEnt, ppos, targetEnt)
+            lp.modifierBuff(targetEnt, "maxActivations", 5, selfEnt)
+        end
+    }
 })
 
 
@@ -61,16 +66,19 @@ defineFood("lootplot.content.s0:magic_radish", {
     minimumLevelToSpawn = 6,
     rarity = lp.rarities.EPIC,
 
-    targetType = "ITEM",
-    targetShape = lp.targets.ABOVE_SHAPE,
-    targetActivationDescription = loc("Transforms into random target item."),
-    targetActivate = function(selfEnt, ppos, targetEnt)
-        local selfPPos = lp.getPos(selfEnt)
+    shape = lp.targets.ABOVE_SHAPE,
 
-        if selfPPos then
-            lp.forceSpawnItem(selfPPos, server.entities[targetEnt:type()], selfEnt.lootplotTeam)
+    target = {
+        type = "ITEM",
+        description = loc("Transforms into random target item."),
+        activate = function(selfEnt, ppos, targetEnt)
+            local selfPPos = lp.getPos(selfEnt)
+
+            if selfPPos then
+                lp.forceSpawnItem(selfPPos, server.entities[targetEnt:type()], selfEnt.lootplotTeam)
+            end
         end
-    end
+    }
 })
 
 
@@ -81,7 +89,7 @@ defineFood("lootplot.content.s0:magic_radish", {
 ----------------------------------------------------------------------------
 
 
-local function defineSlotSpawner(id_image, name, spawnSlot, spawnSlotName, targetShape, extraComponents, slotModifier)
+local function defineSlotSpawner(id_image, name, spawnSlot, spawnSlotName, shape, extraComponents, slotModifier)
     local entId = "lootplot.content.s0:" .. id_image
     extraComponents = extraComponents or {}
 
@@ -93,18 +101,19 @@ local function defineSlotSpawner(id_image, name, spawnSlot, spawnSlotName, targe
 
         basePrice = 4,
 
-        targetType = "NO_SLOT",
-        targetActivationDescription = loc("{lp_targetColor}Spawns a " .. spawnSlotName),
-        targetShape = targetShape,
-
-        targetActivate = function (selfEnt, ppos)
-            local etype = server.entities["lootplot.content.s0:" .. spawnSlot]
-            assert(etype, "?")
-            local slotEnt = lp.trySpawnSlot(ppos, etype, selfEnt.lootplotTeam)
-            if slotModifier and slotEnt then
-                slotModifier(slotEnt, ppos, selfEnt)
+        target = {
+            type = "NO_SLOT",
+            description = loc("{lp_targetColor}Spawns a " .. spawnSlotName),
+            activate = function (selfEnt, ppos)
+                local etype = server.entities["lootplot.content.s0:" .. spawnSlot]
+                assert(etype, "?")
+                local slotEnt = lp.trySpawnSlot(ppos, etype, selfEnt.lootplotTeam)
+                if slotModifier and slotEnt then
+                    slotModifier(slotEnt, ppos, selfEnt)
+                end
             end
-        end
+        },
+        shape = shape,
     }
 
     for k,v in pairs(extraComponents) do
@@ -153,7 +162,7 @@ defineSlotSpawner("coconut", "Coconut", "dirt_slot", "Dirt Slot", lp.targets.Roo
 
 ----------------------------------------------------------------------------
 
-local function defineSlotConverter(id_image, name, spawnSlot, spawnSlotName, targetShape, extraComponents)
+local function defineSlotConverter(id_image, name, spawnSlot, spawnSlotName, shape, extraComponents)
     local entId = "lootplot.content.s0:" .. id_image
     extraComponents = extraComponents or {}
 
@@ -161,15 +170,17 @@ local function defineSlotConverter(id_image, name, spawnSlot, spawnSlotName, tar
         image = id_image,
         name = loc(name),
 
-        targetType = "SLOT",
-        targetActivationDescription = loc("{lp_targetColor}Converts target slot into " .. spawnSlotName),
-        targetShape = targetShape,
+        shape = shape,
 
-        targetActivate = function (selfEnt, ppos)
-            local etype = server.entities["lootplot.content.s0:" .. spawnSlot]
-            assert(etype, "?")
-            lp.forceSpawnSlot(ppos, etype, selfEnt.lootplotTeam)
-        end
+        target = {
+            type = "SLOT",
+            description = loc("{lp_targetColor}Converts target slot into " .. spawnSlotName),
+            activate = function (selfEnt, ppos)
+                local etype = server.entities["lootplot.content.s0:" .. spawnSlot]
+                assert(etype, "?")
+                lp.forceSpawnSlot(ppos, etype, selfEnt.lootplotTeam)
+            end
+        }
     }
     for k,v in pairs(extraComponents) do
         etype[k] = v
@@ -205,20 +216,23 @@ defineFood("lootplot.content.s0:super_apple", {
     rarity = lp.rarities.EPIC,
     minimumLevelToSpawn = 6,
 
-    targetType = "NO_SLOT",
-    targetShape = lp.targets.KING_SHAPE,
-    targetActivationDescription = loc("Clones the current slot the item is in."),
-    targetActivate = function(selfEnt, ppos, ent)
-        local slotEnt = lp.itemToSlot(selfEnt)
-        if slotEnt then
-            local clone = lp.clone(slotEnt)
-            local oldSlot = lp.posToSlot(ppos)
-            if oldSlot then
-                lp.destroy(oldSlot)
+    shape = lp.targets.KING_SHAPE,
+
+    target = {
+        type = "NO_SLOT",
+        description = loc("Clones the current slot the item is in."),
+        activate = function(selfEnt, ppos, ent)
+            local slotEnt = lp.itemToSlot(selfEnt)
+            if slotEnt then
+                local clone = lp.clone(slotEnt)
+                local oldSlot = lp.posToSlot(ppos)
+                if oldSlot then
+                    lp.destroy(oldSlot)
+                end
+                lp.setSlot(ppos, clone)
             end
-            lp.setSlot(ppos, clone)
         end
-    end
+    }
 })
 
 ----------------------------------------------------------------------------
@@ -236,22 +250,25 @@ local function definePie(id, name, desc, addShape, rarity)
         rarity = rarity,
         minimumLevelToSpawn = 2,
 
-        targetType = "ITEM",
-        targetActivationDescription = loc("{lp_targetColor}" .. desc),
-        targetShape = lp.targets.ABOVE_SHAPE,
-        targetActivate = function(selfEnt, ppos, targetItemEnt)
-            local oldShape = targetItemEnt.targetShape
-            if oldShape then
-                local newShape = lp.targets.UnionShape(
-                    targetItemEnt.targetShape,
-                    addShape
-                )
-                if #newShape.relativeCoords > #oldShape.relativeCoords then
-                    -- only overwrite if it changed
-                    lp.targets.setTargetShape(targetItemEnt, newShape)
+        shape = lp.targets.ABOVE_SHAPE,
+
+        target = {
+            type = "ITEM",
+            description = loc("{lp_targetColor}" .. desc),
+            activate = function(selfEnt, ppos, targetItemEnt)
+                local oldShape = targetItemEnt.shape
+                if oldShape then
+                    local newShape = lp.targets.UnionShape(
+                        targetItemEnt.shape,
+                        addShape
+                    )
+                    if #newShape.relativeCoords > #oldShape.relativeCoords then
+                        -- only overwrite if it changed
+                        lp.targets.setShape(targetItemEnt, newShape)
+                    end
                 end
             end
-        end
+        }
     })
 end
 

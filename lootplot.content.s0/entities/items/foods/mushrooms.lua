@@ -23,19 +23,22 @@ local function defineMush(image, name, args)
         rarity = lp.rarities.UNCOMMON,
         minimumLevelToSpawn = 3,
 
-        targetType = "SLOT",
-        targetShape = lp.targets.ON_SHAPE,
-        targetActivationDescription = loc(args.description),
-        targetActivate = function(selfEnt, ppos, targetEnt)
-            local slotEnt = lp.itemToSlot(selfEnt)
-            if slotEnt then
-                if args.buffType == "MULTIPLY" then
-                    return lp.multiplierBuff(slotEnt, args.property, args.buffAmount, selfEnt)
-                else
-                    return lp.modifierBuff(slotEnt, args.property, args.buffAmount, selfEnt)
+        shape = lp.targets.ON_SHAPE,
+
+        target = {
+            type = "SLOT",
+            description = loc(args.description),
+            activate = function(selfEnt, ppos, targetEnt)
+                local slotEnt = lp.itemToSlot(selfEnt)
+                if slotEnt then
+                    if args.buffType == "MULTIPLY" then
+                        return lp.multiplierBuff(slotEnt, args.property, args.buffAmount, selfEnt)
+                    else
+                        return lp.modifierBuff(slotEnt, args.property, args.buffAmount, selfEnt)
+                    end
                 end
             end
-        end
+        }
     })
 end
 

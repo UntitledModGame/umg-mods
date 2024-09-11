@@ -39,20 +39,21 @@ local function defineAxe(mineral_type, name, tier)
         image = image,
         name = loc(name .. " Axe"),
 
-        targetActivationDescription = loc("{lp_targetColor}Earn points for every target item."),
-
         rarity = lp.rarities.UNCOMMON,
 
         minimumLevelToSpawn = tier,
         basePrice = 2 * tier,
         basePointsGenerated = 2 * tier,
 
-        targetType = "ITEM",
-        targetShape = lp.targets.KNIGHT_SHAPE,
+        shape = lp.targets.KNIGHT_SHAPE,
 
-        targetActivate = function(selfEnt, ppos, targetEnt)
-            lp.addPoints(selfEnt, selfEnt.pointsGenerated or 0)
-        end
+        target = {
+            type = "ITEM",
+            description = loc("{lp_targetColor}Earn points for every target item."),
+            activate = function(selfEnt, ppos, targetEnt)
+                lp.addPoints(selfEnt, selfEnt.pointsGenerated or 0)
+            end
+        }
     })
 end
 

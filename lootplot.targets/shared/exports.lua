@@ -106,10 +106,10 @@ function targets.getTargets(itemEnt)
     local pos = lp.getPos(itemEnt)
     local targetList
 
-    if itemEnt.targetShape and pos then
+    if itemEnt.shape and pos then
         targetList = objects.Array()
 
-        for _, coords in ipairs(itemEnt.targetShape.relativeCoords) do
+        for _, coords in ipairs(itemEnt.shape.relativeCoords) do
             local newPpos = pos:move(coords[1], coords[2])
 
             if newPpos then
@@ -127,9 +127,9 @@ end
 
 ---@param itemEnt lootplot.ItemEntity
 ---@param shape lootplot.targets.ShapeData
-function targets.setTargetShape(itemEnt, shape)
-    itemEnt.targetShape = shape
-    sync.syncComponent(itemEnt, "targetShape")
+function targets.setShape(itemEnt, shape)
+    itemEnt.shape = shape
+    sync.syncComponent(itemEnt, "shape")
 end
 
 
