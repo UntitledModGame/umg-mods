@@ -590,7 +590,7 @@ end
 ---@param r2 ui.Region 
 ---@return ui.Region
 function Region:attachToRightOf(r2)
-    local right = r2.x + r2.h
+    local right = r2.x + r2.w
     return self:set(right, nil, nil, nil)
 end
 
