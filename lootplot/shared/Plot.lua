@@ -261,14 +261,16 @@ end
 ---loops over all of the plot, including empty slots
 ---@param func fun(ppos:lootplot.PPos)
 function Plot:foreach(func)
-    self.grid:foreach(function(_val, x, y)
-        local slotI = self.grid:coordsToIndex(x,y)
-        local ppos = lp.PPos({
-            plot = self,
-            slot = slotI
-        })
-        func(ppos)
-    end)
+    for y=0, self.height-1 do
+        for x=self.width-1, 0, -1 do
+            local slotI = self.grid:coordsToIndex(x,y)
+            local ppos = lp.PPos({
+                plot = self,
+                slot = slotI
+            })
+            func(ppos)
+        end
+    end
 end
 
 ---loops over all slot-entities in plot
