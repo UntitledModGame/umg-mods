@@ -1,5 +1,6 @@
 ---@meta
 
+---Availability: Client and Server
 local chat = {}
 if false then _G.chat = chat end
 

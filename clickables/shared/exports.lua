@@ -1,4 +1,6 @@
 ---@meta
+
+---Availability: Client and Server
 local clickables = {}
 if false then _G.clickables = clickables end
 
