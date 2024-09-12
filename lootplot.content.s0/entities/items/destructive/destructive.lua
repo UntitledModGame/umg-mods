@@ -97,3 +97,30 @@ lp.defineItem("lootplot.content.s0:empty_cauldron", {
         end
     }
 })
+
+
+
+lp.defineItem("lootplot.content.s0:tooth_necklace", {
+    image = "tooth_necklace",
+    name = loc("Tooth Necklace"),
+    description = loc("Gives slot doomed-4.\nOnly activates if the slot isn't doomed!"),
+
+    baseMaxActivations = 10,
+    baseMoneyGenerated = 4,
+
+    rarity = lp.rarities.UNCOMMON,
+
+    canActivate = function(ent)
+        local slotEnt = lp.itemToSlot(ent)
+        if slotEnt and (not slotEnt.doomCount) then
+            return true
+        end
+    end,
+
+    onActivate = function(ent)
+        local slotEnt = lp.itemToSlot(ent)
+        if slotEnt then
+            slotEnt.doomCount = 4
+        end
+    end
+})
