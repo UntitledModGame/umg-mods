@@ -30,6 +30,7 @@ end)
 
 local ttc = typecheck.assert("entity", "lootplot:trait")
 
+---Availability: Client and Server
 ---@param ent Entity
 ---@param trait string
 function traits.addTrait(ent, trait)
@@ -39,6 +40,7 @@ function traits.addTrait(ent, trait)
     umg.call("lootplot:traitAdded", ent, trait)
 end
 
+---Availability: Client and Server
 ---@param ent Entity
 ---@param trait string
 function traits.removeTrait(ent, trait)
@@ -50,6 +52,7 @@ function traits.removeTrait(ent, trait)
     end
 end
 
+---Availability: Client and Server
 ---@param ent Entity
 ---@param trait string
 ---@return boolean
@@ -58,6 +61,7 @@ function traits.hasTrait(ent, trait)
     return not not (ent.traits and ent.traits:has(trait))
 end
 
+---Availability: Client and Server
 ---@param traitName string
 ---@param displayName string
 function traits.defineTrait(traitName, displayName)
@@ -68,6 +72,7 @@ end
 
 local displayNameTc = typecheck.assert("lootplot:trait")
 
+---Availability: Client and Server
 ---@param traitName string
 ---@return string
 function traits.getDisplayName(traitName)
