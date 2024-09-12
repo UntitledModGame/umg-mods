@@ -59,9 +59,9 @@ defineFood("lootplot.content.s0:lychee", {
 
 
 
-defineFood("lootplot.content.s0:magic_radish", {
-    image = "magic_radish",
-    name = loc("Magic Radish"),
+defineFood("lootplot.content.s0:magic_turnip", {
+    image = "magic_turnip",
+    name = loc("Magic Turnip"),
 
     minimumLevelToSpawn = 6,
     rarity = lp.rarities.EPIC,
