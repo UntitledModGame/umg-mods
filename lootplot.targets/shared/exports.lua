@@ -10,13 +10,17 @@ local util = require("shared.util")
 local KingShape = require("shared.shapes.King")
 local UnionShape = require("shared.shapes.Union")
 local UniDirectionalShape = require("shared.shapes.UniDirectional")
+local CircleShape = require("shared.shapes.Circle")
+
 
 local MAX_DISTANCE = 40
 
--- This is the shape generator function
+
 targets.KingShape = KingShape
 targets.UnionShape = UnionShape
 targets.UniDirectionalShape = UniDirectionalShape
+targets.CircleShape = CircleShape
+
 
 -- Simple helper
 
