@@ -381,7 +381,7 @@ function lp.setSlot(ppos, slotEnt)
     setSlotTc(ppos, slotEnt)
     local prevEnt = lp.posToSlot(ppos)
     if prevEnt then
-        lp.destroy(prevEnt)
+        prevEnt:delete()
     end
     ppos:set(slotEnt)
 end
