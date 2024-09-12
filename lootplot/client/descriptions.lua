@@ -97,19 +97,19 @@ umg.on("lootplot:populateDescription", 30, function(ent, arr)
     local pgen = ent.pointsGenerated
     if pgen and pgen ~= 0 then
         if pgen > 0 then
-            arr:add(funcLocEnt("{c r=0.3 g=1 b=0.3}Generates %{pointsGenerated} point(s)", ent, VERB_CTX))
+            arr:add(funcLocEnt("{c r=0.3 g=1 b=0.3}Generates %{pointsGenerated:.1f} point(s)", ent, VERB_CTX))
         else
-            arr:add(funcLocEnt("{c r=1 g=0 b=0.2}Steals %{pointsGenerated} point(s)!", ent, VERB_CTX))
+            arr:add(funcLocEnt("{c r=1 g=0 b=0.2}Steals %{pointsGenerated:.1f} point(s)!", ent, VERB_CTX))
         end
     end
 
     local mEarn = ent.moneyGenerated
     if mEarn and mEarn ~= 0 then
         if mEarn > 0 then
-            arr:add(funcLocEnt("{c r=1 g=0.843 b=0.1}Earns $%{moneyGenerated}", ent, VERB_CTX))
+            arr:add(funcLocEnt("{c r=1 g=0.843 b=0.1}Earns $%{moneyGenerated:.1f}", ent, VERB_CTX))
         else
             arr:add(funcLocEnt(
-                "{c r=1 g=0.2 b=0}Steals {/c}{c r=1 g=0.843 b=0.1}$%{moneyGenerated}!", 
+                "{c r=1 g=0.2 b=0}Steals {/c}{c r=1 g=0.843 b=0.1}$%{moneyGenerated:.1f}!", 
                 ent, 
                 VERB_CTX
             ))
