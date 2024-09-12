@@ -5,7 +5,7 @@ local chat = {}
 local ChatBox = require("client.ChatBox")
 local chatControls = require("client.chatControls")
 
-local constants = require("constants")
+local constants = require("shared.chat_constants")
 
 
 

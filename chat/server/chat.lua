@@ -19,7 +19,7 @@ per user, to prevent spamming.
 
 ]]
 
-local constants = require("constants")
+local constants = require("shared.chat_constants")
 
 
 
@@ -58,14 +58,14 @@ end)
 
 
 
-function chat.message(message)
-    local channel = message or constants.DEFAULT_CHANNEL
+function chat.message(message, channel)
+    channel = channel or constants.DEFAULT_CHANNEL
     server.broadcast("chat:message", message, channel)
 end
 
 
-function chat.privateMessage(clientId, message)
-    local channel = message or constants.DEFAULT_CHANNEL
+function chat.privateMessage(clientId, message, channel)
+    channel = channel or constants.DEFAULT_CHANNEL
     server.unicast( clientId, "chat:message", message, channel)
 end
 

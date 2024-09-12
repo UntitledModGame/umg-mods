@@ -1,5 +1,5 @@
 
-
+---@class chat.ChatMessage: Element
 local ChatMessage = ui.Element("chat:ChatMessage")
 
 local lg=love.graphics
