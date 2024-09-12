@@ -83,20 +83,20 @@ end)
 
 
 
-umg.answer("lootplot:isActivationBlocked", function(ent)
+umg.answer("lootplot:canActivateEntity", function(ent)
     local money = lp.getMoney(ent)
     if ent.moneyGenerated and money then
         if ent.moneyGenerated + money < 0 then
-            return true
+            return false
         end
     end
-    return false
+    return true
 end)
 
 
 
-umg.answer("lootplot:isActivationBlocked", function(ent)
-    return (ent.activationCount or 0) >= (ent.maxActivations or -1)
+umg.answer("lootplot:canActivateEntity", function(ent)
+    return (ent.activationCount or 0) < (ent.maxActivations or -1)
 end)
 
 
