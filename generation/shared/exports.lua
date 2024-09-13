@@ -1,8 +1,10 @@
 ---@meta
 
----Availability: Client and Server
 local generation = {}
-if false then _G.generation = generation end
+if false then
+    ---Availability: Client and Server
+    _G.generation = generation
+end
 
 ---Availability: Client and Server
 generation.Generator = require("shared.Generator")
@@ -12,8 +14,6 @@ generation.Picker = require("shared.Picker")
 ---Availability: Client and Server
 ---@deprecated use generation.Generator instead.
 generation.LegacyGenerator = require("shared.LegacyGenerator")
-
-local simplePicker = require("shared.simple_picker")
 
 ---Randomly picks an item from the list.
 ---

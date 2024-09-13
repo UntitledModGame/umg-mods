@@ -1,8 +1,10 @@
 ---@meta
 
----Availability: Client and Server
 local clickables = {}
-if false then _G.clickables = clickables end
+if false then
+    ---Availability: Client and Server
+    _G.clickables = clickables
+end
 
 local c = require("shared.clickable")
 

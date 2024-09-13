@@ -1,8 +1,10 @@
 ---@meta
 
----Availability: Client and Server
 local control = {}
-if false then _G.control = control end
+if false then
+    ---Availability: Client and Server
+    _G.control = control
+end
 
 
 local topdownControl = require("shared.topdown_control")

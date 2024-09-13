@@ -1,8 +1,10 @@
 ---@meta
 
----Availability: Client and Server
 local chat = {}
-if false then _G.chat = chat end
+if false then
+    ---Availability: Client and Server
+    _G.chat = chat
+end
 
 
 if server then

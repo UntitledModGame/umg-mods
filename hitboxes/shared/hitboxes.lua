@@ -1,7 +1,10 @@
 ---@meta
 
 local hitboxes = {}
-if false then _G.hitboxes = hitboxes end
+if false then
+    ---Availability: Client and Server
+    _G.hitboxes = hitboxes
+end
 
 components.project("hitboxDistance", "hitboxable")
 components.project("hitboxArea", "hitboxable")
@@ -35,6 +38,8 @@ umg.answer("hitboxes:inRange", function(ent, x, y)
 end)
 
 ---Check if the specified X-Y point is inside entity hitbox.
+---
+---Availability: Client and Server
 ---@param ent Entity
 ---@param x number
 ---@param y number
@@ -47,6 +52,8 @@ end
 ---
 ---Entity without hitbox always have `hitboxes.isHit` returning false, but `hitboses.isHit` does not necessarily mean
 ---the entity does not have hitbox.
+---
+---Availability: Client and Server
 ---@param ent Entity
 ---@return boolean
 function hitboxes.hasHitbox(ent)

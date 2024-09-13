@@ -1,8 +1,10 @@
 ---@meta
 
----Availability: Client and Server
 local camera = {}
-if false then _G.camera = camera end
+if false then
+    ---Availability: Client and Server
+    _G.camera = camera
+end
 
 local Camera = require("shared.Camera")
 

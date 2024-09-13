@@ -2,7 +2,10 @@
 local n9p = require("lib.n9p")
 
 local n9slice = {}
-if false then _G.n9slice = n9slice end
+if false then
+    ---Availability: **Client**
+    _G.n9slice = n9slice
+end
 
 
 --[[
