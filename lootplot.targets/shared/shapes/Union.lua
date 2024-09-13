@@ -1,5 +1,3 @@
----@class lootplot.targets.CoordinateSet: objects.Class
-local CoordinateSet = objects.Class("lootplot.targets:CoordinateSet")
 
 ---@param x integer
 ---@param y integer

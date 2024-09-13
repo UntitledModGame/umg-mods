@@ -9,6 +9,8 @@ local util = require("shared.util")
 -- Shape exports
 local KingShape = require("shared.shapes.King")
 local UnionShape = require("shared.shapes.Union")
+local OffsetShape = require("shared.shapes.Offset")
+local RotationShape = require("shared.shapes.Rotation")
 local UniDirectionalShape = require("shared.shapes.UniDirectional")
 local CircleShape = require("shared.shapes.Circle")
 
@@ -18,6 +20,8 @@ local MAX_DISTANCE = 40
 
 targets.KingShape = KingShape
 targets.UnionShape = UnionShape
+targets.OffsetShape = OffsetShape
+targets.RotationShape = RotationShape
 targets.UniDirectionalShape = UniDirectionalShape
 targets.CircleShape = CircleShape
 
