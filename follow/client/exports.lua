@@ -1,10 +1,8 @@
----@meta
 require("client.followControls")
 
 
-
+---Availability: **Client**
 local follow = {}
-if false then _G.follow = follow end
 
 local CAMERA = require("client.camera_follow")
 local PAN_CAMERA
@@ -179,5 +177,6 @@ umg.on("@update", function(dt)
     updateZoomValues(dt)
 end)
 
+if false then _G.follow = follow end
 umg.expose("follow", follow)
-
+return follow

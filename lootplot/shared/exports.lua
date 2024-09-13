@@ -9,11 +9,11 @@ local ptrack = require("shared.internal.positionTracking")
 local trigger = require("shared.trigger")
 local selection = require("shared.selection")
 
-
 local lp = {}
 
 if client then
 
+---Availability: **Client**
 ---@param ent Entity
 ---@return (string | function)[]
 function lp.getLongDescription(ent)
@@ -39,6 +39,7 @@ end
 
 end
 
+---Availability: Client and Server
 ---@param ent Entity
 ---@return string
 function lp.getEntityName(ent)
@@ -54,6 +55,8 @@ local queueTc = typecheck.assert("ppos", "function")
 ---    it adds it to a LIFO stack.
 ---    I just think that `lp.queue` is a more sensible name than 
 ---        `lp.push` or `lp.buffer`
+---
+---Availability: **Server**
 ---@param ppos lootplot.PPos
 ---@param func fun()
 function lp.queue(ppos, func)
@@ -64,6 +67,9 @@ end
 
 local queueWithEntityTc = typecheck.assert("entity", "function")
 
+---Availability: **Server**
+---@param ent Entity
+---@param func fun(ent:Entity)
 function lp.queueWithEntity(ent, func)
     queueWithEntityTc(ent, func)
     local ppos = lp.getPos(ent)
@@ -77,6 +83,8 @@ function lp.queueWithEntity(ent, func)
 end
 
 local waitTc = typecheck.assert("ppos", "number")
+
+---Availability: **Server**
 ---@param ppos lootplot.PPos
 ---@param time number
 function lp.wait(ppos, time)
@@ -88,9 +96,9 @@ lp.Bufferer = require("server.Bufferer")
 end
 
 
-
+---Availability: Client and Server
 lp.PPos = require("shared.PPos")
-
+---Availability: Client and Server
 lp.Plot = require("shared.Plot")
 
 
@@ -101,6 +109,7 @@ local entityTc = typecheck.assert("entity")
 --[[
     Positioning:
 ]]
+---Availability: Client and Server
 ---@param ppos lootplot.PPos
 ---@return lootplot.SlotEntity?
 function lp.posToSlot(ppos)
@@ -110,6 +119,7 @@ function lp.posToSlot(ppos)
     return plot:getSlot(x,y)
 end
 
+---Availability: Client and Server
 ---@param ppos lootplot.PPos
 ---@return lootplot.ItemEntity?
 function lp.posToItem(ppos)
@@ -119,6 +129,7 @@ function lp.posToItem(ppos)
     return plot:getItem(x,y)
 end
 
+---Availability: Client and Server
 ---@param slotEnt lootplot.SlotEntity
 ---@return lootplot.ItemEntity?
 function lp.slotToItem(slotEnt)
@@ -132,18 +143,21 @@ function lp.slotToItem(slotEnt)
     end
 end
 
+---Availability: Client and Server
 ---@param ent Entity
 ---@return boolean
 function lp.isSlotEntity(ent)
     return not not ent.slot
 end
 
+---Availability: Client and Server
 ---@param ent Entity
 ---@return boolean
 function lp.isItemEntity(ent)
     return not not ent.item
 end
 
+---Availability: Client and Server
 ---@param ent lootplot.LayerEntity
 ---@return lootplot.PPos?
 function lp.getPos(ent)
@@ -153,7 +167,9 @@ function lp.getPos(ent)
     return ppos
 end
 
+---Availability: Client and Server
 ---@param itemEnt lootplot.ItemEntity
+---@return lootplot.SlotEntity?
 function lp.itemToSlot(itemEnt)
     local ppos = lp.getPos(itemEnt)
 
@@ -175,6 +191,9 @@ local REQUIRED_CONTEXT_KEYS = {
 ---@type lootplot.InitArgs?
 local contextInstance = nil
 
+---Initialize core lootplot game.
+---
+---Availability: Client and Server
 ---@param context lootplot.InitArgs
 function lp.initialize(context)
     assert(contextInstance == nil, "lootplot already initialized")
@@ -217,10 +236,12 @@ local function modifyPoints(fromEnt, x)
     end
 end
 
+---Availability: **Server**
 ---@param fromEnt Entity
 ---@param x number
 function lp.setPoints(fromEnt, x)
     assert(contextInstance, "lootplot is not initialized")
+    assertServer()
     modifyTc(fromEnt, x)
     local oldVal = contextInstance:getPoints(fromEnt)
     if oldVal then
@@ -230,6 +251,7 @@ function lp.setPoints(fromEnt, x)
     end
 end
 
+---Availability: **Server**
 ---@param fromEnt Entity
 ---@param x number
 function lp.addPoints(fromEnt, x)
@@ -237,6 +259,7 @@ function lp.addPoints(fromEnt, x)
     modifyPoints(fromEnt, x)
 end
 
+---Availability: **Server**
 ---@param fromEnt Entity
 ---@param x number
 function lp.subtractPoints(fromEnt, x)
@@ -244,6 +267,7 @@ function lp.subtractPoints(fromEnt, x)
     modifyPoints(fromEnt, -x)
 end
 
+---Availability: Client and Server
 ---@param ent Entity
 ---@return number?
 function lp.getPoints(ent)
@@ -268,6 +292,7 @@ local function modifyMoney(fromEnt, x)
     end
 end
 
+---Availability: **Server**
 ---@param fromEnt Entity
 ---@param x number
 function lp.setMoney(fromEnt, x)
@@ -280,6 +305,7 @@ function lp.setMoney(fromEnt, x)
     end
 end
 
+---Availability: **Server**
 ---@param fromEnt Entity
 ---@param x number
 function lp.addMoney(fromEnt, x)
@@ -287,6 +313,7 @@ function lp.addMoney(fromEnt, x)
     modifyMoney(fromEnt, x)
 end
 
+---Availability: **Server**
 ---@param fromEnt Entity
 ---@param x number
 function lp.subtractMoney(fromEnt, x)
@@ -294,6 +321,7 @@ function lp.subtractMoney(fromEnt, x)
     modifyMoney(fromEnt, -x)
 end
 
+---Availability: Client and Server
 ---@param ent Entity
 ---@return number?
 function lp.getMoney(ent)
@@ -314,6 +342,7 @@ local function setCombo(fromEnt, newVal)
     end
 end
 
+---Availability: **Server**
 ---@param ent Entity
 ---@param x? number
 function lp.incrementCombo(ent, x)
@@ -325,6 +354,7 @@ function lp.incrementCombo(ent, x)
     end
 end
 
+---Availability: **Server**
 ---@param ent Entity
 function lp.resetCombo(ent)
     entityTc(ent)
@@ -332,6 +362,7 @@ function lp.resetCombo(ent)
     setCombo(ent, 0)
 end
 
+---Availability: Client and Server
 ---@param ent Entity
 ---@return number?
 function lp.getCombo(ent)
@@ -355,6 +386,7 @@ local function setLevel(fromEnt, newVal)
     end
 end
 
+---Availability: **Server**
 ---@param ent Entity
 ---@param x? number
 function lp.setLevel(ent, x)
@@ -362,6 +394,7 @@ function lp.setLevel(ent, x)
     setLevel(ent, x)
 end
 
+---Availability: Client and Server
 ---@param ent Entity
 function lp.getLevel(ent)
     entityTc(ent)
@@ -372,6 +405,8 @@ end
 
 
 local setSlotTc = typecheck.assert("ppos", "entity")
+
+---Availability: **Server**
 ---@param ppos lootplot.PPos
 ---@param slotEnt lootplot.SlotEntity
 function lp.setSlot(ppos, slotEnt)
@@ -402,6 +437,8 @@ local ent2Tc = typecheck.assert("entity", "entity")
 
 ---This one needs valid slot but does not require item to be present.
 ---If item is not present, it acts as move.
+---
+---Availability: **Server**
 ---@param slotEnt1 lootplot.SlotEntity
 ---@param slotEnt2 lootplot.SlotEntity
 function lp.swapItems(slotEnt1, slotEnt2)
@@ -461,6 +498,7 @@ local function canRemoveItemOrNoItem(slotEnt)
     return true
 end
 
+---Availability: Client and Server
 ---@param slotEnt lootplot.SlotEntity
 ---@param itemEnt lootplot.ItemEntity?
 ---@return boolean
@@ -483,7 +521,9 @@ function lp.couldHoldItem(slotEnt, itemEnt)
 end
 
 
---- Returns whether an item can float (exist without a slot) or not.
+---Returns whether an item can float (exist without a slot) or not.
+---
+---Availability: Client and Server
 ---@param itemEnt lootplot.ItemEntity
 ---@return boolean
 function lp.canItemFloat(itemEnt)
@@ -497,6 +537,7 @@ local function canMoveFromTo(srcSlot, targetSlot)
     return lp.couldHoldItem(targetSlot, lp.slotToItem(srcSlot)) and canRemoveItemOrNoItem(srcSlot)
 end
 
+---Availability: Client and Server
 ---@param slot1 lootplot.SlotEntity
 ---@param slot2 lootplot.SlotEntity
 ---@return boolean
@@ -504,6 +545,7 @@ function lp.canSwap(slot1, slot2)
     return canMoveFromTo(slot1, slot2) and canMoveFromTo(slot2, slot1)
 end
 
+---Availability: Client and Server
 ---@param ent Entity
 ---@return boolean
 function lp.canActivateEntity(ent)
@@ -515,6 +557,7 @@ function lp.canActivateEntity(ent)
     return umg.ask("lootplot:canActivateEntity", ent)
 end
 
+---Availability: **Server**
 ---@param ent Entity
 function lp.forceActivateEntity(ent)
     entityTc(ent)
@@ -526,6 +569,7 @@ function lp.forceActivateEntity(ent)
     umg.call("lootplot:entityActivated", ent)
 end
 
+---Availability: **Server**
 ---@param ent Entity
 ---@return boolean
 function lp.tryActivateEntity(ent)
@@ -539,6 +583,7 @@ function lp.tryActivateEntity(ent)
     end
 end
 
+---Availability: **Server**
 ---@param pos lootplot.PPos
 function lp.activate(pos)
     lp.posTc(pos)
@@ -552,8 +597,10 @@ function lp.activate(pos)
     end
 end
 
---- @param ent Entity
---- Resets an entity (ie. resets activationCount)
+---Resets an entity (ie. resets activationCount)
+---
+---Availability: **Server**
+---@param ent Entity
 function lp.reset(ent)
     ent.activationCount = 0
     lp.tryTriggerEntity("RESET", ent)
@@ -563,6 +610,7 @@ function lp.reset(ent)
     end
 end
 
+---Availability: **Server**
 ---@param ent Entity
 function lp.destroy(ent)
     entityTc(ent)
@@ -582,21 +630,24 @@ function lp.destroy(ent)
     end
 end
 
-
+---TODO: Implement this on top of our sell system.
+---
+---Availability: **Server**
 ---@param ppos lootplot.ItemEntity
 function lp.sellItem(ppos)
     -- sells the item at `ppos`
     umg.melt("nyi")
 end
 
----@param ent lootplot.LayerEntity
----@param angle number
-function lp.rotate(ent, angle)
-    -- TODO.
-    -- rotates `ent` by an angle.
-    --  ent can be a slot OR an item
-end
+-- ---@param ent lootplot.LayerEntity
+-- ---@param angle number
+-- function lp.rotate(ent, angle)
+--     -- TODO.
+--     -- rotates `ent` by an angle.
+--     --  ent can be a slot OR an item
+-- end
 
+---Availability: Client and Server
 ---@generic T: EntityClass
 ---@param ent T
 ---@return T
@@ -632,6 +683,7 @@ local function append(tabl, prop, x, operation)
     end
 end
 
+---Availability: **Server**
 ---@param ent Entity
 ---@param property string
 ---@param amount number
@@ -643,6 +695,7 @@ function lp.modifierBuff(ent, property, amount, srcEnt_or_nil)
     umg.call("lootplot:entityBuffed", property, srcEnt_or_nil)
 end
 
+---Availability: **Server**
 ---@param ent Entity
 ---@param property string
 ---@param amount number
@@ -656,7 +709,7 @@ end
 
 
 
-
+---Availability: **Server**
 ---@param ppos lootplot.PPos
 ---@param itemEnt lootplot.ItemEntity
 function lp.trySetItem(ppos, itemEnt)
@@ -678,6 +731,7 @@ end
 
 local spawnTc = typecheck.assert("ppos", "any", "string")
 
+---Availability: **Server**
 ---@param ppos lootplot.PPos
 ---@param itemEType fun():lootplot.ItemEntity
 ---@param team string
@@ -691,6 +745,7 @@ function lp.trySpawnItem(ppos, itemEType, team)
     return nil
 end
 
+---Availability: **Server**
 ---@param ppos lootplot.PPos
 ---@param itemEType fun():lootplot.ItemEntity
 ---@param team string
@@ -716,7 +771,7 @@ function lp.forceSpawnItem(ppos, itemEType, team)
     return nil
 end
 
-
+---Availability: **Server**
 ---@param ppos lootplot.PPos
 ---@param slotEType fun():lootplot.SlotEntity
 ---@param team string
@@ -730,6 +785,7 @@ function lp.trySpawnSlot(ppos, slotEType, team)
     return nil
 end
 
+---Availability: **Server**
 ---@param ppos lootplot.PPos
 ---@param slotEType fun():lootplot.SlotEntity
 ---@param team string
@@ -790,7 +846,10 @@ local function getEntityTypeSpawnWeight(entityType)
     return umg.ask("lootplot:getConstantSpawnWeight", entityType) or 1
 end
 
-
+---Availability: **Server**
+---@param etypeName string
+---@param generationEnt Entity
+---@return integer
 function lp.getDynamicSpawnChance(etypeName, generationEnt)
     local level = lp.getLevel(generationEnt) or 0
     local etype = server.entities[etypeName]
@@ -819,17 +878,20 @@ local LootplotSeed = require("shared.LootplotSeed")
 TODO: allow for custom seeds here.
 pass thru launch-options...?
 ]]
+---Availability: Client and Server
 lp.SEED = LootplotSeed()
 
 local ITEM_GENERATOR = generation.Generator(lp.SEED.rerollRNG)
 local SLOT_GENERATOR = generation.Generator(lp.SEED.rerollRNG)
 
+---Availability: Client and Server
 ---@param args generation.CloneOptions
 ---@return generation.Generator
 function lp.newItemGenerator(args)
     return ITEM_GENERATOR:cloneWith(lp.SEED.rerollRNG, args)
 end
 
+---Availability: Client and Server
 ---@param args generation.CloneOptions
 ---@return generation.Generator
 function lp.newSlotGenerator(args)
@@ -839,7 +901,9 @@ end
 -- If there is an error getting an entity, invalid data is deserialized,
 -- Or a generation query fails, 
 -- then we SHOULD fall back to these entity-types instead:
+---Availability: Client and Server
 lp.FALLBACK_NULL_ITEM = false
+---Availability: Client and Server
 lp.FALLBACK_NULL_SLOT = false
 -- Think of these as like "error types".
 -- NOTE:: THESE SHOULD BE OVERRIDDEN!
@@ -864,6 +928,7 @@ local strTabTc = typecheck.assert("string", "table")
 ---@field public canActivate boolean
 ---@alias lootplot.ItemEntity lootplot.ItemEntityClass|lootplot.LayerEntity|Entity
 
+---Availability: Client and Server
 ---@param name string
 ---@param itemType table<string, any>
 function lp.defineItem(name, itemType)
@@ -897,6 +962,7 @@ end
 
 local DEFAULT_SLOT_HITBOX_AREA = {width = 22, height = 22, ox = 0, oy = 0}
 
+---Availability: Client and Server
 ---@param name string
 ---@param slotType table<string, any>
 function lp.defineSlot(name, slotType)
@@ -915,19 +981,20 @@ function lp.defineSlot(name, slotType)
     SLOT_GENERATOR:add(name, getEntityTypeSpawnWeight(slotType))
 end
 
+---Availability: Client and Server
 ---@param name string
 function lp.defineTrigger(name)
     return trigger.defineTrigger(name)
 end
 
-
+---Availability: **Server**
 ---@param name string
 ---@param ent Entity
 function lp.tryTriggerEntity(name, ent)
     return trigger.tryTriggerEntity(name, ent)
 end
 
-
+---Availability: Client and Server
 ---@param name string
 ---@param ent Entity
 ---@return boolean
@@ -935,6 +1002,7 @@ function lp.canTrigger(name, ent)
     return trigger.canTrigger(name, ent)
 end
 
+---Availability: Client and Server
 ---@param ent lootplot.ItemEntity|lootplot.SlotEntity
 ---@param clientId string
 ---@return boolean
@@ -942,33 +1010,40 @@ function lp.canPlayerAccess(ent, clientId)
     return umg.ask("lootplot:hasPlayerAccess", ent, clientId)
 end
 
+if client then
 
+---Availability: **Client**
 ---@return lootplot.Selected?
 function lp.getCurrentSelection()
-    assert(client, "client-side only")
     return selection.getCurrentSelection()
 end
 
+---Availability: **Client**
 ---@return lootplot.EntityHover?
 function lp.getHoveredSlot()
-    assert(client, "client-side only")
     return selection.getHoveredSlot()
 end
 
+---Availability: **Client**
 ---@return lootplot.EntityHover?
 function lp.getHoveredItem()
-    assert(client, "client-side only")
     return selection.getHoveredItem()
 end
 
+end
 
 
+---Availability: Client and Server
 lp.constants = {
     WORLD_SLOT_DISTANCE = 26, -- distance slots are apart in the world.
     PIPELINE_DELAY = 0.2
 }
 
+if false then
+    ---Core Lootplot game API.
+    ---
+    ---Availability: Client and Server
+    _G.lp = lp
+end
 umg.expose("lp", lp)
-
 return lp
-

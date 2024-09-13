@@ -50,7 +50,9 @@ end
 
 
 
--- Can override rarities in this table:
+---Can override rarities in this table:
+---
+---Availability: Client and Server
 lp.rarities = {
     COMMON = newRarity("COMMON (I)", 2, hsl(110, 35, 55)),
     UNCOMMON = newRarity("UNCOMMON (II)", 1.5, hsl(150, 66, 55)),
@@ -61,8 +63,9 @@ lp.rarities = {
     UNIQUE = newRarity("UNIQUE", 0.00, objects.Color.WHITE),
 }
 
+---Availability: Client and Server
 ---@param r1 lootplot.Rarity
----@return number Rarity-weight of the rarity object. Lower means more rare.
+---@return number rarity weight of the rarity object. Lower means more rare.
 function lp.rarities.getWeight(r1)
     return r1.rarityWeight
 end

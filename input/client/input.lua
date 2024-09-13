@@ -12,7 +12,10 @@ local sortedListeners = {}
 
 
 local input = {}
-if false then _G.input = input end
+if false then
+    ---Availability: **Client**
+    _G.input = input
+end
 
 --[[
     The reason we need to buffer events, is because listeners can

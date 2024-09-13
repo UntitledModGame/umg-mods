@@ -24,7 +24,6 @@ local entAnimations = {} -- list of animation objects
 
 
 
-local WHITE = {1,1,1}
 
 
 -- the current time.
@@ -39,7 +38,7 @@ local function animate(frames, time, x,y,z, color)
         x = x,
         y = y,
         z = z or 0,
-        color = color or WHITE,
+        color = color or objects.Color.WHITE,
     }
 
     local indx = math.floor(getDrawY(obj.y, obj.z))

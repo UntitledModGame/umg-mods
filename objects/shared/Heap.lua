@@ -1,10 +1,12 @@
 
+local Class = require("shared.Class")
+
 --[[
 	heap data structure
 ]]
-
-local Class = require("shared.Class")
-
+---Availability: Client and Server
+---@class objects.Heap: objects.Class
+---@field package compare fun(a:any,b:any):boolean
 local Heap = Class("objects:Heap")
 
 
@@ -12,13 +14,10 @@ local Heap = Class("objects:Heap")
 local floor = math.floor
 
 local function defaultCompare(a, b)
-	if a > b then
-		return true
-	else
-		return false
-	end
+	return a > b
 end
 
+---@param heap objects.Heap
 local function siftUp(heap, index)
 	local parentIndex
 	if index ~= 1 then
@@ -30,6 +29,7 @@ local function siftUp(heap, index)
 	end
 end
 
+---@param heap objects.Heap
 local function siftDown(heap, index)
 	local leftChildIndex, rightChildIndex, minIndex
 	leftChildIndex = index * 2
@@ -47,7 +47,7 @@ local function siftDown(heap, index)
 			minIndex = rightChildIndex
 		end
 	end
-	
+
 	if heap.compare(heap[index], heap[minIndex]) then
 		heap[minIndex], heap[index] = heap[index], heap[minIndex]
 		siftDown(heap, minIndex)
@@ -58,16 +58,25 @@ function Heap:init(comparator)
 	self.compare = comparator or defaultCompare
 end
 
-function Heap:insert(newValue)
-	table.insert(self, newValue)
-	
-	if #self <= 1 then
-		return
-	end
-	
-	siftUp(self, #self)
+if false then
+    ---Create a new heap.
+    ---
+    ---Availability: Client and Server
+	---@param comparator? fun(a:any,b:any):boolean
+	---@return objects.Heap
+	function Heap(comparator) end ---@diagnostic disable-line: cast-local-type, missing-return
 end
 
+---@param newValue any
+function Heap:insert(newValue)
+	table.insert(self, newValue)
+
+	if #self > 1 then
+		siftUp(self, #self)
+	end
+end
+
+---@return any?
 function Heap:pop()
 	if #self > 0 then
 		local toReturn = self[1]
@@ -82,6 +91,7 @@ function Heap:pop()
 	end
 end
 
+---@return any?
 function Heap:peek()
 	if #self > 0 then
 		return self[1]
@@ -90,6 +100,7 @@ function Heap:peek()
 	end
 end
 
+---@return any[]
 function Heap:toTable()
 	local newTable = { }
 	for i = 1, #self do
@@ -104,28 +115,30 @@ function Heap:clear()
 	end
 end
 
-
+---@return integer
 function Heap:size()
 	return #self
 end
 
+---@return objects.Heap
 function Heap:clone()
-	local newHeap = Heap.new(self.compare)
+	local newHeap = Heap(self.compare)
 	for i = 1, #self do
 		table.insert(newHeap, self[i])
 	end
 	return newHeap
 end
 
+---@param oldTable any[]
+---@param comparator? fun(a:any,b:any):boolean
+---@return objects.Heap
 function Heap.heapify(oldTable, comparator)
-	local newHeap = Heap.new(comparator)
+	local newHeap = Heap(comparator)
 	for i = #oldTable, 1, -1 do
 		newHeap:insert(oldTable[i])
 		table.remove(oldTable, i)
 	end
 	return newHeap
 end
-
-
 
 return Heap

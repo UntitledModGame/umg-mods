@@ -21,17 +21,19 @@ lpWorldGroup:onAdded(function(ent)
     end
 end)
 
+---Availability: Client and Server
 function main.isReady()
     return not not currentContext
 end
 
+---Availability: Client and Server
 ---@return lootplot.Context
 function main.getContext()
     assert(currentContext, "Not ready yet! (Check using lp.main.isReady() )")
     return currentContext
 end
 
-
+---Availability: Client and Server
 function main.getRoundInfo()
     local ctx = main.getContext()
     local doomclock = ctx:getDoomClock()
@@ -45,10 +47,15 @@ end
 local winLose = require("shared.win_lose")
 
 if server then
-    main.endGame = winLose.endGame
+    ---Availability: **Server**
+    ---@param clientId string|nil
+    ---@param win boolean
+    function main.endGame(clientId, win)
+        return winLose.endGame(clientId, win)
+    end
 end
 
-
+---Availability: Client and Server
 main.constants = setmetatable({
     --[[
         feel free to override any of these.
@@ -62,4 +69,5 @@ main.constants = setmetatable({
     STARTING_LEVEL = 1,
 },{__index=function(msg,k,v) error("undefined const: " .. tostring(k)) end})
 
+---Availability: Client and Server
 lp.main = main

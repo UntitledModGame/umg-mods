@@ -1,6 +1,6 @@
 
 
-require("shared.chat_exports")
+require("shared.exports")
 
 
 local function formatCommand(handler)

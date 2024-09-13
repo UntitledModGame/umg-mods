@@ -1,6 +1,8 @@
 
 local Class = require("shared.Class")
 
+---Availability: Client and Server
+---@class objects.Array: objects.Class
 local Array = Class("objects:Array")
 
 
@@ -20,17 +22,24 @@ function Array:init(initial)
     end
 end
 
+if false then
+    ---Initializes array
+    ---
+    ---Availability: Client and Server
+    ---@param initial any[]?
+    ---@return objects.Array
+    function Array(initial) end ---@diagnostic disable-line: cast-local-type, missing-return
+end
 
-
--- Adds item to array
+---Adds item to array
+---@param x any
 function Array:add(x)
     assert(x ~= nil, "cannot add nil to array")
     self.len = self.len + 1
     self[self.len] = x
 end
 
-
--- Clears array
+---Clears array
 function Array:clear()
     for i=1, self.len do
         self[i] = nil
@@ -38,9 +47,9 @@ function Array:clear()
     self.len = 0
 end
 
-
+---Reverses the array in-place
+---@return objects.Array
 function Array:reverse()
-    -- reverses the array in-place
     local n = self:size()
     local mid = math.floor(n / 2)
     for i = 1, mid do
@@ -49,19 +58,18 @@ function Array:reverse()
     return self
 end
 
-
--- Returns the size of the array
+---Returns the size of the array
+---@return integer
 function Array:size()
     return self.len
 end
 
 Array.length = Array.size -- alias
 
-
-
-
--- Removes item from array at index
--- (if index is nil, pops from the end of array.)
+---Removes item from array at index
+---(if index is nil, pops from the end of array.)
+---@param i integer?
+---@return any
 function Array:remove(i)
     i = i or self.len
     if i and (not (1 <= i and i <= self.len)) then
@@ -75,10 +83,11 @@ end
 -- alias
 Array.pop = Array.remove
 
-
--- Pops item from array by swapping it with the last item
--- this operation is O(1)
--- WARNING: This operation DOES NOT preserve array order!!!
+---Pops item from array by swapping it with the last item
+---this operation is O(1)
+---
+---**WARNING**: This operation DOES NOT preserve array order!!!
+---@param i integer
 function Array:quickRemove(i)
     local obj = self[self.len]
     self[i], self[self.len] = obj, nil
@@ -87,9 +96,8 @@ end
 
 Array.quickPop = Array.quickRemove
 
-
-
-
+---@param obj any
+---@return integer?
 function Array:find(obj)
     -- WARNING: Linear search O(n)
     for i=1, self.len do
@@ -100,8 +108,7 @@ function Array:find(obj)
     return nil
 end
 
-
-
+---@return objects.Array
 function Array:clone()
     local newArray = Array()
     for i=1, self.len do
@@ -114,6 +121,8 @@ end
 
 local funcTc = typecheck.assert("table", "function")
 
+---@param func fun(item:any):boolean
+---@return objects.Array
 function Array:filter(func)
     funcTc(self, func)
     local newArray = Array()
@@ -126,7 +135,8 @@ function Array:filter(func)
     return newArray
 end
 
-
+---@param func fun(item:any):any
+---@return objects.Array
 function Array:map(func)
     funcTc(self, func)
     local newArray = Array()

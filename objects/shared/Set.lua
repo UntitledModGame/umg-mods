@@ -1,4 +1,6 @@
 
+-- Need to make sure this is loaded; it may not be loaded yet
+local Class = require("shared.Class")
 
 --[[
 
@@ -12,13 +14,16 @@ Order is not consistent, and will change quite dynamically.
 
 
 ]]
-
--- Need to make sure this is loaded; it may not be loaded yet
-local Class = require("shared.Class")
-
-
+---Availability: Client and Server
+---@class objects.Set<T>: objects.Class
 local Set = Class("objects:Set")
 
+if false then
+    ---Availability: Client and Server
+    ---@param initial any[]?
+    ---@return objects.Set
+    function Set(initial) end ---@diagnostic disable-line: cast-local-type, missing-return
+end
 
 function Set:init(initial)
     self.pointers = {}
@@ -30,8 +35,8 @@ function Set:init(initial)
     end
 end
 
-
---- Clears the sSet completely.
+---Clears the Set completely.
+---@return objects.Set
 function Set:clear()
     local obj
     local ptrs = self.pointers
@@ -45,9 +50,9 @@ function Set:clear()
     return self
 end
 
-
-
--- Adds an object to the Set
+---Adds an object to the Set
+---@param obj any
+---@return objects.Set
 function Set:add(obj)
    if self:has(obj) then
       return self
@@ -62,8 +67,8 @@ function Set:add(obj)
    return self
 end
 
-
-
+---@param other objects.Set
+---@return objects.Set
 function Set:intersection(other)
     local newSet = Set()
     for _, v in ipairs(self) do
@@ -74,7 +79,8 @@ function Set:intersection(other)
     return newSet
 end
 
-
+---@param other objects.Set
+---@return objects.Set
 function Set:union(other)
     local newSet = Set()
     for _, v in ipairs(other) do
@@ -91,6 +97,8 @@ end
 
 local funcTc = typecheck.assert("table", "function")
 
+---@param func fun(item:any):boolean
+---@return objects.Set
 function Set:filter(func)
     funcTc(self, func)
     local newSet = Set()
@@ -106,8 +114,10 @@ end
 
 
 
--- Removes an object from the Set.
--- If the object isn't in the Set, returns nil.
+---Removes an object from the Set.
+---If the object isn't in the Set, returns nil.
+---@param obj any
+---@return objects.Set?
 function Set:remove(obj, index)
     if not obj then
         return nil
@@ -136,23 +146,20 @@ function Set:remove(obj, index)
     return self
 end
 
-
+---@return integer
 function Set:length()
     return self.len
 end
 
 Set.size = Set.length -- alias
 
-
-
--- returns true if the Set contains `obj`, false otherwise.
+---Returns true if the Set contains `obj`, false otherwise.
+---@param obj any
+---@return boolean
 function Set:has(obj)
    return self.pointers[obj] and true
 end
 
 Set.contains = Set.has -- alias
 
-
-
 return Set
-

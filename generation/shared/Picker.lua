@@ -17,6 +17,11 @@ https://www.keithschwarz.com/darts-dice-coins/
 
 ]]
 
+---Picker is responsible of picking weighted items quickly at O(1) time
+---multiple times.
+---
+---If the item list is dynamic or it only needs be picked once then consider
+---`generation.pickWeighted` or `generation.pickWeightedPlanar`.
 ---@class generation.Picker: objects.Class
 local Picker = objects.Class("generation:Picker")
 

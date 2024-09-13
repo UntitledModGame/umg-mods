@@ -2,7 +2,10 @@
 local IState = require("client.IState")
 
 local state = {}
-if false then _G.state = state end
+if false then
+    ---Availability: **Client**
+    _G.state = state
+end
 
 
 

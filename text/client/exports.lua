@@ -1,7 +1,10 @@
 ---@meta
 
 local text = {}
-if false then _G.text = text end
+if false then
+    ---Availability: **Client**
+    _G.text = text
+end
 
 text.EffectGroup = require("client.EffectGroup")
 text.RichText = require("client.Text")

@@ -33,6 +33,9 @@ local function assertString(x)
     end
 end
 
+---Availability: Client and Server
+---@param values string[]
+---@return string[]
 local function newEnum(values)
     local enum = {}
     for _, v in ipairs(values) do

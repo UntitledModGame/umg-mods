@@ -51,7 +51,13 @@ local function assertStaticCall(self, class)
 end
 
 
-
+---Create new class object.
+---
+---Call the class object to create new class instance.
+---
+---Availability: Client and Server
+---@param name string
+---@return objects.Class
 local function Class(name)
     if type(name) ~= "string" then
         umg.melt("class(name) expects a string as first argument")

@@ -19,7 +19,7 @@ per user, to prevent spamming.
 
 ]]
 
-local constants = require("constants")
+local constants = require("shared.chat_constants")
 
 
 
@@ -31,7 +31,7 @@ for i=1, #commandCharString do
     commandChars[commandCharString:sub(i,i)] = true
 end
 
-
+require("shared.chat_packets") -- in case it's not loaded yet
 
 server.on("chat:message", function(sender, message, channel)
     if type(message)~="string"then
@@ -58,14 +58,14 @@ end)
 
 
 
-function chat.message(message)
-    local channel = message or constants.DEFAULT_CHANNEL
+function chat.message(message, channel)
+    channel = channel or constants.DEFAULT_CHANNEL
     server.broadcast("chat:message", message, channel)
 end
 
 
-function chat.privateMessage(clientId, message)
-    local channel = message or constants.DEFAULT_CHANNEL
+function chat.privateMessage(clientId, message, channel)
+    channel = channel or constants.DEFAULT_CHANNEL
     server.unicast( clientId, "chat:message", message, channel)
 end
 

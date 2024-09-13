@@ -1,6 +1,4 @@
----@meta
 local clickables = {}
-if false then _G.clickables = clickables end
 
 
 sync.proxyEventToClient("clickables:entityClicked")
@@ -23,24 +21,12 @@ server.on("clickables:entityClickedOnClient", function(clientId, ent, button, wo
     umg.call("clickables:entityClicked", ent, clientId, button, worldX, worldY)
 end)
 
-end
-
-
-
-
-
-
-
-
-
-if client then
+else -- client
 
 local clickEnts = umg.group("x", "y", "clickable")
 local listener = input.InputListener()
 
-function clickables.getListener()
-    return listener
-end
+clickables.listener = listener
 
 
 
@@ -143,5 +129,4 @@ end)
 
 
 
-umg.expose("clickables", clickables)
 return clickables
