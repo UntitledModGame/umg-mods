@@ -135,14 +135,10 @@ defineSlotSpawner("glass_tube", "Glass Bottle", "glass_slot", "Glass Slot", lp.t
     minimumLevelToSpawn = 2,
 })
 
-defineSlotSpawner("pomegranate", "Pomegranate", "slot", "Normal Slot", lp.targets.RookShape(1), {
-    minimumLevelToSpawn = 2,
-})
-
 defineSlotSpawner("stone_fruit", "Stone fruit", "null_slot", "Null Slot", lp.targets.RookShape(1))
 
-
-defineSlotSpawner("dragonfruit", "Dragonfruit", "slot", "Normal Slot", lp.targets.BishopShape(1))
+defineSlotSpawner("dragonfruit", "Dragonfruit", "slot", "Normal Slot", lp.targets.RookShape(1))
+defineSlotSpawner("dragonfruit_slice", "Dragonfruit Slice", "slot", "Normal Slot", lp.targets.BishopShape(1))
 
 defineSlotSpawner("soy_sauce", "Soy Sauce", "slot", "Doomed-4 Slot", lp.targets.RookShape(3), {}, function(slotEnt)
     slotEnt.doomCount = 4
