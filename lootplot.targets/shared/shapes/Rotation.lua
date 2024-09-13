@@ -2,11 +2,6 @@
 ---@param name string the existing name of the shape
 ---@param rot number
 local function getName(name, rot)
-    rot = rot % 4
-    if rot == 0 then
-        return name
-    end
-
     local PATTERN = " ROT%-%d"
     local FMT_PATTERN = " ROT-%d"
     local found = name:match(PATTERN)
@@ -28,17 +23,29 @@ end
 
 
 
+local function rotateCoord(coord, rot)
+    for i=1,rot do
+        local x, y = coord[1], coord[2]
+        coord = {y, -x}
+    end
+    return coord
+end
+
+
 ---@param shape lootplot.targets.ShapeData
----@param dx number
 ---@param dy number
 ---@return lootplot.targets.ShapeData
-return function(shape, dx, dy)
-    local name = getName(shape.name, dx, dy)
+return function(shape, rot)
+    rot = rot % 4 -- 1 = 90 degrees of rotation
+    if rot == 0 then
+        return shape
+    end
+
+    local name = getName(shape.name, rot)
     local coords = {}
 
     for _, coord in ipairs(shape.relativeCoords) do
-        local x, y = coord[1], coord[2]
-        coords[#coords+1] = {x + dx, y + dy}
+        coords[#coords+1] = rotateCoord(coord, rot)
     end
 
     return {

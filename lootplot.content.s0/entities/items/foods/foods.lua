@@ -145,7 +145,10 @@ defineSlotSpawner("soy_sauce", "Soy Sauce", "slot", "Doomed-4 Slot", lp.targets.
     slotEnt.doomCount = 4
 end)
 
-defineSlotSpawner("burned_loaf", "Burned Loaf", "sell_slot", "Sell Slot", lp.targets.BishopShape(1))
+defineSlotSpawner("burned_loaf", "Burned Loaf", "sell_slot", "Sell Slot", 
+lp.targets.OffsetShape(lp.targets.ON_SHAPE, 0, 2, "DOWN-2"), {
+    doomCount = 2
+})
 
 defineSlotSpawner("coconut", "Coconut", "dirt_slot", "Dirt Slot", lp.targets.RookShape(1), {
     rarity = lp.rarities.COMMON,

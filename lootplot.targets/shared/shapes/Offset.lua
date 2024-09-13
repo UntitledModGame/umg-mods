@@ -23,8 +23,8 @@ end
 ---@param dx number
 ---@param dy number
 ---@return lootplot.targets.ShapeData
-return function(shape, dx, dy)
-    local name = getName(shape.name, dx, dy)
+return function(shape, dx, dy, name)
+    name = name or getName(shape.name, dx, dy)
     local coords = {}
 
     for _, coord in ipairs(shape.relativeCoords) do
