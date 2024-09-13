@@ -33,7 +33,7 @@ end
 
 
 ---@param shape lootplot.targets.ShapeData
----@param dy number
+---@param rot number
 ---@return lootplot.targets.ShapeData
 return function(shape, rot, name)
     rot = rot % 4 -- 1 = 90 degrees of rotation
