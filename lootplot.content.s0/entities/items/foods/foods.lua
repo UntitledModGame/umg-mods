@@ -84,6 +84,26 @@ defineFood("lootplot.content.s0:magic_turnip", {
 
 
 
+defineFood("lootplot.content.s0:heart_fruit", {
+    image = "heart_fruit",
+    name = loc("Heart Fruit"),
+
+    rarity = lp.rarities.UNCOMMON,
+
+    shape = lp.targets.ABOVE_SHAPE,
+
+    target = {
+        type = "ITEM_OR_SLOT",
+        description = loc("Gives +2 lives to target"),
+        activate = function(selfEnt, ppos, targetEnt)
+            targetEnt.lives = (targetEnt.lives or 0) + 2
+        end
+    }
+})
+
+
+
+
 
 
 ----------------------------------------------------------------------------

@@ -79,7 +79,11 @@ lp.defineItem("lootplot.content.s0:pandoras_box", {
 
 
 
-lp.defineItem("lootplot.content.s0:copycat", {
+local function defineCat(name, etype)
+    lp.defineItem(name, etype)
+end
+
+defineCat("lootplot.content.s0:copycat", {
     image = "copycat",
     name = loc("Copycat"),
 
@@ -105,6 +109,17 @@ lp.defineItem("lootplot.content.s0:copycat", {
             end
         end
     }
+})
+
+
+defineCat("lootplot.content.s0:chubby_cat", {
+    image = "chubby_cat",
+    name = loc("Chubby Cat"),
+    description = loc("Starts with 9 lives"),
+
+    rarity = lp.rarities.UNCOMMON,
+
+    lives = 9
 })
 
 
