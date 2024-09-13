@@ -31,7 +31,7 @@ for i=1, #commandCharString do
     commandChars[commandCharString:sub(i,i)] = true
 end
 
-
+require("shared.chat_packets") -- in case it's not loaded yet
 
 server.on("chat:message", function(sender, message, channel)
     if type(message)~="string"then
