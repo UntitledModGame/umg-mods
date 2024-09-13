@@ -167,6 +167,49 @@ function lp.getPos(ent)
     return ppos
 end
 
+
+
+lp.CONVERSIONS = objects.Enum({
+    ITEM = "ITEM",
+    SLOT = "SLOT",
+    ITEM_OR_SLOT = "ITEM_OR_SLOT", -- item OR slot
+    NO_ITEM = "NO_ITEM", -- ppos with no item
+    NO_SLOT = "NO_SLOT", -- ppos with no slot
+})
+
+---@alias lootplot.CONVERSION_TYPE "ITEM"|"SLOT"|"NO_SLOT"|"NO_ITEM"|"ITEM_OR_SLOT"
+
+--- Returns a boolean, true iff the ppos is valid w.r.t the conversion type.
+--- The second return value is the entity (if any) that was converted.
+---@param conversionType lootplot.CONVERSION_TYPE?
+---@param ppos lootplot.PPos
+---@return boolean, lootplot.LayerEntity?
+function lp.tryConvert(ppos, conversionType)
+    if conversionType == "ITEM" then
+        local item = lp.posToItem(ppos)
+        return (not not item), item
+    elseif conversionType == "SLOT" then
+        local slot = lp.posToSlot(ppos)
+        return (not not slot), slot
+    elseif conversionType == "NO_ITEM" then
+        return not not (lp.posToSlot(ppos) and (not lp.posToItem(ppos)))
+    elseif conversionType == "NO_SLOT" then
+        return not lp.posToSlot(ppos)
+    elseif conversionType == "ITEM_OR_SLOT" then
+        local item = lp.posToItem(ppos)
+        if item then
+            return true, item
+        end
+        local slot = lp.posToSlot(ppos)
+        if slot then
+            return true, slot
+        end
+    end
+    return false
+end
+
+
+
 ---Availability: Client and Server
 ---@param itemEnt lootplot.ItemEntity
 ---@return lootplot.SlotEntity?

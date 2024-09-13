@@ -1,5 +1,3 @@
----@class lootplot.Bufferer: objects.Class
-local Bufferer = objects.Class("lootplot:Bufferer")
 --[[
 
 
@@ -20,12 +18,13 @@ lp.Bufferer()
 
 local DEFAULT_BUFFERER_DELAY = 0.3
 
-local CONVERSIONS = objects.Enum({
-    ITEM = "ITEM",
-    SLOT = "SLOT",
-    NO_ITEM = "NO_ITEM", -- ppos with no item
-    NO_SLOT = "NO_SLOT", -- ppos with no slot
-})
+
+
+
+---@class lootplot.Bufferer: objects.Class
+---@field public targetType lootplot.CONVERSION_TYPE?
+local Bufferer = objects.Class("lootplot:Bufferer")
+
 
 function Bufferer:init()
     self.i = 1 -- the current position that we are executing.
@@ -33,7 +32,7 @@ function Bufferer:init()
 
     self.filters = objects.Array() -- Array<filterFunc>
 
-    self.conversion = false -- no conversion; remain as ppos
+    self.targetType = nil -- false = remain as ppos
 
     self._delay = DEFAULT_BUFFERER_DELAY
     self.execution = false
@@ -76,13 +75,13 @@ function Bufferer:all(plot_or_ppos)
     return self
 end
 
----@param towhat? "ITEM"|"SLOT"|"NO_SLOT"|"NO_ITEM"
+---@param towhat? lootplot.CONVERSION_TYPE
 ---@return lootplot.Bufferer
 function Bufferer:to(towhat)
     if towhat then
-        self.conversion = CONVERSIONS[towhat]
+        self.targetType = lp.CONVERSIONS[towhat]
     else
-        self.conversion = false
+        self.targetType = nil
     end
 
     return self
@@ -95,22 +94,6 @@ function Bufferer:withDelay(x)
     return self
 end
 
-
-
-local function tryConvert(self, ppos)
-    if self.conversion == CONVERSIONS.ITEM then
-        local item = lp.posToItem(ppos)
-        return (not not item), item
-    elseif self.conversion == CONVERSIONS.SLOT then
-        local slot = lp.posToSlot(ppos)
-        return (not not slot), slot
-    elseif self.conversion == CONVERSIONS.NO_ITEM then
-        return not lp.posToItem(ppos)
-    elseif self.conversion == CONVERSIONS.NO_SLOT then
-        return not lp.posToSlot(ppos)
-    end
-    return false
-end
 
 
 
@@ -126,10 +109,14 @@ and doing the filters in-place, within the functions.
 ---@param self lootplot.Bufferer
 ---@param ppos lootplot.PPos
 local function step(self, ppos)
-    local ok, val = tryConvert(self, ppos)
-    if self.conversion and (not ok) then
-        -- no slot, or no item!
-        return
+    local val = nil
+    if self.targetType then
+        local ok
+        ok, val = lp.tryConvert(ppos, self.targetType)
+        if (not ok) then
+            -- no slot, or no item!
+            return
+        end
     end
 
     for _, f in ipairs(self.filters) do
