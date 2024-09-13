@@ -14,12 +14,6 @@ components.defineComponent("buttonSlot")
 components.defineComponent("shopLock")
 -- for shop-slots
 
-components.defineComponent("doomCount")
--- how many activations until deletion
-
-components.defineComponent("activationCount")
-components.defineComponent("totalActivationCount")
-
 
 components.defineComponent("minimumLevelToSpawn")
 components.defineComponent("maximumLevelToSpawn")
@@ -37,7 +31,7 @@ Property definitions:
 
 ---@param propName string
 ---@param basePropName string
-local function defineBasicBoolean(propName, basePropName)
+local function defBoolProperty(propName, basePropName)
     -- auto-syncs a component, and defines it as a property!
     properties.defineBooleanProperty(propName, {
         base = basePropName,
@@ -51,7 +45,10 @@ end
 
 ---@param propName string
 ---@param args {base:string, default:number}
-local function defineBasicNumber(propName, args)
+local function defNumberProperty(propName, args)
+    components.defineComponent(propName)
+    components.defineComponent(args.base)
+
     -- auto-syncs a component, and defines it as a property!
     properties.defineNumberProperty(propName, {
         base = args.base,
@@ -66,31 +63,37 @@ local function defineBasicNumber(propName, args)
 end
 
 
+local function defineInteger(compName)
+    components.defineComponent(compName)
+    sync.autoSyncComponent(compName, {
+        type = "number",
+        lerp = false,
+    })
+end
 
-sync.autoSyncComponent("doomCount", {
-    type = "number",
-    lerp = false,
-})
 
-sync.autoSyncComponent("totalActivationCount", {
-    type = "number",
-    lerp = false,
-})
+defineInteger("doomCount")
+-- how many activations until deletion?
 
-sync.autoSyncComponent("activationCount", {
-    type = "number",
-    lerp = false,
-})
+defineInteger("lives")
+-- How many "lives" the entity has (will be revived!)
+-- (Does not work for `doomed` entities)
+
+-- activation counts:
+defineInteger("totalActivationCount")
+defineInteger("activationCount") -- <<< set to 0 when `lp.reset()` called
+
+
 
 
 --[[
     boolean properties for lootplot
 ]]
-defineBasicBoolean("canItemMove", "baseCanItemMove")
+defBoolProperty("canItemMove", "baseCanItemMove")
 
-defineBasicBoolean("canBeDestroyed", "baseCanBeDestroyed")
+defBoolProperty("canBeDestroyed", "baseCanBeDestroyed")
 
-defineBasicBoolean("canSlotPropagate", "baseCanSlotPropagate")
+defBoolProperty("canSlotPropagate", "baseCanSlotPropagate")
 -- Whether a slot will propagate the trigger to the item
 -- TO DO: Do we want different behavior based on trigger types?
 
@@ -98,13 +101,13 @@ defineBasicBoolean("canSlotPropagate", "baseCanSlotPropagate")
 --[[
     number properties for lootplot
 ]]
-defineBasicNumber("price", {base="basePrice", default=1})
+defNumberProperty("price", {base="basePrice", default=1})
 
-defineBasicNumber("maxActivations", {base="baseMaxActivations", default=5})
+defNumberProperty("maxActivations", {base="baseMaxActivations", default=5})
 
-defineBasicNumber("pointsGenerated", {base="basePointsGenerated", default=0})
+defNumberProperty("pointsGenerated", {base="basePointsGenerated", default=0})
 
-defineBasicNumber("moneyGenerated", {base="baseMoneyGenerated", default=0})
+defNumberProperty("moneyGenerated", {base="baseMoneyGenerated", default=0})
 
 
 sync.autoSyncComponent("shopLock", {type = "boolean"})
