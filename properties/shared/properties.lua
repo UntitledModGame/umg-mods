@@ -1,6 +1,9 @@
 ---@meta
 local properties = {}
-if false then _G.properties = properties end
+if false then
+    ---Availability: Client and Server
+    _G.properties = properties
+end
 
 ---@class property._CommonConfig: table
 ---@field public base string Reference to the base component.

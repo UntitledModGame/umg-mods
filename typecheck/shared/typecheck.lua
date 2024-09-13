@@ -200,6 +200,7 @@ local function makeErr(arg, err, i)
     return estring .. err_data
 end
 
+---Availability: Client and Server
 ---@param ... table|string|(fun(x:any):(boolean,string?))
 ---@return fun(...:any)
 function typecheck.assert(...)
@@ -219,6 +220,8 @@ end
 
 ---asserts that `tabl` is a table, 
 ---and that it has all of the keys listed in the `keys` table.
+---
+---Availability: Client and Server
 ---@generic T
 ---@param tabl table<T, any>
 ---@param keys T[]
@@ -234,6 +237,7 @@ function typecheck.assertKeys(tabl, keys)
 end
 
 
+---Availability: Client and Server
 ---@param ... string
 ---@return fun(...:any):(boolean,string?)
 function typecheck.check(...)
@@ -252,6 +256,7 @@ function typecheck.check(...)
     end
 end
 
+---Availability: Client and Server
 ---@param x any
 ---@param typeName string
 function typecheck.isType(x, typeName)
@@ -263,6 +268,8 @@ end
 ---
 ---Interface typecheck only consider function values and string keys and has cleaner error message compared to
 ---`typecheck.assert({method = "function"})`.
+---
+---Availability: Client and Server
 ---@param interface table
 ---@return fun(tabl:any):(boolean,string?)
 function typecheck.interface(interface)
@@ -321,6 +328,7 @@ end
 
 local addTypeTc = typecheck.assert("string", "function")
 
+---Availability: Client and Server
 ---@param typeName string
 ---@param check fun(x:any):(boolean,string?)
 function typecheck.addType(typeName, check)
@@ -352,5 +360,10 @@ typecheck.addType("love", function(x)
     return ok, "Expected LOVE object"
 end)
 
-if false then _G.typecheck = typecheck end
+if false then
+    ---Provides type checking functionality.
+    ---
+    ---Availability: Client and Server
+    _G.typecheck = typecheck
+end
 return typecheck
