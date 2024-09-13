@@ -25,13 +25,63 @@
 
 local m_max, m_min, m_abs, m_floor, m_sqrt = math.max, math.min, math.abs, math.floor, math.sqrt
 
+---Availability: Client and Server
+---@class objects.ColorObject
+---@field public r number red
+---@field public g number green
+---@field public b number blue
+---@field public a number alpha
+---@field public red number
+---@field public green number
+---@field public blue number
+---@field public alpha number
+---@field public hex string
+---@field public h number hue
+---@field public hue number
+---@field public s number saturation
+---@field public saturation number
+---@field public l number lightness
+---@field public lightness number
+---@field public ss number ssaturation
+---@field public ssaturation number
+---@field public v number value
+---@field public value number
+---@field public BLACK objects.Color
+---@field public WHITE objects.Color
+---@field public RED objects.Color
+---@field public GREEN objects.Color
+---@field public BLUE objects.Color
+---@field public YELLOW objects.Color
+---@field public GRAY objects.Color
+---@field public CYAN objects.Color
+---@field public MAGENTA objects.Color
+---@field public AQUA objects.Color
+---@field public BROWN objects.Color
+---@field public PINK objects.Color
+---@field public CORAL objects.Color
+---@field public CRIMSON objects.Color
+---@field public DARK_BLUE objects.Color
+---@field public DARK_CYAN objects.Color
+---@field public DARK_GRAY objects.Color
+---@field public DARK_GREEN objects.Color
+---@field public DARK_RED objects.Color
+---@field public GOLD objects.Color
+---@field public IVORY objects.Color
+---@field public LIME objects.Color
+---@field public PURPLE objects.Color
+---@operator add(number|objects.Color):(objects.Color)
+---@operator sub(number|objects.Color):(objects.Color)
+---@operator mul(number|objects.Color):(objects.Color)
+---@operator div(number|objects.Color):(objects.Color)
+---@operator unm:(objects.Color)
+---@operator pow(number):(objects.Color)
 local color = {}
 setmetatable(color, color)
 
 -- OLI monkeypatch
 umg.register(color, "objects:Color")
 
-
+---@alias objects.Color objects.ColorObject|number[]
 
 -- https://docs.microsoft.com/en-us/dotnet/api/system.drawing.color?view=net-5.0
 local predefined_colors = {
@@ -41,7 +91,8 @@ local predefined_colors = {
     IVORY = 0xFFFFFFF0, LIME = 0xFF00FF00, PURPLE = 0xFF800080
 }
 
-
+---@param c any
+---@return boolean
 local function isColor(c)
     return getmetatable(c) == color
 end
@@ -58,6 +109,7 @@ local function validate_hex(hex)
     return type(hex) == "string" and hex:find("#") == 1 and #hex > 1 and not hex:find("[^0-9A-Fa-f]", 2)
 end
 
+---@param hex integer|string
 local function hex_to_rgba(hex)
     if type(hex) == "number" then
         hex = ("%x"):format(hex)
@@ -79,6 +131,10 @@ local function hex_to_rgba(hex)
     return r, g, b, a
 end
 
+---@param r number?
+---@param g number?
+---@param b number?
+---@param a number?
 local function rgba_to_hex(r, g, b, a)
     r = (r or 1) * 255
     g = (g or 1) * 255
@@ -88,6 +144,9 @@ local function rgba_to_hex(r, g, b, a)
     return ("#%x%x%x%x"):format(a, r, g, b)
 end
 
+---@param r number
+---@param g number
+---@param b number
 local function rgb_to_hsv(r, g, b)
     local cmax = m_max(r, m_max(g, b))
     local cmin = m_min(r, m_min(g, b))
@@ -112,6 +171,9 @@ local function rgb_to_hsv(r, g, b)
     return h, s, v
 end
 
+---@param r number
+---@param g number
+---@param b number
 local function rgb_to_hsl(r, g, b)
     local cmax = m_max(r, m_max(g, b))
     local cmin = m_min(r, m_min(g, b))
@@ -137,7 +199,9 @@ local function rgb_to_hsl(r, g, b)
     return h, s, l
 end
 
-
+---@param h number
+---@param s number
+---@param v number
 local function hsv_to_rgb(h, s, v)
     local c = v * s
     local x = c * (1 - m_abs((h / 60) % 2 - 1))
@@ -163,6 +227,9 @@ local function hsv_to_rgb(h, s, v)
     return ir + m, ig + m, ib + m
 end
 
+---@param h number
+---@param s number
+---@param l number
 local function hsl_to_rgb(h, s, l)
     local c = (1 - m_abs(2 * l - 1)) * s
     local x = c * (1 - m_abs((h / 60) % 2 - 1))
@@ -202,6 +269,36 @@ function color:__call(r, g, b, a)
     end
 
     return setmetatable(obj, color)
+end
+
+if false then
+    ---Create new color from RGBA colors.
+    ---
+    ---Availability: Client and Server
+    ---@param r number ([0..1] range)
+    ---@param g number ([0..1] range)
+    ---@param b number ([0..1] range)
+    ---@param a number? ([0..1] range, default is 1)
+    ---@return objects.Color
+    function color(r, g, b, a) end ---@diagnostic disable-line: cast-local-type, missing-return
+end
+
+if false then
+    ---Create new color from hex code or 4-byte integer representation.
+    ---
+    ---Availability: Client and Server
+    ---@param hex integer|string
+    ---@return objects.Color
+    function color(hex) end ---@diagnostic disable-line: cast-local-type, missing-return
+end
+
+if false then
+    ---Create new color based on number array or clone existing color object.
+    ---
+    ---Availability: Client and Server
+    ---@param col objects.Color
+    ---@return objects.Color
+    function color(col) end ---@diagnostic disable-line: cast-local-type, missing-return
 end
 
 local color_index = {
@@ -311,6 +408,9 @@ end
 -- arithmetic --
 ----------------
 
+---@param self objects.Color
+---@param other number|objects.Color
+---@return objects.Color
 function color:add(other)
     if type(other) == "number" then
         self:setRGBA(self.r + other, self.g + other, self.b + other, self.a + other)
@@ -324,6 +424,9 @@ function color:add(other)
     return self
 end
 
+---@param self objects.Color
+---@param other number|objects.Color
+---@return objects.Color
 function color:subtract(other)
     if type(other) == "number" then
         self:setRGBA(self.r - other, self.g - other, self.b - other, self.a - other)
@@ -337,6 +440,9 @@ function color:subtract(other)
     return self
 end
 
+---@param self objects.Color
+---@param other number|objects.Color
+---@return objects.Color
 function color:multiply(other)
     if type(other) == "number" then
         self:setRGBA(self.r * other, self.g * other, self.b * other, self.a * other)
@@ -350,6 +456,9 @@ function color:multiply(other)
     return self
 end
 
+---@param self objects.Color
+---@param other number|objects.Color
+---@return objects.Color
 function color:divide(other)
     if type(other) == "number" then
         self:setRGBA(self.r / other, self.g / other, self.b / other, self.a / other)
@@ -363,12 +472,16 @@ function color:divide(other)
     return self
 end
 
+---@param self objects.Color
+---@return objects.Color
 function color:invert()
     self:setRGBA(1 - self.r, 1 - self.g, 1 - self.b, self.a)
 
     return self
 end
 
+---@param deg number
+---@return objects.Color
 function color:shiftHue(deg)
     assert(type(deg) == "number", "Degree must be a number")
     self.hue = (self.hue + deg) % 360
@@ -410,12 +523,20 @@ end
 -----------------
 ------ HSV ------
 -----------------
+
+---@param self objects.Color
+---@param h number
+---@param s number
+---@param v number
+---@return objects.Color
 function color:setHSV(h, s, v)
     self.r, self.g, self.b = hsv_to_rgb(h, s, v)
 
     return self
 end
 
+---@param self objects.Color
+---@return number,number,number
 function color:getHSV()
     return rgb_to_hsv(self.r, self.g, self.b)
 end
@@ -423,12 +544,20 @@ end
 -----------------
 ------ HSL ------
 -----------------
+
+---@param self objects.Color
+---@param h number
+---@param s number
+---@param v number
+---@return objects.Color
 function color:setHSL(h, s, v)
     self.r, self.g, self.b = hsl_to_rgb(h, s, v)
 
     return self
 end
 
+---@param self objects.Color
+---@return number,number,number
 function color:getHSL()
     return rgb_to_hsl(self.r, self.g, self.b)
 end
@@ -436,6 +565,13 @@ end
 ----------------
 ----- RGBA -----
 ----------------
+
+---@param self objects.Color
+---@param r number
+---@param g number
+---@param b number
+---@param a number
+---@return objects.Color
 function color:setRGBA(r, g, b, a)
     self.r = r or self.r
     self.g = g or self.g
@@ -445,10 +581,18 @@ function color:setRGBA(r, g, b, a)
     return self
 end
 
+---@param self objects.Color
+---@return number,number,number,number
 function color:getRGBA()
     return self.r, self.g, self.b, self.a
 end
 
+---@param self objects.Color
+---@param r integer?
+---@param g integer?
+---@param b integer?
+---@param a integer?
+---@return objects.Color
 function color:setByteRGBA(r, g, b, a)
     self.r = r and (r/255) or self.r
     self.g = g and (g/255) or self.g
@@ -458,6 +602,8 @@ function color:setByteRGBA(r, g, b, a)
     return self
 end
 
+---@param self objects.Color
+---@return integer,integer,integer,integer
 function color:getByteRGBA()
     return m_floor(self.r * 255), m_floor(self.g * 255), m_floor(self.b * 255), m_floor(self.a * 255)
 end
@@ -465,6 +611,9 @@ end
 ----------------
 ----- Misc -----
 ----------------
+
+---@param self objects.Color
+---@return objects.Color
 function color:clone()
     return color(self:getRGBA())
 end
@@ -472,6 +621,11 @@ end
 ---------------
 ---- Utils ----
 ---------------
+
+---@param from objects.Color
+---@param to objects.Color
+---@param progress number
+---@return objects.Color
 function color.lerp(from, to, progress)
     return color(
         lerp(from.r, to.r, progress),
@@ -481,6 +635,9 @@ function color.lerp(from, to, progress)
     )
 end
 
+---@param a objects.Color
+---@param b objects.Color
+---@return number
 function color.distance(a, b)
     local dr = a.r - b.r
     local dg = a.g - b.b
