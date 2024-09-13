@@ -35,13 +35,13 @@ end
 ---@param shape lootplot.targets.ShapeData
 ---@param dy number
 ---@return lootplot.targets.ShapeData
-return function(shape, rot)
+return function(shape, rot, name)
     rot = rot % 4 -- 1 = 90 degrees of rotation
     if rot == 0 then
         return shape
     end
 
-    local name = getName(shape.name, rot)
+    name = name or getName(shape.name, rot)
     local coords = {}
 
     for _, coord in ipairs(shape.relativeCoords) do
