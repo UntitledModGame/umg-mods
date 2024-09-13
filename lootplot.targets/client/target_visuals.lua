@@ -47,7 +47,7 @@ local function getOpacity(item, ppos)
     if util.canTarget(item, ppos) then
         return 1
     end
-    return 0.15
+    return 0.33
 end
 
 
