@@ -26,7 +26,7 @@ end
 local function rotateCoord(coord, rot)
     for i=1,rot do
         local x, y = coord[1], coord[2]
-        coord = {y, -x}
+        coord = {-y, x}
     end
     return coord
 end
