@@ -1,17 +1,21 @@
 
----@alias lootplot.Rarity {color:objects.Color, index:number, name:string, rarityWeight:number, displayString:string}
----@return lootplot.Rarity
+---@alias lootplot.rarities.Rarity {color:objects.Color, index:number, name:string, rarityWeight:number, displayString:string}
+---@return lootplot.rarities.Rarity
 local function newRarity(name, rarity_weight, color)
     local cStr = localization.localize("{wavy}{c r=%f g=%f b=%f}%{name}{/c}{/wavy}", {
         name = name
     }):format(color.r, color.g, color.b)
-    return {
+
+    local rarity = {
         color = color,
         index = 1,
         name = name,
         rarityWeight = rarity_weight,
         displayString = cStr
     }
+
+    umg.register(rarity, "lootplot.rarities:" .. name)
+    return rarity
 end
 
 
@@ -24,7 +28,7 @@ end
 
 umg.answer("lootplot:getConstantSpawnWeight", function(etype)
     local rarity = etype.rarity
-    ---@cast rarity lootplot.Rarity
+    ---@cast rarity lootplot.rarities.Rarity
     if rarity then
         return rarity.rarityWeight
     end
@@ -40,7 +44,7 @@ if client then
         local rarity = ent.rarity
         if rarity then
             local descString = localization.localize("Rarity") .. ": " .. rarity.displayString
-            ---@cast rarity lootplot.Rarity
+            ---@cast rarity lootplot.rarities.Rarity
             if rarity then
                 arr:add(descString)
             end
@@ -60,12 +64,57 @@ lp.rarities = {
     EPIC = newRarity("EPIC (IV)", 0.6, hsl(275, 100,45)),
     LEGENDARY = newRarity("LEGENDARY (V)",0.1, hsl(330, 100, 35)),
     MYTHIC = newRarity("MYTHIC (VI)", 0.02, hsl(50, 90, 40)),
+
+    -- Use this rarity when you dont want an item to spawn naturally.
+    -- (Useful for easter-egg items, or items that can only be spawned by other items)
     UNIQUE = newRarity("UNIQUE", 0.00, objects.Color.WHITE),
 }
 
+local sortedRarities = objects.Array()
+for _,r in pairs(lp.rarities) do
+    sortedRarities:add(r)
+end
+sortedRarities:sortInPlace(function(a, b)
+    return a.rarityWeight > b.rarityWeight
+end)
+
+
 ---Availability: Client and Server
----@param r1 lootplot.Rarity
+---@param r1 lootplot.rarities.Rarity
 ---@return number rarity weight of the rarity object. Lower means more rare.
 function lp.rarities.getWeight(r1)
     return r1.rarityWeight
 end
+
+
+local function assertServer()
+    if not server then
+        umg.melt("This can only be called on client-side!", 3)
+    end
+end
+
+function lp.rarities.setEntityRarity(ent, rarity)
+    assertServer()
+    ent.rarity = rarity
+    sync.syncComponent(ent, "rarity")
+end
+
+
+
+local shiftTc = typecheck.assert("table", "number")
+
+---@param rarity lootplot.rarities.Rarity
+---@param delta number
+---@return lootplot.rarities.Rarity
+function lp.rarities.shiftRarity(rarity, delta)
+    shiftTc(rarity, delta)
+    for i,r in ipairs(sortedRarities) do
+        if r.rarityWeight == rarity.rarityWeight then
+            local choice = math.clamp(i + delta, 1, #sortedRarities)
+            return sortedRarities[choice]
+        end
+    end
+    -- FAILED!
+    return rarity
+end
+
