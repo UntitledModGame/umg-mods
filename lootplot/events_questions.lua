@@ -30,7 +30,7 @@ umg.defineEvent("lootplot:levelChanged")
 
 
 -- TODO: should these be serverside only questions...?
-umg.defineQuestion("lootplot:getConstantSpawnWeight", reducers.MULTIPLY)
+umg.defineQuestion("lootplot:getConstantSpawnWeightMultiplier", reducers.MULTIPLY)
 umg.defineQuestion("lootplot:getDynamicSpawnChance", reducers.MULTIPLY)
 
 

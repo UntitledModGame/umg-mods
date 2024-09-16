@@ -26,7 +26,7 @@ local function hsl(h,s,l)
 end
 
 
-umg.answer("lootplot:getConstantSpawnWeight", function(etype)
+umg.answer("lootplot:getConstantSpawnWeightMultiplier", function(etype)
     local rarity = etype.rarity
     ---@cast rarity lootplot.rarities.Rarity
     if rarity then

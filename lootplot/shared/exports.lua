@@ -886,7 +886,7 @@ the generation queries.
 (It is a lot less efficient, but provides for greater flexibility)
 ]]
 local function getEntityTypeSpawnWeight(entityType)
-    return umg.ask("lootplot:getConstantSpawnWeight", entityType) or 1
+    return umg.ask("lootplot:getConstantSpawnWeightMultiplier", entityType) or 1
 end
 
 ---Availability: **Server**
