@@ -187,7 +187,7 @@ umg.on("lootplot:populateDescription", 60, function(ent, arr)
 end)
 
 umg.on("lootplot:populateDescription", 60, function(ent, arr)
-    if ent.lives then
+    if ent.lives and ent.lives > 0 then
         arr:add(funcLocEnt(
             "{wavy}{lootplot:LIFE_COLOR}EXTRA LIVES:{/lootplot:LIFE_COLOR} %{lives}",
             ent

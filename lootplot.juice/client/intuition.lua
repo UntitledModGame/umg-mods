@@ -25,3 +25,21 @@ umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER, function(ent, x,y, rot
         end
     end
 end)
+
+
+
+
+umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER + 0.01, function(ent, x,y, rot, sx,sy, kx,ky)
+    if ent.lives and ent.lives > 0 then
+        local ox, oy = 0, 0
+        local img = client.assets.images.life_visual
+        if lp.isItemEntity(ent) then
+            ox, oy = 6, 6
+            rendering.drawImage(img, x + ox, y + oy, rot, sx,sy, kx,ky)
+        elseif lp.isSlotEntity(ent) then
+            ox, oy = -6, 6
+            rendering.drawImage(img, x + ox, y + oy, rot + math.pi/2, sx * -1,sy, kx,ky)
+        end
+    end
+end)
+
