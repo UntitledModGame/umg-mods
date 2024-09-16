@@ -99,10 +99,6 @@ defineCat("lootplot.content.s0:copycat", {
         description = loc("{lp_targetColor}Copies self into target slots"),
         activate = function(selfEnt, ppos, targetEnt)
             local copyEnt = lp.clone(selfEnt)
-            local oldItem = lp.posToItem(ppos)
-            if oldItem then
-                lp.destroy(oldItem)
-            end
             local success = lp.trySetItem(ppos, copyEnt)
             if not success then
                 copyEnt:delete()
@@ -121,6 +117,38 @@ defineCat("lootplot.content.s0:chubby_cat", {
 
     lives = 9
 })
+
+
+defineCat("lootplot.content.s0:crappy_cat", {
+    image = "crappy_cat",
+    name = loc("Crappy Cat"),
+
+    rarity = lp.rarities.RARE,
+
+    shape = lp.targets.RookShape(1),
+
+    target = {
+        type = "ITEM",
+        description = loc("{lp_targetColor}Converts target items into a clone of itself"),
+        activate = function(selfEnt, ppos, targetEnt)
+            local copyEnt = lp.clone(selfEnt)
+            local success = lp.trySetItem(ppos, copyEnt)
+            if not success then
+                copyEnt:delete()
+            else
+                --[[
+                TODO: this relies on kinda janky trySetItem semantics.
+                We need to do more proper thinking about how item setting
+                should actually work, especially when we overwrite items.
+                Deleting them manually (like we do here with targetEnt)
+                should NOT be the norm.
+                ]]
+                targetEnt:delete()
+            end
+        end
+    }
+})
+
 
 
 
