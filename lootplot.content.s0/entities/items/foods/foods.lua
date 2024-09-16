@@ -286,7 +286,7 @@ end
 
 definePie("knights_pie", "Knight's Pie", "Adds KNIGHT Shape to item", lp.targets.KNIGHT_SHAPE, lp.rarities.UNCOMMON)
 definePie("kings_pie", "King's Pie", "Adds KING-1 Shape to item", lp.targets.KingShape(1), lp.rarities.RARE)
-definePie("rooks_pie", "Rook's Pie", "Adds ROOK-10 Shape to item", lp.targets.RookShape(10), lp.rarities.EPIC)
+definePie("rooks_pie", "Rook's Pie", "Adds ROOK-4 Shape to item", lp.targets.RookShape(4), lp.rarities.EPIC)
 
 
 ----------------------------------------------------------------------------
