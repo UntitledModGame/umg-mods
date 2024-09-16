@@ -177,11 +177,9 @@ lp.defineItem("lootplot.content.s0:boomerang", {
         local ppos = lp.getPos(selfEnt)
 
         if ppos then
-            return lp.queue(ppos, function ()
-                if umg.exists(selfEnt) then
-                    lp.tryActivateEntity(selfEnt)
-                    lp.wait(ppos, 0.3)
-                end
+            return lp.queueWithEntity(selfEnt, function ()
+                lp.tryActivateEntity(selfEnt)
+                lp.wait(ppos, 0.2)
             end)
         end
     end

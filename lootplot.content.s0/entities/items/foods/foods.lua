@@ -210,7 +210,7 @@ defineSlotConverter("golden_apple", "Golden Apple", "golden_slot", "Golden Slot"
 })
 
 defineSlotConverter("diamond_apple", "Diamond Apple", "diamond_slot", "Diamond Slot", lp.targets.ON_SHAPE, {
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.EPIC,
     minimumLevelToSpawn = 3,
 })
 
@@ -372,7 +372,7 @@ TODO: Change mushrooms!!!
 local function defineMush(id, etype)
     etype.image = id
     etype.rarity = lp.rarities.RARE
-    lp.defineFood("lootplot.content.s0:" .. id, etype)
+    defineFood("lootplot.content.s0:" .. id, etype)
 end
 
 defineMush("mushroom_red", {
