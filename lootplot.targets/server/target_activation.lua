@@ -28,7 +28,6 @@ local function activateTargets(ent, targets, conversion)
         end)
 end
 
-local VALIDS = {SLOT=true, ITEM=true, NO_ITEM=true, NO_SLOT=true}
 
 umg.on("lootplot:entityActivated", function(ent)
     if lp.isItemEntity(ent) then
@@ -37,7 +36,7 @@ umg.on("lootplot:entityActivated", function(ent)
 
         if targets then
             local to = ent.target and ent.target.type
-            if (to and (not VALIDS[to])) then
+            if (to and (not lp.CONVERSIONS[to])) then
                 error("Invalid target.type: " .. tostring(to))
             end 
             activateTargets(ent, targets, to)

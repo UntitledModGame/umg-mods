@@ -39,12 +39,10 @@ defineFood("lootplot.content.s0:blueberry", {
 
 CURRENTLY UNUSED:
 
-Lychee
-
 Pear
 
 If you come up with an idea,
-These fruits are always free to be used!
+These fruit(s?) are always free to be used!
 ]]
 
 
@@ -84,7 +82,7 @@ defineFood("lootplot.content.s0:heart_fruit", {
 
     target = {
         type = "ITEM_OR_SLOT",
-        description = loc("Gives +2 lives to target"),
+        description = loc("Gives +2 lives to target."),
         activate = function(selfEnt, ppos, targetEnt)
             targetEnt.lives = (targetEnt.lives or 0) + 2
         end
@@ -216,6 +214,9 @@ defineSlotConverter("diamond_apple", "Diamond Apple", "diamond_slot", "Diamond S
     minimumLevelToSpawn = 3,
 })
 
+defineSlotConverter("lychee", "Lychee", "pink_slot", "Pink Slot", lp.targets.ON_SHAPE, {
+    rarity = lp.rarities.RARE
+})
 
 ----------------------------------------------------------------------------
 
