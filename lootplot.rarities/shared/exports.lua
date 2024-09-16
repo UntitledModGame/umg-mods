@@ -97,6 +97,9 @@ local function assertServer()
     end
 end
 
+--- Availability: Server
+---@param ent Entity
+---@param rarity lootplot.rarities.Rarity
 function lp.rarities.setEntityRarity(ent, rarity)
     assertServer()
     ent.rarity = rarity
@@ -107,11 +110,17 @@ end
 
 local shiftTc = typecheck.assert("table", "number")
 
+
+--- Availability: Client and Server
 ---@param rarity lootplot.rarities.Rarity
 ---@param delta number
 ---@return lootplot.rarities.Rarity
 function lp.rarities.shiftRarity(rarity, delta)
     shiftTc(rarity, delta)
+    if rarity.rarityWeight == 0 or rarity == lp.rarities.UNIQUE then
+        -- cannot shift UNIQUE rarity. (That would be weird)
+        return rarity
+    end
     for i,r in ipairs(RARITY_LIST) do
         if r.rarityWeight == rarity.rarityWeight then
             local choice = math.clamp(i + delta, 1, #RARITY_LIST)

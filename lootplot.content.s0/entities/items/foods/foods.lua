@@ -372,7 +372,7 @@ TODO: Change mushrooms!!!
 local function defineMush(id, etype)
     etype.image = id
     etype.rarity = lp.rarities.RARE
-    lp.defineItem("lootplot.content.s0:" .. id, etype)
+    lp.defineFood("lootplot.content.s0:" .. id, etype)
 end
 
 defineMush("mushroom_red", {
