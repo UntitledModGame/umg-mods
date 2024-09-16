@@ -16,46 +16,36 @@ defineFood("lootplot.content.s0:blueberry", {
     name = loc("Blueberry"),
 
     rarity = lp.rarities.EPIC,
-    minimumLevelToSpawn = 6,
-
-    baseTraits = {},
 
     shape = lp.targets.ABOVE_SHAPE,
 
     target = {
-        type = "ITEM",
-        description = loc("{lp_targetColor}Adds 2 Doom-count to item"),
+        type = "ITEM_OR_SLOT",
+        description = loc("{lp_targetColor}Destroys item or slot. Doubles the current point count."),
+
         activate = function (selfEnt, ppos, targetEnt)
-            if targetEnt.doomCount then
-                targetEnt.doomCount = targetEnt.doomCount + 2
+            lp.destroy(targetEnt)
+            local points = lp.getPoints(selfEnt)
+            if points then
+                lp.addPoints(selfEnt, points)
             end
         end
     }
 })
 
 
-defineFood("lootplot.content.s0:lychee", {
-    image = "lychee",
 
-    name = loc("Lychee"),
+--[[
 
-    baseTraits = {},
+CURRENTLY UNUSED:
 
-    rarity = lp.rarities.RARE,
-    minimumLevelToSpawn = 6,
+Lychee
 
-    shape = lp.targets.ABOVE_SHAPE,
+Pear
 
-    target = {
-        type = "ITEM",
-        description = loc("{lp_targetColor}Gives +5 max-activations to target item"),
-
-        activate = function (selfEnt, ppos, targetEnt)
-            lp.modifierBuff(targetEnt, "maxActivations", 5, selfEnt)
-        end
-    }
-})
-
+If you come up with an idea,
+These fruits are always free to be used!
+]]
 
 
 
@@ -296,4 +286,138 @@ end
 definePie("knights_pie", "Knight's Pie", "Adds KNIGHT Shape to item", lp.targets.KNIGHT_SHAPE, lp.rarities.UNCOMMON)
 definePie("kings_pie", "King's Pie", "Adds KING-1 Shape to item", lp.targets.KingShape(1), lp.rarities.RARE)
 definePie("rooks_pie", "Rook's Pie", "Adds ROOK-10 Shape to item", lp.targets.RookShape(10), lp.rarities.EPIC)
+
+
+----------------------------------------------------------------------------
+
+
+
+
+
+
+--[[
+Potion-items should EXCLUSIVELY be used to buff items.
+
+This gives the player great intuition about what they do.
+]]
+
+local function definePotion(name, etype)
+    etype.shape = lp.targets.ABOVE_SHAPE
+    defineFood(name, etype)
+end
+
+definePotion("lootplot.content.s0:potion_green", {
+    image = "potion_green",
+
+    name = loc("Green Potion"),
+
+    rarity = lp.rarities.EPIC,
+
+    target = {
+        type = "ITEM_OR_SLOT",
+        description = loc("{lp_targetColor}Gives +5 max-activations to target."),
+        activate = function (selfEnt, ppos, targetEnt)
+            lp.modifierBuff(targetEnt, "maxActivations", 5, selfEnt)
+        end
+    }
+})
+
+
+
+definePotion("lootplot.content.s0:potion_blue", {
+    image = "potion_blue",
+    name = loc("Blue Potion"),
+
+    rarity = lp.rarities.COMMON,
+
+    target = {
+        type = "ITEM_OR_SLOT",
+        description = loc("{lp_targetColor}Permanently buffs item/slots points by 5"),
+        activate = function (selfEnt, ppos, targetEnt)
+            lp.modifierBuff(targetEnt, "pointsGenerated", 5, selfEnt)
+        end
+    }
+})
+
+
+definePotion("lootplot.content.s0:potion_red", {
+    image = "potion_red",
+    name = loc("Red Potion"),
+
+    rarity = lp.rarities.EPIC,
+
+    target = {
+        type = "ITEM_OR_SLOT",
+        description = loc("{lp_targetColor}Multiplies item/slots points by 1.5"),
+        activate = function (selfEnt, ppos, targetEnt)
+            lp.multiplierBuff(targetEnt, "pointsGenerated", 1.5, selfEnt)
+        end
+    }
+})
+
+
+--------------------------------------------------------------------------
+
+
+
+
+--[[
+
+TODO: Change mushrooms!!!
+
+]]
+---@alias lootplot.content.s0.MushArgs { property: string, buffAmount: number, description: string, buffType: "MULTIPLY" | "MODIFY"}
+
+---@param image string
+---@param name string
+---@param args lootplot.content.s0.MushArgs
+local function defineMush(image, name, args)
+    return lp.defineItem("lootplot.content.s0:"..image, {
+        image = image,
+        name = loc(name),
+        triggers = {"PULSE"},
+        doomCount = 1,
+
+        rarity = lp.rarities.UNCOMMON,
+        minimumLevelToSpawn = 3,
+
+        shape = lp.targets.ON_SHAPE,
+
+        target = {
+            type = "SLOT",
+            description = loc(args.description),
+            activate = function(selfEnt, ppos, targetEnt)
+                local slotEnt = lp.itemToSlot(selfEnt)
+                if slotEnt then
+                    if args.buffType == "MULTIPLY" then
+                        return lp.multiplierBuff(slotEnt, args.property, args.buffAmount, selfEnt)
+                    else
+                        return lp.modifierBuff(slotEnt, args.property, args.buffAmount, selfEnt)
+                    end
+                end
+            end
+        }
+    })
+end
+
+defineMush("mushroom_red", "Red Mushroom", {
+    property = "pointsGenerated",
+    buffAmount = 5,
+    buffType = "MODIFY",
+    description = "Gives +5 points-generated to slot",
+})
+
+defineMush("mushroom_purple", "Purple Mushroom", {
+    property = "pointsGenerated",
+    buffAmount = 2,
+    buffType = "MULTIPLY",
+    description = "Multiplies slot points-generated by 2",
+})
+
+defineMush("mushroom_green", "Green Mushroom", {
+    property = "moneyGenerated",
+    buffAmount = 1,
+    buffType = "MODIFY",
+    description = "Gives +1 money-generated to slot",
+})
 
