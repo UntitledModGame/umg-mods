@@ -70,13 +70,17 @@ lp.rarities = {
     UNIQUE = newRarity("UNIQUE", 0.00, objects.Color.WHITE),
 }
 
-local sortedRarities = objects.Array()
+local RARITY_LIST = objects.Array()
+
 for _,r in pairs(lp.rarities) do
-    sortedRarities:add(r)
+    RARITY_LIST:add(r)
 end
-sortedRarities:sortInPlace(function(a, b)
+RARITY_LIST:sortInPlace(function(a, b)
     return a.rarityWeight > b.rarityWeight
 end)
+
+---@type lootplot.rarities.Rarity[] | objects.Array
+lp.rarities.RARITY_LIST = RARITY_LIST
 
 
 ---Availability: Client and Server
@@ -108,13 +112,17 @@ local shiftTc = typecheck.assert("table", "number")
 ---@return lootplot.rarities.Rarity
 function lp.rarities.shiftRarity(rarity, delta)
     shiftTc(rarity, delta)
-    for i,r in ipairs(sortedRarities) do
+    for i,r in ipairs(RARITY_LIST) do
         if r.rarityWeight == rarity.rarityWeight then
-            local choice = math.clamp(i + delta, 1, #sortedRarities)
-            return sortedRarities[choice]
+            local choice = math.clamp(i + delta, 1, #RARITY_LIST)
+            return RARITY_LIST[choice]
         end
     end
     -- FAILED!
     return rarity
 end
 
+
+for d=-5,5 do
+    print(d, lp.rarities.shiftRarity(lp.rarities.RARE, d).name)
+end

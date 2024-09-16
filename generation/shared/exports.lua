@@ -17,7 +17,7 @@ generation.LegacyGenerator = require("shared.LegacyGenerator")
 
 ---Randomly picks an item from the list.
 ---
----If you don't need weighted pick, consider using `table.pick_random` instead.
+---If you don't need weighted pick, consider using `table.random` instead.
 ---
 ---Availability: Client and Server
 ---@generic T
@@ -53,7 +53,7 @@ end
 
 ---Randomly picks an item from the list.
 ---
----If all weights are in equal size pick, consider using `table.pick_random` instead.
+---If all weights are in equal size pick, consider using `table.random` instead.
 ---
 ---Availability: Client and Server
 ---@generic T
