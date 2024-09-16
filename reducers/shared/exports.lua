@@ -1,5 +1,6 @@
 
-
+---Availability: Client and Server
+---@class reducers.mod
 local reducers = {}
 --[[
 
@@ -281,7 +282,6 @@ end
 
 
 if false then
-    ---Availability: Client and Server
     _G.reducers = reducers
 end
 umg.expose("reducers", reducers)

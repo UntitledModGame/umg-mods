@@ -1,3 +1,5 @@
+---Availability: **Client**
+---@class sound.mod
 local sound = {}
 if false then _G.sound = sound end
 

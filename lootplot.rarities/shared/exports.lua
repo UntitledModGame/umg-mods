@@ -53,6 +53,7 @@ end
 ---Can override rarities in this table:
 ---
 ---Availability: Client and Server
+---@class lp.rarities.mod
 lp.rarities = {
     COMMON = newRarity("COMMON (I)", 2, hsl(110, 35, 55)),
     UNCOMMON = newRarity("UNCOMMON (II)", 1.5, hsl(150, 66, 55)),

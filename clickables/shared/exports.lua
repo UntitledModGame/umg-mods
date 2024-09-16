@@ -1,8 +1,9 @@
 ---@meta
 
+---Availability: Client and Server
+---@class clickables.mod
 local clickables = {}
 if false then
-    ---Availability: Client and Server
     _G.clickables = clickables
 end
 

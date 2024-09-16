@@ -1,7 +1,9 @@
 ---@meta
+
+---Availability: **Client**
+---@class hoverables.mod
 local hoverables = {}
 if false then
-    ---Availability: **Client**
     _G.hoverables = hoverables
 end
 

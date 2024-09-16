@@ -9,6 +9,10 @@ local ptrack = require("shared.internal.positionTracking")
 local trigger = require("shared.trigger")
 local selection = require("shared.selection")
 
+---Core Lootplot game API.
+---
+---Availability: Client and Server
+---@class lp.mod
 local lp = {}
 
 if client then
@@ -1083,9 +1087,6 @@ lp.constants = {
 }
 
 if false then
-    ---Core Lootplot game API.
-    ---
-    ---Availability: Client and Server
     _G.lp = lp
 end
 umg.expose("lp", lp)

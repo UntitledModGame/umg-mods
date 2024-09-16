@@ -1,3 +1,7 @@
+---Provides functionality to play audio.
+---
+---Availability: **Client**
+---@class audio.mod
 local audio = {}
 if false then _G.audio = audio end
 

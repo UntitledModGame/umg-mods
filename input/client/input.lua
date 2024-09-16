@@ -1,4 +1,5 @@
 ---@meta
+
 --[[
 
 abstracting away the input.
@@ -6,16 +7,15 @@ abstracting away the input.
 TODO: Allow for even more custom stuff, like joysticks
 
 ]]
+---Availability: **Client**
+---@class input.mod
+local input = {}
+if false then
+    _G.input = input
+end
 
 ---@type input.InputListener[]
 local sortedListeners = {}
-
-
-local input = {}
-if false then
-    ---Availability: **Client**
-    _G.input = input
-end
 
 --[[
     The reason we need to buffer events, is because listeners can

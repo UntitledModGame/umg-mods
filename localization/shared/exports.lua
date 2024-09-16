@@ -1,3 +1,5 @@
+---Availability: Client and Server
+---@class localization.mod
 local localization = {}
 if false then _G.localization = localization end
 
@@ -18,3 +20,4 @@ end
 
 
 umg.expose("localization", localization)
+return localization

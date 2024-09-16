@@ -1,9 +1,10 @@
 ---@meta
 local n9p = require("lib.n9p")
 
+---Availability: **Client**
+---@class n9slice.mod
 local n9slice = {}
 if false then
-    ---Availability: **Client**
     _G.n9slice = n9slice
 end
 

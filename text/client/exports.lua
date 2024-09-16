@@ -1,8 +1,9 @@
 ---@meta
 
+---Availability: **Client**
+---@class text.mod
 local text = {}
 if false then
-    ---Availability: **Client**
     _G.text = text
 end
 

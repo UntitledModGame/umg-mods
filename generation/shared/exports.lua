@@ -1,8 +1,9 @@
 ---@meta
 
+---Availability: Client and Server
+---@class generation.mod
 local generation = {}
 if false then
-    ---Availability: Client and Server
     _G.generation = generation
 end
 

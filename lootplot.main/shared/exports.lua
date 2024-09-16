@@ -6,6 +6,9 @@
 
 -- selene: allow(incorrect_standard_library_use)
 assert(not lp.main, "invalid mod setup")
+
+---Availability: Client and Server
+---@class lp.main.mod
 local main = {}
 
 
@@ -69,5 +72,4 @@ main.constants = setmetatable({
     STARTING_LEVEL = 1,
 },{__index=function(msg,k,v) error("undefined const: " .. tostring(k)) end})
 
----Availability: Client and Server
 lp.main = main

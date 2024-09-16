@@ -1,10 +1,12 @@
 ---@meta
 
+
+---Provides functions related to drawing to screen.
+---
+---Availability: **Client**
+---@class rendering.mod
 local rendering = {}
 if false then
-    ---Provides functions related to drawing to screen.
-    ---
-    ---Availability: **Client**
     _G.rendering = rendering
 end
 

@@ -1,5 +1,9 @@
 ---@meta
 
+---Provides runtime type checking functionality.
+---
+---Availability: Client and Server
+---@class typecheck.mod
 local typecheck = {}
 
 
@@ -361,9 +365,6 @@ typecheck.addType("love", function(x)
 end)
 
 if false then
-    ---Provides type checking functionality.
-    ---
-    ---Availability: Client and Server
     _G.typecheck = typecheck
 end
 return typecheck

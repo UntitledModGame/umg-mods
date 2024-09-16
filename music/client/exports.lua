@@ -1,3 +1,5 @@
+---Availability: **Client**
+---@class music.mod
 local music = {}
 if false then _G.music = music end
 

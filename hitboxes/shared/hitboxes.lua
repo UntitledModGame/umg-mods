@@ -1,8 +1,9 @@
 ---@meta
 
+---Availability: Client and Server
+---@class hitboxes.mod
 local hitboxes = {}
 if false then
-    ---Availability: Client and Server
     _G.hitboxes = hitboxes
 end
 
