@@ -51,7 +51,6 @@ defineFood("lootplot.content.s0:magic_turnip", {
     image = "magic_turnip",
     name = loc("Magic Turnip"),
 
-    minimumLevelToSpawn = 6,
     rarity = lp.rarities.EPIC,
 
     shape = lp.targets.ABOVE_SHAPE,
@@ -135,12 +134,10 @@ end
 
 defineSlotSpawner("glass_bottle", "Glass Bottle", "glass_slot", "Glass Slot", lp.targets.RookShape(5), {
     rarity = lp.rarities.RARE,
-    minimumLevelToSpawn = 2,
 })
 
 defineSlotSpawner("glass_tube", "Glass Bottle", "glass_slot", "Glass Slot", lp.targets.BishopShape(4), {
     rarity = lp.rarities.COMMON,
-    minimumLevelToSpawn = 2,
 })
 
 defineSlotSpawner("stone_fruit", "Stone fruit", "null_slot", "Null Slot", lp.targets.RookShape(1))
@@ -160,7 +157,6 @@ lp.targets.OffsetShape(lp.targets.ON_SHAPE, 0, 2, "DOWN-2"), {
 
 defineSlotSpawner("coconut", "Coconut", "dirt_slot", "Dirt Slot", lp.targets.RookShape(1), {
     rarity = lp.rarities.COMMON,
-    minimumLevelToSpawn = 2,
 })
 
 ----------------------------------------------------------------------------
@@ -200,18 +196,15 @@ end
 
 defineSlotConverter("dirty_muffin", "Dirty Muffin", "dirt_slot", "Dirt Slot", lp.targets.LARGE_KING_SHAPE, {
     rarity = lp.rarities.RARE,
-    minimumLevelToSpawn = 4,
     basePrice = 2,
 })
 
 defineSlotConverter("golden_apple", "Golden Apple", "golden_slot", "Golden Slot", lp.targets.ON_SHAPE, {
     rarity = lp.rarities.UNCOMMON,
-    minimumLevelToSpawn = 3,
 })
 
 defineSlotConverter("diamond_apple", "Diamond Apple", "diamond_slot", "Diamond Slot", lp.targets.ON_SHAPE, {
     rarity = lp.rarities.EPIC,
-    minimumLevelToSpawn = 3,
 })
 
 defineSlotConverter("lychee", "Lychee", "pink_slot", "Pink Slot", lp.targets.ON_SHAPE, {
@@ -226,7 +219,6 @@ defineFood("lootplot.content.s0:super_apple", {
     name = loc("Super Apple"),
 
     rarity = lp.rarities.EPIC,
-    minimumLevelToSpawn = 6,
 
     shape = lp.targets.KING_SHAPE,
 
@@ -260,7 +252,6 @@ local function definePie(id, name, desc, addShape, rarity)
         name = loc(name),
 
         rarity = rarity,
-        minimumLevelToSpawn = 2,
 
         shape = lp.targets.ABOVE_SHAPE,
 

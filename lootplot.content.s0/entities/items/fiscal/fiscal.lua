@@ -16,7 +16,6 @@ lp.defineItem("lootplot.content.s0:gold_axe", {
     baseMoneyGenerated = 1,
 
     rarity = lp.rarities.RARE,
-    minimumLevelToSpawn = 4,
 
     shape = lp.targets.KNIGHT_SHAPE,
 
@@ -43,7 +42,6 @@ lp.defineItem("lootplot.content.s0:golden_fruit", {
     description = loc("After 3 activations, give 10 money."),
 
     rarity = lp.rarities.UNCOMMON,
-    minimumLevelToSpawn = 2,
 
     doomCount = 3,
     onActivate = function(selfEnt)

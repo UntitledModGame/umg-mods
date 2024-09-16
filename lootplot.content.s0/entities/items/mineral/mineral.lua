@@ -16,14 +16,16 @@ local function defineSword(mineral_type, name, tier)
     local etypeName = namespace .. mineral_type .. "_sword"
     local image = mineral_type .. "_sword"
 
+    assert(tier < 6, "raritys dont go this high!! welp!")
+    local rarity = lp.rarities.RARITY_LIST[tier]
+
     defineMineral(etypeName, {
         basePointsGenerated = tier * 5,
         image = image,
         name = loc(name .. " Sword"),
 
-        rarity = lp.rarities.COMMON,
+        rarity = rarity,
 
-        minimumLevelToSpawn = tier,
         basePrice = 1 * tier,
     })
 end
@@ -35,13 +37,15 @@ local function defineAxe(mineral_type, name, tier)
     local etypeName = namespace .. mineral_type .. "_axe"
     local image = mineral_type .. "_axe"
 
+    assert(tier < 6, "raritys dont go this high!! welp!")
+    local rarity = lp.rarities.RARITY_LIST[tier + 1]
+
     defineMineral(etypeName, {
         image = image,
         name = loc(name .. " Axe"),
 
-        rarity = lp.rarities.UNCOMMON,
+        rarity = rarity,
 
-        minimumLevelToSpawn = tier,
         basePrice = 2 * tier,
         basePointsGenerated = 2 * tier,
 

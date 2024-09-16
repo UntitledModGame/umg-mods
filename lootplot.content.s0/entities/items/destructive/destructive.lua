@@ -6,7 +6,6 @@ lp.defineItem("lootplot.content.s0:dark_skull", {
     basePointsGenerated = 5,
 
     rarity = lp.rarities.UNCOMMON,
-    minimumLevelToSpawn = 2,
 
     shape = lp.targets.KING_SHAPE,
 
@@ -29,7 +28,6 @@ lp.defineItem("lootplot.content.s0:profit_purger", {
     baseMoneyGenerated = 1,
 
     rarity = lp.rarities.EPIC,
-    minimumLevelToSpawn = 2,
 
     shape = lp.targets.BishopShape(2),
 
@@ -61,7 +59,6 @@ lp.defineItem("lootplot.content.s0:reaper", {
     basePointsGenerated = 4,
 
     rarity = lp.rarities.RARE,
-    minimumLevelToSpawn = 2,
 
     shape = lp.targets.RookShape(1),
 
@@ -82,7 +79,6 @@ lp.defineItem("lootplot.content.s0:empty_cauldron", {
     basePointsGenerated = 5,
 
     rarity = lp.rarities.UNCOMMON,
-    minimumLevelToSpawn = 2,
 
     shape = lp.targets.KING_SHAPE,
 

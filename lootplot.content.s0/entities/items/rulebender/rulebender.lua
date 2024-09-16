@@ -33,7 +33,6 @@ lp.defineItem("lootplot.content.s0:gift_box", {
     name = loc("Gift Box"),
 
     rarity = lp.rarities.UNCOMMON,
-    minimumLevelToSpawn = 2,
 
     doomCount = 1,
 
@@ -57,7 +56,6 @@ lp.defineItem("lootplot.content.s0:pandoras_box", {
     name = loc("Pandora's Box"),
 
     rarity = lp.rarities.EPIC,
-    minimumLevelToSpawn = 4,
 
     shape = lp.targets.ABOVE_SHAPE,
 
@@ -88,7 +86,6 @@ defineCat("lootplot.content.s0:copycat", {
     name = loc("Copycat"),
 
     rarity = lp.rarities.RARE,
-    minimumLevelToSpawn = 4,
 
     basePrice = 0,
 

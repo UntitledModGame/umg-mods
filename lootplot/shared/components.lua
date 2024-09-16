@@ -15,9 +15,6 @@ components.defineComponent("shopLock")
 -- for shop-slots
 
 
-components.defineComponent("minimumLevelToSpawn")
-components.defineComponent("maximumLevelToSpawn")
-
 -- function component
 components.defineComponent("getDynamicSpawnChance")
 

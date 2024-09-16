@@ -894,16 +894,7 @@ end
 ---@param generationEnt Entity
 ---@return integer
 function lp.getDynamicSpawnChance(etypeName, generationEnt)
-    local level = lp.getLevel(generationEnt) or 0
     local etype = server.entities[etypeName]
-    ---@cast etype +table<string, any>
-    if level then
-        local minLevel = etype.minimumLevelToSpawn or -math.huge
-        local maxLevel = etype.maximumLevelToSpawn or math.huge
-        if (level > maxLevel) or (level < minLevel) then
-            return 0
-        end
-    end
 
     local value = 1
     if etype.getDynamicSpawnChance then

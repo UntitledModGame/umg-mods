@@ -4,7 +4,6 @@ local loc = localization.localize
 
 local function defineCard(name, cardEType)
     cardEType.rarity = cardEType.rarity or lp.rarities.RARE
-    cardEType.minimumLevelToSpawn = cardEType.minimumLevelToSpawn or 5
 
     lp.defineItem(name, cardEType)
 end

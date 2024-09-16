@@ -6,7 +6,6 @@ local function defineGlove(id, name, description, giveShape, rarity)
         name = loc(name),
 
         rarity = rarity,
-        minimumLevelToSpawn = 4,
 
         shape = lp.targets.ABOVE_SHAPE,
 

@@ -5,8 +5,7 @@ local function defineBook(id, name, targetSlot, targetSlotName)
         image = id,
         name = loc(name),
 
-        minimumLevelToSpawn = 2,
-        rarity = lp.rarities.UNCOMMON,
+        rarity = lp.rarities.RARE,
 
         shape = lp.targets.ABOVE_SHAPE,
 

@@ -1,12 +1,13 @@
 
 ---@alias lootplot.rarities.Rarity {color:objects.Color, index:number, name:string, rarityWeight:number, displayString:string}
 ---@return lootplot.rarities.Rarity
-local function newRarity(name, rarity_weight, color)
+local function newRarity(id, name, rarity_weight, color)
     local cStr = localization.localize("{wavy}{c r=%f g=%f b=%f}%{name}{/c}{/wavy}", {
         name = name
     }):format(color.r, color.g, color.b)
 
     local rarity = {
+        id = id,
         color = color,
         index = 1,
         name = name,
@@ -58,16 +59,16 @@ end
 ---
 ---Availability: Client and Server
 lp.rarities = {
-    COMMON = newRarity("COMMON (I)", 2, hsl(110, 35, 55)),
-    UNCOMMON = newRarity("UNCOMMON (II)", 1.5, hsl(150, 66, 55)),
-    RARE = newRarity("RARE (III)", 1, hsl(220, 90, 55)),
-    EPIC = newRarity("EPIC (IV)", 0.6, hsl(275, 100,45)),
-    LEGENDARY = newRarity("LEGENDARY (V)",0.1, hsl(330, 100, 35)),
-    MYTHIC = newRarity("MYTHIC (VI)", 0.02, hsl(50, 90, 40)),
+    COMMON = newRarity("COMMON", "COMMON (I)", 2, hsl(110, 35, 55)),
+    UNCOMMON = newRarity("UNCOMMON", "UNCOMMON (II)", 1.5, hsl(150, 66, 55)),
+    RARE = newRarity("RARE", "RARE (III)", 1, hsl(220, 90, 55)),
+    EPIC = newRarity("EPIC", "EPIC (IV)", 0.6, hsl(275, 100,45)),
+    LEGENDARY = newRarity("LEGENDARY", "LEGENDARY (V)",0.1, hsl(330, 100, 35)),
+    MYTHIC = newRarity("MYTHIC", "MYTHIC (VI)", 0.02, hsl(50, 90, 40)),
 
     -- Use this rarity when you dont want an item to spawn naturally.
     -- (Useful for easter-egg items, or items that can only be spawned by other items)
-    UNIQUE = newRarity("UNIQUE", 0.00, objects.Color.WHITE),
+    UNIQUE = newRarity("UNIQUE", "UNIQUE", 0.00, objects.Color.WHITE),
 }
 
 local RARITY_LIST = objects.Array()
@@ -132,6 +133,24 @@ function lp.rarities.shiftRarity(rarity, delta)
 end
 
 
-for d=-5,5 do
-    print(d, lp.rarities.shiftRarity(lp.rarities.RARE, d).name)
+
+local configured = false
+---@param levelRarities table<lootplot.rarities.Rarity, integer>
+function lp.rarities.configureLevelSpawningLimits(levelRarities)
+    if configured then
+        return
+    end
+
+    configured = true
+    umg.answer("lootplot:getDynamicSpawnChance", function(etype, generationEnt)
+        local level = lp.getLevel(generationEnt) or 0
+        ---@cast etype +table<string, any>
+
+        local minLevel = levelRarities[etype.rarity] or 0
+        if level and (level < minLevel) then
+            return 0
+        end
+        return 1
+    end)
 end
+
