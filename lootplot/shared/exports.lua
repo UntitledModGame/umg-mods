@@ -169,13 +169,13 @@ end
 
 
 
-lp.CONVERSIONS = objects.Enum({
+lp.CONVERSIONS = {
     ITEM = "ITEM",
     SLOT = "SLOT",
     ITEM_OR_SLOT = "ITEM_OR_SLOT", -- item OR slot
     NO_ITEM = "NO_ITEM", -- ppos with no item
     NO_SLOT = "NO_SLOT", -- ppos with no slot
-})
+}
 
 ---@alias lootplot.CONVERSION_TYPE "ITEM"|"SLOT"|"NO_SLOT"|"NO_ITEM"|"ITEM_OR_SLOT"
 
@@ -1073,6 +1073,30 @@ function lp.getHoveredItem()
     return selection.getHoveredItem()
 end
 
+end
+
+
+lp.COLORS = {
+    -- BASICS:
+    MONEY_COLOR = {1, 0.843, 0.1},
+    POINTS_COLOR = {0.3, 1, 0.3},
+
+    -- COMPONENTS:
+    LIFE_COLOR = {1, 0.51, 0.75},
+    DOOMED_COLOR = {0.7, 0.3, 1},
+    DOOMED_LIGHT_COLOR = {0.8, 0.6, 1},
+
+    -- MISC:
+    BAD_COLOR = {1, 0.15, 0.2}, -- used for bad stuff
+    BONUS_COLOR = {0.5, 1, 1}, -- used for bonuses/good thing
+    INFO_COLOR = {1, 1, 0.4},
+}
+if client then
+    for id,color in pairs(lp.COLORS) do
+        text.defineEffect("lootplot:" .. id, function(_context, char)
+            char:setColor(color)
+        end)
+    end
 end
 
 

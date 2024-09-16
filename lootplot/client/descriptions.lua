@@ -70,15 +70,15 @@ umg.on("lootplot:populateDescription", 10, function(ent, arr)
     local triggers = ent.triggers
     if ent.triggers then
         if #triggers == 0 then
-            arr:add("{c r=1 g=0.2 b=0.2}{wavy}ONLY ACTIVATES MANUALLY!")
+            arr:add("{lootplot:BAD_COLOR}{wavy}ONLY ACTIVATES MANUALLY!")
         elseif #triggers == 1 and triggers[1] == IMPLICIT_TRIGGER then
             -- do nothing! It's the default trigger setup.
         else
             local trigStr = getTriggerListString(triggers)
             if hasBasicTrigger(triggers) then
-                arr:add("{c r=0.5 g=1 b=1}{wavy}ALSO ACTIVATES WHEN " .. trigStr)
+                arr:add("{lootplot:BONUS_COLOR}{wavy}ALSO ACTIVATES WHEN " .. trigStr)
             else
-                arr:add("{c r=1 g=0.2 b=0.2}{wavy}ONLY ACTIVATES WHEN " .. trigStr)
+                arr:add("{lootplot:BAD_COLOR}{wavy}ONLY ACTIVATES WHEN " .. trigStr)
             end
         end
     end
@@ -97,19 +97,19 @@ umg.on("lootplot:populateDescription", 30, function(ent, arr)
     local pgen = ent.pointsGenerated
     if pgen and pgen ~= 0 then
         if pgen > 0 then
-            arr:add(funcLocEnt("{c r=0.3 g=1 b=0.3}Generates %{pointsGenerated:.1f} point(s)", ent, VERB_CTX))
+            arr:add(funcLocEnt("{lootplot:POINTS_COLOR}Generates %{pointsGenerated:.1f} point(s)", ent, VERB_CTX))
         else
-            arr:add(funcLocEnt("{c r=1 g=0 b=0.2}Steals %{pointsGenerated:.1f} point(s)!", ent, VERB_CTX))
+            arr:add(funcLocEnt("{lootplot:BAD_COLOR}Steals %{pointsGenerated:.1f} point(s)!", ent, VERB_CTX))
         end
     end
 
     local mEarn = ent.moneyGenerated
     if mEarn and mEarn ~= 0 then
         if mEarn > 0 then
-            arr:add(funcLocEnt("{c r=1 g=0.843 b=0.1}Earns $%{moneyGenerated:.1f}", ent, VERB_CTX))
+            arr:add(funcLocEnt("{lootplot:MONEY_COLOR}Earns $%{moneyGenerated:.1f}", ent, VERB_CTX))
         else
             arr:add(funcLocEnt(
-                "{c r=1 g=0.2 b=0}Steals {/c}{c r=1 g=0.843 b=0.1}$%{moneyGenerated:.1f}!", 
+                "{lootplot:BAD_COLOR}Steals {/lootplot:BAD_COLOR}{lootplot:MONEY_COLOR}$%{moneyGenerated:.1f}!", 
                 ent, 
                 VERB_CTX
             ))
@@ -134,9 +134,9 @@ umg.on("lootplot:populateDescription", 50, function(ent, arr)
                 total = ent.maxActivations
             }
             if remaining > 0 then
-                return loc("Activations: {c r=0.2 b=0.3 g=1}%{remaining}/%{total}", vars)
+                return loc("Activations: {lootplot:POINTS_COLOR}%{remaining}/%{total}", vars)
             else
-                return loc("{c r=1 b=0.1 g=0.15}No Activations: %{remaining}/%{total}", vars)
+                return loc("{lootplot:BAD_COLOR}No Activations: %{remaining}/%{total}", vars)
             end
         end)
     end
@@ -147,7 +147,7 @@ end)
 umg.on("lootplot:populateDescription", 50, function(ent, arr)
     if ent.moneyGenerated and ent.moneyGenerated < 0 then
         arr:add(funcLocEnt(
-            "{c r=1 g=1 b=0.4}Requires money to activate.", 
+            "{lootplot:INFO_COLOR}Requires money to activate.", 
             ent
         ))
     end
@@ -174,23 +174,22 @@ umg.on("lootplot:populateDescription", 60, function(ent, arr)
     if ent.doomCount then
         if ent.doomCount == 1 then
             arr:add(funcLocEnt(
-                "{wavy}{c r=0.7 g=0.3 b=1}DOOMED %{doomCount}:{/c}{/wavy} {c r=0.8 g=0.6 b=1}Destroyed when activated!", 
+                "{wavy}{lootplot:DOOMED_COLOR}DOOMED %{doomCount}:{/lootplot:DOOMED_COLOR}{/wavy} {lootplot:DOOMED_LIGHT_COLOR}Destroyed when activated!", 
                 ent
             ))
         else
             arr:add(funcLocEnt(
-                "{wavy}{c r=0.7 g=0.3 b=1}DOOMED %{doomCount}:{/c}{/wavy} {c r=0.8 g=0.6 b=1}Destroyed after %{doomCount} activations!", 
+                "{wavy}{lootplot:DOOMED_COLOR}DOOMED %{doomCount}:{/lootplot:DOOMED_COLOR}{/wavy} {lootplot:DOOMED_LIGHT_COLOR}Destroyed after %{doomCount} activations!", 
                 ent
             ))
         end
     end
 end)
 
-
 umg.on("lootplot:populateDescription", 60, function(ent, arr)
     if ent.lives then
         arr:add(funcLocEnt(
-            "{wavy}{c r=1 g=0.51 b=0.75}EXTRA LIVES:{/c} %{lives}",
+            "{wavy}{lootplot:LIFE_COLOR}EXTRA LIVES:{/lootplot:LIFE_COLOR} %{lives}",
             ent
         ))
     end
