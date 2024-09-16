@@ -1,5 +1,3 @@
-if false then utf8 = require("utf8") end -- sumneko hack
-
 ---@class text.RichText: objects.Class
 local RichText = objects.Class("text:RichText")
 
