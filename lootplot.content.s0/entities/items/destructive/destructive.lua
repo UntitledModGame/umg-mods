@@ -44,9 +44,9 @@ lp.defineItem("lootplot.content.s0:profit_purger", {
 })
 
 
-lp.defineItem("lootplot.content.s0:dark_flint", {
-    image = "dark_flint",
-    name = loc("Dark Flint"),
+lp.defineItem("lootplot.content.s0:rocks", {
+    image = "rocks",
+    name = loc("Rocks"),
     rarity = lp.rarities.COMMON,
     triggers = {"DESTROY"},
     basePointsGenerated = 10
