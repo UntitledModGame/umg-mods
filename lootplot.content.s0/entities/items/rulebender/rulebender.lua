@@ -113,6 +113,14 @@ defineCat("lootplot.content.s0:chubby_cat", {
     name = loc("Chubby Cat"),
     description = loc("Starts with 9 lives"),
 
+    onDraw = function(ent)
+        if ent.lives and ent.lives < 1 then
+            ent.image = "chubby_cat_sad"
+        else
+            ent.image = "chubby_cat"
+        end
+    end,
+
     rarity = lp.rarities.UNCOMMON,
 
     lives = 9
