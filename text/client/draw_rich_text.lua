@@ -1,5 +1,3 @@
-if false then utf8 = require("utf8") end -- sumneko hack
-
 local Pass = require("client.Pass")
 local parser = require("client.parser")
 
