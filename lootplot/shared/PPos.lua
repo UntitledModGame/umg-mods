@@ -17,7 +17,6 @@ At it's core, a plotPosition is a struct:
 
 ---@class lootplot.PPos: objects.Class
 local PPos = objects.Class("lootplot:PPos")
-_G.PPos = PPos
 
 ---@param args {slot:integer,plot:lootplot.Plot?,plotEntity:Entity?,rotation?:number}
 function PPos:init(args)
