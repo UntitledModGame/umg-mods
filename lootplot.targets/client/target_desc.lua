@@ -35,11 +35,12 @@ local TARGET_TYPE_TEXT = {
     ITEM = "{lp_targetColor}Targets items:",
     NO_SLOT = "{lp_targetColor}Targets empty spaces:",
     NO_ITEM = "{lp_targetColor}Targets empty slots:",
+    SLOT_OR_ITEM = "{lp_targetColor}Targets items and slots:",
 }
 local TARGET_TYPE_TEXT_FALLBACK = "{lp_targetColor}Targets unknown:"
 
 umg.on("lootplot:populateDescription", TARGET_SHAPE_ORDER, function(ent, arr)
-    if ent.target and ent.shape then
+    if ent.target and ent.shape and ent.target.description then
         local targetText = TARGET_TYPE_TEXT[ent.target.type] or TARGET_TYPE_TEXT_FALLBACK
         arr:add(loc(targetText,nil,BRIEF_CTX))
     end

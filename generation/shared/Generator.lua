@@ -143,8 +143,10 @@ local function alwaysPick()
     return 1
 end
 
+---@alias generation.PickChanceFunction (fun(entry:any,weight:table<string,any>?):number)
+
 ---Get random entry from the generator.
----@param pickChanceFunction (fun(entry:any,weight:table<string,any>?):number)? Function that returns the chance of an item being picked. 1 means pick always, 0 means fully skip this item (filtered out), anything inbetween is the chance of said entry be accepted or be rerolled.
+---@param pickChanceFunction generation.PickChanceFunction? Function that returns the chance of an item being picked. 1 means pick always, 0 means fully skip this item (filtered out), anything inbetween is the chance of said entry be accepted or be rerolled.
 ---@return any?
 function Generator:query(pickChanceFunction)
     pickChanceFunction = pickChanceFunction or alwaysPick

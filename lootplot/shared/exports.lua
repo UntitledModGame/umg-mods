@@ -796,6 +796,7 @@ end
 function lp.forceSpawnItem(ppos, itemEType, team)
     spawnTc(ppos, itemEType, team)
     local itemEnt = itemEType()
+    assert(itemEnt.item, "forceSpawnItem MUST spawn an item entity!")
     itemEnt.lootplotTeam = team or "?"
     local prevItem = lp.posToItem(ppos)
     if prevItem then

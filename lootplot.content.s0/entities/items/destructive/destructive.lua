@@ -1,44 +1,64 @@
 local loc = localization.localize
 
+
+
 lp.defineItem("lootplot.content.s0:dark_skull", {
     image = "dark_skull",
+
     name = loc("Dark Skull"),
-    basePointsGenerated = 5,
 
     rarity = lp.rarities.UNCOMMON,
 
-    shape = lp.targets.KING_SHAPE,
+    init = function(ent)
+        ent.killCount = 0
+    end,
 
+    description = function(ent)
+        return loc("After destroying {lootplot:BAD_COLOR}{wavy}%{count}{/wavy} items{/lootplot:BAD_COLOR}, spawns a %{rarity} item.", {
+            rarity = lp.rarities.LEGENDARY.displayString,
+            count = 20 - ent.killCount
+        })
+    end,
+
+    onActivate = function(selfEnt)
+        if selfEnt.killCount > 20 then
+            local ppos = lp.getPos(selfEnt)
+            lp.destroy(selfEnt)
+            if ppos then
+                local etype = lp.rarities.randomItemOfRarity(lp.rarities.LEGENDARY, selfEnt)
+                    or server.entities[lp.FALLBACK_NULL_ITEM]
+                lp.trySpawnItem(ppos, etype, selfEnt.lootplotTeam)
+            end
+        end
+    end,
+
+    shape = lp.targets.ABOVE_SHAPE,
     target = {
         type = "ITEM",
-        description = function(selfEnt)
-            return loc("{lp_targetColor}Destroys target item, generate {c r=0.4 g=0.4}%{pointsGenerated}{/c} point(s).", selfEnt)
-        end,
         activate = function(selfEnt, ppos, targetEnt)
             lp.destroy(targetEnt)
-            lp.addPoints(selfEnt, selfEnt.pointsGenerated)
+            selfEnt.killCount = selfEnt.killCount + 1
+            sync.syncComponent(selfEnt, "killCount")
         end
     }
 })
 
 
-lp.defineItem("lootplot.content.s0:profit_purger", {
-    image = "profit_purger",
-    name = loc("Profit Purger"),
-    baseMoneyGenerated = 1,
+lp.defineItem("lootplot.content.s0:death_by_taxes", {
+    image = "death_by_taxes",
+    name = loc("Death by Taxes"),
 
-    rarity = lp.rarities.EPIC,
+    rarity = lp.rarities.COMMON,
+    basePrice = 1,
 
-    shape = lp.targets.BishopShape(2),
+    shape = lp.targets.RookShape(1),
 
     target = {
         type = "SLOT",
-        description = function(selfEnt)
-            return loc("{lp_targetColor}Destroys target slot, earn(s) {c r=0.5 b=0.4}%{moneyGenerated}{/c}", selfEnt)
-        end,
+        description = loc("{lp_targetColor}Destroys target slot, increases price by 10%."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.destroy(targetEnt)
-            lp.addMoney(selfEnt, selfEnt.moneyGenerated)
+            lp.multiplierBuff(selfEnt, "price", 1.1, selfEnt)
         end
     }
 })
@@ -46,10 +66,19 @@ lp.defineItem("lootplot.content.s0:profit_purger", {
 
 lp.defineItem("lootplot.content.s0:rocks", {
     image = "rocks",
+    lootplotProperties = {
+        modifiers = {
+            -- generates points = 10 * current_level
+            pointsGenerated = function(ent)
+                local level = lp.getLevel(ent) or 1
+                return 10 * level
+            end
+        }
+    },
     name = loc("Rocks"),
     rarity = lp.rarities.COMMON,
     triggers = {"DESTROY"},
-    basePointsGenerated = 10
+    basePointsGenerated = 0
 })
 
 
@@ -76,20 +105,54 @@ lp.defineItem("lootplot.content.s0:reaper", {
 lp.defineItem("lootplot.content.s0:empty_cauldron", {
     image = "empty_cauldron",
     name = loc("Empty Cauldron"),
+
+    triggers = {"DESTROY"},
+
+    rarity = lp.rarities.RARE,
+
+    shape = lp.targets.RookShape(1),
+
+    onActivate = function(ent)
+        local posList = lp.targets.getTargets(ent) or {}
+        for _,ppos in ipairs(posList) do
+            lp.trySpawnSlot(ppos, server.entities.sell_slot, ent.lootplotTeam)
+        end
+    end,
+
+    target = {
+        type = "NO_SLOT",
+        description = loc("{lp_targetColor}Spawns a DESTROY slot."),
+    }
+})
+
+
+lp.defineItem("lootplot.content.s0:candle", {
+    image = "candle",
+    name = loc("Candle"),
     basePointsGenerated = 5,
 
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.EPIC,
 
     shape = lp.targets.KING_SHAPE,
 
     target = {
-        type = "SLOT",
+        type = "NO_ITEM",
         description = function(selfEnt)
-            return loc("{lp_targetColor}Destroys target slot, gain {c r=0.4 g=0.4}%{pointsGenerated}{/c} point(s).", selfEnt)
+            return loc("{lp_targetColor}Clones the below item into target slots with {lootplot:DOOMED_COLOR}DOOMED-1.", selfEnt)
         end,
         activate = function(selfEnt, ppos, targetEnt)
-            lp.destroy(targetEnt)
-            lp.addPoints(selfEnt, selfEnt.pointsGenerated)
+            local selfPos = lp.getPos(selfEnt)
+            if not selfPos then return end
+            local downPos = selfPos:move(0,1)
+            local itemEnt = downPos and lp.posToItem(downPos)
+            if itemEnt then
+                local cloneItem = itemEnt:clone()
+                cloneItem.doomCount = 1
+                local ok = lp.trySetItem(ppos, cloneItem)
+                if not ok then
+                    cloneItem:delete() --RIP!
+                end
+            end
         end
     }
 })

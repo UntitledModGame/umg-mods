@@ -1,5 +1,5 @@
 
----@alias lootplot.rarities.Rarity {color:objects.Color, index:number, name:string, rarityWeight:number, displayString:string}
+---@alias lootplot.rarities.Rarity {id:string, color:objects.Color, index:number, name:string, rarityWeight:number, displayString:string}
 ---@return lootplot.rarities.Rarity
 local function newRarity(id, name, rarity_weight, color)
     local cStr = localization.localize("{wavy}{c r=%f g=%f b=%f}%{name}{/c}{/wavy}", {
@@ -152,5 +152,41 @@ function lp.rarities.configureLevelSpawningLimits(levelRarities)
         end
         return 1
     end)
+end
+
+
+
+---@type {[string]: generation.Generator}
+local genCache = {}
+
+local function createGenerator(rarity)
+    lp.newItemGenerator({
+        filter = function(etypeName, _)
+            local etype = server.entities[etypeName]
+            if etype and etype.rarity and etype.rarity.id == rarity.id then
+                return true
+            end
+            return false
+        end
+    })
+end
+
+local function dummy()
+    return 1
+end
+
+---@param rarity lootplot.rarities.Rarity
+---@param generationEnt Entity
+---@param extraPickChance? generation.PickChanceFunction Function that returns the chance of an item being picked. 1 means pick always, 0 means fully skip this item (filtered out), anything inbetween is the chance of said entry be accepted or be rerolled.
+---@return (fun(...): Entity)?
+function lp.rarities.randomItemOfRarity(rarity, generationEnt, extraPickChance)
+    local gen = genCache[rarity] or createGenerator(rarity)
+    extraPickChance = extraPickChance or dummy
+    assert(extraPickChance ~= lp.getDynamicSpawnChance, "Shouldnt pass this in! Its already called!!")
+    ---@cast gen generation.Generator
+    local etypeName = gen:query(function(entry, weight)
+        return (extraPickChance(entry, weight) or 1) * lp.getDynamicSpawnChance(entry, generationEnt)
+    end)
+    return server.entities[etypeName]
 end
 
