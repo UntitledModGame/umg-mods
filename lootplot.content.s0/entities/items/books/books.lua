@@ -11,7 +11,7 @@ local function defineBook(id, name, targetSlot, targetSlotName)
 
         target = {
             type = "SLOT",
-            description = loc("{lp_targetColor}Converts target slot into " .. targetSlotName),
+            description = loc("{lootplot.targets:COLOR}Converts target slot into " .. targetSlotName),
 
             activate = function(selfEnt, ppos, targetEnt)
                 local targSlot

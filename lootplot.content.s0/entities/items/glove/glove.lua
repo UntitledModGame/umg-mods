@@ -11,7 +11,7 @@ local function defineGlove(id, name, description, giveShape, rarity)
 
         target = {
             type = "ITEM",
-            description = loc("{lp_targetColor}" .. description),
+            description = loc("{lootplot.targets:COLOR}" .. description),
             activate = function(selfEnt, ppos, targetItemEnt)
                 if targetItemEnt.shape then
                     lp.targets.setShape(targetItemEnt, giveShape)

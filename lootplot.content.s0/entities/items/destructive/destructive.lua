@@ -55,7 +55,7 @@ lp.defineItem("lootplot.content.s0:death_by_taxes", {
 
     target = {
         type = "ITEM",
-        description = loc("{lp_targetColor}Destroys target item, increases price by 10%."),
+        description = loc("{lootplot.targets:COLOR}Destroys target item, increases price by 10%."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.destroy(targetEnt)
             lp.multiplierBuff(selfEnt, "price", 1.1, selfEnt)
@@ -93,7 +93,7 @@ lp.defineItem("lootplot.content.s0:reaper", {
 
     target = {
         type = "ITEM",
-        description = loc("{lp_targetColor}Destroy target items, permanently gain +3 points-generated"),
+        description = loc("{lootplot.targets:COLOR}Destroy target items, permanently gain +3 points-generated"),
         activate = function(selfEnt, ppos, targetEnt)
             lp.destroy(targetEnt)
             lp.modifierBuff(selfEnt, "pointsGenerated", 3)
@@ -121,7 +121,7 @@ lp.defineItem("lootplot.content.s0:empty_cauldron", {
 
     target = {
         type = "NO_SLOT",
-        description = loc("{lp_targetColor}Spawns a DESTROY slot."),
+        description = loc("{lootplot.targets:COLOR}Spawns a DESTROY slot."),
     }
 })
 
@@ -138,7 +138,7 @@ lp.defineItem("lootplot.content.s0:candle", {
     target = {
         type = "NO_ITEM",
         description = function(selfEnt)
-            return loc("{lp_targetColor}Clones the below item into target slots with {lootplot:DOOMED_COLOR}DOOMED-1.", selfEnt)
+            return loc("{lootplot.targets:COLOR}Clones the below item into target slots with {lootplot:DOOMED_COLOR}DOOMED-1.", selfEnt)
         end,
         activate = function(selfEnt, ppos, targetEnt)
             local selfPos = lp.getPos(selfEnt)
@@ -200,8 +200,9 @@ lp.defineItem("lootplot.content.s0:bomb", {
 
     target = {
         type = "SLOT",
-        description = loc("{lp_targetColor}Destroy target slots"),
+        description = loc("{lootplot.targets:COLOR}Destroy target slots"),
         activate = function(selfEnt, ppos, targetEnt)
+            -- TODO: Make an explosion animation here...?
             lp.destroy(targetEnt)
         end
     },

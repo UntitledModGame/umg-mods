@@ -20,7 +20,7 @@ lp.defineItem("lootplot.content.s0:gold_axe", {
     shape = lp.targets.KNIGHT_SHAPE,
 
     target = {
-        description = loc("{lp_targetColor}Earn money if item generates points."),
+        description = loc("{lootplot.targets:COLOR}Earn money if item generates points."),
         type = "ITEM",
         filter = function(selfEnt, ppos, targetEnt)
             local pGen = targetEnt.pointsGenerated or 0

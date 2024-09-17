@@ -61,7 +61,7 @@ lp.defineItem("lootplot.content.s0:pandoras_box", {
 
     target = {
         type = "SLOT",
-        description = loc("{lp_targetColor}Spawn a RARE item in an ABOVE shape that has only 1 use."),
+        description = loc("{lootplot.targets:COLOR}Spawn a RARE item in an ABOVE shape that has only 1 use."),
         activate = function(selfEnt, ppos, targetEnt)
             local etype = server.entities[generateRareItem(selfEnt)]
 
@@ -93,7 +93,7 @@ defineCat("lootplot.content.s0:copycat", {
 
     target = {
         type = "NO_ITEM",
-        description = loc("{lp_targetColor}Copies self into target slots"),
+        description = loc("{lootplot.targets:COLOR}Copies self into target slots"),
         activate = function(selfEnt, ppos, targetEnt)
             local copyEnt = lp.clone(selfEnt)
             local success = lp.trySetItem(ppos, copyEnt)
@@ -134,7 +134,7 @@ defineCat("lootplot.content.s0:crappy_cat", {
 
     target = {
         type = "ITEM",
-        description = loc("{lp_targetColor}Converts target items into a clone of itself"),
+        description = loc("{lootplot.targets:COLOR}Converts target items into a clone of itself"),
         activate = function(selfEnt, ppos, targetEnt)
             local copyEnt = lp.clone(selfEnt)
             local success = lp.trySetItem(ppos, copyEnt)
@@ -193,7 +193,7 @@ lp.defineItem("lootplot.content.s0:pink_octopus", {
 
     target = {
         type = "ITEM",
-        description = loc("{lp_targetColor}Triggers item."),
+        description = loc("{lootplot.targets:COLOR}Triggers item."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.tryTriggerEntity("PULSE", targetEnt)
         end
@@ -210,7 +210,7 @@ lp.defineItem("lootplot.content.s0:orange_octopus", {
 
     target = {
         type = "SLOT",
-        description = loc("{lp_targetColor}Triggers slot."),
+        description = loc("{lootplot.targets:COLOR}Triggers slot."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.tryTriggerEntity("PULSE", targetEnt)
         end
@@ -227,7 +227,7 @@ lp.defineItem("lootplot.content.s0:dark_octopus", {
 
     target = {
         type = "ITEM",
-        description = loc("{lp_targetColor}Triggers destroy on item, without destroying it."),
+        description = loc("{lootplot.targets:COLOR}Triggers destroy on item, without destroying it."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.tryTriggerEntity("DESTROY", targetEnt)
         end

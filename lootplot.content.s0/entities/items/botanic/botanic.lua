@@ -14,7 +14,7 @@
 --         targetTrait = "lootplot.content.s0:BOTANIC",
 --         targetActivationDescription = function()
 --             local etype = (client or server).entities["lootplot.content.s0:"..itemid]
---             return loc("{lp_targetColor}Spawn %{name}", etype)
+--             return loc("{lootplot.targets:COLOR}Spawn %{name}", etype)
 --         end,
 --         targetActivate = function(selfEnt, ppos, targetEnt)
 --             local etype = server.entities["lootplot.content.s0:"..itemid]

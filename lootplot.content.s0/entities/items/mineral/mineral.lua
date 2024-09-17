@@ -53,7 +53,7 @@ local function defineAxe(mineral_type, name, tier)
 
         target = {
             type = "ITEM",
-            description = loc("{lp_targetColor}Earn points for every target item."),
+            description = loc("{lootplot.targets:COLOR}Earn points for every target item."),
             activate = function(selfEnt, ppos, targetEnt)
                 lp.addPoints(selfEnt, selfEnt.pointsGenerated or 0)
             end

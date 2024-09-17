@@ -9,7 +9,7 @@ lp.defineItem("lootplot.content.s0:spartan_helmet", {
 
     target = {
         type = "ITEM",
-        description = localization.localize("{lp_targetColor}Buff all target items: +1 generated points."),
+        description = localization.localize("{lootplot.targets:COLOR}Buff all target items: +1 generated points."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.modifierBuff(targetEnt, "pointsGenerated", 1, selfEnt)
         end

@@ -62,7 +62,7 @@ defineCard("lootplot.content.s0:diamonds_card", {
     shape = lp.targets.ABOVE_BELOW_SHAPE,
     target = {
         type = "ITEM",
-        description = loc("{lp_targetColor}Shuffle traits between target items"),
+        description = loc("{lootplot.targets:COLOR}Shuffle traits between target items"),
     },
     onActivate = function(selfEnt)
         local targets = lp.targets.getTargets(selfEnt)
@@ -79,7 +79,7 @@ defineCard("lootplot.content.s0:spades_card", {
 
     target = {
         type = "ITEM",
-        description = loc("{lp_targetColor}Shuffle positions of target items"),
+        description = loc("{lootplot.targets:COLOR}Shuffle positions of target items"),
     },
 
     onActivate = function(selfEnt)
