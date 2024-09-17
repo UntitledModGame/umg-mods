@@ -54,8 +54,8 @@ lp.defineItem("lootplot.content.s0:death_by_taxes", {
     shape = lp.targets.RookShape(1),
 
     target = {
-        type = "SLOT",
-        description = loc("{lp_targetColor}Destroys target slot, increases price by 10%."),
+        type = "ITEM",
+        description = loc("{lp_targetColor}Destroys target item, increases price by 10%."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.destroy(targetEnt)
             lp.multiplierBuff(selfEnt, "price", 1.1, selfEnt)
@@ -183,3 +183,28 @@ lp.defineItem("lootplot.content.s0:tooth_necklace", {
         end
     end
 })
+
+
+
+lp.defineItem("lootplot.content.s0:bomb", {
+    image = "bomb",
+    name = loc("Bomb"),
+
+    rarity = lp.rarities.UNCOMMON,
+    doomCount = 1,
+
+    shape = lp.targets.UnionShape(
+        lp.targets.KingShape(1),
+        lp.targets.ON_SHAPE
+    ),
+
+    target = {
+        type = "SLOT",
+        description = loc("{lp_targetColor}Destroy target slots"),
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.destroy(targetEnt)
+        end
+    },
+})
+
+
