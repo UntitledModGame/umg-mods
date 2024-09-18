@@ -100,3 +100,86 @@ lp.defineItem("lootplot.content.s0:king_ring", {
 
     rarity = lp.rarities.UNCOMMON,
 })
+
+
+
+
+lp.defineItem("lootplot.content.s0:lucky_horseshoe", {
+    image = "lucky_horseshoe",
+    name = loc("Lucky Horseshoe"),
+
+    rarity = lp.rarities.RARE,
+
+    shape = lp.targets.ON_SHAPE,
+
+    target = {
+        type = "SLOT",
+        description = loc("50% chance to destroy slot.\n40% Chance to earn $5.\n10% Chance to spawn a KEY."),
+        activate = function(selfEnt, ppos, targetEnt)
+            if lp.SEED:randomMisc() <= 0.5 then
+                lp.destroy(targetEnt)
+            else
+                -- YEAH, maths! (0.1 / (0.4+0.1) = 0.2)
+                if lp.SEED:randomMisc() < 0.2 then
+                    lp.destroy(selfEnt)
+                    lp.forceSpawnItem(ppos, server.entities.key, selfEnt.lootplotTeam)
+                else
+                    lp.addMoney(selfEnt, 5)
+                end
+            end
+        end
+    }
+})
+
+
+
+lp.defineItem("lootplot.content.s0:money_bag", {
+    image = "money_bag",
+    name = loc("Money Bag"),
+    description = loc("Price increases by 5% each activation.\nCapped at $200."),
+
+    rarity = lp.rarities.EPIC,
+
+    lootplotProperties = {
+        maximums = {
+            price = 200
+        }
+    },
+
+    onActivate = function(ent)
+        local x = ent.price * 0.05
+        lp.modifierBuff(ent, "price", x, ent)
+    end
+})
+
+
+
+
+lp.defineItem("lootplot.content.s0:robber", {
+    image = "robber",
+    name = loc("Robber"),
+
+    rarity = lp.rarities.EPIC,
+
+    shape = lp.targets.KING_SHAPE,
+
+    --[[
+    
+    TODO:
+    In the future, when we allow for UPGRADED robber:
+    We should make it so the robber multiplies price by -1!!!
+
+    That could lead to really creative synergies.
+    ]]
+    target = {
+        type = "ITEM",
+        description = loc("If item price is less than $20,\nSet price to 0"),
+        activate = function(selfEnt, ppos, targetEnt)
+            if targetEnt.price and targetEnt.price < 20 then
+                lp.multiplierBuff(targetEnt, "price", 0, selfEnt)
+            end
+        end
+    }
+})
+
+
