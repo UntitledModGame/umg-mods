@@ -94,14 +94,14 @@ defineCard("lootplot.content.s0:price_card", {
 
     target = {
         type = "ITEM",
-        description = loc("{lootplot.targets:COLOR}If item price is even, double its price.\nElse, halve its price."),
+        description = loc("{lootplot.targets:COLOR}If item price is odd, double its price.\nElse, halve its price."),
         filter = function(targetEnt)
             return targetEnt.price
         end,
         activate = function(selfEnt, ppos, targetEnt)
             local price = targetEnt.price
             local mult
-            if price % 2 == 0 then
+            if price % 2 == 1 then
                 mult = 2
             else
                 mult = 0.5
