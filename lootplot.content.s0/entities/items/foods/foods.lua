@@ -358,11 +358,7 @@ definePotion("lootplot.content.s0:potion_red", {
 
 
 
---[[
 
-TODO: Change mushrooms!!!
-
-]]
 ---@param id string
 ---@param etype table
 local function defineMush(id, etype)
@@ -426,3 +422,36 @@ defineMush("mushroom_purple", {
         end
     }
 })
+
+
+
+
+
+
+----------------------------
+---@param id string
+---@param name string
+---@param buffAmount number
+---@param targetDesc string
+local function defineDonut(id, name, targetDesc, buffAmount)
+    local etype = {
+        image = id,
+        name = loc(name),
+
+        rarity = lp.rarities.RARE,
+        shape = lp.targets.KING_SHAPE,
+
+        target = {
+            description = loc(targetDesc),
+            activate = function(selfEnt, ppos, targetEnt)
+                lp.modifierBuff(targetEnt, "price", buffAmount, selfEnt)
+            end
+        }
+    }
+    defineFood("lootplot.content.s0:" .. id, etype)
+end
+
+
+defineDonut("frosted_donut", "Frosted Donut", "Decreases item price by $5", -5)
+defineDonut("pink_donut", "Pink Donut",  "Increases item price by $5", 5)
+
