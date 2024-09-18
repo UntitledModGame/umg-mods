@@ -103,6 +103,7 @@ defNumberProperty("price", {base="basePrice", default=1})
 defNumberProperty("maxActivations", {base="baseMaxActivations", default=5})
 
 defNumberProperty("pointsGenerated", {base="basePointsGenerated", default=0})
+defNumberProperty("pointsMult", {base="basePointsMult", default=1})
 
 defNumberProperty("moneyGenerated", {base="baseMoneyGenerated", default=0})
 
