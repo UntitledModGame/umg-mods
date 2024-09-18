@@ -704,17 +704,22 @@ function lp.clone(ent)
 end
 
 
+
 local function ensureDynamicProperties(ent)
     assertServer()
     if not ent:isRegularComponent("lootplotProperties") then
-        ent.lootplotProperties = {
-            multipliers = {--[[
-                [prop] = {....}
-            ]]},
-            modifiers = {--[[
-                [prop] = {....}
-            ]]}
-        }
+        if ent.lootplotProperties then
+            ent.lootplotProperties = table.deepCopy(ent.lootplotProperties, true)
+        else
+            ent.lootplotProperties = {
+                multipliers = {--[[
+                    [prop] = {....}
+                ]]},
+                modifiers = {--[[
+                    [prop] = {....}
+                ]]}
+            }
+        end
     end
 end
 
