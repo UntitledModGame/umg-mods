@@ -43,16 +43,16 @@ function LootplotSeed:getSeed()
     return numToString(self.seed)
 end
 
-function LootplotSeed:randomReroll()
-    return self.rerollRNG:random()
+function LootplotSeed:randomReroll(a,b)
+    return self.rerollRNG:random(a,b)
 end
 
-function LootplotSeed:randomWorldGen()
-    return self.worldGenRNG:random()
+function LootplotSeed:randomWorldGen(a,b)
+    return self.worldGenRNG:random(a,b)
 end
 
-function LootplotSeed:randomMisc()
-    return self.miscRNG:random()
+function LootplotSeed:randomMisc(a,b)
+    return self.miscRNG:random(a,b)
 end
 
 

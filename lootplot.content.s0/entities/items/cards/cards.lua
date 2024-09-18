@@ -9,6 +9,23 @@ local function defineCard(name, cardEType)
 end
 
 
+local function shuffle(tabl)
+    -- fisher-yates shuffle table
+    for i = #tabl, 2, -1 do
+        local j = lp.SEED:randomMisc(1,i)
+        tabl[i], tabl[j] = tabl[j], tabl[i]
+    end
+end
+
+
+local function apply(tabl, shufFunc)
+    for i=1, #tabl, 2 do
+        local e1, e2 = tabl[i], tabl[i+1]
+        shufFunc(e1, e2)
+    end
+end
+
+
 
 
 defineCard("lootplot.content.s0:star_card", {
@@ -26,30 +43,28 @@ defineCard("lootplot.content.s0:star_card", {
 
     onActivate = function(selfEnt)
         local targets = lp.targets.getTargets(selfEnt)
+        if not targets then
+            return
+        end
 
-        if targets then
-            local itemEntities = {}
-            local itemEntShapes = {}
+        local itemEntities = {}
+        local itemEntShapes = {}
 
-            for _, ppos in ipairs(targets) do
-                local itemEnt = lp.posToItem(ppos)
-                if itemEnt then
-                    itemEntities[#itemEntities+1] = itemEnt
-                    itemEntShapes[#itemEntities] = itemEnt.shape
-                end
+        for _, ppos in ipairs(targets) do
+            local itemEnt = lp.posToItem(ppos)
+            if itemEnt then
+                itemEntities[#itemEntities+1] = itemEnt
+                itemEntShapes[#itemEntities] = itemEnt.shape
             end
+        end
 
-            -- Shuffle shapes
-            for i = #itemEntShapes, 2, -1 do
-                local j = math.random(1, i)
-                itemEntShapes[i], itemEntShapes[j] = itemEntShapes[j], itemEntShapes[i]
-            end
+        -- Shuffle shapes
+        shuffle(itemEntShapes)
 
-            -- Assign shapes
-            for i, itemEnt in ipairs(itemEntities) do
-                if itemEnt.shape ~= itemEntShapes[i] then
-                    lp.targets.setShape(itemEnt, itemEntShapes[i])
-                end
+        -- Assign shapes
+        for i, itemEnt in ipairs(itemEntities) do
+            if itemEnt.shape ~= itemEntShapes[i] then
+                lp.targets.setShape(itemEnt, itemEntShapes[i])
             end
         end
     end
@@ -71,6 +86,32 @@ defineCard("lootplot.content.s0:diamonds_card", {
 })
 
 
+defineCard("lootplot.content.s0:price_card", {
+    image = "price_card",
+    name = loc("Price Card"),
+
+    shape = lp.targets.ABOVE_SHAPE,
+
+    target = {
+        type = "ITEM",
+        description = loc("{lootplot.targets:COLOR}If item price is even, double its price.\nElse, halve its price."),
+        filter = function(targetEnt)
+            return targetEnt.price
+        end,
+        activate = function(selfEnt, ppos, targetEnt)
+            local price = targetEnt.price
+            local mult
+            if price % 2 == 0 then
+                mult = 2
+            else
+                mult = 0.5
+            end
+            lp.multiplierBuff(targetEnt, "price", mult, selfEnt)
+        end
+    }
+})
+
+
 defineCard("lootplot.content.s0:spades_card", {
     image = "spades_card",
     name = loc("Spades Card"),
@@ -84,23 +125,23 @@ defineCard("lootplot.content.s0:spades_card", {
 
     onActivate = function(selfEnt)
         local targets = lp.targets.getTargets(selfEnt)
+        if not targets then
+            return
+        end
 
-        if targets then
-            local slots = targets:map(lp.posToSlot)
+        local slots = targets:map(lp.posToSlot)
+        -- Shuffle it
+        for i = #slots, 2, -1 do
+            local j = math.random(1, i)
+            slots[i], slots[j] = slots[j], slots[i]
+        end
 
-            -- Shuffle it
-            for i = #slots, 2, -1 do
-                local j = math.random(1, i)
-                slots[i], slots[j] = slots[j], slots[i]
-            end
-
-            -- Swap item positions
-            for i = 1, #slots - 1 do
-                local s1 = slots[i]
-                local s2 = slots[i + 1]
-                if lp.canSwap(s1, s2) then
-                    lp.swapItems(s1, s2)
-                end
+        -- Swap item positions
+        for i = 1, #slots - 1 do
+            local s1 = slots[i]
+            local s2 = slots[i + 1]
+            if lp.canSwap(s1, s2) then
+                lp.swapItems(s1, s2)
             end
         end
     end
