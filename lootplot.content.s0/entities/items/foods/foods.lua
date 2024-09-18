@@ -167,7 +167,7 @@ defineSlotSpawner("coconut", "Coconut", "dirt_slot", "Dirt Slot", lp.targets.Roo
 
 ----------------------------------------------------------------------------
 
-local function defineSlotConverter(id_image, name, spawnSlot, spawnSlotName, shape, extraComponents)
+local function defineSlotConverter(id_image, name, spawnSlot, spawnSlotName, shape, extraComponents, slotModifier)
     local entId = "lootplot.content.s0:" .. id_image
     extraComponents = extraComponents or {}
 
@@ -183,7 +183,10 @@ local function defineSlotConverter(id_image, name, spawnSlot, spawnSlotName, sha
             activate = function (selfEnt, ppos)
                 local etype = server.entities["lootplot.content.s0:" .. spawnSlot]
                 assert(etype, "?")
-                lp.forceSpawnSlot(ppos, etype, selfEnt.lootplotTeam)
+                local slotEnt = lp.forceSpawnSlot(ppos, etype, selfEnt.lootplotTeam)
+                if slotModifier and slotEnt then
+                    slotModifier(slotEnt)
+                end
             end
         }
     }
@@ -207,9 +210,11 @@ defineSlotConverter("diamond_apple", "Diamond Apple", "diamond_slot", "Diamond S
     rarity = lp.rarities.EPIC,
 })
 
-defineSlotConverter("lychee", "Lychee", "pink_slot", "Pink Slot", lp.targets.ON_SHAPE, {
+defineSlotConverter("lychee", "Lychee", "pink_slot", "DOOMED-5 Pink Slot", lp.targets.ON_SHAPE, {
     rarity = lp.rarities.RARE
-})
+}, function(slotEnt)
+    slotEnt.doomCount = 5
+end)
 
 ----------------------------------------------------------------------------
 
