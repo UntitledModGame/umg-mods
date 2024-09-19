@@ -7,7 +7,7 @@ local StretchableButton = require("client.elements.StretchableButton")
 
 
 
-local loc = localization.localize
+local loc = localization.newLocalizer()
 
 ---@class lootplot.main.PauseBox: Element
 local PauseBox = ui.Element("lootplot.main:PauseBox")
