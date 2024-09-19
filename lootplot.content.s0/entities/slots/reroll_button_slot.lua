@@ -1,3 +1,5 @@
+local loc = localization.newLocalizer()
+
 
 local function hasRerollTrigger(ppos, ent)
     for _,t in ipairs(ent.triggers)do
@@ -12,8 +14,8 @@ end
 
 return lp.defineSlot("lootplot.content.s0:reroll_button_slot", {
 
-    name = localization.localize("Reroll button"),
-    description = localization.localize("Click to reroll!"),
+    name = loc("Reroll button"),
+    description = loc("Click to reroll!"),
 
     baseMoneyGenerated = -2,
 

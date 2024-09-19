@@ -1,9 +1,9 @@
-
+local loc = localization.newLocalizer()
 
 return lp.defineSlot("lootplot.content.s0:pink_slot", {
     image = "pink_slot",
-    name = localization.localize("Pink Slot"),
-    description = localization.localize("Gives an extra life to item.\n(Doesn't work on {lootplot:DOOMED_COLOR}{wavy}DOOMED{/wavy}{/lootplot:DOOMED_COLOR} items.)"),
+    name = loc("Pink Slot"),
+    description = loc("Gives an extra life to item.\n(Doesn't work on {lootplot:DOOMED_COLOR}{wavy}DOOMED{/wavy}{/lootplot:DOOMED_COLOR} items.)"),
 
     onActivate = function(slotEnt)
         local itemEnt = lp.slotToItem(slotEnt)

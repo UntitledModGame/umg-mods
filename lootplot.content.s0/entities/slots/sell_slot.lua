@@ -1,9 +1,9 @@
-
+local loc = localization.newLocalizer()
 
 lp.defineSlot("lootplot.content.s0:sell_slot", {
     image = "sell_slot",
-    name = localization.localize("Sell slot"),
-    description = localization.localize("Sells (and destroys) items for half the price."),
+    name = loc("Sell slot"),
+    description = loc("Sells (and destroys) items for half the price."),
     triggers = {"PULSE"},
     baseCanSlotPropagate = false,
     baseMaxActivations = 500,

@@ -8,9 +8,7 @@ Progresses to next-round, be activating and resetting the whole slot.
 
 
 ]]
-
-local loc = localization.localize
-
+local loc = localization.newLocalizer()
 
 ---@param ent Entity
 ---@param ppos lootplot.PPos
@@ -45,8 +43,8 @@ end
 lp.defineSlot("lootplot.main:next_round_button_slot", {
     image = "start_button_up",
 
-    name = localization.localize("Next round button"),
-    description = localization.localize("Click to go to the next round"),
+    name = loc("Next round button"),
+    description = loc("Click to go to the next round"),
 
     activateAnimation = {
         activate = "start_button_hold",

@@ -7,7 +7,7 @@ local StretchableButton = require("client.elements.StretchableButton")
 
 local DescriptionBox = require("client.DescriptionBox")
 
-local loc = localization.localize
+local loc = localization.newLocalizer()
 
 ---@class lootplot.main.Scene: Element
 local Scene = ui.Element("lootplot.main:Screen")

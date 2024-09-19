@@ -8,7 +8,7 @@ Provides win/lose conditions
 ]]
 
 
-local loc = localization.localize
+local loc = localization.newLocalizer()
 
 
 do
