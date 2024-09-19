@@ -113,7 +113,7 @@ end
 
 if server then
     -- create the default dimension on start-up
-    umg.on("@createWorld", function()
+    umg.on("@load", function()
         dimensions.createDimension(constants.DEFAULT_DIMENSION)
     end)
 end
