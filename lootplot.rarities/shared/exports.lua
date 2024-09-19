@@ -1,8 +1,9 @@
+local loc = localization.newLocalizer()
 
 ---@alias lootplot.rarities.Rarity {id:string, color:objects.Color, index:number, name:string, rarityWeight:number, displayString:string}
 ---@return lootplot.rarities.Rarity
 local function newRarity(id, name, rarity_weight, color)
-    local cStr = localization.localize("{wavy}{c r=%f g=%f b=%f}%{name}{/c}{/wavy}", {
+    local cStr = loc("{wavy}{c r=%f g=%f b=%f}%{name}{/c}{/wavy}", {
         name = name
     }):format(color.r, color.g, color.b)
 

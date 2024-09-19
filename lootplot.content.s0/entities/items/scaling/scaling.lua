@@ -1,7 +1,9 @@
+local loc = localization.newLocalizer()
+
 lp.defineItem("lootplot.content.s0:spartan_helmet", {
     image = "spartan_helmet",
 
-    name = localization.localize("Spartan Helmet"),
+    name = loc("Spartan Helmet"),
 
     rarity = lp.rarities.RARE,
 
@@ -9,7 +11,7 @@ lp.defineItem("lootplot.content.s0:spartan_helmet", {
 
     target = {
         type = "ITEM",
-        description = localization.localize("{lootplot.targets:COLOR}Buff all target items: +1 generated points."),
+        description = loc("{lootplot.targets:COLOR}Buff all target items: +1 generated points."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.modifierBuff(targetEnt, "pointsGenerated", 1, selfEnt)
         end

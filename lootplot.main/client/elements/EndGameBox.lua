@@ -3,7 +3,7 @@ local RichText = require("client.elements.RichText")
 local StretchableBox = require("client.elements.StretchableBox")
 local StretchableButton = require("client.elements.StretchableButton")
 
-local loc = localization.localize
+local loc = localization.newLocalizer()
 
 ---@class lootplot.main.EndGameBox: Element
 local EndGameBox = ui.Element("lootplot.main:EndGameBox")
