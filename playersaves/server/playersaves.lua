@@ -18,19 +18,6 @@ end
 
 
 
-
---[[
-    this is a temporary table that keeps track of all players
-    that have been in the game.
-    It's only used if the world is NOT persistent;
-    (if world is persistent, player-save-data is saved to disk instead)
-]]
-local player_data_cache = {--[[
-    [ clientId ] -> player_pckr_data
-]]}
-
-
-
 local function load_data(clientId, entity_data)
     if entity_data then
         local res, err = umg.deserialize(entity_data)
@@ -49,31 +36,18 @@ end
 
 
 umg.on("@playerJoin", function(clientId)
-    if server.isWorldPersistent() then
-        -- load from file
-        local fname = get_filename(clientId)
-        local entity_data = server.load(fname)
-        load_data(entity_data)
-    else
-        -- load from temp data cache
-        load_data(player_data_cache[clientId])
-        player_data_cache[clientId] = nil
-    end
+    -- load from file
+    local fname = get_filename(clientId)
+    local entity_data = umg.melt("TODO: use save API to load stuff here")
+    load_data(entity_data)
 end)
 
 
 
 local function save_data(clientId, entity_data)
-    if server.isWorldPersistent() then
-        -- world is persistent, so save to file
-        local fname = get_filename(clientId)
-        server.save(fname, entity_data)
-    else
-        -- non persistent, so we just put it in a temp cache.
-        -- This way, if the player rejoins the server, they will have
-        -- their player still.
-        player_data_cache[clientId] = entity_data
-    end
+    -- world is persistent, so save to file
+    local fname = get_filename(clientId)
+    umg.melt("TODO: use save API to save stuff here")
 end
 
 
