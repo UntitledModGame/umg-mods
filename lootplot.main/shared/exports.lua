@@ -13,9 +13,12 @@ local currentContext = nil
 
 local lpWorldGroup = umg.group("lootplotContext")
 lpWorldGroup:onAdded(function(ent)
+    --[[
+    TODO: this whole code feels hacky and weirdddd
+    ]]
     if not currentContext then
         currentContext = ent.lootplotContext
-        lp.initialize(currentContext)
+        lp.initialize(currentContext:getAttributeSetters())
     else
         umg.log.fatal("WARNING::: Duplicate lootplot.main context created!!")
     end

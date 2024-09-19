@@ -143,7 +143,7 @@ function lp.rarities.configureLevelSpawningLimits(levelRarities)
 
     configured = true
     umg.answer("lootplot:getDynamicSpawnChance", function(etype, generationEnt)
-        local level = lp.getLevel(generationEnt) or 0
+        local level = lp.levels.getLevel(generationEnt) or 0
         ---@cast etype +table<string, any>
 
         local minLevel = levelRarities[etype.rarity] or 0

@@ -22,10 +22,12 @@ umg.defineQuestion("lootplot:canTrigger", reducers.AND)
 
 umg.defineEvent("lootplot:itemMoved")
 
+
+umg.defineEvent("lootplot:attributeChanged")
+
 umg.defineEvent("lootplot:moneyChanged")
 umg.defineEvent("lootplot:pointsChanged")
 umg.defineEvent("lootplot:comboChanged")
-umg.defineEvent("lootplot:levelChanged")
 
 
 
@@ -36,8 +38,6 @@ umg.defineQuestion("lootplot:getDynamicSpawnChance", reducers.MULTIPLY)
 
 umg.defineQuestion("lootplot:pollSelectionButtons", reducers.SINGLE_COLLECT)
 
-umg.defineQuestion("lootplot:getMoneyMultiplier", reducers.MULTIPLY)
-umg.defineQuestion("lootplot:getPointMultiplier", reducers.MULTIPLY)
 
 
 if server then

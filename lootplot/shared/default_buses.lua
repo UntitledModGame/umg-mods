@@ -1,5 +1,19 @@
 
 
+local calls = {
+    COMBO = "lootplot:comboChanged",
+    POINTS = "lootplot:pointsChanged",
+    MONEY = "lootplot:moneyChanged"
+}
+
+umg.on("lootplot:attributeChanged", function(attr, ent, delta, oldVal, newVal)
+    if calls[attr] then
+        umg.call(calls[attr], ent, delta, oldVal, newVal)
+    end
+end)
+
+
+
 local function getVal(ent, val)
     if type(val) == "function" then
         return val(ent)

@@ -53,7 +53,7 @@ local function nextLevel(ent)
     ent.requiredPoints = getRequiredPoints(ent.level)
     ent.numberOfRounds = NUM_ROUNDS
     lp.setPoints(ent, 0)
-    lp.setLevel(ent, ent.level)
+    lp.levels.setLevel(ent, ent.level)
     syncEntity(ent)
 end
 

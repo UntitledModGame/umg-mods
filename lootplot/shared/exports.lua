@@ -225,28 +225,38 @@ end
 
 
 
-local REQUIRED_CONTEXT_KEYS = {
-    "getPoints",
-    "getMoney",
-    "getCombo",
-}
+local attributes = require("shared.attributes")
 
----@type lootplot.InitArgs?
-local contextInstance = nil
+lp.getAttribute = attributes.getAttribute
+lp.setAttribute = attributes.setAttribute
+lp.getAllAttributes = attributes.getAllAttributes
+lp.modifyAttribute = attributes.modifyAttribute
+lp.isValidAttribute = attributes.isValidAttribute
+
+lp.defineAttribute = attributes.defineAttribute
+
+lp.defineAttribute("MONEY")
+lp.defineAttribute("POINTS")
+
+lp.defineAttribute("COMBO")
+-- TODO: ^^^ should this attribute really be defined here???
+
+
+
+
+local initArgs = nil
 
 ---Initialize core lootplot game.
 ---
 ---Availability: Client and Server
----@param context lootplot.InitArgs
-function lp.initialize(context)
-    assert(contextInstance == nil, "lootplot already initialized")
-    assert(context, "missing context")
-    for _, k in ipairs(REQUIRED_CONTEXT_KEYS)do
-        assert(context[k], "Missing function in Context: " .. k)
-    end
+---@param args lootplot.AttributeInitArgs
+function lp.initialize(args)
+    assert(initArgs == nil, "lootplot already initialized")
+    assert(args, "missing context")
+    initArgs = args
+    attributes.initialize(args)
     assert(lp.FALLBACK_NULL_ITEM, "Must provide fallback item")
     assert(lp.FALLBACK_NULL_SLOT, "Must provide fallback slot")
-    contextInstance = context
 end
 
 
@@ -263,35 +273,11 @@ end
 do
 local modifyTc = typecheck.assert("entity", "number")
 
---[[
-`fromEnt` is the entity that applied the point modification.
-(IE a slot, or an item.)
-
-Depending on the gamemode; this will be handled in different ways.
-]]
-local function modifyPoints(fromEnt, x)
-    assertServer()
-    local points = lp.getPoints(fromEnt)
-    if points then
-        local multiplier = umg.ask("lootplot:getPointMultiplier", fromEnt, x) or 1
-        local val = x*multiplier
-        lp.setPoints(fromEnt, points + val)
-    end
-end
-
 ---Availability: **Server**
 ---@param fromEnt Entity
 ---@param x number
 function lp.setPoints(fromEnt, x)
-    assert(contextInstance, "lootplot is not initialized")
-    assertServer()
-    modifyTc(fromEnt, x)
-    local oldVal = contextInstance:getPoints(fromEnt)
-    if oldVal then
-        local delta = x - oldVal
-        contextInstance:setPoints(fromEnt, x)
-        umg.call("lootplot:pointsChanged", fromEnt, delta, oldVal, x)
-    end
+    lp.setAttribute("POINTS", fromEnt, x)
 end
 
 ---Availability: **Server**
@@ -299,53 +285,26 @@ end
 ---@param x number
 function lp.addPoints(fromEnt, x)
     modifyTc(fromEnt, x)
-    modifyPoints(fromEnt, x)
+    lp.modifyAttribute("POINTS", fromEnt, x)
 end
 
----Availability: **Server**
----@param fromEnt Entity
----@param x number
-function lp.subtractPoints(fromEnt, x)
-    modifyTc(fromEnt, x)
-    modifyPoints(fromEnt, -x)
-end
 
 ---Availability: Client and Server
 ---@param ent Entity
 ---@return number?
 function lp.getPoints(ent)
-    assert(contextInstance, "lootplot is not initialized")
     entityTc(ent)
-    return contextInstance:getPoints(ent)
+    return lp.getAttribute("POINTS", ent)
 end
 
 
 
---[[
-`fromEnt` is the entity that applied the money modification.
-(So for example, it could be a slot, or an item.)
-]]
-local function modifyMoney(fromEnt, x)
-    assertServer()
-    local money = lp.getMoney(fromEnt)
-    if money then
-        local multiplier = umg.ask("lootplot:getMoneyMultiplier", fromEnt) or 1
-        local val = x*multiplier
-        lp.setMoney(fromEnt, money + val)
-    end
-end
 
 ---Availability: **Server**
 ---@param fromEnt Entity
 ---@param x number
 function lp.setMoney(fromEnt, x)
-    assert(contextInstance, "lootplot is not initialized")
-    local oldVal = contextInstance:getMoney(fromEnt)
-    if oldVal then
-        local delta = x - oldVal
-        contextInstance:setMoney(fromEnt, x)
-        umg.call("lootplot:moneyChanged", fromEnt, delta, oldVal, x)
-    end
+    lp.setAttribute("MONEY", fromEnt, x)
 end
 
 ---Availability: **Server**
@@ -353,7 +312,7 @@ end
 ---@param x number
 function lp.addMoney(fromEnt, x)
     modifyTc(fromEnt, x)
-    modifyMoney(fromEnt, x)
+    lp.modifyAttribute("MONEY", fromEnt, x)
 end
 
 ---Availability: **Server**
@@ -361,57 +320,38 @@ end
 ---@param x number
 function lp.subtractMoney(fromEnt, x)
     modifyTc(fromEnt, x)
-    modifyMoney(fromEnt, -x)
+    lp.modifyAttribute("MONEY", fromEnt, -x)
 end
 
 ---Availability: Client and Server
 ---@param ent Entity
 ---@return number?
 function lp.getMoney(ent)
-    assert(contextInstance, "lootplot is not initialized")
-    entityTc(ent)
-    return contextInstance:getMoney(ent)
+    return lp.getAttribute("MONEY", ent)
 end
 
-
-local function setCombo(fromEnt, newVal)
-    assert(contextInstance, "lootplot is not initialized")
-    assertServer()
-    local oldVal = contextInstance:getCombo(fromEnt)
-    if oldVal then
-        local delta = newVal - oldVal
-        umg.call("lootplot:comboChanged", fromEnt, delta, oldVal, newVal)
-        contextInstance:setCombo(fromEnt, newVal)
-    end
-end
 
 ---Availability: **Server**
 ---@param ent Entity
 ---@param x? number
 function lp.incrementCombo(ent, x)
     entityTc(ent)
-    assert(contextInstance, "lootplot is not initialized")
-    local oldVal = contextInstance:getCombo(ent)
-    if oldVal then
-        setCombo(ent, math.max(0, oldVal + (x or 1)))
-    end
+    lp.modifyAttribute("COMBO", ent, x or 1)
 end
 
 ---Availability: **Server**
 ---@param ent Entity
 function lp.resetCombo(ent)
-    entityTc(ent)
-    assert(contextInstance, "lootplot is not initialized")
-    setCombo(ent, 0)
+    assert(initArgs, "lootplot is not initialized")
+    lp.setAttribute("COMBO", ent, 0)
 end
 
 ---Availability: Client and Server
 ---@param ent Entity
----@return number?
+---@return number
 function lp.getCombo(ent)
     entityTc(ent)
-    assert(contextInstance, "lootplot is not initialized")
-    return contextInstance:getCombo(ent)
+    return lp.getAttribute("COMBO", ent)
 end
 
 end
@@ -419,31 +359,6 @@ end
 
 
 
-local function setLevel(fromEnt, newVal)
-    assert(contextInstance, "lootplot is not initialized")
-    assertServer()
-    local oldVal = contextInstance:getLevel(fromEnt)
-    if oldVal and newVal ~= oldVal then
-        umg.call("lootplot:levelChanged", fromEnt, oldVal, newVal)
-        contextInstance:setLevel(fromEnt, newVal)
-    end
-end
-
----Availability: **Server**
----@param ent Entity
----@param x? number
-function lp.setLevel(ent, x)
-    entityTc(ent)
-    setLevel(ent, x)
-end
-
----Availability: Client and Server
----@param ent Entity
-function lp.getLevel(ent)
-    entityTc(ent)
-    assert(contextInstance, "lootplot is not initialized")
-    return contextInstance:getLevel(ent)
-end
 
 
 
@@ -463,15 +378,6 @@ function lp.setSlot(ppos, slotEnt)
     end
     ppos:set(slotEnt)
 end
-
-
-
-
-
-
-
-
-
 
 
 

@@ -8,8 +8,5 @@ sync.proxyEventToClient("lootplot:itemMoved")
 sync.proxyEventToClient("lootplot:entityTriggered")
 sync.proxyEventToClient("lootplot:entityTriggerFailed")
 
-sync.proxyEventToClient("lootplot:moneyChanged")
-sync.proxyEventToClient("lootplot:pointsChanged")
-sync.proxyEventToClient("lootplot:comboChanged")
-sync.proxyEventToClient("lootplot:levelChanged")
+sync.proxyEventToClient("lootplot:attributeChanged")
 

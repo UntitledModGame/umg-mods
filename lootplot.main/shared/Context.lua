@@ -21,15 +21,11 @@ Get enough points to kill the loot-monster.
 local Context = objects.Class("lootplot.main:Context")
 
 
-umg.definePacket("lootplot.main:syncContextValue", {
+umg.definePacket("lootplot.main:syncContextAttribute", {
     typelist = {"entity", "string", "number"}
 })
-local VALUES = {
-    money=true,
-    combo=true,
-    points=true,
-    level=true,
-}
+
+local attributeList = nil
 
 function Context:init(ent)
     assert(umg.exists(ent), "Must pass an entity!")
@@ -37,10 +33,16 @@ function Context:init(ent)
     assert(ent.plot, "Needs a plot!")
 
     local constants = lp.main.constants
-    self.combo = 0
-    self.level = 1
-    self.money = constants.STARTING_MONEY
-    self.points = constants.STARTING_POINTS
+
+    self.attrs = {}
+    self.attrs.COMBO = 0
+    self.attrs.LEVEL = 1
+    self.attrs.ROUND = 1
+    self.attrs.MONEY = constants.STARTING_MONEY
+    self.attrs.POINTS = constants.STARTING_POINTS
+    for _, a in ipairs(lp.getAllAttributes()) do
+        assert(self.attrs[a], "we missed one!")
+    end
 
     -- doomClock is integral to lootplot.main gamemode,
     -- since it tracks the current round/level.
@@ -61,8 +63,9 @@ end
 function Context:sync()
     -- syncs everything:
     assert(server,"?")
-    for field, _ in pairs(VALUES) do
-        self:syncValue(field)
+    attributeList = attributeList or lp.getAllAttributes()
+    for _, attr in ipairs(attributeList) do
+        self:syncValue(attr)
     end
 end
 
@@ -79,62 +82,36 @@ end
 
 function Context:syncValue(key)
     assert(server, "This function can only be called on server-side.")
-    if not VALUES[key] then
+    if not lp.isValidAttribute(key) then
         error("Invalid key: " .. key)
     end
-    server.broadcast("lootplot.main:syncContextValue", self.ownerEnt, key, self[key])
+    server.broadcast("lootplot.main:syncContextAttribute", self.ownerEnt, key, self.attrs[key])
 end
 
 if client then
-    client.on("lootplot.main:syncContextValue", function(ent, field, val)
-        ent.lootplotContext[field] = val
+    client.on("lootplot.main:syncContextAttribute", function(ent, field, val)
+        ent.lootplotContext.attrs[field] = val
     end)
 end
 
 
-
-if server then
-
---[[
-points are shared between all players.
-money is also shared between all players.
-]]
-function Context:setPoints(ent, x)
-    self.points = x
-    self:syncValue("points")
-end
-
-function Context:setMoney(ent, x)
-    self.money = x
-    self:syncValue("money")
-end
-
-function Context:setCombo(ent, x)
-    self.combo = x
-    self:syncValue("combo")
-end
-
-function Context:setLevel(ent, x)
-    self.level = x
-    self:syncValue("level")
-end
-
-end -- if server
-
-function Context:getPoints(ent)
-    return self.points
-end
-
-function Context:getMoney(ent)
-    return self.money
-end
-
-function Context:getCombo(ent)
-    return self.combo
-end
-
-function Context:getLevel(ent)
-    return self.level
+function Context:getAttributeSetters()
+    local attributeSetters = {}
+    for _, attr in ipairs(lp.getAllAttributes()) do
+        --[[
+        in lootplot.main,
+        attributes are shared between ALL players.
+        ]]
+        attributeSetters[attr] = {
+            set = function(ent, x)
+                self.attrs[attr] = x
+            end,
+            get = function(ent)
+                return self.attrs[attr]
+            end
+        }
+    end
+    return attributeSetters
 end
 
 

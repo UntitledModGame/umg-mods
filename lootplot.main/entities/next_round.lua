@@ -65,7 +65,7 @@ lp.defineSlot("lootplot.main:next_round_button_slot", {
         })
 
         local levelText = loc("{wavy amp=0.5 k=0.5}{outline}Level %{level}", {
-            level = lp.getLevel(ent)
+            level = lp.levels.getLevel(ent)
         })
         text.printRichCentered(roundText, font, x, y - 18, limit, "left", rot, sx,sy, kx,ky)
         text.printRichCentered(levelText, font, x, y - 32, limit, "left", rot, sx,sy, kx,ky)

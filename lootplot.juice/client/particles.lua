@@ -61,7 +61,7 @@ local function hasPosition(ent)
 end
 
 
-umg.on("lootplot:comboChanged", function(ent, delta, oldVal, newVal)
+umg.on("lootplot:attributeChanged", function(ent, delta, oldVal, newVal)
     if (newVal > 2) and hasPosition(ent) then
         local particleCount = math.floor(math.sqrt(newVal) * 1)
         makeSparkParticles(ent, particleCount)
