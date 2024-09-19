@@ -93,14 +93,34 @@ local VERB_CTX = {
     context = "Should be translated within a verb context"
 }
 
+local function addPointsDescription(ent, arr, pgen)
+    arr:add(function()
+        if not umg.exists(ent) then
+            return ""
+        end
+        local txt1
+        if pgen > 0 then
+            txt1 = loc("Points generated: {lootplot:POINTS_COLOR}%{pointsGenerated:.1f}{/lootplot:POINTS_COLOR}", ent, VERB_CTX)
+        else
+            txt1 = loc("{lootplot:BAD_COLOR}Steals points: {lootplot:POINTS_COLOR}%{pointsGenerated:.1f}{/lootplot:BAD_COLOR} ", ent, VERB_CTX)
+        end
+        -- todo: this is kinda inefficient. OH WELL :)
+        local _, mod, mult = properties.computeProperty(ent, "pointsGenerated")
+        local append_txt = ""
+        if mult ~= 1 then
+            append_txt = loc("  ({lootplot:POINTS_MOD_COLOR}%{mod}{/lootplot:POINTS_MOD_COLOR} x {lootplot:POINTS_MULT_COLOR}%{mult} mult{/lootplot:POINTS_MULT_COLOR})", {
+                mod = mod,
+                mult = mult
+            })
+        end
+        return txt1 .. append_txt
+    end)
+end
+
 umg.on("lootplot:populateDescription", 30, function(ent, arr)
     local pgen = ent.pointsGenerated
     if pgen and pgen ~= 0 then
-        if pgen > 0 then
-            arr:add(funcLocEnt("{lootplot:POINTS_COLOR}Generates %{pointsGenerated:.1f} point(s)", ent, VERB_CTX))
-        else
-            arr:add(funcLocEnt("{lootplot:BAD_COLOR}Steals %{pointsGenerated:.1f} point(s)!", ent, VERB_CTX))
-        end
+        addPointsDescription(ent, arr, pgen)
     end
 
     local mEarn = ent.moneyGenerated

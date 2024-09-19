@@ -123,7 +123,7 @@ local function computeNumberProperty(ent, property, config)
     local value = modifier * multiplier
     local min, max = getClamp(ent, property)
 
-    return math.clamp(value, min, max)
+    return math.clamp(value, min, max), modifier, multiplier, min, max
 end
 
 
@@ -300,13 +300,13 @@ end
 
 
 
-local getDefaultTc = typecheck.assert("property")
+local propTc = typecheck.assert("property")
 
 ---Gets the default value of a property
 ---@param property string
 ---@return boolean|number
 function properties.getDefault(property)
-    getDefaultTc(property)
+    propTc(property)
     local config = propertyToConfig[property]
 
     if config.type == "boolean" then
@@ -314,6 +314,12 @@ function properties.getDefault(property)
     else
         return config.config.default or 0
     end
+end
+
+
+function properties.getPropertyMultiplier(property)
+    propTc(property)
+    assert()
 end
 
 

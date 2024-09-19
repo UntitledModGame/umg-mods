@@ -73,6 +73,9 @@ lp.defineItem("lootplot.content.s0:rocks", {
                 local level = lp.getLevel(ent) or 1
                 return 10 * level
             end
+        },
+        multipliers = {
+            pointsGenerated = 2
         }
     },
     name = loc("Rocks"),
