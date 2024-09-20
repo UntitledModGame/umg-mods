@@ -663,23 +663,54 @@ end
 
 
 
+local posEntTc = typecheck.assert("ppos", "entity")
+
 ---Availability: **Server**
+--- NOTE: This operation will fail if the slot cannot hold the entity!
+--- However, if the operation succeeds, the existing item will be deleted.
 ---@param ppos lootplot.PPos
 ---@param itemEnt lootplot.ItemEntity
-function lp.trySetItem(ppos, itemEnt)
-    assert(itemEnt.item, "Must be a slot entity")
+---@nodiscard
+---@return boolean
+function lp.forceSetItem(ppos, itemEnt)
+    posEntTc(ppos, itemEnt)
+    assert(itemEnt.item, "Must be a item entity")
     local slotEnt = lp.posToSlot(ppos)
+    local ok = false
     if not slotEnt then
         -- empty space!!!
-        if (not lp.posToItem(ppos)) and lp.canItemFloat(itemEnt) then
-            ppos:set(itemEnt)
-            return true
+        if lp.canItemFloat(itemEnt) then
+            ok = true
         end
     elseif lp.couldHoldItem(slotEnt, itemEnt) then
+        ok = true
+    end
+
+    if ok then
+        local oldItem = lp.posToItem(ppos)
+        if oldItem then
+            oldItem:delete()
+        end
         ppos:set(itemEnt)
         return true
     end
     return false
+end
+
+
+
+---Availability: **Server**
+---@param ppos lootplot.PPos
+---@param itemEnt lootplot.ItemEntity
+---@nodiscard
+---@return boolean
+function lp.trySetItem(ppos, itemEnt)
+    posEntTc(ppos, itemEnt)
+    assert(itemEnt.item, "Must be a item entity")
+    if lp.posToItem(ppos) then
+        return false
+    end
+    return lp.forceSetItem(ppos, itemEnt)
 end
 
 

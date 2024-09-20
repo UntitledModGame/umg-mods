@@ -137,18 +137,9 @@ defineCat("lootplot.content.s0:crappy_cat", {
         description = loc("{lootplot.targets:COLOR}Converts target items into a clone of itself"),
         activate = function(selfEnt, ppos, targetEnt)
             local copyEnt = lp.clone(selfEnt)
-            local success = lp.trySetItem(ppos, copyEnt)
+            local success = lp.forceSetItem(ppos, copyEnt)
             if not success then
                 copyEnt:delete()
-            else
-                --[[
-                TODO: this relies on kinda janky trySetItem semantics.
-                We need to do more proper thinking about how item setting
-                should actually work, especially when we overwrite items.
-                Deleting them manually (like we do here with targetEnt)
-                should NOT be the norm.
-                ]]
-                targetEnt:delete()
             end
         end
     }
