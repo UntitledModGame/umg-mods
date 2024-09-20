@@ -2,6 +2,18 @@
 local Context = require("shared.Context")
 
 
+lp.defineAttribute("ROUND")
+-- current round number
+
+lp.defineAttribute("NUMBER_OF_ROUNDS")
+-- The number of rounds allowed per level
+-- (should generally be kept constant.)
+-- if ROUND > NUMBER_OF_ROUNDS, lose.
+
+lp.defineAttribute("REQUIRED_POINTS")
+-- once we reach this number, we can progress to next level.
+
+
 
 umg.defineEntityType("lootplot.main:world", {})
 
@@ -48,8 +60,9 @@ local function initializeSlots(clientId, plot)
         lp.forceSpawnSlot(ppos, server.entities.sell_slot, clientId)
     end)
 
-    -- Start-round button
+    -- Meta-buttons
     lp.forceSpawnSlot(plot:getPPos(6,4), server.entities.next_round_button_slot, clientId)
+    lp.forceSpawnSlot(plot:getPPos(7,4), server.entities.next_level_button_slot, clientId)
 end
 
 ---@param plot lootplot.Plot

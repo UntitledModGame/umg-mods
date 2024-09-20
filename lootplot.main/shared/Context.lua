@@ -37,9 +37,12 @@ function Context:init(ent)
     self.attrs = {}
     self.attrs.COMBO = 0
     self.attrs.LEVEL = 1
-    self.attrs.ROUND = 1
     self.attrs.MONEY = constants.STARTING_MONEY
     self.attrs.POINTS = constants.STARTING_POINTS
+
+    self.attrs.REQUIRED_POINTS = constants.STARTING_POINTS
+    self.attrs.ROUND = 1
+    self.attrs.NUMBER_OF_ROUNDS = constants.ROUNDS_PER_LEVEL
     for _, a in ipairs(lp.getAllAttributes()) do
         assert(self.attrs[a], "we missed one!")
     end

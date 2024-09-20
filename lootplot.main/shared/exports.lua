@@ -37,14 +37,33 @@ function main.getContext()
 end
 
 ---Availability: Client and Server
-function main.getRoundInfo()
-    local ctx = main.getContext()
-    local doomclock = ctx:getDoomClock()
-    --[[
-    todo: this is yucky, and tightly coupled to doomclock, in a WEIRD way.
-    ]]
-    return doomclock.round, doomclock.numberOfRounds
+---@param ent Entity
+---@return number
+function main.getRound(ent)
+    return lp.getAttribute("ROUND", ent)
 end
+---Availability: Client and Server
+---@param ent Entity
+function main.setRound(ent, x)
+    lp.setAttribute("ROUND", ent, x)
+end
+
+
+
+---Availability: Client and Server
+---@param ent Entity
+---@return number
+function main.getNumberOfRounds(ent)
+    return lp.getAttribute("NUMBER_OF_ROUNDS", ent)
+end
+
+---Availability: Client and Server
+---@param ent Entity
+---@return number
+function main.getRequiredPoints(ent)
+    return lp.getAttribute("NUMBER_OF_ROUNDS", ent)
+end
+
 
 
 local winLose = require("shared.win_lose")
@@ -70,6 +89,7 @@ main.constants = setmetatable({
     STARTING_POINTS = 0,
     STARTING_ROUND = 1,
     STARTING_LEVEL = 1,
+    ROUNDS_PER_LEVEL = 4,
 },{__index=function(msg,k,v) error("undefined const: " .. tostring(k)) end})
 
 ---Availability: Client and Server

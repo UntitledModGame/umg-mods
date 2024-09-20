@@ -41,22 +41,29 @@ end
 
 
 lp.defineSlot("lootplot.main:next_round_button_slot", {
-    image = "start_button_up",
+    image = "round_button_up",
 
-    name = loc("Next round button"),
+    name = loc("Next-Round Button"),
     description = loc("Click to go to the next round"),
 
     activateAnimation = {
-        activate = "start_button_hold",
-        idle = "start_button_up",
-        duration = 0.4
+        activate = "round_button_hold",
+        idle = "round_button_up",
+        duration = 0.25
     },
 
     onDraw = function(ent, x, y, rot, sx,sy, kx,ky)
+        if not lp.canActivateEntity(ent) then
+            ent.opacity = 0.3
+        else
+            ent.opacity = 1
+        end
+
         local font = love.graphics.getFont()
         local limit = 0xffff
 
-        local round, numberOfRounds = lp.main.getRoundInfo()
+        local round = lp.main.getRound(ent)
+        local numberOfRounds = lp.main.getNumberOfRounds(ent)
         local roundText = loc("{wavy amp=0.5 k=0.5}{outline}Round %{round}/%{numberOfRounds}", {
             round = round,
             numberOfRounds = numberOfRounds
@@ -70,12 +77,74 @@ lp.defineSlot("lootplot.main:next_round_button_slot", {
     end,
 
     baseMaxActivations = 100,
+
     triggers = {},
     buttonSlot = true,
+
+    canActivate = function(ent)
+        local round = lp.main.getRound(ent)
+        local numOfRounds = lp.main.getNumberOfRounds(ent)
+        if round < numOfRounds then
+            return true
+        end
+        return false
+    end,
+
     onActivate = function(ent)
         local ppos=lp.getPos(ent)
         if ppos then
             startRound(ent, ppos)
+        end
+    end,
+})
+
+
+
+local function nextLevel(ent)
+    lp.setPoints(ent, 0)
+    lp.main.setRound(ent, 1)
+    lp.levels.setLevel(ent, lp.levels.getLevel(ent) + 1)
+end
+
+
+
+lp.defineSlot("lootplot.main:next_level_button_slot", {
+    image = "level_button_up",
+
+    name = loc("Next-Level Button"),
+    description = loc("CLICK TO GO TO THE NEXT LEVEL!"),
+
+    activateAnimation = {
+        activate = "level_button_hold",
+        idle = "level_button_up",
+        duration = 0.25
+    },
+
+    baseMaxActivations = 100,
+    triggers = {},
+    buttonSlot = true,
+
+    onDraw = function(ent)
+        if not lp.canActivateEntity(ent) then
+            ent.opacity = 0.3
+        else
+            ent.opacity = 1
+        end
+    end,
+
+    canActivate = function(ent)
+        local requiredPoints = lp.main.getRequiredPoints(ent)
+        local points = lp.getPoints(ent)
+        if points >= requiredPoints then
+            return true
+        end
+        return false
+    end,
+
+    onActivate = function(ent)
+        local ppos=lp.getPos(ent)
+        if ppos then
+            nextLevel(ent)
         end
     end,
 })

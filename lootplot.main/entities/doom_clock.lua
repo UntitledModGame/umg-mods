@@ -35,11 +35,6 @@ local function lose()
     lp.main.endGame(nil, false)
 end
 
-local function syncEntity(ent)
-    sync.syncComponent(ent, "requiredPoints")
-    sync.syncComponent(ent, "numberOfRounds")
-end
-
 
 --[[
     This code tries to relocate the doom clock if ther are slot or item below it.
@@ -80,19 +75,6 @@ local function moveClockToClearPosition(ent)
 end
 
 
-local NUM_ROUNDS = 4
-
-local function nextLevel(ent)
-    -- reset points:
-    ent.round = 1
-    ent.level = ent.level + 1
-    ent.requiredPoints = getRequiredPoints(ent.level)
-    ent.numberOfRounds = NUM_ROUNDS
-    lp.setPoints(ent, 0)
-    lp.levels.setLevel(ent, ent.level)
-    syncEntity(ent)
-end
-
 
 umg.defineEntityType("lootplot.main:doom_clock", {
     image = "doom_clock",
@@ -110,8 +92,9 @@ umg.defineEntityType("lootplot.main:doom_clock", {
         moveClockToClearPosition(ent)
 
         local points = lp.getPoints(ent)
+        local requiredPoints = lp.main.getRequiredPoints(ent)
         local colorEffect
-        if points > ent.requiredPoints then
+        if points > requiredPoints then
             colorEffect = "{c r=0.1 g=1 b=0.2}"
         else
             colorEffect = "{c r=1 g=1 b=1}"
@@ -119,7 +102,7 @@ umg.defineEntityType("lootplot.main:doom_clock", {
 
         local needPoints = loc("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}Points: %{colorEffect}%{points}{/c}/%{requiredPoints}", {
             points = points,
-            requiredPoints = ent.requiredPoints,
+            requiredPoints = requiredPoints,
             colorEffect = colorEffect
         })
 
@@ -135,24 +118,19 @@ umg.defineEntityType("lootplot.main:doom_clock", {
         text.printRichCentered(money, font, x, y - 24, limit, "left", rot, sx*scale,sy*scale, kx,ky)
     end,
 
-    init = function(ent)
-        ent.round = lp.main.constants.STARTING_ROUND
-        ent.level = lp.main.constants.STARTING_LEVEL
-        ent.requiredPoints = getRequiredPoints(ent.level)
-        ent.numberOfRounds = NUM_ROUNDS
-    end,
-
     onActivate = function(ent)
-        ent.round = ent.round + 1
+        local round = lp.main.getRound(ent)
+        local numOfRounds = lp.main.getNumberOfRounds(ent)
+        local requiredPoints = lp.main.getRequiredPoints(ent)
         local points = lp.getPoints(ent)
-        if points >= ent.requiredPoints then
-            -- win condition!!
-            nextLevel(ent)
-        elseif ent.round > ent.numberOfRounds then
-            -- lose!
+
+        local level = lp.levels.getLevel(ent)
+        lp.setAttribute("REQUIRED_POINTS", ent, getRequiredPoints(level))
+
+        lp.main.setRound(ent, round)
+        if ((round+1) > numOfRounds) and (points < requiredPoints) then
             lose()
         end
-        syncEntity(ent)
     end
 })
 
