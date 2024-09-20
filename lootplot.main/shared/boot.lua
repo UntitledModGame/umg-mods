@@ -69,12 +69,16 @@ local function initializeItems(plot, worldEnt)
     context:setDoomClock(dclock)
 end
 
-umg.on("@createWorld", function()
+if server then
+
+umg.on("@load", function()
     local ent = createWorld()
     local clientId = server.getHostClient()
     initializeSlots(clientId, ent.plot)
     initializeItems(ent.plot, ent)
 end)
+
+end
 
 umg.on("@playerJoin", function(clientId)
     local p = server.entities.player(clientId)

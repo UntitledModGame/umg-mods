@@ -18,7 +18,9 @@ local function createWorld()
     return wEnt
 end
 
-umg.on("@createWorld", createWorld)
+if server then
+    umg.on("@load", createWorld)
+end
 
 umg.on("@playerJoin", function(clientId)
     local w, h = testData.getPlotDimensions()

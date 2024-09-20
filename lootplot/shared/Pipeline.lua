@@ -15,7 +15,7 @@ function Pipeline:init()
 
     -- the time that we are allowed to execute the next obj in the pipeline.
     -- (used for delaying)
-    self.nextExecuteTime = umg.getWorldTime()
+    self.nextExecuteTime = love.timer.getTime()
 end
 
 
@@ -45,7 +45,7 @@ local function pollObj(self, obj)
 end
 
 function Pipeline:tick()
-    local time = umg.getWorldTime()
+    local time = love.timer.getTime()
     
     local buf = self.buffer
     while (time > self.nextExecuteTime) and (buf:size() > 0) do

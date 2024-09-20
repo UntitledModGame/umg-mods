@@ -41,7 +41,7 @@ end
 
 
 umg.on("@tick", scheduling.skip(3, function()
-    local time = umg.getWorldTime()
+    local time = love.timer.getTime()
     for _, itemEnt in ipairs(itemGroup)do
         local ppos = lp.getPos(itemEnt)
         if isInvalid(itemEnt, ppos) then
