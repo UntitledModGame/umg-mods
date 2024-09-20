@@ -85,7 +85,7 @@ defineCat("lootplot.content.s0:copycat", {
     image = "copycat",
     name = loc("Copycat"),
 
-    rarity = lp.rarities.RARE,
+    rarity = lp.rarities.EPIC,
 
     basePrice = 0,
 
@@ -118,7 +118,7 @@ defineCat("lootplot.content.s0:chubby_cat", {
         end
     end,
 
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.RARE,
 
     lives = 9
 })
