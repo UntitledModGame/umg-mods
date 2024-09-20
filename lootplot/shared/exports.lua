@@ -745,7 +745,7 @@ function lp.forceSpawnItem(ppos, itemEType, team)
         prevItem:delete()
     end
 
-    if lp.trySetItem(ppos, itemEnt) then
+    if lp.forceSetItem(ppos, itemEnt) then
         umg.call("lootplot:entitySpawned", itemEnt)
         return itemEnt
     else

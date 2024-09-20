@@ -170,7 +170,10 @@ umg.on("lootplot:entityDestroyed", function(ent)
         if lp.isSlotEntity(ent) then
             lp.setSlot(ppos, cloneEnt)
         elseif lp.isItemEntity(ent) then
-            lp.trySetItem(ppos, cloneEnt)
+            local ok = lp.forceSetItem(ppos, cloneEnt)
+            if not ok then
+                cloneEnt:delete()
+            end
         else
             umg.log.warn("`.lives` component doesn't work on this ent: ", ent)
         end
