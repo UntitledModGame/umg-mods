@@ -210,10 +210,10 @@ defineSlotConverter("diamond_apple", "Diamond Apple", "diamond_slot", "Diamond S
     rarity = lp.rarities.EPIC,
 })
 
-defineSlotConverter("lychee", "Lychee", "pink_slot", "DOOMED-5 Pink Slot", lp.targets.ON_SHAPE, {
+defineSlotConverter("lychee", "Lychee", "pink_slot", "DOOMED-4 Pink Slot", lp.targets.ON_SHAPE, {
     rarity = lp.rarities.RARE
 }, function(slotEnt)
-    slotEnt.doomCount = 5
+    slotEnt.doomCount = 4
 end)
 
 ----------------------------------------------------------------------------
