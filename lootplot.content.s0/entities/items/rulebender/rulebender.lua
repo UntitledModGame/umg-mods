@@ -147,6 +147,24 @@ defineCat("lootplot.content.s0:crappy_cat", {
 
 
 
+lp.defineItem("lootplot.content.s0:round_watch", {
+    name = loc("Round watch"),
+    description = loc("Resets round to 1"),
+    --[[
+    TODO: maybe this shit is too OP?
+    ]]
+
+    image = "round_watch",
+
+    baseMoneyGenerated = -30,
+    doomCount = 1,
+
+    rarity = lp.rarities.EPIC,
+
+    onActivate = function (ent)
+        lp.setAttribute("ROUND", ent, 1)
+    end
+})
 
 
 
