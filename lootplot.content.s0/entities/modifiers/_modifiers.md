@@ -13,6 +13,7 @@ NOTE:
 
 ----
 
+
 The "Default" modifier is the `painter` modifier.
 This provides plenty of basic world-generation.
 
@@ -20,7 +21,18 @@ This provides plenty of basic world-generation.
 
 
 ### IDEA:
-By default, the `painter` should float.
+By default, modifiers should float.
 Ie have `canItemFloat = true`.
 That would be cool, and make it look mystical / special 
+
+
+
+# Custom-gamemode ideas:
+
+- Challenge mode: 
+Enemies spawn frequently. Point requirements increased.
+
+- Golden-spoon mode:
+Excess points are converted to money at the end of the round.
+Items and slots drain money each round.
 
