@@ -912,7 +912,7 @@ function lp.defineItem(name, itemType)
     strTabTc(name, itemType)
     itemType.item = true
     itemType.layer = "item"
-    itemType.basePrice = itemType.basePrice or 3
+    itemType.basePrice = itemType.basePrice or 5
     itemType.triggers = itemType.triggers or {"PULSE"}
     itemType.hitboxDistance = itemType.hitboxDistance or 8
     itemType.hoverable = true

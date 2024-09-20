@@ -98,7 +98,7 @@ defBoolProperty("canSlotPropagate", "baseCanSlotPropagate")
 --[[
     number properties for lootplot
 ]]
-defNumberProperty("price", {base="basePrice", default=1})
+defNumberProperty("price", {base="basePrice", default=5})
 
 defNumberProperty("maxActivations", {base="baseMaxActivations", default=5})
 

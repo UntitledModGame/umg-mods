@@ -11,7 +11,6 @@ Provides win/lose conditions
 local loc = localization.newLocalizer()
 
 
-do
 
 
 local EARLY_LEVELS = {
@@ -37,10 +36,47 @@ local function lose()
 end
 
 local function syncEntity(ent)
-    sync.syncComponent(ent, "round")
-    sync.syncComponent(ent, "level")
     sync.syncComponent(ent, "requiredPoints")
     sync.syncComponent(ent, "numberOfRounds")
+end
+
+
+--[[
+    This code tries to relocate the doom clock if ther are slot or item below it.
+]]
+-- Plots to be tested for heurestic search
+local SEARCH_SIZE = 2 -- 1 = 3x3, 2 = 5x5, 3 = 7x7, and so on.
+local ORDER_SEARCH = lp.targets.KingShape(SEARCH_SIZE)
+table.insert(ORDER_SEARCH.relativeCoords, {0, 0}) -- Include center
+
+table.sort(ORDER_SEARCH.relativeCoords, function (a, b)
+    local d1 = math.sqrt(a[1] * a[1] + a[2] * a[2])
+    local d2 = math.sqrt(b[1] * b[1] + b[2] * b[2])
+    return d1 < d2
+end)
+
+local function moveClockToClearPosition(ent)
+    local ppos = lp.getPos(ent)
+    if not ppos then return end
+    local plot = ppos:getPlot()
+
+    for _, relpos in ipairs(ORDER_SEARCH.relativeCoords) do
+        local px = ent._plotX + relpos[1]
+        local py = ent._plotY + relpos[2]
+
+        if px >= 0 and py >= 0 then
+            local ppos = plot:getPPos(px, py)
+
+            if not (lp.posToItem(ppos) or lp.posToSlot(ppos)) then
+                -- Move it here
+                local v = ppos:getWorldPos()
+                ent.x = v.x
+                ent.y = v.y
+                ent.dimension = v.dimension
+                return
+            end
+        end
+    end
 end
 
 
@@ -71,6 +107,8 @@ umg.defineEntityType("lootplot.main:doom_clock", {
         generally, we shouldnt use `onDraw` for entities;
         But this is a very special case :)
         ]]
+        moveClockToClearPosition(ent)
+
         local points = lp.getPoints(ent)
         local colorEffect
         if points > ent.requiredPoints then
@@ -117,56 +155,5 @@ umg.defineEntityType("lootplot.main:doom_clock", {
         syncEntity(ent)
     end
 })
-
-if client then
-
---[[
-    This code tries to relocate the doom clock if ther are slot or item below it.
-    TODO: this is hacky, Maybe change this in the future
-]]
-
--- Plots to be tested for heurestic search
-local SEARCH_SIZE = 2 -- 1 = 3x3, 2 = 5x5, 3 = 7x7, and so on.
-local ORDER_SEARCH = lp.targets.KingShape(SEARCH_SIZE)
-table.insert(ORDER_SEARCH.relativeCoords, {0, 0}) -- Include center
-
-table.sort(ORDER_SEARCH.relativeCoords, function (a, b)
-    local d1 = math.sqrt(a[1] * a[1] + a[2] * a[2])
-    local d2 = math.sqrt(b[1] * b[1] + b[2] * b[2])
-    return d1 < d2
-end)
-
-umg.on("@update", function()
-    if not lp.main.isReady() then return end
-
-    local context = lp.main.getContext()
-    local dclock = context:getDoomClock()
-
-    if dclock and umg.exists(dclock) then
-        local plot = context:getPlot()
-
-        for _, relpos in ipairs(ORDER_SEARCH.relativeCoords) do
-            local px = dclock._plotX + relpos[1]
-            local py = dclock._plotY + relpos[2]
-
-            if px >= 0 and py >= 0 then
-                local ppos = plot:getPPos(px, py)
-
-                if not (lp.posToItem(ppos) or lp.posToSlot(ppos)) then
-                    -- Move it here
-                    local v = ppos:getWorldPos()
-                    dclock.x = v.x
-                    dclock.y = v.y
-                    dclock.dimension = v.dimension
-                    return
-                end
-            end
-        end
-    end
-end)
-
-end
-
-end
 
 

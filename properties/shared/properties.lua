@@ -317,12 +317,6 @@ function properties.getDefault(property)
 end
 
 
-function properties.getPropertyMultiplier(property)
-    propTc(property)
-    assert()
-end
-
-
 ---Gets the base property (e.g. maxHealth -> baseMaxHealth)
 ---@param property string
 ---@return string?
