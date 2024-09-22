@@ -84,7 +84,7 @@ lp.defineSlot("lootplot.main:next_round_button_slot", {
     canActivate = function(ent)
         local round = lp.main.getRound(ent)
         local numOfRounds = lp.main.getNumberOfRounds(ent)
-        if round < numOfRounds then
+        if round < (numOfRounds + 1) then
             return true
         end
         return false
