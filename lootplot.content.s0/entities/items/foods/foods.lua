@@ -442,6 +442,7 @@ local function defineDonut(id, name, targetDesc, buffAmount)
         shape = lp.targets.KING_SHAPE,
 
         target = {
+            type = "ITEM",
             description = loc(targetDesc),
             activate = function(selfEnt, ppos, targetEnt)
                 lp.modifierBuff(targetEnt, "price", buffAmount, selfEnt)
