@@ -40,7 +40,7 @@ function Context:init(ent)
     self.attrs.MONEY = constants.STARTING_MONEY
     self.attrs.POINTS = constants.STARTING_POINTS
 
-    self.attrs.REQUIRED_POINTS = constants.STARTING_POINTS
+    self.attrs.REQUIRED_POINTS = 5 -- HACK: this is hardcoded.
     self.attrs.ROUND = 1
     self.attrs.NUMBER_OF_ROUNDS = constants.ROUNDS_PER_LEVEL
     for _, a in ipairs(lp.getAllAttributes()) do

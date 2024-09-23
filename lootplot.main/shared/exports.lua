@@ -61,7 +61,7 @@ end
 ---@param ent Entity
 ---@return number
 function main.getRequiredPoints(ent)
-    return lp.getAttribute("NUMBER_OF_ROUNDS", ent)
+    return lp.getAttribute("REQUIRED_POINTS", ent)
 end
 
 
