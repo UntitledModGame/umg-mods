@@ -71,7 +71,10 @@ local function stillValid(ppos, ent)
 
     local plot = ppos:getPlot()
     local x,y = plot:indexToCoords(ppos.slot)
-    return plot:get(ent.layer, x,y)
+    if plot:get(ent.layer, x,y) == ent then
+        return true
+    end
+    return false
 end
 
 
