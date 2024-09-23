@@ -38,35 +38,8 @@ local function getModifier(ent, propTabl, prop)
             return getVal(ent, val)
         end
     end
-    return 1
+    return 0
 end
-
-umg.answer("properties:getPropertyMultiplier", function(ent, prop)
-    if ent.lootplotProperties then
-        return getMult(ent, ent.lootplotProperties, prop)
-    end
-end)
-
-umg.answer("properties:getPropertyMultiplier", function(ent, prop)
-    if ent.lootplotProperties then
-        return getMult(ent, ent.lootplotProperties, prop)
-    end
-end)
-
-
-umg.answer("properties:getPropertyModifier", function(ent, prop)
-    if ent.buffedProperties then
-        return getModifier(ent, ent.buffedProperties, prop)
-    end
-    return 0
-end)
-
-umg.answer("properties:getPropertyModifier", function(ent, prop)
-    if ent.buffedProperties then
-        return getModifier(ent, ent.buffedProperties, prop)
-    end
-    return 0
-end)
 
 
 local function getClamp(ent, propTabl, prop)
@@ -89,6 +62,19 @@ local function getClamp(ent, propTabl, prop)
     return min, max
 end
 
+
+-- LOOTPLOT PROPERTIES:
+umg.answer("properties:getPropertyMultiplier", function(ent, prop)
+    if ent.lootplotProperties then
+        return getMult(ent, ent.lootplotProperties, prop)
+    end
+end)
+umg.answer("properties:getPropertyModifier", function(ent, prop)
+    if ent.lootplotProperties then
+        return getModifier(ent, ent.lootplotProperties, prop)
+    end
+    return 0
+end)
 umg.answer("properties:getPropertyClamp", function(ent, prop)
     local min, max = -math.huge, math.huge
     if ent.lootplotProperties then
@@ -97,6 +83,21 @@ umg.answer("properties:getPropertyClamp", function(ent, prop)
     return min, max
 end)
 
+
+
+-- BUFFED PROPERTIES:
+umg.answer("properties:getPropertyMultiplier", function(ent, prop)
+    if ent.buffedProperties then
+        return getMult(ent, ent.buffedProperties, prop)
+    end
+    return 1
+end)
+umg.answer("properties:getPropertyModifier", function(ent, prop)
+    if ent.buffedProperties then
+        return getModifier(ent, ent.buffedProperties, prop)
+    end
+    return 0
+end)
 umg.answer("properties:getPropertyClamp", function(ent, prop)
     local min, max = -math.huge, math.huge
     if ent.buffedProperties then
