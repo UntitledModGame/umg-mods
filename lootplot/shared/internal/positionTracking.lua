@@ -63,17 +63,15 @@ local function stillValid(ppos, ent)
     -- (ppos will be valid if we can verify 
     --  that its still within the same slot.)
     if not ppos then
-        return
+        return false
     end
-    local slotEnt = lp.posToSlot(ppos)
-    if slotEnt == ent then
-        return true
+    if not umg.exists(ent) then
+        return false
     end
 
-    local itemEnt = lp.posToItem(ppos)
-    if itemEnt == ent then
-        return true
-    end
+    local plot = ppos:getPlot()
+    local x,y = plot:indexToCoords(ppos.slot)
+    return plot:get(ent.layer, x,y)
 end
 
 
