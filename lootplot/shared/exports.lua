@@ -613,19 +613,15 @@ end
 
 local function ensureDynamicProperties(ent)
     assertServer()
-    if not ent:isRegularComponent("lootplotProperties") then
-        if ent.lootplotProperties then
-            ent.lootplotProperties = table.deepCopy(ent.lootplotProperties, true)
-        else
-            ent.lootplotProperties = {
-                multipliers = {--[[
-                    [prop] = {....}
-                ]]},
-                modifiers = {--[[
-                    [prop] = {....}
-                ]]}
-            }
-        end
+    if not ent:isRegularComponent("buffedProperties") then
+        ent.buffedProperties = {
+            multipliers = {--[[
+                [prop] = {....}
+            ]]},
+            modifiers = {--[[
+                [prop] = {....}
+            ]]}
+        }
     end
 end
 
@@ -645,7 +641,7 @@ end
 function lp.modifierBuff(ent, property, amount, srcEnt_or_nil)
     -- Permanently buffs an entity by adding a flat modifier
     ensureDynamicProperties(ent)
-    append(ent.lootplotProperties.modifiers, property, amount, reducers.ADD)
+    append(ent.buffedProperties.modifiers, property, amount, reducers.ADD)
     umg.call("lootplot:entityBuffed", property, srcEnt_or_nil)
 end
 
@@ -657,7 +653,7 @@ end
 function lp.multiplierBuff(ent, property, amount, srcEnt_or_nil)
     -- Permanently buffs an entity with a multiplier
     ensureDynamicProperties(ent)
-    append(ent.lootplotProperties.multipliers, property, amount, reducers.MULTIPLY)
+    append(ent.buffedProperties.multipliers, property, amount, reducers.MULTIPLY)
     umg.call("lootplot:entityBuffed", property, srcEnt_or_nil)
 end
 

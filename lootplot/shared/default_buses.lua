@@ -21,47 +21,90 @@ local function getVal(ent, val)
     return val
 end
 
-
-umg.answer("properties:getPropertyMultiplier", function(ent, prop)
-    if ent.lootplotProperties and ent.lootplotProperties.multipliers then
-        local val = ent.lootplotProperties.multipliers[prop]
+local function getMult(ent, propTabl, prop)
+    if propTabl.multipliers then
+        local val = propTabl.multipliers[prop]
         if val then
             return getVal(ent, val)
         end
     end
     return 1
-end)
+end
 
-umg.answer("properties:getPropertyModifier", function(ent, prop)
-    if ent.lootplotProperties and ent.lootplotProperties.modifiers then
-        local val = ent.lootplotProperties.modifiers[prop]
+local function getModifier(ent, propTabl, prop)
+    if propTabl.modifiers then
+        local val = propTabl.modifiers[prop]
         if val then
             return getVal(ent, val)
         end
+    end
+    return 1
+end
+
+umg.answer("properties:getPropertyMultiplier", function(ent, prop)
+    if ent.lootplotProperties then
+        return getMult(ent, ent.lootplotProperties, prop)
+    end
+end)
+
+umg.answer("properties:getPropertyMultiplier", function(ent, prop)
+    if ent.lootplotProperties then
+        return getMult(ent, ent.lootplotProperties, prop)
+    end
+end)
+
+
+umg.answer("properties:getPropertyModifier", function(ent, prop)
+    if ent.buffedProperties then
+        return getModifier(ent, ent.buffedProperties, prop)
+    end
+    return 0
+end)
+
+umg.answer("properties:getPropertyModifier", function(ent, prop)
+    if ent.buffedProperties then
+        return getModifier(ent, ent.buffedProperties, prop)
     end
     return 0
 end)
 
 
-umg.answer("properties:getPropertyClamp", function(ent, prop)
+local function getClamp(ent, propTabl, prop)
     local min, max = -math.huge, math.huge
 
-    if ent.lootplotProperties and ent.lootplotProperties.maximums then
-        local val = ent.lootplotProperties.maximums[prop]
+    if propTabl.maximums then
+        local val = propTabl.maximums[prop]
         if val then
             max = getVal(ent, val)
         end
     end
 
-    if ent.lootplotProperties and ent.lootplotProperties.minimums then
-        local val = ent.lootplotProperties.minimums[prop]
+    if propTabl.minimums then
+        local val = propTabl.minimums[prop]
         if val then
             min = getVal(ent, val)
         end
     end
 
     return min, max
+end
+
+umg.answer("properties:getPropertyClamp", function(ent, prop)
+    local min, max = -math.huge, math.huge
+    if ent.lootplotProperties then
+        return getClamp(ent, ent.lootplotProperties, prop)
+    end
+    return min, max
 end)
+
+umg.answer("properties:getPropertyClamp", function(ent, prop)
+    local min, max = -math.huge, math.huge
+    if ent.buffedProperties then
+        return getClamp(ent, ent.buffedProperties, prop)
+    end
+    return min, max
+end)
+
 
 
 
