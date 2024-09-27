@@ -112,7 +112,21 @@ lp.defineSlot("lootplot.main:next_level_button_slot", {
     image = "level_button_up",
 
     name = loc("Next-Level Button"),
-    description = loc("CLICK TO GO TO THE NEXT LEVEL!"),
+    description = function(ent)
+        if umg.exists(ent) then
+            local points = lp.getPoints(ent)
+            local requiredPoints = lp.main.getRequiredPoints(ent)
+            local pointsLeft = requiredPoints - points
+            if pointsLeft < 0 then
+                return loc("Click to progress to the next level!")
+            else
+                return loc("{c r=1 g=0.6 b=0.5}Need %{pointsLeft} more points!", {
+                    pointsLeft = pointsLeft
+                })
+            end
+        end
+        return ""
+    end,
 
     activateAnimation = {
         activate = "level_button_hold",
