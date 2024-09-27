@@ -33,13 +33,14 @@ function StretchableButton:init(args)
     self.font = args.font or lg.getFont()
     self.outlineColor = args.outlineColor
     self.textColor = args.textColor or objects.Color.WHITE
+    self.color = args.color
 
-    self.buttonPressed = StretchableBox(args.color.."_pressed_big", BUTTON_PADDING, {
+    self.buttonPressed = StretchableBox("white_pressed_big", BUTTON_PADDING, {
         scale = 2,
         stretchType = "repeat",
     })
 
-    self.button = StretchableBox(args.color.."_big", BUTTON_PADDING, {
+    self.button = StretchableBox("white_big", BUTTON_PADDING, {
         scale = 2,
         stretchType = "repeat",
     })
@@ -58,10 +59,12 @@ if false then
 end
 
 function StretchableButton:onRender(x,y,w,h)
+    local c = self.color
     if self:isHovered() then
-        lg.setColor(0.5,0.5,0.5)
+        local r,g,b,a = c[1],c[2],c[3],c[4]
+        lg.setColor(r*0.5,g*0.5,b*0.5,a)
     else
-        lg.setColor(objects.Color.WHITE)
+        lg.setColor(c)
     end
 
     local usedButton = self:isPressedBy("input:CLICK_PRIMARY") and self.buttonPressed or self.button

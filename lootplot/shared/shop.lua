@@ -44,7 +44,7 @@ umg.answer("lootplot:pollSelectionButtons", function(ppos)
             text = function()
                 return "Buy ($"..itemEnt.price..")"
             end,
-            color = "green",
+            color = objects.Color(0.39,0.66,0.24),
             onClick = function()
                 if shopService.buy(itemEnt) then
                     selection.reset()

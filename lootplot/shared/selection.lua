@@ -17,7 +17,7 @@ local selection = {}
 ---@field public onClick fun()
 ---@field public canClick? fun():boolean
 ---@field public priority? number
----@field public color? string
+---@field public color? objects.Color
 
 ---@class lootplot.Selected
 ---@field public ppos lootplot.PPos
@@ -94,7 +94,7 @@ end
 umg.answer("lootplot:pollSelectionButtons", function(ppos)
     return {
         text = "Cancel",
-        color = "red",
+        color = objects.Color(0.66,0.2,0.27),
         onClick = selection.reset,
         priority = math.huge
     }

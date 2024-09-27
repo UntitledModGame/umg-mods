@@ -217,7 +217,7 @@ local function createActionButton(action)
             end
         end,
         text = action.text,
-        color = action.color or "orange",
+        color = action.color or {1,1,1}
     })
 end
 
