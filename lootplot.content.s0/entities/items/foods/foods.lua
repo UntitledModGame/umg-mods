@@ -352,6 +352,25 @@ definePotion("lootplot.content.s0:potion_red", {
 })
 
 
+definePotion("lootplot.content.s0:potion_purple", {
+    image = "potion_purple",
+    name = loc("Purple Potion"),
+
+    rarity = lp.rarities.UNCOMMON,
+
+    target = {
+        type = "ITEM_OR_SLOT",
+        description = loc("{lootplot.targets:COLOR}Gives {lootplot:DOOMED_COLOR}DOOMED-5{/lootplot:DOOMED_COLOR} to target item/slot."),
+        activate = function (selfEnt, ppos, targetEnt)
+            if not targetEnt.doomCount then
+                targetEnt.doomCount = 5
+            end
+        end
+    }
+})
+
+
+
 --------------------------------------------------------------------------
 
 
