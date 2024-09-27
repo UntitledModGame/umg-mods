@@ -152,6 +152,22 @@ lp.defineItem("lootplot.content.s0:money_bag", {
     end
 })
 
+lp.defineItem("lootplot.content.s0:robbers_bag", {
+    image = "robbers_bag",
+    name = loc("Robbers Bag"),
+    description = loc("Steals money, and increases its price by the amount stolen!"),
+
+    baseMoneyGenerated = -3,
+
+    rarity = lp.rarities.EPIC,
+
+    onActivate = function(ent)
+        local moneyGen = ent.moneyGenerated
+        lp.modifierBuff(ent, "price", -moneyGen, ent)
+    end
+})
+
+
 
 
 
