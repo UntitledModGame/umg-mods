@@ -196,37 +196,6 @@ end
 
 
 
----returns the FIRST truthy result
----(This will be the first umg.answer that is loaded)
----
----Availability: Client and Server
----@param a any
----@param b any
----@return any
-function reducers.FIRST(a, b)
-    if a then
-        return a
-    end
-    return b
-end
-
-
----returns the LAST truthy result
----(This will be the last umg.answer that is loaded)
----
----Availability: Client and Server
----@param a any
----@param b any
----@return any
-function reducers.LAST(a, b)
-    if b then
-        return b
-    end
-    return a
-end
-
-
-
 
 if false then
     ---Availability: Client and Server
