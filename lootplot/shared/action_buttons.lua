@@ -7,9 +7,12 @@ PLANNING:
 
 ent.actionButtons = {
     {
-        action = function(ent)
-            -- runs on server AND client.
+        action = function(ent, clientId)
+            -- runs on server ONLY.
             ...
+        end,
+        hasAccess = function(ent, clientId)
+            return true or false
         end,
         text = text,
         color = color
@@ -42,14 +45,36 @@ local function makeActionButton(ent, index)
                 return -- no-op
             end
             -- else, we try sync the operation
+            client.send("lootplot:actionButtonPress", ent, index)
         end,
         priority = index + PRIO
     }
 end
 
 
+if server then
+    server.on("lootplot:actionButtonPress", function(clientId, ent, index)
+        if not ent.actionButtons then
+            return
+        end
+        if not lp.canPlayerAccess(ent, clientId) then
+            return
+        end
+        local aButton = ent.actionButtons[index]
+        if not aButton then
+            return
+        end
+        if aButton.hasAccess and (not aButton.hasAccess(ent, clientId)) then
+            return
+        end
+
+        aButton.action(ent, clientId)
+    end)
+end
+
+
 local function tryPopulateActionButtons(array, ent)
-    umg.melt("NYI.")
+    assert(client, "Only be called clientside?")
     if not lp.canPlayerAccess(ent, client.getClient()) then
         return
     end
@@ -61,7 +86,7 @@ end
 
 
 -- Custom buttons:
-umg.answer("lootplot:collectSelectionButtons", function(array, ppos)
+umg.on("lootplot:collectSelectionButtons", function(array, ppos)
     local slotEnt = lp.posToSlot(ppos)
     if slotEnt and slotEnt.actionButtons then
         tryPopulateActionButtons(array, slotEnt)

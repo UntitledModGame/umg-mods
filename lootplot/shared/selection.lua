@@ -93,7 +93,7 @@ function selection.selectSlotNoButtons(slotEnt)
 end
 
 -- This handles the "Cancel" button
-umg.answer("lootplot:collectSelectionButtons", function(arr, ppos)
+umg.on("lootplot:collectSelectionButtons", function(arr, ppos)
     arr:add({
         text = "Cancel",
         color = objects.Color(0.66,0.2,0.27),

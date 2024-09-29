@@ -26,8 +26,20 @@ NOTE::: This can be used to LOCK the shop!!! Very cool idea!!!
 ]]
 
 
-local function defController(id, etype)
-    return
+local function defContra(id, etype)
+    etype.image = etype.image or id
+    lp.defineItem("lootplot.content.s0:" .. id, etype)
 end
 
+
+defContra("old_radio", {
+    rarity = lp.rarities.COMMON,
+    actionButtons = {
+        {
+            action = function(ent)
+                print("hi", ent)
+            end
+        }
+    }
+})
 
