@@ -245,38 +245,6 @@ function reducers.LAST(a, b)
     return a
 end
 
----Reducer function that collects all single inputs into an array.
----
----The way this works, is the first argument `a` is treated
----as an array.
----`a` is then continuously passed to the next arguments.
----
----Availability: Client and Server
----@generic T
----@param a T|T[]
----@param b T
----@return T[]
-function reducers.SINGLE_COLLECT(a, b)
-    local ret = a
-
-    if getmetatable(ret) ~= UNIQUE_MT then
-        --[[
-        this is kinda hacky lmao!
-        Basically, we need to be able to add any type to the array.
-        So we set a unique metatable (UNIQUE_MT)
-        ]]
-        ret = setmetatable({}, UNIQUE_MT)
-        if a ~= nil then
-            table.insert(ret, a)
-        end
-    end
-
-    if b ~= nil then
-        table.insert(ret, b)
-    end
-
-    return ret
-end
 
 
 

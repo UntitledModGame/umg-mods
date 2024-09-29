@@ -31,7 +31,7 @@ function shopService.buy(ent)
 end
 
 -- This handles buy/sell/destroy button
-umg.answer("lootplot:pollSelectionButtons", function(ppos)
+umg.answer("lootplot:collectSelectionButtons", function(array, ppos)
     local itemEnt = lp.posToItem(ppos)
     local slotEnt = lp.posToSlot(ppos)
     if not (itemEnt and slotEnt) then
@@ -40,7 +40,7 @@ umg.answer("lootplot:pollSelectionButtons", function(ppos)
 
     if slotEnt.shopLock then
         -- add buy button
-        return {
+        array:add({
             text = function()
                 return "Buy ($"..itemEnt.price..")"
             end,
@@ -61,6 +61,6 @@ umg.answer("lootplot:pollSelectionButtons", function(ppos)
                 return lp.getMoney(itemEnt) >= itemEnt.price
             end,
             priority = 0,
-        }
+        })
     end
 end)

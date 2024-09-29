@@ -43,8 +43,10 @@ local function isButtonSlot(slotEnt)
     return slotEnt.buttonSlot
 end
 
-local function pollSelectButtons(ppos, selected)
-    selected.actions = umg.ask("lootplot:pollSelectionButtons", ppos)
+local function collectSelectionButtons(ppos, selected)
+    local array = objects.Array()
+    umg.ask("lootplot:collectSelectionButtons", array, ppos)
+    selected.actions = array
     table.sort(selected.actions, function(a, b)
         local pa, pb = a.priority or 0, b.priority or 0
         if pa == pb then
@@ -76,7 +78,7 @@ local function selectSlot(slotEnt, dontOpenButtons)
     }
 
     if not dontOpenButtons then
-        pollSelectButtons(ppos, selected)
+        collectSelectionButtons(ppos, selected)
     end
 
     umg.call("lootplot:selectionChanged", selected)
@@ -91,13 +93,13 @@ function selection.selectSlotNoButtons(slotEnt)
 end
 
 -- This handles the "Cancel" button
-umg.answer("lootplot:pollSelectionButtons", function(ppos)
-    return {
+umg.answer("lootplot:collectSelectionButtons", function(arr, ppos)
+    arr:add({
         text = "Cancel",
         color = objects.Color(0.66,0.2,0.27),
         onClick = selection.reset,
         priority = math.huge
-    }
+    })
 end)
 
 local function validate()
