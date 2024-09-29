@@ -195,26 +195,6 @@ end
 
 
 
-local UNIQUE_MT = {}
-
----Availability: Client and Server
----@generic T
----@param arr_a T[]
----@param arr_b T[]
----@return T[]
-function reducers.MERGE_ARRAYS(arr_a, arr_b)
-    assert(type(arr_a) == "table", "Should be a table!")
-    assert(type(arr_b) == "table", "Should be a table!")
-
-    local new = {}
-    for i=1, #arr_a do
-        table.insert(new, arr_a[i])
-    end
-    for i=1, #arr_b do
-        table.insert(new, arr_b[i])
-    end
-    return new
-end
 
 ---returns the FIRST truthy result
 ---(This will be the first umg.answer that is loaded)
