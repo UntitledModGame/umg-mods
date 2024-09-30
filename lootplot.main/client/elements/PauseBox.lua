@@ -7,7 +7,7 @@ local StretchableButton = require("client.elements.StretchableButton")
 
 
 
-local loc = localization.newLocalizer()
+local loc = localization.localize
 
 ---@class lootplot.main.PauseBox: Element
 local PauseBox = ui.Element("lootplot.main:PauseBox")
@@ -22,6 +22,12 @@ local ARG_KEYS = {
     gameSpeedRanges = true,
 }
 
+local strings = {
+    MENU = loc("Menu"),
+    QUIT = loc("Quit"),
+    RESUME = loc("Resume")
+}
+
 function PauseBox:init(args)
     typecheck.assertKeys(args, ARG_KEYS)
 
@@ -32,7 +38,7 @@ function PauseBox:init(args)
 
     self.titleText = RichText({
         font = fonts.getLargeFont(),
-        text = loc("Menu")
+        text = strings.MENU
     })
 
     local RED = {objects.Color.HSLtoRGB(0, 0.61, 0.6)}
@@ -40,13 +46,13 @@ function PauseBox:init(args)
     self.quitButton = StretchableButton({
         onClick = args.onQuit,
         color = RED,
-        text = loc("Quit"),
+        text = strings.QUIT,
         scale = 2,
     })
     self.resumeButton = StretchableButton({
         onClick = args.onResume,
         color = BLUE,
-        text = loc("Resume"),
+        text = strings.RESUME,
         scale = 2
     })
 

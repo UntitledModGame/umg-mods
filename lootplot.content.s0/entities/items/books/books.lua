@@ -1,4 +1,4 @@
-local loc = localization.newLocalizer()
+local loc = localization.localize
 
 local function defineBook(id, name, targetSlot, targetSlotName)
     return lp.defineItem("lootplot.content.s0:"..id, {
