@@ -47,18 +47,24 @@ local function makeActionButton(ent, index)
             -- else, we try sync the operation
             client.send("lootplot:actionButtonPress", ent, index)
         end,
-        priority = index + PRIO
-    }
-end
+        canClick = function()
+            if umg.exists(ent) then
+                return actionButton.hasAccess(ent, client.getClient())
+            end
+            return false
+        end,
+            priority = index + PRIO
+        }
+    end
 
 
-if server then
-    server.on("lootplot:actionButtonPress", function(clientId, ent, index)
-        if not ent.actionButtons then
-            return
-        end
-        if not lp.canPlayerAccess(ent, clientId) then
-            return
+    if server then
+        server.on("lootplot:actionButtonPress", function(clientId, ent, index)
+            if not ent.actionButtons then
+                return
+            end
+            if not lp.canPlayerAccess(ent, clientId) then
+                return
         end
         local aButton = ent.actionButtons[index]
         if not aButton then

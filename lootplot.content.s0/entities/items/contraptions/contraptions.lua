@@ -61,12 +61,29 @@ defContra("old_radio", {
 
     target = {
         type = "ITEM",
-        description = "Activates target item",
         activate = function(selfEnt, ppos, targetEnt)
             lp.tryActivateEntity(targetEnt)
         end
     },
 
+    actionButtons = {ACTIVATE_SELF_BUTTON}
+})
+
+
+
+defContra("dark_radio", {
+    name = loc("Dark Radio"),
+    description = loc("Provides a toggle to prevent activation!"),
+
+    rarity = lp.rarities.COMMON,
+    shape = lp.targets.KING_SHAPE,
+
+    baseMaxActivations = 1,
+
+    --[[
+    TODO: implement.
+    We might need the `listener` system for this.
+    ]]
     actionButtons = {ACTIVATE_SELF_BUTTON}
 })
 
