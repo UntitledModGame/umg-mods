@@ -9,13 +9,13 @@ umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER, function(ent, x,y, rot
         if lp.isSlotEntity(ent) then
             if ent.doomCount <= 1 then
                 q = client.assets.images.crack_big
-            elseif ent.doomCount < 5 then
+            else
                 q = client.assets.images.crack_small
             end
         elseif lp.isItemEntity(ent) then
             if ent.doomCount <= 1 then
                 q = client.assets.images.doom_count_visual
-            elseif ent.doomCount < 5 then
+            else
                 q = client.assets.images.doom_count_warning_visual
             end
         end
