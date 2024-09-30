@@ -86,7 +86,7 @@ end
 
 
 -- Custom buttons:
-umg.on("lootplot:collectSelectionButtons", function(array, ppos)
+umg.on("lootplot:populateSelectionButtons", function(array, ppos)
     local slotEnt = lp.posToSlot(ppos)
     if slotEnt and slotEnt.actionButtons then
         tryPopulateActionButtons(array, slotEnt)

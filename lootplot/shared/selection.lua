@@ -45,7 +45,7 @@ end
 
 local function collectSelectionButtons(ppos, selected)
     local array = objects.Array()
-    umg.ask("lootplot:collectSelectionButtons", array, ppos)
+    umg.ask("lootplot:populateSelectionButtons", array, ppos)
     selected.actions = array
     table.sort(selected.actions, function(a, b)
         local pa, pb = a.priority or 0, b.priority or 0
@@ -93,7 +93,7 @@ function selection.selectSlotNoButtons(slotEnt)
 end
 
 -- This handles the "Cancel" button
-umg.on("lootplot:collectSelectionButtons", function(arr, ppos)
+umg.on("lootplot:populateSelectionButtons", function(arr, ppos)
     arr:add({
         text = "Cancel",
         color = objects.Color(0.66,0.2,0.27),

@@ -31,7 +31,7 @@ function shopService.buy(ent)
 end
 
 -- This handles buy/sell/destroy button
-umg.on("lootplot:collectSelectionButtons", function(array, ppos)
+umg.on("lootplot:populateSelectionButtons", function(array, ppos)
     local itemEnt = lp.posToItem(ppos)
     local slotEnt = lp.posToSlot(ppos)
     if not (itemEnt and slotEnt) then
