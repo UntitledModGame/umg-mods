@@ -15,6 +15,9 @@ end
 
 
 lp.defineSlot("lootplot.content.s0:shop_slot", {
+    init = function(ent)
+        ent.shopLock = true
+    end,
     image = "shop_slot",
     color = {1, 1, 0.6},
     baseMaxActivations = 100,
@@ -28,6 +31,31 @@ lp.defineSlot("lootplot.content.s0:shop_slot", {
         shopEnt.shopLock = true
     end
 })
+
+--[[
+
+text = function()
+    return "Buy ($"..itemEnt.price..")"
+end,
+color = objects.Color(0.39,0.66,0.24),
+onClick = function()
+    if shopService.buy(itemEnt) then
+        selection.reset()
+        --[==[
+        Don't open selection buttons; 
+        (for 2 reasons)
+        1: The data is outdated, (serv hasnt responded yet) and we will get wrong buttons
+        2: the player has just purchased the item, and won't be interested in selling it anyway!!
+        ]==]
+        selection.selectSlotNoButtons(slotEnt)
+    end
+end,
+canClick = function()
+    return lp.getMoney(itemEnt) >= itemEnt.price
+end,
+priority = 0,
+
+]]
 
 
 lp.defineSlot("lootplot.content.s0:reroll_slot", {

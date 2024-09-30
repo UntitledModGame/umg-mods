@@ -11,7 +11,7 @@ ent.actionButtons = {
             -- runs on server ONLY.
             ...
         end,
-        hasAccess = function(ent, clientId)
+        canClick = function(ent, clientId)
             return true or false
         end,
         text = text,
@@ -27,10 +27,28 @@ ent.actionButtons = {
 ]]
 
 
+
+-- client --> server
 umg.definePacket("lootplot:actionButtonPress", {
     typelist = {"entity", "number"}
 })
 
+-- server --> client
+umg.definePacket("lootplot:actionButtonPressConfirmation", {
+    typelist = {"entity", "number"}
+})
+
+
+
+local function canClick(ent, actionButton, clientId)
+    if not lp.canPlayerAccess(ent, clientId) then
+        return false
+    end
+    if actionButton.canClick and (not actionButton.canClick(ent, clientId)) then
+        return false
+    end
+    return true
+end
 
 
 local PRIO = 1000 -- we want these action buttons to appear at the RIGHT
@@ -49,34 +67,14 @@ local function makeActionButton(ent, index)
         end,
         canClick = function()
             if umg.exists(ent) then
-                return actionButton.hasAccess(ent, client.getClient())
+                return canClick(ent, ent.actionButtons[index], client.getClient())
             end
-            return false
         end,
-            priority = index + PRIO
-        }
-    end
-
-
-    if server then
-        server.on("lootplot:actionButtonPress", function(clientId, ent, index)
-            if not ent.actionButtons then
-                return
-            end
-            if not lp.canPlayerAccess(ent, clientId) then
-                return
-        end
-        local aButton = ent.actionButtons[index]
-        if not aButton then
-            return
-        end
-        if aButton.hasAccess and (not aButton.hasAccess(ent, clientId)) then
-            return
-        end
-
-        aButton.action(ent, clientId)
-    end)
+        priority = index + PRIO
+    }
 end
+
+
 
 
 local function tryPopulateActionButtons(array, ent)
@@ -106,5 +104,33 @@ umg.on("lootplot:populateSelectionButtons", function(array, ppos)
     end
 end)
 
+
+client.on("lootplot:actionButtonPressConfirmation", function(ent, index)
+    local aButton = ent.actionButtons[index]
+    aButton.action(ent, client.getClient())
+end)
+
 end
 
+
+
+
+if server then
+
+server.on("lootplot:actionButtonPress", function(clientId, ent, index)
+    if not ent.actionButtons then
+        return
+    end
+    local aButton = ent.actionButtons[index]
+    if not aButton then
+        return
+    end
+    if not canClick(ent, aButton, clientId) then
+        return
+    end
+
+    server.unicast(clientId, "lootplot:actionButtonPressConfirmation", ent, index)
+    aButton.action(ent, clientId)
+end)
+
+end

@@ -35,7 +35,9 @@ end
 local ACTIVATE_SELF_BUTTON = {
     text = "Activate!",
     action = function(selfEnt)
-        lp.tryActivateEntity(selfEnt)
+        if server then
+            lp.tryActivateEntity(selfEnt)
+        end
     end
 }
 

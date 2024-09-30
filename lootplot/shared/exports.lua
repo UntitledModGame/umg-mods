@@ -980,6 +980,14 @@ end
 ---@param clientId string
 ---@return boolean
 function lp.canPlayerAccess(ent, clientId)
+    if lp.isItemEntity(ent) then
+        local slotEnt = lp.itemToSlot(ent)
+        if slotEnt and slotEnt.canPlayerAccessItemInSlot then
+            if not slotEnt:canPlayerAccessItemInSlot(ent) then
+                return false
+            end
+        end
+    end
     return umg.ask("lootplot:hasPlayerAccess", ent, clientId)
 end
 
