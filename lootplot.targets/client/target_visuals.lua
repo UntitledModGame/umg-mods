@@ -53,32 +53,35 @@ end
 
 
 umg.on("rendering:drawEffects", function(camera)
-    if selected and selectionTargets then
-        local t = love.timer.getTime()
-
-        love.graphics.setColor(1,1,1)
-        for _, ppos in ipairs(selectionTargets) do
-            local dist = util.chebyshevDistance(selected.ppos:getDifference(ppos))
-            local elapsedTime = t - selected.time
-            local showTime = dist * DELAY_PER_UNIT
-            local fadeTime = showTime - FADE_IN
-
-            if elapsedTime < fadeTime then
-                -- Assume selected.targets is sorted by their Chebyshev distance
-                -- so we're not interested on the next item.
-                break
-            end
-            
-            local item = lp.posToItem(selected.ppos)
-            if item then
-                local img = getTargetImage(item)
-                local progress = math.min(elapsedTime-fadeTime, FADE_IN) / FADE_IN
-                local opacity = getOpacity(item, ppos)
-                renderSelectionTarget(ppos, img, progress, opacity)
-            end
-        end
-        love.graphics.setColor(1, 1, 1)
+    if not (selected and selectionTargets) then
+        return
     end
+    local item = lp.posToItem(selected.ppos)
+    if not (item and item.target) then
+        return
+    end
+
+    local t = love.timer.getTime()
+
+    love.graphics.setColor(1,1,1)
+    for _, ppos in ipairs(selectionTargets) do
+        local dist = util.chebyshevDistance(selected.ppos:getDifference(ppos))
+        local elapsedTime = t - selected.time
+        local showTime = dist * DELAY_PER_UNIT
+        local fadeTime = showTime - FADE_IN
+
+        if elapsedTime < fadeTime then
+            -- Assume selected.targets is sorted by their Chebyshev distance
+            -- so we're not interested on the next item.
+            break
+        end
+        
+        local img = getTargetImage(item)
+        local progress = math.min(elapsedTime-fadeTime, FADE_IN) / FADE_IN
+        local opacity = getOpacity(item, ppos)
+        renderSelectionTarget(ppos, img, progress, opacity)
+    end
+    love.graphics.setColor(1, 1, 1)
 end)
 
 
