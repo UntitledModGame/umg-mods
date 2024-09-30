@@ -35,15 +35,17 @@ function PauseBox:init(args)
         text = loc("Menu")
     })
 
+    local RED = {objects.Color.HSLtoRGB(0, 0.61, 0.6)}
+    local BLUE = {objects.Color.HSLtoRGB(228, 0.61, 0.6)}
     self.quitButton = StretchableButton({
         onClick = args.onQuit,
-        color = "red",
+        color = RED,
         text = loc("Quit"),
         scale = 2,
     })
     self.resumeButton = StretchableButton({
         onClick = args.onResume,
-        color = "green",
+        color = BLUE,
         text = loc("Resume"),
         scale = 2
     })

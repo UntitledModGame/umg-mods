@@ -23,15 +23,17 @@ function EndGameBox:init(args)
         font = fonts.getSmallFont()
     })
 
+    local RED = {objects.Color.HSLtoRGB(0, 0.61, 0.6)}
+    local BLUE = {objects.Color.HSLtoRGB(228, 0.61, 0.6)}
     self.okButtonRed = StretchableButton({
         onClick = args.onDismiss,
-        color = "red",
+        color = RED,
         text = loc("Ok lol!"),
         scale = 2,
     })
     self.okButtonGreen = StretchableButton({
         onClick = args.onDismiss,
-        color = "green",
+        color = BLUE,
         text = loc("Ok lol!"),
         scale = 2,
     })

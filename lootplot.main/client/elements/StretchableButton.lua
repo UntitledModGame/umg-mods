@@ -25,7 +25,6 @@ local function giveTextElement(self, elem)
     elem:setContent(textElement)
 end
 
----@param args {onClick:function,color:string,text?:string|fun():(string),font:love.Font?,outlineColor:objects.Color?,textColor:objects.Color?}
 function StretchableButton:init(args)
     typecheck.assertKeys(args, {"onClick", "color"})
     self.click = args.onClick
@@ -53,7 +52,7 @@ function StretchableButton:init(args)
 end
 
 if false then
-    ---@param args {onClick:function,color:string,text?:string|fun():(string),font:love.Font?,outlineColor:objects.Color?,textColor:objects.Color?}
+    ---@param args {onClick:function,color:table,text?:string|fun():(string),font:love.Font?,outlineColor:objects.Color?,textColor:objects.Color?}
     ---@return lootplot.main.StretchableButton
     function StretchableButton(args) end
 end
