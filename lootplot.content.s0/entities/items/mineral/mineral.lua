@@ -11,34 +11,34 @@ end
 
 
 
-local function defineSword(mineral_type, name, tier)
+local function defineSword(mineral_type, name, rank)
     local namespace = umg.getModName() .. ":"
     local etypeName = namespace .. mineral_type .. "_sword"
     local image = mineral_type .. "_sword"
 
-    assert(tier < 6, "raritys dont go this high!! welp!")
-    local rarity = lp.rarities.RARITY_LIST[tier]
+    assert(rank < 6, "raritys dont go this high!! welp!")
+    local rarity = lp.rarities.RARITY_LIST[rank + 1]
 
     defineMineral(etypeName, {
-        basePointsGenerated = tier * 5,
+        basePointsGenerated = rank * 5,
         image = image,
         name = loc(name .. " Sword"),
 
         rarity = rarity,
 
-        basePrice = 1 * tier,
+        basePrice = 1 * rank,
     })
 end
 
 
 
-local function defineAxe(mineral_type, name, tier)
+local function defineAxe(mineral_type, name, rank)
     local namespace = umg.getModName() .. ":"
     local etypeName = namespace .. mineral_type .. "_axe"
     local image = mineral_type .. "_axe"
 
-    assert(tier < 6, "raritys dont go this high!! welp!")
-    local rarity = lp.rarities.RARITY_LIST[tier + 1]
+    assert(rank < 6, "raritys dont go this high!! welp!")
+    local rarity = lp.rarities.RARITY_LIST[rank + 1]
 
     defineMineral(etypeName, {
         image = image,
@@ -46,8 +46,8 @@ local function defineAxe(mineral_type, name, tier)
 
         rarity = rarity,
 
-        basePrice = 2 * tier,
-        basePointsGenerated = 2 * tier,
+        basePrice = 2 * rank,
+        basePointsGenerated = 2 * rank,
 
         shape = lp.targets.KNIGHT_SHAPE,
 
@@ -64,15 +64,15 @@ end
 
 
 local minerals = {
-    {type = "iron", name = "Iron", tier = 1},
-    {type = "steel", name = "Steel", tier = 2},
-    {type = "ruby", name = "Ruby", tier = 3},
+    {type = "iron", name = "Iron", rank = 1},
+    {type = "steel", name = "Steel", rank = 2},
+    {type = "ruby", name = "Ruby", rank = 3},
 }
 
 
 for _, t in ipairs(minerals) do
-    defineSword(t.type, t.name, t.tier)
-    defineAxe(t.type, t.name, t.tier)
+    defineSword(t.type, t.name, t.rank)
+    defineAxe(t.type, t.name, t.rank)
 end
 
 
