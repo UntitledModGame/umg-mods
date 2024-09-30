@@ -1,31 +1,14 @@
 
 
 # `lootplot.tiers` mod
-
+Allows items to be upgraded.
 
 
 ## Components / events:
 ```lua
 
-ent.onUpgradeTier = function(ent, oldVal, newVal)
-    ...
-end
-
 umg.call("lootplot.tiers:upgradeTier", ent, oldVal, newVal)
 
-ent.tieredProperties = {
-    --[[
-    tier-1:  $1
-    tier-2:  $3
-    tier-3:  $9
-    ]]
-    moneyGenerated = {1, 3, 9}
-}
-```
-
-
-# IDEA: Unify under `.tiers` component.
-```lua
 
 ent.tierManager = {
     onUpgrade = function(ent, oldVal, newVal)
@@ -37,9 +20,17 @@ ent.tierManager = {
         moneyGenerated = {1, 3, 9}
     }
 }
-
-
-
 ```
 
+
+## Systemic interactions:
+
+Consider penguin from SAP:
+"Give all tier-2 pets +1,1"
+
+This is FANTASTIC, because it encourages upgrading units!!!
+We should do the same thing with octopus, maybe?
+
+Octopus:
+Triggers all target tier-2 items
 
