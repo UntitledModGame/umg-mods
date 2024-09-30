@@ -45,7 +45,7 @@ end
 
 local function collectSelectionButtons(ppos, selected)
     local array = objects.Array()
-    umg.ask("lootplot:populateSelectionButtons", array, ppos)
+    umg.call("lootplot:populateSelectionButtons", array, ppos)
     selected.actions = array
     table.sort(selected.actions, function(a, b)
         local pa, pb = a.priority or 0, b.priority or 0
