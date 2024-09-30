@@ -1,5 +1,8 @@
 local localization = {}
-if false then _G.localization = localization end
+if false then
+    ---Availability: Client and Server
+    _G.localization = localization
+end
 
 local interpolate = require("shared.interpolate")
 
@@ -11,7 +14,7 @@ local EXPORT_ON_EXIT = true
 
 
 
----@class localization.Interpolator: objects.Class
+---@class localization.InterpolatorObject: objects.Class
 local Interpolator = objects.Class("localization:Interpolator")
 
 ---@param modname string
@@ -34,20 +37,26 @@ function Interpolator:init(modname, text, context)
     stringsToLocalize[modname][text] = text
 end
 
+---Availability: Client and Server
 ---@param variables table<string, any>? Variable to interpolate
 function Interpolator:__call(variables)
     return variables and interpolate(self.text, variables) or self.text
 end
 
+---Availability: Client and Server
 function Interpolator:__tostring()
     return self.text
 end
 
+---@alias localization.Interpolator localization.InterpolatorObject|fun(variables:table<string,any>?):string
 
 
+---Create new interpolator that translates and interpolates based on variables, taking pluralization into account.
+---
+---Availability: Client and Server
 ---@param text string String to translate
 ---@param context table? Reserved for future use
----@return localization.Interpolator|fun(variables:table<string,any>?):string
+---@return localization.Interpolator
 function localization.newInterpolator(text, context)
     local loadingContext = assert(umg.getLoadingContext(), "this can only be called at load-time")
     local key = loadingContext.modname.."\0"..text
@@ -63,13 +72,17 @@ end
 
 
 ---Create new localizer for this specific mod.
+---
+---Availability: Client and Server
 ---@deprecated replaced by `localization.newInterpolator` and `localization.localize`.
 function localization.newLocalizer()
     return localization.localize
 end
 
 
---- Translates a string.
+---Translates a string.
+---
+---Availability: Client and Server
 ---@param text string String to translate
 ---@param variables table<string, any>? Variable to interpolate
 ---@param context table? Reserved for future use
