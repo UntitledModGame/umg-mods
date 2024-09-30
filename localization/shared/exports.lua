@@ -71,15 +71,6 @@ function localization.newInterpolator(text, context)
 end
 
 
----Create new localizer for this specific mod.
----
----Availability: Client and Server
----@deprecated replaced by `localization.newInterpolator` and `localization.localize`.
-function localization.newLocalizer()
-    return localization.localize
-end
-
-
 ---Translates a string.
 ---
 ---Availability: Client and Server
