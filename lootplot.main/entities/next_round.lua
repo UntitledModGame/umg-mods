@@ -8,7 +8,8 @@ Progresses to next-round, be activating and resetting the whole slot.
 
 
 ]]
-local loc = localization.newLocalizer()
+local loc = localization.localize
+local interp = localization.newInterpolator
 
 ---@param ent Entity
 ---@param ppos lootplot.PPos
@@ -40,6 +41,9 @@ local function startRound(ent, ppos)
 end
 
 
+local ROUND_NUM = interp("{wavy amp=0.5 k=0.5}{outline}Round %{round}/%{numberOfRounds}")
+local LEVEL_NUM = interp("{wavy amp=0.5 k=0.5}{outline}Level %{level}")
+
 lp.defineSlot("lootplot.main:next_round_button_slot", {
     image = "round_button_up",
 
@@ -64,12 +68,12 @@ lp.defineSlot("lootplot.main:next_round_button_slot", {
 
         local round = lp.main.getRound(ent)
         local numberOfRounds = lp.main.getNumberOfRounds(ent)
-        local roundText = loc("{wavy amp=0.5 k=0.5}{outline}Round %{round}/%{numberOfRounds}", {
+        local roundText = ROUND_NUM({
             round = round,
             numberOfRounds = numberOfRounds
         })
 
-        local levelText = loc("{wavy amp=0.5 k=0.5}{outline}Level %{level}", {
+        local levelText = LEVEL_NUM({
             level = lp.levels.getLevel(ent)
         })
         text.printRichCentered(roundText, font, x, y - 18, limit, "left", rot, sx,sy, kx,ky)
@@ -107,6 +111,8 @@ local function nextLevel(ent)
 end
 
 
+local NEXT_LEVEL = loc("Click to progress to the next level!")
+local NEED_POINTS = interp("{c r=1 g=0.6 b=0.5}Need %{pointsLeft} more points!")
 
 lp.defineSlot("lootplot.main:next_level_button_slot", {
     image = "level_button_up",
@@ -118,9 +124,9 @@ lp.defineSlot("lootplot.main:next_level_button_slot", {
             local requiredPoints = lp.main.getRequiredPoints(ent)
             local pointsLeft = requiredPoints - points
             if pointsLeft < 0 then
-                return loc("Click to progress to the next level!")
+                return NEXT_LEVEL
             else
-                return loc("{c r=1 g=0.6 b=0.5}Need %{pointsLeft} more points!", {
+                return NEED_POINTS({
                     pointsLeft = pointsLeft
                 })
             end

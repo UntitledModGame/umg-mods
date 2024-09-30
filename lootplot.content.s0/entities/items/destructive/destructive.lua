@@ -1,6 +1,8 @@
-local loc = localization.newLocalizer()
+local loc = localization.localize
 
 
+
+local DARK_SKULL_DESC = localization.newInterpolator("After destroying {lootplot:BAD_COLOR}{wavy}%{count}{/wavy} items{/lootplot:BAD_COLOR}, spawns a %{rarity} item.")
 
 lp.defineItem("lootplot.content.s0:dark_skull", {
     image = "dark_skull",
@@ -14,7 +16,7 @@ lp.defineItem("lootplot.content.s0:dark_skull", {
     end,
 
     description = function(ent)
-        return loc("After destroying {lootplot:BAD_COLOR}{wavy}%{count}{/wavy} items{/lootplot:BAD_COLOR}, spawns a %{rarity} item.", {
+        return DARK_SKULL_DESC({
             rarity = lp.rarities.LEGENDARY.displayString,
             count = 20 - ent.killCount
         })
@@ -140,9 +142,7 @@ lp.defineItem("lootplot.content.s0:candle", {
 
     target = {
         type = "NO_ITEM",
-        description = function(selfEnt)
-            return loc("{lootplot.targets:COLOR}Clones the below item into target slots with {lootplot:DOOMED_COLOR}DOOMED-1.", selfEnt)
-        end,
+        description = loc("{lootplot.targets:COLOR}Clones the below item into target slots with {lootplot:DOOMED_COLOR}DOOMED-1."),
         activate = function(selfEnt, ppos, targetEnt)
             local selfPos = lp.getPos(selfEnt)
             if not selfPos then return end

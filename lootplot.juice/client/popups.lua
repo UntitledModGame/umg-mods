@@ -1,4 +1,3 @@
-local loc = localization.newLocalizer()
 
 local LIFETIME = 0.4
 local VEL = 200
@@ -50,9 +49,11 @@ umg.on("lootplot:pointsChanged", function(ent, delta)
     end
 end)
 
+local COMBO = localization.newInterpolator("COMBO: %{combo:.0f}")
+
 umg.on("lootplot:comboChanged", function(ent, delta, oldVal, newVal)
-    if newVal > 4 and (newVal % 5 == 0) then
-        local txt = loc("COMBO: %{combo}", {combo = tostring(math.floor(newVal+0.5))})
+    if newVal > 4 and (math.floor(newVal + 0.5) % 5 == 0) then
+        local txt = COMBO({combo = newVal})
         makePopup(ent, txt, objects.Color.YELLOW, VEL)
     end
 end)
