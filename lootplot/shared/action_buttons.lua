@@ -94,7 +94,7 @@ umg.on("lootplot:populateSelectionButtons", function(array, ppos)
         tryPopulateActionButtons(array, slotEnt)
     end
 
-    local itemEnt = lp.posToSlot(ppos)
+    local itemEnt = lp.posToItem(ppos)
     if itemEnt and itemEnt.actionButtons then
         tryPopulateActionButtons(array, itemEnt)
     end

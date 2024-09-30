@@ -32,14 +32,41 @@ local function defContra(id, etype)
 end
 
 
+local ACTIVATE_SELF_BUTTON = {
+    text = "Activate!",
+    action = function(selfEnt)
+        lp.tryActivateEntity(selfEnt)
+    end
+}
+
+
+local loc = function(x)
+    umg.log.warn("FIX ME PLS. PUT PROPER TRANSLATION HERE.")
+    return x
+end
+
+
 defContra("old_radio", {
+    name = loc("Old Radio"),
+    description = loc("Has a button to activate items."),
+
+    triggers = {},
+
     rarity = lp.rarities.COMMON,
-    actionButtons = {
-        {
-            action = function(ent)
-                print("hi", ent)
-            end
-        }
-    }
+
+    shape = lp.targets.ABOVE_SHAPE,
+
+    baseMoneyGenerated = -6,
+    baseMaxActivations = 4,
+
+    target = {
+        type = "ITEM",
+        description = "Activates target item",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.tryActivateEntity(targetEnt)
+        end
+    },
+
+    actionButtons = {ACTIVATE_SELF_BUTTON}
 })
 
