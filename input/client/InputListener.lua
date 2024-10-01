@@ -49,6 +49,13 @@ function InputListener:claim(controlEnum)
     self.controlManager:lockControl(controlEnum, self)
 end
 
+---@param controlEnum string
+function InputListener:isClaimed(controlEnum)
+    lockControlTc(controlEnum)
+    assert(self.controlManager, "no attached control manager (forgot input.add?)")
+    self.controlManager:isLockedForListener(controlEnum, self)
+end
+
 
 
 function InputListener:lockTextInput()
