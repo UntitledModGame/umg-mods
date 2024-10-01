@@ -57,15 +57,15 @@ function DescriptionBox:draw(x, y, w, h)
             -- Let's put the blame on next element
             currentHeight = currentHeight + lastFont:getHeight() * scale
         elseif content.type == RICH_TEXT_TYPE then
-            local str = content.data 
+            local str = content.data
             if type(str) == "function" then
                 str = str()
             end
             ---@cast str string
             local font = content.font or self.defaultFont
             local stripped = text.stripEffects(str)
-            if str:gsub("[%s\t\n]", ""):len() > 0 then
-                local strings = select(2, font:getWrap(stripped or str, w / scale))
+            if stripped:gsub("[%s\t\n]", ""):len() > 0 then
+                local strings = select(2, font:getWrap(stripped, w / scale))
                 local height = #strings * font:getHeight() * scale
 
                 if (currentHeight + height) > h then
@@ -118,7 +118,7 @@ function DescriptionBox:getBestFitDimensions(maxWidth)
             end
             local font = content.font or self.defaultFont
 
-            local width, strings = font:getWrap(str, maxWidth / scale)
+            local width, strings = font:getWrap(text.stripEffects(str), maxWidth / scale)
 
             currentWidth = math.max(currentWidth, width * scale)
             currentHeight = currentHeight + #strings * font:getHeight() * scale
