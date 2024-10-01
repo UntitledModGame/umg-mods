@@ -21,10 +21,20 @@ umg.on("lootplot:entityActivated", function(ent)
     if not ppos then return end
 
     util.forNeighborItems(ppos, function(targEnt)
+        print("HI!", ppos)
         if util.canCombine(ent, targEnt) then
+            print("UPGRADIN!!")
             lp.destroy(targEnt)
             upgradeTier(ent)
         end
     end)
+end)
+
+
+
+
+umg.on("lootplot:entitySpawned", function(ent)
+    -- assign default tier
+    ent.tier = ent.tier or 1
 end)
 
