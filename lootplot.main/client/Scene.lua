@@ -7,10 +7,13 @@ local StretchableButton = require("client.elements.StretchableButton")
 
 local DescriptionBox = require("client.DescriptionBox")
 
-local loc = localization.newLocalizer()
-
 ---@class lootplot.main.Scene: Element
 local Scene = ui.Element("lootplot.main:Screen")
+
+local strings = {
+    SPEED_NORM = localization.localize("Speed: Normal"),
+    SPEED = localization.newInterpolator("Speed: %{num:.3g}x")
+}
 
 function Scene:init()
     self.gameSpeedMultiplerFactor = 0 -- 2^n
@@ -45,9 +48,9 @@ function Scene:init()
 
             local format
             if value == 0 then
-                format = loc("Speed: Normal")
+                format = strings.SPEED_NORM
             else
-                format = loc("Speed: %{num}x", {num = string.format("%.3g", 2 ^ value)})
+                format = strings.SPEED({num = 2 ^ value})
             end
 
             return value, format

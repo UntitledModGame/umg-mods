@@ -1,4 +1,4 @@
-local loc = localization.newLocalizer()
+local loc = localization.localize
 
 
 

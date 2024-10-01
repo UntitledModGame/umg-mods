@@ -1,5 +1,6 @@
 
-local loc = localization.newLocalizer()
+local loc = localization.localize
+local interp = localization.newInterpolator
 
 
 
@@ -31,18 +32,18 @@ local BRIEF_CTX = {
 }
 
 local TARGET_TYPE_TEXT = {
-    SLOT = "{lootplot.targets:COLOR}Targets slots:",
-    ITEM = "{lootplot.targets:COLOR}Targets items:",
-    NO_SLOT = "{lootplot.targets:COLOR}Targets empty spaces:",
-    NO_ITEM = "{lootplot.targets:COLOR}Targets empty slots:",
-    SLOT_OR_ITEM = "{lootplot.targets:COLOR}Targets items and slots:",
+    SLOT = loc("{lootplot.targets:COLOR}Targets slots:", nil, BRIEF_CTX),
+    ITEM = loc("{lootplot.targets:COLOR}Targets items:", nil, BRIEF_CTX),
+    NO_SLOT = loc("{lootplot.targets:COLOR}Targets empty spaces:", nil, BRIEF_CTX),
+    NO_ITEM = loc("{lootplot.targets:COLOR}Targets empty slots:", nil, BRIEF_CTX),
+    ITEM_OR_SLOT = loc("{lootplot.targets:COLOR}Targets items and slots:", nil, BRIEF_CTX),
 }
-local TARGET_TYPE_TEXT_FALLBACK = "{lootplot.targets:COLOR}Targets unknown:"
+local TARGET_TYPE_TEXT_FALLBACK = loc("{lootplot.targets:COLOR}Targets unknown:", nil, BRIEF_CTX)
 
 umg.on("lootplot:populateDescription", TARGET_SHAPE_ORDER, function(ent, arr)
     if ent.target and ent.shape and ent.target.description then
         local targetText = TARGET_TYPE_TEXT[ent.target.type] or TARGET_TYPE_TEXT_FALLBACK
-        arr:add(loc(targetText,nil,BRIEF_CTX))
+        arr:add(targetText)
     end
 end)
 
@@ -85,13 +86,12 @@ end)
 
 
 local MISC_ORDER = 50
+local SHAPE = interp("Shape: {wavy}{lootplot.targets:COLOR}%{name}")
 
 umg.on("lootplot:populateDescription", MISC_ORDER, function(ent, arr)
     if ent.shape then
         -- should already be localized:
-        arr:add(loc("Shape: {wavy}{lootplot.targets:COLOR}%{shapeName}", {
-            shapeName = ent.shape.name
-        }))
+        arr:add(SHAPE(ent.shape))
     end
 end)
 

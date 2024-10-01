@@ -1,11 +1,11 @@
-local loc = localization.newLocalizer()
+
+local RARITY_CTX = {context = "This is name of a rarity, keep it uppercase"}
 
 ---@alias lootplot.rarities.Rarity {id:string, color:objects.Color, index:number, name:string, rarityWeight:number, displayString:string}
 ---@return lootplot.rarities.Rarity
 local function newRarity(id, name, rarity_weight, color)
-    local cStr = loc("{wavy}{c r=%f g=%f b=%f}%{name}{/c}{/wavy}", {
-        name = name
-    }):format(color.r, color.g, color.b)
+    local rarityDisplayName = localization.localize(name, nil, RARITY_CTX)
+    local cStr = string.format("{wavy}{c r=%f g=%f b=%f}%s{/c}{/wavy}", color.r, color.g, color.b, rarityDisplayName)
 
     local rarity = {
         id = id,
@@ -42,14 +42,12 @@ end)
 
 if client then
     local ORDER = 50
+    local RARITY = localization.newInterpolator("Rarity: %{displayString}")
     umg.on("lootplot:populateDescription", ORDER, function(ent, arr)
         local rarity = ent.rarity
         if rarity then
-            local descString = localization.localize("Rarity") .. ": " .. rarity.displayString
             ---@cast rarity lootplot.rarities.Rarity
-            if rarity then
-                arr:add(descString)
-            end
+            arr:add(RARITY(rarity))
         end
     end)
 end
@@ -93,27 +91,23 @@ function lp.rarities.getWeight(r1)
 end
 
 
-local function assertServer()
-    if not server then
-        umg.melt("This can only be called on client-side!", 3)
-    end
-end
+if server then
 
---- Availability: Server
+---Availability: **Server**
 ---@param ent Entity
 ---@param rarity lootplot.rarities.Rarity
 function lp.rarities.setEntityRarity(ent, rarity)
-    assertServer()
     ent.rarity = rarity
     sync.syncComponent(ent, "rarity")
 end
 
+end
 
 
 local shiftTc = typecheck.assert("table", "number")
 
 
---- Availability: Client and Server
+---Availability: Client and Server
 ---@param rarity lootplot.rarities.Rarity
 ---@param delta number
 ---@return lootplot.rarities.Rarity
@@ -176,6 +170,7 @@ local function dummy()
     return 1
 end
 
+---Availability: Client and Server
 ---@param rarity lootplot.rarities.Rarity
 ---@param generationEnt Entity
 ---@param extraPickChance? generation.PickChanceFunction Function that returns the chance of an item being picked. 1 means pick always, 0 means fully skip this item (filtered out), anything inbetween is the chance of said entry be accepted or be rerolled.

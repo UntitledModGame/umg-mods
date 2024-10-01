@@ -8,7 +8,7 @@ Provides win/lose conditions
 ]]
 
 
-local loc = localization.newLocalizer()
+local interp = localization.newInterpolator
 
 
 
@@ -76,6 +76,9 @@ end
 
 
 
+local POINTS = interp("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}Points: %{colorEffect}%{points}{/c}/%{requiredPoints}")
+local MONEY = interp("{wavy freq=0.6 spacing=0.8 amp=0.4}{outline}{c r=1 g=0.843 b=0.1}$ %{money}")
+
 umg.defineEntityType("lootplot.main:doom_clock", {
     image = "doom_clock",
 
@@ -100,13 +103,13 @@ umg.defineEntityType("lootplot.main:doom_clock", {
             colorEffect = "{c r=1 g=1 b=1}"
         end
 
-        local needPoints = loc("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}Points: %{colorEffect}%{points}{/c}/%{requiredPoints}", {
+        local needPoints = POINTS({
             points = points,
             requiredPoints = requiredPoints,
             colorEffect = colorEffect
         })
 
-        local money = loc("{wavy freq=0.6 spacing=0.8 amp=0.4}{outline}{c r=1 g=0.843 b=0.1}$ %{money}", {
+        local money = MONEY({
             money = math.floor(lp.getMoney(ent))
         })
 

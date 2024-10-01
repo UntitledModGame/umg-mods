@@ -2,10 +2,10 @@
 
 local LootplotSound = require("client.LootplotSound")
 
-local dirObj = umg.newDirectoryObject("assets/sfx")
+local dirObj = umg.getModFilesystem()
 
 audio.defineAudioInDirectory(
-    dirObj, "lootplot.sound:", {"audio:sfx"}
+    dirObj:cloneWithSubpath("assets/sfx"), "lootplot.sound:", {"audio:sfx"}
 )
 
 

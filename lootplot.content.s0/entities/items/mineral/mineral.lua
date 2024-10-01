@@ -1,5 +1,5 @@
 
-local loc = localization.newLocalizer()
+local loc = localization.localize
 
 
 local function defineMineral(name, etype)

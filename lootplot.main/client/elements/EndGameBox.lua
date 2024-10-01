@@ -3,10 +3,18 @@ local RichText = require("client.elements.RichText")
 local StretchableBox = require("client.elements.StretchableBox")
 local StretchableButton = require("client.elements.StretchableButton")
 
-local loc = localization.newLocalizer()
+local loc = localization.localize
 
 ---@class lootplot.main.EndGameBox: Element
 local EndGameBox = ui.Element("lootplot.main:EndGameBox")
+
+local strings = {
+    OK = loc("OK lol!"),
+    WIN_TITLE = loc("{c r=0.35 g=0.9 b=0.38}{wavy amp=2}You Win!!{/wavy}{/c}"),
+    WIN_DESC = loc("You win!"),
+    LOSE_TITLE = loc("{wavy}{c r=0.9 g=0.3 b=0.1}{u}You Lose :({/u}{/c}"),
+    LOSE_DESC = loc("Normally we would quit the game,\nbut since its a playtest, you can keep playing lol.")
+}
 
 function EndGameBox:init(args)
     typecheck.assertKeys(args, {"onDismiss"})
@@ -28,13 +36,13 @@ function EndGameBox:init(args)
     self.okButtonRed = StretchableButton({
         onClick = args.onDismiss,
         color = RED,
-        text = loc("Ok lol!"),
+        text = strings.OK,
         scale = 2,
     })
     self.okButtonGreen = StretchableButton({
         onClick = args.onDismiss,
         color = BLUE,
-        text = loc("Ok lol!"),
+        text = strings.OK,
         scale = 2,
     })
 
@@ -53,11 +61,11 @@ function EndGameBox:setWinning(win)
     self.win = not not win
 
     if win then
-        self.titleText:setText(loc("{c r=0.35 g=0.9 b=0.38}{wavy amp=2}You Win!!{/wavy}{/c}"))
-        self.descriptionText:setText(loc("You win!"))
+        self.titleText:setText(strings.WIN_TITLE)
+        self.descriptionText:setText(strings.WIN_DESC)
     else
-        self.titleText:setText(loc("{wavy}{c r=0.9 g=0.3 b=0.1}{u}You Lose :({/u}{/c}"))
-        self.descriptionText:setText(loc("Normally we would quit the game,\nbut since its a playtest, you can keep playing lol."))
+        self.titleText:setText(strings.LOSE_TITLE)
+        self.descriptionText:setText(strings.LOSE_DESC)
     end
 end
 
