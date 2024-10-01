@@ -66,7 +66,7 @@ umg.on("rendering:drawEntity", AFTER, function(ent, x,y, rot, sx,sy, kx,ky)
 
         local img = TIER_IMAGES[ent.tier]
         if img then
-            local ox, oy = -6, -6
+            local ox, oy = -5, -4
             rendering.drawImage(img, x + ox, y + oy, rot, sx,sy, kx,ky)
         end
     end

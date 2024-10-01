@@ -20,8 +20,9 @@ umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER, function(ent, x,y, rot
             end
         end
 
+        local dy = 1 * math.sin(love.timer.getTime() * 3)
         if q then
-            rendering.drawImage(q, x, y, rot, sx,sy, kx,ky)
+            rendering.drawImage(q, x, y+dy, rot, sx,sy, kx,ky)
         end
     end
 end)
