@@ -1011,6 +1011,19 @@ function lp.getHoveredItem()
     return selection.getHoveredItem()
 end
 
+---Availability: **Client**
+---@param item lootplot.ItemEntity
+function lp.selectItem(item)
+    local slot = lp.itemToSlot(item)
+    if slot then
+        return selection.click(client.getClient(), slot)
+    end
+end
+
+function lp.deselectItem()
+    return selection.reset()
+end
+
 end
 
 
