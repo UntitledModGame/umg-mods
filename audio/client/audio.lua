@@ -87,7 +87,7 @@ local defineSoundsInDirectoryTc = typecheck.assert("table", "string?", "table?",
 ---
 ---**Warning**: If there's multiple audio name in with different extension or in a different directory, an error will
 ---be issued.
----@param dirobj umg.DirectoryObject Directory, of the current loading mod, to iterate.
+---@param dirobj umg.FilesystemObject Directory, of the current loading mod, to iterate.
 ---@param prefix string? Prefix to add to the audio name (default is empty string).
 ---@param tags string[]? List of tags to add when defining the sound.
 ---@param suffix string? Suffix to add to the audio name (default is empty string).

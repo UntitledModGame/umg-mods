@@ -13,7 +13,7 @@ local epic = objects.Array()
 local normal = objects.Array()
 
 
-local dirObj = umg.getModFilesystem("")
+local dirObj = umg.getModFilesystem()
 
 local function load(arr, path, filename, extension)
     if filename:sub(1, 1) == "_" then
