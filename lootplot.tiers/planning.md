@@ -7,11 +7,11 @@ Allows items to be upgraded.
 ## Components / events:
 ```lua
 
-umg.call("lootplot.tiers:tierUpgraded", ent, oldVal, newVal)
+umg.call("lootplot.tiers:tierUpgraded", ent, oldTier, newTier)
 
 
 ent.tierManager = {
-    onUpgrade = function(ent, oldVal, newVal)
+    onUpgrade = function(ent, oldTier, newTier)
         ...
     end,
     description = "Increases money generated"
