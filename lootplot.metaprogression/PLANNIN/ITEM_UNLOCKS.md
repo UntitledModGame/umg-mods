@@ -52,10 +52,10 @@ EG:
 "Unlocked by having a negative balance"
 "Unlocked by destroying all shop slots"
 "Unlocked by destroying all sell slots"
-"Unlocked by winning with all 3 
+"Unlocked by winning with all 3 cats"
 
 I think the "cleanest" way we can implement this
-is to have a `lp.metaprogression.checkUnlocks(plot)` method,
+is to have a `lp.metaprogression.tick(plot)` method,
 or something.
 The system will just loop over all unlock-types, and do a crude check.
 ```lua
@@ -77,3 +77,38 @@ defineItem(item, {
     onActivate = func    
 })
 ```
+
+^^^ BIG DOWNSIDE! this is very inefficient.  
+Imagine having 100 unlockable items, with a 40x40 plot.  
+That would be `40*40*100 = 160_000` iterations!!!
+
+IDEA:  
+Lets pre-compute the item and slot counts.
+
+Then, we add a couple of lil helper parameters:
+```lua
+shouldUnlock = function()
+    return itemCounts["copycat"] >= 20
+end,
+description = "Unlocked by having 20 copycats"
+```
+And we would pass these in via:
+```lua
+lp.metaprogression.tick(plot)
+-- ^^^ this function would pre-compute itemCounts and slotCounts
+```
+
+BUT THIS KINDA SUCKS!
+Because itemCounts and slotCounts are kinda like, "meh"  
+they are kinda weird variables to pass in.  
+Ideally, we would want to pass arbitrary data
+
+EG:
+"bosses" mod. We may want to pass in a list of bosses 
+that were defeated throughout the run.
+
+
+*The issue*, is that we may have multiple plots!!!
+This is why it might be a good idea to pass it in?
+
+
