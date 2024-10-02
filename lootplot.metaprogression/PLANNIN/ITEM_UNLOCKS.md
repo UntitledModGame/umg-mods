@@ -19,44 +19,61 @@ local bool = lp.metaprogression.isSeen("lootplot.content.s0:my_apple")
 ```
 
 
-### Indirect unlocks:
-```lua
-defineItem(item, {
-    unlockable = {
-        description = "Unlocked by beating the game with $0!",
-        trigger = "WIN_GAME",
-        filter = function()
-            lp -- hmm, how do we do this?
-        end
-    }
-    onActivate = func    
-})
-```
-
-
 ### Indirect unlocks try-2: EARLIER ASSUMPTIONS!!!!
 Remember; Some assumptions can be done really beautifully, if the right stuff is assumed, and other stuff is left decoupled.
 (See TABS it as an example.)
 
 ASSUMPTION:
 We only unlock items when we win a game.
-
+This ^^^ works well to reward players for winning.
 
 ```lua
 defineItem(item, {
-    unlockable = {
-        description = "
-        winGameWithItem = "my_item" -- if we win with `my_item` on the plot
+    unlockOnWin = {
+        shouldUnlock = function(plot)
+            return helper.plotHasItem("perk_item")
+            -- Unlock, iff we win with `perk_item` on the plot
+        end
+        -- NOTE: We should somehow be doing load-time validation, 
+        -- to check if `perk_item` is a valid item!
+        -- (HMM, not sure if thats possible tho, maybe not worth it)
 
-        -- we can also do other stuff:
-        reachLevelWithItem = {
-            -- reach level 5 with iron axe
-            level = 5,
-            item = "iron_axe"
-        }
+        description = "Unlocked by winning the game with `Perk Item`"
     }
     onActivate = func    
 })
 ```
 
-TODO: what if we want more exotic forms of unlocks?
+
+## What about exotic forms of unlocks?
+
+EG:
+"Unlocked by having 20 copycats"
+"Unlocked by having a negative balance"
+"Unlocked by destroying all shop slots"
+"Unlocked by destroying all sell slots"
+"Unlocked by winning with all 3 
+
+I think the "cleanest" way we can implement this
+is to have a `lp.metaprogression.checkUnlocks(plot)` method,
+or something.
+The system will just loop over all unlock-types, and do a crude check.
+```lua
+defineItem(item, {
+    unlockOnTick = {
+        shouldUnlock = function(plot)
+            local count = 0
+            plot:foreachItem(function(item)
+                if item:type()=="copycat" then
+                    count = count + 1
+                end
+            end)
+            if count >= 20 then
+                return true
+            end
+        end,
+        description = "Unlocked by having 20 copycats"
+    }
+    onActivate = func    
+})
+```
