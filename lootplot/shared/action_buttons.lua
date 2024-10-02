@@ -56,7 +56,12 @@ local PRIO = 1000 -- we want these action buttons to appear at the RIGHT
 local function makeActionButton(ent, index)
     local actionButton = ent.actionButtons[index]
     return {
-        text = actionButton.text,
+        text = function()
+            if umg.exists(ent) then
+                return actionButton.text(ent)
+            end
+            return ""
+        end,
         color = actionButton.color or objects.Color.WHITE,
         onClick = function()
             if not umg.exists(ent) then
