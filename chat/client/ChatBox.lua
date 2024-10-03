@@ -122,7 +122,7 @@ end
 
 function ChatBox:onRender(x,y,w,h)
     -- x,y,w,h should be the size of the screen
-    local _,r = ui.Region(x,y,w,h):splitVertical(1-self.heightRatio, self.heightRatio)
+    local _,r = layout.Region(x,y,w,h):splitVertical(1-self.heightRatio, self.heightRatio)
 
     local regions = objects.Array(r:grid(1,self.maxMessages))
     regions:reverse()

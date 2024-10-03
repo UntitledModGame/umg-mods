@@ -29,7 +29,7 @@ function ButtonScene:clear()
 end
 
 function ButtonScene:onRender(x,y,w,h)
-    local r = ui.Region(x,y,w,h)
+    local r = layout.Region(x,y,w,h)
     local _, bot = r:splitVertical(0.7, 0.3)
     local array = bot:grid(self.buttons:size(), 1)
 
