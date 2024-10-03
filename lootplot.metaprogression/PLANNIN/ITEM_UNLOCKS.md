@@ -14,8 +14,16 @@ Core goals of the API:
 lp.metaprogression.unlock("lootplot.content.s0:my_apple")
 lp.metaprogression.see("lootplot.content.s0:my_apple")
 
+lp.metaprogression.setStat("stat", val)
+lp.metaprogression.getStat("stat", val)
+
 local bool = lp.metaprogression.isLocked("lootplot.content.s0:my_apple")
 local bool = lp.metaprogression.isSeen("lootplot.content.s0:my_apple")
+
+
+-- Call this in lp.main
+lp.metaprogression.unlockEverything()
+
 ```
 
 
@@ -87,7 +95,7 @@ Lets pre-compute the item and slot counts.
 
 Then, we add a couple of lil helper parameters:
 ```lua
-shouldUnlock = function()
+shouldUnlock = function(plot, itemCounts, slotCounts)
     return itemCounts["copycat"] >= 20
 end,
 description = "Unlocked by having 20 copycats"
@@ -107,8 +115,46 @@ EG:
 "bosses" mod. We may want to pass in a list of bosses 
 that were defeated throughout the run.
 
+---
+
+## THE GOLDEN SOLUTION:
+The IDEAL solution is to have NO arguments to the `shouldUnlock` functon.  
+ie just keep global upvalues that store the item/slot counts.
+
+This is super nice; since `lp.content.s0` can manage the static objects.
+```lua
+local itemCounts = ... -- automatically managed upvalue
+
+
+defineItem(item, {
+    unlockOnTick = {
+        shouldUnlock = function()
+            return itemCounts["copycat"] >= 20
+        end,
+        description = "Unlocked by having 20 copycats"
+    }
+    onActivate = func    
+})
+```
 
 *The issue*, is that we may have multiple plots!!!
-This is why it might be a good idea to pass it in?
+This is why we kinda need to pass `plot` in.
+
+## CRUX OF ISSUE:
+All in all, the big crux of the issue, is that the whole of `lootplot`
+has no well-defined "plot state"; ie, there could be 50 plots, or 1 plot.
+
+This is nice, because when entities do an action, the backend can just check what plot the entity resides in.
+The entity doesnt need to manage plots, or even know about plots!
+
+**BUT**... item entity-types are static-globals; they have NO plot :/
+
+So, that's the real crux of the issue.
+We want to take data from plots, and move it to an unknown context.
 
 
+## IDEA: `StatCollector` objects:
+```lua
+local obj = StatCollector(plot)
+obj:add("value", 1)
+```
