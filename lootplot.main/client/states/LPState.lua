@@ -1,4 +1,4 @@
-local Scene = require("client.Scene")
+local Scene = require("client.scenes.LPScene")
 
 ---@class lootplot.main.State: objects.Class, state.IState
 local LPState = objects.Class("lootplot.main:State")
