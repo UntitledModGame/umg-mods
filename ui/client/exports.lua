@@ -2,7 +2,6 @@
 local ui = {}
 
 ui.elements = require("client.elements")
-ui.Region = layout.Region
 ui.Element = require("client.newElement")
 
 

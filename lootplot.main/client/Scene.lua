@@ -93,7 +93,7 @@ end
 local function drawDescription(progress, dbox, color, region, backgroundDrawer)
     local x, y, w, h = region:get()
     local bestHeight = select(2, dbox:getBestFitDimensions(w))
-    -- local container = ui.Region(0, 0, w, bestHeight)
+    -- local container = layout.Region(0, 0, w, bestHeight)
     -- local centerContainer = container:center(region)
     local theHeight = math.min(progress, bestHeight)
 
@@ -120,7 +120,7 @@ local function isSelectionValid(self)
 end
 
 function Scene:onRender(x,y,w,h)
-    local r = ui.Region(x,y,w,h)
+    local r = layout.Region(x,y,w,h)
 
     local _, _, right = r:padRatio(0.05):splitHorizontal(2, 5, 2)
     local HEADER_RATIO = 5
@@ -135,7 +135,7 @@ function Scene:onRender(x,y,w,h)
         local mx, my = input.getPointerPosition()
         local descW = w/3
         local descH = select(2, self.cursorDescription:getBestFitDimensions(descW))
-        local descRegion = ui.Region(
+        local descRegion = layout.Region(
             math.max(mx - 16 - descW, 16),
             math.min(my + 16, h - descH - 16),
             descW,

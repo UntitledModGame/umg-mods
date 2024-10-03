@@ -80,7 +80,7 @@ return umg.defineEntityType("player", {
                     width = 6,
                     height = 5
                 }),
-                region = ui.Region(0,0,0,0)
+                region = layout.Region(0,0,0,0)
             }
         end
     end,

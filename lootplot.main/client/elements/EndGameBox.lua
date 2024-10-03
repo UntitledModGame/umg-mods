@@ -72,7 +72,7 @@ end
 local BACKGROUND_COLOR = objects.Color("#FF7A4C30")
 
 function EndGameBox:onRender(x, y, w, h)
-    local region = ui.Region(x, y, w, h):padRatio(0.05)
+    local region = layout.Region(x, y, w, h):padRatio(0.05)
     local titleTextBase, content, buttonBase = region:splitVertical(3, 9, 4)
     local titleText = titleTextBase:padUnit(0, 0, 0, 8)
     local button = buttonBase:padRatio(0.4, 0, 0.4, 0)

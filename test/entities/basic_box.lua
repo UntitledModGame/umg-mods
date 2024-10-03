@@ -22,7 +22,7 @@ end
 function BasicBox:onRender(x,y,w,h)
     lg.setColor(0.5,0.5,0.5)
     lg.rectangle("fill",x,y,w,h)
-    local r = ui.Region(x,y,w,h)
+    local r = layout.Region(x,y,w,h)
         :padRatio(0.4)
     self.button:render(r:get())
 end
@@ -52,7 +52,7 @@ umg.defineEntityType("basic_box", {
         if client then
             ent.ui = {
                 element = BasicBox(),
-                region = ui.Region(100,100,300,300)
+                region = layout.Region(100,100,300,300)
             }
         end
     end
