@@ -2,7 +2,7 @@
 local ui = {}
 
 ui.elements = require("client.elements")
-ui.Region = require("kirigami.Region")
+ui.Region = layout.Region
 ui.Element = require("client.newElement")
 
 
