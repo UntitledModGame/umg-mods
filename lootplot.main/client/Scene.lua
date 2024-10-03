@@ -88,7 +88,7 @@ end
 ---@param progress number
 ---@param dbox lootplot.main.DescriptionBox
 ---@param color objects.Color
----@param region ui.Region
+---@param region layout.Region
 ---@param backgroundDrawer fun(x:number,y:number,w:number,h:number)
 local function drawDescription(progress, dbox, color, region, backgroundDrawer)
     local x, y, w, h = region:get()
