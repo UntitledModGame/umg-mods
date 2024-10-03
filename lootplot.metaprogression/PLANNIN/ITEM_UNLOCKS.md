@@ -163,3 +163,19 @@ We want to take data from plots, and move it to an unknown context.
 local obj = StatCollector(plot)
 obj:add("value", 1)
 ```
+
+
+## FINAL IDEA:
+Just KISS.
+
+Either count ALL of the items, no matter what,
+OR, count items where `lp.canPlayerAccess(item, clientId) == true`
+
+
+## FINAL-2 IDEA:
+Count ALL slots.
+But count only accessible items.
+
+
+What about for winning?
+
