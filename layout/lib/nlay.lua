@@ -262,7 +262,7 @@ local function addRefCache(constraint, other)
 end
 
 ---@generic T
----@param ... T
+---@param ... T|nil
 ---@return T
 local function selectDefault(...)
 	local value
@@ -906,6 +906,7 @@ end
 
 ---@class (exact) NLay.ForeignConstraint: NLay.BaseConstraint
 ---@field private getter {get:fun(self:any):(number,number,number,number)}
+---@field private manualupdate boolean
 local ForeignConstraint = dupmethods(BaseConstraint)
 ---@private
 ForeignConstraint.__index = ForeignConstraint ---@diagnostic disable-line: inject-field
@@ -916,6 +917,10 @@ ForeignConstraint._NLay_type_ = "NLay.ForeignConstraint"
 ---@param offy? number Y offset (default to 0)
 ---@return number,number,number,number @Position (x, y) and dimensions (width, height) of the constraint.
 function ForeignConstraint:get(offx, offy)
+	if not self.manualupdate then
+		invalidateCache(self)
+	end
+
 	local x, y, w, h = self.getter:get()
 	return x + (offx or 0), y + (offy + 0), w, h
 end
@@ -1201,14 +1206,14 @@ function NLay.line(constraint, direction, mode, offset)
 end
 
 ---@class NLay.GridSetting
----@field public hspacing number Horizontal spacing of the cell
----@field public vspacing number Vertical spacing of the cell
----@field public spacing number Spacing of the cell. `hspacing` and `vspacing` takes precedence.
----@field public hspacingfl boolean Should the horizontal spacing applies before the first and after the last columm?
----@field public vspacingfl boolean Should the vertical spacing applies before the first and after the last row?
----@field public spacingfl boolean Should the spacing applies before the first and after the last element? `hspacingfl` and `vspacingfl` takes precedence.
----@field public cellwidth number Fixed width of single cell. Setting this requires `cellheight` to be specified.
----@field public cellheight number Fixed height of single cell. Setting this requires `cellwidth` to be specified.
+---@field public hspacing? number Horizontal spacing of the cell
+---@field public vspacing? number Vertical spacing of the cell
+---@field public spacing? number Spacing of the cell. `hspacing` and `vspacing` takes precedence.
+---@field public hspacingfl? boolean Should the horizontal spacing applies before the first and after the last columm?
+---@field public vspacingfl? boolean Should the vertical spacing applies before the first and after the last row?
+---@field public spacingfl? boolean Should the spacing applies before the first and after the last element? `hspacingfl` and `vspacingfl` takes precedence.
+---@field public cellwidth? number Fixed width of single cell. Setting this requires `cellheight` to be specified.
+---@field public cellheight? number Fixed height of single cell. Setting this requires `cellwidth` to be specified.
 
 ---Create new grid object.
 ---
@@ -1298,14 +1303,14 @@ function NLay.floating(x, y, w, h)
 end
 
 ---Create new foreign constraint. This is mainly used for interopability with other layouting library.
----
----**You're responsible of invalidating the cache of this constraint yourself using `NLay.flushCache()` if the underlying region/constraint value changes!**
 ---@param object {get:fun(self:any):(number,number,number,number)} Foreign constraint object with `:get()` function that returns the position (x, y) and dimension (w, h) of it.
+---@param manualupdate? boolean Do you want to manually invalidate the cache for this constraint or let NLay do it? **If set to `true`, you're responsible of invalidating the cache of this constraint yourself using `NLay.flushCache()` if the underlying region/constraint value changes!**
 ---@return NLay.ForeignConstraint
 ---@nodiscard
-function NLay.foreign(object)
+function NLay.foreign(object, manualupdate)
 	return setmetatable({
-		getter = object
+		getter = object,
+		manualupdate = not not manualupdate
 	}, ForeignConstraint)
 end
 
