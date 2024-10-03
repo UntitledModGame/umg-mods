@@ -1,5 +1,5 @@
 local Element = require("client.newElement")
-local Region = require("kirigami.Region")
+print(love.markDeprecated)
 
 ---@class ui.Slider: Element
 local Slider = Element("ui:Slider")
@@ -101,11 +101,11 @@ local THUMB_RATIO = 4
 
 
 function Slider:onRender(x,y,w,h)
-    local region = Region(x,y,w,h)
+    local region = layout.Region(x,y,w,h)
     lg.setColor(0.5,0.5,0.5)
     local lineRegion = region:padRatio(0,0.4,0,0.4)
     lg.rectangle("fill",lineRegion:get())
-    
+
     local thumbWidth = w/THUMB_RATIO
     self.totalSize = w - thumbWidth
     self.position = computePosition(self, self.value)

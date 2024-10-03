@@ -1,5 +1,4 @@
 local Element = require("client.newElement")
-local Region = require("kirigami.Region")
 
 ---@class ui.Image: Element
 local Image = Element("ui:Image")
@@ -34,8 +33,8 @@ end
 
 function Image:onRender(x,y,w,h)
     local iw, ih = getDimensions(self.image)
-    local region = Region(x,y,w,h)
-    local imgRegion = Region(0,0,iw,ih)
+    local region = layout.Region(x,y,w,h)
+    local imgRegion = layout.Region(0,0,iw,ih)
 
     local padded = region:padRatio(0.05)
     local scale = imgRegion:getScaleToFit(padded)
@@ -55,9 +54,9 @@ end
 
 
 function Image:getImageRegion(x,y,w,h)
-    local region = Region(x,y,w,h)
+    local region = layout.Region(x,y,w,h)
     local iw, ih = getDimensions(self.image)
-    local imgRegion = Region(0,0,iw,ih)
+    local imgRegion = layout.Region(0,0,iw,ih)
     local scale = imgRegion:getScaleToFit(region)
     return region:shrinkTo(iw*scale,ih*scale):center(region)
 end
@@ -68,7 +67,7 @@ function Image:scaleRegionToFit(region)
         Scales `region` such that it fits the image perfectly.
     ]] 
     local iw, ih = getDimensions(self.image)
-    local imgRegion = Region(0,0,iw,ih)
+    local imgRegion = layout.Region(0,0,iw,ih)
     return imgRegion:scaleToFit(region)
 end
 

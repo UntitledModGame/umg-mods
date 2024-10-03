@@ -1,6 +1,5 @@
 local Element = require("client.newElement")
 local ScrollBar = require("client.elements.ScrollBar")
-local Region = require("kirigami.Region")
 
 ---@class ui.ScrollBox: Element
 local ScrollBox = Element("ui:ScrollBox")
@@ -44,7 +43,7 @@ end
 
 function ScrollBox:onRender(x,y,w,h)
     love.graphics.rectangle("line",x,y,w,h)
-    local region = Region(x,y,w,h)
+    local region = layout.Region(x,y,w,h)
 
     -- common idiom to create fixed-size splits:
     local content, scroll = region:splitHorizontal(w-self.scrollWidth, self.scrollWidth)
