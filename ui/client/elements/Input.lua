@@ -1,5 +1,4 @@
 local Element = require("client.newElement")
-local Region = require("kirigami.Region")
 local Text = require("client.elements.Text")
 
 ---@class ui.Input: Element

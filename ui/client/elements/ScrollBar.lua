@@ -1,5 +1,4 @@
 local Element = require("client.newElement")
-local Region = require("kirigami.Region")
 
 ---@class ui.ScrollBar: Element
 local ScrollBar = Element("ui:ScrollBar")
@@ -95,7 +94,7 @@ end
 local THUMB_RATIO = 5 -- thumb is 5 times smaller than scrollbar
 
 function ScrollBar:onRender(x,y,w,h)
-    local region = Region(x,y,w,h)
+    local region = layout.Region(x,y,w,h)
     love.graphics.setColor(0.5,0.5,0.5)
     love.graphics.rectangle("line",region:get())
 

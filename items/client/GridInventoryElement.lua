@@ -62,7 +62,7 @@ local function getSlotRegion(self, slotRegion, slot)
     local dw = slotRegion.w / self.width
     local dh = slotRegion.h / self.height
 
-    local r = ui.Region(
+    local r = layout.Region(
         slotRegion.x + x*dw,
         slotRegion.y + y*dh,
         dw, dh
@@ -79,7 +79,7 @@ end
 
 
 function GridInventory:onRender(x,y,w,h)
-    local region = ui.Region(x,y,w,h)
+    local region = layout.Region(x,y,w,h)
     lg.rectangle("line", region:get())
     helper.outsetRectangle(region:get())
 

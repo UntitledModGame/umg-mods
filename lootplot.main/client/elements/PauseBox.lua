@@ -81,7 +81,7 @@ end
 function PauseBox:onRender(x, y, w, h)
     love.graphics.setColor(objects.Color.WHITE)
 
-    local region = ui.Region(x, y, w, h):padRatio(0.05)
+    local region = layout.Region(x, y, w, h):padRatio(0.05)
     self.background:render(x, y, w, h) -- not region
 
     local titleTextBase, content, buttonBase = region:splitVertical(3, 9, 4)

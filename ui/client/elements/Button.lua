@@ -1,7 +1,6 @@
 local Element = require("client.newElement")
 local Image = require("client.elements.Image")
 local Text = require("client.elements.Text")
-local Region = require("kirigami.Region")
 
 ---@class ui.Button: Element
 local Button = Element("ui:Button")
@@ -57,7 +56,7 @@ end
 
 
 function Button:onRender(x,y,w,h)
-    local r = Region(x,y,w,h)
+    local r = layout.Region(x,y,w,h)
     lg.setColor(self.backgroundColor or objects.Color.WHITE)
     lg.rectangle("fill", r:get())
     lg.setColor(self.outlineColor or objects.Color.BLACK)

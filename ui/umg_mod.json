@@ -3,6 +3,6 @@
   "uses": [
     "rendering", "input",
     "typecheck", "reducers",
-    "objects"
+    "objects", "layout"
   ]
 }
