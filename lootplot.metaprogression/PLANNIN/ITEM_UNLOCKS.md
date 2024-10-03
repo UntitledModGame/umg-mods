@@ -9,7 +9,7 @@ Core goals of the API:
 
 ---
 
-### SIMPLE API PLANNING:
+### FULL API PLANNING:
 ```lua
 lp.metaprogression.unlock("lootplot.content.s0:my_apple")
 lp.metaprogression.see("lootplot.content.s0:my_apple")
@@ -20,6 +20,11 @@ lp.metaprogression.getStat("stat", val)
 local bool = lp.metaprogression.isLocked("lootplot.content.s0:my_apple")
 local bool = lp.metaprogression.isSeen("lootplot.content.s0:my_apple")
 
+lp.metaprogression.tryUnlock(plot, selfTeamId)
+
+local plotData = lp.metaprogression.getPlotData(plot)
+plotData.totalCounts["item"]
+plotData.counts["item"] -- where `lootplotTeam == selfTeamId`
 
 -- Call this in lp.main
 lp.metaprogression.unlockEverything()
@@ -60,7 +65,7 @@ EG:
 "Unlocked by having a negative balance"
 "Unlocked by destroying all shop slots"
 "Unlocked by destroying all sell slots"
-"Unlocked by winning with all 3 cats"
+"Unlocked by winning using all 3 cats"
 
 I think the "cleanest" way we can implement this
 is to have a `lp.metaprogression.tick(plot)` method,
