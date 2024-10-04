@@ -173,9 +173,60 @@ OR, count items where `lp.canPlayerAccess(item, clientId) == true`
 
 
 ## FINAL-2 IDEA:
+
+FOR `plotData`:
 Count ALL slots.
 But count only accessible items.
 
+API:
+```lua
+defineItem(item, {
+    unlock = {
+        trigger = "WIN" or "ON_UPDATE",
+        shouldUnlock = function(plot, plotData)
+            return plotData.itemsCounts["copycat"] >= 20
+        end,
+        description = "Unlocked by having 20 copycats",
+    },
+    onActivate = func    
+})
 
-What about for winning?
+```
+
+
+# IDEA:
+Keep `lp.metaprogression` simple.
+Dont have any weird, custom components.
+
+Call `lp.metaprogression.unlock(item)` from future systems/mods.
+
+---
+
+Idea:   
+We dont need to query 100% of the time when seeing if we unlock items!!
+Consider unlocks:
+```
+- Win using [starter-item]
+- Beat [boss] using [starter-item]
+- [Do something] using [starter-item]
+```
+
+The reason this is great, is because we *only need to apply the checks if starter-item has been previously seen.*  
+IE: consider:  
+- "Obtain exactly 42 gold using pool-perk-item."
+^^^ Isnt this ineffiicent?
+NO! Because we only need to check every frame, 
+IFF the player has obtained `pool-perk-item` during the run!
+
+## SUPER NICE API:
+```lua
+defineItem(item, {
+    unlock = unlockByWinningWith("perk_item")
+    onActivate = func    
+})
+```
+
+This is SUPER NICE.
+
+
 

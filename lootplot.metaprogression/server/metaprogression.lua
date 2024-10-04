@@ -22,7 +22,7 @@ local UNLOCK_STORAGE = {
     cache = {}
 }
 local SEEN_STORAGE = {
-    folder = "unlocks/",
+    folder = "seen/",
     cache = {}
 }
 
