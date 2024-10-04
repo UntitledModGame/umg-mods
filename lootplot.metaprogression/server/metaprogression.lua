@@ -64,8 +64,12 @@ end
 
 
 function lp.metaprogression.isUnlocked(name)
-    local ns, str = fromNamespaced(name)
-    return getSaveTable(UNLOCK_STORAGE, ns)[str]
+    if server then
+        local ns, str = fromNamespaced(name)
+        return getSaveTable(UNLOCK_STORAGE, ns)[str]
+    else
+        umg.melt("nyi")
+    end
 end
 
 function lp.metaprogression.unlock(name)
@@ -123,6 +127,13 @@ local function trySaveStatTable()
         fsys:write(STAT_FILE, json.encode(statTable))
         statTableOutOfDate = false
     end
+end
+
+
+
+function lp.metaprogression.winGame(plot)
+    assert(server, "?")
+
 end
 
 
