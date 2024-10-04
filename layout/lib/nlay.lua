@@ -865,9 +865,17 @@ FloatingConstraint._NLay_type_ = "NLay.FloatingConstraint"
 ---@param y? number Floating constraint Y position
 ---@return NLay.FloatingConstraint
 function FloatingConstraint:pos(x, y)
-	self.x = x or self.x
-	self.y = y or self.y
-	invalidateCache(self)
+	x = x or self.x
+	y = y or self.y
+
+	local diff = x ~= self.x or y ~= self.y
+	self.x = x
+	self.y = y
+
+	if diff then
+		invalidateCache(self)
+	end
+
 	return self
 end
 
@@ -876,9 +884,17 @@ end
 ---@param h? number Floating constraint height (absolute value is taken)
 ---@return NLay.FloatingConstraint
 function FloatingConstraint:size(w, h)
-	self.w = math.abs(w or self.w)
-	self.h = math.abs(h or self.h)
-	invalidateCache(self)
+	w = math.abs(w or self.w)
+	h = math.abs(h or self.h)
+
+	local diff = w ~= self.w or h ~= self.h
+	self.w = w
+	self.h = h
+
+	if diff then
+		invalidateCache(self)
+	end
+
 	return self
 end
 
@@ -888,12 +904,8 @@ end
 ---@param w? number Floating constraint width (absolute value is taken)
 ---@param h? number Floating constraint height (absolute value is taken)
 function FloatingConstraint:update(x, y, w, h)
-	self.x = x or self.x
-	self.y = y or self.y
-	self.w = math.abs(w or self.w)
-	self.h = math.abs(h or self.h)
-	invalidateCache(self)
-	return self
+	self:size(w, h)
+	return self:pos(x, y)
 end
 
 ---Compute and retrieve the top-left and the dimensions of layout.
@@ -1388,6 +1400,18 @@ function NLay.transposed(constraint)
 	return result
 end
 
+---Check if a value is any kind of NLay constraint.
+---@param object any
+---@return boolean
+function NLay.isConstraint(object)
+	if type(object) == "table" and object._NLay_type_ then
+		---@cast object NLay.BaseConstraint
+		return object._NLay_type_:sub(1, 5) == "NLay." and object._NLay_type_:sub(-10) == "Constraint"
+	end
+
+	return false
+end
+
 return NLay
 
 --[[
@@ -1404,6 +1428,7 @@ v2.0.0: 2024-10-03
 > Added NLay.selectable(...constraint) to allow dynamically selectable constraint.
 > Added NLay.split(direction, constraint, ...ratio) to create dividable constraint by ratios.
 > Added NLay.transposed(constraint) which swap the width and height of a constraint.
+> Added NLay.isConstraint to test if a value is an NLay constraint.
 
 v1.4.2: 2023-01-18
 > Fixed cache invalidation on NLay.update()
