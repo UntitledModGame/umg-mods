@@ -34,6 +34,7 @@ function Text:init(args)
         self.font = args.font or self.font
     end
 
+    -- this `scale` value will override the default scaling.
     self.scale = args.scale or 1
     self.align = args.align or "left"
 
@@ -58,15 +59,13 @@ local DEFAULT_COLOR = {0,0,0}
 
 function Text:onRender(x,y,w,h)
     local tw, th = getTextSize(self.font, self.text, self.wrap)
-    --[[
-        TODO: do we want to propagate the text size to the parent
-            somehow...?
-        So the parent can do nicer rendering of something?
-    ]]
 
     -- scale text to fit box
     local limit = self.wrap or tw
-    local scale = math.min(w/limit, h/th) * self.scale
+    local boxFitScale = math.min(w/limit, h/th)
+    local scale = math.min(self.scale * 200, boxFitScale)
+    -- We dont want the text to be outside box ^^^^
+
     local drawX, drawY = math.floor(x+w/2), math.floor(y+h/2)
 
     local color = self.color or DEFAULT_COLOR
@@ -77,7 +76,8 @@ function Text:onRender(x,y,w,h)
         lg.setColor(outlineColor)
         for ox=-am, am, am do
             for oy=-am, am, am do
-                lg.printf(self.text, self.font, drawX + ox, drawY + oy, limit, self.align, 0, scale, scale, tw/2, th/2)
+                local oxs, oys = ox*scale, oy*scale
+                lg.printf(self.text, self.font, drawX + oxs, drawY + oys, limit, self.align, 0, scale, scale, tw/2, th/2)
             end
         end
     end
