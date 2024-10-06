@@ -244,9 +244,10 @@ local function max1(x)
 end
 
 --- Returns a new padded region; padded by ratio
---- For example, :pad(0.1) will give 10% padding to ALL sides; 
+--- For example, :padRatio(0.1) will give 10% padding to ALL sides; 
 --- (picking the smallest side as a padder)
---- :pad(1) will give 100% padding, and make the region disappear.
+--- :padRatio(1) will give 100% padding, and make the region disappear.
+--- :padRatio(0.2, 0.5) gives 20% padding to left/right, 50% padding to top/bot
 ---@param left number
 ---@param top number
 ---@param right number
@@ -256,7 +257,7 @@ end
 function Region:padRatio(left, top, right, bot)
     --[[
         Pads a region, percentage wise.
-        For example, :pad(0.1) will give 10% padding to ALL sides.
+        For example, :padRatio(0.1) will give 10% padding to ALL sides.
     ]]
     assert(type(left) == "number", "need a number for padding")
     local minWH = math.min(self.w, self.h)
@@ -274,28 +275,6 @@ function Region:padRatio(left, top, right, bot)
 end
 
 
-
----@deprecated
-Region.padPixels = Region.padUnit
-
----@deprecated
-Region.pad = Region.padRatio
-
-
---[[
-    grows a region to width/height
-]]
----@param width number
----@param height number
-function Region:growTo(width, height)
-    width, height = getWH(width, height)
-    local w = math.max(width, self.w)
-    local h = math.max(height, self.h)
-    if w ~= self.w or h ~= self.h then
-        return newRegion(self.x,self.y, w,h)
-    end
-    return self
-end
 
 
 --[[
@@ -341,39 +320,10 @@ end
 ---@param ratioH number
 ---@return layout.Region
 function Region:shrinkToAspectRatio(ratioW, ratioH)
-    local selfR = self.w / self.h
-    local passR = ratioW / ratioH
-
-    if selfR > passR then
-        -- width too big, height too small
-        return self:set(nil, nil, self.h/passR, nil)
-    elseif passR > selfR then
-        -- height too big, width too small
-        return self:set(nil, nil, nil, self.w/passR)
-    end
-    return self
+    local ratioRegion = newRegion(0,0, ratioW, ratioH)
+    ratioRegion = ratioRegion:scaleToFit(self.w, self.h)
+    return ratioRegion:center(self)
 end
-
-
---- Grows a region, increasing its width XOR height 
---- such that it fits a given ratio
----@param ratioW number
----@param ratioH number
----@return layout.Region
-function Region:growToAspectRatio(ratioW, ratioH)
-    local selfR = self.w / self.h
-    local passR = ratioW / ratioH
-
-    if selfR > passR then
-        -- width too big, height too small
-        return self:set(nil, nil, nil, self.w/passR)
-    elseif passR > selfR then
-        -- height too big, width too small
-        return self:set(nil, nil, self.h/passR, nil)
-    end
-    return self
-end
-
 
 
 
