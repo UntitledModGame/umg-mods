@@ -94,8 +94,6 @@ local validStats = {}
 local statTable = {
     WINS = 0,
     LOSSES = 0,
-    TOTAL_POINTS_EARNED = 0,
-    TOTAL_MONEY_EARNED = 0,
 }
 
 local statTableOutOfDate = true
