@@ -14,7 +14,7 @@ local FONT_SIZE = 32
 ---@param args table
 function NewRunScene:init(args)
     local e = {}
-    local BACKGROUND_COLOR = {objects.Color.HSLtoRGB(250, 0.2, 0.32)}
+    local BACKGROUND_COLOR = {objects.Color.HSLtoRGB(250, 0.1, 0.32)}
     e.base = StretchableBox("white_pressed_big", 8, {
         stretchType = "repeat",
         color = BACKGROUND_COLOR
@@ -29,7 +29,7 @@ function NewRunScene:init(args)
     e.startButton = StretchableButton({
         onClick = function() end,
         text = "Start Run",
-        color = objects.Color(1,1,1,1):setHSL(211, 0.25, 0.5),
+        color = objects.Color(1,1,1,1):setHSL(340, 0.7, 0.5),
         font = fonts.getLargeFont(FONT_SIZE),
     })
     e.perkText = ui.elements.Text({
@@ -113,6 +113,8 @@ function NewRunScene:onRender(x, y, w, h)
 
     drawTextIn("Golden-perk:\nStart the game with 3 extra shop slots", perkDescription)
 
+    -- DEBUG:
+    --[[
     drawRegions({
         r,
         body,title,startButton,
@@ -120,6 +122,7 @@ function NewRunScene:onRender(x, y, w, h)
         perkBox,lowerBox,
         perkImage,perkText,perkDescription
     })
+    ]]
 
     love.graphics.setColor(objects.Color.WHITE)
     drawRectangleByConstraint(perkImage)
