@@ -9,6 +9,14 @@ local ptrack = require("shared.internal.positionTracking")
 local trigger = require("shared.trigger")
 local selection = require("shared.selection")
 
+
+---@alias lootplot._BufferedEtype {name:string, entityType:table, generator:generation.Generator}
+
+-- We need to buffer-define entity-types, 
+-- so future mods have opportunities to modify them
+local bufferedEntityTypes = objects.Array()
+
+
 local lp = {}
 
 if client then
@@ -913,8 +921,13 @@ function lp.defineItem(name, itemType)
     itemType.hitboxDistance = itemType.hitboxDistance or 8
     itemType.hoverable = true
     giveCommonComponents(itemType)
+
     umg.defineEntityType(name, itemType)
-    ITEM_GENERATOR:add(name, getEntityTypeSpawnWeight(itemType))
+    bufferedEntityTypes:add({
+        entityType = itemType,
+        name = name,
+        generator = ITEM_GENERATOR
+    })
 end
 
 ---@class lootplot.SlotEntityClass: EntityClass
@@ -950,8 +963,13 @@ function lp.defineSlot(name, slotType)
         slotType.baseCanSlotPropagate = true
     end
     giveCommonComponents(slotType)
+
     umg.defineEntityType(name, slotType)
-    SLOT_GENERATOR:add(name, getEntityTypeSpawnWeight(slotType))
+    bufferedEntityTypes:add({
+        name = name,
+        generator = SLOT_GENERATOR,
+        entityType = slotType
+    })
 end
 
 ---Availability: Client and Server
@@ -1058,6 +1076,14 @@ lp.constants = {
     WORLD_SLOT_DISTANCE = 26, -- distance slots are apart in the world.
     PIPELINE_DELAY = 0.2
 }
+
+umg.on("@load", function(...)
+    for _, e in ipairs(bufferedEntityTypes) do
+        ---@cast e lootplot._BufferedEtype
+        local gen = e.generator
+        gen:add(e.name, getEntityTypeSpawnWeight(e.entityType))
+    end
+end)
 
 if false then
     ---Core Lootplot game API.

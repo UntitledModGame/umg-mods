@@ -228,5 +228,34 @@ defineItem(item, {
 
 This is SUPER NICE.
 
+---
 
+another thing to think about:
+How is item-unlock data propagated from server -> client?
+
+IDEA: Maybe its auto-synced?
+
+# DRAFT: Internal metaprogression state:
+```lua
+
+lp.metaprogression.startRun(plot)
+lp.metaprogression.updateRun(plot)
+lp.metaprogression.winRun(plot)
+
+```
+
+# FINAL-3 "good enough" PLAN:
+- Add function: `lp.metaprogression.winGame(plot)`
+- Create `unlock` API (keep it simple!)
+- Define unlocks in `lootplot.content.s0`
+- Define a helper function: `unlockByWinningWith("perk_item")`
+- ITEMS SHOULD BE UNLOCKED BY DEFAULT!!! `lp.main` should lock them!
+
+`unlock` shcomp:
+```lua
+unlock = {
+    requiredItems = {"foo", "bar"},
+    description = "Win using foo and bar items!"
+}
+```
 

@@ -21,10 +21,6 @@ local UNLOCK_STORAGE = {
     folder = "unlocks/",
     cache = {}
 }
-local SEEN_STORAGE = {
-    folder = "seen/",
-    cache = {}
-}
 
 
 ---@param storage table
@@ -62,26 +58,30 @@ local function setValue(storage, name, value)
 end
 
 
+local isEntityTypeUnlockedTc = typecheck.assert("table")
+
+function lp.metaprogression.isEntityTypeUnlocked(entityType)
+    isEntityTypeUnlockedTc(entityType)
+    if not entityType.unlock then
+        return true -- its unlocked, because it doesnt have `unlock` component!
+    end
+    return lp.metaprogression.isUnlocked(entityType:getTypename())
+end
+
 
 function lp.metaprogression.isUnlocked(name)
-    local ns, str = fromNamespaced(name)
-    return getSaveTable(UNLOCK_STORAGE, ns)[str]
+    if server then
+        local ns, str = fromNamespaced(name)
+        return getSaveTable(UNLOCK_STORAGE, ns)[str]
+    else
+        umg.melt("nyi")
+    end
 end
 
 function lp.metaprogression.unlock(name)
     setValue(UNLOCK_STORAGE, name, true)
 end
 
-
-
-function lp.metaprogression.isSeen(name)
-    local ns, str = fromNamespaced(name)
-    return getSaveTable(SEEN_STORAGE, ns)[str]
-end
-
-function lp.metaprogression.see(name)
-    setValue(SEEN_STORAGE, name, true)
-end
 
 
 
@@ -94,6 +94,8 @@ local validStats = {}
 local statTable = {
     WINS = 0,
     LOSSES = 0,
+    TOTAL_POINTS_EARNED = 0,
+    TOTAL_MONEY_EARNED = 0,
 }
 
 local statTableOutOfDate = true
@@ -126,6 +128,56 @@ local function trySaveStatTable()
 end
 
 
+---@param plot lootplot.Plot
+function lp.metaprogression.winAndUnlockItems(plot)
+    --[[
+    unlock component:
+
+    defineItem("qux", {
+        ...
+        unlock = {
+            requiredItems = {"foo", "bar"},
+            description = "Win using foo and bar items!"
+        }
+    })
+
+    ^^^ if the player wins with `foo` and `bar` items on the plot,
+    then `qux` is unlocked.
+    ]]
+    assert(server, "?")
+    local seen = {}
+    local unlockBuffer = objects.Array()
+    for _name, etype in pairs(server.entities) do
+        if not seen[etype] then
+            seen[etype]=true
+        end
+        if seen.unlock then
+            unlockBuffer:add(etype)
+        end
+    end
+
+    local itemCounts = {}
+    plot:foreachItem(function(item, ppos)
+        local n = item:type()
+        itemCounts[n]=(itemCounts[n] or 0) + 1
+    end)
+
+    unlockBuffer:map(function(etype)
+        local n = etype:getTypename()
+        local unlock = etype.unlock
+        if unlock.requiredItems then
+            for _, itemType in ipairs(unlock.requiredItems) do
+                if (itemCounts[itemType] or 0) <= 0 then
+                    return -- failed!
+                end
+            end
+            -- else, we unlock item:
+            lp.metaprogression.unlock(n)
+        end
+    end)
+end
+
+
 local NUM_SKIP_TICKS = 50
 local ct = 1
 umg.on("@tick", function()
@@ -134,25 +186,4 @@ umg.on("@tick", function()
         trySaveStatTable()
     end
 end)
-
-
---[[
-
-lp.metaprogression.tryUnlock(plot, selfTeamId)
-
-local plotData = lp.metaprogression.getPlotData(plot)
-
-
-Count ALL slots.
-
-But count only accessible items.
-where `lp.canPlayerAccess(item, clientId) == true`
-
-plotData.itemCounts["item"]
-plotData.slotCounts["slot"]
-
--- Call this in lp.main?
-lp.metaprogression.unlockEverything()
-
-]]
 
