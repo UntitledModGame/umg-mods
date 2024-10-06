@@ -113,16 +113,16 @@ function NewRunScene:onRender(x, y, w, h)
 
     drawTextIn("Golden-perk:\nStart the game with 3 extra shop slots", perkDescription)
 
-    -- DEBUG:
-    --[[
-    drawRegions({
-        r,
-        body,title,startButton,
-        leftBody,rightBody,
-        perkBox,lowerBox,
-        perkImage,perkText,perkDescription
-    })
-    ]]
+    local DEBUG=false
+    if DEBUG then
+        drawRegions({
+            r,
+            body,title,startButton,
+            leftBody,rightBody,
+            perkBox,lowerBox,
+            perkImage,perkText,perkDescription
+        })
+    end
 
     love.graphics.setColor(objects.Color.WHITE)
     drawRectangleByConstraint(perkImage)
