@@ -58,6 +58,16 @@ local function setValue(storage, name, value)
 end
 
 
+local isEntityTypeUnlockedTc = typecheck.assert("table")
+
+function lp.metaprogression.isEntityTypeUnlocked(entityType)
+    isEntityTypeUnlockedTc(entityType)
+    if not entityType.unlock then
+        return true -- its unlocked, because it doesnt have `unlock` component!
+    end
+    return lp.metaprogression.isUnlocked(entityType:getTypename())
+end
+
 
 function lp.metaprogression.isUnlocked(name)
     if server then
