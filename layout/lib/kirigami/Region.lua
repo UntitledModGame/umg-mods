@@ -503,7 +503,7 @@ function Region:moveRatio(ratioX, ratioY)
     local w,h = self:size()
     local ox = (ratioX or 0) * w
     local oy = (ratioY or 0) * h
-    return self:moveUnit(self.x+ox, self.y+oy)
+    return self:moveUnit(ox, oy)
 end
 
 
