@@ -171,7 +171,7 @@ function Scene:onRender(x,y,w,h)
         self.popupElement:render(dialog:get())
     end
 
-    self.test:render(x, y, w, h)
+    self.test:render(r:padRatio(0.32, 0.1):get())
 end
 
 

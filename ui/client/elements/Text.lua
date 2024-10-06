@@ -48,7 +48,7 @@ function Text:init(args)
 end
 
 if false then
-    ---@param args string|{text:string,wrap:boolean?,font:love.Font?,scale:number?,align:love.AlignMode?,color:objects.Color?,outline:number?,outlineColor:objects.Color?}
+    ---@param args string|{text:string,wrap:boolean?,font:love.Font?,scale?:number|fun():number,align:love.AlignMode?,color:objects.Color?,outline:number?,outlineColor:objects.Color?}
     ---@return ui.Text
     function Text(args) end
 end
@@ -63,7 +63,11 @@ function Text:onRender(x,y,w,h)
     -- scale text to fit box
     local limit = self.wrap or tw
     local boxFitScale = math.min(w/limit, h/th)
-    local scale = math.min(self.scale * 200, boxFitScale)
+    local sc = self.scale or 1
+    if type(sc) == "function" then
+        sc = sc() -- dynamic scaling
+    end
+    local scale = math.min(sc, boxFitScale)
     -- We dont want the text to be outside box ^^^^
 
     local drawX, drawY = math.floor(x+w/2), math.floor(y+h/2)
@@ -76,7 +80,7 @@ function Text:onRender(x,y,w,h)
         lg.setColor(outlineColor)
         for ox=-am, am, am do
             for oy=-am, am, am do
-                local oxs, oys = ox*scale, oy*scale
+                local oxs, oys = ox/scale, oy/scale
                 lg.printf(self.text, self.font, drawX + oxs, drawY + oys, limit, self.align, 0, scale, scale, tw/2, th/2)
             end
         end

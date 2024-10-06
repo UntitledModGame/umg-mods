@@ -1,5 +1,7 @@
 local fonts = require("client.fonts")
 
+local globalScale = require("client.globalScale")
+
 local StretchableBox = require("client.elements.StretchableBox")
 local StretchableButton = require("client.elements.StretchableButton")
 
@@ -9,69 +11,27 @@ local NewRunScene = ui.Element("lootplot.main:NewRunScene")
 
 ---@param args table
 function NewRunScene:init(args)
-    -- Layouts
-    local NLay = layout.NLay
-    local l = {}
-    -- The dialogue box
-    l.root = NLay.contain(NLay.constraint(NLay, NLay, NLay, NLay, NLay, 48)
-        :size(0, 0))
-        :ratio(3, 2)
-    -- Text that says "New Run"
-    l.title = NLay.constraint(l.root, l.root, l.root, nil, l.root)
-        :size(-1, 50)
-    -- Button container
-    l.buttons = NLay.constraint(l.root, nil, l.root, l.root, l.root)
-        :size(-1, 50)
-    -- Button that says "Start"
-    l.startButton = NLay.constraint(l.buttons, l.buttons, l.buttons, l.buttons, l.buttons, 4)
-        :size(200, -1)
-    -- Content area
-    l.content = NLay.constraint(l.root, l.title, l.root, l.buttons, l.root)
-        :size(-1, 0)
-    -- perksImageBase is the text that says "Perk" and the large perk image.
-    -- perksInfo is the text that says "Golden-perk".
-    -- perksSelectBase is the grid layout for selecting perk.
-    l.perksImageBase, l.perksInfo, l.perksSelectBase = NLay.split(l.content, "horizontal", 2, 3, 2)
-    -- Text that says "Perk"
-    l.perkText = NLay.constraint(l.perksImageBase, l.perksImageBase, l.perksImageBase, nil, l.perksImageBase)
-        :size(-1, 32)
-    -- Large perk item image
-    l.perkImage = NLay.contain(NLay.constraint(l.perksImageBase, l.perkText, l.perksImageBase, l.perksImageBase, l.perksImageBase, 8)
-        :size(-1, 0))
-        :bias(nil, 0) -- align ratio constraint to the top
-    -- Perk description (the one that says "Golden-perk")
-    l.perkDescription = NLay.constraint(l.perksInfo, NLay.in_(l.perkImage), l.perksInfo, l.perksInfo, l.perksInfo, 8)
-        :size(-1, 0)
-    -- Container to contain the grid layout (as NLay.grid will modify them)
-    l.perksSelectBase:margin(8)
-    local perksSelectContainer = NLay.constraint(l.perksSelectBase, l.perksSelectBase, l.perksSelectBase, l.perksSelectBase, l.perksSelectBase)
-        :bias(1, 0)
-    -- Perk grid
-    l.perkGrid = NLay.grid(perksSelectContainer, 5, 3, {
-        cellwidth = 10, cellheight = 10, -- set later
-    })
-    self.layout = l
-
-    -- Elements
     local e = {}
     e.base = StretchableBox("orange_pressed_big", 8, {
         stretchType = "repeat",
-        scale = 2
     })
     e.title = ui.elements.Text({
         text = "New Run",
         color = objects.Color.WHITE,
-        font = fonts.getLargeFont(),
+        font = fonts.getLargeFont(16),
+        scale = globalScale.get()
     })
     e.startButton = StretchableButton({
         onClick = function() end,
         text = "Start Run",
         color = objects.Color.DARK_GREEN,
-        font = fonts.getLargeFont(),
+        font = fonts.getLargeFont(16),
+        scale = globalScale.get
     })
     e.perkText = ui.elements.Text({
         text = "Perk",
-        font = fonts.getSmallFont(),
+        font = fonts.getSmallFont(16),
+        scale = globalScale.get
     })
 
     for _, v in pairs(e) do
@@ -81,33 +41,64 @@ function NewRunScene:init(args)
 end
 
 ---@param text string
----@param constraint NLay.BaseConstraint
-local function drawTextIn(text, constraint)
-    local x, y, w, h = constraint:get()
-    return love.graphics.printf(text, fonts.getSmallFont(32), x, y, w, "left")
+---@param region layout.Region
+local function drawTextIn(text, region)
+    local x, y, w, h = region:get()
+    local sc = globalScale.get()
+    w = w * sc
+    return love.graphics.printf(text, fonts.getSmallFont(16), x, y, w, "left", 0, sc,sc)
 end
 
----@param constraint NLay.BaseConstraint
-local function drawRectangleByConstraint(constraint)
-    return love.graphics.rectangle("line", constraint:get())
+---@param region layout.Region
+local function drawRectangleByConstraint(region)
+    return love.graphics.rectangle("line", region:get())
+end
+
+local function drawRegions(rlist)
+    love.graphics.setColor(0,1,1)
+    for _, r in ipairs(rlist) do
+        love.graphics.rectangle("line", r:get())
+    end
+    love.graphics.setColor(1,1,1)
 end
 
 function NewRunScene:onRender(x, y, w, h)
     love.graphics.setColor(objects.Color.WHITE)
-    self.elements.base:render(self.layout.root:get())
-    self.elements.title:render(self.layout.title:get())
-    self.elements.startButton:render(self.layout.startButton:get())
-    self.elements.perkText:render(self.layout.perkText:get())
+    local r = layout.Region(x,y,w,h)
+    local title, body, startButton, _ = r:splitVertical(0.07, 0.8, 0.13)
+    body = body:padRatio(0.05)
+    title = title:padRatio(0.33, 0.1, 0.33, 0.1)
+    startButton = startButton:shrinkToAspectRatio(3,1)
+
+    local leftBody, rightBody = body:splitHorizontal(2, 1)
+
+    leftBody = leftBody:padRatio(0.1)
+    local perkBox, lowerBox = leftBody:splitVertical(1, 2)
+    local perkImage, perkDescription = perkBox:splitHorizontal(2, 5)
+    perkImage = perkImage:shrinkToAspectRatio(1,1)
+    local perkText = perkImage:shrinkToAspectRatio(5,1)
+        :attachToTopOf(perkImage)
+
+    self.elements.base:render(r:get())
+    self.elements.title:render(title:get())
+    self.elements.startButton:render(startButton:get())
+    self.elements.perkText:render(perkText:get())
 
     love.graphics.setColor(objects.Color.BLACK)
-    drawTextIn("Golden-perk:\nStart the game with 3 extra shop slots", self.layout.perkDescription)
+    drawTextIn("Golden-perk:\nStart the game with 3 extra shop slots", perkDescription)
+
+    drawRegions({
+        r,
+        body,title,startButton,
+        leftBody,rightBody,
+        perkBox,lowerBox,
+        perkImage,perkText
+    })
 
     love.graphics.setColor(objects.Color.WHITE)
-    drawRectangleByConstraint(self.layout.perkImage)
-    -- Update cell sizes
-    local cellsize = select(3, self.layout.perksSelectBase:get()) / 3
-    self.layout.perkGrid:cellSize(cellsize, cellsize)
-    self.layout.perkGrid:foreach(drawRectangleByConstraint)
+    drawRectangleByConstraint(perkImage)
+
+    drawRectangleByConstraint(rightBody)
 end
 
 return NewRunScene
