@@ -489,11 +489,6 @@ end
 
 
 
----@deprecated
-function Region:offset(ox, oy)
-    return self:moveUnit(ox, oy)
-end
-
 
 function Region:moveUnit(ox, oy)
     ox = ox or 0
