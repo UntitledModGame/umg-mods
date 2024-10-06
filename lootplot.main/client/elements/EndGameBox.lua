@@ -19,9 +19,10 @@ local strings = {
 function EndGameBox:init(args)
     typecheck.assertKeys(args, {"onDismiss"})
 
-    self.background = StretchableBox("orange_pressed_big", 8, {
+    self.background = StretchableBox("white_pressed_big", 8, {
         scale = 2,
         stretchType = "repeat",
+        color = objects.Color.BROWN
     })
 
     self.titleText = RichText({

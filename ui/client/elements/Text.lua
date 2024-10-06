@@ -23,7 +23,7 @@ local function getTextSize(font, text, wrap)
 end
 
 
----@param args string|{text:string,wrap:boolean?,font:love.Font?,scale:number?,align:love.AlignMode?,color:objects.Color?,outline:number?,outlineColor:objects.Color?}
+---@param args string|{text:string,wrap:number?,font:love.Font?,align:love.AlignMode?,color:objects.Color?,outline:number?,outlineColor:objects.Color?}
 function Text:init(args)
     self.font = love.graphics.getFont()
     if type(args) == "string" then
@@ -34,8 +34,6 @@ function Text:init(args)
         self.font = args.font or self.font
     end
 
-    -- this `scale` value will override the default scaling.
-    self.scale = args.scale or 1
     self.align = args.align or "left"
 
     self.color = args.color
@@ -48,7 +46,7 @@ function Text:init(args)
 end
 
 if false then
-    ---@param args string|{text:string,wrap:boolean?,font:love.Font?,scale?:number|fun():number,align:love.AlignMode?,color:objects.Color?,outline:number?,outlineColor:objects.Color?}
+    ---@param args string|{text:string,wrap:number?,font:love.Font?,align:love.AlignMode?,color:objects.Color?,outline:number?,outlineColor:objects.Color?}
     ---@return ui.Text
     function Text(args) end
 end
@@ -60,15 +58,12 @@ local DEFAULT_COLOR = {0,0,0}
 function Text:onRender(x,y,w,h)
     local tw, th = getTextSize(self.font, self.text, self.wrap)
 
-    -- scale text to fit box
     local limit = self.wrap or tw
-    local boxFitScale = math.min(w/limit, h/th)
-    local sc = self.scale or 1
-    if type(sc) == "function" then
-        sc = sc() -- dynamic scaling
-    end
-    local scale = math.min(sc, boxFitScale)
-    -- We dont want the text to be outside box ^^^^
+    ---@cast limit number
+
+    -- scale text to fit box
+    local scale = math.min(w/limit, h/th)
+
 
     local drawX, drawY = math.floor(x+w/2), math.floor(y+h/2)
 
