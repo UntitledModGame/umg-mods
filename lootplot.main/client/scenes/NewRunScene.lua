@@ -20,7 +20,7 @@ function NewRunScene:init(args)
         color = BACKGROUND_COLOR
     })
     e.title = ui.elements.Text({
-        text = "New Run",
+        text = "LOOTPLOT MAIN",
         color = objects.Color.WHITE,
         outline=2,
         outlineColor = objects.Color.BLACK,
@@ -28,8 +28,21 @@ function NewRunScene:init(args)
     })
     e.startButton = StretchableButton({
         onClick = function() end,
-        text = "Start Run",
+        text = "Start New Run",
         color = objects.Color(1,1,1,1):setHSL(340, 0.7, 0.5),
+        font = fonts.getLargeFont(FONT_SIZE),
+    })
+    e.continueButton = StretchableButton({
+        --[[
+        HMMM: Should we have this here?
+        Or should this be contained in a higher-up screen?
+        The advantage of having this here, is that we wont need a higher-level
+        screen; we can go straight into run-select.
+        Do some thinking.
+        ]]
+        onClick = function() end,
+        text = "Continue Run?",
+        color = objects.Color(1,1,1,1):setHSL(184, 0.7, 0.5),
         font = fonts.getLargeFont(FONT_SIZE),
     })
     e.perkText = ui.elements.Text({
@@ -65,7 +78,7 @@ local function drawTextIn(textString, region)
     local tw, th = getTextSize(font, textString, limit)
 
     -- scale text to fit box
-    local scale = math.min(w/limit, h/th)
+    local scale = math.min(w/tw, h/th)
     local drawX, drawY = math.floor(x+w/2), math.floor(y+h/2)
     lg.printf(textString, font, drawX, drawY, limit, "left", 0, scale, scale, tw/2, th/2)
 end
@@ -88,12 +101,20 @@ end
 function NewRunScene:onRender(x, y, w, h)
     love.graphics.setColor(objects.Color.WHITE)
     local r = layout.Region(x,y,w,h)
-    local title, body, startButton, _ = r:splitVertical(0.07, 0.8, 0.13)
+    local title, body, buttonRegion, _ = r:splitVertical(0.07, 0.8, 0.13)
     body = body:padRatio(0.05)
     title = title:padRatio(0.33, 0.1, 0.33, 0.1)
         :moveRatio(0, 0.5 + math.sin(love.timer.getTime())/6)
 
-    startButton = startButton:shrinkToAspectRatio(3,1):padRatio(0.1,0.2)
+    local startButton, continueButton
+    local canContinueRun = true
+    if canContinueRun then
+        startButton, continueButton = buttonRegion:shrinkToAspectRatio(6,1):splitHorizontal(1,1)
+        startButton = startButton:padRatio(0.1,0.25)
+        continueButton = continueButton:padRatio(0.1,0.25)
+    else
+        startButton = buttonRegion:shrinkToAspectRatio(3,1):padRatio(0.1,0.25)
+    end
 
     local leftBody, rightBody = body:splitHorizontal(2, 1)
 
@@ -101,6 +122,7 @@ function NewRunScene:onRender(x, y, w, h)
     local perkBox, lowerBox = leftBody:splitVertical(1, 2)
     local perkImage, perkDescription = perkBox:splitHorizontal(2, 5)
     perkImage = perkImage:shrinkToAspectRatio(1,1)
+    perkDescription = perkDescription:attachToRightOf(perkImage):padRatio(0.1)
     local perkText = perkImage:shrinkToAspectRatio(4,1)
         :attachToTopOf(perkImage)
         :moveRatio(0, 0.5 + math.sin(love.timer.getTime() * 3)/6)
@@ -108,12 +130,20 @@ function NewRunScene:onRender(x, y, w, h)
 
     self.elements.base:render(r:get())
     self.elements.title:render(title:get())
+
     self.elements.startButton:render(startButton:get())
+    if canContinueRun then
+        self.elements.continueButton:render(continueButton:get())
+    end
+
     self.elements.perkText:render(perkText:get())
-
     drawTextIn("Golden-perk:\nStart the game with 3 extra shop slots", perkDescription)
+    love.graphics.setColor(objects.Color.WHITE)
+    drawRectangleByConstraint(perkImage)
 
-    local DEBUG=false
+    drawRectangleByConstraint(rightBody)
+
+    local DEBUG=true
     if DEBUG then
         drawRegions({
             r,
@@ -124,10 +154,7 @@ function NewRunScene:onRender(x, y, w, h)
         })
     end
 
-    love.graphics.setColor(objects.Color.WHITE)
-    drawRectangleByConstraint(perkImage)
 
-    drawRectangleByConstraint(rightBody)
 end
 
 return NewRunScene
