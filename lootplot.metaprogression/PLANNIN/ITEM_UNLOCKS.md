@@ -246,10 +246,16 @@ lp.metaprogression.winRun(plot)
 
 # FINAL-3 "good enough" PLAN:
 - Add function: `lp.metaprogression.winGame(plot)`
-- Create `unlock` shcomp (KEEP IT SIMPLE)
+- Create `unlock` API (keep it simple!)
 - Define unlocks in `lootplot.content.s0`
 - Define a helper function: `unlockByWinningWith("perk_item")`
 - ITEMS SHOULD BE UNLOCKED BY DEFAULT!!! `lp.main` should lock them!
 
-
+`unlock` shcomp:
+```lua
+unlock = {
+    requiredItems = {"foo", "bar"},
+    description = "Win using foo and bar items!"
+}
+```
 

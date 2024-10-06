@@ -9,6 +9,7 @@
         "lootplot.content.s0",
         "lootplot.levels",
         "lootplot.slots",
-        "lootplot.sound"
+        "lootplot.sound",
+        "lootplot.metaprogression"
     ]
 }

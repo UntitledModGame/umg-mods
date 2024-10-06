@@ -98,6 +98,8 @@ local validStats = {}
 local statTable = {
     WINS = 0,
     LOSSES = 0,
+    TOTAL_POINTS_EARNED = 0,
+    TOTAL_MONEY_EARNED = 0,
 }
 
 local statTableOutOfDate = true
@@ -130,10 +132,53 @@ local function trySaveStatTable()
 end
 
 
+---@param plot lootplot.Plot
+function lp.metaprogression.winAndUnlockItems(plot)
+    --[[
+    unlock component:
 
-function lp.metaprogression.winGame(plot)
+    defineItem("qux", {
+        ...
+        unlock = {
+            requiredItems = {"foo", "bar"},
+            description = "Win using foo and bar items!"
+        }
+    })
+
+    ^^^ if the player wins with `foo` and `bar` items on the plot,
+    then `qux` is unlocked.
+    ]]
     assert(server, "?")
+    local seen = {}
+    local unlockBuffer = objects.Array()
+    for _name, etype in pairs(server.entities) do
+        if not seen[etype] then
+            seen[etype]=true
+        end
+        if seen.unlock then
+            unlockBuffer:add(etype)
+        end
+    end
 
+    local itemCounts = {}
+    plot:foreachItem(function(item, ppos)
+        local n = item:type()
+        itemCounts[n]=(itemCounts[n] or 0) + 1
+    end)
+
+    unlockBuffer:map(function(etype)
+        local n = etype:getTypename()
+        local unlock = etype.unlock
+        if unlock.requiredItems then
+            for _, itemType in ipairs(unlock.requiredItems) do
+                if (itemCounts[itemType] or 0) <= 0 then
+                    return -- failed!
+                end
+            end
+            -- else, we unlock item:
+            lp.metaprogression.unlock(n)
+        end
+    end)
 end
 
 
@@ -145,25 +190,4 @@ umg.on("@tick", function()
         trySaveStatTable()
     end
 end)
-
-
---[[
-
-lp.metaprogression.tryUnlock(plot, selfTeamId)
-
-local plotData = lp.metaprogression.getPlotData(plot)
-
-
-Count ALL slots.
-
-But count only accessible items.
-where `lp.canPlayerAccess(item, clientId) == true`
-
-plotData.itemCounts["item"]
-plotData.slotCounts["slot"]
-
--- Call this in lp.main?
-lp.metaprogression.unlockEverything()
-
-]]
 
