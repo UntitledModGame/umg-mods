@@ -21,10 +21,6 @@ local UNLOCK_STORAGE = {
     folder = "unlocks/",
     cache = {}
 }
-local SEEN_STORAGE = {
-    folder = "seen/",
-    cache = {}
-}
 
 
 ---@param storage table
@@ -76,16 +72,6 @@ function lp.metaprogression.unlock(name)
     setValue(UNLOCK_STORAGE, name, true)
 end
 
-
-
-function lp.metaprogression.isSeen(name)
-    local ns, str = fromNamespaced(name)
-    return getSaveTable(SEEN_STORAGE, ns)[str]
-end
-
-function lp.metaprogression.see(name)
-    setValue(SEEN_STORAGE, name, true)
-end
 
 
 
