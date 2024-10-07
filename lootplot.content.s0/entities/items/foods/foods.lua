@@ -84,6 +84,7 @@ defineFood("lootplot.content.s0:heart_fruit", {
         description = loc("Gives +2 lives to target."),
         activate = function(selfEnt, ppos, targetEnt)
             targetEnt.lives = (targetEnt.lives or 0) + 2
+            lp.metaprogression.unlock("lootplot.content.s0:my_item")
         end
     }
 })

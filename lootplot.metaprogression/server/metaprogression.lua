@@ -54,7 +54,10 @@ local function setValue(storage, name, value)
     saveTabl[str] = value
     local data = json.encode(saveTabl)
     local fsys = server.getSaveFilesystem()
-    return fsys:write(getFname(storage, namespace), data)
+    local ok, err = fsys:write(getFname(storage, namespace), data)
+    if not ok then
+        umg.log.error(err)
+    end
 end
 
 
@@ -185,3 +188,14 @@ umg.on("@tick", function()
     end
 end)
 
+
+
+
+---comment
+---@param storage table
+local function createStorage(storage)
+    local fsys = server.getSaveFilesystem()
+    fsys:createDirectory(storage.folder)
+end
+
+createStorage(UNLOCK_STORAGE)
