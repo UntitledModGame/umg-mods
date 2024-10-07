@@ -98,7 +98,7 @@ umg.on("lootplot:pointsChanged", function(ent, delta)
             x = ent.x, y = ent.y,
             dimension = ent.dimension
         }
-        local packetEnt = newPacketEnt(dvec, 600, 700, function()
+        local packetEnt = newPacketEnt(dvec, 400, 450, function()
             local camera = camera.get()
             return camera:toWorldCoords(love.mouse.getPosition())
         end)
@@ -115,7 +115,7 @@ umg.on("lootplot:moneyChanged", function(ent, delta)
             x = ent.x, y = ent.y,
             dimension = ent.dimension
         }
-        local packetEnt = newPacketEnt(dvec, 600, 700, function()
+        local packetEnt = newPacketEnt(dvec, 400, 450, function()
             local camera = camera.get()
             return camera:toWorldCoords(love.mouse.getPosition())
         end)
