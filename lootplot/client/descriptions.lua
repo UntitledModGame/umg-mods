@@ -172,21 +172,6 @@ end)
 
 
 
-umg.on("lootplot:populateDescription", 50, function(ent, arr)
-    --[[
-    TODO: this is DUMB.
-    We should be storing traits some other way.
-    ]]
-    local t = ent.traits
-    if t and #t > 0 then
-        arr:add(loc("Traits: "))
-        for _, trait in ipairs(t) do
-            arr:add(" {c r=0.4 g=0.2 b=1}{wavy}" .. lp.getTraitDisplayName(trait))
-        end
-        arr:add("")
-    end
-end)
-
 
 local DOOMED_MULTI = interp("{wavy}{lootplot:DOOMED_COLOR}DOOMED %{doomCount}:{/lootplot:DOOMED_COLOR}{/wavy} {lootplot:DOOMED_LIGHT_COLOR}Destroyed after %{doomCount} activations!")
 local DOOMED_1 = interp("{wavy}{lootplot:DOOMED_COLOR}DOOMED %{doomCount}:{/lootplot:DOOMED_COLOR}{/wavy} {lootplot:DOOMED_LIGHT_COLOR}Destroyed when activated!")
