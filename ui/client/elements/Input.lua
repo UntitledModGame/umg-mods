@@ -7,24 +7,31 @@ local Input = Element("ui:Input")
 local DEFAULT_MAX_LENGTH = 50
 
 
-local BLACK = {0,0,0}
 
 function Input:init(args)
     args = args or {}
     self.text = Text({
-        color = BLACK,
+        color = args.textColor or objects.Color.BLACK,
         text = args.startValue or ""
     })
     self:addChild(self.text)
     self.onSubmit = args.onSubmit
     self.maxLength = args.maxLength or DEFAULT_MAX_LENGTH
+    self.background = args.backgroundColor or objects.Color.WHITE
 end
 
+if false then
+    ---@param args {textColor:objects.Color?,startValue:string?,maxLength:integer?,backgroundColor:objects.Color?}?
+    ---@return ui.Input
+    ---@diagnostic disable-next-line: cast-local-type, missing-return
+    function Input(args) end
+end
 
 local lg=love.graphics
 
 function Input:onRender(x,y,w,h)
-    local region = Region(x,y,w,h)
+    local region = layout.Region(x,y,w,h)
+    love.graphics.setColor(self.background)
     lg.rectangle("fill",x,y,w,h)
 
     local textRegion = region:padUnit(10)
@@ -60,9 +67,7 @@ function Input:onKeyPress(_, scancode, isrepeat)
     if scancode == BACKSPACE then
         -- delete character
         local txt = self.text:getText()
-        local len = #txt
-        local new = txt:sub(1,len-1)
-        self.text:setText(new)
+        self.text:setText(txt:sub(1, -2))
         return true
     end
 end
@@ -83,6 +88,10 @@ function Input:onUnfocus()
     end
 end
 
+
+function Input:getText()
+    return self.text:getText()
+end
 
 return Input
 

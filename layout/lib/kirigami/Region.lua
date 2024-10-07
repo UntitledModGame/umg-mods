@@ -222,6 +222,8 @@ end
 ---@param top number
 ---@param right number
 ---@param bot number
+---@overload fun(self:layout.Region, horz:number, vert:number):layout.Region
+---@overload fun(self:layout.Region, unit:number):layout.Region
 ---@return layout.Region
 function Region:padUnit(left, top, right, bot)
     --[[
