@@ -101,7 +101,7 @@ function LPState:onAdded(zorder)
     input.addListener(control.getListener(), zorder)
     input.addListener(follow.getListener(), zorder)
     input.addListener(hoverables.getListener(), zorder)
-    input.addListener(self.listener, zorder)
+    input.addListener(self.listener, zorder + 1)
 end
 
 function LPState:onRemoved()
