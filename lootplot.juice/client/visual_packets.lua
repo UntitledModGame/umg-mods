@@ -66,7 +66,7 @@ umg.on("lootplot.tiers:entityUpgraded", function(ent, sourceEnt, oldTier, newTie
             x = sourceEnt.x, y = sourceEnt.y,
             dimension = sourceEnt.dimension
         }
-        local packetEnt = newPacketEnt(dvec, 300, 800, function()
+        local packetEnt = newPacketEnt(dvec, 200, 200, function()
             return ent.x or 0, ent.y or 0
         end)
         packetEnt.image = ent.image
