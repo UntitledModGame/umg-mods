@@ -1,15 +1,17 @@
 
 local util = require("shared.util")
 
-local function upgradeTier(ent)
+local function upgradeTier(ent, sourceEnt)
     local oldTier = ent.tier
     ent.tier = ent.tier + 1
-    umg.call("lootplot.tiers:entityUpgraded", ent, oldTier, ent.tier)
+    umg.call("lootplot.tiers:entityUpgraded", ent, sourceEnt, oldTier, ent.tier)
     sync.syncComponent(ent, "tier")
     lp.tryTriggerEntity("UPGRADE_TIER", ent)
 end
 
 
+
+local UPGRADE_TIME = 0.5
 
 umg.on("lootplot:entityActivated", function(ent)
     if not lp.isItemEntity(ent) then
@@ -22,8 +24,9 @@ umg.on("lootplot:entityActivated", function(ent)
 
     util.forNeighborItems(ppos, function(targEnt)
         if util.canCombine(ent, targEnt) then
-            upgradeTier(ent)
+            upgradeTier(ent, targEnt)
             lp.destroy(targEnt)
+            lp.wait(ppos, UPGRADE_TIME)
         end
     end)
 end)

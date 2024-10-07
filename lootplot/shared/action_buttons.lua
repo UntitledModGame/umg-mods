@@ -58,7 +58,11 @@ local function makeActionButton(ent, index)
     return {
         text = function()
             if umg.exists(ent) then
-                return actionButton.text(ent)
+                local txt = actionButton.text
+                if type(txt) == "function" then 
+                    return txt(ent)
+                end
+                return txt or ""
             end
             return ""
         end,
