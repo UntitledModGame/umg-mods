@@ -74,7 +74,7 @@ end
 
 
 
----@class (exact) NLay.Constraint: NLay.BaseConstraint
+---@class NLay.Constraint: NLay.BaseConstraint
 ---@field package top NLay.BaseConstraint?
 ---@field package left NLay.BaseConstraint?
 ---@field package bottom NLay.BaseConstraint?
@@ -505,7 +505,7 @@ end
 
 
 
----@class (exact) NLay.MaxConstraint: NLay.BaseConstraint
+---@class NLay.MaxConstraint: NLay.BaseConstraint
 ---@field private list NLay.BaseConstraint[]
 local MaxConstraint = dupmethods(BaseConstraint)
 ---@private
@@ -534,7 +534,7 @@ end
 
 
 
----@class (exact) NLay.LineConstraint: NLay.BaseConstraint
+---@class NLay.LineConstraint: NLay.BaseConstraint
 ---@field private constraint NLay.BaseConstraint
 ---@field private direction '"horizontal"' | '"vertical"'
 ---@field private mode '"percent"' | '"pixel"'
@@ -594,7 +594,7 @@ end
 
 
 
----@class (exact) NLay.GridCellConstraint: NLay.BaseConstraint
+---@class NLay.GridCellConstraint: NLay.BaseConstraint
 ---@field private context NLay.Grid
 ---@field private x0 integer
 ---@field private y0 integer
@@ -614,7 +614,7 @@ end
 
 
 
----@class (exact) NLay.Grid
+---@class NLay.Grid
 ---@field private constraint NLay.Constraint
 ---@field private list NLay.GridCellConstraint[]
 ---@field private rows integer
@@ -759,7 +759,7 @@ end
 
 
 
----@class (exact) NLay.RatioConstraint: NLay.BaseConstraint
+---@class NLay.RatioConstraint: NLay.BaseConstraint
 ---@field private parent NLay.BaseConstraint
 ---@field private numerator number
 ---@field private denominator number
@@ -858,7 +858,7 @@ end
 
 
 
----@class (exact) NLay.FloatingConstraint: NLay.BaseConstraint
+---@class NLay.FloatingConstraint: NLay.BaseConstraint
 ---@field private x number
 ---@field private y number
 ---@field private w number
@@ -924,7 +924,7 @@ function FloatingConstraint:get(offx, offy)
 	return self.x + (offx or 0), self.y + (offy or 0), self.w, self.h
 end
 
----@class (exact) NLay.ForeignConstraint: NLay.BaseConstraint
+---@class NLay.ForeignConstraint: NLay.BaseConstraint
 ---@field private getter {get:fun(self:any):(number,number,number,number)}
 ---@field private manualupdate boolean
 local ForeignConstraint = dupmethods(BaseConstraint)
@@ -947,7 +947,7 @@ end
 
 
 
----@class (exact) NLay.SelectableConstraint: NLay.BaseConstraint
+---@class NLay.SelectableConstraint: NLay.BaseConstraint
 ---@field package constraints NLay.BaseConstraint[]
 ---@field private selectedIndex integer
 local SelectableConstraint = dupmethods(BaseConstraint)
@@ -974,7 +974,7 @@ end
 
 
 
----@class (exact) NLay.TransposedConstraint: NLay.BaseConstraint
+---@class NLay.TransposedConstraint: NLay.BaseConstraint
 ---@field private parent NLay.BaseConstraint
 local TransposedConstraint = dupmethods(BaseConstraint)
 ---@private
@@ -993,7 +993,7 @@ end
 
 
 ---This class is used to mark to consider the inner border of a constraint instead of the outer.
----@class (exact) NLay.Into
+---@class NLay.Into
 ---@field public value NLay.BaseConstraint
 ---@field public _NLay_type_ string
 local Into = {_NLay_type_ = "NLay.Into"}
@@ -1026,7 +1026,7 @@ NLay.x = 0
 NLay.y = 0
 NLay.width = 800
 NLay.height = 600
-NLay._VERSION = "2.0.0"
+NLay._VERSION = "2.0.1"
 NLay._AUTHOR = "MikuAuahDark"
 NLay._LICENSE = "MIT"
 
@@ -1424,6 +1424,11 @@ return NLay
 
 --[[
 Changelog:
+
+v2.0.1: 2024-10-05
+> Fixed annotation of NLay.grid.
+> Fixed behavior on constraint padding.
+> Workaround annotation issue with recent LuaLS plugin.
 
 v2.0.0: 2024-10-03
 > Replaced NLay.inside(c, pad):constraint(...) with simpler NLay.constraint(c, ..., pad).
