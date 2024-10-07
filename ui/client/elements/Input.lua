@@ -6,6 +6,13 @@ local Input = Element("ui:Input")
 
 local DEFAULT_MAX_LENGTH = 50
 
+local SUBMIT = "ui:SUBMIT_TEXT"
+local BACKSPACE = "ui:DELETE_TEXT"
+input.defineControls({BACKSPACE, SUBMIT})
+input.setControls({
+    [BACKSPACE] = {"key:backspace"},
+    [SUBMIT] = {"key:return"},
+})
 
 
 function Input:init(args)
@@ -52,20 +59,18 @@ end
 
 
 
-local SUBMIT = "return"
-local BACKSPACE = "backspace"
-
-function Input:onKeyPress(_, scancode, isrepeat)
+function Input:onControlPress(controlEnum, isrepeat)
     if not self:isFocused() then
         return
     end
-    if scancode == SUBMIT then
+    if controlEnum == "input:ESCAPE" or controlEnum == SUBMIT then
         self:unfocus()
         return true
     end
 
-    if scancode == BACKSPACE then
+    if controlEnum == BACKSPACE then
         -- delete character
+        -- TODO: Make it UTF-8 friendly
         local txt = self.text:getText()
         self.text:setText(txt:sub(1, -2))
         return true

@@ -33,7 +33,7 @@ local listener = input.InputListener()
 local DELTA = 100
 -- this number ^^^ is pretty arbitrary, we just need it to be sufficiently big
 
-
+---@param self input.InputListener
 local function updateMoveEnt(self, ent)
     ent.moveX = false
     ent.moveY = false
