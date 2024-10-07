@@ -1,10 +1,42 @@
 
 local util = require("shared.util")
 
+
+
+local function upgradeProperty(ent, prop, propVals, newTier)
+    local baseProp = properties.getBase(prop)
+    if baseProp then
+        ent[baseProp] = propVals[newTier]
+        sync.syncComponent(ent, baseProp)
+    else
+        umg.log.error("Invalid property:", prop)
+    end
+end
+
+
+local function upgradeStats(ent, sourceEnt, oldTier, newTier)
+    local m = ent.tierUpgrades
+
+    m.onUpgrade(ent, sourceEnt, oldTier, newTier)
+
+    if m.properties then
+        for prop,propVals in pairs(m.properties) do
+            if propVals[newTier] then
+                upgradeProperty(ent, prop, propVals, newTier)
+            end
+        end
+    end
+end
+
+
+
 local function upgradeTier(ent, sourceEnt)
     local oldTier = ent.tier
     ent.tier = ent.tier + 1
     umg.call("lootplot.tiers:entityUpgraded", ent, sourceEnt, oldTier, ent.tier)
+    if ent.upgradeManager then
+        upgradeStats(ent, ent.upgradeManager)
+    end
     sync.syncComponent(ent, "tier")
     lp.tryTriggerEntity("UPGRADE_TIER", ent)
 end

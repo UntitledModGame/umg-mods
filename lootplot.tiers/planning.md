@@ -10,7 +10,7 @@ Allows items to be upgraded.
 umg.call("lootplot.tiers:tierUpgraded", ent, oldTier, newTier)
 
 
-ent.tierManager = {
+ent.tierUpgrades = {
     onUpgrade = function(ent, oldTier, newTier)
         ...
     end,
