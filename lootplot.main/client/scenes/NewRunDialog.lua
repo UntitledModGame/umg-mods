@@ -1,4 +1,5 @@
 local fonts = require("client.fonts")
+local globalScale = require("client.globalScale")
 
 local lg=love.graphics
 
@@ -12,6 +13,10 @@ local NewRunDialog = ui.Element("lootplot.main:NewRunDialog")
 
 local FONT_SIZE = 32
 local BACKGROUND_COLOR = objects.Color(objects.Color.HSLtoRGB(250, 0.1, 0.32))
+
+local function getTextScale()
+    return globalScale.get() * 0.75
+end
 
 ---@param newRunAction function
 ---@param cancelRunAction function?
@@ -43,23 +48,29 @@ function NewRunDialog:init(newRunAction, cancelRunAction)
         })
     end
     e.seedLabel = ui.elements.Text({
-        text = "Seed:",
+        text = "Seed: ",
         outline = 2,
         outlineColor = objects.Color.BLACK,
         color = objects.Color.WHITE,
         font = fonts.getSmallFont(FONT_SIZE),
+        getScale = getTextScale,
     })
     e.seedTooltip = ui.elements.Text({
         text = "[Leave empty for random seed]",
+        align = "right",
         outline = 2,
         outlineColor = objects.Color.BLACK,
         color = objects.Color(1, 1, 1, 0.4),
         font = fonts.getSmallFont(FONT_SIZE),
+        getScale = getTextScale,
     })
     e.seedInput = ui.elements.Input({
         textColor = objects.Color.WHITE,
+        font = fonts.getSmallFont(FONT_SIZE),
+        align = "left",
         maxLength = 20,
-        backgroundColor = objects.Color(1, 1, 1, 0)
+        backgroundColor = objects.Color(1, 1, 1, 0),
+        getScale = getTextScale,
     })
 
     for _, v in pairs(e) do
@@ -68,11 +79,19 @@ function NewRunDialog:init(newRunAction, cancelRunAction)
     self.elements = e
 end
 
+local function drawRegions(rlist)
+    love.graphics.setColor(0,1,1)
+    for _, r in ipairs(rlist) do
+        love.graphics.rectangle("line", r:get())
+    end
+    love.graphics.setColor(1,1,1)
+end
+
 function NewRunDialog:onRender(x, y, w, h)
     love.graphics.setColor(objects.Color.WHITE)
-    local r = layout.Region(x,y,w,h):padRatio(0.05, 0.2)
+    local r = layout.Region(x,y,w,h):padRatio(0.05, 0.3)
 
-    local title, body, buttonRegion, _ = r:splitVertical(0.1, 0.8, 0.13)
+    local title, body, buttonRegion, _ = r:splitVertical(0.1, 0.8, 0.2)
     body = body:padRatio(0.05)
     title = title:padRatio(0.33, 0.1, 0.33, 0.1)
         :moveRatio(0, 0.5 + math.sin(love.timer.getTime())/6)
@@ -100,6 +119,8 @@ function NewRunDialog:onRender(x, y, w, h)
     if self.elements.cancelButton then
         self.elements.cancelButton:render(continueButton:get())
     end
+
+    drawRegions({seedInput, seedLabel})
 end
 
 return NewRunDialog

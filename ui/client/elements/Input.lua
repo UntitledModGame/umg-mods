@@ -15,20 +15,26 @@ input.setControls({
 })
 
 
+---@param args {textColor:objects.Color?,align:love.AlignMode?,font:love.Font?,startValue:string?,maxLength:integer?,backgroundColor:objects.Color?,getScale?:(fun():number),onSubmit?:fun(self:ui.Input,text:string)}?
 function Input:init(args)
     args = args or {}
+    self.color = args.textColor or objects.Color.BLACK
     self.text = Text({
-        color = args.textColor or objects.Color.BLACK,
-        text = args.startValue or ""
+        color = self.color,
+        text = args.startValue or "",
+        font = args.font,
+        align = args.align,
+        getScale = args.getScale,
     })
     self:addChild(self.text)
     self.onSubmit = args.onSubmit
     self.maxLength = args.maxLength or DEFAULT_MAX_LENGTH
     self.background = args.backgroundColor or objects.Color.WHITE
+    self.getScale = args.getScale
 end
 
 if false then
-    ---@param args {textColor:objects.Color?,startValue:string?,maxLength:integer?,backgroundColor:objects.Color?}?
+    ---@param args {textColor:objects.Color?,align:love.AlignMode?,font:love.Font?,startValue:string?,maxLength:integer?,backgroundColor:objects.Color?,getScale?:(fun():number),onSubmit?:fun(self:ui.Input,text:string)}?
     ---@return ui.Input
     ---@diagnostic disable-next-line: cast-local-type, missing-return
     function Input(args) end
@@ -45,7 +51,7 @@ function Input:onRender(x,y,w,h)
     if self:isFocused() then
         local _, cursorRegion = textRegion:splitHorizontal(0.9, 0.1)
         if math.floor(love.timer.getTime() * 2) % 2 == 0 then
-            love.graphics.setColor(0,0,0)
+            love.graphics.setColor(self.color)
             love.graphics.rectangle("fill",cursorRegion:get())
         end
     end
