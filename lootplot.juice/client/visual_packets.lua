@@ -75,19 +75,9 @@ end)
 
 
 
-local function getPacketImage(delta)
-    local mag = math.abs(delta)
-    if mag > 5000 then
-        return "packet3", math.log(mag, 10) - math.log(5000, 10)
-    elseif mag > 1000 then
-        return "packet3", 1
-    elseif mag > 200 then
-        return "packet2", 1
-    elseif mag > 40 then
-        return "packet1", 1
-    else
-        return "packet0", 1
-    end
+local function getPacketScale(delta)
+    local x = math.abs(delta)
+    return math.log(x + 4, 10) / 1.4
 end
 
 
@@ -103,7 +93,8 @@ umg.on("lootplot:pointsChanged", function(ent, delta)
             return camera:toWorldCoords(love.mouse.getPosition())
         end)
 
-        packetEnt.image, packetEnt.scale = getPacketImage(delta)
+        packetEnt.image = "packet0"
+        packetEnt.scale = getPacketScale(delta)
     end
 end)
 
@@ -120,7 +111,8 @@ umg.on("lootplot:moneyChanged", function(ent, delta)
             return camera:toWorldCoords(love.mouse.getPosition())
         end)
 
-        packetEnt.image, packetEnt.scale = getPacketImage(delta)
+        packetEnt.scale = getPacketScale(delta)
+        packetEnt.image = "packet0"
         packetEnt.color = lp.COLORS.MONEY_COLOR
     end
 end)
