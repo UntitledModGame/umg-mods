@@ -57,3 +57,11 @@ umg.on("lootplot:comboChanged", function(ent, delta, oldVal, newVal)
         makePopup(ent, txt, objects.Color.YELLOW, VEL)
     end
 end)
+
+
+
+local LV_UP_TXT = localization.localize("LEVEL UP!")
+umg.on("lootplot.tiers:entityUpgraded", function(ent)
+    makePopup(ent, LV_UP_TXT, objects.Color.YELLOW)
+end)
+
