@@ -87,8 +87,6 @@ main.constants = setmetatable({
 
     STARTING_MONEY = 10,
     STARTING_POINTS = 0,
-    STARTING_ROUND = 1,
-    STARTING_LEVEL = 1,
     ROUNDS_PER_LEVEL = 4,
 },{__index=function(msg,k,v) error("undefined const: " .. tostring(k)) end})
 
