@@ -1,27 +1,26 @@
 
 
 
-local MIN_DIST = 20
+local MIN_DIST = 10
 
 local TOTAL_LIFETIME = 3
-local FLOAT_TIME = 0.32
+local FLOAT_TIME = 0.16
 
 
 local function updateEnt(ent)
-    local dt = love.timer.getAverageDelta()
-
     local x,y = ent.x, ent.y
     local tx,ty = ent._getTargetPosition()
 
     ent.friction = 1
 
+    ent.rot = love.timer.getTime() * 60
+
     local ddx, ddy = tx-x, ty-y
     local dx,dy = math.normalize(tx-x, ty-y)
 
-    local dot = dx*ent.vx + dy*ent.vy
-    local accel = ent._accel
-
-    if (TOTAL_LIFETIME - ent.lifetime) > FLOAT_TIME then
+    local timeTravelled = (TOTAL_LIFETIME - ent.lifetime)
+    local accel = ent._accel * math.max(1, timeTravelled * 3)
+    if timeTravelled > FLOAT_TIME then
         ent.vx = (dx * accel)
         ent.vy = (dy * accel)
     end
@@ -76,18 +75,53 @@ end)
 
 
 
+local function getPacketImage(delta)
+    local mag = math.abs(delta)
+    if mag > 5000 then
+        return "packet3", math.log(mag, 10) - math.log(5000, 10)
+    elseif mag > 1000 then
+        return "packet3", 1
+    elseif mag > 200 then
+        return "packet2", 1
+    elseif mag > 40 then
+        return "packet1", 1
+    else
+        return "packet0", 1
+    end
+end
+
+
 
 umg.on("lootplot:pointsChanged", function(ent, delta)
-    if lp.isItemEntity(ent) and ent.image then
+    if lp.isItemEntity(ent) and delta>0 then
         local dvec = {
             x = ent.x, y = ent.y,
             dimension = ent.dimension
         }
-        local packetEnt = newPacketEnt(dvec, 300, 800, function()
+        local packetEnt = newPacketEnt(dvec, 600, 700, function()
             local camera = camera.get()
             return camera:toWorldCoords(love.mouse.getPosition())
         end)
-        packetEnt.image = "packet3"
+
+        packetEnt.image, packetEnt.scale = getPacketImage(delta)
+    end
+end)
+
+
+
+umg.on("lootplot:moneyChanged", function(ent, delta)
+    if lp.isItemEntity(ent) and delta>0 then
+        local dvec = {
+            x = ent.x, y = ent.y,
+            dimension = ent.dimension
+        }
+        local packetEnt = newPacketEnt(dvec, 600, 700, function()
+            local camera = camera.get()
+            return camera:toWorldCoords(love.mouse.getPosition())
+        end)
+
+        packetEnt.image, packetEnt.scale = getPacketImage(delta)
+        packetEnt.color = lp.COLORS.MONEY_COLOR
     end
 end)
 
