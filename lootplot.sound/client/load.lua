@@ -28,6 +28,15 @@ umg.on("lootplot:pointsChanged", function(ent, delta)
 end)
 
 
+local moneyChanged = LootplotSound("lootplot.sound:collect_money", 0.6, 0.8, nil, 0.15)
+umg.on("lootplot:moneyChanged", function(ent, delta)
+    if delta > 0.1 then
+        moneyChanged:play(ent)
+    end
+end)
+
+
+
 local entityActivationBlocked = LootplotSound("lootplot.sound:deny_activation", 0.15, 1, 15)
 umg.on("lootplot:entityActivationBlocked", function(ent)
     entityActivationBlocked:play(ent)
