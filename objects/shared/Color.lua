@@ -69,6 +69,7 @@ local m_max, m_min, m_abs, m_floor, m_sqrt = math.max, math.min, math.abs, math.
 ---@field public IVORY objects.Color
 ---@field public LIME objects.Color
 ---@field public PURPLE objects.Color
+---@field public TRANSPARENT objects.Color
 ---@operator add(number|objects.Color):(objects.Color)
 ---@operator sub(number|objects.Color):(objects.Color)
 ---@operator mul(number|objects.Color):(objects.Color)
@@ -300,6 +301,9 @@ if false then
     ---@return objects.Color
     function color(col) end ---@diagnostic disable-line: cast-local-type, missing-return
 end
+
+-- Note: Transparent cannot be set through predefined_colors
+color.TRANSPARENT = color(1, 1, 1, 0)
 
 local color_index = {
     r = 1, red   = 1,

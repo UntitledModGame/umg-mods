@@ -1,4 +1,4 @@
-local LPState = require("client.LPState")
+local LPState = require("client.states.LPState")
 local PulsingCloudBackground = require("client.backgrounds.PulsingCloudBackground")
 local backgroundManager = require("client.background_manager")
 

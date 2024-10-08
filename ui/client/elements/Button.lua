@@ -30,7 +30,7 @@ function Button:init(args)
 end
 
 if false then
-    ---@param args {click:fun(self:ui.Button),text:string?,padding:number?,font:love.Font?,backgroundColor:objects.Color?,outlineColor:objects.Color?,textColor:objects.Color?,image:string?}
+    ---@param args {click:fun(self:ui.Button),text:string?,padding:number?,font:love.Font?,backgroundColor:objects.Color?,outlineColor:objects.Color?,textColor:objects.Color?,image?:string|love.Quad|love.Texture}
     ---@return ui.Button
     function Button(args) end
 end
