@@ -246,8 +246,13 @@ lp.defineAttribute = attributes.defineAttribute
 lp.defineAttribute("MONEY")
 lp.defineAttribute("POINTS")
 
+
+-- COMBO = number of successive activations without interruption.
 lp.defineAttribute("COMBO")
--- TODO: ^^^ should this attribute really be defined here???
+
+-- "LEVEL" is a general difficulty indicator.
+-- higher level = higher difficulty.
+lp.defineAttribute("LEVEL")
 
 
 
@@ -335,8 +340,20 @@ end
 ---@param ent Entity
 ---@return number?
 function lp.getMoney(ent)
+    entityTc(ent)
     return lp.getAttribute("MONEY", ent)
 end
+
+
+function lp.setLevel(ent, x)
+    modifyTc(ent, x)
+    lp.setAttribute("LEVEL", ent, x)
+end
+function lp.getLevel(ent)
+    entityTc(ent)
+    return lp.getAttribute("LEVEL", ent)
+end
+
 
 
 ---Availability: **Server**

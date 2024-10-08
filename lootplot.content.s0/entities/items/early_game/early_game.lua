@@ -11,7 +11,7 @@ lp.defineItem("lootplot.content.s0:rocks", {
         modifiers = {
             -- generates points = 10 * current_level
             pointsGenerated = function(ent)
-                local level = lp.levels.getLevel(ent) or 1
+                local level = lp.getLevel(ent) or 1
                 return 10 * level
             end
         },

@@ -74,7 +74,7 @@ lp.defineSlot("lootplot.main:next_round_button_slot", {
         })
 
         local levelText = LEVEL_NUM({
-            level = lp.levels.getLevel(ent)
+            level = lp.getLevel(ent)
         })
         text.printRichCentered(roundText, font, x, y - 18, limit, "left", rot, sx,sy, kx,ky)
         text.printRichCentered(levelText, font, x, y - 32, limit, "left", rot, sx,sy, kx,ky)
@@ -107,7 +107,7 @@ lp.defineSlot("lootplot.main:next_round_button_slot", {
 local function nextLevel(ent)
     lp.setPoints(ent, 0)
     lp.main.setRound(ent, 1)
-    lp.levels.setLevel(ent, lp.levels.getLevel(ent) + 1)
+    lp.setLevel(ent, lp.getLevel(ent) + 1)
 end
 
 

@@ -127,7 +127,7 @@ umg.defineEntityType("lootplot.main:doom_clock", {
         local requiredPoints = lp.main.getRequiredPoints(ent)
         local points = lp.getPoints(ent)
 
-        local level = lp.levels.getLevel(ent)
+        local level = lp.getLevel(ent)
         lp.setAttribute("REQUIRED_POINTS", ent, getRequiredPoints(level))
 
         local newRound = round + 1
