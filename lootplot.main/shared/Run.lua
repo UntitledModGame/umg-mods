@@ -17,7 +17,7 @@ Get enough points to kill the loot-monster.
 
 ]]
 
----@class lootplot.Run: objects.Class
+---@class lootplot.main.Run: objects.Class
 local Run = objects.Class("lootplot.main:Run")
 
 

@@ -20,7 +20,7 @@ function lp.worldgen.spawnSlots(ppos, slotType, w, h, lootplotTeam)
         for dy=math.floor(-h/2 + 0.5), math.floor(h/2 + 0.5)-1 do
             local p2 = ppos:move(dx,dy)
             if p2 then
-                lp.trySpawnSlot(p2, slotType, lootplotTeam)
+                lp.forceSpawnSlot(p2, slotType, lootplotTeam)
             end
         end
     end

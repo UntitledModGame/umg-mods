@@ -15,31 +15,6 @@ lp.defineAttribute("REQUIRED_POINTS")
 
 
 
---[[
-==============================
-    World-generation code:
-==============================
-]]
----@param plot lootplot.Plot
-local function initializeSlots(clientId, plot)
-    -- adds basic slots to be overridden
-    plot:foreachInArea(9, 6, 11, 8, function(ppos)
-        lp.forceSpawnSlot(ppos, server.entities.slot, clientId)
-    end)
-
-    -- Add shop slots + reroll
-    plot:foreachInArea(5, 7, 7, 8, function(ppos)
-        lp.forceSpawnSlot(ppos, server.entities.shop_slot, clientId)
-    end)
-    lp.forceSpawnSlot(plot:getPPos(6,6), server.entities.reroll_button_slot, clientId)
-
-    -- Sell slots:
-    plot:foreachInArea(9, 10, 11, 10, function(ppos)
-        lp.forceSpawnSlot(ppos, server.entities.sell_slot, clientId)
-    end)
-
-end
-
 ---@param plot lootplot.Plot
 local function initBuiltins(plot)
     local dclock = server.entities.doom_clock()
@@ -60,10 +35,18 @@ end
 if server then
 
 umg.on("@load", function()
-    local ent = Run()
-    local clientId = server.getHostClient()
-    initializeSlots(clientId, ent.plot)
-    initBuiltins(ent.plot)
+    ---@type lootplot.main.Run
+    local run = Run()
+    local plot = run:getPlot()
+
+    -- TODO: Extract this into its own lil thing
+    local mid = math.floor(lp.main.constants.WORLD_PLOT_SIZE/2)
+    local team = server.getHostClient()
+    local midPos = plot:getPPos(mid, mid)
+    lp.forceSpawnSlot(midPos, server.entities.slot, team)
+    lp.forceSpawnItem(midPos, server.entities.one_ball, team)
+
+    initBuiltins(plot)
 end)
 
 end

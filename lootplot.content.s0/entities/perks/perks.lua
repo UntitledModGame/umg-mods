@@ -5,7 +5,7 @@ local function definePerk(id, etype)
     etype.image = etype.image or id
     etype.rarity = lp.rarities.UNIQUE
 
-    lp.worldgen.definePerkItem("lootplot.content.s0" .. id, etype)
+    lp.worldgen.definePerkItem("lootplot.content.s0:" .. id, etype)
 end
 
 
