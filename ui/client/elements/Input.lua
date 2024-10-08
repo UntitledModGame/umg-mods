@@ -47,15 +47,14 @@ function Input:onRender(x,y,w,h)
     love.graphics.setColor(self.background)
     lg.rectangle("fill",x,y,w,h)
 
-    local textRegion = region:padUnit(10)
     if self:isFocused() then
-        local _, cursorRegion = textRegion:splitHorizontal(0.9, 0.1)
+        local _, cursorRegion = region:splitHorizontal(0.9, 0.1)
         if math.floor(love.timer.getTime() * 2) % 2 == 0 then
             love.graphics.setColor(self.color)
             love.graphics.rectangle("fill",cursorRegion:get())
         end
     end
-    self.text:render(textRegion:get())
+    self.text:render(region:get())
 end
 
 
