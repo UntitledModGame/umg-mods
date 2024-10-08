@@ -59,20 +59,8 @@ function Run:init()
     for _, a in ipairs(lp.getAllAttributes()) do
         assert(self.attrs[a], "we missed one!")
     end
-
-    -- doomClock is integral to lootplot.main gamemode,
-    -- since it tracks the current round/level.
-    self.doomClockEntity = nil
 end
 
-
-function Run:setDoomClock(ent)
-    self.doomClockEntity = ent
-end
-
-function Run:getDoomClock()
-    return self.doomClockEntity
-end
 
 
 

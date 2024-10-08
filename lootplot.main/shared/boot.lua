@@ -41,20 +41,16 @@ local function initializeSlots(clientId, plot)
 end
 
 ---@param plot lootplot.Plot
----@param worldEnt Entity
-local function initBuiltins(plot, worldEnt)
+local function initBuiltins(plot)
     local dclock = server.entities.doom_clock()
     dclock._plotX = 10
     dclock._plotY = 4
     plot:set(dclock._plotX, dclock._plotY, dclock)
     local ppos = plot:getPPos(dclock._plotX, dclock._plotY)
-    local v = ppos:getWorldPos()
-    dclock.x = v.x
-    dclock.y = v.y
-    dclock.dimension = v.dimension
-
-    local run = worldEnt.lootplotMainRun
-    run:setDoomClock(dclock)
+    local dvec = ppos:getWorldPos()
+    dclock.x = dvec.x
+    dclock.y = dvec.y
+    dclock.dimension = dvec.dimension
 
     -- Meta-buttons
     lp.forceSpawnSlot(plot:getPPos(6,4), server.entities.next_round_button_slot, clientId)
@@ -67,7 +63,7 @@ umg.on("@load", function()
     local ent = Run()
     local clientId = server.getHostClient()
     initializeSlots(clientId, ent.plot)
-    initBuiltins(ent.plot, ent)
+    initBuiltins(ent.plot)
 end)
 
 end
