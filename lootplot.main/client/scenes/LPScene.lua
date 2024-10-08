@@ -72,8 +72,8 @@ function Scene:init()
     self:addChild(self.endGameBox)
     self:addChild(self.pauseBox)
 
-    self.test = ContinueRunDialog(function()print("Continue")end, function()print("New run")end)
-    self:addChild(self.test)
+    -- self.test = ContinueRunDialog(function()print("Continue")end, function()print("New run")end)
+    -- self:addChild(self.test)
 end
 
 
@@ -171,7 +171,9 @@ function Scene:onRender(x,y,w,h)
         self.popupElement:render(dialog:get())
     end
 
-    self.test:render(r:padRatio(0.32, 0.1):get())
+    if self.test then
+        self.test:render(r:padRatio(0.32, 0.1):get())
+    end
 end
 
 
