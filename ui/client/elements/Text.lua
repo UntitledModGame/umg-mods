@@ -73,6 +73,7 @@ function Text:onRender(x,y,w,h)
 
     local drawX, drawY = x - (limit - w) / 2, y
     local color = self.color or DEFAULT_COLOR
+    local realLimit = limit / scale
 
     if self.outline then
         local outlineColor = self.outlineColor or DEFAULT_OUTLINE_COLOR
@@ -81,12 +82,12 @@ function Text:onRender(x,y,w,h)
         for ox=-am, am, am do
             for oy=-am, am, am do
                 local oxs, oys = ox/scale, oy/scale
-                lg.printf(self.text, self.font, drawX + oxs, drawY + oys, limit, self.align, 0, scale, scale)
+                lg.printf(self.text, self.font, drawX + oxs, drawY + oys, realLimit, self.align, 0, scale, scale)
             end
         end
     end
     lg.setColor(color)
-    lg.printf(self.text, self.font, drawX, drawY, limit, self.align, 0, scale, scale)
+    lg.printf(self.text, self.font, drawX, drawY, realLimit, self.align, 0, scale, scale)
 end
 
 
