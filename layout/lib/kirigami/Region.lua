@@ -299,6 +299,7 @@ end
 --- Gets the scale such that a region fits (width, height) bounds.
 ---@param width number
 ---@param height number
+---@overload fun(self:layout.Region,region:layout.Region):number
 ---@return number
 function Region:getScaleToFit(width, height)
     --[[
