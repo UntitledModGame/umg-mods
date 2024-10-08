@@ -15,7 +15,7 @@ return lp.defineSlot("lootplot.content.s0:money_limit_slot", {
         return false -- cant hold items!!!
     end,
 
-    triggers = {"PULSE"},
+    triggers = {"PULSE", "RESET"},
     onActivate = function(ent)
         local money = lp.getMoney(ent)
         if money > MONEY_LIMIT then

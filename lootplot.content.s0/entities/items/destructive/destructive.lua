@@ -66,25 +66,6 @@ lp.defineItem("lootplot.content.s0:death_by_taxes", {
 })
 
 
-lp.defineItem("lootplot.content.s0:rocks", {
-    image = "rocks",
-    lootplotProperties = {
-        modifiers = {
-            -- generates points = 10 * current_level
-            pointsGenerated = function(ent)
-                local level = lp.levels.getLevel(ent) or 1
-                return 10 * level
-            end
-        },
-        multipliers = {
-            pointsGenerated = 2
-        }
-    },
-    name = loc("Rocks"),
-    rarity = lp.rarities.COMMON,
-    triggers = {"DESTROY"},
-    basePointsGenerated = 0
-})
 
 
 lp.defineItem("lootplot.content.s0:reaper", {

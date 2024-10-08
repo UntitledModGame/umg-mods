@@ -36,7 +36,7 @@ function trigger.tryTriggerEntity(name, ent)
     end
 
     -- TODO: should this be inside the `if canTrigger` if block???
-    if ent.slot and ent.canSlotPropagate then
+    if lp.isSlotEntity(ent) and ent.canSlotPropagate then
         local itemEnt = lp.slotToItem(ent)
         if itemEnt then
             trigger.tryTriggerEntity(name, itemEnt)
