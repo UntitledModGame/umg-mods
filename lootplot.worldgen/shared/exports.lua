@@ -27,7 +27,6 @@ function lp.worldgen.spawnSlots(ppos, slotType, w, h, lootplotTeam)
 end
 
 
-
 ---@type objects.Array
 lp.worldgen.PERKS = objects.Array()
 
@@ -42,4 +41,19 @@ function lp.worldgen.definePerkItem(name, etype)
 end
 
 
+
+--[[
+
+
+
+TODO:
+
+
+Add support for worldgen items here.
+Ie, items that generate random islands, and such.
+
+
+
+
+]]
 
