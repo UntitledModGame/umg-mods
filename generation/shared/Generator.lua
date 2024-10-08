@@ -72,8 +72,12 @@ function Generator:cloneWith(rng, options)
     return gen
 end
 
-function Generator:getEntryCount()
-    return #self.entries
+
+--- WARNING: Do not mutate!!!!
+---@return any[]
+function Generator:getEntries()
+    -- HMM: should we shallow clone?
+    return self.entries
 end
 
 ---Add new entry to the generator.
