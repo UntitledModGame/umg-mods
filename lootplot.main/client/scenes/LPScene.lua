@@ -4,7 +4,7 @@ local EndGameBox = require("client.elements.EndGameBox")
 local PauseBox = require("client.elements.PauseBox")
 
 local StretchableButton = require("client.elements.StretchableButton")
-local NewRunDialog = require("client.scenes.NewRunDialog")
+local ContinueRunDialog = require("client.scenes.ContinueRunDialog")
 
 local DescriptionBox = require("client.DescriptionBox")
 
@@ -72,11 +72,7 @@ function Scene:init()
     self:addChild(self.endGameBox)
     self:addChild(self.pauseBox)
 
-    self.test = NewRunDialog(function ()
-        print("New run")
-    end, function ()
-        print("Cancel new run")
-    end)
+    self.test = ContinueRunDialog(function()print("Continue")end, function()print("New run")end)
     self:addChild(self.test)
 end
 
