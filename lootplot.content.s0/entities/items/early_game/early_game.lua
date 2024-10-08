@@ -79,6 +79,11 @@ Do something good with the stick
 
 local boneDesc = localization.newInterpolator("When destroyed, permanently gain %{count} points-generated")
 
+--[[
+this item is actually quite important; 
+since it gives the user good intuition behind how the
+destroy-lives systems interact with each other.
+]]
 lp.defineItem("lootplot.content.s0:bone", {
     image = "bone",
 
@@ -94,13 +99,7 @@ lp.defineItem("lootplot.content.s0:bone", {
 
     onDestroy = function(ent)
         lp.modifierBuff(ent, "pointsGenerated", 4 * (ent.tier or 1), ent)
-    end,
-
-    tierUpgrades = {
-        properties = {
-            pointsGenerated = {3,9,27}
-        },
-    }
+    end
 })
 
 
