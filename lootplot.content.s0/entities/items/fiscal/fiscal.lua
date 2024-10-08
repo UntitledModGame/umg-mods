@@ -36,10 +36,16 @@ lp.defineItem("lootplot.content.s0:gold_axe", {
 })
 
 
+local goldNugDesc = localization.newInterpolator("After %{count} activations, turn into a key")
+
 lp.defineItem("lootplot.content.s0:gold_nuggets", {
     image = "gold_nuggets",
     name = loc("Gold Nuggets"),
-    description = loc("After 10 activations, earn $10 and destroy self."),
+    description = function(ent)
+        return goldNugDesc({
+            count = 10 - (ent.totalActivationCount or 0)
+        })
+    end,
 
     basePointsGenerated = 3,
 

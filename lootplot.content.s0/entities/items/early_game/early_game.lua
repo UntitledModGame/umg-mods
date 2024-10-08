@@ -35,14 +35,14 @@ lp.defineItem("lootplot.content.s0:key_rocks", {
     name = loc("Key Rocks"),
     description = function(ent)
         return KEY_DESC({
-            count = 20 - ent.totalActivationCount
+            count = 20 - (ent.totalActivationCount or 0)
         })
     end,
 
     rarity = lp.rarities.COMMON,
 
     onActivate = function(ent)
-        if ent.totalActivationCount >= 19 then
+        if (ent.totalActivationCount or 0) >= 19 then
             local ppos = lp.getPos(ent)
             local etype = server.entities.key
             assert(etype,"?")
@@ -73,24 +73,6 @@ Do something good with the stick
 --     basePointsGenerated = 3,
 -- })
 
-
-
-lp.defineItem("lootplot.content.s0:stick", {
-    image = "key_rocks",
-
-    name = loc("Key Rocks"),
-    description = loc("Key Rocks"),
-
-    rarity = lp.rarities.COMMON,
-
-    basePointsGenerated = 3,
-
-    tierUpgrades = {
-        properties = {
-            pointsGenerated = {3,9,27}
-        },
-    }
-})
 
 
 
