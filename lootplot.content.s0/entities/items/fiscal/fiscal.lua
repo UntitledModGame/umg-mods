@@ -169,6 +169,27 @@ lp.defineItem("lootplot.content.s0:robbers_bag", {
 
 
 
+lp.defineItem("lootplot.content.s0:contract", {
+    image = "contract",
+    name = loc("Contract"),
+
+    rarity = lp.rarities.RARE,
+
+    shape = lp.targets.KING_SHAPE,
+
+    target = {
+        type = "ITEM",
+        description = loc("Generate points equal to the price of item."),
+        filter = function(selfEnt, ppos, targetEnt)
+            return targetEnt.price
+        end,
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.addPoints(selfEnt, targetEnt.price)
+        end
+    }
+})
+
+
 
 
 lp.defineItem("lootplot.content.s0:robber", {

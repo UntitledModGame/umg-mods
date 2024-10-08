@@ -51,10 +51,19 @@ end
 local function setValue(storage, name, value)
     local namespace, str = fromNamespaced(name)
     local saveTabl = getSaveTable(storage, namespace)
+    if saveTabl[str] == value then
+        return false
+    end
     saveTabl[str] = value
     local data = json.encode(saveTabl)
     local fsys = server.getSaveFilesystem()
-    return fsys:write(getFname(storage, namespace), data)
+    local fname = getFname(storage, namespace)
+    local ok, err = fsys:write(fname, data)
+    if ok then
+        umg.log.debug("Saved file: ", fname, " with key-value: ", str, value)
+    else
+        umg.log.error(err)
+    end
 end
 
 
@@ -148,9 +157,9 @@ function lp.metaprogression.winAndUnlockItems(plot)
     for _name, etype in pairs(server.entities) do
         if not seen[etype] then
             seen[etype]=true
-        end
-        if seen.unlock then
-            unlockBuffer:add(etype)
+            if etype.unlock then
+                unlockBuffer:add(etype)
+            end
         end
     end
 
@@ -185,3 +194,14 @@ umg.on("@tick", function()
     end
 end)
 
+
+
+
+---comment
+---@param storage table
+local function createStorage(storage)
+    local fsys = server.getSaveFilesystem()
+    fsys:createDirectory(storage.folder)
+end
+
+createStorage(UNLOCK_STORAGE)

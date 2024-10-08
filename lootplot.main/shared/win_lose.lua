@@ -7,7 +7,10 @@ if server then
 ---@param clientId string|nil
 ---@param win boolean
 function winLose.endGame(clientId, win)
-    -- TODO: Signal mods that game has ended
+    if win then
+        local plot = lp.main.getContext():getPlot()
+        lp.metaprogression.winAndUnlockItems(plot)
+    end
     if clientId then
         server.unicast(clientId, "lootplot.main:gameEnded", win)
     else

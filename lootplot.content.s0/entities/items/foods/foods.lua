@@ -85,7 +85,7 @@ defineFood("lootplot.content.s0:heart_fruit", {
         activate = function(selfEnt, ppos, targetEnt)
             targetEnt.lives = (targetEnt.lives or 0) + 2
         end
-    }
+    },
 })
 
 

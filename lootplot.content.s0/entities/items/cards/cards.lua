@@ -92,21 +92,19 @@ defineCard("lootplot.content.s0:price_card", {
 
     shape = lp.targets.ABOVE_SHAPE,
 
+    rarity = lp.rarities.EPIC,
+
+    doomCount = 10,
+
     target = {
         type = "ITEM",
-        description = loc("{lootplot.targets:COLOR}If item price is odd, double its price.\nElse, halve its price."),
+        description = loc("{lootplot.targets:COLOR}Increase item price by 20%"),
         filter = function(targetEnt)
             return targetEnt.price
         end,
         activate = function(selfEnt, ppos, targetEnt)
-            local price = targetEnt.price
-            local mult
-            if price % 2 == 1 then
-                mult = 2
-            else
-                mult = 0.5
-            end
-            lp.multiplierBuff(targetEnt, "price", mult, selfEnt)
+            local mod = targetEnt.price * 0.2
+            lp.multiplierBuff(targetEnt, "price", mod, selfEnt)
         end
     }
 })
