@@ -1,4 +1,4 @@
-local Scene = require("client.Scene")
+local Scene = require("client.scenes.LPScene")
 
 ---@class lootplot.main.State: objects.Class, state.IState
 local LPState = objects.Class("lootplot.main:State")
@@ -101,7 +101,7 @@ function LPState:onAdded(zorder)
     input.addListener(control.getListener(), zorder)
     input.addListener(follow.getListener(), zorder)
     input.addListener(hoverables.getListener(), zorder)
-    input.addListener(self.listener, zorder)
+    input.addListener(self.listener, zorder + 1)
 end
 
 function LPState:onRemoved()

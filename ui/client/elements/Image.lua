@@ -15,19 +15,27 @@ if false then
 end
 
 local function renderImage(image, ...)
-    if type(image) == "string" then
+    if type(image) == "string" or typecheck.isType(image, "love:Quad") then
         -- then its the name of an asset!
         rendering.drawImage(image, ...)
     else
         -- else, its prolly just a love2d image
-        umg.melt("todo: the offsets aren't done properly for this")
+        -- umg.melt("todo: the offsets aren't done properly for this")
         love.graphics.draw(image, ...)
     end
 end
 
 
+---@param image string|love.Quad|love.Texture
+---@return number,number
 local function getDimensions(image)
-    return rendering.getImageSize(image)
+    if typecheck.isType(image, "love:Texture") then
+        ---@cast image love.Texture
+        return image:getDimensions()
+    else
+        ---@cast image -love.Texture
+        return rendering.getImageSize(image)
+    end
 end
 
 

@@ -349,7 +349,7 @@ end
 
 
 local function dispatchControl(self, controlEnum)
-    local consumed = util.tryCall(self.onControlPress, self, controlEnum) or consumed
+    local consumed = util.tryCall(self.onControlPress, self, controlEnum)
     umg.call("ui:elementControlPressed", self, controlEnum)
     self._isPressedBy[controlEnum] = true
     return consumed

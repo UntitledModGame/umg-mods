@@ -4,6 +4,7 @@ local EndGameBox = require("client.elements.EndGameBox")
 local PauseBox = require("client.elements.PauseBox")
 
 local StretchableButton = require("client.elements.StretchableButton")
+local ContinueRunDialog = require("client.scenes.ContinueRunDialog")
 
 local DescriptionBox = require("client.DescriptionBox")
 
@@ -70,6 +71,9 @@ function Scene:init()
 
     self:addChild(self.endGameBox)
     self:addChild(self.pauseBox)
+
+    -- self.test = ContinueRunDialog(function()print("Continue")end, function()print("New run")end)
+    -- self:addChild(self.test)
 end
 
 
@@ -165,6 +169,10 @@ function Scene:onRender(x,y,w,h)
     if self.popupElement then
         local dialog = r:padRatio(0.3)
         self.popupElement:render(dialog:get())
+    end
+
+    if self.test then
+        self.test:render(r:padRatio(0.32, 0.1):get())
     end
 end
 
