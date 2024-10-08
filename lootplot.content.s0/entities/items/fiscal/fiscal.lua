@@ -36,17 +36,19 @@ lp.defineItem("lootplot.content.s0:gold_axe", {
 })
 
 
-lp.defineItem("lootplot.content.s0:golden_fruit", {
-    image = "golden_fruit",
-    name = loc("Golden Fruit"),
-    description = loc("After 3 activations, give 10 money."),
+lp.defineItem("lootplot.content.s0:gold_nuggets", {
+    image = "gold_nuggets",
+    name = loc("Gold Nuggets"),
+    description = loc("After 10 activations, earn $10 and destroy self."),
 
-    rarity = lp.rarities.UNCOMMON,
+    basePointsGenerated = 3,
 
-    doomCount = 3,
+    rarity = lp.rarities.COMMON,
+
     onActivate = function(selfEnt)
-        if selfEnt.totalActivationCount >= 3 then
-            return lp.addMoney(selfEnt, 10)
+        if selfEnt.totalActivationCount >= 10 then
+            lp.addMoney(selfEnt, 10)
+            lp.destroy(selfEnt)
         end
     end
 })
