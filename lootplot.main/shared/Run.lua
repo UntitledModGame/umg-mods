@@ -27,10 +27,23 @@ umg.definePacket("lootplot.main:syncContextAttribute", {
 
 local attributeList = nil
 
-function Run:init(ent)
-    assert(umg.exists(ent), "Must pass an entity!")
+
+umg.defineEntityType("lootplot.main:world", {})
+
+
+function Run:init()
+
+    local ent = server.entities.world()
+    ent.lootplotMainRun = self
+    ent.x = 0
+    ent.y = 0
     self.ownerEnt = ent
-    assert(ent.plot, "Needs a plot!")
+
+    ent.plot = lp.Plot(
+        ent,
+        lp.main.constants.WORLD_PLOT_SIZE,
+        lp.main.constants.WORLD_PLOT_SIZE
+    )
 
     local constants = lp.main.constants
 

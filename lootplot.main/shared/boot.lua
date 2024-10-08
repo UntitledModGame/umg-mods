@@ -1,5 +1,5 @@
 
-local Context = require("shared.Context")
+local Run = require("shared.Run")
 
 
 lp.defineAttribute("ROUND")
@@ -13,28 +13,6 @@ lp.defineAttribute("NUMBER_OF_ROUNDS")
 lp.defineAttribute("REQUIRED_POINTS")
 -- once we reach this number, we can progress to next level.
 
-
-
-umg.defineEntityType("lootplot.main:world", {})
-
-
-local function createWorld()
-    local wEnt = server.entities.world()
-    wEnt.x = 0
-    wEnt.y = 0
-
-    wEnt.plot = lp.Plot(
-        wEnt, 
-        lp.main.constants.WORLD_PLOT_SIZE, 
-        lp.main.constants.WORLD_PLOT_SIZE
-    )
-
-    -- the reason we save Context inside an entity,
-    -- is because if we go to save the world, the world-data will be
-    -- saved alongside the world-entity.
-    wEnt.lootplotMainRun = Context(wEnt)
-    return wEnt
-end
 
 
 --[[
@@ -60,14 +38,11 @@ local function initializeSlots(clientId, plot)
         lp.forceSpawnSlot(ppos, server.entities.sell_slot, clientId)
     end)
 
-    -- Meta-buttons
-    lp.forceSpawnSlot(plot:getPPos(6,4), server.entities.next_round_button_slot, clientId)
-    lp.forceSpawnSlot(plot:getPPos(7,4), server.entities.next_level_button_slot, clientId)
 end
 
 ---@param plot lootplot.Plot
 ---@param worldEnt Entity
-local function initializeItems(plot, worldEnt)
+local function initBuiltins(plot, worldEnt)
     local dclock = server.entities.doom_clock()
     dclock._plotX = 10
     dclock._plotY = 4
@@ -78,17 +53,21 @@ local function initializeItems(plot, worldEnt)
     dclock.y = v.y
     dclock.dimension = v.dimension
 
-    local context = worldEnt.lootplotMainRun
-    context:setDoomClock(dclock)
+    local run = worldEnt.lootplotMainRun
+    run:setDoomClock(dclock)
+
+    -- Meta-buttons
+    lp.forceSpawnSlot(plot:getPPos(6,4), server.entities.next_round_button_slot, clientId)
+    lp.forceSpawnSlot(plot:getPPos(7,4), server.entities.next_level_button_slot, clientId)
 end
 
 if server then
 
 umg.on("@load", function()
-    local ent = createWorld()
+    local ent = Run()
     local clientId = server.getHostClient()
     initializeSlots(clientId, ent.plot)
-    initializeItems(ent.plot, ent)
+    initBuiltins(ent.plot, ent)
 end)
 
 end
