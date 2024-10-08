@@ -15,7 +15,7 @@ But that's not really possible, because we don't know what plots exist;
 
 
 local function getPPos(clientId)
-    local ctx = lp.main.getContext()
+    local ctx = lp.main.getRun()
     local plot = ctx:getPlot()
 
     local player = control.getControlledEntities(clientId)[1]

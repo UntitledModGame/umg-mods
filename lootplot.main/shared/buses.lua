@@ -21,7 +21,7 @@ end)
 
 umg.on("@tick", function(dt)
     if lp.main.isReady() then
-        local ctx = lp.main.getContext()
+        local ctx = lp.main.getRun()
 
         local p = ctx:getPlot()
         local ent = p:getOwnerEntity()

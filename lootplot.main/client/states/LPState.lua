@@ -43,7 +43,7 @@ function LPState:init()
 
     self.listener:onReleased("input:CLICK_PRIMARY", function()
         if not self.claimedByControl then
-            local plot = lp.main.getContext():getPlot()
+            local plot = lp.main.getRun():getPlot()
             local x, y = input.getPointerPosition()
             local wx, wy = camera.get():toWorldCoords(x, y)
             local ppos = plot:getClosestPPos(wx, wy)

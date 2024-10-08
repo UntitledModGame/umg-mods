@@ -32,7 +32,7 @@ local function createWorld()
     -- the reason we save Context inside an entity,
     -- is because if we go to save the world, the world-data will be
     -- saved alongside the world-entity.
-    wEnt.lootplotContext = Context(wEnt)
+    wEnt.lootplotMainRun = Context(wEnt)
     return wEnt
 end
 
@@ -78,7 +78,7 @@ local function initializeItems(plot, worldEnt)
     dclock.y = v.y
     dclock.dimension = v.dimension
 
-    local context = worldEnt.lootplotContext
+    local context = worldEnt.lootplotMainRun
     context:setDoomClock(dclock)
 end
 
@@ -104,7 +104,7 @@ end)
 umg.on("@tick", function()
     if server then
         if lp.main.isReady() then
-            local ctx = lp.main.getContext()
+            local ctx = lp.main.getRun()
             ctx:sync()
             ctx:tick()
         end

@@ -1,10 +1,10 @@
 
 --[[
 
-Context:
+Run:
 
-There is one "Context" object when a lootplot game is running.
-(The "Context" object belongs to the worldEnt)
+There is one "Run" object when a lootplot.main game is running.
+(The "Run" object belongs to the worldEnt)
 
 ----------------------------------
 
@@ -17,8 +17,8 @@ Get enough points to kill the loot-monster.
 
 ]]
 
----@class lootplot.Context: objects.Class
-local Context = objects.Class("lootplot.main:Context")
+---@class lootplot.Run: objects.Class
+local Run = objects.Class("lootplot.main:Run")
 
 
 umg.definePacket("lootplot.main:syncContextAttribute", {
@@ -27,7 +27,7 @@ umg.definePacket("lootplot.main:syncContextAttribute", {
 
 local attributeList = nil
 
-function Context:init(ent)
+function Run:init(ent)
     assert(umg.exists(ent), "Must pass an entity!")
     self.ownerEnt = ent
     assert(ent.plot, "Needs a plot!")
@@ -53,17 +53,17 @@ function Context:init(ent)
 end
 
 
-function Context:setDoomClock(ent)
+function Run:setDoomClock(ent)
     self.doomClockEntity = ent
 end
 
-function Context:getDoomClock()
+function Run:getDoomClock()
     return self.doomClockEntity
 end
 
 
 
-function Context:sync()
+function Run:sync()
     -- syncs everything:
     assert(server,"?")
     attributeList = attributeList or lp.getAllAttributes()
@@ -72,18 +72,18 @@ function Context:sync()
     end
 end
 
-function Context:tick()
+function Run:tick()
     local plot = self:getPlot()
     plot:tick()
 end
 
 ---@return lootplot.Plot
-function Context:getPlot()
+function Run:getPlot()
     return self.ownerEnt.plot
 end
 
 
-function Context:syncValue(key)
+function Run:syncValue(key)
     assert(server, "This function can only be called on server-side.")
     if not lp.isValidAttribute(key) then
         error("Invalid key: " .. key)
@@ -93,12 +93,12 @@ end
 
 if client then
     client.on("lootplot.main:syncContextAttribute", function(ent, field, val)
-        ent.lootplotContext.attrs[field] = val
+        ent.lootplotMainRun.attrs[field] = val
     end)
 end
 
 
-function Context:getAttributeSetters()
+function Run:getAttributeSetters()
     local attributeSetters = {}
     for _, attr in ipairs(lp.getAllAttributes()) do
         --[[
@@ -124,7 +124,7 @@ umg.definePacket("lootplot.main:setSpeedMultipler", {typelist = {"number"}})
 local currentMultipler = 1
 
 ---@param mult number
-function Context:setSpeedMultipler(mult)
+function Run:setSpeedMultipler(mult)
     if server then
         currentMultipler = mult
     else
@@ -147,6 +147,6 @@ end)
 end
 
 
-return Context
+return Run
 
 

@@ -8,7 +8,7 @@ if server then
 ---@param win boolean
 function winLose.endGame(clientId, win)
     if win then
-        local plot = lp.main.getContext():getPlot()
+        local plot = lp.main.getRun():getPlot()
         lp.metaprogression.winAndUnlockItems(plot)
     end
     if clientId then

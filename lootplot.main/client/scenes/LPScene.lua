@@ -36,7 +36,7 @@ function Scene:init()
         end,
         setGameSpeed = function(speed)
             if lp.main.isReady() then
-                lp.main.getContext():setSpeedMultipler(2 ^ speed)
+                lp.main.getRun():setSpeedMultipler(2 ^ speed)
             end
 
             self.gameSpeedMultiplerFactor = speed

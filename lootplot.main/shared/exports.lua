@@ -9,16 +9,16 @@ assert(not lp.main, "invalid mod setup")
 local main = {}
 
 
-local currentContext = nil
+local currentRun = nil
 
-local lpWorldGroup = umg.group("lootplotContext")
+local lpWorldGroup = umg.group("lootplotMainRun")
 lpWorldGroup:onAdded(function(ent)
     --[[
     TODO: this whole code feels hacky and weirdddd
     ]]
-    if not currentContext then
-        currentContext = ent.lootplotContext
-        lp.initialize(currentContext:getAttributeSetters())
+    if not currentRun then
+        currentRun = ent.lootplotMainRun
+        lp.initialize(currentRun:getAttributeSetters())
     else
         umg.log.fatal("WARNING::: Duplicate lootplot.main context created!!")
     end
@@ -26,14 +26,14 @@ end)
 
 ---Availability: Client and Server
 function main.isReady()
-    return not not currentContext
+    return not not currentRun
 end
 
 ---Availability: Client and Server
----@return lootplot.Context
-function main.getContext()
-    assert(currentContext, "Not ready yet! (Check using lp.main.isReady() )")
-    return currentContext
+---@return lootplot.Run
+function main.getRun()
+    assert(currentRun, "Not ready yet! (Check using lp.main.isReady() )")
+    return currentRun
 end
 
 ---Availability: Client and Server
