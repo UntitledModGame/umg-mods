@@ -28,7 +28,7 @@ function AutoOutlineText:setText(text)
 end
 
 function AutoOutlineText:onRender(x, y, w, h)
-    self.text.outline = self.outline * globalScale.get()
+    self.text.outline = self.outline-- * globalScale.get()
     return self.text:render(x, y, w, h)
 end
 

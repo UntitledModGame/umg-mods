@@ -18,7 +18,8 @@ function ContinueRunDialog:init(continueRunAction, newRunAction)
     local e = {}
     e.base = StretchableBox("white_pressed_big", 8, {
         stretchType = "repeat",
-        color = BACKGROUND_COLOR
+        color = BACKGROUND_COLOR,
+        scale = 2
     })
     e.title = ui.elements.Text({
         text = "Continue Run?",
@@ -32,19 +33,21 @@ function ContinueRunDialog:init(continueRunAction, newRunAction)
             return newRunAction(nil)
         end,
         text = "Start New Run",
+        scale = 2,
         color = objects.Color(1,1,1,1):setHSL(340, 0.7, 0.5),
-        font = fonts.getLargeFont(FONT_SIZE),
+        font = fonts.getLargeFont(),
     })
     e.continueRunButton = StretchableButton({
         onClick = continueRunAction,
         text = "Continue Run",
+        scale = 2,
         color = objects.Color(1,1,1,1):setHSL(184, 0.7, 0.5),
-        font = fonts.getLargeFont(FONT_SIZE),
+        font = fonts.getLargeFont(),
     })
     e.newRunInfo = ui.elements.Text({
         text = "Starting new\nrun will\noverwrite your\nexisting run.",
         color = objects.Color.WHITE,
-        outline = 2,
+        outline = 1,
         outlineColor = objects.Color.BLACK,
         getScale = function()
             return globalScale.get() * 1.5
@@ -70,14 +73,14 @@ function ContinueRunDialog:onRender(x, y, w, h)
     local r = layout.Region(x,y,w,h):padRatio(0.05, 0.2)
 
     local title, body = r:splitVertical(1, 4)
-    body = body:padRatio(0.2)
+    body = body:padRatio(0.1)
     title = title:padRatio(0.1)
         :moveRatio(0, 0.1 * math.sin(love.timer.getTime()))
     local continuePane, startPane = body:splitHorizontal(1, 1)
     local continueInfo, continueButton = continuePane:splitVertical(4, 1)
-    continueButton = continueButton:shrinkToAspectRatio(3,1):padRatio(0.1,0.25)
+    continueButton = continueButton:shrinkToAspectRatio(3,1)
     local startInfo, startButton = startPane:splitVertical(4, 1)
-    startButton = startButton:shrinkToAspectRatio(3,1):padRatio(0.1,0.25)
+    startButton = startButton:shrinkToAspectRatio(3,1)
 
     self.elements.base:render(r:get())
     self.elements.title:render(title:get())

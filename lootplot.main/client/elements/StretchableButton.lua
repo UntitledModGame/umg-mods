@@ -1,5 +1,7 @@
 local AutoOutlineText = require("client.elements.AutoOutlineText")
 local StretchableBox = require("client.elements.StretchableBox")
+local globalScale = require("client.globalScale")
+local fonts = require("client.fonts")
 
 ---@class lootplot.main.StretchableButton: Element
 local StretchableButton = ui.Element("lootplot.main:StretchableButton")
@@ -15,12 +17,16 @@ local function giveTextElement(self, elem)
         return
     end
 
-    local textElement = AutoOutlineText({
+    local textElement = ui.elements.Text({
         text = tostring(self.text),
-        font = self.font,
-        color = self.textColor,
-        outline = 1.5,
-        outlineColor = self.outlineColor or objects.Color.BLACK
+        font = fonts.getLargeFont(),
+        color = objects.Color.WHITE,
+        outline = 1,
+        outlineColor = objects.Color.BLACK,
+        getScale = function()
+            return globalScale.get() * self.scale
+        end,
+        rescale = true
     })
     elem:setContent(textElement)
 end
@@ -29,18 +35,16 @@ function StretchableButton:init(args)
     typecheck.assertKeys(args, {"onClick", "color"})
     self.click = args.onClick
     self.text = args.text
-    self.font = args.font or lg.getFont()
-    self.outlineColor = args.outlineColor
-    self.textColor = args.textColor or objects.Color.WHITE
     self.color = args.color
+    self.scale = args.scale or 1
 
     self.buttonPressed = StretchableBox("white_pressed_big", BUTTON_PADDING, {
-        scale = 2,
+        scale = self.scale,
         stretchType = "repeat",
     })
 
     self.button = StretchableBox("white_big", BUTTON_PADDING, {
-        scale = 2,
+        scale = self.scale,
         stretchType = "repeat",
     })
 
@@ -52,7 +56,7 @@ function StretchableButton:init(args)
 end
 
 if false then
-    ---@param args {onClick:function,color:table,text?:string|fun():(string),font:love.Font?,outlineColor:objects.Color?,textColor:objects.Color?}
+    ---@param args {onClick:function,color:objects.Color,text?:string|fun():(string),scale:number?}
     ---@return lootplot.main.StretchableButton
     function StretchableButton(args) end
 end

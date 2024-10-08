@@ -23,7 +23,7 @@ local function getTextSize(font, text, wrap)
 end
 
 
----@param args string|{text:string,wrap:number?,font:love.Font?,align:love.AlignMode?,color:objects.Color?,outline:number?,outlineColor:objects.Color?,getScale?:fun():number}
+---@param args string|{text:string,wrap:number?,font:love.Font?,align:love.AlignMode?,color:objects.Color?,outline:number?,outlineColor:objects.Color?,getScale?:fun():(number),rescale:boolean?}
 function Text:init(args)
     self.font = love.graphics.getFont()
     self.getScale = nil
@@ -39,11 +39,16 @@ function Text:init(args)
     self.align = args.align or "center"
 
     self.color = args.color
-
-    self.outline = args.outline
+    self.outline = args.outline or 0
     self.outlineColor = args.outlineColor
     if self.outline then
         assert(type(self.outline) == "number", "Outline must be number")
+    end
+
+    if self.getScale then
+        self.rescale = not not args.rescale
+    else
+        self.rescale = true
     end
 end
 
@@ -65,9 +70,16 @@ function Text:onRender(x,y,w,h)
     ---@cast limit number
 
     -- scale text to fit box
-    local scale = math.min(w/tw, h/th)
+    local autoScale = math.min(w/tw, h/th)
+    local scale
     if self.getScale then
         scale = self.getScale()
+
+        if self.rescale then
+            scale = math.min(scale, autoScale)
+        end
+    else
+        scale = autoScale
     end
 
 
@@ -75,13 +87,13 @@ function Text:onRender(x,y,w,h)
     local color = self.color or DEFAULT_COLOR
     local realLimit = limit / scale
 
-    if self.outline then
+    if self.outline > 0 then
         local outlineColor = self.outlineColor or DEFAULT_OUTLINE_COLOR
         local am = self.outline
         lg.setColor(outlineColor)
         for ox=-am, am, am do
             for oy=-am, am, am do
-                local oxs, oys = ox/scale, oy/scale
+                local oxs, oys = ox * scale, oy * scale
                 lg.printf(self.text, self.font, drawX + oxs, drawY + oys, realLimit, self.align, 0, scale, scale)
             end
         end

@@ -72,8 +72,8 @@ function Scene:init()
     self:addChild(self.endGameBox)
     self:addChild(self.pauseBox)
 
-    -- self.test = ContinueRunDialog(function()print("Continue")end, function()print("New run")end)
-    -- self:addChild(self.test)
+    self.test = ContinueRunDialog(function()self.test = nil end, function()self.test = nil end)
+    self:addChild(self.test)
 end
 
 
@@ -216,6 +216,10 @@ local function setSelectedItemDescription(self, selection)
     self.itemDescriptionSelectedTime = 0
 end
 
+local function twiceGlobalScale()
+    return globalScale.get()
+end
+
 ---@param action lootplot.SlotAction
 local function createActionButton(action)
     return StretchableButton({
@@ -228,7 +232,9 @@ local function createActionButton(action)
             end
         end,
         text = action.text,
-        color = action.color or {1,1,1}
+        color = action.color or {1,1,1},
+        font = fonts.getLargeFont(),
+        scale = 2
     })
 end
 

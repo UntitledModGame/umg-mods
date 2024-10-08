@@ -6,11 +6,12 @@ local StretchableBox = ui.Element("lootplot.main:StretchableBox")
 
 ---@param quadName string
 ---@param padding number[]|number
----@param args? {stretchType?: n9slice.StretchType, content?: any, color:objects.Color}
+---@param args? {stretchType?: n9slice.StretchType, content?: any, color:objects.Color, scale:number?}
 function StretchableBox:init(quadName, padding, args)
     args = args or {}
 
     self.content = nil
+    self.scale = args.scale or 1
 
     local quad = client.assets.images[quadName]
     assert(quad, "?")
@@ -30,7 +31,7 @@ end
 if false then
     ---@param quadName string
     ---@param padding number[]|number
-    ---@param args? {stretchType?: n9slice.StretchType, content?: any}
+    ---@param args? {stretchType?: n9slice.StretchType, content?: any, scale:number?}
     ---@return lootplot.main.StretchableBox
     function StretchableBox(quadName, padding, args) end
 end
@@ -57,7 +58,7 @@ function StretchableBox:onRender(x, y, w, h)
     if self.color then
         love.graphics.setColor(self.color)
     end
-    local scale = globalScale.get()
+    local scale = globalScale.get() * self.scale
     local width, height = w / scale, h / scale
     self.n9p:draw(x, y, width, height, 0, scale, scale)
 
