@@ -1,4 +1,3 @@
-local AutoOutlineText = require("client.elements.AutoOutlineText")
 local StretchableBox = require("client.elements.StretchableBox")
 local globalScale = require("client.globalScale")
 local fonts = require("client.fonts")
