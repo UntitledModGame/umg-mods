@@ -110,15 +110,15 @@ umg.defineEntityType("lootplot.main:doom_clock", {
         })
 
         local money = MONEY({
-            money = math.floor(lp.getMoney(ent))
+            money = math.floor(assert(lp.getMoney(ent)))
         })
 
         local font = love.graphics.getFont()
         local limit = 0xffff
         local scale = 1.5
 
-        text.printRichCentered(needPoints, font, x, y - 40, limit, "left", rot, sx*scale,sy*scale, kx,ky)
-        text.printRichCentered(money, font, x, y - 24, limit, "left", rot, sx*scale,sy*scale, kx,ky)
+        text.printRichCentered(needPoints, font, x, y - 40, limit, "left", rot, sx*scale,sy*scale)
+        text.printRichCentered(money, font, x, y - 24, limit, "left", rot, sx*scale,sy*scale)
     end,
 
     onActivate = function(ent)

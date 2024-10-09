@@ -12,8 +12,11 @@ local worldPlotEnts = umg.group("plot", "x", "y")
 
 
 
-local function updateItem(itemEnt, slotEnt)
-    assert(slotEnt.x and slotEnt.y, "???")
+
+local function updateItem(itemEnt, ppos)
+    local dvec = ppos:getWorldPos()
+    local x, y = dvec.x, dvec.y
+    assert(dvec, "?")
     
     -- the target position the item should lerp to.
     local targetX, targetY = umg.ask("lootplot:getItemTargetPosition", itemEnt)
@@ -21,13 +24,13 @@ local function updateItem(itemEnt, slotEnt)
         itemEnt.targetX = targetX
         itemEnt.targetY = targetY
     else
-        itemEnt.targetX = slotEnt.x
-        itemEnt.targetY = slotEnt.y
+        itemEnt.targetX = x
+        itemEnt.targetY = y
     end
 
     if not (itemEnt.x and itemEnt.y) then
-        itemEnt.x = slotEnt.x
-        itemEnt.y = slotEnt.y
+        itemEnt.x = x
+        itemEnt.y = y
     end
 end
 
@@ -35,20 +38,23 @@ end
 local function updateSlot(slotEnt, ppos)
     local dvec = ppos:getWorldPos()
     slotEnt.x, slotEnt.y = dvec.x, dvec.y
-
-    local item = lp.posToItem(ppos)
-    if item then
-        updateItem(item, slotEnt)
-    end
 end
 
+
+local updateFuncs = {
+    item = updateItem,
+    slot = updateSlot,
+}
 
 
 umg.on("@tick", function(dt)
     for _, plotEnt in ipairs(worldPlotEnts) do
         local plot = plotEnt.plot
-        plot:foreachSlot(function(slotEnt, ppos)
-            updateSlot(slotEnt, ppos)
+        plot:foreachLayerEntry(function(slotEnt, ppos, layer)
+            local f = updateFuncs[layer]
+            if f then
+                f(slotEnt, ppos)
+            end
         end)
     end
 end)

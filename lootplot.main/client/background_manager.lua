@@ -1,6 +1,5 @@
 local backgroundManager = {}
 
-local INTERPOLATION_TIME = 1.5 -- in seconds
 
 ---@type lootplot.main.Background?
 local previousBackground = nil

@@ -33,7 +33,7 @@ local function startRound(ent, ppos)
     -- pulse all slots:
     lp.Bufferer()
         :all(plot)
-        :to("SLOT") -- ppos-->slot
+        :to("SLOT_OR_ITEM") -- ppos-->slot
         :execute(function(_ppos, slotEnt)
             lp.resetCombo(slotEnt)
             lp.tryTriggerEntity("PULSE", slotEnt)

@@ -180,12 +180,13 @@ end
 lp.CONVERSIONS = {
     ITEM = "ITEM",
     SLOT = "SLOT",
-    ITEM_OR_SLOT = "ITEM_OR_SLOT", -- item OR slot
+    ITEM_OR_SLOT = "ITEM_OR_SLOT", -- checks item first, then slot
+    SLOT_OR_ITEM = "SLOT_OR_ITEM", -- checks slot first, then item
     NO_ITEM = "NO_ITEM", -- ppos with no item
     NO_SLOT = "NO_SLOT", -- ppos with no slot
 }
 
----@alias lootplot.CONVERSION_TYPE "ITEM"|"SLOT"|"NO_SLOT"|"NO_ITEM"|"ITEM_OR_SLOT"
+---@alias lootplot.CONVERSION_TYPE "ITEM"|"SLOT"|"NO_SLOT"|"NO_ITEM"|"ITEM_OR_SLOT"|"SLOT_OR_ITEM"
 
 --- Returns a boolean, true iff the ppos is valid w.r.t the conversion type.
 --- The second return value is the entity (if any) that was converted.
@@ -211,6 +212,15 @@ function lp.tryConvert(ppos, conversionType)
         local slot = lp.posToSlot(ppos)
         if slot then
             return true, slot
+        end
+    elseif conversionType == "SLOT_OR_ITEM" then
+        local slot = lp.posToSlot(ppos)
+        if slot then
+            return true, slot
+        end
+        local item = lp.posToItem(ppos)
+        if item then
+            return true, item
         end
     end
     return false
