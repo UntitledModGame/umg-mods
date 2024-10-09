@@ -78,7 +78,7 @@ umg.on("@update", function(dt)
             state.pop(runState)
             runStatePushed = false
         end
-        
+
         if not lpStatePushed then
             lpStatePushed = true
             state.push(lpState, LP_STATE_Z_ORDER)
@@ -90,6 +90,18 @@ end)
 
 local CONTINUE_RUN_STATE_Z_ORDER = 10
 
+
+local function makeCallableOnce(f)
+    local called = false
+
+    return function(...)
+        if not called then
+            called = true
+            return f(...)
+        end
+    end
+end
+
 umg.on("@load", function()
     -- let @update loop handle pushing LPState
     if not lp.main.isReady() then
@@ -99,8 +111,8 @@ umg.on("@load", function()
             if host then
                 if run then
                     setupData = {
-                        continueRunAction = runManager.continueRun,
-                        newRunAction = runManager.newRun
+                        continueRunAction = makeCallableOnce(runManager.continueRun),
+                        newRunAction = makeCallableOnce(runManager.newRun)
                     }
                 else
                     return runManager.newRun()

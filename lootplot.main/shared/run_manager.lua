@@ -19,6 +19,14 @@ local function queryRunServer()
         local runmeta = json.decode(assert(save:read("run_meta.json")))
         return runmeta
     end
+
+    return nil
+    -- return {
+    --     playtime = 1234,
+    --     level = 4,
+    --     perk = "lootplot.content.s0:one_ball",
+    --     seed = 1234
+    -- }
 end
 
 ---@param seed string
@@ -72,7 +80,9 @@ client.on("lootplot.main:queryRunResult", function(isHost, runmeta)
 
     local cb = queryRunCallback
     queryRunCallback = nil
-    cb(isHost, runmetaDeser)
+    if cb then
+        cb(isHost, runmetaDeser)
+    end
 end)
 
 end
@@ -83,6 +93,7 @@ function runManager.queryRun(callback)
         callback(true, queryRunServer())
     else
         assert(not queryRunCallback, "only one runManager.queryRun can be run at a time")
+        queryRunCallback = callback
         client.send("lootplot.main:queryRun")
     end
 end

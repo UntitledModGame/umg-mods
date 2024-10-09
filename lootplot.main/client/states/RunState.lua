@@ -45,6 +45,10 @@ function RunState:init()
             end
         end
     end)
+
+    self.listener:onPointerMoved(function(this, x,y, dx,dy)
+        return self.scene:pointerMoved(x,y, dx,dy)
+    end)
 end
 
 ---@param args? {continueRunAction:(fun()),newRunAction:fun(seed:string|nil)}
@@ -78,8 +82,6 @@ function RunState:update(dt)
 end
 
 function RunState:draw()
-    --rendering.drawWorld()
-
     if self.scene then
         self.scene:render(love.window.getSafeArea())
     end
