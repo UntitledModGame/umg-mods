@@ -1,3 +1,3 @@
 {
-    "uses": ["lootplot.content.s0", "lootplot", "lootplot.worldgen"]
+    "uses": ["lootplot.s0.content", "lootplot", "lootplot.worldgen"]
 }

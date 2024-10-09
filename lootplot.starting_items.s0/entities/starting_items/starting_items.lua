@@ -5,7 +5,7 @@ local function definePerk(id, etype)
     etype.image = etype.image or id
 
     lp.worldgen.PERKS:add(etype, 1)
-    lp.defineItem("lootplot.content.s0:" .. id, etype)
+    lp.defineItem("lootplot.s0.content:" .. id, etype)
 end
 
 

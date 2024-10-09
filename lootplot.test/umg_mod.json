@@ -2,7 +2,7 @@
     "type": "playable",
     "uses": [
         "lootplot",
-        "lootplot.content.s0", 
+        "lootplot.s0.content", 
         "lootplot.juice", 
         "lootplot.sound",
         "zenith"

@@ -1,7 +1,7 @@
 local loc = localization.localize
 
 local function defineBook(id, name, targetSlot, targetSlotName)
-    return lp.defineItem("lootplot.content.s0:"..id, {
+    return lp.defineItem("lootplot.s0.content:"..id, {
         image = id,
         name = loc(name),
 
@@ -21,7 +21,7 @@ local function defineBook(id, name, targetSlot, targetSlotName)
                     targSlot = targetSlot
                 end
 
-                local newSlotEnt = server.entities["lootplot.content.s0:"..targSlot]
+                local newSlotEnt = server.entities["lootplot.s0.content:"..targSlot]
                 if newSlotEnt then
                     lp.forceSpawnSlot(ppos, newSlotEnt, selfEnt.lootplotTeam)
                 end

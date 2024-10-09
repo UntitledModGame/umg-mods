@@ -28,7 +28,7 @@ end
 
 
 
-defineCard("lootplot.content.s0:star_card", {
+defineCard("lootplot.s0.content:star_card", {
     image = "star_card",
     name = loc("Star Card"),
 
@@ -71,7 +71,7 @@ defineCard("lootplot.content.s0:star_card", {
 })
 
 
-defineCard("lootplot.content.s0:diamonds_card", {
+defineCard("lootplot.s0.content:diamonds_card", {
     image = "diamonds_card",
     name = loc("Diamonds Card"),
     shape = lp.targets.ABOVE_BELOW_SHAPE,
@@ -86,7 +86,7 @@ defineCard("lootplot.content.s0:diamonds_card", {
 })
 
 
-defineCard("lootplot.content.s0:price_card", {
+defineCard("lootplot.s0.content:price_card", {
     image = "price_card",
     name = loc("Price Card"),
 
@@ -110,7 +110,7 @@ defineCard("lootplot.content.s0:price_card", {
 })
 
 
-defineCard("lootplot.content.s0:spades_card", {
+defineCard("lootplot.s0.content:spades_card", {
     image = "spades_card",
     name = loc("Spades Card"),
 

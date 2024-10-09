@@ -10,7 +10,7 @@ local function defineFood(entName, etype)
 end
 
 
-defineFood("lootplot.content.s0:blueberry", {
+defineFood("lootplot.s0.content:blueberry", {
     image = "blueberry",
 
     name = loc("Blueberry"),
@@ -47,7 +47,7 @@ These fruit(s?) are always free to be used!
 
 
 
-defineFood("lootplot.content.s0:magic_turnip", {
+defineFood("lootplot.s0.content:magic_turnip", {
     image = "magic_turnip",
     name = loc("Magic Turnip"),
 
@@ -71,7 +71,7 @@ defineFood("lootplot.content.s0:magic_turnip", {
 
 
 
-defineFood("lootplot.content.s0:heart_fruit", {
+defineFood("lootplot.s0.content:heart_fruit", {
     image = "heart_fruit",
     name = loc("Heart Fruit"),
 
@@ -97,7 +97,7 @@ defineFood("lootplot.content.s0:heart_fruit", {
 
 
 local function defineSlotSpawner(id_image, name, spawnSlot, spawnSlotName, shape, extraComponents, slotModifier)
-    local entId = "lootplot.content.s0:" .. id_image
+    local entId = "lootplot.s0.content:" .. id_image
     extraComponents = extraComponents or {}
 
     local etype = {
@@ -112,7 +112,7 @@ local function defineSlotSpawner(id_image, name, spawnSlot, spawnSlotName, shape
             type = "NO_SLOT",
             description = loc("{lootplot.targets:COLOR}Spawns a " .. spawnSlotName),
             activate = function (selfEnt, ppos)
-                local etype = server.entities["lootplot.content.s0:" .. spawnSlot]
+                local etype = server.entities["lootplot.s0.content:" .. spawnSlot]
                 assert(etype, "?")
                 local slotEnt = lp.trySpawnSlot(ppos, etype, selfEnt.lootplotTeam)
                 if slotModifier and slotEnt then
@@ -167,7 +167,7 @@ defineSlotSpawner("coconut", "Coconut", "dirt_slot", "Dirt Slot", lp.targets.Roo
 ----------------------------------------------------------------------------
 
 local function defineSlotConverter(id_image, name, spawnSlot, spawnSlotName, shape, extraComponents, slotModifier)
-    local entId = "lootplot.content.s0:" .. id_image
+    local entId = "lootplot.s0.content:" .. id_image
     extraComponents = extraComponents or {}
 
     local etype = {
@@ -180,7 +180,7 @@ local function defineSlotConverter(id_image, name, spawnSlot, spawnSlotName, sha
             type = "SLOT",
             description = loc("{lootplot.targets:COLOR}Converts target slot into " .. spawnSlotName),
             activate = function (selfEnt, ppos)
-                local etype = server.entities["lootplot.content.s0:" .. spawnSlot]
+                local etype = server.entities["lootplot.s0.content:" .. spawnSlot]
                 assert(etype, "?")
                 local slotEnt = lp.forceSpawnSlot(ppos, etype, selfEnt.lootplotTeam)
                 if slotModifier and slotEnt then
@@ -218,7 +218,7 @@ end)
 ----------------------------------------------------------------------------
 
 
-defineFood("lootplot.content.s0:super_apple", {
+defineFood("lootplot.s0.content:super_apple", {
     image = "apple",
     name = loc("Super Apple"),
 
@@ -251,7 +251,7 @@ defineFood("lootplot.content.s0:super_apple", {
 
 
 local function definePie(id, name, desc, addShape, rarity)
-    defineFood("lootplot.content.s0:" .. id, {
+    defineFood("lootplot.s0.content:" .. id, {
         image = id,
         name = loc(name),
 
@@ -302,7 +302,7 @@ local function definePotion(name, etype)
     defineFood(name, etype)
 end
 
-definePotion("lootplot.content.s0:potion_green", {
+definePotion("lootplot.s0.content:potion_green", {
     image = "potion_green",
 
     name = loc("Green Potion"),
@@ -320,7 +320,7 @@ definePotion("lootplot.content.s0:potion_green", {
 
 
 
-definePotion("lootplot.content.s0:potion_blue", {
+definePotion("lootplot.s0.content:potion_blue", {
     image = "potion_blue",
     name = loc("Blue Potion"),
 
@@ -336,7 +336,7 @@ definePotion("lootplot.content.s0:potion_blue", {
 })
 
 
-definePotion("lootplot.content.s0:potion_red", {
+definePotion("lootplot.s0.content:potion_red", {
     image = "potion_red",
     name = loc("Red Potion"),
 
@@ -352,7 +352,7 @@ definePotion("lootplot.content.s0:potion_red", {
 })
 
 
-definePotion("lootplot.content.s0:potion_purple", {
+definePotion("lootplot.s0.content:potion_purple", {
     image = "potion_purple",
     name = loc("Purple Potion"),
 
@@ -382,7 +382,7 @@ definePotion("lootplot.content.s0:potion_purple", {
 local function defineMush(id, etype)
     etype.image = id
     etype.rarity = lp.rarities.RARE
-    defineFood("lootplot.content.s0:" .. id, etype)
+    defineFood("lootplot.s0.content:" .. id, etype)
 end
 
 defineMush("mushroom_red", {
@@ -467,7 +467,7 @@ local function defineDonut(id, name, targetDesc, buffAmount)
             end
         }
     }
-    defineFood("lootplot.content.s0:" .. id, etype)
+    defineFood("lootplot.s0.content:" .. id, etype)
 end
 
 

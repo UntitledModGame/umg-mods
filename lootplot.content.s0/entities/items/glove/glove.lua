@@ -1,7 +1,7 @@
 local loc = localization.localize
 
 local function defineGlove(id, name, description, giveShape, rarity)
-    return lp.defineItem("lootplot.content.s0:"..id, {
+    return lp.defineItem("lootplot.s0.content:"..id, {
         image = id,
         name = loc(name),
 

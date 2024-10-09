@@ -1,6 +1,6 @@
 local loc = localization.localize
 
-lp.defineItem("lootplot.content.s0:spartan_helmet", {
+lp.defineItem("lootplot.s0.content:spartan_helmet", {
     image = "spartan_helmet",
 
     name = loc("Spartan Helmet"),

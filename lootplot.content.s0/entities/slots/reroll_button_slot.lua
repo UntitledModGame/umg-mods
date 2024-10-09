@@ -4,7 +4,7 @@ local helper = require("shared.helper")
 
 
 
-return lp.defineSlot("lootplot.content.s0:reroll_button_slot", {
+return lp.defineSlot("lootplot.s0.content:reroll_button_slot", {
 
     name = loc("Reroll button"),
     description = loc("Click to reroll!"),

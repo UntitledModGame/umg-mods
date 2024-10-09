@@ -5,7 +5,7 @@ local helper = require("shared.helper")
 local loc = localization.localize
 
 
-lp.defineItem("lootplot.content.s0:rocks", {
+lp.defineItem("lootplot.s0.content:rocks", {
     image = "rocks",
     lootplotProperties = {
         modifiers = {
@@ -29,7 +29,7 @@ lp.defineItem("lootplot.content.s0:rocks", {
 
 local KEY_DESC = localization.newInterpolator("After %{count} activations, turn into a key")
 
-lp.defineItem("lootplot.content.s0:key_rocks", {
+lp.defineItem("lootplot.s0.content:key_rocks", {
     image = "key_rocks",
 
     name = loc("Key Rocks"),
@@ -62,7 +62,7 @@ TODO:
 Do something good with the stick
 
 ]]
--- lp.defineItem("lootplot.content.s0:stick", {
+-- lp.defineItem("lootplot.s0.content:stick", {
 --     image = "stick",
 
 --     name = loc("Stick"),
@@ -84,7 +84,7 @@ this item is actually quite important;
 since it gives the user good intuition behind how the
 destroy-lives systems interact with each other.
 ]]
-lp.defineItem("lootplot.content.s0:bone", {
+lp.defineItem("lootplot.s0.content:bone", {
     image = "bone",
 
     name = loc("Bone"),
@@ -105,7 +105,7 @@ lp.defineItem("lootplot.content.s0:bone", {
 
 
 
-lp.defineItem("lootplot.content.s0:emerald_shards", {
+lp.defineItem("lootplot.s0.content:emerald_shards", {
     image = "emerald_shards",
 
     name = loc("Emerald Shards"),

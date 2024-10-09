@@ -1,6 +1,6 @@
 local loc = localization.localize
 
-return lp.defineSlot("lootplot.content.s0:diamond_slot", {
+return lp.defineSlot("lootplot.s0.content:diamond_slot", {
     image = "diamond_slot",
     name = loc("Diamond slot"),
     baseMaxActivations = 3,

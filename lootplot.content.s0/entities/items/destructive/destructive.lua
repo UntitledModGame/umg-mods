@@ -4,7 +4,7 @@ local loc = localization.localize
 
 local DARK_SKULL_DESC = localization.newInterpolator("After destroying {lootplot:BAD_COLOR}{wavy}%{count}{/wavy} items{/lootplot:BAD_COLOR}, spawns a %{rarity} item.")
 
-lp.defineItem("lootplot.content.s0:dark_skull", {
+lp.defineItem("lootplot.s0.content:dark_skull", {
     image = "dark_skull",
 
     name = loc("Dark Skull"),
@@ -46,7 +46,7 @@ lp.defineItem("lootplot.content.s0:dark_skull", {
 })
 
 
-lp.defineItem("lootplot.content.s0:death_by_taxes", {
+lp.defineItem("lootplot.s0.content:death_by_taxes", {
     image = "death_by_taxes",
     name = loc("Death by Taxes"),
 
@@ -68,7 +68,7 @@ lp.defineItem("lootplot.content.s0:death_by_taxes", {
 
 
 
-lp.defineItem("lootplot.content.s0:reaper", {
+lp.defineItem("lootplot.s0.content:reaper", {
     image = "reaper",
     name = loc("Reaper"),
     basePointsGenerated = 4,
@@ -88,7 +88,7 @@ lp.defineItem("lootplot.content.s0:reaper", {
 })
 
 
-lp.defineItem("lootplot.content.s0:empty_cauldron", {
+lp.defineItem("lootplot.s0.content:empty_cauldron", {
     image = "empty_cauldron",
     name = loc("Empty Cauldron"),
 
@@ -112,7 +112,7 @@ lp.defineItem("lootplot.content.s0:empty_cauldron", {
 })
 
 
-lp.defineItem("lootplot.content.s0:candle", {
+lp.defineItem("lootplot.s0.content:candle", {
     image = "candle",
     name = loc("Candle"),
     basePointsGenerated = 5,
@@ -143,7 +143,7 @@ lp.defineItem("lootplot.content.s0:candle", {
 
 
 
-lp.defineItem("lootplot.content.s0:tooth_necklace", {
+lp.defineItem("lootplot.s0.content:tooth_necklace", {
     image = "tooth_necklace",
     name = loc("Tooth Necklace"),
     description = loc("Gives slot doomed-4.\nOnly activates if the slot isn't doomed!"),
@@ -170,7 +170,7 @@ lp.defineItem("lootplot.content.s0:tooth_necklace", {
 
 
 
-lp.defineItem("lootplot.content.s0:bomb", {
+lp.defineItem("lootplot.s0.content:bomb", {
     image = "bomb",
     name = loc("Bomb"),
 

@@ -28,7 +28,7 @@ local function generateRareItem(ent)
 end
 
 
-lp.defineItem("lootplot.content.s0:gift_box", {
+lp.defineItem("lootplot.s0.content:gift_box", {
     image = "gift_box",
     name = loc("Gift Box"),
 
@@ -51,7 +51,7 @@ lp.defineItem("lootplot.content.s0:gift_box", {
 
 
 
-lp.defineItem("lootplot.content.s0:pandoras_box", {
+lp.defineItem("lootplot.s0.content:pandoras_box", {
     image = "pandoras_box",
     name = loc("Pandora's Box"),
 
@@ -81,7 +81,7 @@ local function defineCat(name, etype)
     lp.defineItem(name, etype)
 end
 
-defineCat("lootplot.content.s0:copycat", {
+defineCat("lootplot.s0.content:copycat", {
     image = "copycat",
     name = loc("Copycat"),
 
@@ -105,7 +105,7 @@ defineCat("lootplot.content.s0:copycat", {
 })
 
 
-defineCat("lootplot.content.s0:chubby_cat", {
+defineCat("lootplot.s0.content:chubby_cat", {
     image = "chubby_cat",
     name = loc("Chubby Cat"),
     description = loc("Starts with 9 lives"),
@@ -124,7 +124,7 @@ defineCat("lootplot.content.s0:chubby_cat", {
 })
 
 
-defineCat("lootplot.content.s0:crappy_cat", {
+defineCat("lootplot.s0.content:crappy_cat", {
     image = "crappy_cat",
     name = loc("Crappy Cat"),
 
@@ -147,7 +147,7 @@ defineCat("lootplot.content.s0:crappy_cat", {
 
 
 
-lp.defineItem("lootplot.content.s0:round_watch", {
+lp.defineItem("lootplot.s0.content:round_watch", {
     name = loc("Round watch"),
     description = loc("Resets round to 1"),
     --[[
@@ -168,7 +168,7 @@ lp.defineItem("lootplot.content.s0:round_watch", {
 
 
 
-lp.defineItem("lootplot.content.s0:boomerang", {
+lp.defineItem("lootplot.s0.content:boomerang", {
     name = loc("Boomerang"),
     description = loc("Uses all activations at once"),
 
@@ -192,7 +192,7 @@ lp.defineItem("lootplot.content.s0:boomerang", {
 })
 
 
-lp.defineItem("lootplot.content.s0:pink_octopus", {
+lp.defineItem("lootplot.s0.content:pink_octopus", {
     image = "pink_octopus",
     name = loc("Pink Octopus"),
 
@@ -209,7 +209,7 @@ lp.defineItem("lootplot.content.s0:pink_octopus", {
     }
 })
 
-lp.defineItem("lootplot.content.s0:orange_octopus", {
+lp.defineItem("lootplot.s0.content:orange_octopus", {
     image = "orange_octopus",
     name = loc("Orange Octopus"),
 
@@ -226,7 +226,7 @@ lp.defineItem("lootplot.content.s0:orange_octopus", {
     }
 })
 
-lp.defineItem("lootplot.content.s0:dark_octopus", {
+lp.defineItem("lootplot.s0.content:dark_octopus", {
     image = "dark_octopus",
     name = loc("Dark Octopus"),
 

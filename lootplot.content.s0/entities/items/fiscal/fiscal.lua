@@ -1,6 +1,6 @@
 local loc = localization.localize
 
-lp.defineItem("lootplot.content.s0:gold_sword", {
+lp.defineItem("lootplot.s0.content:gold_sword", {
     image = "gold_sword",
     name = loc("Golden Sword"),
     description = loc("Earn 1 money."),
@@ -9,7 +9,7 @@ lp.defineItem("lootplot.content.s0:gold_sword", {
 })
 
 
-lp.defineItem("lootplot.content.s0:gold_axe", {
+lp.defineItem("lootplot.s0.content:gold_axe", {
     image = "gold_axe",
     name = loc("Golden Axe"),
 
@@ -38,7 +38,7 @@ lp.defineItem("lootplot.content.s0:gold_axe", {
 
 local goldNugDesc = localization.newInterpolator("After %{count} activations, turn into a key")
 
-lp.defineItem("lootplot.content.s0:gold_nuggets", {
+lp.defineItem("lootplot.s0.content:gold_nuggets", {
     image = "gold_nuggets",
     name = loc("Gold Nuggets"),
     description = function(ent)
@@ -73,7 +73,7 @@ local function percentageOfBalanceGetter(percentage)
 end
 
 
-lp.defineItem("lootplot.content.s0:bishop_ring", {
+lp.defineItem("lootplot.s0.content:bishop_ring", {
     image = "bishop_ring",
     name = loc("Bishop Ring"),
     description = loc("Generate points equal to 20% of the current balance."),
@@ -90,7 +90,7 @@ lp.defineItem("lootplot.content.s0:bishop_ring", {
 })
 
 
-lp.defineItem("lootplot.content.s0:king_ring", {
+lp.defineItem("lootplot.s0.content:king_ring", {
     image = "king_ring",
     name = loc("King Ring"),
     description = loc("Earn money equal to 5% of current balance.\n(Max of $20)"),
@@ -112,7 +112,7 @@ lp.defineItem("lootplot.content.s0:king_ring", {
 
 
 
-lp.defineItem("lootplot.content.s0:lucky_horseshoe", {
+lp.defineItem("lootplot.s0.content:lucky_horseshoe", {
     image = "lucky_horseshoe",
     name = loc("Lucky Horseshoe"),
 
@@ -141,7 +141,7 @@ lp.defineItem("lootplot.content.s0:lucky_horseshoe", {
 
 
 
-lp.defineItem("lootplot.content.s0:money_bag", {
+lp.defineItem("lootplot.s0.content:money_bag", {
     image = "money_bag",
     name = loc("Money Bag"),
     description = loc("Price increases by 5% each activation.\nCapped at $200."),
@@ -160,7 +160,7 @@ lp.defineItem("lootplot.content.s0:money_bag", {
     end
 })
 
-lp.defineItem("lootplot.content.s0:robbers_bag", {
+lp.defineItem("lootplot.s0.content:robbers_bag", {
     image = "robbers_bag",
     name = loc("Robbers Bag"),
     description = loc("Steals money, and increases its price by the amount stolen!"),
@@ -177,7 +177,7 @@ lp.defineItem("lootplot.content.s0:robbers_bag", {
 
 
 
-lp.defineItem("lootplot.content.s0:contract", {
+lp.defineItem("lootplot.s0.content:contract", {
     image = "contract",
     name = loc("Contract"),
 
@@ -200,7 +200,7 @@ lp.defineItem("lootplot.content.s0:contract", {
 
 
 
-lp.defineItem("lootplot.content.s0:robber", {
+lp.defineItem("lootplot.s0.content:robber", {
     image = "robber",
     name = loc("Robber"),
 

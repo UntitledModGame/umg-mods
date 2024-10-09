@@ -5,7 +5,7 @@ local loc = localization.localize
 -- Adjust this when balancing. Maybe 100 is better?
 local MONEY_LIMIT = 50
 
-return lp.defineSlot("lootplot.content.s0:money_limit_slot", {
+return lp.defineSlot("lootplot.s0.content:money_limit_slot", {
     image = "money_limit_slot",
     name = loc("Money-limit slot"),
     description = loc("Limits money to %{limit}", {limit = MONEY_LIMIT}),

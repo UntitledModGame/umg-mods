@@ -28,7 +28,7 @@ NOTE::: This can be used to LOCK the shop!!! Very cool idea!!!
 
 local function defContra(id, etype)
     etype.image = etype.image or id
-    lp.defineItem("lootplot.content.s0:" .. id, etype)
+    lp.defineItem("lootplot.s0.content:" .. id, etype)
 end
 
 

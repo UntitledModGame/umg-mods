@@ -12,7 +12,7 @@ return function()
         self:tick(10)
     end)
 
-    local SLOT_NAME = "lootplot.content.s0:slot"
+    local SLOT_NAME = "lootplot.s0.content:slot"
     testUtils.addTest("slot_spawn", function(self)
         local plot = testUtils.prepare(self, false)
 
@@ -41,7 +41,7 @@ return function()
         self:tick(10)
     end)
 
-    local SLOT_NAME_2 = "lootplot.content.s0:golden_slot"
+    local SLOT_NAME_2 = "lootplot.s0.content:golden_slot"
     for _, v in ipairs({{"try", lp.trySpawnSlot, SLOT_NAME}, {"force", lp.forceSpawnSlot, SLOT_NAME_2}}) do
         testUtils.addTest("slot_"..v[1].."_overwrite", function(self)
             local plot = testUtils.prepare(self, false)

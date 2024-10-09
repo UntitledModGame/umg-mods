@@ -14,7 +14,7 @@ end
 
 
 
-lp.defineSlot("lootplot.content.s0:shop_slot", {
+lp.defineSlot("lootplot.s0.content:shop_slot", {
     init = function(ent)
         ent.shopLock = true
     end,
@@ -58,7 +58,7 @@ priority = 0,
 ]]
 
 
-lp.defineSlot("lootplot.content.s0:reroll_slot", {
+lp.defineSlot("lootplot.s0.content:reroll_slot", {
     image = "reroll_slot",
     name = loc("Reroll slot"),
     description = loc("Put an item inside to reroll it!"),
