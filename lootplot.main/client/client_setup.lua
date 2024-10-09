@@ -1,13 +1,16 @@
 local LPState = require("client.states.LPState")
+local RunState = require("client.states.RunState")
 local PulsingCloudBackground = require("client.backgrounds.PulsingCloudBackground")
 local backgroundManager = require("client.background_manager")
-
 local musicManager = require("client.music_manager")
+local runManager = require("shared.run_manager")
 
 
 
 ---@type lootplot.main.State
 local lpState = LPState()
+---@type lootplot.main.RunState
+local runState = RunState()
 
 
 
@@ -47,6 +50,10 @@ local CLOUD_BACKGROUND = PulsingCloudBackground({
 })
 
 local lastHoveredEntity = nil
+local lpStatePushed = false
+local runStatePushed = false
+
+local LP_STATE_Z_ORDER = 0
 
 
 backgroundManager.setBackground(CLOUD_BACKGROUND)
@@ -65,9 +72,47 @@ umg.on("@update", function(dt)
         lpState:getScene():setCursorDescription(hoveredEntity)
         lastHoveredEntity = hoveredEntity
     end
+
+    if lp.main.isReady() then
+        if runStatePushed then
+            state.pop(runState)
+            runStatePushed = false
+        end
+        
+        if not lpStatePushed then
+            lpStatePushed = true
+            state.push(lpState, LP_STATE_Z_ORDER)
+        end
+    end
 end)
 
 
 
-state.push(lpState, 0)
+local CONTINUE_RUN_STATE_Z_ORDER = 10
+
+umg.on("@load", function()
+    -- let @update loop handle pushing LPState
+    if not lp.main.isReady() then
+        runManager.queryRun(function(host, run)
+            local setupData = nil
+
+            if host then
+                if run then
+                    setupData = {
+                        continueRunAction = runManager.continueRun,
+                        newRunAction = runManager.newRun
+                    }
+                else
+                    return runManager.newRun()
+                    -- return to prevent propagation.
+                end
+            end
+
+            runStatePushed = true
+            runState:setup(setupData)
+            state.push(runState, CONTINUE_RUN_STATE_Z_ORDER)
+        end)
+    end
+end)
+
 musicManager.playNormalBGM()
