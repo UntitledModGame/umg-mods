@@ -30,7 +30,7 @@ function main.isReady()
 end
 
 ---Availability: Client and Server
----@return lootplot.Run
+---@return lootplot.main.Run
 function main.getRun()
     assert(currentRun, "Not ready yet! (Check using lp.main.isReady() )")
     return currentRun

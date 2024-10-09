@@ -16,7 +16,8 @@ lp.defineAttribute("REQUIRED_POINTS")
 
 
 ---@param plot lootplot.Plot
-local function initBuiltins(plot)
+---@param team string
+local function initBuiltins(plot, team)
     local dclock = server.entities.doom_clock()
     dclock._plotX = 10
     dclock._plotY = 4
@@ -28,8 +29,8 @@ local function initBuiltins(plot)
     dclock.dimension = dvec.dimension
 
     -- Meta-buttons
-    lp.forceSpawnSlot(plot:getPPos(6,4), server.entities.next_round_button_slot, clientId)
-    lp.forceSpawnSlot(plot:getPPos(7,4), server.entities.next_level_button_slot, clientId)
+    lp.forceSpawnSlot(plot:getPPos(6,4), server.entities.next_round_button_slot, team)
+    lp.forceSpawnSlot(plot:getPPos(7,4), server.entities.next_level_button_slot, team)
 end
 
 if server then
@@ -46,7 +47,7 @@ umg.on("@load", function()
     lp.forceSpawnSlot(midPos, server.entities.slot, team)
     lp.forceSpawnItem(midPos, server.entities.one_ball, team)
 
-    initBuiltins(plot)
+    initBuiltins(plot, team)
 end)
 
 end
@@ -62,9 +63,9 @@ end)
 umg.on("@tick", function()
     if server then
         if lp.main.isReady() then
-            local ctx = lp.main.getRun()
-            ctx:sync()
-            ctx:tick()
+            local run = lp.main.getRun()
+            run:sync()
+            run:tick()
         end
     end
 end)

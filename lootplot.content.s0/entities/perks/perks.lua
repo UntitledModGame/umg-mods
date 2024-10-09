@@ -14,7 +14,7 @@ definePerk("one_ball", {
     onActivateOnce = function(ent)
         -- generate world!
         local ppos = assert(lp.getPos(ent))
-        local team = ent.lootplotTeam
+        local team = assert(ent.lootplotTeam, "?")
 
         local wg = lp.worldgen
         wg.spawnSlots(assert(ppos:move(-4,1)), server.entities.shop_slot, 3,2, team)

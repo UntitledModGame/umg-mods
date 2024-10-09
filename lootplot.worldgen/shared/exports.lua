@@ -14,7 +14,7 @@ local spawnSlotsTc = typecheck.assert("ppos", "table", "number", "number", "stri
 ---@param h number
 ---@param lootplotTeam string
 function lp.worldgen.spawnSlots(ppos, slotType, w, h, lootplotTeam)
-    spawnSlotsTc(ppos, slotType, w, h)
+    spawnSlotsTc(ppos, slotType, w, h, lootplotTeam)
     assert(server, "?")
     for dx=math.floor(-w/2 + 0.5), math.floor(w/2 + 0.5)-1 do
         for dy=math.floor(-h/2 + 0.5), math.floor(h/2 + 0.5)-1 do

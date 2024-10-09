@@ -91,6 +91,7 @@ lp.defineSlot("lootplot.main:next_round_button_slot", {
         if round < (numOfRounds + 1) then
             return true
         end
+        print("RET FALSE!!!")
         return false
     end,
 
