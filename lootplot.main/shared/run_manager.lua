@@ -2,7 +2,7 @@ local runManager = {}
 
 umg.definePacket("lootplot.main:queryRun", {typelist = {}})
 umg.definePacket("lootplot.main:queryRunResult", {typelist = {"boolean", "string"}})
-umg.definePacket("lootplot.main:newRun", {typelist = {}})
+umg.definePacket("lootplot.main:newRun", {typelist = {"string"}})
 umg.definePacket("lootplot.main:continueRun", {typelist = {}})
 
 ---@class lootplot.main.RunMeta
@@ -21,8 +21,9 @@ local function queryRunServer()
     end
 end
 
-local function newRunServer()
-    umg.log.warn("NYI: lootplot.main:newRun")
+---@param seed string
+local function newRunServer(seed)
+    umg.log.warn("NYI: lootplot.main:newRun", seed)
 end
 
 local function continueRunServer()
@@ -41,9 +42,9 @@ server.on("lootplot.main:queryRun", function(clientId)
     server.unicast(clientId, "lootplot.main:queryRunResult", host, runmeta and umg.serialize(runmeta) or "")
 end)
 
-server.on("lootplot.main:newRun", function(clientId)
+server.on("lootplot.main:newRun", function(clientId, seed)
     if server.getHostClient() == clientId then
-        newRunServer()
+        newRunServer(seed)
     end
 end)
 
@@ -76,7 +77,7 @@ end)
 
 end
 
----@param callback fun(host:boolean,run:lootplot.main.RunMeta?)
+---@param callback fun(host:boolean,run:lootplot.main.RunMeta|nil)
 function runManager.queryRun(callback)
     if server then
         callback(true, queryRunServer())
@@ -86,11 +87,13 @@ function runManager.queryRun(callback)
     end
 end
 
-function runManager.newRun()
+---@param seed string?
+function runManager.newRun(seed)
+    seed = seed or ""
     if server then
-        newRunServer()
+        newRunServer(seed)
     else
-        client.send("lootplot.main:newRun")
+        client.send("lootplot.main:newRun", seed)
     end
 end
 
