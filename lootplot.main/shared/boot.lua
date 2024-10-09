@@ -28,7 +28,7 @@ umg.on("@load", function()
     local team = server.getHostClient()
     local midPos = plot:getPPos(mid, mid)
     lp.forceSpawnSlot(midPos, server.entities.slot, team)
-    lp.forceSpawnItem(midPos, server.entities.one_ball, team)
+    -- lp.forceSpawnItem(midPos, server.entities.one_ball, team)
 
     local doomEggPos = assert(midPos:move(0, -4))
     assert(lp.forceSpawnItem(doomEggPos, server.entities.doom_egg, team))
