@@ -6,7 +6,7 @@ local globalScaleValue = 1
 local function update(w, h)
     local wscale = w / 600
     local hscale = h / 400
-    local scale = (wscale + hscale) / 2
+    local scale = math.min(wscale, hscale)
     globalScaleValue = math.floor(scale / GLOBAL_SCALE_INCREMENT + 0.5) * GLOBAL_SCALE_INCREMENT
 end
 
