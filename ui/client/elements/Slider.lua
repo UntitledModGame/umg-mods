@@ -1,5 +1,4 @@
 local Element = require("client.newElement")
-print(love.markDeprecated)
 
 ---@class ui.Slider: Element
 local Slider = Element("ui:Slider")
