@@ -4,6 +4,10 @@ local globalScale = require("client.globalScale")
 local StretchableBox = require("client.elements.StretchableBox")
 local StretchableButton = require("client.elements.StretchableButton")
 
+local UNKNOWN_PERK = localization.localize("Unknown Perk")
+local NEW_RUN_STRING = localization.localize("Starting new\nrun will\noverwrite your\nexisting run.")
+local RUN_INFO_STRING = localization.newInterpolator("Playtime: %{hour:02d}:%{minute:02d}:%{second:02d}\nLevel: %{level}\n\nPerk: %{perk}\n%{perkDescription}")
+
 
 
 ---@class lootplot.main.ContinueRunDialog: Element
@@ -12,9 +16,20 @@ local ContinueRunDialog = ui.Element("lootplot.main:ContinueRunDialog")
 local FONT_SIZE = 32
 local BACKGROUND_COLOR = objects.Color(objects.Color.HSLtoRGB(250, 0.1, 0.32))
 
+---@param runInfo lootplot.main.RunMeta
 ---@param callback fun(continue:boolean)
-function ContinueRunDialog:init(callback)
-    assert(callback)
+function ContinueRunDialog:init(runInfo, callback)
+    assert(runInfo and callback)
+
+    local perkEType = client.entities[runInfo.perk]
+    local friendlyRunInfo = {
+        hour = math.floor(runInfo.playtime / 3600),
+        minute = math.floor(runInfo.playtime / 60) % 60,
+        second = runInfo.playtime % 60,
+        level = runInfo.level,
+        perk = perkEType and (perkEType.name or runInfo.perk) or UNKNOWN_PERK, ---@diagnostic disable-line: undefined-field
+        perkDescription = tostring(perkEType and perkEType.description or ""), ---@diagnostic disable-line: undefined-field
+    }
 
     local e = {}
     e.base = StretchableBox("white_pressed_big", 8, {
@@ -48,7 +63,7 @@ function ContinueRunDialog:init(callback)
         font = fonts.getLargeFont(),
     })
     e.newRunInfo = ui.elements.Text({
-        text = "Starting new\nrun will\noverwrite your\nexisting run.",
+        text = NEW_RUN_STRING,
         color = objects.Color.WHITE,
         outline = 1,
         outlineColor = objects.Color.BLACK,
@@ -57,12 +72,14 @@ function ContinueRunDialog:init(callback)
         end,
     })
     e.continueRunInfo = ui.elements.Text({
-        text = "Playtime: HH:MM:SS\nLevel: 12\nPoints: 123/456\n\nPerk: [perk-item]\nPerk description",
+        text = RUN_INFO_STRING(friendlyRunInfo),
         align = "left",
         color = objects.Color.WHITE,
         outline = 1,
         outlineColor = objects.Color.BLACK,
-        getScale = globalScale.get,
+        getScale = function()
+            return globalScale.get() * 1.25
+        end,
     })
 
     for _, v in pairs(e) do

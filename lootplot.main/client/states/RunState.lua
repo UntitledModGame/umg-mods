@@ -21,14 +21,12 @@ function RunState:init(args)
 
     self.callbackCalled = false
     ---@type lootplot.main.ContinueRunDialog
-    self.scene = ContinueRunDialog(
-        function(continue)
-            if not self.callbackCalled then
-                args.callback(continue)
-                self.callbackCalled = true
-            end
+    self.scene = ContinueRunDialog(args.runInfo, function(continue)
+        if not self.callbackCalled then
+            args.callback(continue)
+            self.callbackCalled = true
         end
-    )
+    end)
 
     self.scene:makeRoot()
     self.listener = input.InputListener()
