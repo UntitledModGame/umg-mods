@@ -101,12 +101,20 @@ function runManager.getSavedRun()
     end
 end
 
----@param continue boolean
-function runManager.startRun(continue)
+function runManager.continueRun()
     if server then
-        startRunServer(continue, "")
+        startRunServer(true, "")
     else
-        client.send("lootplot.main:startRun", continue, "")
+        client.send("lootplot.main:startRun", true, "")
+    end
+end
+
+
+function runManager.startRun()
+    if server then
+        startRunServer(false, "")
+    else
+        client.send("lootplot.main:startRun", false, "")
     end
 end
 

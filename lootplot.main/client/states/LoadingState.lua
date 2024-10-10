@@ -1,17 +1,16 @@
 local runManager = require("shared.run_manager")
-local RunState = require("client.states.RunState")
+
+local ContinueState = require("client.states.ContinueState")
+local NewRunState = require("client.states.NewRunState")
 
 ---@class lootplot.main.LoadingState: objects.Class, state.IState
 local LoadingState = objects.Class("lootplot.main:LoadingState")
 
 
-local LP_STATE_Z_ORDER = 10
-local CONTINUE_RUN_STATE_Z_ORDER = 20
 
----@param lpState lootplot.main.State
-function LoadingState:init(lpState)
-    self.lpState = lpState
-    self.runState = nil
+local UI_Z_ORDER = 20
+
+function LoadingState:init()
     self.runInfoChecked = false
 end
 
@@ -24,25 +23,16 @@ function LoadingState:onRemoved()
 end
 
 function LoadingState:update(dt)
-    if lp.main.getRun() then
-        if self.runState then
-            state.pop(self.runState)
-        end
-
-        state.push(self.lpState, LP_STATE_Z_ORDER)
-        state.pop(self)
-    elseif runManager.hasReceivedInfo() and not self.runInfoChecked then
-        self.runInfoChecked = true
+    if runManager.hasReceivedInfo() then
         local runInfo = runManager.getSavedRun()
 
+        state.pop(self)
         if runInfo then
-            self.runState = RunState({
-                runInfo = runInfo,
-                callback = runManager.startRun
-            })
-            state.push(self.runState, CONTINUE_RUN_STATE_Z_ORDER)
+            local continueState = ContinueState(runInfo)
+            state.push(continueState, UI_Z_ORDER)
         else
-            runManager.startRun(false)
+            local newRunState = NewRunState()
+            state.push(newRunState, UI_Z_ORDER)
         end
     end
 end

@@ -12,7 +12,9 @@ end
 ---@type table<integer, state.IState>
 local zorderByState = {}
 ---@type table<state.IState, integer>
-local inverseZOrderByState = {}
+local inverseZOrderByState = {--[[
+    [stateTable] -> zOrder
+]]}
 ---@type state.IState[]
 local sortedState = {}
 

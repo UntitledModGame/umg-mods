@@ -1,12 +1,12 @@
--- RunState is responsible of doing this thing:
+-- ContinueState is responsible of doing this thing:
 -- For host: Show continue run dialog
 -- For non-host: Show message "Host is preparing run"
 
 local ContinueRunDialog = require("client.scenes.ContinueRunDialog")
 
 
----@class lootplot.main.RunState: objects.Class, state.IState
-local RunState = objects.Class("lootplot.main:RunState")
+---@class lootplot.main.ContinueState: objects.Class, state.IState
+local ContinueState = objects.Class("lootplot.main:ContinueState")
 
 local KEYS = {
     runInfo = true,
@@ -14,7 +14,7 @@ local KEYS = {
 }
 
 ---@param args {runInfo:lootplot.main.RunMeta,callback:fun(continue:boolean)}
-function RunState:init(args)
+function ContinueState:init(args)
     assert(args)
     typecheck.assertKeys(args, KEYS)
 
@@ -66,18 +66,22 @@ function RunState:init(args)
     end)
 end
 
-function RunState:onAdded(zorder)
+function ContinueState:onAdded(zorder)
     input.addListener(self.listener, zorder)
 end
 
-function RunState:onRemoved()
+function ContinueState:onRemoved()
     input.removeListener(self.listener)
 end
 
-function RunState:update(dt)
+function ContinueState:update(dt)
+    state.pop(self)
+
+    state.push(self.lpState, LP_STATE_Z_ORDER)
+    state.pop(self)
 end
 
-function RunState:draw()
+function ContinueState:draw()
     if self.scene then
         self.scene:render(love.window.getSafeArea())
     end
@@ -85,8 +89,8 @@ end
 
 ---@param w number
 ---@param h number
-function RunState:resize(w, h)
+function ContinueState:resize(w, h)
     self.scene:resize(w, h)
 end
 
-return RunState
+return ContinueState

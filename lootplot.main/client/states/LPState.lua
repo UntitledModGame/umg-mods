@@ -3,14 +3,40 @@ local Scene = require("client.scenes.LPScene")
 ---@class lootplot.main.State: objects.Class, state.IState
 local LPState = objects.Class("lootplot.main:State")
 
+
+-- This global-state is kinda bad, but we need it 
+-- due to the global-nature of base lootplot evbuses
+local lpState = nil
+
+local winLose = require("shared.win_lose")
+winLose.setEndGameCallback(function(win)
+    if lpState then
+        lpState:getScene():showEndGameDialog(win)
+    end
+end)
+
+-- (action button stuff)
+---@param selection lootplot.Selected
+umg.on("lootplot:selectionChanged", function(selection)
+    if lpState then
+        local scene = lpState:getScene()
+        scene:setSelection(selection)
+    end
+end)
+
+
 function LPState:init()
     ---@type lootplot.main.Scene
+    assert(not lpState, "Cannot push 2 LPStates!")
+    lpState = self
     self.scene = Scene()
     self.listener = input.InputListener()
     self.movingWithMouse = false
     self.rightClick = false
     self.lastCamMouse = {0, 0} -- to trach threshold
     self.claimedByControl = false
+
+    self.lastHoveredEntity = nil
 
     self.listener:onAnyPressed(function(this, controlEnum)
         local consumed = self.scene:controlPressed(controlEnum)
@@ -117,6 +143,20 @@ function LPState:onRemoved()
 end
 
 function LPState:update(dt)
+    local hovered = lp.getHoveredSlot()
+    local hoveredEntity = nil
+
+    if hovered then
+        local slotEnt = hovered.entity
+        local itemEnt = lp.slotToItem(slotEnt)
+        hoveredEntity = itemEnt or slotEnt
+    end
+
+    if hoveredEntity ~= self.lastHoveredEntity then
+        self:getScene():setCursorDescription(hoveredEntity)
+        self.lastHoveredEntity = hoveredEntity
+    end
+
 end
 
 function LPState:draw()
@@ -124,11 +164,6 @@ function LPState:draw()
     self.scene:render(love.window.getSafeArea())
 end
 
----@param w number
----@param h number
-function LPState:resize(w, h)
-    self.scene:resize(w, h)
-end
 
 function LPState:getScene()
     return self.scene
