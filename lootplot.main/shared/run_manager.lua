@@ -2,7 +2,8 @@
 local runManager = {}
 
 umg.definePacket("lootplot.main:runData", {typelist = {"boolean", "string"}})
-umg.definePacket("lootplot.main:startRun", {typelist = {"boolean", "string"}})
+umg.definePacket("lootplot.main:startRun", {typelist = {"string"}})
+umg.definePacket("lootplot.main:continueRun", {typelist = {}})
 
 ---@class lootplot.main.RunMeta
 ---@field public playtime integer
@@ -28,41 +29,34 @@ local function queryRunServer()
     -- }
 end
 
----@param continue boolean
----@param seed string
-local function startRunServer(continue, seed)
-    umg.log.warn("NYI: lootplot.main:startRun", continue, seed)
-end
 
----@param continue boolean
----@param seed string
-local function startRun(continue, seed)
-    if server then
-        startRunServer(continue, seed)
-    else
-        client.send("lootplot.main:startRun", continue, seed)
-    end
-end
 
 if server then
 
-server.on("lootplot.main:startRun", function(clientId, continue, seed)
+server.on("lootplot.main:startRun", function(clientId, runOptions)
     if server.getHostClient() == clientId then
-        startRun(continue, seed)
+        umg.log.error("NYI.")
+        -- startRun(runOptions)
     end
 end)
+
+server.on("lootplot.main:continueRun", function(clientId, continue, seed)
+    if server.getHostClient() == clientId then
+        -- umg.log.error("NYI.")
+        -- continueRun()
+    end
+end)
+
 
 umg.on("@playerJoin", function(clientId)
     local runData = ""
     local isHost = server.getHostClient() == clientId
-
     if isHost then
         local info = queryRunServer()
         if info then
             runData = umg.serialize(info)
         end
     end
-
     server.unicast(clientId, "lootplot.main:runData", isHost, runData)
 end)
 
@@ -72,8 +66,10 @@ end)
 
 end -- if server
 
+
 local runInfoArrived = false
 local runInfo = nil
+
 
 if client then
 
@@ -102,20 +98,17 @@ function runManager.getSavedRun()
 end
 
 function runManager.continueRun()
-    if server then
-        startRunServer(true, "")
-    else
-        client.send("lootplot.main:startRun", true, "")
-    end
+    client.send("lootplot.main:continueRun")
 end
 
 
-function runManager.startRun()
-    if server then
-        startRunServer(false, "")
-    else
-        client.send("lootplot.main:startRun", false, "")
-    end
+local newRunOptionsTc = typecheck.assert({
+    starterItem = "string",
+    seed = "string"
+})
+function runManager.startRun(options)
+    newRunOptionsTc(options)
+    client.send("lootplot.main:startRun", json.encode(options))
 end
 
 return runManager
