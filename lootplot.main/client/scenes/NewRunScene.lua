@@ -2,6 +2,8 @@
 local fonts = require("client.fonts")
 local globalScale = require("client.globalScale")
 
+local runManager = require("shared.run_manager")
+
 local StretchableBox = require("client.elements.StretchableBox")
 local StretchableButton = require("client.elements.StretchableButton")
 
@@ -37,7 +39,10 @@ function NewRunDialog:init()
     })
     e.newRunButton = StretchableButton({
         onClick = function()
-            return callback(false)
+            return runManager.startRun({
+                starterItem = "one_ball",
+                seed = "123",
+            })
         end,
         text = "Start New Run",
         scale = 2,

@@ -1,5 +1,6 @@
 
 local runManager = require("shared.run_manager")
+local helper = require("client.states.helper")
 
 local NewRunScene = require("client.scenes.NewRunScene")
 
@@ -15,14 +16,15 @@ function NewRunState:init()
         end
     })
     self.scene:makeRoot()
+    self.listener = helper.createStateListener(self.scene)
 end
 
 function NewRunState:onAdded(z)
-    -- Dummy, but required to pass IState interface typecheck.
+    input.addListener(self.listener, z)
 end
 
 function NewRunState:onRemoved()
-    -- Dummy, but required to pass IState interface typecheck.
+    input.removeListener(self.listener)
 end
 
 function NewRunState:update(dt)

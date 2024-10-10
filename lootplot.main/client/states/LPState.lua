@@ -140,6 +140,7 @@ function LPState:onRemoved()
     input.removeListener(follow.getListener())
     input.removeListener(hoverables.getListener())
     input.removeListener(self.listener)
+    lpState = nil
 end
 
 function LPState:update(dt)

@@ -3,6 +3,7 @@
 -- For non-host: Show message "Host is preparing run"
 
 local ContinueRunDialog = require("client.scenes.ContinueRunDialog")
+local helper = require("client.states.helper")
 
 
 ---@class lootplot.main.ContinueState: objects.Class, state.IState
@@ -28,42 +29,7 @@ function ContinueState:init(args)
     end)
 
     self.scene:makeRoot()
-    self.listener = input.InputListener()
-
-    self.listener:onAnyPressed(function(this, controlEnum)
-        self.scene:controlPressed(controlEnum)
-        return this:claim(controlEnum) -- Don't propagate
-    end)
-
-    self.listener:onPressed({"input:ESCAPE"}, function(this, controlEnum)
-        -- TODO: Should we show pause box here?
-        this:claim(controlEnum)
-    end)
-
-    self.listener:onPressed({"input:CLICK_PRIMARY", "input:CLICK_SECONDARY"}, function(this, controlEnum)
-        local x,y = input.getPointerPosition()
-        self.scene:controlClicked(controlEnum,x,y)
-        return this:claim(controlEnum) -- Don't propagate
-    end)
-
-    self.listener:onAnyReleased(function(_, controlEnum)
-        if self.scene then
-            self.scene:controlReleased(controlEnum)
-        end
-    end)
-
-    self.listener:onTextInput(function(this, txt)
-        if self.scene then
-            local captured = self.scene:textInput(txt)
-            if captured then
-                this:lockTextInput()
-            end
-        end
-    end)
-
-    self.listener:onPointerMoved(function(this, x,y, dx,dy)
-        return self.scene:pointerMoved(x,y, dx,dy)
-    end)
+    self.listener = helper.createStateListener(self.scene)
 end
 
 function ContinueState:onAdded(zorder)
@@ -75,10 +41,6 @@ function ContinueState:onRemoved()
 end
 
 function ContinueState:update(dt)
-    state.pop(self)
-
-    state.push(self.lpState, LP_STATE_Z_ORDER)
-    state.pop(self)
 end
 
 function ContinueState:draw()
