@@ -1,7 +1,7 @@
 local LPState = require("client.states.LPState")
+local LoadingState = require("client.states.LoadingState")
 local PulsingCloudBackground = require("client.backgrounds.PulsingCloudBackground")
 local backgroundManager = require("client.background_manager")
-
 local musicManager = require("client.music_manager")
 
 
@@ -67,7 +67,5 @@ umg.on("@update", function(dt)
     end
 end)
 
-
-
-state.push(lpState, 0)
+state.push(LoadingState(lpState), 0)
 musicManager.playNormalBGM()
