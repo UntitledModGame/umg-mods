@@ -12,9 +12,10 @@ local ContinueRunDialog = ui.Element("lootplot.main:ContinueRunDialog")
 local FONT_SIZE = 32
 local BACKGROUND_COLOR = objects.Color(objects.Color.HSLtoRGB(250, 0.1, 0.32))
 
----@param continueRunAction function
----@param newRunAction fun(seed:string|nil)
-function ContinueRunDialog:init(continueRunAction, newRunAction)
+---@param callback fun(continue:boolean)
+function ContinueRunDialog:init(callback)
+    assert(callback)
+
     local e = {}
     e.base = StretchableBox("white_pressed_big", 8, {
         stretchType = "repeat",
@@ -30,7 +31,7 @@ function ContinueRunDialog:init(continueRunAction, newRunAction)
     })
     e.newRunButton = StretchableButton({
         onClick = function()
-            return newRunAction(nil)
+            return callback(false)
         end,
         text = "Start New Run",
         scale = 2,
@@ -38,7 +39,9 @@ function ContinueRunDialog:init(continueRunAction, newRunAction)
         font = fonts.getLargeFont(),
     })
     e.continueRunButton = StretchableButton({
-        onClick = continueRunAction,
+        onClick = function()
+            return callback(true)
+        end,
         text = "Continue Run",
         scale = 2,
         color = objects.Color(1,1,1,1):setHSL(184, 0.7, 0.5),

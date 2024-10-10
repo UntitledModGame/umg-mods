@@ -9,26 +9,44 @@ local ContinueRunDialog = require("client.scenes.ContinueRunDialog")
 ---@class lootplot.main.RunState: objects.Class, state.IState
 local RunState = objects.Class("lootplot.main:RunState")
 
-function RunState:init()
-    self.scene = nil
+local KEYS = {
+    runInfo = true,
+    callback = true
+}
+
+---@param args {runInfo:lootplot.main.RunMeta,callback:fun(continue:boolean)}
+function RunState:init(args)
+    assert(args)
+    typecheck.assertKeys(args, KEYS)
+
+    self.callbackCalled = false
+    ---@type lootplot.main.ContinueRunDialog
+    self.scene = ContinueRunDialog(
+        function(continue)
+            if not self.callbackCalled then
+                args.callback(continue)
+                self.callbackCalled = true
+            end
+        end
+    )
+
+    self.scene:makeRoot()
     self.listener = input.InputListener()
 
     self.listener:onAnyPressed(function(this, controlEnum)
-        if self.scene and self.scene:controlPressed(controlEnum) then
-            return this:claim(controlEnum)
-        end
+        self.scene:controlPressed(controlEnum)
+        return this:claim(controlEnum) -- Don't propagate
     end)
 
     self.listener:onPressed({"input:ESCAPE"}, function(this, controlEnum)
-        -- self.scene:openPauseBox()
+        -- TODO: Should we show pause box here?
         this:claim(controlEnum)
     end)
 
     self.listener:onPressed({"input:CLICK_PRIMARY", "input:CLICK_SECONDARY"}, function(this, controlEnum)
         local x,y = input.getPointerPosition()
-        if self.scene and self.scene:controlClicked(controlEnum,x,y) then
-            return this:claim(controlEnum)
-        end
+        self.scene:controlClicked(controlEnum,x,y)
+        return this:claim(controlEnum) -- Don't propagate
     end)
 
     self.listener:onAnyReleased(function(_, controlEnum)
@@ -49,25 +67,6 @@ function RunState:init()
     self.listener:onPointerMoved(function(this, x,y, dx,dy)
         return self.scene:pointerMoved(x,y, dx,dy)
     end)
-end
-
----@param args? {continueRunAction:(fun()),newRunAction:fun(seed:string|nil)}
-function RunState:setup(args)
-    if args then
-        ---@type lootplot.main.ContinueRunDialog
-        local crd = ContinueRunDialog(args.continueRunAction, args.newRunAction)
-        self.scene = crd
-    else
-        self.scene = ui.elements.Text({
-            text = "Host is preparing run...",
-            font = fonts.getLargeFont(),
-            color = objects.Color.WHITE,
-            outline = 1,
-            outlineColor = objects.Color.BLACK
-        })
-    end
-
-    self.scene:makeRoot()
 end
 
 function RunState:onAdded(zorder)
