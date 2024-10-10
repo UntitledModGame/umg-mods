@@ -34,7 +34,9 @@ umg.answer("lootplot:getConstantSpawnWeightMultiplier", function(etype)
     if rarity then
         return rarity.rarityWeight
     end
-    return 1
+
+    -- items without any rarity cannot be generated:
+    return 0
 end)
 
 
