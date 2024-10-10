@@ -46,8 +46,8 @@ end)
 
 umg.on("@tick", function()
     if server then
-        if lp.main.isReady() then
-            local run = lp.main.getRun()
+        local run = lp.main.getRun()
+        if run then
             run:sync()
             run:tick()
         end
