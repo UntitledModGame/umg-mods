@@ -46,16 +46,6 @@ end
 
 if server then
 
-server.on("lootplot.main:queryRun", function(clientId)
-    local host = server.getHostClient() == clientId
-    local runmeta
-    if host then
-        runmeta = queryRunServer()
-    end
-
-    server.unicast(clientId, "lootplot.main:queryRunResult", host, runmeta and umg.serialize(runmeta) or "")
-end)
-
 server.on("lootplot.main:startRun", function(clientId, continue, seed)
     if server.getHostClient() == clientId then
         startRun(continue, seed)
