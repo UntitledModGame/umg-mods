@@ -37,12 +37,6 @@ lp.worldgen.STARTING_ITEMS = generation.Generator()
 
 
 
----@type generation.Generator
-lp.worldgen.PERKS = generation.Generator()
--- contains etypes that are perks.
-
-
-
 
 --[[
 
