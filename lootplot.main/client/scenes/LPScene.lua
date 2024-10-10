@@ -34,8 +34,10 @@ function Scene:init()
             self.popupElement = nil
         end,
         setGameSpeed = function(speed)
-            if lp.main.isReady() then
-                lp.main.getRun():setSpeedMultipler(2 ^ speed)
+            local run = lp.main.getRun()
+
+            if run then
+                run:setSpeedMultipler(2 ^ speed)
             end
 
             self.gameSpeedMultiplerFactor = speed

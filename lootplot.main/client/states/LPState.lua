@@ -42,14 +42,18 @@ function LPState:init()
     end)
 
     self.listener:onReleased("input:CLICK_PRIMARY", function()
-        if not self.claimedByControl and lp.main.isReady() then
-            local plot = lp.main.getRun():getPlot()
-            local x, y = input.getPointerPosition()
-            local wx, wy = camera.get():toWorldCoords(x, y)
-            local ppos = plot:getClosestPPos(wx, wy)
+        if not self.claimedByControl then
+            local run = lp.main.getRun()
 
-            if not lp.posToSlot(ppos) then
-                lp.deselectItem()
+            if run then
+                local plot = run:getPlot()
+                local x, y = input.getPointerPosition()
+                local wx, wy = camera.get():toWorldCoords(x, y)
+                local ppos = plot:getClosestPPos(wx, wy)
+
+                if not lp.posToSlot(ppos) then
+                    lp.deselectItem()
+                end
             end
         end
 

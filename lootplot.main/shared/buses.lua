@@ -20,9 +20,9 @@ end)
 
 
 umg.on("@tick", function(dt)
-    if lp.main.isReady() then
-        local ctx = lp.main.getRun()
+    local ctx = lp.main.getRun()
 
+    if ctx then
         local p = ctx:getPlot()
         local ent = p:getOwnerEntity()
         if not p:isPipelineRunning() then

@@ -24,7 +24,7 @@ function LoadingState:onRemoved()
 end
 
 function LoadingState:update(dt)
-    if lp.main.isReady() then
+    if lp.main.getRun() then
         if self.runState then
             state.pop(self.runState)
         end

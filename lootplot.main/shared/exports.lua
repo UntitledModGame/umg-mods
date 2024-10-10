@@ -25,14 +25,9 @@ lpWorldGroup:onAdded(function(ent)
 end)
 
 ---Availability: Client and Server
-function main.isReady()
-    return not not currentRun
-end
-
----Availability: Client and Server
----@return lootplot.main.Run
+---@return lootplot.main.Run|nil
 function main.getRun()
-    assert(currentRun, "Not ready yet! (Check using lp.main.isReady() )")
+    -- assert(currentRun, "Not ready yet! (Check using lp.main.isReady() )")
     return currentRun
 end
 
