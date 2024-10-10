@@ -1,9 +1,8 @@
+---@class lootplot.main.RunManager
 local runManager = {}
 
-umg.definePacket("lootplot.main:queryRun", {typelist = {}})
-umg.definePacket("lootplot.main:queryRunResult", {typelist = {"boolean", "string"}})
-umg.definePacket("lootplot.main:newRun", {typelist = {"string"}})
-umg.definePacket("lootplot.main:continueRun", {typelist = {}})
+umg.definePacket("lootplot.main:runData", {typelist = {"boolean", "string"}})
+umg.definePacket("lootplot.main:startRun", {typelist = {"boolean", "string"}})
 
 ---@class lootplot.main.RunMeta
 ---@field public playtime integer
@@ -29,13 +28,20 @@ local function queryRunServer()
     -- }
 end
 
+---@param continue boolean
 ---@param seed string
-local function newRunServer(seed)
-    umg.log.warn("NYI: lootplot.main:newRun", seed)
+local function startRunServer(continue, seed)
+    umg.log.warn("NYI: lootplot.main:startRun", continue, seed)
 end
 
-local function continueRunServer()
-    umg.log.warn("NYI: lootplot.main:continueRun")
+---@param continue boolean
+---@param seed string
+local function startRun(continue, seed)
+    if server then
+        startRunServer(continue, seed)
+    else
+        client.send("lootplot.main:startRun", continue, seed)
+    end
 end
 
 if server then
@@ -50,69 +56,67 @@ server.on("lootplot.main:queryRun", function(clientId)
     server.unicast(clientId, "lootplot.main:queryRunResult", host, runmeta and umg.serialize(runmeta) or "")
 end)
 
-server.on("lootplot.main:newRun", function(clientId, seed)
+server.on("lootplot.main:startRun", function(clientId, continue, seed)
     if server.getHostClient() == clientId then
-        newRunServer(seed)
+        startRun(continue, seed)
     end
 end)
 
-server.on("lootplot.main:continueRun", function(clientId)
-    if server.getHostClient() == clientId then
-        continueRunServer()
+umg.on("@playerJoin", function(clientId)
+    local runData = ""
+    local isHost = server.getHostClient() == clientId
+
+    if isHost then
+        local info = queryRunServer()
+        if info then
+            runData = umg.serialize(info)
+        end
     end
+
+    server.unicast(clientId, "lootplot.main:runData", isHost, runData)
 end)
 
 umg.on("@quit", function()
     umg.log.warn("TODO: Save run")
 end)
 
-end
+end -- if server
 
-local queryRunCallback
+local runInfoArrived = false
+local runInfo = nil
 
 if client then
 
-client.on("lootplot.main:queryRunResult", function(isHost, runmeta)
-    local runmetaDeser
-    if #runmeta > 0 then
-        runmetaDeser = umg.deserialize(runmeta)
-    end
+client.on("lootplot.main:runData", function(isHost, runmeta)
+    -- TODO: Keep the isHost, in case if we want to support multiplayer
+    runInfoArrived = true
 
-    local cb = queryRunCallback
-    queryRunCallback = nil
-    if cb then
-        cb(isHost, runmetaDeser)
+    if #runmeta > 0 then
+        runInfo = umg.deserialize(runmeta)
     end
 end)
 
+end -- if client
+
+function runManager.hasReceivedInfo()
+    -- Server always have run info, but client may not.
+    return not not (runInfoArrived or server)
 end
 
----@param callback fun(host:boolean,run:lootplot.main.RunMeta|nil)
-function runManager.queryRun(callback)
+function runManager.getSavedRun()
     if server then
-        callback(true, queryRunServer())
+        return queryRunServer()
     else
-        assert(not queryRunCallback, "only one runManager.queryRun can be run at a time")
-        queryRunCallback = callback
-        client.send("lootplot.main:queryRun")
+        return runInfo
     end
 end
 
----@param seed string?
-function runManager.newRun(seed)
-    seed = seed or ""
+---@param continue boolean
+function runManager.startRun(continue)
     if server then
-        newRunServer(seed)
+        startRunServer(continue, "")
     else
-        client.send("lootplot.main:newRun", seed)
-    end
-end
-
-function runManager.continueRun()
-    if server then
-        continueRunServer()
-    else
-        client.send("lootplot.main:continueRun")
+        client.send("lootplot.main:startRun", continue, "")
     end
 end
 
