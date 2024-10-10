@@ -89,11 +89,12 @@ function Run:syncValue(key)
     if not lp.isValidAttribute(key) then
         error("Invalid key: " .. key)
     end
-    server.broadcast("lootplot.main:syncContextAttribute", self.ownerEnt, key, self.attrs[key])
+    server.broadcast("lootplot.main:syncContextAttribute", assert(self.ownerEnt), key, self.attrs[key])
 end
 
 if client then
     client.on("lootplot.main:syncContextAttribute", function(ent, field, val)
+        assert(ent, "?")
         ent.lootplotMainRun.attrs[field] = val
     end)
 end

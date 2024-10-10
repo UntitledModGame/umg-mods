@@ -16,22 +16,21 @@ lp.defineAttribute("REQUIRED_POINTS")
 
 
 
+
 if server then
+
+local startRunService = require("server.start_run_service")
 
 umg.on("@load", function()
     ---@type lootplot.main.Run
     local run = Run()
     local plot = run:getPlot()
 
-    -- TODO: Extract this into its own lil thing
     local mid = math.floor(lp.main.constants.WORLD_PLOT_SIZE/2)
     local team = server.getHostClient()
     local midPos = plot:getPPos(mid, mid)
-    lp.forceSpawnSlot(midPos, server.entities.slot, team)
-    -- lp.forceSpawnItem(midPos, server.entities.one_ball, team)
 
-    local doomEggPos = assert(midPos:move(0, -4))
-    assert(lp.forceSpawnItem(doomEggPos, server.entities.doom_egg, team))
+    startRunService.spawnMenuSlots(midPos, team)
 end)
 
 end

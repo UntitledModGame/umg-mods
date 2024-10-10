@@ -20,7 +20,7 @@ local starterItemEType = nil
 
 
 
-local SELECTION_SLOT_TYPE = "lootplot.worldgen:start_run.selection_slot"
+local SELECTION_SLOT_TYPE = "lootplot.main:start_run.selection_slot"
 lp.defineSlot(SELECTION_SLOT_TYPE, {
     name = loc("Selection Slot"),
 
@@ -37,7 +37,8 @@ lp.defineSlot(SELECTION_SLOT_TYPE, {
 
 
 
-lp.defineSlot("lootplot.s0.content:start_run.start_game_button_slot", {
+local START_SLOT_TYPE = "lootplot.main:start_run.start_button_slot"
+lp.defineSlot(START_SLOT_TYPE, {
     name = loc("Start Game!"),
     description = loc("Click to start the game!"),
 
@@ -64,7 +65,7 @@ lp.defineSlot("lootplot.s0.content:start_run.start_game_button_slot", {
 
 
 function startRunService.spawnMenuSlots(ppos, team)
-    lp.forceSpawnSlot(ppos:move(0,-4), server.entities.start_game_button, team)
+    lp.forceSpawnSlot(ppos:move(0,-4), server.entities[START_SLOT_TYPE], team)
 
     local lpm = lp.metaprogression
     local items = objects.Array(lp.worldgen.STARTING_ITEMS:getEntries())
@@ -83,7 +84,7 @@ function startRunService.spawnMenuSlots(ppos, team)
     for dy=0, 10 do
         for dx=-2, 2 do
             local pos = ppos:move(dx,dy)
-            if not pos then
+            if (not pos) or (not items[i]) then
                 break
             end
             local slotEType = server.entities[SELECTION_SLOT_TYPE]
