@@ -9,8 +9,8 @@ local runManager = require("shared.run_manager")
 
 ---@type lootplot.main.State
 local lpState = LPState()
----@type lootplot.main.RunState
-local runState = RunState()
+---@type lootplot.main.RunState|nil
+local runState = nil
 
 
 
@@ -50,10 +50,6 @@ local CLOUD_BACKGROUND = PulsingCloudBackground({
 })
 
 local lastHoveredEntity = nil
-local lpStatePushed = false
-local runStatePushed = false
-
-local LP_STATE_Z_ORDER = 0
 
 
 backgroundManager.setBackground(CLOUD_BACKGROUND)
@@ -72,58 +68,40 @@ umg.on("@update", function(dt)
         lpState:getScene():setCursorDescription(hoveredEntity)
         lastHoveredEntity = hoveredEntity
     end
+end)
 
+
+
+local lpStatePushed = false
+local runInfoChecked = false
+
+local LP_STATE_Z_ORDER = 0
+local CONTINUE_RUN_STATE_Z_ORDER = 10
+
+umg.on("@tick", function()
     if lp.main.isReady() then
-        if runStatePushed then
+        if runState then
             state.pop(runState)
-            runStatePushed = false
+            runState = nil
         end
 
         if not lpStatePushed then
             lpStatePushed = true
             state.push(lpState, LP_STATE_Z_ORDER)
         end
-    end
-end)
+    elseif runManager.hasReceivedInfo() and not runInfoChecked then
+        runInfoChecked = true
+        local runInfo = runManager.getSavedRun()
 
-
-
-local CONTINUE_RUN_STATE_Z_ORDER = 10
-
-
-local function makeCallableOnce(f)
-    local called = false
-
-    return function(...)
-        if not called then
-            called = true
-            return f(...)
-        end
-    end
-end
-
-umg.on("@load", function()
-    -- let @update loop handle pushing LPState
-    if not lp.main.isReady() then
-        runManager.queryRun(function(host, run)
-            local setupData = nil
-
-            if host then
-                if run then
-                    setupData = {
-                        continueRunAction = makeCallableOnce(runManager.continueRun),
-                        newRunAction = makeCallableOnce(runManager.newRun)
-                    }
-                else
-                    return runManager.newRun()
-                    -- return to prevent propagation.
-                end
-            end
-
-            runStatePushed = true
-            runState:setup(setupData)
+        if runInfo then
+            runState = RunState({
+                runInfo = runInfo,
+                callback = runManager.startRun
+            })
             state.push(runState, CONTINUE_RUN_STATE_Z_ORDER)
-        end)
+        else
+            runManager.startRun(false)
+        end
     end
 end)
 
