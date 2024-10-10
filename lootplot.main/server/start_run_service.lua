@@ -15,60 +15,29 @@ So its "fine" for now.
 
 
 ]]
-local selectedPerk = nil
+local starterItemEType = nil
 
 
 
 
-lp.defineSlot("lootplot.worldgen:selection_slot", {
+local SELECTION_SLOT_TYPE = "lootplot.worldgen:start_run.selection_slot"
+lp.defineSlot(SELECTION_SLOT_TYPE, {
     name = loc("Selection Slot"),
 
     triggers = {},
 
-    init = function(ent)
-        ent._isSelected = false
-    end,
-
     actionButtons = {
         action = function(ent, clientId)
-            selectedPerk = ent
+            starterItemEType = ent
         end,
-
-        canClick = function(ent, clientId)
-            return true
-        end,
-
         text = loc("Choose"),
         color = objects.Color.DARK_CYAN
     },
 })
 
 
----@alias lootplot.main.SelectionSlotFamily {slots:Entity[], selected?:Entity}
 
----@param count integer
----@param lootplotTeam string
----@return lootplot.main.SelectionSlotFamily
-local function createSelectionSlotFamily(count, lootplotTeam)
-    local slots = objects.Array()
-
-    ---@type lootplot.main.SelectionSlotFamily
-    local family = {
-        slots = slots,
-        selected = nil
-    }
-    for i=1, count do
-        local slotEnt = server.entities.selection_slot()
-        slotEnt.lootplotTeam = lootplotTeam
-        slotEnt._selectionSlotFamily = family
-        slots:add(slotEnt)
-    end
-    return family
-end
-
-
-
-lp.defineSlot("lootplot.s0.content:reroll_button_slot", {
+lp.defineSlot("lootplot.s0.content:start_run.start_game_button_slot", {
     name = loc("Start Game!"),
     description = loc("Click to start the game!"),
 
@@ -84,7 +53,10 @@ lp.defineSlot("lootplot.s0.content:reroll_button_slot", {
     buttonSlot = true,
 
     onActivate = function(ent)
-        startRunService.startGame()
+        local ppos = lp.getPos(ent)
+        if ppos then
+            startRunService.startGame(ppos, ent.lootplotTeam)
+        end
     end,
 })
 
@@ -108,25 +80,43 @@ function startRunService.spawnMenuSlots(ppos, team)
 
     -- spawn perks
     local i = 1
-    local selectSlots = createSelectionSlotFamily(#items, team)
     for dy=0, 10 do
         for dx=-2, 2 do
             local pos = ppos:move(dx,dy)
             if not pos then
                 break
             end
-            selectSlots.slots[i] = team
-            lp.setSlot(pos, selectSlots.slots[i])
+            local slotEType = server.entities[SELECTION_SLOT_TYPE]
+            lp.trySpawnSlot(pos, slotEType, team)
             lp.trySpawnItem(pos, items[i], team)
             i = i + 1
         end
     end
+    starterItemEType = items[1]
 end
 
 
+---@param ppos lootplot.PPos
+---@param team string
+function startRunService.startGame(ppos, team)
+    --[[
+    STEPS:
 
-function startRunService.startGame()
+    -- clear whole plot
+    -- spawn doomclock-egg
+    -- spawn perk-item
+    -- IN FUTURE: spawn worldgen item(s)?
+    ]]
+    local plot = ppos:getPlot()
+    plot:foreachLayerEntry(function(ent, _ppos, _layer)
+        ent:delete()
+    end)
 
+    assert(starterItemEType,"?")
+    lp.forceSpawnSlot(ppos, server.entities.slot, team)
+    lp.forceSpawnItem(ppos, starterItemEType, team)
+
+    lp.trySpawnItem(assert(ppos:move(0, -4)), server.entities.doom_egg, team)
 end
 
 
