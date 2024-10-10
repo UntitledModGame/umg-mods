@@ -1,16 +1,13 @@
 local LPState = require("client.states.LPState")
-local RunState = require("client.states.RunState")
+local LoadingState = require("client.states.LoadingState")
 local PulsingCloudBackground = require("client.backgrounds.PulsingCloudBackground")
 local backgroundManager = require("client.background_manager")
 local musicManager = require("client.music_manager")
-local runManager = require("shared.run_manager")
 
 
 
 ---@type lootplot.main.State
 local lpState = LPState()
----@type lootplot.main.RunState|nil
-local runState = nil
 
 
 
@@ -70,39 +67,5 @@ umg.on("@update", function(dt)
     end
 end)
 
-
-
-local lpStatePushed = false
-local runInfoChecked = false
-
-local LP_STATE_Z_ORDER = 0
-local CONTINUE_RUN_STATE_Z_ORDER = 10
-
-umg.on("@tick", function()
-    if lp.main.isReady() then
-        if runState then
-            state.pop(runState)
-            runState = nil
-        end
-
-        if not lpStatePushed then
-            lpStatePushed = true
-            state.push(lpState, LP_STATE_Z_ORDER)
-        end
-    elseif runManager.hasReceivedInfo() and not runInfoChecked then
-        runInfoChecked = true
-        local runInfo = runManager.getSavedRun()
-
-        if runInfo then
-            runState = RunState({
-                runInfo = runInfo,
-                callback = runManager.startRun
-            })
-            state.push(runState, CONTINUE_RUN_STATE_Z_ORDER)
-        else
-            runManager.startRun(false)
-        end
-    end
-end)
-
+state.push(LoadingState(lpState), 0)
 musicManager.playNormalBGM()

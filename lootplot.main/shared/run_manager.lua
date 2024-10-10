@@ -23,7 +23,7 @@ local function queryRunServer()
     -- return {
     --     playtime = 1234,
     --     level = 4,
-    --     perk = "lootplot.content.s0:one_ball",
+    --     perk = "lootplot.s0.content:one_ball",
     --     seed = 1234
     -- }
 end

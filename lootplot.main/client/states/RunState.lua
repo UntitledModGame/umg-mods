@@ -2,7 +2,6 @@
 -- For host: Show continue run dialog
 -- For non-host: Show message "Host is preparing run"
 
-local fonts = require("client.fonts")
 local ContinueRunDialog = require("client.scenes.ContinueRunDialog")
 
 
