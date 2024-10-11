@@ -19,6 +19,7 @@ lp.defineItem("lootplot.s0.content:rocks", {
             pointsGenerated = 2
         }
     },
+    lives = 2,
     name = loc("Rocks"),
     rarity = lp.rarities.COMMON,
     triggers = {"DESTROY"},
