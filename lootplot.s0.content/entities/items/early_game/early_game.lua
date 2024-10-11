@@ -5,6 +5,10 @@ local helper = require("shared.helper")
 local loc = localization.localize
 
 
+--[[
+This gives the user good intuition behind how the
+destroy-lives systems interact with each other.
+]]
 lp.defineItem("lootplot.s0.content:rocks", {
     image = "rocks",
     lootplotProperties = {
@@ -81,8 +85,7 @@ Do something good with the stick
 local boneDesc = localization.newInterpolator("When destroyed, permanently gain %{count} points-generated")
 
 --[[
-this item is actually quite important; 
-since it gives the user good intuition behind how the
+This gives the user good intuition behind how the
 destroy-lives systems interact with each other.
 ]]
 lp.defineItem("lootplot.s0.content:bone", {

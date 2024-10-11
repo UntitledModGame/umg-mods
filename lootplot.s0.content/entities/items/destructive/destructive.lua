@@ -46,6 +46,18 @@ lp.defineItem("lootplot.s0.content:dark_skull", {
 })
 
 
+
+--[[
+
+TODO:
+TODO:
+TODO:
+THIS IS A TERRIBLY DESIGNED ITEM!!!!
+Remove this, replace with something better.
+
+IDEA:
+- Increase points-generated of all tier-2 items by 1
+]]
 lp.defineItem("lootplot.s0.content:death_by_taxes", {
     image = "death_by_taxes",
     name = loc("Death by Taxes"),
