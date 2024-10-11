@@ -60,8 +60,19 @@ defineDice("green_die", "Green Die", {
 
 
 
+--[[
+
+TODO:
+Black-die doesn't really fit here.
+
+It should really be a food-item instead.
+
+Maybe think of another purpose for it?
+]]
 defineDice("black_die", "Black Die", {
     rarity = lp.rarities.RARE,
+
+    doomCount = 1,
 
     shape = lp.targets.LARGE_KING_SHAPE,
 
