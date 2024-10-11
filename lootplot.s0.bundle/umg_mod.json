@@ -1,9 +1,9 @@
 {
     "type": "bundle",
     "uses": [
-        "lootplot.main",
-        "lootplot.s0.content", 
-        "lootplot.s0.starting_items", 
+        "lootplot.s0.content",
+        "lootplot.s0.starting_items",
+        "lootplot.main", 
         "lootplot.juice", 
         "lootplot.sound"
     ]

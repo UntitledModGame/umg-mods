@@ -3,6 +3,7 @@
 
 local function definePerk(id, etype)
     etype.image = etype.image or id
+    etype.canItemFloat = true -- perk always float
 
     lp.worldgen.STARTING_ITEMS:add(etype, 1)
     lp.defineItem("lootplot.s0.starting_items:" .. id, etype)

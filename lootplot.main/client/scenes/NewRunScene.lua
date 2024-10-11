@@ -50,7 +50,7 @@ function NewRunScene:init(args)
     e.newRunButton = StretchableButton({
         onClick = function()
             -- TODO: Proper item selection
-            return arg.startNewRun("lootplot.s0.content:one_ball")
+            return arg.startNewRun("lootplot.s0.starting_items:one_ball")
         end,
         text = NEW_RUN_BUTTON_STRING,
         scale = 2,
