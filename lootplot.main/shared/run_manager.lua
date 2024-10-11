@@ -24,7 +24,7 @@ local function queryRunServer()
     -- return {
     --     playtime = 1234,
     --     level = 4,
-    --     perk = "lootplot.s0.content:one_ball",
+    --     perk = "lootplot.s0.starting_items:one_ball",
     --     seed = 1234
     -- }
 end
@@ -33,10 +33,12 @@ end
 
 if server then
 
-server.on("lootplot.main:startRun", function(clientId, runOptions)
+local startRunService = require("server.start_run_service")
+
+server.on("lootplot.main:startRun", function(clientId, runOptionsString)
     if server.getHostClient() == clientId then
-        umg.log.error("NYI.")
-        -- startRun(runOptions)
+        local runOptions = umg.deserialize(runOptionsString)
+        startRunService.startGame(clientId, runOptions.starterItem)
     end
 end)
 
@@ -106,9 +108,10 @@ local newRunOptionsTc = typecheck.assert({
     starterItem = "string",
     seed = "string"
 })
+---@param options {starterItem:string,seed:string}
 function runManager.startRun(options)
     newRunOptionsTc(options)
-    client.send("lootplot.main:startRun", json.encode(options))
+    client.send("lootplot.main:startRun", umg.serialize(options))
 end
 
 return runManager
