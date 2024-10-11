@@ -197,6 +197,10 @@ function Plot:getPPos(x,y)
     })
 end
 
+function Plot:getCenterPPos()
+    return self:getPPos(math.floor(self.width / 2), math.floor(self.height / 2))
+end
+
 
 
 ---@param x integer
