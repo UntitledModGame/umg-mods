@@ -1,6 +1,5 @@
 
 local fonts = require("client.fonts")
-local globalScale = require("client.globalScale")
 local lg=love.graphics
 
 local runManager = require("shared.run_manager")
@@ -12,6 +11,7 @@ local StretchableButton = require("client.elements.StretchableButton")
 local loc = localization.localize
 
 local NEW_RUN_STRING = loc("New Run")
+local NEW_RUN_BUTTON_STRING = loc("Start New Run")
 
 
 

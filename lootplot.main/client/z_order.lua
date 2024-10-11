@@ -1,0 +1,6 @@
+return {
+    LOADING_STATE = 0,
+    LOOTPLOT_STATE = 10,
+    CONTINUE_RUN_STATE = 20,
+    NEW_RUN_STATE = 20
+}
