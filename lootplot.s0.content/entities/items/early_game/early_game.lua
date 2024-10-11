@@ -128,10 +128,16 @@ lp.defineItem("lootplot.s0.content:emerald_shards", {
 })
 
 
+
+
 local activateToot, dedToot
 if client then
-    activateToot = sound.Sound("trumpet_toot")
-    dedToot = sound.Sound("trumpet_destroyed")
+    local dirObj = umg.getModFilesystem()
+    audio.defineAudioInDirectory(
+        dirObj:cloneWithSubpath("entities/items/early_game/sounds"), "lootplot.s0.content:", {"audio:sfx"}
+    )
+    activateToot = sound.Sound("lootplot.s0.content:trumpet_toot")
+    dedToot = sound.Sound("lootplot.s0.content:trumpet_destroyed")
 end
 
 lp.defineItem("lootplot.s0.content:trumpet", {
