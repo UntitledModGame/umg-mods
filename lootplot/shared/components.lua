@@ -20,6 +20,15 @@ components.defineComponent("getDynamicSpawnChance")
 
 
 
+components.defineComponent("onReroll")
+components.defineComponent("onDestroy")
+components.defineComponent("onActivate")
+
+components.defineComponent("onDestroyClient")
+components.defineComponent("onActivateClient")
+
+
+
 --[[
 ==================================================
 Property definitions:
