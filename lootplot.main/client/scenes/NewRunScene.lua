@@ -22,12 +22,19 @@ local NewRunDialog = ui.Element("lootplot.main:NewRunDialog")
 local FONT_SIZE = 32
 local BACKGROUND_COLOR = objects.Color(objects.Color.HSLtoRGB(250, 0.1, 0.32))
 
+local FOREGROUND_COLOR = objects.Color(objects.Color.HSLtoRGB(250, 0.1, 0.14))
+
 function NewRunDialog:init()
     local e = {}
     e.base = StretchableBox("white_pressed_big", 8, {
         stretchType = "repeat",
         color = BACKGROUND_COLOR,
-        scale = 2
+        scale = 1
+    })
+    e.perkBox = StretchableBox("white_pressed_big", 8, {
+        stretchType = "repeat",
+        color = FOREGROUND_COLOR,
+        scale = 1
     })
     e.title = ui.elements.Text({
         text = NEW_RUN_STRING,
@@ -65,21 +72,6 @@ local function getTextSize(font, text, wrap)
     local width, lines = font:getWrap(text, wrap or 2147483647)
     return width, #lines * font:getHeight()
 end
-
----@param textString string
----@param region layout.Region
-local function drawTextIn(textString, region)
-    local x,y,w,h = region:get()
-    local font = fonts.getSmallFont(FONT_SIZE)
-    local limit = w
-    local tw, th = getTextSize(font, textString, limit)
-
-    -- scale text to fit box
-    local scale = math.min(w/tw, h/th)
-    local drawX, drawY = math.floor(x+w/2), math.floor(y+h/2)
-    lg.printf(textString, font, drawX, drawY, limit, "left", 0, scale, scale, tw/2, th/2)
-end
-
 
 
 local function drawRegions(rlist)
@@ -120,7 +112,7 @@ function NewRunDialog:onRender(x, y, w, h)
     local title, body, footer = r:splitVertical(1, 4, 1)
     body = body:padRatio(0.1)
     title = bob(title:padRatio(0.1))
-        
+
     local left, right = body:splitHorizontal(1, 1)
 
     -- background:
@@ -130,7 +122,8 @@ function NewRunDialog:onRender(x, y, w, h)
     -- perk:
     local perkImg, perkText = perkBox:padRatio(0.1):splitHorizontal(1,3)
     local perkName, perkDesc = perkText:splitVertical(1,4)
-    perkImg = perkImg:shrinkToAspectRatio(1,1)
+    perkImg = bob(perkImg:padRatio(0.2):shrinkToAspectRatio(1,1), 0.1, 1.5)
+    self.elements.perkBox:render(perkBox:get())
     drawTextIn("My Perk", bob(perkName, 0.1, 2.3))
     drawTextIn(
         "This is a big perk description. I am intentionally making it big to test text wrapping", 

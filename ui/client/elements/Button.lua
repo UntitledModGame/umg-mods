@@ -20,12 +20,7 @@ function Button:init(args)
     self.outlineColor = args.outlineColor
     self.textColor = args.textColor
     self.textElement = nil
-    if args.image then
-        self.imageElement = Image({
-            image = args.image
-        })
-        self:addChild(self.imageElement)
-    end
+    self.image = args.image or nil
 end
 
 if false then
@@ -56,13 +51,17 @@ end
 
 function Button:onRender(x,y,w,h)
     local r = layout.Region(x,y,w,h)
-    lg.setColor(self.backgroundColor or objects.Color.WHITE)
-    lg.rectangle("fill", r:get())
-    lg.setColor(self.outlineColor or objects.Color.BLACK)
-    lg.rectangle("line", r:get())
+    if self.backgroundColor then
+        lg.setColor(self.backgroundColor)
+        lg.rectangle("fill", r:get())
+    end
+    if self.outlineColor then
+        lg.setColor(self.outlineColor)
+        lg.rectangle("line", r:get())
+    end
 
-    if self.imageElement then
-        self.imageElement:render(x,y,w,h)
+    if self.image then
+        ui.drawImageInBox(self.image, x,y,w,h)
     end
 
     if self.text then

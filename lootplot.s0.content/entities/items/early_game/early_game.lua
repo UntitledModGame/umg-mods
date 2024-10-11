@@ -138,6 +138,8 @@ lp.defineItem("lootplot.s0.content:trumpet", {
     description = loc("Makes a toot sound"),
     rarity = lp.rarities.COMMON,
 
+    baseMaxActivations = 10,
+
     basePointsGenerated = 3,
     onActivate = function(ent)
         activateToot:play(ent, 1, 0.5 + math.random())
