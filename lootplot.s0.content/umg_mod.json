@@ -2,6 +2,6 @@
     "uses": [
         "lootplot.targets", "lootplot", "lootplot.rarities", 
         "lootplot.levels", "lootplot.tiers", "lootplot.metaprogression",
-        "lootplot.worldgen"
+        "lootplot.worldgen", "sound"
     ]
 }
