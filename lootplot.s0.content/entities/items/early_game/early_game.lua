@@ -128,9 +128,11 @@ lp.defineItem("lootplot.s0.content:emerald_shards", {
 })
 
 
-
-local activateToot = sound.Sound("trumpet_toot")
-local dedToot = sound.Sound("trumpet_destroyed")
+local activateToot, dedToot
+if client then
+    activateToot = sound.Sound("trumpet_toot")
+    dedToot = sound.Sound("trumpet_destroyed")
+end
 
 lp.defineItem("lootplot.s0.content:trumpet", {
     image = "trumpet",
@@ -141,10 +143,12 @@ lp.defineItem("lootplot.s0.content:trumpet", {
     baseMaxActivations = 10,
 
     basePointsGenerated = 3,
-    onActivate = function(ent)
+
+    -- just for the funni
+    onActivateClient = function(ent)
         activateToot:play(ent, 1, 0.5 + math.random())
     end,
-    onDestroy = function(ent)
+    onDestroyClient = function(ent)
         dedToot:play(ent, 1, 0.5 + math.random())
     end,
 })
