@@ -1,7 +1,6 @@
 
 local elements = {
     Button = require("client.elements.Button"),
-    Image = require("client.elements.Image"),
     Input = require("client.elements.Input"),
     ScrollBar = require("client.elements.ScrollBar"),
     ScrollBox = require("client.elements.ScrollBox"),

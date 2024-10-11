@@ -136,6 +136,7 @@ function NewRunDialog:onRender(x, y, w, h)
         "This is a big perk description. I am intentionally making it big to test text wrapping", 
         perkDesc:padRatio(0.1)
     )
+    ui.drawImageInBox(client.assets.images.one_ball, perkImg:get())
 
     -- selection:
     local selectTitle, selectBox = right:splitHorizontal(0.2,1)

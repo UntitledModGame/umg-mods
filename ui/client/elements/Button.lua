@@ -1,5 +1,4 @@
 local Element = require("client.newElement")
-local Image = require("client.elements.Image")
 local Text = require("client.elements.Text")
 
 ---@class ui.Button: Element

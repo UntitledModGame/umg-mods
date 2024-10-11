@@ -13,11 +13,6 @@ function SlotElement:init(args)
     typecheck.assertKeys(args, KEYS)
     self.slot = args.slot
     self.inventory = args.inventory
-
-    -- blank image for now
-    self.image = ui.elements.Image({})
-    self:addChild(self.image)
-    self.hasImage = false
 end
 
 
@@ -41,21 +36,7 @@ end
 
 
 
-local function updateImage(self)
-    local ent = self:getItem()
-    if ent then
-        local img = getItemIcon(ent)
-        self.hasImage = true
-        self.image:setImage(img)
-    else
-        self.hasImage = false
-    end
-end
-
-
 function SlotElement:renderItem(x,y,w,h)
-    updateImage(self)
-
     if self.hasImage then
         self.image:render(x,y,w,h)
     end
