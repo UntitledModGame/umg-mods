@@ -23,7 +23,7 @@ lp.defineItem("lootplot.s0.content:rocks", {
             pointsGenerated = 2
         }
     },
-    lives = 2,
+    lives = 1,
     name = loc("Rocks"),
     rarity = lp.rarities.COMMON,
     triggers = {"DESTROY"},
@@ -124,6 +124,26 @@ lp.defineItem("lootplot.s0.content:emerald_shards", {
         if ppos then
             helper.rerollPlot(ppos:getPlot())
         end
+    end,
+})
+
+
+
+local activateToot = sound.Sound("trumpet_toot")
+local dedToot = sound.Sound("trumpet_destroyed")
+
+lp.defineItem("lootplot.s0.content:trumpet", {
+    image = "trumpet",
+    name = loc("Trumpet"),
+    description = loc("Makes a toot sound"),
+    rarity = lp.rarities.COMMON,
+
+    basePointsGenerated = 3,
+    onActivate = function(ent)
+        activateToot:play(ent, 1, 0.5 + math.random())
+    end,
+    onDestroy = function(ent)
+        dedToot:play(ent, 1, 0.5 + math.random())
     end,
 })
 
