@@ -8,6 +8,8 @@
 assert(not lp.main, "invalid mod setup")
 local main = {}
 
+main.PLAYER_TEAM = "@player" -- Player team
+
 
 local currentRun = nil
 
