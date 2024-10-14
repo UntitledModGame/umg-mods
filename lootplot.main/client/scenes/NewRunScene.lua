@@ -16,15 +16,15 @@ local NEW_RUN_STRING = loc("New Run")
 
 
 
----@class lootplot.main.NewRunDialog: Element
-local NewRunDialog = ui.Element("lootplot.main:NewRunDialog")
+---@class lootplot.main.NewRunScene: Element
+local NewRunScene = ui.Element("lootplot.main:NewRunScene")
 
 local FONT_SIZE = 32
 local BACKGROUND_COLOR = objects.Color(objects.Color.HSLtoRGB(250, 0.1, 0.32))
 
 local FOREGROUND_COLOR = objects.Color(objects.Color.HSLtoRGB(250, 0.1, 0.14))
 
-function NewRunDialog:init()
+function NewRunScene:init(args)
     local e = {}
     e.base = StretchableBox("white_pressed_big", 8, {
         stretchType = "repeat",
@@ -45,9 +45,9 @@ function NewRunDialog:init()
     })
     e.newRunButton = StretchableButton({
         onClick = function()
-            return runManager.startRun({
-                starterItem = "one_ball",
-                seed = "123",
+            args.startNewRun({
+                starterItem = "lootplot.s0.starter_items:one_ball",
+                seed = "1234"
             })
         end,
         text = "Start New Run",
@@ -105,7 +105,7 @@ local function bob(region, amp, speed)
     return region:moveRatio(0, (amp or 0.1) * math.sin(love.timer.getTime() * (speed or 1)))
 end
 
-function NewRunDialog:onRender(x, y, w, h)
+function NewRunScene:onRender(x, y, w, h)
     love.graphics.setColor(objects.Color.WHITE)
     local r = layout.Region(x,y,w,h):padRatio(0.15, 0.1)
 
@@ -156,5 +156,5 @@ function NewRunDialog:onRender(x, y, w, h)
     end
 end
 
-return NewRunDialog
+return NewRunScene
 

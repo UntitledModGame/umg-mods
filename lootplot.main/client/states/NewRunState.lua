@@ -11,7 +11,7 @@ local NewRunState = objects.Class("lootplot.main:NewRunState")
 
 function NewRunState:init()
     self.scene = NewRunScene({
-        startNewRun = function(startingItemName)
+        startNewRun = function(args)
             runManager.startRun()
         end
     })
