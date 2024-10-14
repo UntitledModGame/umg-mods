@@ -55,20 +55,12 @@ function startRunService.spawnItemAndSlots(midPPos, team, perk)
 end
 
 
----@param team string
----@param perk string
-function startRunService.startGame(team, perk)
-    ---@type lootplot.main.Run
-    local run = Run() -- lp.initialize has been called.
-    local plot = run:getPlot()
-    local midPPos = plot:getCenterPPos()
 
-    scheduling.delay(0.1, startRunService.spawnItemAndSlots, midPPos, team, perk)
-
-    -- Set camera to center
+---@param ppos lootplot.PPos
+local function setPlayerCamToPPos(ppos)
     for _, playerEnt in ipairs(potentialPlayerGroup) do
         if playerEnt:type() == "lootplot:player" then
-            local worldPos = midPPos:getWorldPos()
+            local worldPos = ppos:getWorldPos()
             playerEnt.x = worldPos.x
             playerEnt.y = worldPos.y
             sync.syncComponent(playerEnt, "x")
@@ -76,6 +68,34 @@ function startRunService.startGame(team, perk)
             -- force client to accept position change
         end
     end
+end
+
+
+---@param team string
+---@param perk string
+function startRunService.startGame(team, perk)
+    ---@type lootplot.main.Run
+    local run = Run(perk) -- lp.initialize has been called.
+    local plot = run:getPlot()
+    local midPPos = plot:getCenterPPos()
+
+    scheduling.delay(0.1, startRunService.spawnItemAndSlots, midPPos, team, perk)
+
+    -- Set camera to center
+    setPlayerCamToPPos(midPPos)
+end
+
+---@param serRun string
+---@param rngState lootplot.LootplotSeedSerialized
+function startRunService.continueGame(serRun, rngState)
+    local run = Run.deserialize(serRun)
+    local plot = run:getPlot()
+    local midPPos = plot:getCenterPPos()
+
+    lp.SEED:deserializeFromTable(rngState)
+
+    -- Set camera to center
+    setPlayerCamToPPos(midPPos)
 end
 
 

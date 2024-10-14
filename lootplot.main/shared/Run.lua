@@ -31,7 +31,9 @@ local attributeList = nil
 umg.defineEntityType("lootplot.main:world", {})
 
 
-function Run:init()
+---@param perkItem string
+function Run:init(perkItem)
+    assert(typecheck.isType(perkItem, "string"))
 
     local ent = server.entities.world()
     ent.lootplotMainRun = self
@@ -46,6 +48,8 @@ function Run:init()
     )
 
     local constants = lp.main.constants
+
+    self.perkItem = perkItem
 
     self.attrs = {}
     self.attrs.COMBO = 0
@@ -119,6 +123,12 @@ function Run:getAttributeSetters()
     return attributeSetters
 end
 
+---@param attr string
+---@return number
+function Run:getAttribute(attr)
+    return assert(self.attrs[attr])
+end
+
 
 
 -- Pipeline multipler
@@ -135,6 +145,31 @@ function Run:setSpeedMultipler(mult)
 end
 
 if server then
+
+function Run:serialize()
+    return umg.serialize(self)
+end
+
+---@param data string
+---@return lootplot.main.Run
+function Run.deserialize(data)
+    return umg.deserialize(data)
+end
+
+
+
+function Run:getMetadata()
+    ---@class lootplot.main.RunMeta
+    local t = {
+        level = self.attrs.LEVEL,
+        perk = self.perkItem,
+        round = self.attrs.ROUND,
+        maxRound = self.attrs.NUMBER_OF_ROUNDS
+    }
+    return t
+end
+
+
 
 server.on("lootplot.main:setSpeedMultipler", function(clientId, value)
     if server.getHostClient() == clientId then
