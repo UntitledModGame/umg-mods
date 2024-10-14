@@ -49,7 +49,7 @@ function ScrollBox:onRender(x,y,w,h)
     local content, scroll = region:splitHorizontal(w-self.scrollWidth, self.scrollWidth)
 
     assert(self.content.getHeight, "Content inside of ScrollBox needs a :getHeight method!")
-    local contentHeight = self.content:getHeight()
+    local contentHeight = self.content:getHeight(w,h)
 
     if h < contentHeight then
         self.scroll:render(scroll:get())

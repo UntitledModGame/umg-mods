@@ -57,6 +57,7 @@ function NewRunScene:init(arg)
         color = objects.Color(1,1,1,1):setHSL(340, 0.7, 0.5),
         font = fonts.getLargeFont(),
     })
+
     if arg.cancelRun then
         e.cancelButton = ui.elements.Button({
             click = arg.cancelRun,
@@ -65,6 +66,10 @@ function NewRunScene:init(arg)
             outlineColor = objects.Color.TRANSPARENT
         })
     end
+
+    e.scrollBox = ui.elements.ScrollBox({
+        
+    })
 
     for _, v in pairs(e) do
         self:addChild(v)

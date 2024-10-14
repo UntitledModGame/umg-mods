@@ -1,4 +1,5 @@
 
+---@meta
 
 assert(not lp.worldgen, "?")
 lp.worldgen = {}
@@ -33,6 +34,11 @@ end
 ---@type generation.Generator
 lp.worldgen.STARTING_ITEMS = generation.Generator()
 -- contains etypes that are perks.
+--[[
+WARNING:
+dont add non-etypes to this array!!!
+or stuff will break
+]]
 
 
 
