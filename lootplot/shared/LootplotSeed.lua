@@ -39,8 +39,26 @@ function LootplotSeed:init(seed)
 end
 
 
-function LootplotSeed:getSeed()
-    return numToString(self.seed)
+function LootplotSeed:serializeToTable()
+    ---@class lootplot.LootplotSeedSerialized
+    local t = {
+        seed = self.seed,
+        rerollRNG = self.rerollRNG:getState(),
+        worldGenRNG = self.worldGenRNG:getState(),
+        miscRNG = self.miscRNG:getState(),
+    }
+    return t
+end
+
+---@param tab lootplot.LootplotSeedSerialized
+function LootplotSeed:deserializeFromTable(tab)
+    self.seed = tab.seed
+    self.rerollRNG:setSeed(tab.seed)
+    self.worldGenRNG:setSeed(tab.seed)
+    self.miscRNG:setSeed(tab.seed)
+    self.rerollRNG:setState(tab.rerollRNG)
+    self.worldGenRNG:setState(tab.worldGenRNG)
+    self.miscRNG:setState(tab.miscRNG)
 end
 
 function LootplotSeed:randomReroll(a,b)

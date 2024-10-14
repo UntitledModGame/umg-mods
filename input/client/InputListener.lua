@@ -151,14 +151,22 @@ end
 function InputListener:_dispatchPress(controlEnum)
     local func = self.pressCallbacks[controlEnum] or dummy
     func(self, controlEnum)
-    self:anyPressCallback(controlEnum)
+
+    -- Control manager _may_ be removed on `func`.
+    if self.controlManager then
+        self:anyPressCallback(controlEnum)
+    end
 end
 
 ---@private
 function InputListener:_dispatchRelease(controlEnum)
     local func = self.releaseCallbacks[controlEnum] or dummy
     func(self, controlEnum)
-    self:anyReleaseCallback(controlEnum)
+
+    -- Control manager _may_ be removed on `func`.
+    if self.controlManager then
+        self:anyReleaseCallback(controlEnum)
+    end
 end
 
 ---@private

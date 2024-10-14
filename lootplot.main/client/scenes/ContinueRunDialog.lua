@@ -6,7 +6,7 @@ local StretchableButton = require("client.elements.StretchableButton")
 
 local UNKNOWN_PERK = localization.localize("Unknown Perk")
 local NEW_RUN_STRING = localization.localize("Starting new\nrun will\noverwrite your\nexisting run.")
-local RUN_INFO_STRING = localization.newInterpolator("Playtime: %{hour:02d}:%{minute:02d}:%{second:02d}\nLevel: %{level}\n\nPerk: %{perk}\n%{perkDescription}")
+local RUN_INFO_STRING = localization.newInterpolator("Level: %{level}\nRound: %{round}/%{maxRound}\n\nPerk: %{perk}\n%{perkDescription}")
 
 
 
@@ -15,18 +15,22 @@ local ContinueRunDialog = ui.Element("lootplot.main:ContinueRunDialog")
 
 local FONT_SIZE = 32
 local BACKGROUND_COLOR = objects.Color(objects.Color.HSLtoRGB(250, 0.1, 0.32))
+local KEYS = {
+    runInfo = true,
+    continueRun = true,
+    startRun = true
+}
 
----@param runInfo lootplot.main.RunMeta
----@param callback fun(continue:boolean)
-function ContinueRunDialog:init(runInfo, callback)
-    assert(runInfo and callback)
+function ContinueRunDialog:init(args)
+    typecheck.assertKeys(args, KEYS)
 
+    ---@type lootplot.main.RunMeta
+    local runInfo = args.runInfo
     local perkEType = client.entities[runInfo.perk]
     local friendlyRunInfo = {
-        hour = math.floor(runInfo.playtime / 3600),
-        minute = math.floor(runInfo.playtime / 60) % 60,
-        second = runInfo.playtime % 60,
         level = runInfo.level,
+        round = runInfo.round,
+        maxRound = runInfo.maxRound,
         perk = perkEType and (perkEType.name or runInfo.perk) or UNKNOWN_PERK, ---@diagnostic disable-line: undefined-field
         perkDescription = tostring(perkEType and perkEType.description or ""), ---@diagnostic disable-line: undefined-field
     }
@@ -45,18 +49,14 @@ function ContinueRunDialog:init(runInfo, callback)
         font = fonts.getLargeFont(FONT_SIZE),
     })
     e.newRunButton = StretchableButton({
-        onClick = function()
-            return callback(false)
-        end,
+        onClick = args.startRun,
         text = "Start New Run",
         scale = 2,
         color = objects.Color(1,1,1,1):setHSL(340, 0.7, 0.5),
         font = fonts.getLargeFont(),
     })
     e.continueRunButton = StretchableButton({
-        onClick = function()
-            return callback(true)
-        end,
+        onClick = args.continueRun,
         text = "Continue Run",
         scale = 2,
         color = objects.Color(1,1,1,1):setHSL(184, 0.7, 0.5),

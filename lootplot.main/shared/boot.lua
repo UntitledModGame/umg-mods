@@ -1,6 +1,4 @@
 
-local Run = require("shared.Run")
-
 
 lp.defineAttribute("ROUND")
 -- current round number
@@ -16,24 +14,6 @@ lp.defineAttribute("REQUIRED_POINTS")
 
 
 
-
-if server then
-
-local startRunService = require("server.start_run_service")
-
-umg.on("@load", function()
-    ---@type lootplot.main.Run
-    local run = Run()
-    local plot = run:getPlot()
-
-    local mid = math.floor(lp.main.constants.WORLD_PLOT_SIZE/2)
-    local team = server.getHostClient()
-    local midPos = plot:getPPos(mid, mid)
-
-    startRunService.spawnMenuSlots(midPos, team)
-end)
-
-end
 
 umg.on("@playerJoin", function(clientId)
     local p = server.entities.player(clientId)

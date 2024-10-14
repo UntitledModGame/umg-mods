@@ -1,7 +1,9 @@
 
 local runManager = require("shared.run_manager")
 local helper = require("client.states.helper")
+local Z_ORDER = require("client.z_order")
 
+local LPState = require("client.states.LPState")
 local NewRunScene = require("client.scenes.NewRunScene")
 
 
@@ -9,11 +11,28 @@ local NewRunScene = require("client.scenes.NewRunScene")
 local NewRunState = objects.Class("lootplot.main:NewRunState")
 
 
-function NewRunState:init()
-    self.scene = NewRunScene({
-        startNewRun = function(args)
-            runManager.startRun()
+---@param cancelAction function?
+function NewRunState:init(cancelAction)
+    local cancelRun = nil
+
+    if cancelAction then
+        function cancelRun()
+            state.pop(self)
+            return cancelAction()
         end
+    end
+
+    self.scene = NewRunScene({
+        startNewRun = function(startingItemName)
+            state.pop(self)
+            state.push(LPState(), Z_ORDER.LOOTPLOT_STATE)
+            -- TODO: Proper setup options
+            return runManager.startRun({
+                starterItem = startingItemName,
+                seed = "",
+            })
+        end,
+        cancelRun = cancelRun
     })
     self.scene:makeRoot()
     self.listener = helper.createStateListener(self.scene)

@@ -15,8 +15,10 @@ local strings = {
     SPEED = localization.newInterpolator("Speed: %{num:.3g}x")
 }
 
-function Scene:init()
+---@param lpState lootplot.main.State
+function Scene:init(lpState)
     self.gameSpeedMultiplerFactor = 0 -- 2^n
+    self.lpState = assert(lpState)
 
     self:makeRoot()
     self:setPassthrough(true)
