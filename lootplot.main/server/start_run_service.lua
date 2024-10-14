@@ -63,7 +63,7 @@ function startRunService.startGame(team, perk)
     local plot = run:getPlot()
     local midPPos = plot:getCenterPPos()
 
-    startRunService.spawnItemAndSlots(midPPos, team, perk)
+    scheduling.delay(0.1, startRunService.spawnItemAndSlots, midPPos, team, perk)
 
     -- Set camera to center
     for _, playerEnt in ipairs(potentialPlayerGroup) do
