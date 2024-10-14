@@ -55,6 +55,9 @@ function NewRunScene:init(args)
         color = objects.Color(1,1,1,1):setHSL(340, 0.7, 0.5),
         font = fonts.getLargeFont(),
     })
+    e.scrollBox = ui.elements.ScrollBox({
+        
+    })
 
     for _, v in pairs(e) do
         self:addChild(v)
