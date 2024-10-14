@@ -26,7 +26,7 @@ local KEYS = {
 
 local FOREGROUND_COLOR = objects.Color(objects.Color.HSLtoRGB(250, 0.1, 0.14))
 
-function NewRunScene:init(args)
+function NewRunScene:init(arg)
     typecheck.assertKeys(arg, KEYS)
 
     local e = {}

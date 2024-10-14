@@ -6,7 +6,7 @@ local StretchableButton = require("client.elements.StretchableButton")
 
 local UNKNOWN_PERK = localization.localize("Unknown Perk")
 local NEW_RUN_STRING = localization.localize("Starting new\nrun will\noverwrite your\nexisting run.")
-local RUN_INFO_STRING = localization.newInterpolator("Playtime: %{hour:02d}:%{minute:02d}:%{second:02d}\nLevel: %{level}\n\nPerk: %{perk}\n%{perkDescription}")
+local RUN_INFO_STRING = localization.newInterpolator("Level: %{level}\nRound: %{round}/%{maxRound}\n\nPerk: %{perk}\n%{perkDescription}")
 
 
 
@@ -24,13 +24,13 @@ local KEYS = {
 function ContinueRunDialog:init(args)
     typecheck.assertKeys(args, KEYS)
 
+    ---@type lootplot.main.RunMeta
     local runInfo = args.runInfo
     local perkEType = client.entities[runInfo.perk]
     local friendlyRunInfo = {
-        hour = math.floor(runInfo.playtime / 3600),
-        minute = math.floor(runInfo.playtime / 60) % 60,
-        second = runInfo.playtime % 60,
         level = runInfo.level,
+        round = runInfo.round,
+        maxRound = runInfo.maxRound,
         perk = perkEType and (perkEType.name or runInfo.perk) or UNKNOWN_PERK, ---@diagnostic disable-line: undefined-field
         perkDescription = tostring(perkEType and perkEType.description or ""), ---@diagnostic disable-line: undefined-field
     }
