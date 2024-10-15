@@ -84,6 +84,7 @@ local function setValue(storage, name, value)
     local ok, err = fsys:write(fname, data)
     if ok then
         umg.log.debug("Saved file: ", fname, " with key-value: ", str, value)
+        return true
     else
         umg.log.error(err)
     end
@@ -112,7 +113,10 @@ end
 
 function lp.metaprogression.unlock(name)
     assertServer()
-    setValue(UNLOCK_STORAGE, name, true)
+    local saved = setValue(UNLOCK_STORAGE, name, true)
+    if saved then
+        server.broadcast("lootplot.metaprogression:unlock", name, true)
+    end
 end
 
 

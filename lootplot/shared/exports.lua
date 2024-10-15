@@ -991,12 +991,13 @@ function lp.defineSlot(name, slotType)
     end
     giveCommonComponents(slotType)
 
-    umg.defineEntityType(name, slotType)
+    local etype = umg.defineEntityType(name, slotType)
     bufferedEntityTypes:add({
         name = name,
         generator = SLOT_GENERATOR,
         entityType = slotType
     })
+    return etype
 end
 
 ---Availability: Client and Server

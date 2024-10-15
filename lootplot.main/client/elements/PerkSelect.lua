@@ -47,7 +47,8 @@ function PerkSelect:init()
     self.selectedItem = nil
     self.starterItems = objects.Array()
 
-    for _, etype in ipairs(lp.worldgen.STARTING_ITEMS:getEntries()) do
+    for _, etypeName in ipairs(lp.worldgen.STARTING_ITEMS) do
+        local etype = assert(client.entities[etypeName])
         if lp.metaprogression.isEntityTypeUnlocked(etype) then
             self.starterItems:add(PerkButton(etype, self))
         end

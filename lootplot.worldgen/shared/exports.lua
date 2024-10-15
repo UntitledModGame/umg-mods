@@ -31,9 +31,9 @@ function lp.worldgen.spawnSlots(ppos, slotType, w, h, lootplotTeam)
 end
 
 
----@type generation.Generator
-lp.worldgen.STARTING_ITEMS = generation.Generator()
--- contains etypes that are perks.
+---@type objects.Array
+lp.worldgen.STARTING_ITEMS = objects.Array()
+-- contains etype-names that are perks.
 --[[
 WARNING:
 dont add non-etypes to this array!!!

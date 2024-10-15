@@ -14,6 +14,7 @@ local loc = localization.localize
 local NEW_RUN_STRING = loc("New Run")
 local NEW_RUN_BUTTON_STRING = loc("Start New Run")
 
+local CHOOSE_UR_STARTING_ITEM = loc("Choose your starting item!")
 
 
 
@@ -51,8 +52,15 @@ function NewRunScene:init(arg)
     })
     e.newRunButton = StretchableButton({
         onClick = function()
-            -- TODO: Proper item selection
-            return arg.startNewRun("lootplot.s0.starting_items:one_ball")
+            local itemEType = self.perkSelect:getSelectedItem()
+            for k,v in pairs(itemEType) do
+                print("KV:",k,v)
+            end
+            print(itemEType.___ent_mt)
+            local typName = itemEType:getTypename()
+            assert(itemEType:getEntityMt())
+            print(itemEType, typName, type(typName))
+            return arg.startNewRun(assert(typName))
         end,
         text = NEW_RUN_BUTTON_STRING,
         scale = 2,
@@ -176,8 +184,10 @@ function NewRunScene:onRender(x, y, w, h)
     end
 
     -- selection:
-    e.perkSelectBox:render(right:get())
-    e.scrollBox:render(right:padRatio(0.2):get())
+    local perkSelectTitle, perkSelect = right:splitVertical(1,6)
+    drawTextIn(CHOOSE_UR_STARTING_ITEM, perkSelectTitle)
+    e.perkSelectBox:render(perkSelect:get())
+    e.scrollBox:render(perkSelect:padRatio(0.2):get())
 
     -- start button:
     local startButton = footer:padRatio(0.15):shrinkToAspectRatio(4,1)
