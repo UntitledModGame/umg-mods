@@ -136,6 +136,12 @@ function InputListener:onTextInput(func)
     self.textInputCallback = func
 end
 
+---@param func input.InputListenerPointerMoveCallback
+function InputListener:onWheelMoved(func)
+    funcTc(func)
+    self.pointerMovedCallback = func
+end
+
 
 
 --------------------------------------------------

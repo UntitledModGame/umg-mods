@@ -17,7 +17,6 @@ So its "fine" for now.
 
 
 ]]
-local starterItemEType = nil
 
 local potentialPlayerGroup = umg.group("controllable", "x", "y")
 

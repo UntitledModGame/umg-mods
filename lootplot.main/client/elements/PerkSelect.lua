@@ -6,15 +6,34 @@ local NUM_PER_LINE = 4
 local PerkButton = ui.Element("lootplot.main:_PerkButton")
 
 function PerkButton:init(etype, perkSelect)
-    self.image = etype.image or client.assets.images.unknown_starter_item
-    if lp.metaprogression.isEntityTypeUnlocked(etype) then
-        
-    end
+    self.etype = etype
     self.perkSelect = perkSelect
+
+    self.isUnlocked = lp.metaprogression.isEntityTypeUnlocked(etype)
+
+    if self.isUnlocked then
+        self.image = etype.image or client.assets.images.unknown_starter_item
+    else
+        self.image = "unknown_starter_item"
+    end
 end
 
 function PerkButton:onRender(x,y,w,h)
-    ui.drawImageInBox(self.image, x,y,w,h)
+    local pad,xtra = 0,0
+    if self:isHovered() then
+        xtra = w/4
+        pad = w/8
+    end
+    ui.drawImageInBox(self.image, x-pad,y-pad, w+xtra,h+xtra)
+end
+
+function PerkButton:onClick()
+    if self.isUnlocked then
+        audio.play("lootplot.sound:click", {volume = 0.35, pitch = 0.6})
+        self.perkSelect.selectedItem = self.etype
+    else
+        audio.play("lootplot.sound:deny_click", {volume = 0.5})
+    end
 end
 
 
@@ -34,7 +53,9 @@ function PerkSelect:init()
         end
     end
     self.starterItems:sortInPlace(function (a, b)
-        
+        local aa = a.isUnlocked and 0 or 1
+        local bb = b.isUnlocked and 0 or 1
+        return aa < bb
     end)
     for _, elem in ipairs(self.starterItems) do
         self:addChild(elem)
@@ -55,20 +76,31 @@ end
 
 
 function PerkSelect:onRender(x,y,w,h)
-    local n = math.floor(self.starterItems:size()/4) + 1
-    local grid = layout.Region(x,y,w,h)
+    local n = math.floor(self.starterItems:size()/NUM_PER_LINE) + 1
+    local gx,gy,gw,gh = layout.Region(x,y,w,h)
         :padRatio(0.1)
-        :grid(n, 4)
+        :get()
+
+    local sze=gw/NUM_PER_LINE
+
+    local gridArr = objects.Array()
+    for yy=0, n-1 do
+        for xx=0,NUM_PER_LINE-1 do
+            gridArr:add(layout.Region(
+                gx + xx*sze,
+                gy + yy*sze,
+                sze,
+                sze
+            ))
+        end
+    end
 
     for i, item in ipairs(self.starterItems)do
-        local r = grid[i]
-        
+        local r = gridArr[i]
+        item:render(r:padRatio(0.2):get())
     end
 end
 
-
-function PerkSelect:onWheelMoved(_,dy)
-end
 
 
 return PerkSelect
