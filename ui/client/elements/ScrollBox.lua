@@ -42,7 +42,6 @@ if false then
 end
 
 function ScrollBox:onRender(x,y,w,h)
-    love.graphics.rectangle("line",x,y,w,h)
     local region = layout.Region(x,y,w,h)
 
     -- common idiom to create fixed-size splits:
