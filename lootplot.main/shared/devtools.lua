@@ -141,3 +141,96 @@ chat.handleCommand("crash", {
 })
 
 end -- if server
+
+
+---@param t any
+---@param expandtable boolean?
+---@return string|table
+local function pullValues(t, expandtable)
+    local vartype = type(t)
+
+    if vartype == "table" then
+        local result = {}
+
+        if umg.isEntity(t) then
+            ---@cast t Entity
+            if not expandtable then
+                return tostring(t)
+            end
+
+            local typename = t:type()
+            local etype = nil
+
+            if server then
+                etype = server.entities[typename]
+            else
+                etype = client.entities[typename]
+            end
+
+            if not etype then
+                return string.format("%q (unavailable on %s)", typename, server and "server" or "client")
+            end
+
+            for k, v in t:components() do
+                local val = pullValues(v, true)
+                result[string.format("%q", k)] = val
+            end
+        elseif expandtable then
+            for k, v in pairs(t) do
+                result[pullValues(k)] = pullValues(v, true)
+            end
+        end
+
+        return result
+    elseif vartype == "string" then
+        return string.format("%q", t)
+    end
+
+    return tostring(t)
+end
+
+---@param t table
+---@param indent integer?
+local function prettyPrintByLine(t, indent)
+    indent = indent or 1
+    local tabs = string.rep("\t", indent)
+
+    for k, v in pairs(t) do
+        if type(v) == "table" then
+            print(tabs..k.." = {")
+            prettyPrintByLine(v, indent + 1)
+            print(tabs.."}")
+        else
+            print(tabs..k.." = "..v)
+        end
+    end
+end
+
+chat.handleCommand("debugEntity", {
+    adminLevel = 120,
+    arguments = {
+        {name = "entity", type = "number"},
+    },
+    handler = function(clientId, entId)
+        local ent = umg.getEntity(entId)
+        if not ent then
+            print("entity "..entId.." does not exist")
+            return
+        end
+
+        local keyvals = pullValues(ent, true)
+        print(tostring(ent))
+
+        if type(keyvals) == "table" then
+            print("{")
+            prettyPrintByLine(keyvals)
+            print("}")
+        else
+            print(keyvals)
+        end
+
+        if server then
+            chat.privateMessage(clientId, "Entity "..tostring(ent).." is printed to console")
+        end
+    end
+})
