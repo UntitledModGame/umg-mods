@@ -44,13 +44,15 @@ function startRunService.spawnItemAndSlots(midPPos, team, perk)
     -- Doom egg floats
     lp.forceSpawnItem(assert(midPPos:move(0, -4)), server.entities["lootplot.main:doom_egg"], team)
 
-    lp.Bufferer()
-        :all(midPPos:getPlot())
-        :to("SLOT_OR_ITEM") -- ppos-->slot
-        :execute(function(_ppos, slotEnt)
-            lp.resetCombo(slotEnt)
-            lp.tryTriggerEntity("PULSE", slotEnt)
-        end)
+    scheduling.delay(0.1, function()
+        lp.Bufferer()
+            :all(midPPos:getPlot())
+            :to("SLOT_OR_ITEM") -- ppos-->slot
+            :execute(function(_ppos, slotEnt)
+                lp.resetCombo(slotEnt)
+                lp.tryTriggerEntity("PULSE", slotEnt)
+            end)
+    end)
 end
 
 
@@ -78,7 +80,7 @@ function startRunService.startGame(team, perk)
     local plot = run:getPlot()
     local midPPos = plot:getCenterPPos()
 
-    scheduling.delay(0.1, startRunService.spawnItemAndSlots, midPPos, team, perk)
+    startRunService.spawnItemAndSlots(midPPos, team, perk)
 
     -- Set camera to center
     setPlayerCamToPPos(midPPos)

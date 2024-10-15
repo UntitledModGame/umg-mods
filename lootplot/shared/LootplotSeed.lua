@@ -16,17 +16,17 @@ end
 
 
 
-local SEED_SIZE = 10 -- number of chars
+--local SEED_SIZE = 10 -- number of chars
 
-local MAX_SEED = 16 ^ SEED_SIZE
+local MAX_SEED = 2147483647
 
 ---@param seed? number|string
 function LootplotSeed:init(seed)
     if not seed then
-        seed = love.math.getRandomSeed() % MAX_SEED
+        seed = love.math.random(0, MAX_SEED)
     end
     if type(seed) == "string" then
-        seed = stringToNum(seed)
+        seed = assert(stringToNum(seed))
         assert(seed <= MAX_SEED, "Seed too big")
     end
     self.seed = seed
