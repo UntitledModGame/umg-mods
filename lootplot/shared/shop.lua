@@ -13,7 +13,7 @@ function(clientId, itemEnt)
     local slotEnt = lp.itemToSlot(itemEnt)
     if slotEnt then
         lp.subtractMoney(itemEnt, itemEnt.price)
-        itemEnt.lootplotTeam = clientId -- mark as owned by player
+        itemEnt.lootplotTeam = slotEnt.lootplotTeam -- inherit the shop slot team
         slotEnt.shopLock = false
     end
 end)
