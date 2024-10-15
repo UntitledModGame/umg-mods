@@ -1,3 +1,5 @@
+local utf8 = require("utf8")
+
 local ChatMessage = require("client.ChatMessage")
 
 ---@class chat.ChatBox: Element
@@ -20,6 +22,11 @@ function ChatBox:init()
 
     self:makeRoot()
     self:setPassthrough(true)
+end
+
+if false then
+    ---@return chat.ChatBox
+    function ChatBox() end ---@diagnostic disable-line: cast-local-type, missing-return
 end
 
 
@@ -72,10 +79,12 @@ end
 
 function ChatBox:openChat()
     self._isChatOpen = true
+    love.keyboard.setTextInput(true)
 end
 function ChatBox:closeChat()
     self._isChatOpen = false
     self.currentMessage = ""
+    love.keyboard.setTextInput(false)
 end
 
 

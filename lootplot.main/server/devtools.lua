@@ -13,6 +13,8 @@ But that's not really possible, because we don't know what plots exist;
 
 ]]
 
+local runManager = require("shared.run_manager")
+
 
 local function getPPos(clientId)
     local ctx = assert(lp.main.getRun())
@@ -46,9 +48,9 @@ chat.handleCommand("spawnItem", {
         local ppos = getPPos(clientId)
         local slotEnt = lp.posToSlot(ppos)
         if slotEnt then
-            -- can
-            local itemEnt = ctor()
-            ppos:set(itemEnt)
+            if not lp.forceSpawnItem(ppos, ctor, lp.main.PLAYER_TEAM) then
+                chat.privateMessage(clientId, "Cannot spawn item.")
+            end
         else
             chat.privateMessage(clientId, "Cannot spawn item; not over a slot.")
         end
@@ -73,11 +75,65 @@ chat.handleCommand("spawnSlot", {
             return
         end
         local ppos = getPPos(clientId)
-        local oldSlot = lp.posToSlot(ppos)
-        if oldSlot then
-            oldSlot:delete()
+        lp.forceSpawnSlot(ppos, ctor, lp.main.PLAYER_TEAM)
+    end
+})
+
+
+
+chat.handleCommand("addMoney", {
+    adminLevel = 120,
+    arguments = {
+        {name = "amount", type = "number"},
+    },
+    handler = function(clientId, amount)
+        if not server then
+            return
         end
-        local slotEnt = ctor()
-        lp.setSlot(ppos, slotEnt)
+
+        local run = assert(lp.main.getRun())
+        lp.addMoney(run:getPlot():getOwnerEntity(), amount)
+    end
+})
+
+chat.handleCommand("hesoyam", {
+    adminLevel = 120,
+    arguments = {},
+    handler = function(clientId, amount)
+        if not server then
+            return
+        end
+
+        local run = assert(lp.main.getRun())
+        lp.addMoney(run:getPlot():getOwnerEntity(), 250000)
+    end
+})
+
+
+
+chat.handleCommand("save", {
+    adminLevel = 120,
+    arguments = {},
+    handler = function (clientId)
+        if not server then
+            return
+        end
+
+        if runManager.saveRun() then
+            chat.privateMessage(clientId, "Run saved successfully.")
+        else
+            chat.privateMessage(clientId, "Unable to save run (run missing?).")
+        end
+    end
+})
+
+chat.handleCommand("crash", {
+    adminLevel = 120,
+    arguments = {},
+    handler = function (clientId)
+        if not server then
+            return
+        end
+        umg.melt("manually initiated crash")
     end
 })

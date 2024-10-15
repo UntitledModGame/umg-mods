@@ -77,6 +77,12 @@ function chat.getListener()
     return chatCl.listener
 end
 
+---Availability: **Client**
+---@return chat.ChatBox
+function chat.getChatBoxElement()
+    return chatCl.getChatBoxElement()
+end
+
 end
 
 
