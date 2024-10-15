@@ -36,7 +36,7 @@ lp.defineItem("lootplot.s0.content:gold_axe", {
 })
 
 
-local goldNugDesc = localization.newInterpolator("After %{count} activations, turn into a key")
+local goldNugDesc = localization.newInterpolator("After %{count} activations, give $10")
 
 lp.defineItem("lootplot.s0.content:gold_nuggets", {
     image = "gold_nuggets",
