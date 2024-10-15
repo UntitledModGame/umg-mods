@@ -16,6 +16,8 @@ But that's not really possible, because we don't know what plots exist;
 local runManager = require("shared.run_manager")
 
 
+if server then
+
 local function getPPos(clientId)
     local ctx = assert(lp.main.getRun())
     local plot = ctx:getPlot()
@@ -137,3 +139,5 @@ chat.handleCommand("crash", {
         umg.melt("manually initiated crash")
     end
 })
+
+end -- if server
