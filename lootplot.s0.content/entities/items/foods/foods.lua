@@ -151,7 +151,16 @@ defineSlotSpawner("soy_sauce", "Soy Sauce", "slot", "Doomed-4 Slot", lp.targets.
 end)
 
 defineSlotSpawner("burned_loaf", "Burned Loaf", "sell_slot", "Sell Slot", 
-    lp.targets.OffsetShape(lp.targets.ON_SHAPE, 0, 2, "DOWN-2")
+    lp.targets.OffsetShape(lp.targets.ON_SHAPE, 0, 2, "DOWN-2"), {
+        init = function(ent)
+            if math.random() < 0.01 then
+                -- silly easter egg:
+                -- XBOX Color!!! 
+                -- (coz the sprite looks like xbox logo, lol)
+                ent.color = objects.Color.GREEN
+            end
+        end
+    }
 )
 
 defineSlotSpawner("coconut", "Coconut", "dirt_slot", "Dirt Slot", lp.targets.RookShape(1), {
