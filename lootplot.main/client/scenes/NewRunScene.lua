@@ -67,9 +67,9 @@ function NewRunScene:init(arg)
         })
     end
 
-    e.scrollBox = ui.elements.ScrollBox({
+    -- e.scrollBox = ui.elements.ScrollBox({
         
-    })
+    -- })
 
     for _, v in pairs(e) do
         self:addChild(v)
