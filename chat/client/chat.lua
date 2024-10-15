@@ -11,20 +11,10 @@ require("shared.chat_packets") -- in case it's not loaded yet
 
 
 
----@type chat.ChatBox
-local chatBox
-
-local function ensureChatbox()
-    if not chatBox then
-        chatBox = ChatBox()
-    end
-end
-
-umg.on("@load", ensureChatbox)
+local chatBox = ChatBox()
 
 ---@return chat.ChatBox
 function chat.getChatBoxElement()
-    ensureChatbox()
     return chatBox
 end
 
@@ -32,7 +22,6 @@ end
 
 
 client.on("chat:message", function(msg)
-    ensureChatbox()
     -- TODO: Do colors and stuff here.
     chatBox:pushMessage(msg)
 end)
@@ -76,8 +65,6 @@ chat.listener = listener
 
 
 listener:onTextInput(function(_self, t)
-    ensureChatbox()
-
     if chatBox:isChatOpen() then
         chatBox:inputText(t)
     end
@@ -107,8 +94,6 @@ end
 
 
 local function inputTyping(controlEnum)
-    ensureChatbox()
-
     if controlEnum == chatControls.BACKSPACE then
         chatBox:deleteText(1)
         return true
@@ -125,8 +110,6 @@ end
 
 
 local function inputNotTyping(cEnum)
-    ensureChatbox()
-
     if cEnum == chatControls.CHAT or cEnum == chatControls.COMMAND then
         chatBox:openChat()
 
@@ -142,8 +125,6 @@ end
 
 
 listener:onAnyPressed(function(_self, controlEnum)
-    ensureChatbox()
-
     --[[
         TODO: Do we need to do blocking here???
     ]]
