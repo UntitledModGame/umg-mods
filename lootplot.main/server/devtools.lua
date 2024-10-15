@@ -46,9 +46,9 @@ chat.handleCommand("spawnItem", {
         local ppos = getPPos(clientId)
         local slotEnt = lp.posToSlot(ppos)
         if slotEnt then
-            -- can
-            local itemEnt = ctor()
-            ppos:set(itemEnt)
+            if not lp.forceSpawnItem(ppos, ctor, lp.main.PLAYER_TEAM) then
+                chat.privateMessage(clientId, "Cannot spawn item.")
+            end
         else
             chat.privateMessage(clientId, "Cannot spawn item; not over a slot.")
         end
@@ -73,11 +73,6 @@ chat.handleCommand("spawnSlot", {
             return
         end
         local ppos = getPPos(clientId)
-        local oldSlot = lp.posToSlot(ppos)
-        if oldSlot then
-            oldSlot:delete()
-        end
-        local slotEnt = ctor()
-        lp.setSlot(ppos, slotEnt)
+        lp.forceSpawnSlot(ppos, ctor, lp.main.PLAYER_TEAM)
     end
 })
