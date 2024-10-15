@@ -206,7 +206,7 @@ local function prettyPrintByLine(t, indent)
     end
 end
 
-chat.handleCommand("debugEntity", {
+chat.handleCommand("debugEnt", {
     adminLevel = 120,
     arguments = {
         {name = "entity", type = "number"},
@@ -302,4 +302,4 @@ umg.on("rendering:drawEntity", 0x7fffffff, function(ent, x,y, rot, sx,sy, kx,ky)
     end
 end)
 
-end
+end -- if client
