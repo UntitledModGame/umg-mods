@@ -92,6 +92,17 @@ umg.on("@quit", function()
     end
 end)
 
+function runManager.saveRun()
+    local run = lp.main.getRun()
+
+    if run then
+        saveRunServer(run)
+        return true
+    end
+
+    return false
+end
+
 end -- if server
 
 

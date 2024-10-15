@@ -127,6 +127,7 @@ function LPState:init()
 end
 
 function LPState:onAdded(zorder)
+    input.addListener(chat.getListener(), zorder + 2)
     input.addListener(clickables.getListener(), zorder)
     input.addListener(control.getListener(), zorder)
     input.addListener(follow.getListener(), zorder)
@@ -135,6 +136,7 @@ function LPState:onAdded(zorder)
 end
 
 function LPState:onRemoved()
+    input.removeListener(chat.getListener())
     input.removeListener(clickables.getListener())
     input.removeListener(control.getListener())
     input.removeListener(follow.getListener())
@@ -161,8 +163,11 @@ function LPState:update(dt)
 end
 
 function LPState:draw()
+    local x, y, w, h = love.window.getSafeArea()
+
     rendering.drawWorld()
-    self.scene:render(love.window.getSafeArea())
+    self.scene:render(x, y, w, h)
+    chat.getChatBoxElement():render(x, y, w, h)
 end
 
 

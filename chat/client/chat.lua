@@ -11,11 +11,12 @@ require("shared.chat_packets") -- in case it's not loaded yet
 
 
 
-local chatBox
+local chatBox = ChatBox()
 
-umg.on("@load", function()
-    chatBox = ChatBox()
-end)
+---@return chat.ChatBox
+function chat.getChatBoxElement()
+    return chatBox
+end
 
 
 
@@ -95,18 +96,31 @@ end
 local function inputTyping(controlEnum)
     if controlEnum == chatControls.BACKSPACE then
         chatBox:deleteText(1)
+        return true
     elseif controlEnum == chatControls.CHAT then
         chatBox:submitMessage()
+        return true
     elseif controlEnum == "ui:EXIT" then
         chatBox:closeChat()
+        return true
     end
+
+    return false
 end
 
 
 local function inputNotTyping(cEnum)
     if cEnum == chatControls.CHAT or cEnum == chatControls.COMMAND then
         chatBox:openChat()
+
+        if cEnum == chatControls.COMMAND then
+            chatBox:inputText("/")
+        end
+
+        return true
     end
+
+    return false
 end
 
 
@@ -114,11 +128,19 @@ listener:onAnyPressed(function(_self, controlEnum)
     --[[
         TODO: Do we need to do blocking here???
     ]]
-    if chatBox:isChatOpen() then
-        inputTyping(controlEnum)
-    else
-        inputNotTyping(controlEnum)
+    local chatOpen = chatBox:isChatOpen()
+    if (chatOpen and inputTyping(controlEnum)) or (not chatOpen and inputNotTyping(controlEnum)) then
+        _self:claim(controlEnum)
     end
+    -- if chatBox:isChatOpen() then
+    --     if inputTyping(controlEnum) then
+    --         _self:claim(controlEnum)
+    --     end
+    -- else
+    --     if inputNotTyping(controlEnum) then
+    --         _self:claim()
+    --     end
+    -- end
 end)
 
 
