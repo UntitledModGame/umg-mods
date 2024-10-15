@@ -13,6 +13,8 @@ But that's not really possible, because we don't know what plots exist;
 
 ]]
 
+local runManager = require("shared.run_manager")
+
 
 local function getPPos(clientId)
     local ctx = assert(lp.main.getRun())
@@ -104,5 +106,34 @@ chat.handleCommand("hesoyam", {
 
         local run = assert(lp.main.getRun())
         lp.addMoney(run:getPlot():getOwnerEntity(), 250000)
+    end
+})
+
+
+
+chat.handleCommand("save", {
+    adminLevel = 120,
+    arguments = {},
+    handler = function (clientId)
+        if not server then
+            return
+        end
+
+        if runManager.saveRun() then
+            chat.privateMessage(clientId, "Run saved successfully.")
+        else
+            chat.privateMessage(clientId, "Unable to save run (run missing?).")
+        end
+    end
+})
+
+chat.handleCommand("crash", {
+    adminLevel = 120,
+    arguments = {},
+    handler = function (clientId)
+        if not server then
+            return
+        end
+        umg.melt("manually initiated crash")
     end
 })
