@@ -2,7 +2,7 @@ local LoadingState = require("client.states.LoadingState")
 local PulsingCloudBackground = require("client.backgrounds.PulsingCloudBackground")
 local backgroundManager = require("client.background_manager")
 local musicManager = require("client.music_manager")
-
+local Z_ORDER = require("client.z_order")
 
 
 
@@ -23,5 +23,5 @@ local CLOUD_BACKGROUND = PulsingCloudBackground({
 backgroundManager.setBackground(CLOUD_BACKGROUND)
 
 
-state.push(LoadingState(), 0)
+state.push(LoadingState(), Z_ORDER.LOADING_STATE)
 musicManager.playNormalBGM()

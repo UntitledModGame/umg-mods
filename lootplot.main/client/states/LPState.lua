@@ -29,11 +29,11 @@ function LPState:init()
     ---@type lootplot.main.Scene
     assert(not lpState, "Cannot push 2 LPStates!")
     lpState = self
-    self.scene = Scene()
+    self.scene = Scene(self)
     self.listener = input.InputListener()
     self.movingWithMouse = false
     self.rightClick = false
-    self.lastCamMouse = {0, 0} -- to trach threshold
+    self.lastCamMouse = {0, 0} -- to track threshold
     self.claimedByControl = false
 
     self.lastHoveredEntity = nil

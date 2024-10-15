@@ -1,4 +1,6 @@
 
+local Run = require("shared.Run")
+
 local startRunService = {}
 
 
@@ -17,6 +19,8 @@ So its "fine" for now.
 ]]
 local starterItemEType = nil
 
+local potentialPlayerGroup = umg.group("controllable", "x", "y")
+
 
 
 
@@ -32,14 +36,66 @@ lp.defineSlot(START_SLOT_TYPE, {
 
 
 
+---@param midPPos lootplot.PPos
+---@param team string
+---@param perk string
+function startRunService.spawnItemAndSlots(midPPos, team, perk)
+    -- Perk item floats
+    lp.forceSpawnItem(midPPos, server.entities[perk], team)
+    -- Doom egg floats
+    lp.forceSpawnItem(assert(midPPos:move(0, -4)), server.entities["lootplot.main:doom_egg"], team)
 
-function startRunService.spawnMenuSlots(ppos, team)
+    lp.Bufferer()
+        :all(midPPos:getPlot())
+        :to("SLOT_OR_ITEM") -- ppos-->slot
+        :execute(function(_ppos, slotEnt)
+            lp.resetCombo(slotEnt)
+            lp.tryTriggerEntity("PULSE", slotEnt)
+        end)
 end
 
 
+
 ---@param ppos lootplot.PPos
+local function setPlayerCamToPPos(ppos)
+    for _, playerEnt in ipairs(potentialPlayerGroup) do
+        if playerEnt:type() == "lootplot:player" then
+            local worldPos = ppos:getWorldPos()
+            playerEnt.x = worldPos.x
+            playerEnt.y = worldPos.y
+            sync.syncComponent(playerEnt, "x")
+            sync.syncComponent(playerEnt, "y")
+            -- force client to accept position change
+        end
+    end
+end
+
+
 ---@param team string
-function startRunService.startGame(ppos, team)
+---@param perk string
+function startRunService.startGame(team, perk)
+    ---@type lootplot.main.Run
+    local run = Run(perk) -- lp.initialize has been called.
+    local plot = run:getPlot()
+    local midPPos = plot:getCenterPPos()
+
+    scheduling.delay(0.1, startRunService.spawnItemAndSlots, midPPos, team, perk)
+
+    -- Set camera to center
+    setPlayerCamToPPos(midPPos)
+end
+
+---@param serRun string
+---@param rngState lootplot.LootplotSeedSerialized
+function startRunService.continueGame(serRun, rngState)
+    local run = Run.deserialize(serRun)
+    local plot = run:getPlot()
+    local midPPos = plot:getCenterPPos()
+
+    lp.SEED:deserializeFromTable(rngState)
+
+    -- Set camera to center
+    setPlayerCamToPPos(midPPos)
 end
 
 

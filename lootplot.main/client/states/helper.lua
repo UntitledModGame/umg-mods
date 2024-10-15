@@ -7,8 +7,8 @@ function helper.createStateListener(scene)
     local listener = input.InputListener()
 
     listener:onAnyPressed(function(this, controlEnum)
+        this:claim(controlEnum) -- Don't propagate
         scene:controlPressed(controlEnum)
-        return this:claim(controlEnum) -- Don't propagate
     end)
 
     listener:onPressed({"input:ESCAPE"}, function(this, controlEnum)
@@ -18,8 +18,8 @@ function helper.createStateListener(scene)
 
     listener:onPressed({"input:CLICK_PRIMARY", "input:CLICK_SECONDARY"}, function(this, controlEnum)
         local x,y = input.getPointerPosition()
+        this:claim(controlEnum) -- Don't propagate
         scene:controlClicked(controlEnum,x,y)
-        return this:claim(controlEnum) -- Don't propagate
     end)
 
     listener:onAnyReleased(function(_, controlEnum)
