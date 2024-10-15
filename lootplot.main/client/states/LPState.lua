@@ -127,7 +127,7 @@ function LPState:init()
 end
 
 function LPState:onAdded(zorder)
-    input.addListener(chat.getListener(), zorder)
+    input.addListener(chat.getListener(), zorder + 2)
     input.addListener(clickables.getListener(), zorder)
     input.addListener(control.getListener(), zorder)
     input.addListener(follow.getListener(), zorder)
