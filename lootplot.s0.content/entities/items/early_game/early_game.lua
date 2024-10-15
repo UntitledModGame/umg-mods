@@ -152,10 +152,10 @@ lp.defineItem("lootplot.s0.content:trumpet", {
 
     -- just for the funni
     onActivateClient = function(ent)
-        activateToot:play(ent, 1, 0.5 + math.random())
+        activateToot:play(ent, 0.6, 1 + math.random()/2)
     end,
     onDestroyClient = function(ent)
-        dedToot:play(ent, 1, 0.5 + math.random())
+        dedToot:play(ent, 1, 1 + math.random()/2)
     end,
 })
 
