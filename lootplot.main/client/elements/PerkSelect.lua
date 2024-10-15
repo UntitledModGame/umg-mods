@@ -24,19 +24,19 @@ end
 local PerkSelect = ui.Element("lootplot.main:PerkSelect")
 
 
-function PerkSelect:init(args)
+function PerkSelect:init()
     self.selectedItem = nil
-    self.perkElems = objects.Array()
+    self.starterItems = objects.Array()
 
     for _, etype in ipairs(lp.worldgen.STARTING_ITEMS:getEntries()) do
         if lp.metaprogression.isEntityTypeUnlocked(etype) then
-            self.perkElems:add(PerkButton(etype, self))
+            self.starterItems:add(PerkButton(etype, self))
         end
     end
-    self.perkElems:sortInPlace(function (a, b)
+    self.starterItems:sortInPlace(function (a, b)
         
     end)
-    for _, elem in ipairs(self.perkElems) do
+    for _, elem in ipairs(self.starterItems) do
         self:addChild(elem)
     end
 end
