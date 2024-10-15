@@ -76,3 +76,33 @@ chat.handleCommand("spawnSlot", {
         lp.forceSpawnSlot(ppos, ctor, lp.main.PLAYER_TEAM)
     end
 })
+
+
+
+chat.handleCommand("addMoney", {
+    adminLevel = 120,
+    arguments = {
+        {name = "amount", type = "number"},
+    },
+    handler = function(clientId, amount)
+        if not server then
+            return
+        end
+
+        local run = assert(lp.main.getRun())
+        lp.addMoney(run:getPlot():getOwnerEntity(), amount)
+    end
+})
+
+chat.handleCommand("hesoyam", {
+    adminLevel = 120,
+    arguments = {},
+    handler = function(clientId, amount)
+        if not server then
+            return
+        end
+
+        local run = assert(lp.main.getRun())
+        lp.addMoney(run:getPlot():getOwnerEntity(), 250000)
+    end
+})
