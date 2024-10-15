@@ -234,3 +234,72 @@ chat.handleCommand("debugEntity", {
         end
     end
 })
+
+
+
+local showEntIds = false
+
+chat.handleCommand("toggleEntIds", {
+    adminLevel = 0,
+    arguments = {},
+    handler = function()
+        showEntIds = not showEntIds
+    end
+})
+
+if client then
+
+local fonts = require("client.fonts")
+local smallFont = fonts.getSmallFont()
+
+---@param text string
+---@param x number
+---@param y number
+---@param rot number
+---@param sx number
+---@param sy number
+---@param oy number
+---@param kx number
+---@param ky number
+local function printCenterWithOutline(text, x, y, rot, sx, sy, oy, kx, ky)
+    local r, g, b, a = love.graphics.getColor()
+
+    love.graphics.setColor(0, 0, 0, a)
+    for outY = -1, 1 do
+        for outX = -1, 1 do
+            if not (outX == 0 and outY == 0) then
+                love.graphics.printf(
+                    text,
+                    smallFont,
+                    x + outX / 2,
+                    y + outY / 2,
+                    200,
+                    "center",
+                    rot,
+                    sx / 2,
+                    sy / 2,
+                    100,
+                    oy,
+                    kx,
+                    ky
+                )
+            end
+        end
+    end
+
+    love.graphics.setColor(r, g, b, a)
+    love.graphics.printf(text, smallFont, x, y, 200, "center", rot, sx / 2, sy / 2, 100, oy, kx, ky)
+end
+
+umg.on("rendering:drawEntity", 0x7fffffff, function(ent, x,y, rot, sx,sy, kx,ky)
+    if showEntIds then
+        if lp.isSlotEntity(ent) then
+            -- Slot is drawn differently
+            printCenterWithOutline(tostring(ent.id), x, y, rot, sx, sy, -18, kx, ky)
+        else
+            printCenterWithOutline(tostring(ent.id), x, y, rot, sx, sy, -7, kx, ky)
+        end
+    end
+end)
+
+end
