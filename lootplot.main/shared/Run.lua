@@ -153,7 +153,17 @@ end
 ---@param data string
 ---@return lootplot.main.Run
 function Run.deserialize(data)
-    return umg.deserialize(data)
+    return assert(umg.deserialize(data, {
+        onEntityTypeNotFound = function(name)
+            umg.log.error("Entity type not found: "..name)
+
+            if name:sub(-5) == "_slot" then
+                return server.entities[lp.FALLBACK_NULL_SLOT]
+            else
+                return server.entities[lp.FALLBACK_NULL_ITEM]
+            end
+        end
+    }))
 end
 
 
