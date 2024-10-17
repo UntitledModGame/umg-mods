@@ -16,7 +16,7 @@ local function loadRunServer()
 
     if save:exists(RUN_FILENAME) then
         ---@type lootplot.main.RunSerialized
-        local runSerialized = umg.deserialize(assert(save:read(RUN_FILENAME)))
+        local runSerialized = umg.deserialize((assert(save:read(RUN_FILENAME))))
         return runSerialized
     end
 
