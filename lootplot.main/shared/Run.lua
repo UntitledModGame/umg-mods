@@ -154,7 +154,7 @@ end
 ---@return lootplot.main.Run
 function Run.deserialize(data)
     return assert(umg.deserialize(data, {
-        onEntityTypeNotFound = function(name)
+        entityTypeFallbackHandler = function(name)
             umg.log.error("Entity type not found: "..name)
 
             if name:sub(-5) == "_slot" then
