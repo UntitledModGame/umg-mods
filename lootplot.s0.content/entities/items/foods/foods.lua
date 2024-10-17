@@ -150,6 +150,10 @@ defineSlotSpawner("soy_sauce", "Soy Sauce", "slot", "Doomed-4 Slot", lp.targets.
     slotEnt.doomCount = 4
 end)
 
+defineSlotSpawner("fried_egg", "Fried Egg", "slot", "Slot with -5 points", lp.targets.KING_SHAPE, {}, function(slotEnt)
+    lp.modifierBuff(slotEnt, "pointsGenerated", -5)
+end)
+
 defineSlotSpawner("burned_loaf", "Burned Loaf", "sell_slot", "Sell Slot", 
     lp.targets.OffsetShape(lp.targets.ON_SHAPE, 0, 2, "DOWN-2"), {
         init = function(ent)
