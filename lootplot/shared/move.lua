@@ -45,3 +45,34 @@ umg.on("@update", function(dt)
     end
 end)
 
+
+
+local syncPacket = "lootplot:syncPlayerPosition"
+umg.definePacket(syncPacket, {
+    typelist = {"entity", "number", "number"}
+})
+
+if client then
+local playerGroup = umg.group("x", "y", "controllable")
+
+umg.on("@tick", function(dt)
+    for _, ent in ipairs(playerGroup) do
+        if sync.isClientControlling(ent) then
+            client.send(syncPacket, ent, ent.x, ent.y)
+        end
+    end
+end)
+
+end
+
+
+if server then
+
+server.on(syncPacket, function(clientId, ent,x,y)
+    if sync.isControlledBy(ent, clientId) then
+        ent.x = x
+        ent.y = y
+    end
+end)
+
+end
