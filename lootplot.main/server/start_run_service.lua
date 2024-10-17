@@ -35,6 +35,26 @@ lp.defineSlot(START_SLOT_TYPE, {
 
 
 
+local function hasRerollTrigger(ent)
+    for _,t in ipairs(ent.triggers)do
+        if t == "REROLL" then
+            return true
+        end
+    end
+    return false
+end
+
+local function shouldReroll(ppos)
+    local slot = lp.posToSlot(ppos)
+    if slot and hasRerollTrigger(slot) then
+        return true
+    end
+    local item = lp.posToItem(ppos)
+    if item and hasRerollTrigger(item) then
+        return true
+    end
+end
+
 ---@param midPPos lootplot.PPos
 ---@param team string
 ---@param perk string
@@ -44,9 +64,23 @@ function startRunService.spawnItemAndSlots(midPPos, team, perk)
     -- Doom egg floats
     lp.forceSpawnItem(assert(midPPos:move(0, -4)), server.entities["lootplot.main:doom_egg"], team)
 
+    local plot = midPPos:getPlot()
+
     scheduling.delay(0.1, function()
+        lp.queue(midPPos, function()
+            -- This will be executed AFTER "SLOT_OR_ITEM" bufferer code finishes.
+            lp.Bufferer()
+                :all(plot)
+                :filter(shouldReroll)
+                :to("SLOT")
+                :execute(function(ppos, ent)
+                    lp.resetCombo(ent)
+                    lp.tryTriggerEntity("REROLL", ent)
+                end)
+        end)
+
         lp.Bufferer()
-            :all(midPPos:getPlot())
+            :all(plot)
             :to("SLOT_OR_ITEM") -- ppos-->slot
             :execute(function(_ppos, slotEnt)
                 lp.resetCombo(slotEnt)
