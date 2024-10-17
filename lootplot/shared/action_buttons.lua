@@ -14,6 +14,9 @@ ent.actionButtons = {
         canClick = function(ent, clientId)
             return true or false
         end,
+        canDisplay = function(ent, clientId)
+            return true or false
+        end,
         text = text,
         color = color
     }, 
@@ -46,6 +49,15 @@ local function canClick(ent, actionButton, clientId)
     end
     if actionButton.canClick and (not actionButton.canClick(ent, clientId)) then
         return false
+    end
+    return true
+end
+
+
+local function canDisplay(ent, actionButton, clientId)
+    assert(client, "This should only be called client-side")
+    if actionButton.canDisplay then
+        return actionButton.canDisplay(ent, clientId)
     end
     return true
 end
@@ -88,12 +100,15 @@ end
 
 local function tryPopulateActionButtons(array, ent)
     assert(client, "Only be called clientside?")
-    if not lp.canPlayerAccess(ent, client.getClient()) then
+    local cl = client.getClient()
+    if not lp.canPlayerAccess(ent, cl) then
         return
     end
 
-    for i, _ in ipairs(ent.actionButtons) do
-        array:add(makeActionButton(ent, i))
+    for i, ab in ipairs(ent.actionButtons) do
+        if canDisplay(ent, ab, cl) then
+            array:add(makeActionButton(ent, i))
+        end
     end
 end
 

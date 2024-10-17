@@ -118,15 +118,6 @@ umg.answer("lootplot:hasPlayerAccess", function(ent)
 end)
 
 
-umg.answer("lootplot:hasPlayerAccess", function(ent)
-    local slotEnt = lp.isItemEntity(ent) and lp.itemToSlot(ent)
-
-    if slotEnt then
-        return not slotEnt.shopLock
-    end
-
-    return true
-end)
 
 
 umg.answer("lootplot:canAddItemToSlot", function(slotEnt)

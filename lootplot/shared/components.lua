@@ -11,8 +11,6 @@ components.defineComponent("plot")
 components.defineComponent("buttonSlot")
 -- Flag component denoting whether a slot is a bottom
 
-components.defineComponent("shopLock")
--- for shop-slots
 
 
 -- function component
@@ -117,5 +115,4 @@ defNumberProperty("pointsMult", {base="basePointsMult", default=1})
 defNumberProperty("moneyGenerated", {base="baseMoneyGenerated", default=0})
 
 
-sync.autoSyncComponent("shopLock", {type = "boolean"})
 sync.autoSyncComponent("lootplotTeam", {type = "string"})

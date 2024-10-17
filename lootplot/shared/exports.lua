@@ -968,7 +968,6 @@ end
 ---@field public canSlotPropagate boolean
 ---@field public buttonSlot boolean
 ---@field public onActivate? fun(ent:lootplot.SlotEntity)
----@field public shopLock boolean
 ---@field public itemSpawner? fun(ent:lootplot.SlotEntity): string
 ---@field public itemReroller? fun(ent:lootplot.SlotEntity): string
 ---@alias lootplot.SlotEntity lootplot.SlotEntityClass|lootplot.LayerEntity|Entity
@@ -1059,10 +1058,15 @@ end
 
 ---Availability: **Client**
 ---@param item lootplot.ItemEntity
-function lp.selectItem(item)
+---@param noButtons? boolean Should we not open buttons?
+function lp.selectItem(item, noButtons)
     local slot = lp.itemToSlot(item)
     if slot then
-        return selection.click(client.getClient(), slot)
+        if noButtons then
+            selection.selectSlotNoButtons(slot)
+        else
+            selection.selectSlot(slot)
+        end
     end
 end
 

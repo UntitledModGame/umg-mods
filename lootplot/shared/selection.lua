@@ -49,11 +49,7 @@ local function collectSelectionButtons(ppos, selected)
     selected.actions = array
     table.sort(selected.actions, function(a, b)
         local pa, pb = a.priority or 0, b.priority or 0
-        if pa == pb then
-            return a.text < b.text
-        else
-            return pa < pb
-        end
+        return pa < pb
     end)
 end
 

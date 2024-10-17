@@ -24,10 +24,10 @@ if client then
 
 client.on("sync:syncComponent", function(ent, compName, compData)
     local compValue, err = umg.deserializeVolatile(compData)
-    if compValue and not err then
-        ent[compName] = compValue
-    else
+    if (not compValue) and err then
         umg.log.fatal(err)
+    else
+        ent[compName] = compValue
     end
 end)
 
