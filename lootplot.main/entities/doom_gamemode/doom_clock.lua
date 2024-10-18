@@ -99,6 +99,8 @@ umg.defineEntityType("lootplot.main:doom_clock", {
         local colorEffect
         if points > requiredPoints then
             colorEffect = "{c r=0.1 g=1 b=0.2}"
+        elseif points < 0 then
+            colorEffect = "{c r=1 g=0.2 b=0.1}"
         else
             colorEffect = "{c r=1 g=1 b=1}"
         end
