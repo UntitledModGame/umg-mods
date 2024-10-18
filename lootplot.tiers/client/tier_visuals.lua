@@ -61,7 +61,7 @@ end
 
 local AFTER=10
 umg.on("rendering:drawEntity", AFTER, function(ent, x,y, rot, sx,sy, kx,ky)
-    if lp.isItemEntity(ent) then
+    if lp.isItemEntity(ent) and lp.tiers.canBeUpgraded(ent) then
         tryDrawParticles(ent, x, y)
 
         local img = TIER_IMAGES[ent.tier]
