@@ -26,7 +26,9 @@ targets.UniDirectionalShape = UniDirectionalShape
 targets.CircleShape = CircleShape
 
 
--- Simple helper
+---@alias lootplot.targets.ShapeFactory fun(size, name): lootplot.targets.ShapeData
+
+
 
 ---@param size integer?
 ---@param name string?

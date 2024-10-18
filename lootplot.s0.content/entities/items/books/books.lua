@@ -1,5 +1,15 @@
 local loc = localization.localize
 
+
+local function buffSlotPoints(bookEnt, slotEnt)
+    local dTier = (bookEnt.tier or 1) - 1
+    if dTier > 0 then
+        local amount = (5 ^ dTier)
+        lp.modifierBuff(slotEnt, "pointsGenerated", amount)
+    end
+end
+
+
 local function defineBook(id, name, targetSlot, targetSlotName)
     return lp.defineItem("lootplot.s0.content:"..id, {
         image = id,
@@ -8,6 +18,8 @@ local function defineBook(id, name, targetSlot, targetSlotName)
         rarity = lp.rarities.RARE,
 
         shape = lp.targets.ABOVE_SHAPE,
+
+        tierUpgrade = true,
 
         target = {
             type = "SLOT",
@@ -21,9 +33,13 @@ local function defineBook(id, name, targetSlot, targetSlotName)
                     targSlot = targetSlot
                 end
 
-                local newSlotEnt = server.entities["lootplot.s0.content:"..targSlot]
-                if newSlotEnt then
-                    lp.forceSpawnSlot(ppos, newSlotEnt, selfEnt.lootplotTeam)
+                local slotEType = server.entities["lootplot.s0.content:"..targSlot]
+                if not slotEType then
+                    return
+                end
+                local slotEnt = lp.forceSpawnSlot(ppos, slotEType, selfEnt.lootplotTeam)
+                if slotEnt then
+                    buffSlotPoints(selfEnt, slotEnt)
                 end
             end
         }

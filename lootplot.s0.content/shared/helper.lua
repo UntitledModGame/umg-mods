@@ -38,5 +38,27 @@ function helper.rerollPlot(plot)
 end
 
 
+function helper.propertyUpgrade(prop, startValue, growthRate)
+    --[[
+    propertyUpgrade("pointsGenerated", 2, 5)
+    tier-1: 2x(5^0) = 2
+    tier-2: 2x(5^1) = 10
+    tier-3: 2x(5^2) = 50
+    tier-4: 2x(5^3) = 250
+    ]]
+    growthRate = growthRate or 3
+    local baseProp = assert(properties.getBase(prop))
+
+    return function(ent, _srcEnt, oldTier, newTier)
+        local exponent = newTier - 1
+        local newVal = startValue * (growthRate ^ exponent)
+        ent[baseProp] = newVal
+        -- we dont need to sync `baseProp`; coz the property 
+        --  is computed serverside only, and sent over to client anyway.
+    end
+end
+
+
+
 return helper
 

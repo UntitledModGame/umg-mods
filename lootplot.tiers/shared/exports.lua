@@ -9,6 +9,7 @@ lp.tiers = {}
 
 local upgradeTc = typecheck.assert("entity", "entity")
 function lp.tiers.upgradeTier(ent, sourceEnt)
+    assert(server, "Can only be called on server!")
     upgradeTc(ent, sourceEnt)
     if not lp.tiers.canBeUpgraded(ent) then
         -- cant be upgraded!
