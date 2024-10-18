@@ -21,9 +21,12 @@ end)
 
 
 local pointsChanged = LootplotSound("lootplot.sound:collect_point", 1, 0.8, nil, 0.15)
+local pointsStolen = LootplotSound("lootplot.sound:steal_point", 0.7, 1.6, 10, 0.1)
 umg.on("lootplot:pointsChanged", function(ent, delta)
     if delta > 0.5 then
         pointsChanged:play(ent)
+    elseif delta < -0.5 then
+        pointsStolen:play(ent)
     end
 end)
 
@@ -87,7 +90,7 @@ umg.on("lootplot.tiers:entityUpgraded", function(ent)
 end)
 
 
-local entBuffed = LootplotSound("lootplot.sound:buff", 1, 1.2, 10, 0.1)
+local entBuffed = LootplotSound("lootplot.sound:buff", 1.3, 1, 10, 0.1)
 umg.on("lootplot:entityBuffed", function(ent)
     entBuffed:play(ent)
 end)
