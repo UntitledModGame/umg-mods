@@ -56,7 +56,7 @@ lp.defineSlot("lootplot.main:next_round_button_slot", {
         duration = 0.25
     },
 
-    onDraw = function(ent, x, y, rot, sx,sy, kx,ky)
+    onDraw = function(ent, x, y, rot, sx,sy)
         if not lp.canActivateEntity(ent) then
             ent.opacity = 0.3
         else
@@ -76,8 +76,8 @@ lp.defineSlot("lootplot.main:next_round_button_slot", {
         local levelText = LEVEL_NUM({
             level = lp.getLevel(ent)
         })
-        text.printRichCentered(roundText, font, x, y - 18, limit, "left", rot, sx,sy, kx,ky)
-        text.printRichCentered(levelText, font, x, y - 32, limit, "left", rot, sx,sy, kx,ky)
+        text.printRichCentered(roundText, font, x, y - 18, limit, "left", rot, sx,sy)
+        text.printRichCentered(levelText, font, x, y - 32, limit, "left", rot, sx,sy)
     end,
 
     baseMaxActivations = 100,

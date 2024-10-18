@@ -3,6 +3,7 @@ local loc = localization.localize
 local helper = require("shared.helper")
 
 
+local COST_TEXT = localization.newInterpolator("{lootplot:MONEY_COLOR}{wavy amp=0.5 k=0.5}{outline}Cost: %{cost}")
 
 return lp.defineSlot("lootplot.s0.content:reroll_button_slot", {
 
@@ -10,6 +11,15 @@ return lp.defineSlot("lootplot.s0.content:reroll_button_slot", {
     description = loc("Click to reroll!"),
 
     baseMoneyGenerated = -2,
+
+    onDraw = function(ent, x, y, rot, sx,sy)
+        local costTxt = COST_TEXT({
+            cost = -(ent.moneyGenerated or 0)
+        })
+        local font = love.graphics.getFont()
+        local limit = 0xffff
+        text.printRichCentered(costTxt, font, x, y - 16, limit, "left", rot, sx,sy)
+    end,
 
     lootplotProperties = {
         modifiers = {
