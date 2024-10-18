@@ -87,3 +87,9 @@ umg.on("lootplot.tiers:entityUpgraded", function(ent)
 end)
 
 
+local entBuffed = LootplotSound("lootplot.sound:buff", 1, 1.2, 10, 0.1)
+umg.on("lootplot:entityBuffed", function(ent)
+    entBuffed:play(ent)
+end)
+
+
