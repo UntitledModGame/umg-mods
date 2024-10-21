@@ -58,6 +58,7 @@ local function tryDrawParticles(ent, x,y)
     end
 end
 
+--[==[
 
 local AFTER=10
 umg.on("rendering:drawEntity", AFTER, function(ent, x,y, rot, sx,sy, kx,ky)
@@ -71,4 +72,6 @@ umg.on("rendering:drawEntity", AFTER, function(ent, x,y, rot, sx,sy, kx,ky)
         end
     end
 end)
+
+]==]
 

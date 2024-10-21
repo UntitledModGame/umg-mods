@@ -163,9 +163,9 @@ function(clientToSelect, evictedSlot)
 end)
 
 
-local ENT_2_ARGS = {"entity", "entity"}
+local ENT_2 = {"entity", "entity"}
 
-local swapSlotItems = util.remoteCallToServer("lootplot:swapSlotItems", ENT_2_ARGS,
+local swapSlotItems = util.remoteCallToServer("lootplot:swapSlotItems", ENT_2,
 function(clientId, slotEnt1, slotEnt2)
     -- TODO: check validity of arguments (bad actor could send any entity)
     -- TODO: check that we actually CAN move the items
@@ -211,12 +211,39 @@ function(clientId, slotEnt)
 end)
 
 
+local combineOnServer = util.remoteCallToServer("lootplot:clientTryCombineItems", ENT_2,
+function(clientId, combineItem, targItem)
+    if lp.canPlayerAccess(combineItem, clientId) and lp.canPlayerAccess(targItem, clientId) then
+        lp.tryCombineItems(combineItem, targItem)
+    end
+end)
+
+
+local function tryCombineSelected(slotEnt)
+    local targItem = lp.slotToItem(slotEnt)
+    if not targItem then
+        return false
+    end
+    local sel = selection.getCurrentSelection()
+    if sel and sel.item then
+        combineOnServer(sel.item, targItem)
+        return true
+    end
+    return false
+end
+
+
 local function click(slotEnt)
     if isButtonSlot(slotEnt) then
         activateOnServer(slotEnt)
     else
         -- else, select:
-        selection.selectSlot(slotEnt)
+        local combineSuccess = tryCombineSelected(slotEnt)
+        if combineSuccess then
+            -- do nothing! Items were combined.
+        else
+            selection.selectSlot(slotEnt)
+        end
     end
 end
 

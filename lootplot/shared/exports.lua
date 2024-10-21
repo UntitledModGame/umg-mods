@@ -529,6 +529,33 @@ function lp.canSwap(slot1, slot2)
     return canMoveFromTo(slot1, slot2) and canMoveFromTo(slot2, slot1)
 end
 
+
+
+---@param combinerItem Entity
+---@param targetItem Entity
+---@return boolean
+function lp.canCombineItems(combinerItem, targetItem)
+    return umg.ask("lootplot:canCombineItems", combinerItem, targetItem)
+end
+
+---@param combinerItem Entity
+---@param targetItem Entity
+---@return boolean
+function lp.tryCombineItems(combinerItem, targetItem)
+    assertServer()
+    if lp.canCombineItems(combinerItem, targetItem) then
+        if combinerItem.onCombine then
+            combinerItem:onCombine(targetItem)
+        end
+        umg.call("lootplot:itemsCombined", combinerItem, targetItem)
+        lp.destroy(combinerItem)
+        return true
+    end
+    return false
+end
+
+
+
 ---Availability: Client and Server
 ---@param ent Entity
 ---@return boolean
