@@ -10,6 +10,8 @@ sync.proxyEventToClient("lootplot:entityTriggerFailed")
 
 sync.proxyEventToClient("lootplot:attributeChanged")
 
+sync.proxyEventToClient("lootplot:itemsCombined")
+
 sync.proxyEventToClient("lootplot:entityBuffed")
 
 if client then

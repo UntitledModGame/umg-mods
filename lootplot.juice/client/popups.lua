@@ -29,6 +29,25 @@ local function makePopup(dvec, txt, color, vel)
 end
 
 
+local function makeAnimation(dvec, frames, color, duration)
+    local ent = client.entities.empty()
+    ent.x,ent.y, ent.dimension = dvec.x, dvec.y, dvec.dimension
+
+    ent.color = color
+
+    ent.animation = {
+        frames = frames,
+        tick = "lifetime",
+        speed = duration
+    }
+
+    ent.drawDepth = 100
+
+    ent.lifetime = duration
+    -- ^^^ delete self after X seconds   
+end
+
+
 umg.on("lootplot:moneyChanged", function(ent, delta)
     if delta > 0.5 then
         local txt = "$" .. tostring(math.floor(delta+0.5))
@@ -63,5 +82,20 @@ end)
 local LV_UP_TXT = localization.localize("LEVEL UP!")
 umg.on("lootplot.tiers:entityUpgraded", function(ent)
     makePopup(ent, LV_UP_TXT, lp.COLORS.COMBINE_COLOR)
+end)
+
+
+
+local COMBINE_FRAMES = {
+    "combine_item_visual_4",
+    "combine_item_visual_3",
+    "combine_item_visual_2",
+    "combine_item_visual_1",
+}
+umg.on("lootplot:itemsCombined", function(combinerItem, targetItem)
+    makeAnimation(
+        targetItem, COMBINE_FRAMES,
+        lp.COLORS.COMBINE_COLOR, LIFETIME
+    )
 end)
 
