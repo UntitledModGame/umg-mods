@@ -1120,6 +1120,7 @@ lp.COLORS = {
     BAD_COLOR = {1, 0.15, 0.2}, -- used for bad stuff
     BONUS_COLOR = {0.5, 1, 1}, -- used for bonuses/good thing
     INFO_COLOR = {1, 1, 0.4},
+    COMBINE_COLOR = {0.81, 0.14, 1},
 }
 if client then
     for id,color in pairs(lp.COLORS) do

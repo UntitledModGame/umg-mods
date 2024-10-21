@@ -62,6 +62,6 @@ end)
 
 local LV_UP_TXT = localization.localize("LEVEL UP!")
 umg.on("lootplot.tiers:entityUpgraded", function(ent)
-    makePopup(ent, LV_UP_TXT, objects.Color.YELLOW)
+    makePopup(ent, LV_UP_TXT, lp.COLORS.COMBINE_COLOR)
 end)
 

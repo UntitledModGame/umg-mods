@@ -6,6 +6,8 @@ local function defineMineral(name, etype)
     etype.baseMaxActivations = etype.baseMaxActivations or 50
     -- etype.baseTraits = {}
 
+    etype.tierUpgrade = true
+
     lp.defineItem(name, etype)
 end
 
