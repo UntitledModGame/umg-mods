@@ -1,5 +1,4 @@
 
-local util = require("shared.util")
 
 
 local TIER_TO_PSYS = {--[[

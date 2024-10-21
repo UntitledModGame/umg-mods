@@ -8,6 +8,7 @@ local util = require("shared.util")
 ---@param conversion? "ITEM"|"SLOT"
 local function activateTargets(ent, targets, conversion)
     local target = ent.target
+    assert(target, "wot wot?")
     lp.Bufferer()
         :addAll(targets)
         :to(conversion)
@@ -34,11 +35,11 @@ umg.on("lootplot:entityActivated", function(ent)
         ---@cast ent lootplot.ItemEntity
         local targets = lp.targets.getTargets(ent)
 
-        if targets then
-            local to = ent.target and ent.target.type
+        if targets and ent.target then
+            local to = ent.target.type
             if (to and (not lp.CONVERSIONS[to])) then
                 error("Invalid target.type: " .. tostring(to))
-            end 
+            end
             activateTargets(ent, targets, to)
         end
     end
