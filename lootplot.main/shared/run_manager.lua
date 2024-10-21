@@ -39,16 +39,28 @@ local function queryRunServer()
     -- }
 end
 
+---@type string?
+local runCache = nil
+
 ---@param run lootplot.main.Run
-local function saveRunServer(run)
-    local save = server.getSaveFilesystem()
+local function serializeRun(run)
     ---@class lootplot.main.RunSerialized
     local data = {
         runMeta = run:getMetadata(),
         runData = run:serialize(),
         rngState = lp.SEED:serializeToTable()
     }
-    save:write(RUN_FILENAME, umg.serialize(data))
+    return umg.serialize(data)
+end
+
+---@param run lootplot.main.Run
+local function saveRunServer(run)
+    local save = server.getSaveFilesystem()
+    if runCache then
+        save:write(RUN_FILENAME, runCache)
+    else
+        save:write(RUN_FILENAME, serializeRun(run))
+    end
 end
 
 
@@ -101,6 +113,18 @@ function runManager.saveRun()
     end
 
     return false
+end
+
+function runManager.snapshotRun()
+    local run = lp.main.getRun()
+
+    if run then
+        runCache = serializeRun(run)
+    end
+end
+
+function runManager.clearSnapshot()
+    runCache = nil
 end
 
 end -- if server
