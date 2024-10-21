@@ -52,7 +52,7 @@ local UPGRADE_TIME = 0.5
 
 umg.on("lootplot:itemsCombined", function(combineEnt, targetEnt)
     if canUpgrade(combineEnt, targetEnt) then
-        lp.tiers.upgradeTier(combineEnt, targetEnt)
+        lp.tiers.upgradeTier(targetEnt, combineEnt)
         lp.destroy(combineEnt)
         local ppos = lp.getPos(targetEnt)
         if ppos then
