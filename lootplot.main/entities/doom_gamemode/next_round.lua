@@ -17,8 +17,7 @@ local interp = localization.newInterpolator
 ---@param ppos lootplot.PPos
 local function startRound(ent, ppos)
     local plot = ppos:getPlot()
-    -- Need to snapshot the run first, otherwise the run
-    -- would try to serialize a function which UMG cannot do.
+    -- Ensure we have the run snapshot before starting round.
     runManager.snapshotRun()
 
     lp.queue(ppos, function()
@@ -34,8 +33,8 @@ local function startRound(ent, ppos)
         end)
         lp.addMoney(ent, 8)
 
-        -- Clear the snapshotted run.
-        runManager.clearSnapshot()
+        -- Snapshot the run again.
+        runManager.snapshotRun()
     end)
 
     -- pulse all slots:

@@ -56,11 +56,20 @@ end
 ---@param run lootplot.main.Run
 local function saveRunServer(run)
     local save = server.getSaveFilesystem()
+    local runSerialized
+
     if runCache then
-        save:write(RUN_FILENAME, runCache)
+        local success
+        success, runSerialized = pcall(serializeRun, run)
+        if not success then
+            runSerialized = runCache
+        end
     else
-        save:write(RUN_FILENAME, serializeRun(run))
+        -- Don't bother pcalling.
+        runSerialized = serializeRun(run)
     end
+
+    save:write(RUN_FILENAME, runSerialized)
 end
 
 
@@ -121,10 +130,6 @@ function runManager.snapshotRun()
     if run then
         runCache = serializeRun(run)
     end
-end
-
-function runManager.clearSnapshot()
-    runCache = nil
 end
 
 end -- if server
