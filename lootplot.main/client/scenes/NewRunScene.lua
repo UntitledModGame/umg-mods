@@ -53,13 +53,8 @@ function NewRunScene:init(arg)
     e.newRunButton = StretchableButton({
         onClick = function()
             local itemEType = self.perkSelect:getSelectedItem()
-            for k,v in pairs(itemEType) do
-                print("KV:",k,v)
-            end
-            print(itemEType.___ent_mt)
             local typName = itemEType:getTypename()
             assert(itemEType:getEntityMt())
-            print(itemEType, typName, type(typName))
             return arg.startNewRun(assert(typName))
         end,
         text = NEW_RUN_BUTTON_STRING,
