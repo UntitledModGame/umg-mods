@@ -7,12 +7,16 @@ assert(not lp.tiers,"?")
 lp.tiers = {}
 
 
+local function hasUpgrade(ent)
+    return ent.tierUpgrade
+end
+
+
 local upgradeTc = typecheck.assert("entity", "entity")
 function lp.tiers.upgradeTier(ent, sourceEnt)
     assert(server, "Can only be called on server!")
     upgradeTc(ent, sourceEnt)
-    if not lp.tiers.canBeUpgraded(ent) then
-        -- cant be upgraded!
+    if not hasUpgrade(ent) then
         return
     end
     local oldTier = ent.tier
@@ -28,7 +32,7 @@ end
 
 
 local function canUpgrade(combineEnt, targetEnt)
-    if not (combineEnt.tierUpgrade and targetEnt.tierUpgrade) then
+    if not (hasUpgrade(combineEnt) and hasUpgrade(targetEnt)) then
         return false
     end
     if (combineEnt:type() == targetEnt:type()) and (combineEnt.tier == targetEnt.tier) then
