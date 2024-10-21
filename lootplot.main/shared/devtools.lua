@@ -145,12 +145,19 @@ end -- if server
 
 ---@param t any
 ---@param expandtable boolean?
+---@param cyclicCheck table?
 ---@return string|table
-local function pullValues(t, expandtable)
+local function pullValues(t, expandtable, cyclicCheck)
     local vartype = type(t)
+    cyclicCheck = cyclicCheck or {}
 
     if vartype == "table" then
         local result = {}
+        if cyclicCheck[t] then
+            expandtable = false
+        else
+            cyclicCheck[t] = true
+        end
 
         if umg.isEntity(t) then
             ---@cast t Entity
@@ -172,12 +179,12 @@ local function pullValues(t, expandtable)
             end
 
             for k, v in t:components() do
-                local val = pullValues(v, true)
+                local val = pullValues(v, true, cyclicCheck)
                 result[string.format("%q", k)] = val
             end
         elseif expandtable then
             for k, v in pairs(t) do
-                result[pullValues(k)] = pullValues(v, true)
+                result[pullValues(k)] = pullValues(v, true, cyclicCheck)
             end
         end
 
