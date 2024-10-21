@@ -219,31 +219,34 @@ function(clientId, combineItem, targItem)
 end)
 
 
-local function tryCombineSelected(slotEnt)
+local function canCombineSelected(slotEnt)
     local targItem = lp.slotToItem(slotEnt)
     if not targItem then
         return false
     end
     local sel = selection.getCurrentSelection()
     if sel and sel.item then
-        combineOnServer(sel.item, targItem)
-        return true
+        return lp.canCombineItems(sel.item, targItem)
     end
     return false
 end
 
 
-local function click(slotEnt)
+local function tryCombineSelected(slotEnt)
+    if canCombineSelected(slotEnt) then
+        local targItem = lp.slotToItem(slotEnt)
+        local sel = assert(selection.getCurrentSelection())
+        combineOnServer(assert(sel.item), targItem)
+    end
+end
+
+
+local function clickEmpty(slotEnt)
     if isButtonSlot(slotEnt) then
         activateOnServer(slotEnt)
     else
         -- else, select:
-        local combineSuccess = tryCombineSelected(slotEnt)
-        if combineSuccess then
-            -- do nothing! Items were combined.
-        else
-            selection.selectSlot(slotEnt)
-        end
+        selection.selectSlot(slotEnt)
     end
 end
 
@@ -253,15 +256,20 @@ function selection.click(clientId, slotEnt)
     validate()
     if selected and selected.slot then
         if slotEnt ~= selected.slot then
-            tryMove(clientId, selected.slot, slotEnt)
+            if canCombineSelected(slotEnt) then
+                tryCombineSelected(slotEnt)
+            else
+                tryMove(clientId, selected.slot, slotEnt)
+            end
         end
         selection.reset()
     else
-        click(slotEnt)
+        clickEmpty(slotEnt)
     end
 end
 
 
+---@return (lootplot.Selected)?
 function selection.getCurrentSelection()
     validate()
     return selected
