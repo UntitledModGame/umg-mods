@@ -16,7 +16,12 @@ local function loadRunServer()
 
     if save:exists(RUN_FILENAME) then
         ---@type lootplot.main.RunSerialized
-        local runSerialized = umg.deserialize((assert(save:read(RUN_FILENAME))))
+        local runSerialized, msg = umg.deserialize((assert(save:read(RUN_FILENAME))))
+        if not runSerialized then
+            umg.log.error("Cannot serialize run: "..msg)
+        else
+            assert(runSerialized)
+        end
         return runSerialized
     end
 
@@ -58,18 +63,21 @@ local function saveRunServer(run)
     local save = server.getSaveFilesystem()
     local runSerialized
 
-    if runCache then
-        local success
-        success, runSerialized = pcall(serializeRun, run)
-        if not success then
-            runSerialized = runCache
-        end
-    else
-        -- Don't bother pcalling.
+    if run:canSerialize() then
+        umg.log.debug("Current run is serializable. Serializing run...")
         runSerialized = serializeRun(run)
+    else
+        if runCache then
+            umg.log.debug("Current run is not serializable. Using last snapshot...")
+            runSerialized = runCache
+        else
+            umg.log.debug("Current run is not serializable. Discarding run...")
+        end
     end
 
-    save:write(RUN_FILENAME, runSerialized)
+    if runSerialized then
+        save:write(RUN_FILENAME, runSerialized)
+    end
 end
 
 

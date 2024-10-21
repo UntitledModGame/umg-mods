@@ -146,6 +146,10 @@ end
 
 if server then
 
+function Run:canSerialize()
+    return not self:getPlot():isPipelineRunning()
+end
+
 function Run:serialize()
     return umg.serialize(self)
 end
