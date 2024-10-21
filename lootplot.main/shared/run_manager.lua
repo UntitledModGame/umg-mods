@@ -16,7 +16,12 @@ local function loadRunServer()
 
     if save:exists(RUN_FILENAME) then
         ---@type lootplot.main.RunSerialized
-        local runSerialized = umg.deserialize((assert(save:read(RUN_FILENAME))))
+        local runSerialized, msg = umg.deserialize((assert(save:read(RUN_FILENAME))))
+        if not runSerialized then
+            umg.log.error("Cannot serialize run: "..msg)
+        else
+            assert(runSerialized)
+        end
         return runSerialized
     end
 
@@ -39,16 +44,40 @@ local function queryRunServer()
     -- }
 end
 
+---@type string?
+local runCache = nil
+
 ---@param run lootplot.main.Run
-local function saveRunServer(run)
-    local save = server.getSaveFilesystem()
+local function serializeRun(run)
     ---@class lootplot.main.RunSerialized
     local data = {
         runMeta = run:getMetadata(),
         runData = run:serialize(),
         rngState = lp.SEED:serializeToTable()
     }
-    save:write(RUN_FILENAME, umg.serialize(data))
+    return umg.serialize(data)
+end
+
+---@param run lootplot.main.Run
+local function saveRunServer(run)
+    local save = server.getSaveFilesystem()
+    local runSerialized
+
+    if run:canSerialize() then
+        umg.log.debug("Current run is serializable. Serializing run...")
+        runSerialized = serializeRun(run)
+    else
+        if runCache then
+            umg.log.debug("Current run is not serializable. Using last snapshot...")
+            runSerialized = runCache
+        else
+            umg.log.debug("Current run is not serializable. Discarding run...")
+        end
+    end
+
+    if runSerialized then
+        save:write(RUN_FILENAME, runSerialized)
+    end
 end
 
 
@@ -101,6 +130,14 @@ function runManager.saveRun()
     end
 
     return false
+end
+
+function runManager.snapshotRun()
+    local run = lp.main.getRun()
+
+    if run then
+        runCache = serializeRun(run)
+    end
 end
 
 end -- if server

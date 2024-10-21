@@ -146,7 +146,12 @@ end
 
 if server then
 
+function Run:canSerialize()
+    return not self:getPlot():isPipelineRunning()
+end
+
 function Run:serialize()
+    assert(self:canSerialize(), "cannot serialize run while pipeline is running")
     return umg.serialize(self)
 end
 
