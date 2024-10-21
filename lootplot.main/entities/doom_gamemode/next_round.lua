@@ -8,6 +8,8 @@ Progresses to next-round, be activating and resetting the whole slot.
 
 
 ]]
+local runManager = require("shared.run_manager")
+
 local loc = localization.localize
 local interp = localization.newInterpolator
 
@@ -15,6 +17,8 @@ local interp = localization.newInterpolator
 ---@param ppos lootplot.PPos
 local function startRound(ent, ppos)
     local plot = ppos:getPlot()
+    -- Ensure we have the run snapshot before starting round.
+    runManager.snapshotRun()
 
     lp.queue(ppos, function()
         if not umg.exists(ent) then
@@ -28,6 +32,9 @@ local function startRound(ent, ppos)
             lp.reset(ent)
         end)
         lp.addMoney(ent, 8)
+
+        -- Snapshot the run again.
+        runManager.snapshotRun()
     end)
 
     -- pulse all slots:
