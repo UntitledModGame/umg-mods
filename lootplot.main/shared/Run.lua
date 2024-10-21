@@ -151,6 +151,7 @@ function Run:canSerialize()
 end
 
 function Run:serialize()
+    assert(self:canSerialize(), "cannot serialize run while pipeline is running")
     return umg.serialize(self)
 end
 
