@@ -77,9 +77,10 @@ function Run:sync()
     end
 end
 
-function Run:tick()
+---@param dt number
+function Run:tick(dt)
     local plot = self:getPlot()
-    plot:tick()
+    plot:tick(dt)
 end
 
 ---@return lootplot.Plot

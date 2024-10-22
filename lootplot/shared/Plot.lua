@@ -139,9 +139,10 @@ end
 
 umg.definePacket("lootplot:setPipelineRunningBool", {typelist = {ENT, BOOL}})
 
-function Plot:tick()
+---@param dt number
+function Plot:tick(dt)
     assert(server,"?")
-    self.pipeline:tick()
+    self.pipeline:tick(dt)
     local oldIsRunnin = self._cachedIsPipelineRunning
     local isRunnin = self:isPipelineRunning()
     if oldIsRunnin ~= isRunnin then

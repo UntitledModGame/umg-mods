@@ -15,7 +15,7 @@ function Pipeline:init()
 
     -- the time that we are allowed to execute the next obj in the pipeline.
     -- (used for delaying)
-    self.nextExecuteTime = love.timer.getTime()
+    self.delay = 0
 end
 
 
@@ -33,22 +33,22 @@ function Pipeline:wait(delay)
     })
 end
 
-
+---@param self lootplot.Pipeline
 local function pollObj(self, obj)
     if obj.func then
         obj.func(unpack(obj.args))
     end
-    local time = love.timer.getTime()
+
     if obj.delay then
-        self.nextExecuteTime = time + obj.delay
+        self.delay = math.max(self.delay + obj.delay, 0)
     end
 end
 
-function Pipeline:tick()
-    local time = love.timer.getTime()
-    
+---@param dt number
+function Pipeline:tick(dt)
     local buf = self.buffer
-    while (time > self.nextExecuteTime) and (buf:size() > 0) do
+    self.delay = math.max(self.delay - dt, 0)
+    while self.delay <= 0 and buf:size() > 0 do
         local obj = buf:pop()
         pollObj(self, obj)
     end
