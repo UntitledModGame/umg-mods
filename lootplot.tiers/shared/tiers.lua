@@ -30,6 +30,11 @@ function lp.tiers.upgradeTier(ent, sourceEnt)
 end
 
 
+function lp.tiers.getTier(ent)
+    return ent.tier or 1
+end
+
+
 
 local function canUpgrade(combineEnt, targetEnt)
     if not (hasUpgrade(combineEnt) and hasUpgrade(targetEnt)) then

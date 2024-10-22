@@ -38,6 +38,7 @@ function helper.rerollPlot(plot)
 end
 
 
+local propertyUpgradeTc = typecheck.assert("string", "number", "number?")
 function helper.propertyUpgrade(prop, startValue, growthRate)
     --[[
     propertyUpgrade("pointsGenerated", 2, 5)
@@ -46,6 +47,7 @@ function helper.propertyUpgrade(prop, startValue, growthRate)
     tier-3: 2x(5^2) = 50
     tier-4: 2x(5^3) = 250
     ]]
+    propertyUpgradeTc(prop, startValue, growthRate)
     growthRate = growthRate or 3
     local baseProp = assert(properties.getBase(prop))
 
@@ -57,6 +59,26 @@ function helper.propertyUpgrade(prop, startValue, growthRate)
         --  is computed serverside only, and sent over to client anyway.
     end
 end
+
+
+
+local tierLocTc = typecheck.assert("table")
+function helper.tierLocalize(tierStrings)
+    tierLocTc(tierStrings)
+    local tierToString = {}
+    for i,v in ipairs(tierStrings) do
+        tierToString[i] = localization.localize(v)
+    end
+    assert(tierToString[1], "Must have at least 1 string")
+    return function(ent)
+        local tier = lp.tiers.getTier(ent)
+        if tierToString[tier] then
+            return tierToString[tier]
+        end
+        return tierToString[1]
+    end
+end
+
 
 
 

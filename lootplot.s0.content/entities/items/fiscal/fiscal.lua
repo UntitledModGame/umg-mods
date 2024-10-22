@@ -1,11 +1,14 @@
+
 local loc = localization.localize
+local helper = require("shared.helper")
+
 
 lp.defineItem("lootplot.s0.content:gold_sword", {
     image = "gold_sword",
     name = loc("Golden Sword"),
-    description = loc("Earn 1 money."),
     rarity = lp.rarities.COMMON,
-    baseMoneyGenerated = 1
+    baseMoneyGenerated = 1,
+    tierUpgrade = helper.propertyUpgrade("moneyGenerated", 1, 3)
 })
 
 
@@ -13,14 +16,15 @@ lp.defineItem("lootplot.s0.content:gold_axe", {
     image = "gold_axe",
     name = loc("Golden Axe"),
 
-    baseMoneyGenerated = 1,
-
     rarity = lp.rarities.RARE,
 
-    shape = lp.targets.KNIGHT_SHAPE,
+    shape = lp.targets.ABOVE_BELOW_SHAPE,
+
+    baseMoneyGenerated = 0.5,
+    tierUpgrade = helper.propertyUpgrade("moneyGenerated", 0.5, 2),
 
     target = {
-        description = loc("{lootplot.targets:COLOR}Earn money if item generates points."),
+        description = loc("{lootplot.targets:COLOR}Earn money."),
         type = "ITEM",
         filter = function(selfEnt, ppos, targetEnt)
             local pGen = targetEnt.pointsGenerated or 0
@@ -64,9 +68,10 @@ lp.defineItem("lootplot.s0.content:gold_nuggets", {
 
 local function percentageOfBalanceGetter(percentage)
     return function(ent)
+        local tier = lp.tiers.getTier(ent)
         local money = lp.getMoney(ent)
         if money then
-            return money * percentage
+            return money * percentage * tier
         end
         return 0
     end
@@ -76,7 +81,12 @@ end
 lp.defineItem("lootplot.s0.content:bishop_ring", {
     image = "bishop_ring",
     name = loc("Bishop Ring"),
-    description = loc("Generate points equal to 20% of the current balance."),
+
+    description = helper.tierLocalize({
+        "Earn money equal to 20% of current balance.\n(Max of $20)",
+        "Earn money equal to 40% of current balance.\n(Max of $20)",
+        "Earn money equal to 60% of current balance.\n(Max of $20)",
+    }),
 
     basePointsGenerated = 0,
 
@@ -93,7 +103,12 @@ lp.defineItem("lootplot.s0.content:bishop_ring", {
 lp.defineItem("lootplot.s0.content:king_ring", {
     image = "king_ring",
     name = loc("King Ring"),
-    description = loc("Earn money equal to 5% of current balance.\n(Max of $20)"),
+
+    description = helper.tierLocalize({
+        "Earn money equal to 5% of current balance.\n(Max of $20)",
+        "Earn money equal to 10% of current balance.\n(Max of $20)",
+        "Earn money equal to 15% of current balance.\n(Max of $20)",
+    }),
 
     baseMoneyGenerated = 0,
 
@@ -148,6 +163,9 @@ lp.defineItem("lootplot.s0.content:money_bag", {
 
     rarity = lp.rarities.EPIC,
 
+    basePrice = 5,
+    tierUpgrade = helper.propertyUpgrade("price", 5, 5),
+
     lootplotProperties = {
         maximums = {
             price = 200
@@ -166,6 +184,7 @@ lp.defineItem("lootplot.s0.content:robbers_bag", {
     description = loc("Steals money, and increases its price by the amount stolen!"),
 
     baseMoneyGenerated = -3,
+    tierUpgrade = helper.propertyUpgrade("moneyGenerated", -3, 3),
 
     rarity = lp.rarities.EPIC,
 
@@ -182,6 +201,9 @@ lp.defineItem("lootplot.s0.content:contract", {
     name = loc("Contract"),
 
     rarity = lp.rarities.RARE,
+
+    basePrice = 5,
+    tierUpgrade = helper.propertyUpgrade("price", 5, 5),
 
     shape = lp.targets.KING_SHAPE,
 
@@ -208,14 +230,6 @@ lp.defineItem("lootplot.s0.content:robber", {
 
     shape = lp.targets.KING_SHAPE,
 
-    --[[
-    
-    TODO:
-    In the future, when we allow for UPGRADED robber:
-    We should make it so the robber multiplies price by -1!!!
-
-    That could lead to really creative synergies.
-    ]]
     target = {
         type = "ITEM",
         description = loc("If item price is less than $20,\nSet price to 0"),
