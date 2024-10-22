@@ -36,11 +36,11 @@ end
 
 
 local ACTIVATE_TEXT = loc("Activate!")
-local ACTIVATE_TEXT_COST = interp("Activate (%{cost})")
+local ACTIVATE_TEXT_COST = interp("Activate ($%{cost})")
 
 local ACTIVATE_SELF_BUTTON = {
     text = function(selfEnt)
-        if selfEnt.moneyGenerated > 0 then
+        if selfEnt.moneyGenerated < 0 then
             return ACTIVATE_TEXT_COST({
                 cost = -selfEnt.moneyGenerated
             })
