@@ -40,6 +40,12 @@ end
 
 
 local function definePickaxe(mineral_type, name, basePower, etype)
+    --[[
+    TODO:
+    What should pickaxe do???
+    Maybe something to do with scaling? Or "mining"...?
+    hmm... 
+    ]]
     local namespace = umg.getModName() .. ":"
     local etypeName = namespace .. mineral_type .. "_pickaxe"
     local image = mineral_type .. "_pickaxe"
