@@ -111,7 +111,6 @@ local lockRerollButton = {
 lp.defineSlot("lootplot.s0.content:shop_slot", {
     itemLock = true,
     image = "shop_slot",
-    color = {1, 1, 0.6},
     baseMaxActivations = 100,
     name = loc("Shop slot"),
     triggers = {"REROLL", "PULSE"},
@@ -138,7 +137,6 @@ lp.defineSlot("lootplot.s0.content:lockable_shop_slot", {
     image = "shop_slot",
     -- TODO: make a different image for this!
 
-    color = {0.8, 0.8, 0.4},
     baseMaxActivations = 100,
     name = loc("Lockable Shop slot"),
     triggers = {"REROLL", "PULSE"},
