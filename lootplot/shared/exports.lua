@@ -535,6 +535,9 @@ end
 ---@param targetItem Entity
 ---@return boolean
 function lp.canCombineItems(combinerItem, targetItem)
+    if combinerItem.canCombine and combinerItem:canCombine(targetItem) then
+        return true
+    end
     return umg.ask("lootplot:canCombineItems", combinerItem, targetItem)
 end
 

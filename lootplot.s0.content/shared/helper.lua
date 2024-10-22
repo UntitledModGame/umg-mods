@@ -54,6 +54,7 @@ function helper.propertyUpgrade(prop, startValue, growthRate)
     return function(ent, _srcEnt, oldTier, newTier)
         local exponent = newTier - 1
         local newVal = startValue * (growthRate ^ exponent)
+        newVal = math.floor(newVal + 0.5)
         ent[baseProp] = newVal
         -- we dont need to sync `baseProp`; coz the property 
         --  is computed serverside only, and sent over to client anyway.
