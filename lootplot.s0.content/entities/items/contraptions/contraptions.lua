@@ -58,7 +58,7 @@ defContra("old_radio", {
 
     shape = lp.targets.ABOVE_SHAPE,
 
-    baseMoneyGenerated = -6,
+    baseMoneyGenerated = -4,
     baseMaxActivations = 4,
 
     target = {
@@ -75,7 +75,7 @@ defContra("old_radio", {
 
 defContra("dark_radio", {
     name = loc("Dark Radio"),
-    description = loc("Has a button, activates target item or slot,\nthen destroys it"),
+    description = loc("Has a button to activate an item or a slot,\nthen destroy it."),
 
     triggers = {},
 
