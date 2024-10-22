@@ -202,6 +202,7 @@ function Plot:getPPos(x,y)
         self.pposCache[index] = ppos
     end
 
+    assert(ppos:getSlotIndex() == index, "someone else mutate the ppos")
     return ppos
 end
 
