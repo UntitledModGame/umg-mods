@@ -33,17 +33,6 @@ local positionRef = {--[[
 
 
 
-local allGroup = umg.group()
-
-allGroup:onRemoved(function(ent)
-    if positionRef[ent] then
-        positionRef[ent] = nil
-    end
-end)
-
-
-
-
 
 local setTc = typecheck.assert("voidEntity", "ppos")
 function ptrack.set(ent, ppos)
@@ -55,6 +44,11 @@ end
 function ptrack.clear(ent)
     positionRef[ent] = nil
 end
+
+
+
+local layerGroup = umg.group("layer")
+layerGroup:onRemoved(ptrack.clear)
 
 
 
@@ -97,11 +91,13 @@ end
 
 
 
+local function setPPos(ent, ppos, _layer)
+    return ptrack.set(ent, ppos)
+end
+
 local function updatePlot(plotEnt)
     local plot = plotEnt.plot
-    plot:foreachLayerEntry(function(ent, ppos, _layer)
-        ptrack.set(ent, ppos)
-    end)
+    plot:foreachLayerEntry(setPPos)
 end
 
 umg.on(updEvent, function(dt)

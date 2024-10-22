@@ -18,17 +18,19 @@ At it's core, a plotPosition is a struct:
 ---@class lootplot.PPos: objects.Class
 local PPos = objects.Class("lootplot:PPos")
 
----@param args {slot:integer,plot:lootplot.Plot?,plotEntity:Entity?,rotation?:number}
+---@param args {slot:integer,plot:lootplot.Plot?,plotEntity:Entity?}
 function PPos:init(args)
     lp.posTc(args)
+    ---@private
     self.slot = args.slot
     if args.plotEntity then
         assert(args.plotEntity.plot, "Invalid plot entity! (needs .plot comp)")
+        ---@private
         self.plotEntity =  args.plotEntity
     elseif args.plot then
+        ---@private
         self.plotEntity = args.plot:getOwnerEntity()
     end
-    self.rotation = args.rotation or 0
 end
 
 
@@ -54,17 +56,12 @@ local number2Tc = typecheck.assert("number", "number")
 function PPos:move(dx, dy)
     number2Tc(dx, dy)
     local plot = self:getPlot()
-    local x,y = plot:indexToCoords(self.slot)
+    local x, y = plot:indexToCoords(self.slot)
     x = x + dx
     y = y + dy
 
     if plot.grid:contains(x, y) then
-        local newSlot = plot:coordsToIndex(x,y)
-        return PPos({
-            plot = plot,
-            slot = newSlot,
-            rotation = self.rotation
-        })
+        return plot:getPPos(x, y)
     end
 
     return nil

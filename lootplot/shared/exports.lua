@@ -123,7 +123,7 @@ local entityTc = typecheck.assert("entity")
 function lp.posToSlot(ppos)
     lp.posTc(ppos)
     local plot = ppos:getPlot()
-    local x,y = plot:indexToCoords(ppos.slot)
+    local x,y = plot:indexToCoords(ppos:getSlotIndex())
     return plot:getSlot(x,y)
 end
 
@@ -133,7 +133,7 @@ end
 function lp.posToItem(ppos)
     lp.posTc(ppos)
     local plot = ppos:getPlot()
-    local x,y = plot:indexToCoords(ppos.slot)
+    local x,y = plot:indexToCoords(ppos:getSlotIndex())
     return plot:getItem(x,y)
 end
 
