@@ -23,12 +23,12 @@ end)
 
 
 
-umg.on("@tick", function()
+umg.on("@tick", function(dt)
     if server then
         local run = lp.main.getRun()
         if run then
             run:sync()
-            run:tick()
+            run:tick(dt)
         end
     end
 end)

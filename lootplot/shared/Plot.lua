@@ -69,6 +69,10 @@ function Plot:init(ownerEnt, width, height)
     ]]}
 
     self.width, self.height = width, height
+
+    ---[i] = ppos
+    ---@type table<integer, lootplot.PPos>
+    self.pposCache = {}
 end
 
 function Plot:getDimensions()
@@ -135,9 +139,10 @@ end
 
 umg.definePacket("lootplot:setPipelineRunningBool", {typelist = {ENT, BOOL}})
 
-function Plot:tick()
+---@param dt number
+function Plot:tick(dt)
     assert(server,"?")
-    self.pipeline:tick()
+    self.pipeline:tick(dt)
     local oldIsRunnin = self._cachedIsPipelineRunning
     local isRunnin = self:isPipelineRunning()
     if oldIsRunnin ~= isRunnin then
@@ -191,10 +196,15 @@ end
 ---@return lootplot.PPos
 function Plot:getPPos(x,y)
     local index = self:coordsToIndex(x,y)
-    return lp.PPos({
-        slot=index,
-        plot=self
-    })
+    local ppos = self.pposCache[index]
+
+    if not ppos then
+        ppos = lp.PPos({slot = index, plot = self})
+        self.pposCache[index] = ppos
+    end
+
+    assert(ppos:getSlotIndex() == index, "someone else mutate the ppos")
+    return ppos
 end
 
 function Plot:getCenterPPos()
@@ -225,8 +235,7 @@ end
 function Plot:foreachInArea(x1, y1, x2, y2, func)
     local grid = self.grid
     return grid:foreachInArea(x1, y1, x2, y2, function(_val,x,y)
-        local i = grid:coordsToIndex(x,y)
-        local ppos = lp.PPos({slot=i, plot=self})
+        local ppos = self:getPPos(x, y)
         func(ppos)
     end)
 end
@@ -267,11 +276,7 @@ end
 function Plot:foreach(func)
     for y=0, self.height-1 do
         for x=self.width-1, 0, -1 do
-            local slotI = self.grid:coordsToIndex(x,y)
-            local ppos = lp.PPos({
-                plot = self,
-                slot = slotI
-            })
+            local ppos = self:getPPos(x, y)
             func(ppos)
         end
     end
@@ -304,7 +309,7 @@ end
 function Plot:foreachLayerEntry(func)
     for layer, _ in pairs(self.layers) do
         self:foreach(function(ppos)
-            local x,y = self:indexToCoords(ppos.slot)
+            local x,y = self:indexToCoords(ppos:getSlotIndex())
             local ent = self:get(layer, x,y)
             if ent then
                 func(ent, ppos, layer)
@@ -348,12 +353,7 @@ function Plot:getClosestPPos(x,y)
     local grid = self.grid
     ix = math.clamp(ix, 0, grid.width-1)
     iy = math.clamp(iy, 0, grid.height-1)
-
-    local i = grid:coordsToIndex(ix,iy)
-    return lp.PPos({
-        slot = i,
-        plot = self
-    })
+    return self:getPPos(ix, iy)
 end
 
 ---@param triggerName string
