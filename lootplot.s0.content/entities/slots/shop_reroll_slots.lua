@@ -147,7 +147,7 @@ lp.defineSlot("lootplot.s0.content:lockable_shop_slot", {
     baseCanSlotPropagate = false,
     canActivate = function(ent)
         -- if rerollLock=true, then we dont activate!
-        return ent.rerollLock
+        return (not ent.rerollLock) or (not lp.slotToItem(ent))
     end,
     canPlayerAccessItemInSlot = function(slotEnt, itemEnt)
         return not slotEnt.itemLock
@@ -187,7 +187,7 @@ lp.defineSlot("lootplot.s0.content:lockable_reroll_slot", {
     baseCanSlotPropagate = false,
     baseMaxActivations = 500,
     canActivate = function(ent)
-        return ent.rerollLock
+        return not ent.rerollLock
     end,
     actionButtons = {
         lockRerollButton
