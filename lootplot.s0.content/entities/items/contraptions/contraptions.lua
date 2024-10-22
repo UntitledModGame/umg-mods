@@ -25,6 +25,9 @@ NOTE::: This can be used to LOCK the shop!!! Very cool idea!!!
 
 ]]
 
+local loc = localization.localize
+local interp = localization.newInterpolator
+
 
 local function defContra(id, etype)
     etype.image = etype.image or id
@@ -32,8 +35,19 @@ local function defContra(id, etype)
 end
 
 
+local ACTIVATE_TEXT = loc("Activate!")
+local ACTIVATE_TEXT_COST = interp("Activate (%{cost})")
+
 local ACTIVATE_SELF_BUTTON = {
-    text = "Activate!",
+    text = function(selfEnt)
+        if selfEnt.moneyGenerated > 0 then
+            return ACTIVATE_TEXT_COST({
+                cost = -selfEnt.moneyGenerated
+            })
+        else
+            return ACTIVATE_TEXT
+        end
+    end,
     action = function(selfEnt)
         if server then
             lp.tryActivateEntity(selfEnt)
@@ -42,19 +56,14 @@ local ACTIVATE_SELF_BUTTON = {
 }
 
 
-local loc = function(x)
-    umg.log.warn("FIX ME PLS. PUT PROPER TRANSLATION HERE.")
-    return x
-end
-
 
 defContra("old_radio", {
     name = loc("Old Radio"),
-    description = loc("Has a button to activate items."),
+    description = loc("Activates an item."),
 
     triggers = {},
 
-    rarity = lp.rarities.COMMON,
+    rarity = lp.rarities.RARE,
 
     shape = lp.targets.ABOVE_SHAPE,
 
@@ -75,17 +84,17 @@ defContra("old_radio", {
 
 defContra("dark_radio", {
     name = loc("Dark Radio"),
-    description = loc("Has a button to activate an item or a slot,\nthen destroy it."),
+    description = loc("Activates and destroys an item."),
 
     triggers = {},
 
-    rarity = lp.rarities.COMMON,
-    shape = lp.targets.KING_SHAPE,
+    rarity = lp.rarities.EPIC,
+    shape = lp.targets.ABOVE_SHAPE,
 
     baseMaxActivations = 10,
 
     target = {
-        type = "ITEM_OR_SLOT",
+        type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
             lp.queueWithEntity(targetEnt, function ()
                 lp.destroy(targetEnt)
@@ -103,15 +112,15 @@ defContra("dark_radio", {
 -- Rerolls everything in a KING-2 shape. Doomed-6.
 defContra("reroll_machine", {
     name = loc("Reroll Machine"),
-    description = loc("Has a button to trigger a big reroll."),
+    description = loc("Triggers a reroll."),
 
     triggers = {},
 
-    rarity = lp.rarities.COMMON,
+    rarity = lp.rarities.EPIC,
     shape = lp.targets.KingShape(2),
 
     baseMoneyGenerated = -4,
-    baseMaxActivations = 8,
+    baseMaxActivations = 4,
 
     target = {
         type = "SLOT",
