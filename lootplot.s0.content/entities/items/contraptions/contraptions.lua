@@ -132,3 +132,28 @@ defContra("reroll_machine", {
     actionButtons = {ACTIVATE_SELF_BUTTON}
 })
 
+
+
+
+--[[
+TODO: maybe this shit is too OP?
+]]
+lp.defineItem("lootplot.s0.content:round_timer", {
+    name = loc("Round timer"),
+    description = loc("Resets round to 1"),
+    triggers = {},
+
+    image = "round_timer",
+
+    baseMoneyGenerated = -30,
+    doomCount = 4,
+
+    rarity = lp.rarities.EPIC,
+
+    onActivate = function (ent)
+        lp.setAttribute("ROUND", ent, 1)
+    end,
+
+    actionButtons = {ACTIVATE_SELF_BUTTON}
+})
+
