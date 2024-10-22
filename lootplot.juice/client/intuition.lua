@@ -63,13 +63,13 @@ local RENDER_ON_TOP_ORDER = 20
 local PI2=math.pi*2
 
 umg.on("rendering:drawEntity", RENDER_ON_TOP_ORDER, function(ent, x,y, rot, sx,sy, kx,ky)
-    local ROT_SPEED = 2
+    local BOUNCE_SPEED = 2
     if lp.isItemEntity(ent) then
         local sel = lp.getCurrentSelection()
         if sel and sel.item then
-            if ent ~= sel.item and lp.canCombineItems(ent, sel.item) then
+            if ent ~= sel.item and lp.canCombineItems(sel.item, ent) then
                 love.graphics.setColor(lp.COLORS.COMBINE_COLOR)
-                local time = love.timer.getTime() * ROT_SPEED
+                local time = love.timer.getTime() * BOUNCE_SPEED
                 local sc = 1 + math.sin(time*PI2)/12
                 rendering.drawImage("combine_item_visual", x,y, rot, sc,sc)
             end
