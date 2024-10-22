@@ -146,9 +146,12 @@ defineSlotSpawner("dragonfruit", "Dragonfruit", "slot", "Normal Slot", lp.target
 
 defineSlotSpawner("dragonfruit_slice", "Dragonfruit Slice", "slot", "Normal Slot", lp.targets.BishopShape(1))
 
-defineSlotSpawner("soy_sauce", "Soy Sauce", "slot", "Doomed-4 Slot", lp.targets.RookShape(3), {}, function(slotEnt)
+
+local function makeDoomed4(slotEnt)
     slotEnt.doomCount = 4
-end)
+end
+defineSlotSpawner("soy_sauce", "Soy Sauce", "slot", "Doomed-4 Slot", lp.targets.RookShape(3), {}, makeDoomed4)
+
 
 defineSlotSpawner("fried_egg", "Fried Egg", "slot", "Slot with -5 points", lp.targets.KING_SHAPE, {}, function(slotEnt)
     lp.modifierBuff(slotEnt, "pointsGenerated", -5)
@@ -170,6 +173,16 @@ defineSlotSpawner("burned_loaf", "Burned Loaf", "sell_slot", "Sell Slot",
 defineSlotSpawner("coconut", "Coconut", "dirt_slot", "Dirt Slot", lp.targets.RookShape(1), {
     rarity = lp.rarities.COMMON,
 })
+
+
+defineSlotSpawner("green_lemon", "Green Lemon", "reroll_slot", "DOOMED-4 Reroll Slot", lp.targets.KingShape(2), {
+    rarity = lp.rarities.RARE,
+}, makeDoomed4)
+
+
+defineSlotSpawner("lemon", "Lemon", "shop_slot", "DOOMED-4 Shop Slot", lp.targets.KingShape(2), {
+    rarity = lp.rarities.RARE,
+}, makeDoomed4)
 
 ----------------------------------------------------------------------------
 
