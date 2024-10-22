@@ -80,9 +80,31 @@ definePerk("eight_ball", {
 
 
 
+definePerk("fourteen_ball", {
+    name = loc("Fourteen Ball"),
+    description = loc("Spawns with lockable shop-slots"),
+
+    onActivateOnce = function(ent)
+        local ppos, team = getPosTeam(ent)
+        wg.spawnSlots(assert(ppos:move(-4,1)), server.entities.lockable_shop_slot, 3,2, team)
+        wg.spawnSlots(assert(ppos:move(-4, -2)), server.entities.reroll_button_slot, 1,1, team)
+
+        spawnSell(ent)
+        spawnNormal(ent)
+    end
+})
+
+
+
+
+
 definePerk("four_ball", {
     name = loc("Four Ball"),
     description = loc("Starts with glass-slots instead of normal slots"),
+    --[[
+    TODO: this starting-item is MEGA-LAME.
+    Replace it with something better.
+    ]]
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
@@ -92,6 +114,5 @@ definePerk("four_ball", {
         wg.spawnSlots(ppos, server.entities.glass_slot, 13,5, team)
     end
 })
-
 
 

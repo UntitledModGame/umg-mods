@@ -19,9 +19,9 @@ end
 
 ---@param ent Entity
 ---@param bool boolean
-local function setShopLock(ent, bool)
-    ent.shopLock = bool
-    sync.syncComponent(ent, "shopLock")
+local function setItemLock(ent, bool)
+    ent.itemLock = bool
+    sync.syncComponent(ent, "itemLock")
 end
 
 local BUY_TEXT = interp("BUY ($%{price})")
@@ -31,7 +31,7 @@ local function buyServer(slotEnt)
     local itemEnt = lp.slotToItem(slotEnt)
     if itemEnt then
         lp.subtractMoney(slotEnt, itemEnt.price)
-        setShopLock(slotEnt, false)
+        setItemLock(slotEnt, false)
     end
 end
 
@@ -53,11 +53,11 @@ local shopButton = {
         end
     end,
     canDisplay = function(ent, clientId)
-        return ent.shopLock
+        return ent.itemLock
     end,
     canClick = function(ent, clientId)
         local itemEnt = lp.slotToItem(ent)
-        if itemEnt then
+        if itemEnt and ent.itemLock then
             return lp.getMoney(itemEnt) >= itemEnt.price
         end
     end,
@@ -71,8 +71,45 @@ local shopButton = {
     color = objects.Color(0.39,0.66,0.24),
 }
 
+
+
+
+---@param ent Entity
+---@param bool boolean
+local function setRerollLock(ent, bool)
+    ent.rerollLock = bool
+    sync.syncComponent(ent, "rerollLock")
+end
+
+local LOCK_TEXT = loc("Lock reroll")
+local UNLOCK_TEXT = loc("Unlock reroll")
+
+local lockRerollButton = {
+    action = function(ent, clientId)
+        if server then
+            setRerollLock(ent, not ent.rerollLock)
+        end
+    end,
+    canDisplay = function(ent, clientId)
+        return lp.slotToItem(ent)
+    end,
+    canClick = function(ent, clientId)
+        return lp.slotToItem(ent)
+    end,
+    text = function(ent)
+        if ent.rerollLock then
+            return UNLOCK_TEXT
+        else
+            return LOCK_TEXT
+        end
+    end,
+    color = objects.Color(0.7,0.7,0.7),
+}
+
+
+
 lp.defineSlot("lootplot.s0.content:shop_slot", {
-    shopLock = true,
+    itemLock = true,
     image = "shop_slot",
     color = {1, 1, 0.6},
     baseMaxActivations = 100,
@@ -82,13 +119,45 @@ lp.defineSlot("lootplot.s0.content:shop_slot", {
     itemReroller = generateItem,
     baseCanSlotPropagate = false,
     canPlayerAccessItemInSlot = function(slotEnt, itemEnt)
-        return not slotEnt.shopLock
+        return not slotEnt.itemLock
     end,
     onActivate = function(slotEnt)
-        setShopLock(slotEnt, true)
+        setItemLock(slotEnt, true)
     end,
     actionButtons = {
         shopButton
+    }
+})
+
+
+
+
+lp.defineSlot("lootplot.s0.content:lockable_shop_slot", {
+    itemLock = true,
+
+    image = "shop_slot",
+    -- TODO: make a different image for this!
+
+    color = {0.8, 0.8, 0.4},
+    baseMaxActivations = 100,
+    name = loc("Lockable Shop slot"),
+    triggers = {"REROLL", "PULSE"},
+    itemSpawner = generateItem,
+    itemReroller = generateItem,
+    baseCanSlotPropagate = false,
+    canActivate = function(ent)
+        -- if rerollLock=true, then we dont activate!
+        return ent.rerollLock
+    end,
+    canPlayerAccessItemInSlot = function(slotEnt, itemEnt)
+        return not slotEnt.itemLock
+    end,
+    onActivate = function(slotEnt)
+        setItemLock(slotEnt, true)
+    end,
+    actionButtons = {
+        shopButton,
+        lockRerollButton
     }
 })
 
@@ -103,5 +172,25 @@ lp.defineSlot("lootplot.s0.content:reroll_slot", {
     itemReroller = generateItem,
     baseCanSlotPropagate = false,
     baseMaxActivations = 500,
+})
+
+
+
+lp.defineSlot("lootplot.s0.content:lockable_reroll_slot", {
+    image = "reroll_slot",
+    -- TODO ^^^ different image pls!
+
+    name = loc("Reroll slot"),
+    description = loc("Put an item inside to reroll it!"),
+    triggers = {"REROLL", "PULSE"},
+    itemReroller = generateItem,
+    baseCanSlotPropagate = false,
+    baseMaxActivations = 500,
+    canActivate = function(ent)
+        return ent.rerollLock
+    end,
+    actionButtons = {
+        lockRerollButton
+    }
 })
 
