@@ -75,17 +75,51 @@ defContra("old_radio", {
 
 defContra("dark_radio", {
     name = loc("Dark Radio"),
-    description = loc("Provides a toggle to prevent activation!"),
+    description = loc("Has a button, activates target item or slot,\nthen destroys it"),
+
+    triggers = {},
 
     rarity = lp.rarities.COMMON,
     shape = lp.targets.KING_SHAPE,
 
-    baseMaxActivations = 1,
+    baseMaxActivations = 10,
 
-    --[[
-    TODO: implement.
-    We might need the `listener` system for this.
-    ]]
+    target = {
+        type = "ITEM_OR_SLOT",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.queueWithEntity(targetEnt, function ()
+                lp.destroy(targetEnt)
+            end)
+            lp.tryActivateEntity(targetEnt)
+        end
+    },
+
+    actionButtons = {ACTIVATE_SELF_BUTTON}
+})
+
+
+
+-- Reroll-contraption: 
+-- Rerolls everything in a KING-2 shape. Doomed-6.
+defContra("reroll_machine", {
+    name = loc("Reroll Machine"),
+    description = loc("Has a button to trigger a big reroll."),
+
+    triggers = {},
+
+    rarity = lp.rarities.COMMON,
+    shape = lp.targets.KingShape(2),
+
+    baseMoneyGenerated = -4,
+    baseMaxActivations = 8,
+
+    target = {
+        type = "SLOT",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.tryTriggerEntity("REROLL", targetEnt)
+        end
+    },
+
     actionButtons = {ACTIVATE_SELF_BUTTON}
 })
 
