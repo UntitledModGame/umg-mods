@@ -31,8 +31,14 @@ Then, when something `triggers`, we iterate over `lisEnt1,lisEnt2,...`
 and check if they contain the entity that was triggered.
 
 This is not particularly efficient, but it's robust, 
-and im pretty confident that it will get us 99% of the way there.
+and it will get us 99% of the way there.
 It's also only O(n), (and its a weak O(n) for that matter too)
+
+
+
+OKAY:
+FINAL DECISION:  OPTION-BRAVO.
+Its efficient enough, and more importantly, its robust.
 
 ]]
 
@@ -44,50 +50,54 @@ local function createWeakSet()
 end
 
 
----@alias ListenerHash {[Entity]: table<Entity, true>}
 
 
----@type table<string, ListenerHash>
-local triggerToListenerHash = {--[[
-    [TRIGGER] -> {
-        [listenedEnt] -> WeakSet{e1, e2, ...}
-
-        -- `listenedEnt` is the ent that is targetted.
-        -- e1,e2 are entities with `.listen` component.
-    }
+local triggerToListenEnt = {--[[
+    [trigger] -> Set<Entity>
 ]]}
 
+
+local listenEntToListenedEnts = {--[[
+    [listenEnt] -> Set<target-Ent>
+]]}
 
 
 
 local listenGroup = umg.group("shape", "listen")
 
+listenGroup:onAdded(function(ent)
+    local trigger = assert(ent.listen.trigger, "Listen ents need a trigger!")
+    triggerToListenEnt[trigger] = triggerToListenEnt[trigger] or objects.Set()
+    triggerToListenEnt[trigger]:add(ent)
+end)
 
----comment
----@param triggerType string
----@param listenItem Entity
----@param triggerItem Entity
-local function add(triggerType, listenItem, targItem)
-    local lisHash = triggerToListenerHash[triggerType]
-    if not lisHash then
-        lisHash = createWeakSet()
-        triggerToListenerHash[triggerType] = lisHash
-    end
-
-    ---@cast lisHash ListenerHash
-    local set = lisHash[targItem]
-end
+listenGroup:onRemoved(function(ent)
+    local trigger = assert(ent.listen.trigger, "Listen ents need a trigger!")
+    triggerToListenEnt[trigger] = triggerToListenEnt[trigger] or objects.Set()
+    triggerToListenEnt[trigger]:remove(ent)
+end)
 
 
-local function updateListenEnts(ent)
+
+
+
+local function updateListenTargets(ent)
     ---@cast ent lootplot.ItemEntity
     local pposLis = assert(lp.targets.getShapePositions(ent))
-    local listen = ent.listen
+    local set = listenEntToListenedEnts[ent]
+    if not set then
+        set = objects.Set()
+        listenEntToListenedEnts[ent] = set
+    end
+
+    -- this is kinda inefficient, clearing the set each frame...
+    -- but its WAYYY better than the alternative.
+    set:clear()
 
     for _, ppos in ipairs(pposLis) do
         local targItem = lp.posToItem(ppos)
         if targItem and util.canListen(ent, ppos) then
-            add(listen.trigger, ent, targItem)
+            set:add(targItem)
         end
     end
 end
@@ -95,11 +105,34 @@ end
 
 umg.on("@tick", function()
     for _, ent in ipairs(listenGroup) do
-        updateListenEnts(ent)
+        updateListenTargets(ent)
     end
 end)
 
 
 
+local function triggerListen(listenerEnt, entThatWasTriggered)
+    lp.queueWithEntity(listenerEnt, function(ent)
+        if umg.exists(entThatWasTriggered) and lp.canActivateEntity(listenerEnt) then
+            lp.tryActivateEntity(listenerEnt)
+            local ppos = lp.getPos(entThatWasTriggered)
+            if ppos and util.canListen(listenerEnt, ppos) then
+                listenerEnt.listen.activate(listenerEnt, ppos, entThatWasTriggered)
+            end
+        end
+    end)
+end
 
+local EMPTY_SET = objects.Set()
+
+umg.on("lootplot:entityTriggered", function(trigger, ent)
+    local set = triggerToListenEnt[trigger] or EMPTY_SET
+    for _, listenEnt in ipairs(set) do
+        local listenEntities = listenEntToListenedEnts[listenEnt] or EMPTY_SET
+        if listenEntities:contains(ent) then
+            -- triggered!!!
+            triggerListen(listenEnt, ent)
+        end
+    end
+end)
 
