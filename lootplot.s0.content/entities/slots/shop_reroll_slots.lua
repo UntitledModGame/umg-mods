@@ -154,7 +154,7 @@ lp.defineSlot("lootplot.s0.content:shop_slot", {
         setItemLock(slotEnt, true)
     end,
     onItemDraw = function(selfEnt, itemEnt)
-        if selfEnt.itemLock then
+        if selfEnt.itemLock and itemEnt.price then
             love.graphics.setColor(PRICE_COLOR)
             printCenterWithOutline(PRICE_TEXT(itemEnt), itemEnt.x, itemEnt.y, 0, 0.75, 0.75, 20, 0, 0)
         end
