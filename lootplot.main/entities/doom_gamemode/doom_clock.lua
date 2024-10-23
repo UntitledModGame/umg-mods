@@ -97,12 +97,13 @@ umg.defineEntityType("lootplot.main:doom_clock", {
         end
     end,
 
+    onUpdateClient = moveClockToClearPosition,
+
     onDraw = function(ent, x,y, rot, sx,sy, kx,ky)
         --[[
         generally, we shouldnt use `onDraw` for entities;
         But this is a very special case :)
         ]]
-        moveClockToClearPosition(ent)
 
         local points = lp.getPoints(ent)
         local requiredPoints = lp.main.getRequiredPoints(ent)
