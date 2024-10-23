@@ -51,6 +51,7 @@ definePerk("one_ball", {
     description = loc("Gain an extra $4 per turn"),
 
     baseMoneyGenerated = 4,
+    baseMaxActivations = 1,
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
