@@ -108,6 +108,36 @@ local lockRerollButton = {
 
 
 
+local TEXT_MAX_WIDTH = 200
+---@param text string
+---@param x number
+---@param y number
+---@param rot number
+---@param sx number
+---@param sy number
+---@param oy number
+---@param kx number
+---@param ky number
+local function printCenterWithOutline(text, x, y, rot, sx, sy, oy, kx, ky)
+    local r, g, b, a = love.graphics.getColor()
+    local ox = TEXT_MAX_WIDTH / 2
+
+    love.graphics.setColor(0, 0, 0, a)
+    for outY = -1, 1 do
+        for outX = -1, 1 do
+            if not (outX == 0 and outY == 0) then
+                love.graphics.printf(text, x + outX * sx, y + outY * sy, TEXT_MAX_WIDTH, "center", rot, sx, sy, ox, oy, kx, ky)
+            end
+        end
+    end
+
+    love.graphics.setColor(r, g, b, a)
+    love.graphics.printf(text, x, y, TEXT_MAX_WIDTH, "center", rot, sx, sy, ox, oy, kx, ky)
+end
+
+local PRICE_TEXT = interp("$%{price}")
+local PRICE_COLOR = objects.Color.fromByteRGBA(252, 211, 3)
+
 lp.defineSlot("lootplot.s0.content:shop_slot", {
     itemLock = true,
     image = "shop_slot",
@@ -122,6 +152,12 @@ lp.defineSlot("lootplot.s0.content:shop_slot", {
     end,
     onActivate = function(slotEnt)
         setItemLock(slotEnt, true)
+    end,
+    onItemDraw = function(selfEnt, itemEnt)
+        if selfEnt.itemLock then
+            love.graphics.setColor(PRICE_COLOR)
+            printCenterWithOutline(PRICE_TEXT(itemEnt), itemEnt.x, itemEnt.y, 0, 0.75, 0.75, 20, 0, 0)
+        end
     end,
     actionButtons = {
         shopButton

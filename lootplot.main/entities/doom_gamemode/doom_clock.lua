@@ -76,6 +76,15 @@ end
 
 
 
+---@param value number
+---@param nsig integer
+---@return string
+local function showNSignificant(value, nsig)
+	local zeros = math.floor(math.log10(math.max(math.abs(value), 1)))
+	local mulby = 10 ^ math.max(nsig - zeros, 0)
+	return tostring(math.floor(value * mulby) / mulby)
+end
+
 local POINTS = interp("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}Points: %{colorEffect}%{points}{/c}/%{requiredPoints}")
 local MONEY = interp("{wavy freq=0.6 spacing=0.8 amp=0.4}{outline}{c r=1 g=0.843 b=0.1}$ %{money}")
 
@@ -87,14 +96,25 @@ umg.defineEntityType("lootplot.main:doom_clock", {
 
     baseMaxActivations = 100,
 
+    onUpdateServer = function(ent)
+        local level = lp.getLevel(ent)
+        local currentRequiredPoints = lp.main.getRequiredPoints(ent)
+        local neededRequiredPoints = getRequiredPoints(level)
+
+        if currentRequiredPoints ~= neededRequiredPoints then
+            lp.setAttribute("REQUIRED_POINTS", ent, neededRequiredPoints)
+        end
+    end,
+
+    onUpdateClient = moveClockToClearPosition,
+
     onDraw = function(ent, x,y, rot, sx,sy, kx,ky)
         --[[
         generally, we shouldnt use `onDraw` for entities;
         But this is a very special case :)
         ]]
-        moveClockToClearPosition(ent)
 
-        local points = lp.getPoints(ent)
+        local points = assert(lp.getPoints(ent), "no points")
         local requiredPoints = lp.main.getRequiredPoints(ent)
         local colorEffect
         if points > requiredPoints then
@@ -106,7 +126,7 @@ umg.defineEntityType("lootplot.main:doom_clock", {
         end
 
         local needPoints = POINTS({
-            points = points,
+            points = showNSignificant(points, 3),
             requiredPoints = requiredPoints,
             colorEffect = colorEffect
         })
@@ -128,9 +148,6 @@ umg.defineEntityType("lootplot.main:doom_clock", {
         local numOfRounds = lp.main.getNumberOfRounds(ent)
         local requiredPoints = lp.main.getRequiredPoints(ent)
         local points = lp.getPoints(ent)
-
-        local level = lp.getLevel(ent)
-        lp.setAttribute("REQUIRED_POINTS", ent, getRequiredPoints(level))
 
         local newRound = round + 1
         lp.main.setRound(ent, newRound)

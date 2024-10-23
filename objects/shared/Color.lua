@@ -302,6 +302,16 @@ if false then
     function color(col) end ---@diagnostic disable-line: cast-local-type, missing-return
 end
 
+---Create new color from the byte RGBA, unlike direct color constructor that accepts color in 0..1 range.
+---@param r integer ([0..255] range)
+---@param g integer ([0..255] range)
+---@param b integer ([0..255] range)
+---@param a integer? ([0..255] range)
+---@return objects.Color
+function color.fromByteRGBA(r, g, b, a)
+    return color(r / 255, g / 255, b / 255, (a or 255) / 255)
+end
+
 -- Note: Transparent cannot be set through predefined_colors
 color.TRANSPARENT = color(1, 1, 1, 0)
 
