@@ -190,6 +190,7 @@ Activates multiple times, like boomerang.
 ]]
 defineMineralClass("ruby", "Ruby", 1, {
     baseMaxActivations = 4,
+    description = loc("Uses all activations at once"),
     onActivate = function(selfEnt)
         local ppos = lp.getPos(selfEnt)
         if ppos then
@@ -208,4 +209,23 @@ Activates when a target-item is destroyed!!!
 
 defineMineralClass("cobalt", "Cobalt")
 ]]
+
+
+
+lp.defineItem("lootplot.s0.content:diamond", {
+    image = "diamond",
+    name = loc("Diamond"),
+    description = loc("Can upgrade ANY mineral or tool item"),
+
+    rarity = lp.rarities.EPIC,
+
+    onCombine = function(selfEnt, targetItem)
+        if targetItem.mineralType then
+            lp.tiers.upgradeTier(targetItem, selfEnt)
+        end
+    end,
+    canCombine = function(selfEnt, targetItem)
+        return targetItem.mineralType
+    end
+})
 
