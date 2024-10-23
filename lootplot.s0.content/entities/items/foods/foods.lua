@@ -69,6 +69,25 @@ defineFood("lootplot.s0.content:magic_turnip", {
 })
 
 
+defineFood("lootplot.s0.content:eggplant", {
+    image = "eggplant",
+    name = loc("Eggplant"),
+
+    rarity = lp.rarities.LEGENDARY,
+
+    shape = lp.targets.ABOVE_SHAPE,
+
+    target = {
+        type = "SLOT_OR_ITEM",
+        description = loc("Removed DOOMED from target"),
+        activate = function(selfEnt, ppos, targetEnt)
+            if targetEnt.doomCount then
+                targetEnt:removeComponent("doomCount")
+            end
+        end
+    }
+})
+
 
 
 defineFood("lootplot.s0.content:heart_fruit", {
