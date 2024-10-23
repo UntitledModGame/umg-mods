@@ -2,14 +2,16 @@ local RENDER_AFTER_ENTITY_ORDER = 1
 
 umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER, function(ent, x,y, rot, sx,sy, kx,ky)
     if ent.doomCount then
-        local q
+        local q, dy
         if lp.isSlotEntity(ent) then
+            dy = 0
             if ent.doomCount <= 1 then
                 q = client.assets.images.crack_big
             else
                 q = client.assets.images.crack_small
             end
         elseif lp.isItemEntity(ent) then
+            dy = 1 * math.sin(love.timer.getTime() * 3)
             if ent.doomCount <= 1 then
                 q = client.assets.images.doom_count_visual
             else
@@ -17,7 +19,6 @@ umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER, function(ent, x,y, rot
             end
         end
 
-        local dy = 1 * math.sin(love.timer.getTime() * 3)
         if q then
             rendering.drawImage(q, x, y+dy, rot, sx,sy, kx,ky)
         end
