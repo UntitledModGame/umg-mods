@@ -3,27 +3,35 @@ local helper = require("shared.helper")
 local loc = localization.localize
 
 
-local function defineMineral(name, etype)
+local function defineMineral(mineralType, name, etype)
     etype.baseMaxActivations = etype.baseMaxActivations or 10
 
     etype.tierUpgrade = true
+    etype.mineralType = mineralType
 
     lp.defineItem(name, etype)
 end
 
 
 
-local function defineSword(mineral_type, name, basePower, etype)
+local function defineSword(mineral_type, name, mineralMult, etype)
     local namespace = umg.getModName() .. ":"
     local etypeName = namespace .. mineral_type .. "_sword"
     local image = mineral_type .. "_sword"
-    local pgen = basePower * 3
+    local pgen = 4
 
     local swordType = ({
-        tierUpgrade = helper.propertyUpgrade("pointsGenerated", pgen, 3),
-        basePointsGenerated = pgen,
         image = image,
         name = loc(name .. " Sword"),
+
+        lootplotProperties = {
+            multipliers = {
+                pointsGenerated = mineralMult
+            }
+        },
+
+        tierUpgrade = helper.propertyUpgrade("pointsGenerated", pgen, 3),
+        basePointsGenerated = pgen,
 
         rarity = lp.rarities.UNCOMMON,
 
@@ -33,13 +41,13 @@ local function defineSword(mineral_type, name, basePower, etype)
         swordType[k] = swordType[k] or v
     end
 
-    defineMineral(etypeName, swordType)
+    defineMineral(mineral_type, etypeName, swordType)
 end
 
 
 
 
-local function definePickaxe(mineral_type, name, basePower, etype)
+local function definePickaxe(mineral_type, name, mineralMult, etype)
     --[[
     TODO:
     What should pickaxe do???
@@ -49,13 +57,15 @@ local function definePickaxe(mineral_type, name, basePower, etype)
     local namespace = umg.getModName() .. ":"
     local etypeName = namespace .. mineral_type .. "_pickaxe"
     local image = mineral_type .. "_pickaxe"
-    local pgen = basePower
+    local pgen = 2
 
     local pickType = {
-        tierUpgrade = helper.propertyUpgrade("pointsGenerated", pgen, 3),
-        basePointsGenerated = pgen,
         image = image,
         name = loc(name .. " Pickaxe"),
+
+        mineralType = mineral_type,
+        tierUpgrade = helper.propertyUpgrade("pointsGenerated", pgen, 3),
+        basePointsGenerated = pgen,
 
         rarity = lp.rarities.UNCOMMON,
 
@@ -65,14 +75,14 @@ local function definePickaxe(mineral_type, name, basePower, etype)
         pickType[k] = pickType[k] or v
     end
 
-    defineMineral(etypeName, pickType)
+    defineMineral(mineral_type, etypeName, pickType)
 end
 
 
 
 
 
-local function defineAxe(mineral_type, name, basePower, etype)
+local function defineAxe(mineral_type, name, mineralMult, etype)
     local namespace = umg.getModName() .. ":"
     local etypeName = namespace .. mineral_type .. "_axe"
     local image = mineral_type .. "_axe"
@@ -80,11 +90,18 @@ local function defineAxe(mineral_type, name, basePower, etype)
     local axeType = {
         image = image,
         name = loc(name .. " Axe"),
+        mineralType = mineral_type,
+
+        lootplotProperties = {
+            multipliers = {
+                pointsGenerated = mineralMult / 2
+            }
+        },
 
         rarity = lp.rarities.RARE,
 
         basePrice = 5,
-        basePointsGenerated = basePower,
+        basePointsGenerated = mineralMult,
 
         shape = lp.targets.KNIGHT_SHAPE,
 
@@ -100,37 +117,47 @@ local function defineAxe(mineral_type, name, basePower, etype)
         axeType[k] = axeType[k] or v
     end
 
-    defineMineral(etypeName, axeType)
+    defineMineral(mineral_type, etypeName, axeType)
 end
 
 
 
+local function canUpgrade(ent1, ent2)
+    return ent1.mineralType
+        and ent1.mineralType == ent2.mineralType
+        and lp.tiers.getTier(ent1) == lp.tiers.getTier(ent2)
+end
+
 local function definePiece(mineral_type, name)
     local namespace = umg.getModName() .. ":"
-    local etypeName = namespace .. mineral_type .. "_piece"
-    local image = mineral_type .. "_piece"
-    defineMineral(etypeName, {
-        name = loc(name .. " Piece"),
+    local etypeName = namespace .. mineral_type .. "_pieces"
+    local image = mineral_type .. "_pieces"
+    defineMineral(mineral_type, etypeName, {
+        name = loc(name .. " Pieces"),
         image = image,
         basePointsGenerated = 3,
+        mineralType = mineral_type,
+        rarity=lp.rarities.COMMON,
 
-        onCombine = function(ent, targetItem)
-            lp.tiers.upgradeTier(targetItem, ent)
+        onCombine = function(selfEnt, targetItem)
+            if canUpgrade(selfEnt, targetItem) then
+                lp.tiers.upgradeTier(targetItem, selfEnt)
+            end
         end,
-        canCombine = function(ent, targetItem)
-            return ent.mineral
+        canCombine = function(selfEnt, targetItem)
+            return canUpgrade(selfEnt, targetItem)
         end
     })
 end
 
 
 
-local function defineMineralClass(mineral_type, name, basePower, etype)
-    defineSword(mineral_type, name, basePower, etype)
-    defineAxe(mineral_type, name, basePower, etype)
-    -- definePickaxe(mineral_type, name, basePower, etype)
+local function defineMineralClass(mineral_type, name, mineralMult, etype)
+    defineSword(mineral_type, name, mineralMult, etype)
+    defineAxe(mineral_type, name, mineralMult, etype)
+    -- definePickaxe(mineral_type, name, mineralMult, etype)
 
-    -- definePiece(mineral_type, name)
+    definePiece(mineral_type, name)
 end
 
 
@@ -139,7 +166,9 @@ end
 "basic" mineral type.
 Doesnt do anything special; has decent stats
 ]]
-defineMineralClass("iron", "Iron", 4, {})
+defineMineralClass("iron", "Iron", 1, {
+    baseMaxActivations = 15,
+})
 
 
 --[[
@@ -155,7 +184,7 @@ Activates multiple times, like boomerang.
 (anti-synergy with octopus/activator builds!!)
 (since octopuses dont matter for ruby-items.)
 ]]
-defineMineralClass("ruby", "Ruby", 2, {
+defineMineralClass("ruby", "Ruby", 1, {
     baseMaxActivations = 4,
     onActivate = function(selfEnt)
         local ppos = lp.getPos(selfEnt)
