@@ -77,21 +77,12 @@ end
 
 
 ---@param value number
----@param ndecimal integer
+---@param nsig integer
 ---@return string
-local function showNDecimalPlace(value, ndecimal)
-    local fmt = string.format("%."..ndecimal.."f", value)
-
-    for _ = 0, ndecimal do -- Note: this iterates `ndecimal` + 1 times.
-        local last = fmt:sub(-1)
-        if last == "0" or last == "."  then
-            fmt = fmt:sub(1, -2)
-        else
-            break
-        end
-    end
-
-    return fmt
+local function showNSignificant(value, nsig)
+	local zeros = math.floor(math.log10(math.max(math.abs(value), 1)))
+	local mulby = 10 ^ math.max(nsig - zeros, 0)
+	return tostring(math.floor(value * mulby) / mulby)
 end
 
 local POINTS = interp("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}Points: %{colorEffect}%{points}{/c}/%{requiredPoints}")
@@ -135,7 +126,7 @@ umg.defineEntityType("lootplot.main:doom_clock", {
         end
 
         local needPoints = POINTS({
-            points = showNDecimalPlace(points, 3),
+            points = showNSignificant(points, 3),
             requiredPoints = requiredPoints,
             colorEffect = colorEffect
         })
