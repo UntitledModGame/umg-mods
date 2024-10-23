@@ -21,15 +21,17 @@ local function defineGlove(id, name, description, giveShape, rarity)
     })
 end
 
-defineGlove("quartz_glove",
-    "Quartz Glove",
+
+defineGlove("ruby_glove",
+    "Ruby Glove",
     "Set item's shape to ROOK-10.",
     lp.targets.RookShape(10),
     lp.rarities.LEGENDARY
 )
 
-defineGlove("ruby_glove",
-    "Ruby Glove",
+
+defineGlove("quartz_glove",
+    "Quartz Glove",
     "Set item's shape to KING-1.",
     lp.targets.KING_SHAPE,
     lp.rarities.EPIC
