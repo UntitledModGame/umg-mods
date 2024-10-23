@@ -20,8 +20,8 @@ lp.defineItem("lootplot.s0.content:gold_axe", {
 
     shape = lp.targets.ABOVE_BELOW_SHAPE,
 
-    baseMoneyGenerated = 0.5,
-    tierUpgrade = helper.propertyUpgrade("moneyGenerated", 0.5, 2),
+    baseMoneyGenerated = 1,
+    tierUpgrade = helper.propertyUpgrade("moneyGenerated", 1, 2),
 
     target = {
         description = loc("{lootplot.targets:COLOR}Earn money."),
