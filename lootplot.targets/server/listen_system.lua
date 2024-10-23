@@ -42,15 +42,6 @@ Its efficient enough, and more importantly, its robust.
 
 ]]
 
-local WEAK={__mode="k"}
-
-
-local function createWeakSet()
-    return setmetatable({}, WEAK)
-end
-
-
-
 
 local triggerToListenEnt = {--[[
     [trigger] -> Set<Entity>
@@ -75,6 +66,8 @@ listenGroup:onRemoved(function(ent)
     local trigger = assert(ent.listen.trigger, "Listen ents need a trigger!")
     triggerToListenEnt[trigger] = triggerToListenEnt[trigger] or objects.Set()
     triggerToListenEnt[trigger]:remove(ent)
+
+    listenEntToListenedEnts[ent] = nil
 end)
 
 
