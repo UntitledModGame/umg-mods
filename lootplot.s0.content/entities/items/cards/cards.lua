@@ -42,7 +42,7 @@ defineCard("lootplot.s0.content:star_card", {
     },
 
     onActivate = function(selfEnt)
-        local targets = lp.targets.getTargets(selfEnt)
+        local targets = lp.targets.getShapePositions(selfEnt)
         if not targets then
             return
         end
@@ -80,7 +80,7 @@ defineCard("lootplot.s0.content:diamonds_card", {
         description = loc("{lootplot.targets:COLOR}Shuffle traits between target items"),
     },
     onActivate = function(selfEnt)
-        local targets = lp.targets.getTargets(selfEnt)
+        local targets = lp.targets.getShapePositions(selfEnt)
         -- TODO
     end
 })
@@ -122,7 +122,7 @@ defineCard("lootplot.s0.content:spades_card", {
     },
 
     onActivate = function(selfEnt)
-        local targets = lp.targets.getTargets(selfEnt)
+        local targets = lp.targets.getShapePositions(selfEnt)
         if not targets then
             return
         end

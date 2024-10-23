@@ -14,4 +14,11 @@ ent.target = {
 }
 
 
+ent.listen = {
+    activate = function(selfEnt, ppos, targetEnt) end,
+    filter = function(selfEnt, ppos, targetEnt) return bool end,
+    trigger = "REROLL" or "DESTROY" or "PULSE"
+}
+
+
 ```

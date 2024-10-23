@@ -26,7 +26,7 @@ umg.on("lootplot:selectionChanged", function(s)
         local itemEnt = lp.posToItem(s.ppos)
 
         if itemEnt then
-            selectionTargets = lp.targets.getTargets(itemEnt)
+            selectionTargets = lp.targets.getShapePositions(itemEnt)
         end
     end
 end)

@@ -111,7 +111,7 @@ lp.defineItem("lootplot.s0.content:empty_cauldron", {
     shape = lp.targets.RookShape(1),
 
     onActivate = function(ent)
-        local posList = lp.targets.getTargets(ent) or {}
+        local posList = lp.targets.getShapePositions(ent) or {}
         for _,ppos in ipairs(posList) do
             lp.trySpawnSlot(ppos, server.entities.sell_slot, ent.lootplotTeam)
         end

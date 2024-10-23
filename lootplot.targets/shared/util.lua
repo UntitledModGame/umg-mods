@@ -10,11 +10,11 @@ function util.chebyshevDistance(dx, dy)
 end
 
 
-local function checkFilter(targeterEnt, ppos, val)
-    if targeterEnt.target.filter then
-        return targeterEnt.target.filter(targeterEnt, ppos, val)
+local function checkFilter(targeterEnt, compTable, ppos, val)
+    if compTable.filter then
+        return compTable.filter(targeterEnt, ppos, val)
     end
-    return umg.ask("lootplot.targets:canTarget", targeterEnt, ppos, val)
+    return true -- no filter => always OK.
 end
 
 function util.canTarget(targeterEnt, ppos)
@@ -24,13 +24,27 @@ function util.canTarget(targeterEnt, ppos)
     local ok,val = lp.tryConvert(ppos, targetType)
     if target.type then
         if ok then
-            return checkFilter(targeterEnt, ppos, val)
+            return checkFilter(targeterEnt, target, ppos, val)
         end
         return false -- cannot target empty!
     else
-        return checkFilter(targeterEnt, ppos, nil)
+        return checkFilter(targeterEnt, target, ppos, nil)
     end
 end
+
+
+
+function util.canListen(listenerEnt, ppos)
+    local listen = listenerEnt.listen
+    assert(listen, "Not a listen entity?")
+    local itemEnt = lp.posToItem(ppos)
+    if itemEnt then
+        return checkFilter(listenerEnt, listen, ppos, itemEnt)
+    else
+        return false
+    end
+end
+
 
 
 

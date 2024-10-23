@@ -112,7 +112,7 @@ end
 
 ---@param itemEnt lootplot.ItemEntity
 ---@return objects.Array?
-function targets.getTargets(itemEnt)
+function targets.getShapePositions(itemEnt)
     local pos = lp.getPos(itemEnt)
     local targetList
 
