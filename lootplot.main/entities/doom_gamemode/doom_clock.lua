@@ -76,6 +76,24 @@ end
 
 
 
+---@param value number
+---@param ndecimal integer
+---@return string
+local function showNDecimalPlace(value, ndecimal)
+    local fmt = string.format("%."..ndecimal.."f", value)
+
+    for _ = 0, ndecimal do -- Note: this iterates `ndecimal` + 1 times.
+        local last = fmt:sub(-1)
+        if last == "0" or last == "."  then
+            fmt = fmt:sub(1, -2)
+        else
+            break
+        end
+    end
+
+    return fmt
+end
+
 local POINTS = interp("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}Points: %{colorEffect}%{points}{/c}/%{requiredPoints}")
 local MONEY = interp("{wavy freq=0.6 spacing=0.8 amp=0.4}{outline}{c r=1 g=0.843 b=0.1}$ %{money}")
 
@@ -105,7 +123,7 @@ umg.defineEntityType("lootplot.main:doom_clock", {
         But this is a very special case :)
         ]]
 
-        local points = lp.getPoints(ent)
+        local points = assert(lp.getPoints(ent), "no points")
         local requiredPoints = lp.main.getRequiredPoints(ent)
         local colorEffect
         if points > requiredPoints then
@@ -117,7 +135,7 @@ umg.defineEntityType("lootplot.main:doom_clock", {
         end
 
         local needPoints = POINTS({
-            points = points,
+            points = showNDecimalPlace(points, 3),
             requiredPoints = requiredPoints,
             colorEffect = colorEffect
         })
