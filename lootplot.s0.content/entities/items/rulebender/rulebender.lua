@@ -222,3 +222,21 @@ lp.defineItem("lootplot.s0.content:dark_octopus", {
     }
 })
 
+
+lp.defineItem("lootplot.s0.content:reroll_octopus", {
+    image = "reroll_octopus",
+    name = loc("Reroll Octopus"),
+
+    rarity = lp.rarities.RARE,
+
+    shape = lp.targets.KING_SHAPE,
+
+    target = {
+        type = "SLOT_OR_ITEM",
+        description = loc("{lootplot.targets:COLOR}Rerolls target slot or item."),
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.tryTriggerEntity("REROLL", targetEnt)
+        end
+    }
+})
+

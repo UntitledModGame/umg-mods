@@ -44,7 +44,8 @@ defineDice("red_die", "Red Die", {
     }
 })
 
-defineDice("green_die", "Green Die", {
+
+defineDice("black_die", "Black Die", {
     rarity = lp.rarities.RARE,
 
     shape = lp.targets.KING_SHAPE,
@@ -54,34 +55,6 @@ defineDice("green_die", "Green Die", {
         description = loc("{lootplot.targets:COLOR}Trigger REROLL for item."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.tryTriggerEntity("REROLL", targetEnt)
-        end
-    }
-})
-
-
-
---[[
-
-TODO:
-Black-die doesn't really fit here.
-
-It should really be a food-item instead.
-
-Maybe think of another purpose for it?
-]]
-defineDice("black_die", "Black Die", {
-    rarity = lp.rarities.RARE,
-
-    doomCount = 1,
-
-    shape = lp.targets.LARGE_KING_SHAPE,
-
-    target = {
-        type = "NO_SLOT",
-        description = loc("{lootplot.targets:COLOR}Spawns a DOOMED-4 Reroll slot."),
-        activate = function(selfEnt, ppos)
-            local slotEnt = lp.trySpawnSlot(ppos, server.entities.reroll_slot, selfEnt.lootplotTeam)
-            slotEnt.doomCount = 4
         end
     }
 })

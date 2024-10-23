@@ -30,8 +30,8 @@ local function defineSword(mineral_type, name, mineralMult, etype)
             }
         },
 
-        tierUpgrade = helper.propertyUpgrade("pointsGenerated", pgen, 3),
         basePointsGenerated = pgen,
+        tierUpgrade = helper.propertyUpgrade("pointsGenerated", pgen, 3),
 
         rarity = lp.rarities.UNCOMMON,
 
@@ -101,7 +101,8 @@ local function defineAxe(mineral_type, name, mineralMult, etype)
         rarity = lp.rarities.RARE,
 
         basePrice = 5,
-        basePointsGenerated = mineralMult,
+        basePointsGenerated = 2,
+        tierUpgrade = helper.propertyUpgrade("pointsGenerated", 2, 3),
 
         shape = lp.targets.KNIGHT_SHAPE,
 
@@ -135,7 +136,10 @@ local function definePiece(mineral_type, name)
     defineMineral(mineral_type, etypeName, {
         name = loc(name .. " Pieces"),
         image = image,
+
         basePointsGenerated = 3,
+        tierUpgrade = helper.propertyUpgrade("pointsGenerated", 3, 3),
+
         mineralType = mineral_type,
         rarity=lp.rarities.COMMON,
 
