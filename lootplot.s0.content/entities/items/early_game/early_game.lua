@@ -34,20 +34,21 @@ lp.defineItem("lootplot.s0.content:rocks", {
 
 local KEY_DESC = localization.newInterpolator("After %{count} activations, turn into a key")
 
-lp.defineItem("lootplot.s0.content:key_rocks", {
-    image = "key_rocks",
+local KEY_BAR_COUNT = 15
+lp.defineItem("lootplot.s0.content:key_bar", {
+    image = "key_bar",
 
     name = loc("Key Rocks"),
     description = function(ent)
         return KEY_DESC({
-            count = 20 - (ent.totalActivationCount or 0)
+            count = KEY_BAR_COUNT - (ent.totalActivationCount or 0)
         })
     end,
 
     rarity = lp.rarities.COMMON,
 
     onActivate = function(ent)
-        if (ent.totalActivationCount or 0) >= 19 then
+        if (ent.totalActivationCount or 0) >= (KEY_BAR_COUNT-1) then
             local ppos = lp.getPos(ent)
             local etype = server.entities.key
             assert(etype,"?")
@@ -109,15 +110,16 @@ lp.defineItem("lootplot.s0.content:bone", {
 
 
 
-lp.defineItem("lootplot.s0.content:emerald_shards", {
-    image = "emerald_shards",
+lp.defineItem("lootplot.s0.content:reroll_pearls", {
+    image = "reroll_pearls",
 
-    name = loc("Emerald Shards"),
+    name = loc("Reroll Pearls"),
     description = loc("When destroyed, reroll everything"),
 
     rarity = lp.rarities.COMMON,
 
     basePointsGenerated = 3,
+    tierUpgrade = helper.propertyUpgrade("pointsGenerated", 3, 3),
 
     onDestroy = function(ent)
         local ppos = lp.getPos(ent)
@@ -148,7 +150,8 @@ lp.defineItem("lootplot.s0.content:trumpet", {
 
     baseMaxActivations = 10,
 
-    basePointsGenerated = 3,
+    basePointsGenerated = 5,
+    tierUpgrade = helper.propertyUpgrade("pointsGenerated", 5, 3),
 
     -- just for the funni
     onActivateClient = function(ent)

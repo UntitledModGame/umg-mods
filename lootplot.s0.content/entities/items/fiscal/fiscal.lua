@@ -40,14 +40,15 @@ lp.defineItem("lootplot.s0.content:gold_axe", {
 })
 
 
-local goldNugDesc = localization.newInterpolator("After %{count} activations, give $10")
+local goldBarDesc = localization.newInterpolator("After %{count} activations, give $10")
+local GOLD_BAR_ACTS = 10
 
-lp.defineItem("lootplot.s0.content:gold_nuggets", {
-    image = "gold_nuggets",
-    name = loc("Gold Nuggets"),
+lp.defineItem("lootplot.s0.content:gold_bar", {
+    image = "gold_bar",
+    name = loc("Gold Bar"),
     description = function(ent)
-        return goldNugDesc({
-            count = 10 - (ent.totalActivationCount or 0)
+        return goldBarDesc({
+            count = GOLD_BAR_ACTS - (ent.totalActivationCount or 0)
         })
     end,
 
@@ -56,7 +57,7 @@ lp.defineItem("lootplot.s0.content:gold_nuggets", {
     rarity = lp.rarities.COMMON,
 
     onActivate = function(selfEnt)
-        if selfEnt.totalActivationCount >= 10 then
+        if selfEnt.totalActivationCount >= GOLD_BAR_ACTS then
             lp.addMoney(selfEnt, 10)
             lp.destroy(selfEnt)
         end
