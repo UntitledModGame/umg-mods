@@ -46,6 +46,7 @@ local function defineBook(id, name, targetSlot, targetSlotName)
     })
 end
 
+-- FIXME: Ensure slots are defined, then remove the need to specify slot name.
 defineBook("book_of_basics",
     "Book of Basics",
     "slot",
