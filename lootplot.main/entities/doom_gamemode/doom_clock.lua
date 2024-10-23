@@ -87,6 +87,16 @@ umg.defineEntityType("lootplot.main:doom_clock", {
 
     baseMaxActivations = 100,
 
+    onUpdateServer = function(ent)
+        local level = lp.getLevel(ent)
+        local currentRequiredPoints = lp.main.getRequiredPoints(ent)
+        local neededRequiredPoints = getRequiredPoints(level)
+
+        if currentRequiredPoints ~= neededRequiredPoints then
+            lp.setAttribute("REQUIRED_POINTS", ent, neededRequiredPoints)
+        end
+    end,
+
     onDraw = function(ent, x,y, rot, sx,sy, kx,ky)
         --[[
         generally, we shouldnt use `onDraw` for entities;
@@ -128,9 +138,6 @@ umg.defineEntityType("lootplot.main:doom_clock", {
         local numOfRounds = lp.main.getNumberOfRounds(ent)
         local requiredPoints = lp.main.getRequiredPoints(ent)
         local points = lp.getPoints(ent)
-
-        local level = lp.getLevel(ent)
-        lp.setAttribute("REQUIRED_POINTS", ent, getRequiredPoints(level))
 
         local newRound = round + 1
         lp.main.setRound(ent, newRound)
