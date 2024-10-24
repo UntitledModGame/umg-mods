@@ -49,7 +49,7 @@ chat.handleCommand("spawnItem", {
         end
         local ppos = getPPos(clientId)
         local slotEnt = lp.posToSlot(ppos)
-        if slotEnt then
+        if slotEnt or ctor.canItemFloat then
             if not lp.forceSpawnItem(ppos, ctor, lp.main.PLAYER_TEAM) then
                 chat.privateMessage(clientId, "Cannot spawn item.")
             end
