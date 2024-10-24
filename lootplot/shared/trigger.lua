@@ -95,7 +95,7 @@ sync.proxyEventToClient("lootplot:entityTriggered")
 trigger.defineTrigger("REROLL", "Reroll")
 trigger.defineTrigger("PULSE", "Pulse")
 trigger.defineTrigger("RESET", "Reset")
-trigger.defineTrigger("DESTROY", "Destroy")
+trigger.defineTrigger("DESTROY", "Destroyed")
 
 ---@alias lootplot.Trigger "REROLL"|"PULSE"|"RESET"|"DESTROY"
 

@@ -7,6 +7,10 @@ local interp = localization.newInterpolator
 text.defineEffect("lootplot.targets:COLOR", function(args, char)
     char:setColor(lp.targets.TARGET_COLOR)
 end)
+text.defineEffect("lootplot.targets:LISTEN_COLOR", function(args, char)
+    char:setColor(lp.targets.TARGET_COLOR)
+end)
+
 
 
 --[[
@@ -50,17 +54,20 @@ end)
 
 
 
---- TODO:
---- REMOVE THIS, it sucks.
---- targetTrait isnt used anywhere, coz its dumb. just use filter, dummy!
---
--- umg.on("lootplot:populateDescription", TARGET_FILTER_ORDER, function(ent, arr)
---     if ent.target and ent.target.trait then
---         arr:add(loc("{lootplot.targets:COLOR}If target has %{trait} trait: ", {
---             trait = lp.getTraitDisplayName(ent.targetTrait)
---         }, BRIEF_CTX))
---     end
--- end)
+
+local TRIGGER_ORDER = 10
+local TRIGGER_TXT = interp("Trigger: {lootplot.targets:LISTEN_COLOR}{wavy}When target item %{trigger}")
+
+umg.on("lootplot:populateDescription", TRIGGER_ORDER, function(ent, arr)
+    if ent.listen and ent.shape then
+        local triggerName = lp.getTriggerDisplayName(ent.listen.trigger)
+        local targetText = TRIGGER_TXT({
+            trigger = triggerName
+        })
+        arr:add(targetText)
+    end
+end)
+
 
 
 

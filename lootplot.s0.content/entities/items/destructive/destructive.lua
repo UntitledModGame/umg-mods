@@ -69,7 +69,7 @@ lp.defineItem("lootplot.s0.content:death_by_taxes", {
 
     target = {
         type = "ITEM",
-        description = loc("{lootplot.targets:COLOR}Destroys target item, increases price by 10%."),
+        description = loc("Destroys target item, increases price by 10%."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.destroy(targetEnt)
             lp.multiplierBuff(selfEnt, "price", 1.1, selfEnt)
@@ -91,7 +91,7 @@ lp.defineItem("lootplot.s0.content:reaper", {
 
     target = {
         type = "ITEM",
-        description = loc("{lootplot.targets:COLOR}Destroy target items, permanently gain +3 points-generated"),
+        description = loc("Destroy target items, permanently gain +3 points-generated"),
         activate = function(selfEnt, ppos, targetEnt)
             lp.destroy(targetEnt)
             lp.modifierBuff(selfEnt, "pointsGenerated", 3)
@@ -119,7 +119,7 @@ lp.defineItem("lootplot.s0.content:empty_cauldron", {
 
     target = {
         type = "NO_SLOT",
-        description = loc("{lootplot.targets:COLOR}Spawns a DESTROY slot."),
+        description = loc("Spawns a DESTROY slot."),
     }
 })
 
@@ -135,7 +135,7 @@ lp.defineItem("lootplot.s0.content:candle", {
 
     target = {
         type = "NO_ITEM",
-        description = loc("{lootplot.targets:COLOR}Clones the below item into target slots with {lootplot:DOOMED_COLOR}DOOMED-1."),
+        description = loc("Clones the below item into target slots with {lootplot:DOOMED_COLOR}DOOMED-1."),
         activate = function(selfEnt, ppos, targetEnt)
             local selfPos = lp.getPos(selfEnt)
             if not selfPos then return end
@@ -196,7 +196,7 @@ lp.defineItem("lootplot.s0.content:bomb", {
 
     target = {
         type = "SLOT",
-        description = loc("{lootplot.targets:COLOR}Destroy target slots"),
+        description = loc("Destroy target slots"),
         activate = function(selfEnt, ppos, targetEnt)
             -- TODO: Make an explosion animation here...?
             lp.destroy(targetEnt)

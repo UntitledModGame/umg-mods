@@ -21,7 +21,7 @@ defineFood("lootplot.s0.content:blueberry", {
 
     target = {
         type = "ITEM_OR_SLOT",
-        description = loc("{lootplot.targets:COLOR}Destroys item or slot. Doubles the current point count."),
+        description = loc("Destroys item or slot. Doubles the current point count."),
 
         activate = function (selfEnt, ppos, targetEnt)
             lp.destroy(targetEnt)
@@ -129,7 +129,7 @@ local function defineSlotSpawner(id_image, name, spawnSlot, spawnSlotName, shape
 
         target = {
             type = "NO_SLOT",
-            description = loc("{lootplot.targets:COLOR}Spawns a " .. spawnSlotName),
+            description = loc("Spawns a " .. spawnSlotName),
             activate = function (selfEnt, ppos)
                 local etype = server.entities["lootplot.s0.content:" .. spawnSlot]
                 assert(etype, "?")
@@ -223,7 +223,7 @@ local function defineSlotConverter(id_image, name, spawnSlot, spawnSlotName, sha
 
         target = {
             type = "SLOT",
-            description = loc("{lootplot.targets:COLOR}Converts target slot into " .. spawnSlotName),
+            description = loc("Converts target slot into " .. spawnSlotName),
             activate = function (selfEnt, ppos)
                 local etype = server.entities["lootplot.s0.content:" .. spawnSlot]
                 assert(etype, "?")
@@ -306,7 +306,7 @@ local function definePie(id, name, desc, addShape, rarity)
 
         target = {
             type = "ITEM",
-            description = loc("{lootplot.targets:COLOR}" .. desc),
+            description = loc(desc),
             activate = function(selfEnt, ppos, targetItemEnt)
                 local oldShape = targetItemEnt.shape
                 if oldShape then
@@ -356,7 +356,7 @@ definePotion("lootplot.s0.content:potion_green", {
 
     target = {
         type = "ITEM_OR_SLOT",
-        description = loc("{lootplot.targets:COLOR}Gives +5 max-activations to target."),
+        description = loc("Gives +5 max-activations to target."),
         activate = function (selfEnt, ppos, targetEnt)
             lp.modifierBuff(targetEnt, "maxActivations", 5, selfEnt)
         end
@@ -373,7 +373,7 @@ definePotion("lootplot.s0.content:potion_blue", {
 
     target = {
         type = "ITEM_OR_SLOT",
-        description = loc("{lootplot.targets:COLOR}Permanently buffs item/slots points by 5"),
+        description = loc("Permanently buffs item/slots points by 5"),
         activate = function (selfEnt, ppos, targetEnt)
             lp.modifierBuff(targetEnt, "pointsGenerated", 5, selfEnt)
         end
@@ -389,7 +389,7 @@ definePotion("lootplot.s0.content:potion_red", {
 
     target = {
         type = "ITEM_OR_SLOT",
-        description = loc("{lootplot.targets:COLOR}Multiplies item/slots points by 1.5"),
+        description = loc("Multiplies item/slots points by 1.5"),
         activate = function (selfEnt, ppos, targetEnt)
             lp.multiplierBuff(targetEnt, "pointsGenerated", 1.5, selfEnt)
         end
@@ -405,7 +405,7 @@ definePotion("lootplot.s0.content:potion_purple", {
 
     target = {
         type = "ITEM_OR_SLOT",
-        description = loc("{lootplot.targets:COLOR}Gives {lootplot:DOOMED_COLOR}DOOMED-5{/lootplot:DOOMED_COLOR} to target item/slot."),
+        description = loc("Gives {lootplot:DOOMED_COLOR}DOOMED-5{/lootplot:DOOMED_COLOR} to target item/slot."),
         activate = function (selfEnt, ppos, targetEnt)
             if not targetEnt.doomCount then
                 targetEnt.doomCount = 5
