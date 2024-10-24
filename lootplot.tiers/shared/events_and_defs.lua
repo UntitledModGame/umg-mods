@@ -1,6 +1,6 @@
 
 
-lp.defineTrigger("UPGRADE_TIER")
+lp.defineTrigger("UPGRADE_TIER", "Item-Upgrade")
 
 
 umg.defineEvent("lootplot.tiers:entityUpgraded")

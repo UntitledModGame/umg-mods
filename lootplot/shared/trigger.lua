@@ -11,11 +11,38 @@ typecheck.addType("trigger", function(x)
     return type(x) == "string" and triggerInfo[x], "expected trigger"
 end)
 
----@param name string
-function trigger.defineTrigger(name)
-    assert(not triggerInfo[name], "trigger name already defined")
-    triggerInfo[name] = true
+local defineTriggerTc = typecheck.assert("string", "string")
+
+---Availability: Client and Server
+---@param id string
+---@param displayName string
+function trigger.defineTrigger(id, displayName)
+    defineTriggerTc(id, displayName)
+    assert(not triggerInfo[id], "trigger name already defined")
+    triggerInfo[id] = {
+        displayName = localization.localize(displayName)
+    }
 end
+
+local strTc = typecheck.assert("string")
+
+---Availability: Client and Server
+---@param id string
+---@return string
+function trigger.getTriggerDisplayName(id)
+    strTc(id)
+    assert(trigger.isValidTrigger(id), "Invalid trigger")
+    return assert(triggerInfo[id].displayName)
+end
+
+---Availability: Client and Server
+---@param id string
+---@return boolean
+function trigger.isValidTrigger(id)
+    strTc(id)
+    return triggerInfo[id]
+end
+
 
 local triggerTc = typecheck.assert("trigger", "entity")
 
@@ -65,10 +92,10 @@ end
 
 sync.proxyEventToClient("lootplot:entityTriggered")
 
-trigger.defineTrigger("REROLL")
-trigger.defineTrigger("PULSE")
-trigger.defineTrigger("RESET")
-trigger.defineTrigger("DESTROY")
+trigger.defineTrigger("REROLL", "Reroll")
+trigger.defineTrigger("PULSE", "Pulse")
+trigger.defineTrigger("RESET", "Reset")
+trigger.defineTrigger("DESTROY", "Destroy")
 
 ---@alias lootplot.Trigger "REROLL"|"PULSE"|"RESET"|"DESTROY"
 

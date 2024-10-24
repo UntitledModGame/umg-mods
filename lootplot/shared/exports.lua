@@ -1029,11 +1029,11 @@ function lp.defineSlot(name, slotType)
     return etype
 end
 
----Availability: Client and Server
----@param name string
-function lp.defineTrigger(name)
-    return trigger.defineTrigger(name)
-end
+
+lp.defineTrigger = trigger.defineTrigger
+lp.getTriggerDisplayName = trigger.getTriggerDisplayName
+lp.isValidTrigger = trigger.isValidTrigger
+
 
 ---Availability: **Server**
 ---@param name string
@@ -1041,6 +1041,7 @@ end
 function lp.tryTriggerEntity(name, ent)
     return trigger.tryTriggerEntity(name, ent)
 end
+
 
 ---Availability: Client and Server
 ---@param name string
