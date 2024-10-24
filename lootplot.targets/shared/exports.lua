@@ -144,6 +144,7 @@ end
 
 
 targets.TARGET_COLOR = {1, 0.55, 0.1}
+targets.LISTEN_COLOR = {0.55, 1, 1}
 
 
 -- How dare you overwriting lp.targets before us!

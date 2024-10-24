@@ -4,11 +4,14 @@ local FADE_IN = 0.1
 local DELAY_PER_UNIT = 0.04
 
 ---@param ppos lootplot.PPos
+---@param image string
 ---@param progress number
-local function renderSelectionTarget(ppos, image, progress, opacity)
+---@param color table
+---@param opacity number
+local function renderSelectionTarget(ppos, image, progress, color, opacity)
     local worldPos = ppos:getWorldPos()
     local rot = (progress-1) * 3
-    local c = lp.targets.TARGET_COLOR
+    local c = color
     love.graphics.setColor(c[1],c[2],c[3],opacity)
     rendering.drawImage(image, worldPos.x, worldPos.y, rot, progress, progress)
 end
@@ -34,22 +37,12 @@ end)
 
 
 
-local function getTargetImage(item)
-    if item.targetVisual then
-        return item.targetVisual
-    end
-    return "target_plus"
-end
-
-
-
 local function getOpacity(item, ppos)
     if util.canTarget(item, ppos) then
         return 1
     end
     return 0.33
 end
-
 
 
 umg.on("rendering:drawEffects", function(camera)
@@ -62,6 +55,13 @@ umg.on("rendering:drawEffects", function(camera)
     end
 
     local t = love.timer.getTime()
+
+    local img, color
+    if item.listen then
+        img, color = "listener_plus", lp.targets.LISTEN_COLOR
+    else -- its .target instead!
+        img, color = "target_plus", lp.targets.TARGET_COLOR
+    end
 
     love.graphics.setColor(1,1,1)
     for _, ppos in ipairs(selectionTargets) do
@@ -76,10 +76,9 @@ umg.on("rendering:drawEffects", function(camera)
             break
         end
         
-        local img = getTargetImage(item)
         local progress = math.min(elapsedTime-fadeTime, FADE_IN) / FADE_IN
         local opacity = getOpacity(item, ppos)
-        renderSelectionTarget(ppos, img, progress, opacity)
+        renderSelectionTarget(ppos, img, progress, color, opacity)
     end
     love.graphics.setColor(1, 1, 1)
 end)
@@ -98,7 +97,7 @@ umg.on("lootplot.targets:targetActivated", function (itemEnt, ppos)
     ent.targetX, ent.targetY = dvec.x, dvec.y
 
     ent.color = objects.Color.RED
-    ent.image = getTargetImage(itemEnt)
+    ent.image = "target_plus"
 
     --[[
         TODO:

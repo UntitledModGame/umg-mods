@@ -15,10 +15,17 @@ ent.target = {
 
 
 ent.listen = {
-    activate = function(selfEnt, ppos, targetEnt) end,
-    filter = function(selfEnt, ppos, targetEnt) return bool end,
-    trigger = "REROLL" or "DESTROY" or "PULSE"
+    trigger = "REROLL" or "DESTROY" or "PULSE",
+    filter = function(selfEnt, ppos, targetEnt)
+        return isFood(targetEnt)
+    end,
+    activate = function(selfEnt, ppos, targetEnt)
+        lp.modifierBuff(targetEnt, "price", 1)
+    end
 }
+-- When a target pulses,   (trigger="PULSE")
+-- if the target-item is food,   (filter)  
+-- increase it's price by 1   (activate)
 
 
 ```
