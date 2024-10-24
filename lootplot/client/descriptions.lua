@@ -31,6 +31,7 @@ ORDER = 50 misc
 ORDER = 60 important misc
 ]]
 
+local SEPARATOR = "------------------------"
 
 umg.on("lootplot:populateDescription", -10, function(ent, arr)
     if ent.description then
@@ -38,6 +39,7 @@ umg.on("lootplot:populateDescription", -10, function(ent, arr)
         if typ == "string" then
             -- should already be localized:
             arr:add(ent.description)
+            arr:add(SEPARATOR)
         elseif typ == "function" then
             arr:add(function()
                 -- need to pass ent manually as a closure
@@ -45,6 +47,7 @@ umg.on("lootplot:populateDescription", -10, function(ent, arr)
                     return ent.description(ent)
                 end
             end)
+            arr:add(SEPARATOR)
         end
     end
 end)
@@ -52,41 +55,22 @@ end)
 
 
 
-local IMPLICIT_TRIGGER = "PULSE"
-
-local function hasBasicTrigger(triggers)
-    for i, t in ipairs(triggers) do
-        if t == IMPLICIT_TRIGGER then
-            return true, i
-        end
-    end
-end
 
 local function getTriggerListString(triggers)
     local buf = objects.Array()
     for _,t in ipairs(triggers) do
-        if t ~= IMPLICIT_TRIGGER then
-            buf:add(t)
-        end
+        local displayName = lp.getTriggerDisplayName(t)
+        buf:add(displayName)
     end
-    return "[" .. table.concat(buf, ", ") .. "]"
+    return table.concat(buf, ", ")
 end
 
-local MANUAL_ACTIVATE = loc("{lootplot:BAD_COLOR}{wavy}ONLY ACTIVATES MANUALLY!")
-local ALSO_ACTIVATE_TRIGGER = interp("{lootplot:BONUS_COLOR}{wavy}ALSO ACTIVATES WHEN %{trigger}")
-local ONLY_ACTIVATE_TRIGGER = interp("{lootplot:BAD_COLOR}{wavy}ONLY ACTIVATES WHEN %{trigger}")
+local TRIGGER_LIST = interp("Trigger: {lootplot:TRIGGER_COLOR}{wavy}%{trigger}")
 
 umg.on("lootplot:populateDescription", 10, function(ent, arr)
     local triggers = ent.triggers
-    if ent.triggers then
-        if #triggers == 0 then
-            arr:add(MANUAL_ACTIVATE)
-        elseif #triggers == 1 and triggers[1] == IMPLICIT_TRIGGER then
-            -- do nothing! It's the default trigger setup.
-        else
-            local interpolator = hasBasicTrigger(triggers) and ALSO_ACTIVATE_TRIGGER or ONLY_ACTIVATE_TRIGGER
-            arr:add(interpolator({trigger = getTriggerListString(triggers)}))
-        end
+    if triggers and #triggers > 0 then
+        arr:add(TRIGGER_LIST({trigger = getTriggerListString(triggers)}))
     end
 end)
 
