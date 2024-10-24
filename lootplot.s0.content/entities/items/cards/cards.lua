@@ -104,7 +104,7 @@ defineCard("lootplot.s0.content:price_card", {
         end,
         activate = function(selfEnt, ppos, targetEnt)
             local mod = targetEnt.price * 0.2
-            lp.multiplierBuff(targetEnt, "price", mod, selfEnt)
+            lp.modifierBuff(targetEnt, "price", mod, selfEnt)
         end
     }
 })
