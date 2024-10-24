@@ -97,16 +97,10 @@ lp.defineItem("lootplot.s0.content:bone", {
     rarity = lp.rarities.COMMON,
     basePointsGenerated = 25,
 
-    lives = 1,
-
     shape = lp.targets.RookShape(2),
     listen = {
         trigger = "DESTROY",
-    },
-
-    onDestroy = function(ent)
-        lp.modifierBuff(ent, "pointsGenerated", 4 * (ent.tier or 1), ent)
-    end
+    }
 })
 
 
