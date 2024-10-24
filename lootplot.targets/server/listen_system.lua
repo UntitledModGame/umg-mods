@@ -109,6 +109,18 @@ end)
 
 
 local function triggerEntity(listenerEnt, entThatWasTriggered)
+    --[[
+    it would be AMAZING if we could delay the listener-action here...
+    but its not really possible, because we can't guarantee that
+    `entThatWasTriggered` will still be alive.
+    
+    For example: 
+    for `DESTROY` trigger:  the ent is deleted before the trigger runs.
+    for `REROLL` trigger shop-item: the ent is deleted before the trigger runs.
+
+    Theres really no "good" solution to this.
+    So, we just activate immediately :/
+    ]]
     local canActivate = lp.canActivateEntity(listenerEnt)
     if canActivate then
         local ppos = lp.getPos(entThatWasTriggered)
