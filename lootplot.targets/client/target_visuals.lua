@@ -39,7 +39,6 @@ end)
 
 
 
----comment
 ---@param item Entity
 ---@param image string
 ---@param color objects.Color
