@@ -4,7 +4,7 @@ local hoverEnts = umg.group("x", "y", "hoverable")
 local hoveredEntities = objects.Set()
 
 -- pretty arbitrary size, lol
-local hoverEntPartition = spatial.DimensionPartition(200)
+local hoverEntPartition = spatial.DimensionPartition(100)
 
 hoverEnts:onAdded(function(ent)
     hoverEntPartition:addEntity(ent)
@@ -50,7 +50,11 @@ hoverables.listener = listener
 listener:onPointerMoved(function(l, x, y)
     local currentCamera = camera.get()
     local worldX, worldY = currentCamera:toWorldCoords(x, y)
-    local dvec = currentCamera:getDimensionVector()
+    local dvec = {
+        x = worldX,
+        y = worldY,
+        dimension = currentCamera:getDimension()
+    }
 
     for _, ent in hoverEntPartition:iterator(dvec) do
         if inRange(ent, worldX, worldY) then

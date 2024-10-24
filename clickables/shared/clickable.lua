@@ -31,7 +31,7 @@ clickables.listener = listener
 
 
 -- pretty arbitrary size, lol
-local clickEntPartition = spatial.DimensionPartition(200)
+local clickEntPartition = spatial.DimensionPartition(100)
 
 clickEnts:onAdded(function(ent)
     clickEntPartition:addEntity(ent)
@@ -68,9 +68,13 @@ end
 
 
 local function click(self, controlEnum, button)
-    local camera = camera.get()
-    local worldX, worldY = camera:toWorldCoords(input.getPointerPosition())
-    local dvec = camera:getDimensionVector()
+    local currentCamera = camera.get()
+    local worldX, worldY = currentCamera:toWorldCoords(input.getPointerPosition())
+    local dvec = {
+        x = worldX,
+        y = worldY,
+        dimension = currentCamera:getDimension()
+    }
 
     local bestDist = math.huge
     local bestEnt = nil
@@ -85,9 +89,8 @@ local function click(self, controlEnum, button)
     end
 
     if bestEnt then
-        local dimension = camera:getDimension()
-        client.send("clickables:entityClickedOnClient", bestEnt, button, worldX, worldY, dimension)
-        clickEntityClient(bestEnt, button, worldX, worldY, dimension)
+        client.send("clickables:entityClickedOnClient", bestEnt, button, worldX, worldY, dvec.dimension)
+        clickEntityClient(bestEnt, button, worldX, worldY, dvec.dimension)
         self:claim(controlEnum)
     end
 end
@@ -113,7 +116,7 @@ listener:onPressed(CLICKS, function(self, controlEnum)
 end)
 
 
-end
+end -- if server
 
 
 

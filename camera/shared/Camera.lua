@@ -62,7 +62,7 @@ function Camera:getDimension()
 end
 
 ---@return spatial.DimensionVector
-function Camera:getDimensionVector()
+function Camera:getWorldDimensionVector()
     local x, y = self.cam11:getPos()
     return {x = x, y = y, dimension = self.dimension}
 end
