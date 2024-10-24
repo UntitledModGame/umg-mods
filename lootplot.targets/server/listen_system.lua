@@ -107,10 +107,13 @@ end)
 local function triggerListen(listenerEnt, entThatWasTriggered)
     lp.queueWithEntity(listenerEnt, function(ent)
         if umg.exists(entThatWasTriggered) and lp.canActivateEntity(listenerEnt) then
-            lp.tryActivateEntity(listenerEnt)
             local ppos = lp.getPos(entThatWasTriggered)
             if ppos and util.canListen(listenerEnt, ppos) then
-                listenerEnt.listen.activate(listenerEnt, ppos, entThatWasTriggered)
+                lp.tryActivateEntity(listenerEnt)
+                local listen = listenerEnt.listen
+                if listen.activate then
+                    listen.activate(listenerEnt, ppos, entThatWasTriggered)
+                end
             end
         end
     end)

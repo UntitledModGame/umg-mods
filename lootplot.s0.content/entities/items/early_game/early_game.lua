@@ -83,24 +83,26 @@ Do something good with the stick
 
 
 
-local boneDesc = localization.newInterpolator("When destroyed, permanently gain %{count} points-generated")
 
---[[
-This gives the user good intuition behind how the
-destroy-lives systems interact with each other.
-]]
 lp.defineItem("lootplot.s0.content:bone", {
+    --[[
+    Purpose of `bone` is to give intuition 
+    about how the LISTENER system works.
+    ]]
     image = "bone",
 
     name = loc("Bone"),
-    description = function(ent)
-        return boneDesc({count = (ent.tier or 1) * 4})
-    end,
+    triggers = {},
 
     rarity = lp.rarities.COMMON,
-    basePointsGenerated = 2,
+    basePointsGenerated = 25,
 
     lives = 1,
+
+    shape = lp.targets.RookShape(2),
+    listen = {
+        trigger = "DESTROY",
+    },
 
     onDestroy = function(ent)
         lp.modifierBuff(ent, "pointsGenerated", 4 * (ent.tier or 1), ent)

@@ -37,33 +37,18 @@ end)
 
 
 
-local function getOpacity(item, ppos)
-    if util.canTarget(item, ppos) then
-        return 1
-    end
-    return 0.33
-end
 
 
-umg.on("rendering:drawEffects", function(camera)
-    if not (selected and selectionTargets) then
-        return
-    end
-    local item = lp.posToItem(selected.ppos)
-    if not (item and item.target) then
-        return
-    end
-
-    local t = love.timer.getTime()
-
-    local img, color
-    if item.listen then
-        img, color = "listener_plus", lp.targets.LISTEN_COLOR
-    else -- its .target instead!
-        img, color = "target_plus", lp.targets.TARGET_COLOR
-    end
-
+---comment
+---@param item Entity
+---@param image string
+---@param color objects.Color
+---@param canInteract fun(e:Entity, p:lootplot.PPos):boolean
+local function drawTargets(item, image, color, canInteract)
     love.graphics.setColor(1,1,1)
+    local t = love.timer.getTime()
+    assert(selectionTargets)
+    assert(selected)
     for _, ppos in ipairs(selectionTargets) do
         local dist = util.chebyshevDistance(selected.ppos:getDifference(ppos))
         local elapsedTime = t - selected.time
@@ -77,10 +62,34 @@ umg.on("rendering:drawEffects", function(camera)
         end
         
         local progress = math.min(elapsedTime-fadeTime, FADE_IN) / FADE_IN
-        local opacity = getOpacity(item, ppos)
-        renderSelectionTarget(ppos, img, progress, color, opacity)
+        local opacity = 1
+        if not canInteract(item, ppos) then
+            opacity = 0.33
+        end
+        renderSelectionTarget(ppos, image, progress, color, opacity)
     end
     love.graphics.setColor(1, 1, 1)
+end
+
+
+umg.on("rendering:drawEffects", function(camera)
+    if not (selected and selectionTargets) then
+        return
+    end
+    local item = lp.posToItem(selected.ppos)
+    if not (item) then
+        return
+    end
+
+    if item.listen then
+        local img, color = "listener_plus", lp.targets.LISTEN_COLOR
+        drawTargets(item, img, color, util.canListen)
+    end
+
+    if item.target then
+        local img, color = "target_plus", lp.targets.TARGET_COLOR
+        drawTargets(item, img, color, util.canTarget)
+    end
 end)
 
 
