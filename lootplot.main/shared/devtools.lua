@@ -140,6 +140,61 @@ chat.handleCommand("crash", {
     end
 })
 
+
+
+local SHAPE_LITERAL = {}
+
+-- Add pre-defined shape from LP targets.
+for _, shapeMaybe in pairs(lp.targets) do
+    if type(shapeMaybe) == "table" and shapeMaybe.name and shapeMaybe.relativeCoords then
+        SHAPE_LITERAL[shapeMaybe.name] = shapeMaybe
+    end
+end
+
+local SHAPE_PATTERN = {
+    ["KING%-(%d+)"] = lp.targets.KingShape,
+    ["ROOK%-(%d+)"] = lp.targets.RookShape,
+    ["BISHOP%-(%d+)"] = lp.targets.BishopShape,
+    ["QUEEN%-(%d+)"] = lp.targets.QueenShape
+}
+
+---@param name string
+local function getShape(name)
+    if SHAPE_LITERAL[name] then
+        return SHAPE_LITERAL[name]
+    end
+
+    for k, v in pairs(SHAPE_PATTERN) do
+        local a1 = tonumber(name:match("^"..k.."$"))
+        if a1 then
+            return v(a1)
+        end
+    end
+end
+
+chat.handleCommand("setShape", {
+    adminLevel = 120,
+    arguments = {
+        {name = "shapeName", type = "string"},
+    },
+    handler = function(clientId, shapeName)
+        if not server then return end
+
+        local ppos = getPPos(clientId)
+        local itemEnt = lp.posToItem(ppos)
+        if itemEnt then
+            local shape = getShape(shapeName)
+            if shape then
+                lp.targets.setShape(itemEnt, shape)
+            else
+                chat.privateMessage(clientId, "Shape '"..shapeName.."' does not exist.")
+            end
+        else
+            chat.privateMessage(clientId, "Not above item entity.")
+        end
+    end
+})
+
 end -- if server
 
 
