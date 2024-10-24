@@ -76,7 +76,11 @@ end)
 
 local function updateListenTargets(ent)
     ---@cast ent lootplot.ItemEntity
-    local pposLis = assert(lp.targets.getShapePositions(ent))
+    local pposLis = lp.targets.getShapePositions(ent)
+    if not pposLis then
+        umg.log.fatal("Couldn't listen, had no shape-positions ", ent)
+        return
+    end
     local set = listenEntToListenedEnts[ent]
     if not set then
         set = objects.Set()
@@ -104,31 +108,34 @@ end)
 
 
 
-local function triggerListen(listenerEnt, entThatWasTriggered)
-    lp.queueWithEntity(listenerEnt, function(ent)
-        if umg.exists(entThatWasTriggered) and lp.canActivateEntity(listenerEnt) then
-            local ppos = lp.getPos(entThatWasTriggered)
-            if ppos and util.canListen(listenerEnt, ppos) then
-                lp.tryActivateEntity(listenerEnt)
-                local listen = listenerEnt.listen
-                if listen.activate then
-                    listen.activate(listenerEnt, ppos, entThatWasTriggered)
-                end
+local function triggerEntity(listenerEnt, entThatWasTriggered)
+    local canActivate = lp.canActivateEntity(listenerEnt)
+    if canActivate then
+        local ppos = lp.getPos(entThatWasTriggered)
+        if ppos and util.canListen(listenerEnt, ppos) then
+            lp.tryActivateEntity(listenerEnt)
+            local listen = listenerEnt.listen
+            if listen.activate then
+                listen.activate(listenerEnt, ppos, entThatWasTriggered)
             end
         end
-    end)
+    end
 end
 
 local EMPTY_SET = objects.Set()
 
-umg.on("lootplot:entityTriggered", function(trigger, ent)
+local function triggerListen(trigger, ent)
     local set = triggerToListenEnt[trigger] or EMPTY_SET
     for _, listenEnt in ipairs(set) do
         local listenEntities = listenEntToListenedEnts[listenEnt] or EMPTY_SET
         if listenEntities:contains(ent) then
             -- triggered!!!
-            triggerListen(listenEnt, ent)
+            triggerEntity(listenEnt, ent)
         end
     end
-end)
+end
+
+
+umg.on("lootplot:entityTriggerFailed", triggerListen)
+umg.on("lootplot:entityTriggered", triggerListen)
 
