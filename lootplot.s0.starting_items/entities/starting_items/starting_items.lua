@@ -33,7 +33,7 @@ end
 
 local function spawnSell(ent)
     local ppos, team = getPosTeam(ent)
-    wg.spawnSlots(assert(ppos:move(0, 3)), server.entities.sell_slot, 3,1, team)
+    wg.spawnSlots(assert(ppos:move(0, 3)), server.entities.sell_slot, 1,1, team)
 end
 
 
