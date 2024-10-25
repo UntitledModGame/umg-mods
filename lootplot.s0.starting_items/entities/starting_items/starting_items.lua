@@ -83,12 +83,14 @@ definePerk("eight_ball", {
 
 definePerk("fourteen_ball", {
     name = loc("Fourteen Ball"),
-    description = loc("Spawns with lockable shop-slots"),
+    description = loc("Spawns with a lockable shop, and a reroll-slot"),
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
         wg.spawnSlots(assert(ppos:move(-4,1)), server.entities.lockable_shop_slot, 3,2, team)
         wg.spawnSlots(assert(ppos:move(-4, -2)), server.entities.reroll_button_slot, 1,1, team)
+
+        wg.spawnSlots(assert(ppos:move(3, 0)), server.entities.reroll_slot, 1,1, team)
 
         spawnSell(ent)
         spawnNormal(ent)
@@ -106,6 +108,30 @@ definePerk("four_ball", {
     TODO: this starting-item is MEGA-LAME.
     Replace it with something better.
     ]]
+
+    onActivateOnce = function(ent)
+        local ppos, team = getPosTeam(ent)
+
+        spawnShop(ent)
+        spawnSell(ent)
+        wg.spawnSlots(ppos, server.entities.glass_slot, 13,5, team)
+    end
+})
+
+
+
+
+definePerk("bowling_ball", {
+    --[[
+    TODO:
+
+    do something more interesting with this.
+    I was thinking of even creating a UNIQUE item-type; `bowling-pin`,
+    that this item spawns with?
+    Perhaps bowling-pins can be used to customize starting plot...?
+    ]]
+    name = loc("Bowling Ball"),
+    description = loc("CHALLENGE-ITEM: TODO"),
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
