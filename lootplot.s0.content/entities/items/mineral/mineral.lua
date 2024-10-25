@@ -86,6 +86,12 @@ local function defineAxe(mineral_type, name, mineralMult, etype)
     local namespace = umg.getModName() .. ":"
     local etypeName = namespace .. mineral_type .. "_axe"
     local image = mineral_type .. "_axe"
+    local shape = lp.targets.KNIGHT_SHAPE
+    if mineral_type == "cobalt" then
+        -- HACK: default shape for cobalt-sword is rook-1.
+        -- We make cobalt-axe bigger shape to compensate.
+        shape = lp.targets.QueenShape(2)
+    end
 
     local axeType = {
         image = image,
@@ -104,7 +110,7 @@ local function defineAxe(mineral_type, name, mineralMult, etype)
         basePointsGenerated = 2,
         tierUpgrade = helper.propertyUpgrade("pointsGenerated", 2, 3),
 
-        shape = lp.targets.KNIGHT_SHAPE,
+        shape = shape,
 
         target = {
             type = "ITEM",
@@ -210,7 +216,7 @@ Activates when a target-item is destroyed!!!
 
 ]]
 defineMineralClass("cobalt", "Cobalt", 2, {
-    shape = lp.targets.ABOVE_SHAPE,
+    shape = lp.targets.RookShape(1),
     triggers = {},
     listen = {
         trigger = "DESTROY"

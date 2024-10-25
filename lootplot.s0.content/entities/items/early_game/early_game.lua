@@ -11,18 +11,10 @@ destroy-lives systems interact with each other.
 ]]
 lp.defineItem("lootplot.s0.content:rocks", {
     image = "rocks",
-    lootplotProperties = {
-        modifiers = {
-            -- generates points = 10 * current_level
-            pointsGenerated = function(ent)
-                local level = lp.getLevel(ent) or 1
-                return 10 * level
-            end
-        },
-        multipliers = {
-            pointsGenerated = 2
-        }
-    },
+
+    basePrice = 3,
+
+
     lives = 1,
     name = loc("Rocks"),
     rarity = lp.rarities.COMMON,
@@ -84,23 +76,27 @@ Do something good with the stick
 
 
 
+--[[
+Purpose of `bone` is to give intuition 
+about how the LISTENER system works.
+]]
 lp.defineItem("lootplot.s0.content:bone", {
-    --[[
-    Purpose of `bone` is to give intuition 
-    about how the LISTENER system works.
-    ]]
     image = "bone",
 
     name = loc("Bone"),
-    triggers = {},
+    triggers = {"PULSE"},
+    description = "Destroys itself when activated",
 
+    basePrice = 1,
+
+    lives = 5,
     rarity = lp.rarities.COMMON,
-    basePointsGenerated = 25,
-
-    shape = lp.targets.RookShape(2),
-    listen = {
-        trigger = "DESTROY",
-    }
+    onActivate = function(selfEnt)
+        lp.destroy(selfEnt)
+        if (selfEnt.price or 0) > 0.9 then
+            lp.modifierBuff(selfEnt, "price", -1, selfEnt)
+        end
+    end
 })
 
 
