@@ -136,6 +136,7 @@ local function definePiece(mineral_type, name)
     defineMineral(mineral_type, etypeName, {
         name = loc(name .. " Pieces"),
         image = image,
+        description = loc("Can upgrade " .. name .. " tools!"),
 
         basePointsGenerated = 3,
         tierUpgrade = helper.propertyUpgrade("pointsGenerated", 3, 3),
@@ -190,7 +191,7 @@ Activates multiple times, like boomerang.
 ]]
 defineMineralClass("ruby", "Ruby", 1, {
     baseMaxActivations = 4,
-    description = loc("Uses all activations at once"),
+    description = loc("Uses all activations at once!"),
     onActivate = function(selfEnt)
         local ppos = lp.getPos(selfEnt)
         if ppos then
@@ -207,8 +208,14 @@ defineMineralClass("ruby", "Ruby", 1, {
 --[[
 Activates when a target-item is destroyed!!!
 
-defineMineralClass("cobalt", "Cobalt")
 ]]
+defineMineralClass("cobalt", "Cobalt", 2, {
+    shape = lp.targets.ABOVE_SHAPE,
+    triggers = {},
+    listen = {
+        trigger = "DESTROY"
+    }
+})
 
 
 

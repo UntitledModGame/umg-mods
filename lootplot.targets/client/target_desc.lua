@@ -8,7 +8,7 @@ text.defineEffect("lootplot.targets:COLOR", function(args, char)
     char:setColor(lp.targets.TARGET_COLOR)
 end)
 text.defineEffect("lootplot.targets:LISTEN_COLOR", function(args, char)
-    char:setColor(lp.targets.TARGET_COLOR)
+    char:setColor(lp.targets.LISTEN_COLOR)
 end)
 
 
