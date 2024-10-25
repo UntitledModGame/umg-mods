@@ -116,7 +116,7 @@ function LPState:init()
         end
 
         if self.movingWithMouse then
-            local z = follow.getCurrentZoomMultipler()
+            local z = follow.getScaleFromZoom()
 
             for _, ent in ipairs(control.getControlledEntities()) do
                 ent.x = ent.x - dx / z
