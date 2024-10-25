@@ -126,7 +126,7 @@ end)
 ---@param selected lootplot.Selected?
 umg.on("lootplot:selectionChanged", function(selected)
     if selected then
-        local itemEnt = lp.slotToItem(selected.slot)
+        local itemEnt = lp.posToItem(selected.ppos)
 
         if itemEnt then
             itemEnt:addComponent("bulgeJuice", {amp = 0.3, start = love.timer.getTime(), duration = 0.4})

@@ -317,13 +317,14 @@ if client then
 
     listener:onPressed("input:CLICK_PRIMARY", function(listener, controlEnum)
         local cam = camera.get()
-        local dvec = cam:getWorldDimensionVector()
+        local worldX,worldY = cam:toWorldCoords(input.getPointerPosition())
+        local dim = cam:getDimension()
         for _,ent in ipairs(plotEnts) do
-            if spatial.getDimension(ent) == dvec.dimension then
+            if spatial.getDimension(ent) == dim then
                 -- good enough. lets try this.
                 local plot = ent.plot
                 ---@cast plot lootplot.Plot
-                local ppos = plot:getClosestPPos(dvec.x, dvec.y)
+                local ppos = plot:getClosestPPos(worldX,worldY)
                 selection.click(client.getClient(), ppos)
                 return
             end

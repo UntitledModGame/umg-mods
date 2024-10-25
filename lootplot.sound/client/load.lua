@@ -77,7 +77,8 @@ local reverseSelect = LootplotSound("lootplot.sound:reverse_select_item", 0.26, 
 
 umg.on("lootplot:selectionChanged", function(selection)
     if selection then
-        select:play(selection.slot)
+        local ent = selection.item or selection.slot
+        select:play(ent)
     else
         reverseSelect:play()
     end
