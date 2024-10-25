@@ -223,6 +223,34 @@ lp.defineItem("lootplot.s0.content:contract", {
 
 
 
+lp.defineItem("lootplot.s0.content:gold_knuckles", {
+    image = "gold_knuckles",
+    name = loc("Gold Knuckles"),
+
+    rarity = lp.rarities.RARE,
+
+    triggers = {},
+
+    basePrice = 5,
+    baseMoneyGenerated = 3,
+    tierUpgrade = helper.propertyUpgrade("moneyGenerated", 2, 2),
+
+    shape = lp.targets.KING_SHAPE,
+
+    listen = {
+        trigger = "DESTROY",
+        filter = function(ent)
+            return (not ent.lives) or (ent.lives == 0)
+        end,
+        description = "If target has no extra-lives, earn money",
+    }
+})
+
+
+
+
+
+
 lp.defineItem("lootplot.s0.content:robber", {
     image = "robber",
     name = loc("Robber"),

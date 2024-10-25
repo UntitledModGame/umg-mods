@@ -71,25 +71,30 @@ end)
 
 
 
-
+local function addTargDescription(arr, ent, desc, colorEffect)
+    local typ = type(desc)
+    if typ == "string" then
+        -- should already be localized:
+        arr:add(colorEffect .. desc)
+    elseif typ == "function" then
+        arr:add(function()
+            -- need to pass ent manually as a closure
+            if umg.exists(ent) then
+                return desc(ent)
+            end
+        end)
+    end
+end
 
 umg.on("lootplot:populateDescription", TARGET_ACTIVATE_ORDER, function(ent, arr)
     if ent.target and ent.target.description then
-        local desc = ent.target.description
-        local typ = type(desc)
-        if typ == "string" then
-            -- should already be localized:
-            arr:add("{lootplot.targets:COLOR}" .. desc)
-        elseif typ == "function" then
-            arr:add(function()
-                -- need to pass ent manually as a closure
-                if umg.exists(ent) then
-                    return desc(ent)
-                end
-            end)
-        end
+        addTargDescription(arr, ent, ent.target.description, "{lootplot.targets:COLOR}" )
+    end
+    if ent.listen and ent.listen.description then
+        addTargDescription(arr, ent, ent.target.description, "{lootplot.targets:LISTEN_COLOR}" )
     end
 end)
+
 
 
 local MISC_ORDER = 50
