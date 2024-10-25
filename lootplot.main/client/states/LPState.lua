@@ -116,7 +116,7 @@ function LPState:init()
         end
 
         if self.movingWithMouse then
-            local z = follow.getCurrentZoomMultipler()
+            local z = follow.getScaleFromZoom()
 
             for _, ent in ipairs(control.getControlledEntities()) do
                 ent.x = ent.x - dx / z
@@ -153,6 +153,13 @@ function LPState:update(dt)
         local slotEnt = hovered.entity
         local itemEnt = lp.slotToItem(slotEnt)
         hoveredEntity = itemEnt or slotEnt
+    else
+        -- If item is floating
+        hovered = lp.getHoveredItem()
+
+        if hovered then
+            hoveredEntity = hovered.entity
+        end
     end
 
     if hoveredEntity ~= self.lastHoveredEntity then
