@@ -417,26 +417,32 @@ end
 
 
 
-local ent2Tc = typecheck.assert("entity", "entity")
+local ppos2Tc = typecheck.assert("ppos", "ppos")
 
 ---This one needs valid slot but does not require item to be present.
 ---If item is not present, it acts as move.
 ---
 ---Availability: **Server**
----@param slotEnt1 lootplot.SlotEntity
----@param slotEnt2 lootplot.SlotEntity
-function lp.swapItems(slotEnt1, slotEnt2)
-    ent2Tc(slotEnt1, slotEnt2)
+---@param ppos1 lootplot.PPos
+---@param ppos2 lootplot.PPos
+function lp.swapItems(ppos1, ppos2)
     assertServer()
-    assert(slotEnt1.slot and slotEnt2.slot, "Need to swap slot entities!")
-    if slotEnt1 == slotEnt2 then
+    ppos2Tc(ppos1, ppos2)
+
+    if ppos1 == ppos2 then
         return -- short-circuit
     end
 
-    local item1 = lp.slotToItem(slotEnt1)
-    local item2 = lp.slotToItem(slotEnt2)
-    local ppos1, ppos2 = lp.getPos(slotEnt1), lp.getPos(slotEnt2)
-    assert(ppos1 and ppos2, "Cannot swap nil-position")
+    if not lp.canSwap(ppos1, ppos2) then
+        return
+    end
+
+    local item1 = lp.posToItem(ppos1)
+    local item2 = lp.posToItem(ppos2)
+
+    if not item1 and not item2 then
+        return -- short circuit
+    end
 
     if item1 then
         ppos1:clear(item1)
@@ -467,8 +473,12 @@ end
 
     For now, embrace yagni.
 ]]
----@param slotEnt lootplot.SlotEntity
+---@param slotEnt lootplot.SlotEntity?
 local function canRemoveItemOrNoItem(slotEnt)
+    if not slotEnt then
+        return true
+    end
+
     -- whether or not we can REMOVE an item at ppos
     local itemEnt = lp.slotToItem(slotEnt)
 
@@ -482,11 +492,22 @@ local function canRemoveItemOrNoItem(slotEnt)
     return true
 end
 
+---@param ppos lootplot.PPos
+---@param itemEnt lootplot.ItemEntity
+function lp.couldContainItem(ppos, itemEnt)
+    local slotEnt = lp.posToSlot(ppos)
+    if (not slotEnt) then
+        return lp.canItemFloat(itemEnt)
+    end
+
+    return lp.couldSlotHoldItem(slotEnt, itemEnt)
+end
+
 ---Availability: Client and Server
 ---@param slotEnt lootplot.SlotEntity
 ---@param itemEnt lootplot.ItemEntity?
 ---@return boolean
-function lp.couldHoldItem(slotEnt, itemEnt)
+function lp.couldSlotHoldItem(slotEnt, itemEnt)
     --[[
         checks whether or not a slot COULD hold the item,
 
@@ -500,7 +521,6 @@ function lp.couldHoldItem(slotEnt, itemEnt)
         end
         return umg.ask("lootplot:canAddItemToSlot", slotEnt, itemEnt)
     end
-
     return true
 end
 
@@ -515,24 +535,29 @@ function lp.canItemFloat(itemEnt)
 end
 
 
----@param srcSlot lootplot.SlotEntity
----@param targetSlot lootplot.SlotEntity
-local function canMoveFromTo(srcSlot, targetSlot)
-    return lp.couldHoldItem(targetSlot, lp.slotToItem(srcSlot)) and canRemoveItemOrNoItem(srcSlot)
+---@param srcPPos lootplot.PPos
+---@param targetPPos lootplot.PPos
+local function canMoveFromTo(srcPPos, targetPPos)
+    local item = lp.posToItem(srcPPos)
+    if not item then
+        return true -- its always OK to move nothing.
+    end
+
+    return lp.couldContainItem(targetPPos, item) and canRemoveItemOrNoItem(lp.posToSlot(srcPPos))
 end
 
 ---Availability: Client and Server
----@param slot1 lootplot.SlotEntity
----@param slot2 lootplot.SlotEntity
+---@param ppos1 lootplot.PPos
+---@param ppos2 lootplot.PPos
 ---@return boolean
-function lp.canSwap(slot1, slot2)
-    return canMoveFromTo(slot1, slot2) and canMoveFromTo(slot2, slot1)
+function lp.canSwap(ppos1, ppos2)
+    return canMoveFromTo(ppos1, ppos2) and canMoveFromTo(ppos2, ppos1)
 end
 
 
 
----@param combinerItem Entity
----@param targetItem Entity
+---@param combinerItem lootplot.ItemEntity
+---@param targetItem lootplot.ItemEntity
 ---@return boolean
 function lp.canCombineItems(combinerItem, targetItem)
     if combinerItem.canCombine and combinerItem:canCombine(targetItem) then
@@ -736,16 +761,7 @@ local posEntTc = typecheck.assert("ppos", "entity")
 function lp.forceSetItem(ppos, itemEnt)
     posEntTc(ppos, itemEnt)
     assert(itemEnt.item, "Must be a item entity")
-    local slotEnt = lp.posToSlot(ppos)
-    local ok = false
-    if not slotEnt then
-        -- empty space!!!
-        if lp.canItemFloat(itemEnt) then
-            ok = true
-        end
-    elseif lp.couldHoldItem(slotEnt, itemEnt) then
-        ok = true
-    end
+    local ok = lp.couldContainItem(ppos, itemEnt)
 
     if ok then
         local oldItem = lp.posToItem(ppos)
@@ -1091,12 +1107,12 @@ end
 ---@param item lootplot.ItemEntity
 ---@param noButtons? boolean Should we not open buttons?
 function lp.selectItem(item, noButtons)
-    local slot = lp.itemToSlot(item)
-    if slot then
+    local ppos = lp.getPos(item)
+    if ppos then
         if noButtons then
-            selection.selectSlotNoButtons(slot)
+            selection.selectSlotNoButtons(ppos)
         else
-            selection.selectSlot(slot)
+            selection.selectSlot(ppos)
         end
     end
 end

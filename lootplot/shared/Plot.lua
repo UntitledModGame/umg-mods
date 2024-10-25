@@ -190,12 +190,7 @@ function Plot:get(layer, x,y)
 end
 
 
----comment
----@param x number
----@param y number
----@return lootplot.PPos
-function Plot:getPPos(x,y)
-    local index = self:coordsToIndex(x,y)
+function Plot:getPPosFromSlotIndex(index)
     local ppos = self.pposCache[index]
 
     if not ppos then
@@ -205,6 +200,14 @@ function Plot:getPPos(x,y)
 
     assert(ppos:getSlotIndex() == index, "someone else mutate the ppos")
     return ppos
+end
+
+---@param x number
+---@param y number
+---@return lootplot.PPos
+function Plot:getPPos(x,y)
+    local index = self:coordsToIndex(x,y)
+    return self:getPPosFromSlotIndex(index)
 end
 
 function Plot:getCenterPPos()
