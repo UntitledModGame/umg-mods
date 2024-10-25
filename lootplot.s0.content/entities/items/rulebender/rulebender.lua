@@ -171,6 +171,31 @@ lp.defineItem("lootplot.s0.content:boomerang", {
 })
 
 
+
+
+lp.defineItem("lootplot.s0.content:pink_balloon", {
+    image = "pink_balloon",
+    name = loc("Pink Balloon"),
+
+    rarity = lp.rarities.EPIC,
+
+    shape = lp.targets.KING_SHAPE,
+
+    target = {
+        type = "ITEM_OR_SLOT",
+        description = loc("If target isn't doomed, give target +1 lives"),
+        activate = function(selfEnt, ppos, targetEnt)
+            targetEnt.lives = targetEnt.lives + 1
+        end,
+        filter = function(selfEnt, ppos, targetEnt)
+            return (not targetEnt.doomCount)
+        end
+    }
+})
+
+
+
+
 lp.defineItem("lootplot.s0.content:pink_octopus", {
     image = "pink_octopus",
     name = loc("Pink Octopus"),
