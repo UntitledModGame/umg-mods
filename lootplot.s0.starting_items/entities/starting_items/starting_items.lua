@@ -36,6 +36,10 @@ local function spawnSell(ent)
     wg.spawnSlots(assert(ppos:move(0, 3)), server.entities.sell_slot, 1,1, team)
 end
 
+local function spawnMoneyLimit(ent)
+    local ppos, team = getPosTeam(ent)
+    wg.spawnSlots(assert(ppos:move(4, -4)), server.entities.money_limit_slot, 1,1, team)
+end
 
 -------------------------------------------------------------------
 
@@ -59,9 +63,30 @@ definePerk("one_ball", {
         spawnShop(ent)
         spawnNormal(ent)
         spawnSell(ent)
+        spawnMoneyLimit(ent)
         wg.spawnSlots(assert(ppos:move(-4, -2)), server.entities.reroll_button_slot, 1,1, team)
     end
 })
+
+
+
+definePerk("nine_ball", {
+    name = loc("Nine Ball"),
+    description = loc("Lose $1 per turn. Has no money limit."),
+
+    baseMoneyGenerated = -2,
+    baseMaxActivations = 1,
+
+    onActivateOnce = function(ent)
+        local ppos, team = getPosTeam(ent)
+
+        spawnShop(ent)
+        spawnNormal(ent)
+        spawnSell(ent)
+        wg.spawnSlots(assert(ppos:move(-4, -2)), server.entities.reroll_button_slot, 1,1, team)
+    end
+})
+
 
 
 
@@ -75,6 +100,7 @@ definePerk("eight_ball", {
         spawnShop(ent)
         spawnNormal(ent)
         spawnSell(ent)
+        spawnMoneyLimit(ent)
         wg.spawnSlots(assert(ppos:move(3, 0)), server.entities.null_slot, 1,3, team)
     end
 })
@@ -94,6 +120,7 @@ definePerk("fourteen_ball", {
 
         spawnSell(ent)
         spawnNormal(ent)
+        spawnMoneyLimit(ent)
     end
 })
 
@@ -114,6 +141,7 @@ definePerk("four_ball", {
 
         spawnShop(ent)
         spawnSell(ent)
+        spawnMoneyLimit(ent)
         wg.spawnSlots(ppos, server.entities.glass_slot, 13,5, team)
     end
 })
@@ -138,6 +166,7 @@ definePerk("bowling_ball", {
 
         spawnShop(ent)
         spawnSell(ent)
+        spawnMoneyLimit(ent)
         wg.spawnSlots(ppos, server.entities.glass_slot, 13,5, team)
     end
 })

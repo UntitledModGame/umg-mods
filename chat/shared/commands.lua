@@ -45,6 +45,8 @@ end
 local handleCommandTypecheck = typecheck.assert("string", "table")
 
 
+---@param commandName string
+---@param handler table
 function commands.handleCommand(commandName, handler)
     --[[
         {
@@ -74,7 +76,7 @@ function commands.handleCommand(commandName, handler)
     assert(handler.adminLevel, "not given .adminLevel number")
     handler.typechecker = getArgsTypechecker(handler.arguments)
     handler.commandName = commandName
-    commandToHandler[commandName] = handler
+    commandToHandler[commandName:lower()] = handler
 end
 
 
@@ -93,9 +95,9 @@ server.on("chat:command", function(sender, commandName, ...)
     ]]
     if type(commandName) ~= "string" then
         -- must check this, coz its a dynamic packet
-        return 
+        return
     end
-    local cmdHandler = commandToHandler[commandName]
+    local cmdHandler = commandToHandler[commandName:lower()]
     if not cmdHandler then
         chat.privateMessage(sender, "unknown command: " .. commandName)
         return
@@ -125,7 +127,7 @@ end
 if client then
 
 client.on("chat:command", function(sender, commandName, ...)
-    local cmdHandler = commandToHandler[commandName]
+    local cmdHandler = commandToHandler[commandName:lower()]
     if cmdHandler then
         -- there may not be a handler for client.
         cmdHandler.handler(sender, ...)
