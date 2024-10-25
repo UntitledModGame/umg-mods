@@ -6,7 +6,7 @@ local helper = require("shared.helper")
 lp.defineItem("lootplot.s0.content:gold_sword", {
     image = "gold_sword",
     name = loc("Golden Sword"),
-    rarity = lp.rarities.COMMON,
+    rarity = lp.rarities.RARE,
     baseMoneyGenerated = 1,
     tierUpgrade = helper.propertyUpgrade("moneyGenerated", 1, 3)
 })
@@ -24,7 +24,7 @@ lp.defineItem("lootplot.s0.content:gold_axe", {
     tierUpgrade = helper.propertyUpgrade("moneyGenerated", 1, 2),
 
     target = {
-        description = loc("{lootplot.targets:COLOR}Earn money."),
+        description = loc("Earn money."),
         type = "ITEM",
         filter = function(selfEnt, ppos, targetEnt)
             local pGen = targetEnt.pointsGenerated or 0
@@ -97,7 +97,7 @@ lp.defineItem("lootplot.s0.content:bishop_ring", {
         }
     },
 
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.RARE,
 })
 
 
@@ -122,7 +122,7 @@ lp.defineItem("lootplot.s0.content:king_ring", {
         }
     },
 
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.RARE,
 })
 
 
@@ -201,7 +201,7 @@ lp.defineItem("lootplot.s0.content:contract", {
     image = "contract",
     name = loc("Contract"),
 
-    rarity = lp.rarities.RARE,
+    rarity = lp.rarities.UNCOMMON,
 
     basePrice = 5,
     tierUpgrade = helper.propertyUpgrade("price", 5, 5),
