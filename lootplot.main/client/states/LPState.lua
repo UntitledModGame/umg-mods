@@ -67,24 +67,24 @@ function LPState:init()
         end
     end)
 
-    self.listener:onReleased("input:CLICK_PRIMARY", function()
-        if not self.claimedByControl then
-            local run = lp.main.getRun()
+    -- self.listener:onReleased("input:CLICK_PRIMARY", function()
+    --     if not self.claimedByControl then
+    --         local run = lp.main.getRun()
 
-            if run then
-                local plot = run:getPlot()
-                local x, y = input.getPointerPosition()
-                local wx, wy = camera.get():toWorldCoords(x, y)
-                local ppos = plot:getClosestPPos(wx, wy)
+    --         if run then
+    --             local plot = run:getPlot()
+    --             local x, y = input.getPointerPosition()
+    --             local wx, wy = camera.get():toWorldCoords(x, y)
+    --             local ppos = plot:getClosestPPos(wx, wy)
 
-                if not lp.posToSlot(ppos) then
-                    lp.deselectItem()
-                end
-            end
-        end
+    --             if not lp.posToSlot(ppos) then
+    --                 lp.deselectItem()
+    --             end
+    --         end
+    --     end
 
-        self.claimedByControl = false
-    end)
+    --     self.claimedByControl = false
+    -- end)
 
     self.listener:onReleased("input:CLICK_SECONDARY", function()
         self.movingWithMouse = false
@@ -132,6 +132,7 @@ function LPState:onAdded(zorder)
     input.addListener(control.getListener(), zorder)
     input.addListener(follow.getListener(), zorder)
     input.addListener(hoverables.getListener(), zorder)
+    input.addListener(lp.getSelectionListener(), zorder + 1)
     input.addListener(self.listener, zorder + 1)
 end
 

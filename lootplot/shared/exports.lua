@@ -1110,9 +1110,9 @@ function lp.selectItem(item, noButtons)
     local ppos = lp.getPos(item)
     if ppos then
         if noButtons then
-            selection.selectSlotNoButtons(ppos)
+            selection.selectNoButtons(ppos)
         else
-            selection.selectSlot(ppos)
+            selection.select(ppos)
         end
     end
 end
@@ -1120,6 +1120,11 @@ end
 function lp.deselectItem()
     return selection.reset()
 end
+
+function lp.getSelectionListener()
+    return selection.getListener()
+end
+
 
 end
 

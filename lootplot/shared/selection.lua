@@ -86,12 +86,12 @@ local function selectPosition(ppos, dontOpenButtons)
 end
 
 ---@param ppos lootplot.PPos
-function selection.selectSlot(ppos)
+function selection.select(ppos)
     selectPosition(ppos, false)
 end
 
 ---@param ppos lootplot.PPos
-function selection.selectSlotNoButtons(ppos)
+function selection.selectNoButtons(ppos)
     selectPosition(ppos, true)
 end
 
@@ -110,15 +110,12 @@ local function validate()
         return -- nothing to validate
     end
 
-    if (not umg.exists(selected.slot)) then
-        selection.reset()
-        return
-    end
-
-    local realSlot = lp.posToSlot(selected.ppos)
-    if realSlot ~= selected.slot then
-        selection.reset()
-        return
+    if selected.slot then
+        local realSlot = lp.posToSlot(selected.ppos)
+        if realSlot ~= selected.slot then
+            selection.reset()
+            return
+        end
     end
 
     if selected.item then
@@ -169,7 +166,7 @@ function(clientToSelect, plotEnt, index)
     ]]
     if client.getClient() == clientToSelect then
         local ppos = plotEnt.plot:getPPosFromSlotIndex(index)
-        selection.selectSlot(ppos)
+        selection.select(ppos)
     end
 end)
 
@@ -271,7 +268,7 @@ local function clickEmpty(ppos)
         activateOnServer(slotEnt)
     else
         -- else, select:
-        selection.selectSlot(ppos)
+        selection.select(ppos)
     end
 end
 
@@ -280,10 +277,17 @@ end
 function selection.click(clientId, ppos)
     validate()
     if selected then
+        print(selected.ppos)
+    else
+        print("no selection.")
+    end
+    if selected then
         if ppos ~= selected.ppos then
+            -- print("HERE::0")
             if canCombineSelected(ppos) then
                 tryCombineSelected(ppos)
             else
+                -- print("HERE:1")
                 tryMove(clientId, selected.ppos, ppos)
             end
         end
@@ -303,6 +307,30 @@ end
 if client then
     components.project("slot", "clickable")
 
+    local listener = input.InputListener()
+
+    function selection.getListener()
+        return listener
+    end
+
+    local plotEnts = umg.group("plot", "x", "y")
+
+    listener:onPressed("input:CLICK_PRIMARY", function(listener, controlEnum)
+        local cam = camera.get()
+        local dvec = cam:getWorldDimensionVector()
+        for _,ent in ipairs(plotEnts) do
+            if spatial.getDimension(ent) == dvec.dimension then
+                -- good enough. lets try this.
+                local plot = ent.plot
+                ---@cast plot lootplot.Plot
+                local ppos = plot:getClosestPPos(dvec.x, dvec.y)
+                selection.click(client.getClient(), ppos)
+                return
+            end
+        end
+    end)
+
+    --[[
     umg.on("clickables:entityClickedClient", function(ent, button)
         if button == 1 then
             print("clicked", ent)
@@ -313,7 +341,7 @@ if client then
             end
         end
     end)
-
+    ]]
 
     ---@alias lootplot.EntityHover { entity: Entity, time: number }
     ---@type lootplot.EntityHover?
