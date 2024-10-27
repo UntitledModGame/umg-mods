@@ -276,18 +276,12 @@ end
 ---@param ppos lootplot.PPos
 function selection.click(clientId, ppos)
     validate()
-    if selected then
-        print(selected.ppos)
-    else
-        print("no selection.")
-    end
+
     if selected then
         if ppos ~= selected.ppos then
-            -- print("HERE::0")
             if canCombineSelected(ppos) then
                 tryCombineSelected(ppos)
             else
-                -- print("HERE:1")
                 tryMove(clientId, selected.ppos, ppos)
             end
         end
@@ -305,8 +299,6 @@ function selection.getCurrentSelection()
 end
 
 if client then
-    components.project("slot", "clickable")
-
     local listener = input.InputListener()
 
     function selection.getListener()
@@ -330,19 +322,6 @@ if client then
             end
         end
     end)
-
-    --[[
-    umg.on("clickables:entityClickedClient", function(ent, button)
-        if button == 1 then
-            print("clicked", ent)
-            local ppos = lp.getPos(ent)
-
-            if ppos then
-                selection.click(client.getClient(), ppos)
-            end
-        end
-    end)
-    ]]
 
     ---@alias lootplot.EntityHover { entity: Entity, time: number }
     ---@type lootplot.EntityHover?
