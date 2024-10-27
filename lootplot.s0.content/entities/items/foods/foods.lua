@@ -488,6 +488,21 @@ defineMush("mushroom_purple", {
 
 
 
+defineMush("mushroom_floaty", {
+    name = loc("Floaty Mushroom"),
+    shape = lp.targets.ABOVE_SHAPE,
+
+    target = {
+        description = loc("Allows item to float"),
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            targetEnt.canItemFloat = true
+            sync.syncComponent(targetEnt, "canItemFloat")
+        end
+    }
+})
+
+
 
 
 
