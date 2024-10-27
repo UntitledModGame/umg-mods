@@ -32,7 +32,7 @@ local function isInvalid(itemEnt, ppos)
     local slotEnt = lp.posToSlot(ppos)
     if slotEnt then
         -- its valid if the slot can hold the item
-        return not lp.couldHoldItem(slotEnt, itemEnt)
+        return not lp.couldSlotHoldItem(slotEnt, itemEnt)
     else
         -- No slot. Valid if the item can float
         return not lp.canItemFloat(itemEnt)

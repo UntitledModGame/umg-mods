@@ -190,12 +190,7 @@ function Plot:get(layer, x,y)
 end
 
 
----comment
----@param x number
----@param y number
----@return lootplot.PPos
-function Plot:getPPos(x,y)
-    local index = self:coordsToIndex(x,y)
+function Plot:getPPosFromSlotIndex(index)
     local ppos = self.pposCache[index]
 
     if not ppos then
@@ -205,6 +200,14 @@ function Plot:getPPos(x,y)
 
     assert(ppos:getSlotIndex() == index, "someone else mutate the ppos")
     return ppos
+end
+
+---@param x number
+---@param y number
+---@return lootplot.PPos
+function Plot:getPPos(x,y)
+    local index = self:coordsToIndex(x,y)
+    return self:getPPosFromSlotIndex(index)
 end
 
 function Plot:getCenterPPos()
@@ -341,14 +344,15 @@ end
 ---**NOTE:**
 ---If the (x,y) coords is out of bounds, 
 ---it will STILL return the closest match!
----@param x number
----@param y number
+---@param worldX number
+---@param worldY number
 ---@return lootplot.PPos
-function Plot:getClosestPPos(x,y)
+function Plot:getClosestPPos(worldX, worldY)
     local plotEnt = self.ownerEnt
+    assert(plotEnt.x and plotEnt.y, "plot-owner-entity needs world position!")
     local slotDist = lp.constants.WORLD_SLOT_DISTANCE
-    local ix = math.round((x/slotDist) - plotEnt.x)
-    local iy = math.round((y/slotDist) - plotEnt.y)
+    local ix = math.round((worldX/slotDist) - plotEnt.x)
+    local iy = math.round((worldY/slotDist) - plotEnt.y)
 
     local grid = self.grid
     ix = math.clamp(ix, 0, grid.width-1)

@@ -21,7 +21,7 @@ local selection = {}
 
 ---@class lootplot.Selected
 ---@field public ppos lootplot.PPos
----@field public slot lootplot.SlotEntity
+---@field public slot lootplot.SlotEntity?
 ---@field public time number
 ---@field public item lootplot.ItemEntity?
 ---@field public actions? lootplot.SlotAction[]
@@ -39,8 +39,14 @@ function selection.reset()
 end
 
 
-local function isButtonSlot(slotEnt)
-    return slotEnt.buttonSlot
+---@param ppos lootplot.PPos
+local function getButtonSlot(ppos)
+    local slotEnt = lp.posToSlot(ppos)
+    if slotEnt and slotEnt.buttonSlot then
+        return slotEnt
+    end
+
+    return nil
 end
 
 local function collectSelectionButtons(ppos, selected)
@@ -53,24 +59,23 @@ local function collectSelectionButtons(ppos, selected)
     end)
 end
 
----@param slotEnt lootplot.SlotEntity
+---@param ppos lootplot.PPos
 ---@param dontOpenButtons boolean Don't open selection buttons?
-local function selectSlot(slotEnt, dontOpenButtons)
-    local ppos = lp.getPos(slotEnt)
-    local itemEnt = lp.slotToItem(slotEnt)
-    if not (itemEnt and ppos) then
+local function selectPosition(ppos, dontOpenButtons)
+    local itemEnt = lp.posToItem(ppos)
+    if not itemEnt then
         return
     end
 
-    if isButtonSlot(slotEnt) then
+    if getButtonSlot(ppos) then
         return
     end
 
     selected = {
         ppos = ppos,
-        slot = slotEnt,
+        slot = lp.posToSlot(ppos),
         time = love.timer.getTime(),
-        item = lp.posToItem(ppos)
+        item = itemEnt
     }
 
     if not dontOpenButtons then
@@ -80,12 +85,14 @@ local function selectSlot(slotEnt, dontOpenButtons)
     umg.call("lootplot:selectionChanged", selected)
 end
 
-function selection.selectSlot(slotEnt)
-    selectSlot(slotEnt, false)
+---@param ppos lootplot.PPos
+function selection.select(ppos)
+    selectPosition(ppos, false)
 end
 
-function selection.selectSlotNoButtons(slotEnt)
-    selectSlot(slotEnt, true)
+---@param ppos lootplot.PPos
+function selection.selectNoButtons(ppos)
+    selectPosition(ppos, true)
 end
 
 -- This handles the "Cancel" button
@@ -103,15 +110,12 @@ local function validate()
         return -- nothing to validate
     end
 
-    if (not umg.exists(selected.slot)) then
-        selection.reset()
-        return
-    end
-
-    local realSlot = lp.posToSlot(selected.ppos)
-    if realSlot ~= selected.slot then
-        selection.reset()
-        return
+    if selected.slot then
+        local realSlot = lp.posToSlot(selected.ppos)
+        if realSlot ~= selected.slot then
+            selection.reset()
+            return
+        end
     end
 
     if selected.item then
@@ -129,14 +133,17 @@ local function validate()
 end
 
 
-local function deny(slotEnt)
-    umg.call("lootplot:denySlotInteraction", slotEnt)
+local function deny(ppos)
+    local slotEnt = lp.posToSlot(ppos)
+    if slotEnt then
+        umg.call("lootplot:denySlotInteraction", slotEnt)
+    end
 end
 
----@param slotEnt lootplot.SlotEntity
+---@param ppos lootplot.PPos
 ---@param clientId string
-local function hasAccess(slotEnt, clientId)
-    local itemEnt = lp.slotToItem(slotEnt)
+local function hasAccess(ppos, clientId)
+    local itemEnt = lp.posToItem(ppos)
 
     if itemEnt then
         return lp.canPlayerAccess(itemEnt, clientId)
@@ -147,10 +154,10 @@ end
 
 
 
-local EVICT_ARGS = {"string", "entity"}
+local EVICT_ARGS = {"string", "entity", "number"}
 
 local selectItemImmediately = util.remoteBroadcastToClient("lootplot:selectItemImmediately", EVICT_ARGS,
-function(clientToSelect, evictedSlot)
+function(clientToSelect, plotEnt, index)
     --[[
     QUESTION: Why dont we unicast here?
     ANSWER: Coz unicast packets are received BEFORE broadcast packets.
@@ -158,41 +165,50 @@ function(clientToSelect, evictedSlot)
     this func ASSUMES that lp.swapItems is called prior, so we can make a valid selection.
     ]]
     if client.getClient() == clientToSelect then
-        selection.selectSlot(evictedSlot)
+        local ppos = plotEnt.plot:getPPosFromSlotIndex(index)
+        selection.select(ppos)
     end
 end)
 
 
-local ENT_2 = {"entity", "entity"}
+local ENT_1_NUMBER_2 = {"entity", "number", "number"}
 
-local swapSlotItems = util.remoteCallToServer("lootplot:swapSlotItems", ENT_2,
-function(clientId, slotEnt1, slotEnt2)
+local swapSlotItems = util.remoteCallToServer("lootplot:swapSlotItems", ENT_1_NUMBER_2,
+function(clientId, plotEnt, pposIndex1, pposIndex2)
+    ---@type lootplot.Plot
+    local plot = plotEnt.plot
+    local ppos1 = plot:getPPosFromSlotIndex(pposIndex1)
+    local ppos2 = plot:getPPosFromSlotIndex(pposIndex2)
+
     -- TODO: check validity of arguments (bad actor could send any entity)
     -- TODO: check that we actually CAN move the items
     -- TODO: use qbus; check if we have permission
-    if lp.canSwap(slotEnt1, slotEnt2) and hasAccess(slotEnt1, clientId) and hasAccess(slotEnt2, clientId) then
-        lp.swapItems(slotEnt1, slotEnt2)
-        if lp.slotToItem(slotEnt1) then
+    if lp.canSwap(ppos1, ppos2) and hasAccess(ppos1, clientId) and hasAccess(ppos2, clientId) then
+        lp.swapItems(ppos1, ppos2)
+        if lp.posToItem(ppos1) then
             -- When we swap items, we automatically select the target item.
             -- (GREAT FOR UX!!!)
             -- (this needs to be a packet, because of latency/async reasons.)
-            selectItemImmediately(clientId, slotEnt1)
+            selectItemImmediately(clientId, plotEnt, pposIndex1)
         end
     end
 end)
 
 ---@param clientId string
----@param srcSlot lootplot.SlotEntity
----@param targSlot lootplot.SlotEntity
-local function tryMove(clientId, srcSlot, targSlot)
-    if lp.canSwap(srcSlot, targSlot) and hasAccess(srcSlot, clientId) and hasAccess(targSlot, clientId) then
+---@param srcPPos lootplot.PPos
+---@param targPPos lootplot.PPos
+local function tryMove(clientId, srcPPos, targPPos)
+    local plot = srcPPos:getPlot()
+    assert(targPPos:getPlot() == plot) -- this is fails, we have big problem
+
+    if lp.canSwap(srcPPos, targPPos) and hasAccess(srcPPos, clientId) and hasAccess(targPPos, clientId) then
         -- TODO: this event a bit bloaty/weird!!!
         -- redo/unify this when we get consumable items working.
-        umg.call("lootplot:tryMoveItemsClient", srcSlot, targSlot)
-        swapSlotItems(srcSlot, targSlot)
+        umg.call("lootplot:tryMoveItemsClient", srcPPos, targPPos)
+        swapSlotItems(plot:getOwnerEntity(), srcPPos:getSlotIndex(), targPPos:getSlotIndex())
     else
-        deny(srcSlot)
-        deny(targSlot)
+        deny(srcPPos)
+        deny(targPPos)
     end
 end
 
@@ -211,6 +227,7 @@ function(clientId, slotEnt)
 end)
 
 
+local ENT_2 = {"entity", "entity"}
 local combineOnServer = util.remoteCallToServer("lootplot:clientTryCombineItems", ENT_2,
 function(clientId, combineItem, targItem)
     if lp.canPlayerAccess(combineItem, clientId) and lp.canPlayerAccess(targItem, clientId) then
@@ -219,8 +236,9 @@ function(clientId, combineItem, targItem)
 end)
 
 
-local function canCombineSelected(slotEnt)
-    local targItem = lp.slotToItem(slotEnt)
+---@param ppos lootplot.PPos
+local function canCombineSelected(ppos)
+    local targItem = lp.posToItem(ppos)
     if not targItem then
         return false
     end
@@ -232,39 +250,44 @@ local function canCombineSelected(slotEnt)
 end
 
 
-local function tryCombineSelected(slotEnt)
-    if canCombineSelected(slotEnt) then
-        local targItem = lp.slotToItem(slotEnt)
+---@param ppos lootplot.PPos
+local function tryCombineSelected(ppos)
+    if canCombineSelected(ppos) then
+        local targItem = lp.posToItem(ppos)
         local sel = assert(selection.getCurrentSelection())
         combineOnServer(assert(sel.item), targItem)
     end
 end
 
 
-local function clickEmpty(slotEnt)
-    if isButtonSlot(slotEnt) then
+---@param ppos lootplot.PPos
+local function clickEmpty(ppos)
+    local slotEnt = getButtonSlot(ppos)
+
+    if slotEnt then
         activateOnServer(slotEnt)
     else
         -- else, select:
-        selection.selectSlot(slotEnt)
+        selection.select(ppos)
     end
 end
 
 ---@param clientId string
----@param slotEnt lootplot.SlotEntity
-function selection.click(clientId, slotEnt)
+---@param ppos lootplot.PPos
+function selection.click(clientId, ppos)
     validate()
-    if selected and selected.slot then
-        if slotEnt ~= selected.slot then
-            if canCombineSelected(slotEnt) then
-                tryCombineSelected(slotEnt)
+
+    if selected then
+        if ppos ~= selected.ppos then
+            if canCombineSelected(ppos) then
+                tryCombineSelected(ppos)
             else
-                tryMove(clientId, selected.slot, slotEnt)
+                tryMove(clientId, selected.ppos, ppos)
             end
         end
         selection.reset()
     else
-        clickEmpty(slotEnt)
+        clickEmpty(ppos)
     end
 end
 
@@ -276,14 +299,29 @@ function selection.getCurrentSelection()
 end
 
 if client then
-    components.project("slot", "clickable")
+    local listener = input.InputListener()
 
-    umg.on("clickables:entityClickedClient", function(slotEnt, button)
-        if button == 1 then
-            selection.click(client.getClient(), slotEnt)
+    function selection.getListener()
+        return listener
+    end
+
+    local plotEnts = umg.group("plot", "x", "y")
+
+    listener:onPressed("input:CLICK_PRIMARY", function(listener, controlEnum)
+        local cam = camera.get()
+        local worldX,worldY = cam:toWorldCoords(input.getPointerPosition())
+        local dim = cam:getDimension()
+        for _,ent in ipairs(plotEnts) do
+            if spatial.getDimension(ent) == dim then
+                -- good enough. lets try this.
+                local plot = ent.plot
+                ---@cast plot lootplot.Plot
+                local ppos = plot:getClosestPPos(worldX,worldY)
+                selection.click(client.getClient(), ppos)
+                return
+            end
         end
     end)
-
 
     ---@alias lootplot.EntityHover { entity: Entity, time: number }
     ---@type lootplot.EntityHover?

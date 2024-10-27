@@ -4,13 +4,15 @@
 
 local PRIO_MOUSE = 10
 umg.answer("lootplot:getItemTargetPosition", function(itemEnt)
+    local ITEM_VERTICAL_OFFSET = 17
+
     local selection = lp.getCurrentSelection()
     local selectedItem = selection and lp.posToItem(selection.ppos)
     if itemEnt == selectedItem then
         if lp.canPlayerAccess(itemEnt, client.getClient()) then
             local camera = camera.get()
             local tx,ty = camera:toWorldCoords(input.getPointerPosition())
-            return tx,ty, PRIO_MOUSE
+            return tx,ty - ITEM_VERTICAL_OFFSET, PRIO_MOUSE
         end
     end
 end)
@@ -44,9 +46,9 @@ local function applyLerpLock(ent, targX, targY)
     } 
 end
 
-umg.on("lootplot:tryMoveItemsClient", function(slot1, slot2)
-    local item = lp.slotToItem(slot1)
-    local dvec = lp.getPos(slot2):getWorldPos()
+umg.on("lootplot:tryMoveItemsClient", function(ppos1, ppos2)
+    local item = lp.posToItem(ppos1)
+    local dvec = ppos2:getWorldPos()
     local targX, targY = dvec.x, dvec.y
     if item then
         applyLerpLock(item, targX, targY)
@@ -75,40 +77,35 @@ local function drawSlotIndicator(ppos, color)
 end
 
 
+---@param camera camera.Camera
 umg.on("rendering:drawEffects", function(camera)
+    local run = lp.main.getRun()
+    if not run then
+        return
+    end
+
     local selection = lp.getCurrentSelection()
     if not selection then
         return
     end
 
-    local selectedSlot = selection.slot
-    local selectedItem = lp.slotToItem(selectedSlot)
-
+    local selectedItem = selection.item
     if (not selectedItem) or (not lp.canPlayerAccess(selectedItem, client.getClient())) then
         -- cannot access item!
         return
     end
 
-    ---@cast selectedItem Entity
-    ---@cast selectedSlot Entity
-    local state = nil
+    local ppos = run:getPlot():getClosestPPos(camera:toWorldCoords(input.getPointerPosition()))
 
-    local slotHover = lp.getHoveredSlot()
-    local hoveredSlot = slotHover and slotHover.entity
-    if hoveredSlot and hoveredSlot ~= selectedSlot then
-        ---@cast hoveredSlot Entity
-        if lp.canSwap(selectedSlot, hoveredSlot) and lp.canPlayerAccess(selectedItem, client.getClient()) then
-            state = CAN_MOVE
-        else
-            state = CANNOT_MOVE
-        end
-
-        local ppos = lp.getPos(hoveredSlot)
-        if state and ppos then
-            local col = COLORS[state]
-            drawSlotIndicator(ppos, col)
-        end
+    local state
+    if lp.canSwap(selection.ppos, ppos) and lp.canPlayerAccess(selectedItem, client.getClient()) then
+        state = CAN_MOVE
+    else
+        state = CANNOT_MOVE
     end
+
+    local col = COLORS[state]
+    drawSlotIndicator(ppos, col)
 end)
 
 
