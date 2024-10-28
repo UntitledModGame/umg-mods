@@ -44,9 +44,6 @@ local function queryRunServer()
     -- }
 end
 
----@type string?
-local runCache = nil
-
 ---@param run lootplot.main.Run
 local function serializeRun(run)
     ---@class lootplot.main.RunSerialized
@@ -61,22 +58,17 @@ end
 ---@param run lootplot.main.Run
 local function saveRunServer(run)
     local save = server.getSaveFilesystem()
-    local runSerialized
+    local runSerialized = nil
 
     if run:canSerialize() then
         umg.log.debug("Current run is serializable. Serializing run...")
         runSerialized = serializeRun(run)
-    else
-        if runCache then
-            umg.log.debug("Current run is not serializable. Using last snapshot...")
-            runSerialized = runCache
-        else
-            umg.log.debug("Current run is not serializable. Discarding run...")
-        end
     end
 
     if runSerialized then
         save:write(RUN_FILENAME, runSerialized)
+    else
+        umg.log.debug("Current run is not serializable. Discarding run...")
     end
 end
 
@@ -117,7 +109,11 @@ umg.on("@quit", function()
     local run = lp.main.getRun()
 
     if run and run:getAttribute("LEVEL") >= 1 and run:getAttribute("ROUND") >= 1 then
-        saveRunServer(run)
+        if run:isLose() then
+            runManager.deleteRun()
+        else
+            saveRunServer(run)
+        end
     end
 end)
 
@@ -132,12 +128,9 @@ function runManager.saveRun()
     return false
 end
 
-function runManager.snapshotRun()
-    local run = lp.main.getRun()
-
-    if run then
-        runCache = serializeRun(run)
-    end
+function runManager.deleteRun()
+    local save = server.getSaveFilesystem()
+    save:remove(RUN_FILENAME)
 end
 
 end -- if server

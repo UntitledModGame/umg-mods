@@ -183,7 +183,7 @@ function(clientId, plotEnt, pposIndex1, pposIndex2)
     -- TODO: check validity of arguments (bad actor could send any entity)
     -- TODO: check that we actually CAN move the items
     -- TODO: use qbus; check if we have permission
-    if lp.canSwap(ppos1, ppos2) and hasAccess(ppos1, clientId) and hasAccess(ppos2, clientId) then
+    if lp.canSwapItems(ppos1, ppos2) and hasAccess(ppos1, clientId) and hasAccess(ppos2, clientId) then
         lp.swapItems(ppos1, ppos2)
         if lp.posToItem(ppos1) then
             -- When we swap items, we automatically select the target item.
@@ -201,7 +201,7 @@ local function tryMove(clientId, srcPPos, targPPos)
     local plot = srcPPos:getPlot()
     assert(targPPos:getPlot() == plot) -- this is fails, we have big problem
 
-    if lp.canSwap(srcPPos, targPPos) and hasAccess(srcPPos, clientId) and hasAccess(targPPos, clientId) then
+    if lp.canSwapItems(srcPPos, targPPos) and hasAccess(srcPPos, clientId) and hasAccess(targPPos, clientId) then
         -- TODO: this event a bit bloaty/weird!!!
         -- redo/unify this when we get consumable items working.
         umg.call("lootplot:tryMoveItemsClient", srcPPos, targPPos)

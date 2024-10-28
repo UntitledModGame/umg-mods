@@ -1,9 +1,10 @@
+local CONST = require("client.juice_const")
 
 local LIFETIME = 0.4
 local VEL = 200
 local ROT = 1
 
-local function makePopup(dvec, txt, color, vel)
+local function makePopup(dvec, txt, color, vel, scale)
     local ent = client.entities.empty()
     ent.x,ent.y, ent.dimension = dvec.x, dvec.y, dvec.dimension
     ent.vx = 0
@@ -21,7 +22,7 @@ local function makePopup(dvec, txt, color, vel)
 
     local AMP = 6
     local SCALE = 2
-    ent.scale=(1/AMP) * SCALE
+    ent.scale=(1/AMP) * SCALE * (scale or 1)
     ent.bulgeJuice = {freq = 2, amp = AMP, start = love.timer.getTime(), duration = LIFETIME}
 
     ent.lifetime = LIFETIME
@@ -73,7 +74,13 @@ local COMBO = localization.newInterpolator("COMBO: %{combo:.0f}")
 umg.on("lootplot:comboChanged", function(ent, delta, oldVal, newVal)
     if newVal > 4 and (math.floor(newVal + 0.5) % 5 == 0) then
         local txt = COMBO({combo = newVal})
-        makePopup(ent, txt, objects.Color.YELLOW, VEL)
+        local scale = 0.75
+
+        if newVal % CONST.STAND_OUT_COMBO == 0 then
+            scale = 2
+        end
+
+        makePopup(ent, txt, objects.Color.YELLOW, VEL, scale)
     end
 end)
 

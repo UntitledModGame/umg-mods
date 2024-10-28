@@ -433,7 +433,7 @@ function lp.swapItems(ppos1, ppos2)
         return -- short-circuit
     end
 
-    if not lp.canSwap(ppos1, ppos2) then
+    if not lp.canSwapItems(ppos1, ppos2) then
         return
     end
 
@@ -445,11 +445,11 @@ function lp.swapItems(ppos1, ppos2)
     end
 
     if item1 then
-        ppos1:clear(item1)
+        ppos1:clear(item1.layer)
     end
 
     if item2 then
-        ppos2:clear(item2)
+        ppos2:clear(item2.layer)
     end
 
     if item1 then
@@ -550,7 +550,7 @@ end
 ---@param ppos1 lootplot.PPos
 ---@param ppos2 lootplot.PPos
 ---@return boolean
-function lp.canSwap(ppos1, ppos2)
+function lp.canSwapItems(ppos1, ppos2)
     return canMoveFromTo(ppos1, ppos2) and canMoveFromTo(ppos2, ppos1)
 end
 
@@ -650,7 +650,7 @@ function lp.reset(ent)
 end
 
 ---Availability: **Server**
----@param ent Entity
+---@param ent lootplot.LayerEntity
 function lp.destroy(ent)
     entityTc(ent)
     assertServer()
@@ -662,7 +662,7 @@ function lp.destroy(ent)
         end
         local ppos = lp.getPos(ent)
         if ppos then
-            ppos:clear(ent)
+            ppos:clear(ent.layer)
         end
         ptrack.clear(ent)
         ent:delete()

@@ -13,6 +13,9 @@ local MULT = reducers.MULTIPLY
 
 -- Flat camera offset. Answers should return 2 numbers
 umg.defineQuestion("rendering:getCameraOffset", reducers.ADD_VECTOR)
+umg.answer("rendering:getCameraOffset", function() -- default answer
+    return 0, 0
+end)
 
 -- Total camera position in world.
 -- Answers should return x,y position, and then a priority.

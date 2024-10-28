@@ -24,6 +24,11 @@ function NewRunState:init(cancelAction)
 
     self.scene = NewRunScene({
         startNewRun = function(startingItemName)
+            umg.analytics.collect("lootplot.main:newRun", {
+                starterItem = startingItemName,
+                hadRun = not not cancelRun
+            })
+
             state.pop(self)
             state.push(LPState(), Z_ORDER.LOOTPLOT_STATE)
             -- TODO: Proper setup options
