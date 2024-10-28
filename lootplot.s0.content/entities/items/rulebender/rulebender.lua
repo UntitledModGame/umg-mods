@@ -1,4 +1,8 @@
+
+local helper = require("shared.helper")
+
 local loc = localization.localize
+
 
 ---@param entry string
 local function rareItemFilter(entry)
@@ -181,6 +185,8 @@ lp.defineItem("lootplot.s0.content:old_brick", {
     basePointsGenerated = 60,
     baseMaxActivations = 10,
 
+    tierUpgrade = helper.pointsMultUpgrade(3),
+
     onActivate = function(selfEnt)
         lp.modifierBuff(selfEnt, "pointsGenerated", -2)
     end
@@ -197,6 +203,8 @@ lp.defineItem("lootplot.s0.content:spear_of_war", {
     rarity = lp.rarities.EPIC,
 
     baseMaxActivations = 100,
+
+    tierUpgrade = helper.pointsMultUpgrade(3),
 
     onActivate = function(ent)
         local combo = lp.getCombo(ent)

@@ -202,7 +202,7 @@ defineMineralClass("ruby", "Ruby", 1, {
         if ppos then
             return lp.queueWithEntity(selfEnt, function ()
                 lp.tryActivateEntity(selfEnt)
-                lp.wait(ppos, 0.2)
+                lp.wait(ppos, 0.33)
             end)
         end
     end

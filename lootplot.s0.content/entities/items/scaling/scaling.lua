@@ -17,9 +17,11 @@ end
 defineHelmet("spartan_helmet", {
     name = loc("Spartan Helmet"),
 
+    basePrice = 10,
+
     target = {
         type = "ITEM",
-        description = loc("{lootplot.targets:COLOR}Buff all {wavy}{lootplot:COMBINE_COLOR}UPGRADED{/lootplot:COMBINE_COLOR}{/wavy} target items: +1 points."),
+        description = loc("Buff all {wavy}{lootplot:COMBINE_COLOR}UPGRADED{/lootplot:COMBINE_COLOR}{/wavy} target items: +1 points."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.modifierBuff(targetEnt, "pointsGenerated", 1, selfEnt)
         end,
@@ -32,9 +34,11 @@ defineHelmet("spartan_helmet", {
 defineHelmet("cobalt_helmet", {
     name = loc("Cobalt Helmet"),
 
+    basePrice = 12,
+
     target = {
         type = "ITEM",
-        description = loc("{lootplot.targets:COLOR}Buff all {wavy}{lootplot:COMBINE_COLOR}UPGRADED{/lootplot:COMBINE_COLOR}{/wavy} target items: +1 activations."),
+        description = loc("Buff all {wavy}{lootplot:COMBINE_COLOR}UPGRADED{/lootplot:COMBINE_COLOR}{/wavy} target items: +1 activations."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.modifierBuff(targetEnt, "maxActivations", 1, selfEnt)
         end,
@@ -60,9 +64,11 @@ defineHelmet("emerald_helmet", {
 
     shape = lp.targets.KING_SHAPE,
 
+    basePrice = 10,
+
     target = {
         type = "SLOT_OR_ITEM",
-        description = loc("{lootplot.targets:COLOR}If target REROLLs, buff target +1 points."),
+        description = loc("If target has reroll trigger, buff target +1 points."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.modifierBuff(targetEnt, "maxActivations", 1, selfEnt)
         end,
