@@ -79,21 +79,21 @@ defineHelmet("emerald_helmet", {
 })
 
 
---[=[
 
-defineHelmet("cobalt_helmet", {
-    name = loc("Cobalt Helmet"),
+defineHelmet("doom_helmet", {
+    name = loc("Doom Helmet"),
+
+    description = loc("Gains +1 Points-Generated every activation"),
+    basePointsGenerated = 1,
 
     rarity = lp.rarities.EPIC,
 
-    target = {
-        type = "ITEM",
-        description = loc("{lootplot.targets:COLOR}Buff all {wavy}{lootplot:COMBINE_COLOR}UPGRADED{/lootplot:COMBINE_COLOR}{/wavy} target items: +1 points."),
-        activate = function(selfEnt, ppos, targetEnt)
-            lp.modifierBuff(targetEnt, "pointsGenerated", 1, selfEnt)
-        end,
-        filter = upgradeFilter
+    onActivate = function(ent)
+        lp.modifierBuff(ent, "pointsGenerated", 1)
+    end,
+
+    listen = {
+        trigger = "DESTROY"
     }
 })
 
-]=]

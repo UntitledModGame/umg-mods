@@ -177,7 +177,7 @@ lp.defineItem("lootplot.s0.content:boomerang", {
 
 lp.defineItem("lootplot.s0.content:old_brick", {
     name = loc("Old Brick"),
-    description = loc("Loses 2 points-generated when activated"),
+    description = loc("Loses 2 Points-Generated when activated"),
 
     image = "old_brick",
     rarity = lp.rarities.RARE,
