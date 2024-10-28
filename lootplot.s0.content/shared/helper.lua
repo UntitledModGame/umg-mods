@@ -63,24 +63,6 @@ end
 
 
 
-local tierLocTc = typecheck.assert("table")
-function helper.tierLocalize(tierStrings)
-    tierLocTc(tierStrings)
-    local tierToString = {}
-    for i,v in ipairs(tierStrings) do
-        tierToString[i] = localization.localize(v)
-    end
-    assert(tierToString[1], "Must have at least 1 string")
-    return function(ent)
-        local tier = lp.tiers.getTier(ent)
-        if tierToString[tier] then
-            return tierToString[tier]
-        end
-        return tierToString[1]
-    end
-end
-
-
 
 
 return helper

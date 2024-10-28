@@ -79,15 +79,17 @@ local function percentageOfBalanceGetter(percentage)
 end
 
 
+local BISHOP_RING_DESC = localization.newInterpolator("Earn points equal to {val}% of current balance.")
+
 lp.defineItem("lootplot.s0.content:bishop_ring", {
     image = "bishop_ring",
     name = loc("Bishop Ring"),
 
-    description = helper.tierLocalize({
-        "Earn money equal to 20% of current balance.\n(Max of $20)",
-        "Earn money equal to 40% of current balance.\n(Max of $20)",
-        "Earn money equal to 60% of current balance.\n(Max of $20)",
-    }),
+    description = function(ent)
+        return BISHOP_RING_DESC({
+            val = ent.tier * 20
+        })
+    end,
 
     basePointsGenerated = 0,
 
@@ -101,15 +103,17 @@ lp.defineItem("lootplot.s0.content:bishop_ring", {
 })
 
 
+local KING_RING_DESC = localization.newInterpolator("Earn money equal to {val}% of current balance.\n(Max of $20)")
+
 lp.defineItem("lootplot.s0.content:king_ring", {
     image = "king_ring",
     name = loc("King Ring"),
 
-    description = helper.tierLocalize({
-        "Earn money equal to 5% of current balance.\n(Max of $20)",
-        "Earn money equal to 10% of current balance.\n(Max of $20)",
-        "Earn money equal to 15% of current balance.\n(Max of $20)",
-    }),
+    description = function(ent)
+        return KING_RING_DESC({
+            val = ent.tier * 5
+        })
+    end,
 
     baseMoneyGenerated = 0,
 
