@@ -52,7 +52,11 @@ function NewRunScene:init(arg)
     })
     e.newRunButton = StretchableButton({
         onClick = function()
-            local itemEType = self.perkSelect:getSelectedItem()
+            local itemEType = self:getSelectedPerkItem()
+            if not itemEType then
+                umg.log.fatal("WOT WOT????")
+                return
+            end
             local typName = itemEType:getTypename()
             assert(itemEType:getEntityMt())
             return arg.startNewRun(assert(typName))
@@ -90,6 +94,9 @@ end
 
 
 
+function NewRunScene:getSelectedPerkItem()
+    return self.perkSelect:getSelectedItem()
+end
 
 
 
@@ -170,7 +177,7 @@ function NewRunScene:onRender(x, y, w, h)
     perkImg = bob(perkImg:padRatio(0.2):shrinkToAspectRatio(1,1), 0.1, 1.5)
     e.perkBox:render(perkBox:get())
     do
-    local etype = self.perkSelect:getSelectedItem() or {}
+    local etype = self:getSelectedPerkItem() or {}
     drawTextIn(etype.name or "?", bob(perkName, 0.1, 2.3))
     drawTextIn(etype.description or "???", perkDesc:padRatio(0.1))
     if etype.image then
@@ -186,7 +193,9 @@ function NewRunScene:onRender(x, y, w, h)
 
     -- start button:
     local startButton = footer:padRatio(0.15):shrinkToAspectRatio(4,1)
-    e.newRunButton:render(startButton:get())
+    if self:getSelectedPerkItem() then
+        e.newRunButton:render(startButton:get())
+    end
 
     if e.cancelButton and cancelButton then
         e.cancelButton:render(cancelButton:get())
