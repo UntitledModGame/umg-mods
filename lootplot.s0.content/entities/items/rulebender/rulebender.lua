@@ -171,6 +171,23 @@ lp.defineItem("lootplot.s0.content:boomerang", {
 })
 
 
+lp.defineItem("lootplot.s0.content:wooden_log", {
+    name = loc("Wooden Log"),
+    description = loc("Loses 2 points-generated when activated"),
+
+    image = "wooden_log",
+    rarity = lp.rarities.RARE,
+
+    basePointsGenerated = 50,
+    baseMaxActivations = 10,
+
+    onActivate = function(selfEnt)
+        lp.modifierBuff(selfEnt, "pointsGenerated", -2)
+    end
+})
+
+
+
 
 
 lp.defineItem("lootplot.s0.content:pink_balloon", {
