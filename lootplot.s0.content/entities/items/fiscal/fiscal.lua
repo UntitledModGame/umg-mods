@@ -168,7 +168,7 @@ lp.defineItem("lootplot.s0.content:money_bag", {
 
     rarity = lp.rarities.EPIC,
 
-    basePrice = 5,
+    basePrice = 10,
     tierUpgrade = helper.propertyUpgrade("price", 5, 5),
 
     lootplotProperties = {
@@ -207,7 +207,7 @@ lp.defineItem("lootplot.s0.content:contract", {
 
     rarity = lp.rarities.UNCOMMON,
 
-    basePrice = 5,
+    basePrice = 8,
     tierUpgrade = helper.propertyUpgrade("price", 5, 5),
 
     shape = lp.targets.KING_SHAPE,
@@ -235,7 +235,7 @@ lp.defineItem("lootplot.s0.content:gold_knuckles", {
 
     triggers = {},
 
-    basePrice = 5,
+    basePrice = 6,
     baseMoneyGenerated = 3,
     tierUpgrade = helper.propertyUpgrade("moneyGenerated", 2, 2),
 
