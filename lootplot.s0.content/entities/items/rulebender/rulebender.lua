@@ -237,68 +237,55 @@ lp.defineItem("lootplot.s0.content:pink_balloon", {
     }
 })
 
+------------------------------------------------------------
 
 
 
-lp.defineItem("lootplot.s0.content:pink_octopus", {
-    image = "pink_octopus",
+
+
+------------------------------------------------------------
+
+local function defineOcto(name, etype)
+    local id = "lootplot.s0.content:" .. name
+
+    etype.image = etype.image or id
+    etype.shape = etype.shape or lp.targets.KING_SHAPE
+    etype.rarity = etype.rarity or lp.rarities.RARE
+
+    etype.baseMaxActivations = 10
+    etype.tierUpgrade = helper.propertyUpgrade("maxActivations", 10, 2)
+
+    lp.defineItem(id, etype)
+end
+
+defineOcto("pink_octopusk", {
     name = loc("Pink Octopus"),
 
-    rarity = lp.rarities.RARE,
-
-    shape = lp.targets.KING_SHAPE,
-
     target = {
-        type = "ITEM",
-        description = loc("{lootplot.targets:COLOR}Triggers item."),
+        type = "ITEM_OR_SLOT",
+        description = loc("Triggers item or slot."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.tryTriggerEntity("PULSE", targetEnt)
         end
     }
 })
 
-lp.defineItem("lootplot.s0.content:orange_octopus", {
-    image = "orange_octopus",
-    name = loc("Orange Octopus"),
-
-    rarity = lp.rarities.EPIC,
-
-    shape = lp.targets.KING_SHAPE,
-
-    target = {
-        type = "SLOT",
-        description = loc("{lootplot.targets:COLOR}Triggers slot."),
-        activate = function(selfEnt, ppos, targetEnt)
-            lp.tryTriggerEntity("PULSE", targetEnt)
-        end
-    }
-})
-
-lp.defineItem("lootplot.s0.content:dark_octopus", {
-    image = "dark_octopus",
+defineOcto("dark_octopus", {
     name = loc("Dark Octopus"),
 
     rarity = lp.rarities.EPIC,
 
-    shape = lp.targets.KING_SHAPE,
-
     target = {
         type = "ITEM",
-        description = loc("{lootplot.targets:COLOR}Triggers destroy on item, without destroying it."),
+        description = loc("Triggers destroy on item, without destroying it."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.tryTriggerEntity("DESTROY", targetEnt)
         end
     }
 })
 
-
-lp.defineItem("lootplot.s0.content:reroll_octopus", {
-    image = "reroll_octopus",
+defineOcto("lootplot.s0.content:reroll_octopus", {
     name = loc("Reroll Octopus"),
-
-    rarity = lp.rarities.RARE,
-
-    shape = lp.targets.KING_SHAPE,
 
     target = {
         type = "SLOT_OR_ITEM",
@@ -308,6 +295,9 @@ lp.defineItem("lootplot.s0.content:reroll_octopus", {
         end
     }
 })
+
+------------------------------------------------------------
+
 
 
 

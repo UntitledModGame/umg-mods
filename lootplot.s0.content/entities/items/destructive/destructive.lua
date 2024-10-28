@@ -175,7 +175,7 @@ lp.defineItem("lootplot.s0.content:tooth_necklace", {
     onActivate = function(ent)
         local slotEnt = lp.itemToSlot(ent)
         if slotEnt then
-            slotEnt.doomCount = 4
+            slotEnt.doomCount = 6
         end
     end
 })
@@ -204,4 +204,24 @@ lp.defineItem("lootplot.s0.content:bomb", {
     },
 })
 
+
+
+
+lp.defineItem("lootplot.s0.content:skull", {
+    image = "skull",
+    name = loc("Skull"),
+
+    rarity = lp.rarities.EPIC,
+    doomCount = 1,
+
+    shape = lp.targets.KingShape(1),
+
+    target = {
+        type = "NO_ITEM",
+        description = loc("Spawns bones"),
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.trySpawnItem(ppos, server.entities.bone, selfEnt.lootplotTeam)
+        end
+    },
+})
 
