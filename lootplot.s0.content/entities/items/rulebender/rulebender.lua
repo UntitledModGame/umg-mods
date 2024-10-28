@@ -189,6 +189,25 @@ lp.defineItem("lootplot.s0.content:old_brick", {
 
 
 
+lp.defineItem("lootplot.s0.content:spear_of_war", {
+    name = loc("Spear of War"),
+    description = loc("Generates points equal to the current combo"),
+
+    image = "spear_of_war",
+    rarity = lp.rarities.EPIC,
+
+    baseMaxActivations = 100,
+
+    onActivate = function(ent)
+        local combo = lp.getCombo(ent)
+        if combo then
+            lp.addPoints(ent, combo)
+        end
+    end
+})
+
+
+
 
 lp.defineItem("lootplot.s0.content:pink_balloon", {
     image = "pink_balloon",
