@@ -19,7 +19,9 @@ local function defineBook(id, name, targetSlot, targetSlotName)
 
         shape = lp.targets.ABOVE_SHAPE,
 
-        tierUpgrade = true,
+        tierUpgrade = {
+            description = loc("Increases slot points-generated!")
+        },
 
         target = {
             type = "SLOT",

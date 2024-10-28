@@ -38,7 +38,23 @@ function helper.rerollPlot(plot)
 end
 
 
+local loc = localization.localize
+
+local PROP_DISPLAY_NAMES = {
+    pointsGenerated = loc("Points-Generated"),
+    moneyGenerated = loc("Money-Earned"),
+    price = loc("Price"),
+    maxActivations = loc("Max-Activations"),
+}
+
+local PROP_UPGRADE_DESC = localization.newInterpolator("Increases %{prop} by %{val}")
+
+
 local propertyUpgradeTc = typecheck.assert("string", "number", "number?")
+---@param prop string
+---@param startValue number
+---@param growthRate? number
+---@return table
 function helper.propertyUpgrade(prop, startValue, growthRate)
     --[[
     propertyUpgrade("pointsGenerated", 2, 5)
@@ -51,19 +67,41 @@ function helper.propertyUpgrade(prop, startValue, growthRate)
     growthRate = growthRate or 3
     local baseProp = assert(properties.getBase(prop))
 
-    return function(ent, _srcEnt, oldTier, newTier)
-        local exponent = newTier - 1
-        local newVal = startValue * (growthRate ^ exponent)
-        newVal = math.floor(newVal + 0.5)
-        ent[baseProp] = newVal
-        -- we dont need to sync `baseProp`; coz the property 
-        --  is computed serverside only, and sent over to client anyway.
-    end
+    local tierUpgrade = {
+        upgrade = function(ent, _srcEnt, oldTier, newTier)
+            local exponent = newTier - 1
+            local newVal = startValue * (growthRate ^ exponent)
+            newVal = math.floor(newVal + 0.5)
+            ent[baseProp] = newVal
+            -- we dont need to sync `baseProp`; coz the property 
+            --  is computed serverside only, and sent over to client anyway.
+        end,
+        description = PROP_UPGRADE_DESC({
+            prop = PROP_DISPLAY_NAMES[prop],
+            val = growthRate
+        })
+    }
+    return tierUpgrade
+end
+
+
+local POINT_MULT_UPGR_DESC = localization.newInterpolator("Increases %{prop} by %{val}")
+
+---@param mult number
+---@return table
+function helper.pointsMultUpgrade(mult)
+    assert(mult,"?")
+    local tierUpgrade = {
+        upgrade = function(ent, _srcEnt, oldTier, newTier)
+        end,
+        description = POINT_MULT_UPGR_DESC({
+            mult = mult
+        })
+    }
+    return tierUpgrade
 end
 
 
 
 
-
 return helper
-

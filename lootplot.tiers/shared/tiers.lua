@@ -22,8 +22,9 @@ function lp.tiers.upgradeTier(ent, sourceEnt)
     local oldTier = ent.tier
     ent.tier = ent.tier + 1
     umg.call("lootplot.tiers:entityUpgraded", ent, sourceEnt, oldTier, ent.tier)
-    if type(ent.tierUpgrade) == "function" then
-        ent:tierUpgrade(sourceEnt, oldTier, ent.tier)
+    local upgradeFunc = ent.tierUpgrade.upgrade
+    if upgradeFunc then
+        upgradeFunc(ent, sourceEnt, oldTier, ent.tier)
     end
     sync.syncComponent(ent, "tier")
     lp.tryTriggerEntity("UPGRADE_TIER", ent)
@@ -36,7 +37,10 @@ end
 
 
 
-local function canUpgrade(combineEnt, targetEnt)
+---@param combineEnt Entity
+---@param targetEnt Entity
+---@return boolean
+function lp.tiers.canUpgrade(combineEnt, targetEnt)
     if not (hasUpgrade(combineEnt) and hasUpgrade(targetEnt)) then
         return false
     end
@@ -46,8 +50,9 @@ local function canUpgrade(combineEnt, targetEnt)
     return false
 end
 
+
 umg.answer("lootplot:canCombineItems", function(itemA, itemB)
-    return canUpgrade(itemA, itemB)
+    return lp.tiers.canUpgrade(itemA, itemB)
 end)
 
 
@@ -56,7 +61,7 @@ local UPGRADE_TIME = 0.5
 
 
 umg.on("lootplot:itemsCombined", function(combineEnt, targetEnt)
-    if canUpgrade(combineEnt, targetEnt) then
+    if lp.tiers.canUpgrade(combineEnt, targetEnt) then
         lp.tiers.upgradeTier(targetEnt, combineEnt)
         lp.destroy(combineEnt)
         local ppos = lp.getPos(targetEnt)

@@ -10,15 +10,11 @@ Allows items to be upgraded.
 umg.call("lootplot.tiers:tierUpgraded", ent, oldTier, newTier)
 
 
-ent.tierUpgrades = {
-    onUpgrade = function(ent, oldTier, newTier)
+ent.tierUpgrade = {
+    upgrade = function(ent, oldTier, newTier)
         ...
     end,
     description = "Increases money generated"
-    properties = {
-        ...
-        moneyGenerated = {1, 3, 9}
-    }
 }
 ```
 

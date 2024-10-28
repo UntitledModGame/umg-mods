@@ -6,7 +6,6 @@ local loc = localization.localize
 local function defineMineral(mineralType, name, etype)
     etype.baseMaxActivations = etype.baseMaxActivations or 10
 
-    etype.tierUpgrade = true
     etype.mineralType = mineralType
 
     lp.defineItem(name, etype)
