@@ -309,3 +309,26 @@ lp.defineItem("lootplot.s0.content:reroll_octopus", {
     }
 })
 
+
+
+
+lp.defineItem("lootplot.s0.content:blank_page", {
+    image = "blank_page",
+    name = loc("Blank Page"),
+
+    rarity = lp.rarities.EPIC,
+
+    shape = lp.targets.ABOVE_SHAPE,
+
+    target = {
+        type = "ITEM",
+        description = loc("Copies Points-Generated of target item"),
+        activate = function(selfEnt, ppos, targetEnt)
+            if targetEnt.pointsGenerated then
+                selfEnt.basePointsGenerated = targetEnt.pointsGenerated
+                -- no need to sync; properties are synced automatically.
+            end
+        end
+    }
+})
+
