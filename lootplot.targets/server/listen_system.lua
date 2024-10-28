@@ -76,6 +76,11 @@ end)
 
 local function updateListenTargets(ent)
     ---@cast ent lootplot.ItemEntity
+    local ppos = lp.getPos(ent)
+    if not ppos then
+        return -- its not inside a plot!
+    end
+
     local pposLis = lp.targets.getShapePositions(ent)
     if not pposLis then
         umg.log.fatal("Couldn't listen, had no shape-positions ", ent)
