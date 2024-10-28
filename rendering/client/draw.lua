@@ -11,6 +11,9 @@ function draw.drawWorld()
 
     love.graphics.push()
     love.graphics.applyTransform(camera:getTransform())
+    ---@type number,number
+    local ox, oy = umg.ask("rendering:getCameraOffset")
+    love.graphics.translate(ox, oy)
 
     umg.call("rendering:drawBackground", camera)
 

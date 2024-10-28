@@ -133,9 +133,9 @@ function PPos:set(ent)
     return plot:set(x,y, ent)
 end
 
----@param ent lootplot.LayerEntity
-function PPos:clear(ent)
-    return self:getPlot():clear(self.slot, ent.layer)
+---@param layer string
+function PPos:clear(layer)
+    return self:getPlot():clear(self.slot, layer)
 end
 
 ---This gets the delta positions of `other` - `self`.

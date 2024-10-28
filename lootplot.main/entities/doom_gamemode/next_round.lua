@@ -18,7 +18,7 @@ local interp = localization.newInterpolator
 local function startRound(ent, ppos)
     local plot = ppos:getPlot()
     -- Ensure we have the run snapshot before starting round.
-    runManager.snapshotRun()
+    runManager.saveRun()
 
     lp.queue(ppos, function()
         if not umg.exists(ent) then
@@ -34,7 +34,7 @@ local function startRound(ent, ppos)
         lp.addMoney(ent, 8)
 
         -- Snapshot the run again.
-        runManager.snapshotRun()
+        runManager.saveRun()
     end)
 
     -- pulse all slots:
