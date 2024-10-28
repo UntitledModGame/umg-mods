@@ -197,6 +197,10 @@ umg.answer("lootplot:getPipelineDelayMultiplier", function()
     return 1 / currentMultipler
 end)
 
+end -- if server
+
+function Run:isLose()
+    return self.attrs.ROUND > self.attrs.NUMBER_OF_ROUNDS and self.attrs.POINTS < self.attrs.REQUIRED_POINTS
 end
 
 

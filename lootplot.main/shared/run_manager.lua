@@ -109,7 +109,11 @@ umg.on("@quit", function()
     local run = lp.main.getRun()
 
     if run and run:getAttribute("LEVEL") >= 1 and run:getAttribute("ROUND") >= 1 then
-        saveRunServer(run)
+        if run:isLose() then
+            runManager.deleteRun()
+        else
+            saveRunServer(run)
+        end
     end
 end)
 
@@ -122,6 +126,11 @@ function runManager.saveRun()
     end
 
     return false
+end
+
+function runManager.deleteRun()
+    local save = server.getSaveFilesystem()
+    save:remove(RUN_FILENAME)
 end
 
 end -- if server
