@@ -76,16 +76,19 @@ function helper.propertyUpgrade(prop, startValue, growthRate)
             -- we dont need to sync `baseProp`; coz the property 
             --  is computed serverside only, and sent over to client anyway.
         end,
-        description = PROP_UPGRADE_DESC({
-            prop = PROP_DISPLAY_NAMES[prop],
-            val = growthRate
-        })
+        description = function(ent)
+            return PROP_UPGRADE_DESC({
+                prop = PROP_DISPLAY_NAMES[prop],
+                val = (ent[baseProp] * (growthRate-1))
+            })
+        end
     }
     return tierUpgrade
 end
 
 
-local POINT_MULT_UPGR_DESC = localization.newInterpolator("Increases %{prop} by %{val}")
+
+local POINT_MULT_UPGR_DESC = localization.newInterpolator("Gives a %{mult} multiplier to Points-Generated")
 
 ---@param mult number
 ---@return table
@@ -100,7 +103,6 @@ function helper.pointsMultUpgrade(mult)
     }
     return tierUpgrade
 end
-
 
 
 
