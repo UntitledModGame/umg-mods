@@ -30,7 +30,6 @@ function ContinueState:init(runInfo)
             state.pop(self)
 
             local function cancel()
-                print(debug.traceback("cancel"))
                 return state.push(ContinueState(runInfo), Z_ORDER.CONTINUE_RUN_STATE)
             end
 
