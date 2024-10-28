@@ -252,8 +252,8 @@ local function defineOcto(name, etype)
     etype.shape = etype.shape or lp.targets.KING_SHAPE
     etype.rarity = etype.rarity or lp.rarities.RARE
 
-    etype.baseMaxActivations = 10
-    etype.tierUpgrade = helper.propertyUpgrade("maxActivations", 10, 2)
+    etype.baseMaxActivations = 5
+    etype.tierUpgrade = helper.propertyUpgrade("maxActivations", 5, 2)
 
     lp.defineItem(id, etype)
 end
