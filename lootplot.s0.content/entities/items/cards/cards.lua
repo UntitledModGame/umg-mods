@@ -140,7 +140,7 @@ defineCard("lootplot.s0.content:spades_card", {
             local s2 = slots[i + 1]
             local s1p = lp.getPos(s1)
             local s2p = lp.getPos(s2)
-            if s1p and s2p and lp.canSwap(s1p, s2p) then
+            if s1p and s2p and lp.canSwapItems(s1p, s2p) then
                 lp.swapItems(s1p, s2p)
             end
         end

@@ -98,7 +98,7 @@ umg.on("rendering:drawEffects", function(camera)
     local ppos = run:getPlot():getClosestPPos(camera:toWorldCoords(input.getPointerPosition()))
 
     local state
-    if lp.canSwap(selection.ppos, ppos) and lp.canPlayerAccess(selectedItem, client.getClient()) then
+    if lp.canSwapItems(selection.ppos, ppos) and lp.canPlayerAccess(selectedItem, client.getClient()) then
         state = CAN_MOVE
     else
         state = CANNOT_MOVE
