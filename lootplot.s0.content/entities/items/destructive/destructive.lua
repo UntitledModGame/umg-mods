@@ -158,7 +158,7 @@ lp.defineItem("lootplot.s0.content:candle", {
 lp.defineItem("lootplot.s0.content:tooth_necklace", {
     image = "tooth_necklace",
     name = loc("Tooth Necklace"),
-    description = loc("Gives slot doomed-4.\nOnly activates if the slot isn't doomed!"),
+    description = loc("Gives slot doomed-6.\nOnly activates if the slot isn't doomed!"),
 
     baseMaxActivations = 10,
     baseMoneyGenerated = 4,
