@@ -180,7 +180,9 @@ function Run:getMetadata()
         level = self.attrs.LEVEL,
         perk = self.perkItem,
         round = self.attrs.ROUND,
-        maxRound = self.attrs.NUMBER_OF_ROUNDS
+        maxRound = self.attrs.NUMBER_OF_ROUNDS,
+        points = self.attrs.POINTS,
+        requiredPoints = self.attrs.REQUIRED_POINTS
     }
     return t
 end
