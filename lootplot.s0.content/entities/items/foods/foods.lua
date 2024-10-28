@@ -288,6 +288,26 @@ defineFood("lootplot.s0.content:super_apple", {
     }
 })
 
+
+defineFood("lootplot.s0.content:golden_syrup", {
+    image = "golden_syrup",
+    name = loc("Golden Syrup"),
+
+    rarity = lp.rarities.EPIC,
+
+    shape = lp.targets.ABOVE_SHAPE,
+
+    target = {
+        type = "ITEM_OR_SLOT",
+        description = loc("Gives target item +1 money-earned"),
+        activate = function(selfEnt, ppos, ent)
+            lp.modifierBuff(ent, "moneyGenerated", 1)
+        end
+    }
+})
+
+
+
 ----------------------------------------------------------------------------
 
 
