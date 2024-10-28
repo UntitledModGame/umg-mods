@@ -23,12 +23,6 @@ defineDice("white_die", "White Die", {
 
 
 
---[[
-
-RED-DIE and GREEN-DIE synergize, 
-by repeatedly acrivating each other.
-
-]]
 defineDice("red_die", "Red Die", {
     triggers = {"REROLL"},
     rarity = lp.rarities.RARE,
