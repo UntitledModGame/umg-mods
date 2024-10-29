@@ -84,7 +84,6 @@ end
 if EXPORT_ON_EXIT then
 
 umg.on("@quit", function()
-    print("localization quit")
     local fsobj = (server or client).getSaveFilesystem()
     local jsondata = fsobj:read("localization.json")
     local strings = {}
