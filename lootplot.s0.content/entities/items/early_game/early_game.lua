@@ -36,6 +36,9 @@ lp.defineItem("lootplot.s0.content:key_bar", {
         })
     end,
 
+    basePrice = 4,
+    basePointsGenerated = 3,
+
     rarity = lp.rarities.COMMON,
 
     onActivate = function(ent)
@@ -48,8 +51,6 @@ lp.defineItem("lootplot.s0.content:key_bar", {
             end
         end
     end,
-
-    basePointsGenerated = 3
 })
 
 
@@ -107,6 +108,8 @@ lp.defineItem("lootplot.s0.content:reroll_pearls", {
     name = loc("Reroll Pearls"),
     description = loc("When destroyed, reroll everything"),
 
+    basePrice = 3,
+
     rarity = lp.rarities.COMMON,
 
     basePointsGenerated = 3,
@@ -140,9 +143,10 @@ lp.defineItem("lootplot.s0.content:trumpet", {
     rarity = lp.rarities.COMMON,
 
     baseMaxActivations = 10,
+    basePrice = 3,
 
-    basePointsGenerated = 5,
-    tierUpgrade = helper.propertyUpgrade("pointsGenerated", 5, 3),
+    basePointsGenerated = 4,
+    tierUpgrade = helper.propertyUpgrade("pointsGenerated", 4, 3),
 
     -- just for the funni
     onActivateClient = function(ent)

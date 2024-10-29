@@ -1,112 +1,35 @@
 local loc = localization.localize
 
 
+local function defDestructive(id, etype)
+    etype.image = etype.image or id
 
-local DARK_SKULL_DESC = localization.newInterpolator("After destroying {lootplot:BAD_COLOR}{wavy}%{count}{/wavy} items{/lootplot:BAD_COLOR}, spawns a %{rarity} item.")
-
-lp.defineItem("lootplot.s0.content:dark_skull", {
-    image = "dark_skull",
-
-    name = loc("Dark Skull"),
-
-    rarity = lp.rarities.UNCOMMON,
-
-    init = function(ent)
-        ent.killCount = 0
-    end,
-
-    description = function(ent)
-        return DARK_SKULL_DESC({
-            rarity = lp.rarities.LEGENDARY.displayString,
-            count = 20 - ent.killCount
-        })
-    end,
-
-    onActivate = function(selfEnt)
-        if selfEnt.killCount > 20 then
-            local ppos = lp.getPos(selfEnt)
-            lp.destroy(selfEnt)
-            if ppos then
-                local etype = lp.rarities.randomItemOfRarity(lp.rarities.LEGENDARY, selfEnt)
-                    or server.entities[lp.FALLBACK_NULL_ITEM]
-                lp.trySpawnItem(ppos, etype, selfEnt.lootplotTeam)
-            end
-        end
-    end,
-
-    shape = lp.targets.ABOVE_SHAPE,
-    target = {
-        type = "ITEM",
-        activate = function(selfEnt, ppos, targetEnt)
-            lp.destroy(targetEnt)
-            selfEnt.killCount = selfEnt.killCount + 1
-            sync.syncComponent(selfEnt, "killCount")
-        end
-    }
-})
-
+    return lp.defineItem("lootplot.s0.content:"..id, etype)
+end
 
 
 --[[
 
 TODO:
-TODO:
-TODO:
-THIS IS A TERRIBLY DESIGNED ITEM!!!!
-Remove this, replace with something better.
+REWORK DELETED ITEMS:
 
-IDEA:
-- Increase points-generated of all tier-2 items by 1
+
+Dark-skull
+
+
+death-by-taxes
+
+
 ]]
-lp.defineItem("lootplot.s0.content:death_by_taxes", {
-    image = "death_by_taxes",
-    name = loc("Death by Taxes"),
-
-    rarity = lp.rarities.COMMON,
-    basePrice = 1,
-
-    shape = lp.targets.RookShape(1),
-
-    target = {
-        type = "ITEM",
-        description = loc("Destroys target item, increases price by 10%."),
-        activate = function(selfEnt, ppos, targetEnt)
-            lp.destroy(targetEnt)
-            lp.multiplierBuff(selfEnt, "price", 1.1, selfEnt)
-        end
-    }
-})
 
 
-
-
-lp.defineItem("lootplot.s0.content:reaper", {
-    image = "reaper",
-    name = loc("Reaper"),
-    basePointsGenerated = 4,
-
-    rarity = lp.rarities.RARE,
-
-    shape = lp.targets.RookShape(1),
-
-    target = {
-        type = "ITEM",
-        description = loc("Destroy target items, permanently gain +3 points-generated"),
-        activate = function(selfEnt, ppos, targetEnt)
-            lp.destroy(targetEnt)
-            lp.modifierBuff(selfEnt, "pointsGenerated", 3)
-        end
-    },
-})
-
-
-lp.defineItem("lootplot.s0.content:empty_cauldron", {
-    image = "empty_cauldron",
+defDestructive("empty_cauldron", {
     name = loc("Empty Cauldron"),
 
     triggers = {"DESTROY"},
 
     rarity = lp.rarities.RARE,
+    basePrice = 8,
 
     shape = lp.targets.RookShape(1),
 
@@ -119,17 +42,18 @@ lp.defineItem("lootplot.s0.content:empty_cauldron", {
 
     target = {
         type = "NO_SLOT",
-        description = loc("Spawns a DESTROY slot."),
+        description = loc("Spawns a SELL slot."),
     }
 })
 
 
-lp.defineItem("lootplot.s0.content:candle", {
-    image = "candle",
+defDestructive("candle", {
     name = loc("Candle"),
     basePointsGenerated = 5,
 
     rarity = lp.rarities.EPIC,
+
+    basePrice = 15,
 
     shape = lp.targets.KING_SHAPE,
 
@@ -155,13 +79,14 @@ lp.defineItem("lootplot.s0.content:candle", {
 
 
 
-lp.defineItem("lootplot.s0.content:tooth_necklace", {
-    image = "tooth_necklace",
+defDestructive("tooth_necklace", {
     name = loc("Tooth Necklace"),
     description = loc("Gives slot doomed-6.\nOnly activates if the slot isn't doomed!"),
 
     baseMaxActivations = 10,
     baseMoneyGenerated = 4,
+
+    basePrice = 4,
 
     rarity = lp.rarities.UNCOMMON,
 
@@ -182,12 +107,13 @@ lp.defineItem("lootplot.s0.content:tooth_necklace", {
 
 
 
-lp.defineItem("lootplot.s0.content:bomb", {
-    image = "bomb",
+defDestructive("bomb", {
     name = loc("Bomb"),
 
     rarity = lp.rarities.UNCOMMON,
     doomCount = 1,
+
+    basePrice = 2,
 
     shape = lp.targets.UnionShape(
         lp.targets.KingShape(1),
@@ -207,12 +133,13 @@ lp.defineItem("lootplot.s0.content:bomb", {
 
 
 
-lp.defineItem("lootplot.s0.content:skull", {
-    image = "skull",
+defDestructive("skull", {
     name = loc("Skull"),
 
     rarity = lp.rarities.EPIC,
     doomCount = 1,
+
+    basePrice = 4,
 
     shape = lp.targets.KingShape(1),
 

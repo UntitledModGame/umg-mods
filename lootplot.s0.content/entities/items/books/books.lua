@@ -11,6 +11,8 @@ local function defineBook(id, name, targetSlot, targetSlotName)
 
         shape = lp.targets.ABOVE_SHAPE,
 
+        basePrice = 15,
+
         target = {
             type = "SLOT",
             description = loc("{lootplot.targets:COLOR}Converts target slot into " .. targetSlotName),

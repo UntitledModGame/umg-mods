@@ -4,6 +4,7 @@ local loc = localization.localize
 
 local function defineCard(name, cardEType)
     cardEType.rarity = cardEType.rarity or lp.rarities.RARE
+    cardEType.basePrice = cardEType.basePrice or 10
 
     lp.defineItem(name, cardEType)
 end

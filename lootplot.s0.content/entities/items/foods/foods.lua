@@ -364,6 +364,7 @@ This gives the player great intuition about what they do.
 
 local function definePotion(name, etype)
     etype.shape = lp.targets.ABOVE_SHAPE
+    etype.basePrice = etype.basePrice or 3
     defineFood(name, etype)
 end
 
@@ -446,7 +447,8 @@ definePotion("lootplot.s0.content:potion_purple", {
 ---@param etype table
 local function defineMush(id, etype)
     etype.image = id
-    etype.rarity = lp.rarities.RARE
+    etype.rarity = etype.rarity or lp.rarities.RARE
+    etype.basePrice = etype.basePrice or 2
     defineFood("lootplot.s0.content:" .. id, etype)
 end
 
@@ -511,6 +513,7 @@ defineMush("mushroom_purple", {
 defineMush("mushroom_floaty", {
     name = loc("Floaty Mushroom"),
     shape = lp.targets.ABOVE_SHAPE,
+    basePrice = 6,
 
     target = {
         description = loc("Allows item to float"),

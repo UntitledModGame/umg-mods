@@ -31,6 +31,8 @@ local interp = localization.newInterpolator
 
 local function defContra(id, etype)
     etype.image = etype.image or id
+    etype.basePrice = etype.basePrice or 8
+
     lp.defineItem("lootplot.s0.content:" .. id, etype)
 end
 
@@ -138,12 +140,10 @@ defContra("reroll_machine", {
 --[[
 TODO: maybe this shit is too OP?
 ]]
-lp.defineItem("lootplot.s0.content:round_timer", {
+defContra("round_timer", {
     name = loc("Round timer"),
     description = loc("Resets round to 1"),
     triggers = {},
-
-    image = "round_timer",
 
     baseMoneyGenerated = -30,
     doomCount = 4,

@@ -4,6 +4,7 @@ local helper = require("shared.helper")
 
 
 lp.defineItem("lootplot.s0.content:gold_sword", {
+    basePrice = 6,
     image = "gold_sword",
     name = loc("Golden Sword"),
     rarity = lp.rarities.RARE,
@@ -17,6 +18,7 @@ lp.defineItem("lootplot.s0.content:gold_axe", {
     name = loc("Golden Axe"),
 
     rarity = lp.rarities.RARE,
+    basePrice = 6,
 
     shape = lp.targets.ABOVE_BELOW_SHAPE,
 
@@ -41,11 +43,12 @@ lp.defineItem("lootplot.s0.content:gold_axe", {
 
 
 local goldBarDesc = localization.newInterpolator("After %{count} activations, give $10")
-local GOLD_BAR_ACTS = 10
+local GOLD_BAR_ACTS = 8
 
 lp.defineItem("lootplot.s0.content:gold_bar", {
     image = "gold_bar",
     name = loc("Gold Bar"),
+
     description = function(ent)
         return goldBarDesc({
             count = GOLD_BAR_ACTS - (ent.totalActivationCount or 0)
@@ -53,6 +56,7 @@ lp.defineItem("lootplot.s0.content:gold_bar", {
     end,
 
     basePointsGenerated = 3,
+    basePrice = 4,
 
     rarity = lp.rarities.COMMON,
 
@@ -95,6 +99,7 @@ lp.defineItem("lootplot.s0.content:bishop_ring", {
         description = loc("Increases percentage!")
     },
 
+    basePrice = 6,
     basePointsGenerated = 0,
 
     lootplotProperties = {
@@ -123,6 +128,7 @@ lp.defineItem("lootplot.s0.content:king_ring", {
         description = loc("Increases percentage!")
     },
 
+    basePrice = 6,
     baseMoneyGenerated = 0,
 
     lootplotProperties = {
@@ -148,6 +154,8 @@ lp.defineItem("lootplot.s0.content:lucky_horseshoe", {
 
     shape = lp.targets.ON_SHAPE,
 
+    basePrice = 2,
+
     target = {
         type = "SLOT",
         description = loc("50% chance to destroy slot.\n40% Chance to earn $5.\n10% Chance to spawn a KEY."),
@@ -158,6 +166,7 @@ lp.defineItem("lootplot.s0.content:lucky_horseshoe", {
                 -- YEAH, maths! (0.1 / (0.4+0.1) = 0.2)
                 if lp.SEED:randomMisc() < 0.2 then
                     lp.destroy(selfEnt)
+                    assert(server.entities.key, "YIKES")
                     lp.forceSpawnItem(ppos, server.entities.key, selfEnt.lootplotTeam)
                 else
                     lp.addMoney(selfEnt, 5)
@@ -266,6 +275,8 @@ lp.defineItem("lootplot.s0.content:gold_knuckles", {
 lp.defineItem("lootplot.s0.content:the_negotiator", {
     image = "the_negotiator",
     name = loc("The Negotiator"),
+
+    basePrice = 10,
 
     rarity = lp.rarities.EPIC,
 
