@@ -125,7 +125,7 @@ local function defineSlotSpawner(id_image, name, spawnSlot, spawnSlotName, shape
 
         rarity = extraComponents.rarity or lp.rarities.UNCOMMON,
 
-        basePrice = 4,
+        basePrice = 5,
 
         target = {
             type = "NO_SLOT",
