@@ -49,6 +49,50 @@ end
 
 -------------------------------------------------------------------
 
+local TUTORIAL_1_TEXT = loc("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}WASD / Right click\nto move around{/outline}{/wavy}")
+local TUTORIAL_2_TEXT = loc("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}Click to interact\n\nScroll mouse to\nzoom in/out{/outline}{/wavy}")
+
+umg.defineEntityType("lootplot.s0.starting_items:tutorial_text", {
+    lifetime = 50,
+
+    onUpdateServer = function(ent)
+        local run = lp.main.getRun()
+        if run and run:getAttribute("ROUND") > 1 then
+            ent:delete()
+        end
+    end,
+
+    onUpdateClient = function(ent)
+        local run = lp.main.getRun()
+        if run then
+            local plot = run:getPlot()
+            local pos = plot:getPPos(ent.pposX, ent.pposY):getWorldPos()
+            ent.x, ent.y = pos.x, pos.y
+        end
+    end,
+})
+
+---@param ppos lootplot.PPos
+---@param text table
+local function spawnTutorialText(ppos, text)
+    local textEnt = server.entities.tutorial_text()
+    textEnt.text = text
+    textEnt.pposX, textEnt.pposY = ppos:getCoords()
+    return textEnt
+end
+
+---@param ent Entity
+---@param name string
+local function removeTutorialText(ent, name)
+    local e = ent[name]
+    if e then
+        if umg.exists(e) then
+            e:delete()
+        end
+
+        ent[name] = nil
+    end
+end
 
 definePerk("one_ball", {
     name = loc("One Ball"),
@@ -65,6 +109,25 @@ definePerk("one_ball", {
         spawnSell(ent)
         spawnMoneyLimit(ent)
         wg.spawnSlots(assert(ppos:move(-4, -2)), server.entities.reroll_button_slot, 1,1, team)
+
+        -- Display tutorial text
+        spawnTutorialText(assert(ppos:move(0, -3)), {
+            text = TUTORIAL_1_TEXT,
+            align = "center",
+            oy = 10
+        })
+        spawnTutorialText(assert(ppos:move(3, 0)), {
+            text = TUTORIAL_2_TEXT,
+            align = "left"
+        })
+    end,
+
+    onActivate = function(ent)
+        -- Remove tutorial text once this has been activated twice.
+        if ent.totalActivationCount >= 2 then
+            removeTutorialText(ent, "tutorial1")
+            removeTutorialText(ent, "tutorial2")
+        end
     end
 })
 

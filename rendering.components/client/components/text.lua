@@ -45,21 +45,30 @@ umg.on("rendering:drawEntity", ORDER, function(ent, x,y, rot, sx,sy)
     local limit = 0xfffff
     local font = love.graphics.getFont()
     local txt = ent.text
+    local align = "center"
     local dx, dy = 0,0
 
     if type(txt) == "table" then
         dx, dy = txt.ox or 0, txt.oy or 0
         font = txt.font or love.graphics.getFont()
+        align = txt.align or align
         txt = getText(ent, txt)
     end
 
     assert(type(txt)=="string", "???")
-    local escpTxt = text.escapeRichTextSyntax(txt)
-    --[[
-    TODO: offsets should automatically be centered as per text.printRich call!
-    ]]
-    local ox = font:getWrap(escpTxt, limit)
-    local oy = font:getHeight()
-    text.printRich(txt, font, x+dx,y+dy, limit, "left", rot, sx,sy, ox/2, oy/2)
+    local escpTxt = text.stripEffects(txt)
+    local ox, lines = font:getWrap(escpTxt, limit)
+    local oy = font:getHeight() * #lines
+    local offsetX = 0
+
+    if align == "center" then
+        offsetX = ox / 2
+    elseif align == "right" then
+        offsetX = ox
+    elseif align ~= "justify" then
+        align = "left"
+    end
+
+    text.printRich(txt, font, x+dx,y+dy, ox, align, rot, sx,sy, offsetX, oy/2)
 end)
 

@@ -163,6 +163,11 @@ function LPState:update(dt)
         end
     end
 
+    local selected = lp.getCurrentSelection()
+    if selected and selected.item and hoveredEntity == selected.item then
+        hoveredEntity = nil
+    end
+
     if hoveredEntity ~= self.lastHoveredEntity then
         self:getScene():setCursorDescription(hoveredEntity)
         self.lastHoveredEntity = hoveredEntity
