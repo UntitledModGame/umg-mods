@@ -204,16 +204,14 @@ defFiscal("money_bag", {
 
 defFiscal("robbers_bag", {
     name = loc("Robbers Bag"),
-    description = loc("Steals money, and increases its price by the amount stolen!"),
-
-    baseMoneyGenerated = -3,
-    tierUpgrade = helper.propertyUpgrade("moneyGenerated", -3, 3),
+    description = loc("Multiplies money by -1.5"),
 
     rarity = lp.rarities.EPIC,
+    doomCount = 3,
 
     onActivate = function(ent)
-        local moneyGen = ent.moneyGenerated
-        lp.modifierBuff(ent, "price", -moneyGen, ent)
+        local money = lp.getMoney(ent) or 0
+        lp.setMoney(ent, money * -1.5)
     end
 })
 
