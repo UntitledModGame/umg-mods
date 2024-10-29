@@ -31,7 +31,7 @@ local function startRound(ent, ppos)
         plot:foreachLayerEntry(function(ent, ppos, layer)
             lp.reset(ent)
         end)
-        lp.addMoney(ent, 8)
+        lp.addMoney(ent, 6)
 
         -- Snapshot the run again.
         runManager.saveRun()
