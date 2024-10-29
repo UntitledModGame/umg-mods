@@ -1,6 +1,7 @@
 
 
 local loc = localization.localize
+local helper = require("shared.helper")
 
 
 local function defineDice(id, name, etype)
@@ -18,7 +19,8 @@ end
 defineDice("white_die", "White Die", {
     triggers = {"REROLL"},
     rarity = lp.rarities.EPIC,
-    baseMoneyGenerated = 2
+    baseMoneyGenerated = 2,
+    tierUpgrade = helper.propertyUpgrade("moneyGenerated", 2, 3)
 })
 
 
@@ -28,6 +30,8 @@ defineDice("red_die", "Red Die", {
     rarity = lp.rarities.RARE,
 
     shape = lp.targets.KING_SHAPE,
+
+    tierUpgrade = helper.propertyUpgrade("maxActivations", 5, 3),
 
     target = {
         type = "ITEM",
@@ -43,6 +47,8 @@ defineDice("black_die", "Black Die", {
     rarity = lp.rarities.RARE,
 
     shape = lp.targets.KING_SHAPE,
+
+    tierUpgrade = helper.propertyUpgrade("maxActivations", 5, 3),
 
     target = {
         type = "ITEM",

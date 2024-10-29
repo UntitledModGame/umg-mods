@@ -1,4 +1,5 @@
 local loc = localization.localize
+local interp = localization.newInterpolator
 
 
 local function defineHelmet(id, etype)
@@ -10,6 +11,11 @@ local function defineHelmet(id, etype)
 end
 
 
+local BASIC_BUFF_UPGRADE_DESC = {
+    description = loc("Increases buff amount!")
+}
+
+
 local function upgradeFilter(selfEnt, ppos, targetEnt)
     return lp.tiers.getTier(targetEnt) > 1
 end
@@ -19,15 +25,19 @@ defineHelmet("spartan_helmet", {
 
     basePrice = 10,
 
+    tierUpgrade = BASIC_BUFF_UPGRADE_DESC,
+
     target = {
         type = "ITEM",
-        description = loc("Buff all {wavy}{lootplot:COMBINE_COLOR}UPGRADED{/lootplot:COMBINE_COLOR}{/wavy} target items: +1 points."),
+        description = interp("Buff all {wavy}{lootplot:COMBINE_COLOR}UPGRADED{/lootplot:COMBINE_COLOR}{/wavy} target items: +%{tier} points."),
         activate = function(selfEnt, ppos, targetEnt)
-            lp.modifierBuff(targetEnt, "pointsGenerated", 1, selfEnt)
+            local x = lp.tiers.getTier(selfEnt)
+            lp.modifierBuff(targetEnt, "pointsGenerated", x, selfEnt)
         end,
         filter = upgradeFilter
     }
 })
+
 
 
 
@@ -36,11 +46,14 @@ defineHelmet("cobalt_helmet", {
 
     basePrice = 12,
 
+    tierUpgrade = BASIC_BUFF_UPGRADE_DESC,
+
     target = {
         type = "ITEM",
-        description = loc("Buff all {wavy}{lootplot:COMBINE_COLOR}UPGRADED{/lootplot:COMBINE_COLOR}{/wavy} target items: +1 activations."),
+        description = interp("Buff all {wavy}{lootplot:COMBINE_COLOR}UPGRADED{/lootplot:COMBINE_COLOR}{/wavy} target items: +%{tier} activations."),
         activate = function(selfEnt, ppos, targetEnt)
-            lp.modifierBuff(targetEnt, "maxActivations", 1, selfEnt)
+            local x = lp.tiers.getTier(selfEnt)
+            lp.modifierBuff(targetEnt, "maxActivations", x, selfEnt)
         end,
         filter = upgradeFilter
     }
@@ -66,11 +79,14 @@ defineHelmet("emerald_helmet", {
 
     basePrice = 10,
 
+    tierUpgrade = BASIC_BUFF_UPGRADE_DESC,
+
     target = {
         type = "SLOT_OR_ITEM",
-        description = loc("If target has reroll trigger, buff target +1 points."),
+        description = interp("If target has reroll trigger, buff target +%{tier} points."),
         activate = function(selfEnt, ppos, targetEnt)
-            lp.modifierBuff(targetEnt, "maxActivations", 1, selfEnt)
+            local x = lp.tiers.getTier(selfEnt)
+            lp.modifierBuff(targetEnt, "maxActivations", selfEnt, selfEnt)
         end,
         filter = function(selfEnt, ppos, targetEnt)
             return hasRerollTrigger(targetEnt)
@@ -83,13 +99,16 @@ defineHelmet("emerald_helmet", {
 defineHelmet("doom_helmet", {
     name = loc("Doom Helmet"),
 
-    description = loc("Gains +1 Points-Generated every activation"),
+    basePrice = 14,
+
+    description = loc("Gains +%{tier} Points-Generated every activation"),
     basePointsGenerated = 1,
 
     rarity = lp.rarities.EPIC,
 
     onActivate = function(ent)
-        lp.modifierBuff(ent, "pointsGenerated", 1)
+        local x = lp.tiers.getTier(ent)
+        lp.modifierBuff(ent, "pointsGenerated", x)
     end,
 
     listen = {
