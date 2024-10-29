@@ -258,7 +258,7 @@ local function defineOcto(name, etype)
     lp.defineItem(id, etype)
 end
 
-defineOcto("pink_octopusk", {
+defineOcto("pink_octopus", {
     name = loc("Pink Octopus"),
 
     target = {
@@ -284,7 +284,7 @@ defineOcto("dark_octopus", {
     }
 })
 
-defineOcto("lootplot.s0.content:reroll_octopus", {
+defineOcto("reroll_octopus", {
     name = loc("Reroll Octopus"),
 
     target = {
