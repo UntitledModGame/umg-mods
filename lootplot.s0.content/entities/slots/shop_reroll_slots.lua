@@ -31,6 +31,7 @@ local function buyServer(slotEnt)
     local itemEnt = lp.slotToItem(slotEnt)
     if itemEnt then
         lp.subtractMoney(slotEnt, itemEnt.price)
+        lp.tryTriggerEntity("BUY", itemEnt)
         setItemLock(slotEnt, false)
     end
 end

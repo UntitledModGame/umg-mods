@@ -179,25 +179,45 @@ defFiscal("lucky_horseshoe", {
 })
 
 
+defFiscal("gold_watch", {
+    name = loc("Gold Watch"),
+    description = loc("Increases price by 10%,\n(Max 200)"),
 
-defFiscal("money_bag", {
-    name = loc("Money Bag"),
-    description = loc("Price increases by 5% each activation.\nCapped at $200."),
-
+    tierUpgrade = helper.propertyUpgrade("price", 5, 5),
     rarity = lp.rarities.EPIC,
 
-    basePrice = 10,
-    tierUpgrade = helper.propertyUpgrade("price", 5, 5),
+    onActivate = function(ent)
+        local x = ent.price * 0.10
+        lp.modifierBuff(ent, "price", x, ent)
+    end,
 
     lootplotProperties = {
         maximums = {
             price = 200
         }
     },
+})
+
+
+defFiscal("a_small_loan", {
+    name = loc("A Small Loan"),
+
+    triggers = {"BUY"},
+    description = loc("Destroys slot and earns money when purchased."),
+
+    basePrice = 5,
+    baseMoneyGenerated = 25,
+
+    canItemFloat = true,
+    rarity = lp.rarities.RARE,
 
     onActivate = function(ent)
-        local x = ent.price * 0.05
-        lp.modifierBuff(ent, "price", x, ent)
+        local ppos = lp.getPos(ent)
+        local slotEnt = ppos and lp.posToSlot(ppos)
+        if slotEnt then
+            -- this will almost certainly be a shop-slot.
+            lp.destroy(slotEnt)
+        end
     end
 })
 
