@@ -91,7 +91,7 @@ umg.on("lootplot:populateDescription", TARGET_ACTIVATE_ORDER, function(ent, arr)
         addTargDescription(arr, ent, ent.target.description, "{lootplot.targets:COLOR}" )
     end
     if ent.listen and ent.listen.description then
-        addTargDescription(arr, ent, ent.target.description, "{lootplot.targets:LISTEN_COLOR}" )
+        addTargDescription(arr, ent, ent.listen.description, "{lootplot.targets:LISTEN_COLOR}" )
     end
 end)
 
