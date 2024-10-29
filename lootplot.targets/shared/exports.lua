@@ -143,8 +143,8 @@ function targets.setShape(itemEnt, shape)
 end
 
 
-targets.TARGET_COLOR = {1, 0.55, 0.1}
-targets.LISTEN_COLOR = {0.25, 0.4, 1}
+targets.TARGET_COLOR = {1, 0.65, 0.35}
+targets.LISTEN_COLOR = {0.35, 0.65, 1}
 
 
 -- How dare you overwriting lp.targets before us!
