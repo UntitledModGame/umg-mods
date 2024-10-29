@@ -7,6 +7,8 @@ local helper = require("shared.helper")
 local function defineDice(id, name, etype)
     etype.name = loc(name)
     etype.rarity = assert(etype.rarity)
+    etype.basePrice = 6
+    etype.image = etype.image or id
 
     return lp.defineItem("lootplot.s0.content:"..id, etype)
 end
