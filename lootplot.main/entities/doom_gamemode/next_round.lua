@@ -51,15 +51,15 @@ end
 local ROUND_NUM = interp("{wavy amp=0.5 k=0.5}{outline}Round %{round}/%{numberOfRounds}")
 local LEVEL_NUM = interp("{wavy amp=0.5 k=0.5}{outline}Level %{level}")
 
-lp.defineSlot("lootplot.main:next_round_button_slot", {
-    image = "round_button_up",
+lp.defineSlot("lootplot.main:pulse_button_slot", {
+    image = "pulse_button_up",
 
-    name = loc("Next-Round Button"),
-    description = loc("Click to go to the next round"),
+    name = loc("Pulse Button"),
+    description = loc("Click to PULSE the plot,\nand go to the next round!"),
 
     activateAnimation = {
-        activate = "round_button_hold",
-        idle = "round_button_up",
+        activate = "pulse_button_hold",
+        idle = "pulse_button_up",
         duration = 0.25
     },
 

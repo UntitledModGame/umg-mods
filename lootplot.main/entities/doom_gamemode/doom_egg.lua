@@ -36,7 +36,7 @@ lp.defineItem("lootplot.main:doom_egg", {
         -- Meta-buttons
         lp.forceSpawnSlot(
             assert(ppos:move(-4,0)),
-            server.entities.next_round_button_slot,
+            server.entities.pulse_button_slot,
             team
         )
         lp.forceSpawnSlot(
