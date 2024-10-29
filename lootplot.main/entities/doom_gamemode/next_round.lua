@@ -49,6 +49,7 @@ end
 
 
 local ROUND_NUM = interp("{wavy amp=0.5 k=0.5}{outline}Round %{round}/%{numberOfRounds}")
+local FINAL_ROUND_NUM = interp("{wavy freq=2.5 amp=0.75 k=1}{c r=1 g=0.2 b=0.1}{outline}FINAL ROUND %{round}/%{numberOfRounds}")
 local LEVEL_NUM = interp("{wavy amp=0.5 k=0.5}{outline}Level %{level}")
 
 lp.defineSlot("lootplot.main:pulse_button_slot", {
@@ -75,7 +76,18 @@ lp.defineSlot("lootplot.main:pulse_button_slot", {
 
         local round = lp.main.getRound(ent)
         local numberOfRounds = lp.main.getNumberOfRounds(ent)
-        local roundText = ROUND_NUM({
+
+        local roundTextMaker = ROUND_NUM
+        if round >= numberOfRounds then
+            local points = lp.getPoints(ent)
+            local requiredPoints = lp.main.getRequiredPoints(ent)
+
+            if points < requiredPoints then
+                roundTextMaker = FINAL_ROUND_NUM
+            end
+        end
+
+        local roundText = roundTextMaker({
             round = round,
             numberOfRounds = numberOfRounds
         })
