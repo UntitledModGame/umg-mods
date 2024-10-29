@@ -3,9 +3,15 @@ local loc = localization.localize
 local helper = require("shared.helper")
 
 
-lp.defineItem("lootplot.s0.content:gold_sword", {
+local function defFiscal(id, etype)
+    etype.image = etype.image or id
+
+    return lp.defineItem("lootplot.s0.content:"..id, etype)
+end
+
+
+defFiscal("gold_sword", {
     basePrice = 6,
-    image = "gold_sword",
     name = loc("Golden Sword"),
     rarity = lp.rarities.RARE,
     baseMoneyGenerated = 1,
@@ -13,8 +19,7 @@ lp.defineItem("lootplot.s0.content:gold_sword", {
 })
 
 
-lp.defineItem("lootplot.s0.content:gold_axe", {
-    image = "gold_axe",
+defFiscal("gold_axe", {
     name = loc("Golden Axe"),
 
     rarity = lp.rarities.RARE,
@@ -45,8 +50,7 @@ lp.defineItem("lootplot.s0.content:gold_axe", {
 local goldBarDesc = localization.newInterpolator("After %{count} activations, give $10")
 local GOLD_BAR_ACTS = 8
 
-lp.defineItem("lootplot.s0.content:gold_bar", {
-    image = "gold_bar",
+defFiscal("gold_bar", {
     name = loc("Gold Bar"),
 
     description = function(ent)
@@ -85,8 +89,7 @@ end
 
 local BISHOP_RING_DESC = localization.newInterpolator("Earn points equal to {val}% of current balance.")
 
-lp.defineItem("lootplot.s0.content:bishop_ring", {
-    image = "bishop_ring",
+defFiscal("bishop_ring", {
     name = loc("Bishop Ring"),
 
     description = function(ent)
@@ -114,8 +117,7 @@ lp.defineItem("lootplot.s0.content:bishop_ring", {
 
 local KING_RING_DESC = localization.newInterpolator("Earn money equal to {val}% of current balance.\n(Max of $20)")
 
-lp.defineItem("lootplot.s0.content:king_ring", {
-    image = "king_ring",
+defFiscal("king_ring", {
     name = loc("King Ring"),
 
     description = function(ent)
@@ -146,8 +148,7 @@ lp.defineItem("lootplot.s0.content:king_ring", {
 
 
 
-lp.defineItem("lootplot.s0.content:lucky_horseshoe", {
-    image = "lucky_horseshoe",
+defFiscal("lucky_horseshoe", {
     name = loc("Lucky Horseshoe"),
 
     rarity = lp.rarities.RARE,
@@ -178,8 +179,7 @@ lp.defineItem("lootplot.s0.content:lucky_horseshoe", {
 
 
 
-lp.defineItem("lootplot.s0.content:money_bag", {
-    image = "money_bag",
+defFiscal("money_bag", {
     name = loc("Money Bag"),
     description = loc("Price increases by 5% each activation.\nCapped at $200."),
 
@@ -200,8 +200,8 @@ lp.defineItem("lootplot.s0.content:money_bag", {
     end
 })
 
-lp.defineItem("lootplot.s0.content:robbers_bag", {
-    image = "robbers_bag",
+
+defFiscal("robbers_bag", {
     name = loc("Robbers Bag"),
     description = loc("Steals money, and increases its price by the amount stolen!"),
 
@@ -218,8 +218,7 @@ lp.defineItem("lootplot.s0.content:robbers_bag", {
 
 
 
-lp.defineItem("lootplot.s0.content:contract", {
-    image = "contract",
+defFiscal("contract", {
     name = loc("Contract"),
 
     rarity = lp.rarities.UNCOMMON,
@@ -244,8 +243,7 @@ lp.defineItem("lootplot.s0.content:contract", {
 
 
 
-lp.defineItem("lootplot.s0.content:gold_knuckles", {
-    image = "gold_knuckles",
+defFiscal("gold_knuckles", {
     name = loc("Gold Knuckles"),
 
     rarity = lp.rarities.RARE,
@@ -272,8 +270,7 @@ lp.defineItem("lootplot.s0.content:gold_knuckles", {
 
 
 
-lp.defineItem("lootplot.s0.content:the_negotiator", {
-    image = "the_negotiator",
+defFiscal("the_negotiator", {
     name = loc("The Negotiator"),
 
     basePrice = 10,
