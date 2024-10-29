@@ -91,6 +91,10 @@ lp.defineItem("lootplot.s0.content:bishop_ring", {
         })
     end,
 
+    tierUpgrade = {
+        description = loc("Increases percentage!")
+    },
+
     basePointsGenerated = 0,
 
     lootplotProperties = {
@@ -114,6 +118,10 @@ lp.defineItem("lootplot.s0.content:king_ring", {
             val = ent.tier * 5
         })
     end,
+
+    tierUpgrade = {
+        description = loc("Increases percentage!")
+    },
 
     baseMoneyGenerated = 0,
 
@@ -255,9 +263,9 @@ lp.defineItem("lootplot.s0.content:gold_knuckles", {
 
 
 
-lp.defineItem("lootplot.s0.content:robber", {
-    image = "robber",
-    name = loc("Robber"),
+lp.defineItem("lootplot.s0.content:the_negotiator", {
+    image = "the_negotiator",
+    name = loc("The Negotiator"),
 
     rarity = lp.rarities.EPIC,
 
