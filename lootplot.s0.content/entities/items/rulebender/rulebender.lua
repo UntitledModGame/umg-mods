@@ -322,3 +322,20 @@ lp.defineItem("lootplot.s0.content:blank_page", {
     }
 })
 
+
+
+
+lp.defineItem("lootplot.s0.content:anchor", {
+    image = "anchor",
+    name = loc("Anchor"),
+    description = loc("Sets points to 0."),
+
+    rarity = lp.rarities.EPIC,
+
+    baseMoneyGenerated = 4,
+
+    onActivate = function(ent)
+        lp.setPoints(ent, 0)
+    end
+})
+
