@@ -206,6 +206,8 @@ defFiscal("robbers_bag", {
     name = loc("Robbers Bag"),
     description = loc("Multiplies money by -1.5"),
 
+    basePrice = 5,
+
     rarity = lp.rarities.EPIC,
     doomCount = 3,
 
