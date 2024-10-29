@@ -31,9 +31,6 @@ function Interpolator:init(modname, text, context)
         stringsToLocalize[modname] = {}
     end
 
-    if EXPORT_ON_EXIT and not stringsToLocalize[modname][text] and client then
-        client.send("localization:cache", modname, text)
-    end
     stringsToLocalize[modname][text] = text
 end
 
@@ -84,45 +81,34 @@ end
 
 
 
--- TODO: Rectify this code once we have client-side saving.
 if EXPORT_ON_EXIT then
 
-umg.definePacket("localization:cache", {typelist = {"string", "string"}})
+umg.on("@quit", function()
+    print("localization quit")
+    local fsobj = (server or client).getSaveFilesystem()
+    local jsondata = fsobj:read("localization.json")
+    local strings = {}
 
-if server then
-    server.on("localization:cache", function(_, modname, text)
-        if not stringsToLocalize[modname] then
-            stringsToLocalize[modname] = {}
+    if jsondata then
+        local res, strs = pcall(json.decode, jsondata)
+        if res then
+            strings = strs
         end
-        stringsToLocalize[modname][text] = text
-    end)
+    end
 
-    umg.on("@quit", function()
-        local fsobj = server.getSaveFilesystem()
-        local jsondata = fsobj:read("localization.json")
-        local strings = {}
-
-        if jsondata then
-            local res, strs = pcall(json.decode, jsondata)
-            if res then
-                strings = strs
-            end
+    for modname, stringlist in pairs(stringsToLocalize) do
+        if not strings[modname] then
+            strings[modname] = {}
         end
 
-        for modname, stringlist in pairs(stringsToLocalize) do
-            if not strings[modname] then
-                strings[modname] = {}
-            end
-
-            for k, v in pairs(stringlist) do
-                strings[modname][k] = v
-            end
+        for k, v in pairs(stringlist) do
+            strings[modname][k] = v
         end
+    end
 
-        jsondata = json.encode(strings)
-        fsobj:write("localization.json", jsondata)
-    end)
-end
+    jsondata = json.encode(strings)
+    fsobj:write("localization.json", jsondata)
+end)
 
 end
 
