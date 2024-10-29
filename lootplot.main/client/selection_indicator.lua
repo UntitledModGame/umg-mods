@@ -4,15 +4,13 @@
 
 local PRIO_MOUSE = 10
 umg.answer("lootplot:getItemTargetPosition", function(itemEnt)
-    local ITEM_VERTICAL_OFFSET = 17
-
     local selection = lp.getCurrentSelection()
     local selectedItem = selection and lp.posToItem(selection.ppos)
     if itemEnt == selectedItem then
         if lp.canPlayerAccess(itemEnt, client.getClient()) then
             local camera = camera.get()
             local tx,ty = camera:toWorldCoords(input.getPointerPosition())
-            return tx,ty - ITEM_VERTICAL_OFFSET, PRIO_MOUSE
+            return tx,ty, PRIO_MOUSE
         end
     end
 end)
