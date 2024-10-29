@@ -147,25 +147,30 @@ function LPState:onRemoved()
 end
 
 function LPState:update(dt)
-    local hovered = lp.getHoveredSlot()
+    local hoveredSlot = lp.getHoveredSlot()
     local hoveredEntity = nil
 
-    if hovered then
-        local slotEnt = hovered.entity
+    if hoveredSlot then
+        local slotEnt = hoveredSlot.entity
         local itemEnt = lp.slotToItem(slotEnt)
         hoveredEntity = itemEnt or slotEnt
     else
         -- If item is floating
-        hovered = lp.getHoveredItem()
+        local hoveredItem = lp.getHoveredItem()
 
-        if hovered then
-            hoveredEntity = hovered.entity
+        if hoveredItem then
+            hoveredEntity = hoveredItem.entity
         end
     end
 
     local selected = lp.getCurrentSelection()
     if selected and selected.item and hoveredEntity == selected.item then
         hoveredEntity = nil
+
+        -- But if there's hovered slot, pick that instead
+        if hoveredSlot then
+            hoveredEntity = hoveredSlot.entity
+        end
     end
 
     if hoveredEntity ~= self.lastHoveredEntity then
