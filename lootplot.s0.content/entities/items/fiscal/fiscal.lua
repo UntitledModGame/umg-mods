@@ -1,5 +1,6 @@
 
 local loc = localization.localize
+local interp = localization.newInterpolator
 local helper = require("shared.helper")
 
 
@@ -291,3 +292,25 @@ defFiscal("the_negotiator", {
 })
 
 
+
+local DBT_DESC = interp("Gain {lootplot:POINTS_COLOR}%{points}{/lootplot:POINTS_COLOR} points.\n(money count cubed)\nThen, multiply money by -1.")
+
+defFiscal("death_by_taxes", {
+    name = loc("Death by Taxes"),
+
+    basePrice = 20,
+    rarity = lp.rarities.LEGENDARY,
+
+    description = function(ent)
+        local money = lp.getMoney(ent) or 0
+        return DBT_DESC({
+            points = money ^ 3
+        })
+    end,
+
+    onActivate = function(ent)
+        local money = lp.getMoney(ent) or 0
+        lp.setMoney(ent, -money)
+        lp.addPoints(ent, money^3)
+    end
+})
