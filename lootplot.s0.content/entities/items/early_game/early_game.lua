@@ -13,13 +13,12 @@ lp.defineItem("lootplot.s0.content:rocks", {
     image = "rocks",
 
     basePrice = 3,
-
+    basePointsGenerated = 10,
 
     lives = 1,
     name = loc("Rocks"),
     rarity = lp.rarities.COMMON,
     triggers = {"DESTROY"},
-    basePointsGenerated = 0
 })
 
 

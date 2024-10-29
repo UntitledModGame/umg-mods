@@ -157,6 +157,16 @@ end)
 
 
 
+local PRICE = interp("Price: {wavy}{lootplot:MONEY_COLOR}$%{price}")
+
+umg.on("lootplot:populateDescription", 50, function(ent, arr)
+    if ent.price then
+        arr:add(PRICE(ent))
+    end
+end)
+
+
+
 
 local DOOMED_MULTI = interp("{wavy}{lootplot:DOOMED_COLOR}DOOMED %{doomCount}:{/lootplot:DOOMED_COLOR}{/wavy} {lootplot:DOOMED_LIGHT_COLOR}Destroyed after %{doomCount} activations!")
 local DOOMED_1 = interp("{wavy}{lootplot:DOOMED_COLOR}DOOMED %{doomCount}:{/lootplot:DOOMED_COLOR}{/wavy} {lootplot:DOOMED_LIGHT_COLOR}Destroyed when activated!")
