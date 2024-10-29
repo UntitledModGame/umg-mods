@@ -332,7 +332,7 @@ lp.defineItem("lootplot.s0.content:anchor", {
 
     rarity = lp.rarities.EPIC,
 
-    baseMoneyGenerated = 4,
+    baseMoneyGenerated = 5,
 
     onActivate = function(ent)
         lp.setPoints(ent, 0)
