@@ -173,6 +173,7 @@ function Generator:query(pickChanceFunction)
         i = i + 1
     end
 
+    print("LOOKUP FAILED!")
     return nil -- Query failed; looped for too long
 end
 

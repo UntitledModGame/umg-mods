@@ -157,7 +157,7 @@ end
 local genCache = {}
 
 local function createGenerator(rarity)
-    lp.newItemGenerator({
+    return lp.newItemGenerator({
         filter = function(etypeName, _)
             local etype = server.entities[etypeName]
             if etype and etype.rarity and etype.rarity.id == rarity.id then
@@ -174,16 +174,14 @@ end
 
 ---Availability: Client and Server
 ---@param rarity lootplot.rarities.Rarity
----@param generationEnt Entity
----@param extraPickChance? generation.PickChanceFunction Function that returns the chance of an item being picked. 1 means pick always, 0 means fully skip this item (filtered out), anything inbetween is the chance of said entry be accepted or be rerolled.
+---@param dynamicSpawnChance? generation.PickChanceFunction Function that returns the chance of an item being picked. 1 means pick always, 0 means fully skip this item (filtered out), anything inbetween is the chance of said entry be accepted or be rerolled.
 ---@return (fun(...): Entity)?
-function lp.rarities.randomItemOfRarity(rarity, generationEnt, extraPickChance)
+function lp.rarities.randomItemOfRarity(rarity, dynamicSpawnChance)
     local gen = genCache[rarity] or createGenerator(rarity)
-    extraPickChance = extraPickChance or dummy
-    assert(extraPickChance ~= lp.getDynamicSpawnChance, "Shouldnt pass this in! Its already called!!")
+    dynamicSpawnChance = dynamicSpawnChance or dummy
     ---@cast gen generation.Generator
     local etypeName = gen:query(function(entry, weight)
-        return (extraPickChance(entry, weight) or 1) * lp.getDynamicSpawnChance(entry, generationEnt)
+        return dynamicSpawnChance(entry, weight) or 1
     end)
     return server.entities[etypeName]
 end

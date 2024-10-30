@@ -10,52 +10,34 @@ local function defItem(id, etype)
 end
 
 
----@param entry string
-local function rareItemFilter(entry)
-    local etype = server.entities[entry]
-    if etype and etype.rarity then
-        local rare = lp.rarities.getWeight(lp.rarities.RARE)
-        local etypeRarity = lp.rarities.getWeight(etype.rarity)
-        return etypeRarity >= rare
-    end
-    return false
-end
 
-
----@type generation.Generator
-local rareItemGen
-
-local function generateRareItem(ent)
-    rareItemGen = rareItemGen or lp.newItemGenerator({
-        filter = rareItemFilter
-    })
-
-    local itemName = rareItemGen
-        :query(function(entityType)
-            return lp.getDynamicSpawnChance(entityType, ent)
-        end)
-    return itemName or lp.FALLBACK_NULL_ITEM
-end
-
+local giftBoxDesc = localization.newInterpolator("After %{count} activations, spawn a random %{rarity} item")
+local GIFT_ACTIVATIONS = 0
 
 defItem("gift_box", {
     name = loc("Gift Box"),
 
-    rarity = lp.rarities.UNCOMMON,
+    description = function(ent)
+        return giftBoxDesc({
+            count = GIFT_ACTIVATIONS - (ent.totalActivationCount or 0),
+            rarity = lp.rarities.LEGENDARY.displayString
+        })
+    end,
 
-    doomCount = 1,
+    basePrice = 6,
+    rarity = lp.rarities.RARE,
 
-    shape = lp.targets.RookShape(1),
-
-    target = {
-        description = loc("Spawn RARE items."),
-        activate = function(selfEnt, ppos, targetEnt)
-            local etype = server.entities[generateRareItem(selfEnt)]
-            if etype then
-                lp.forceSpawnItem(ppos, etype, selfEnt.lootplotTeam)
+    onActivate = function(selfEnt)
+        if selfEnt.totalActivationCount >= GIFT_ACTIVATIONS then
+            local ppos = lp.getPos(selfEnt)
+            lp.destroy(selfEnt)
+            if ppos then
+                local etype = lp.rarities.randomItemOfRarity(lp.rarities.LEGENDARY)
+                    or server.entities[lp.FALLBACK_NULL_ITEM]
+                lp.trySpawnItem(ppos, etype, selfEnt.lootplotTeam)
             end
         end
-    }
+    end
 })
 
 
@@ -65,19 +47,15 @@ defItem("pandoras_box", {
 
     rarity = lp.rarities.EPIC,
 
-    shape = lp.targets.ABOVE_SHAPE,
+    shape = lp.targets.RookShape(1),
 
     target = {
-        type = "SLOT",
-        description = loc("{lootplot.targets:COLOR}Spawn a RARE item in an ABOVE shape that has only 1 use."),
+        type = "NO_ITEM",
+        description = loc("Spawn RARE items."),
         activate = function(selfEnt, ppos, targetEnt)
-            local etype = server.entities[generateRareItem(selfEnt)]
-
+            local etype = lp.rarities.randomItemOfRarity(lp.rarities.LEGENDARY)
             if etype then
-                local e = lp.trySpawnItem(ppos, etype, selfEnt.lootplotTeam)
-                if e then
-                    e.doomCount = 1
-                end
+                lp.trySpawnItem(ppos, etype, selfEnt.lootplotTeam)
             end
         end
     }
@@ -225,7 +203,9 @@ defItem("pink_balloon", {
         type = "ITEM_OR_SLOT",
         description = loc("If target isn't doomed, give target +1 lives"),
         activate = function(selfEnt, ppos, targetEnt)
-            targetEnt.lives = targetEnt.lives + 1
+            if not targetEnt.doomCount then
+                targetEnt.lives = (targetEnt.lives or 0) + 1
+            end
         end,
         filter = function(selfEnt, ppos, targetEnt)
             return (not targetEnt.doomCount)
