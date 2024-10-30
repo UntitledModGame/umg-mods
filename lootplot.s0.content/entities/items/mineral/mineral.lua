@@ -165,7 +165,7 @@ end
 "basic" mineral type.
 Doesnt do anything special; has decent stats
 ]]
-defineMineralClass("iron", "Iron", 1, {
+defineMineralClass("iron", "Iron", {
     baseMaxActivations = 15,
 })
 
@@ -173,7 +173,7 @@ defineMineralClass("iron", "Iron", 1, {
 --[[
 Activates on reroll
 ]]
-defineMineralClass("emerald", "Emerald", 1, {
+defineMineralClass("emerald", "Emerald", {
     triggers = {"REROLL"}
 })
 
@@ -183,7 +183,7 @@ Activates multiple times, like boomerang.
 (anti-synergy with octopus/activator builds!!)
 (since octopuses dont matter for ruby-items.)
 ]]
-defineMineralClass("ruby", "Ruby", 1, {
+defineMineralClass("ruby", "Ruby", {
     baseMaxActivations = 4,
     description = loc("Uses all activations at once!"),
     onActivate = function(selfEnt)
@@ -203,7 +203,7 @@ defineMineralClass("ruby", "Ruby", 1, {
 Activates when a target-item is destroyed!!!
 
 ]]
-defineMineralClass("cobalt", "Cobalt", 1, {
+defineMineralClass("cobalt", "Cobalt", {
     shape = lp.targets.RookShape(1),
     triggers = {},
     listen = {
@@ -218,7 +218,8 @@ lp.defineItem("lootplot.s0.content:diamond", {
     name = loc("Diamond"),
     description = loc("Can upgrade ANY mineral or tool item"),
 
-    rarity = lp.rarities.EPIC,
+    rarity = lp.rarities.LEGENDARY,
+    lives = 1,
 
     onCombine = function(selfEnt, targetItem)
         if targetItem.mineralType then
