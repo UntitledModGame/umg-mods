@@ -16,10 +16,6 @@ REWORK DELETED ITEMS:
 
 Dark-skull
 
-
-death-by-taxes
-
-
 ]]
 
 
@@ -136,12 +132,11 @@ defDestructive("bomb", {
 defDestructive("skull", {
     name = loc("Skull"),
 
-    rarity = lp.rarities.EPIC,
-    doomCount = 1,
+    rarity = lp.rarities.RARE,
 
-    basePrice = 4,
+    basePrice = 8,
 
-    shape = lp.targets.KingShape(1),
+    shape = lp.targets.RookShape(1),
 
     target = {
         type = "NO_ITEM",
@@ -152,3 +147,28 @@ defDestructive("skull", {
     },
 })
 
+
+--[[
+
+TODO:
+Do something with this.
+
+defDestructive("dark_skull", {
+    name = loc("Dark Skull"),
+
+    rarity = lp.rarities.EPIC,
+
+    basePrice = 12,
+
+    shape = lp.targets.RookShape(1),
+
+    target = {
+        type = "NO_ITEM",
+        description = loc("Spawns rocks"),
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.trySpawnItem(ppos, server.entities.rock, selfEnt.lootplotTeam)
+        end
+    },
+})
+
+]]

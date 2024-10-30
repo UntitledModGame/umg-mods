@@ -4,6 +4,12 @@ local helper = require("shared.helper")
 local loc = localization.localize
 
 
+local function defItem(id, etype)
+    etype.image = etype.image or id
+    return lp.defineItem("lootplot.s0.content:"..id, etype)
+end
+
+
 ---@param entry string
 local function rareItemFilter(entry)
     local etype = server.entities[entry]
@@ -32,8 +38,7 @@ local function generateRareItem(ent)
 end
 
 
-lp.defineItem("lootplot.s0.content:gift_box", {
-    image = "gift_box",
+defItem("gift_box", {
     name = loc("Gift Box"),
 
     rarity = lp.rarities.UNCOMMON,
@@ -55,8 +60,7 @@ lp.defineItem("lootplot.s0.content:gift_box", {
 
 
 
-lp.defineItem("lootplot.s0.content:pandoras_box", {
-    image = "pandoras_box",
+defItem("pandoras_box", {
     name = loc("Pandora's Box"),
 
     rarity = lp.rarities.EPIC,
@@ -82,11 +86,10 @@ lp.defineItem("lootplot.s0.content:pandoras_box", {
 
 
 local function defineCat(name, etype)
-    lp.defineItem(name, etype)
+    defItem(name, etype)
 end
 
-defineCat("lootplot.s0.content:copycat", {
-    image = "copycat",
+defineCat("copycat", {
     name = loc("Copycat"),
 
     rarity = lp.rarities.EPIC,
@@ -109,8 +112,7 @@ defineCat("lootplot.s0.content:copycat", {
 })
 
 
-defineCat("lootplot.s0.content:chubby_cat", {
-    image = "chubby_cat",
+defineCat("chubby_cat", {
     name = loc("Chubby Cat"),
     description = loc("Starts with 9 lives"),
 
@@ -128,8 +130,7 @@ defineCat("lootplot.s0.content:chubby_cat", {
 })
 
 
-defineCat("lootplot.s0.content:crappy_cat", {
-    image = "crappy_cat",
+defineCat("crappy_cat", {
     name = loc("Crappy Cat"),
 
     rarity = lp.rarities.RARE,
@@ -151,11 +152,9 @@ defineCat("lootplot.s0.content:crappy_cat", {
 
 
 
-lp.defineItem("lootplot.s0.content:boomerang", {
+defItem("boomerang", {
     name = loc("Boomerang"),
     description = loc("Uses all activations at once"),
-
-    image = "boomerang",
 
     basePointsGenerated = 1,
     baseMaxActivations = 10,
@@ -175,11 +174,10 @@ lp.defineItem("lootplot.s0.content:boomerang", {
 })
 
 
-lp.defineItem("lootplot.s0.content:old_brick", {
+defItem("old_brick", {
     name = loc("Old Brick"),
     description = loc("Loses 2 Points-Generated when activated"),
 
-    image = "old_brick",
     rarity = lp.rarities.RARE,
 
     basePointsGenerated = 60,
@@ -195,11 +193,10 @@ lp.defineItem("lootplot.s0.content:old_brick", {
 
 
 
-lp.defineItem("lootplot.s0.content:spear_of_war", {
+defItem("spear_of_war", {
     name = loc("Spear of War"),
     description = loc("Generates points equal to the current combo"),
 
-    image = "spear_of_war",
     rarity = lp.rarities.EPIC,
 
     baseMaxActivations = 100,
@@ -217,8 +214,7 @@ lp.defineItem("lootplot.s0.content:spear_of_war", {
 
 
 
-lp.defineItem("lootplot.s0.content:pink_balloon", {
-    image = "pink_balloon",
+defItem("pink_balloon", {
     name = loc("Pink Balloon"),
 
     rarity = lp.rarities.EPIC,
@@ -302,8 +298,7 @@ defineOcto("reroll_octopus", {
 
 
 
-lp.defineItem("lootplot.s0.content:blank_page", {
-    image = "blank_page",
+defItem("blank_page", {
     name = loc("Blank Page"),
 
     rarity = lp.rarities.EPIC,
@@ -325,8 +320,7 @@ lp.defineItem("lootplot.s0.content:blank_page", {
 
 
 
-lp.defineItem("lootplot.s0.content:anchor", {
-    image = "anchor",
+defItem("anchor", {
     name = loc("Anchor"),
     description = loc("Sets points to 0."),
 
