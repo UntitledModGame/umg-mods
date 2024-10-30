@@ -79,10 +79,10 @@ defineFood("lootplot.s0.content:eggplant", {
 
     target = {
         type = "SLOT_OR_ITEM",
-        description = loc("Removed DOOMED from target"),
+        description = loc("Give DOOMED-50 to target"),
         activate = function(selfEnt, ppos, targetEnt)
             if targetEnt.doomCount then
-                targetEnt:removeComponent("doomCount")
+                targetEnt.doomCount = 50
             end
         end
     }
