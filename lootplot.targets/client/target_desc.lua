@@ -80,7 +80,7 @@ local function addTargDescription(arr, ent, desc, colorEffect)
         arr:add(function()
             -- need to pass ent manually as a closure
             if umg.exists(ent) then
-                return desc(ent)
+                return colorEffect .. desc(ent)
             end
         end)
     end
