@@ -15,7 +15,7 @@ umg.on("lootplot:populateDescription", 70, function(ent, arr)
         arr:add("{lootplot:COMBINE_COLOR}---------------")
         arr:add("{lootplot:COMBINE_COLOR}{wavy}UPGRADE:")
         local desc = ent.tierUpgrade.description
-        if type(desc) == "function" then
+        if objects.isCallable(desc) then
             desc = desc(ent)
         end
         assert(type(desc) == "string", "?")

@@ -60,7 +60,7 @@ function Scene:init(lpState)
             return value, format
         end,
         currentGameSpeed = self.gameSpeedMultiplerFactor * SLIDER_SNAP_MULTIPLER,
-        gameSpeedRanges = {-2 * SLIDER_SNAP_MULTIPLER, 3 * SLIDER_SNAP_MULTIPLER}
+        gameSpeedRanges = {-2 * SLIDER_SNAP_MULTIPLER, 4 * SLIDER_SNAP_MULTIPLER}
     })
 
     self.itemDescriptionSelected = nil

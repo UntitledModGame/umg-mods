@@ -201,7 +201,7 @@ function lp.tryConvert(ppos, conversionType)
         local slot = lp.posToSlot(ppos)
         return (not not slot), slot
     elseif conversionType == "NO_ITEM" then
-        return not not (lp.posToSlot(ppos) and (not lp.posToItem(ppos)))
+        return (not lp.posToItem(ppos))
     elseif conversionType == "NO_SLOT" then
         return not lp.posToSlot(ppos)
     elseif conversionType == "ITEM_OR_SLOT" then

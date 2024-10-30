@@ -215,7 +215,7 @@ defineMineralClass("ruby", "Ruby", 1, {
 Activates when a target-item is destroyed!!!
 
 ]]
-defineMineralClass("cobalt", "Cobalt", 2, {
+defineMineralClass("cobalt", "Cobalt", 1, {
     shape = lp.targets.RookShape(1),
     triggers = {},
     listen = {

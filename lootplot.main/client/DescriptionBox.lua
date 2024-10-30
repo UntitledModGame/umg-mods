@@ -58,7 +58,7 @@ function DescriptionBox:draw(x, y, w, h)
             currentHeight = currentHeight + lastFont:getHeight() * scale
         elseif content.type == RICH_TEXT_TYPE then
             local str = content.data
-            if type(str) == "function" then
+            if objects.isCallable(str) then
                 str = str()
             end
             ---@cast str string
@@ -113,7 +113,7 @@ function DescriptionBox:getBestFitDimensions(maxWidth)
     for _, content in ipairs(self.contents) do
         if content.type == RICH_TEXT_TYPE then
             local str = content.data ---@cast str string
-            if type(str) == "function" then
+            if objects.isCallable(str) then
                 str = str()
             end
             local font = content.font or self.defaultFont

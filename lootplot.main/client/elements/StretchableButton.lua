@@ -70,7 +70,7 @@ function StretchableButton:onRender(x,y,w,h)
     end
 
     local usedButton = self:isPressedBy("input:CLICK_PRIMARY") and self.buttonPressed or self.button
-    if type(self.text) == "function" then
+    if objects.isCallable(self.text) then
         usedButton:getContent():setText(self.text())
     end
 

@@ -99,9 +99,10 @@ defineHelmet("emerald_helmet", {
 defineHelmet("doom_helmet", {
     name = loc("Doom Helmet"),
 
+    triggers = {},
     basePrice = 14,
 
-    description = loc("Gains +%{tier} Points-Generated every activation"),
+    description = interp("Gains +%{tier} Points-Generated every activation"),
     basePointsGenerated = 1,
 
     rarity = lp.rarities.EPIC,

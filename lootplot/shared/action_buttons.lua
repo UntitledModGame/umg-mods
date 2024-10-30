@@ -71,7 +71,7 @@ local function makeActionButton(ent, index)
         text = function()
             if umg.exists(ent) then
                 local txt = actionButton.text
-                if type(txt) == "function" then 
+                if objects.isCallable(txt) then
                     return txt(ent)
                 end
                 return txt or ""
