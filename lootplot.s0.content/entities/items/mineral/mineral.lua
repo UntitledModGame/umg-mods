@@ -13,7 +13,7 @@ end
 
 
 
-local function defineSword(mineral_type, name, mineralMult, etype)
+local function defineSword(mineral_type, name, etype)
     local namespace = umg.getModName() .. ":"
     local etypeName = namespace .. mineral_type .. "_sword"
     local image = mineral_type .. "_sword"
@@ -22,12 +22,6 @@ local function defineSword(mineral_type, name, mineralMult, etype)
     local swordType = ({
         image = image,
         name = loc(name .. " Sword"),
-
-        lootplotProperties = {
-            multipliers = {
-                pointsGenerated = mineralMult
-            }
-        },
 
         basePointsGenerated = pgen,
         tierUpgrade = helper.propertyUpgrade("pointsGenerated", pgen, 3),
@@ -46,7 +40,7 @@ end
 
 
 
-local function definePickaxe(mineral_type, name, mineralMult, etype)
+local function definePickaxe(mineral_type, name, etype)
     --[[
     TODO:
     What should pickaxe do???
@@ -81,7 +75,7 @@ end
 
 
 
-local function defineAxe(mineral_type, name, mineralMult, etype)
+local function defineAxe(mineral_type, name, etype)
     local namespace = umg.getModName() .. ":"
     local etypeName = namespace .. mineral_type .. "_axe"
     local image = mineral_type .. "_axe"
@@ -96,12 +90,6 @@ local function defineAxe(mineral_type, name, mineralMult, etype)
         image = image,
         name = loc(name .. " Axe"),
         mineralType = mineral_type,
-
-        lootplotProperties = {
-            multipliers = {
-                pointsGenerated = mineralMult / 2
-            }
-        },
 
         rarity = lp.rarities.RARE,
 
@@ -163,10 +151,10 @@ end
 
 
 
-local function defineMineralClass(mineral_type, name, mineralMult, etype)
-    defineSword(mineral_type, name, mineralMult, etype)
-    defineAxe(mineral_type, name, mineralMult, etype)
-    -- definePickaxe(mineral_type, name, mineralMult, etype)
+local function defineMineralClass(mineral_type, name, etype)
+    defineSword(mineral_type, name, etype)
+    defineAxe(mineral_type, name, etype)
+    -- definePickaxe(mineral_type, name, etype)
 
     definePiece(mineral_type, name)
 end
