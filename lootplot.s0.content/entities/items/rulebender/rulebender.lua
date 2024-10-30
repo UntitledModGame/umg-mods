@@ -12,7 +12,7 @@ end
 
 
 local giftBoxDesc = localization.newInterpolator("After %{count} activations, spawn a random %{rarity} item")
-local GIFT_ACTIVATIONS = 0
+local GIFT_ACTIVATIONS = 25
 
 defItem("gift_box", {
     name = loc("Gift Box"),
