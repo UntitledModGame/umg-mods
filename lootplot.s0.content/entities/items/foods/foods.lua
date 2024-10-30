@@ -78,8 +78,8 @@ defineFood("lootplot.s0.content:eggplant", {
     shape = lp.targets.ABOVE_SHAPE,
 
     target = {
-        type = "SLOT_OR_ITEM",
-        description = loc("Give DOOMED-50 to target"),
+        type = "ITEM_OR_SLOT",
+        description = loc("Give {wavy}{lootplot:DOOMED_COLOR}DOOMED-50{/lootplot:DOOMED_COLOR}{/wavy} to target"),
         activate = function(selfEnt, ppos, targetEnt)
             if targetEnt.doomCount then
                 targetEnt.doomCount = 50
