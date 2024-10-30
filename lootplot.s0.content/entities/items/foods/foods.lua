@@ -154,6 +154,9 @@ local function defineSlotSpawner(id_image, name, spawnSlot, spawnSlotName, shape
 end
 
 
+defineSlotSpawner("dirty_muffin", "Dirty Muffin", "dirt_slot", "Dirt Slot", lp.targets.CircleShape(2), {
+    rarity = lp.rarities.RARE,
+})
 
 defineSlotSpawner("glass_bottle", "Glass Bottle", "glass_slot", "Glass Slot", lp.targets.RookShape(5), {
     rarity = lp.rarities.RARE,
@@ -170,10 +173,15 @@ defineSlotSpawner("dragonfruit", "Dragonfruit", "slot", "Normal Slot", lp.target
 defineSlotSpawner("dragonfruit_slice", "Dragonfruit Slice", "slot", "Normal Slot", lp.targets.BishopShape(1))
 
 
-local function makeDoomed4(slotEnt)
-    slotEnt.doomCount = 4
+local function setDoomCountTo(x)
+    return function(slotEnt)
+        slotEnt.doomCount = x
+    end
 end
-defineSlotSpawner("soy_sauce", "Soy Sauce", "slot", "Doomed-4 Slot", lp.targets.RookShape(3), {}, makeDoomed4)
+defineSlotSpawner("soy_sauce", "Soy Sauce", "slot", "Doomed-4 Slot", 
+    lp.targets.RookShape(3), {},
+    setDoomCountTo(4)
+)
 
 
 defineSlotSpawner("fried_egg", "Fried Egg", "slot", "Slot with -5 points", lp.targets.KING_SHAPE, {}, function(slotEnt)
@@ -198,14 +206,14 @@ defineSlotSpawner("coconut", "Coconut", "dirt_slot", "Dirt Slot", lp.targets.Roo
 })
 
 
-defineSlotSpawner("green_lemon", "Green Lemon", "reroll_slot", "DOOMED-4 Reroll Slot", lp.targets.KingShape(2), {
+defineSlotSpawner("green_lemon", "Green Lemon", "reroll_slot", "DOOMED-5 Reroll Slot", lp.targets.KingShape(2), {
     rarity = lp.rarities.RARE,
-}, makeDoomed4)
+}, setDoomCountTo(5))
 
 
 defineSlotSpawner("lemon", "Lemon", "shop_slot", "DOOMED-4 Shop Slot", lp.targets.KingShape(2), {
     rarity = lp.rarities.RARE,
-}, makeDoomed4)
+}, setDoomCountTo(4))
 
 ----------------------------------------------------------------------------
 
@@ -244,11 +252,6 @@ local function defineSlotConverter(id_image, name, spawnSlot, spawnSlotName, sha
     defineFood(entId, etype)
 end
 
-
-defineSlotConverter("dirty_muffin", "Dirty Muffin", "dirt_slot", "Dirt Slot", lp.targets.LARGE_KING_SHAPE, {
-    rarity = lp.rarities.RARE,
-    basePrice = 2,
-})
 
 defineSlotConverter("golden_apple", "Golden Apple", "golden_slot", "Golden Slot", lp.targets.ON_SHAPE, {
     rarity = lp.rarities.UNCOMMON,

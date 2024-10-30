@@ -1,10 +1,13 @@
 local loc = localization.localize
 
+local txt = localization.newInterpolator("Cannot hold %{rarity} items."){
+    rarity = lp.rarities.RARE.displayString
+}
+
 return lp.defineSlot("lootplot.s0.content:dirt_slot", {
     image = "dirt_slot1",
     name = loc("Dirt slot"),
-    description = loc("Can hold {c r=0 g=1 b=0}{wavy}plant{/wavy}{/c} items. Cannot hold RARE items."),
-    baseTraits = {"lootplot.s0.content:BOTANIC"},
+    description = txt,
 
     init = function(ent)
         -- randomly flip the image to make it look cool.
