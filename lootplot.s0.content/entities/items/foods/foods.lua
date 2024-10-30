@@ -60,9 +60,13 @@ defineFood("lootplot.s0.content:magic_turnip", {
         description = loc("Transforms into random target item."),
         activate = function(selfEnt, ppos, targetEnt)
             local selfPPos = lp.getPos(selfEnt)
-
             if selfPPos then
-                lp.forceSpawnItem(selfPPos, server.entities[targetEnt:type()], selfEnt.lootplotTeam)
+                lp.destroy(selfEnt)
+                local copyEnt = lp.clone(targetEnt)
+                local success = lp.trySetItem(selfPPos, copyEnt)
+                if not success then
+                    copyEnt:delete()
+                end
             end
         end
     }
