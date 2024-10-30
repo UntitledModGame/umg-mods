@@ -28,6 +28,19 @@ if server then
     end
 end
 
+
+--- Checks if a value is callable
+---@param x any
+---@return boolean
+function objects.isCallable(x)
+    if type(x) == "function" then
+        return true
+    end
+    local mt = getmetatable(x)
+    return mt and mt.__call
+end
+
+
 if false then
     ---Provides functionality to common data structures.
     ---
