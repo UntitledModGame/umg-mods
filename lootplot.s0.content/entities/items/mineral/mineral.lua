@@ -143,6 +143,7 @@ local function definePiece(mineral_type, name)
         image = image,
         description = loc("Can upgrade " .. name .. " tools!"),
 
+        basePrice = 3,
         basePointsGenerated = 3,
         tierUpgrade = helper.propertyUpgrade("pointsGenerated", 3, 3),
 
