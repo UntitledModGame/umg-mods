@@ -86,7 +86,7 @@ defineHelmet("emerald_helmet", {
         description = interp("If target has reroll trigger, buff target +%{tier} points."),
         activate = function(selfEnt, ppos, targetEnt)
             local x = lp.tiers.getTier(selfEnt)
-            lp.modifierBuff(targetEnt, "maxActivations", selfEnt, selfEnt)
+            lp.modifierBuff(targetEnt, "maxActivations", x, selfEnt)
         end,
         filter = function(selfEnt, ppos, targetEnt)
             return hasRerollTrigger(targetEnt)
