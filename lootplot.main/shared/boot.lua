@@ -37,10 +37,9 @@ end)
 
 local r = lp.rarities
 lp.rarities.configureLevelSpawningLimits({
-    -- Rare items can only spawn after level 3.
-    -- epic items after level 5... etc etc.
-    [r.RARE] = 3,
-    [r.EPIC] = 5,
-    [r.LEGENDARY] = 9,
-    [r.MYTHIC] = 14,
+    [r.UNCOMMON] = 2, -- UNCOMMON items spawn at this level
+    [r.RARE] = 4, -- RARE items start spawning at this level
+    [r.EPIC] = 7, -- (etc)
+    [r.LEGENDARY] = 12,
+    [r.MYTHIC] = 16,
 })

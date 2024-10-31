@@ -26,7 +26,7 @@ local function defineSword(mineral_type, name, etype)
         basePointsGenerated = pgen,
         tierUpgrade = helper.propertyUpgrade("pointsGenerated", pgen, 3),
 
-        rarity = lp.rarities.UNCOMMON,
+        rarity = lp.rarities.COMMON,
 
         basePrice = 4,
     })

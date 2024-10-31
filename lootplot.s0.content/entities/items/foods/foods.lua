@@ -183,7 +183,7 @@ defineSlotSpawner("glass_bottle", "Glass Bottle", "glass_slot", "Glass Slot", lp
 })
 
 defineSlotSpawner("glass_tube", "Glass Bottle", "glass_slot", "Glass Slot", lp.targets.BishopShape(4), {
-    rarity = lp.rarities.COMMON,
+    rarity = lp.rarities.UNCOMMON,
 })
 
 defineSlotSpawner("stone_fruit", "Stone fruit", "null_slot", "Null Slot", lp.targets.RookShape(1))

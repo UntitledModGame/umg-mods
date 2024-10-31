@@ -54,22 +54,25 @@ lp.defineItem("lootplot.s0.content:key_bar", {
 })
 
 
+
+
 --[[
-
-TODO:
-Do something good with the stick
-
+Purpose of STICK is to give intuition
+about how multiple triggers work. (REROLL, PULSE trigger)
 ]]
--- lp.defineItem("lootplot.s0.content:stick", {
---     image = "stick",
+lp.defineItem("lootplot.s0.content:stick", {
+    image = "stick",
+    name = loc("Stick"),
 
---     name = loc("Stick"),
---     description = loc("Turns into a boomerang after 3 activations"),
+    triggers = {"REROLL", "PULSE"},
 
---     rarity = lp.rarities.COMMON,
+    rarity = lp.rarities.COMMON,
 
---     basePointsGenerated = 3,
--- })
+    basePointsGenerated = 2,
+    basePrice = 3,
+
+    tierUpgrade = helper.propertyUpgrade("pointsGenerated", 2, 3)
+})
 
 
 
