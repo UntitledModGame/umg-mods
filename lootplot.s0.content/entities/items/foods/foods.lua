@@ -477,8 +477,7 @@ end
 
 defineMush("mushroom_red", {
     name = loc("Red Mushroom"),
-
-    shape = lp.targets.ABOVE_SHAPE,
+    shape = lp.targets.KING_SHAPE,
 
     target = {
         type = "ITEM",
@@ -497,7 +496,7 @@ defineMush("mushroom_red", {
 
 defineMush("mushroom_green", {
     name = loc("Green Mushroom"),
-    shape = lp.targets.ABOVE_SHAPE,
+    shape = lp.targets.KING_SHAPE,
 
     target = {
         type = "ITEM",
@@ -516,7 +515,7 @@ defineMush("mushroom_green", {
 
 defineMush("mushroom_purple", {
     name = loc("Purple Mushroom"),
-    shape = lp.targets.ABOVE_SHAPE,
+    shape = lp.targets.KING_SHAPE,
 
     target = {
         type = "ITEM",
