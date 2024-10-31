@@ -297,6 +297,10 @@ defineFood("lootplot.s0.content:super_apple", {
 
 
 defineFood("lootplot.s0.content:golden_syrup", {
+    --[[
+    is this item too OP?
+    probably, honestly. Oh well
+    ]]
     image = "golden_syrup",
     name = loc("Golden Syrup"),
 
@@ -306,7 +310,7 @@ defineFood("lootplot.s0.content:golden_syrup", {
 
     target = {
         type = "ITEM_OR_SLOT",
-        description = loc("Gives target item +1 money-earned"),
+        description = loc("Gives target item/slot +1 money-earned"),
         activate = function(selfEnt, ppos, ent)
             lp.modifierBuff(ent, "moneyGenerated", 1)
         end

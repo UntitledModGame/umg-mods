@@ -12,10 +12,11 @@ end
 
 
 defFiscal("gold_sword", {
-    basePrice = 6,
+    basePrice = 8,
     name = loc("Golden Sword"),
     rarity = lp.rarities.RARE,
     baseMoneyGenerated = 1,
+    baseMaxActivations = 1,
     tierUpgrade = helper.propertyUpgrade("moneyGenerated", 1, 3)
 })
 
@@ -24,11 +25,12 @@ defFiscal("gold_axe", {
     name = loc("Golden Axe"),
 
     rarity = lp.rarities.RARE,
-    basePrice = 6,
+    basePrice = 10,
 
-    shape = lp.targets.ABOVE_BELOW_SHAPE,
+    shape = lp.targets.KNIGHT_SHAPE,
 
     baseMoneyGenerated = 1,
+    baseMaxActivations = 1,
     tierUpgrade = helper.propertyUpgrade("moneyGenerated", 1, 2),
 
     target = {
