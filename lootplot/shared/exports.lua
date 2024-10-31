@@ -1063,6 +1063,19 @@ function lp.tryTriggerEntity(name, ent)
     return trigger.tryTriggerEntity(name, ent)
 end
 
+local EMPTY_TRIGGERS = {}
+---@param ent Entity
+---@param name string
+---@return boolean
+function lp.hasTrigger(ent, name)
+    for _,t in ipairs(ent.triggers or EMPTY_TRIGGERS) do
+        if t == name then
+            return true
+        end
+    end
+    return false
+end
+
 
 ---Availability: Client and Server
 ---@param name string

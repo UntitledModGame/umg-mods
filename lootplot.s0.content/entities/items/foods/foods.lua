@@ -3,16 +3,15 @@
 local loc = localization.localize
 
 
-local function defineFood(entName, etype)
+local function defineFood(id, etype)
     etype.doomCount = etype.doomCount or 1
+    etype.image = etype.image or id
 
-    lp.defineItem(entName, etype)
+    lp.defineItem("lootplot.s0.content:" .. id, etype)
 end
 
 
-defineFood("lootplot.s0.content:blueberry", {
-    image = "blueberry",
-
+defineFood("blueberry", {
     name = loc("Blueberry"),
 
     rarity = lp.rarities.EPIC,
@@ -47,8 +46,7 @@ These fruit(s?) are always free to be used!
 
 
 
-defineFood("lootplot.s0.content:magic_turnip", {
-    image = "magic_turnip",
+defineFood("magic_turnip", {
     name = loc("Magic Turnip"),
 
     rarity = lp.rarities.EPIC,
@@ -73,8 +71,32 @@ defineFood("lootplot.s0.content:magic_turnip", {
 })
 
 
-defineFood("lootplot.s0.content:eggplant", {
-    image = "eggplant",
+
+defineFood("green_olive", {
+    name = loc("Green Olive"),
+
+    rarity = lp.rarities.EPIC,
+
+    shape = lp.targets.ABOVE_SHAPE,
+
+    target = {
+        type = "ITEM",
+        description = loc("Gives REROLL Trigger to target item."),
+        activate = function(selfEnt, ppos, targetEnt)
+            if not lp.hasTrigger(targetEnt, "REROLL") then
+                local triggers = objects.Array(targetEnt.triggers or {})
+                triggers:add("REROLL")
+                targetEnt.triggers = triggers
+                sync.syncComponent(targetEnt, "triggers")
+            end
+        end
+    }
+})
+
+
+
+
+defineFood("eggplant", {
     name = loc("Eggplant"),
 
     rarity = lp.rarities.LEGENDARY,
@@ -94,8 +116,7 @@ defineFood("lootplot.s0.content:eggplant", {
 
 
 
-defineFood("lootplot.s0.content:heart_fruit", {
-    image = "heart_fruit",
+defineFood("heart_fruit", {
     name = loc("Heart Fruit"),
 
     rarity = lp.rarities.UNCOMMON,
@@ -120,7 +141,6 @@ defineFood("lootplot.s0.content:heart_fruit", {
 
 
 local function defineSlotSpawner(id_image, name, spawnSlot, spawnSlotName, shape, extraComponents, slotModifier)
-    local entId = "lootplot.s0.content:" .. id_image
     extraComponents = extraComponents or {}
 
     local etype = {
@@ -150,7 +170,7 @@ local function defineSlotSpawner(id_image, name, spawnSlot, spawnSlotName, shape
         etype[k] = v
     end
 
-    defineFood(entId, etype)
+    defineFood(id_image, etype)
 end
 
 
@@ -223,12 +243,11 @@ defineSlotSpawner("lemon", "Lemon", "shop_slot", "DOOMED-4 Shop Slot", lp.target
 
 ----------------------------------------------------------------------------
 
-local function defineSlotConverter(id_image, name, spawnSlot, spawnSlotName, shape, extraComponents, slotModifier)
-    local entId = "lootplot.s0.content:" .. id_image
+local function defineSlotConverter(id, name, spawnSlot, spawnSlotName, shape, extraComponents, slotModifier)
     extraComponents = extraComponents or {}
 
     local etype = {
-        image = id_image,
+        image = id,
         name = loc(name),
 
         shape = shape,
@@ -249,7 +268,7 @@ local function defineSlotConverter(id_image, name, spawnSlot, spawnSlotName, sha
     for k,v in pairs(extraComponents) do
         etype[k] = v
     end
-    defineFood(entId, etype)
+    defineFood(id, etype)
 end
 
 
@@ -270,7 +289,7 @@ end)
 ----------------------------------------------------------------------------
 
 
-defineFood("lootplot.s0.content:super_apple", {
+defineFood("super_apple", {
     image = "apple",
     name = loc("Super Apple"),
 
@@ -296,12 +315,11 @@ defineFood("lootplot.s0.content:super_apple", {
 })
 
 
-defineFood("lootplot.s0.content:golden_syrup", {
+defineFood("golden_syrup", {
     --[[
     is this item too OP?
     probably, honestly. Oh well
     ]]
-    image = "golden_syrup",
     name = loc("Golden Syrup"),
 
     rarity = lp.rarities.EPIC,
@@ -327,7 +345,7 @@ defineFood("lootplot.s0.content:golden_syrup", {
 
 
 local function definePie(id, name, desc, addShape, rarity)
-    defineFood("lootplot.s0.content:" .. id, {
+    defineFood(id, {
         image = id,
         name = loc(name),
 
@@ -379,9 +397,7 @@ local function definePotion(name, etype)
     defineFood(name, etype)
 end
 
-definePotion("lootplot.s0.content:potion_green", {
-    image = "potion_green",
-
+definePotion("potion_green", {
     name = loc("Green Potion"),
 
     rarity = lp.rarities.EPIC,
@@ -397,8 +413,7 @@ definePotion("lootplot.s0.content:potion_green", {
 
 
 
-definePotion("lootplot.s0.content:potion_blue", {
-    image = "potion_blue",
+definePotion("potion_blue", {
     name = loc("Blue Potion"),
 
     rarity = lp.rarities.COMMON,
@@ -413,8 +428,7 @@ definePotion("lootplot.s0.content:potion_blue", {
 })
 
 
-definePotion("lootplot.s0.content:potion_red", {
-    image = "potion_red",
+definePotion("potion_red", {
     name = loc("Red Potion"),
 
     rarity = lp.rarities.EPIC,
@@ -429,8 +443,7 @@ definePotion("lootplot.s0.content:potion_red", {
 })
 
 
-definePotion("lootplot.s0.content:potion_purple", {
-    image = "potion_purple",
+definePotion("potion_purple", {
     name = loc("Purple Potion"),
 
     rarity = lp.rarities.UNCOMMON,
@@ -457,10 +470,9 @@ definePotion("lootplot.s0.content:potion_purple", {
 ---@param id string
 ---@param etype table
 local function defineMush(id, etype)
-    etype.image = id
     etype.rarity = etype.rarity or lp.rarities.RARE
     etype.basePrice = etype.basePrice or 2
-    defineFood("lootplot.s0.content:" .. id, etype)
+    defineFood(id, etype)
 end
 
 defineMush("mushroom_red", {
@@ -561,7 +573,7 @@ local function defineDonut(id, name, targetDesc, buffAmount)
             end
         }
     }
-    defineFood("lootplot.s0.content:" .. id, etype)
+    defineFood(id, etype)
 end
 
 
