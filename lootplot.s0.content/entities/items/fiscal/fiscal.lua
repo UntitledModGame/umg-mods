@@ -36,13 +36,6 @@ defFiscal("gold_axe", {
     target = {
         description = loc("Earn money."),
         type = "ITEM",
-        filter = function(selfEnt, ppos, targetEnt)
-            local pGen = targetEnt.pointsGenerated or 0
-            if pGen and pGen > 0 then
-                return true
-            end
-            return false
-        end,
         activate = function(selfEnt, ppos, targetEnt)
             lp.addMoney(selfEnt, selfEnt.moneyGenerated or 0)
         end
