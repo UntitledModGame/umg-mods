@@ -239,7 +239,7 @@ defineOcto("pink_octopus", {
 
     target = {
         type = "ITEM_OR_SLOT",
-        description = loc("Triggers item or slot."),
+        description = loc("{wavy}PULSES{/wavy} item or slot."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.tryTriggerEntity("PULSE", targetEnt)
         end
@@ -296,6 +296,30 @@ defItem("blank_page", {
         end
     }
 })
+
+
+
+defItem("violin", {
+    name = loc("Violin"),
+
+    rarity = lp.rarities.UNCOMMON,
+
+    basePrice = 6,
+    baseMaxActivations = 2,
+
+    tierUpgrade = helper.propertyUpgrade("maxActivations", 2, 3),
+
+    shape = lp.targets.RookShape(1),
+
+    target = {
+        type = "ITEM_OR_SLOT",
+        description = loc("{wavy}PULSES{/wavy} item or slot."),
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.tryTriggerEntity("PULSE", targetEnt)
+        end
+    }
+})
+
 
 
 
