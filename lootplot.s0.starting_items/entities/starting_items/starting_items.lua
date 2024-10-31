@@ -23,7 +23,11 @@ end
 local function spawnShop(ent)
     local ppos, team = getPosTeam(ent)
     wg.spawnSlots(assert(ppos:move(-4,1)), server.entities.shop_slot, 3,2, team)
-    wg.spawnSlots(assert(ppos:move(-4, -2)), server.entities.reroll_button_slot, 1,1, team)
+end
+
+local function spawnRerollButton(ent)
+    local ppos, team = getPosTeam(ent)
+    wg.spawnSlots(assert(ppos:move(-4, -1)), server.entities.reroll_button_slot, 1,1, team)
 end
 
 local function spawnNormal(ent)
@@ -106,9 +110,9 @@ definePerk("one_ball", {
 
         spawnShop(ent)
         spawnNormal(ent)
+        spawnRerollButton(ent)
         spawnSell(ent)
         spawnMoneyLimit(ent)
-        wg.spawnSlots(assert(ppos:move(-4, -2)), server.entities.reroll_button_slot, 1,1, team)
 
         -- Display tutorial text
         spawnTutorialText(assert(ppos:move(0, -3)), {
@@ -141,12 +145,10 @@ definePerk("nine_ball", {
     baseMaxActivations = 1,
 
     onActivateOnce = function(ent)
-        local ppos, team = getPosTeam(ent)
-
         spawnShop(ent)
+        spawnRerollButton(ent)
         spawnNormal(ent)
         spawnSell(ent)
-        wg.spawnSlots(assert(ppos:move(-4, -2)), server.entities.reroll_button_slot, 1,1, team)
     end
 })
 
@@ -161,6 +163,7 @@ definePerk("eight_ball", {
         local ppos, team = getPosTeam(ent)
 
         spawnShop(ent)
+        spawnRerollButton(ent)
         spawnNormal(ent)
         spawnSell(ent)
         spawnMoneyLimit(ent)
@@ -177,7 +180,7 @@ definePerk("fourteen_ball", {
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
         wg.spawnSlots(assert(ppos:move(-4,1)), server.entities.lockable_shop_slot, 3,2, team)
-        wg.spawnSlots(assert(ppos:move(-4, -2)), server.entities.reroll_button_slot, 1,1, team)
+        spawnRerollButton(ent)
 
         wg.spawnSlots(assert(ppos:move(3, 0)), server.entities.reroll_slot, 1,1, team)
 
@@ -190,14 +193,34 @@ definePerk("fourteen_ball", {
 
 
 
+local function spawnSpecialGlassSlot(pos, team)
+    local ent = lp.trySpawnSlot(pos, server.entities.glass_slot, team)
+    if not ent then return end
+    if lp.SEED:randomMisc() < 0.2 then
+        lp.modifierBuff(ent, "pointsGenerated", 3)
+    end
+    if lp.SEED:randomMisc() < 0.2 then
+        ent.lives = 2
+    end
+    if lp.SEED:randomMisc() < 0.2 then
+        lp.modifierBuff(ent, "pointsGenerated", -2)
+    end
+    if lp.SEED:randomMisc() < 0.1 then
+        ent.doomCount = 4
+    end
+end
+
 
 definePerk("four_ball", {
-    name = loc("Four Ball"),
-    description = loc("Starts with glass-slots instead of normal slots"),
     --[[
-    TODO: this starting-item is MEGA-LAME.
-    Replace it with something better.
+    The purpose of this item isnt really to be a "well-designed" starter item,
+    but rather, it serves to provide INSPIRATION for future modded starter-items!!!
+    YOU!!! PERSON READING THIS CODE!
+    BE INSPIRED!!!
+    (because im NGL, this item is designed very very poorly.)
     ]]
+    name = loc("Four Ball"),
+    description = loc("Starts with funny glass-slots"),
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
@@ -205,7 +228,16 @@ definePerk("four_ball", {
         spawnShop(ent)
         spawnSell(ent)
         spawnMoneyLimit(ent)
-        wg.spawnSlots(ppos, server.entities.glass_slot, 13,5, team)
+        spawnNormal(ent)
+        local plot = ppos:getPlot()
+        local D = 7
+        local x,y = ppos:getCoords()
+        plot:foreachInArea(x-D,y-D,x+D,y+D, function(pos)
+            local xx,yy = pos:getCoords()
+            if (xx+yy) % 2 == 0 then
+                spawnSpecialGlassSlot(pos, team)
+            end
+        end)
     end
 })
 
@@ -213,24 +245,23 @@ definePerk("four_ball", {
 
 
 definePerk("bowling_ball", {
-    --[[
-    TODO:
-
-    do something more interesting with this.
-    I was thinking of even creating a UNIQUE item-type; `bowling-pin`,
-    that this item spawns with?
-    Perhaps bowling-pins can be used to customize starting plot...?
-    ]]
     name = loc("Bowling Ball"),
-    description = loc("CHALLENGE-ITEM: TODO"),
+    description = loc("CHALLENGE-ITEM!\nFor PROS ONLY."),
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
 
-        spawnShop(ent)
+        wg.spawnSlots(assert(ppos:move(-4, 0)), server.entities.shop_slot, 3,1, team)
+        wg.spawnSlots(assert(ppos:move(-4, -1)), server.entities.reroll_button_slot, 1,1, team)
         spawnSell(ent)
         spawnMoneyLimit(ent)
-        wg.spawnSlots(ppos, server.entities.glass_slot, 13,5, team)
+
+        wg.spawnSlots(ppos, server.entities.slot, 1,1, team)
+
+        local plot = ppos:getPlot()
+        plot:foreachSlot(function(slotEnt, _ppos)
+            slotEnt.doomCount = lp.SEED:randomMisc(30, 50)
+        end)
     end
 })
 
