@@ -137,7 +137,7 @@ definePerk("nine_ball", {
     name = loc("Nine Ball"),
     description = loc("Lose $1 per turn. Has no money limit."),
 
-    baseMoneyGenerated = -2,
+    baseMoneyGenerated = -1,
     baseMaxActivations = 1,
 
     onActivateOnce = function(ent)
