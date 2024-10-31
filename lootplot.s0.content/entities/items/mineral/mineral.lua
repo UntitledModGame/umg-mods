@@ -220,8 +220,7 @@ lp.defineItem("lootplot.s0.content:diamond", {
     name = loc("Diamond"),
     description = loc("Can upgrade ANY mineral or tool item"),
 
-    rarity = lp.rarities.LEGENDARY,
-    lives = 1,
+    rarity = lp.rarities.EPIC,
 
     onCombine = function(selfEnt, targetItem)
         if targetItem.mineralType then

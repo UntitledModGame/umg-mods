@@ -575,6 +575,11 @@ function lp.tryCombineItems(combinerItem, targetItem)
         if combinerItem.onCombine then
             combinerItem:onCombine(targetItem)
         end
+        if combinerItem.lives then
+            -- lives dont work for combining. 
+            -- THAT would be OP.
+            combinerItem.lives = 0
+        end
         umg.call("lootplot:itemsCombined", combinerItem, targetItem)
         lp.destroy(combinerItem)
         return true
