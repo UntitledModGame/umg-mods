@@ -50,7 +50,7 @@ defItem("pandoras_box", {
     shape = lp.targets.RookShape(1),
 
     target = {
-        type = "NO_ITEM",
+        type = "SLOT_NO_ITEM",
         description = loc("Spawn RARE items."),
         activate = function(selfEnt, ppos, targetEnt)
             local etype = lp.rarities.randomItemOfRarity(lp.rarities.LEGENDARY)

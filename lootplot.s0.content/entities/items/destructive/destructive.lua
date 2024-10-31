@@ -54,7 +54,7 @@ defDestructive("candle", {
     shape = lp.targets.KING_SHAPE,
 
     target = {
-        type = "NO_ITEM",
+        type = "SLOT_NO_ITEM",
         description = loc("Clones the below item into target slots with {lootplot:DOOMED_COLOR}DOOMED-1."),
         activate = function(selfEnt, ppos, targetEnt)
             local selfPos = lp.getPos(selfEnt)
@@ -139,7 +139,7 @@ defDestructive("skull", {
     shape = lp.targets.RookShape(1),
 
     target = {
-        type = "NO_ITEM",
+        type = "SLOT_NO_ITEM",
         description = loc("Spawns bones"),
         activate = function(selfEnt, ppos, targetEnt)
             lp.trySpawnItem(ppos, server.entities.bone, selfEnt.lootplotTeam)

@@ -38,8 +38,9 @@ local BRIEF_CTX = {
 local TARGET_TYPE_TEXT = {
     SLOT = loc("{lootplot.targets:COLOR}Targets slots:", nil, BRIEF_CTX),
     ITEM = loc("{lootplot.targets:COLOR}Targets items:", nil, BRIEF_CTX),
-    NO_SLOT = loc("{lootplot.targets:COLOR}Targets empty spaces:", nil, BRIEF_CTX),
-    NO_ITEM = loc("{lootplot.targets:COLOR}Targets empty slots:", nil, BRIEF_CTX),
+    NO_SLOT = loc("{lootplot.targets:COLOR}Targets spaces without slots:", nil, BRIEF_CTX),
+    NO_ITEM = loc("{lootplot.targets:COLOR}Targets spaces without items:", nil, BRIEF_CTX),
+    SLOT_NO_ITEM = loc("{lootplot.targets:COLOR}Targets empty slots:", nil, BRIEF_CTX),
     ITEM_OR_SLOT = loc("{lootplot.targets:COLOR}Targets items and slots:", nil, BRIEF_CTX),
 }
 local TARGET_TYPE_TEXT_FALLBACK = loc("{lootplot.targets:COLOR}Targets unknown:", nil, BRIEF_CTX)
