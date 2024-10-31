@@ -54,7 +54,7 @@ defItem("pandoras_box", {
         type = "SLOT_NO_ITEM",
         description = loc("Spawn RARE items."),
         activate = function(selfEnt, ppos, targetEnt)
-            local etype = lp.rarities.randomItemOfRarity(lp.rarities.LEGENDARY)
+            local etype = lp.rarities.randomItemOfRarity(lp.rarities.RARE)
             if etype then
                 lp.trySpawnItem(ppos, etype, selfEnt.lootplotTeam)
             end
