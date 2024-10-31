@@ -79,12 +79,6 @@ local function defineAxe(mineral_type, name, etype)
     local namespace = umg.getModName() .. ":"
     local etypeName = namespace .. mineral_type .. "_axe"
     local image = mineral_type .. "_axe"
-    local shape = lp.targets.KNIGHT_SHAPE
-    if mineral_type == "cobalt" then
-        -- HACK: default shape for cobalt-sword is rook-1.
-        -- We make cobalt-axe bigger shape to compensate.
-        shape = lp.targets.QueenShape(2)
-    end
 
     local axeType = {
         image = image,
@@ -97,7 +91,7 @@ local function defineAxe(mineral_type, name, etype)
         basePointsGenerated = 2,
         tierUpgrade = helper.propertyUpgrade("pointsGenerated", 2, 3),
 
-        shape = shape,
+        shape = lp.targets.KNIGHT_SHAPE,
 
         target = {
             type = "ITEM",
@@ -107,6 +101,14 @@ local function defineAxe(mineral_type, name, etype)
             end
         }
     }
+
+    if mineral_type == "cobalt" then
+        -- HACK: Cobalt-tools are a bit of a different beast.
+        -- We make it different to compensate.
+        axeType.shape = lp.targets.QueenShape(3)
+        axeType.target = nil
+    end
+
     for k,v in pairs(etype) do
         axeType[k] = axeType[k] or v
     end
