@@ -15,7 +15,7 @@ local loc = localization.localize
 
 
 local EARLY_LEVELS = {
-    20,80, 200, 500, 1000
+    30,100, 250, 600, 1200
 }
 ---@param levelNumber integer
 local function getRequiredPoints(levelNumber)
@@ -28,7 +28,7 @@ local function getRequiredPoints(levelNumber)
     -- TODO: add a difficulty multiplier here?
 
     -- todo: could make this exponential
-    return math.floor(levelNumber^3 / 10) * 100
+    return math.floor((levelNumber-2)^4 / 10) * 100
 end
 
 
