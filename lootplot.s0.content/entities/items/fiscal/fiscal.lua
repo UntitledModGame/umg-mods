@@ -83,7 +83,7 @@ local function percentageOfBalanceGetter(percentage)
 end
 
 
-local BISHOP_RING_DESC = localization.newInterpolator("Earn points equal to {val}% of current balance.")
+local BISHOP_RING_DESC = localization.newInterpolator("Earn points equal to %{val}% of current balance.")
 
 defFiscal("bishop_ring", {
     name = loc("Bishop Ring"),
@@ -111,7 +111,7 @@ defFiscal("bishop_ring", {
 })
 
 
-local KING_RING_DESC = localization.newInterpolator("Earn money equal to {val}% of current balance.\n(Max of $20)")
+local KING_RING_DESC = localization.newInterpolator("Earn money equal to %{val}% of current balance.\n(Max of $20)")
 
 defFiscal("king_ring", {
     name = loc("King Ring"),
