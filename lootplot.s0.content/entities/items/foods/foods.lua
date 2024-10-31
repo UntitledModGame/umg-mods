@@ -406,7 +406,7 @@ end
 definePotion("potion_green", {
     name = loc("Green Potion"),
 
-    rarity = lp.rarities.EPIC,
+    rarity = lp.rarities.RARE,
 
     target = {
         type = "ITEM_OR_SLOT",
