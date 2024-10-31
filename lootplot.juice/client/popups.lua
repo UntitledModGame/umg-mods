@@ -64,7 +64,7 @@ umg.on("lootplot:pointsChanged", function(ent, delta)
         local txt = "+" .. tostring(math.floor(delta+0.5))
         makePopup(ent, txt, objects.Color.BLUE)
     elseif delta < -0.5 then
-        local txt = "+" .. tostring(math.floor(-delta+0.5))
+        local txt = "-" .. tostring(math.floor(-delta+0.5))
         makePopup(ent, txt, objects.Color.DARK_RED)
     end
 end)
