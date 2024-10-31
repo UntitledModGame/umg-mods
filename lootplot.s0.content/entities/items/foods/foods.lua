@@ -221,7 +221,7 @@ defineSlotSpawner("burned_loaf", "Burned Loaf", "sell_slot", "Sell Slot",
     }
 )
 
-defineSlotSpawner("coconut", "Coconut", "dirt_slot", "Dirt Slot", lp.targets.RookShape(1), {
+defineSlotSpawner("coconut", "Coconut", "dirt_slot", "Dirt Slot", lp.targets.KingShape(1), {
     rarity = lp.rarities.COMMON,
 })
 
