@@ -48,6 +48,7 @@ defItem("pandoras_box", {
     rarity = lp.rarities.EPIC,
 
     shape = lp.targets.RookShape(1),
+    doomCount = 1,
 
     target = {
         type = "SLOT_NO_ITEM",
