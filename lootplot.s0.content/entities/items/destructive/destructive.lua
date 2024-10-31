@@ -47,7 +47,7 @@ defDestructive("candle", {
     name = loc("Candle"),
     basePointsGenerated = 5,
 
-    rarity = lp.rarities.EPIC,
+    rarity = lp.rarities.LEGENDARY,
 
     basePrice = 15,
 
