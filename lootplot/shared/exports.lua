@@ -734,12 +734,14 @@ local function append(tabl, prop, x, operation)
     end
 end
 
+local modifierBuffTc = typecheck.assert("entity", "string", "number", "entity?")
 ---Availability: **Server**
 ---@param ent Entity
 ---@param property string
 ---@param amount number
 ---@param srcEnt_or_nil Entity? entity that invoked the buff (maybe nil)
 function lp.modifierBuff(ent, property, amount, srcEnt_or_nil)
+    modifierBuffTc(ent, property, amount, srcEnt_or_nil)
     -- Permanently buffs an entity by adding a flat modifier
     ensureDynamicProperties(ent)
     append(ent.buffedProperties.modifiers, property, amount, reducers.ADD)
