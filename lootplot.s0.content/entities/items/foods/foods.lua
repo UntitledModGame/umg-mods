@@ -208,17 +208,23 @@ defineSlotSpawner("fried_egg", "Fried Egg", "slot", "Slot with -5 points", lp.ta
     lp.modifierBuff(slotEnt, "pointsGenerated", -5)
 end)
 
-defineSlotSpawner("burned_loaf", "Burned Loaf", "sell_slot", "Sell Slot", 
-    lp.targets.OffsetShape(lp.targets.ON_SHAPE, 0, 2, "DOWN-2"), {
-        init = function(ent)
-            if math.random() < 0.01 then
-                -- silly easter egg:
-                -- XBOX Color!!! 
-                -- (coz the sprite looks like xbox logo, lol)
-                ent.color = objects.Color.GREEN
-            end
+
+local loafEtype = {
+    init = function(ent)
+        if math.random() < 0.01 then
+            -- silly easter egg:
+            -- XBOX Color!!! 
+            -- (coz the sprite looks like xbox logo, lol)
+            ent.color = objects.Color.GREEN
         end
-    }
+    end,
+    rarity = lp.rarities.RARE
+}
+defineSlotSpawner("burned_loaf", "Burned Loaf", "sell_slot", "Sell Slot",
+    lp.targets.OffsetShape(lp.targets.ON_SHAPE, 0, 2, "DOWN-2"), loafEtype
+)
+defineSlotSpawner("golden_loaf", "Golden Loaf", "shop_slot", "Shop Slot",
+    lp.targets.OffsetShape(lp.targets.ON_SHAPE, 0, -2, "UP-2"), loafEtype
 )
 
 defineSlotSpawner("coconut", "Coconut", "dirt_slot", "Dirt Slot", lp.targets.KingShape(1), {
