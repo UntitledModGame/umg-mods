@@ -38,7 +38,7 @@ end
 
 local function spawnMoneyLimit(ent)
     local ppos, team = getPosTeam(ent)
-    wg.spawnSlots(assert(ppos:move(4, -4)), server.entities.money_limit_slot, 1,1, team)
+    wg.spawnSlots(assert(ppos:move(0, -20)), server.entities.money_limit_slot, 1,1, team)
 end
 
 -------------------------------------------------------------------
