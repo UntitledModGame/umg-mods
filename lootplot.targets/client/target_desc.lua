@@ -76,7 +76,7 @@ local function addTargDescription(arr, ent, desc, colorEffect)
     if typ == "string" then
         -- should already be localized:
         arr:add(colorEffect .. desc)
-    elseif typ == "function" then
+    elseif objects.isCallable(desc) then
         arr:add(function()
             -- need to pass ent manually as a closure
             if umg.exists(ent) then
