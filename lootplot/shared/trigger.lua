@@ -55,8 +55,8 @@ function trigger.tryTriggerEntity(name, ent)
     triggerTc(name, ent)
 
     local canTrigger = trigger.canTrigger(name, ent)
+    umg.call("lootplot:entityTriggered", name, ent)
     if canTrigger then
-        umg.call("lootplot:entityTriggered", name, ent)
         lp.tryActivateEntity(ent)
     else
         umg.call("lootplot:entityTriggerFailed", name, ent)

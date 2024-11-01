@@ -152,7 +152,5 @@ local function triggerListen(trigger, ent)
     end
 end
 
-
-umg.on("lootplot:entityTriggerFailed", triggerListen)
 umg.on("lootplot:entityTriggered", triggerListen)
 

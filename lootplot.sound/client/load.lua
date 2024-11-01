@@ -97,3 +97,14 @@ umg.on("lootplot:entityBuffed", function(ent)
 end)
 
 
+
+local buySound = LootplotSound("lootplot.sound:trigger_buy", 0.4, 1, 10, 0.1)
+local rerollSound = LootplotSound("lootplot.sound:trigger_reroll", 0.07, 1.4, 10, 0)
+local function tryPlayTriggerSound(triggerName, ent)
+    if triggerName == "BUY" then
+        buySound:play(ent)
+    elseif triggerName == "REROLL" then
+        rerollSound:play(ent)
+    end
+end
+umg.on("lootplot:entityTriggered", tryPlayTriggerSound)
