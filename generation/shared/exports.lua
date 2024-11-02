@@ -11,9 +11,6 @@ generation.Generator = require("shared.Generator")
 ---Availability: Client and Server
 generation.Picker = require("shared.Picker")
 
----Availability: Client and Server
----@deprecated use generation.Generator instead.
-generation.LegacyGenerator = require("shared.LegacyGenerator")
 
 ---Randomly picks an item from the list.
 ---
