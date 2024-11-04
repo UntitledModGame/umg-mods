@@ -167,6 +167,14 @@ end)
 
 
 
+local FLOAT = loc("{lootplot:TRIGGER_COLOR}{wavy}FLOATY:{/wavy}{/lootplot:TRIGGER_COLOR} This item can float!")
+umg.on("lootplot:populateDescription", 59, function(ent, arr)
+    if lp.isItemEntity(ent) and lp.canItemFloat(ent) then
+        arr:add(FLOAT)
+    end
+end)
+
+
 
 local DOOMED_MULTI = interp("{wavy}{lootplot:DOOMED_COLOR}DOOMED %{doomCount}:{/lootplot:DOOMED_COLOR}{/wavy} {lootplot:DOOMED_LIGHT_COLOR}Destroyed after %{doomCount} activations!")
 local DOOMED_1 = interp("{wavy}{lootplot:DOOMED_COLOR}DOOMED %{doomCount}:{/lootplot:DOOMED_COLOR}{/wavy} {lootplot:DOOMED_LIGHT_COLOR}Destroyed when activated!")
