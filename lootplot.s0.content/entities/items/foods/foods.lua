@@ -218,13 +218,14 @@ local loafEtype = {
             ent.color = objects.Color.GREEN
         end
     end,
+    canItemFloat = true,
     rarity = lp.rarities.RARE
 }
 defineSlotSpawner("burned_loaf", "Burned Loaf", "sell_slot", "Sell Slot",
-    lp.targets.OffsetShape(lp.targets.ON_SHAPE, 0, 2, "DOWN-2"), loafEtype
+    lp.targets.ON_SHAPE, loafEtype
 )
 defineSlotSpawner("golden_loaf", "Golden Loaf", "shop_slot", "Shop Slot",
-    lp.targets.OffsetShape(lp.targets.ON_SHAPE, 0, -2, "UP-2"), loafEtype
+    lp.targets.ON_SHAPE, loafEtype
 )
 
 defineSlotSpawner("coconut", "Coconut", "dirt_slot", "Dirt Slot", lp.targets.KingShape(1), {
