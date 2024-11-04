@@ -79,26 +79,20 @@ lp.defineItem("lootplot.s0.content:stick", {
 
 
 
---[[
-Purpose of `bone` is to give intuition 
-about how the LISTENER system works.
-]]
 lp.defineItem("lootplot.s0.content:bone", {
     image = "bone",
 
     name = loc("Bone"),
     triggers = {"PULSE"},
-    description = "Destroys itself when activated",
+    description = "Destroys itself and gain 1 life",
 
     basePrice = 1,
 
-    lives = 5,
+    lives = 1,
     rarity = lp.rarities.COMMON,
     onActivate = function(selfEnt)
+        selfEnt.lives = selfEnt.lives + 1
         lp.destroy(selfEnt)
-        if (selfEnt.price or 0) > 0.9 then
-            lp.modifierBuff(selfEnt, "price", -1, selfEnt)
-        end
     end
 })
 

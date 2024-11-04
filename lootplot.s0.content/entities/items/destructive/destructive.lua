@@ -129,22 +129,30 @@ defDestructive("bomb", {
 
 
 
+local REPEATS=4
 defDestructive("skull", {
     name = loc("Skull"),
 
-    rarity = lp.rarities.RARE,
+    rarity = lp.rarities.UNCOMMON,
 
-    basePrice = 8,
+    triggers = {"PULSE"},
+    description = loc(("Triggers DESTROY on self %d times\n(Without destroying self!)"):format(REPEATS)),
 
-    shape = lp.targets.RookShape(1),
+    basePrice = 10,
 
-    target = {
-        type = "SLOT_NO_ITEM",
-        description = loc("Spawns bones"),
-        activate = function(selfEnt, ppos, targetEnt)
-            lp.trySpawnItem(ppos, server.entities.bone, selfEnt.lootplotTeam)
+    lives = 1,
+
+    onActivate = function(selfEnt)
+        for _=1,REPEATS do
+            lp.queueWithEntity(selfEnt, function(ent)
+                local ppos=lp.getPos(ent)
+                if ppos then
+                    lp.tryTriggerEntity("DESTROY", ent)
+                    lp.wait(ppos,0.3)
+                end
+            end)
         end
-    },
+    end
 })
 
 
