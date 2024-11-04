@@ -86,6 +86,10 @@ lp.defineItem("lootplot.s0.content:stick", {
 
 
 
+--[[
+TODO: this item seems a bit weird.
+But its purpose is to give intuition about the `mult` system.
+]]
 defItem("leather", {
     name = loc("Leather"),
     description = loc("If has less than $5,\ngain a 5x multiplier"),
@@ -101,10 +105,12 @@ defItem("leather", {
         }
     },
 
+    basePrice = 2,
+
     baseMaxActivations = 15,
 
-    basePointsGenerated = 3,
-    tierUpgrade = helper.propertyUpgrade("pointsGenerated", 3, 3)
+    basePointsGenerated = 4,
+    tierUpgrade = helper.propertyUpgrade("pointsGenerated", 4, 3)
 })
 
 
@@ -117,6 +123,8 @@ defItem("net", {
     triggers = {},
 
     rarity = lp.rarities.COMMON,
+
+    basePrice = 3,
 
     listen = {
         trigger = "PULSE"

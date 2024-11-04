@@ -56,8 +56,10 @@ defItem("moon_knife", {
     basePointsGenerated = -10,
     rarity = lp.rarities.UNCOMMON,
 
-    baseMaxActivations = 2,
-    tierUpgrade = helper.propertyUpgrade("maxActivations", 1, 2),
+    basePrice = 9,
+
+    baseMaxActivations = 3,
+    tierUpgrade = helper.propertyUpgrade("maxActivations", 3, 2),
 
     onActivate = function(ent)
         lp.modifierBuff(ent, "pointsGenerated", 1)

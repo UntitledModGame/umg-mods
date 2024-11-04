@@ -95,6 +95,8 @@ defineCat("chubby_cat", {
     name = loc("Chubby Cat"),
     description = loc("Starts with 9 lives"),
 
+    basePrice = 6,
+
     onDraw = function(ent)
         if ent.lives and ent.lives < 1 then
             ent.image = "chubby_cat_sad"

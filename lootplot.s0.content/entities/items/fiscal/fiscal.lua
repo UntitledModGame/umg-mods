@@ -44,7 +44,7 @@ defFiscal("gold_axe", {
 
 
 local goldBarDesc = localization.newInterpolator("After %{count} activations, give $10")
-local GOLD_BAR_ACTS = 8
+local GOLD_BAR_ACTS = 10
 
 defFiscal("gold_bar", {
     name = loc("Gold Bar"),
