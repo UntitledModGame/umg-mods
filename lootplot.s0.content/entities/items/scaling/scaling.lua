@@ -1,14 +1,23 @@
 local loc = localization.localize
 local interp = localization.newInterpolator
 
+local helper = require("shared.helper")
+
+
+
+local function defItem(id, etype)
+    etype.image = etype.image or id
+
+    return lp.defineItem("lootplot.s0.content:"..id, etype)
+end
+
 
 local function defineHelmet(id, etype)
-    etype.image = etype.image or id
     etype.rarity = etype.rarity or lp.rarities.RARE
     etype.shape = etype.shape or lp.targets.RookShape(1)
-
-    lp.defineItem("lootplot.s0.content:"..id, etype)
+    defItem(id,etype)
 end
+
 
 
 local BASIC_BUFF_UPGRADE_DESC = {
@@ -38,6 +47,22 @@ defineHelmet("spartan_helmet", {
     }
 })
 
+
+
+defItem("moon_knife", {
+    name = loc("Moon Knife"),
+    description = loc("Gain 1 point permanently when activated"),
+
+    basePointsGenerated = -10,
+    rarity = lp.rarities.UNCOMMON,
+
+    baseMaxActivations = 2,
+    tierUpgrade = helper.propertyUpgrade("maxActivations", 1, 2),
+
+    onActivate = function(ent)
+        lp.modifierBuff(ent, "pointsGenerated", 1)
+    end
+})
 
 
 
