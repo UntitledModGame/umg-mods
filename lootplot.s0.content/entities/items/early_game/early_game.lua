@@ -1,8 +1,17 @@
 
+local loc = localization.localize
+local interp = localization.newInterpolator
+
 local helper = require("shared.helper")
 
 
-local loc = localization.localize
+local function defItem(id, etype)
+    etype.image = etype.image or id
+
+    return lp.defineItem("lootplot.s0.content:"..id, etype)
+end
+
+
 
 
 --[[
@@ -72,6 +81,85 @@ lp.defineItem("lootplot.s0.content:stick", {
     basePrice = 3,
 
     tierUpgrade = helper.propertyUpgrade("pointsGenerated", 2, 3)
+})
+
+
+
+
+defItem("leather", {
+    name = loc("Leather"),
+    description = loc("If has less than $5,\ngain a 5x multiplier"),
+
+    lootplotProperties = {
+        multipliers = {
+            pointsGenerated = function(ent)
+                if (lp.getMoney(ent) or 1000) < 5 then
+                    return 5
+                end
+                return 1
+            end
+        }
+    },
+
+    baseMaxActivations = 15,
+
+    basePointsGenerated = 3,
+    tierUpgrade = helper.propertyUpgrade("pointsGenerated", 3, 3)
+})
+
+
+
+--[[
+purpose is to give intuition about how target-system works
+]]
+defItem("net", {
+    name = loc("Net"),
+    triggers = {},
+
+    rarity = lp.rarities.COMMON,
+
+    listen = {
+        trigger = "PULSE"
+    },
+    shape = lp.targets.KING_SHAPE,
+
+    baseMaxActivations = 3,
+    tierUpgrade = helper.propertyUpgrade("maxActivations", 3, 3),
+
+    basePointsGenerated = 1,
+})
+
+
+
+local COINS_DESC = interp("30% Chance to earn {lootplot:MONEY_COLOR}$%{amount}.\n{wavy}TOTAL EARNED: $%{totalEarned}")
+defItem("coins", {
+    name = loc("Coins"),
+    init = function(ent)
+        ent.totalEarned = 0
+    end,
+    description = function(ent)
+        return COINS_DESC({
+            amount = lp.tiers.getTier(ent),
+            totalEarned = ent.totalEarned
+        })
+    end,
+
+    rarity = lp.rarities.COMMON,
+
+    basePointsGenerated = 4,
+
+    tierUpgrade = {
+        description = loc("Gains $1 extra")
+    },
+
+    onActivate = function(ent)
+        if lp.SEED:randomMisc()<=0.3 then
+            local m = lp.tiers.getTier(ent)
+            lp.addMoney(ent, m)
+            ent.totalEarned = ent.totalEarned + m
+            sync.syncComponent(ent, "totalEarned")
+        end
+    end
 })
 
 
