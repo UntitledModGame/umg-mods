@@ -302,8 +302,8 @@ defItem("blank_page", {
 
 
 
-defItem("violin", {
-    name = loc("Violin"),
+defItem("ukulele", {
+    name = loc("Ukulele"),
 
     rarity = lp.rarities.UNCOMMON,
 
