@@ -56,7 +56,7 @@ lp.defineSlot("lootplot.main:pulse_button_slot", {
     image = "pulse_button_up",
 
     name = loc("Pulse Button"),
-    description = loc("Click to PULSE the plot,\nand go to the next round!"),
+    description = loc("Click to {wavy}{lootplot:TRIGGER_COLOR}PULSE{/lootplot:TRIGGER_COLOR}{/wavy} the plot,\nand go to the next round!"),
 
     activateAnimation = {
         activate = "pulse_button_hold",
