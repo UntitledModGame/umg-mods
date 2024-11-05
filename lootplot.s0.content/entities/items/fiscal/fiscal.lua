@@ -267,17 +267,21 @@ defFiscal("gold_knuckles", {
     triggers = {},
 
     basePrice = 6,
-    baseMoneyGenerated = 3,
+    baseMoneyGenerated = 2,
     tierUpgrade = helper.propertyUpgrade("moneyGenerated", 2, 2),
 
     shape = lp.targets.KING_SHAPE,
 
-    listen = {
-        trigger = "DESTROY",
+    target = {
+        type = "ITEM",
         filter = function(ent)
             return (not ent.lives) or (ent.lives == 0)
         end,
-        description = "If target has no extra-lives, earn money",
+        activate = function(selfEnt, ppos, ent)
+            lp.addMoney(selfEnt,selfEnt.moneyGenerated)
+            lp.destroy(ent)
+        end,
+        description = "Destroy item, and earn money!",
     }
 })
 
