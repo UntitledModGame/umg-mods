@@ -57,7 +57,7 @@ end)
 
 
 local TRIGGER_ORDER = 10
-local TRIGGER_TXT = interp("Trigger: {lootplot.targets:LISTEN_COLOR}{wavy}When target item %{trigger}")
+local TRIGGER_TXT = interp("Activates On: {lootplot.targets:LISTEN_COLOR}{wavy}Target item %{trigger}")
 
 umg.on("lootplot:populateDescription", TRIGGER_ORDER, function(ent, arr)
     if ent.listen and ent.shape then
