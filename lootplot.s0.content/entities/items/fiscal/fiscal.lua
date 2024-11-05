@@ -298,15 +298,11 @@ defFiscal("the_negotiator", {
     rarity = lp.rarities.EPIC,
 
     shape = lp.targets.KING_SHAPE,
+    canItemFloat = true,
 
-    target = {
-        type = "ITEM",
-        description = loc("If item price is less than $20,\nSet price to 0"),
-        activate = function(selfEnt, ppos, targetEnt)
-            if targetEnt.price and targetEnt.price < 20 then
-                lp.multiplierBuff(targetEnt, "price", 0, selfEnt)
-            end
-        end
+    baseMoneyGenerated = 1,
+    listen = {
+        trigger = "BUY",
     }
 })
 
