@@ -150,12 +150,18 @@ end
 lp.defineSlot("lootplot.s0.content:shop_slot", {
     itemLock = true,
     image = "shop_slot",
-    baseMaxActivations = 100,
+
     name = loc("Shop slot"),
+    activateDescription = loc("Spawns a random item."),
+
     triggers = {"REROLL", "PULSE"},
+
     itemSpawner = generateItem,
     itemReroller = generateItem,
+
     baseCanSlotPropagate = false,
+    baseMaxActivations = 100,
+
     canPlayerAccessItemInSlot = function(slotEnt, itemEnt)
         return not slotEnt.itemLock
     end,
