@@ -135,6 +135,17 @@ function Scene:onRender(x,y,w,h)
         self:setSelection(nil)
     end
 
+    if #self.slotActionButtons > 0 then
+        local _, bottomArea = r:splitVertical(5, 1)
+        _,bottomArea = bottomArea:splitHorizontal(1,3,1)
+        local grid = bottomArea:grid(#self.slotActionButtons, 1)
+
+        for i, button in ipairs(self.slotActionButtons) do
+            local region = grid[i]:padRatio(0.2)
+            button:render(region:get())
+        end
+    end
+
     if self.cursorDescription then
         local mx, my = input.getPointerPosition()
         local descW = w/3
@@ -153,17 +164,6 @@ function Scene:onRender(x,y,w,h)
         local rightDescRegion = select(2, rest2:splitVertical(1, 5))
         self.itemDescriptionSelectedTime = self.itemDescriptionSelectedTime + love.timer.getDelta() * descriptionOpenSpeed
         drawDescription(self.itemDescriptionSelectedTime, self.itemDescriptionSelected, objects.Color.WHITE, rightDescRegion, drawSideBox)
-    end
-
-    if #self.slotActionButtons > 0 then
-        local _, bottomArea = r:splitVertical(5, 1)
-        _,bottomArea = bottomArea:splitHorizontal(1,3,1)
-        local grid = bottomArea:grid(#self.slotActionButtons, 1)
-
-        for i, button in ipairs(self.slotActionButtons) do
-            local region = grid[i]:padRatio(0.2)
-            button:render(region:get())
-        end
     end
 
     if self.popupElement then
