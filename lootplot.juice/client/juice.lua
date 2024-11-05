@@ -119,7 +119,11 @@ umg.on("lootplot:entityActivated", function(ent)
         local duration = 0.33
         local start = love.timer.getTime()
         ent:addComponent("joltJuice", {freq = 2, amp = math.rad(20), start = start, duration = duration})
-        ent:addComponent("bulgeJuice", {amp = 0.15, start = start, duration = duration})
+        if lp.isSlotEntity(ent) then
+            ent:addComponent("bulgeJuice", {amp = 0.15, start = start, duration = duration})
+        elseif lp.isItemEntity(ent) then
+            ent:addComponent("bulgeJuice", {amp = 0.85, start = start, duration = duration})
+        end
     end
 end)
 
