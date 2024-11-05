@@ -1,6 +1,6 @@
 local RENDER_AFTER_ENTITY_ORDER = 1
 
-umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER, function(ent, x,y, rot, sx,sy, kx,ky)
+umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER, function(ent, x,y, rot, sx,sy)
     if ent.doomCount then
         local q, dy
         if lp.isSlotEntity(ent) then
@@ -20,7 +20,7 @@ umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER, function(ent, x,y, rot
         end
 
         if q then
-            rendering.drawImage(q, x, y+dy, rot, sx,sy, kx,ky)
+            rendering.drawImage(q, x, y+dy, rot, sx,sy)
         end
     end
 end)

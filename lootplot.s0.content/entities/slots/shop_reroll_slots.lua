@@ -136,8 +136,16 @@ local function printCenterWithOutline(text, x, y, rot, sx, sy, oy, kx, ky)
     love.graphics.printf(text, x, y, TEXT_MAX_WIDTH, "center", rot, sx, sy, ox, oy, kx, ky)
 end
 
+
 local PRICE_TEXT = interp("$%{price}")
 local PRICE_COLOR = objects.Color.fromByteRGBA(252, 211, 3)
+
+local function drawItemPrice(selfEnt, itemEnt)
+    if selfEnt.itemLock and itemEnt.price then
+        love.graphics.setColor(PRICE_COLOR)
+        printCenterWithOutline(PRICE_TEXT(itemEnt), itemEnt.x, itemEnt.y, 0, 0.75, 0.75, 20, 0, 0)
+    end
+end
 
 lp.defineSlot("lootplot.s0.content:shop_slot", {
     itemLock = true,
@@ -155,10 +163,7 @@ lp.defineSlot("lootplot.s0.content:shop_slot", {
         setItemLock(slotEnt, true)
     end,
     onItemDraw = function(selfEnt, itemEnt)
-        if selfEnt.itemLock and itemEnt.price then
-            love.graphics.setColor(PRICE_COLOR)
-            printCenterWithOutline(PRICE_TEXT(itemEnt), itemEnt.x, itemEnt.y, 0, 0.75, 0.75, 20, 0, 0)
-        end
+        drawItemPrice(selfEnt, itemEnt)
     end,
     actionButtons = {
         shopButton
@@ -189,6 +194,13 @@ lp.defineSlot("lootplot.s0.content:lockable_shop_slot", {
     end,
     onActivate = function(slotEnt)
         setItemLock(slotEnt, true)
+    end,
+    onItemDraw = function(selfEnt, itemEnt, x,y, rot, sx,sy)
+        if selfEnt.rerollLock then
+            rendering.drawImage("slot_reroll_lock2", x,y, rot, sx,sy)
+        else
+            drawItemPrice(selfEnt, itemEnt)
+        end
     end,
     actionButtons = {
         shopButton,
