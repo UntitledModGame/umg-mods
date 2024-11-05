@@ -38,7 +38,7 @@ local KEY_BAR_COUNT = 15
 lp.defineItem("lootplot.s0.content:key_bar", {
     image = "key_bar",
 
-    name = loc("Key Rocks"),
+    name = loc("Key Bar"),
     description = function(ent)
         return KEY_DESC({
             count = KEY_BAR_COUNT - (ent.totalActivationCount or 0)
@@ -155,6 +155,7 @@ defItem("coins", {
     rarity = lp.rarities.COMMON,
 
     basePointsGenerated = 4,
+    basePrice = 4,
 
     tierUpgrade = {
         description = loc("Gains $1 extra")

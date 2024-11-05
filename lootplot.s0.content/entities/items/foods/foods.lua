@@ -281,6 +281,7 @@ end
 
 defineSlotConverter("golden_apple", "Golden Apple", "golden_slot", "Golden Slot", lp.targets.ON_SHAPE, {
     rarity = lp.rarities.UNCOMMON,
+    basePrice = 10
 })
 
 defineSlotConverter("diamond_apple", "Diamond Apple", "diamond_slot", "Diamond Slot", lp.targets.ON_SHAPE, {
@@ -333,6 +334,8 @@ defineFood("golden_syrup", {
 
     shape = lp.targets.ABOVE_SHAPE,
 
+    basePrice = 12,
+
     target = {
         type = "ITEM_OR_SLOT",
         description = loc("Gives target item/slot +1 money-earned"),
@@ -355,6 +358,8 @@ local function definePie(id, name, desc, addShape, rarity)
     defineFood(id, {
         image = id,
         name = loc(name),
+
+        basePrice = 6,
 
         rarity = rarity,
 
@@ -567,6 +572,8 @@ local function defineDonut(id, name, targetDesc, buffAmount)
     local etype = {
         image = id,
         name = loc(name),
+
+        basePrice = 4,
 
         rarity = lp.rarities.RARE,
         shape = lp.targets.KING_SHAPE,

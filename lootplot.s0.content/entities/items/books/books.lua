@@ -12,6 +12,7 @@ local function defineBook(id, name, targetSlot, targetSlotName)
         shape = lp.targets.ABOVE_SHAPE,
 
         basePrice = 15,
+        canItemFloat = true,
 
         target = {
             type = "SLOT",

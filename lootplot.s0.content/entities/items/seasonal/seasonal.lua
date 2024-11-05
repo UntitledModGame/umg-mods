@@ -21,6 +21,7 @@ local function defineItem(season, id, etype)
         etype.rarity = lp.rarities.UNIQUE
     end
 
+    etype.basePrice = etype.basePrice or 8
     etype.image = id
     lp.defineItem("lootplot.s0.content:"..id, etype)
 end

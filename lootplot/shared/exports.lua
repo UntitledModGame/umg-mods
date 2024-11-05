@@ -1000,6 +1000,9 @@ local strTabTc = typecheck.assert("string", "table")
 ---@param itemType table<string, any>
 function lp.defineItem(name, itemType)
     strTabTc(name, itemType)
+    if not itemType.basePrice then
+        umg.log.warn("item not given base-price: ", name)
+    end
     itemType.item = true
     itemType.layer = "item"
     itemType.basePrice = itemType.basePrice or 5

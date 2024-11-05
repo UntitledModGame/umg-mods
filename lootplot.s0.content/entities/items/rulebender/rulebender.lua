@@ -116,6 +116,8 @@ defineCat("crappy_cat", {
 
     rarity = lp.rarities.RARE,
 
+    basePrice = 3,
+
     shape = lp.targets.RookShape(1),
 
     target = {
@@ -133,34 +135,13 @@ defineCat("crappy_cat", {
 
 
 
-defItem("boomerang", {
-    name = loc("Boomerang"),
-    description = loc("Uses all activations at once"),
-
-    basePointsGenerated = 1,
-    baseMaxActivations = 10,
-
-    rarity = lp.rarities.RARE,
-
-    onActivate = function(selfEnt)
-        local ppos = lp.getPos(selfEnt)
-
-        if ppos then
-            return lp.queueWithEntity(selfEnt, function ()
-                lp.tryActivateEntity(selfEnt)
-                lp.wait(ppos, 0.2)
-            end)
-        end
-    end
-})
-
-
 defItem("old_brick", {
     name = loc("Old Brick"),
     description = loc("Loses 2 Points-Generated when activated"),
 
     rarity = lp.rarities.RARE,
 
+    basePrice = 6,
     basePointsGenerated = 60,
     baseMaxActivations = 10,
 
@@ -182,6 +163,8 @@ defItem("spear_of_war", {
 
     baseMaxActivations = 100,
 
+    basePrice = 9,
+
     tierUpgrade = helper.pointsMultUpgrade(3),
 
     onActivate = function(ent)
@@ -201,6 +184,8 @@ defItem("pink_balloon", {
     rarity = lp.rarities.EPIC,
 
     shape = lp.targets.KING_SHAPE,
+
+    basePrice = 12,
 
     target = {
         type = "ITEM_OR_SLOT",
@@ -231,7 +216,9 @@ local function defineOcto(name, etype)
     etype.shape = etype.shape or lp.targets.KING_SHAPE
     etype.rarity = etype.rarity or lp.rarities.RARE
 
+    etype.basePrice = 8
     etype.baseMaxActivations = 5
+
     etype.tierUpgrade = helper.propertyUpgrade("maxActivations", 5, 2)
 
     lp.defineItem(id, etype)
@@ -256,19 +243,19 @@ defineOcto("dark_octopus", {
 
     target = {
         type = "ITEM",
-        description = loc("Triggers destroy on item, without destroying it."),
+        description = loc("Triggers {wavy}DESTROY{/wavy} on item, without destroying it."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.tryTriggerEntity("DESTROY", targetEnt)
         end
     }
 })
 
-defineOcto("reroll_octopus", {
-    name = loc("Reroll Octopus"),
+defineOcto("green_octopus", {
+    name = loc("Green Octopus"),
 
     target = {
         type = "SLOT_OR_ITEM",
-        description = loc("{lootplot.targets:COLOR}Rerolls target slot or item."),
+        description = loc("Triggers {wavy}REROLL{/wavy} on slot or item."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.tryTriggerEntity("REROLL", targetEnt)
         end
@@ -287,6 +274,8 @@ defItem("blank_page", {
     rarity = lp.rarities.EPIC,
 
     shape = lp.targets.ABOVE_SHAPE,
+
+    basePrice = 9,
 
     target = {
         type = "ITEM",
@@ -333,6 +322,7 @@ defItem("anchor", {
 
     rarity = lp.rarities.EPIC,
 
+    basePrice = 7,
     baseMoneyGenerated = 5,
 
     onActivate = function(ent)

@@ -7,6 +7,8 @@ local function defineGlove(id, name, description, giveShape, rarity)
 
         rarity = rarity,
 
+        basePrice = 15,
+
         shape = lp.targets.ABOVE_SHAPE,
 
         target = {
