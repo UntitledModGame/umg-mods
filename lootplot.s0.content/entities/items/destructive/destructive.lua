@@ -77,28 +77,26 @@ defDestructive("candle", {
 
 defDestructive("tooth_necklace", {
     name = loc("Tooth Necklace"),
-    description = loc("Gives slot doomed-6.\nOnly activates if the slot isn't doomed!"),
 
-    baseMaxActivations = 10,
-    baseMoneyGenerated = 4,
-
+    baseMaxActivations = 1,
     basePrice = 4,
 
     rarity = lp.rarities.UNCOMMON,
+    shape = lp.targets.ON_SHAPE,
 
-    canActivate = function(ent)
-        local slotEnt = lp.itemToSlot(ent)
-        if slotEnt and (not slotEnt.doomCount) then
-            return true
-        end
-    end,
-
-    onActivate = function(ent)
-        local slotEnt = lp.itemToSlot(ent)
-        if slotEnt then
+    target = {
+        type = "SLOT",
+        description = loc("Gives slot {lootplot:DOOMED_COLOR}DOOMED-6{/lootplot:DOOMED_COLOR}, and earn {lootplot:MONEY_COLOR}4${/lootplot:MONEY_COLOR}.\nOnly activates if the slot isn't doomed!"),
+        activate = function(ent, ppos, slotEnt)
+            lp.addMoney(ent, 4)
             slotEnt.doomCount = 6
-        end
-    end
+        end,
+        filter = function(ent, ppos, slotEnt)
+            if slotEnt and (not slotEnt.doomCount) then
+                return true
+            end
+        end,
+    }
 })
 
 
