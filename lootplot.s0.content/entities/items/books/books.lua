@@ -42,11 +42,6 @@ defineBook("book_of_basics",
     "slot",
     "Normal Slot"
 )
-defineBook("book_of_farming",
-    "Book of Farming",
-    "dirt_slot",
-    "Dirt Slot"
-)
 defineBook("book_of_rerolling",
     "Book of Rerolling",
     "reroll_slot",
