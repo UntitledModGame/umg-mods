@@ -240,7 +240,7 @@ defFiscal("contract", {
     rarity = lp.rarities.UNCOMMON,
 
     basePrice = 8,
-    tierUpgrade = helper.propertyUpgrade("price", 5, 5),
+    tierUpgrade = helper.propertyUpgrade("price", 8, 5),
 
     shape = lp.targets.KING_SHAPE,
 
