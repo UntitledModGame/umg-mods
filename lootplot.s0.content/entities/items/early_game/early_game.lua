@@ -196,28 +196,6 @@ lp.defineItem("lootplot.s0.content:bone", {
 
 
 
-lp.defineItem("lootplot.s0.content:reroll_pearls", {
-    image = "reroll_pearls",
-
-    name = loc("Reroll Pearls"),
-    description = loc("When destroyed, reroll everything"),
-
-    basePrice = 3,
-
-    rarity = lp.rarities.COMMON,
-
-    basePointsGenerated = 3,
-    tierUpgrade = helper.propertyUpgrade("pointsGenerated", 3, 3),
-
-    onDestroy = function(ent)
-        local ppos = lp.getPos(ent)
-        if ppos then
-            helper.rerollPlot(ppos:getPlot())
-        end
-    end,
-})
-
-
 
 
 local activateToot, dedToot
