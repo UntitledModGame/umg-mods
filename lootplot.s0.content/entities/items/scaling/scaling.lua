@@ -51,7 +51,7 @@ defineHelmet("spartan_helmet", {
 
 defItem("moon_knife", {
     name = loc("Moon Knife"),
-    description = loc("Gain 1 point permanently when activated"),
+    activateDescription = loc("Gain 1 point permanently"),
 
     basePointsGenerated = -10,
     rarity = lp.rarities.UNCOMMON,
@@ -77,10 +77,12 @@ defineHelmet("cobalt_helmet", {
 
     target = {
         type = "ITEM",
-        description = interp("Buff all {wavy}{lootplot:COMBINE_COLOR}UPGRADED{/lootplot:COMBINE_COLOR}{/wavy} target items: +%{tier} activations."),
+        description = interp("Buff all {wavy}{lootplot:COMBINE_COLOR}UPGRADED{/lootplot:COMBINE_COLOR}{/wavy} target items:\n+%{tier} activations. (Capped at 30)"),
         activate = function(selfEnt, ppos, targetEnt)
-            local x = lp.tiers.getTier(selfEnt)
-            lp.modifierBuff(targetEnt, "maxActivations", x, selfEnt)
+            if (targetEnt.maxActivations or 0) < 30 then
+                local x = lp.tiers.getTier(selfEnt)
+                lp.modifierBuff(targetEnt, "maxActivations", x, selfEnt)
+            end
         end,
         filter = upgradeFilter
     }
@@ -129,7 +131,7 @@ defineHelmet("doom_helmet", {
     triggers = {},
     basePrice = 14,
 
-    description = interp("Gains +%{tier} Points-Generated every activation"),
+    activateDescription = interp("Gains +%{tier} Points-Generated"),
     basePointsGenerated = 1,
 
     rarity = lp.rarities.EPIC,

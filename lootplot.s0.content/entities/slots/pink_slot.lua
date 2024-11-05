@@ -3,7 +3,7 @@ local loc = localization.localize
 return lp.defineSlot("lootplot.s0.content:pink_slot", {
     image = "pink_slot",
     name = loc("Pink Slot"),
-    description = loc("Gives an extra life to item."),
+    activateDescription = loc("Gives an extra life to item."),
 
     onActivate = function(slotEnt)
         local itemEnt = lp.slotToItem(slotEnt)

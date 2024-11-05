@@ -145,7 +145,7 @@ defItem("coins", {
     init = function(ent)
         ent.totalEarned = 0
     end,
-    description = function(ent)
+    activateDescription = function(ent)
         return COINS_DESC({
             amount = lp.tiers.getTier(ent),
             totalEarned = ent.totalEarned
@@ -181,7 +181,7 @@ lp.defineItem("lootplot.s0.content:bone", {
 
     name = loc("Bone"),
     triggers = {"PULSE"},
-    description = "Destroys itself and gain 1 life",
+    activateDescription = "Destroys itself and gain 1 life",
 
     basePrice = 1,
 
@@ -211,7 +211,7 @@ end
 lp.defineItem("lootplot.s0.content:trumpet", {
     image = "trumpet",
     name = loc("Trumpet"),
-    description = loc("Makes a toot sound"),
+    activateDescription = loc("Makes a toot sound"),
     rarity = lp.rarities.COMMON,
 
     baseMaxActivations = 10,

@@ -61,7 +61,6 @@ local ACTIVATE_SELF_BUTTON = {
 
 defContra("old_radio", {
     name = loc("Old Radio"),
-    description = loc("Activates an item."),
 
     triggers = {},
 
@@ -74,6 +73,7 @@ defContra("old_radio", {
 
     target = {
         type = "ITEM",
+        description = loc("Activates item directly"),
         activate = function(selfEnt, ppos, targetEnt)
             lp.tryActivateEntity(targetEnt)
         end
@@ -86,7 +86,6 @@ defContra("old_radio", {
 
 defContra("dark_radio", {
     name = loc("Dark Radio"),
-    description = loc("Activates and destroys an item."),
 
     triggers = {},
 
@@ -97,6 +96,7 @@ defContra("dark_radio", {
 
     target = {
         type = "ITEM",
+        description = loc("Activates and destroys item"),
         activate = function(selfEnt, ppos, targetEnt)
             lp.queueWithEntity(targetEnt, function ()
                 lp.destroy(targetEnt)
@@ -114,7 +114,6 @@ defContra("dark_radio", {
 -- Rerolls everything in a KING-2 shape. Doomed-6.
 defContra("reroll_machine", {
     name = loc("Reroll Machine"),
-    description = loc("Triggers a reroll."),
 
     triggers = {},
 
@@ -126,6 +125,7 @@ defContra("reroll_machine", {
 
     target = {
         type = "SLOT",
+        description = loc("Triggers {lootplot:TRIGGER_COLOR}REROLL for slot."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.tryTriggerEntity("REROLL", targetEnt)
         end
@@ -142,7 +142,7 @@ TODO: maybe this shit is too OP?
 ]]
 defContra("round_timer", {
     name = loc("Round timer"),
-    description = loc("Resets round to 1"),
+    activateDescription = loc("Resets round to 1"),
     triggers = {},
 
     baseMoneyGenerated = -30,

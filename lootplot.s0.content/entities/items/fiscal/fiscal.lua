@@ -88,7 +88,7 @@ local BISHOP_RING_DESC = localization.newInterpolator("Earn points equal to %{va
 defFiscal("bishop_ring", {
     name = loc("Bishop Ring"),
 
-    description = function(ent)
+    activateDescription = function(ent)
         return BISHOP_RING_DESC({
             val = ent.tier * 20
         })
@@ -116,7 +116,7 @@ local KING_RING_DESC = localization.newInterpolator("Earn money equal to %{val}%
 defFiscal("king_ring", {
     name = loc("King Ring"),
 
-    description = function(ent)
+    activateDescription = function(ent)
         return KING_RING_DESC({
             val = ent.tier * 5
         })
@@ -176,7 +176,7 @@ defFiscal("lucky_horseshoe", {
 
 defFiscal("gold_watch", {
     name = loc("Gold Watch"),
-    description = loc("Increases price by 10%,\n(Max 200)"),
+    activateDescription = loc("Increases price by 10%,\n(Max 200)"),
 
     tierUpgrade = helper.propertyUpgrade("price", 5, 5),
     rarity = lp.rarities.EPIC,
@@ -198,7 +198,7 @@ defFiscal("a_small_loan", {
     name = loc("A Small Loan"),
 
     triggers = {"BUY"},
-    description = loc("Destroys slot and earns money when purchased."),
+    activateDescription = loc("Destroys slot and earns money."),
 
     basePrice = 5,
     baseMoneyGenerated = 25,
@@ -219,7 +219,7 @@ defFiscal("a_small_loan", {
 
 defFiscal("robbers_bag", {
     name = loc("Robbers Bag"),
-    description = loc("Multiplies money by -1.5"),
+    activateDescription = loc("Multiplies money by -1.5"),
 
     basePrice = 5,
 

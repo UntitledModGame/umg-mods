@@ -33,14 +33,14 @@ ORDER = 60 important misc
 
 local SEPARATOR = "------------------------"
 
+-- `description` is the "meta-description" of the entity.
 umg.on("lootplot:populateDescription", -10, function(ent, arr)
     if ent.description then
-        local typ = type(ent.description)
-        if typ == "string" then
+        if type(ent.description) == "string" then
             -- should already be localized:
             arr:add(ent.description)
             arr:add(SEPARATOR)
-        elseif typ == "function" then
+        elseif objects.isCallable(ent.description) then
             arr:add(function()
                 -- need to pass ent manually as a closure
                 if umg.exists(ent) then
@@ -53,6 +53,29 @@ umg.on("lootplot:populateDescription", -10, function(ent, arr)
 end)
 
 
+
+umg.on("lootplot:populateDescription", 30, function(ent, arr)
+    if ent.activateDescription then
+        if type(ent.activateDescription) == "string" then
+            -- should already be localized:
+            arr:add(ent.activateDescription)
+        elseif objects.isCallable(ent.activateDescription) then
+            arr:add(function()
+                -- need to pass ent manually as a closure
+                if umg.exists(ent) then
+                    return ent.activateDescription(ent)
+                end
+            end)
+        end
+    end
+end)
+
+
+
+
+umg.on("lootplot:populateDescription", 49.9, function(ent, arr)
+    arr:add(SEPARATOR)
+end)
 
 
 
@@ -83,7 +106,7 @@ local VERB_CTX = {
     context = "Should be translated within a verb context"
 }
 
-local EARN_POINTS = interp("Points generated: {lootplot:POINTS_COLOR}%{pointsGenerated:.1f}{/lootplot:POINTS_COLOR}", VERB_CTX)
+local EARN_POINTS = interp("Gives points: {lootplot:POINTS_COLOR}%{pointsGenerated:.1f}{/lootplot:POINTS_COLOR}", VERB_CTX)
 local STEAL_POINTS = interp("{lootplot:BAD_COLOR}Steals points: {lootplot:POINTS_COLOR}%{pointsGenerated:.1f}{/lootplot:BAD_COLOR}", VERB_CTX)
 local POINT_INFO = interp("  ({lootplot:POINTS_MOD_COLOR}%{mod}{/lootplot:POINTS_MOD_COLOR} x {lootplot:POINTS_MULT_COLOR}%{mult} mult{/lootplot:POINTS_MULT_COLOR})")
 

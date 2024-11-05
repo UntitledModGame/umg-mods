@@ -137,7 +137,7 @@ defineCat("crappy_cat", {
 
 defItem("old_brick", {
     name = loc("Old Brick"),
-    description = loc("Loses 2 Points-Generated when activated"),
+    activateDescription = loc("Loses 2 Points-Generated permanently"),
 
     rarity = lp.rarities.RARE,
 
@@ -157,7 +157,7 @@ defItem("old_brick", {
 
 defItem("spear_of_war", {
     name = loc("Spear of War"),
-    description = loc("Generates points equal to the current combo"),
+    activateDescription = loc("Generates points equal to the current combo"),
 
     rarity = lp.rarities.EPIC,
 
@@ -318,7 +318,7 @@ defItem("ukulele", {
 
 defItem("anchor", {
     name = loc("Anchor"),
-    description = loc("Sets points to 0."),
+    activateDescription = loc("Sets points to 0."),
 
     rarity = lp.rarities.EPIC,
 

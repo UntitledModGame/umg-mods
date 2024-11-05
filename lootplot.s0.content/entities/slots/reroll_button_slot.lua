@@ -8,7 +8,7 @@ local COST_TEXT = localization.newInterpolator("{lootplot:MONEY_COLOR}{wavy amp=
 return lp.defineSlot("lootplot.s0.content:reroll_button_slot", {
 
     name = loc("Reroll button"),
-    description = loc("Click to reroll!"),
+    description = loc("Click to trigger {wavy}{lootplot:TRIGGER_COLOR}REROLL{/lootplot:TRIGGER_COLOR} for the whole plot!"),
 
     baseMoneyGenerated = -2,
 

@@ -4,7 +4,7 @@ return lp.defineSlot("lootplot.s0.content:diamond_slot", {
     image = "diamond_slot",
     name = loc("Diamond slot"),
     baseMaxActivations = 3,
-    description = loc("Activates items three times"),
+    activateDescription = loc("Activates items three times"),
     onActivate = function(ent)
         local ppos = lp.getPos(ent)
         if not (ppos) then return end

@@ -134,7 +134,7 @@ defDestructive("skull", {
     rarity = lp.rarities.UNCOMMON,
 
     triggers = {"PULSE"},
-    description = loc(("Triggers DESTROY on self %d times\n(Without destroying self!)"):format(REPEATS)),
+    activateDescription = loc(("Triggers {lootplot:TRIGGER_COLOR}DESTROY{/lootplot:TRIGGER_COLOR} on self %d times\n(Without destroying self!)"):format(REPEATS)),
 
     basePrice = 10,
 
