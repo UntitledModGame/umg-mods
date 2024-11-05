@@ -13,7 +13,7 @@ lp.defineItem("lootplot.main:doom_egg", {
     doomCount = 1,
     image = "doom_egg",
     name = loc("Doom Egg"),
-    description = loc("Spawns the Doom Clock."),
+    activateDescription = loc("Spawns the Doom Clock."),
 
     canItemFloat = true,
 

@@ -57,7 +57,7 @@ lp.defineSlot("lootplot.main:pulse_button_slot", {
 
     name = loc("Pulse Button"),
     description = loc("Click to {wavy}{lootplot:TRIGGER_COLOR}PULSE{/lootplot:TRIGGER_COLOR}{/wavy} the plot,\nand go to the next round!"),
-    activateDescription = loc("(Triggers {wavy}{lootplot:TRIGGER_COLOR}RESET{/lootplot:TRIGGER_COLOR}{/wavy}, and resets activations when done)"),
+    activateDescription = loc("({wavy}{lootplot:TRIGGER_COLOR}RESETS{/lootplot:TRIGGER_COLOR}{/wavy} everything when done)"),
 
     activateAnimation = {
         activate = "pulse_button_hold",
@@ -138,7 +138,7 @@ lp.defineSlot("lootplot.main:next_level_button_slot", {
     image = "level_button_up",
 
     name = loc("Next-Level Button"),
-    description = function(ent)
+    activateDescription = function(ent)
         if umg.exists(ent) then
             local points = lp.getPoints(ent)
             local requiredPoints = lp.main.getRequiredPoints(ent)
