@@ -34,9 +34,12 @@ function text.defineEffect(name, effectupdate)
     return defaultEffectGroup:addEffect(name, effectupdate)
 end
 
+local strTc = typecheck.assert("string")
+
 ---Remove the effect from the default effect group.
 ---@param name string Effect name.
 function text.removeEffect(name)
+    strTc(name)
     return defaultEffectGroup:removeEffect(name)
 end
 
@@ -55,6 +58,7 @@ local parser = require("client.parser")
 ---@param txt string Formatted rich text
 ---@return text.ParsedText?,string?
 function text.parseRichText(txt)
+    strTc(txt)
     return parser.ensure(txt)
 end
 
@@ -65,6 +69,7 @@ text.escapeRichTextSyntax = parser.escape
 ---@param txt text.ParsedText|string
 ---@return string
 function text.stripEffects(txt)
+    strTc(txt)
     local parsed = assert(parser.ensure(txt))
     local result = {}
 
@@ -90,6 +95,7 @@ text.printRich = drawRichText
 ---@param sx number?
 ---@param sy number?
 function text.printRichCentered(txt, font, x, y, limit, align, rot, sx, sy)
+    strTc(txt)
     local parsed = assert(parser.ensure(txt))
     local clear = text.stripEffects(txt)
     local width, wrap = font:getWrap(clear, limit)

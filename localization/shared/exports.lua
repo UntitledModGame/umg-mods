@@ -45,8 +45,10 @@ function Interpolator:__tostring()
     return self.text
 end
 
----@alias localization.Interpolator localization.InterpolatorObject|fun(variables:table<string,any>?):string
 
+local strTc = typecheck.assert("string")
+
+---@alias localization.Interpolator localization.InterpolatorObject|fun(variables:table<string,any>?):string
 
 ---Create new interpolator that translates and interpolates based on variables, taking pluralization into account.
 ---
@@ -55,6 +57,7 @@ end
 ---@param context table? Reserved for future use
 ---@return localization.Interpolator
 function localization.newInterpolator(text, context)
+    strTc(text)
     local loadingContext = assert(umg.getLoadingContext(), "this can only be called at load-time")
     local key = loadingContext.modname.."\0"..text
     local interpolator = interpolators[key]

@@ -61,6 +61,7 @@ function DescriptionBox:draw(x, y, w, h)
             if objects.isCallable(str) then
                 str = str()
             end
+            assert(type(str)=="string","?")
             ---@cast str string
             local font = content.font or self.defaultFont
             local stripped = text.stripEffects(str)
@@ -116,6 +117,7 @@ function DescriptionBox:getBestFitDimensions(maxWidth)
             if objects.isCallable(str) then
                 str = str()
             end
+            assert(type(str)=="string","?")
             local font = content.font or self.defaultFont
 
             local width, strings = font:getWrap(text.stripEffects(str), maxWidth / scale)

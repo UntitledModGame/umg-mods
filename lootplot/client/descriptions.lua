@@ -46,6 +46,7 @@ umg.on("lootplot:populateDescription", -10, function(ent, arr)
                 if umg.exists(ent) then
                     return ent.description(ent)
                 end
+                return ""
             end)
             arr:add(SEPARATOR)
         end
@@ -65,6 +66,7 @@ umg.on("lootplot:populateDescription", 30, function(ent, arr)
                 if umg.exists(ent) then
                     return ent.activateDescription(ent)
                 end
+                return ""
             end)
         end
     end
