@@ -134,8 +134,8 @@ local function definePiece(mineral_type, name)
         description = loc("Can upgrade " .. name .. " tools!"),
 
         basePrice = 3,
-        basePointsGenerated = 3,
-        tierUpgrade = helper.propertyUpgrade("pointsGenerated", 3, 3),
+        basePointsGenerated = 4,
+        tierUpgrade = helper.propertyUpgrade("pointsGenerated", 4, 3),
 
         mineralType = mineral_type,
         rarity=lp.rarities.COMMON,
