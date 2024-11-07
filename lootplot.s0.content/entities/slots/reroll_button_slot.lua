@@ -25,7 +25,7 @@ return lp.defineSlot("lootplot.s0.content:reroll_button_slot", {
         modifiers = {
             -- rerolls cost $1 more every time button activates
             moneyGenerated = function(ent)
-                return -(ent.activationCount or 0)
+                return -2 * (ent.activationCount or 0)
             end
         }
     },

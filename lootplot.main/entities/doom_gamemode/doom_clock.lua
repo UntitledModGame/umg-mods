@@ -15,8 +15,10 @@ local loc = localization.localize
 
 
 local EARLY_LEVELS = {
-    30,100, 250, 600, 1200
+    100,200, 400, 1000, 2500, 6000
 }
+local RAMP_UP = 12
+
 ---@param levelNumber integer
 local function getRequiredPoints(levelNumber)
     --[[
@@ -25,10 +27,18 @@ local function getRequiredPoints(levelNumber)
     if EARLY_LEVELS[levelNumber] then
         return EARLY_LEVELS[levelNumber]
     end
-    -- TODO: add a difficulty multiplier here?
 
-    -- todo: could make this exponential
-    return math.floor((levelNumber-2)^4 / 10) * 100
+    local extra = 0
+    if levelNumber > RAMP_UP then
+        local exp = (levelNumber-(RAMP_UP-3))^2
+        extra = math.floor((5 ^ exp)/10000) * 10000
+    end
+    return extra + math.floor((2^(levelNumber))/10) * 1000
+end
+
+
+for lv=1, 16 do
+    print("LEVEL POINTS:",lv,getRequiredPoints(lv))
 end
 
 

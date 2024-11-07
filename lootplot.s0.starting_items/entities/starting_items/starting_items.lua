@@ -22,7 +22,7 @@ end
 
 local function spawnShop(ent)
     local ppos, team = getPosTeam(ent)
-    wg.spawnSlots(assert(ppos:move(-4,1)), server.entities.shop_slot, 3,2, team)
+    wg.spawnSlots(assert(ppos:move(-4,0)), server.entities.shop_slot, 3,1, team)
 end
 
 local function spawnRerollButton(ent)
@@ -100,9 +100,9 @@ end
 
 definePerk("one_ball", {
     name = loc("One Ball"),
-    description = loc("Gain an extra $4 per turn"),
+    description = loc("Gain an extra $3 per turn"),
 
-    baseMoneyGenerated = 4,
+    baseMoneyGenerated = 3,
     baseMaxActivations = 1,
 
     onActivateOnce = function(ent)

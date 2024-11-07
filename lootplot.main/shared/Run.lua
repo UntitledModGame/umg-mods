@@ -57,7 +57,7 @@ function Run:init(perkItem)
     self.attrs.MONEY = constants.STARTING_MONEY
     self.attrs.POINTS = constants.STARTING_POINTS
 
-    self.attrs.REQUIRED_POINTS = 5 -- HACK: this is hardcoded.
+    self.attrs.REQUIRED_POINTS = 0
     self.attrs.ROUND = 1
     self.attrs.NUMBER_OF_ROUNDS = constants.ROUNDS_PER_LEVEL
     for _, a in ipairs(lp.getAllAttributes()) do
