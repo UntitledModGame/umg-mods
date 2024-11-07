@@ -292,15 +292,16 @@ defFiscal("gold_knuckles", {
 
 defFiscal("the_negotiator", {
     name = loc("The Negotiator"),
+    triggers = {},
 
     basePrice = 10,
+    baseMoneyGenerated = 1,
+    canItemFloat = true,
 
     rarity = lp.rarities.EPIC,
 
     shape = lp.targets.KING_SHAPE,
-    canItemFloat = true,
 
-    baseMoneyGenerated = 1,
     listen = {
         trigger = "BUY",
     }
