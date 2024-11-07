@@ -186,7 +186,7 @@ Activates multiple times, like boomerang.
 (since octopuses dont matter for ruby-items.)
 ]]
 defineMineralClass("ruby", "Ruby", {
-    baseMaxActivations = 4,
+    baseMaxActivations = 3,
     description = loc("Uses all activations at once!"),
     onActivate = function(selfEnt)
         local ppos = lp.getPos(selfEnt)
