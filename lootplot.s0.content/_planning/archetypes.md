@@ -30,7 +30,6 @@ books
 cards
 contraptions
 destructive
-dice
 early_game
 -- SPLIT FISCAL UP:
 goldsmith **NYI**
@@ -41,6 +40,7 @@ shoppy **NYI** - items that have `BUY` listener
 foods
 glove
 mineral
+reroll
 rulebender (??? <-- do sub-categories??)
 scaling (??? We havent even figured out HOW TO DO SCALING!!)
 seasonal
