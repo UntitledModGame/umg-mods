@@ -27,6 +27,8 @@ Early-game items are still useful (somehow)
 
 -----
 
+
+
 ## PROBLEM OF SCALING SPEEDS:
 There are 2 "simple" scaling speeds:
 - linear scaling:  +2 buff.   (y=2t)
@@ -57,6 +59,30 @@ Such a complex operation is not really possible to explain simply.
 - Provide limits for how "big" scaling can get (<-- KINDA FEELS BAD THO, people like big points)
 
 
+
+
+
+
+
+
+## SCALING IDEAS:
+
+- More buffing within the shop:
+    - IE: “When target-item bought, gain +2 points”
+- More scavenge/fiscal dependent buffing:
+    - Only buff when has less than $10
+    - Buff 1 point for every $10, (maximum of 10)
+
+We also want more “scaling of scaling”.  For example:
+- Buff item points-generated for 10% of current balance
+- Buff item points-generated for 20% of this item's price
+
+More price-scaling opportunities.
+Currently, price is just a get-rich-quick scheme with lives.
+- More opportunities for items with LOW price.  
+    - EG: “if item is cheaper than $3, buff it +3 points”
+- More reasons to NOT sell an item with high-price, just for profit.
+- IDEA:::: Make price builds synergize with low-money builds???
 
 
 
