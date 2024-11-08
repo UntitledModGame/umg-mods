@@ -201,7 +201,7 @@ defFiscal("a_small_loan", {
     activateDescription = loc("Destroys slot and earns money."),
 
     basePrice = 5,
-    baseMoneyGenerated = 25,
+    baseMoneyGenerated = 55,
 
     canItemFloat = true,
     rarity = lp.rarities.RARE,
