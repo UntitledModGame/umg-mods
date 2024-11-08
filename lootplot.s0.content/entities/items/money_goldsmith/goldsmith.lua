@@ -4,9 +4,8 @@ local interp = localization.newInterpolator
 local helper = require("shared.helper")
 
 
-local function defFiscal(id, etype)
+local function defItem(id, etype)
     etype.image = etype.image or id
-
     return lp.defineItem("lootplot.s0.content:"..id, etype)
 end
 
@@ -28,7 +27,7 @@ end
 local BISHOP_RING_DESC = interp("Earn points equal to %{val}% of current balance.")
 
 local function defSilvRing(id,name,trigger)
-    defFiscal(id, {
+    defItem(id, {
         name = loc(name),
         triggers={trigger},
 
@@ -65,7 +64,7 @@ defSilvRing("silver_reroll_ring", "Silver Reroll Ring", "REROLL")
 local SILVER_RING_DESC = interp("Earn money equal to %{val}% of current balance.\n(Max of $20)")
 
 local function defGoldRing(id, name, trigger)
-    defFiscal(id, {
+    defItem(id, {
         name = loc(name),
         triggers = {trigger},
 
@@ -97,3 +96,23 @@ end
 
 defGoldRing("gold_pulse_ring", "Gold Pulse Ring", "PULSE")
 defGoldRing("gold_reroll_ring", "Gold Reroll Ring", "REROLL")
+
+
+
+
+defItem("robbers_bag", {
+    name = loc("Robbers Bag"),
+    activateDescription = loc("Multiplies money by -1.5"),
+
+    basePrice = 5,
+
+    rarity = lp.rarities.EPIC,
+    doomCount = 3,
+
+    onActivate = function(ent)
+        local money = lp.getMoney(ent) or 0
+        lp.setMoney(ent, money * -1.5)
+    end
+})
+
+
