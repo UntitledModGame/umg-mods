@@ -106,6 +106,6 @@ function text.printRichCentered(txt, font, x, y, limit, align, rot, sx, sy)
 end
 
 umg.expose("text", text)
-require("client.base_effect")() -- Expose default effects
+require("client.default_effects")() -- Expose default effects
 
 return text
