@@ -133,10 +133,10 @@ defItem("net", {
     },
     shape = lp.targets.KING_SHAPE,
 
-    baseMaxActivations = 3,
-    tierUpgrade = helper.propertyUpgrade("maxActivations", 3, 3),
+    baseMaxActivations = 8,
+    tierUpgrade = helper.propertyUpgrade("maxActivations", 8, 3),
 
-    basePointsGenerated = 1,
+    basePointsGenerated = 2,
 })
 
 

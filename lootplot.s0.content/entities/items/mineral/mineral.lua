@@ -102,13 +102,6 @@ local function defineAxe(mineral_type, name, etype)
         }
     }
 
-    if mineral_type == "cobalt" then
-        -- HACK: Cobalt-tools are a bit of a different beast.
-        -- We make it different to compensate.
-        axeType.shape = lp.targets.QueenShape(3)
-        axeType.target = nil
-    end
-
     for k,v in pairs(etype) do
         axeType[k] = axeType[k] or v
     end
@@ -202,15 +195,13 @@ defineMineralClass("ruby", "Ruby", {
 
 
 --[[
-Activates when a target-item is destroyed!!!
+
+Can be used in BOTH reroll AND 
 
 ]]
 defineMineralClass("cobalt", "Cobalt", {
-    shape = lp.targets.RookShape(1),
-    triggers = {},
-    listen = {
-        trigger = "DESTROY"
-    }
+    triggers = {"PULSE", "REROLL"},
+    rarity = lp.rarities.RARE
 })
 
 
