@@ -11,7 +11,7 @@ Shop-buy (NO MINERAL-TOOLS YET. Based on buying items)
 
 ## MONEY-ARCHETYPES: 2 types:
 Goldsmith (attempt to save money; items work with HIGH money)
-Scavenger (spend all money; items work with LOW money)
+Grubby (spend all money; items work with LOW money)
 
 
 ## MICRO-ARCHETYPES:
@@ -33,7 +33,7 @@ destructive
 early_game
 -- SPLIT FISCAL UP:
 goldsmith **NYI**
-scavenger **NYI**
+grubby **NYI**
 price **NYI**
 shoppy **NYI** - items that have `BUY` listener
 foods

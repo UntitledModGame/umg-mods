@@ -1006,6 +1006,7 @@ function lp.defineItem(name, itemType)
     if not itemType.basePrice then
         umg.log.warn("item not given base-price: ", name)
     end
+    itemType.grubMoneyCap = 40
     itemType.item = true
     itemType.layer = "item"
     itemType.basePrice = itemType.basePrice or 5

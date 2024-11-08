@@ -74,6 +74,26 @@ end)
 
 
 
+do
+local C1 = "c r=0.78 g=0.65 b=0.13"
+local C2 = "c r=1 g=0.85 b=0.43"
+
+local GRUB_CAP = interp(
+    ("{%s}{wavy}GRUB-%%{grubMoneyCap}:{/wavy}{/c} {%s}Works only if money < $%%{grubMoneyCap}{/c}")
+    :format(C1,C2)
+)
+
+umg.on("lootplot:populateDescription", 31, function(ent, arr)
+    if ent.grubMoneyCap then
+        arr:add(GRUB_CAP(ent))
+    end
+end)
+
+end
+
+
+
+
 
 umg.on("lootplot:populateDescription", 49.9, function(ent, arr)
     arr:add(SEPARATOR)

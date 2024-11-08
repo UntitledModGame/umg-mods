@@ -6,6 +6,7 @@ local helper = require("shared.helper")
 
 local function defItem(id, etype)
     etype.image = etype.image or id
+    etype.grubMoneyCap = etype.grubMoneyCap or 15
     return lp.defineItem("lootplot.s0.content:"..id, etype)
 end
 
@@ -28,5 +29,20 @@ defItem("the_negotiator", {
     listen = {
         trigger = "BUY",
     }
+})
+
+
+
+defItem("spare_coins", {
+    name = loc("Spare Coins"),
+    triggers = {"PULSE"},
+
+    grubMoneyCap = 6,
+
+    basePrice = 6,
+    baseMoneyGenerated = 1,
+    tierUpgrade = helper.propertyUpgrade("moneyGenerated", 1, 3),
+
+    rarity = lp.rarities.UNCOMMON,
 })
 
