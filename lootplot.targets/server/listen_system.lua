@@ -9,13 +9,7 @@ OK:::
 This is a very hard problem to do efficiently.
 We have a few different options, tho:
 
-
-OPTION-ALFA:
-For All ents that are being listened to, 
-keep a list of ents that are currently listening to them.
-- BIG DOWNSIDE: What happens when a listener STOPS targeting them?
-There's no way for us to know, and we get outdated state! argh!
-
+OPTION-ALFA: (REMOVED, DIDNT IMPLEMENT)
 
 
 OPTION-BRAVO:

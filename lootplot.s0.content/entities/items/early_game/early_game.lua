@@ -94,6 +94,8 @@ defItem("leather", {
     name = loc("Leather"),
     description = loc("If has less than $5,\ngain a 5x multiplier"),
 
+    rarity = lp.rarities.COMMON,
+
     lootplotProperties = {
         multipliers = {
             pointsGenerated = function(ent)
@@ -181,7 +183,7 @@ lp.defineItem("lootplot.s0.content:bone", {
 
     name = loc("Bone"),
     triggers = {"PULSE"},
-    activateDescription = "Destroys itself and gain 1 life",
+    activateDescription = loc("Destroys itself and gain 1 life"),
 
     basePrice = 1,
 
@@ -193,6 +195,52 @@ lp.defineItem("lootplot.s0.content:bone", {
     end
 })
 
+
+
+
+
+--[[
+
+The purpose of pink-guppy is to make players more aware of
+the existance of octopus.
+
+Because in reality, octopus is VERY CENTRAL to the game.
+
+]]
+local GUPPY_COUNT = 12
+local GUPPY_DESC = interp("After %{count} activations,\nturn into an Octopus")
+
+lp.defineItem("lootplot.s0.content:pink_guppy", {
+    image = "pink_guppy",
+
+    name = loc("Pink Guppy"),
+    triggers = {"PULSE"},
+
+    description = function(ent)
+        return GUPPY_DESC({
+            count = GUPPY_COUNT - (ent.totalActivationCount or 0)
+        })
+    end,
+
+    basePrice = 3,
+    basePointsGenerated = 4,
+
+    rarity = lp.rarities.COMMON,
+
+    onActivate = function(ent)
+        if (ent.totalActivationCount or 0) >= (GUPPY_COUNT-1) then
+            local ppos = lp.getPos(ent)
+            local etype = server.entities.pink_octopus
+            assert(etype,"?")
+            if ppos and etype then
+                local item = lp.forceSpawnItem(ppos, etype, ent.lootplotTeam)
+                if item then
+                    item.tier = ent.tier
+                end
+            end
+        end
+    end,
+})
 
 
 
