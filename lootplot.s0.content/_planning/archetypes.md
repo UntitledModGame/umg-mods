@@ -33,7 +33,6 @@ destructive
 early_game
 -- SPLIT FISCAL UP:
 goldsmith **NYI**
-rings **NYI**
 scavenger **NYI**
 price **NYI**
 shoppy **NYI** - items that have `BUY` listener
