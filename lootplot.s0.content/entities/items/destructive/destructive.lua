@@ -127,8 +127,8 @@ defDestructive("bomb", {
 
 
 
-defDestructive("blood_from_the_goblet", {
-    name = loc("Blood from the Goblet"),
+defDestructive("goblet_of_blood", {
+    name = loc("Goblet of Blood"),
     triggers = {},
 
     rarity = lp.rarities.EPIC,
