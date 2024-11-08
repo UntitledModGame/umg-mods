@@ -134,15 +134,18 @@ defDestructive("goblet_of_blood", {
     rarity = lp.rarities.EPIC,
     doomCount = 10,
 
+    basePointsGenerated = 1,
+
+    activateDescription = loc("Doubles its own points-generated!"),
+
     basePrice = 8,
 
     listen = {
         trigger = "DESTROY",
         activate = function(selfEnt, ppos, targetEnt)
             local points = targetEnt.pointGenerated or 0
-            lp.modifierBuff(targetEnt, "pointGenerated", points, selfEnt)
+            lp.modifierBuff(selfEnt, "pointGenerated", points, selfEnt)
         end,
-        description = loc("Doubles item points-generated")
     },
 
     shape = lp.targets.LARGE_KING_SHAPE,
