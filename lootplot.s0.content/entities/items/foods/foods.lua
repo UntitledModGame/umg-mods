@@ -447,9 +447,10 @@ definePotion("potion_red", {
 
     target = {
         type = "ITEM_OR_SLOT",
-        description = loc("Multiplies item/slots points by 1.5"),
+        description = loc("Multiplies item/slots points by 2"),
         activate = function (selfEnt, ppos, targetEnt)
-            lp.multiplierBuff(targetEnt, "pointsGenerated", 1.5, selfEnt)
+            local x = targetEnt.pointsGenerated or 0
+            lp.modifierBuff(targetEnt, "pointsGenerated", x, selfEnt)
         end
     }
 })
