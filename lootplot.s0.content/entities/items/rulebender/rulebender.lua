@@ -71,6 +71,12 @@ end
 defineCat("copycat", {
     name = loc("Copycat"),
 
+    init = function(ent)
+        if lp.SEED:randomMisc()<0.01 then
+            ent.image = "copycat_but_cool"
+        end
+    end,
+
     rarity = lp.rarities.EPIC,
 
     basePrice = 0,
