@@ -7,6 +7,8 @@ local StretchableButton = require("client.elements.StretchableButton")
 
 local DescriptionBox = require("client.DescriptionBox")
 
+local settingManager = require("shared.setting_manager")
+
 ---@class lootplot.main.Scene: Element
 local Scene = ui.Element("lootplot.main:Screen")
 
@@ -17,7 +19,6 @@ local strings = {
 
 ---@param lpState lootplot.main.State
 function Scene:init(lpState)
-    self.gameSpeedMultiplerFactor = 0 -- 2^n
     self.lpState = assert(lpState)
 
     self:makeRoot()
@@ -35,15 +36,7 @@ function Scene:init(lpState)
         onResume = function()
             self.popupElement = nil
         end,
-        setGameSpeed = function(speed)
-            local run = lp.main.getRun()
-
-            if run then
-                run:setSpeedMultipler(2 ^ speed)
-            end
-
-            self.gameSpeedMultiplerFactor = speed
-        end,
+        setGameSpeed = settingManager.setSpeedFactor,
 
         -- Ideally you should AVOID non-integer value within slider
         -- because it can introduce floating point issue.
@@ -59,7 +52,7 @@ function Scene:init(lpState)
 
             return value, format
         end,
-        currentGameSpeed = self.gameSpeedMultiplerFactor * SLIDER_SNAP_MULTIPLER,
+        currentGameSpeed = settingManager.getSpeedFactor() * SLIDER_SNAP_MULTIPLER,
         gameSpeedRanges = {-2 * SLIDER_SNAP_MULTIPLER, 4 * SLIDER_SNAP_MULTIPLER}
     })
 

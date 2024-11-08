@@ -17,6 +17,8 @@ Get enough points to kill the loot-monster.
 
 ]]
 
+local settingManager = require("shared.setting_manager")
+
 ---@class lootplot.main.Run: objects.Class
 local Run = objects.Class("lootplot.main:Run")
 
@@ -132,18 +134,6 @@ end
 
 
 
--- Pipeline multipler
-umg.definePacket("lootplot.main:setSpeedMultipler", {typelist = {"number"}})
-local currentMultipler = 1
-
----@param mult number
-function Run:setSpeedMultipler(mult)
-    if server then
-        currentMultipler = mult
-    else
-        client.send("lootplot.main:setSpeedMultipler", mult)
-    end
-end
 
 if server then
 
@@ -189,14 +179,9 @@ end
 
 
 
-server.on("lootplot.main:setSpeedMultipler", function(clientId, value)
-    if server.getHostClient() == clientId then
-        currentMultipler = value
-    end
-end)
-
+-- Pipeline multipler
 umg.answer("lootplot:getPipelineDelayMultiplier", function()
-    return 1 / currentMultipler
+    return 1 / 2 ^ settingManager.getSpeedFactor()
 end)
 
 end -- if server
