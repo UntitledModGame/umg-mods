@@ -4,6 +4,16 @@ local util = require("shared.util")
 --[[
 
 
+ent.listen = {
+    trigger = "REROLL" or "DESTROY" or "PULSE",
+    filter = function(selfEnt, ppos, targetEnt)
+        return isFood(targetEnt)
+    end,
+    activate = function(selfEnt, ppos, targetEnt)
+        lp.modifierBuff(targetEnt, "price", 1)
+    end
+}
+
 
 OK:::
 This is a very hard problem to do efficiently.

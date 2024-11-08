@@ -127,6 +127,31 @@ defDestructive("bomb", {
 
 
 
+defDestructive("blood_from_the_goblet", {
+    name = loc("Blood from the Goblet"),
+    triggers = {},
+
+    rarity = lp.rarities.EPIC,
+    doomCount = 10,
+
+    basePrice = 8,
+
+    listen = {
+        trigger = "DESTROY",
+        activate = function(selfEnt, ppos, targetEnt)
+            local points = targetEnt.pointGenerated or 0
+            lp.modifierBuff(targetEnt, "pointGenerated", points, selfEnt)
+        end,
+        description = loc("Doubles item points-generated")
+    },
+
+    shape = lp.targets.LARGE_KING_SHAPE,
+})
+
+
+
+
+
 local REPEATS=4
 defDestructive("skull", {
     name = loc("Skull"),
