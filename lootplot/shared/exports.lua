@@ -734,14 +734,15 @@ local function append(tabl, prop, x, operation)
     end
 end
 
-local modifierBuffTc = typecheck.assert("entity", "string", "number", "entity?")
+local buffTc = typecheck.assert("entity", "string", "number", "entity?")
 ---Availability: **Server**
 ---@param ent Entity
 ---@param property string
 ---@param amount number
 ---@param srcEnt_or_nil Entity? entity that invoked the buff (maybe nil)
 function lp.modifierBuff(ent, property, amount, srcEnt_or_nil)
-    modifierBuffTc(ent, property, amount, srcEnt_or_nil)
+    buffTc(ent, property, amount, srcEnt_or_nil)
+    assert(properties.getPropertyType(property), "Invalid property: " .. property)
     -- Permanently buffs an entity by adding a flat modifier
     ensureDynamicProperties(ent)
     append(ent.buffedProperties.modifiers, property, amount, reducers.ADD)
@@ -755,7 +756,9 @@ end
 ---@param srcEnt_or_nil Entity? entity that invoked the buff (maybe nil)
 function lp.multiplierBuff(ent, property, amount, srcEnt_or_nil)
     -- Permanently buffs an entity with a multiplier
+    buffTc(ent, property, amount, srcEnt_or_nil)
     ensureDynamicProperties(ent)
+    assert(properties.getPropertyType(property), "Invalid property: " .. property)
     append(ent.buffedProperties.multipliers, property, amount, reducers.MULTIPLY)
     umg.call("lootplot:entityBuffed", property, srcEnt_or_nil)
 end

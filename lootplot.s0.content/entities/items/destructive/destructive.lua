@@ -143,8 +143,8 @@ defDestructive("goblet_of_blood", {
     listen = {
         trigger = "DESTROY",
         activate = function(selfEnt, ppos, targetEnt)
-            local points = targetEnt.pointGenerated or 0
-            lp.modifierBuff(selfEnt, "pointGenerated", points, selfEnt)
+            local points = selfEnt.pointsGenerated
+            lp.modifierBuff(selfEnt, "pointsGenerated", points, selfEnt)
         end,
     },
 
