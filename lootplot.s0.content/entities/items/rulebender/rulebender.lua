@@ -100,6 +100,7 @@ defineCat("copycat", {
 defineCat("chubby_cat", {
     name = loc("Chubby Cat"),
     description = loc("Starts with 9 lives"),
+    triggers = {},
 
     basePrice = 6,
 

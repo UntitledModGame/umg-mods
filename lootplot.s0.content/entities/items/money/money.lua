@@ -34,7 +34,7 @@ defItem("gold_axe", {
     tierUpgrade = helper.propertyUpgrade("moneyGenerated", 1, 2),
 
     target = {
-        description = loc("Earn money."),
+        description = loc("Earn money for every target item."),
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
             lp.addMoney(selfEnt, selfEnt.moneyGenerated or 0)

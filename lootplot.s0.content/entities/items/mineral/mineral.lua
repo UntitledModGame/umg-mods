@@ -95,7 +95,7 @@ local function defineAxe(mineral_type, name, etype)
 
         target = {
             type = "ITEM",
-            description = loc("{lootplot.targets:COLOR}Earn points for every target item."),
+            description = loc("Earn points for every target item."),
             activate = function(selfEnt, ppos, targetEnt)
                 lp.addPoints(selfEnt, selfEnt.pointsGenerated or 0)
             end
@@ -124,7 +124,7 @@ local function definePiece(mineral_type, name)
     defineMineral(mineral_type, etypeName, {
         name = loc(name .. " Pieces"),
         image = image,
-        description = loc("Can upgrade " .. name .. " tools!"),
+        description = loc("Can upgrade " .. name .. " tools of the same tier!"),
 
         basePrice = 3,
         basePointsGenerated = 4,
