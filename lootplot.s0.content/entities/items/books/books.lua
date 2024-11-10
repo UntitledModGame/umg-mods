@@ -82,6 +82,6 @@ defineBook("book_of_mystery",
         local rng = lp.SEED.miscRNG
         return table.random(mystery_slot_pool, rng)
     end,
-    "{wavy amp=2}???"
+    "{wavy amp=2}{lootplot:TRIGGER_COLOR}???{/lootplot:TRIGGER_COLOR}{/wavy}"
 )
 
