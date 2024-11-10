@@ -157,7 +157,7 @@ local function addPointsDescription(ent, arr, pgen)
 end
 
 local EARN_MONEY = interp("{lootplot:MONEY_COLOR}Earns $%{moneyGenerated:.1f}", VERB_CTX)
-local STEAL_MONEY = interp("{lootplot:BAD_COLOR}Costs {lootplot:MONEY_COLOR}$%{moneyGenerated:.1f}{/lootplot:MONEY_COLOR} to activate!")
+local STEAL_MONEY = interp("{lootplot:BAD_COLOR}Costs {lootplot:MONEY_COLOR}$%{cost:.1f}{/lootplot:MONEY_COLOR} to activate!")
 local MONEY_INFO = interp("  ({lootplot:POINTS_MOD_COLOR}%{mod}{/lootplot:POINTS_MOD_COLOR} x {lootplot:POINTS_MULT_COLOR}%{mult} mult{/lootplot:POINTS_MULT_COLOR})")
 
 umg.on("lootplot:populateDescription", 30, function(ent, arr)
@@ -171,7 +171,13 @@ umg.on("lootplot:populateDescription", 30, function(ent, arr)
         if mEarn > 0 then
             arr:add(funcLocEnt(EARN_MONEY, ent))
         else
-            arr:add(funcLocEnt(STEAL_MONEY, ent))
+            arr:add(function()
+                if umg.exists(ent) then
+                    return STEAL_MONEY({
+                        cost = -ent.moneyGenerated
+                    })
+                end
+            end)
         end
     end
 end)
