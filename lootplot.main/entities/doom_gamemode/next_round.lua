@@ -29,7 +29,7 @@ local function startRound(ent, ppos)
 
         -- This will execute LAST.
         plot:foreachLayerEntry(function(ent, ppos, layer)
-            lp.reset(ent)
+            lp.resetEntity(ent)
         end)
         lp.addMoney(ent, lp.main.constants.MONEY_PER_ROUND)
 

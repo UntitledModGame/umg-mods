@@ -90,7 +90,7 @@ defineInteger("lives")
 
 -- activation counts:
 defineInteger("totalActivationCount")
-defineInteger("activationCount") -- <<< set to 0 when `lp.reset()` called
+defineInteger("activationCount") -- <<< set to 0 when `lp.resetEntity()` called
 
 
 

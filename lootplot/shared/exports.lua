@@ -651,7 +651,7 @@ end
 ---
 ---Availability: **Server**
 ---@param ent Entity
-function lp.reset(ent)
+function lp.resetEntity(ent)
     ent.activationCount = 0
     lp.tryTriggerEntity("RESET", ent)
     umg.call("lootplot:entityReset", ent)
