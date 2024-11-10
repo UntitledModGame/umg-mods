@@ -29,9 +29,13 @@ local loc = localization.localize
 local interp = localization.newInterpolator
 
 
+local DESC = loc("Has an activation button.")
+
 local function defContra(id, etype)
     etype.image = etype.image or id
     etype.basePrice = etype.basePrice or 8
+
+    etype.description = DESC
 
     lp.defineItem("lootplot.s0.content:" .. id, etype)
 end
@@ -72,10 +76,10 @@ defContra("old_radio", {
     baseMaxActivations = 4,
 
     target = {
-        type = "ITEM",
-        description = loc("Activates item directly"),
+        type = "SLOT",
+        description = loc("{lootplot:TRIGGER_COLOR}{wavy}PULSE{/wavy}{/lootplot:TRIGGER_COLOR} on Slot!"),
         activate = function(selfEnt, ppos, targetEnt)
-            lp.tryActivateEntity(targetEnt)
+            lp.tryTriggerEntity("PULSE", targetEnt)
         end
     },
 
@@ -142,16 +146,18 @@ TODO: maybe this shit is too OP?
 ]]
 defContra("round_timer", {
     name = loc("Round timer"),
-    activateDescription = loc("Resets round to 1"),
+    activateDescription = loc("Decreases Round by 1"),
     triggers = {},
 
-    baseMoneyGenerated = -30,
-    doomCount = 4,
+    doomCount = 1,
 
     rarity = lp.rarities.EPIC,
 
     onActivate = function (ent)
-        lp.setAttribute("ROUND", ent, 1)
+        local round = lp.getAttribute("ROUND", ent)
+        if round then
+            lp.setAttribute("ROUND", ent, round-1)
+        end
     end,
 
     actionButtons = {ACTIVATE_SELF_BUTTON}
