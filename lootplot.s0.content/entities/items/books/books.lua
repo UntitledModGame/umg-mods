@@ -9,10 +9,11 @@ local function defineBook(id, name, targetSlot, targetSlotName)
 
         rarity = lp.rarities.RARE,
 
+        doomCount = 10,
+
         shape = lp.targets.ABOVE_SHAPE,
 
-        basePrice = 15,
-        canItemFloat = true,
+        basePrice = 10,
 
         target = {
             type = "SLOT",
