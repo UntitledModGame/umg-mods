@@ -123,6 +123,8 @@ defineFood("heart_fruit", {
 
     shape = lp.targets.ABOVE_SHAPE,
 
+    basePrice = 9,
+
     target = {
         type = "ITEM_OR_SLOT",
         description = loc("Gives +2 lives to target."),
@@ -359,7 +361,7 @@ local function definePie(id, name, desc, addShape, rarity)
         image = id,
         name = loc(name),
 
-        basePrice = 6,
+        basePrice = 8,
 
         rarity = rarity,
 
