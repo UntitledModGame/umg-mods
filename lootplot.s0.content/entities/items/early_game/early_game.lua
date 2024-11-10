@@ -92,18 +92,14 @@ But its purpose is to give intuition about the `mult` system.
 ]]
 defItem("leather", {
     name = loc("Leather"),
-    description = loc("If has less than $5,\ngain a 5x multiplier"),
+    description = loc("Has a 5x points multiplier!"),
+    grubMoneyCap = 5,
 
     rarity = lp.rarities.COMMON,
 
     lootplotProperties = {
         multipliers = {
-            pointsGenerated = function(ent)
-                if (lp.getMoney(ent) or 1000) < 5 then
-                    return 5
-                end
-                return 1
-            end
+            pointsGenerated = 5
         }
     },
 
@@ -208,7 +204,7 @@ Because in reality, octopus is VERY CENTRAL to the game.
 
 ]]
 local GUPPY_COUNT = 12
-local GUPPY_DESC = interp("After %{count} activations,\nturn into an Octopus")
+local GUPPY_DESC = interp("After %{count} activations,\nturn into a Pink Octopus")
 
 lp.defineItem("lootplot.s0.content:pink_guppy", {
     image = "pink_guppy",
