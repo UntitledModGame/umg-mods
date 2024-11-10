@@ -2,12 +2,15 @@ local loc = localization.localize
 
 
 
-local function defineBook(id, name, targetSlot, targetSlotName)
+local bookTc = typecheck.assert("string", "string", "string", "string", "table")
+
+local function defineBook(id, name, targetSlot, targetSlotName, rarity)
+    bookTc(id, name, targetSlot, targetSlotName, rarity)
     return lp.defineItem("lootplot.s0.content:"..id, {
         image = id,
         name = loc(name),
 
-        rarity = lp.rarities.RARE,
+        rarity = rarity,
 
         doomCount = 10,
 
@@ -41,27 +44,32 @@ end
 defineBook("book_of_basics",
     "Book of Basics",
     "slot",
-    "Normal Slot"
+    "Normal Slot",
+    lp.rarities.RARE
 )
 defineBook("book_of_rerolling",
     "Book of Rerolling",
     "reroll_slot",
-    "Reroll Slot"
+    "Reroll Slot",
+    lp.rarities.EPIC
 )
 defineBook("book_of_shopping",
     "Book of Shopping",
     "shop_slot",
-    "Shop Slot"
+    "Shop Slot",
+    lp.rarities.EPIC
 )
 defineBook("book_of_selling",
     "Book of Selling",
     "sell_slot",
-    "Sell Slot"
+    "Sell Slot",
+    lp.rarities.EPIC
 )
 defineBook("empty_book",
     "Empty book",
     "null_slot",
-    "Null Slot"
+    "Null Slot",
+    lp.rarities.RARE
 )
 
 
@@ -82,6 +90,7 @@ defineBook("book_of_mystery",
         local rng = lp.SEED.miscRNG
         return table.random(mystery_slot_pool, rng)
     end,
-    "{wavy amp=2}{lootplot:TRIGGER_COLOR}???{/lootplot:TRIGGER_COLOR}{/wavy}"
+    "{wavy amp=2}{lootplot:TRIGGER_COLOR}???{/lootplot:TRIGGER_COLOR}{/wavy}",
+    lp.rarities.RARE
 )
 
