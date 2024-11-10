@@ -1,6 +1,6 @@
 local loc = localization.localize
 
-local txt = localization.newInterpolator("Cannot hold %{rarity} items."){
+local txt = localization.newInterpolator("Cannot hold %{rarity} items.\n(Or anything rarer.)"){
     rarity = lp.rarities.RARE.displayString
 }
 
