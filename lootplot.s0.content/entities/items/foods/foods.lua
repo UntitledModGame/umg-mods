@@ -449,10 +449,12 @@ definePotion("potion_red", {
 
     target = {
         type = "ITEM_OR_SLOT",
-        description = loc("Multiplies item/slots points by 2"),
+        description = loc("If item/slot generates less than 10 points, Buff target's points by 100"),
         activate = function (selfEnt, ppos, targetEnt)
             local x = targetEnt.pointsGenerated or 0
-            lp.modifierBuff(targetEnt, "pointsGenerated", x, selfEnt)
+            if x < 10 then
+                lp.modifierBuff(targetEnt, "pointsGenerated", 100, selfEnt)
+            end
         end
     }
 })
@@ -465,10 +467,12 @@ definePotion("potion_purple", {
 
     target = {
         type = "ITEM_OR_SLOT",
-        description = loc("Gives {lootplot:DOOMED_COLOR}DOOMED-5{/lootplot:DOOMED_COLOR} to target item/slot."),
+        description = loc("Gives {lootplot:DOOMED_COLOR}DOOMED-10{/lootplot:DOOMED_COLOR} to target item/slot,\nBut also double it's points."),
         activate = function (selfEnt, ppos, targetEnt)
             if not targetEnt.doomCount then
                 targetEnt.doomCount = 5
+                local x = targetEnt.pointsGenerated or 0
+                lp.modifierBuff(targetEnt, "pointsGenerated", x)
             end
         end
     }
