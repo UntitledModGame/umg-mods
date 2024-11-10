@@ -36,10 +36,13 @@ local function getRequiredPoints(levelNumber)
     return extra + math.floor((2^(levelNumber))/10) * 1000
 end
 
+--[[
 
 for lv=1, 16 do
     print("LEVEL POINTS:",lv,getRequiredPoints(lv))
 end
+
+]]
 
 
 local function lose()
