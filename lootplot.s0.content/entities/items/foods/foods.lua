@@ -198,7 +198,7 @@ local function setDoomCountTo(x)
         slotEnt.doomCount = x
     end
 end
-defineSlotSpawner("soy_sauce", "Soy Sauce", "slot", "Doomed-4 Slot", 
+defineSlotSpawner("soy_sauce", "Soy Sauce", "slot", "{lootplot:DOOMED_COLOR}DOOMED-4{/lootplot:DOOMED_COLOR} Slot", 
     lp.targets.RookShape(3), {},
     setDoomCountTo(4)
 )
