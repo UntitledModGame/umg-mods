@@ -135,9 +135,14 @@ function Scene:onRender(x,y,w,h)
         self:setSelection(nil)
     end
 
-    if #self.slotActionButtons > 0 then
+    local buttonCount = #self.slotActionButtons
+    if buttonCount > 0 then
         local _, bottomArea = r:splitVertical(5, 1)
-        _,bottomArea = bottomArea:splitHorizontal(1,3,1)
+        if buttonCount == 1 then
+            _,bottomArea = bottomArea:splitHorizontal(1,1,1)
+        else
+            _,bottomArea = bottomArea:splitHorizontal(1,3,1)
+        end
         local grid = bottomArea:grid(#self.slotActionButtons, 1)
 
         for i, button in ipairs(self.slotActionButtons) do
