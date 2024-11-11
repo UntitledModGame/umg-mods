@@ -92,7 +92,7 @@ But its purpose is to give intuition about the `mult` system.
 ]]
 defItem("leather", {
     name = loc("Leather"),
-    description = loc("Has a 5x points multiplier!"),
+    description = loc("Has a 3x points multiplier!"),
     grubMoneyCap = 5,
 
     rarity = lp.rarities.COMMON,
@@ -107,8 +107,8 @@ defItem("leather", {
 
     baseMaxActivations = 15,
 
-    basePointsGenerated = 4,
-    tierUpgrade = helper.propertyUpgrade("pointsGenerated", 4, 3)
+    basePointsGenerated = 3,
+    tierUpgrade = helper.propertyUpgrade("pointsGenerated", 3, 3)
 })
 
 

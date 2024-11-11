@@ -1176,6 +1176,9 @@ lp.COLORS = {
     DOOMED_COLOR = {0.7, 0.3, 1},
     DOOMED_LIGHT_COLOR = {0.8, 0.6, 1},
 
+    GRUB_COLOR = {0.78, 0.65, 0.13},
+    GRUB_COLOR_LIGHT = {1,0.85,0.43},
+
     -- MISC:
     BAD_COLOR = {1, 0.15, 0.2}, -- used for bad stuff
     TRIGGER_COLOR = {0.2, 0.8, 0.9}, -- used for bonuses/good thing

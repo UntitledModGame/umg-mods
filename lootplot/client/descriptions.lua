@@ -1,4 +1,10 @@
 
+--[[
+we need this to load first,
+(since we access lp.COLORS)
+]]
+require("shared.exports")
+
 
 local loc = localization.localize
 local interp = localization.newInterpolator
@@ -75,8 +81,8 @@ end)
 
 
 do
-local C1 = "c r=0.78 g=0.65 b=0.13"
-local C2 = "c r=1 g=0.85 b=0.43"
+local C1 = ("c r=%.2f g=%.2f b=%.2f"):format(unpack(lp.COLORS.GRUB_COLOR))
+local C2 = ("c r=%.2f g=%.2f b=%.2f"):format(unpack(lp.COLORS.GRUB_COLOR_LIGHT))
 
 local GRUB_CAP = interp(
     ("{%s}{wavy}GRUB-%%{grubMoneyCap}:{/wavy}{/c} {%s}Works only if money < $%%{grubMoneyCap}{/c}")

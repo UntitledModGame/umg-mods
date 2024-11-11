@@ -24,6 +24,7 @@ local function percentageOfBalanceGetter(percentage)
 end
 
 
+local POINT_PERCENT = 100
 local BISHOP_RING_DESC = interp("Earn points equal to %{val}% of current balance.")
 
 local function defSilvRing(id,name,trigger)
@@ -33,7 +34,7 @@ local function defSilvRing(id,name,trigger)
 
         activateDescription = function(ent)
             return BISHOP_RING_DESC({
-                val = ent.tier * 20
+                val = ent.tier * POINT_PERCENT
             })
         end,
 
@@ -46,7 +47,7 @@ local function defSilvRing(id,name,trigger)
 
         lootplotProperties = {
             modifiers = {
-                pointsGenerated = percentageOfBalanceGetter(0.20)
+                pointsGenerated = percentageOfBalanceGetter(POINT_PERCENT / 100.0)
             }
         },
 
@@ -62,6 +63,7 @@ defSilvRing("silver_reroll_ring", "Silver Reroll Ring", "REROLL")
 
 
 local SILVER_RING_DESC = interp("Earn money equal to %{val}% of current balance.\n(Max of $20)")
+local MONEY_PERCENT = 10
 
 local function defGoldRing(id, name, trigger)
     defItem(id, {
@@ -70,7 +72,7 @@ local function defGoldRing(id, name, trigger)
 
         activateDescription = function(ent)
             return SILVER_RING_DESC({
-                val = ent.tier * 10
+                val = ent.tier * MONEY_PERCENT
             })
         end,
 
@@ -86,7 +88,7 @@ local function defGoldRing(id, name, trigger)
                 moneyGenerated = 20
             },
             modifiers = {
-                moneyGenerated = percentageOfBalanceGetter(0.1)
+                moneyGenerated = percentageOfBalanceGetter(MONEY_PERCENT/100.0)
             }
         },
 

@@ -20,9 +20,10 @@ local loc = localization.localize
 local interp = localization.newInterpolator
 local helper = require("shared.helper")
 
+local consts = require("shared.constants")
 
-local MONEY_CAP_LOW = 5
-local MONEY_CAP_MID = 10
+local MONEY_CAP_LOW = assert(consts.GRUB_MONEY_CAP_LOW)
+local MONEY_CAP_MID = assert(consts.GRUB_MONEY_CAP_MID)
 
 
 local function defItem(id, etype)
@@ -41,6 +42,7 @@ defItem("the_negotiator", {
 
     basePrice = 10,
     baseMoneyGenerated = 1,
+    baseMaxActivations = 50,
     canItemFloat = true,
 
     rarity = lp.rarities.EPIC,
@@ -62,6 +64,7 @@ defItem("spare_coins", {
 
     basePrice = 6,
     baseMoneyGenerated = 1,
+    baseMaxActivations = 2,
     tierUpgrade = helper.propertyUpgrade("moneyGenerated", 1, 3),
 
     rarity = lp.rarities.UNCOMMON,
@@ -76,7 +79,9 @@ defItem("pineapple_ring", {
     doomCount = 8,
     grubMoneyCap = MONEY_CAP_MID,
     canItemFloat = true,
+
     baseMoneyGenerated = 2,
+    baseMaxActivations = 8,
 
     triggers = {},
     listen = {

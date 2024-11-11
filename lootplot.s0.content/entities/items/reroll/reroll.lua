@@ -62,12 +62,10 @@ defineDice("triple_dice", "Triple Dice", {
 
     rarity = lp.rarities.RARE,
 
-    baseMoneyGenerated = 2,
-    tierUpgrade = helper.propertyUpgrade("moneyGenerated",2,3),
-
     basePrice = 8,
     baseMaxActivations = 10,
-    basePointsGenerated = 30,
+    baseMoneyGenerated = 2,
+    tierUpgrade = helper.propertyUpgrade("moneyGenerated",2,3),
 
     grubMoneyCap = consts.GRUB_MONEY_CAP_LOW
 })
