@@ -25,6 +25,7 @@ defItem("gift_box", {
     end,
 
     basePrice = 6,
+    baseMaxActivations = 2,
     rarity = lp.rarities.RARE,
 
     onActivate = function(selfEnt)
@@ -49,6 +50,9 @@ defItem("pandoras_box", {
 
     shape = lp.targets.RookShape(1),
     doomCount = 1,
+
+    basePrice = 8,
+    baseMaxActivations = 1,
 
     target = {
         type = "SLOT_NO_ITEM",
@@ -80,6 +84,7 @@ defineCat("copycat", {
     rarity = lp.rarities.EPIC,
 
     basePrice = 0,
+    baseMaxActivations = 10,
 
     shape = lp.targets.RookShape(1),
 
@@ -103,6 +108,7 @@ defineCat("chubby_cat", {
     triggers = {},
 
     basePrice = 6,
+    baseMaxActivations = 1,
 
     onDraw = function(ent)
         if ent.lives and ent.lives < 1 then
@@ -124,6 +130,7 @@ defineCat("crappy_cat", {
     rarity = lp.rarities.RARE,
 
     basePrice = 3,
+    baseMaxActivations = 100,
 
     shape = lp.targets.RookShape(1),
 
@@ -169,7 +176,6 @@ defItem("spear_of_war", {
     rarity = lp.rarities.EPIC,
 
     baseMaxActivations = 100,
-
     basePrice = 9,
 
     tierUpgrade = helper.pointsMultUpgrade(3),
@@ -192,6 +198,7 @@ defItem("pink_balloon", {
 
     shape = lp.targets.KING_SHAPE,
 
+    baseMaxActivations = 3,
     basePrice = 12,
 
     target = {
@@ -285,6 +292,7 @@ defItem("blank_page", {
     shape = lp.targets.ABOVE_SHAPE,
 
     basePrice = 9,
+    baseMaxActivations = 10,
 
     target = {
         type = "ITEM",
@@ -332,6 +340,7 @@ defItem("anchor", {
     rarity = lp.rarities.EPIC,
 
     basePrice = 7,
+    baseMaxActivations = 3,
     baseMoneyGenerated = 5,
 
     onActivate = function(ent)

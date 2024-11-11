@@ -22,6 +22,7 @@ local function defineItem(season, id, etype)
     end
 
     etype.basePrice = etype.basePrice or 8
+    etype.baseMaxActivations = etype.baseMaxActivations or 10
     etype.image = id
     lp.defineItem("lootplot.s0.content:"..id, etype)
 end

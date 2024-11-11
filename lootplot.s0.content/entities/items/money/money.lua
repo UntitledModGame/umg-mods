@@ -25,12 +25,12 @@ defItem("gold_axe", {
     name = loc("Golden Axe"),
 
     rarity = lp.rarities.RARE,
-    basePrice = 10,
 
     shape = lp.targets.KNIGHT_SHAPE,
 
-    baseMoneyGenerated = 1,
+    basePrice = 10,
     baseMaxActivations = 1,
+    baseMoneyGenerated = 1,
     tierUpgrade = helper.propertyUpgrade("moneyGenerated", 1, 2),
 
     target = {
@@ -56,6 +56,7 @@ defItem("gold_bar", {
     end,
 
     basePointsGenerated = 3,
+    baseMaxActivations = 2,
     basePrice = 4,
 
     rarity = lp.rarities.COMMON,
@@ -80,6 +81,7 @@ defItem("lucky_horseshoe", {
     shape = lp.targets.ON_SHAPE,
 
     basePrice = 2,
+    baseMaxActivations = 1,
 
     target = {
         type = "SLOT",
@@ -112,6 +114,7 @@ defItem("gold_knuckles", {
     triggers = {},
 
     basePrice = 6,
+    baseMaxActivations = 10,
     baseMoneyGenerated = 2,
     tierUpgrade = helper.propertyUpgrade("moneyGenerated", 2, 2),
 
@@ -141,6 +144,7 @@ defItem("death_by_taxes", {
     name = loc("Death by Taxes"),
 
     basePrice = 20,
+    baseMaxActivations = 2,
     rarity = lp.rarities.LEGENDARY,
 
     description = function(ent)

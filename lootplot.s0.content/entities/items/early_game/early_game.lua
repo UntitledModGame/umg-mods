@@ -46,6 +46,7 @@ lp.defineItem("lootplot.s0.content:key_bar", {
     end,
 
     basePrice = 4,
+    baseMaxActivations = 2,
     basePointsGenerated = 3,
 
     rarity = lp.rarities.COMMON,
@@ -77,10 +78,9 @@ lp.defineItem("lootplot.s0.content:stick", {
 
     rarity = lp.rarities.COMMON,
 
-    basePointsGenerated = 2,
+    basePointsGenerated = 3,
+    tierUpgrade = helper.propertyUpgrade("pointsGenerated", 3, 3),
     basePrice = 3,
-
-    tierUpgrade = helper.propertyUpgrade("pointsGenerated", 2, 3)
 })
 
 
@@ -219,6 +219,7 @@ lp.defineItem("lootplot.s0.content:pink_guppy", {
     end,
 
     basePrice = 3,
+    baseMaxActivations = 2,
     basePointsGenerated = 4,
     tierUpgrade = helper.propertyUpgrade("pointsGenerated", 4, 3),
 
@@ -259,6 +260,7 @@ lp.defineItem("lootplot.s0.content:green_guppy", {
     end,
 
     basePrice = 3,
+    baseMaxActivations = 2,
     basePointsGenerated = 4,
     tierUpgrade = helper.propertyUpgrade("pointsGenerated", 4, 3),
 

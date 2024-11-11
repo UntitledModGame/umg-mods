@@ -33,13 +33,14 @@ defItem("gold_watch", {
 
 
 
-defItem("contract", {
-    name = loc("Contract"),
+defItem("gold_helmet", {
+    name = loc("Gold Helmet"),
 
     rarity = lp.rarities.UNCOMMON,
 
     basePrice = 8,
-    tierUpgrade = helper.propertyUpgrade("price", 8, 5),
+    baseMaxActivations = 5,
+    tierUpgrade = helper.propertyUpgrade("maxActivations", 5, 3),
 
     shape = lp.targets.KING_SHAPE,
 

@@ -6,6 +6,7 @@ local loc = localization.localize
 local function defineFood(id, etype)
     etype.doomCount = etype.doomCount or 1
     etype.image = etype.image or id
+    etype.baseMaxActivations = 1
 
     lp.defineItem("lootplot.s0.content:" .. id, etype)
 end
@@ -14,22 +15,18 @@ end
 defineFood("blueberry", {
     name = loc("Blueberry"),
 
+    basePrice = 8,
     rarity = lp.rarities.EPIC,
 
-    shape = lp.targets.ABOVE_SHAPE,
+    activateDescription = loc("Doubles the current point count."),
 
-    target = {
-        type = "ITEM_OR_SLOT",
-        description = loc("Destroys item or slot. Doubles the current point count."),
-
-        activate = function (selfEnt, ppos, targetEnt)
-            lp.destroy(targetEnt)
-            local points = lp.getPoints(selfEnt)
-            if points then
-                lp.addPoints(selfEnt, points)
-            end
+    onActivate = function (selfEnt, ppos, targetEnt)
+        lp.destroy(targetEnt)
+        local points = lp.getPoints(selfEnt)
+        if points then
+            lp.addPoints(selfEnt, points)
         end
-    }
+    end
 })
 
 
@@ -51,6 +48,7 @@ defineFood("magic_turnip", {
 
     rarity = lp.rarities.EPIC,
 
+    basePrice = 10,
     shape = lp.targets.ABOVE_SHAPE,
 
     target = {
@@ -237,11 +235,13 @@ defineSlotSpawner("coconut", "Coconut", "dirt_slot", "Dirt Slot", lp.targets.Kin
 
 defineSlotSpawner("green_lemon", "Green Lemon", "reroll_slot", "DOOMED-5 Reroll Slot", lp.targets.KingShape(2), {
     rarity = lp.rarities.RARE,
+    basePrice = 8
 }, setDoomCountTo(5))
 
 
 defineSlotSpawner("lemon", "Lemon", "shop_slot", "DOOMED-4 Shop Slot", lp.targets.KingShape(2), {
     rarity = lp.rarities.RARE,
+    basePrice = 8
 }, setDoomCountTo(4))
 
 ----------------------------------------------------------------------------
@@ -299,7 +299,8 @@ defineSlotConverter("diamond_apple", "Diamond Apple", "diamond_slot", "Diamond S
 
 
 defineSlotConverter("cucumber_slices", "Cucumber Slices", "reroll_slot", "GRUB-5 Reroll Slot", lp.targets.ON_SHAPE, {
-    rarity = lp.rarities.UNCOMMON
+    rarity = lp.rarities.UNCOMMON,
+    basePrice = 6
 }, function(slotEnt)
     slotEnt.grubMoneyCap = 5
 end)

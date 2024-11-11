@@ -1006,6 +1006,9 @@ function lp.defineItem(name, itemType)
     if not itemType.basePrice then
         umg.log.warn("item not given base-price: ", name)
     end
+    if not itemType.baseMaxActivations then
+        umg.log.warn("Item not given baseMaxActivations", name)
+    end
     itemType.item = true
     itemType.layer = "item"
     itemType.basePrice = itemType.basePrice or 5

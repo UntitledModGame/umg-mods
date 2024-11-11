@@ -26,6 +26,7 @@ defDestructive("empty_cauldron", {
 
     rarity = lp.rarities.RARE,
     basePrice = 8,
+    baseMaxActivations = 1,
 
     shape = lp.targets.RookShape(1),
 
@@ -50,6 +51,7 @@ defDestructive("candle", {
     rarity = lp.rarities.LEGENDARY,
 
     basePrice = 15,
+    baseMaxActivations = 1,
 
     shape = lp.targets.KING_SHAPE,
 
@@ -78,8 +80,8 @@ defDestructive("candle", {
 defDestructive("tooth_necklace", {
     name = loc("Tooth Necklace"),
 
-    baseMaxActivations = 1,
     basePrice = 4,
+    baseMaxActivations = 1,
 
     rarity = lp.rarities.UNCOMMON,
     shape = lp.targets.ON_SHAPE,
@@ -108,6 +110,7 @@ defDestructive("bomb", {
     doomCount = 1,
 
     basePrice = 2,
+    baseMaxActivations = 1,
 
     shape = lp.targets.UnionShape(
         lp.targets.KingShape(1),
@@ -139,6 +142,7 @@ defDestructive("goblet_of_blood", {
     activateDescription = loc("Doubles its own points-generated!"),
 
     basePrice = 8,
+    baseMaxActivations = 10,
 
     listen = {
         trigger = "DESTROY",
@@ -165,6 +169,7 @@ defDestructive("skull", {
     activateDescription = loc(("Triggers {lootplot:TRIGGER_COLOR}DESTROY{/lootplot:TRIGGER_COLOR} on self %d times\n(Without destroying self!)"):format(REPEATS)),
 
     basePrice = 10,
+    baseMaxActivations = 5,
 
     lives = 1,
 
