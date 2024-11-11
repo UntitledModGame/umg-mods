@@ -281,18 +281,22 @@ local function defineSlotConverter(id, name, spawnSlot, spawnSlotName, shape, ex
 end
 
 
+local APPLE_PRICE = 10
 defineSlotConverter("golden_apple", "Golden Apple", "golden_slot", "Golden Slot", lp.targets.ON_SHAPE, {
     rarity = lp.rarities.UNCOMMON,
-    basePrice = 10
+    basePrice = APPLE_PRICE
 })
 
 defineSlotConverter("ruby_apple", "Ruby Apple", "ruby_slot", "Ruby Slot", lp.targets.ON_SHAPE, {
     rarity = lp.rarities.UNCOMMON,
+    basePrice = APPLE_PRICE
 })
 
 defineSlotConverter("diamond_apple", "Diamond Apple", "diamond_slot", "Diamond Slot", lp.targets.ON_SHAPE, {
     rarity = lp.rarities.RARE,
+    basePrice = APPLE_PRICE
 })
+
 
 defineSlotConverter("cucumber_slices", "Cucumber Slices", "reroll_slot", "GRUB-5 Reroll Slot", lp.targets.ON_SHAPE, {
     rarity = lp.rarities.UNCOMMON
@@ -309,7 +313,7 @@ end)
 ----------------------------------------------------------------------------
 
 
-defineFood("red_candy", {
+defineFood("candy_red", {
     name = loc("Red Candy"),
 
     rarity = lp.rarities.EPIC,
@@ -333,7 +337,7 @@ defineFood("red_candy", {
     }
 })
 
-defineFood("dark_candy", {
+defineFood("candy_dark", {
     name = loc("Dark Candy"),
 
     rarity = lp.rarities.EPIC,
