@@ -22,12 +22,13 @@ defItem("a_big_loan", {
     activateDescription = loc("Destroys slot and earns money."),
 
     basePrice = 100,
+    baseMaxActivations = 1,
     baseMoneyGenerated = 200,
 
     canItemFloat = true,
     rarity = lp.rarities.RARE,
 
-    onActivateOnce = function(ent)
+    onActivate = function(ent)
         local ppos = lp.getPos(ent)
         local slotEnt = ppos and lp.posToSlot(ppos)
         if slotEnt then
@@ -45,13 +46,14 @@ defItem("a_small_loan", {
     triggers = {"BUY"},
     activateDescription = loc("Destroys slot and earns money."),
 
-    basePrice = 5,
-    baseMoneyGenerated = 55,
+    basePrice = 0,
+    baseMaxActivations = 1,
+    baseMoneyGenerated = 50,
 
     canItemFloat = true,
     rarity = lp.rarities.RARE,
 
-    onActivateOnce = function(ent)
+    onActivate = function(ent)
         local ppos = lp.getPos(ent)
         local slotEnt = ppos and lp.posToSlot(ppos)
         if slotEnt then
@@ -59,6 +61,22 @@ defItem("a_small_loan", {
             lp.destroy(slotEnt)
         end
     end
+})
+
+
+
+defItem("a_pointy_loan", {
+    name = loc("A Pointy Loan"),
+
+    triggers = {"BUY"},
+    activateDescription = loc("Destroys slot and earns money."),
+
+    basePrice = 0,
+    baseMaxActivations = 1,
+    baseMoneyGenerated = 20,
+    basePointsGenerated = -400,
+
+    rarity = lp.rarities.RARE,
 })
 
 
