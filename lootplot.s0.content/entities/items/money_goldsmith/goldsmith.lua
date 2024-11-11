@@ -104,7 +104,7 @@ defItem("robbers_bag", {
     name = loc("Robbers Bag"),
     activateDescription = loc("Multiplies money by -1.5"),
 
-    basePrice = 5,
+    basePrice = 10,
 
     rarity = lp.rarities.EPIC,
     doomCount = 3,
@@ -114,5 +114,32 @@ defItem("robbers_bag", {
         lp.setMoney(ent, money * -1.5)
     end
 })
+
+
+
+local function exponential(ent)
+    return 2^(ent.totalActivationCount or 0)
+end
+
+defItem("golden_spoon", {
+    name = loc("Golden Spoon"),
+    activateDescription = loc("Cost and points are doubled each activation."),
+
+    basePrice = 20,
+
+    rarity = lp.rarities.EPIC,
+
+    lootplotProperties = {
+        multipliers = {
+            moneyGenerated = exponential,
+            pointsGenerated = exponential
+        }
+    },
+
+    baseMoneyGenerated = -1,
+    basePointsGenerated = 100,
+})
+
+
 
 
