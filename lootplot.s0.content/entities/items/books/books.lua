@@ -2,7 +2,7 @@ local loc = localization.localize
 
 
 
-local bookTc = typecheck.assert("string", "string", "string", "string", "table")
+local bookTc = typecheck.assert("string", "string", "string|function", "string", "table")
 
 local function defineBook(id, name, targetSlot, targetSlotName, rarity)
     bookTc(id, name, targetSlot, targetSlotName, rarity)
@@ -20,7 +20,7 @@ local function defineBook(id, name, targetSlot, targetSlotName, rarity)
 
         target = {
             type = "SLOT",
-            description = loc("{lootplot.targets:COLOR}Converts target slot into " .. targetSlotName),
+            description = loc("Converts target slot into " .. targetSlotName),
 
             activate = function(selfEnt, ppos, targetEnt)
                 local targSlot

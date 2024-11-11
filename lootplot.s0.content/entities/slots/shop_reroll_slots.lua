@@ -220,7 +220,7 @@ lp.defineSlot("lootplot.s0.content:lockable_shop_slot", {
 lp.defineSlot("lootplot.s0.content:reroll_slot", {
     image = "reroll_slot",
     name = loc("Reroll slot"),
-    description = loc("Put an item inside to reroll it!"),
+    activateDescription = loc("Rerolls item."),
     triggers = {"REROLL", "PULSE"},
     itemReroller = generateItem,
     baseCanSlotPropagate = false,

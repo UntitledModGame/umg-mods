@@ -290,6 +290,12 @@ defineSlotConverter("diamond_apple", "Diamond Apple", "diamond_slot", "Diamond S
     rarity = lp.rarities.EPIC,
 })
 
+defineSlotConverter("cucumber_slices", "Cucumber Slices", "reroll_slot", "GRUB-5 Reroll Slot", lp.targets.ON_SHAPE, {
+    rarity = lp.rarities.UNCOMMON
+}, function(slotEnt)
+    slotEnt.grubMoneyCap = 5
+end)
+
 defineSlotConverter("lychee", "Lychee", "pink_slot", "DOOMED-6 Pink Slot", lp.targets.ON_SHAPE, {
     rarity = lp.rarities.RARE
 }, function(slotEnt)
