@@ -39,7 +39,7 @@ defineDice("black_die", "Black Die", {
 
     target = {
         type = "ITEM",
-        description = loc("{lootplot.targets:COLOR}Triggers item."),
+        description = loc("{lootplot:TRIGGER_COLOR}{wavy}PULSES{/wavy}{/lootplot:TRIGGER_COLOR} item."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.tryTriggerEntity("PULSE", targetEnt)
         end
