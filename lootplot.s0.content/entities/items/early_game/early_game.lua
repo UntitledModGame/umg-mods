@@ -137,7 +137,7 @@ defItem("net", {
 
 
 
-local COINS_DESC = interp("30% Chance to earn {lootplot:MONEY_COLOR}$%{amount}.\n{wavy}TOTAL EARNED: $%{totalEarned}")
+local COINS_DESC = interp("20% Chance to earn {lootplot:MONEY_COLOR}$%{amount}.\n{wavy}TOTAL EARNED: $%{totalEarned}")
 defItem("coins", {
     name = loc("Coins"),
     init = function(ent)
@@ -153,6 +153,7 @@ defItem("coins", {
     rarity = lp.rarities.COMMON,
 
     basePointsGenerated = 4,
+    baseMaxActivations = 2,
     basePrice = 4,
 
     tierUpgrade = {
@@ -160,7 +161,7 @@ defItem("coins", {
     },
 
     onActivate = function(ent)
-        if lp.SEED:randomMisc()<=0.3 then
+        if lp.SEED:randomMisc()<=0.20 then
             local m = lp.tiers.getTier(ent)
             lp.addMoney(ent, m)
             ent.totalEarned = ent.totalEarned + m
@@ -221,7 +222,6 @@ lp.defineItem("lootplot.s0.content:pink_guppy", {
     basePrice = 3,
     baseMaxActivations = 2,
     basePointsGenerated = 4,
-    tierUpgrade = helper.propertyUpgrade("pointsGenerated", 4, 3),
 
     rarity = lp.rarities.COMMON,
 
@@ -231,10 +231,7 @@ lp.defineItem("lootplot.s0.content:pink_guppy", {
             local etype = server.entities.pink_octopus
             assert(etype,"?")
             if ppos and etype then
-                local item = lp.forceSpawnItem(ppos, etype, ent.lootplotTeam)
-                if item then
-                    item.tier = ent.tier
-                end
+                lp.forceSpawnItem(ppos, etype, ent.lootplotTeam)
             end
         end
     end,
@@ -262,7 +259,6 @@ lp.defineItem("lootplot.s0.content:green_guppy", {
     basePrice = 3,
     baseMaxActivations = 2,
     basePointsGenerated = 4,
-    tierUpgrade = helper.propertyUpgrade("pointsGenerated", 4, 3),
 
     rarity = lp.rarities.COMMON,
 
@@ -272,10 +268,7 @@ lp.defineItem("lootplot.s0.content:green_guppy", {
             local etype = server.entities.green_octopus
             assert(etype,"?")
             if ppos and etype then
-                local item = lp.forceSpawnItem(ppos, etype, ent.lootplotTeam)
-                if item then
-                    item.tier = ent.tier
-                end
+                lp.forceSpawnItem(ppos, etype, ent.lootplotTeam)
             end
         end
     end,

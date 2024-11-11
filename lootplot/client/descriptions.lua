@@ -188,14 +188,15 @@ local ACTIVATIONS = interp("Activations: {lootplot:POINTS_COLOR}%{remaining}/%{t
 local NO_ACTIVATIONS = interp("{lootplot:BAD_COLOR}No Activations: %{remaining}/%{total}")
 
 umg.on("lootplot:populateDescription", 50, function(ent, arr)
-    if ent.maxActivations and ent.activationCount then
+    if ent.maxActivations  then
+        local activations = ent.activationCount or 0
         if ent.doomCount and (ent.doomCount < ent.maxActivations) then
             -- HACK: Doomcount check here.
             return -- no point in displaying.
         end
 
         arr:add(function ()
-            local remaining = ent.maxActivations - ent.activationCount
+            local remaining = ent.maxActivations - activations
             local vars = {
                 remaining = remaining,
                 total = ent.maxActivations

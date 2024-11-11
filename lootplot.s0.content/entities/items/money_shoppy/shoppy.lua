@@ -71,6 +71,14 @@ defItem("a_pointy_loan", {
     triggers = {"BUY"},
     activateDescription = loc("Destroys slot and earns money."),
 
+    lootplotProperties = {
+        multipliers = {
+            pointsGenerated = function(ent)
+                return lp.getLevel(ent) or 1
+            end
+        }
+    },
+
     basePrice = 0,
     baseMaxActivations = 1,
     baseMoneyGenerated = 20,
