@@ -3,20 +3,12 @@ local loc = localization.localize
 return lp.defineSlot("lootplot.s0.content:diamond_slot", {
     image = "diamond_slot",
     name = loc("Diamond slot"),
+    description = loc("Gives a 5x points-multiplier to item"),
     baseMaxActivations = 3,
-    activateDescription = loc("Activates items three times"),
-    onActivate = function(ent)
-        local ppos = lp.getPos(ent)
-        if not (ppos) then return end
-
-        lp.queueWithEntity(ent, function()
-            lp.wait(ppos, 0.2)
-            local item = lp.slotToItem(ent)
-            if item then
-                lp.tryActivateEntity(item)
-            end
-            lp.tryActivateEntity(ent)
-        end)
-    end
+    slotItemProperties = {
+        multipliers = {
+            pointsGenerated = 5
+        }
+    },
 })
 

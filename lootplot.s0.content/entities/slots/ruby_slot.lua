@@ -8,7 +8,7 @@ return lp.defineSlot("lootplot.s0.content:ruby_slot", {
     baseMaxActivations = 100,
     canSlotPropagate = false,
     triggers = {"PULSE"},
-    activateDescription = loc("Causes item to {lootplot:TRIGGER_COLOR}PULSE{lootplot:TRIGGER_COLOR} many times."),
+    activateDescription = loc("Causes item to {lootplot:TRIGGER_COLOR}PULSE{/lootplot:TRIGGER_COLOR} up to 100 times!\n(Uses all activations)"),
 
     onActivate = function(slotEnt)
         local ppos = lp.getPos(slotEnt)
@@ -20,7 +20,7 @@ return lp.defineSlot("lootplot.s0.content:ruby_slot", {
             if item and lp.canActivateEntity(item) and lp.hasTrigger(item, "PULSE") then
                 lp.tryTriggerEntity("PULSE", item)
                 lp.tryActivateEntity(slotEnt)
-                lp.wait(ppos, 0.2)
+                lp.wait(ppos, 0.25)
             end
         end)
     end

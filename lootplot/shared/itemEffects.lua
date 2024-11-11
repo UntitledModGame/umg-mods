@@ -1,10 +1,11 @@
 ---@generic T
----@param ent Entity
----@param val T|fun(ent:Entity):T
+---@param slotEnt Entity
+---@param itemEnt Entity
+---@param val T|fun(e:Entity,e2:Entity):T
 ---@return T
-local function getValue(ent, val)
+local function getValue(slotEnt, itemEnt, val)
     if type(val) == "function" then
-        return val(ent)
+        return val(slotEnt, itemEnt)
     end
 
     return val
@@ -12,9 +13,11 @@ end
 
 umg.answer("properties:getPropertyMultiplier", function(itemEnt, prop)
     local slotEnt = lp.itemToSlot(itemEnt)
-
-    if slotEnt and slotEnt.itemNumberEffects and slotEnt.itemNumberEffects[prop] then
-        return getValue(slotEnt, slotEnt.itemNumberEffects[prop].multiplier or 1)
+    if slotEnt and slotEnt.slotItemProperties then
+        local props = slotEnt.slotItemProperties
+        if props.multipliers and props.multipliers[prop] then
+            return getValue(slotEnt, itemEnt, props.multipliers[prop]) or 1
+        end
     end
 
     return 1
@@ -22,43 +25,12 @@ end)
 
 umg.answer("properties:getPropertyModifier", function(itemEnt, prop)
     local slotEnt = lp.itemToSlot(itemEnt)
-
-    if slotEnt and slotEnt.itemNumberEffects and slotEnt.itemNumberEffects[prop] then
-        return getValue(slotEnt, slotEnt.itemNumberEffects[prop].modifier or 0)
+    if slotEnt and slotEnt.slotItemProperties then
+        local props = slotEnt.slotItemProperties
+        if props.modifiers and props.modifiers[prop] then
+            return getValue(slotEnt, itemEnt, props.modifiers[prop]) or 0
+        end
     end
 
     return 0
-end)
-
--- The behavior for the boolean item effects are as follows:
--- * If the property is true, it _may_ be true.
--- * But if the property is false, the property is false as a whole.
--- Example:
--- .itemBooleanEffect = {
---     canMove = function(ent)
---         if COND then 
---           return true -- canBeTrue -> true, isFalse -> false
---         else
---           return false -- isFalse -> true, canBeTrue -> false
---         end
---     end
--- }
-
----@param slotEnt lootplot.SlotEntity
----@param prop string
-local function evalBoolProp(slotEnt, prop)
-    if slotEnt.itemBooleanEffects then
-        return getValue(slotEnt, slotEnt.itemBooleanEffects[prop] or false)
-    end
-
-    return false
-end
-
-umg.answer("properties:getBooleanPropertyValue", function(itemEnt, prop)
-    if lp.isItemEntity(itemEnt) then
-        local slotEnt = lp.itemToSlot(itemEnt)
-        return slotEnt and evalBoolProp(slotEnt, prop)
-    end
-
-    return true
 end)
