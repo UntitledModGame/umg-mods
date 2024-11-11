@@ -260,6 +260,8 @@ defineOcto("dark_octopus", {
 defineOcto("green_octopus", {
     name = loc("Green Octopus"),
 
+    triggers = {"REROLL"},
+
     target = {
         type = "SLOT_OR_ITEM",
         description = loc("Triggers {wavy}REROLL{/wavy} on slot or item."),

@@ -240,6 +240,46 @@ lp.defineItem("lootplot.s0.content:pink_guppy", {
 
 
 
+--[[
+Green-guppy = pink-guppy but green-octopus instead.
+]]
+local GREEN_GUPPY_DESC = interp("After %{count} activations,\nturn into a Green Octopus")
+
+lp.defineItem("lootplot.s0.content:green_guppy", {
+    image = "green_guppy",
+
+    name = loc("Green Guppy"),
+    triggers = {"REROLL"},
+
+    description = function(ent)
+        return GREEN_GUPPY_DESC({
+            count = GUPPY_COUNT - (ent.totalActivationCount or 0)
+        })
+    end,
+
+    basePrice = 3,
+    basePointsGenerated = 4,
+
+    rarity = lp.rarities.COMMON,
+
+    onActivate = function(ent)
+        if (ent.totalActivationCount or 0) >= (GUPPY_COUNT-1) then
+            local ppos = lp.getPos(ent)
+            local etype = server.entities.green_octopus
+            assert(etype,"?")
+            if ppos and etype then
+                local item = lp.forceSpawnItem(ppos, etype, ent.lootplotTeam)
+                if item then
+                    item.tier = ent.tier
+                end
+            end
+        end
+    end,
+})
+
+
+
+
 
 
 local activateToot, dedToot
