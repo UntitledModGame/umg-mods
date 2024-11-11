@@ -22,17 +22,19 @@ defineDice("white_die", "White Die", {
     triggers = {"REROLL"},
     rarity = lp.rarities.EPIC,
     baseMoneyGenerated = 2,
+    baseMaxActivations = 3,
     tierUpgrade = helper.propertyUpgrade("moneyGenerated", 2, 3)
 })
 
 
 
-defineDice("red_die", "Red Die", {
+defineDice("black_die", "Black Die", {
     triggers = {"REROLL"},
     rarity = lp.rarities.RARE,
 
     shape = lp.targets.KING_SHAPE,
 
+    baseMaxActivations = 5,
     tierUpgrade = helper.propertyUpgrade("maxActivations", 5, 3),
 
     target = {
@@ -40,23 +42,6 @@ defineDice("red_die", "Red Die", {
         description = loc("{lootplot.targets:COLOR}Triggers item."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.tryTriggerEntity("PULSE", targetEnt)
-        end
-    }
-})
-
-
-defineDice("black_die", "Black Die", {
-    rarity = lp.rarities.RARE,
-
-    shape = lp.targets.KING_SHAPE,
-
-    tierUpgrade = helper.propertyUpgrade("maxActivations", 5, 3),
-
-    target = {
-        type = "ITEM",
-        description = loc("{lootplot.targets:COLOR}Trigger REROLL for item."),
-        activate = function(selfEnt, ppos, targetEnt)
-            lp.tryTriggerEntity("REROLL", targetEnt)
         end
     }
 })
