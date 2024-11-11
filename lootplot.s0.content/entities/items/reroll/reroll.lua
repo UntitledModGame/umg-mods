@@ -3,6 +3,8 @@
 local loc = localization.localize
 local helper = require("shared.helper")
 
+local consts = require("shared.constants")
+
 
 local function defineDice(id, name, etype)
     etype.name = loc(name)
@@ -47,3 +49,41 @@ defineDice("black_die", "Black Die", {
 })
 
 
+
+
+--[[
+====================
+GRUBBY SUB-ARCHETYPE:
+====================
+]]
+
+defineDice("triple_dice", "Triple Dice", {
+    triggers = {"REROLL"},
+
+    rarity = lp.rarities.RARE,
+
+    baseMoneyGenerated = 2,
+    tierUpgrade = helper.propertyUpgrade("moneyGenerated",2,3),
+
+    basePrice = 8,
+    baseMaxActivations = 10,
+    basePointsGenerated = 30,
+
+    grubMoneyCap = consts.GRUB_MONEY_CAP_LOW
+})
+
+
+
+local PTS = 20
+defineDice("quad_dice", "Quad Dice", {
+    triggers = {"REROLL"},
+
+    rarity = lp.rarities.UNCOMMON,
+
+    basePrice = 8,
+    baseMaxActivations = 10,
+    basePointsGenerated = PTS,
+    tierUpgrade = helper.propertyUpgrade("pointsGenerated",PTS,3),
+
+    grubMoneyCap = consts.GRUB_MONEY_CAP_LOW,
+})
