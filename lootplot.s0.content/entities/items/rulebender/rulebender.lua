@@ -260,7 +260,7 @@ defineOcto("dark_octopus", {
 defineOcto("green_octopus", {
     name = loc("Green Octopus"),
 
-    triggers = {"REROLL"},
+    triggers = {"REROLL", "PULSE"},
 
     target = {
         type = "ITEM",

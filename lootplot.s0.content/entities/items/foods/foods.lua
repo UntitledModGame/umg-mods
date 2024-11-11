@@ -286,8 +286,12 @@ defineSlotConverter("golden_apple", "Golden Apple", "golden_slot", "Golden Slot"
     basePrice = 10
 })
 
+defineSlotConverter("ruby_apple", "Ruby Apple", "ruby_slot", "Ruby Slot", lp.targets.ON_SHAPE, {
+    rarity = lp.rarities.UNCOMMON,
+})
+
 defineSlotConverter("diamond_apple", "Diamond Apple", "diamond_slot", "Diamond Slot", lp.targets.ON_SHAPE, {
-    rarity = lp.rarities.EPIC,
+    rarity = lp.rarities.RARE,
 })
 
 defineSlotConverter("cucumber_slices", "Cucumber Slices", "reroll_slot", "GRUB-5 Reroll Slot", lp.targets.ON_SHAPE, {
@@ -305,9 +309,8 @@ end)
 ----------------------------------------------------------------------------
 
 
-defineFood("super_apple", {
-    image = "apple",
-    name = loc("Super Apple"),
+defineFood("red_candy", {
+    name = loc("Red Candy"),
 
     rarity = lp.rarities.EPIC,
 
@@ -329,6 +332,33 @@ defineFood("super_apple", {
         end
     }
 })
+
+defineFood("dark_candy", {
+    name = loc("Dark Candy"),
+
+    rarity = lp.rarities.EPIC,
+
+    shape = lp.targets.QueenShape(2),
+
+    target = {
+        type = "NO_SLOT",
+        description = loc("Clones the current slot the item is in, and gives the slot {lootplot:DOOMED_COLOR}{wavy}DOOMED-5"),
+        activate = function(selfEnt, ppos, ent)
+            local slotEnt = lp.itemToSlot(selfEnt)
+            if slotEnt then
+                local clone = lp.clone(slotEnt)
+                local oldSlot = lp.posToSlot(ppos)
+                if oldSlot then
+                    lp.destroy(oldSlot)
+                end
+                lp.setSlot(ppos, clone)
+                clone.doomCount = 5
+            end
+        end
+    }
+})
+
+
 
 
 defineFood("golden_syrup", {
