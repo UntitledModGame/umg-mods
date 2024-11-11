@@ -220,6 +220,7 @@ lp.defineItem("lootplot.s0.content:pink_guppy", {
 
     basePrice = 3,
     basePointsGenerated = 4,
+    tierUpgrade = helper.propertyUpgrade("pointsGenerated", 4, 3),
 
     rarity = lp.rarities.COMMON,
 
@@ -259,6 +260,7 @@ lp.defineItem("lootplot.s0.content:green_guppy", {
 
     basePrice = 3,
     basePointsGenerated = 4,
+    tierUpgrade = helper.propertyUpgrade("pointsGenerated", 4, 3),
 
     rarity = lp.rarities.COMMON,
 

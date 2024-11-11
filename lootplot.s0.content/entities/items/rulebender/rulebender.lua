@@ -235,8 +235,8 @@ defineOcto("pink_octopus", {
     name = loc("Pink Octopus"),
 
     target = {
-        type = "ITEM_OR_SLOT",
-        description = loc("{wavy}PULSES{/wavy} item or slot."),
+        type = "ITEM",
+        description = loc("{lootplot:TRIGGER_COLOR}{wavy}PULSES{/wavy}{/lootplot:TRIGGER_COLOR} item."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.tryTriggerEntity("PULSE", targetEnt)
         end
@@ -250,7 +250,7 @@ defineOcto("dark_octopus", {
 
     target = {
         type = "ITEM",
-        description = loc("Triggers {wavy}DESTROY{/wavy} on item, without destroying it."),
+        description = loc("Triggers {lootplot:TRIGGER_COLOR}{wavy}DESTROY{/wavy}{/lootplot:TRIGGER_COLOR} on item, without destroying it."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.tryTriggerEntity("DESTROY", targetEnt)
         end
@@ -263,8 +263,8 @@ defineOcto("green_octopus", {
     triggers = {"REROLL"},
 
     target = {
-        type = "SLOT_OR_ITEM",
-        description = loc("Triggers {wavy}REROLL{/wavy} on slot or item."),
+        type = "ITEM",
+        description = loc("Triggers {lootplot:TRIGGER_COLOR}{wavy}REROLL{/wavy}{/lootplot:TRIGGER_COLOR} on item."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.tryTriggerEntity("REROLL", targetEnt)
         end
