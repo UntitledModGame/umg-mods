@@ -72,6 +72,20 @@ local function defineCat(name, etype)
     defItem(name, etype)
 end
 
+---@param selfEnt Entity
+---@param ppos lootplot.PPos
+---@return Entity?
+local function copySelf(selfEnt, ppos)
+    local copyEnt = lp.clone(selfEnt)
+    local success = lp.trySetItem(ppos, copyEnt)
+    if not success then
+        copyEnt:delete()
+        return nil
+    end
+    return copyEnt
+end
+
+
 defineCat("copycat", {
     name = loc("Copycat"),
 
@@ -92,14 +106,64 @@ defineCat("copycat", {
         type = "NO_ITEM",
         description = loc("{lootplot.targets:COLOR}Copies self into target slots"),
         activate = function(selfEnt, ppos, targetEnt)
-            local copyEnt = lp.clone(selfEnt)
-            local success = lp.trySetItem(ppos, copyEnt)
-            if not success then
-                copyEnt:delete()
+            copySelf(selfEnt, ppos)
+        end
+    }
+})
+
+
+defineCat("copykitten", {
+    name = loc("Copykitten"),
+
+    rarity = lp.rarities.RARE,
+
+    basePrice = 0,
+    baseMaxActivations = 3,
+    basePointsGenerated = 5,
+    doomCount = 4,
+
+    canItemFloat = true,
+
+    shape = lp.targets.RookShape(1),
+
+    target = {
+        type = "NO_ITEM",
+        description = loc("Copies self into target slots"),
+        activate = function(selfEnt, ppos, targetEnt)
+            if selfEnt.doomCount <= 0 then
+                return
+            end
+            copySelf(selfEnt, ppos)
+        end
+    }
+})
+
+defineCat("copykato", {
+    name = loc("Copykato"),
+
+    rarity = lp.rarities.RARE,
+
+    basePrice = 0,
+    baseMoneyGenerated = -1,
+    baseMaxActivations = 3,
+    basePointsGenerated = 25,
+
+    shape = lp.targets.RookShape(1),
+
+    target = {
+        type = "NO_ITEM",
+        description = loc("Copies self into target slots, and gives {lootplot:POINTS_MOD_COLOR}25 points{/lootplot:POINTS_MOD_COLOR} to the copy!"),
+        activate = function(selfEnt, ppos)
+            local e = copySelf(selfEnt, ppos)
+            if e then
+                lp.modifierBuff(e, "pointsGenerated", 25, selfEnt)
             end
         end
     }
 })
+
+
+
 
 
 defineCat("chubby_cat", {
@@ -108,7 +172,7 @@ defineCat("chubby_cat", {
     triggers = {},
 
     basePrice = 6,
-    baseMaxActivations = 1,
+    baseMaxActivations = 20,
 
     onDraw = function(ent)
         if ent.lives and ent.lives < 1 then
