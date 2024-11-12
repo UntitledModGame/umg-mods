@@ -1,4 +1,7 @@
+
 local loc = localization.localize
+local interp = localization.newInterpolator
+
 
 
 local function defDestructive(id, etype)
@@ -166,7 +169,9 @@ defDestructive("skull", {
     rarity = lp.rarities.UNCOMMON,
 
     triggers = {"PULSE"},
-    activateDescription = loc(("Triggers {lootplot:TRIGGER_COLOR}DESTROY{/lootplot:TRIGGER_COLOR} on self %d times\n(Without destroying self!)"):format(REPEATS)),
+    activateDescription = interp("Triggers {lootplot:TRIGGER_COLOR}DESTROY{/lootplot:TRIGGER_COLOR} on self %{repeats} times\n(Without destroying self!)"){
+        repeats = REPEATS
+    },
 
     basePrice = 10,
     baseMaxActivations = 5,

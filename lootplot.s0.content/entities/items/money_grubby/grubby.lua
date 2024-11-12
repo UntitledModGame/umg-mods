@@ -100,3 +100,43 @@ defItem("pineapple_ring", {
 })
 
 
+
+
+do
+local CENT_REQ = MONEY_CAP_MID-1
+defItem("2_cent_ticket", {
+    name = loc("2 Cent Ticket"),
+
+    basePrice = 2,
+    grubMoneyCap = MONEY_CAP_MID,
+    canItemFloat = true,
+
+    baseMaxActivations = 20,
+
+    onActivate = function()
+        print("ello ello?")
+    end,
+    triggers = {"REROLL", "PULSE"},
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            local delta = targetEnt.price - CENT_REQ
+            lp.modifierBuff(targetEnt, "price", -delta, selfEnt)
+            lp.wait(ppos, 0.3) -- wait a short amount, so the player can see.
+        end,
+        filter = function(selfEnt, ppos, targetEnt)
+            local price = targetEnt.price
+            return price and price > CENT_REQ
+        end,
+        description = interp("If item price > $%{price}, set item's price to $%{price}."){
+            price = CENT_REQ
+        }
+    },
+
+    shape = lp.targets.CircleShape(3),
+
+    rarity = lp.rarities.RARE,
+})
+
+end
+

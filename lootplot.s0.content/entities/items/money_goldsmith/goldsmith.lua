@@ -103,9 +103,11 @@ defGoldRing("gold_reroll_ring", "Gold Reroll Ring", "REROLL")
 
 
 local TOPAZ_BUFF = 3
-local TOPAZ_DESC = loc(("If {lootplot:MONEY_COLOR}money > $%d{/lootplot:MONEY_COLOR}, permanently gain %d points.\n")
-    :format(MONEY_REQUIREMENT, TOPAZ_BUFF)
-)
+local TOPAZ_DESC = interp("If {lootplot:MONEY_COLOR}money > $%{moneyReq}{/lootplot:MONEY_COLOR}, permanently gain %{pointBuff} points.\n"){
+    pointBuff = 3,
+    moneyReq = MONEY_REQUIREMENT
+}
+
 defItem("topaz_ring", {
     name = loc("Topaz Ring"),
     activateDescription = TOPAZ_DESC,
