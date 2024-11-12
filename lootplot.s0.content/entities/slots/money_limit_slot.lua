@@ -5,7 +5,7 @@ local loc = localization.localize
 local MONEY_LIMIT_TEXT = localization.newInterpolator("Limits money to %{limit}")
 
 -- Adjust this when balancing. Maybe 100 is better?
-local MONEY_LIMIT = 50
+local MONEY_LIMIT = 100
 
 return lp.defineSlot("lootplot.s0.content:money_limit_slot", {
     image = "money_limit_slot",

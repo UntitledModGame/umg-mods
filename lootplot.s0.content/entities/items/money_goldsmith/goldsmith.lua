@@ -3,6 +3,8 @@ local loc = localization.localize
 local interp = localization.newInterpolator
 local helper = require("shared.helper")
 
+local MONEY_REQUIREMENT = 50
+
 
 local function defItem(id, etype)
     etype.image = etype.image or id
@@ -99,6 +101,24 @@ end
 defGoldRing("gold_pulse_ring", "Gold Pulse Ring", "PULSE")
 defGoldRing("gold_reroll_ring", "Gold Reroll Ring", "REROLL")
 
+
+local TOPAZ_BUFF = 3
+local TOPAZ_DESC = loc(("If {lootplot:MONEY_COLOR}money > $%d{/lootplot:MONEY_COLOR}, permanently gain %d points.\n")
+    :format(MONEY_REQUIREMENT, TOPAZ_BUFF)
+)
+defItem("topaz_ring", {
+    name = loc("Topaz Ring"),
+    activateDescription = TOPAZ_DESC,
+
+    basePointsGenerated = 20,
+    baseMaxActivations = 4,
+
+    onActivate = function(ent)
+        if (lp.getMoney(ent) or 0) > MONEY_REQUIREMENT then
+            lp.modifierBuff(ent, "pointsGenerated", TOPAZ_BUFF, ent)
+        end
+    end
+})
 
 
 
