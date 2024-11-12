@@ -99,7 +99,7 @@ defItem("leather", {
 
     lootplotProperties = {
         multipliers = {
-            pointsGenerated = 5
+            pointsGenerated = 3
         }
     },
 
@@ -107,8 +107,8 @@ defItem("leather", {
 
     baseMaxActivations = 15,
 
-    basePointsGenerated = 3,
-    tierUpgrade = helper.propertyUpgrade("pointsGenerated", 3, 3)
+    basePointsGenerated = 5,
+    tierUpgrade = helper.propertyUpgrade("pointsGenerated", 5, 3)
 })
 
 

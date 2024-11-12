@@ -88,3 +88,27 @@ defItem("a_pointy_loan", {
 })
 
 
+
+
+defItem("bull_helmet", {
+    name = loc("Bull Helmet"),
+
+    triggers = {},
+
+    basePrice = 15,
+    baseMaxActivations = 20,
+
+    shape = lp.targets.RookShape(6),
+
+    listen = {
+        trigger = "BUY",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.multiplierBuff(targetEnt, "pointsGenerated", 3, selfEnt)
+        end,
+        description = loc("Adds a {lootplot:POINTS_MULT_COLOR}3x{/lootplot:POINTS_MULT_COLOR} points-multiplier to the purchased item."),
+    },
+
+    rarity = lp.rarities.EPIC,
+})
+
+
