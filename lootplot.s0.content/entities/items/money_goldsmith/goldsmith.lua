@@ -135,7 +135,9 @@ defItem("gold_coin", {
 
     baseMoneyGenerated = 3,
     baseMaxActivations = 1,
-    basePrice = 11,
+    basePrice = 12,
+    basePointsGenerated = 300,
+    tierUpgrade = helper.propertyUpgrade("maxActivations", 1, 3),
 
     canActivate = function(ent)
         return (lp.getMoney(ent) or 0) > MONEY_REQUIREMENT
