@@ -60,16 +60,15 @@ GRUBBY SUB-ARCHETYPE:
 defineDice("triple_dice", "Triple Dice", {
     triggers = {"REROLL"},
 
-    rarity = lp.rarities.RARE,
+    rarity = lp.rarities.UNCOMMON,
 
     basePrice = 8,
-    baseMaxActivations = 10,
-    baseMoneyGenerated = 2,
-    tierUpgrade = helper.propertyUpgrade("moneyGenerated",2,3),
+    baseMaxActivations = 2,
+    baseMoneyGenerated = 1,
+    tierUpgrade = helper.propertyUpgrade("moneyGenerated",1,3),
 
     grubMoneyCap = consts.GRUB_MONEY_CAP_LOW
 })
-
 
 
 local PTS = 20
@@ -85,3 +84,18 @@ defineDice("quad_dice", "Quad Dice", {
 
     grubMoneyCap = consts.GRUB_MONEY_CAP_LOW,
 })
+
+
+
+--[[
+========================
+GOLDSMITH SUB-ARCHETYPE:
+========================
+]]
+
+--[[
+
+TODO.
+
+]]
+

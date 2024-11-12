@@ -86,10 +86,6 @@ defItem("pineapple_ring", {
     triggers = {},
     listen = {
         trigger = "BUY",
-        activate = function(selfEnt, ppos, targetEnt)
-            local x = math.floor( (targetEnt.price or 2)/2 + 0.5 )
-            lp.addMoney(selfEnt, x)
-        end,
     },
 
     shape = lp.targets.CircleShape(2),
