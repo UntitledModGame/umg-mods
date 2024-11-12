@@ -119,13 +119,11 @@ defItem("2_cent_ticket", {
     target = {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
-            local delta = targetEnt.price - PRICE_SET
-            lp.modifierBuff(targetEnt, "price", -delta, selfEnt)
-            lp.wait(ppos, 0.3) -- wait a short amount, so the player can see.
-        end,
-        filter = function(selfEnt, ppos, targetEnt)
             local price = targetEnt.price
-            return price and price > CENT_REQ
+            if price and price > CENT_REQ then
+                local delta = targetEnt.price - PRICE_SET
+                lp.modifierBuff(targetEnt, "price", -delta, selfEnt)
+            end
         end,
         description = interp("If item price > $%{price}, set item's price to $%{priceSet}."){
             price = CENT_REQ,
