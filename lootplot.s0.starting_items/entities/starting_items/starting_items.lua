@@ -100,9 +100,9 @@ end
 
 definePerk("one_ball", {
     name = loc("One Ball"),
-    description = loc("Gain an extra $3 per turn"),
+    description = loc("Gain an extra $2 per turn"),
 
-    baseMoneyGenerated = 3,
+    baseMoneyGenerated = 2,
     baseMaxActivations = 1,
 
     onActivateOnce = function(ent)

@@ -15,7 +15,7 @@ local loc = localization.localize
 
 
 local EARLY_LEVELS = {
-    100,200, 400, 1000, 2500, 6000
+    150,300, 700, 1500, 3500, 7500
 }
 local RAMP_UP = 12
 
@@ -33,15 +33,14 @@ local function getRequiredPoints(levelNumber)
         local exp = (levelNumber-(RAMP_UP-3))^2
         extra = math.floor((5 ^ exp)/10000) * 10000
     end
-    return extra + math.floor((2^(levelNumber))/10) * 1000
+    return extra + math.floor((2^(levelNumber+0.5))/10) * 1000
 end
 
---[[
 
+--[[
 for lv=1, 16 do
     print("LEVEL POINTS:",lv,getRequiredPoints(lv))
 end
-
 ]]
 
 
