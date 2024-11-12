@@ -63,6 +63,7 @@ function PauseBox:init(args)
             self.gameSpeedLabel:setText(formatString)
             args.setGameSpeed(fixedValue)
         end,
+        value = args.currentGameSpeed,
         min = args.gameSpeedRanges[1],
         max = args.gameSpeedRanges[2],
     })
