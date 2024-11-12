@@ -175,7 +175,8 @@ defItem("spear_of_war", {
 
     rarity = lp.rarities.EPIC,
 
-    baseMaxActivations = 100,
+    baseMaxActivations = 25,
+    basePointsGenerated = 1,
     basePrice = 9,
 
     tierUpgrade = helper.pointsMultUpgrade(3),
@@ -183,7 +184,8 @@ defItem("spear_of_war", {
     onActivate = function(ent)
         local combo = lp.getCombo(ent)
         if combo then
-            lp.addPoints(ent, combo)
+            local p, mod, mult = properties.computeProperty(ent, "pointsGenerated")
+            lp.addPoints(ent, combo * mult)
         end
     end
 })
