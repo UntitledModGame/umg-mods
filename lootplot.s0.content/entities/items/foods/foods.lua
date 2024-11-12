@@ -281,7 +281,7 @@ local function defineSlotConverter(id, name, spawnSlot, spawnSlotName, shape, ex
 end
 
 
-local APPLE_PRICE = 10
+local APPLE_PRICE = 15
 defineSlotConverter("golden_apple", "Golden Apple", "golden_slot", "Golden Slot", lp.targets.ON_SHAPE, {
     rarity = lp.rarities.UNCOMMON,
     basePrice = APPLE_PRICE
