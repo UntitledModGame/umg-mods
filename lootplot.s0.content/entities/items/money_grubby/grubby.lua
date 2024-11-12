@@ -79,13 +79,19 @@ defItem("pineapple_ring", {
     doomCount = 8,
     grubMoneyCap = MONEY_CAP_MID,
     canItemFloat = true,
+    activateDescription = loc("{lootplot.targets:COLOR}Make all target items $1 cheaper"),
 
-    baseMoneyGenerated = 2,
     baseMaxActivations = 8,
 
     triggers = {},
     listen = {
         trigger = "BUY",
+    },
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.modifierBuff(targetEnt, "price", -1, selfEnt)
+        end,
     },
 
     shape = lp.targets.CircleShape(2),
