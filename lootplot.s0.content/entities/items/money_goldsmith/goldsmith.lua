@@ -119,7 +119,29 @@ defItem("topaz_ring", {
         if (lp.getMoney(ent) or 0) > MONEY_REQUIREMENT then
             lp.modifierBuff(ent, "pointsGenerated", TOPAZ_BUFF, ent)
         end
-    end
+    end,
+
+    rarity = lp.rarities.RARE
+})
+
+
+
+
+defItem("gold_coin", {
+    name = loc("Gold Coin"),
+    activateDescription = interp("Only activates if {lootplot:MONEY_COLOR}money > $%{moneyReq}{/lootplot:MONEY_COLOR}"){
+        moneyReq = MONEY_REQUIREMENT
+    },
+
+    baseMoneyGenerated = 3,
+    baseMaxActivations = 1,
+    basePrice = 11,
+
+    canActivate = function(ent)
+        return (lp.getMoney(ent) or 0) > MONEY_REQUIREMENT
+    end,
+
+    rarity = lp.rarities.RARE
 })
 
 
