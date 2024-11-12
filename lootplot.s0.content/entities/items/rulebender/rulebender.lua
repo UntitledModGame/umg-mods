@@ -144,7 +144,7 @@ defineCat("copykato", {
     rarity = lp.rarities.RARE,
 
     basePrice = 0,
-    baseMoneyGenerated = -1,
+    baseMoneyGenerated = -2,
     baseMaxActivations = 3,
     basePointsGenerated = 25,
 
