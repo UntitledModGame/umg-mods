@@ -137,7 +137,7 @@ defItem("net", {
 
 
 
-local COINS_DESC = interp("20% Chance to earn {lootplot:MONEY_COLOR}$%{amount}.\n{wavy}TOTAL EARNED: $%{totalEarned}")
+local COINS_DESC = interp("15% Chance to earn {lootplot:MONEY_COLOR}$%{amount}.\n{wavy}TOTAL EARNED: $%{totalEarned}")
 defItem("coins", {
     name = loc("Coins"),
     init = function(ent)
@@ -161,7 +161,7 @@ defItem("coins", {
     },
 
     onActivate = function(ent)
-        if lp.SEED:randomMisc()<=0.20 then
+        if lp.SEED:randomMisc()<=0.15 then
             local m = lp.tiers.getTier(ent)
             lp.addMoney(ent, m)
             ent.totalEarned = ent.totalEarned + m
