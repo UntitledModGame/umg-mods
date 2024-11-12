@@ -288,7 +288,7 @@ defineSlotConverter("golden_apple", "Golden Apple", "golden_slot", "Golden Slot"
 })
 
 defineSlotConverter("ruby_apple", "Ruby Apple", "ruby_slot", "Ruby Slot", lp.targets.ON_SHAPE, {
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.RARE,
     basePrice = APPLE_PRICE
 })
 
