@@ -160,3 +160,18 @@ defItem("death_by_taxes", {
         lp.addPoints(ent, money^3)
     end
 })
+
+
+
+defItem("receptionists_bell", {
+    name = loc("Golden Sword"),
+    basePrice = 2,
+
+    baseMoneyGenerated = -4,
+    baseMaxActivations = 1,
+    basePointsGenerated = 4000,
+    tierUpgrade = helper.propertyUpgrade("moneyGenerated", 1, 3),
+
+    rarity = lp.rarities.EPIC,
+})
+
