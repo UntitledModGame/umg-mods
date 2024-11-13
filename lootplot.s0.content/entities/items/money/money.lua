@@ -163,12 +163,12 @@ defItem("death_by_taxes", {
 
 
 
-defItem("receptionists_bell", {
-    name = loc("Golden Sword"),
+defItem("gold_bell", {
+    name = loc("Golden Bell"),
     basePrice = 2,
 
     baseMoneyGenerated = -4,
-    baseMaxActivations = 1,
+    baseMaxActivations = 10,
     basePointsGenerated = 4000,
     tierUpgrade = helper.propertyUpgrade("moneyGenerated", 1, 3),
 
