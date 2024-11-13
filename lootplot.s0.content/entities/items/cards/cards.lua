@@ -3,26 +3,31 @@ local loc = localization.localize
 
 
 local function defineCard(name, cardEType)
+    cardEType.image = cardEType.image or name
     cardEType.rarity = cardEType.rarity or lp.rarities.RARE
 
     cardEType.baseMaxActivations = 1
     cardEType.basePrice = cardEType.basePrice or 10
 
-    lp.defineItem(name, cardEType)
+    lp.defineItem("lootplot.s0.content:" .. name, cardEType)
 end
 
 
-local function shuffle(tabl)
-    -- fisher-yates shuffle table
-    for i = #tabl, 2, -1 do
-        local j = lp.SEED:randomMisc(1,i)
-        tabl[i], tabl[j] = tabl[j], tabl[i]
+local function shuffled(tabl)
+    local shufTabl = {}
+    local len = #tabl
+    for i=1,#tabl do
+        local newIndex = (i % len) + 1
+        shufTabl[newIndex] = tabl[i]
     end
+    return shufTabl
 end
 
 
+---@param tabl Entity[]
+---@param shufFunc fun(e:Entity, e2:Entity)
 local function apply(tabl, shufFunc)
-    for i=1, #tabl, 2 do
+    for i=1, #tabl-1, 2 do
         local e1, e2 = tabl[i], tabl[i+1]
         shufFunc(e1, e2)
     end
@@ -31,8 +36,7 @@ end
 
 
 
-defineCard("lootplot.s0.content:star_card", {
-    image = "star_card",
+defineCard("star_card", {
     name = loc("Star Card"),
 
     rarity = lp.rarities.LEGENDARY,
@@ -62,7 +66,7 @@ defineCard("lootplot.s0.content:star_card", {
         end
 
         -- Shuffle shapes
-        shuffle(itemEntShapes)
+        itemEntShapes = shuffled(itemEntShapes)
 
         -- Assign shapes
         for i, itemEnt in ipairs(itemEntities) do
@@ -74,34 +78,40 @@ defineCard("lootplot.s0.content:star_card", {
 })
 
 
-defineCard("lootplot.s0.content:diamonds_card", {
-    image = "diamonds_card",
-    name = loc("Diamonds Card"),
+defineCard("hearts_card", {
+    name = loc("Hearts Card"),
     shape = lp.targets.ABOVE_BELOW_SHAPE,
     target = {
         type = "ITEM",
-        description = loc("{lootplot.targets:COLOR}Shuffle traits between target items"),
+        description = loc("Shuffle lives between target items"),
     },
+
     onActivate = function(selfEnt)
-        local targets = lp.targets.getShapePositions(selfEnt)
-        -- TODO
-    end
+        local targets = shuffled(
+            lp.targets.getShapePositions(selfEnt):map(lp.posToItem)
+        )
+        apply(targets, function(e1,e2)
+            local l1 = e1.lives or 0
+            local l2 = e2.lives or 0
+            e1.lives = l2
+            e2.lives = l1
+        end)
+    end,
+
+    rarity = lp.rarities.EPIC
 })
 
 
-defineCard("lootplot.s0.content:price_card", {
-    image = "price_card",
+defineCard("price_card", {
     name = loc("Price Card"),
 
     shape = lp.targets.ABOVE_SHAPE,
-
-    rarity = lp.rarities.EPIC,
 
     doomCount = 10,
 
     target = {
         type = "ITEM",
-        description = loc("{lootplot.targets:COLOR}Increase item price by 20%"),
+        description = loc("Increase item price by 20%"),
         filter = function(targetEnt)
             return targetEnt.price
         end,
@@ -109,19 +119,20 @@ defineCard("lootplot.s0.content:price_card", {
             local mod = targetEnt.price * 0.2
             lp.modifierBuff(targetEnt, "price", mod, selfEnt)
         end
-    }
+    },
+
+    rarity = lp.rarities.EPIC,
 })
 
 
-defineCard("lootplot.s0.content:spades_card", {
-    image = "spades_card",
+defineCard("spades_card", {
     name = loc("Spades Card"),
 
     shape = lp.targets.KING_SHAPE,
 
     target = {
         type = "ITEM",
-        description = loc("{lootplot.targets:COLOR}Shuffle positions of target items"),
+        description = loc("Shuffle positions of target items"),
     },
 
     onActivate = function(selfEnt)
@@ -131,11 +142,7 @@ defineCard("lootplot.s0.content:spades_card", {
         end
 
         local slots = targets:map(lp.posToSlot)
-        -- Shuffle it
-        for i = #slots, 2, -1 do
-            local j = math.random(1, i)
-            slots[i], slots[j] = slots[j], slots[i]
-        end
+        slots = shuffled(slots)
 
         -- Swap item positions
         for i = 1, #slots - 1 do
