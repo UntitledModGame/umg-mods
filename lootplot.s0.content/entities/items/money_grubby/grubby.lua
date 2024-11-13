@@ -28,15 +28,20 @@ local MONEY_CAP_MID = assert(consts.GRUB_MONEY_CAP_MID)
 
 local function defItem(id, etype)
     etype.image = etype.image or id
-    etype.grubMoneyCap = etype.grubMoneyCap or MONEY_CAP_MID
     return lp.defineItem("lootplot.s0.content:"..id, etype)
+end
+local function defGrubby(id, etype)
+    etype.grubMoneyCap = etype.grubMoneyCap or MONEY_CAP_MID
+    defItem(id, etype)
 end
 
 
 
 
 
-defItem("the_negotiator", {
+
+
+defGrubby("the_negotiator", {
     name = loc("The Negotiator"),
     triggers = {},
 
@@ -56,7 +61,7 @@ defItem("the_negotiator", {
 
 
 
-defItem("spare_coins", {
+defGrubby("spare_coins", {
     name = loc("Spare Coins"),
     triggers = {"PULSE"},
 
@@ -72,7 +77,7 @@ defItem("spare_coins", {
 
 
 
-defItem("pineapple_ring", {
+defGrubby("pineapple_ring", {
     name = loc("Pineapple Ring"),
 
     basePrice = 8,
@@ -106,7 +111,7 @@ do
 local CENT_REQ = MONEY_CAP_MID-1
 local PRICE_SET = 5
 
-defItem("2_cent_ticket", {
+defGrubby("2_cent_ticket", {
     name = loc("2 Cent Ticket"),
 
     basePrice = 2,
@@ -137,4 +142,29 @@ defItem("2_cent_ticket", {
 })
 
 end
+
+
+
+
+defItem("grub_converter", {
+    name = loc("Grub Converter"),
+    triggers = {"PULSE"},
+
+    basePrice = 6,
+    baseMaxActivations = 1,
+
+    shape = lp.targets.ABOVE_SHAPE,
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            if not targetEnt.grubMoneyCap then
+                lp.multiplierBuff(targetEnt, "pointsGenerated", 4)
+                targetEnt.grubMoneyCap = MONEY_CAP_MID
+            end
+        end,
+        description = loc("If target item is {lootplot:GRUB_COLOR}NOT grubby{/lootplot:GRUB_COLOR}, give it a {lootplot:POINTS_MULT_COLOR}4x points-multiplier{/lootplot:POINTS_MULT_COLOR}, and give it {lootplot:GRUB_COLOR}GRUB-10.")
+    },
+
+    rarity = lp.rarities.EPIC,
+})
 
