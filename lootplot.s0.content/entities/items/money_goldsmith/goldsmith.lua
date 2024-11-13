@@ -3,7 +3,7 @@ local loc = localization.localize
 local interp = localization.newInterpolator
 local helper = require("shared.helper")
 
-local MONEY_REQUIREMENT = 50
+local MONEY_REQUIREMENT = 30
 
 
 local function defItem(id, etype)
@@ -108,12 +108,13 @@ local TOPAZ_DESC = interp("If {lootplot:MONEY_COLOR}money > $%{moneyReq}{/lootpl
     moneyReq = MONEY_REQUIREMENT
 }
 
-defItem("topaz_ring", {
-    name = loc("Topaz Ring"),
+defItem("belt_topaz", {
+    name = loc("Topaz Belt"),
     activateDescription = TOPAZ_DESC,
 
     basePointsGenerated = 20,
-    baseMaxActivations = 4,
+    baseMaxActivations = 2,
+    tierUpgrade = helper.propertyUpgrade("maxActivations", 2, 3),
 
     onActivate = function(ent)
         if (lp.getMoney(ent) or 0) > MONEY_REQUIREMENT then
@@ -123,6 +124,32 @@ defItem("topaz_ring", {
 
     rarity = lp.rarities.RARE
 })
+
+
+
+do
+local RUBY_DESC = interp("Only works if {lootplot:MONEY_COLOR}money > $%{moneyReq}!"){
+    moneyReq = MONEY_REQUIREMENT
+}
+defItem("belt_ruby", {
+    name = loc("Ruby Belt"),
+    activateDescription = RUBY_DESC,
+
+    baseMaxActivations = 4,
+    basePointsGenerated = 30,
+    tierUpgrade = helper.propertyUpgrade("maxActivations", 4, 3),
+
+    canActivate = function(ent)
+        if (lp.getMoney(ent) or 0) > MONEY_REQUIREMENT then
+            return true
+        end
+    end,
+
+    rarity = lp.rarities.UNCOMMON
+})
+end
+
+
 
 
 
