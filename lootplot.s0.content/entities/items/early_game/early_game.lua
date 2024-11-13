@@ -47,7 +47,7 @@ lp.defineItem("lootplot.s0.content:key_bar", {
 
     basePrice = 4,
     baseMaxActivations = 2,
-    basePointsGenerated = 3,
+    basePointsGenerated = 5,
 
     rarity = lp.rarities.COMMON,
 
@@ -78,8 +78,8 @@ lp.defineItem("lootplot.s0.content:stick", {
 
     rarity = lp.rarities.COMMON,
 
-    basePointsGenerated = 3,
-    tierUpgrade = helper.propertyUpgrade("pointsGenerated", 3, 3),
+    basePointsGenerated = 4,
+    tierUpgrade = helper.propertyUpgrade("pointsGenerated", 4, 3),
     basePrice = 3,
 })
 
@@ -152,7 +152,7 @@ defItem("coins", {
 
     rarity = lp.rarities.COMMON,
 
-    basePointsGenerated = 4,
+    basePointsGenerated = 5,
     baseMaxActivations = 2,
     basePrice = 4,
 
@@ -221,7 +221,7 @@ lp.defineItem("lootplot.s0.content:pink_guppy", {
 
     basePrice = 3,
     baseMaxActivations = 2,
-    basePointsGenerated = 4,
+    basePointsGenerated = 5,
 
     rarity = lp.rarities.COMMON,
 
@@ -258,7 +258,7 @@ lp.defineItem("lootplot.s0.content:green_guppy", {
 
     basePrice = 3,
     baseMaxActivations = 2,
-    basePointsGenerated = 4,
+    basePointsGenerated = 5,
 
     rarity = lp.rarities.COMMON,
 
@@ -298,8 +298,8 @@ lp.defineItem("lootplot.s0.content:trumpet", {
     baseMaxActivations = 10,
     basePrice = 3,
 
-    basePointsGenerated = 4,
-    tierUpgrade = helper.propertyUpgrade("pointsGenerated", 4, 3),
+    basePointsGenerated = 5,
+    tierUpgrade = helper.propertyUpgrade("pointsGenerated", 5, 3),
 
     -- just for the funni
     onActivateClient = function(ent)
