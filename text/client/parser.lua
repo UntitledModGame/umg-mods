@@ -169,7 +169,7 @@ local function parse(txt)
                     local effectValueStr = concatAndClean(buffer)
                     local effectValue = tonumber(effectValueStr)
                     if effectValue == nil then
-                        return stopErr(txt, "col %d: effect value %q cannot be converted to number", i - #effectValue, effectValue)
+                        return stopErr(txt, "col %d: effect value `%s` cannot be converted to number", i, effectValueStr)
                     end
 
                     currentEffectData[effectKey] = effectValue
