@@ -622,6 +622,7 @@ local function defineDonut(id, name, targetDesc, buffAmount)
         name = loc(name),
 
         basePrice = 4,
+        canItemFloat = true,
 
         rarity = lp.rarities.RARE,
         shape = lp.targets.KING_SHAPE,
@@ -638,6 +639,6 @@ local function defineDonut(id, name, targetDesc, buffAmount)
 end
 
 
-defineDonut("frosted_donut", "Frosted Donut", "Decreases item price by $5", -5)
-defineDonut("pink_donut", "Pink Donut",  "Increases item price by $5", 5)
+defineDonut("frosted_donut", "Frosted Donut", "Decreases item price by $10", -10)
+defineDonut("pink_donut", "Pink Donut",  "Increases item price by $5", 10)
 
