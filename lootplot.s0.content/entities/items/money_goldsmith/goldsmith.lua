@@ -136,7 +136,7 @@ defItem("belt_ruby", {
     activateDescription = RUBY_DESC,
 
     baseMaxActivations = 4,
-    basePointsGenerated = 30,
+    basePointsGenerated = 50,
     tierUpgrade = helper.propertyUpgrade("maxActivations", 4, 3),
 
     canActivate = function(ent)
