@@ -640,5 +640,5 @@ end
 
 
 defineDonut("frosted_donut", "Frosted Donut", "Decreases item price by $10", -10)
-defineDonut("pink_donut", "Pink Donut",  "Increases item price by $5", 10)
+defineDonut("pink_donut", "Pink Donut",  "Increases item price by $10", 10)
 

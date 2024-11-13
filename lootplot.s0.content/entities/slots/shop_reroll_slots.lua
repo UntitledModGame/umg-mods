@@ -139,10 +139,15 @@ end
 
 local PRICE_TEXT = interp("$%{price}")
 local PRICE_COLOR = objects.Color.fromByteRGBA(252, 211, 3)
+local GREEN_PRICE_COLOR = objects.Color.fromByteRGBA(100, 252, 30)
 
 local function drawItemPrice(selfEnt, itemEnt)
     if selfEnt.itemLock and itemEnt.price then
-        love.graphics.setColor(PRICE_COLOR)
+        if itemEnt.price > 0 then
+            love.graphics.setColor(PRICE_COLOR)
+        else
+            love.graphics.setColor(GREEN_PRICE_COLOR)
+        end
         printCenterWithOutline(PRICE_TEXT(itemEnt), itemEnt.x, itemEnt.y, 0, 0.75, 0.75, 20, 0, 0)
     end
 end
