@@ -103,10 +103,10 @@ defineFood("eggplant", {
 
     target = {
         type = "ITEM_OR_SLOT",
-        description = loc("Give {wavy}{lootplot:DOOMED_COLOR}DOOMED-50{/lootplot:DOOMED_COLOR}{/wavy} to target"),
+        description = loc("Give {wavy}{lootplot:DOOMED_COLOR}DOOMED-10{/lootplot:DOOMED_COLOR}{/wavy} to target"),
         activate = function(selfEnt, ppos, targetEnt)
             if targetEnt.doomCount then
-                targetEnt.doomCount = 50
+                targetEnt.doomCount = 10
             end
         end
     }
