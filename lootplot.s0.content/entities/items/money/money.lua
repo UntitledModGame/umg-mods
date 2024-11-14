@@ -12,7 +12,7 @@ end
 
 
 defItem("gold_sword", {
-    basePrice = 8,
+    basePrice = 6,
     name = loc("Golden Sword"),
     rarity = lp.rarities.RARE,
     baseMoneyGenerated = 1,
