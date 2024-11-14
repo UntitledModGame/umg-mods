@@ -92,6 +92,7 @@ local BOOL = "boolean"
 
 umg.definePacket("lootplot:setPlotEntry", {typelist = {ENT, INDEX, ENT}})
 umg.definePacket("lootplot:clearPlotEntry", {typelist = {ENT, INDEX, LAYER}})
+umg.definePacket("lootplot:fogReveal", {typelist = {ENT, "string", INDEX, BOOL}})
 
 
 local setTc = typecheck.assert("number", "number", "entity")
@@ -400,6 +401,9 @@ function Plot:isFogRevealed(ppos, team)
     return true
 end
 
+if server then
+
+---Availability: **Server**
 ---@param ppos lootplot.PPos
 ---@param team string
 ---@param reveal boolean
@@ -413,9 +417,29 @@ function Plot:setFogRevealed(ppos, team, reveal)
     end
 
     local x, y = ppos:getCoords()
+    local old = not grid:get(x, y)
     grid:set(x, y, not reveal)
+
+    if old ~= reveal then
+        server.broadcast("lootplot:fogReveal", self.ownerEnt, team, ppos:getSlotIndex(), reveal)
+    end
 end
 
+else
+
+client.on("lootplot:fogReveal", function(plotEnt, team, index, reveal)
+    local plot = plotEnt.plot
+    local grid = plot.fogs[team]
+    if not grid then
+        grid = objects.Grid(plot.width, plot.height)
+        plot.fogs[team] = grid
+    end
+
+    local x, y = plot:indexToCoords(index)
+    grid:set(x, y, not reveal)
+end)
+
+end
 
 
 ---@cast Plot +fun(ownerEnt:Entity,width:integer,height:integer):lootplot.Plot
