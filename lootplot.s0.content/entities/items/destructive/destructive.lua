@@ -162,36 +162,6 @@ defDestructive("goblet_of_blood", {
 
 
 
-local REPEATS=4
-defDestructive("skull", {
-    name = loc("Skull"),
-
-    rarity = lp.rarities.UNCOMMON,
-
-    triggers = {"PULSE"},
-    activateDescription = interp("Triggers {lootplot:TRIGGER_COLOR}DESTROY{/lootplot:TRIGGER_COLOR} on self %{repeats} times\n(Without destroying self!)"){
-        repeats = REPEATS
-    },
-
-    basePrice = 10,
-    baseMaxActivations = 5,
-
-    lives = 1,
-
-    onActivate = function(selfEnt)
-        for _=1,REPEATS do
-            lp.queueWithEntity(selfEnt, function(ent)
-                local ppos=lp.getPos(ent)
-                if ppos then
-                    lp.tryTriggerEntity("DESTROY", ent)
-                    lp.wait(ppos,0.3)
-                end
-            end)
-        end
-    end
-})
-
-
 --[[
 
 TODO:
