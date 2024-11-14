@@ -388,9 +388,12 @@ end
 
 
 
+local fogTc = typecheck.assert("table", "string")
+
 ---@param ppos lootplot.PPos
 ---@param team string
 function Plot:isFogRevealed(ppos, team)
+    fogTc(ppos, team)
     assert(ppos:getPlot() == self)
 
     local grid = self.fogs[team]
@@ -408,6 +411,7 @@ if server then
 ---@param team string
 ---@param reveal boolean
 function Plot:setFogRevealed(ppos, team, reveal)
+    fogTc(ppos, team)
     assert(ppos:getPlot() == self)
 
     local grid = self.fogs[team]
