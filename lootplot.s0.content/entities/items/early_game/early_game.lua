@@ -18,9 +18,7 @@ end
 This gives the user good intuition behind how the
 destroy-lives systems interact with each other.
 ]]
-lp.defineItem("lootplot.s0.content:rocks", {
-    image = "rocks",
-
+defItem("rocks", {
     basePrice = 3,
     basePointsGenerated = 10,
 
@@ -35,7 +33,7 @@ lp.defineItem("lootplot.s0.content:rocks", {
 local KEY_DESC = localization.newInterpolator("After %{count} activations, turn into a key")
 
 local KEY_BAR_COUNT = 15
-lp.defineItem("lootplot.s0.content:key_bar", {
+defItem("key_bar", {
     image = "key_bar",
 
     name = loc("Key Bar"),
@@ -70,7 +68,7 @@ lp.defineItem("lootplot.s0.content:key_bar", {
 Purpose of STICK is to give intuition
 about how multiple triggers work. (REROLL, PULSE trigger)
 ]]
-lp.defineItem("lootplot.s0.content:stick", {
+defItem("stick", {
     image = "stick",
     name = loc("Stick"),
 
@@ -204,7 +202,7 @@ the existance of octopus.
 Because in reality, octopus is VERY CENTRAL to the game.
 
 ]]
-local GUPPY_COUNT = 12
+local GUPPY_COUNT = 8
 local GUPPY_DESC = interp("After %{count} activations,\nturn into a Pink Octopus")
 
 lp.defineItem("lootplot.s0.content:pink_guppy", {
@@ -258,7 +256,7 @@ lp.defineItem("lootplot.s0.content:green_guppy", {
 
     basePrice = 3,
     baseMaxActivations = 2,
-    basePointsGenerated = 5,
+    basePointsGenerated = 10,
 
     rarity = lp.rarities.COMMON,
 

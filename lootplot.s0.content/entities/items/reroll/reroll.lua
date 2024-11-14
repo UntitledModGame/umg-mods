@@ -7,6 +7,14 @@ local helper = require("shared.helper")
 local consts = require("shared.constants")
 
 
+local function defItem(id, name, etype)
+    etype.image = etype.image or id
+    etype.name = loc(name)
+    return lp.defineItem("lootplot.s0.content:"..id, etype)
+end
+
+
+
 local function defineDice(id, name, etype)
     etype.name = loc(name)
     etype.rarity = assert(etype.rarity)
@@ -18,6 +26,44 @@ end
 
 
 
+--[[
+EARLY GAME / TEMPO REROLL ITEMS:
+]]
+defItem("reroll_decoration", "Reroll Decoration", {
+    triggers = {"REROLL"},
+    -- This item seems a bit... strong.
+    -- This item works late-game AS WELL AS early.
+    -- (^^^ is this a bad thing, tho????)
+    rarity = lp.rarities.UNCOMMON,
+
+    doomCount = 6,
+
+    basePrice = 4,
+    baseMoneyGenerated = 1,
+    basePointsGenerated = 10,
+    baseMaxActivations = 10,
+})
+
+defItem("cactus", "Cactus", {
+    triggers = {"REROLL"},
+
+    rarity = lp.rarities.COMMON,
+
+    doomCount = 12,
+
+    basePrice = 4,
+    basePointsGenerated = 20,
+    baseMaxActivations = 10,
+})
+
+
+
+
+--[[
+==================================================
+DICE ITEMS:
+==================================================
+]]
 
 -- White Die: 
 -- When rerolled, earn $2
@@ -48,8 +94,6 @@ defineDice("black_die", "Black Die", {
         end
     }
 })
-
-
 
 do
 local CHANCE = 5
