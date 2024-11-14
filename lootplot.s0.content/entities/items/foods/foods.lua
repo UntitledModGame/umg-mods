@@ -36,9 +36,10 @@ defineFood("blueberry", {
 CURRENTLY UNUSED:
 
 Pear
+Honey-bottle
 
 If you come up with an idea,
-These fruit(s?) are always free to be used!
+These food(s?) are always free to be used!
 ]]
 
 
@@ -204,10 +205,12 @@ local function setDoomCountTo(x)
         slotEnt.doomCount = x
     end
 end
-defineSlotSpawner("soy_sauce", "Soy Sauce", "slot", "{lootplot:DOOMED_COLOR}DOOMED-4{/lootplot:DOOMED_COLOR} Slot", 
-    lp.targets.RookShape(3), {},
-    setDoomCountTo(4)
+defineSlotSpawner("soy_sauce", "Soy Sauce", "slot", "{lootplot:DOOMED_COLOR}DOOMED-8{/lootplot:DOOMED_COLOR} Slot", 
+    lp.targets.QueenShape(3), {},
+    setDoomCountTo(8)
 )
+
+defineSlotSpawner("steelberry", "Steel-Berry", "steel_slot", "Steel Slot", lp.targets.RookShape(1))
 
 
 defineSlotSpawner("fried_egg", "Fried Egg", "slot", "Slot with -5 points", lp.targets.KING_SHAPE, {}, function(slotEnt)
