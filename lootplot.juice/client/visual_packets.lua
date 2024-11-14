@@ -13,7 +13,8 @@ local function updateEnt(ent)
 
     ent.friction = 1
 
-    ent.rot = love.timer.getTime() * 60
+    local rotSlow = math.min(1.5, (ent.scale or 1))
+    ent.rot = love.timer.getTime() * 40 / rotSlow
 
     local ddx, ddy = tx-x, ty-y
     local dx,dy = math.normalize(tx-x, ty-y)
@@ -77,7 +78,7 @@ end)
 
 local function getPacketScale(delta)
     local x = math.abs(delta)
-    return math.log(x + 4, 10) / 1.4
+    return math.log(x + 4, 10) / 2
 end
 
 
@@ -93,7 +94,7 @@ umg.on("lootplot:pointsChanged", function(ent, delta)
             return camera:toWorldCoords(love.mouse.getPosition())
         end)
 
-        packetEnt.image = "packet0"
+        packetEnt.image = "point_packet_tag"
         packetEnt.scale = getPacketScale(delta)
     end
 end)
