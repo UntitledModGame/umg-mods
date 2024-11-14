@@ -514,12 +514,14 @@ definePotion("potion_purple", {
 
     target = {
         type = "ITEM_OR_SLOT",
-        description = loc("Gives {lootplot:DOOMED_COLOR}DOOMED-10{/lootplot:DOOMED_COLOR} to target item/slot, and double it's points.\n(Doesn't work on {lootplot:DOOMED_COLOR}DOOMED{/lootplot:DOOMED_COLOR} items!)"),
+        description = loc("If item is {lootplot:DOOMED_COLOR}DOOMED{/lootplot:DOOMED_COLOR}, Give it a {lootplot:POINT_MULT_COLOR}4x point multiplier."),
+        filter = function(selfEnt, ppos, targetEnt)
+            return targetEnt.doomCount
+        end,
         activate = function (selfEnt, ppos, targetEnt)
-            if not targetEnt.doomCount then
-                targetEnt.doomCount = 5
+            if targetEnt.doomCount then
                 local x = targetEnt.pointsGenerated or 0
-                lp.modifierBuff(targetEnt, "pointsGenerated", x)
+                lp.modifierBuff(targetEnt, "pointsGenerated", x, selfEnt)
             end
         end
     }
