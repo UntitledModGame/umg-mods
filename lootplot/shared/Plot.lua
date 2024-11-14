@@ -54,6 +54,9 @@ function Plot:init(ownerEnt, width, height)
         -- ... can define custom ones too!
     }
 
+    ---@type table<string, objects.Grid>
+    self.fogs = {} -- Note: Grid value false means revealed, true means hidden.
+
     -- entities that we have already seen.
     --[[
         NOTE:
@@ -381,6 +384,39 @@ function Plot:isPipelineRunning()
         return self._cachedIsPipelineRunning
     end
 end
+
+
+
+---@param ppos lootplot.PPos
+---@param team string
+function Plot:isFogRevealed(ppos, team)
+    assert(ppos:getPlot() == self)
+
+    local grid = self.fogs[team]
+    if grid then
+        return not grid:get(ppos:getCoords())
+    end
+
+    return true
+end
+
+---@param ppos lootplot.PPos
+---@param team string
+---@param reveal boolean
+function Plot:setFogRevealed(ppos, team, reveal)
+    assert(ppos:getPlot() == self)
+
+    local grid = self.fogs[team]
+    if not grid then
+        grid = objects.Grid(self.width, self.height)
+        self.fogs[team] = grid
+    end
+
+    local x, y = ppos:getCoords()
+    grid:set(x, y, not reveal)
+end
+
+
 
 ---@cast Plot +fun(ownerEnt:Entity,width:integer,height:integer):lootplot.Plot
 return Plot
