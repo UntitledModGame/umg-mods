@@ -28,14 +28,13 @@ local function computeBoundingBox(...)
     return x1, y1, x2, y2
 end
 
-local lastCamera = nil
-
 ---@param ppos lootplot.PPos
 local function drawFog(ppos)
-    if not lastCamera then return end
-
-    local wpos = ppos:getWorldPos()
-    love.graphics.circle("fill", wpos.x, wpos.y, 10)
+    local plot = ppos:getPlot()
+    if not plot:isFogRevealed(ppos, lp.main.PLAYER_TEAM) then
+        local wpos = ppos:getWorldPos()
+        love.graphics.circle("fill", wpos.x, wpos.y, 10)
+    end
 end
 
 ---@param camera camera.Camera
@@ -52,7 +51,6 @@ umg.on("rendering:drawEffects", function(camera)
     local pposBL = offsetPPosBy(getPPosByScreenCoords(plot, camera, 0, h), -1, 1)
     local x1, y1, x2, y2 = computeBoundingBox(pposTL, pposTR, pposBR, pposBL)
 
-    lastCamera = camera
     love.graphics.setColor(0, 0, 0)
     plot:foreachInArea(x1, y1, x2, y2, drawFog)
 end)
