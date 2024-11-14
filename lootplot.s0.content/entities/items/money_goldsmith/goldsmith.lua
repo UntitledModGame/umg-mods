@@ -160,10 +160,10 @@ defItem("gold_coin", {
         moneyReq = MONEY_REQUIREMENT
     },
 
-    baseMoneyGenerated = 3,
+    baseMoneyGenerated = 1,
     baseMaxActivations = 1,
     basePrice = 12,
-    basePointsGenerated = 300,
+    basePointsGenerated = 200,
     tierUpgrade = helper.propertyUpgrade("maxActivations", 1, 3),
 
     canActivate = function(ent)

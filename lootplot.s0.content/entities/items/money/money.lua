@@ -111,7 +111,7 @@ defItem("gold_knuckles", {
 
     rarity = lp.rarities.RARE,
 
-    triggers = {},
+    triggers = {"PULSE"},
 
     basePrice = 6,
     baseMaxActivations = 10,
@@ -122,9 +122,6 @@ defItem("gold_knuckles", {
 
     target = {
         type = "ITEM",
-        filter = function(ent)
-            return (not ent.lives) or (ent.lives == 0)
-        end,
         activate = function(selfEnt, ppos, ent)
             lp.addMoney(selfEnt,selfEnt.moneyGenerated)
             lp.destroy(ent)
@@ -169,8 +166,8 @@ defItem("gold_bell", {
 
     baseMoneyGenerated = -4,
     baseMaxActivations = 10,
-    basePointsGenerated = 4000,
-    tierUpgrade = helper.propertyUpgrade("moneyGenerated", 1, 3),
+    basePointsGenerated = 2000,
+    tierUpgrade = helper.propertyUpgrade("pointsGenerated", 2000, 3),
 
     rarity = lp.rarities.EPIC,
 })
