@@ -520,8 +520,7 @@ definePotion("potion_purple", {
         end,
         activate = function (selfEnt, ppos, targetEnt)
             if targetEnt.doomCount then
-                local x = targetEnt.pointsGenerated or 0
-                lp.modifierBuff(targetEnt, "pointsGenerated", x, selfEnt)
+                lp.multiplierBuff(targetEnt, "pointsGenerated", 4, selfEnt)
             end
         end
     }
