@@ -18,7 +18,7 @@ local function defineHelmet(id, etype)
 
     etype.basePrice = etype.basePrice or 10
     etype.baseMaxActivations = etype.baseMaxActivations or 1
-    etype.baseMaxActivations = helper.propertyUpgrade("maxActivations", 1, 3)
+    etype.tierUpgrade = helper.propertyUpgrade("maxActivations", 1, 3)
 
     defItem(id,etype)
 end
@@ -110,10 +110,10 @@ defineHelmet("emerald_helmet", {
     mineralType = "emerald",
 
     target = {
-        type = "SLOT_OR_ITEM",
+        type = "ITEM",
         description = loc("If target has {lootplot:TRIGGER_COLOR}REROLL trigger{/lootplot:TRIGGER_COLOR}, buff target {lootplot:POINTS_MOD_COLOR}+5 points."),
         activate = function(selfEnt, ppos, targetEnt)
-            lp.modifierBuff(targetEnt, "maxActivations", 5, selfEnt)
+            lp.modifierBuff(targetEnt, "pointsGenerated", 5, selfEnt)
         end,
         filter = function(selfEnt, ppos, targetEnt)
             return hasRerollTrigger(targetEnt)
