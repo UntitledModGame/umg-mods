@@ -77,6 +77,8 @@ defineFood("green_olive", {
 
     shape = lp.targets.ABOVE_SHAPE,
 
+    basePrice = 2,
+
     target = {
         type = "ITEM",
         description = loc("Gives REROLL Trigger to target item."),
@@ -178,11 +180,12 @@ defineSlotSpawner("dirty_muffin", "Dirty Muffin", "dirt_slot", "Dirt Slot", lp.t
     rarity = lp.rarities.RARE,
 })
 
-defineSlotSpawner("glass_bottle", "Glass Bottle", "glass_slot", "Glass Slot", lp.targets.RookShape(5), {
+defineSlotSpawner("glass_bottle", "Glass Bottle", "glass_slot", "Glass Slot", lp.targets.QueenShape(5), {
     rarity = lp.rarities.RARE,
 })
 
-defineSlotSpawner("glass_tube", "Glass Bottle", "glass_slot", "Glass Slot", lp.targets.BishopShape(4), {
+defineSlotSpawner("glass_tube", "Glass Bottle", "glass_slot", "Glass Slot", lp.targets.RookShape(4), {
+    basePrice = 3,
     rarity = lp.rarities.UNCOMMON,
 })
 
