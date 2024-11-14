@@ -55,6 +55,10 @@ local number2Tc = typecheck.assert("number", "number")
 ---@return lootplot.PPos?
 function PPos:move(dx, dy)
     number2Tc(dx, dy)
+    if dx == 0 and dy == 0 then
+        return self
+    end
+
     local plot = self:getPlot()
     local x, y = plot:indexToCoords(self.slot)
     x = x + dx
