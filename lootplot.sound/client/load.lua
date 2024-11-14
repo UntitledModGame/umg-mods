@@ -98,7 +98,7 @@ end)
 
 
 
-local buySound = LootplotSound("lootplot.sound:trigger_buy", 0.1, 1, 10, 0.1)
+local buySound = LootplotSound("lootplot.sound:trigger_buy", 0.12, 1, 10, 0.1)
 local rerollSound = LootplotSound("lootplot.sound:trigger_reroll", 0.07, 1.4, 10, 0)
 local function tryPlayTriggerSound(triggerName, ent)
     if triggerName == "BUY" then
