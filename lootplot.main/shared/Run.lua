@@ -43,11 +43,16 @@ function Run:init(perkItem)
     ent.y = 0
     self.ownerEnt = ent
 
-    ent.plot = lp.Plot(
+    local plot = lp.Plot(
         ent,
         lp.main.constants.WORLD_PLOT_SIZE,
         lp.main.constants.WORLD_PLOT_SIZE
     )
+    -- Hide all fog by default
+    plot:foreach(function(ppos)
+        plot:setFogRevealed(ppos, lp.main.PLAYER_TEAM, false)
+    end)
+    ent.plot = plot
 
     local constants = lp.main.constants
 
@@ -70,17 +75,41 @@ end
 
 
 
+if server then
+
 function Run:sync()
     -- syncs everything:
-    assert(server,"?")
     attributeList = attributeList or lp.getAllAttributes()
     for _, attr in ipairs(attributeList) do
         self:syncValue(attr)
     end
 end
 
+local slotGroup = umg.group("slot")
+
 ---@param dt number
 function Run:tick(dt)
+    -- Reveal fog
+    for _, slotEnt in ipairs(slotGroup) do
+        if slotEnt.lootplotTeam then
+            local ppos = lp.getPos(slotEnt)
+            if ppos then
+                local plot = ppos:getPlot()
+
+                -- Reveal in KING-1 shape
+                for y = -1, 1 do
+                    for x = -1, 1 do
+                        local newPPos = ppos:move(x, y)
+                        if newPPos then
+                            plot:setFogRevealed(newPPos, slotEnt.lootplotTeam, true)
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    -- Update plot
     local plot = self:getPlot()
     plot:tick(dt)
 end
@@ -92,12 +121,13 @@ end
 
 
 function Run:syncValue(key)
-    assert(server, "This function can only be called on server-side.")
     if not lp.isValidAttribute(key) then
         error("Invalid key: " .. key)
     end
     server.broadcast("lootplot.main:syncContextAttribute", assert(self.ownerEnt), key, self.attrs[key])
 end
+
+end -- if server
 
 if client then
     client.on("lootplot.main:syncContextAttribute", function(ent, field, val)
