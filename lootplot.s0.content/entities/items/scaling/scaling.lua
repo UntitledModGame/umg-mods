@@ -79,9 +79,9 @@ defineHelmet("ruby_helmet", {
 
     target = {
         type = "ITEM",
-        description = interp("Buff all {wavy}{lootplot:COMBINE_COLOR}UPGRADED{/lootplot:COMBINE_COLOR}{/wavy} target items:\n+%{tier} activations. (Capped at 30)"),
+        description = interp("Buff all {wavy}{lootplot:COMBINE_COLOR}UPGRADED{/lootplot:COMBINE_COLOR}{/wavy} target items:\n+%{tier} activations. (Capped at 20)"),
         activate = function(selfEnt, ppos, targetEnt)
-            if (targetEnt.maxActivations or 0) < 30 then
+            if (targetEnt.maxActivations or 0) < 20 then
                 local x = lp.tiers.getTier(selfEnt)
                 lp.modifierBuff(targetEnt, "maxActivations", x, selfEnt)
             end

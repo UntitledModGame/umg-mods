@@ -41,7 +41,7 @@ defItem("reroll_decoration", "Reroll Decoration", {
     basePrice = 4,
     baseMoneyGenerated = 1,
     basePointsGenerated = 10,
-    baseMaxActivations = 10,
+    baseMaxActivations = 100,
 })
 
 defItem("cactus", "Cactus", {
@@ -53,7 +53,7 @@ defItem("cactus", "Cactus", {
 
     basePrice = 4,
     basePointsGenerated = 20,
-    baseMaxActivations = 10,
+    baseMaxActivations = 100,
 })
 
 
