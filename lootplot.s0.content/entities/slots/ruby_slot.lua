@@ -19,7 +19,6 @@ return lp.defineSlot("lootplot.s0.content:ruby_slot", {
             local item = lp.slotToItem(slotEnt)
             if item and lp.canActivateEntity(item) and lp.hasTrigger(item, "PULSE") then
                 lp.tryTriggerEntity("PULSE", item)
-                lp.tryActivateEntity(slotEnt)
                 lp.wait(ppos, 0.25)
             end
         end)
