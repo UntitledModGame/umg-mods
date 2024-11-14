@@ -43,16 +43,11 @@ function Run:init(perkItem)
     ent.y = 0
     self.ownerEnt = ent
 
-    local plot = lp.Plot(
+    ent.plot = lp.Plot(
         ent,
         lp.main.constants.WORLD_PLOT_SIZE,
         lp.main.constants.WORLD_PLOT_SIZE
     )
-    -- Hide all fog by default
-    plot:foreach(function(ppos)
-        plot:setFogRevealed(ppos, lp.main.PLAYER_TEAM, false)
-    end)
-    ent.plot = plot
 
     local constants = lp.main.constants
 
@@ -114,11 +109,6 @@ function Run:tick(dt)
     plot:tick(dt)
 end
 
----@return lootplot.Plot
-function Run:getPlot()
-    return self.ownerEnt.plot
-end
-
 
 function Run:syncValue(key)
     if not lp.isValidAttribute(key) then
@@ -128,6 +118,13 @@ function Run:syncValue(key)
 end
 
 end -- if server
+
+
+---@return lootplot.Plot
+function Run:getPlot()
+    return self.ownerEnt.plot
+end
+
 
 if client then
     client.on("lootplot.main:syncContextAttribute", function(ent, field, val)
