@@ -85,8 +85,7 @@ defItem("stick", {
 
 
 --[[
-TODO: this item seems a bit weird.
-But its purpose is to give intuition about the `mult` system.
+Leather's "purpose" is to give intuition about the `mult` system.
 ]]
 defItem("leather", {
     name = loc("Leather"),
@@ -101,7 +100,7 @@ defItem("leather", {
         }
     },
 
-    basePrice = 2,
+    basePrice = 4,
 
     baseMaxActivations = 15,
 

@@ -45,6 +45,9 @@ end)
 
 
 umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER + 1, function(ent, x,y, rot, sx,sy, kx,ky)
+    if not lp.isSlotEntity(ent) then
+        return
+    end
     local pgen = ent.pointsGenerated
     if pgen and pgen ~= 0 and lp.isSlotEntity(ent) then
         local img
@@ -54,6 +57,10 @@ umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER + 1, function(ent, x,y,
             img = "point_down_slot_visual"
         end
         rendering.drawImage(img, x,y,rot,sx,sy,kx,ky)
+    end
+    local moneyEarn = ent.moneyGenerated
+    if moneyEarn and moneyEarn > 0 then
+        rendering.drawImage("gold_strip_slot_visual", x,y,rot,sx,sy,kx,ky)
     end
 end)
 
