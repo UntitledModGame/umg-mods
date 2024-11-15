@@ -7,7 +7,7 @@ local function defineGlove(id, name, description, giveShape, rarity)
 
         rarity = rarity,
 
-        basePrice = 15,
+        basePrice = 8,
 
         shape = lp.targets.ABOVE_SHAPE,
 
@@ -24,24 +24,25 @@ local function defineGlove(id, name, description, giveShape, rarity)
 end
 
 
-defineGlove("ruby_glove",
-    "Ruby Glove",
-    "Set item's shape to ROOK-10.",
-    lp.targets.RookShape(10),
-    lp.rarities.LEGENDARY
+
+defineGlove("knight_glove",
+    "Knight Glove",
+    "Set item's shape to KNIGHT.",
+    lp.targets.KNIGHT_SHAPE,
+    lp.rarities.RARE
 )
 
-
-defineGlove("quartz_glove",
-    "Quartz Glove",
+defineGlove("king_glove",
+    "King Glove",
     "Set item's shape to KING-1.",
     lp.targets.KING_SHAPE,
     lp.rarities.EPIC
 )
 
-defineGlove("copper_glove",
-    "Copper Glove",
-    "Set item's shape to KNIGHT.",
-    lp.targets.KNIGHT_SHAPE,
-    lp.rarities.RARE
+defineGlove("rook_glove",
+    "Rook Glove",
+    "Set item's shape to ROOK-10.",
+    lp.targets.RookShape(10),
+    lp.rarities.LEGENDARY
 )
+
