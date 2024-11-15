@@ -248,6 +248,8 @@ definePerk("bowling_ball", {
     name = loc("Bowling Ball"),
     description = loc("CHALLENGE-ITEM!\nFor PROS ONLY."),
 
+    baseMoneyGenerated = -1,
+
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
 
@@ -260,7 +262,7 @@ definePerk("bowling_ball", {
 
         local plot = ppos:getPlot()
         plot:foreachSlot(function(slotEnt, _ppos)
-            slotEnt.doomCount = lp.SEED:randomMisc(30, 50)
+            slotEnt.doomCount = lp.SEED:randomMisc(40, 50)
         end)
     end
 })
