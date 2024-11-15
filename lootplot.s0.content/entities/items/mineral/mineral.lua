@@ -26,7 +26,7 @@ local function defineSword(mineral_type, name, etype)
         basePointsGenerated = pgen,
         tierUpgrade = helper.propertyUpgrade("pointsGenerated", pgen, 3),
 
-        rarity = lp.rarities.COMMON,
+        rarity = etype.rarity or lp.rarities.COMMON,
 
         basePrice = 4,
     })
@@ -41,28 +41,24 @@ end
 
 
 local function definePickaxe(mineral_type, name, etype)
-    --[[
-    TODO:
-    What should pickaxe do???
-    Maybe something to do with scaling? Or "mining"...?
-    hmm... 
-    ]]
     local namespace = umg.getModName() .. ":"
     local etypeName = namespace .. mineral_type .. "_pickaxe"
     local image = mineral_type .. "_pickaxe"
-    local pgen = 2
+    local pgen = 10
 
     local pickType = {
         image = image,
         name = loc(name .. " Pickaxe"),
 
-        mineralType = mineral_type,
-        tierUpgrade = helper.propertyUpgrade("pointsGenerated", pgen, 3),
-        basePointsGenerated = pgen,
+        doomCount = 15,
 
-        rarity = lp.rarities.UNCOMMON,
+        mineralType = mineral_type,
 
         basePrice = 4,
+        basePointsGenerated = pgen,
+        tierUpgrade = helper.propertyUpgrade("pointsGenerated", pgen, 3),
+
+        rarity = etype.rarity or lp.rarities.UNCOMMON,
     }
     for k,v in pairs(etype) do
         pickType[k] = pickType[k] or v
@@ -85,7 +81,7 @@ local function defineAxe(mineral_type, name, etype)
         name = loc(name .. " Axe"),
         mineralType = mineral_type,
 
-        rarity = lp.rarities.RARE,
+        rarity = etype.rarity or lp.rarities.UNCOMMON,
 
         basePrice = 5,
         basePointsGenerated = 2,
@@ -149,7 +145,7 @@ end
 local function defineMineralClass(mineral_type, name, etype)
     defineSword(mineral_type, name, etype)
     defineAxe(mineral_type, name, etype)
-    -- definePickaxe(mineral_type, name, etype)
+    definePickaxe(mineral_type, name, etype)
 
     definePiece(mineral_type, name)
 end
