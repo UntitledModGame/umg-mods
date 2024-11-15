@@ -192,12 +192,19 @@ defineSlotSpawner("glass_tube", "Glass Bottle", "glass_slot", "Glass Slot", lp.t
 
 defineSlotSpawner("stone_fruit", "Stone fruit", "null_slot", "Null Slot", lp.targets.ON_SHAPE, {
     basePrice = 2,
-    canItemFloat = true
+    canItemFloat = true,
+    rarity = lp.rarities.COMMON
 })
 
-defineSlotSpawner("dragonfruit", "Dragonfruit", "slot", "Normal Slot", lp.targets.RookShape(1))
+defineSlotSpawner("dragonfruit", "Dragonfruit", "slot", "Normal Slot", lp.targets.RookShape(1), {
+    basePrice = 4,
+    rarity = lp.rarities.COMMON
+})
 
-defineSlotSpawner("dragonfruit_slice", "Dragonfruit Slice", "slot", "Normal Slot", lp.targets.BishopShape(1))
+defineSlotSpawner("dragonfruit_slice", "Dragonfruit Slice", "slot", "Normal Slot", lp.targets.BishopShape(1), {
+    basePrice = 4,
+    rarity = lp.rarities.UNCOMMON
+})
 
 
 local function setDoomCountTo(x)

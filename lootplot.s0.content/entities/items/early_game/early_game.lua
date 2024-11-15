@@ -78,7 +78,7 @@ defItem("stick", {
 
     basePointsGenerated = 4,
     tierUpgrade = helper.propertyUpgrade("pointsGenerated", 4, 3),
-    basePrice = 3,
+    basePrice = 2,
 })
 
 
