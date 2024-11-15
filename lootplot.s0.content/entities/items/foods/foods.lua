@@ -237,6 +237,12 @@ steel-candy in future?
 defineSlotSpawner("steelberry", "Steel-Berry", "steel_slot", "Steel Slot", lp.targets.RookShape(1))
 
 
+defineSlotSpawner("avacado", "Avacado", "emerald_slot", "Emerald Slot", lp.targets.RookShape(2), {
+    basePrice = 8,
+    rarity = lp.rarities.RARE
+})
+
+
 defineSlotSpawner("fried_egg", "Fried Egg", "slot", "Slot with -5 points", lp.targets.KING_SHAPE, {}, function(slotEnt)
     lp.modifierBuff(slotEnt, "pointsGenerated", -5)
 end)
