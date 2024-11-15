@@ -56,6 +56,7 @@ local function definePickaxe(mineral_type, name, etype)
 
         basePrice = 4,
         basePointsGenerated = pgen,
+        baseMaxActivations = 5,
         tierUpgrade = helper.propertyUpgrade("pointsGenerated", pgen, 3),
 
         rarity = etype.rarity or lp.rarities.UNCOMMON,
