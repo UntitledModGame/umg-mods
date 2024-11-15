@@ -234,7 +234,10 @@ steel-candy in future?
 
 
 
-defineSlotSpawner("steelberry", "Steel-Berry", "steel_slot", "Steel Slot", lp.targets.RookShape(1))
+defineSlotSpawner("steelberry", "Steel-Berry", "steel_slot", "Steel Slot", lp.targets.RookShape(1), {
+    basePrice = 7,
+    rarity = lp.rarities.UNCOMMON
+})
 
 
 defineSlotSpawner("avacado", "Avacado", "emerald_slot", "Emerald Slot", lp.targets.RookShape(2), {
@@ -549,7 +552,7 @@ definePotion("potion_purple", {
 
     target = {
         type = "ITEM_OR_SLOT",
-        description = loc("If item is {lootplot:DOOMED_COLOR}DOOMED{/lootplot:DOOMED_COLOR}, Give it a {lootplot:POINT_MULT_COLOR}4x point multiplier."),
+        description = loc("If item is {lootplot:DOOMED_COLOR}DOOMED{/lootplot:DOOMED_COLOR}, Give it a {lootplot:POINTS_MULT_COLOR}4x point multiplier."),
         filter = function(selfEnt, ppos, targetEnt)
             return targetEnt.doomCount
         end,

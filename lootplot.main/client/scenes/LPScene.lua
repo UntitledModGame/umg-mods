@@ -71,7 +71,7 @@ end
 
 
 local function drawBoxTransparent(x, y, w, h)
-    love.graphics.setColor(0, 0, 0, 0.7)
+    love.graphics.setColor(0, 0, 0, 0.75)
     love.graphics.rectangle("fill", x, y, w, h, 10, 10)
     love.graphics.setColor(1, 1, 1)
 end
