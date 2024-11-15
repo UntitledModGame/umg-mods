@@ -14,7 +14,8 @@ return lp.defineSlot("lootplot.s0.content:emerald_slot", {
     onActivate = function(slotEnt)
         local item = lp.slotToItem(slotEnt)
         if item then
-            lp.tryActivateEntity(item)
+            lp.tryTriggerEntity("REROLL", item)
+            lp.tryTriggerEntity("PULSE", item)
         end
     end
 })
