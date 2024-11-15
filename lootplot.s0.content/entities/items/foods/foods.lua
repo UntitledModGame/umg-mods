@@ -20,8 +20,7 @@ defineFood("blueberry", {
 
     activateDescription = loc("Doubles the current point count."),
 
-    onActivate = function (selfEnt, ppos, targetEnt)
-        lp.destroy(targetEnt)
+    onActivate = function (selfEnt)
         local points = lp.getPoints(selfEnt)
         if points then
             lp.addPoints(selfEnt, points)
