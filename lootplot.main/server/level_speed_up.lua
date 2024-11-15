@@ -1,7 +1,9 @@
 
 
 local function getSpeed(level)
-    local speedMult = math.max(1, (level ^ 1.4) / 4)
+    -- But Oli, where are these numbers from? ???
+    -- https://c.tenor.com/S4qe1FGFf30AAAAd/tenor.gif
+    local speedMult = math.max(1, (level^1.1) / 4)
     return speedMult
 end
 
