@@ -1118,6 +1118,44 @@ function lp.canPlayerAccess(ent, clientId)
     return umg.ask("lootplot:hasPlayerAccess", ent, clientId)
 end
 
+
+---@type table<string, string?>
+local playerTeams = {}
+
+umg.definePacket("lootplot:setPlayerTeam", {typelist = {"string", "string"}})
+
+---Availability: Client and Server
+---@param clientId string
+---@return string?
+function lp.getPlayerTeam(clientId)
+    return playerTeams[clientId]
+end
+
+if server then
+
+local setPlayerTeamTc = typecheck.assert("string", "string?")
+
+---Availability: **Server**
+---@param clientId string
+---@param team string?
+function lp.setPlayerTeam(clientId, team)
+    setPlayerTeamTc(clientId, team)
+    playerTeams[clientId] = team
+    server.broadcast("lootplot:setPlayerTeam", clientId, json.encode(team))
+end
+
+-- TODO: Hook into @playerLeave to unset the team mapping.
+
+else
+
+client.on("lootplot:setPlayerTeam", function(clientId, teamEncoded)
+    playerTeams[clientId] = json.decode(teamEncoded)
+end)
+
+end -- if server
+
+
+
 if client then
 
 ---Availability: **Client**
@@ -1161,7 +1199,7 @@ function lp.getSelectionListener()
 end
 
 
-end
+end -- if client
 
 
 lp.COLORS = {
