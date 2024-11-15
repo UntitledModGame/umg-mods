@@ -56,7 +56,7 @@ lp.defineItem("lootplot.main:doom_egg", {
         dclock.dimension = dvec.dimension
 
         -- Clear fog around doom clock
-        circularFogClear(plot, ppos, team, 3)
+        circularFogClear(plot, ppos, team, 5)
 
         -- Meta-buttons
         lp.forceSpawnSlot(
