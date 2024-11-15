@@ -503,7 +503,8 @@ end
 function lp.couldContainItem(ppos, itemEnt)
     local slotEnt = lp.posToSlot(ppos)
     if (not slotEnt) then
-        return lp.canItemFloat(itemEnt)
+        local plot = ppos:getPlot()
+        return lp.canItemFloat(itemEnt) and plot:isFogRevealed(ppos, itemEnt.lootplotTeam)
     end
 
     return lp.couldSlotHoldItem(slotEnt, itemEnt)
