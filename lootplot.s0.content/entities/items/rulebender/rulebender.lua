@@ -397,6 +397,28 @@ defItem("ukulele", {
 
 
 
+defItem("map", {
+    name = loc("Map"),
+
+    rarity = lp.rarities.UNCOMMON,
+
+    shape = lp.targets.CircleShape(5),
+
+    activateDescription = loc("TODO: NOT YET IMPLEMENTED!"),
+
+    doomCount = 1,
+    basePrice = 5,
+
+    target = {
+        type = "NO_SLOT",
+        description = loc("Reveals fog."),
+        activate = function(selfEnt, ppos, targEnt)
+            umg.log.warn("TODO: Reveal fog here!!!")
+        end
+    }
+})
+
+
 
 
 defItem("anchor", {
