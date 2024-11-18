@@ -412,8 +412,15 @@ defItem("map", {
     target = {
         type = "NO_SLOT",
         description = loc("Reveals fog."),
-        activate = function(selfEnt, ppos, targEnt)
-            umg.log.warn("TODO: Reveal fog here!!!")
+        filter = function(selfEnt, ppos)
+            ---@type lootplot.Plot
+            local plot = ppos:getPlot()
+            return not plot:isFogRevealed(ppos, selfEnt.lootplotTeam)
+        end,
+        activate = function(selfEnt, ppos)
+            ---@type lootplot.Plot
+            local plot = ppos:getPlot()
+            return plot:setFogRevealed(ppos, selfEnt.lootplotTeam, true)
         end
     }
 })
