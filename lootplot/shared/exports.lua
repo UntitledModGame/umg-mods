@@ -747,6 +747,7 @@ function lp.modifierBuff(ent, property, amount, srcEnt_or_nil)
     ensureDynamicProperties(ent)
     append(ent.buffedProperties.modifiers, property, amount, reducers.ADD)
     umg.call("lootplot:entityBuffed", property, srcEnt_or_nil)
+    sync.syncComponent(ent, "buffedProperties")
 end
 
 ---Availability: **Server**
@@ -761,6 +762,7 @@ function lp.multiplierBuff(ent, property, amount, srcEnt_or_nil)
     assert(properties.getPropertyType(property), "Invalid property: " .. property)
     append(ent.buffedProperties.multipliers, property, amount, reducers.MULTIPLY)
     umg.call("lootplot:entityBuffed", property, srcEnt_or_nil)
+    sync.syncComponent(ent, "buffedProperties")
 end
 
 
