@@ -27,7 +27,7 @@ end
 
 
 local POINT_PERCENT = 100
-local BISHOP_RING_DESC = interp("Earn points equal to %{val}% of current balance.")
+local SILV_RING_DESC = interp("Earn points equal to %{val}% of current balance.\n{lootplot:MONEY_COLOR}(Balance: $%{balance})")
 
 local function defSilvRing(id,name,trigger)
     defItem(id, {
@@ -35,8 +35,9 @@ local function defSilvRing(id,name,trigger)
         triggers={trigger},
 
         activateDescription = function(ent)
-            return BISHOP_RING_DESC({
-                val = ent.tier * POINT_PERCENT
+            return SILV_RING_DESC({
+                val = ent.tier * POINT_PERCENT,
+                balance = lp.getMoney(ent) or 0
             })
         end,
 
@@ -64,7 +65,7 @@ defSilvRing("silver_reroll_ring", "Silver Reroll Ring", "REROLL")
 
 
 
-local SILVER_RING_DESC = interp("Earn money equal to %{val}% of current balance.\n(Max of $20)")
+local GOLD_RING_DESC = interp("Earn money equal to %{val}% of current balance {lootplot:MONEY_COLOR}($%{balance}){/lootplot:MONEY_COLOR}.\n(Max of $20)")
 local MONEY_PERCENT = 10
 
 local function defGoldRing(id, name, trigger)
@@ -73,8 +74,9 @@ local function defGoldRing(id, name, trigger)
         triggers = {trigger},
 
         activateDescription = function(ent)
-            return SILVER_RING_DESC({
-                val = ent.tier * MONEY_PERCENT
+            return GOLD_RING_DESC({
+                val = ent.tier * MONEY_PERCENT,
+                balance = lp.getMoney(ent) or 0
             })
         end,
 

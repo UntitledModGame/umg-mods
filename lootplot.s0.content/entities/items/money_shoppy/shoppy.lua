@@ -69,7 +69,6 @@ defItem("a_pointy_loan", {
     name = loc("A Pointy Loan"),
 
     triggers = {"BUY"},
-    activateDescription = loc("Destroys slot and earns money."),
 
     lootplotProperties = {
         multipliers = {
