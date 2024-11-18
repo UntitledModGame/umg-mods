@@ -111,3 +111,31 @@ defItem("bull_helmet", {
 })
 
 
+
+
+defItem("feather", {
+    name = loc("Feather"),
+
+    canItemFloat = true,
+
+    triggers = {},
+    listen = {
+        trigger = "BUY",
+        activate = function(selfEnt, ppos, targetEnt)
+            if lp.SEED:randomMisc() <= 0.2 then
+                targetEnt.canItemFloat = true
+                sync.syncComponent(targetEnt, "canItemFloat")
+            end
+        end,
+        description = loc("20% chance to make the purchased item FLOATY."),
+    },
+
+    basePrice = 7,
+    baseMaxActivations = 20,
+
+    shape = lp.targets.KingShape(2),
+
+    rarity = lp.rarities.RARE,
+})
+
+
