@@ -121,7 +121,7 @@ end)
 
 
 
-umg.on("lootplot:entityBuffed", function(ent, prop, srcEnt)
+umg.on("lootplot:entityBuffed", function(ent, prop, amount, srcEnt)
     if srcEnt then
          local dvec = {
             x = srcEnt.x, y = srcEnt.y,

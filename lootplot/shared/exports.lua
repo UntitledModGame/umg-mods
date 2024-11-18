@@ -747,7 +747,7 @@ function lp.modifierBuff(ent, property, amount, srcEnt_or_nil)
     -- Permanently buffs an entity by adding a flat modifier
     ensureDynamicProperties(ent)
     append(ent.buffedProperties.modifiers, property, amount, reducers.ADD)
-    umg.call("lootplot:entityBuffed", ent, property, srcEnt_or_nil)
+    umg.call("lootplot:entityBuffed", ent, property, amount, srcEnt_or_nil)
     sync.syncComponent(ent, "buffedProperties")
 end
 
@@ -762,7 +762,7 @@ function lp.multiplierBuff(ent, property, amount, srcEnt_or_nil)
     ensureDynamicProperties(ent)
     assert(properties.getPropertyType(property), "Invalid property: " .. property)
     append(ent.buffedProperties.multipliers, property, amount, reducers.MULTIPLY)
-    umg.call("lootplot:entityBuffed", ent, property, srcEnt_or_nil)
+    umg.call("lootplot:entityBuffed", ent, property, amount, srcEnt_or_nil)
     sync.syncComponent(ent, "buffedProperties")
 end
 
