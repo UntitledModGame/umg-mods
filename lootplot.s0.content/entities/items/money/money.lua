@@ -166,8 +166,8 @@ defItem("gold_bell", {
 
     baseMoneyGenerated = -4,
     baseMaxActivations = 10,
-    basePointsGenerated = 2000,
-    tierUpgrade = helper.propertyUpgrade("pointsGenerated", 2000, 3),
+    basePointsGenerated = 500,
+    tierUpgrade = helper.propertyUpgrade("pointsGenerated", 500, 3),
 
     rarity = lp.rarities.EPIC,
 })
