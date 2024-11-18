@@ -85,7 +85,7 @@ local C1 = ("c r=%.2f g=%.2f b=%.2f"):format(unpack(lp.COLORS.GRUB_COLOR))
 local C2 = ("c r=%.2f g=%.2f b=%.2f"):format(unpack(lp.COLORS.GRUB_COLOR_LIGHT))
 
 local GRUB_CAP = interp(
-    ("{%s}{wavy}GRUB-%%{grubMoneyCap}:{/wavy}{/c} {%s}Works only if money < $%%{grubMoneyCap}{/c}")
+    ("{%s}{wavy}GRUB-%%{grubMoneyCap}:{/wavy}{/c} {%s}Works only if money less than $%%{grubMoneyCap}{/c}")
     :format(C1,C2)
 )
 

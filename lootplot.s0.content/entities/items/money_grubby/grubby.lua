@@ -129,7 +129,7 @@ defGrubby("2_cent_ticket", {
                 lp.modifierBuff(targetEnt, "price", -delta, selfEnt)
             end
         end,
-        description = interp("If item price > $%{price}, set item's price to $%{priceSet}."){
+        description = interp("If item price more than $%{price}, set item's price to $%{priceSet}."){
             price = CENT_REQ,
             priceSet = PRICE_SET
         }
