@@ -71,6 +71,13 @@ local function selectPosition(ppos, dontOpenButtons)
         return
     end
 
+    local plot = ppos:getPlot()
+    -- FIXME: If `selectPosition` is called server-side, then change it to pass clientId around!
+    local team = lp.getPlayerTeam(client.getClient())
+    if not (team and plot:isFogRevealed(ppos, team)) then
+        return
+    end
+
     selected = {
         ppos = ppos,
         slot = lp.posToSlot(ppos),
@@ -329,24 +336,46 @@ if client then
     ---@type lootplot.EntityHover?
     local itemHover
 
-    function selection.getHoveredSlot()
-        if slotHover and umg.exists(slotHover.entity) then
-            return slotHover
-        else
-            slotHover = nil
+    ---@param hover lootplot.EntityHover
+    local function validateHoverValidSingle(hover)
+        if not umg.exists(hover.entity) then
+            return false
         end
-    end
 
-    function selection.getHoveredItem()
-        if itemHover and umg.exists(itemHover.entity) then
-            return itemHover
-        else
-            itemHover = nil
+        local ppos = lp.getPos(hover.entity)
+        if not ppos then
+            return false
         end
+
+        local plot = ppos:getPlot()
+        local team = lp.getPlayerTeam(client.getClient())
+        if not (team and plot:isFogRevealed(ppos, team)) then
+            return false
+        end
+
+        return true
     end
 
     local function changeHover()
         umg.call("lootplot:hoverChanged")
+    end
+
+    function selection.getHoveredSlot()
+        if slotHover and not validateHoverValidSingle(slotHover) then
+            slotHover = nil
+            changeHover()
+        end
+
+        return slotHover
+    end
+
+    function selection.getHoveredItem()
+        if itemHover and not validateHoverValidSingle(itemHover) then
+            itemHover = nil
+            changeHover()
+        end
+
+        return itemHover
     end
 
     umg.on("hoverables:startHover", function(ent)
@@ -375,6 +404,10 @@ if client then
         end
     end)
 
+    umg.on("@update", function()
+        selection.getHoveredSlot()
+        selection.getHoveredItem()
+    end)
 end
 
 

@@ -54,6 +54,9 @@ function Plot:init(ownerEnt, width, height)
         -- ... can define custom ones too!
     }
 
+    ---@type table<string, objects.Grid>
+    self.fogs = {} -- Note: Grid value false means revealed, true means hidden.
+
     -- entities that we have already seen.
     --[[
         NOTE:
@@ -89,6 +92,7 @@ local BOOL = "boolean"
 
 umg.definePacket("lootplot:setPlotEntry", {typelist = {ENT, INDEX, ENT}})
 umg.definePacket("lootplot:clearPlotEntry", {typelist = {ENT, INDEX, LAYER}})
+umg.definePacket("lootplot:fogReveal", {typelist = {ENT, "string", INDEX, BOOL}})
 
 
 local setTc = typecheck.assert("number", "number", "entity")
@@ -381,6 +385,66 @@ function Plot:isPipelineRunning()
         return self._cachedIsPipelineRunning
     end
 end
+
+
+
+local fogTc = typecheck.assert("table", "string")
+
+---@param ppos lootplot.PPos
+---@param team string
+function Plot:isFogRevealed(ppos, team)
+    fogTc(ppos, team)
+    assert(ppos:getPlot() == self)
+
+    local grid = self.fogs[team]
+    if grid then
+        return not grid:get(ppos:getCoords())
+    end
+
+    return true
+end
+
+if server then
+
+---Availability: **Server**
+---@param ppos lootplot.PPos
+---@param team string
+---@param reveal boolean
+function Plot:setFogRevealed(ppos, team, reveal)
+    fogTc(ppos, team)
+    assert(ppos:getPlot() == self)
+
+    local grid = self.fogs[team]
+    if not grid then
+        grid = objects.Grid(self.width, self.height)
+        self.fogs[team] = grid
+    end
+
+    local x, y = ppos:getCoords()
+    local old = not grid:get(x, y)
+    grid:set(x, y, not reveal)
+
+    if old ~= reveal then
+        server.broadcast("lootplot:fogReveal", self.ownerEnt, team, ppos:getSlotIndex(), reveal)
+    end
+end
+
+else
+
+client.on("lootplot:fogReveal", function(plotEnt, team, index, reveal)
+    local plot = plotEnt.plot
+    local grid = plot.fogs[team]
+    if not grid then
+        grid = objects.Grid(plot.width, plot.height)
+        plot.fogs[team] = grid
+    end
+
+    local x, y = plot:indexToCoords(index)
+    grid:set(x, y, not reveal)
+end)
+
+end
+
 
 ---@cast Plot +fun(ownerEnt:Entity,width:integer,height:integer):lootplot.Plot
 return Plot

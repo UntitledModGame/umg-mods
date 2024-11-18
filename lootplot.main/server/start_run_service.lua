@@ -65,6 +65,10 @@ function startRunService.spawnItemAndSlots(midPPos, team, perk)
     lp.forceSpawnItem(assert(midPPos:move(0, -4)), server.entities["lootplot.main:doom_egg"], team)
 
     local plot = midPPos:getPlot()
+    -- Hide all fog by default
+    plot:foreach(function(ppos)
+        plot:setFogRevealed(ppos, lp.main.PLAYER_TEAM, false)
+    end)
 
     scheduling.delay(0.1, function()
         lp.queue(midPPos, function()
