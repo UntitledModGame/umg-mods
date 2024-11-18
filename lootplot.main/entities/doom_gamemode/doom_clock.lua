@@ -15,7 +15,7 @@ local loc = localization.localize
 
 
 local EARLY_LEVELS = {
-    150,300, 700, 1500, 3500, 7500
+    100,250, 650, 1500, 3500, 7500
 }
 local RAMP_UP = 12
 
