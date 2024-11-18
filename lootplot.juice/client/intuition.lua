@@ -1,3 +1,6 @@
+
+
+local RENDER_BEFORE_ENTITY_ORDER = -1
 local RENDER_AFTER_ENTITY_ORDER = 1
 
 umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER, function(ent, x,y, rot, sx,sy)
@@ -39,6 +42,16 @@ umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER + 0.5, function(ent, x,
             local img = client.assets.images.slot_life_visual
             rendering.drawImage(img, x, y, rot, sx,sy, kx,ky)
         end
+    end
+end)
+
+
+
+umg.on("rendering:drawEntity", RENDER_BEFORE_ENTITY_ORDER, function(ent, x,y, rot, sx,sy, kx,ky)
+    if lp.isItemEntity(ent) and lp.canItemFloat(ent) then
+        local ox, oy = 0, 0
+        local img = client.assets.images.floating_item_visual
+        rendering.drawImage(img, x + ox, y + oy, rot, sx,sy, kx,ky)
     end
 end)
 
