@@ -179,7 +179,7 @@ definePerk("fourteen_ball", {
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
-        wg.spawnSlots(assert(ppos:move(-4,1)), server.entities.lockable_shop_slot, 3,2, team)
+        wg.spawnSlots(assert(ppos:move(-4,0)), server.entities.lockable_shop_slot, 3,1, team)
         spawnRerollButton(ent)
 
         wg.spawnSlots(assert(ppos:move(3, 0)), server.entities.reroll_slot, 1,1, team)
