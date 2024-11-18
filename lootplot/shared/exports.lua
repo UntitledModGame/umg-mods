@@ -503,7 +503,8 @@ end
 function lp.couldContainItem(ppos, itemEnt)
     local slotEnt = lp.posToSlot(ppos)
     if (not slotEnt) then
-        return lp.canItemFloat(itemEnt)
+        local plot = ppos:getPlot()
+        return lp.canItemFloat(itemEnt) and plot:isFogRevealed(ppos, itemEnt.lootplotTeam)
     end
 
     return lp.couldSlotHoldItem(slotEnt, itemEnt)
@@ -747,6 +748,7 @@ function lp.modifierBuff(ent, property, amount, srcEnt_or_nil)
     ensureDynamicProperties(ent)
     append(ent.buffedProperties.modifiers, property, amount, reducers.ADD)
     umg.call("lootplot:entityBuffed", property, srcEnt_or_nil)
+    sync.syncComponent(ent, "buffedProperties")
 end
 
 ---Availability: **Server**
@@ -761,6 +763,7 @@ function lp.multiplierBuff(ent, property, amount, srcEnt_or_nil)
     assert(properties.getPropertyType(property), "Invalid property: " .. property)
     append(ent.buffedProperties.multipliers, property, amount, reducers.MULTIPLY)
     umg.call("lootplot:entityBuffed", property, srcEnt_or_nil)
+    sync.syncComponent(ent, "buffedProperties")
 end
 
 
@@ -1118,6 +1121,44 @@ function lp.canPlayerAccess(ent, clientId)
     return umg.ask("lootplot:hasPlayerAccess", ent, clientId)
 end
 
+
+---@type table<string, string?>
+local playerTeams = {}
+
+umg.definePacket("lootplot:setPlayerTeam", {typelist = {"string", "string"}})
+
+---Availability: Client and Server
+---@param clientId string
+---@return string?
+function lp.getPlayerTeam(clientId)
+    return playerTeams[clientId]
+end
+
+if server then
+
+local setPlayerTeamTc = typecheck.assert("string", "string?")
+
+---Availability: **Server**
+---@param clientId string
+---@param team string?
+function lp.setPlayerTeam(clientId, team)
+    setPlayerTeamTc(clientId, team)
+    playerTeams[clientId] = team
+    server.broadcast("lootplot:setPlayerTeam", clientId, json.encode(team))
+end
+
+-- TODO: Hook into @playerLeave to unset the team mapping.
+
+else
+
+client.on("lootplot:setPlayerTeam", function(clientId, teamEncoded)
+    playerTeams[clientId] = json.decode(teamEncoded)
+end)
+
+end -- if server
+
+
+
 if client then
 
 ---Availability: **Client**
@@ -1161,7 +1202,7 @@ function lp.getSelectionListener()
 end
 
 
-end
+end -- if client
 
 
 lp.COLORS = {

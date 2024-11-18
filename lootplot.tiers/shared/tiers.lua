@@ -36,7 +36,7 @@ function lp.tiers.getTier(ent)
 end
 
 
-
+local MAX_TIER = 5
 ---@param combineEnt Entity
 ---@param targetEnt Entity
 ---@return boolean
@@ -44,16 +44,16 @@ function lp.tiers.canUpgrade(combineEnt, targetEnt)
     if not (hasUpgrade(combineEnt) and hasUpgrade(targetEnt)) then
         return false
     end
+
     if (combineEnt:type() == targetEnt:type()) and (combineEnt.tier == targetEnt.tier) then
-        return true
+        -- limit to tier 5
+        return combineEnt.tier < MAX_TIER and targetEnt.tier < MAX_TIER
     end
     return false
 end
 
 
-umg.answer("lootplot:canCombineItems", function(itemA, itemB)
-    return lp.tiers.canUpgrade(itemA, itemB)
-end)
+umg.answer("lootplot:canCombineItems", lp.tiers.canUpgrade)
 
 
 if server then

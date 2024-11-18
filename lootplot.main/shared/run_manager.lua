@@ -82,6 +82,7 @@ server.on("lootplot.main:startRun", function(clientId, runOptionsString)
     if server.getHostClient() == clientId then
         local runOptions = umg.deserialize(runOptionsString)
         startRunService.startGame(lp.main.PLAYER_TEAM, runOptions.starterItem)
+        lp.setPlayerTeam(clientId, lp.main.PLAYER_TEAM)
     end
 end)
 
@@ -89,6 +90,7 @@ server.on("lootplot.main:continueRun", function(clientId)
     if server.getHostClient() == clientId then
         local runSerialized = assert(loadRunServer())
         startRunService.continueGame(runSerialized.runData, runSerialized.rngState)
+        lp.setPlayerTeam(clientId, lp.main.PLAYER_TEAM)
     end
 end)
 

@@ -2,6 +2,28 @@
 local loc = localization.localize
 
 
+---@param plot lootplot.Plot
+---@param ppos lootplot.PPos
+---@param team string
+---@param radius integer
+local function circularFogClear(plot, ppos, team, radius)
+    local rsq = radius * radius
+
+    for y = -radius, radius do
+        for x = -radius, radius do
+            local newPPos = ppos:move(x, y)
+
+            if newPPos then
+                local sq = x * x + y * y
+                if sq <= rsq then
+                    plot:setFogRevealed(newPPos, team, true)
+                end
+            end
+        end
+    end
+end
+
+
 --[[
 
 An item that spawns all the stuff 
@@ -32,6 +54,9 @@ lp.defineItem("lootplot.main:doom_egg", {
         dclock.x = dvec.x
         dclock.y = dvec.y
         dclock.dimension = dvec.dimension
+
+        -- Clear fog around doom clock
+        circularFogClear(plot, ppos, team, 5)
 
         -- Meta-buttons
         lp.forceSpawnSlot(

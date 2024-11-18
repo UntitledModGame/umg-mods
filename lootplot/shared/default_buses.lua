@@ -109,11 +109,20 @@ end)
 
 
 
-umg.answer("lootplot:hasPlayerAccess", function(ent)
+umg.answer("lootplot:hasPlayerAccess", function(ent, clientId)
     local ppos = lp.getPos(ent)
+    local team = lp.getPlayerTeam(clientId)
     if ppos then
-        return not ppos:getPlot():isPipelineRunning()
+        local plot = ppos:getPlot()
+        if plot:isPipelineRunning() then
+            return false
+        end
+
+        if team then
+            return plot:isFogRevealed(ppos, team)
+        end
     end
+    print("hasPlayerAccess", ent, clientId, ppos, team)
     return true
 end)
 
