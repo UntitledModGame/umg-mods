@@ -119,3 +119,22 @@ umg.on("lootplot:moneyChanged", function(ent, delta)
 end)
 
 
+
+
+umg.on("lootplot:entityBuffed", function(ent, prop, srcEnt)
+    if srcEnt then
+         local dvec = {
+            x = srcEnt.x, y = srcEnt.y,
+            dimension = ent.dimension
+        }
+        local SPD = 250
+        local packetEnt = newPacketEnt(dvec, 0, 250, function()
+            return ent.x, ent.y
+        end)
+        packetEnt.vx = (math.random()-0.5)*(SPD/2)
+        packetEnt.vy = -SPD
+
+        packetEnt.image = "buff_packet"
+    end
+end)
+

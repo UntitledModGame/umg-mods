@@ -127,19 +127,30 @@ umg.answer("rendering:getRotation", function(ent)
 end)
 
 
+local function bulgeAndJolt(ent, duration, bulgeStrength)
+    local start = love.timer.getTime()
+    ent:addComponent("joltJuice", {freq = 2, amp = math.rad(20), start = start, duration = duration})
+    if lp.isSlotEntity(ent) then
+        ent:addComponent("bulgeJuice", {amp = 0.15, start = start, duration = duration})
+    elseif lp.isItemEntity(ent) then
+        ent:addComponent("bulgeJuice", {amp = bulgeStrength, start = start, duration = duration})
+    end
+end
+
 ---@param ent lootplot.LayerEntity
 umg.on("lootplot:entityActivated", function(ent)
-    if ent.drawable then
-        local duration = 0.33
-        local start = love.timer.getTime()
-        ent:addComponent("joltJuice", {freq = 2, amp = math.rad(20), start = start, duration = duration})
-        if lp.isSlotEntity(ent) then
-            ent:addComponent("bulgeJuice", {amp = 0.15, start = start, duration = duration})
-        elseif lp.isItemEntity(ent) then
-            ent:addComponent("bulgeJuice", {amp = 0.5 + getStrengthScale(ent), start = start, duration = duration})
-        end
-    end
+    if not ent.drawable then return end
+    local bulgeStrength = 0.5 + getStrengthScale(ent)
+    bulgeAndJolt(ent, 0.33, bulgeStrength)
 end)
+
+---@param ent lootplot.LayerEntity
+umg.on("lootplot:entityBuffed", function(ent)
+    if not ent.drawable then return end
+    bulgeAndJolt(ent, 0.4, 1.1)
+end)
+
+
 
 ---@param selected lootplot.Selected?
 umg.on("lootplot:selectionChanged", function(selected)

@@ -84,7 +84,10 @@ defineHelmet("ruby_helmet", {
                 lp.modifierBuff(targetEnt, "maxActivations", x, selfEnt)
             end
         end,
-        filter = upgradeFilter
+        filter = function(selfEnt, ppos, targetEnt)
+            return upgradeFilter(selfEnt, ppos, targetEnt)
+                and ((targetEnt.maxActivations or 0) < 20)
+        end
     },
 })
 
