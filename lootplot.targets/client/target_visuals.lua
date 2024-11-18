@@ -41,9 +41,10 @@ end)
 
 ---@param item Entity
 ---@param image string
+---@param imageInactive string
 ---@param color objects.Color
 ---@param canInteract fun(e:Entity, p:lootplot.PPos):boolean
-local function drawTargets(item, image, color, canInteract)
+local function drawTargets(item, image, imageInactive, color, canInteract)
     love.graphics.setColor(1,1,1)
     local t = love.timer.getTime()
     assert(selectionTargets)
@@ -62,10 +63,12 @@ local function drawTargets(item, image, color, canInteract)
         
         local progress = math.min(elapsedTime-fadeTime, FADE_IN) / FADE_IN
         local opacity = 1
+        local img = image
         if not canInteract(item, ppos) then
-            opacity = 0.33
+            opacity = 0.4
+            img = imageInactive
         end
-        renderSelectionTarget(ppos, image, progress, color, opacity)
+        renderSelectionTarget(ppos, img, progress, color, opacity)
     end
     love.graphics.setColor(1, 1, 1)
 end
@@ -82,12 +85,14 @@ umg.on("rendering:drawEffects", function(camera)
 
     if item.listen then
         local img, color = "listener_plus", lp.targets.LISTEN_COLOR
-        drawTargets(item, img, color, util.canListen)
+        local img2 = "listener_plus_inactive"
+        drawTargets(item, img, img2, color, util.canListen)
     end
 
     if item.target then
         local img, color = "target_plus", lp.targets.TARGET_COLOR
-        drawTargets(item, img, color, util.canTarget)
+        local img2 = "target_plus_inactive"
+        drawTargets(item, img, img2, color, util.canTarget)
     end
 end)
 
