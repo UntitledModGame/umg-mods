@@ -5,7 +5,7 @@ local TIER_IMAGES = {--[[
 ]]}
 
 
-local TOP_TIER=4
+local TOP_TIER=5
 for tier=2, TOP_TIER do
     local img = "tier_"..tostring(tier)
     TIER_IMAGES[tier] = img
