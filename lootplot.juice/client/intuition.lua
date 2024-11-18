@@ -3,6 +3,8 @@
 local RENDER_BEFORE_ENTITY_ORDER = -1
 local RENDER_AFTER_ENTITY_ORDER = 1
 
+local BOB_SPEED = 6
+
 umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER, function(ent, x,y, rot, sx,sy)
     if ent.doomCount then
         local q, dy
@@ -14,7 +16,7 @@ umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER, function(ent, x,y, rot
                 q = client.assets.images.crack_small
             end
         elseif lp.isItemEntity(ent) then
-            dy = 1 * math.sin(love.timer.getTime() * 3)
+            dy = 2 * math.sin(love.timer.getTime() * BOB_SPEED)
             if ent.doomCount <= 1 then
                 q = client.assets.images.doom_count_visual
             else
@@ -44,6 +46,26 @@ umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER + 0.5, function(ent, x,
         end
     end
 end)
+
+
+
+umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER + 0.5, function(ent, x,y, rot, sx,sy, kx,ky)
+    if ent.grubMoneyCap then
+        if lp.isItemEntity(ent) then
+            local dy = 1 * math.sin(love.timer.getTime() * BOB_SPEED)
+            local img = client.assets.images.grub_visual
+            rendering.drawImage(img, x, y+dy, rot, sx,sy, kx,ky)
+        elseif lp.isSlotEntity(ent) then
+            -- TODO: Grubby-visual for slots!
+            -- local img = client.assets.images.slot_life_visual
+            -- rendering.drawImage(img, x, y, rot, sx,sy, kx,ky)
+        end
+    end
+end)
+
+
+
+
 
 
 
