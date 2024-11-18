@@ -387,8 +387,8 @@ defItem("ukulele", {
     shape = lp.targets.RookShape(1),
 
     target = {
-        type = "ITEM_OR_SLOT",
-        description = loc("{wavy}PULSES{/wavy} item or slot."),
+        type = "ITEM",
+        description = loc("Triggers {lootplot:TRIGGER_COLOR}{wavy}PULSE{/wavy}{/lootplot:TRIGGER_COLOR} for item."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.tryTriggerEntity("PULSE", targetEnt)
         end
