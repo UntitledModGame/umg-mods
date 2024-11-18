@@ -17,6 +17,15 @@ local strings = {
     SPEED = localization.newInterpolator("Speed: %{num:.3g}x")
 }
 
+---@param value number
+---@param nsig integer
+---@return string
+local function showNSignificant(value, nsig)
+	local zeros = math.floor(math.log10(math.max(math.abs(value), 1)))
+	local mulby = 10 ^ math.max(nsig - zeros, 0)
+	return tostring(math.floor(value * mulby) / mulby)
+end
+
 ---@param lpState lootplot.main.State
 function Scene:init(lpState)
     self.lpState = assert(lpState)
@@ -44,10 +53,11 @@ function Scene:init(lpState)
             local value = math.floor(valueFromSlider) / SLIDER_SNAP_MULTIPLER
 
             local format
-            if value == 0 then
+            local numfmt = showNSignificant(2 ^ value, value < 0 and 2 or 1)
+            if numfmt == "1" then
                 format = strings.SPEED_NORM
             else
-                format = strings.SPEED({num = 2 ^ value})
+                format = strings.SPEED({num = numfmt})
             end
 
             return value, format
