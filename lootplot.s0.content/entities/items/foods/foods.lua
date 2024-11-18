@@ -339,12 +339,11 @@ defineSlotConverter("diamond_apple", "Diamond Apple", "diamond_slot", "Diamond S
 })
 
 
-defineSlotConverter("cucumber_slices", "Cucumber Slices", "reroll_slot", "GRUB-5 Reroll Slot", lp.targets.ON_SHAPE, {
+defineSlotConverter("cucumber_slices", "Cucumber Slices", "reroll_slot", "{/lootplot:DOOMED_COLOR}DOOMED-20{/lootplot:DOOMED_COLOR} Reroll Slot", lp.targets.ON_SHAPE, {
     rarity = lp.rarities.UNCOMMON,
     basePrice = 6
-}, function(slotEnt)
-    slotEnt.grubMoneyCap = 5
-end)
+}, setDoomCountTo(20))
+
 
 defineSlotConverter("lychee", "Lychee", "pink_slot", "DOOMED-6 Pink Slot", lp.targets.ON_SHAPE, {
     rarity = lp.rarities.RARE
