@@ -28,12 +28,31 @@ local function computeBoundingBox(...)
     return x1, y1, x2, y2
 end
 
+
+local ROT_AMOUNT = 0.1 * math.pi
+local ROT_SPEED = 0.5
+
+local NUM_CLOUDS = 3
+local FOG_CLOUDS = {}
+for i=1, NUM_CLOUDS do
+    FOG_CLOUDS[i] = "fog_of_war_cloud" .. i
+end
+
+
 ---@param ppos lootplot.PPos
 local function drawFog(ppos)
+    love.graphics.setColor(1,1,1)
     local plot = ppos:getPlot()
     if not plot:isFogRevealed(ppos, lp.main.PLAYER_TEAM) then
         local wpos = ppos:getWorldPos()
-        love.graphics.circle("fill", wpos.x, wpos.y, 10)
+        local i = ppos:getSlotIndex()
+        local img = FOG_CLOUDS[(i % NUM_CLOUDS) + 1]
+        local a,b = math.floor(i / 2), i
+        local flipX, flipY = a%2 == 0, b%2 == 0
+        local sx = flipX and -1 or 1
+        local sy = flipY and -1 or 1
+        local rot = ROT_AMOUNT * math.sin(ROT_SPEED * love.timer.getTime() + i*1.345)
+        rendering.drawImage(img, wpos.x, wpos.y, rot, sx,sy)
     end
 end
 
