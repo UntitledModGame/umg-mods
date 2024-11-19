@@ -80,7 +80,7 @@ end
 function Grid:coordsToIndex(x, y)
     -- converts (x,y) coordinates --> index
     -- BIG WARNING!!! indexes are ONE-INDEXED!!
-    local index = y*self.height + x + 1 -- plus-1 for 1-based indexing.
+    local index = y*self.width + x + 1 -- plus-1 for 1-based indexing.
     return index
 end
 
