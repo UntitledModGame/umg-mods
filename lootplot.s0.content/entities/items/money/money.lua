@@ -172,3 +172,32 @@ defItem("gold_bell", {
     rarity = lp.rarities.EPIC,
 })
 
+
+
+defItem("gold_crown", {
+    name = loc("Gold Crown"),
+
+    shape = lp.targets.KING_SHAPE,
+
+    basePrice = 10,
+    baseMaxActivations = 1,
+
+    canItemFloat = true,
+
+    baseMoneyGenerated = 2,
+    tierUpgrade = helper.propertyUpgrade("moneyGenerated", 2, 3),
+
+    target = {
+        description = loc("Earn money for every target item that can {lootplot:INFO_COLOR}FLOAT."),
+        type = "ITEM",
+        filter = function(selfEnt, ppos, targetEnt)
+            return lp.canItemFloat(targetEnt)
+        end,
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.addMoney(selfEnt, selfEnt.moneyGenerated or 0)
+        end
+    },
+
+    rarity = lp.rarities.EPIC,
+})
+
