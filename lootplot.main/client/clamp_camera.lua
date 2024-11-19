@@ -4,6 +4,18 @@ local function posFromDVector(pos)
     return pos.x, pos.y
 end
 
+local function clampByMinMax(value, minV, maxV)
+    if value < minV then
+        if value > maxV then
+            return (minV + maxV) / 2
+        else
+            return minV
+        end
+    else
+        return math.min(value, maxV)
+    end
+end
+
 umg.on("@update", function()
     local run = lp.main.getRun()
     if run then
@@ -24,14 +36,15 @@ umg.on("@update", function()
         local cam = camera.get()
         local xt, yt = cam:toWorldCoords(0, 0)
         local xb, yb = cam:toWorldCoords(love.graphics.getDimensions())
+        local horzDist = (xb - xt) / 2
+        local vertDist = (yb - yt) / 2
         for _, ent in ipairs(control.getControlledEntities(client.getClient())) do
-            local offTX = math.max(topWorldX, xt) - xt
-            local offTY = math.max(topWorldY, yt) - yt
-            local offBX = xb - math.min(bottomWorldX, xb)
-            local offBY = yb - math.min(bottomWorldY, yb)
-
-            ent.x = ent.x + offTX - offBX
-            ent.y = ent.y + offTY - offBY
+            local minX = topWorldX + horzDist
+            local minY = topWorldY + vertDist
+            local maxX = bottomWorldX - horzDist
+            local maxY = bottomWorldY - vertDist
+            ent.x = clampByMinMax(ent.x, minX, maxX)
+            ent.y = clampByMinMax(ent.y, minY, maxY)
         end
     end
 end)
