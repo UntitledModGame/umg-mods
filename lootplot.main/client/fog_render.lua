@@ -32,7 +32,7 @@ end
 local ROT_AMOUNT = 0.1 * math.pi
 local ROT_SPEED = 0.5
 
-local NUM_CLOUDS = 3
+local NUM_CLOUDS = 2
 local FOG_CLOUDS = {}
 for i=1, NUM_CLOUDS do
     FOG_CLOUDS[i] = "fog_of_war_cloud" .. i
