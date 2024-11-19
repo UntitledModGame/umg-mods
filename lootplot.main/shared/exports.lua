@@ -80,7 +80,7 @@ main.constants = setmetatable({
         feel free to override any of these.
         Access via `lootplot.main.constants`
     ]] 
-    WORLD_PLOT_SIZE = 40,
+    WORLD_PLOT_SIZE = {60, 40},
 
     STARTING_MONEY = 10,
     STARTING_POINTS = 0,

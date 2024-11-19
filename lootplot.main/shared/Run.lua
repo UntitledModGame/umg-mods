@@ -45,8 +45,8 @@ function Run:init(perkItem)
 
     ent.plot = lp.Plot(
         ent,
-        lp.main.constants.WORLD_PLOT_SIZE,
-        lp.main.constants.WORLD_PLOT_SIZE
+        lp.main.constants.WORLD_PLOT_SIZE[1],
+        lp.main.constants.WORLD_PLOT_SIZE[2]
     )
 
     local constants = lp.main.constants

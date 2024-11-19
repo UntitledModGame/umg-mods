@@ -22,8 +22,8 @@ umg.on("@update", function()
         local plot = run:getPlot()
         local topPPos = plot:getPPos(0, 0)
         local bottomPPos = plot:getPPos(
-            lp.main.constants.WORLD_PLOT_SIZE - 1,
-            lp.main.constants.WORLD_PLOT_SIZE - 1
+            lp.main.constants.WORLD_PLOT_SIZE[1] - 1,
+            lp.main.constants.WORLD_PLOT_SIZE[2] - 1
         )
 
         local topWorldX, topWorldY = posFromDVector(topPPos:getWorldPos())
