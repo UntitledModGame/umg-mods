@@ -56,10 +56,8 @@ helper.defineDelayItem("gold_bar", "Gold Bar", {
     delayDescription = loc("Earns {lootplot:MONEY_COLOR}$10"),
 
     delayAction = function(selfEnt)
-        if selfEnt.totalActivationCount >= GOLD_BAR_ACTS then
-            lp.addMoney(selfEnt, 10)
-            lp.destroy(selfEnt)
-        end
+        lp.addMoney(selfEnt, 10)
+        lp.destroy(selfEnt)
     end
 })
 

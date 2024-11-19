@@ -11,32 +11,25 @@ end
 
 
 
-local giftBoxDesc = localization.newInterpolator("After %{count} activations, spawn a random %{rarity} item")
-local GIFT_ACTIVATIONS = 25
-
-defItem("gift_box", {
+helper.defineDelayItem("gift_box", "Gift Box", {
     name = loc("Gift Box"),
-
-    description = function(ent)
-        return giftBoxDesc({
-            count = GIFT_ACTIVATIONS - (ent.totalActivationCount or 0),
-            rarity = lp.rarities.LEGENDARY.displayString
-        })
-    end,
 
     basePrice = 6,
     baseMaxActivations = 2,
+
     rarity = lp.rarities.RARE,
 
-    onActivate = function(selfEnt)
-        if selfEnt.totalActivationCount >= GIFT_ACTIVATIONS then
-            local ppos = lp.getPos(selfEnt)
-            lp.destroy(selfEnt)
-            if ppos then
-                local etype = lp.rarities.randomItemOfRarity(lp.rarities.LEGENDARY)
-                    or server.entities[lp.FALLBACK_NULL_ITEM]
-                lp.trySpawnItem(ppos, etype, selfEnt.lootplotTeam)
-            end
+    delayCount = 25,
+    delayDescription = ("Spawn a random %s item")
+        :format(lp.rarities.LEGENDARY.displayString),
+
+    delayAction = function(selfEnt)
+        local ppos = lp.getPos(selfEnt)
+        lp.destroy(selfEnt)
+        if ppos then
+            local etype = lp.rarities.randomItemOfRarity(lp.rarities.LEGENDARY)
+                or server.entities[lp.FALLBACK_NULL_ITEM]
+            lp.trySpawnItem(ppos, etype, selfEnt.lootplotTeam)
         end
     end
 })

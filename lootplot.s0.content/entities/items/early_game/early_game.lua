@@ -44,32 +44,6 @@ helper.defineTransformItem("key_bar", "Key Bar", {
     rarity = lp.rarities.COMMON,
 })
 
---[[
-local KEY_BAR_COUNT = 15
-defItem("key_bar", {
-    image = "key_bar",
-
-    name = loc("Key Bar"),
-    description = function(ent)
-        return KEY_DESC({
-            count = KEY_BAR_COUNT - (ent.totalActivationCount or 0)
-        })
-    end,
-
-
-    onActivate = function(ent)
-        if (ent.totalActivationCount or 0) >= (KEY_BAR_COUNT-1) then
-            local ppos = lp.getPos(ent)
-            local etype = server.entities.key
-            assert(etype,"?")
-            if ppos and etype then
-                lp.forceSpawnItem(ppos, etype, ent.lootplotTeam)
-            end
-        end
-    end,
-})
-]]
-
 
 --[[
 Purpose of STICK is to give intuition
@@ -209,36 +183,17 @@ Because in reality, octopus is VERY CENTRAL to the game.
 
 ]]
 local GUPPY_COUNT = 8
-local GUPPY_DESC = interp("After %{count} activations,\nturn into a Pink Octopus")
 
-lp.defineItem("lootplot.s0.content:pink_guppy", {
-    image = "pink_guppy",
+helper.defineTransformItem("pink_guppy", "Pink Guppy", {
+    transformId = "pink_octopus",
+    transformName = "Pink Octopus",
+    delayCount = NUM_KEY_ACTS,
 
-    name = loc("Pink Guppy"),
-    triggers = {"PULSE"},
-
-    description = function(ent)
-        return GUPPY_DESC({
-            count = GUPPY_COUNT - (ent.totalActivationCount or 0)
-        })
-    end,
-
-    basePrice = 3,
+    basePrice = 4,
     baseMaxActivations = 2,
     basePointsGenerated = 5,
 
     rarity = lp.rarities.COMMON,
-
-    onActivate = function(ent)
-        if (ent.totalActivationCount or 0) >= (GUPPY_COUNT-1) then
-            local ppos = lp.getPos(ent)
-            local etype = server.entities.pink_octopus
-            assert(etype,"?")
-            if ppos and etype then
-                lp.forceSpawnItem(ppos, etype, ent.lootplotTeam)
-            end
-        end
-    end,
 })
 
 
@@ -246,36 +201,18 @@ lp.defineItem("lootplot.s0.content:pink_guppy", {
 --[[
 Green-guppy = pink-guppy but green-octopus instead.
 ]]
-local GREEN_GUPPY_DESC = interp("After %{count} activations,\nturn into a Green Octopus")
+helper.defineTransformItem("green_guppy", "Green Guppy", {
+    transformId = "green_octopus",
+    transformName = "Green Octopus",
+    delayCount = NUM_KEY_ACTS,
 
-lp.defineItem("lootplot.s0.content:green_guppy", {
-    image = "green_guppy",
-
-    name = loc("Green Guppy"),
     triggers = {"REROLL"},
 
-    description = function(ent)
-        return GREEN_GUPPY_DESC({
-            count = GUPPY_COUNT - (ent.totalActivationCount or 0)
-        })
-    end,
-
-    basePrice = 3,
+    basePrice = 4,
     baseMaxActivations = 2,
-    basePointsGenerated = 10,
+    basePointsGenerated = 5,
 
     rarity = lp.rarities.COMMON,
-
-    onActivate = function(ent)
-        if (ent.totalActivationCount or 0) >= (GUPPY_COUNT-1) then
-            local ppos = lp.getPos(ent)
-            local etype = server.entities.green_octopus
-            assert(etype,"?")
-            if ppos and etype then
-                lp.forceSpawnItem(ppos, etype, ent.lootplotTeam)
-            end
-        end
-    end,
 })
 
 
