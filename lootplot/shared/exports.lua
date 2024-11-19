@@ -768,6 +768,17 @@ end
 
 
 
+---@param ent lootplot.LayerEntity
+---@param ppos lootplot.PPos?
+local function deleteInstantly(ent, ppos)
+    ppos = ppos or lp.getPos(ent)
+    if ppos then
+        ppos:clear(ent.layer)
+    end
+    ptrack.clear(ent)
+    ent:delete()
+end
+
 local posEntTc = typecheck.assert("ppos", "entity")
 
 ---Availability: **Server**
@@ -785,7 +796,7 @@ function lp.forceSetItem(ppos, itemEnt)
     if ok then
         local oldItem = lp.posToItem(ppos)
         if oldItem then
-            oldItem:delete()
+            deleteInstantly(oldItem, ppos)
         end
         ppos:set(itemEnt)
         return true
@@ -848,7 +859,7 @@ function lp.forceSpawnItem(ppos, itemEType, team)
         -- delete the item: it doesnt fit in slot.
         -- (The reason we needed to create item is because 
         --   we needed to do `lp.couldHoldItem` check)
-        itemEnt:delete()
+        deleteInstantly(itemEnt, ppos)
     end
     return nil
 end
