@@ -50,10 +50,10 @@ end
 
 
 umg.on("lootplot:moneyChanged", function(ent, delta)
-    if delta > 0.5 then
+    if delta > 0.1 then
         local txt = "$" .. tostring(math.floor(delta+0.5))
         makePopup(ent, txt, objects.Color.GOLD)
-    elseif delta < -0.5 then
+    elseif delta < -0.1 then
         local txt = "-$" .. tostring(math.floor(-delta+0.5))
         makePopup(ent, txt, objects.Color.RED)
     end

@@ -24,14 +24,14 @@ defItem("gold_sword", {
 defItem("gold_axe", {
     name = loc("Golden Axe"),
 
-    rarity = lp.rarities.RARE,
+    rarity = lp.rarities.EPIC,
 
     shape = lp.targets.KNIGHT_SHAPE,
 
     basePrice = 10,
     baseMaxActivations = 1,
-    baseMoneyGenerated = 1,
-    tierUpgrade = helper.propertyUpgrade("moneyGenerated", 1, 2),
+    baseMoneyGenerated = 0.5,
+    tierUpgrade = helper.propertyUpgrade("moneyGenerated", 0.5, 3),
 
     target = {
         description = loc("Earn money for every target item."),
