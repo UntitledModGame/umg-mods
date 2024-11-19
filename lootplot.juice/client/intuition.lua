@@ -68,12 +68,29 @@ end)
 
 
 
+local WING_FLAG_SPEED = 3
+local WING_ROTATION = math.pi / 3
 
 umg.on("rendering:drawEntity", RENDER_BEFORE_ENTITY_ORDER, function(ent, x,y, rot, sx,sy, kx,ky)
     if lp.isItemEntity(ent) and lp.canItemFloat(ent) then
-        local ox, oy = 0, 0
-        local img = client.assets.images.floating_item_visual
-        rendering.drawImage(img, x + ox, y + oy, rot, sx,sy, kx,ky)
+        love.graphics.push("all")
+        local wing = client.assets.images.floating_item_wing_visual
+        local t = love.timer.getTime() * WING_FLAG_SPEED + (ent.id / 3)
+        local dy = 5 * math.sin(t + 0.5)
+        local r = WING_ROTATION * ((math.sin(t) + 1)/2) - 0.2
+        local offset = 10
+        if ent.imageShadow then
+            local o = ent.imageShadow.offset
+            love.graphics.setColor(0,0,0, 0.4)
+            rendering.drawImage(wing, x + offset + o, y + dy + o, r, sx,sy, kx,ky)
+            rendering.drawImage(wing, x - offset - o, y + dy + o, -r, sx*-1,sy, kx,ky)
+        end
+
+        love.graphics.setColor(1,1,1)
+        rendering.drawImage(wing, x + offset, y + dy, r, sx,sy, kx,ky)
+        rendering.drawImage(wing, x - offset, y + dy, -r, sx*-1,sy, kx,ky)
+
+        love.graphics.pop()
     end
 end)
 
