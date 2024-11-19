@@ -12,6 +12,7 @@ local function getValue(slotEnt, itemEnt, val)
 end
 
 umg.answer("properties:getPropertyMultiplier", function(itemEnt, prop)
+    if not lp.isItemEntity(itemEnt) then return end
     local slotEnt = lp.itemToSlot(itemEnt)
     if slotEnt and slotEnt.slotItemProperties then
         local props = slotEnt.slotItemProperties
@@ -24,6 +25,7 @@ umg.answer("properties:getPropertyMultiplier", function(itemEnt, prop)
 end)
 
 umg.answer("properties:getPropertyModifier", function(itemEnt, prop)
+    if not lp.isItemEntity(itemEnt) then return end
     local slotEnt = lp.itemToSlot(itemEnt)
     if slotEnt and slotEnt.slotItemProperties then
         local props = slotEnt.slotItemProperties
