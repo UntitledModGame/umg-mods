@@ -397,8 +397,6 @@ defItem("map", {
 
     shape = lp.targets.CircleShape(5),
 
-    activateDescription = loc("TODO: NOT YET IMPLEMENTED!"),
-
     doomCount = 1,
     basePrice = 5,
 
