@@ -188,10 +188,10 @@ defItem("gold_crown", {
     tierUpgrade = helper.propertyUpgrade("moneyGenerated", 2, 3),
 
     target = {
-        description = loc("Earn money for every target item that can {lootplot:INFO_COLOR}FLOAT."),
+        description = loc("Earn money for every {lootplot:INFO_COLOR}FLOATING{/lootplot:INFO_COLOR} target item."),
         type = "ITEM",
         filter = function(selfEnt, ppos, targetEnt)
-            return lp.canItemFloat(targetEnt)
+            return lp.canItemFloat(targetEnt) and (not lp.posToSlot(ppos))
         end,
         activate = function(selfEnt, ppos, targetEnt)
             lp.addMoney(selfEnt, selfEnt.moneyGenerated or 0)
