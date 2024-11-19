@@ -431,6 +431,25 @@ defineFood("golden_syrup", {
 })
 
 
+defineFood("slice_of_cake", {
+    name = loc("Slice of Cake"),
+
+    rarity = lp.rarities.UNCOMMON,
+
+    shape = lp.targets.KING_SHAPE,
+
+    basePrice = 5,
+
+    target = {
+        type = "ITEM_OR_SLOT",
+        description = loc("Gives target item/slot {lootplot:POINTS_COLOR}+5{/lootplot:POINTS_COLOR} points"),
+        activate = function(selfEnt, ppos, ent)
+            lp.modifierBuff(ent, "pointsGenerated", 5)
+        end
+    }
+})
+
+
 
 ----------------------------------------------------------------------------
 
@@ -518,9 +537,9 @@ definePotion("potion_blue", {
 
     target = {
         type = "ITEM_OR_SLOT",
-        description = loc("Permanently buffs item/slots points by 5"),
+        description = loc("Permanently buffs item/slots points by 10"),
         activate = function (selfEnt, ppos, targetEnt)
-            lp.modifierBuff(targetEnt, "pointsGenerated", 5, selfEnt)
+            lp.modifierBuff(targetEnt, "pointsGenerated", 10, selfEnt)
         end
     }
 })
