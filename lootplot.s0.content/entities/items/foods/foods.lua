@@ -518,9 +518,9 @@ definePotion("potion_blue", {
 
     target = {
         type = "ITEM_OR_SLOT",
-        description = loc("Permanently buffs item/slots points by 5"),
+        description = loc("Permanently buffs item/slots points by 10"),
         activate = function (selfEnt, ppos, targetEnt)
-            lp.modifierBuff(targetEnt, "pointsGenerated", 5, selfEnt)
+            lp.modifierBuff(targetEnt, "pointsGenerated", 10, selfEnt)
         end
     }
 })
