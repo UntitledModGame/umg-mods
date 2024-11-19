@@ -69,7 +69,9 @@ end)
 
 
 local WING_FLAG_SPEED = 3
-local WING_ROTATION = math.pi / 3
+
+local WING_ROT_OFFSET = -0.4
+local WING_ROTATION = math.pi / 2
 
 umg.on("rendering:drawEntity", RENDER_BEFORE_ENTITY_ORDER, function(ent, x,y, rot, sx,sy, kx,ky)
     if lp.isItemEntity(ent) and lp.canItemFloat(ent) then
@@ -77,7 +79,7 @@ umg.on("rendering:drawEntity", RENDER_BEFORE_ENTITY_ORDER, function(ent, x,y, ro
         local wing = client.assets.images.floating_item_wing_visual
         local t = love.timer.getTime() * WING_FLAG_SPEED + (ent.id / 3)
         local dy = 5 * math.sin(t + 0.5)
-        local r = WING_ROTATION * ((math.sin(t) + 1)/2) - 0.2
+        local r = WING_ROTATION * ((math.sin(t) + 1)/2) + WING_ROT_OFFSET
         local offset = 10
         if ent.imageShadow then
             local o = ent.imageShadow.offset
