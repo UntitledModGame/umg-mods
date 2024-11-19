@@ -442,9 +442,9 @@ defineFood("slice_of_cake", {
 
     target = {
         type = "ITEM_OR_SLOT",
-        description = loc("Gives target item/slot {lootplot:POINTS_COLOR}+5{/lootplot:POINTS_COLOR} points"),
+        description = loc("Gives target item/slot {lootplot:POINTS_COLOR}+3{/lootplot:POINTS_COLOR} points"),
         activate = function(selfEnt, ppos, ent)
-            lp.modifierBuff(ent, "pointsGenerated", 5)
+            lp.modifierBuff(ent, "pointsGenerated", 3)
         end
     }
 })
