@@ -30,8 +30,21 @@ defItem("rocks", {
 
 
 
-local KEY_DESC = localization.newInterpolator("After %{count} activations, turn into a key")
 
+local NUM_KEY_ACTS = 10
+helper.defineTransformItem("key_bar", "Key Bar", {
+    transformId = "key",
+    transformName = "Key",
+    delayCount = NUM_KEY_ACTS,
+
+    basePrice = 4,
+    baseMaxActivations = 2,
+    basePointsGenerated = 5,
+
+    rarity = lp.rarities.COMMON,
+})
+
+--[[
 local KEY_BAR_COUNT = 15
 defItem("key_bar", {
     image = "key_bar",
@@ -43,11 +56,6 @@ defItem("key_bar", {
         })
     end,
 
-    basePrice = 4,
-    baseMaxActivations = 2,
-    basePointsGenerated = 5,
-
-    rarity = lp.rarities.COMMON,
 
     onActivate = function(ent)
         if (ent.totalActivationCount or 0) >= (KEY_BAR_COUNT-1) then
@@ -60,8 +68,7 @@ defItem("key_bar", {
         end
     end,
 })
-
-
+]]
 
 
 --[[

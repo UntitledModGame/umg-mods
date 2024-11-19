@@ -43,25 +43,19 @@ defItem("gold_axe", {
 })
 
 
-local goldBarDesc = localization.newInterpolator("After %{count} activations, give $10")
 local GOLD_BAR_ACTS = 10
 
-defItem("gold_bar", {
-    name = loc("Gold Bar"),
-
-    description = function(ent)
-        return goldBarDesc({
-            count = GOLD_BAR_ACTS - (ent.totalActivationCount or 0)
-        })
-    end,
-
+helper.defineDelayItem("gold_bar", "Gold Bar", {
     basePointsGenerated = 3,
     baseMaxActivations = 2,
     basePrice = 4,
 
     rarity = lp.rarities.COMMON,
 
-    onActivate = function(selfEnt)
+    delayCount = GOLD_BAR_ACTS,
+    delayDescription = loc("Earns {lootplot:MONEY_COLOR}$10"),
+
+    delayAction = function(selfEnt)
         if selfEnt.totalActivationCount >= GOLD_BAR_ACTS then
             lp.addMoney(selfEnt, 10)
             lp.destroy(selfEnt)
