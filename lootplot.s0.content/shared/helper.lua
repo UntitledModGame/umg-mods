@@ -136,6 +136,8 @@ end
 
 
 
+local NICE_GREEN = objects.Color(49/255,189/255,32/255)
+
 local function drawDelayItemNumber(ent, delayCount)
     local totActivs = (ent.totalActivationCount or 0)
     local remaining = delayCount - totActivs
@@ -144,7 +146,7 @@ local function drawDelayItemNumber(ent, delayCount)
         local dx,dy=0,3
         if remaining <= 1 then
             txt = "[!]"
-            color = objects.Color(49/255,189/255,32/255)
+            color = NICE_GREEN
             local t = (love.timer.getTime() * 10)
             dx = 2 * math.sin(t)
         else
