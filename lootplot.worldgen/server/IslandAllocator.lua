@@ -10,18 +10,31 @@ The `Preallocator` should provide methods for these things:
 - Method to set/unset a value
 - Method to `:map` x,y coords to true/false
 - `:generateIslands()` to build islands
+
+local p = IslandAllocator(plot)
+
+-- setting/defining terrain
+p:map(f)
+p:set(ppos, true)
+p:get(ppos)
+
+-- restrict:
+local radius = 1
+p:clearNearbyEntities(radius)
+
+-- flood/build:
+local islands = p:generateIslands()
 ]]
 
----@param ppos lootplot.PPos
----@return boolean
-local function returnFalse(ppos) return false end
 
 ---@param plot lootplot.Plot
 function IslandAllocator:new(plot)
     self.width, self.height = plot:getDimensions()
     self.plot = plot
-    self.mapper = returnFalse
-    self.restrictRadius = 2
+    self.group = objects.Grid(self.width, self.height)
+    self.group:foreach(function(_, x, y)
+        return self.group:set(x, y, false)
+    end)
 end
 
 if false then
@@ -31,71 +44,72 @@ if false then
     function IslandAllocator(plot) end
 end
 
----@param func fun(ppos:lootplot.PPos):boolean
+---@param func fun(ppos:lootplot.PPos,oldval:boolean):boolean
 function IslandAllocator:map(func)
-    self.mapper = assert(func, "missing function")
-    return self
+    assert(objects.isCallable(func), "missing function")
+
+    self.group:foreach(function(value, x, y)
+        self.group:set(x, y, not not func(self.plot:getPPos(x, y), value))
+    end)
 end
 
-function IslandAllocator:setLayerClearRadius(radius)
-    self.restrictRadius = math.max(radius or 1, 1)
-    return self
+---@param ppos lootplot.PPos
+function IslandAllocator:get(ppos)
+    return not not self.group:get(ppos:getCoords())
 end
 
+---@param ppos lootplot.PPos
+---@param val boolean
+function IslandAllocator:set(ppos, val)
+    local x, y = ppos:getCoords()
+    return self.group:set(x, y, not not val)
+end
 
-function IslandAllocator:allocate()
-    -- Value types:
-    -- nil = not considered
-    -- -1 = not allowed
-    -- 0 = island in here but not categorized
-    -- 1 and above = island in here, categorized
-    local group = objects.Grid(self.width, self.height)
-    ---@type lootplot.PPos[][]
-    local islands = {}
-
-    -- Pass 1: Analyze restricted pposes
-    self.plot:foreachLayerEntry(function(_, basePPos)
-        local r2 = (self.restrictRadius + 0.5) ^ 2
-        for y = -self.restrictRadius, self.restrictRadius do
-            for x = -self.restrictRadius, self.restrictRadius do
+---@param radius integer
+function IslandAllocator:clearNearbyEntities(radius)
+    return self.plot:foreachLayerEntry(function(_, basePPos)
+        local r2 = (radius + 0.5) ^ 2
+        for y = -radius, radius do
+            for x = -radius, radius do
                 if x * x + y * y <= r2 then
                     local ppos = basePPos:move(x, y)
                     if ppos then
                         local px, py = ppos:getCoords()
-                        group:set(px, py, -1)
+                        self.group:set(px, py, false)
                     end
                 end
             end
         end
     end)
+end
 
-    -- Pass 2: Generate islands
-    group:foreach(function(value, x, y)
-        if value ~= -1 then
-            if self.mapper(self.plot:getPPos(x, y)) then
-                group:set(x, y, 0)
-            end
-        end
-    end)
+function IslandAllocator:generateIslands()
+    local islandGroup = objects.Grid(self.width, self.height) -- contains group id
+    ---@type lootplot.PPos[][]
+    local islands = {}
 
     -- Pass 3: Flood fill unmarked islands
     local function consider(stack, x, y)
-        if group:get(x, y) == 0 then
-            stack[#stack+1] = group:coordsToIndex(x, y)
+        if self.group:get(x, y) then
+            stack[#stack+1] = islandGroup:coordsToIndex(x, y)
         end
     end
-    group:foreach(function(value, x, y)
-        if value == 0 then
+    islandGroup:foreach(function(value, x, y)
+        if not self.group:get(x, y) then
+            return
+        end
+
+        if not value or value == 0 then
             local island = {}
             islands[#islands+1] = island
             local groupId = #islands
-            local stack = {group:coordsToIndex(x, y)}
+            local stack = {islandGroup:coordsToIndex(x, y)}
             while #stack > 0 do
                 local i = table.remove(stack)
-                local ppos = self.plot:getPPos(group:indexToCoords(i))
+                local ppos = self.plot:getPPos(islandGroup:indexToCoords(i))
                 island[#island+1] = ppos
 
-                group:set(x, y, groupId)
+                islandGroup:set(x, y, groupId)
                 consider(stack, x - 1, y)
                 consider(stack, x, y - 1)
                 consider(stack, x + 1, y)
