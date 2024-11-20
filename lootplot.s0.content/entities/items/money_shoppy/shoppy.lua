@@ -201,7 +201,7 @@ defBalloon("blue_balloon", "Blue Balloon", {
 
 
 
-helper.defineDelayItem("dark_balloon", "Dark Balloon", {
+helper.defineDelayItem("key_balloon", "Key Balloon", {
     --[[
     After X activations, turn into a floating key
     ]]
