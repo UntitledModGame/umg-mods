@@ -139,3 +139,63 @@ defItem("feather", {
 })
 
 
+
+
+local function defBalloon(id, name, etype)
+    etype.name = loc(name)
+    etype.shape = etype.shape or lp.targets.CircleShape(3)
+    etype.baseMaxActivations = 50
+    etype.canItemFloat = true
+    etype.triggers = {}
+    defItem(id, etype)
+end
+
+
+defBalloon("pink_balloon", "Pink Balloon", {
+    rarity = lp.rarities.RARE,
+
+    basePrice = 15,
+
+    listen = {
+        trigger = "BUY",
+        description = loc("Give purchased item {lootplot:LIFE_COLOR}+1 life!{/lootplot:LIFE_COLOR}"),
+        activate = function(selfEnt, ppos, targetEnt)
+            local lives = targetEnt.lives or 0
+            targetEnt.lives = lives + 1
+        end,
+    }
+})
+
+
+defBalloon("green_balloon", "Green Balloon", {
+    rarity = lp.rarities.RARE,
+
+    basePrice = 15,
+
+    listen = {
+        trigger = "BUY",
+        description = loc("Give a {lootplot:POINTS_COLOR}2x points multiplier{/lootplot:POINTS_COLOR} to purchased item."),
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.multiplierBuff(targetEnt, "pointsGenerated", 2, selfEnt)
+        end,
+    }
+})
+
+
+defBalloon("blue_balloon", "Blue Balloon", {
+    rarity = lp.rarities.RARE,
+
+    lootplotProperties = {
+        multipliers = {
+            pointsGenerated = 6,
+        }
+    },
+    basePointsGenerated = 15,
+
+    basePrice = 10,
+
+    listen = {
+        trigger = "BUY",
+    }
+})
+

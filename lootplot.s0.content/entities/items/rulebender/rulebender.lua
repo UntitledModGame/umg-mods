@@ -250,37 +250,10 @@ defItem("spear_of_war", {
 
 
 
-defItem("pink_balloon", {
-    name = loc("Pink Balloon"),
-
-    rarity = lp.rarities.EPIC,
-
-    shape = lp.targets.KING_SHAPE,
-
-    baseMaxActivations = 3,
-    basePrice = 12,
-
-    target = {
-        type = "ITEM_OR_SLOT",
-        description = loc("If target isn't doomed, give target +1 lives"),
-        activate = function(selfEnt, ppos, targetEnt)
-            if not targetEnt.doomCount then
-                targetEnt.lives = (targetEnt.lives or 0) + 1
-            end
-        end,
-        filter = function(selfEnt, ppos, targetEnt)
-            return (not targetEnt.doomCount)
-        end
-    }
-})
-
 ------------------------------------------------------------
 
 
 
-
-
-------------------------------------------------------------
 
 local function defineOcto(name, etype)
     local id = "lootplot.s0.content:" .. name
