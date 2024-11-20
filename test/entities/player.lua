@@ -51,7 +51,7 @@ return umg.defineEntityType("player", {
         down = {"red_player_down_1", "red_player_down_2", "red_player_down_3", "red_player_down_4"}, 
         left = {"red_player_left_1", "red_player_left_2", "red_player_left_3", "red_player_left_4"}, 
         right = {"red_player_right_1", "red_player_right_2", "red_player_right_3", "red_player_right_4"},
-        speed = 0.7;
+        period = 0.7;
         activation = 15
     };
 

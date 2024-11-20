@@ -39,7 +39,7 @@ local function makeAnimation(dvec, frames, color, duration)
     ent.animation = {
         frames = frames,
         tick = "lifetime",
-        speed = duration
+        period = duration
     }
 
     ent.drawDepth = 100

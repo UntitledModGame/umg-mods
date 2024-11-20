@@ -49,7 +49,7 @@ ent.fade = {
 
 ent.animation = {
     frames = {"img1", "img2", "img3"}, 
-    speed = 3
+    period = 3
 }
 
 
@@ -57,7 +57,7 @@ ent.animation = {
 ent.moveAnimation = {
     up = {"up1", "up2", ...},
     down = ...,  left = ..., right = ...
-    speed = 3;
+    period = 0.8;
 
     activation = 10 -- moveAnimation activates when entity is travelling at 
     -- at least 10 units per second.

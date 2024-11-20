@@ -199,3 +199,66 @@ defBalloon("blue_balloon", "Blue Balloon", {
     }
 })
 
+
+
+helper.defineDelayItem("dark_balloon", "Dark Balloon", {
+    --[[
+    After X activations, turn into a floating key
+    ]]
+    triggers = {},
+    listen = {
+        trigger = "BUY",
+    },
+
+    shape = lp.targets.CircleShape(3),
+    baseMaxActivations = 50,
+    canItemFloat = true,
+
+    delayAction = function(ent)
+        local ppos = lp.getPos(ent)
+        if not ppos then return end
+        lp.trySpawnSlot(ppos, server.entities.steel_slot, ent.lootplotTeam)
+        local keyEnt = lp.forceSpawnItem(ppos, server.entities.key, ent.lootplotTeam)
+        if keyEnt then
+            keyEnt.canItemFloat = true
+        end
+    end,
+    delayCount = 8,
+    delayDescription = "Spawns a {lootplot:INFO_COLOR}STEEL-SLOT{/lootplot:INFO_COLOR}, and a {lootplot:INFO_COLOR}FLOATY-KEY{/lootplot:INFO_COLOR}!",
+
+    basePrice = 8,
+
+    rarity = lp.rarities.RARE,
+})
+
+
+
+defItem("neko_cat", {
+    name = loc("Neko Cat"),
+
+    rarity = lp.rarities.EPIC,
+
+    basePrice = 10,
+    canItemFloat = true,
+
+
+    triggers = {},
+    listen = {
+        trigger = "BUY",
+    },
+
+    image = "neko_cat0",
+    animation = {
+        frames = {"neko_cat0","neko_cat1","neko_cat2","neko_cat1"},
+        period = 0.8
+    },
+    shape = lp.targets.KNIGHT_SHAPE,
+
+    target = {
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.tryActivateEntity(targetEnt)
+        end,
+        description = loc("Activates {lootplot:INFO_COLOR}ALL{/lootplot:INFO_COLOR} target items directly."),
+        type = "ITEM"
+    }
+})

@@ -37,7 +37,7 @@ local function makeAnimation(prefix)
     end
     local animation = {
         frames = frames,
-        speed = 0.6
+        period = 0.6
     }
     return animation
 end

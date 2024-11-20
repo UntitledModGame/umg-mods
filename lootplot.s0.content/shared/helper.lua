@@ -219,27 +219,31 @@ function helper.defineTransformItem(id, name, etype)
 
     local tname = loc(etype.transformName)
     local transId = etype.transformId
+    local transformFunc = etype.transformFunc
     local delayCount = etype.delayCount
     -- clear shcomps so (they dont exist within entity-type)
     etype.transformId = nil
     etype.transformName = nil
+    etype.transformFunc = nil
 
     local function transform(ent)
         local ppos = lp.getPos(ent)
         local transEType = server.entities[transId]
         assert(transEType,"?")
         if ppos and transEType then
-            lp.forceSpawnItem(ppos, transEType, ent.lootplotTeam)
+            local itemEnt = lp.forceSpawnItem(ppos, transEType, ent.lootplotTeam)
+            if itemEnt then
+                transformFunc(itemEnt)
+            end
         end
     end
 
-    helper.defineDelayItem(id, name, {
-        delayAction = transform,
-        delayCount = delayCount,
-        delayDescription = TRANSFORM_ACTION_DESC({
-            transformName = tname
-        })
+    etype.delayAction = transform
+    etype.delayCount = delayCount
+    etype.delayDescription = TRANSFORM_ACTION_DESC({
+        transformName = tname
     })
+    helper.defineDelayItem(id, name, etype)
 end
 
 

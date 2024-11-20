@@ -17,13 +17,13 @@ local animationGroup = umg.group("animation")
 
 local tick = 0
 
-local DEFAULT_ANIM_SPEED = 2 -- seconds to complete animation loop
+local DEFAULT_ANIM_PERIOD = 2 -- seconds to complete animation loop
 
 local EPSILON = 0.00001
 
 local function updateEnt(ent)
     local anim = ent.animation
-    local spd = anim.speed or DEFAULT_ANIM_SPEED
+    local spd = anim.period or DEFAULT_ANIM_PERIOD
     local len = #anim.frames
     local t = tick
     if anim.tick and ent[anim.tick] then
