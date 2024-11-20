@@ -73,6 +73,7 @@ local vignetteImage = love.graphics.newImage(DEFAULT_VIGNETTE_IMAGE)
 
 
 local function setupCanvas()
+    love.graphics.push("all")
     love.graphics.setCanvas(canvas)
     love.graphics.clear(1,1,1,1)
 
@@ -82,13 +83,12 @@ local function setupCanvas()
     local imgW, imgH = vignetteImage:getDimensions()
     love.graphics.draw(vignetteImage, -LEIGH/2, -LEIGH/2, 0, canvW / imgW, canvH / imgH)
 
-    love.graphics.setCanvas()
+    love.graphics.pop()
 end
 
 
 local function drawCanvas()
     love.graphics.setColor(1,1,1,1)
-    love.graphics.setCanvas()
     love.graphics.setBlendMode("multiply", "premultiplied")
     love.graphics.draw(canvas)
 end
@@ -101,7 +101,7 @@ umg.on("rendering:drawEffects", function()
 
     setupCanvas()
     drawCanvas()
-    
+
     love.graphics.pop()
     love.graphics.setBlendMode(mode, alphamode)
 end)
