@@ -134,7 +134,7 @@ local VERB_CTX = {
     context = "Should be translated within a verb context"
 }
 
-local EARN_POINTS = interp("Gives points: {lootplot:POINTS_COLOR}%{pointsGenerated:.1f}{/lootplot:POINTS_COLOR}", VERB_CTX)
+local EARN_POINTS = interp("Earns points: {lootplot:POINTS_COLOR}%{pointsGenerated:.1f}{/lootplot:POINTS_COLOR}", VERB_CTX)
 local STEAL_POINTS = interp("{lootplot:BAD_COLOR}Steals points: {lootplot:POINTS_COLOR}%{pointsGenerated:.1f}{/lootplot:BAD_COLOR}", VERB_CTX)
 local POINT_INFO = interp("  ({lootplot:POINTS_MOD_COLOR}%{mod}{/lootplot:POINTS_MOD_COLOR} x {lootplot:POINTS_MULT_COLOR}%{mult} mult{/lootplot:POINTS_MULT_COLOR})")
 
