@@ -31,9 +31,9 @@ local islands = p:generateIslands()
 function IslandAllocator:new(plot)
     self.width, self.height = plot:getDimensions()
     self.plot = plot
-    self.group = objects.Grid(self.width, self.height)
-    self.group:foreach(function(_, x, y)
-        return self.group:set(x, y, false)
+    self.grid = objects.Grid(self.width, self.height)
+    self.grid:foreach(function(_, x, y)
+        return self.grid:set(x, y, false)
     end)
 end
 
@@ -48,21 +48,21 @@ end
 function IslandAllocator:map(func)
     assert(objects.isCallable(func), "missing function")
 
-    self.group:foreach(function(value, x, y)
-        self.group:set(x, y, not not func(self.plot:getPPos(x, y), value))
+    self.grid:foreach(function(value, x, y)
+        self.grid:set(x, y, not not func(self.plot:getPPos(x, y), value))
     end)
 end
 
 ---@param ppos lootplot.PPos
 function IslandAllocator:get(ppos)
-    return not not self.group:get(ppos:getCoords())
+    return not not self.grid:get(ppos:getCoords())
 end
 
 ---@param ppos lootplot.PPos
 ---@param val boolean
 function IslandAllocator:set(ppos, val)
     local x, y = ppos:getCoords()
-    return self.group:set(x, y, not not val)
+    return self.grid:set(x, y, not not val)
 end
 
 ---@param radius integer
@@ -75,7 +75,7 @@ function IslandAllocator:clearNearbyEntities(radius)
                     local ppos = basePPos:move(x, y)
                     if ppos then
                         local px, py = ppos:getCoords()
-                        self.group:set(px, py, false)
+                        self.grid:set(px, py, false)
                     end
                 end
             end
@@ -90,12 +90,12 @@ function IslandAllocator:generateIslands()
 
     -- Pass 3: Flood fill unmarked islands
     local function consider(stack, x, y)
-        if self.group:get(x, y) then
+        if self.grid:get(x, y) then
             stack[#stack+1] = islandGroup:coordsToIndex(x, y)
         end
     end
     islandGroup:foreach(function(value, x, y)
-        if not self.group:get(x, y) then
+        if not self.grid:get(x, y) then
             return
         end
 
