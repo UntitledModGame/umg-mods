@@ -59,3 +59,8 @@ Ie, items that generate random islands, and such.
 
 ]]
 
+if server then
+
+lp.worldgen.IslandAllocator = require("server.IslandAllocator")
+
+end
