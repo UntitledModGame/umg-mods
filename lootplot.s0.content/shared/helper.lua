@@ -232,7 +232,7 @@ function helper.defineTransformItem(id, name, etype)
         assert(transEType,"?")
         if ppos and transEType then
             local itemEnt = lp.forceSpawnItem(ppos, transEType, ent.lootplotTeam)
-            if itemEnt then
+            if transformFunc and itemEnt then
                 transformFunc(itemEnt)
             end
         end
