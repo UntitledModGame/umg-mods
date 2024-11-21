@@ -418,6 +418,33 @@ defItem("map", {
 })
 
 
+defItem("foghorn", {
+    name = loc("Fog Horn"),
+
+    rarity = lp.rarities.RARE,
+
+    shape = lp.targets.RookShape(8),
+
+    doomCount = 3,
+    basePrice = 5,
+
+    target = {
+        type = "NO_SLOT",
+        description = loc("Reveals fog."),
+        filter = function(selfEnt, ppos)
+            ---@type lootplot.Plot
+            local plot = ppos:getPlot()
+            return not plot:isFogRevealed(ppos, selfEnt.lootplotTeam)
+        end,
+        activate = function(selfEnt, ppos)
+            ---@type lootplot.Plot
+            local plot = ppos:getPlot()
+            return plot:setFogRevealed(ppos, selfEnt.lootplotTeam, true)
+        end
+    }
+})
+
+
 
 
 defItem("anchor", {
