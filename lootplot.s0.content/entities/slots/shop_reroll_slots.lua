@@ -252,3 +252,83 @@ lp.defineSlot("lootplot.s0.content:lockable_reroll_slot", {
     }
 })
 
+
+
+lp.defineSlot("lootplot.s0.content:treasure_slot", {
+    itemLock = true,
+    image = "slot",
+    color = {objects.Color.RED:getRGBA()},
+
+    name = loc("Treasure slot"),
+
+    triggers = {"PULSE"},
+
+    baseCanSlotPropagate = false,
+    baseMaxActivations = 100,
+    slotItemProperties = {
+        multipliers = {
+            price = 1.15
+        },
+        modifiers = {
+            price = 2
+        }
+    },
+    slotListen = {
+        trigger = "BUY",
+        activate = function(slotEnt)
+            slotEnt.doomCount = 1
+        end
+    },
+
+    canPlayerAccessItemInSlot = function(slotEnt)
+        return not slotEnt.itemLock
+    end,
+    onActivate = function(slotEnt)
+        if not (lp.slotToItem(slotEnt) or slotEnt:hasComponent("doomCount")) then
+            slotEnt.doomCount = 1
+        end
+    end,
+    onItemDraw = function(selfEnt, itemEnt)
+        drawItemPrice(selfEnt, itemEnt)
+    end,
+    actionButtons = {
+        shopButton
+    }
+})
+
+
+lp.defineSlot("lootplot.s0.content:paper_slot", {
+    itemLock = true,
+    image = "paper_slot",
+
+    name = loc("Paper slot"),
+
+    triggers = {"PULSE"},
+
+    baseCanSlotPropagate = false,
+    baseMaxActivations = 100,
+    slotListen = {
+        trigger = "BUY",
+        activate = function(slotEnt)
+            slotEnt.doomCount = 1
+        end
+    },
+
+    canPlayerAccessItemInSlot = function(slotEnt)
+        return not slotEnt.itemLock
+    end,
+    onActivate = function(slotEnt)
+        local itemEnt = lp.slotToItem(slotEnt)
+        if itemEnt then
+            lp.modifierBuff(itemEnt, "price", -5)
+        elseif not slotEnt:hasComponent("doomCount") then
+            slotEnt.doomCount = 1
+        end
+    end,
+    onItemDraw = function(selfEnt, itemEnt)
+        drawItemPrice(selfEnt, itemEnt)
+    end,
+    actionButtons = {
+        shopButton
+    }
+})
