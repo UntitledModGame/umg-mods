@@ -57,7 +57,7 @@ end
 local TUTORIAL_1_TEXT = loc("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}WASD / Right click\nto move around{/outline}{/wavy}")
 local TUTORIAL_2_TEXT = loc("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}Click to interact\n\nScroll mouse to\nzoom in/out{/outline}{/wavy}")
 
-umg.defineEntityType("lootplot.s0.starting_items:tutorial_text", {
+umg.defineEntityType("lootplot.s0.starting_items:one_ball_tutorial_text", {
     lifetime = 50,
 
     onUpdateServer = function(ent)
@@ -80,7 +80,7 @@ umg.defineEntityType("lootplot.s0.starting_items:tutorial_text", {
 ---@param ppos lootplot.PPos
 ---@param text table
 local function spawnTutorialText(ppos, text)
-    local textEnt = server.entities.tutorial_text()
+    local textEnt = server.entities.one_ball_tutorial_text()
     textEnt.text = text
     textEnt.pposX, textEnt.pposY = ppos:getCoords()
     return textEnt
