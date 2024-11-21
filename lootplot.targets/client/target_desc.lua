@@ -7,9 +7,6 @@ local interp = localization.newInterpolator
 text.defineEffect("lootplot.targets:COLOR", function(args, char)
     char:setColor(lp.targets.TARGET_COLOR)
 end)
-text.defineEffect("lootplot.targets:LISTEN_COLOR", function(args, char)
-    char:setColor(lp.targets.LISTEN_COLOR)
-end)
 
 
 
@@ -57,7 +54,7 @@ end)
 
 
 local TRIGGER_ORDER = 10
-local TRIGGER_TXT = interp("Activates On: {lootplot.targets:LISTEN_COLOR}{wavy}Target item %{trigger}")
+local TRIGGER_TXT = interp("Activates On: {lootplot:LISTEN_COLOR}{wavy}Target item %{trigger}")
 
 umg.on("lootplot:populateDescription", TRIGGER_ORDER, function(ent, arr)
     if ent.listen and ent.shape then
@@ -92,7 +89,7 @@ umg.on("lootplot:populateDescription", TARGET_ACTIVATE_ORDER, function(ent, arr)
         addTargDescription(arr, ent, ent.target.description, "{lootplot.targets:COLOR}" )
     end
     if ent.listen and ent.listen.description then
-        addTargDescription(arr, ent, ent.listen.description, "{lootplot.targets:LISTEN_COLOR}" )
+        addTargDescription(arr, ent, ent.listen.description, "{lootplot:LISTEN_COLOR}" )
     end
 end)
 

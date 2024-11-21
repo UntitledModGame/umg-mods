@@ -1236,6 +1236,7 @@ lp.COLORS = {
     TRIGGER_COLOR = {0.2, 0.8, 0.9}, -- used for bonuses/good thing
     INFO_COLOR = {1, 1, 0.4},
     COMBINE_COLOR = {0.81, 0.14, 1},
+    LISTEN_COLOR = {0.35, 0.65, 1},
 }
 if client then
     for id,color in pairs(lp.COLORS) do
