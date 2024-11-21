@@ -161,6 +161,31 @@ defineCat("copykato", {
 
 defineCat("chubby_cat", {
     name = loc("Chubby Cat"),
+
+    triggers = {},
+
+    listen = {
+        trigger = "BUY",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.destroy(targetEnt)
+            lp.modifierBuff(selfEnt, "pointsGenerated", 20)
+        end,
+        description = loc("{lootplot:DOOMED_COLOR}Destroy{/lootplot:DOOMED_COLOR} the purchased item, and permanently gain {lootplot:POINTS_COLOR}+20{/lootplot:POINTS_COLOR} points")
+    },
+
+    shape = lp.targets.KING_SHAPE,
+
+    basePrice = 10,
+    baseMaxActivations = 20,
+
+    rarity = lp.rarities.RARE,
+})
+
+
+
+
+defineCat("pink_cat", {
+    name = loc("Pink Cat"),
     description = loc("Starts with 9 lives"),
     triggers = {},
 
@@ -169,9 +194,9 @@ defineCat("chubby_cat", {
 
     onDraw = function(ent)
         if ent.lives and ent.lives < 1 then
-            ent.image = "chubby_cat_sad"
+            ent.image = "pink_cat_sad"
         else
-            ent.image = "chubby_cat"
+            ent.image = "pink_cat"
         end
     end,
 
@@ -179,6 +204,9 @@ defineCat("chubby_cat", {
 
     lives = 9
 })
+
+
+
 
 
 defineCat("crappy_cat", {
