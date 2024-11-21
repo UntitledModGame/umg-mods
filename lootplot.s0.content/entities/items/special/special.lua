@@ -28,16 +28,3 @@ lp.FALLBACK_NULL_ITEM = "lootplot.s0.content:manure"
 ---------------------------------------------------------------------
 
 
-
-
----------------------------------------------------------------------
-
-
-lp.defineItem("lootplot.s0.content:key", {
-    image = "key",
-    name = loc("Key"),
-    description = loc("NOTE: This has no uses as of now\nbut will be useful in the future!"),
-
-    rarity = lp.rarities.UNIQUE,
-})
-
