@@ -65,8 +65,15 @@ function IslandAllocator:set(ppos, val)
     return self.grid:set(x, y, not not val)
 end
 
----@param radius integer
-function IslandAllocator:clearNearbyEntities(radius)
+
+---Removes any island-land that is too close to an entity that currently
+---exists in the plot.
+---(In a circle, specified by radius)
+---
+---This ensures that the generated islands don't overwrite any existing slots/items.
+---@param radius? integer The "range" at which the islands are culled from. Default=1
+function IslandAllocator:cullNearbyIslands(radius)
+    radius = radius or 1
     return self.plot:foreachLayerEntry(function(_, basePPos)
         local r2 = (radius + 0.5) ^ 2
         for y = -radius, radius do
