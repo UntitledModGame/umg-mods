@@ -156,18 +156,14 @@ defItem("coins", {
 lp.defineItem("lootplot.s0.content:bone", {
     image = "bone",
 
+    description = loc("Has 6 lives."),
+
     name = loc("Bone"),
-    triggers = {"PULSE"},
-    activateDescription = loc("Destroys itself and gain 1 life"),
 
-    basePrice = 1,
+    basePrice = 0,
 
-    lives = 1,
-    rarity = lp.rarities.COMMON,
-    onActivate = function(selfEnt)
-        selfEnt.lives = selfEnt.lives + 1
-        lp.destroy(selfEnt)
-    end
+    lives = 6,
+    rarity = lp.rarities.UNCOMMON,
 })
 
 
