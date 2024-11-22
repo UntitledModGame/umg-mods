@@ -22,7 +22,5 @@ lp.defineItem("lootplot.unlocks:key", {
         end,
         description = loc("Triggers {lootplot:TRIGGER_COLOR}UNLOCK{lootplot:TRIGGER_COLOR} for slots and items."),
     },
-
-    rarity = lp.rarities.UNIQUE,
 })
 
