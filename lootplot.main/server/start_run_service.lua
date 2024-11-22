@@ -44,6 +44,7 @@ local function hasRerollTrigger(ent)
     return false
 end
 
+---@param ppos lootplot.PPos
 local function shouldReroll(ppos)
     local slot = lp.posToSlot(ppos)
     if slot and hasRerollTrigger(slot) then
@@ -55,21 +56,54 @@ local function shouldReroll(ppos)
     end
 end
 
+local function fogFilter(ppos)
+    local plot = ppos:getPlot()
+    return plot:isFogRevealed(ppos, lp.main.PLAYER_TEAM)
+end
+
+---@param plot lootplot.Plot
+---@param ppos lootplot.PPos
+---@param team string
+---@param radius integer
+local function circularFogClear(plot, ppos, team, radius)
+    local rsq = radius * radius
+
+    for y = -radius, radius do
+        for x = -radius, radius do
+            local newPPos = ppos:move(x, y)
+
+            if newPPos then
+                local sq = x * x + y * y
+                if sq <= rsq then
+                    plot:setFogRevealed(newPPos, team, true)
+                end
+            end
+        end
+    end
+end
+
 ---@param midPPos lootplot.PPos
 ---@param team string
 ---@param perk string
 function startRunService.spawnItemAndSlots(midPPos, team, perk)
-    -- Perk item floats
-    lp.forceSpawnItem(midPPos, server.entities[perk], team)
-    -- Doom egg floats
-    lp.forceSpawnItem(assert(midPPos:move(0, -4)), server.entities["lootplot.main:doom_egg"], team)
-    lp.forceSpawnItem(assert(midPPos:move(0, -1)), server.entities["lootplot.s0.worldgen:basic_worldgen"], team)
-
     local plot = midPPos:getPlot()
     -- Hide all fog by default
     plot:foreach(function(ppos)
         plot:setFogRevealed(ppos, lp.main.PLAYER_TEAM, false)
     end)
+    -- Clear circle center
+    circularFogClear(plot, midPPos, lp.main.PLAYER_TEAM, 4)
+    assert(plot:isFogRevealed(midPPos, lp.main.PLAYER_TEAM))
+
+    -- Perk item floats
+    lp.forceSpawnItem(midPPos, server.entities[perk], team)
+    -- Doom egg floats
+    lp.forceSpawnItem(assert(midPPos:move(0, -4)), server.entities["lootplot.main:doom_egg"], team)
+    -- Worldgen item must be next to doom egg so proper culling works.
+    local worldgenPPos = assert(midPPos:move(1, -4))
+    plot:setFogRevealed(worldgenPPos, lp.main.PLAYER_TEAM, true)
+    lp.forceSpawnItem(worldgenPPos, server.entities["lootplot.s0.worldgen:basic_worldgen"], team)
+
 
     scheduling.delay(0.1, function()
         lp.queue(midPPos, function()
@@ -86,6 +120,7 @@ function startRunService.spawnItemAndSlots(midPPos, team, perk)
 
         lp.Bufferer()
             :all(plot)
+            :filter(fogFilter)
             :to("SLOT_OR_ITEM") -- ppos-->slot
             :execute(function(_ppos, slotEnt)
                 lp.resetCombo(slotEnt)

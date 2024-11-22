@@ -167,9 +167,9 @@ lp.defineItem("lootplot.s0.worldgen:basic_worldgen", {
         local sy = (love.math.random() - 0.5) * 4000
         allocator:map(function(ppos)
             local x, y = ppos:getCoords()
-            return love.math.simplexNoise(sx + x / 50, sy + y / 50) >= 0.2
+            return love.math.simplexNoise(sx + x / 5, sy + y / 5) >= 0.7
         end)
-        allocator:cullNearbyIslands(3)
+        allocator:cullNearbyIslands(4)
 
         local itemGen = lp.newItemGenerator()
         local slotGen = generation.Generator(lp.SEED.worldGenRNG)

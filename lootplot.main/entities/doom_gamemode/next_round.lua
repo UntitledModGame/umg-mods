@@ -13,6 +13,11 @@ local runManager = require("shared.run_manager")
 local loc = localization.localize
 local interp = localization.newInterpolator
 
+local function fogFilter(ppos)
+    local plot = ppos:getPlot()
+    return plot:isFogRevealed(ppos, lp.main.PLAYER_TEAM)
+end
+
 ---@param ent Entity
 ---@param ppos lootplot.PPos
 local function startRound(ent, ppos)
@@ -34,8 +39,13 @@ local function startRound(ent, ppos)
     -- pulse all slots:
     lp.Bufferer()
         :all(plot)
+        :filter(fogFilter)
         :to("SLOT_OR_ITEM") -- ppos-->slot
         :execute(function(_ppos, slotEnt)
+            if slotEnt.lootplotTeam ~= lp.main.PLAYER_TEAM then
+                return
+            end
+
             lp.resetCombo(slotEnt)
             lp.tryTriggerEntity("PULSE", slotEnt)
         end)
