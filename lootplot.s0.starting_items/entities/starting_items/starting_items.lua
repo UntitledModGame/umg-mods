@@ -86,18 +86,6 @@ local function spawnTutorialText(ppos, text)
     return textEnt
 end
 
----@param ent Entity
----@param name string
-local function removeTutorialText(ent, name)
-    local e = ent[name]
-    if e then
-        if umg.exists(e) then
-            e:delete()
-        end
-
-        ent[name] = nil
-    end
-end
 
 definePerk("one_ball", {
     name = loc("One Ball"),
@@ -125,14 +113,6 @@ definePerk("one_ball", {
             text = TUTORIAL_2_TEXT,
             align = "left"
         })
-    end,
-
-    onActivate = function(ent)
-        -- Remove tutorial text once this has been activated twice.
-        if ent.totalActivationCount >= 2 then
-            removeTutorialText(ent, "tutorial1")
-            removeTutorialText(ent, "tutorial2")
-        end
     end
 })
 
