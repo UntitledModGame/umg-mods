@@ -195,6 +195,20 @@ chat.handleCommand("setShape", {
     end
 })
 
+chat.handleCommand("reveal", {
+    adminLevel = 120,
+    arguments = {},
+    handler = function(clientId, shapeName)
+        if not server then return end
+
+        local run = assert(lp.main.getRun())
+        local plot = run:getPlot()
+        plot:foreach(function(ppos)
+            plot:setFogRevealed(ppos, lp.main.PLAYER_TEAM, true)
+        end)
+    end
+})
+
 end -- if server
 
 
