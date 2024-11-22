@@ -234,6 +234,7 @@ local function pullValues(t, expandtable, cyclicCheck)
                 return tostring(t)
             end
 
+            result["__entity__"] = tostring(t)
             local typename = t:type()
             local etype = nil
 

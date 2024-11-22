@@ -641,7 +641,7 @@ function lp.activate(pos)
     local item = lp.posToItem(pos)
     if item then
         lp.tryActivateEntity(item)
-    end    
+    end
     local slot = lp.posToSlot(pos)
     if slot then
         lp.tryActivateEntity(slot)
@@ -661,6 +661,19 @@ function lp.resetEntity(ent)
     end
 end
 
+
+
+---@param ent lootplot.LayerEntity
+---@param ppos lootplot.PPos?
+local function deleteInstantly(ent, ppos)
+    ppos = ppos or lp.getPos(ent)
+    if ppos then
+        ppos:clear(ent.layer)
+    end
+    ptrack.clear(ent)
+    ent:delete()
+end
+
 ---Availability: **Server**
 ---@param ent lootplot.LayerEntity
 function lp.destroy(ent)
@@ -672,12 +685,7 @@ function lp.destroy(ent)
         if ent.onDestroy then
             ent:onDestroy()
         end
-        local ppos = lp.getPos(ent)
-        if ppos then
-            ppos:clear(ent.layer)
-        end
-        ptrack.clear(ent)
-        ent:delete()
+        return deleteInstantly(ent)
     end
 end
 
@@ -767,17 +775,6 @@ function lp.multiplierBuff(ent, property, amount, srcEnt_or_nil)
 end
 
 
-
----@param ent lootplot.LayerEntity
----@param ppos lootplot.PPos?
-local function deleteInstantly(ent, ppos)
-    ppos = ppos or lp.getPos(ent)
-    if ppos then
-        ppos:clear(ent.layer)
-    end
-    ptrack.clear(ent)
-    ent:delete()
-end
 
 local posEntTc = typecheck.assert("ppos", "entity")
 
