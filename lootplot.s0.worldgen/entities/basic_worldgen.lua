@@ -73,12 +73,19 @@ local TREASURE_SLOT_BUFF = {
     },
 }
 
-local function rareOrLater(etype)
-    if etype.rarity and lp.rarities.getWeight(etype.rarity) <= lp.rarities.getWeight(lp.rarities.RARE) then
-        return 1
+
+local rarePlusItemGen
+local function ensureGenerator()
+    if not rarePlusItemGen then
+        rarePlusItemGen = lp.newItemGenerator({
+            filter = function(item)
+                local etype = assert(server.entities[item])
+                return etype.rarity and lp.rarities.getWeight(etype.rarity) <= lp.rarities.getWeight(lp.rarities.RARE)
+            end
+        })
     end
 
-    return 0
+    return rarePlusItemGen
 end
 
 -- Feel free to modify as needed
@@ -112,12 +119,12 @@ local SPAWNER = {
     {
         weight = 2,
         ---@param team string
-        ---@param itemGen generation.Generator
-        handler = function(team, itemGen)
+        handler = function(team)
             local slotEnt = server.entities["lootplot.s0.content:treasure_slot"]()
             slotEnt.lootplotTeam = team
 
-            local itemEType = itemGen:query(rareOrLater) or server.entities[lp.FALLBACK_NULL_ITEM]
+            local itemGen = ensureGenerator()
+            local itemEType = server.entities[itemGen:query() or lp.FALLBACK_NULL_ITEM]
             local itemEnt = itemEType()
             itemEnt.lootplotTeam = team
 
@@ -128,12 +135,12 @@ local SPAWNER = {
     {
         weight = 2,
         ---@param team string
-        ---@param itemGen generation.Generator
-        handler = function(team, itemGen)
+        handler = function(team)
             local slotEnt = server.entities["lootplot.s0.content:paper_slot"]()
             slotEnt.lootplotTeam = team
 
-            local itemEType = itemGen:query(rareOrLater) or server.entities[lp.FALLBACK_NULL_ITEM]
+            local itemGen = ensureGenerator()
+            local itemEType = server.entities[itemGen:query() or lp.FALLBACK_NULL_ITEM]
             local itemEnt = itemEType()
             itemEnt.lootplotTeam = team
             lp.modifierBuff(itemEnt, "price", lp.SEED.worldGenRNG:random(35, 40))
@@ -145,10 +152,12 @@ local SPAWNER = {
 
 lp.defineItem("lootplot.s0.worldgen:basic_worldgen", {
     name = loc("Worldgen Item"),
-    description = loc("It's almost impossible to see this description"),
+    description = loc("Never gonna give you the description, never gonna let you look the description."),
     rarity = lp.rarities.UNIQUE,
-
+    canItemFloat = true,
+    maxActivations = 1,
     doomCount = 1,
+
     ---@param self lootplot.ItemEntity
     onActivateOnce = function(self)
         -- TODO: Decouple this?

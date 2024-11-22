@@ -1,6 +1,6 @@
 local loc = localization.localize
 
-return lp.defineSlot("lootplot.unlocks:locked_slot", {
+lp.defineSlot("lootplot.unlocks:locked_slot", {
     image = "locked_slot",
     name = loc("Locked Slot"),
     description = loc("{i}What does it contain?{/i}"),

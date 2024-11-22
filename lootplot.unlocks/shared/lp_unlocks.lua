@@ -18,9 +18,8 @@ but also used for chests, and other special items that need unlocking.
 
 if server then
 
-local lockedslotEType = require("entities.slots.locked_slot")
-
-local spawnLockedSlotTc = typecheck.assert("ppos", "string", "entity?", "entity?")
+local spawnLockedSlotTc = typecheck.assert("ppos", "entity?", "entity?")
+local LOCKED_SLOT = "lootplot.unlocks:locked_slot"
 
 ---Availability: **Server**
 ---@param ppos lootplot.PPos
@@ -28,7 +27,7 @@ local spawnLockedSlotTc = typecheck.assert("ppos", "string", "entity?", "entity?
 ---@param lockedItemEnt lootplot.ItemEntity? The item-entity to be transformed into
 function lp.unlocks.forceSpawnLockedSlot(ppos, transformSlotEnt, lockedItemEnt)
     spawnLockedSlotTc(ppos, transformSlotEnt, lockedItemEnt)
-    local ent = lp.forceSpawnSlot(ppos, lockedslotEType, "") -- no team
+    local ent = lp.forceSpawnSlot(ppos, server.entities[LOCKED_SLOT], "") -- no team
 
     ent.targetSlot = transformSlotEnt
     ent.targetItem = lockedItemEnt
@@ -42,7 +41,7 @@ end
 ---@return lootplot.SlotEntity?
 function lp.unlocks.trySpawnLockedSlot(ppos, transformSlotEnt, lockedItemEnt)
     spawnLockedSlotTc(ppos, transformSlotEnt, lockedItemEnt)
-    local ent = lp.trySpawnSlot(ppos, lockedslotEType, "") -- no team
+    local ent = lp.trySpawnSlot(ppos, server.entities[LOCKED_SLOT], "") -- no team
 
     if ent then
         ent.targetSlot = transformSlotEnt

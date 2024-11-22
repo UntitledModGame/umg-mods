@@ -63,6 +63,7 @@ function startRunService.spawnItemAndSlots(midPPos, team, perk)
     lp.forceSpawnItem(midPPos, server.entities[perk], team)
     -- Doom egg floats
     lp.forceSpawnItem(assert(midPPos:move(0, -4)), server.entities["lootplot.main:doom_egg"], team)
+    lp.forceSpawnItem(assert(midPPos:move(0, -1)), server.entities["lootplot.s0.worldgen:basic_worldgen"], team)
 
     local plot = midPPos:getPlot()
     -- Hide all fog by default
