@@ -1,5 +1,6 @@
 
 local loc = localization.localize
+local interp = localization.newInterpolator
 local wg = lp.worldgen
 
 
@@ -54,11 +55,14 @@ end
 
 -------------------------------------------------------------------
 
-local TUTORIAL_1_TEXT = loc("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}WASD / Right click\nto move around{/outline}{/wavy}")
-local TUTORIAL_2_TEXT = loc("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}Click to interact\n\nScroll mouse to\nzoom in/out{/outline}{/wavy}")
+local TUTORIAL_TEXT_1 = loc("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}WASD / Right click to move.\nScroll to zoom.{/outline}{/wavy}")
+
+local TUTORIAL_TEXT_2 = interp("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}{c r=1 g=0.4 b=0.3}You have {lootplot:INFO_COLOR}%{numRounds}{/lootplot:INFO_COLOR} Rounds to\nget the required points!{/outline}{/wavy}")
+
 
 umg.defineEntityType("lootplot.s0.starting_items:one_ball_tutorial_text", {
     lifetime = 50,
+    drawDepth = 200,
 
     onUpdateServer = function(ent)
         local run = lp.main.getRun()
@@ -105,13 +109,17 @@ definePerk("one_ball", {
 
         -- Display tutorial text
         spawnTutorialText(assert(ppos:move(0, -3)), {
-            text = TUTORIAL_1_TEXT,
+            text = TUTORIAL_TEXT_1,
             align = "center",
             oy = 10
         })
-        spawnTutorialText(assert(ppos:move(3, 0)), {
-            text = TUTORIAL_2_TEXT,
-            align = "left"
+
+        spawnTutorialText(assert(ppos:move(0, -1)), {
+            text = TUTORIAL_TEXT_2({
+                numRounds = lp.main.getNumberOfRounds(ent)
+            }),
+            align = "center",
+            oy = 10
         })
     end
 })
