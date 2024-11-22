@@ -28,10 +28,13 @@ end
 
 
 ---@param ent Entity
+---@param dx number
+---@param dy number
 ---@return lootplot.PPos
-local function getMidPos(ent)
+local function fromMiddle(ent, dx,dy)
     local ppos = assert(lp.getPos(ent))
-    return ppos:getPlot():getCenterPPos()
+    local midPos = assert(ppos:getPlot():getCenterPPos())
+    return assert(midPos:move(dx,dy))
 end
 
 ---@param tutEnt Entity
@@ -40,9 +43,7 @@ end
 ---@param txt string
 local function addText(tutEnt, dx,dy, txt)
     tutEnt.tutorialText = tutEnt.tutorialText or objects.Array()
-    local midPos = getMidPos(tutEnt)
-    local textPos = assert(midPos:move(dx,dy))
-
+    local textPos = fromMiddle(tutEnt, dx,dy)
     if not txt:match("%{outline%}") then
         txt = "{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}" .. txt
     end
@@ -52,6 +53,20 @@ local function addText(tutEnt, dx,dy, txt)
     textEnt.pposX, textEnt.pposY = textPos:getCoords()
 
     tutEnt.tutorialText:add(textEnt)
+end
+
+
+local function spawnSlot(tutEnt, dx,dy, slotName)
+    local ppos = fromMiddle(tutEnt, dx,dy)
+    local etype = server.entities[slotName]
+    lp.trySpawnSlot(ppos, etype, tutEnt.lootplotTeam)
+end
+
+
+local function spawnItem(tutEnt, dx,dy, itemName)
+    local ppos = fromMiddle(tutEnt, dx,dy)
+    local etype = server.entities[itemName]
+    lp.trySpawnItem(ppos, etype, tutEnt.lootplotTeam)
 end
 
 
@@ -93,9 +108,7 @@ end
 
 
 do
---[[
-Explain controls
-]]
+
 
 local function onActivateControls(e)
     -- setText(e, LEFT, RIGHT)
@@ -166,9 +179,12 @@ lp.defineSlot(TUTORIAL_BUTTON_ID, {
     end,
 
     onActivate = function(selfEnt)
-        selfEnt.currentTutorialStep = selfEnt.currentTutorialStep + 1
+        local step = selfEnt.currentTutorialStep + 1
+        selfEnt.currentTutorialStep = step
         clearEverythingExceptSelf(selfEnt)
-        local sect = tutorialSections[selfEnt.currentTutorialStep]
+        local len = tutorialSections:size()
+        local i = math.min(len, step)
+        local sect = tutorialSections[i]
         sect(selfEnt)
     end,
 })
@@ -211,13 +227,13 @@ lp.defineItem(TUT_CAT_ID, {
 
     onActivate = function(ent)
         clearEverythingExceptSelf(ent)
-        local midPos = getMidPos(ent)
-
         local etype = assert(server.entities[TUTORIAL_BUTTON_ID])
-        lp.trySpawnSlot(assert(midPos:move(0, -3)), etype, ent.lootplotTeam)
+        local pos1 = fromMiddle(ent, 0, -3)
+        lp.trySpawnSlot(pos1, etype, ent.lootplotTeam)
 
-        addText(ent, 0, 2, MOVEMENT_TEXT)
-        clearFogInCircle(midPos, lp.main.PLAYER_TEAM, 9.8)
+        addText(ent, 0,2, MOVEMENT_TEXT)
+
+        clearFogInCircle(fromMiddle(ent,0,0), lp.main.PLAYER_TEAM, 9.8)
     end
 })
 
