@@ -8,6 +8,8 @@ lp.defineItem("lootplot.unlocks:key", {
     image = "key",
     name = loc("Key"),
 
+    triggers = {"PULSE"},
+
     shape = lp.targets.RookShape(1),
     target = {
         type = lp.CONVERSIONS.ITEM_OR_SLOT,
@@ -23,7 +25,5 @@ lp.defineItem("lootplot.unlocks:key", {
         end,
         description = loc("Triggers {lootplot:TRIGGER_COLOR}UNLOCK{lootplot:TRIGGER_COLOR} for slots and items."),
     },
-
-    rarity = lp.rarities.UNIQUE,
 })
 

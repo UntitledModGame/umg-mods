@@ -1,5 +1,6 @@
 
 local loc = localization.localize
+local interp = localization.newInterpolator
 local wg = lp.worldgen
 
 
@@ -54,11 +55,14 @@ end
 
 -------------------------------------------------------------------
 
-local TUTORIAL_1_TEXT = loc("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}WASD / Right click\nto move around{/outline}{/wavy}")
-local TUTORIAL_2_TEXT = loc("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}Click to interact\n\nScroll mouse to\nzoom in/out{/outline}{/wavy}")
+local MOVEMENT_TEXT = loc("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}WASD / Right click to move.\nScroll to zoom.{/outline}{/wavy}")
+
+local OBJECTIVE_TEXT = interp("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}{c r=1 g=0.4 b=0.3}You have {lootplot:INFO_COLOR}%{numRounds}{/lootplot:INFO_COLOR} Rounds to\nget the required points!{/outline}{/wavy}")
+
 
 umg.defineEntityType("lootplot.s0.starting_items:one_ball_tutorial_text", {
     lifetime = 50,
+    drawDepth = 200,
 
     onUpdateServer = function(ent)
         local run = lp.main.getRun()
@@ -86,18 +90,6 @@ local function spawnTutorialText(ppos, text)
     return textEnt
 end
 
----@param ent Entity
----@param name string
-local function removeTutorialText(ent, name)
-    local e = ent[name]
-    if e then
-        if umg.exists(e) then
-            e:delete()
-        end
-
-        ent[name] = nil
-    end
-end
 
 definePerk("one_ball", {
     name = loc("One Ball"),
@@ -117,22 +109,18 @@ definePerk("one_ball", {
 
         -- Display tutorial text
         spawnTutorialText(assert(ppos:move(0, -3)), {
-            text = TUTORIAL_1_TEXT,
+            text = OBJECTIVE_TEXT({
+                numRounds = lp.main.getNumberOfRounds(ent)
+            }),
             align = "center",
             oy = 10
         })
-        spawnTutorialText(assert(ppos:move(3, 0)), {
-            text = TUTORIAL_2_TEXT,
-            align = "left"
-        })
-    end,
 
-    onActivate = function(ent)
-        -- Remove tutorial text once this has been activated twice.
-        if ent.totalActivationCount >= 2 then
-            removeTutorialText(ent, "tutorial1")
-            removeTutorialText(ent, "tutorial2")
-        end
+        spawnTutorialText(assert(ppos:move(0, -1)), {
+            text = MOVEMENT_TEXT,
+            align = "center",
+            oy = 10
+        })
     end
 })
 
@@ -259,7 +247,7 @@ definePerk("bowling_ball", {
         spawnSell(ent)
         spawnMoneyLimit(ent)
 
-        wg.spawnSlots(ppos, server.entities.slot, 1,1, team)
+        wg.spawnSlots(ppos, server.entities.slot, 1,3, team)
 
         local plot = ppos:getPlot()
         plot:foreachSlot(function(slotEnt, _ppos)

@@ -156,18 +156,14 @@ defItem("coins", {
 lp.defineItem("lootplot.s0.content:bone", {
     image = "bone",
 
+    description = loc("Has 6 lives."),
+
     name = loc("Bone"),
-    triggers = {"PULSE"},
-    activateDescription = loc("Destroys itself and gain 1 life"),
 
-    basePrice = 1,
+    basePrice = 0,
 
-    lives = 1,
-    rarity = lp.rarities.COMMON,
-    onActivate = function(selfEnt)
-        selfEnt.lives = selfEnt.lives + 1
-        lp.destroy(selfEnt)
-    end
+    lives = 6,
+    rarity = lp.rarities.UNCOMMON,
 })
 
 
@@ -187,7 +183,7 @@ local GUPPY_COUNT = 8
 helper.defineTransformItem("pink_guppy", "Pink Guppy", {
     transformId = "pink_octopus",
     transformName = "Pink Octopus",
-    delayCount = NUM_KEY_ACTS,
+    delayCount = GUPPY_COUNT,
 
     basePrice = 4,
     baseMaxActivations = 2,
@@ -204,7 +200,7 @@ Green-guppy = pink-guppy but green-octopus instead.
 helper.defineTransformItem("green_guppy", "Green Guppy", {
     transformId = "green_octopus",
     transformName = "Green Octopus",
-    delayCount = NUM_KEY_ACTS,
+    delayCount = GUPPY_COUNT,
 
     triggers = {"REROLL"},
 

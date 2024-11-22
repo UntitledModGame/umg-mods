@@ -220,3 +220,19 @@ defItem("golden_spoon", {
 
 
 
+--[[
+
+
+TODO: Implement `reroll_award` item.
+TODO
+TODO
+TODO
+TODO
+TODO
+
+It should be related to rerolling, and goldsmith-
+work fine with money
+
+]]
+
+
