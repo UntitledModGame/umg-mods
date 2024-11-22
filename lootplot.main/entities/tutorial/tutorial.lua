@@ -13,35 +13,51 @@ umg.defineEntityType("lootplot.main:tutorial_text", {
     end,
 })
 
-local function makeText(ppos, txt)
-    local textEnt = server.entities.tutorial_text()
-    textEnt.text = txt
-    textEnt.pposX, textEnt.pposY = ppos:getCoords()
-end
 
-local function deleteText(ent, key)
-    if umg.exists(ent[key]) then
-        local textEnt = ent[key]
-        textEnt:deepDelete()
+---@param tutEnt Entity
+local function clearText(tutEnt)
+    if tutEnt.tutorialText then
+        for _, e in ipairs(tutEnt.tutorialText) do
+            if umg.exists(e) then
+                e:delete()
+            end
+        end
+        tutEnt.tutorialText = objects.Array()
     end
 end
 
+---@param tutEnt Entity
+---@param dx number
+---@param dy number
+---@param txt string
+local function addText(tutEnt, dx,dy, txt)
+    tutEnt.tutorialText = tutEnt.tutorialText or objects.Array()
+    local ppos = assert(lp.getPos(tutEnt))
+    local midPos = ppos:getPlot():getCenterPPos()
 
----@param selfEnt Entity
----@param leftText string
----@param rightText string
-local function setText(selfEnt, leftText, rightText)
-    deleteText(selfEnt, "leftTutorialText")
-    deleteText(selfEnt, "leftTutorialText")
-    local ppos = assert(lp.getPos(selfEnt))
-    local left = assert(ppos:move(-4,0))
-    local right = assert(ppos:move(4,0))
+    local textPos = assert(midPos:move(dx,dy))
 
-    leftText = "{outline}" .. (leftText or "")
-    rightText = "{outline}" .. (rightText or "")
+    txt = "{outline}" .. txt
 
-    selfEnt.leftTutorialText = makeText(left, leftText)
-    selfEnt.rightTutorialText = makeText(left, leftText)
+    local textEnt = server.entities.tutorial_text()
+    textEnt.text = txt
+    textEnt.pposX, textEnt.pposY = textPos:getCoords()
+
+    tutEnt.tutorialText:add(textEnt)
+end
+
+
+local function clearEverythingExceptSelf(tutEnt)
+    local tutPos = assert(lp.getPos(tutEnt))
+
+    tutPos:getPlot():foreachLayerEntry(function (ent, ppos, layer)
+        if ent ~= tutEnt then
+            ppos:clear(layer)
+            ent:delete()
+        end
+    end)
+
+    clearText(tutEnt)
 end
 
 
@@ -59,7 +75,9 @@ local LEFT = loc("{outline}WASD / Right click\nto move around{/outline}{/wavy}")
 local RIGHT = loc("{outline}Click to interact\n\nScroll mouse to\nzoom in/out{/outline}{/wavy}")
 
 local function onActivateControls(e)
-    setText(e, LEFT, RIGHT)
+    clearEverythingExceptSelf(e)
+    addText(e, -5,0, LEFT)
+    addText(e, 5,0, RIGHT)
 end
 tutorialSections:add(onActivateControls)
 end
@@ -77,7 +95,7 @@ local LEFT = loc("")
 local RIGHT = loc("")
 
 local function onActivateControls(e)
-    setText(e, LEFT, RIGHT)
+    -- setText(e, LEFT, RIGHT)
 end
 tutorialSections:add(onActivateControls)
 end
