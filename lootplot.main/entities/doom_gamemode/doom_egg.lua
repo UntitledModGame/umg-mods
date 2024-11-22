@@ -2,11 +2,11 @@
 local loc = localization.localize
 
 
----@param plot lootplot.Plot
 ---@param ppos lootplot.PPos
 ---@param team string
 ---@param radius integer
-local function circularFogClear(plot, ppos, team, radius)
+local function clearFogInCircle(ppos, team, radius)
+    local plot = ppos:getPlot()
     local rsq = radius * radius
 
     for y = -radius, radius do
@@ -56,7 +56,7 @@ lp.defineItem("lootplot.main:doom_egg", {
         dclock.dimension = dvec.dimension
 
         -- Clear fog around doom clock
-        circularFogClear(plot, ppos, team, 5)
+        clearFogInCircle(ppos, team, 5)
 
         -- Meta-buttons
         lp.forceSpawnSlot(

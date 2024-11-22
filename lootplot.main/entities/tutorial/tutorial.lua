@@ -26,18 +26,26 @@ local function clearText(tutEnt)
     end
 end
 
+
+---@param ent Entity
+---@return lootplot.PPos
+local function getMidPos(ent)
+    local ppos = assert(lp.getPos(ent))
+    return ppos:getPlot():getCenterPPos()
+end
+
 ---@param tutEnt Entity
 ---@param dx number
 ---@param dy number
 ---@param txt string
 local function addText(tutEnt, dx,dy, txt)
     tutEnt.tutorialText = tutEnt.tutorialText or objects.Array()
-    local ppos = assert(lp.getPos(tutEnt))
-    local midPos = ppos:getPlot():getCenterPPos()
-
+    local midPos = getMidPos(tutEnt)
     local textPos = assert(midPos:move(dx,dy))
 
-    txt = "{outline}" .. txt
+    if not txt:match("%{outline%}") then
+        txt = "{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}" .. txt
+    end
 
     local textEnt = server.entities.tutorial_text()
     textEnt.text = txt
@@ -71,13 +79,13 @@ do
 --[[
 Explain controls
 ]]
-local LEFT = loc("{outline}WASD / Right click\nto move around{/outline}{/wavy}")
-local RIGHT = loc("{outline}Click to interact\n\nScroll mouse to\nzoom in/out{/outline}{/wavy}")
+local LEFT = loc("WASD / Right click\nto move around")
+local RIGHT = loc("Click to interact\n\nScroll mouse to\nzoom in/out")
 
 local function onActivateControls(e)
     clearEverythingExceptSelf(e)
-    addText(e, -5,0, LEFT)
-    addText(e, 5,0, RIGHT)
+    addText(e, -3,0, LEFT)
+    addText(e, 3,0, RIGHT)
 end
 tutorialSections:add(onActivateControls)
 end
@@ -86,13 +94,8 @@ end
 
 do
 --[[
-Explain goal of the game:
-
-You have 6 rounds to earn 150 points.
-Fail that, and you lose!
+Explain controls
 ]]
-local LEFT = loc("")
-local RIGHT = loc("")
 
 local function onActivateControls(e)
     -- setText(e, LEFT, RIGHT)
@@ -141,18 +144,80 @@ USE A WHITEBOARD!!!   Be smart!
 ]]
 
 
-lp.defineItem("lootplot.main:tutorial_cat", {
-    name = loc("Tutorial Cat"),
-    description = loc("Provides a short tutorial for lootplot"),
 
-    basePointsGenerated = 5000,
+local TUTORIAL_BUTTON_ID = "lootplot.main:next_tutorial_stage_button"
+lp.defineSlot(TUTORIAL_BUTTON_ID, {
+    name = loc("Tutorial Button"),
+    activateDescription = loc("Click to go next!"),
+
+    image = "tutorial_button_up",
+    activateAnimation = {
+        activate = "tutorial_button_down",
+        idle = "tutorial_button_up",
+        duration = 0.25
+    },
+
+    baseMaxActivations = 100,
+    triggers = {},
+    buttonSlot = true,
 
     init = function(selfEnt)
         selfEnt.currentTutorialStep = 0
     end,
 
+    onActivate = function(selfEnt)
+        selfEnt.currentTutorialStep = selfEnt.currentTutorialStep + 1
+        clearEverythingExceptSelf(selfEnt)
+        local sect = tutorialSections[selfEnt.currentTutorialStep]
+        sect(selfEnt)
+    end,
+})
+
+
+---@param ppos lootplot.PPos
+---@param team string
+---@param radius integer
+local function clearFogInCircle(ppos, team, radius)
+    local plot = ppos:getPlot()
+    local rsq = radius * radius
+    for y = math.floor(-radius), math.ceil(radius) do
+        for x = math.floor(-radius), math.ceil(radius) do
+            local newPPos = ppos:move(x, y)
+            if newPPos then
+                local sq = x * x + y * y
+                if sq <= rsq then
+                    plot:setFogRevealed(newPPos, team, true)
+                end
+            end
+        end
+    end
+end
+
+
+local TUT_CAT_ID = "lootplot.main:tutorial_cat"
+lp.worldgen.STARTING_ITEMS:add(TUT_CAT_ID)
+
+local MOVEMENT_TEXT = loc("WASD / Right click to move.\nScroll to zoom.{/wavy}")
+
+lp.defineItem(TUT_CAT_ID, {
+    name = loc("Tutorial Cat"),
+    description = loc("Provides a short tutorial"),
+
+    image = "tutorial_cat",
+
+    canItemFloat = true,
+
+    basePrice = 42,
+
     onActivate = function(ent)
-        
+        clearEverythingExceptSelf(ent)
+        local midPos = getMidPos(ent)
+
+        local etype = assert(server.entities[TUTORIAL_BUTTON_ID])
+        lp.trySpawnSlot(assert(midPos:move(0, -3)), etype, ent.lootplotTeam)
+
+        addText(ent, 0, 2, MOVEMENT_TEXT)
+        clearFogInCircle(midPos, lp.main.PLAYER_TEAM, 9.8)
     end
 })
 

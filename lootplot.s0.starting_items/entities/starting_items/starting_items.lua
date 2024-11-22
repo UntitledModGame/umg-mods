@@ -55,9 +55,9 @@ end
 
 -------------------------------------------------------------------
 
-local TUTORIAL_TEXT_1 = loc("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}WASD / Right click to move.\nScroll to zoom.{/outline}{/wavy}")
+local MOVEMENT_TEXT = loc("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}WASD / Right click to move.\nScroll to zoom.{/outline}{/wavy}")
 
-local TUTORIAL_TEXT_2 = interp("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}{c r=1 g=0.4 b=0.3}You have {lootplot:INFO_COLOR}%{numRounds}{/lootplot:INFO_COLOR} Rounds to\nget the required points!{/outline}{/wavy}")
+local OBJECTIVE_TEXT = interp("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}{c r=1 g=0.4 b=0.3}You have {lootplot:INFO_COLOR}%{numRounds}{/lootplot:INFO_COLOR} Rounds to\nget the required points!{/outline}{/wavy}")
 
 
 umg.defineEntityType("lootplot.s0.starting_items:one_ball_tutorial_text", {
@@ -109,15 +109,15 @@ definePerk("one_ball", {
 
         -- Display tutorial text
         spawnTutorialText(assert(ppos:move(0, -3)), {
-            text = TUTORIAL_TEXT_1,
+            text = OBJECTIVE_TEXT({
+                numRounds = lp.main.getNumberOfRounds(ent)
+            }),
             align = "center",
             oy = 10
         })
 
         spawnTutorialText(assert(ppos:move(0, -1)), {
-            text = TUTORIAL_TEXT_2({
-                numRounds = lp.main.getNumberOfRounds(ent)
-            }),
+            text = MOVEMENT_TEXT,
             align = "center",
             oy = 10
         })
@@ -247,7 +247,7 @@ definePerk("bowling_ball", {
         spawnSell(ent)
         spawnMoneyLimit(ent)
 
-        wg.spawnSlots(ppos, server.entities.slot, 1,1, team)
+        wg.spawnSlots(ppos, server.entities.slot, 1,3, team)
 
         local plot = ppos:getPlot()
         plot:foreachSlot(function(slotEnt, _ppos)
