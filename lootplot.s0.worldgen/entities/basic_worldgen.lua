@@ -1,12 +1,157 @@
 local loc = localization.localize
 
+local TREASURE_SLOT_BUFF = {
+    -- GRUB-10
+    {
+        chance = 0.1,
+        ---@param itemEnt lootplot.ItemEntity
+        handler = function(itemEnt)
+            if not itemEnt:hasComponent("grubMoneyCap") then
+                itemEnt.grubMoneyCap = 10
+            end
+        end
+    },
+    -- DOOMED-30
+    {
+        chance = 0.1,
+        ---@param itemEnt lootplot.ItemEntity
+        handler = function(itemEnt)
+            if not itemEnt:hasComponent("doomCount") then
+                itemEnt.doomCount = 30
+            end
+        end
+    },
+    -- Floating
+    {
+        chance = 0.1,
+        ---@param itemEnt lootplot.ItemEntity
+        handler = function(itemEnt)
+            if not itemEnt:hasComponent("canItemFloat") then
+                itemEnt.canItemFloat = true
+            end
+        end
+    },
+    -- Point multipler
+    {
+        chance = 0.1,
+        ---@param itemEnt lootplot.ItemEntity
+        handler = function(itemEnt)
+            return lp.multiplierBuff(itemEnt, "pointsGenerated", lp.SEED.worldGenRNG:random(2, 5))
+        end
+    },
+    -- REROLL trigger
+    {
+        chance = 0.1,
+        ---@param itemEnt lootplot.ItemEntity
+        handler = function(itemEnt)
+            if not lp.hasTrigger(itemEnt, "REROLL") then
+                local triggers = objects.Array(itemEnt.triggers or {})
+                triggers:add("REROLL")
+                itemEnt.triggers = triggers
+                sync.syncComponent(itemEnt, "triggers")
+            end
+        end
+    },
+    -- triple activation-count
+    {
+        chance = 0.1,
+        ---@param itemEnt lootplot.ItemEntity
+        handler = function(itemEnt)
+            return lp.multiplierBuff(itemEnt, "maxActivations", 3)
+        end
+    },
+    -- chance to be a tier higher
+    {
+        chance = 0.2,
+        ---@param itemEnt lootplot.ItemEntity
+        handler = function(itemEnt)
+            return lp.rarities.setEntityRarity(
+                itemEnt,
+                lp.rarities.shiftRarity(itemEnt.rarity, 1)
+            )
+        end
+    },
+}
+
+local function rareOrLater(etype)
+    if etype.rarity and lp.rarities.getWeight(etype.rarity) <= lp.rarities.getWeight(lp.rarities.RARE) then
+        return 1
+    end
+
+    return 0
+end
+
+-- Feel free to modify as needed
+-- `weight` is the chance of spawn
+-- `handler` must be a function that returns 1 or 2 values: slot and item.
+local SPAWNER = {
+    -- DOOMED-4 gold slot
+    {
+        weight = 3,
+        ---@param team string
+        handler = function(team)
+            local slotEnt = server.entities["lootplot.s0.content:golden_slot"]()
+            slotEnt.doomCount = 4
+            slotEnt.lootplotTeam = team
+            return slotEnt
+        end
+    },
+    -- DOOMED-4 normal, point-generating slot
+    {
+        weight = 3,
+        ---@param team string
+        handler = function(team)
+            local slotEnt = server.entities["lootplot.s0.content:slot"]()
+            slotEnt.doomCount = 4
+            slotEnt.lootplotTeam = team
+            lp.modifierBuff(slotEnt, "pointsGenerated", 10)
+            return slotEnt
+        end
+    },
+    -- Treasure slot
+    {
+        weight = 2,
+        ---@param team string
+        ---@param itemGen generation.Generator
+        handler = function(team, itemGen)
+            local slotEnt = server.entities["lootplot.s0.content:treasure_slot"]()
+            slotEnt.lootplotTeam = team
+
+            local itemEType = itemGen:query(rareOrLater) or server.entities[lp.FALLBACK_NULL_ITEM]
+            local itemEnt = itemEType()
+            itemEnt.lootplotTeam = team
+
+            return slotEnt, itemEnt
+        end
+    },
+    -- Paper slot
+    {
+        weight = 2,
+        ---@param team string
+        ---@param itemGen generation.Generator
+        handler = function(team, itemGen)
+            local slotEnt = server.entities["lootplot.s0.content:paper_slot"]()
+            slotEnt.lootplotTeam = team
+
+            local itemEType = itemGen:query(rareOrLater) or server.entities[lp.FALLBACK_NULL_ITEM]
+            local itemEnt = itemEType()
+            itemEnt.lootplotTeam = team
+            lp.modifierBuff(itemEnt, "price", lp.SEED.worldGenRNG:random(35, 40))
+
+            return slotEnt, itemEnt
+        end
+    },
+}
+
 lp.defineItem("lootplot.s0.worldgen:basic_worldgen", {
     name = loc("Worldgen Item"),
-    description = loc("It's almost impossible to see this"),
+    description = loc("It's almost impossible to see this description"),
+    rarity = lp.rarities.UNIQUE,
 
     doomCount = 1,
     ---@param self lootplot.ItemEntity
     onActivateOnce = function(self)
+        -- TODO: Decouple this?
         local selfPPos = assert(lp.getPos(self), "Houston, we have a problem")
         local allocator = lp.worldgen.IslandAllocator(selfPPos:getPlot())
         local sx = (love.math.random() - 0.5) * 4000
@@ -16,11 +161,22 @@ lp.defineItem("lootplot.s0.worldgen:basic_worldgen", {
             return love.math.simplexNoise(sx + x / 50, sy + y / 50) >= 0.2
         end)
         allocator:cullNearbyIslands(3)
-        local islands = allocator:generateIslands()
 
+        local itemGen = lp.newItemGenerator()
+        local slotGen = generation.Generator(lp.SEED.worldGenRNG)
+        for _, item in ipairs(SPAWNER) do
+            slotGen:add(item.handler, item.weight)
+        end
+
+        local islands = allocator:generateIslands()
         for _, island in ipairs(islands) do
             if #island >= 3 then
-                -- TODO: Spawn locked slot here.
+                local islandHandler = slotGen:query()
+
+                for _, ppos in ipairs(island) do
+                    local slotEnt, itemEnt = islandHandler(self.lootplotTeam, itemGen)
+                    lp.unlocks.forceSpawnLockedSlot(ppos, slotEnt, itemEnt)
+                end
             end
         end
     end

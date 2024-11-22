@@ -24,12 +24,11 @@ local spawnLockedSlotTc = typecheck.assert("ppos", "string", "entity?", "entity?
 
 ---Availability: **Server**
 ---@param ppos lootplot.PPos
----@param team string
 ---@param transformSlotEnt lootplot.SlotEntity? The slot-entity to be transformed into
 ---@param lockedItemEnt lootplot.ItemEntity? The item-entity to be transformed into
-function lp.unlocks.forceSpawnLockedSlot(ppos, team, transformSlotEnt, lockedItemEnt)
-    spawnLockedSlotTc(ppos, team, transformSlotEnt, lockedItemEnt)
-    local ent = lp.forceSpawnSlot(ppos, lockedslotEType, team)
+function lp.unlocks.forceSpawnLockedSlot(ppos, transformSlotEnt, lockedItemEnt)
+    spawnLockedSlotTc(ppos, transformSlotEnt, lockedItemEnt)
+    local ent = lp.forceSpawnSlot(ppos, lockedslotEType, "") -- no team
 
     ent.targetSlot = transformSlotEnt
     ent.targetItem = lockedItemEnt
@@ -38,13 +37,12 @@ end
 
 ---Availability: **Server**
 ---@param ppos lootplot.PPos
----@param team string
 ---@param transformSlotEnt lootplot.SlotEntity? The slot-entity to be transformed into
 ---@param lockedItemEnt lootplot.ItemEntity? The item-entity to be transformed into
 ---@return lootplot.SlotEntity?
-function lp.unlocks.trySpawnLockedSlot(ppos, team, transformSlotEnt, lockedItemEnt)
-    spawnLockedSlotTc(ppos, team, transformSlotEnt, lockedItemEnt)
-    local ent = lp.trySpawnSlot(ppos, lockedslotEType, team)
+function lp.unlocks.trySpawnLockedSlot(ppos, transformSlotEnt, lockedItemEnt)
+    spawnLockedSlotTc(ppos, transformSlotEnt, lockedItemEnt)
+    local ent = lp.trySpawnSlot(ppos, lockedslotEType, "") -- no team
 
     if ent then
         ent.targetSlot = transformSlotEnt
