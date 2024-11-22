@@ -1063,7 +1063,7 @@ function lp.defineSlot(name, slotType)
     strTabTc(name, slotType)
     slotType.slot = true
     slotType.layer = "slot"
-    slotType.drawDepth = -600
+    slotType.drawDepth = -200
     slotType.triggers = slotType.triggers or {"PULSE"}
     slotType.hitboxArea = slotType.hitboxArea or DEFAULT_SLOT_HITBOX_AREA
     slotType.hoverable = true
