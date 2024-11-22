@@ -1,6 +1,6 @@
 local Picker = require("shared.Picker")
 
----@class (exact) generation.Generator: objects.Class
+---@class generation.Generator: objects.Class
 ---@field protected rng love.RandomGenerator
 ---@field protected entries any[]
 ---@field protected weights number[]
