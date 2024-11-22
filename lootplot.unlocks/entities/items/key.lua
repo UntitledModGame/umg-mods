@@ -8,6 +8,8 @@ lp.defineItem("lootplot.unlocks:key", {
     image = "key",
     name = loc("Key"),
 
+    triggers = {"PULSE"},
+
     shape = lp.targets.RookShape(1),
     target = {
         activate = function(ppos)
