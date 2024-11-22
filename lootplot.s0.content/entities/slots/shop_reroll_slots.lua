@@ -320,7 +320,11 @@ lp.defineSlot("lootplot.s0.content:paper_slot", {
     onActivate = function(slotEnt)
         local itemEnt = lp.slotToItem(slotEnt)
         if itemEnt then
-            lp.modifierBuff(itemEnt, "price", -5)
+            local itemPrice = properties.computeProperty(itemEnt, "price")
+            assert(type(itemPrice) == "number")
+
+            local priceToSub = math.min(itemPrice, 5)
+            lp.modifierBuff(itemEnt, "price", -priceToSub)
         elseif not slotEnt:hasComponent("doomCount") then
             slotEnt.doomCount = 1
         end

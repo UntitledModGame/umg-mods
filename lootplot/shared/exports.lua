@@ -781,9 +781,10 @@ end
 
 local posEntTc = typecheck.assert("ppos", "entity")
 
+---NOTE: This operation will fail if the slot cannot hold the entity!
+---However, if the operation succeeds, the existing item will be deleted.
+---
 ---Availability: **Server**
---- NOTE: This operation will fail if the slot cannot hold the entity!
---- However, if the operation succeeds, the existing item will be deleted.
 ---@param ppos lootplot.PPos
 ---@param itemEnt lootplot.ItemEntity
 ---@nodiscard
