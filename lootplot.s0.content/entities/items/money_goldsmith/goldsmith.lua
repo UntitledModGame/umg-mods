@@ -36,7 +36,7 @@ local function defSilvRing(id,name,trigger)
 
         activateDescription = function(ent)
             return SILV_RING_DESC({
-                val = lp.tiers.getTier(ent.tier) * POINT_PERCENT,
+                val = lp.tiers.getTier(ent) * POINT_PERCENT,
                 balance = lp.getMoney(ent) or 0
             })
         end,

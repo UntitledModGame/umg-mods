@@ -410,6 +410,10 @@ lp.defineSlot("lootplot.s0.content:cloud_slot", {
         }
     },
 
+    canPlayerAccessItemInSlot = function(slotEnt)
+        return not slotEnt.itemLock
+    end,
+
     actionButtons = {
         pickButton
     }
