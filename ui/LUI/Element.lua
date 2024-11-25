@@ -233,6 +233,16 @@ function Element:render(x,y,w,h)
     setView(self, x,y,w,h)
 end
 
+---@param dt number
+function Element:update(dt)
+    util.tryCall(self.onUpdate, self, dt)
+    umg.call("ui:elementUpdate", self, dt)
+
+    for _, child in ipairs(self._children) do
+        child:update(dt)
+    end
+end
+
 
 
 local function getCapturedChild(self, x, y)
