@@ -168,6 +168,16 @@ local SPAWNER = {
             local itemEnt = constructRareOrHigherItem(team)
             return slotEnt, itemEnt
         end
+    },
+    -- Amethyst Slot
+    {
+        weight = 1,
+        ---@param team string
+        handler = function(team)
+            local slotEnt = server.entities["lootplot.s0.content:amethyst_slot"]()
+            slotEnt.lootplotTeam = team
+            return slotEnt
+        end
     }
 }
 
