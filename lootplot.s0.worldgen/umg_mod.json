@@ -2,6 +2,7 @@
     "type": "base",
     "uses": [
         "localization",
+        "lootplot.s0.content",
         "lootplot.rarities",
         "lootplot.unlocks",
         "lootplot.worldgen"
