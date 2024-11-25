@@ -13,9 +13,9 @@ local runManager = require("shared.run_manager")
 local loc = localization.localize
 local interp = localization.newInterpolator
 
-local function fogFilter(ppos)
+local function fogFilter(ppos, ent)
     local plot = ppos:getPlot()
-    return plot:isFogRevealed(ppos, lp.main.PLAYER_TEAM)
+    return plot:isFogRevealed(ppos, lp.main.PLAYER_TEAM) and lp.hasTrigger(ent, "PULSE")
 end
 
 ---@param ent Entity
@@ -39,8 +39,8 @@ local function startRound(ent, ppos)
     -- pulse all slots:
     lp.Bufferer()
         :all(plot)
-        :filter(fogFilter)
         :to("SLOT_OR_ITEM") -- ppos-->slot
+        :filter(fogFilter)
         :execute(function(_ppos, slotEnt)
             if slotEnt.lootplotTeam ~= lp.main.PLAYER_TEAM then
                 return
