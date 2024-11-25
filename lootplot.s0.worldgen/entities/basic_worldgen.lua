@@ -74,18 +74,27 @@ local TREASURE_SLOT_BUFF = {
 }
 
 
-local rarePlusItemGen
-local function ensureGenerator()
+local rarePlusItemGen = nil
+
+---@param team string
+---@return lootplot.ItemEntity
+local function constructRareOrHigherItem(team)
     if not rarePlusItemGen then
         rarePlusItemGen = lp.newItemGenerator({
             filter = function(item)
                 local etype = assert(server.entities[item])
-                return etype.rarity and lp.rarities.getWeight(etype.rarity) <= lp.rarities.getWeight(lp.rarities.RARE)
+                return
+                    etype.rarity and
+                    etype.basePrice > 0 and
+                    lp.rarities.getWeight(etype.rarity) <= lp.rarities.getWeight(lp.rarities.RARE)
             end
         })
     end
 
-    return rarePlusItemGen
+    local itemEType = server.entities[rarePlusItemGen:query() or lp.FALLBACK_NULL_ITEM]
+    local itemEnt = itemEType()
+    itemEnt.lootplotTeam = team
+    return itemEnt
 end
 
 -- Feel free to modify as needed
@@ -123,10 +132,13 @@ local SPAWNER = {
             local slotEnt = server.entities["lootplot.s0.content:treasure_slot"]()
             slotEnt.lootplotTeam = team
 
-            local itemGen = ensureGenerator()
-            local itemEType = server.entities[itemGen:query() or lp.FALLBACK_NULL_ITEM]
-            local itemEnt = itemEType()
-            itemEnt.lootplotTeam = team
+            local itemEnt = constructRareOrHigherItem(team)
+            -- Grant random buff
+            for _, tbuff in ipairs(TREASURE_SLOT_BUFF) do
+                if lp.SEED.worldGenRNG:random() <= tbuff.chance then
+                    tbuff.handler(itemEnt)
+                end
+            end
 
             return slotEnt, itemEnt
         end
@@ -139,15 +151,24 @@ local SPAWNER = {
             local slotEnt = server.entities["lootplot.s0.content:paper_slot"]()
             slotEnt.lootplotTeam = team
 
-            local itemGen = ensureGenerator()
-            local itemEType = server.entities[itemGen:query() or lp.FALLBACK_NULL_ITEM]
-            local itemEnt = itemEType()
-            itemEnt.lootplotTeam = team
+            local itemEnt = constructRareOrHigherItem(team)
             lp.modifierBuff(itemEnt, "price", lp.SEED.worldGenRNG:random(35, 40))
 
             return slotEnt, itemEnt
         end
     },
+    -- Cloud Slot
+    {
+        weight = 2,
+        ---@param team string
+        handler = function(team)
+            local slotEnt = server.entities["lootplot.s0.content:cloud_slot"]()
+            slotEnt.lootplotTeam = team
+
+            local itemEnt = constructRareOrHigherItem(team)
+            return slotEnt, itemEnt
+        end
+    }
 }
 
 lp.defineItem("lootplot.s0.worldgen:basic_worldgen", {
@@ -171,7 +192,6 @@ lp.defineItem("lootplot.s0.worldgen:basic_worldgen", {
         end)
         allocator:cullNearbyIslands(4)
 
-        local itemGen = lp.newItemGenerator()
         local slotGen = generation.Generator(lp.SEED.worldGenRNG)
         for _, item in ipairs(SPAWNER) do
             slotGen:add(item.handler, item.weight)
@@ -180,10 +200,11 @@ lp.defineItem("lootplot.s0.worldgen:basic_worldgen", {
         local islands = allocator:generateIslands()
         for _, island in ipairs(islands) do
             if #island >= 3 then
+                ---@type fun(team:string):(lootplot.SlotEntity,lootplot.ItemEntity?)
                 local islandHandler = slotGen:query()
 
                 for _, ppos in ipairs(island) do
-                    local slotEnt, itemEnt = islandHandler(self.lootplotTeam, itemGen)
+                    local slotEnt, itemEnt = islandHandler(self.lootplotTeam)
                     lp.unlocks.forceSpawnLockedSlot(ppos, slotEnt, itemEnt)
                 end
             end
