@@ -252,3 +252,169 @@ lp.defineSlot("lootplot.s0.content:lockable_reroll_slot", {
     }
 })
 
+
+
+lp.defineSlot("lootplot.s0.content:treasure_slot", {
+    itemLock = true,
+    image = "slot",
+    color = {objects.Color.RED:getRGBA()},
+
+    name = loc("Treasure slot"),
+
+    triggers = {"PULSE"},
+
+    baseCanSlotPropagate = false,
+    baseMaxActivations = 100,
+    slotItemProperties = {
+        multipliers = {
+            price = 1.15
+        },
+        modifiers = {
+            price = 2
+        }
+    },
+    slotListen = {
+        trigger = "BUY",
+        activate = function(slotEnt)
+            slotEnt.doomCount = 1
+        end
+    },
+
+    canPlayerAccessItemInSlot = function(slotEnt)
+        return not slotEnt.itemLock
+    end,
+    onActivate = function(slotEnt)
+        if not (lp.slotToItem(slotEnt) or slotEnt:hasComponent("doomCount")) then
+            slotEnt.doomCount = 1
+        end
+    end,
+    onItemDraw = function(selfEnt, itemEnt)
+        drawItemPrice(selfEnt, itemEnt)
+    end,
+    actionButtons = {
+        shopButton
+    }
+})
+
+
+lp.defineSlot("lootplot.s0.content:paper_slot", {
+    itemLock = true,
+    image = "paper_slot",
+
+    name = loc("Paper slot"),
+
+    triggers = {"PULSE"},
+
+    baseCanSlotPropagate = false,
+    baseMaxActivations = 100,
+    slotListen = {
+        trigger = "BUY",
+        activate = function(slotEnt)
+            slotEnt.doomCount = 1
+        end
+    },
+
+    canPlayerAccessItemInSlot = function(slotEnt)
+        return not slotEnt.itemLock
+    end,
+    onActivate = function(slotEnt)
+        local itemEnt = lp.slotToItem(slotEnt)
+        if itemEnt then
+            local itemPrice = properties.computeProperty(itemEnt, "price")
+            assert(type(itemPrice) == "number")
+
+            local priceToSub = math.min(itemPrice, 5)
+            lp.modifierBuff(itemEnt, "price", -priceToSub)
+        elseif not slotEnt:hasComponent("doomCount") then
+            slotEnt.doomCount = 1
+        end
+    end,
+    onItemDraw = function(selfEnt, itemEnt)
+        drawItemPrice(selfEnt, itemEnt)
+    end,
+    actionButtons = {
+        shopButton
+    }
+})
+
+
+local pickButton = {
+    action = function(ent, clientId)
+        shopButton.action(ent, clientId)
+
+        if server then
+            -- Set current entity to DOOMED-1
+            ent.doomCount = 1
+            ent.cloudSlotPicked = true
+            local stack = {}
+
+            ---@param ppos lootplot.PPos
+            ---@param x integer
+            ---@param y integer
+            local function consider(ppos, x, y)
+                local targPPos = ppos:move(x, y)
+                if targPPos then
+                    local slotEnt = lp.posToSlot(targPPos)
+                    if slotEnt and slotEnt:hasComponent("cloudSlotPicked") and not slotEnt.cloudSlotPicked then
+                        stack[#stack+1] = targPPos:getSlotIndex()
+                    end
+                end
+            end
+
+            local ppos = assert(lp.getPos(ent))
+            local plot = ppos:getPlot()
+            consider(ppos, -1, 0)
+            consider(ppos, 0, -1)
+            consider(ppos, 1, 0)
+            consider(ppos, 0, 1)
+
+            while #stack > 0 do
+                local stackPPos = plot:getPPosFromSlotIndex(table.remove(stack))
+                local slotEnt = lp.posToSlot(stackPPos)
+
+                if slotEnt and slotEnt:hasComponent("cloudSlotPicked") and not slotEnt.cloudSlotPicked then
+                    local itemEnt = lp.posToItem(stackPPos)
+                    if itemEnt then
+                        -- TODO: Use "delete instantly" mechanism so DESTROY trigger is not triggered.
+                        lp.destroy(itemEnt)
+                    end
+
+                    lp.destroy(slotEnt)
+                    consider(stackPPos, -1, 0)
+                    consider(stackPPos, 0, -1)
+                    consider(stackPPos, 1, 0)
+                    consider(stackPPos, 0, 1)
+                end
+            end
+        end
+    end,
+    canDisplay = shopButton.canDisplay,
+    canClick = shopButton.canClick,
+    text = loc("PICK"),
+    color = objects.Color(0.39,0.66,0.24),
+}
+
+lp.defineSlot("lootplot.s0.content:cloud_slot", {
+    image = "cloud_slot",
+    name = loc("Cloud slot"),
+    description = loc("Pick single item from the adjacent cloud slots then destroy the others."),
+    triggers = {},
+    baseMaxActivations = 0,
+    itemLock = true,
+
+    cloudSlotPicked = false, -- used to prevent item being destroyed when propagating across cloud slots.
+
+    slotItemProperties = {
+        multipliers = {
+            price = 0 -- make it free
+        }
+    },
+
+    canPlayerAccessItemInSlot = function(slotEnt)
+        return not slotEnt.itemLock
+    end,
+
+    actionButtons = {
+        pickButton
+    }
+})

@@ -78,8 +78,8 @@ end)
 
 
 
+---@param ent lootplot.LayerEntity
 local function updateListenTargets(ent)
-    ---@cast ent lootplot.ItemEntity
     local ppos = lp.getPos(ent)
     if not ppos then
         return -- its not inside a plot!
@@ -157,4 +157,3 @@ local function triggerListen(trigger, ent)
 end
 
 umg.on("lootplot:entityTriggered", triggerListen)
-

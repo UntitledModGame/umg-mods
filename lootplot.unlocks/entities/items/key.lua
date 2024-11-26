@@ -12,9 +12,10 @@ lp.defineItem("lootplot.unlocks:key", {
 
     shape = lp.targets.RookShape(1),
     target = {
-        activate = function(ppos)
+        type = lp.CONVERSIONS.ITEM_OR_SLOT,
+        activate = function(_, ppos)
             local item = lp.posToItem(ppos)
-            local slot = lp.posToItem(ppos)
+            local slot = lp.posToSlot(ppos)
             if item then
                 lp.tryTriggerEntity("UNLOCK", item)
             end

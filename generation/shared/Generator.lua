@@ -1,6 +1,6 @@
 local Picker = require("shared.Picker")
 
----@class (exact) generation.Generator: objects.Class
+---@class generation.Generator: objects.Class
 ---@field protected rng love.RandomGenerator
 ---@field protected entries any[]
 ---@field protected weights number[]
@@ -173,7 +173,7 @@ function Generator:query(pickChanceFunction)
         i = i + 1
     end
 
-    print("LOOKUP FAILED!")
+    umg.log.error(debug.traceback("LOOKUP FAILED!"))
     return nil -- Query failed; looped for too long
 end
 

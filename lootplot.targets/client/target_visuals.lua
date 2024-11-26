@@ -84,7 +84,7 @@ umg.on("rendering:drawEffects", function(camera)
     end
 
     if item.listen then
-        local img, color = "listener_plus", lp.targets.LISTEN_COLOR
+        local img, color = "listener_plus", lp.COLORS.LISTEN_COLOR
         local img2 = "listener_plus_inactive"
         drawTargets(item, img, img2, color, util.canListen)
     end

@@ -429,6 +429,19 @@ function Plot:setFogRevealed(ppos, team, reveal)
     end
 end
 
+function Plot:removeDeletedEntities()
+    self:foreach(function(ppos)
+        local px, py = ppos:getCoords()
+        for layer, grid in pairs(self.layers) do
+            local ent = grid:get(px, py)
+            if ent and not umg.exists(ent) then
+                umg.log.error("ppos "..tostring(ppos), ": entity "..tostring(ent).." was deleted at layer "..layer)
+                grid:set(px, py, nil)
+            end
+        end
+    end)
+end
+
 else
 
 client.on("lootplot:fogReveal", function(plotEnt, team, index, reveal)

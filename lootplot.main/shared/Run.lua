@@ -170,6 +170,7 @@ end
 
 function Run:serialize()
     assert(self:canSerialize(), "cannot serialize run while pipeline is running")
+    self:getPlot():removeDeletedEntities()
     return umg.serialize(self)
 end
 

@@ -641,7 +641,7 @@ function lp.activate(pos)
     local item = lp.posToItem(pos)
     if item then
         lp.tryActivateEntity(item)
-    end    
+    end
     local slot = lp.posToSlot(pos)
     if slot then
         lp.tryActivateEntity(slot)
@@ -661,6 +661,19 @@ function lp.resetEntity(ent)
     end
 end
 
+
+
+---@param ent lootplot.LayerEntity
+---@param ppos lootplot.PPos?
+local function deleteInstantly(ent, ppos)
+    ppos = ppos or lp.getPos(ent)
+    if ppos then
+        ppos:clear(ent.layer)
+    end
+    ptrack.clear(ent)
+    ent:delete()
+end
+
 ---Availability: **Server**
 ---@param ent lootplot.LayerEntity
 function lp.destroy(ent)
@@ -672,12 +685,7 @@ function lp.destroy(ent)
         if ent.onDestroy then
             ent:onDestroy()
         end
-        local ppos = lp.getPos(ent)
-        if ppos then
-            ppos:clear(ent.layer)
-        end
-        ptrack.clear(ent)
-        ent:delete()
+        return deleteInstantly(ent)
     end
 end
 
@@ -768,22 +776,12 @@ end
 
 
 
----@param ent lootplot.LayerEntity
----@param ppos lootplot.PPos?
-local function deleteInstantly(ent, ppos)
-    ppos = ppos or lp.getPos(ent)
-    if ppos then
-        ppos:clear(ent.layer)
-    end
-    ptrack.clear(ent)
-    ent:delete()
-end
-
 local posEntTc = typecheck.assert("ppos", "entity")
 
+---NOTE: This operation will fail if the slot cannot hold the entity!
+---However, if the operation succeeds, the existing item will be deleted.
+---
 ---Availability: **Server**
---- NOTE: This operation will fail if the slot cannot hold the entity!
---- However, if the operation succeeds, the existing item will be deleted.
 ---@param ppos lootplot.PPos
 ---@param itemEnt lootplot.ItemEntity
 ---@nodiscard
@@ -1072,13 +1070,12 @@ function lp.defineSlot(name, slotType)
     end
     giveCommonComponents(slotType)
 
-    local etype = umg.defineEntityType(name, slotType)
+    umg.defineEntityType(name, slotType)
     bufferedEntityTypes:add({
         name = name,
         generator = SLOT_GENERATOR,
         entityType = slotType
     })
-    return etype
 end
 
 
@@ -1236,6 +1233,7 @@ lp.COLORS = {
     TRIGGER_COLOR = {0.2, 0.8, 0.9}, -- used for bonuses/good thing
     INFO_COLOR = {1, 1, 0.4},
     COMBINE_COLOR = {0.81, 0.14, 1},
+    LISTEN_COLOR = {0.35, 0.65, 1},
 }
 if client then
     for id,color in pairs(lp.COLORS) do

@@ -288,6 +288,10 @@ function selection.click(clientId, ppos)
         if ppos ~= selected.ppos then
             if canCombineSelected(ppos) then
                 tryCombineSelected(ppos)
+            elseif not hasAccess(ppos, clientId) then
+                selection.reset()
+                clickEmpty(ppos)
+                return
             else
                 tryMove(clientId, selected.ppos, ppos)
             end

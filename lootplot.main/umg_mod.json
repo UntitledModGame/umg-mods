@@ -8,6 +8,7 @@
         "lootplot",
         "lootplot.targets",
         "lootplot.s0.content",
+        "lootplot.s0.worldgen",
         "lootplot.levels",
         "lootplot.slots",
         "lootplot.sound",

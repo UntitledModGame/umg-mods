@@ -28,7 +28,7 @@ local islands = p:generateIslands()
 
 
 ---@param plot lootplot.Plot
-function IslandAllocator:new(plot)
+function IslandAllocator:init(plot)
     self.width, self.height = plot:getDimensions()
     self.plot = plot
     self.grid = objects.Grid(self.width, self.height)
@@ -97,7 +97,7 @@ function IslandAllocator:generateIslands()
 
     -- Pass 3: Flood fill unmarked islands
     local function consider(stack, x, y)
-        if self.grid:get(x, y) then
+        if self.grid:get(x, y) and islandGroup:get(x, y) == nil then
             stack[#stack+1] = islandGroup:coordsToIndex(x, y)
         end
     end
@@ -110,17 +110,19 @@ function IslandAllocator:generateIslands()
             local island = {}
             islands[#islands+1] = island
             local groupId = #islands
+
             local stack = {islandGroup:coordsToIndex(x, y)}
             while #stack > 0 do
                 local i = table.remove(stack)
-                local ppos = self.plot:getPPos(islandGroup:indexToCoords(i))
+                local px, py = islandGroup:indexToCoords(i)
+                local ppos = self.plot:getPPos(px, py)
                 island[#island+1] = ppos
 
-                islandGroup:set(x, y, groupId)
-                consider(stack, x - 1, y)
-                consider(stack, x, y - 1)
-                consider(stack, x + 1, y)
-                consider(stack, x, y + 1)
+                islandGroup:set(px, py, groupId)
+                consider(stack, px - 1, py)
+                consider(stack, px, py - 1)
+                consider(stack, px + 1, py)
+                consider(stack, px, py + 1)
             end
         end
     end)
