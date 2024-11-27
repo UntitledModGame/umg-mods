@@ -26,6 +26,9 @@ components.defineComponent("onDestroyClient")
 components.defineComponent("onActivateClient")
 
 
+components.defineComponent("repeatActivations")
+-- bool: 
+
 components.defineComponent("grubMoneyCap")
 -- If money > ent.grubMoneyCap, the entity won't activate!!!
 -- (Useful to encourage low-money builds.)

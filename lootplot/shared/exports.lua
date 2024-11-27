@@ -1219,6 +1219,9 @@ lp.COLORS = {
     GRUB_COLOR = {0.78, 0.65, 0.13},
     GRUB_COLOR_LIGHT = {1,0.85,0.43},
 
+    REPEATER_COLOR = {0.84, 0.24, 0.13},
+    REPEATER_COLOR_LIGHT = {0.96, 0.63, 0.37},
+
     -- MISC:
     BAD_COLOR = {1, 0.15, 0.2}, -- used for bad stuff
     TRIGGER_COLOR = {0.2, 0.8, 0.9}, -- used for bonuses/good thing

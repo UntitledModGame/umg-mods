@@ -97,6 +97,21 @@ umg.on("rendering:drawEntity", RENDER_BEFORE_ENTITY_ORDER, function(ent, x,y, ro
 end)
 
 
+local SPIN_SPEED = 5
+
+umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER, function(ent, x,y, rot, sx,sy, kx,ky)
+    if ent.repeatActivations and lp.isItemEntity(ent) then
+        love.graphics.setColor(1,1,1)
+        local dx = 3
+        local flipx = math.sin(love.timer.getTime() * SPIN_SPEED)
+        local dy = -6 + 1*math.sin(love.timer.getTime() * BOB_SPEED)
+        local img = client.assets.images.ruby_repeater_visual
+        rendering.drawImage(img, x+dx, y+dy, rot , sx*flipx,sy, kx,ky)
+    end
+end)
+
+
+
 
 umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER + 1, function(ent, x,y, rot, sx,sy, kx,ky)
     if not lp.isSlotEntity(ent) then

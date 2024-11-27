@@ -178,15 +178,7 @@ Activates multiple times, like boomerang.
 defineMineralClass("ruby", "Ruby", {
     baseMaxActivations = 3,
     description = loc("Uses all activations at once!"),
-    onActivate = function(selfEnt)
-        local ppos = lp.getPos(selfEnt)
-        if ppos then
-            return lp.queueWithEntity(selfEnt, function ()
-                lp.tryActivateEntity(selfEnt)
-                lp.wait(ppos, 0.33)
-            end)
-        end
-    end
+    repeatActivations = true
 })
 
 
