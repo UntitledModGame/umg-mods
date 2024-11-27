@@ -34,16 +34,6 @@ local function makeConcatName(shapes)
     return concatName
 end
 
----@param shapes lootplot.targets.ShapeData[]
-local function getName(shapes)
-    if type(shapes[#shapes]) == "string" then
-        -- This is the name
-        return table.remove(shapes)
-    else
-        return makeConcatName(shapes)
-    end
-end
-
 
 ---@param shape1 lootplot.targets.ShapeData
 ---@param shape2 lootplot.targets.ShapeData
@@ -52,7 +42,11 @@ end
 return function(shape1, shape2, ...)
     local shapes = {shape1, shape2, ...}
 
-    local name = getName(shapes)
+    local name
+    if type(shapes[#shapes]) == "string" then
+        -- This is the name
+        name = table.remove(shapes)
+    end
 
     local coords = {}
     local coordsSet = objects.Set()
@@ -65,6 +59,11 @@ return function(shape1, shape2, ...)
                 coordsSet:add(key)
             end
         end
+    end
+
+    if not name then
+        local shapeRenamer = require("shared.shape_renamer")
+        name = shapeRenamer.get(coords) or makeConcatName(shapes)
     end
 
     return {

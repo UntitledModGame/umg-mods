@@ -1,6 +1,5 @@
 local shapes = {}
 
-umg.log.error("shapes loaded harmless error", ...)
 
 ---@class lootplot.targets.ShapeData
 ---@field name string
