@@ -14,6 +14,52 @@ umg.defineEntityType("lootplot.main:tutorial_text", {
 })
 
 
+
+lp.defineItem("lootplot.main:tutorial_egg", {
+    name = loc("Egg"),
+    image = "tutorial_egg",
+    triggers = {"PULSE"},
+    basePointsGenerated = 1,
+})
+
+lp.defineSlot("lootplot.main:tutorial_slot", {
+    name = loc("Slot"),
+    image = "tutorial_slot",
+    description = loc("Holds items"),
+    triggers = {"PULSE"},
+})
+
+
+lp.defineSlot("lootplot.main:tutorial_reroll_button_slot", {
+    name = loc("Reroll button"),
+    description = loc("Click to trigger {wavy}{lootplot:TRIGGER_COLOR}REROLL{/lootplot:TRIGGER_COLOR} for the whole plot!"),
+
+    image = "tutorial_reroll_button_up",
+    activateAnimation = {
+        activate = "tutorial_reroll_button_hold",
+        idle = "tutorial_reroll_button_up",
+        duration = 0.25
+    },
+
+    baseMaxActivations = 100,
+    triggers = {},
+    buttonSlot = true,
+    onActivate = function(ent)
+        local ppos = lp.getPos(ent)
+        if not ppos then return end
+        lp.Bufferer()
+            :all(ppos:getPlot())
+            :withDelay(0.05)
+            :to("SLOT_OR_ITEM")
+            :execute(function(ppos, ent)
+                lp.resetCombo(ent)
+                lp.tryTriggerEntity("REROLL", ent)
+            end)
+    end,
+})
+
+
+
 ---@param tutEnt Entity
 local function clearText(tutEnt)
     if tutEnt.tutorialText then
@@ -41,6 +87,7 @@ end
 ---@param dx number
 ---@param dy number
 ---@param txt string
+---@return Entity?
 local function addText(tutEnt, dx,dy, txt)
     tutEnt.tutorialText = tutEnt.tutorialText or objects.Array()
     local textPos = fromMiddle(tutEnt, dx,dy)
@@ -56,17 +103,28 @@ local function addText(tutEnt, dx,dy, txt)
 end
 
 
+---@param tutEnt Entity
+---@param dx number
+---@param dy number
+---@param slotName string
+---@return (EntityClass|lootplot.LayerEntityClass|lootplot.SlotEntityClass|table<string, any>)?
 local function spawnSlot(tutEnt, dx,dy, slotName)
     local ppos = fromMiddle(tutEnt, dx,dy)
     local etype = server.entities[slotName]
-    lp.trySpawnSlot(ppos, etype, tutEnt.lootplotTeam)
+    return lp.trySpawnSlot(ppos, etype, tutEnt.lootplotTeam)
 end
 
 
+---@param tutEnt Entity
+---@param dx number
+---@param dy number
+---@param itemName string
+---@return Entity?
 local function spawnItem(tutEnt, dx,dy, itemName)
+    spawnSlot(tutEnt, dx,dy, "tutorial_slot")
     local ppos = fromMiddle(tutEnt, dx,dy)
     local etype = server.entities[itemName]
-    lp.trySpawnItem(ppos, etype, tutEnt.lootplotTeam)
+    return lp.trySpawnItem(ppos, etype, tutEnt.lootplotTeam)
 end
 
 
@@ -92,29 +150,65 @@ local tutorialSections = objects.Array()
 
 do
 --[[
-Explain controls
+Explain PULSE trigger
 ]]
-local LEFT = loc("WASD / Right click\nto move around")
-local RIGHT = loc("Click to interact\n\nScroll mouse to\nzoom in/out")
+local TXT = loc("This is the {lootplot:TRIGGER_COLOR}PULSE{/lootplot:TRIGGER_COLOR} Button.\nIt will trigger {lootplot:TRIGGER_COLOR}PULSE{/lootplot:TRIGGER_COLOR} on these eggs!")
 
-local function onActivateControls(e)
+tutorialSections:add(function(e)
     clearEverythingExceptSelf(e)
-    addText(e, -3,0, LEFT)
-    addText(e, 3,0, RIGHT)
-end
-tutorialSections:add(onActivateControls)
+    addText(e, -3,0, TXT)
+    spawnSlot(e, -3,3, "pulse_button_slot")
+
+    spawnItem(e, 3,1, "tutorial_egg")
+    spawnItem(e, 4,2, "tutorial_egg")
+    spawnItem(e, 2,0, "tutorial_egg")
+    spawnItem(e, 3,4, "tutorial_egg")
+    spawnItem(e, 4,0, "tutorial_egg")
+end)
 end
 
 
 
 do
+--[[
+Explain other triggers.
+]]
+local TXT = loc("Some items have\ndifferent triggers:")
+
+tutorialSections:add(function(e)
+    clearEverythingExceptSelf(e)
+    addText(e, -3,0, TXT)
+    spawnSlot(e, -3,3, "pulse_button_slot")
+    spawnSlot(e, -4,3, "tutorial_reroll_button_slot")
+
+    spawnItem(e, 3,1, "tutorial_egg")
+
+    local rEgg = assert(spawnItem(e, 3,3, "tutorial_egg"))
+    rEgg.triggers = {"REROLL"}
+    rEgg.color = objects.Color.GREEN
+    sync.syncComponent(rEgg, "triggers")
+
+    local eggMulti = assert(spawnItem(e, 3,5, "tutorial_egg"))
+    eggMulti.triggers = {"REROLL","PULSE"}
+    eggMulti.color = objects.Color.AQUA
+    sync.syncComponent(eggMulti, "triggers")
+end)
+end
 
 
-local function onActivateControls(e)
-    -- setText(e, LEFT, RIGHT)
+
+do
+-- DoomCount, lives, grubby, floating visuals
+local TXT = loc("Items can also have different properties.\nTake note of the visuals:")
+
+tutorialSections:add(function(tutEnt)
+    clearEverythingExceptSelf(tutEnt)
+    addText(tutEnt, -3,-1, TXT)
+
+    local egg = assert(spawnItem(tutEnt, 3,1, "tutorial_egg"))
+end)
 end
-tutorialSections:add(onActivateControls)
-end
+
 
 
 
@@ -128,12 +222,6 @@ end
 do
 -- Tier/upgrade system
 end
-
-
-do
--- DoomCount, lives, grubby, floating visuals
-end
-
 
 --[[
 
