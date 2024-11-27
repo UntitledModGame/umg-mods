@@ -173,7 +173,7 @@ do
 --[[
 Explain other triggers.
 ]]
-local TXT = loc("Some items have\ndifferent triggers:")
+local TXT = loc("Items can have\ndifferent triggers:")
 
 tutorialSections:add(function(e)
     clearEverythingExceptSelf(e)
@@ -199,13 +199,31 @@ end
 
 do
 -- DoomCount, lives, grubby, floating visuals
-local TXT = loc("Items can also have different properties.\nTake note of the visuals:")
+local TXT = loc("Items can have different properties.\nTake note of the visual indicators!")
 
 tutorialSections:add(function(tutEnt)
     clearEverythingExceptSelf(tutEnt)
-    addText(tutEnt, -3,-1, TXT)
+    addText(tutEnt, 0,-1, TXT)
 
-    local egg = assert(spawnItem(tutEnt, 3,1, "tutorial_egg"))
+    do local egg = assert(spawnItem(tutEnt, -3,2, "tutorial_egg"))
+    egg.doomCount = 1 end
+
+    do local egg = assert(spawnItem(tutEnt, -1,1, "tutorial_egg"))
+    egg.canItemFloat = true end
+
+    do local egg = assert(spawnItem(tutEnt, 1,1, "tutorial_egg"))
+    egg.lives = 5 end
+
+    do local egg = assert(spawnItem(tutEnt, 3,2, "tutorial_egg"))
+    egg.grubMoneyCap = 5 end
+
+    do
+    local egg = assert(spawnItem(tutEnt, 0,3, "tutorial_egg"))
+    egg.grubMoneyCap = 5
+    egg.lives = 5
+    egg.canItemFloat = true
+    egg.doomCount = 1
+    end
 end)
 end
 
