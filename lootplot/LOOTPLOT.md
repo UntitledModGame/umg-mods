@@ -83,7 +83,6 @@ All of these mechanics should be tagged into / modified
 - Reroll
 - Items being activated
 - Items being mutated:
-    - Items changing traits
     - Items changing triggers
     - Items changing augments
     - Items changing shape
