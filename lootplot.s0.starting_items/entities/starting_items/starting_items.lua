@@ -23,7 +23,7 @@ end
 
 local function spawnShop(ent)
     local ppos, team = getPosTeam(ent)
-    wg.spawnSlots(assert(ppos:move(-4,0)), server.entities.shop_slot, 3,1, team)
+    wg.spawnSlots(assert(ppos:move(-4,0)), server.entities.lockable_shop_slot, 3,1, team)
 end
 
 local function spawnRerollButton(ent)
@@ -164,14 +164,14 @@ definePerk("eight_ball", {
 
 definePerk("fourteen_ball", {
     name = loc("Fourteen Ball"),
-    description = loc("Spawns with a lockable shop, and a reroll-slot"),
+    description = loc("Spawns with 3 reroll-slots"),
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
-        wg.spawnSlots(assert(ppos:move(-4,0)), server.entities.lockable_shop_slot, 3,1, team)
+        spawnShop(ent)
         spawnRerollButton(ent)
 
-        wg.spawnSlots(assert(ppos:move(3, 0)), server.entities.reroll_slot, 1,1, team)
+        wg.spawnSlots(assert(ppos:move(3, 0)), server.entities.reroll_slot, 1,3, team)
 
         spawnSell(ent)
         spawnNormal(ent)
