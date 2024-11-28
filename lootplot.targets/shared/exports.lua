@@ -1,104 +1,30 @@
 local targets = {}
 
 local util = require("shared.util")
-
----@class lootplot.targets.ShapeData
----@field name string
----@field relativeCoords {[1]:integer,[2]:integer}[]
+local shapes = require("shared.shapes")
 
 -- Shape exports
-local KingShape = require("shared.shapes.King")
-local UnionShape = require("shared.shapes.Union")
-local OffsetShape = require("shared.shapes.Offset")
-local RotationShape = require("shared.shapes.Rotation")
-local UniDirectionalShape = require("shared.shapes.UniDirectional")
-local CircleShape = require("shared.shapes.Circle")
-
-
-local MAX_DISTANCE = 40
-
-
-targets.KingShape = KingShape
-targets.UnionShape = UnionShape
-targets.OffsetShape = OffsetShape
-targets.RotationShape = RotationShape
-targets.UniDirectionalShape = UniDirectionalShape
-targets.CircleShape = CircleShape
-
-
----@alias lootplot.targets.ShapeFactory fun(size, name): lootplot.targets.ShapeData
-
-
-
----@param size integer?
----@param name string?
----@return lootplot.targets.ShapeData
-function targets.RookShape(size, name)
-    return UnionShape(
-        UniDirectionalShape(1, 0, size),
-        UniDirectionalShape(0, 1, size),
-        UniDirectionalShape(-1, 0, size),
-        UniDirectionalShape(0, -1, size),
-        name or ("ROOK-" .. tostring(size))
-    )
-end
-
----@param size integer?
----@param name string?
----@return lootplot.targets.ShapeData
-function targets.BishopShape(size, name)
-    return UnionShape(
-        UniDirectionalShape(1, 1, size),
-        UniDirectionalShape(-1, 1, size),
-        UniDirectionalShape(-1, -1, size),
-        UniDirectionalShape(1, -1, size),
-        name or ("BISHOP-" .. tostring(size))
-    )
-end
-
----@param size integer?
----@return lootplot.targets.ShapeData
-function targets.QueenShape(size, name)
-    return UnionShape(
-        targets.RookShape(size),
-        targets.BishopShape(size),
-        name or ("QUEEN-" .. tostring(size))
-    )
-end
-
+targets.KingShape = shapes.KingShape
+targets.UnionShape = shapes.UnionShape
+targets.OffsetShape = shapes.OffsetShape
+targets.RotationShape = shapes.RotationShape
+targets.UniDirectionalShape = shapes.UniDirectionalShape
+targets.CircleShape = shapes.CircleShape
+targets.RookShape = shapes.RookShape
+targets.BishopShape = shapes.BishopShape
+targets.QueenShape = shapes.QueenShape
 
 -- Pre-defined shape instance
-targets.KING_SHAPE = KingShape(1)
-targets.LARGE_KING_SHAPE = KingShape(2)
-targets.ROOK_SHAPE = targets.RookShape(MAX_DISTANCE, "ROOK-BIG")
-targets.BISHOP_SHAPE = targets.BishopShape(MAX_DISTANCE, "BISHOP-BIG")
-targets.QUEEN_SHAPE = UnionShape(targets.ROOK_SHAPE, targets.BISHOP_SHAPE, "QUEEN-BIG")
----@type lootplot.targets.ShapeData
-targets.KNIGHT_SHAPE = {
-    name = "KNIGHT",
-    relativeCoords = {
-        {-2, -1},
-        {-1, -2},
-        {-2, 1},
-        {-1, 2},
-        {2, -1},
-        {1, -2},
-        {2, 1},
-        {1, 2},
-    }
-}
-
-targets.ON_SHAPE = {
-    name = "ON",
-    relativeCoords = {
-        {0,0}
-    }
-}
-
-targets.ABOVE_SHAPE = UniDirectionalShape(0, -1, 1, "ABOVE")
-targets.BELOW_SHAPE = UniDirectionalShape(0, 1, 1, "BELOW")
-
-targets.ABOVE_BELOW_SHAPE = UnionShape(targets.ABOVE_SHAPE, targets.BELOW_SHAPE, "ABOVE-BELOW")
+targets.KING_SHAPE = shapes.KING_SHAPE
+targets.LARGE_KING_SHAPE = shapes.LARGE_KING_SHAPE
+targets.ROOK_SHAPE = shapes.ROOK_SHAPE
+targets.BISHOP_SHAPE = shapes.BISHOP_SHAPE
+targets.QUEEN_SHAPE = shapes.QUEEN_SHAPE
+targets.KNIGHT_SHAPE = shapes.KNIGHT_SHAPE
+targets.ON_SHAPE = shapes.ON_SHAPE
+targets.ABOVE_SHAPE = shapes.ABOVE_SHAPE
+targets.BELOW_SHAPE = shapes.BELOW_SHAPE
+targets.ABOVE_BELOW_SHAPE = shapes.ABOVE_BELOW_SHAPE
 
 
 ---@param basePPos lootplot.PPos
@@ -114,7 +40,7 @@ end
 ---@return objects.Array?
 function targets.getShapePositions(itemEnt)
     local pos = lp.getPos(itemEnt)
-    local targetList
+    local targetList = nil
 
     if itemEnt.shape and pos then
         targetList = objects.Array()

@@ -161,7 +161,7 @@ defItem("grub_converter", {
                 targetEnt.grubMoneyCap = MONEY_CAP_MID
             end
         end,
-        description = loc("If target item is {lootplot:GRUB_COLOR}NOT grubby{/lootplot:GRUB_COLOR}, give it a {lootplot:POINTS_MULT_COLOR}4x points-multiplier{/lootplot:POINTS_MULT_COLOR}, and give it {lootplot:GRUB_COLOR}GRUB-10.")
+        description = loc("If target item is {lootplot:GRUB_COLOR}NOT grubby{/lootplot:GRUB_COLOR}, give it a {lootplot:POINTS_MULT_COLOR}x4 points-multiplier{/lootplot:POINTS_MULT_COLOR}, and give it {lootplot:GRUB_COLOR}GRUB-10.")
     },
 
     rarity = lp.rarities.EPIC,

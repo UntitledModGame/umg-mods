@@ -102,9 +102,9 @@ defItem("bull_helmet", {
     listen = {
         trigger = "BUY",
         activate = function(selfEnt, ppos, targetEnt)
-            lp.multiplierBuff(targetEnt, "pointsGenerated", 3, selfEnt)
+            lp.addMultiplierBuff(targetEnt, "pointsGenerated", 3, selfEnt)
         end,
-        description = loc("Adds a {lootplot:POINTS_MULT_COLOR}3x{/lootplot:POINTS_MULT_COLOR} points-multiplier to the purchased item."),
+        description = loc("Adds a {lootplot:POINTS_MULT_COLOR}+3{/lootplot:POINTS_MULT_COLOR} points-multiplier to the purchased item."),
     },
 
     rarity = lp.rarities.EPIC,
