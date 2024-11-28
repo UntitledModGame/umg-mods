@@ -1,7 +1,7 @@
 local targets = {}
 
 local util = require("shared.util")
-local shapes = require("shared.shapes.init")
+local shapes = require("shared.shapes")
 
 -- Shape exports
 targets.KingShape = shapes.KingShape
