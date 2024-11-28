@@ -48,4 +48,23 @@ end
 
 
 
+---@param x integer
+---@param y integer
+function util.coordsToString(x, y)
+    x = x % 4294967296
+    y = y % 4294967296
+    return string.char(
+        x % 256,
+        (x / 256) % 256,
+        (x / 65536) % 256,
+        (x / 16777216) % 256,
+        y % 256,
+        (y / 256) % 256,
+        (y / 65536) % 256,
+        (y / 16777216) % 256
+    )
+end
+
+
+
 return util
