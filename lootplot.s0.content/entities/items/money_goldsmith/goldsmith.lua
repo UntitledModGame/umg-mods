@@ -75,7 +75,7 @@ local function defGoldRing(id, name, trigger)
 
         activateDescription = function(ent)
             return GOLD_RING_DESC({
-                val = ent.tier * MONEY_PERCENT,
+                val = lp.tiers.getTier(ent) * MONEY_PERCENT,
                 balance = lp.getMoney(ent) or 0
             })
         end,
