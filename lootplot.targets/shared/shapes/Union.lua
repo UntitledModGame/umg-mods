@@ -1,20 +1,4 @@
-
----@param x integer
----@param y integer
-local function coordsToString(x, y)
-    x = x % 4294967296
-    y = y % 4294967296
-    return string.char(
-        x % 256,
-        (x / 256) % 256,
-        (x / 65536) % 256,
-        (x / 16777216) % 256,
-        y % 256,
-        (y / 256) % 256,
-        (y / 65536) % 256,
-        (y / 16777216) % 256
-    )
-end
+local util = require("shared.util")
 
 
 local MAX_NAME_SIZE = 24
@@ -53,7 +37,7 @@ return function(shape1, shape2, ...)
 
     for _, shape in ipairs(shapes) do
         for _, coord in ipairs(shape.relativeCoords) do
-            local key = coordsToString(coord[1], coord[2])
+            local key = util.coordsToString(coord[1], coord[2])
             if not coordsSet:has(key) then
                 coords[#coords+1] = coord
                 coordsSet:add(key)

@@ -1,77 +1,64 @@
 local shapeRenamer = {}
 local shapes = require("shared.shapes")
-
-local test = {
-    shapes.KING_SHAPE,
-    shapes.LARGE_KING_SHAPE,
-
-    shapes.RookShape(1),
-    shapes.RookShape(2),
-    shapes.RookShape(3),
-    shapes.RookShape(4),
-    shapes.ROOK_SHAPE,
-
-    shapes.BishopShape(1),
-    shapes.BishopShape(2),
-    shapes.BishopShape(3),
-    shapes.BishopShape(4),
-    shapes.BISHOP_SHAPE,
-
-    shapes.QueenShape(2),
-    shapes.QueenShape(3),
-    shapes.QueenShape(4),
-    shapes.QUEEN_SHAPE,
-
-    shapes.KNIGHT_SHAPE,
-    shapes.ON_SHAPE,
-    shapes.ABOVE_SHAPE,
-    shapes.BELOW_SHAPE,
-    shapes.ABOVE_BELOW_SHAPE,
-}
-
----@type table<lootplot.targets.ShapeData, objects.Set>
-local cache = {}
-
----@param p {[1]:integer,[2]:integer}
-local function pos2str(p)
-    return p[1].."\0"..p[2]
-end
+local util = require("shared.util")
 
 ---@param coords {[1]:integer,[2]:integer}[]
-function shapeRenamer.get(coords)
-    ---@type string[]
-    local matches = {}
-
-    for _, t in ipairs(test) do
-        if #t.relativeCoords == #coords then
-            local set = cache[t]
-            if not set then
-                -- Build cache
-                set = objects.Set()
-                for _, pos in ipairs(t.relativeCoords) do
-                    set:add(pos2str(pos))
-                end
-
-                cache[t] = set
-            end
-
-            -- Test
-            local matchcount = 0
-            for _, pos in ipairs(coords) do
-                local p2s = pos2str(pos)
-                if set:has(p2s) then
-                    matchcount = matchcount + 1
-                end
-            end
-
-            if #coords == matchcount then
-                -- Exact match
-                return t.name
-            end
+local function computeCoordListString(coords)
+    local result = {}
+    local sortedCoords = table.deepCopy(coords)
+    table.sort(sortedCoords, function(a, b)
+        if a[1] == b[1] then
+            return a[2] < b[2]
+        else
+            return a[1] < b[1]
         end
+    end)
+
+    for _, v in ipairs(sortedCoords) do
+        result[#result+1] = util.coordsToString(v[1], v[2])
     end
 
-    return nil
+    return table.concat(result)
+end
+
+---@type table<string, string>
+local test = {}
+
+---@param shape lootplot.targets.ShapeData
+local function makeTest(shape)
+    test[computeCoordListString(shape.relativeCoords)] = shape.name
+end
+
+makeTest(shapes.KING_SHAPE)
+makeTest(shapes.LARGE_KING_SHAPE)
+
+for i = 1, 5 do
+    makeTest(shapes.RookShape(i))
+    makeTest(shapes.BishopShape(i))
+    if i > 3 then
+        makeTest(shapes.CircleShape(i))
+    end
+
+    if i > 1 then
+        makeTest(shapes.QueenShape(i))
+    end
+end
+
+makeTest(shapes.ROOK_SHAPE)
+makeTest(shapes.BISHOP_SHAPE)
+makeTest(shapes.QUEEN_SHAPE)
+makeTest(shapes.KNIGHT_SHAPE)
+makeTest(shapes.ON_SHAPE)
+makeTest(shapes.ABOVE_SHAPE)
+makeTest(shapes.BELOW_SHAPE)
+makeTest(shapes.ABOVE_BELOW_SHAPE)
+
+
+---@param coords {[1]:integer,[2]:integer}[]
+---@return string?
+function shapeRenamer.get(coords)
+    local coordString = computeCoordListString(coords)
+    return test[coordString]
 end
 
 return shapeRenamer
