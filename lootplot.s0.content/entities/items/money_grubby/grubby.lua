@@ -22,8 +22,7 @@ local helper = require("shared.helper")
 
 local consts = require("shared.constants")
 
-local MONEY_CAP_LOW = assert(consts.GRUB_MONEY_CAP_LOW)
-local MONEY_CAP_MID = assert(consts.GRUB_MONEY_CAP_MID)
+local GRUB_MONEY_CAP = assert(consts.DEFAULT_GRUB_MONEY_CAP)
 
 
 local function defItem(id, etype)
@@ -31,7 +30,7 @@ local function defItem(id, etype)
     return lp.defineItem("lootplot.s0.content:"..id, etype)
 end
 local function defGrubby(id, etype)
-    etype.grubMoneyCap = etype.grubMoneyCap or MONEY_CAP_MID
+    etype.grubMoneyCap = etype.grubMoneyCap or GRUB_MONEY_CAP
     defItem(id, etype)
 end
 
@@ -65,7 +64,7 @@ defGrubby("spare_coins", {
     name = loc("Spare Coins"),
     triggers = {"PULSE"},
 
-    grubMoneyCap = MONEY_CAP_LOW,
+    grubMoneyCap = GRUB_MONEY_CAP,
 
     basePrice = 6,
     baseMoneyGenerated = 1,
@@ -81,7 +80,7 @@ defGrubby("pineapple_ring", {
     name = loc("Pineapple Ring"),
 
     basePrice = 8,
-    grubMoneyCap = MONEY_CAP_MID,
+    grubMoneyCap = GRUB_MONEY_CAP,
     canItemFloat = true,
     activateDescription = loc("{lootplot.targets:COLOR}Make all target items $2 cheaper"),
 
@@ -107,14 +106,14 @@ defGrubby("pineapple_ring", {
 
 
 do
-local CENT_REQ = MONEY_CAP_MID-1
+local CENT_REQ = GRUB_MONEY_CAP-1
 local PRICE_SET = 4
 
 defGrubby("2_cent_ticket", {
     name = loc("2 Cent Ticket"),
 
     basePrice = 2,
-    grubMoneyCap = MONEY_CAP_MID,
+    grubMoneyCap = GRUB_MONEY_CAP,
     canItemFloat = true,
 
     baseMaxActivations = 20,
@@ -158,7 +157,7 @@ defItem("grub_converter", {
         activate = function(selfEnt, ppos, targetEnt)
             if not targetEnt.grubMoneyCap then
                 lp.multiplierBuff(targetEnt, "pointsGenerated", 4)
-                targetEnt.grubMoneyCap = MONEY_CAP_MID
+                targetEnt.grubMoneyCap = GRUB_MONEY_CAP
             end
         end,
         description = loc("If target item is {lootplot:GRUB_COLOR}NOT grubby{/lootplot:GRUB_COLOR}, give it a {lootplot:POINTS_MULT_COLOR}x4 points-multiplier{/lootplot:POINTS_MULT_COLOR}, and give it {lootplot:GRUB_COLOR}GRUB-10.")

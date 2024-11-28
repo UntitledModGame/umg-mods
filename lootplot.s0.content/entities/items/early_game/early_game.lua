@@ -71,7 +71,7 @@ Leather's "purpose" is to give intuition about the `mult` system.
 defItem("leather", {
     name = loc("Leather"),
     description = loc("Has a 3x points multiplier!"),
-    grubMoneyCap = 5,
+    grubMoneyCap = 10,
 
     rarity = lp.rarities.COMMON,
 
