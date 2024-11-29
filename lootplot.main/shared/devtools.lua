@@ -380,3 +380,59 @@ umg.on("rendering:drawEntity", 0x7fffffff, function(ent, x,y, rot, sx,sy, kx,ky)
 end)
 
 end -- if client
+
+-- At this point I don't know where to place this
+chat.handleCommand("spawneverythingplease", {
+    adminLevel = 120,
+    arguments = {},
+    handler = function(clientId, entId)
+        if not server then return end
+        local run = lp.main.getRun()
+        if not run then return end
+
+        local plot = run:getPlot()
+
+        -- Get all item ETypes
+        local allItems = lp.newItemGenerator():getEntries()
+        local etypes = {}
+        local rarities = {"", "UNIQUE", "MYTHIC", "LEGENDARY", "EPIC", "RARE", "UNCOMMON", "COMMON"}
+        for _, itemname in ipairs(allItems) do
+            local etype = assert(server.entities[itemname])
+            local rarity = etype.rarity and etype.rarity.id or ""
+
+            if not etypes[rarity] then
+                etypes[rarity] = {}
+            end
+
+            etypes[rarity][#etypes[rarity] + 1] = itemname
+        end
+
+        local DEBUG_SLOT = server.entities["lootplot.main:debugslot"]
+        local MAX_ITEMS_IN_PPOS_X = 10
+        local y = -1
+        for _, rarity in ipairs(rarities) do
+            local x = 1
+
+            if etypes[rarity] and #etypes[rarity] > 0 then
+                print("Spawning", rarity)
+                y = y + 2
+
+                table.sort(etypes[rarity])
+                for _, etypestr in ipairs(etypes[rarity]) do
+                    print("test spawn", etypestr)
+                    if x >= MAX_ITEMS_IN_PPOS_X then
+                        y = y + 1
+                        x = 1
+                    end
+
+                    local ppos = plot:getPPos(x + 5, y)
+                    local slot = lp.forceSpawnSlot(ppos, DEBUG_SLOT, lp.main.PLAYER_TEAM)
+                    slot.target = etypestr
+                    lp.forceActivateEntity(slot)
+
+                    x = x + 1
+                end
+            end
+        end
+    end
+})
