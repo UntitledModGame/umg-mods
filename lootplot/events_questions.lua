@@ -19,6 +19,8 @@ umg.defineQuestion("lootplot:canTrigger", reducers.AND)
 
 umg.defineEvent("lootplot:itemMoved")
 
+umg.defineEvent("lootplot:itemRotated")
+
 
 umg.defineEvent("lootplot:attributeChanged")
 

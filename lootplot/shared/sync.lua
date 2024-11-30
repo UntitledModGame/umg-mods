@@ -5,6 +5,8 @@ sync.proxyEventToClient("lootplot:entityDestroyed")
 
 sync.proxyEventToClient("lootplot:itemMoved")
 
+sync.proxyEventToClient("lootplot:itemRotated")
+
 sync.proxyEventToClient("lootplot:entityTriggered")
 sync.proxyEventToClient("lootplot:entityTriggerFailed")
 

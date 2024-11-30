@@ -698,13 +698,40 @@ function lp.sellItem(ppos)
     umg.melt("nyi")
 end
 
--- ---@param ent lootplot.LayerEntity
--- ---@param angle number
--- function lp.rotate(ent, angle)
---     -- TODO.
---     -- rotates `ent` by an angle.
---     --  ent can be a slot OR an item
--- end
+
+--- Gets rotation count as an integer.
+--- 0 = 0 degrees, 1 = 90 degrees, 2 = 180, etc.
+--- Cannot have non-integer rotations.
+---@param ent Entity
+---@return integer
+function lp.getItemRotation(ent)
+    return ent.lootplotRotation or 0
+end
+
+
+---@param ent lootplot.ItemEntity
+---@param amount number Rotation amount, as an integer. 1 = 90 degrees.
+--- rotates `ent` by an amount.
+function lp.rotateItem(ent, amount)
+    amount = math.max(0, math.floor((amount or 1) + 0.5))
+    local oldRot = lp.getItemRotation(ent)
+    local newRot = (oldRot + amount) % 4
+    umg.log.trace("Rotating item: ", ent, amount)
+    trigger.tryTriggerEntity("ROTATE", ent)
+    umg.call("lootplot:itemRotated", ent, amount, oldRot, newRot)
+    ent.lootplotRotation = newRot
+    umg.melt([[
+        TODO:
+        actually rotate the item sprite here!!!
+        it might make sense to lerp the rotation; so its smooth.
+        IMPORTANT NOTE THO:
+        Only lerp in 1 direction!
+        That will give a cool "spinning" effect when items are rotating lots.
+        (We dont want it to be jiggling back and forth. That'd be bad)
+    ]])
+end
+
+
 
 ---Availability: Client and Server
 ---@generic T: EntityClass
