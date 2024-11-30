@@ -98,18 +98,6 @@ chat.handleCommand("addMoney", {
     end
 })
 
-chat.handleCommand("hesoyam", {
-    adminLevel = 120,
-    arguments = {},
-    handler = function(clientId, amount)
-        if not server then
-            return
-        end
-
-        local run = assert(lp.main.getRun())
-        lp.addMoney(run:getPlot():getOwnerEntity(), 250000)
-    end
-})
 
 
 
@@ -380,3 +368,69 @@ umg.on("rendering:drawEntity", 0x7fffffff, function(ent, x,y, rot, sx,sy, kx,ky)
 end)
 
 end -- if client
+
+
+
+chat.handleCommand("spawnAllItems", {
+    adminLevel = 120,
+    arguments = {},
+    handler = function(clientId)
+        if not server then return end
+        local run = lp.main.getRun()
+        if not run then return end
+
+        local plot = run:getPlot()
+
+        -- Get all item ETypes
+        local allItems = lp.newItemGenerator():getEntries()
+        local etypes = {}
+        local rarities = {"", "UNIQUE", "MYTHIC", "LEGENDARY", "EPIC", "RARE", "UNCOMMON", "COMMON"}
+        for _, itemETypeStr in ipairs(allItems) do
+            local etype = assert(server.entities[itemETypeStr])
+            local rarity = etype.rarity and etype.rarity.id or ""
+
+            local arr = etypes[rarity]
+            if not arr then
+                arr = objects.Array()
+                etypes[rarity] = arr
+            end
+
+            arr:add(itemETypeStr)
+        end
+
+        local DEBUG_SLOT = server.entities["lootplot.main:debugslot"]
+        local MAX_ITEMS_IN_PPOS_X = 12
+        local X_OFFSET = 5
+
+        local _,height = plot:getDimensions()
+        plot:foreachInArea(0,0, X_OFFSET + MAX_ITEMS_IN_PPOS_X + 1, height-1,function(ppos)
+            local slot = lp.posToSlot(ppos)
+            if slot then slot:delete() end
+        end)
+
+        local y = 1
+        for _, rarity in ipairs(rarities) do
+            local arr = etypes[rarity]
+            if arr then
+                local x = 1
+
+                table.sort(arr)
+                for _, itemETypeStr in ipairs(arr) do
+                    if x >= MAX_ITEMS_IN_PPOS_X then
+                        y = y + 1
+                        x = 1
+                    end
+
+                    local ppos = plot:getPPos(x + X_OFFSET, y)
+                    local slot = lp.forceSpawnSlot(ppos, DEBUG_SLOT, lp.main.PLAYER_TEAM)
+                    slot.target = itemETypeStr
+                    lp.forceActivateEntity(slot)
+
+                    x = x + 1
+                end
+
+                y = y + 2
+            end
+        end
+    end
+})
