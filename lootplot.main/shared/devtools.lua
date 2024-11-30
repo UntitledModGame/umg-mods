@@ -98,18 +98,6 @@ chat.handleCommand("addMoney", {
     end
 })
 
-chat.handleCommand("hesoyam", {
-    adminLevel = 120,
-    arguments = {},
-    handler = function(clientId, amount)
-        if not server then
-            return
-        end
-
-        local run = assert(lp.main.getRun())
-        lp.addMoney(run:getPlot():getOwnerEntity(), 250000)
-    end
-})
 
 
 
@@ -381,11 +369,12 @@ end)
 
 end -- if client
 
--- At this point I don't know where to place this
-chat.handleCommand("spawneverythingplease", {
+
+
+chat.handleCommand("spawnAllItems", {
     adminLevel = 120,
     arguments = {},
-    handler = function(clientId, entId)
+    handler = function(clientId)
         if not server then return end
         local run = lp.main.getRun()
         if not run then return end
@@ -396,42 +385,51 @@ chat.handleCommand("spawneverythingplease", {
         local allItems = lp.newItemGenerator():getEntries()
         local etypes = {}
         local rarities = {"", "UNIQUE", "MYTHIC", "LEGENDARY", "EPIC", "RARE", "UNCOMMON", "COMMON"}
-        for _, itemname in ipairs(allItems) do
-            local etype = assert(server.entities[itemname])
+        for _, itemETypeStr in ipairs(allItems) do
+            local etype = assert(server.entities[itemETypeStr])
             local rarity = etype.rarity and etype.rarity.id or ""
 
-            if not etypes[rarity] then
-                etypes[rarity] = {}
+            local arr = etypes[rarity]
+            if not arr then
+                arr = objects.Array()
+                etypes[rarity] = arr
             end
 
-            etypes[rarity][#etypes[rarity] + 1] = itemname
+            arr:add(itemETypeStr)
         end
 
         local DEBUG_SLOT = server.entities["lootplot.main:debugslot"]
-        local MAX_ITEMS_IN_PPOS_X = 10
-        local y = -1
+        local MAX_ITEMS_IN_PPOS_X = 12
+        local X_OFFSET = 5
+
+        local _,height = plot:getDimensions()
+        plot:foreachInArea(0,0, X_OFFSET + MAX_ITEMS_IN_PPOS_X + 1, height-1,function(ppos)
+            local slot = lp.posToSlot(ppos)
+            if slot then slot:delete() end
+        end)
+
+        local y = 1
         for _, rarity in ipairs(rarities) do
-            local x = 1
+            local arr = etypes[rarity]
+            if arr then
+                local x = 1
 
-            if etypes[rarity] and #etypes[rarity] > 0 then
-                print("Spawning", rarity)
-                y = y + 2
-
-                table.sort(etypes[rarity])
-                for _, etypestr in ipairs(etypes[rarity]) do
-                    print("test spawn", etypestr)
+                table.sort(arr)
+                for _, itemETypeStr in ipairs(arr) do
                     if x >= MAX_ITEMS_IN_PPOS_X then
                         y = y + 1
                         x = 1
                     end
 
-                    local ppos = plot:getPPos(x + 5, y)
+                    local ppos = plot:getPPos(x + X_OFFSET, y)
                     local slot = lp.forceSpawnSlot(ppos, DEBUG_SLOT, lp.main.PLAYER_TEAM)
-                    slot.target = etypestr
+                    slot.target = itemETypeStr
                     lp.forceActivateEntity(slot)
 
                     x = x + 1
                 end
+
+                y = y + 2
             end
         end
     end
