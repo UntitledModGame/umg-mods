@@ -709,11 +709,14 @@ function lp.getItemRotation(ent)
 end
 
 
+local rotateItemTc = typecheck.assert("entity", "number?")
+
 ---@param ent lootplot.ItemEntity
 ---@param amount number Rotation amount, as an integer. 1 = 90 degrees.
 --- rotates `ent` by an amount.
 function lp.rotateItem(ent, amount)
-    amount = math.max(0, math.floor((amount or 1) + 0.5))
+    rotateItemTc(ent, amount)
+    amount = math.max(0, math.floor((amount or 1) + 0.5)) % 4
     local oldRot = lp.getItemRotation(ent)
     local newRot = (oldRot + amount) % 4
     umg.log.trace("Rotating item: ", ent, amount)

@@ -1,7 +1,10 @@
 
+local shapeRenamer
+
+
 ---@param name string the existing name of the shape
 ---@param rot number
-local function getName(name, rot)
+local function makeRotName(name, rot)
     local PATTERN = " ROT%-%d"
     local FMT_PATTERN = " ROT-%d"
     local found = name:match(PATTERN)
@@ -41,11 +44,16 @@ return function(shape, rot, name)
         return shape
     end
 
-    name = name or getName(shape.name, rot)
     local coords = {}
 
     for _, coord in ipairs(shape.relativeCoords) do
         coords[#coords+1] = rotateCoord(coord, rot)
+    end
+
+    -- lazy require to avoid circ require
+    shapeRenamer = shapeRenamer or require("shared.shape_renamer")
+    if not name then
+        name = shapeRenamer.tryFindName(coords) or makeRotName(shape.name, rot)
     end
 
     return {

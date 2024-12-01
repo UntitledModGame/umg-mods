@@ -63,7 +63,7 @@ makeTest(shapes.ON_SHAPE)
 
 ---@param coords {[1]:integer,[2]:integer}[]
 ---@return string?
-function shapeRenamer.get(coords)
+function shapeRenamer.tryFindName(coords)
     local coordString = computeCoordListString(coords)
     return test[coordString]
 end

@@ -1,5 +1,7 @@
 local util = require("shared.util")
 
+local shapeRenamer
+
 
 local MAX_NAME_SIZE = 24
 
@@ -46,8 +48,9 @@ return function(shape1, shape2, ...)
     end
 
     if not name then
-        local shapeRenamer = require("shared.shape_renamer")
-        name = shapeRenamer.get(coords) or makeConcatName(shapes)
+        -- lazy require to avoid circ require
+        shapeRenamer = shapeRenamer or require("shared.shape_renamer")
+        name = shapeRenamer.tryFindName(coords) or makeConcatName(shapes)
     end
 
     return {
