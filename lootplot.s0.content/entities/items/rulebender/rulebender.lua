@@ -349,7 +349,7 @@ defItem("blank_page", {
 
     rarity = lp.rarities.EPIC,
 
-    shape = lp.targets.ABOVE_SHAPE,
+    shape = lp.targets.UP_SHAPE,
 
     basePrice = 9,
     baseMaxActivations = 10,

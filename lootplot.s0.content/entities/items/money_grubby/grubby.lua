@@ -151,7 +151,7 @@ defItem("grub_converter", {
     basePrice = 6,
     baseMaxActivations = 1,
 
-    shape = lp.targets.ABOVE_SHAPE,
+    shape = lp.targets.UP_SHAPE,
     target = {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)

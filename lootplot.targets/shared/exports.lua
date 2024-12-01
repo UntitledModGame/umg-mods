@@ -14,6 +14,15 @@ targets.RookShape = shapes.RookShape
 targets.BishopShape = shapes.BishopShape
 targets.QueenShape = shapes.QueenShape
 
+targets.VerticalShape = shapes.VerticalShape
+targets.HorizontalShape = shapes.HorizontalShape
+
+targets.UpShape = shapes.UpShape
+targets.DownShape = shapes.DownShape
+targets.LeftShape = shapes.LeftShape
+targets.RightShape = shapes.RightShape
+
+
 -- Pre-defined shape instance
 targets.KING_SHAPE = shapes.KING_SHAPE
 targets.LARGE_KING_SHAPE = shapes.LARGE_KING_SHAPE
@@ -21,10 +30,11 @@ targets.ROOK_SHAPE = shapes.ROOK_SHAPE
 targets.BISHOP_SHAPE = shapes.BISHOP_SHAPE
 targets.QUEEN_SHAPE = shapes.QUEEN_SHAPE
 targets.KNIGHT_SHAPE = shapes.KNIGHT_SHAPE
+
 targets.ON_SHAPE = shapes.ON_SHAPE
-targets.ABOVE_SHAPE = shapes.ABOVE_SHAPE
-targets.BELOW_SHAPE = shapes.BELOW_SHAPE
-targets.ABOVE_BELOW_SHAPE = shapes.ABOVE_BELOW_SHAPE
+
+targets.UP_SHAPE = shapes.UP_SHAPE
+targets.DOWN_SHAPE = shapes.DOWN_SHAPE
 
 
 ---@param basePPos lootplot.PPos

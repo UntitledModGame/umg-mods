@@ -14,7 +14,7 @@ local function defineBook(id, name, targetSlot, targetSlotName, rarity)
 
         doomCount = 10,
 
-        shape = lp.targets.ABOVE_SHAPE,
+        shape = lp.targets.UP_SHAPE,
 
         basePrice = 15,
         baseMaxActivations = 1,
@@ -111,7 +111,7 @@ local function defineBuffingBook(id, name, targetDescription, func)
 
         doomCount = 4,
 
-        shape = lp.targets.ABOVE_SHAPE,
+        shape = lp.targets.UP_SHAPE,
 
         basePrice = 15,
         baseMaxActivations = 100,

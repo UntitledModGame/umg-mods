@@ -49,7 +49,7 @@ defineFood("magic_turnip", {
     rarity = lp.rarities.EPIC,
 
     basePrice = 10,
-    shape = lp.targets.ABOVE_SHAPE,
+    shape = lp.targets.UP_SHAPE,
 
     target = {
         type = "ITEM",
@@ -75,7 +75,7 @@ defineFood("green_olive", {
 
     rarity = lp.rarities.EPIC,
 
-    shape = lp.targets.ABOVE_SHAPE,
+    shape = lp.targets.UP_SHAPE,
 
     basePrice = 2,
 
@@ -101,7 +101,7 @@ defineFood("eggplant", {
 
     rarity = lp.rarities.LEGENDARY,
 
-    shape = lp.targets.ABOVE_SHAPE,
+    shape = lp.targets.UP_SHAPE,
 
     target = {
         type = "ITEM_OR_SLOT",
@@ -121,7 +121,7 @@ defineFood("heart_fruit", {
 
     rarity = lp.rarities.UNCOMMON,
 
-    shape = lp.targets.ABOVE_SHAPE,
+    shape = lp.targets.UP_SHAPE,
 
     basePrice = 6,
 
@@ -417,7 +417,7 @@ defineFood("golden_syrup", {
 
     rarity = lp.rarities.EPIC,
 
-    shape = lp.targets.ABOVE_SHAPE,
+    shape = lp.targets.UP_SHAPE,
 
     basePrice = 12,
 
@@ -467,7 +467,7 @@ local function definePie(id, name, desc, addShape, rarity)
 
         rarity = rarity,
 
-        shape = lp.targets.ABOVE_SHAPE,
+        shape = lp.targets.UP_SHAPE,
 
         target = {
             type = "ITEM",
@@ -513,7 +513,7 @@ This gives the player great intuition about what they do.
 ]]
 
 local function definePotion(name, etype)
-    etype.shape = lp.targets.ABOVE_SHAPE
+    etype.shape = lp.targets.UP_SHAPE
     etype.basePrice = etype.basePrice or 3
     defineFood(name, etype)
 end
@@ -661,7 +661,7 @@ defineMush("mushroom_purple", {
 
 defineMush("mushroom_floaty", {
     name = loc("Floaty Mushroom"),
-    shape = lp.targets.ABOVE_SHAPE,
+    shape = lp.targets.UP_SHAPE,
     basePrice = 6,
 
     target = {

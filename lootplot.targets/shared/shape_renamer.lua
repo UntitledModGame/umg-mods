@@ -42,16 +42,23 @@ for i = 1, 5 do
     if i > 1 then
         makeTest(shapes.QueenShape(i))
     end
+
+    makeTest(shapes.VerticalShape(i))
+    makeTest(shapes.HorizontalShape(i))
+
+    makeTest(shapes.UpShape(i))
+    makeTest(shapes.DownShape(i))
+    makeTest(shapes.LeftShape(i))
+    makeTest(shapes.RightShape(i))
 end
+
 
 makeTest(shapes.ROOK_SHAPE)
 makeTest(shapes.BISHOP_SHAPE)
 makeTest(shapes.QUEEN_SHAPE)
 makeTest(shapes.KNIGHT_SHAPE)
 makeTest(shapes.ON_SHAPE)
-makeTest(shapes.ABOVE_SHAPE)
-makeTest(shapes.BELOW_SHAPE)
-makeTest(shapes.ABOVE_BELOW_SHAPE)
+
 
 
 ---@param coords {[1]:integer,[2]:integer}[]

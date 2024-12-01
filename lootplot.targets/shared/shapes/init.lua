@@ -94,9 +94,44 @@ shapes.ON_SHAPE = {
     }
 }
 
-shapes.ABOVE_SHAPE = UniDirectionalShape(0, -1, 1, "ABOVE")
-shapes.BELOW_SHAPE = UniDirectionalShape(0, 1, 1, "BELOW")
 
-shapes.ABOVE_BELOW_SHAPE = UnionShape(shapes.ABOVE_SHAPE, shapes.BELOW_SHAPE, "ABOVE-BELOW")
+function shapes.UpShape(x)
+    return UniDirectionalShape(0, -1, x, "UP-" .. tostring(x))
+end
+function shapes.DownShape(x)
+    return UniDirectionalShape(0, 1, x, "DOWN-" .. tostring(x))
+end
+function shapes.LeftShape(x)
+    return UniDirectionalShape(-1, 0, x, "LEFT-" .. tostring(x))
+end
+function shapes.RightShape(x)
+    return UniDirectionalShape(1, 0, x, "RIGHT-" .. tostring(x))
+end
+
+function shapes.HorizontalShape(x)
+    return UnionShape(
+        shapes.LeftShape(x),
+        shapes.RightShape(x),
+        "HORIZONTAL-" .. tostring(x)
+    )
+end
+
+function shapes.VerticalShape(x)
+    return UnionShape(
+        shapes.UpShape(x),
+        shapes.DownShape(x),
+        "VERTICAL-" .. tostring(x)
+    )
+end
+
+
+
+shapes.UP_SHAPE = shapes.UpShape(1)
+shapes.DOWN_SHAPE = shapes.DownShape(1)
+shapes.LEFT_SHAPE = shapes.LeftShape(1)
+shapes.RIGHT_SHAPE = shapes.RightShape(1)
+
+shapes.LEFT_RIGHT_SHAPE = UnionShape(shapes.LEFT, shapes.RIGHT, "LEFT-RIGHT")
+
 
 return shapes

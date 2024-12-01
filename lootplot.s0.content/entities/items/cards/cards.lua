@@ -41,7 +41,7 @@ defineCard("star_card", {
 
     rarity = lp.rarities.LEGENDARY,
 
-    shape = lp.targets.ABOVE_BELOW_SHAPE,
+    shape = lp.targets.VerticalShape(1),
 
     target = {
         type = "ITEM",
@@ -80,7 +80,7 @@ defineCard("star_card", {
 
 defineCard("hearts_card", {
     name = loc("Hearts Card"),
-    shape = lp.targets.ABOVE_BELOW_SHAPE,
+    shape = lp.targets.VerticalShape(1),
     target = {
         type = "ITEM",
         description = loc("Shuffle lives between target items"),
@@ -105,7 +105,7 @@ defineCard("hearts_card", {
 defineCard("price_card", {
     name = loc("Price Card"),
 
-    shape = lp.targets.ABOVE_SHAPE,
+    shape = lp.targets.UP_SHAPE,
 
     doomCount = 10,
 

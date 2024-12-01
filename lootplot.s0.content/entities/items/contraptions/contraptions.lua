@@ -70,7 +70,7 @@ defContra("old_radio", {
 
     rarity = lp.rarities.RARE,
 
-    shape = lp.targets.ABOVE_SHAPE,
+    shape = lp.targets.UP_SHAPE,
 
     baseMoneyGenerated = -4,
     baseMaxActivations = 4,
@@ -94,7 +94,7 @@ defContra("dark_radio", {
     triggers = {},
 
     rarity = lp.rarities.EPIC,
-    shape = lp.targets.ABOVE_SHAPE,
+    shape = lp.targets.UP_SHAPE,
 
     baseMaxActivations = 10,
 
