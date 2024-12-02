@@ -1,8 +1,9 @@
 
 local loc = localization.localize
 
-local function defItem(id, etype)
+local function defItem(id, name, etype)
     etype.image = etype.image or id
+    etype.name = loc(name)
     return lp.defineItem("lootplot.s0.content:"..id, etype)
 end
 
@@ -45,8 +46,13 @@ Rotate all target-items
 
 Green Record:
 When rotated, buff target items, +5 points
+
 Red Record:
 When rotated, buff target items, +1 mult
+
+
+Upside down helmet item:
+If target item has been rotated, buff item +4 points
 
 
 Slot that rotates items
@@ -58,7 +64,7 @@ TODO.
 ]]
 
 
-defItem("gear", {
+defItem("gear", "Gear", {
     shape = lp.targets.KingShape(1),
 
     triggers = {"PULSE", "ROTATE"},
