@@ -1,4 +1,7 @@
 {
     "type": "base",
-    "uses": ["lootplot", "sync", "localization"]
+    "uses": [
+        "lootplot", "sync", "localization", 
+        "text", "objects", "typecheck"
+    ]
 }

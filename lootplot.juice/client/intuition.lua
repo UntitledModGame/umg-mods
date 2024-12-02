@@ -49,6 +49,16 @@ end)
 
 
 
+umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER + 0.1, function(ent, x,y, rot, sx,sy, kx,ky)
+    if ent.manaCount and ent.manaCount > 0 and lp.isSlotEntity(ent) then
+        local img = client.assets.images.slot_mana_count_visual
+        rendering.drawImage(img, x, y, rot, sx,sy, kx,ky)
+    end
+end)
+
+
+
+
 umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER + 0.5, function(ent, x,y, rot, sx,sy, kx,ky)
     if ent.grubMoneyCap then
         if lp.isItemEntity(ent) then

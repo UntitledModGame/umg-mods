@@ -2,8 +2,9 @@
 
 local loc = localization.localize
 
-local function defItem(id, etype)
+local function defItem(id, name, etype)
     etype.image = etype.image or id
+    etype.name = loc(name)
     return lp.defineItem("lootplot.s0.content:"..id, etype)
 end
 
@@ -69,3 +70,45 @@ We need MORE items that USE mana!!!
 ===================================================
 
 ]]
+
+
+--[[
+TODO: define this as a food.
+]]
+defItem("vial_blue", "Blue Vial", {
+    rarity = lp.rarities.RARE,
+    doomCount = 1,
+
+    shape = lp.targets.ON_SHAPE,
+    target = {
+        type = "SLOT",
+        activate = function(ent, ppos, slotEnt)
+            lp.mana.addMana(slotEnt, 3)
+        end,
+        description = loc("Gives {lootplot.mana:LIGHT_MANA_COLOR}+3 mana {/lootplot.mana:LIGHT_MANA_COLOR}to slot")
+    }
+})
+
+
+defItem("holy_necklace", "Holy necklace", {
+    rarity = lp.rarities.RARE,
+
+    baseMoneyGenerated = 4,
+    manaCost = 1,
+})
+
+
+defItem("unholy_necklace", "Unholy necklace", {
+    rarity = lp.rarities.RARE,
+
+    baseMoneyGenerated = -4,
+
+    shape = lp.targets.ON_SHAPE,
+    target = {
+        type = "SLOT",
+        activate = function(ent, ppos, slotEnt)
+            lp.mana.addMana(slotEnt, 1)
+        end,
+        description = loc("Gives {lootplot.mana:LIGHT_MANA_COLOR}+1 mana{/lootplot.mana:LIGHT_MANA_COLOR} to slot")
+    }
+})
