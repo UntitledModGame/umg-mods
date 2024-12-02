@@ -1,6 +1,6 @@
 local loc = localization.localize
 
-local DESCRIPTION = localization.newInterpolator("Upgrade tier of either %{rarity} or higher items or if price is $20 or higher. Transform to %{name} once used.")
+local DESCRIPTION = localization.newInterpolator("Upgrades items.\nTransform to %{name} once used.")
 
 return lp.defineSlot("lootplot.s0.content:amethyst_slot", {
     image = "amethyst_slot",
@@ -28,7 +28,7 @@ return lp.defineSlot("lootplot.s0.content:amethyst_slot", {
         )
         then
             local ppos = assert(lp.getPos(self))
-            lp.tiers.upgradeTier(itemEnt, self)
+            umg.melt("Todo: upgrade item somehow")
             lp.forceSpawnSlot(ppos, server.entities[self.transformTo], self.lootplotTeam)
         end
     end

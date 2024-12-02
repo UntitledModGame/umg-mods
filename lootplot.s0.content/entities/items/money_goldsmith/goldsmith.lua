@@ -16,18 +16,16 @@ end
 
 local function percentageOfBalanceGetter(percentage)
     return function(ent)
-        local tier = lp.tiers.getTier(ent)
         local money = lp.getMoney(ent)
         if money then
-            return money * percentage * tier
+            return money * percentage
         end
         return 0
     end
 end
 
 
-local POINT_PERCENT = 100
-local SILV_RING_DESC = interp("Earn points equal to %{val}% of current balance.\n{lootplot:MONEY_COLOR}(Balance: $%{balance})")
+local SILV_RING_DESC = interp("Earn points equal the current balance.\n{lootplot:MONEY_COLOR}(Balance: $%{balance})")
 
 local function defSilvRing(id,name,trigger)
     defItem(id, {
@@ -36,21 +34,16 @@ local function defSilvRing(id,name,trigger)
 
         activateDescription = function(ent)
             return SILV_RING_DESC({
-                val = lp.tiers.getTier(ent) * POINT_PERCENT,
                 balance = lp.getMoney(ent) or 0
             })
         end,
-
-        tierUpgrade = {
-            description = loc("Increases percentage!")
-        },
 
         basePrice = 6,
         basePointsGenerated = 0,
 
         lootplotProperties = {
             modifiers = {
-                pointsGenerated = percentageOfBalanceGetter(POINT_PERCENT / 100.0)
+                pointsGenerated = percentageOfBalanceGetter(1)
             }
         },
 
@@ -75,14 +68,10 @@ local function defGoldRing(id, name, trigger)
 
         activateDescription = function(ent)
             return GOLD_RING_DESC({
-                val = lp.tiers.getTier(ent) * MONEY_PERCENT,
+                val = MONEY_PERCENT,
                 balance = lp.getMoney(ent) or 0
             })
         end,
-
-        tierUpgrade = {
-            description = loc("Increases percentage!")
-        },
 
         basePrice = 8,
         baseMoneyGenerated = 0,
@@ -116,7 +105,6 @@ defItem("belt_topaz", {
 
     basePointsGenerated = 20,
     baseMaxActivations = 2,
-    tierUpgrade = helper.propertyUpgrade("maxActivations", 2, 3),
 
     onActivate = function(ent)
         if (lp.getMoney(ent) or 0) > MONEY_REQUIREMENT then
@@ -139,7 +127,6 @@ defItem("belt_ruby", {
 
     baseMaxActivations = 4,
     basePointsGenerated = 50,
-    tierUpgrade = helper.propertyUpgrade("maxActivations", 4, 3),
 
     canActivate = function(ent)
         if (lp.getMoney(ent) or 0) > MONEY_REQUIREMENT then
@@ -166,7 +153,6 @@ defItem("gold_coin", {
     baseMaxActivations = 1,
     basePrice = 12,
     basePointsGenerated = 200,
-    tierUpgrade = helper.propertyUpgrade("maxActivations", 1, 3),
 
     canActivate = function(ent)
         return (lp.getMoney(ent) or 0) > MONEY_REQUIREMENT

@@ -72,7 +72,6 @@ defineDice("white_die", "White Die", {
     rarity = lp.rarities.EPIC,
     baseMoneyGenerated = 2,
     baseMaxActivations = 3,
-    tierUpgrade = helper.propertyUpgrade("moneyGenerated", 2, 3)
 })
 
 
@@ -84,7 +83,6 @@ defineDice("black_die", "Black Die", {
     shape = lp.targets.KING_SHAPE,
 
     baseMaxActivations = 5,
-    tierUpgrade = helper.propertyUpgrade("maxActivations", 5, 3),
 
     target = {
         type = "ITEM",
@@ -143,7 +141,6 @@ defineDice("triple_dice", "Triple Dice", {
     basePrice = 8,
     baseMaxActivations = 2,
     baseMoneyGenerated = 1,
-    tierUpgrade = helper.propertyUpgrade("moneyGenerated",1,3),
 
     grubMoneyCap = consts.GRUB_MONEY_CAP_LOW
 })
@@ -158,7 +155,6 @@ defineDice("quad_dice", "Quad Dice", {
     basePrice = 8,
     baseMaxActivations = 10,
     basePointsGenerated = PTS,
-    tierUpgrade = helper.propertyUpgrade("pointsGenerated",PTS,3),
 
     grubMoneyCap = consts.GRUB_MONEY_CAP_LOW,
 })

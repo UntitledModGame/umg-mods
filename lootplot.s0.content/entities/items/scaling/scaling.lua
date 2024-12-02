@@ -18,7 +18,6 @@ local function defineHelmet(id, etype)
 
     etype.basePrice = etype.basePrice or 10
     etype.baseMaxActivations = etype.baseMaxActivations or 1
-    etype.tierUpgrade = helper.propertyUpgrade("maxActivations", 1, 3)
 
     defItem(id,etype)
 end
@@ -26,10 +25,6 @@ end
 
 
 
-
-local function upgradeFilter(selfEnt, ppos, targetEnt)
-    return lp.tiers.getTier(targetEnt) > 1
-end
 
 defineHelmet("iron_helmet", {
     name = loc("Iron Helmet"),
@@ -39,11 +34,10 @@ defineHelmet("iron_helmet", {
 
     target = {
         type = "ITEM",
-        description = interp("Buff all {wavy}{lootplot:COMBINE_COLOR}UPGRADED{/lootplot:COMBINE_COLOR}{/wavy} target items: +2 points."),
+        description = interp("Buff all target items: +2 points."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.modifierBuff(targetEnt, "pointsGenerated", 2, selfEnt)
         end,
-        filter = upgradeFilter
     }
 })
 
@@ -59,7 +53,6 @@ defItem("moon_knife", {
     basePrice = 9,
 
     baseMaxActivations = 3,
-    tierUpgrade = helper.propertyUpgrade("maxActivations", 3, 2),
 
     onActivate = function(ent)
         lp.modifierBuff(ent, "pointsGenerated", 1)
@@ -77,16 +70,14 @@ defineHelmet("ruby_helmet", {
 
     target = {
         type = "ITEM",
-        description = interp("Buff all target items:\n+%{tier} activations. (Capped at 20)"),
+        description = loc("Buff all target items:\n+1 activations. (Capped at 20)"),
         activate = function(selfEnt, ppos, targetEnt)
             if (targetEnt.maxActivations or 0) < 20 then
-                local x = lp.tiers.getTier(selfEnt)
                 lp.modifierBuff(targetEnt, "maxActivations", x, selfEnt)
             end
         end,
         filter = function(selfEnt, ppos, targetEnt)
-            return upgradeFilter(selfEnt, ppos, targetEnt)
-                and ((targetEnt.maxActivations or 0) < 20)
+            return (targetEnt.maxActivations or 0) < 20
         end
     },
 })

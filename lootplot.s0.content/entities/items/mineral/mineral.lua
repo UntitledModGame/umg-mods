@@ -24,7 +24,6 @@ local function defineSword(mineral_type, name, etype)
         name = loc(name .. " Sword"),
 
         basePointsGenerated = pgen,
-        tierUpgrade = helper.propertyUpgrade("pointsGenerated", pgen, 3),
 
         rarity = etype.rarity or lp.rarities.COMMON,
 
@@ -57,7 +56,6 @@ local function definePickaxe(mineral_type, name, etype)
         basePrice = 4,
         basePointsGenerated = pgen,
         baseMaxActivations = 5,
-        tierUpgrade = helper.propertyUpgrade("pointsGenerated", pgen, 3),
 
         rarity = etype.rarity or lp.rarities.UNCOMMON,
     }
@@ -86,7 +84,6 @@ local function defineAxe(mineral_type, name, etype)
 
         basePrice = 5,
         basePointsGenerated = 2,
-        tierUpgrade = helper.propertyUpgrade("pointsGenerated", 2, 3),
 
         shape = lp.targets.KNIGHT_SHAPE,
 
@@ -108,47 +105,12 @@ end
 
 
 
-local function canUpgrade(ent1, ent2)
-    return ent1.mineralType
-        and ent1.mineralType == ent2.mineralType
-        and lp.tiers.getTier(ent1) == lp.tiers.getTier(ent2)
-end
-
-local function definePiece(mineral_type, name)
-    local namespace = umg.getModName() .. ":"
-    local etypeName = namespace .. mineral_type .. "_pieces"
-    local image = mineral_type .. "_pieces"
-    defineMineral(mineral_type, etypeName, {
-        name = loc(name .. " Pieces"),
-        image = image,
-        description = loc("Can upgrade " .. name .. " tools of the same tier!"),
-
-        basePrice = 3,
-        basePointsGenerated = 4,
-        tierUpgrade = helper.propertyUpgrade("pointsGenerated", 4, 3),
-
-        mineralType = mineral_type,
-        rarity=lp.rarities.COMMON,
-
-        onCombine = function(selfEnt, targetItem)
-            if canUpgrade(selfEnt, targetItem) then
-                lp.tiers.upgradeTier(targetItem, selfEnt)
-            end
-        end,
-        canCombine = function(selfEnt, targetItem)
-            return canUpgrade(selfEnt, targetItem)
-        end
-    })
-end
-
 
 
 local function defineMineralClass(mineral_type, name, etype)
     defineSword(mineral_type, name, etype)
     defineAxe(mineral_type, name, etype)
     definePickaxe(mineral_type, name, etype)
-
-    definePiece(mineral_type, name)
 end
 
 
@@ -193,22 +155,4 @@ defineMineralClass("cobalt", "Cobalt", {
     rarity = lp.rarities.RARE
 })
 
-
-
-lp.defineItem("lootplot.s0.content:diamond", {
-    image = "diamond",
-    name = loc("Diamond"),
-    description = loc("Can upgrade ANY mineral or tool item"),
-
-    rarity = lp.rarities.EPIC,
-
-    onCombine = function(selfEnt, targetItem)
-        if targetItem.mineralType then
-            lp.tiers.upgradeTier(targetItem, selfEnt)
-        end
-    end,
-    canCombine = function(selfEnt, targetItem)
-        return targetItem.mineralType
-    end
-})
 

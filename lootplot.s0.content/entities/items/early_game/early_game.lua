@@ -58,7 +58,6 @@ defItem("stick", {
     rarity = lp.rarities.COMMON,
 
     basePointsGenerated = 4,
-    tierUpgrade = helper.propertyUpgrade("pointsGenerated", 4, 3),
     basePrice = 2,
 })
 
@@ -86,7 +85,6 @@ defItem("leather", {
     baseMaxActivations = 15,
 
     basePointsGenerated = 5,
-    tierUpgrade = helper.propertyUpgrade("pointsGenerated", 5, 3)
 })
 
 
@@ -108,14 +106,13 @@ defItem("net", {
     shape = lp.targets.KING_SHAPE,
 
     baseMaxActivations = 8,
-    tierUpgrade = helper.propertyUpgrade("maxActivations", 8, 3),
 
     basePointsGenerated = 2,
 })
 
 
 
-local COINS_DESC = interp("15% Chance to earn {lootplot:MONEY_COLOR}$%{amount}.\n{wavy}TOTAL EARNED: $%{totalEarned}")
+local COINS_DESC = interp("20% Chance to earn {lootplot:MONEY_COLOR}$1.\n{wavy}TOTAL EARNED: $%{totalEarned}")
 defItem("coins", {
     name = loc("Coins"),
     init = function(ent)
@@ -123,7 +120,6 @@ defItem("coins", {
     end,
     activateDescription = function(ent)
         return COINS_DESC({
-            amount = lp.tiers.getTier(ent),
             totalEarned = ent.totalEarned
         })
     end,
@@ -134,15 +130,10 @@ defItem("coins", {
     baseMaxActivations = 2,
     basePrice = 4,
 
-    tierUpgrade = {
-        description = loc("Gains $1 extra")
-    },
-
     onActivate = function(ent)
-        if lp.SEED:randomMisc()<=0.15 then
-            local m = lp.tiers.getTier(ent)
-            lp.addMoney(ent, m)
-            ent.totalEarned = ent.totalEarned + m
+        if lp.SEED:randomMisc()<=0.20 then
+            lp.addMoney(ent, 1)
+            ent.totalEarned = ent.totalEarned + 1
             sync.syncComponent(ent, "totalEarned")
         end
     end
@@ -236,7 +227,6 @@ lp.defineItem("lootplot.s0.content:trumpet", {
     basePrice = 3,
 
     basePointsGenerated = 5,
-    tierUpgrade = helper.propertyUpgrade("pointsGenerated", 5, 3),
 
     -- just for the funni
     onActivateClient = function(ent)

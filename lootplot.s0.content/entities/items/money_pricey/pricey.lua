@@ -16,7 +16,6 @@ defItem("gold_watch", {
     name = loc("Gold Watch"),
     activateDescription = loc("Increases price by 10%,\n(Max 200)"),
 
-    tierUpgrade = helper.propertyUpgrade("price", 5, 5),
     rarity = lp.rarities.EPIC,
 
     onActivate = function(ent)
@@ -40,7 +39,6 @@ defItem("gold_helmet", {
 
     basePrice = 8,
     baseMaxActivations = 5,
-    tierUpgrade = helper.propertyUpgrade("maxActivations", 5, 3),
 
     shape = lp.targets.KING_SHAPE,
 

@@ -17,7 +17,6 @@ defItem("gold_sword", {
     rarity = lp.rarities.RARE,
     baseMoneyGenerated = 1,
     baseMaxActivations = 1,
-    tierUpgrade = helper.propertyUpgrade("moneyGenerated", 1, 3)
 })
 
 
@@ -31,7 +30,6 @@ defItem("gold_axe", {
     basePrice = 10,
     baseMaxActivations = 1,
     baseMoneyGenerated = 0.5,
-    tierUpgrade = helper.propertyUpgrade("moneyGenerated", 0.5, 3),
 
     target = {
         description = loc("Earn money for every target item."),
@@ -108,7 +106,6 @@ defItem("gold_knuckles", {
     basePrice = 6,
     baseMaxActivations = 10,
     baseMoneyGenerated = 2,
-    tierUpgrade = helper.propertyUpgrade("moneyGenerated", 2, 2),
 
     shape = lp.targets.KING_SHAPE,
 
@@ -159,7 +156,6 @@ defItem("gold_bell", {
     baseMoneyGenerated = -4,
     baseMaxActivations = 10,
     basePointsGenerated = 500,
-    tierUpgrade = helper.propertyUpgrade("pointsGenerated", 500, 3),
 
     rarity = lp.rarities.EPIC,
 })
@@ -177,7 +173,6 @@ defItem("gold_crown", {
     canItemFloat = true,
 
     baseMoneyGenerated = 2,
-    tierUpgrade = helper.propertyUpgrade("moneyGenerated", 2, 3),
 
     target = {
         description = loc("Earn money for every {lootplot:INFO_COLOR}FLOATING{/lootplot:INFO_COLOR} target item."),

@@ -69,7 +69,6 @@ defGrubby("spare_coins", {
     basePrice = 6,
     baseMoneyGenerated = 1,
     baseMaxActivations = 2,
-    tierUpgrade = helper.propertyUpgrade("moneyGenerated", 1, 3),
 
     rarity = lp.rarities.UNCOMMON,
 })

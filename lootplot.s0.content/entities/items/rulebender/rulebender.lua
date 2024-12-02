@@ -244,8 +244,6 @@ defItem("old_brick", {
     basePointsGenerated = 60,
     baseMaxActivations = 10,
 
-    tierUpgrade = helper.pointsMultUpgrade(3),
-
     onActivate = function(selfEnt)
         lp.modifierBuff(selfEnt, "pointsGenerated", -2)
     end
@@ -263,8 +261,6 @@ defItem("spear_of_war", {
     baseMaxActivations = 25,
     basePointsGenerated = 1,
     basePrice = 9,
-
-    tierUpgrade = helper.pointsMultUpgrade(3),
 
     onActivate = function(ent)
         local combo = lp.getCombo(ent)
@@ -292,8 +288,6 @@ local function defineOcto(name, etype)
 
     etype.basePrice = 8
     etype.baseMaxActivations = 5
-
-    etype.tierUpgrade = helper.propertyUpgrade("maxActivations", 5, 2)
 
     lp.defineItem(id, etype)
 end
@@ -375,8 +369,6 @@ defItem("ukulele", {
 
     basePrice = 6,
     baseMaxActivations = 2,
-
-    tierUpgrade = helper.propertyUpgrade("maxActivations", 2, 3),
 
     shape = lp.targets.RookShape(1),
 
