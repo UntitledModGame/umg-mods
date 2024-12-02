@@ -1,6 +1,8 @@
 
 --[[
 
+
+
 Gear:
 On PULSE,ROTATE:
 Rotates all target items
@@ -8,15 +10,39 @@ KING-1
 
 
 Shuriken:
-On PULSE:
-Earn points
-(When rotated, gain +1 mult)
+When rotated, gain +20 points
+Activates on: PULSE
+Earns points: 5
+
 
 
 Tumbling cat:
 Same as copycat, but rotates the spawned cat
 shape = UP-2
 
+
+
+Golden Screw item:
+Activates on: ROTATE
+Earns $2
+
+
+On item purchased:
+  Rotate item
+
+
+On LEVEL_UP:
+Rotate all target-items
+(CIRCLE-3 SHAPE)
+
+
+Green Record:
+When rotated, buff target items, +5 points
+Red Record:
+When rotated, buff target items, +1 mult
+
+
+Slot that rotates items
 
 
 Screw: 
