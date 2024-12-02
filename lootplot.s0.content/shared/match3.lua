@@ -83,10 +83,17 @@ end
 
 ---@param ppos lootplot.PPos
 ---@param criterion fun(ppos:lootplot.PPos):boolean
+---@return lootplot.PPos[]
 function match3.test(ppos, criterion)
-    local result = objects.Set()
+    local resultset = objects.Set()
     local seen = objects.Set()
-    test(ppos, criterion, result, seen, false)
+    test(ppos, criterion, resultset, seen, false)
+
+    local result = {}
+    local plot = ppos:getPlot()
+    for _, si in ipairs(resultset) do
+        result[#result+1] = plot:getPPosFromSlotIndex(si)
+    end
     return result
 end
 
