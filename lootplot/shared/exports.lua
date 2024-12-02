@@ -705,7 +705,7 @@ end
 ---@param ent Entity
 ---@return integer
 function lp.getItemRotation(ent)
-    return ent.lootplotRotation or 0
+    return (ent.lootplotRotation or 0) % 4
 end
 
 
@@ -723,15 +723,6 @@ function lp.rotateItem(ent, amount)
     trigger.tryTriggerEntity("ROTATE", ent)
     umg.call("lootplot:itemRotated", ent, amount, oldRot, newRot)
     ent.lootplotRotation = newRot
-    umg.melt([[
-        TODO:
-        actually rotate the item sprite here!!!
-        it might make sense to lerp the rotation; so its smooth.
-        IMPORTANT NOTE THO:
-        Only lerp in 1 direction!
-        That will give a cool "spinning" effect when items are rotating lots.
-        (We dont want it to be jiggling back and forth. That'd be bad)
-    ]])
 end
 
 

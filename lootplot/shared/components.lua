@@ -75,7 +75,7 @@ local function defNumberProperty(propName, args)
 end
 
 
-local function defineInteger(compName)
+local function defineNumberNoLerp(compName)
     components.defineComponent(compName)
     sync.autoSyncComponent(compName, {
         type = "number",
@@ -84,17 +84,18 @@ local function defineInteger(compName)
 end
 
 
-defineInteger("doomCount")
+defineNumberNoLerp("doomCount")
 -- how many activations until deletion?
 
-defineInteger("lives")
+defineNumberNoLerp("lives")
 -- How many "lives" the entity has (will be revived!)
 -- (Does not work for `doomed` entities)
 
 -- activation counts:
-defineInteger("totalActivationCount")
-defineInteger("activationCount") -- <<< set to 0 when `lp.resetEntity()` called
+defineNumberNoLerp("totalActivationCount")
+defineNumberNoLerp("activationCount") -- <<< set to 0 when `lp.resetEntity()` called
 
+defineNumberNoLerp("lootplotRotation") -- <<< set to 0 when `lp.resetEntity()` called
 
 
 
