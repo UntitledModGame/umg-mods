@@ -1,7 +1,7 @@
----@meta
+---Availability: Client and Server
+---@class properties
 local properties = {}
 if false then
-    ---Availability: Client and Server
     _G.properties = properties
 end
 

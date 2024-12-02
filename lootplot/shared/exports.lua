@@ -16,7 +16,8 @@ local selection = require("shared.selection")
 -- so future mods have opportunities to modify them
 local bufferedEntityTypes = objects.Array()
 
-
+---Availability: Client and Server
+---@class lootplot
 local lp = {}
 
 if client then

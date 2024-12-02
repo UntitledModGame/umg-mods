@@ -1,7 +1,8 @@
+---Availability: Client and Server
+---@class layout
 local layout = {}
 
 if false then
-    ---Availability: Client and Server
     _G.layout = layout
 end
 

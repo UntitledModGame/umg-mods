@@ -1,4 +1,5 @@
----@meta
+---Availability: Client and Server
+---@class scheduling
 local scheduling = {}
 
 
@@ -35,7 +36,6 @@ end
 
 
 if false then
-    ---Availability: Client and Server
     _G.scheduling = scheduling
 end
 umg.expose("scheduling", scheduling)

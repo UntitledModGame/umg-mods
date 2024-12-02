@@ -1,6 +1,7 @@
+---Availability: Client and Server
+---@class localization
 local localization = {}
 if false then
-    ---Availability: Client and Server
     _G.localization = localization
 end
 

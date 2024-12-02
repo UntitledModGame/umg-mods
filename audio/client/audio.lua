@@ -1,3 +1,5 @@
+---Availability: **Client**
+---@class audio
 local audio = {}
 if false then _G.audio = audio end
 

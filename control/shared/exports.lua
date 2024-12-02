@@ -1,8 +1,7 @@
----@meta
-
+---Availability: Client and Server
+---@class control
 local control = {}
 if false then
-    ---Availability: Client and Server
     _G.control = control
 end
 

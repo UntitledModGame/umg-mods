@@ -1,5 +1,5 @@
-
-
+---Availability: Client and Server
+---@class sync
 local sync = {}
 
 
@@ -64,7 +64,6 @@ end
 
 
 if false then
-    ---Availability: Client and Server
     _G.sync = sync
 end
 umg.expose("sync", sync)

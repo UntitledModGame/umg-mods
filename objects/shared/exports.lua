@@ -1,4 +1,7 @@
----@meta
+---Provides functionality to common data structures.
+---
+---Availability: Client and Server
+---@class objects
 local objects = {}
 
 local objectsTools = require("shared.tools")
@@ -42,9 +45,6 @@ end
 
 
 if false then
-    ---Provides functionality to common data structures.
-    ---
-    ---Availability: Client and Server
     _G.objects = objects
 end
 umg.expose("objects", objects)
