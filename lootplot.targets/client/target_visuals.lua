@@ -20,6 +20,8 @@ end
 local selected
 ---@type objects.Array?
 local selectionTargets
+---@type lootplot.targets.ShapeData
+local seenShape
 
 ---@param s lootplot.Selected?
 umg.on("lootplot:selectionChanged", function(s)
@@ -30,6 +32,7 @@ umg.on("lootplot:selectionChanged", function(s)
 
         if itemEnt then
             selectionTargets = lp.targets.getShapePositions(itemEnt)
+            seenShape = itemEnt.shape
         end
     end
 end)
@@ -47,6 +50,12 @@ end)
 local function drawTargets(item, image, imageInactive, color, canInteract)
     love.graphics.setColor(1,1,1)
     local t = love.timer.getTime()
+    if item.shape and seenShape ~= item.shape then
+        -- ah! Shape was changed during selection. Update it.
+        selectionTargets = lp.targets.getShapePositions(item)
+        seenShape = item.shape
+    end
+
     assert(selectionTargets)
     assert(selected)
     for _, ppos in ipairs(selectionTargets) do
