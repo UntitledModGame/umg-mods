@@ -60,22 +60,6 @@ end
 
 
 
-umg.on("lootplot.tiers:entityUpgraded", function(ent, sourceEnt, oldTier, newTier)
-    if not umg.exists(sourceEnt) then return end
-    if lp.isItemEntity(ent) and ent.image then
-        local dvec = {
-            x = sourceEnt.x, y = sourceEnt.y,
-            dimension = sourceEnt.dimension
-        }
-        local packetEnt = newPacketEnt(dvec, 200, 200, function()
-            return ent.x or 0, ent.y or 0
-        end)
-        packetEnt.image = ent.image
-    end
-end)
-
-
-
 local function getPacketScale(delta)
     local x = math.abs(delta)
     return math.log(x + 4, 10) / 2

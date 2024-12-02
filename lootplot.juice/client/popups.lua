@@ -91,12 +91,6 @@ end)
 
 
 
-local LV_UP_TXT = localization.localize("LEVEL UP!")
-umg.on("lootplot.tiers:entityUpgraded", function(ent)
-    makePopup(ent, LV_UP_TXT, lp.COLORS.COMBINE_COLOR)
-end)
-
-
 
 local COMBINE_FRAMES = {
     "combine_item_visual_4",

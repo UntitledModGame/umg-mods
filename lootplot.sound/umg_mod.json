@@ -1,6 +1,6 @@
 {
     "uses": [
         "lootplot", "sound", "audio", 
-        "lootplot.targets", "lootplot.tiers"
+        "lootplot.targets"
     ]
 }

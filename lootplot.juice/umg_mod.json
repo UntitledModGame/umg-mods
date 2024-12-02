@@ -2,6 +2,6 @@
     "type": "base",
     "uses": [
         "lootplot", "rendering", "rendering.components", 
-        "lootplot.tiers", "lootplot.targets"
+        "lootplot.targets"
     ]
 }
