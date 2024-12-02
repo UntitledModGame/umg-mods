@@ -98,6 +98,13 @@ end)
 
 
 
+local rotateItem = LootplotSound("lootplot.sound:rotate_item", 1.2, 0.8, 5, 0.1)
+umg.on("lootplot:itemRotated", function(ent)
+    rotateItem:play(ent)
+end)
+
+
+
 local buySound = LootplotSound("lootplot.sound:trigger_buy", 0.12, 1, 10, 0.1)
 local rerollSound = LootplotSound("lootplot.sound:trigger_reroll", 0.07, 1.4, 10, 0)
 local function tryPlayTriggerSound(triggerName, ent)
