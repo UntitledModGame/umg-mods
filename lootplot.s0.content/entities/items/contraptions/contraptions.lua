@@ -63,8 +63,8 @@ local ACTIVATE_SELF_BUTTON = {
 
 
 
-defContra("old_radio", {
-    name = loc("Old Radio"),
+defContra("pulse_tool", {
+    name = loc("Pulse Tool"),
 
     triggers = {},
 
@@ -88,15 +88,15 @@ defContra("old_radio", {
 
 
 
-defContra("dark_radio", {
-    name = loc("Dark Radio"),
-
+defContra("item_destruction_tool", {
+    name = loc("Item Destruction Tool"),
     triggers = {},
 
     rarity = lp.rarities.EPIC,
     shape = lp.targets.UP_SHAPE,
 
     baseMaxActivations = 10,
+    baseMoneyGenerated = -2,
 
     target = {
         type = "ITEM",
@@ -140,9 +140,79 @@ defContra("reroll_machine", {
 
 
 
+defContra("rotation_tool", {
+    name = loc("Rotation Tool"),
+
+    triggers = {},
+
+    rarity = lp.rarities.RARE,
+    shape = lp.targets.UpShape(1),
+
+    baseMoneyGenerated = -2,
+    baseMaxActivations = 6,
+
+    activateDescription = loc("Rotates target items."),
+
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.rotateItem(targetEnt, 1)
+        end
+    },
+
+    actionButtons = {ACTIVATE_SELF_BUTTON}
+})
+
+
+
+defContra("slot_copy_tool", {
+    name = loc("Slot Copy Tool"),
+
+    triggers = {},
+
+    rarity = lp.rarities.EPIC,
+    shape = lp.targets.UpShape(1),
+
+    activateDescription = loc("Copies a random target slot into this item's position."),
+
+    onActivate = function(selfEnt)
+        local targs = lp.targets.getShapePositions(selfEnt) or {}
+        for _, ppos in ipairs(targs) do
+            local slotEnt = lp.posToSlot(ppos)
+            if slotEnt then
+                local clone = lp.clone(slotEnt)
+                local oldSlot = lp.posToSlot(ppos)
+                if oldSlot then
+                    lp.destroy(oldSlot)
+                end
+                lp.setSlot(ppos, clone)
+                return
+            end
+        end
+    end,
+
+    baseMoneyGenerated = -2,
+    baseMaxActivations = 2,
+
+    actionButtons = {ACTIVATE_SELF_BUTTON}
+})
+
+
 
 --[[
-TODO: maybe this shit is too OP?
+
+TODO: 
+
+implement mana_tool
+
+
+]]
+
+
+
+
+--[[
+HMM: maybe this shit is too OP?
 ]]
 defContra("round_timer", {
     name = loc("Round timer"),
