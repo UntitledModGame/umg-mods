@@ -128,11 +128,11 @@ defRecord("record_green", "Green Record", {
 })
 
 defRecord("record_blue", "Blue Record", {
-    activateDescription = loc("Buff all {lootplot.targets:COLOR}target items{lootplot.targets:COLOR}, +5 points"),
+    activateDescription = loc("Buff all {lootplot.targets:COLOR}target items{lootplot.targets:COLOR}, +2 points"),
 
     target = {
         activate = function(selfEnt, ppos, targetEnt)
-            lp.addMultiplierBuff(targetEnt, "pointsGenerated", 5, selfEnt)
+            lp.addMultiplierBuff(targetEnt, "pointsGenerated", 2, selfEnt)
         end
     }
 })
@@ -157,7 +157,7 @@ defRecord("record_red", "Red Record", {
 
 defItem("record_golden", "Golden Record", {
     triggers = {"ROTATE"},
-    baseMoneyGenerated = 2
+    baseMoneyGenerated = 3
 })
 
 
