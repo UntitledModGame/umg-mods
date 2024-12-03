@@ -394,7 +394,6 @@ defItem("map", {
     basePrice = 5,
 
     target = {
-        type = "NO_SLOT",
         description = loc("Reveals fog."),
         filter = function(selfEnt, ppos)
             ---@type lootplot.Plot
