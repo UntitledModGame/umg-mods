@@ -200,6 +200,24 @@ defBalloon("blue_balloon", "Blue Balloon", {
 })
 
 
+defBalloon("golden_balloon", "Golden Balloon", {
+    rarity = lp.rarities.EPIC,
+
+    basePrice = 10,
+
+    listen = {
+        trigger = "BUY",
+        description = loc("If purchased item price is more than $3, {lootplot:MONEY_COLOR}earn $1"),
+        activate = function(selfEnt, ppos, targetEnt)
+            if (targetEnt.price or 0) > 4 then
+                lp.addMoney(selfEnt, 1)
+            end
+        end
+    }
+})
+
+
+
 
 helper.defineDelayItem("key_balloon", "Key Balloon", {
     --[[
