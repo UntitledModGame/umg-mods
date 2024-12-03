@@ -218,7 +218,6 @@ lp.defineItem("lootplot.s0.worldgen:basic_worldgen", {
         end
 
         local islands = allocator:generateIslands()
-        local rows = {}
         for _, island in ipairs(islands) do
             if #island >= 3 then
                 ---@type fun(team:string):(lootplot.SlotEntity,lootplot.ItemEntity?)
