@@ -82,8 +82,8 @@ local function setRerollLock(ent, bool)
     sync.syncComponent(ent, "rerollLock")
 end
 
-local LOCK_TEXT = loc("Lock reroll")
-local UNLOCK_TEXT = loc("Unlock reroll")
+local LOCK_TEXT = loc("Lock")
+local UNLOCK_TEXT = loc("Unlock")
 
 local lockRerollButton = {
     action = function(ent, clientId)
