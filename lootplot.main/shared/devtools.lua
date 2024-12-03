@@ -99,6 +99,25 @@ chat.handleCommand("addMoney", {
 })
 
 
+chat.handleCommand("addPoints", {
+    adminLevel = 120,
+    arguments = {
+        {name = "amount", type = "number"},
+    },
+    handler = function(clientId, amount)
+        if not server then
+            return
+        end
+
+        local run = assert(lp.main.getRun())
+        lp.addPoints(run:getPlot():getOwnerEntity(), amount)
+    end
+})
+
+
+
+
+
 
 
 chat.handleCommand("save", {
