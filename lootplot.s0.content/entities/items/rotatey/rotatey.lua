@@ -81,3 +81,7 @@ defItem("gear", "Gear", {
 })
 
 
+local function defRecord(color)
+    
+end
+
