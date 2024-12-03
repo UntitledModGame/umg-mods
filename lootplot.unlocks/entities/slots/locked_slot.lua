@@ -23,6 +23,7 @@ lp.defineSlot("lootplot.unlocks:locked_slot", {
     name = loc("Locked Slot"),
     description = loc("{i}What does it contain?{/i}"),
     triggers = {"UNLOCK"},
+    audioVolume = 0,
     canAddItemToSlot = function()
         return false -- cant hold items!!!
     end,
@@ -43,11 +44,14 @@ lp.defineSlot("lootplot.unlocks:locked_slot", {
         -- sync.syncComponent(self, "targetItem")
 
         if tslot then
+            tslot:removeComponent("audioVolume")
             lp.setSlot(ppos, tslot)
         end
 
         if titem then
-            if not lp.forceSetItem(ppos, titem) then
+            if lp.forceSetItem(ppos, titem) then
+                titem:removeComponent("audioVolume")
+            else
                 titem:delete()
             end
         end
