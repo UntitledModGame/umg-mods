@@ -98,7 +98,8 @@ trigger.defineTrigger("RESET", "Reset")
 trigger.defineTrigger("DESTROY", "Destroyed")
 trigger.defineTrigger("BUY", "Buy")
 trigger.defineTrigger("ROTATE", "Rotate")
+trigger.defineTrigger("SPAWN", "Spawn")
 
----@alias lootplot.Trigger "REROLL"|"PULSE"|"RESET"|"DESTROY"
+---@alias lootplot.Trigger "REROLL"|"PULSE"|"RESET"|"DESTROY"|"BUY"|"ROTATE"|"SPAWN"
 
 return trigger

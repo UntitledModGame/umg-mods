@@ -39,10 +39,32 @@ and it will get us 99% of the way there.
 It's also only O(n), (and its a weak O(n) for that matter too)
 
 
+OPTION-CHARLIE:
+All listen-ents will have another state:
+local listenEntState = {
+    [listen-ent] = {shape = shape, ppos = ppos}
+}}
+Then there's additiona slotIndexToListenerEnts:
+local slotIndexToListenEnt = {
+    [slot-index] = Set<Entity> -- set of listener entity.
+}
+
+During @tick, the system will test if the listener entity has its
+shape changed or its position changed. If that's the case, the
+system will then update the `slotIndexToListenEnt` to reflect the
+new listener entity. This means the system only updates when
+necessary, improving performance.
+
+Another reason this approach is nice is there's no need to track
+which entity are being listened on. Simply look the listened
+entity using `slotIndexToListenEnt` (which is O(1)) then activate
+all listener entity with the intended trigger.
+
 
 OKAY:
 FINAL DECISION:  OPTION-BRAVO.
 Its efficient enough, and more importantly, its robust.
+Although once we have perf issue we want to go with OPTION-CHARLIE.
 
 ]]
 
@@ -50,6 +72,7 @@ Its efficient enough, and more importantly, its robust.
 local triggerToListenEnt = {--[[
     [trigger] -> Set<Entity>
 ]]}
+---@cast triggerToListenEnt table<lootplot.Trigger, objects.Set>
 
 
 local listenEntToListenedEnts = {--[[
@@ -115,6 +138,19 @@ umg.on("@tick", function()
     end
 end)
 
+umg.on("lootplot:entitySpawned", function(ent)
+    local ppos = assert(lp.getPos(ent))
+    local plot = ppos:getPlot()
+
+    if triggerToListenEnt.SPAWN then
+        for _, lent in ipairs(triggerToListenEnt.SPAWN) do
+            local ppos2 = lp.getPos(lent)
+            if ppos2 and ppos2:getPlot() == plot then
+                updateListenTargets(lent)
+            end
+        end
+    end
+end)
 
 
 local function triggerEntity(listenerEnt, entThatWasTriggered)

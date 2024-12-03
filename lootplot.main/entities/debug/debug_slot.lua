@@ -1,6 +1,7 @@
 lp.defineSlot("lootplot.main:debugslot", {
     triggers = {"PULSE"},
     baseCanSlotPropagate = false,
+    audioVolume = 0,
 
     onActivate = function(self)
         if not self.target then return end

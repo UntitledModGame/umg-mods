@@ -1,5 +1,7 @@
----@meta
-
+---Provides type checking functionality.
+---
+---Availability: Client and Server
+---@class typecheck
 local typecheck = {}
 
 
@@ -360,10 +362,4 @@ typecheck.addType("love", function(x)
     return ok, "Expected LOVE object"
 end)
 
-if false then
-    ---Provides type checking functionality.
-    ---
-    ---Availability: Client and Server
-    _G.typecheck = typecheck
-end
 return typecheck

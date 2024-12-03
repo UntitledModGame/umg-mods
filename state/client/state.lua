@@ -1,9 +1,9 @@
----@meta
 local IState = require("client.IState")
 
+---Availability: **Client**
+---@class state
 local state = {}
 if false then
-    ---Availability: **Client**
     _G.state = state
 end
 

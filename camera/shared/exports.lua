@@ -1,8 +1,7 @@
----@meta
-
+---Availability: Client and Server
+---@class camera
 local camera = {}
 if false then
-    ---Availability: Client and Server
     _G.camera = camera
 end
 

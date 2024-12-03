@@ -85,7 +85,8 @@ end
 ---@param midPPos lootplot.PPos
 ---@param team string
 ---@param perk string
-function startRunService.spawnItemAndSlots(midPPos, team, perk)
+---@param wgen string
+function startRunService.spawnItemAndSlots(midPPos, team, perk, wgen)
     local plot = midPPos:getPlot()
     -- Hide all fog by default
     plot:foreach(function(ppos)
@@ -102,7 +103,7 @@ function startRunService.spawnItemAndSlots(midPPos, team, perk)
     -- Worldgen item must be next to doom egg so proper culling works.
     local worldgenPPos = assert(midPPos:move(1, -4))
     plot:setFogRevealed(worldgenPPos, lp.main.PLAYER_TEAM, true)
-    lp.forceSpawnItem(worldgenPPos, server.entities["lootplot.s0.worldgen:basic_worldgen"], team)
+    lp.forceSpawnItem(worldgenPPos, server.entities[wgen], team)
 
 
     scheduling.delay(0.1, function()
@@ -148,13 +149,14 @@ end
 
 ---@param team string
 ---@param perk string
-function startRunService.startGame(team, perk)
+---@param wgen string
+function startRunService.startGame(team, perk, wgen)
     ---@type lootplot.main.Run
     local run = Run(perk) -- lp.initialize has been called.
     local plot = run:getPlot()
     local midPPos = plot:getCenterPPos()
 
-    startRunService.spawnItemAndSlots(midPPos, team, perk)
+    startRunService.spawnItemAndSlots(midPPos, team, perk, wgen)
 
     -- Set camera to center
     setPlayerCamToPPos(midPPos)

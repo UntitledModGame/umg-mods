@@ -1,3 +1,4 @@
+---@class lootplot.targets
 local targets = {}
 
 local util = require("shared.util")

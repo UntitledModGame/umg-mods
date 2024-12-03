@@ -1,6 +1,7 @@
 local TestContext = require("shared.TestContext")
 
-
+---Availability: Client and Server
+---@class zenith
 local zenith = {}
 ---@type zenith.TestContext[]
 local allTests = {}

@@ -1,4 +1,5 @@
----@meta
+---Availability: **Client**
+---@class n9slice
 local n9p = require("lib.n9p")
 
 local n9slice = {}

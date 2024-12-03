@@ -6,6 +6,10 @@ if SHOULD_TEST then
 end
 
 
+local typecheck = require("shared.typecheck")
 
-umg.expose("typecheck", require("shared.typecheck"))
+if false then
+    _G.typecheck = typecheck
+end
 
+umg.expose("typecheck", typecheck)

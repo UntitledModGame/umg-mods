@@ -1,4 +1,7 @@
----@meta
+
+---@type input.InputListener[]
+local sortedListeners = {}
+
 --[[
 
 abstracting away the input.
@@ -6,14 +9,10 @@ abstracting away the input.
 TODO: Allow for even more custom stuff, like joysticks
 
 ]]
-
----@type input.InputListener[]
-local sortedListeners = {}
-
-
+---Availability: **Client**
+---@class input
 local input = {}
 if false then
-    ---Availability: **Client**
     _G.input = input
 end
 
