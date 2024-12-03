@@ -145,7 +145,9 @@ local function defBalloon(id, name, etype)
     etype.name = loc(name)
     etype.shape = etype.shape or lp.targets.CircleShape(3)
     etype.baseMaxActivations = 50
-    etype.canItemFloat = true
+    if etype.canItemFloat == nil then
+        etype.canItemFloat = true
+    end
     etype.triggers = {}
     defItem(id, etype)
 end
@@ -209,10 +211,23 @@ defBalloon("golden_balloon", "Golden Balloon", {
         trigger = "BUY",
         description = loc("If purchased item price is more than $3, {lootplot:MONEY_COLOR}earn $1"),
         activate = function(selfEnt, ppos, targetEnt)
-            if (targetEnt.price or 0) > 4 then
+            if (targetEnt.price or 0) > 3 then
                 lp.addMoney(selfEnt, 1)
             end
         end
+    }
+})
+
+
+defBalloon("mana_balloon", "Mana Balloon", {
+    rarity = lp.rarities.RARE,
+
+    basePrice = 15,
+
+    manaCost = -1,
+
+    listen = {
+        trigger = "BUY",
     }
 })
 

@@ -48,7 +48,7 @@ umg.on("lootplot:entityActivated", function(ent)
         local ppos = lp.getPos(ent)
         local slot = ppos and lp.posToSlot(ppos)
         if slot then
-            lp.mana.addMana(ent, -ent.manaCost)
+            lp.mana.addMana(slot, -ent.manaCost)
         end
     end
 end)
