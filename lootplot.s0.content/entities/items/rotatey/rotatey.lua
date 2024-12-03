@@ -36,19 +36,31 @@ Earns $2
 
 
 On item purchased:
-  Rotate item
+Rotate purchased item twice
 
 
+Spanner:
 On LEVEL_UP:
 Rotate all target-items
 (CIRCLE-3 SHAPE)
 
 
+
+Blue Record:
+When rotated, buff target items, +6 points
+
 Green Record:
-When rotated, buff target items, +5 points
+When rotated, buff target items, +1 mult (max of 20)
 
 Red Record:
+When rotated, buff target items, +1 activations (max of 30)
+
+White Record:
 When rotated, buff target items, +1 mult
+
+Gold Record:
+When rotated, earn $1 for every slot without an item
+shape=ROOK-3
 
 
 Upside down helmet item:
@@ -56,6 +68,7 @@ If target item has been rotated, buff item +4 points
 
 
 Slot that rotates items
+(DONE!)
 
 
 Screw: 
@@ -69,6 +82,9 @@ defItem("gear", "Gear", {
 
     triggers = {"PULSE", "ROTATE"},
 
+    rarity = lp.rarities.LEGENDARY,
+
+    basePrice = 16,
     baseMaxActivations = 4,
 
     target = {
@@ -81,7 +97,81 @@ defItem("gear", "Gear", {
 })
 
 
-local function defRecord(color)
-    
+
+
+local function defRecord(id, name, etype)
+    etype.triggers = {"ROTATE"}
+    etype.shape = lp.targets.CircleShape(2)
+
+    etype.rarity = lp.rarities.EPIC
+
+    etype.baseMaxActivations = 5
+    etype.basePrice = 15
+
+    defItem(id, name, etype)
 end
+
+
+defRecord("record_green", "Green Record", {
+    activateDescription = loc("Buff all {lootplot.targets:COLOR}target items{lootplot.targets:COLOR}, +1 mult\n(Maximum of 20 mult)"),
+
+    target = {
+        activate = function(selfEnt, ppos, targetEnt)
+            if targetEnt.pointsGenerated then
+                local _, _, mult = properties.computeProperty(targetEnt, "pointsGenerated")
+                if mult < 20 then
+                    lp.addMultiplierBuff(targetEnt, "pointsGenerated", 1, selfEnt)
+                end
+            end
+        end
+    }
+})
+
+defRecord("record_blue", "Blue Record", {
+    activateDescription = loc("Buff all {lootplot.targets:COLOR}target items{lootplot.targets:COLOR}, +5 points"),
+
+    target = {
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.addMultiplierBuff(targetEnt, "pointsGenerated", 5, selfEnt)
+        end
+    }
+})
+
+
+--[[
+TODO: Is this way too OP?
+Probably...
+]]
+defRecord("record_red", "Red Record", {
+    activateDescription = loc("Buff all {lootplot.targets:COLOR}target items{lootplot.targets:COLOR}, +1 activation\n(Maximum of 20 activations)"),
+
+    target = {
+        activate = function(selfEnt, ppos, targetEnt)
+            local maxAct = targetEnt.maxActivations or 0
+            if maxAct < 30 then
+                lp.addMultiplierBuff(targetEnt, "pointsGenerated", 1, selfEnt)
+            end
+        end
+    }
+})
+
+defItem("record_golden", "Golden Record", {
+    triggers = {"ROTATE"},
+    baseMoneyGenerated = 2
+})
+
+
+
+--[[
+
+TODO:
+
+white_record
+(Something rule-bendy?)
+
+]]
+
+
+
+
 
