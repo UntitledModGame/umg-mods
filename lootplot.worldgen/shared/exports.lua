@@ -58,6 +58,18 @@ Ie, items that generate random islands, and such.
 
 
 ]]
+lp.worldgen.STARTING_WORLDGEN = objects.Array()
+
+---@param name string
+---@param opts table<string, any>
+function lp.worldgen.defineWorldgen(name, opts)
+    opts.rarity = lp.rarities.UNIQUE
+    opts.canItemFloat = true
+    opts.maxActivations = 1
+    opts.doomCount = 1
+    lp.defineItem(name, opts)
+    lp.worldgen.STARTING_WORLDGEN:add(name)
+end
 
 if server then
 

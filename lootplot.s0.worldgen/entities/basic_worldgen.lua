@@ -191,13 +191,9 @@ local SPAWNER = {
     }
 }
 
-lp.defineItem("lootplot.s0.worldgen:basic_worldgen", {
+lp.worldgen.defineWorldgen("lootplot.s0.worldgen:basic_worldgen", {
     name = loc("Worldgen Item"),
     description = loc("Never gonna give you the description, never gonna let you look the description."),
-    rarity = lp.rarities.UNIQUE,
-    canItemFloat = true,
-    maxActivations = 1,
-    doomCount = 1,
 
     ---@param self lootplot.ItemEntity
     onActivateOnce = function(self)
