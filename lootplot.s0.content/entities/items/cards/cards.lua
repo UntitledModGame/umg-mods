@@ -128,7 +128,7 @@ defineCard("price_card", {
 defineCard("spades_card", {
     name = loc("Spades Card"),
 
-    shape = lp.targets.KING_SHAPE,
+    shape = lp.targets.UpShape(2),
 
     target = {
         type = "ITEM",
