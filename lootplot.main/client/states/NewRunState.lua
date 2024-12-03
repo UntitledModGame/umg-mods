@@ -23,9 +23,13 @@ function NewRunState:init(cancelAction)
     end
 
     self.scene = NewRunScene({
+        -- BIG TODO AND FIXME
+        -- Currently we picked first option.
+        -- We should create worldgen selection screen for it though.
         startNewRun = function(startingItemName)
             umg.analytics.collect("lootplot.main:newRun", {
                 starterItem = startingItemName,
+                worldgenItem = lp.worldgen.STARTING_WORLDGEN[1],
                 hadRun = not not cancelRun
             })
 
@@ -34,6 +38,7 @@ function NewRunState:init(cancelAction)
             -- TODO: Proper setup options
             return runManager.startRun({
                 starterItem = startingItemName,
+                worldgenItem = lp.worldgen.STARTING_WORLDGEN[1],
                 seed = "",
             })
         end,

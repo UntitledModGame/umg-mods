@@ -36,12 +36,6 @@ local function queryRunServer()
     end
 
     return nil
-    -- return {
-    --     playtime = 1234,
-    --     level = 4,
-    --     perk = "lootplot.s0.starting_items:one_ball",
-    --     seed = 1234
-    -- }
 end
 
 ---@param run lootplot.main.Run
@@ -81,7 +75,7 @@ local startRunService = require("server.start_run_service")
 server.on("lootplot.main:startRun", function(clientId, runOptionsString)
     if server.getHostClient() == clientId then
         local runOptions = umg.deserialize(runOptionsString)
-        startRunService.startGame(lp.main.PLAYER_TEAM, runOptions.starterItem)
+        startRunService.startGame(lp.main.PLAYER_TEAM, runOptions.starterItem, runOptions.worldgenItem)
         lp.setPlayerTeam(clientId, lp.main.PLAYER_TEAM)
     end
 end)

@@ -2,7 +2,7 @@
 local NUM_PER_LINE = 4
 
 
----@class lootplot.main.PerkSelect: Element
+---@class lootplot.main.PerkButton: Element
 local PerkButton = ui.Element("lootplot.main:_PerkButton")
 
 function PerkButton:init(etype, perkSelect)
