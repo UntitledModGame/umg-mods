@@ -6,6 +6,7 @@
 
 -- selene: allow(incorrect_standard_library_use)
 assert(not lp.main, "invalid mod setup")
+---@class lootplot.main
 local main = {}
 
 main.PLAYER_TEAM = "@player" -- Player team

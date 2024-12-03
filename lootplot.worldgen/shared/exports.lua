@@ -1,8 +1,7 @@
-
----@meta
-
+---@class lootplot.worldgen
+local worldgen = {}
 assert(not lp.worldgen, "?")
-lp.worldgen = {}
+lp.worldgen = worldgen
 
 
 
@@ -14,7 +13,7 @@ local spawnSlotsTc = typecheck.assert("ppos", "table", "number", "number", "stri
 ---@param w number
 ---@param h number
 ---@param lootplotTeam string
-function lp.worldgen.spawnSlots(ppos, slotType, w, h, lootplotTeam)
+function worldgen.spawnSlots(ppos, slotType, w, h, lootplotTeam)
     spawnSlotsTc(ppos, slotType, w, h, lootplotTeam)
     assert(server, "?")
     for dx=math.floor(-w/2 + 0.5), math.floor(w/2 + 0.5)-1 do
@@ -32,7 +31,7 @@ end
 
 
 ---@type objects.Array
-lp.worldgen.STARTING_ITEMS = objects.Array()
+worldgen.STARTING_ITEMS = objects.Array()
 -- contains etype-names that are perks.
 --[[
 WARNING:
@@ -58,9 +57,23 @@ Ie, items that generate random islands, and such.
 
 
 ]]
+worldgen.STARTING_WORLDGEN = objects.Array()
+
+---@param name string
+---@param opts table<string, any>
+function worldgen.defineWorldgen(name, opts)
+    opts.rarity = lp.rarities.UNIQUE
+    opts.canItemFloat = true
+    opts.maxActivations = 1
+    opts.doomCount = 1
+    lp.defineItem(name, opts)
+    lp.worldgen.STARTING_WORLDGEN:add(name)
+end
 
 if server then
 
-lp.worldgen.IslandAllocator = require("server.IslandAllocator")
+worldgen.IslandAllocator = require("server.IslandAllocator")
 
 end
+
+return worldgen

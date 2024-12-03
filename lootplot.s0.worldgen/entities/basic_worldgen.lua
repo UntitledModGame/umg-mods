@@ -93,8 +93,18 @@ local function constructRareOrHigherItem(team)
 
     local itemEType = server.entities[rarePlusItemGen:query() or lp.FALLBACK_NULL_ITEM]
     local itemEnt = itemEType()
+    -- We'll set it back to its shared defaults later.
+    -- FIXME: Although if volume is set explicity it will lost
+    itemEnt.audioVolume = 0
     itemEnt.lootplotTeam = team
     return itemEnt
+end
+
+local function setSlotDefaults(slotEnt, team)
+    slotEnt.lootplotTeam = team
+    -- We'll set it back to its shared defaults later.
+    -- FIXME: Although if volume is set explicity it will lost
+    slotEnt.audioVolume = 0
 end
 
 -- Feel free to modify as needed
@@ -107,8 +117,8 @@ local SPAWNER = {
         ---@param team string
         handler = function(team)
             local slotEnt = server.entities["lootplot.s0.content:golden_slot"]()
+            setSlotDefaults(slotEnt, team)
             slotEnt.doomCount = 4
-            slotEnt.lootplotTeam = team
             return slotEnt
         end
     },
@@ -118,8 +128,8 @@ local SPAWNER = {
         ---@param team string
         handler = function(team)
             local slotEnt = server.entities["lootplot.s0.content:slot"]()
+            setSlotDefaults(slotEnt, team)
             slotEnt.doomCount = 4
-            slotEnt.lootplotTeam = team
             lp.modifierBuff(slotEnt, "pointsGenerated", 10)
             return slotEnt
         end
@@ -130,7 +140,7 @@ local SPAWNER = {
         ---@param team string
         handler = function(team)
             local slotEnt = server.entities["lootplot.s0.content:treasure_slot"]()
-            slotEnt.lootplotTeam = team
+            setSlotDefaults(slotEnt, team)
 
             local itemEnt = constructRareOrHigherItem(team)
             -- Grant random buff
@@ -149,7 +159,7 @@ local SPAWNER = {
         ---@param team string
         handler = function(team)
             local slotEnt = server.entities["lootplot.s0.content:paper_slot"]()
-            slotEnt.lootplotTeam = team
+            setSlotDefaults(slotEnt, team)
 
             local itemEnt = constructRareOrHigherItem(team)
             lp.modifierBuff(itemEnt, "price", lp.SEED.worldGenRNG:random(35, 40))
@@ -163,7 +173,7 @@ local SPAWNER = {
         ---@param team string
         handler = function(team)
             local slotEnt = server.entities["lootplot.s0.content:cloud_slot"]()
-            slotEnt.lootplotTeam = team
+            setSlotDefaults(slotEnt, team)
 
             local itemEnt = constructRareOrHigherItem(team)
             return slotEnt, itemEnt
@@ -175,19 +185,15 @@ local SPAWNER = {
         ---@param team string
         handler = function(team)
             local slotEnt = server.entities["lootplot.s0.content:amethyst_slot"]()
-            slotEnt.lootplotTeam = team
+            setSlotDefaults(slotEnt, team)
             return slotEnt
         end
     }
 }
 
-lp.defineItem("lootplot.s0.worldgen:basic_worldgen", {
+lp.worldgen.defineWorldgen("lootplot.s0.worldgen:basic_worldgen", {
     name = loc("Worldgen Item"),
     description = loc("Never gonna give you the description, never gonna let you look the description."),
-    rarity = lp.rarities.UNIQUE,
-    canItemFloat = true,
-    maxActivations = 1,
-    doomCount = 1,
 
     ---@param self lootplot.ItemEntity
     onActivateOnce = function(self)
@@ -213,10 +219,13 @@ lp.defineItem("lootplot.s0.worldgen:basic_worldgen", {
                 ---@type fun(team:string):(lootplot.SlotEntity,lootplot.ItemEntity?)
                 local islandHandler = slotGen:query()
 
-                for _, ppos in ipairs(island) do
-                    local slotEnt, itemEnt = islandHandler(self.lootplotTeam)
-                    lp.unlocks.forceSpawnLockedSlot(ppos, slotEnt, itemEnt)
-                end
+                lp.queue(island[1], function ()
+                    for _, ppos in ipairs(island) do
+                        local slotEnt, itemEnt = islandHandler(self.lootplotTeam)
+                        lp.unlocks.forceSpawnLockedSlot(ppos, slotEnt, itemEnt)
+                    end
+                end)
+                lp.wait(island[1], 0.02)
             end
         end
     end

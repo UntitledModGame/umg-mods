@@ -2,6 +2,7 @@ require("client.followControls")
 
 
 ---Availability: **Client**
+---@class follow
 local follow = {}
 
 local CAMERA = require("client.camera_follow")

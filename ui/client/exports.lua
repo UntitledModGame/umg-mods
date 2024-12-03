@@ -1,4 +1,7 @@
-
+---Provides user interface functionality.
+---
+---Availability: **Client**
+---@class ui
 local ui = {}
 
 ui.elements = require("client.elements")
@@ -22,9 +25,6 @@ end
 
 
 if false then
-    ---Provides user interface functionality.
-    ---
-    ---Availability: **Client**
     _G.ui = ui
 end
 umg.expose("ui", ui)

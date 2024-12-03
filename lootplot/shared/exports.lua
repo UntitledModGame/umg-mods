@@ -16,7 +16,8 @@ local selection = require("shared.selection")
 -- so future mods have opportunities to modify them
 local bufferedEntityTypes = objects.Array()
 
-
+---Availability: Client and Server
+---@class lootplot
 local lp = {}
 
 if client then
@@ -893,6 +894,7 @@ function lp.forceSpawnItem(ppos, itemEType, team)
 
     if lp.forceSetItem(ppos, itemEnt) then
         umg.call("lootplot:entitySpawned", itemEnt)
+        lp.tryTriggerEntity("SPAWN", itemEnt)
         return itemEnt
     else
         -- delete the item: it doesnt fit in slot.
@@ -931,6 +933,7 @@ function lp.forceSpawnSlot(ppos, slotEType, team)
     slotEnt.lootplotTeam = team or "?"
     lp.setSlot(ppos, slotEnt)
     umg.call("lootplot:entitySpawned", slotEnt)
+    lp.tryTriggerEntity("SPAWN", slotEnt)
     return slotEnt
 end
 
