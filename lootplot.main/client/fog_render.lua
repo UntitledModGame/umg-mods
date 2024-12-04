@@ -82,7 +82,7 @@ umg.on("rendering:drawEffects", function(camera)
 end)
 
 umg.answer("rendering:isHidden", function(ent)
-    -- Test if it's behind fog around KING-1 shape
+    -- Test if it's behind fog
     local ppos = lp.getPos(ent)
     if not ppos then
         return false -- no PPos, delegate it to other
