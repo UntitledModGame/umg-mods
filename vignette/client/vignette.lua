@@ -5,6 +5,7 @@ local vignette = {}
 
 local vignetteColor = {1,1,1}
 local vignetteStrength = 0.4
+local canvasDirty = true
 
 
 
@@ -12,6 +13,7 @@ local setColorTC = typecheck.assert("table")
 
 function vignette.setColor(color)
     setColorTC(color)
+    canvasDirty = true
 end
 
 
@@ -58,6 +60,7 @@ umg.on("@resize", function()
         love.graphics.getWidth() + LEIGH,
         love.graphics.getHeight() + LEIGH
     )
+    canvasDirty = true
 end)
 
 
@@ -73,17 +76,20 @@ local vignetteImage = love.graphics.newImage(DEFAULT_VIGNETTE_IMAGE)
 
 
 local function setupCanvas()
-    love.graphics.push("all")
-    love.graphics.setCanvas(canvas)
-    love.graphics.clear(1,1,1,1)
+    if canvasDirty then
+        love.graphics.push("all")
+        love.graphics.setCanvas(canvas)
+        love.graphics.clear(1,1,1,1)
 
-    local r,g,b,a = vignetteColor[1], vignetteColor[2], vignetteColor[3], vignetteStrength
-    love.graphics.setColor(r,g,b,a)
-    local canvW, canvH = canvas:getDimensions()
-    local imgW, imgH = vignetteImage:getDimensions()
-    love.graphics.draw(vignetteImage, -LEIGH/2, -LEIGH/2, 0, canvW / imgW, canvH / imgH)
+        local r,g,b,a = vignetteColor[1], vignetteColor[2], vignetteColor[3], vignetteStrength
+        love.graphics.setColor(r,g,b,a)
+        local canvW, canvH = canvas:getDimensions()
+        local imgW, imgH = vignetteImage:getDimensions()
+        love.graphics.draw(vignetteImage, -LEIGH/2, -LEIGH/2, 0, canvW / imgW, canvH / imgH)
 
-    love.graphics.pop()
+        love.graphics.pop()
+        canvasDirty = false
+    end
 end
 
 
