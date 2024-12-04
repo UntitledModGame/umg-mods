@@ -20,6 +20,7 @@ local getDrawY = misc.getDrawY
 
 local drawEntity = misc.drawEntity
 local isOnScreen = misc.isOnScreen
+local isHidden = misc.isHidden
 
 local entityProperties = require("client.helper.entity_properties")
 local getRotation = entityProperties.getRotation
@@ -176,6 +177,10 @@ end
 
 
 local function drawWorldEntity(ent)
+    if isHidden(ent) then
+        return
+    end
+
     local ox,oy = getOffsetXY(ent)
     local x = ent.x - ox
     local y = getDrawY(ent.y - oy, ent.z)
