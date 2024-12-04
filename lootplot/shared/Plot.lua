@@ -192,7 +192,12 @@ local getTc = typecheck.assert("string", "number", "number")
 ---@param y integer
 ---@return Entity?
 function Plot:get(layer, x,y)
-    getTc(layer, x,y)
+    -- Note: getTc is too slow. Test the args manually instead.
+    -- getTc(layer, x,y)
+    assert(type(layer) == "string", "string expected for layer")
+    assert(type(x) == "number", "number expected for x")
+    assert(type(y) == "number", "number expected for y")
+
     local grid = self.layers[layer]
     if not grid then
         error("Invalid layer: " .. tostring(layer))
