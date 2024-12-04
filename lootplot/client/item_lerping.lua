@@ -13,8 +13,7 @@ local worldPlotEnts = umg.group("plot", "x", "y")
 
 
 
-local function updateItem(itemEnt, ppos)
-    local dvec = ppos:getWorldPos()
+local function updateItem(itemEnt, dvec)
     local x, y = dvec.x, dvec.y
     assert(dvec, "?")
     
@@ -35,27 +34,42 @@ local function updateItem(itemEnt, ppos)
 end
 
 
-local function updateSlot(slotEnt, ppos)
-    local dvec = ppos:getWorldPos()
+local function updateSlot(slotEnt, dvec)
     slotEnt.x, slotEnt.y = dvec.x, dvec.y
 end
 
 
-local updateFuncs = {
-    item = updateItem,
-    slot = updateSlot,
-}
+local ITEM_LAYER = "item"
+local SLOT_LAYER = "slot"
+
+
+---comment
+---@param plot lootplot.Plot
+local function updatePlot(plot)
+    plot:foreach(function(ppos)
+        -- we have inlined this a bit, so its simpler.
+        -- (We had perf issues with this code, since its EXTREMELY HOT.)
+        ---@cast ppos lootplot.PPos
+        local x,y = ppos:getCoords()
+        local dvec
+        local itemEnt = plot:get(ITEM_LAYER, x,y)
+        if itemEnt then
+            dvec = ppos:getWorldPos()
+            updateItem(itemEnt, dvec)
+        end
+
+        local slotEnt = plot:get(SLOT_LAYER, x,y)
+        if slotEnt then
+            dvec = dvec or ppos:getWorldPos()
+            updateSlot(slotEnt, dvec)
+        end
+    end)
+end
 
 
 umg.on("@tick", function(dt)
     for _, plotEnt in ipairs(worldPlotEnts) do
-        local plot = plotEnt.plot
-        plot:foreachLayerEntry(function(slotEnt, ppos, layer)
-            local f = updateFuncs[layer]
-            if f then
-                f(slotEnt, ppos)
-            end
-        end)
+        updatePlot(plotEnt.plot)
     end
 end)
 
