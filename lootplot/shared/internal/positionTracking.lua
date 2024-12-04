@@ -92,7 +92,11 @@ end
 
 
 local function setPPos(ent, ppos, _layer)
-    return ptrack.set(ent, ppos)
+    --[[
+    inlined version of ptrack.set, because this code is very hot.
+    (YES, we benchmarked this; its not premature optimization)
+    ]]
+    positionRef[ent] = ppos
 end
 
 local function updatePlot(plotEnt)
