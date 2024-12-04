@@ -209,9 +209,8 @@ lp.defineSlot("lootplot.s0.content:lockable_shop_slot", {
     onItemDraw = function(selfEnt, itemEnt, x,y, rot, sx,sy)
         if selfEnt.rerollLock then
             rendering.drawImage("slot_reroll_padlock", x,y, rot, sx,sy)
-        else
-            drawItemPrice(selfEnt, itemEnt)
         end
+        drawItemPrice(selfEnt, itemEnt)
     end,
     actionButtons = {
         shopButton,
