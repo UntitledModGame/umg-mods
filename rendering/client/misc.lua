@@ -44,13 +44,12 @@ local function isOnScreen(dVec, leighway)
     -- Returns true if a dimensionVector is on screen
     -- false otherwise.
     local x, y, dimension = dVec.x, getDrawY(dVec.y, dVec.z), dVec.dimension
-    local w,h = screenWidth, screenHeight
+    local w,h = love.graphics.getDimensions()
     local camera = camera.get()
     if camera:getDimension() ~= (dimension or DEFAULT_DIMENSION) then
         return false -- camera is looking at a different dimension
     end
     leighway = leighway or DEFAULT_LEIGHWAY
-    w, h = w or love.graphics.getWidth(), h or love.graphics.getHeight()
     x, y = camera:toCameraCoords(x, y)
 
     return -leighway <= x and x <= w + leighway
