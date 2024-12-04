@@ -312,17 +312,26 @@ function Plot:foreachItem(func)
 end
 
 
+local function keys(tabl)
+    local ret = {}
+    for k in pairs(tabl) do
+        table.insert(ret, k)
+    end
+    return ret
+end
+
 ---@param func fun(ent: Entity, ppos:lootplot.PPos, layer:string)
 function Plot:foreachLayerEntry(func)
-    for layer, _ in pairs(self.layers) do
-        self:foreach(function(ppos)
-            local x,y = self:indexToCoords(ppos:getSlotIndex())
+    local layers = keys(self.layers)
+    self:foreach(function(ppos)
+        local x,y = self:indexToCoords(ppos:getSlotIndex())
+        for _, layer in ipairs(layers) do
             local ent = self:get(layer, x,y)
             if ent then
                 func(ent, ppos, layer)
             end
-        end)
-    end
+        end
+    end)
 end
 
 
