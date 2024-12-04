@@ -75,16 +75,12 @@ umg.on("rendering:drawEffects", function(camera)
 end)
 
 umg.answer("rendering:isHidden", function(ent)
-    if lp.isSlotEntity(ent) or lp.isItemEntity(ent) then
-        -- Test if it's behind fog around KING-1 shape
-        local ppos = lp.getPos(ent)
-        if not ppos then
-            return true -- no PPos, entity is hidden
-        end
-
-        local plot = ppos:getPlot()
-        return not plot:isFogRevealed(ppos, lp.main.PLAYER_TEAM)
+    -- Test if it's behind fog around KING-1 shape
+    local ppos = lp.getPos(ent)
+    if not ppos then
+        return false -- no PPos, delegate it to other
     end
 
-    return false
+    local plot = ppos:getPlot()
+    return not plot:isFogRevealed(ppos, lp.main.PLAYER_TEAM)
 end)
