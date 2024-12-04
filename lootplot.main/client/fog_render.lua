@@ -73,3 +73,18 @@ umg.on("rendering:drawEffects", function(camera)
     love.graphics.setColor(0, 0, 0)
     plot:foreachInArea(x1, y1, x2, y2, drawFog)
 end)
+
+umg.answer("rendering:isHidden", function(ent)
+    if lp.isSlotEntity(ent) or lp.isItemEntity(ent) then
+        -- Test if it's behind fog around KING-1 shape
+        local ppos = lp.getPos(ent)
+        if not ppos then
+            return true -- no PPos, entity is hidden
+        end
+
+        local plot = ppos:getPlot()
+        return not plot:isFogRevealed(ppos, lp.main.PLAYER_TEAM)
+    end
+
+    return false
+end)
