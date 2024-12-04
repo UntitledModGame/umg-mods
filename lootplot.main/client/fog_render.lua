@@ -38,20 +38,12 @@ for i=1, NUM_CLOUDS do
     FOG_CLOUDS[i] = "fog_of_war_cloud" .. i
 end
 
----@type table<lootplot.PPos, spatial.DimensionVector>
-local WPOS_CACHE = setmetatable({}, {__mode = "k"})
-
 ---@param ppos lootplot.PPos
 local function drawFog(ppos)
     love.graphics.setColor(1,1,1)
     local plot = ppos:getPlot()
     if not plot:isFogRevealed(ppos, lp.main.PLAYER_TEAM) then
-        local wpos = WPOS_CACHE[ppos]
-        if not wpos then
-            wpos = plot:pposToWorldCoords(ppos)
-            WPOS_CACHE[ppos] = wpos
-        end
-
+        local wpos = plot:pposToWorldCoords(ppos)
         local i = ppos:getSlotIndex()
         local img = FOG_CLOUDS[(i % NUM_CLOUDS) + 1]
         local a,b = math.floor(i / 2), i

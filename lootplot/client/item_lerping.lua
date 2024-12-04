@@ -43,9 +43,6 @@ end
 local ITEM_LAYER = "item"
 local SLOT_LAYER = "slot"
 
----@type table<lootplot.PPos, spatial.DimensionVector>
-local DVEC_CACHE = setmetatable({}, {__mode = "k"})
-
 
 ---@param ppos lootplot.PPos
 local function updatePlotReal(ppos)
@@ -54,21 +51,16 @@ local function updatePlotReal(ppos)
     -- (We had perf issues with this code, since its EXTREMELY HOT.)
     ---@cast ppos lootplot.PPos
     local x,y = ppos:getCoords()
-    local dvec = DVEC_CACHE[ppos]
-    if not dvec then
-        dvec = plot:pposToWorldCoords(ppos)
-        DVEC_CACHE[ppos] = dvec
-    end
-
+    local dvec
     local itemEnt = plot:get(ITEM_LAYER, x,y)
     if itemEnt then
-        -- dvec = ppos:getWorldPos()
+        dvec = ppos:getWorldPos()
         updateItem(itemEnt, dvec)
     end
 
     local slotEnt = plot:get(SLOT_LAYER, x,y)
     if slotEnt then
-        -- dvec = dvec or ppos:getWorldPos()
+        dvec = dvec or ppos:getWorldPos()
         updateSlot(slotEnt, dvec)
     end
 end
