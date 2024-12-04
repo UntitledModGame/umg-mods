@@ -8,6 +8,7 @@
         "lootplot",
         "lootplot.targets",
         "lootplot.levels",
+        "lootplot.rarities",
         "lootplot.slots",
         "lootplot.sound",
         "lootplot.metaprogression"
