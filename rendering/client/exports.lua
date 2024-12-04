@@ -21,6 +21,10 @@ function rendering.isOnScreen(dVec, leighway)
     return misc.isOnScreen(dVec, leighway)
 end
 
+function rendering.isHidden(ent)
+    return misc.isHidden(ent)
+end
+
 
 ---@param ent Entity
 ---@param x number?
