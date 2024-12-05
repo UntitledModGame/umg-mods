@@ -160,6 +160,21 @@ defDestructive("goblet_of_blood", {
 
 
 
+defDestructive("pink_mitten", {
+    name = loc("Pink Mitten"),
+    triggers = {"PULSE"},
+
+    onActivate = function(ent)
+        ent.lives = (ent.lives or 0) + 1
+    end,
+
+    rarity = lp.rarities.RARE,
+    basePrice = 1,
+
+    activateDescription = loc("Gains {lootplot:LIFE_COLOR}+1 life{/lootplot:LIFE_COLOR}\n(Maximum of 15)")
+})
+
+
 
 
 --[[
