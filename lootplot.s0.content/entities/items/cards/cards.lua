@@ -5,6 +5,9 @@ local loc = localization.localize
 local function defineCard(name, cardEType)
     cardEType.image = cardEType.image or name
     cardEType.rarity = cardEType.rarity or lp.rarities.RARE
+    if not cardEType.listen then
+        cardEType.triggers = cardEType.triggers or {"PULSE"}
+    end
 
     cardEType.baseMaxActivations = 1
     cardEType.basePrice = cardEType.basePrice or 10

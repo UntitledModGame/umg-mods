@@ -7,9 +7,10 @@ local wg = lp.worldgen
 local function definePerk(id, etype)
     etype.image = etype.image or id
     etype.canItemFloat = true -- perk always float
+    etype.triggers = {"PULSE"}
 
     id = "lootplot.s0.starting_items:" .. id
-    etype = lp.defineItem(id, etype)
+    lp.defineItem(id, etype)
     lp.worldgen.STARTING_ITEMS:add(id)
 end
 

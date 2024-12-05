@@ -7,6 +7,9 @@ local function defineFood(id, etype)
     etype.doomCount = etype.doomCount or 1
     etype.image = etype.image or id
     etype.baseMaxActivations = 1
+    if not etype.listen then
+        etype.triggers = etype.triggers or {"PULSE"}
+    end
 
     lp.defineItem("lootplot.s0.content:" .. id, etype)
 end

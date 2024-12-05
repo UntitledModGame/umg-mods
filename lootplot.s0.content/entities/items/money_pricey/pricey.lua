@@ -17,6 +17,7 @@ defItem("gold_watch", {
     activateDescription = loc("Increases price by 10%,\n(Max 200)"),
 
     rarity = lp.rarities.EPIC,
+    triggers = {"PULSE"},
 
     onActivate = function(ent)
         local x = ent.price * 0.10
@@ -36,6 +37,7 @@ defItem("gold_helmet", {
     name = loc("Gold Helmet"),
 
     rarity = lp.rarities.UNCOMMON,
+    triggers = {"PULSE"},
 
     basePrice = 8,
     baseMaxActivations = 5,

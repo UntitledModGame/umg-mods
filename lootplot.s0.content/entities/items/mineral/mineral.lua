@@ -1,11 +1,9 @@
 
-local helper = require("shared.helper")
 local loc = localization.localize
 
 
 local function defineMineral(mineralType, name, etype)
     etype.baseMaxActivations = etype.baseMaxActivations or 10
-
     etype.mineralType = mineralType
 
     lp.defineItem(name, etype)
@@ -19,7 +17,7 @@ local function defineSword(mineral_type, name, etype)
     local image = mineral_type .. "_sword"
     local pgen = 4
 
-    local swordType = ({
+    local swordType = {
         image = image,
         name = loc(name .. " Sword"),
 
@@ -28,7 +26,7 @@ local function defineSword(mineral_type, name, etype)
         rarity = etype.rarity or lp.rarities.COMMON,
 
         basePrice = 4,
-    })
+    }
     for k,v in pairs(etype) do
         swordType[k] = swordType[k] or v
     end
@@ -121,6 +119,7 @@ Doesnt do anything special; has decent stats
 ]]
 defineMineralClass("iron", "Iron", {
     baseMaxActivations = 15,
+    triggers = {"PULSE"}
 })
 
 
@@ -140,7 +139,8 @@ Activates multiple times, like boomerang.
 defineMineralClass("ruby", "Ruby", {
     baseMaxActivations = 3,
     description = loc("Uses all activations at once!"),
-    repeatActivations = true
+    repeatActivations = true,
+    triggers = {"PULSE"}
 })
 
 

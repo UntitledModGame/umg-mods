@@ -17,6 +17,7 @@ defItem("gold_sword", {
     rarity = lp.rarities.RARE,
     baseMoneyGenerated = 1,
     baseMaxActivations = 1,
+    triggers = {"PULSE"},
 })
 
 
@@ -37,7 +38,9 @@ defItem("gold_axe", {
         activate = function(selfEnt, ppos, targetEnt)
             lp.addMoney(selfEnt, selfEnt.moneyGenerated or 0)
         end
-    }
+    },
+
+    triggers = {"PULSE"},
 })
 
 
@@ -49,6 +52,7 @@ helper.defineDelayItem("gold_bar", "Gold Bar", {
     basePrice = 4,
 
     rarity = lp.rarities.COMMON,
+    triggers = {"PULSE"},
 
     delayCount = GOLD_BAR_ACTS,
     delayDescription = loc("Earns {lootplot:MONEY_COLOR}$10"),
@@ -69,6 +73,7 @@ defItem("lucky_horseshoe", {
     rarity = lp.rarities.RARE,
 
     shape = lp.targets.ON_SHAPE,
+    triggers = {"PULSE"},
 
     basePrice = 2,
     baseMaxActivations = 1,
@@ -132,6 +137,7 @@ defItem("death_by_taxes", {
     basePrice = 20,
     baseMaxActivations = 2,
     rarity = lp.rarities.LEGENDARY,
+    triggers = {"PULSE"},
 
     description = function(ent)
         local money = lp.getMoney(ent) or 0
@@ -158,6 +164,7 @@ defItem("gold_bell", {
     basePointsGenerated = 500,
 
     rarity = lp.rarities.EPIC,
+    triggers = {"PULSE"},
 })
 
 
@@ -186,5 +193,6 @@ defItem("gold_crown", {
     },
 
     rarity = lp.rarities.EPIC,
+    triggers = {"PULSE"},
 })
 

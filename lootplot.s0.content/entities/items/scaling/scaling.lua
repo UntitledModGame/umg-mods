@@ -29,6 +29,8 @@ end
 defineHelmet("iron_helmet", {
     name = loc("Iron Helmet"),
 
+    triggers = {"PULSE"},
+
     basePrice = 10,
     mineralType = "iron",
 
@@ -47,6 +49,8 @@ defItem("moon_knife", {
     name = loc("Moon Knife"),
     activateDescription = loc("Gain 1 point permanently"),
 
+    triggers = {"PULSE"},
+
     basePointsGenerated = -10,
     rarity = lp.rarities.UNCOMMON,
 
@@ -64,6 +68,8 @@ defItem("moon_knife", {
 defineHelmet("ruby_helmet", {
     name = loc("Ruby Helmet"),
 
+    triggers = {"PULSE"},
+
     basePrice = 12,
 
     mineralType = "ruby",
@@ -73,7 +79,7 @@ defineHelmet("ruby_helmet", {
         description = loc("Buff all target items:\n+1 activations. (Capped at 20)"),
         activate = function(selfEnt, ppos, targetEnt)
             if (targetEnt.maxActivations or 0) < 20 then
-                lp.modifierBuff(targetEnt, "maxActivations", x, selfEnt)
+                lp.modifierBuff(targetEnt, "maxActivations", 1, selfEnt)
             end
         end,
         filter = function(selfEnt, ppos, targetEnt)

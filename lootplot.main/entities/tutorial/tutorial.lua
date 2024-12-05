@@ -326,9 +326,11 @@ lp.defineItem(TUT_CAT_ID, {
 
     image = "tutorial_cat",
 
+    triggers = {"PULSE"},
+
     canItemFloat = true,
 
-    basePrice = 42,
+    basePrice = 42, -- answer to the life
 
     onActivate = function(ent)
         clearEverythingExceptSelf(ent)

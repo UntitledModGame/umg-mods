@@ -92,7 +92,8 @@ defItem("mana_syrup", "Mana Syrup", {
         activate = function(ent, ppos, itemEnt)
             itemEnt.manaCost = (itemEnt.manaCost or 0) - 1
         end,
-    }
+    },
+    triggers = {"PULSE"},
 })
 
 defItem("vial_blue", "Blue Vial", {
@@ -106,7 +107,8 @@ defItem("vial_blue", "Blue Vial", {
             lp.mana.addMana(slotEnt, 2)
         end,
         description = loc("Gives {lootplot.mana:LIGHT_MANA_COLOR}+2 mana {/lootplot.mana:LIGHT_MANA_COLOR}to slot")
-    }
+    },
+    triggers = {"PULSE"},
 })
 
 
@@ -116,6 +118,7 @@ defItem("holy_necklace", "Holy necklace", {
 
     baseMoneyGenerated = 4,
     manaCost = 1,
+    triggers = {"PULSE"},
 })
 
 
@@ -131,7 +134,8 @@ defItem("unholy_necklace", "Unholy necklace", {
             lp.mana.addMana(slotEnt, 1)
         end,
         description = loc("Gives {lootplot.mana:LIGHT_MANA_COLOR}+1 mana{/lootplot.mana:LIGHT_MANA_COLOR} to slot")
-    }
+    },
+    triggers = {"PULSE"},
 })
 
 
@@ -152,7 +156,8 @@ defItem("crystal_ball", "Crystal Ball", {
         activate = function(ent, ppos, slotEnt)
             lp.mana.addMana(slotEnt, 1)
         end,
-    }
+    },
+    triggers = {"PULSE"},
 })
 
 
@@ -173,5 +178,6 @@ defItem("mana_heart", "Mana Heart", {
             targetEnt.lives = (targetEnt.lives or 0) + 1
         end
     },
+    triggers = {"PULSE"},
 })
 

@@ -18,6 +18,7 @@ helper.defineDelayItem("gift_box", "Gift Box", {
     baseMaxActivations = 2,
 
     rarity = lp.rarities.RARE,
+    triggers = {"PULSE"},
 
     delayCount = 25,
     delayDescription = ("Spawn a random %s item")
@@ -40,6 +41,7 @@ defItem("pandoras_box", {
     name = loc("Pandora's Box"),
 
     rarity = lp.rarities.EPIC,
+    triggers = {"PULSE"},
 
     shape = lp.targets.RookShape(1),
     doomCount = 1,
@@ -62,6 +64,9 @@ defItem("pandoras_box", {
 
 
 local function defineCat(name, etype)
+    if not etype.listen then
+        etype.triggers = etype.triggers or {"PULSE"}
+    end
     defItem(name, etype)
 end
 
@@ -239,6 +244,7 @@ defItem("old_brick", {
     activateDescription = loc("Loses 2 Points-Generated permanently"),
 
     rarity = lp.rarities.RARE,
+    triggers = {"PULSE"},
 
     basePrice = 6,
     basePointsGenerated = 60,
@@ -257,6 +263,7 @@ defItem("spear_of_war", {
     activateDescription = loc("Generates points equal to the current combo"),
 
     rarity = lp.rarities.EPIC,
+    triggers = {"PULSE"},
 
     baseMaxActivations = 25,
     basePointsGenerated = 1,
@@ -285,6 +292,7 @@ local function defineOcto(name, etype)
     etype.image = etype.image or id
     etype.shape = etype.shape or lp.targets.KING_SHAPE
     etype.rarity = etype.rarity or lp.rarities.RARE
+    etype.triggers = etype.triggers or {"PULSE"}
 
     etype.basePrice = 8
     etype.baseMaxActivations = 5
@@ -342,6 +350,7 @@ defItem("blank_page", {
     name = loc("Blank Page"),
 
     rarity = lp.rarities.EPIC,
+    triggers = {"PULSE"},
 
     shape = lp.targets.UP_SHAPE,
 
@@ -366,6 +375,7 @@ defItem("ukulele", {
     name = loc("Ukulele"),
 
     rarity = lp.rarities.UNCOMMON,
+    triggers = {"PULSE"},
 
     basePrice = 6,
     baseMaxActivations = 2,
@@ -387,6 +397,7 @@ defItem("map", {
     name = loc("Map"),
 
     rarity = lp.rarities.UNCOMMON,
+    triggers = {"PULSE"},
 
     shape = lp.targets.CircleShape(5),
 
@@ -413,6 +424,7 @@ defItem("foghorn", {
     name = loc("Fog Horn"),
 
     rarity = lp.rarities.RARE,
+    triggers = {"PULSE"},
 
     shape = lp.targets.RookShape(8),
 
@@ -443,6 +455,7 @@ defItem("anchor", {
     activateDescription = loc("Sets points to 0."),
 
     rarity = lp.rarities.EPIC,
+    triggers = {"PULSE"},
 
     basePrice = 7,
     baseMaxActivations = 3,

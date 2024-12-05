@@ -37,6 +37,8 @@ helper.defineTransformItem("key_bar", "Key Bar", {
     transformName = "Key",
     delayCount = NUM_KEY_ACTS,
 
+    triggers = {"PULSE"},
+
     basePrice = 4,
     baseMaxActivations = 2,
     basePointsGenerated = 5,
@@ -85,6 +87,8 @@ defItem("leather", {
     baseMaxActivations = 15,
 
     basePointsGenerated = 5,
+
+    triggers = {"PULSE"},
 })
 
 
@@ -136,7 +140,9 @@ defItem("coins", {
             ent.totalEarned = ent.totalEarned + 1
             sync.syncComponent(ent, "totalEarned")
         end
-    end
+    end,
+
+    triggers = {"PULSE"},
 })
 
 
@@ -155,6 +161,8 @@ lp.defineItem("lootplot.s0.content:bone", {
 
     lives = 6,
     rarity = lp.rarities.UNCOMMON,
+
+    triggers = {"PULSE"},
 })
 
 
@@ -181,6 +189,8 @@ helper.defineTransformItem("pink_guppy", "Pink Guppy", {
     basePointsGenerated = 5,
 
     rarity = lp.rarities.COMMON,
+
+    triggers = {"PULSE"},
 })
 
 
@@ -222,6 +232,8 @@ lp.defineItem("lootplot.s0.content:trumpet", {
     name = loc("Trumpet"),
     activateDescription = loc("Makes a toot sound"),
     rarity = lp.rarities.COMMON,
+
+    triggers = {"PULSE"},
 
     baseMaxActivations = 10,
     basePrice = 3,
