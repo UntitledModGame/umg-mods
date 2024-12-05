@@ -116,6 +116,7 @@ defRecord("record_green", "Green Record", {
     activateDescription = loc("Buff all {lootplot.targets:COLOR}target items{lootplot.targets:COLOR}, +1 mult\n(Maximum of 20 mult)"),
 
     target = {
+        type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
             if targetEnt.pointsGenerated then
                 local _, _, mult = properties.computeProperty(targetEnt, "pointsGenerated")
@@ -131,6 +132,7 @@ defRecord("record_blue", "Blue Record", {
     activateDescription = loc("Buff all {lootplot.targets:COLOR}target items{lootplot.targets:COLOR}, +2 points"),
 
     target = {
+        type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
             lp.addMultiplierBuff(targetEnt, "pointsGenerated", 2, selfEnt)
         end
@@ -146,6 +148,7 @@ defRecord("record_red", "Red Record", {
     activateDescription = loc("Buff all {lootplot.targets:COLOR}target items{lootplot.targets:COLOR}, +1 activation\n(Maximum of 20 activations)"),
 
     target = {
+        type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
             local maxAct = targetEnt.maxActivations or 0
             if maxAct < 30 then
