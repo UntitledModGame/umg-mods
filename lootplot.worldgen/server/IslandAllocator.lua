@@ -74,9 +74,7 @@ end
 ---@param radius? integer The "range" at which the islands are culled from. Default=1
 function IslandAllocator:cullNearbyIslands(radius)
     radius = radius or 1
-    return self.plot:foreachLayerEntry(function(_, basePPos, layer)
-        if layer ~= "slot" then return end
-
+    return self.plot:foreachSlot(function(_, basePPos)
         local r2 = (radius + 0.5) ^ 2
         for y = -radius, radius do
             for x = -radius, radius do
