@@ -44,13 +44,12 @@ local function isOnScreen(dVec, leighway)
     -- Returns true if a dimensionVector is on screen
     -- false otherwise.
     local x, y, dimension = dVec.x, getDrawY(dVec.y, dVec.z), dVec.dimension
-    local w,h = screenWidth, screenHeight
+    local w,h = love.graphics.getDimensions()
     local camera = camera.get()
     if camera:getDimension() ~= (dimension or DEFAULT_DIMENSION) then
         return false -- camera is looking at a different dimension
     end
     leighway = leighway or DEFAULT_LEIGHWAY
-    w, h = w or love.graphics.getWidth(), h or love.graphics.getHeight()
     x, y = camera:toCameraCoords(x, y)
 
     return -leighway <= x and x <= w + leighway
@@ -78,14 +77,13 @@ end
 local drawEntityTc = typecheck.assert("entity", "number", "number")
 local function drawEntity(ent, x,y, rot, sx,sy, kx,ky)
     drawEntityTc(ent, x,y)
-    if not isHidden(ent) then
-        setColorOfEnt(ent)
-        rot = rot or 0
-        sx,sy = sx or 1, sy or 1
-        umg.call("rendering:drawEntity", ent, x,y, rot, sx,sy, kx,ky)
-        if ent.onDraw then
-            ent:onDraw(x,y, rot, sx,sy, kx,ky)
-        end
+    setColorOfEnt(ent)
+    x, y = x or 0, y or 0
+    rot = rot or 0
+    sx,sy = sx or 1, sy or 1
+    umg.call("rendering:drawEntity", ent, x,y, rot, sx,sy, kx,ky)
+    if ent.onDraw then
+        ent:onDraw(x,y, rot, sx,sy, kx,ky)
     end
 end
 
@@ -100,5 +98,6 @@ return {
     getEntityDrawDepth = getEntityDrawDepth,
 
     isOnScreen = isOnScreen,
-    drawEntity = drawEntity
+    drawEntity = drawEntity,
+    isHidden = isHidden
 }

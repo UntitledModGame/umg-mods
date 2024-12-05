@@ -42,20 +42,38 @@ umg.defineQuestion("rendering:getCameraPosition", reducers.PRIORITY_DOUBLE)
 
 -- Is the entity hidden? answers should return true or false
 umg.defineQuestion("rendering:isHidden", reducers.OR)
+umg.answer("rendering:isHidden", function() -- default answer
+    return false
+end)
 
 -- get entity rotation
 umg.defineQuestion("rendering:getRotation", ADD)
+umg.answer("rendering:getRotation", function() -- default answer
+    return 0
+end)
 
 -- visual scale of entity
 umg.defineQuestion("rendering:getScale", MULT)
+umg.answer("rendering:getScale", function() -- default answer
+    return 1
+end)
 
 umg.defineQuestion("rendering:getScaleXY", reducers.MULTIPLY_VECTOR)
+umg.answer("rendering:getScaleXY", function()
+    return 1, 1
+end)
 
 -- gets offsets of an entity for draw position
 umg.defineQuestion("rendering:getOffsetXY", reducers.ADD_VECTOR)
+umg.answer("rendering:getOffsetXY", function()
+    return 0, 0
+end)
 
 -- shear of entity
 umg.defineQuestion("rendering:getShearXY", reducers.ADD_VECTOR)
+umg.answer("rendering:getShearXY", function()
+    return 0, 0
+end)
 
 
 
@@ -69,9 +87,15 @@ end
 
 -- color of entity
 umg.defineQuestion("rendering:getColor", colorReducer)
+umg.answer("rendering:getColor", function()
+    return 1, 1, 1
+end)
 
 -- Opacity of entity
 umg.defineQuestion("rendering:getOpacity", MULT)
+umg.answer("rendering:getOpacity", function()
+    return 1
+end)
 
 
 -- ability to override image

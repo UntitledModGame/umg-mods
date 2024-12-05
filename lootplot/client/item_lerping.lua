@@ -14,9 +14,9 @@ local worldPlotEnts = umg.group("plot", "x", "y")
 
 
 local function updateItem(itemEnt, dvec)
-    local x, y = dvec.x, dvec.y
     assert(dvec, "?")
-    
+    local x, y = dvec.x, dvec.y
+
     -- the target position the item should lerp to.
     local targetX, targetY = umg.ask("lootplot:getItemTargetPosition", itemEnt)
     if targetX then
@@ -35,6 +35,7 @@ end
 
 
 local function updateSlot(slotEnt, dvec)
+    assert(dvec, "?")
     slotEnt.x, slotEnt.y = dvec.x, dvec.y
 end
 
@@ -43,27 +44,31 @@ local ITEM_LAYER = "item"
 local SLOT_LAYER = "slot"
 
 
+---@param ppos lootplot.PPos
+local function updatePlotReal(ppos)
+    local plot = ppos:getPlot()
+    -- we have inlined this a bit, so its simpler.
+    -- (We had perf issues with this code, since its EXTREMELY HOT.)
+    ---@cast ppos lootplot.PPos
+    local x,y = ppos:getCoords()
+    local dvec
+    local itemEnt = plot:get(ITEM_LAYER, x,y)
+    if itemEnt then
+        dvec = ppos:getWorldPos()
+        updateItem(itemEnt, dvec)
+    end
+
+    local slotEnt = plot:get(SLOT_LAYER, x,y)
+    if slotEnt then
+        dvec = dvec or ppos:getWorldPos()
+        updateSlot(slotEnt, dvec)
+    end
+end
+
 ---comment
 ---@param plot lootplot.Plot
 local function updatePlot(plot)
-    plot:foreach(function(ppos)
-        -- we have inlined this a bit, so its simpler.
-        -- (We had perf issues with this code, since its EXTREMELY HOT.)
-        ---@cast ppos lootplot.PPos
-        local x,y = ppos:getCoords()
-        local dvec
-        local itemEnt = plot:get(ITEM_LAYER, x,y)
-        if itemEnt then
-            dvec = ppos:getWorldPos()
-            updateItem(itemEnt, dvec)
-        end
-
-        local slotEnt = plot:get(SLOT_LAYER, x,y)
-        if slotEnt then
-            dvec = dvec or ppos:getWorldPos()
-            updateSlot(slotEnt, dvec)
-        end
-    end)
+    return plot:foreach(updatePlotReal)
 end
 
 

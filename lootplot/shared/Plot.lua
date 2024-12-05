@@ -53,6 +53,12 @@ function Plot:init(ownerEnt, width, height)
         ["world"] = objects.Grid(width,height)
         -- ... can define custom ones too!
     }
+    self.layerKeys = {}
+
+    for k in pairs(self.layers) do
+        self.layerKeys[#self.layerKeys+1] = k
+    end
+    table.sort(self.layerKeys)
 
     ---@type table<string, objects.Grid>
     self.fogs = {} -- Note: Grid value false means revealed, true means hidden.
@@ -180,8 +186,18 @@ end
 
 
 local getTc = typecheck.assert("string", "number", "number")
+
+---@param layer string
+---@param x integer
+---@param y integer
+---@return Entity?
 function Plot:get(layer, x,y)
-    getTc(layer, x,y)
+    -- Note: getTc is too slow. Test the args manually instead.
+    -- getTc(layer, x,y)
+    assert(type(layer) == "string", "string expected for layer")
+    assert(type(x) == "number", "number expected for x")
+    assert(type(y) == "number", "number expected for y")
+
     local grid = self.layers[layer]
     if not grid then
         error("Invalid layer: " .. tostring(layer))
@@ -311,21 +327,11 @@ function Plot:foreachItem(func)
     end)
 end
 
-
-local function keys(tabl)
-    local ret = {}
-    for k in pairs(tabl) do
-        table.insert(ret, k)
-    end
-    return ret
-end
-
 ---@param func fun(ent: Entity, ppos:lootplot.PPos, layer:string)
 function Plot:foreachLayerEntry(func)
-    local layers = keys(self.layers)
     self:foreach(function(ppos)
         local x,y = self:indexToCoords(ppos:getSlotIndex())
-        for _, layer in ipairs(layers) do
+        for _, layer in ipairs(self.layerKeys) do
             local ent = self:get(layer, x,y)
             if ent then
                 func(ent, ppos, layer)

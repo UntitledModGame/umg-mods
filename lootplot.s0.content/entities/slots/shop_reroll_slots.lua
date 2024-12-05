@@ -173,9 +173,7 @@ lp.defineSlot("lootplot.s0.content:shop_slot", {
     onActivate = function(slotEnt)
         setItemLock(slotEnt, true)
     end,
-    onItemDraw = function(selfEnt, itemEnt)
-        drawItemPrice(selfEnt, itemEnt)
-    end,
+    onItemDraw = drawItemPrice,
     actionButtons = {
         shopButton
     }
@@ -209,9 +207,8 @@ lp.defineSlot("lootplot.s0.content:lockable_shop_slot", {
     onItemDraw = function(selfEnt, itemEnt, x,y, rot, sx,sy)
         if selfEnt.rerollLock then
             rendering.drawImage("slot_reroll_padlock", x,y, rot, sx,sy)
-        else
-            drawItemPrice(selfEnt, itemEnt)
         end
+        return drawItemPrice(selfEnt, itemEnt)
     end,
     actionButtons = {
         shopButton,
@@ -288,9 +285,7 @@ lp.defineSlot("lootplot.s0.content:treasure_slot", {
             slotEnt.doomCount = 1
         end
     end,
-    onItemDraw = function(selfEnt, itemEnt)
-        drawItemPrice(selfEnt, itemEnt)
-    end,
+    onItemDraw = drawItemPrice,
     actionButtons = {
         shopButton
     }
@@ -329,9 +324,7 @@ lp.defineSlot("lootplot.s0.content:paper_slot", {
             slotEnt.doomCount = 1
         end
     end,
-    onItemDraw = function(selfEnt, itemEnt)
-        drawItemPrice(selfEnt, itemEnt)
-    end,
+    onItemDraw = drawItemPrice,
     actionButtons = {
         shopButton
     }
