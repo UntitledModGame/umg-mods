@@ -226,6 +226,8 @@ local ASSERT_CACHE = {}
 ---@return fun(...:any)
 function typecheck.assert(...)
     local check_fns = {...}
+    assert(#check_fns > 0, "expected an argument")
+
     local key = parseArgCheckers(check_fns)
     local func = ASSERT_CACHE[key]
 
@@ -233,12 +235,55 @@ function typecheck.assert(...)
         return func
     end
 
-    func = function(...)
-        for i=1, #check_fns do
-            local arg = select(i, ...)
-            local ok, err = check_fns[i](arg)
+    -- Argument count specialization
+    if #check_fns == 1 then
+        local check1 = check_fns[1]
+        func = function(arg1)
+            local ok, err = check1(arg1)
             if not ok then
-                umg.melt(makeErr(arg, err, i), 3)
+                umg.melt(makeErr(arg, err, 1), 3)
+            end
+        end
+    elseif #check_fns == 2 then
+        local check1 = check_fns[1]
+        local check2 = check_fns[2]
+        func = function(arg1)
+            local ok, err = check1(arg1)
+            if not ok then
+                umg.melt(makeErr(arg, err, 1), 3)
+            end
+            ok, err = check2(arg1)
+            if not ok then
+                umg.melt(makeErr(arg, err, 2), 3)
+            end
+        end
+    elseif #check_fns == 3 then
+        local check1 = check_fns[1]
+        local check2 = check_fns[2]
+        local check3 = check_fns[3]
+        func = function(arg1)
+            local ok, err = check1(arg1)
+            if not ok then
+                umg.melt(makeErr(arg, err, 1), 3)
+            end
+            ok, err = check2(arg1)
+            if not ok then
+                umg.melt(makeErr(arg, err, 2), 3)
+            end
+            ok, err = check3(arg1)
+            if not ok then
+                umg.melt(makeErr(arg, err, 3), 3)
+            end
+        end
+    else
+        -- Generic implementation
+        func = function(...)
+            for i=1, #check_fns do
+                local arg = select(i, ...)
+                local ok, err = check_fns[i](arg)
+                if not ok then
+                    umg.melt(makeErr(arg, err, i), 3)
+                end
             end
         end
     end
