@@ -116,14 +116,14 @@ function parseToFunction(str)
     str = str:gsub(" ","")
 
     if str:find("|") then
-        return parseUnion(str)
+        return parseUnion(str), str
     elseif str:find("%?") then
         -- if string contains question mark, treat the argument as optional.
         str = str:gsub("%?","")
         local func = parseToFunction(str)
-        return optional(func)
+        return optional(func), str
     elseif types[str] then
-        return types[str]
+        return types[str], str
     end
     umg.melt("malformed typecheck string: " .. tostring(str))
 end
@@ -185,12 +185,27 @@ end
 
 
 local function parseArgCheckers(arr)
+    local key = {}
+    local retKey = true
+
     for i=1, #arr do
-        local func, err = makeCheckFunction(arr[i])
+        local func, kfunc = makeCheckFunction(arr[i])
         if not func then
-            umg.melt(("Failure parsing typecheck arg: %d:\n"):format(i) .. tostring(err))
+            umg.melt(("Failure parsing typecheck arg: %d:\n"):format(i) .. tostring(kfunc))
         end
         arr[i] = func
+
+        if kfunc then
+            key[i] = kfunc
+        else
+            retKey = false
+        end
+    end
+
+    if retKey then
+        return table.concat(key, "\0")
+    else
+        return nil
     end
 end
 
@@ -202,14 +217,23 @@ local function makeErr(arg, err, i)
     return estring .. err_data
 end
 
+
+---@type table<string, fun(...:any)>
+local ASSERT_CACHE = {}
+
 ---Availability: Client and Server
 ---@param ... table|string|(fun(x:any):(boolean,string?))
 ---@return fun(...:any)
 function typecheck.assert(...)
     local check_fns = {...}
-    parseArgCheckers(check_fns)
+    local key = parseArgCheckers(check_fns)
+    local func = ASSERT_CACHE[key]
 
-    return function(...)
+    if func then
+        return func
+    end
+
+    func = function(...)
         for i=1, #check_fns do
             local arg = select(i, ...)
             local ok, err = check_fns[i](arg)
@@ -218,6 +242,12 @@ function typecheck.assert(...)
             end
         end
     end
+
+    if key then -- Prevent "table index is nil"
+        ASSERT_CACHE[key] = func
+    end
+
+    return func
 end
 
 ---asserts that `tabl` is a table, 
