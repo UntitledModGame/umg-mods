@@ -167,8 +167,6 @@ defineCat("copykato", {
 defineCat("chubby_cat", {
     name = loc("Chubby Cat"),
 
-    triggers = {},
-
     listen = {
         trigger = "BUY",
         activate = function(selfEnt, ppos, targetEnt)

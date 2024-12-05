@@ -92,8 +92,6 @@ defItem("a_pointy_loan", {
 defItem("bull_helmet", {
     name = loc("Bull Helmet"),
 
-    triggers = {},
-
     basePrice = 15,
     baseMaxActivations = 20,
 
@@ -118,7 +116,6 @@ defItem("feather", {
 
     canItemFloat = true,
 
-    triggers = {},
     listen = {
         trigger = "BUY",
         activate = function(selfEnt, ppos, targetEnt)
@@ -148,7 +145,6 @@ local function defBalloon(id, name, etype)
     if etype.canItemFloat == nil then
         etype.canItemFloat = true
     end
-    etype.triggers = {}
     defItem(id, etype)
 end
 
@@ -255,7 +251,6 @@ helper.defineDelayItem("key_balloon", "Key Balloon", {
     --[[
     After X activations, turn into a floating key
     ]]
-    triggers = {},
     listen = {
         trigger = "BUY",
     },
@@ -292,7 +287,6 @@ defItem("neko_cat", {
     canItemFloat = true,
 
 
-    triggers = {},
     listen = {
         trigger = "BUY",
     },

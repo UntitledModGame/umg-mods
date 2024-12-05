@@ -98,7 +98,6 @@ purpose is to give intuition about how target-system works
 ]]
 defItem("net", {
     name = loc("Net"),
-    triggers = {},
 
     rarity = lp.rarities.COMMON,
 

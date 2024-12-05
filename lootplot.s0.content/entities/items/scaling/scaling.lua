@@ -151,7 +151,6 @@ defItem("skull", {
 
     activateDescription = interp("Permanently gains {lootplot:POINTS_MOD_COLOR}+6 Points-Generated"),
 
-    triggers = {},
     listen = {
         trigger = "DESTROY"
     },
