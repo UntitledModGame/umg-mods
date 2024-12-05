@@ -328,6 +328,11 @@ defineSlotConverter("tangerine", "Tangerine", "rotate_slot", "Rotate Slot", lp.t
     basePrice = APPLE_PRICE
 })
 
+defineSlotConverter("sliced_apple", "Sliced Apple", "item_pulse_button_slot", "Item {lootplot:TRIGGER_COLOR}Pulse{/lootplot:TRIGGER_COLOR} Button", lp.targets.ON_SHAPE, {
+    rarity = lp.rarities.RARE,
+    basePrice = APPLE_PRICE
+})
+
 defineSlotConverter("golden_apple", "Golden Apple", "golden_slot", "Golden Slot", lp.targets.ON_SHAPE, {
     rarity = lp.rarities.UNCOMMON,
     basePrice = APPLE_PRICE
