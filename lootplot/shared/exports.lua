@@ -1257,7 +1257,7 @@ lp.COLORS = {
     -- BASICS:
     MONEY_COLOR = {1, 0.843, 0.1},
     POINTS_COLOR = {0.3, 1, 0.3},
-    POINTS_MULT_COLOR = {0.6, 1, 0.1},
+    POINTS_MULT_COLOR = {0.92, 0.32, 0.46}, -- eb5276
     POINTS_MOD_COLOR = {0.1, 0.9, 0.5},
 
     -- COMPONENTS:
