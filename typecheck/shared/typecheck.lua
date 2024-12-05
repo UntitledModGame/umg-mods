@@ -241,38 +241,38 @@ function typecheck.assert(...)
         func = function(arg1)
             local ok, err = check1(arg1)
             if not ok then
-                umg.melt(makeErr(arg, err, 1), 3)
+                umg.melt(makeErr(arg1, err, 1), 3)
             end
         end
     elseif #check_fns == 2 then
         local check1 = check_fns[1]
         local check2 = check_fns[2]
-        func = function(arg1)
+        func = function(arg1, arg2)
             local ok, err = check1(arg1)
             if not ok then
-                umg.melt(makeErr(arg, err, 1), 3)
+                umg.melt(makeErr(arg1, err, 1), 3)
             end
-            ok, err = check2(arg1)
+            ok, err = check2(arg2)
             if not ok then
-                umg.melt(makeErr(arg, err, 2), 3)
+                umg.melt(makeErr(arg2, err, 2), 3)
             end
         end
     elseif #check_fns == 3 then
         local check1 = check_fns[1]
         local check2 = check_fns[2]
         local check3 = check_fns[3]
-        func = function(arg1)
+        func = function(arg1, arg2, arg3)
             local ok, err = check1(arg1)
             if not ok then
-                umg.melt(makeErr(arg, err, 1), 3)
+                umg.melt(makeErr(arg1, err, 1), 3)
             end
-            ok, err = check2(arg1)
+            ok, err = check2(arg2)
             if not ok then
-                umg.melt(makeErr(arg, err, 2), 3)
+                umg.melt(makeErr(arg2, err, 2), 3)
             end
-            ok, err = check3(arg1)
+            ok, err = check3(arg3)
             if not ok then
-                umg.melt(makeErr(arg, err, 3), 3)
+                umg.melt(makeErr(arg3, err, 3), 3)
             end
         end
     else
