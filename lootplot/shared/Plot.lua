@@ -185,8 +185,6 @@ function Plot:getOwnerEntity()
 end
 
 
-local getTc = typecheck.assert("string", "number", "number")
-
 ---@param layer string
 ---@param x integer
 ---@param y integer
