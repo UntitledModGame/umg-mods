@@ -46,8 +46,7 @@ end
 
 umg.on("lootplot:tryMoveItemsClient", function(ppos1, ppos2)
     local item = lp.posToItem(ppos1)
-    local dvec = ppos2:getWorldPos()
-    local targX, targY = dvec.x, dvec.y
+    local targX, targY = ppos2:getWorldPos()
     if item then
         applyLerpLock(item, targX, targY)
     end
@@ -69,8 +68,8 @@ local lg=love.graphics
 local function drawSlotIndicator(ppos, color)
     lg.push("all")
     love.graphics.setColor(color)
-    local dvec = ppos:getWorldPos()
-    rendering.drawImage("select", dvec.x, dvec.y)
+    local x,y = ppos:getWorldPos()
+    rendering.drawImage("select", x,y)
     lg.pop()
 end
 

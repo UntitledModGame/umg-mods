@@ -13,10 +13,7 @@ local worldPlotEnts = umg.group("plot", "x", "y")
 
 
 
-local function updateItem(itemEnt, dvec)
-    assert(dvec, "?")
-    local x, y = dvec.x, dvec.y
-
+local function updateItem(itemEnt, x,y,dim)
     -- the target position the item should lerp to.
     local targetX, targetY = umg.ask("lootplot:getItemTargetPosition", itemEnt)
     if targetX then
@@ -31,12 +28,13 @@ local function updateItem(itemEnt, dvec)
         itemEnt.x = x
         itemEnt.y = y
     end
+    itemEnt.dimension = dim
 end
 
 
-local function updateSlot(slotEnt, dvec)
-    assert(dvec, "?")
-    slotEnt.x, slotEnt.y = dvec.x, dvec.y
+local function updateSlot(slotEnt, x,y,dim)
+    slotEnt.x, slotEnt.y = x,y
+    slotEnt.dimension = dim
 end
 
 
@@ -50,18 +48,20 @@ local function updatePlotReal(ppos)
     -- we have inlined this a bit, so its simpler.
     -- (We had perf issues with this code, since its EXTREMELY HOT.)
     ---@cast ppos lootplot.PPos
-    local x,y = ppos:getCoords()
-    local dvec
-    local itemEnt = plot:get(ITEM_LAYER, x,y)
+    local ix,iy = ppos:getCoords()
+    local x,y,dim
+    local itemEnt = plot:get(ITEM_LAYER, ix,iy)
     if itemEnt then
-        dvec = ppos:getWorldPos()
-        updateItem(itemEnt, dvec)
+        x,y,dim = ppos:getWorldPos()
+        updateItem(itemEnt, ppos:getWorldPos())
     end
 
-    local slotEnt = plot:get(SLOT_LAYER, x,y)
+    local slotEnt = plot:get(SLOT_LAYER, ix,iy)
     if slotEnt then
-        dvec = dvec or ppos:getWorldPos()
-        updateSlot(slotEnt, dvec)
+        if not x then
+            x,y,dim = ppos:getWorldPos()
+        end
+        updateSlot(slotEnt, x,y,dim)
     end
 end
 

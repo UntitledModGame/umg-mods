@@ -75,8 +75,8 @@ umg.defineEntityType("lootplot.s0.starting_items:one_ball_tutorial_text", {
         local run = lp.main.getRun()
         if run then
             local plot = run:getPlot()
-            local pos = plot:getPPos(ent.pposX, ent.pposY):getWorldPos()
-            ent.x, ent.y = pos.x, pos.y
+            local ppos = plot:getPPos(ent.pposX, ent.pposY)
+            ent.x, ent.y = ppos:getWorldPos()
         end
     end,
 })

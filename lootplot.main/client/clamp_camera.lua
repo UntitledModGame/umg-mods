@@ -1,8 +1,4 @@
 
----@param pos spatial.DimensionVector
-local function posFromDVector(pos)
-    return pos.x, pos.y
-end
 
 local function clampByMinMax(value, minV, maxV)
     if value < minV then
@@ -26,8 +22,8 @@ umg.on("@update", function()
             lp.main.constants.WORLD_PLOT_SIZE[2] - 1
         )
 
-        local topWorldX, topWorldY = posFromDVector(topPPos:getWorldPos())
-        local bottomWorldX, bottomWorldY = posFromDVector(bottomPPos:getWorldPos())
+        local topWorldX, topWorldY = topPPos:getWorldPos()
+        local bottomWorldX, bottomWorldY = bottomPPos:getWorldPos()
         topWorldX = topWorldX - lp.constants.WORLD_SLOT_DISTANCE / 2
         topWorldY = topWorldY - lp.constants.WORLD_SLOT_DISTANCE / 2
         bottomWorldX = bottomWorldX + lp.constants.WORLD_SLOT_DISTANCE / 2

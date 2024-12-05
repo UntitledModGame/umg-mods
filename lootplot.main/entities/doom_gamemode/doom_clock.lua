@@ -77,10 +77,7 @@ local function moveClockToClearPosition(ent)
 
             if not (lp.posToItem(ppos) or lp.posToSlot(ppos)) then
                 -- Move it here
-                local v = ppos:getWorldPos()
-                ent.x = v.x
-                ent.y = v.y
-                ent.dimension = v.dimension
+                ent.x, ent.y, ent.dimension = ppos:getWorldPos()
                 return
             end
         end

@@ -341,7 +341,7 @@ end
 
 ---returns plot-position as a dimensionVector
 ---@param ppos lootplot.PPos
----@return spatial.DimensionVector
+---@return number x, number y, string? dimension, number? z
 function Plot:pposToWorldCoords(ppos)
     local plotEnt = self.ownerEnt
     assert(plotEnt.x and plotEnt.y, "Cannot get world position of a Plot when owner ent doesn't have x,y components")
@@ -349,10 +349,8 @@ function Plot:pposToWorldCoords(ppos)
     local slotDist = lp.constants.WORLD_SLOT_DISTANCE
     local x = plotEnt.x + ix*slotDist
     local y = plotEnt.y + iy*slotDist
-    return {
-        x = x, y = y,
-        dimension = plotEnt.dimension
-    }
+    local z = plotEnt.z or 0
+    return x,y, plotEnt.dimension, z
 end
 
 

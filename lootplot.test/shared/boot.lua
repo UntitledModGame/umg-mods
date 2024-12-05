@@ -28,9 +28,9 @@ umg.on("@playerJoin", function(clientId)
     local context = testData.getContext()
     local plot = context.ownerEnt.plot ---@type lootplot.Plot
     local ppos = lp.PPos({slot = plot:coordsToIndex(math.floor(w / 2), math.floor(h / 2)), plot = plot})
-    local dvec = plot:pposToWorldCoords(ppos)
+    local x,y,dim = plot:pposToWorldCoords(ppos)
     testData.setPlayer(p)
-    p.x, p.y = dvec.x, dvec.y
+    p.x, p.y = x, y
     p.moveX, p.moveY = 0, 0
 end)
 

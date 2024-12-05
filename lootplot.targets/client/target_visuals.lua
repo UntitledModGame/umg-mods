@@ -9,11 +9,11 @@ local DELAY_PER_UNIT = 0.04
 ---@param color table
 ---@param opacity number
 local function renderSelectionTarget(ppos, image, progress, color, opacity)
-    local worldPos = ppos:getWorldPos()
+    local x,y = ppos:getWorldPos()
     local rot = (progress-1) * 3
     local c = color
     love.graphics.setColor(c[1],c[2],c[3],opacity)
-    rendering.drawImage(image, worldPos.x, worldPos.y, rot, progress, progress)
+    rendering.drawImage(image, x, y, rot, progress, progress)
 end
 
 ---@type lootplot.Selected?
@@ -114,9 +114,9 @@ local LIFETIME = 0.5
 umg.on("lootplot.targets:targetActivated", function (itemEnt, ppos)
     local ent = client.entities.empty()
     
-    local dvec = ppos:getWorldPos()
+    local targX, targY = ppos:getWorldPos()
     ent.x,ent.y, ent.dimension = itemEnt.x, itemEnt.y, itemEnt.dimension
-    ent.targetX, ent.targetY = dvec.x, dvec.y
+    ent.targetX, ent.targetY = targX, targY
 
     ent.color = objects.Color.RED
     ent.image = "target_plus"

@@ -49,11 +49,8 @@ lp.defineItem("lootplot.main:doom_egg", {
         local dclock = server.entities.doom_clock()
         dclock._plotX, dclock._plotY = ppos:getCoords()
         plot:set(dclock._plotX, dclock._plotY, dclock)
-        local ppos = plot:getPPos(dclock._plotX, dclock._plotY)
-        local dvec = ppos:getWorldPos()
-        dclock.x = dvec.x
-        dclock.y = dvec.y
-        dclock.dimension = dvec.dimension
+        local wppos = plot:getPPos(dclock._plotX, dclock._plotY)
+        dclock.x, dclock.y, dclock.dimension = wppos:getWorldPos()
 
         -- Clear fog around doom clock
         clearFogInCircle(ppos, team, 5)

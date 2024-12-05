@@ -43,7 +43,7 @@ local function drawFog(ppos)
     love.graphics.setColor(1,1,1)
     local plot = ppos:getPlot()
     if not plot:isFogRevealed(ppos, lp.main.PLAYER_TEAM) then
-        local wpos = plot:pposToWorldCoords(ppos)
+        local x,y,_dim = plot:pposToWorldCoords(ppos)
         local i = ppos:getSlotIndex()
         local img = FOG_CLOUDS[(i % NUM_CLOUDS) + 1]
         local a,b = math.floor(i / 2), i
@@ -51,7 +51,7 @@ local function drawFog(ppos)
         local sx = flipX and -1 or 1
         local sy = flipY and -1 or 1
         local rot = ROT_AMOUNT * math.sin(ROT_SPEED * love.timer.getTime() + i*1.345)
-        rendering.drawImage(img, wpos.x, wpos.y, rot, sx,sy)
+        rendering.drawImage(img, x, y, rot, sx,sy)
     end
 end
 

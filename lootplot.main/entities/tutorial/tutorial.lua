@@ -7,8 +7,7 @@ umg.defineEntityType("lootplot.main:tutorial_text", {
         local run = lp.main.getRun()
         if run then
             local plot = run:getPlot()
-            local pos = plot:getPPos(ent.pposX, ent.pposY):getWorldPos()
-            ent.x, ent.y = pos.x, pos.y
+            ent.x, ent.y = plot:getPPos(ent.pposX, ent.pposY):getWorldPos()
         end
     end,
 })

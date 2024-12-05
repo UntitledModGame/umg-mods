@@ -115,7 +115,7 @@ function PPos:getSlotIndex()
     return self.slot
 end
 
----@return spatial.DimensionVector
+---@return number x, number y, string? dimension, number? z
 function PPos:getWorldPos()
     return self:getPlot():pposToWorldCoords(self)
 end

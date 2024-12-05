@@ -136,9 +136,7 @@ end
 local function setPlayerCamToPPos(ppos)
     for _, playerEnt in ipairs(potentialPlayerGroup) do
         if playerEnt:type() == "lootplot:player" then
-            local worldPos = ppos:getWorldPos()
-            playerEnt.x = worldPos.x
-            playerEnt.y = worldPos.y
+            playerEnt.x, playerEnt.y = ppos:getWorldPos()
             sync.syncComponent(playerEnt, "x")
             sync.syncComponent(playerEnt, "y")
             -- force client to accept position change
