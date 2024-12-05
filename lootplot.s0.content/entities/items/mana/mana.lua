@@ -112,3 +112,20 @@ defItem("unholy_necklace", "Unholy necklace", {
         description = loc("Gives {lootplot.mana:LIGHT_MANA_COLOR}+1 mana{/lootplot.mana:LIGHT_MANA_COLOR} to slot")
     }
 })
+
+
+--[[
+
+
+Crystal ball:
+ON SHAPE
+Gives +2 mana if money == 0
+
+
+Mana heart:
+UP SHAPE
+Gives +1 lives to item
+Uses 1 mana
+
+
+]]
