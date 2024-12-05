@@ -72,9 +72,29 @@ We need MORE items that USE mana!!!
 ]]
 
 
+
+
 --[[
-TODO: define this as a food.
+TODO: define these as foods.
 ]]
+defItem("mana_syrup", "Mana Syrup", {
+    -- This item is extremely OP btw.
+    doomCount = 1,
+
+    rarity = lp.rarities.LEGENDARY,
+    basePrice = 12,
+
+    activateDescription = loc("Reduces {lootplot.mana:LIGHT_MANA_COLOR}Mana Cost{/lootplot.mana:LIGHT_MANA_COLOR} of target items by 1.\n(If item has no mana cost, increases by 1!)"),
+
+    shape = lp.targets.UP_SHAPE,
+    target = {
+        type = "ITEM",
+        activate = function(ent, ppos, itemEnt)
+            itemEnt.manaCost = (itemEnt.manaCost or 0) - 1
+        end,
+    }
+})
+
 defItem("vial_blue", "Blue Vial", {
     rarity = lp.rarities.RARE,
     doomCount = 1,
@@ -83,11 +103,12 @@ defItem("vial_blue", "Blue Vial", {
     target = {
         type = "SLOT",
         activate = function(ent, ppos, slotEnt)
-            lp.mana.addMana(slotEnt, 3)
+            lp.mana.addMana(slotEnt, 2)
         end,
-        description = loc("Gives {lootplot.mana:LIGHT_MANA_COLOR}+3 mana {/lootplot.mana:LIGHT_MANA_COLOR}to slot")
+        description = loc("Gives {lootplot.mana:LIGHT_MANA_COLOR}+2 mana {/lootplot.mana:LIGHT_MANA_COLOR}to slot")
     }
 })
+
 
 
 defItem("holy_necklace", "Holy necklace", {
@@ -114,18 +135,43 @@ defItem("unholy_necklace", "Unholy necklace", {
 })
 
 
---[[
+
+defItem("crystal_ball", "Crystal Ball", {
+    rarity = lp.rarities.EPIC,
+    description = loc("Gives {lootplot.mana:LIGHT_MANA_COLOR}+1 mana{/lootplot.mana:LIGHT_MANA_COLOR} to target slots"),
+
+    canActivateEntity = function(ent)
+        return lp.getMoney(ent) < 0
+    end,
+
+    grubMoneyCap = 0,
+
+    shape = lp.targets.ON_SHAPE,
+    target = {
+        type = "SLOT",
+        activate = function(ent, ppos, slotEnt)
+            lp.mana.addMana(slotEnt, 1)
+        end,
+    }
+})
 
 
-Crystal ball:
-ON SHAPE
-Gives +2 mana if money == 0
+defItem("mana_heart", "Mana Heart", {
+    name = loc("Heart Fruit"),
 
+    rarity = lp.rarities.UNCOMMON,
+    shape = lp.targets.UP_SHAPE,
 
-Mana heart:
-UP SHAPE
-Gives +1 lives to item
-Uses 1 mana
+    activateDescription = loc("Gives +1 lives to target items."),
 
+    manaCost = 2,
+    basePrice = 12,
 
-]]
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            targetEnt.lives = (targetEnt.lives or 0) + 1
+        end
+    },
+})
+
