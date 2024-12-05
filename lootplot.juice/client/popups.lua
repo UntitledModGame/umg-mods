@@ -91,15 +91,15 @@ end)
 ]]
 
 local TEXT_FORMAT_BY_TYPE = {
-    [lp.BUFF_ADD_MODIFIER] = "+%s",
-    [lp.BUFF_ADD_MULTIPLER] = "+%s mult",
-    [lp.BUFF_MUL_MULTIPLER] = "x%s mult"
+    [lp.BUFF_TYPES.ADD_MODIFIER] = "+%s",
+    [lp.BUFF_TYPES.ADD_MULTIPLER] = "+%s mult",
+    [lp.BUFF_TYPES.MUL_MULTIPLER] = "x%s mult"
 }
 
 local COLOR_BY_TYPE = {
-    [lp.BUFF_ADD_MODIFIER] = lp.COLORS.POINTS_MOD_COLOR,
-    [lp.BUFF_ADD_MULTIPLER] = objects.Color(0.86, 0.91, 0.31),
-    [lp.BUFF_MUL_MULTIPLER] = lp.COLORS.POINTS_MULT_COLOR
+    [lp.BUFF_TYPES.ADD_MODIFIER] = lp.COLORS.POINTS_MOD_COLOR,
+    [lp.BUFF_TYPES.ADD_MULTIPLER] = objects.Color(0.86, 0.91, 0.31),
+    [lp.BUFF_TYPES.MUL_MULTIPLER] = lp.COLORS.POINTS_MULT_COLOR
 }
 
 umg.on("lootplot:entityBuffed", function(ent, prop, ptype, amount, srcEnt)
