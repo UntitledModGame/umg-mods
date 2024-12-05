@@ -8,6 +8,7 @@ local function update(w, h)
     local hscale = h / 400
     local scale = math.min(wscale, hscale)
     globalScaleValue = math.floor(scale / GLOBAL_SCALE_INCREMENT + 0.5) * GLOBAL_SCALE_INCREMENT
+    follow.setZoomMultipler(globalScaleValue * 2)
 end
 
 umg.on("@load", function()

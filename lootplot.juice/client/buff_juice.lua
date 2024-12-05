@@ -12,6 +12,8 @@ local function makeSparkPS(count)
 end
 
 local function makeSparkParticles(ent, count)
+    if not ent.x or ent.y then return end
+
     local newEnt = client.entities.empty()
     newEnt.x, newEnt.y = ent.x, ent.y
     newEnt.dimension = ent.dimension
