@@ -164,6 +164,26 @@ defItem("record_golden", "Golden Record", {
 })
 
 
+defItem("spanner", "Spanner", {
+    shape = lp.targets.UpShape(4),
+
+    triggers = {"PULSE"},
+
+    rarity = lp.rarities.RARE,
+
+    basePrice = 6,
+    baseMaxActivations = 4,
+
+    activateDescription = loc("Rotates {lootplot.targets:COLOR}target items"),
+
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.rotateItem(targetEnt, 1)
+        end,
+    }
+})
+
 
 --[[
 
