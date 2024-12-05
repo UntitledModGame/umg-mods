@@ -1057,16 +1057,21 @@ local strTabTc = typecheck.assert("string", "table")
 ---@param itemType table<string, any>
 function lp.defineItem(name, itemType)
     strTabTc(name, itemType)
+
     if not itemType.basePrice then
         umg.log.warn("item not given base-price: ", name)
     end
     if not itemType.baseMaxActivations then
         umg.log.warn("Item not given baseMaxActivations", name)
     end
+    if not itemType.triggers and not itemType.listen then
+        umg.log.warn("item '"..name.."' has no triggers, this is may not what you want")
+    end
+
     itemType.item = true
     itemType.layer = "item"
     itemType.basePrice = itemType.basePrice or 5
-    itemType.triggers = itemType.triggers or {"PULSE"}
+    itemType.triggers = itemType.triggers or {}
     itemType.hitboxDistance = itemType.hitboxDistance or 8
     itemType.hoverable = true
     giveCommonComponents(itemType)
@@ -1101,6 +1106,11 @@ local DEFAULT_SLOT_HITBOX_AREA = {width = 22, height = 22, ox = 0, oy = 0}
 ---@param slotType table<string, any>
 function lp.defineSlot(name, slotType)
     strTabTc(name, slotType)
+
+    if not slotType.triggers and not slotType.slotLiten then
+        umg.log.error("slot '"..name.."' has no triggers, this is may not what you want")
+    end
+
     slotType.slot = true
     slotType.layer = "slot"
     slotType.drawDepth = -200
