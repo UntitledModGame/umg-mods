@@ -6,6 +6,9 @@ local interp = localization.newInterpolator
 lp.mana = {}
 
 
+lp.mana.MAX_MANA_COUNT = 4
+
+
 lp.mana.MANA_COLOR = objects.Color(77/255, 55/255, 175/255)
 lp.mana.LIGHT_MANA_COLOR = objects.Color(160/255, 140/255, 250/255)
 
@@ -30,16 +33,26 @@ local entNumTc = typecheck.assert("entity", "number")
 
 if server then
 
-function lp.mana.addMana(ent, dx)
-    entNumTc(ent, dx)
-    assert(lp.isSlotEntity(ent), "Only slots can hold mana!")
-    local manaCount = lp.mana.getManaCount(ent)
-    lp.mana.setMana(ent, manaCount + dx)
+---@param slotEnt any
+---@param amount any
+---@return boolean ok true if can add all the mana specified
+function lp.mana.canAddMana(slotEnt, amount)
+    local manaCount = lp.mana.getManaCount(slotEnt)
+    return manaCount + amount <= lp.mana.MAX_MANA_COUNT
 end
 
-function lp.mana.setMana(ent, x)
-    entNumTc(ent, x)
-    ent.manaCount = x
+---@param slotEnt any
+---@param amount any
+function lp.mana.addMana(slotEnt, amount)
+    entNumTc(slotEnt, amount)
+    assert(lp.isSlotEntity(slotEnt), "Only slots can hold mana!")
+    local manaCount = lp.mana.getManaCount(slotEnt)
+    lp.mana.setMana(slotEnt, manaCount + amount)
+end
+
+function lp.mana.setMana(slotEnt, x)
+    entNumTc(slotEnt, x)
+    slotEnt.manaCount = math.min(x, lp.mana.MAX_MANA_COUNT)
 end
 
 
@@ -99,13 +112,14 @@ end)
 
 local INFO_ORDER = 60
 
-local MANA_CHARGES = interp("Mana Count: {lootplot.mana:LIGHT_MANA_COLOR} %{n}")
+local MANA_CHARGES = interp("Mana Count: {lootplot.mana:LIGHT_MANA_COLOR} %{n}/%{max}")
 
 umg.on("lootplot:populateDescription", INFO_ORDER, function(ent, arr)
     local manaCount = ent.manaCount
     if manaCount and manaCount > 0 then
         arr:add(MANA_CHARGES({
-            n = math.floor(manaCount)
+            n = math.floor(manaCount),
+            max = lp.mana.MAX_MANA_COUNT
         }))
     end
 end)
