@@ -38,13 +38,12 @@ for i=1, NUM_CLOUDS do
     FOG_CLOUDS[i] = "fog_of_war_cloud" .. i
 end
 
-
 ---@param ppos lootplot.PPos
 local function drawFog(ppos)
     love.graphics.setColor(1,1,1)
     local plot = ppos:getPlot()
     if not plot:isFogRevealed(ppos, lp.main.PLAYER_TEAM) then
-        local wpos = ppos:getWorldPos()
+        local wpos = plot:pposToWorldCoords(ppos)
         local i = ppos:getSlotIndex()
         local img = FOG_CLOUDS[(i % NUM_CLOUDS) + 1]
         local a,b = math.floor(i / 2), i
@@ -72,4 +71,15 @@ umg.on("rendering:drawEffects", function(camera)
 
     love.graphics.setColor(0, 0, 0)
     plot:foreachInArea(x1, y1, x2, y2, drawFog)
+end)
+
+umg.answer("rendering:isHidden", function(ent)
+    -- Test if it's behind fog
+    local ppos = lp.getPos(ent)
+    if not ppos then
+        return false -- no PPos, delegate it to other
+    end
+
+    local plot = ppos:getPlot()
+    return not plot:isFogRevealed(ppos, lp.main.PLAYER_TEAM)
 end)

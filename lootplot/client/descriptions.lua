@@ -183,6 +183,8 @@ umg.on("lootplot:populateDescription", 30, function(ent, arr)
                         cost = -ent.moneyGenerated
                     })
                 end
+
+                return INVALID_ENTITY
             end)
         end
     end

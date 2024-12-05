@@ -5,7 +5,7 @@ umg.on("rendering:drawEntity", AFTER, function(ent, x,y, rot, sx,sy)
         local slotEnt = lp.itemToSlot(ent)
 
         if slotEnt and slotEnt.onItemDraw then
-            slotEnt.onItemDraw(slotEnt, ent, x,y, rot, sx,sy)
+            slotEnt:onItemDraw(ent, x,y, rot, sx,sy)
         end
     end
 end)
