@@ -84,10 +84,39 @@ umg.on("lootplot:comboChanged", function(ent, delta, oldVal, newVal)
     end
 end)
 
+--[[
+    mod:  +1 (blue color)
+    +mult: + 1 mult  (yellow color)
+    x mult:  x2 (red color)
+]]
+
+local TEXT_FORMAT_BY_TYPE = {
+    [lp.BUFF_ADD_MODIFIER] = "+%s",
+    [lp.BUFF_ADD_MULTIPLER] = "+%s mul",
+    [lp.BUFF_MUL_MULTIPLER] = "x%s"
+}
+
+local COLOR_BY_TYPE = {
+    [lp.BUFF_ADD_MODIFIER] = objects.Color(0.26, 0.75, 0.88),
+    [lp.BUFF_ADD_MULTIPLER] = objects.Color(0.86, 0.91, 0.31),
+    [lp.BUFF_MUL_MULTIPLER] = objects.Color(0.93, 0.3, 0.59)
+}
 
 umg.on("lootplot:entityBuffed", function(ent, prop, ptype, amount, srcEnt)
-    
-    makePopup(ent, "+"..tostring(amount), lp.COLORS.INFO_COLOR, nil, 2.5)
+    local prefix = ""
+    if prop == "moneyGenerated" then
+        prefix = "$"
+    elseif prop ~= "pointsGenerated" then
+        return
+    end
+
+    return makePopup(
+        ent,
+        prefix..TEXT_FORMAT_BY_TYPE[ptype]:format(tostring(amount)),
+        COLOR_BY_TYPE[ptype],
+        nil,
+        2.5
+    )
 end)
 
 
