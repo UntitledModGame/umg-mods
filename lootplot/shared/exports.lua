@@ -1072,9 +1072,6 @@ function lp.defineItem(name, itemType)
     if not itemType.baseMaxActivations then
         umg.log.warn("item not given baseMaxActivations", name)
     end
-    if not itemType.triggers and not itemType.listen then
-        umg.log.warn("item '"..name.."' has no triggers, this is may not what you want")
-    end
 
     itemType.item = true
     itemType.layer = "item"
@@ -1115,10 +1112,6 @@ local DEFAULT_SLOT_HITBOX_AREA = {width = 22, height = 22, ox = 0, oy = 0}
 ---@param slotType table<string, any>
 function lp.defineSlot(name, slotType)
     strTabTc(name, slotType)
-
-    if not slotType.triggers then
-        umg.log.warn("slot '"..name.."' has no triggers, this is may not what you want")
-    end
 
     slotType.slot = true
     slotType.layer = "slot"
