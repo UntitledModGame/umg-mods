@@ -7,16 +7,18 @@ lp.defineItem("lootplot.s0.content:manure", {
     name = loc("Manure"),
     rarity = lp.rarities.UNIQUE,
     description = loc("Something has gone terribly wrong..."),
+    triggers = {},
 })
 
 
 
 
-lp.defineItem("lootplot.s0.content:FALLBACK_NULL_SLOT", {
+lp.defineSlot("lootplot.s0.content:FALLBACK_NULL_SLOT", {
     image = "fallback_slot",
     name = loc("NULL SLOT"),
     rarity = lp.rarities.UNIQUE,
     description = loc("Something has gone terribly wrong..."),
+    triggers = {},
 })
 
 

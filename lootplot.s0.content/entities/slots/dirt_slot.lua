@@ -1,13 +1,10 @@
 local loc = localization.localize
 
-local txt = localization.newInterpolator("Cannot hold %{rarity} items.\n(Or anything rarer.)"){
-    rarity = lp.rarities.RARE.displayString
-}
-
 return lp.defineSlot("lootplot.s0.content:dirt_slot", {
     image = "dirt_slot1",
     name = loc("Dirt slot"),
-    description = txt,
+    description = loc("Cannot hold %{displayString} items.\n(Or anything higher.)", lp.rarities.RARE),
+    triggers = {"PULSE"},
 
     init = function(ent)
         -- randomly flip the image to make it look cool.

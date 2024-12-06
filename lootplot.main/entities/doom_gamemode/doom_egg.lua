@@ -40,6 +40,7 @@ lp.defineItem("lootplot.main:doom_egg", {
     canItemFloat = true,
 
     rarity = lp.rarities.UNIQUE,
+    triggers = {"PULSE"},
 
     onActivateOnce = function(ent)
         local plot = lp.getPos(ent):getPlot()

@@ -42,7 +42,6 @@ end
 
 defGrubby("the_negotiator", {
     name = loc("The Negotiator"),
-    triggers = {},
 
     basePrice = 10,
     baseMoneyGenerated = 1,
@@ -85,7 +84,6 @@ defGrubby("pineapple_ring", {
 
     baseMaxActivations = 8,
 
-    triggers = {},
     listen = {
         trigger = "BUY",
     },

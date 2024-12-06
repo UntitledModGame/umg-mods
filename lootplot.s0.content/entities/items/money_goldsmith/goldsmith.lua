@@ -112,7 +112,8 @@ defItem("belt_topaz", {
         end
     end,
 
-    rarity = lp.rarities.RARE
+    rarity = lp.rarities.RARE,
+    triggers = {"PULSE"},
 })
 
 
@@ -134,7 +135,8 @@ defItem("belt_ruby", {
         end
     end,
 
-    rarity = lp.rarities.UNCOMMON
+    rarity = lp.rarities.UNCOMMON,
+    triggers = {"PULSE"},
 })
 end
 
@@ -158,7 +160,8 @@ defItem("gold_coin", {
         return (lp.getMoney(ent) or 0) > MONEY_REQUIREMENT
     end,
 
-    rarity = lp.rarities.RARE
+    rarity = lp.rarities.RARE,
+    triggers = {"PULSE"},
 })
 
 
@@ -170,6 +173,7 @@ defItem("robbers_bag", {
     basePrice = 10,
 
     rarity = lp.rarities.EPIC,
+    triggers = {"PULSE"},
     doomCount = 3,
 
     onActivate = function(ent)
@@ -191,6 +195,7 @@ defItem("golden_spoon", {
     basePrice = 20,
 
     rarity = lp.rarities.EPIC,
+    triggers = {"PULSE"},
 
     lootplotProperties = {
         multipliers = {

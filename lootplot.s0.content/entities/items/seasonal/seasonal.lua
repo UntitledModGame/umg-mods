@@ -15,7 +15,7 @@ local EASTER = 4
 
 local function defineItem(season, id, etype)
     if season == getMonth() then
-        etype.rarity = lp.rarities.RARE
+        etype.rarity = etype.rarity or lp.rarities.RARE
     else
         -- item is not accessible if its not the holiday.
         etype.rarity = lp.rarities.UNIQUE
@@ -24,6 +24,7 @@ local function defineItem(season, id, etype)
     etype.basePrice = etype.basePrice or 8
     etype.baseMaxActivations = etype.baseMaxActivations or 10
     etype.image = id
+    etype.triggers = {"PULSE"}
     lp.defineItem("lootplot.s0.content:"..id, etype)
 end
 

@@ -1034,6 +1034,14 @@ lp.FALLBACK_NULL_SLOT = false
 
 
 
+local function assertTriggersValid(name, triggers)
+    for _, t in ipairs(triggers) do
+        if not trigger.isValidTrigger(t) then
+            umg.melt("invalid trigger: '"..t.."'" .. " for " .. tostring(name))
+        end
+    end
+end
+
 ---@class lootplot.LayerEntityClass: EntityClass
 ---@field public layer string
 ---@alias lootplot.LayerEntity lootplot.LayerEntityClass|Entity
@@ -1057,19 +1065,22 @@ local strTabTc = typecheck.assert("string", "table")
 ---@param itemType table<string, any>
 function lp.defineItem(name, itemType)
     strTabTc(name, itemType)
+
     if not itemType.basePrice then
         umg.log.warn("item not given base-price: ", name)
     end
     if not itemType.baseMaxActivations then
-        umg.log.warn("Item not given baseMaxActivations", name)
+        umg.log.warn("item not given baseMaxActivations", name)
     end
+
     itemType.item = true
     itemType.layer = "item"
     itemType.basePrice = itemType.basePrice or 5
-    itemType.triggers = itemType.triggers or {"PULSE"}
+    itemType.triggers = itemType.triggers or {}
     itemType.hitboxDistance = itemType.hitboxDistance or 8
     itemType.hoverable = true
     giveCommonComponents(itemType)
+    assertTriggersValid(name, itemType.triggers)
 
     umg.defineEntityType(name, itemType)
     bufferedEntityTypes:add({
@@ -1101,16 +1112,18 @@ local DEFAULT_SLOT_HITBOX_AREA = {width = 22, height = 22, ox = 0, oy = 0}
 ---@param slotType table<string, any>
 function lp.defineSlot(name, slotType)
     strTabTc(name, slotType)
+
     slotType.slot = true
     slotType.layer = "slot"
     slotType.drawDepth = -200
-    slotType.triggers = slotType.triggers or {"PULSE"}
+    slotType.triggers = slotType.triggers or {}
     slotType.hitboxArea = slotType.hitboxArea or DEFAULT_SLOT_HITBOX_AREA
     slotType.hoverable = true
     if slotType.baseCanSlotPropagate == nil then
         slotType.baseCanSlotPropagate = true
     end
     giveCommonComponents(slotType)
+    assertTriggersValid(name, slotType.triggers)
 
     umg.defineEntityType(name, slotType)
     bufferedEntityTypes:add({

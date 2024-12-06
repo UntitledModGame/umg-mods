@@ -21,6 +21,6 @@ end
 
 defItem("blue_knights_helmet", {
     name = "Blue Knight's Helmet",
-
+    triggers = {"PULSE"},
 })
 

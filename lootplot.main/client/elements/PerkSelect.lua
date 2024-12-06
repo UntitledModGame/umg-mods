@@ -42,6 +42,9 @@ end
 ---@class lootplot.main.PerkSelect: Element
 local PerkSelect = ui.Element("lootplot.main:PerkSelect")
 
+local MODNAME_ORDER = {
+    ["lootplot.main"] = -1
+}
 
 function PerkSelect:init()
     self.selectedItem = nil
@@ -53,9 +56,16 @@ function PerkSelect:init()
             self.starterItems:add(PerkButton(etype, self))
         end
     end
-    self.starterItems:sortInPlace(function (a, b)
+    self.starterItems:sortInPlace(function(a, b)
+        local an = umg.splitNamespacedString(a.etype:getTypename())
+        local bn = umg.splitNamespacedString(b.etype:getTypename())
         local aa = a.isUnlocked and 0 or 1
         local bb = b.isUnlocked and 0 or 1
+
+        if aa == bb then
+            return (MODNAME_ORDER[an] or 0) < (MODNAME_ORDER[bn] or 0)
+        end
+
         return aa < bb
     end)
     for _, elem in ipairs(self.starterItems) do

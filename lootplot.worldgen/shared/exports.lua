@@ -66,6 +66,7 @@ function worldgen.defineWorldgen(name, opts)
     opts.canItemFloat = true
     opts.maxActivations = 1
     opts.doomCount = 1
+    opts.triggers = {"PULSE"}
     lp.defineItem(name, opts)
     lp.worldgen.STARTING_WORLDGEN:add(name)
 end

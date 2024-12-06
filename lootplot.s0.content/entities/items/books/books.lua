@@ -10,6 +10,8 @@ local function defineBook(id, name, targetSlot, targetSlotName, rarity)
         image = id,
         name = loc(name),
 
+        triggers = {"PULSE"},
+
         rarity = rarity,
 
         doomCount = 10,
@@ -112,6 +114,7 @@ local function defineBuffingBook(id, name, targetDescription, func)
         doomCount = 4,
 
         shape = lp.targets.UP_SHAPE,
+        triggers = {"PULSE"},
 
         basePrice = 15,
         baseMaxActivations = 100,
