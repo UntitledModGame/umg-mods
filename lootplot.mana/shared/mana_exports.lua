@@ -33,16 +33,16 @@ local entNumTc = typecheck.assert("entity", "number")
 
 if server then
 
----@param slotEnt any
----@param amount any
+---@param slotEnt Entity
+---@param amount number
 ---@return boolean ok true if can add all the mana specified
 function lp.mana.canAddMana(slotEnt, amount)
     local manaCount = lp.mana.getManaCount(slotEnt)
     return manaCount + amount <= lp.mana.MAX_MANA_COUNT
 end
 
----@param slotEnt any
----@param amount any
+---@param slotEnt Entity
+---@param amount number
 function lp.mana.addMana(slotEnt, amount)
     entNumTc(slotEnt, amount)
     assert(lp.isSlotEntity(slotEnt), "Only slots can hold mana!")
@@ -50,6 +50,8 @@ function lp.mana.addMana(slotEnt, amount)
     lp.mana.setMana(slotEnt, manaCount + amount)
 end
 
+---@param slotEnt Entity
+---@param x number
 function lp.mana.setMana(slotEnt, x)
     entNumTc(slotEnt, x)
     slotEnt.manaCount = math.min(x, lp.mana.MAX_MANA_COUNT)
