@@ -1034,10 +1034,10 @@ lp.FALLBACK_NULL_SLOT = false
 
 
 
-local function verifyTriggers(name, kind, triggers)
+local function assertTriggersValid(name, triggers)
     for _, t in ipairs(triggers) do
         if not trigger.isValidTrigger(t) then
-            umg.melt(kind.." '"..name.."' has invalid trigger: '"..t.."'")
+            umg.melt("invalid trigger: '"..t.."'" .. " for " .. tostring(name))
         end
     end
 end
@@ -1080,7 +1080,7 @@ function lp.defineItem(name, itemType)
     itemType.hitboxDistance = itemType.hitboxDistance or 8
     itemType.hoverable = true
     giveCommonComponents(itemType)
-    verifyTriggers(name, "item", itemType.triggers)
+    assertTriggersValid(name, itemType.triggers)
 
     umg.defineEntityType(name, itemType)
     bufferedEntityTypes:add({
@@ -1123,7 +1123,7 @@ function lp.defineSlot(name, slotType)
         slotType.baseCanSlotPropagate = true
     end
     giveCommonComponents(slotType)
-    verifyTriggers(name, "slot", slotType.triggers)
+    assertTriggersValid(name, slotType.triggers)
 
     umg.defineEntityType(name, slotType)
     bufferedEntityTypes:add({
