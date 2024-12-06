@@ -23,6 +23,8 @@ local function defShards(id, name, onMatchActivate, onMatchDesc, etype)
 
     IS_SHARD_ITEM[id] = true
 
+    etype.baseMaxActivations = 1
+
     etype.triggers = {"PULSE"}
     etype.basePointsGenerated = 5
 
@@ -98,8 +100,8 @@ Do other match3 shard items here:
 
 Iron shards:
 - Spawn a TREASURE-BAG that spawns non-doomed items
-THESE SHOULD COST MORE!!!!
-(Or else it's OP.)
+THESE SHOULD COST MORE, Or else it's OP.
+Maybe $7 per shard...?
 
 
 Opal shards:
