@@ -1034,6 +1034,14 @@ lp.FALLBACK_NULL_SLOT = false
 
 
 
+local function verifyTriggers(name, kind, triggers)
+    for _, t in ipairs(triggers) do
+        if not trigger.isValidTrigger(t) then
+            umg.melt(kind.." '"..name.."' has invalid trigger: '"..t.."'")
+        end
+    end
+end
+
 ---@class lootplot.LayerEntityClass: EntityClass
 ---@field public layer string
 ---@alias lootplot.LayerEntity lootplot.LayerEntityClass|Entity
@@ -1062,7 +1070,7 @@ function lp.defineItem(name, itemType)
         umg.log.warn("item not given base-price: ", name)
     end
     if not itemType.baseMaxActivations then
-        umg.log.warn("Item not given baseMaxActivations", name)
+        umg.log.warn("item not given baseMaxActivations", name)
     end
     if not itemType.triggers and not itemType.listen then
         umg.log.warn("item '"..name.."' has no triggers, this is may not what you want")
@@ -1075,6 +1083,7 @@ function lp.defineItem(name, itemType)
     itemType.hitboxDistance = itemType.hitboxDistance or 8
     itemType.hoverable = true
     giveCommonComponents(itemType)
+    verifyTriggers(name, "item", itemType.triggers)
 
     umg.defineEntityType(name, itemType)
     bufferedEntityTypes:add({
@@ -1107,20 +1116,21 @@ local DEFAULT_SLOT_HITBOX_AREA = {width = 22, height = 22, ox = 0, oy = 0}
 function lp.defineSlot(name, slotType)
     strTabTc(name, slotType)
 
-    if not slotType.triggers and not slotType.slotLiten then
-        umg.log.error("slot '"..name.."' has no triggers, this is may not what you want")
+    if not slotType.triggers then
+        umg.log.warn("slot '"..name.."' has no triggers, this is may not what you want")
     end
 
     slotType.slot = true
     slotType.layer = "slot"
     slotType.drawDepth = -200
-    slotType.triggers = slotType.triggers or {"PULSE"}
+    slotType.triggers = slotType.triggers or {}
     slotType.hitboxArea = slotType.hitboxArea or DEFAULT_SLOT_HITBOX_AREA
     slotType.hoverable = true
     if slotType.baseCanSlotPropagate == nil then
         slotType.baseCanSlotPropagate = true
     end
     giveCommonComponents(slotType)
+    verifyTriggers(name, "slot", slotType.triggers)
 
     umg.defineEntityType(name, slotType)
     bufferedEntityTypes:add({
