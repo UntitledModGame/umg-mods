@@ -6,9 +6,6 @@ local interp = localization.newInterpolator
 
 local function defDestructive(id, etype)
     etype.image = etype.image or id
-    if not etype.listen then
-        etype.triggers = etype.triggers or {"PULSE"}
-    end
 
     return lp.defineItem("lootplot.s0.content:"..id, etype)
 end
@@ -54,6 +51,8 @@ defDestructive("candle", {
     name = loc("Candle"),
     basePointsGenerated = 5,
 
+    triggers = {"PULSE"},
+
     rarity = lp.rarities.LEGENDARY,
 
     basePrice = 15,
@@ -86,6 +85,8 @@ defDestructive("candle", {
 defDestructive("tooth_necklace", {
     name = loc("Tooth Necklace"),
 
+    triggers = {"PULSE"},
+
     basePrice = 4,
     baseMaxActivations = 1,
 
@@ -111,6 +112,8 @@ defDestructive("tooth_necklace", {
 
 defDestructive("bomb", {
     name = loc("Bomb"),
+
+    triggers = {"PULSE"},
 
     rarity = lp.rarities.UNCOMMON,
     doomCount = 1,
@@ -139,6 +142,8 @@ defDestructive("bomb", {
 defDestructive("goblet_of_blood", {
     name = loc("Goblet of Blood"),
 
+    triggers = {"PULSE"},
+
     rarity = lp.rarities.EPIC,
     doomCount = 10,
 
@@ -164,6 +169,8 @@ defDestructive("goblet_of_blood", {
 
 defDestructive("pink_mitten", {
     name = loc("Pink Mitten"),
+
+    triggers = {"PULSE"},
 
     onActivate = function(ent)
         ent.lives = (ent.lives or 0) + 1
