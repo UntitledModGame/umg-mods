@@ -199,11 +199,11 @@ defChest("chest_iron_big", "Big Iron Chest", {
 })
 
 
-defChest("chest_costly_big", "Big Costly Chest", {
+defChest("chest_costly", "Costly Chest", {
     rarity = lp.rarities.UNCOMMON,
-    description = loc("Spawns an {lootplot:INFO_COLOR}EPIC{lootplot:INFO_COLOR} item, that costs $1 to activate."),
+    description = loc("Spawns an {lootplot:INFO_COLOR}EPIC or LEGENDARY{lootplot:INFO_COLOR} item, that costs $1 to activate."),
 
-    generateTreasureItem = withFilter(ofRarity({r.RARE, r.EPIC, r.LEGENDARY})),
+    generateTreasureItem = withFilter(ofRarity({r.EPIC, r.LEGENDARY})),
     transformTreasureItem = function(ent)
         lp.modifierBuff(ent, "moneyGenerated", -1)
     end
@@ -256,17 +256,22 @@ defChest("chest_abstract", "Abstract Chest", {
 
 
 
-defChest("chest_iron_small", "Small Iron Chest", {
-    rarity = lp.rarities.UNCOMMON,
-    generateTreasureItem = withFilter(ofRarity({r.UNCOMMON, r.COMMON, r.RARE})),
-})
-
-defChest("chest_iron_big", "Big Iron Chest", {
-    rarity = lp.rarities.UNCOMMON,
-    generateTreasureItem = withFilter(ofRarity({r.UNCOMMON, r.RARE, r.EPIC, r.LEGENDARY})),
+defChest("chest_legendary", "Legendary Chest", {
+    description = loc("Spawns a LEGENDARY item."),
+    rarity = lp.rarities.EPIC,
+    generateTreasureItem = withFilter(ofRarity({r.LEGENDARY}))
 })
 
 
+
+defChest("chest_mana", "Mana Chest", {
+    description = loc("Spawns an EPIC or LEGENDARY item."),
+
+    manaCost = 1,
+
+    rarity = lp.rarities.RARE,
+    generateTreasureItem = withFilter(ofRarity({r.EPIC, r.LEGENDARY})),
+})
 
 
 
