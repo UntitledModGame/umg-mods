@@ -12,6 +12,7 @@ local IS_SHARD_ITEM = {--[[
 
 local function defItem(id, name, etype)
     etype.name = loc(name)
+    etype.image = etype.image or id
     lp.defineItem(PREFIX .. id, etype)
 end
 
@@ -19,9 +20,10 @@ end
 
 local function defShards(id, name, onMatchActivate, onMatchDesc, etype)
     etype = etype or {}
-    id = PREFIX .. id
+    etype.image = etype.image or id
 
-    IS_SHARD_ITEM[id] = true
+    local full_id = PREFIX .. id
+    IS_SHARD_ITEM[full_id] = true
 
     etype.baseMaxActivations = 1
 
@@ -30,7 +32,7 @@ local function defShards(id, name, onMatchActivate, onMatchDesc, etype)
 
     local function isMatch(ppos)
         local item = lp.posToItem(ppos)
-        if item and item:type() == id then
+        if item and item:type() == full_id then
             return true
         end
     end
@@ -40,13 +42,19 @@ local function defShards(id, name, onMatchActivate, onMatchDesc, etype)
         if not ppos then return end
 
         local matchedPoses = match3.test(ppos, isMatch)
-        for _, p in ipairs(matchedPoses) do
+        for i = #matchedPoses,1,-1 do
+            local p = matchedPoses[i]
             local item = lp.posToItem(p)
             if item then
-                onMatchActivate(item, ppos)
-                if umg.exists(item) then
-                    lp.destroy(item)
-                end
+                lp.wait(ppos, 0.1)
+                lp.queueWithEntity(item, function(e)
+                    local ppos2 = lp.getPos(e)
+                    if not ppos2 then return end
+                    onMatchActivate(e, ppos2)
+                    if umg.exists(e) then
+                        lp.destroy(e)
+                    end
+                end)
             end
         end
     end
@@ -56,20 +64,20 @@ local function defShards(id, name, onMatchActivate, onMatchDesc, etype)
     )
     etype.name = loc(name)
 
-    lp.defineItem(id, etype)
+    lp.defineItem(full_id, etype)
 end
 
 
 
 
-local function give1ManaToSlot(itemEnt)
+local function give2ManaToSlot(itemEnt)
     local slotEnt = lp.itemToSlot(itemEnt)
     if slotEnt then
-        lp.mana.addMana(slotEnt, 1)
+        lp.mana.addMana(slotEnt, 2)
     end
 end
 defShards("mana_shards", "Mana Shards",
-    give1ManaToSlot, "Give {lootplot.mana:LIGHT_MANA_COLOR}+1 mana{/lootplot.mana:LIGHT_MANA_COLOR} to slot",
+    give2ManaToSlot, "Give {lootplot.mana:LIGHT_MANA_COLOR}+1 mana{/lootplot.mana:LIGHT_MANA_COLOR} to slot",
 {
     rarity = lp.rarities.COMMON,
     basePrice = 2,
@@ -77,14 +85,14 @@ defShards("mana_shards", "Mana Shards",
 
 
 
-local function earn4Money(itemEnt)
-    lp.addMoney(itemEnt, 4)
+local function earn8Money(itemEnt)
+    lp.addMoney(itemEnt, 8)
 end
 defShards("golden_shards", "Golden Shards",
-    earn4Money, "Earn {lootplot:MONEY_COLOR}$4{/lootplot:MONEY_COLOR}.",
+    earn8Money, "Earn {lootplot:MONEY_COLOR}$4{/lootplot:MONEY_COLOR}.",
 {
     rarity = lp.rarities.COMMON,
-    basePrice = 2,
+    basePrice = 4,
 })
 
 
