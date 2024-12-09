@@ -199,13 +199,15 @@ defChest("chest_iron_big", "Big Iron Chest", {
 })
 
 
-defChest("chest_costly", "Costly Chest", {
+defChest("chest_grubby", "Grubby Chest", {
     rarity = lp.rarities.UNCOMMON,
-    description = loc("Spawns an {lootplot:INFO_COLOR}EPIC or LEGENDARY{lootplot:INFO_COLOR} item, that costs $1 to activate."),
+    description = loc("Spawns an item that that is {lootplot:INFO_COLOR}RARE{lootplot:INFO_COLOR} or above, and gives it {lootplot:GRUB_COLOR_LIGHT}GRUB-10."),
 
-    generateTreasureItem = withFilter(ofRarity({r.EPIC, r.LEGENDARY})),
+    grubMoneyCap = 10,
+
+    generateTreasureItem = withFilter(ofRarity({r.RARE, r.EPIC, r.LEGENDARY})),
     transformTreasureItem = function(ent)
-        lp.modifierBuff(ent, "moneyGenerated", -1)
+        ent.grubMoneyCap = 10
     end
 })
 
@@ -267,7 +269,7 @@ defChest("chest_legendary", "Legendary Chest", {
 defChest("chest_mana", "Mana Chest", {
     description = loc("Spawns an EPIC or LEGENDARY item."),
 
-    manaCost = 1,
+    manaCost = 2,
 
     rarity = lp.rarities.RARE,
     generateTreasureItem = withFilter(ofRarity({r.EPIC, r.LEGENDARY})),
