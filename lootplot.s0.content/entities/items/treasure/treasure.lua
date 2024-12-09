@@ -1,5 +1,7 @@
 
 local loc = localization.localize
+local interp = localization.newInterpolator
+
 local r = lp.rarities
 
 --[[
@@ -38,8 +40,13 @@ local function defineTreasure(id, name, etype)
         local transform = etype.transformTreasureItem or dummy
         ---@cast transform fun(e: Entity, pp: lootplot.PPos)
 
+        local prevOnActivate = etype.onActivate
+
         etype.onActivate = function(ent)
-            local itemId = gen()
+            if prevOnActivate then
+                prevOnActivate(ent)
+            end
+            local itemId = gen(ent)
             if not itemId then return end
             local itemEtype = server.entities[itemId]
             local ppos = lp.getPos(ent)
@@ -177,25 +184,72 @@ defChest("chest_gold_big", "Big Golden Chest", {
 
 defChest("chest_iron_small", "Small Iron Chest", {
     rarity = lp.rarities.UNCOMMON,
-    generateTreasureItem = withFilter(ofRarity({r.UNCOMMON, r.COMMON, r.RARE})),
+    basePrice = 2,
+
+    description = loc("Spawns an {lootplot:INFO_COLOR}RARE{lootplot:INFO_COLOR} item"),
+
+    generateTreasureItem = withFilter(ofRarity({r.RARE}))
 })
 
 defChest("chest_iron_big", "Big Iron Chest", {
+    rarity = lp.rarities.RARE,
+    description = loc("Spawns an item that that is {lootplot:INFO_COLOR}EPIC{lootplot:INFO_COLOR} or above"),
+
+    generateTreasureItem = withFilter(ofRarity({r.EPIC, r.LEGENDARY})),
+})
+
+
+defChest("chest_costly_big", "Big Costly Chest", {
     rarity = lp.rarities.UNCOMMON,
-    generateTreasureItem = withFilter(ofRarity({r.UNCOMMON, r.RARE, r.EPIC, r.LEGENDARY})),
+    description = loc("Spawns an {lootplot:INFO_COLOR}EPIC{lootplot:INFO_COLOR} item, that costs $1 to activate."),
+
+    generateTreasureItem = withFilter(ofRarity({r.RARE, r.EPIC, r.LEGENDARY})),
+    transformTreasureItem = function(ent)
+        lp.modifierBuff(ent, "moneyGenerated", -1)
+    end
 })
 
 
 
 
-defChest("chest_iron_small", "Small Iron Chest", {
+
+
+defChest("chest_food", "Food Chest", {
     rarity = lp.rarities.UNCOMMON,
-    generateTreasureItem = withFilter(ofRarity({r.UNCOMMON, r.COMMON, r.RARE})),
+    description = loc("Spawns a {lootplot:DOOMED_LIGHT_COLOR}DOOMED-1{/lootplot:DOOMED_LIGHT_COLOR} item"),
+
+    generateTreasureItem = withFilter(function(etype)
+        return etype.doomCount == 1
+    end)
 })
 
-defChest("chest_iron_big", "Big Iron Chest", {
+
+
+local ABSTRACT_DESC = interp("Spawns an item of the same rarity as this chest!\n(Currently: %{rarity})")
+--[[
+NOTE:
+make sure to test this!!!
+It kinda looks a bit fragile...?
+]]
+---@type generation.Generator
+local abstractGen
+defChest("chest_abstract", "Abstract Chest", {
     rarity = lp.rarities.UNCOMMON,
-    generateTreasureItem = withFilter(ofRarity({r.UNCOMMON, r.RARE, r.EPIC, r.LEGENDARY})),
+    description = function(ent)
+        local r1 = ent.rarity
+        return ABSTRACT_DESC(r1.displayString)
+    end,
+
+    generateTreasureItem = function(ent)
+        abstractGen = abstractGen or lp.newItemGenerator({})
+        return abstractGen(function(entry)
+            local etype = server.entities[entry]
+            if etype and etype.rarity == ent.rarity then
+                return 1
+            end
+            return 0
+        end)
+    end
 })
 
 
