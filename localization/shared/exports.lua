@@ -43,7 +43,7 @@ end
 
 ---Availability: Client and Server
 function Interpolator:__tostring()
-    return self.text
+    return string.format("localization:Interpolator %p: %s", self, self.text)
 end
 
 
