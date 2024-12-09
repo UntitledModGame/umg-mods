@@ -177,7 +177,7 @@ end
 
 
 local function drawWorldEntity(ent)
-    if isHidden(ent) then
+    if not umg.exists(ent) or isHidden(ent) then
         return
     end
 
