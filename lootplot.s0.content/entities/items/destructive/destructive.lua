@@ -13,11 +13,29 @@ end
 
 --[[
 
-TODO:
-REWORK DELETED ITEMS:
+===========
+IDEAS FOR NEW DESTRUCTIVE ITEMS:
+-------------------------
 
+On target destroyed:
+Try spawn a wildcard-shard item
 
-Dark-skull
+On target destroyed:
+Give 1 mana to slot
+
+On target destroyed:
+Spawn a COIN item:
+(Coin: doomed-1, gives $1 when activated)
+
+On target destroyed:
+Try spawn a wildcard-shard item
+
+----
+
+Golden rock:
+When destroyed:
+Earn $2
+
 
 ]]
 
@@ -181,7 +199,6 @@ defDestructive("pink_mitten", {
 
     activateDescription = loc("Gains {lootplot:LIFE_COLOR}+1 life{/lootplot:LIFE_COLOR}\n(Maximum of 15)")
 })
-
 
 
 
