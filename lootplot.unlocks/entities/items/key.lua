@@ -10,7 +10,7 @@ lp.defineItem("lootplot.unlocks:key", {
 
     triggers = {"PULSE"},
 
-    shape = lp.targets.RookShape(1),
+    shape = lp.targets.VerticalShape(1),
     target = {
         type = lp.CONVERSIONS.ITEM_OR_SLOT,
         activate = function(_, ppos)
