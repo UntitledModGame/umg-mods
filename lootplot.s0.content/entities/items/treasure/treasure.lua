@@ -4,12 +4,25 @@ local loc = localization.localize
 --[[
 
 PLANNING:
-3 types of items:
 
 
+Treasure chest:
+Needs key to unlock (trigger = UNLOCK)
+Spawns arbitrary item
 
+
+Treasure sack:
+Activates on PULSE
+Spawns arbitrary item
+
+
+Treasure briefcase:
+Activates on PULSE
+Spawns arbitrary item
 
 ]]
+
+
 
 
 local function defineTreasure(id, name, description, gen, etype)
@@ -17,11 +30,25 @@ local function defineTreasure(id, name, description, gen, etype)
 
     etype.name = loc(name)
 
-    etype.triggers = {""}
-    etype.description = loc()
+    etype.description = etype.description or loc("Transforms into a " .. description)
 
     lp.defineItem("lootplot.s0.content:" .. id, etype)
 end
+
+
+local function defSack(id, name, description, gen, etype)
+    etype.triggers = {"PULSE"}
+    etype.basePrice = etype.basePrice or 6
+    defineTreasure(id, name, description, gen, etype)
+end
+
+
+local function defChest(id, name, description, gen, etype)
+    etype.triggers = {"UNLOCK"}
+    etype.basePrice = etype.basePrice or 8
+    defineTreasure(id, name, description, gen, etype)
+end
+
 
 
 --[[
