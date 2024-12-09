@@ -111,32 +111,6 @@ defItem("bull_helmet", {
 
 
 
-defItem("feather", {
-    name = loc("Feather"),
-
-    canItemFloat = true,
-
-    listen = {
-        trigger = "BUY",
-        activate = function(selfEnt, ppos, targetEnt)
-            if lp.SEED:randomMisc() <= 0.2 then
-                targetEnt.canItemFloat = true
-                sync.syncComponent(targetEnt, "canItemFloat")
-            end
-        end,
-        description = loc("20% chance to make the purchased item FLOATY."),
-    },
-
-    basePrice = 7,
-    baseMaxActivations = 20,
-
-    shape = lp.targets.KingShape(2),
-
-    rarity = lp.rarities.RARE,
-})
-
-
-
 
 local function defBalloon(id, name, etype)
     etype.name = loc(name)
@@ -163,6 +137,28 @@ defBalloon("pink_balloon", "Pink Balloon", {
         end,
     }
 })
+
+
+
+defBalloon("white_balloon", "White Balloon", {
+    rarity = lp.rarities.EPIC,
+
+    activateDescription = loc("Makes the purchased item FLOATY."),
+
+    basePrice = 15,
+    baseMaxActivations = 20,
+
+    listen = {
+        trigger = "BUY",
+        activate = function(selfEnt, ppos, targetEnt)
+            targetEnt.canItemFloat = true
+            sync.syncComponent(targetEnt, "canItemFloat")
+        end,
+    },
+})
+
+
+
 
 
 defBalloon("green_balloon", "Green Balloon", {

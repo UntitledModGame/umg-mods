@@ -316,3 +316,26 @@ defItem("ping_pong_paddle", {
         end
     }
 })
+
+
+
+defItem("feather", {
+    name = loc("Feather"),
+
+    shape = lp.targets.CircleShape(3),
+
+    basePrice = 8,
+    baseMaxActivations = 40,
+
+    rarity = lp.rarities.RARE,
+
+    activateDescription = loc("Spawns a {lootplot:INFO_COLOR}steel-slot{/lootplot:INFO_COLOR} under the item that Pulsed.\n(Only works on floating-items!)"),
+
+    listen = {
+        trigger = "PULSE",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.trySpawnSlot(ppos, server.entities.steel_slot, selfEnt.lootplotTeam)
+        end
+    }
+})
+
