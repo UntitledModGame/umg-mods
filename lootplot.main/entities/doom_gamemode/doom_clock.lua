@@ -96,7 +96,7 @@ local function showNSignificant(value, nsig)
 end
 
 
-local POINTS = interp("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}Points: %{colorEffect}%{points}{/c}/%{requiredPoints}")
+local POINTS = interp("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}Points: %{colorEffect}%{points}/%{requiredPoints}")
 local function drawPoints(ent, x,y, rot, sx,sy)
     local points = assert(lp.getPoints(ent), "no points")
     local requiredPoints = lp.main.getRequiredPoints(ent)
