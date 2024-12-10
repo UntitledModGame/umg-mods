@@ -202,6 +202,68 @@ lp.defineSlot("lootplot.s0.content:paper_slot", {
 })
 
 
+
+--- Iterates over all touching slot-entities of the same type as `rootSlotEnt`.
+--- Useful for deleting all slots of the same type that are touching, for example.
+--- Or, for clearing all touching shop-slots.
+---@param rootSlotEnt lootplot.SlotEntity
+---@param func fun(e: lootplot.SlotEntity, ppos: lootplot.PPos)
+local function foreachTouchingSlot(rootSlotEnt, func)
+    local ppos = assert(lp.getPos(rootSlotEnt))
+    local plot = ppos:getPlot()
+
+    local stack = objects.Array()
+    local seen = {--[[
+        [ppos] -> bool
+        true if we have already search this ppos.
+    ]]}
+
+    seen[ppos] = true
+
+    ---@param pos lootplot.PPos?
+    ---@return boolean
+    local function isMatch(pos)
+        local slotEnt = pos and lp.posToSlot(pos)
+        if slotEnt and slotEnt:type() == rootSlotEnt:type() then
+            return true
+        end
+        return false
+    end
+
+    ---@param p lootplot.PPos
+    ---@param x integer
+    ---@param y integer
+    local function consider(p, x, y)
+        local targPPos = p:move(x, y)
+        if isMatch(targPPos) then
+            stack:add(targPPos)
+        end
+    end
+
+    consider(ppos, -1, 0)
+    consider(ppos, 0, -1)
+    consider(ppos, 1, 0)
+    consider(ppos, 0, 1)
+
+    local MAX_ITER = 10000
+    for i=1,MAX_ITER do
+        local stackPPos = stack:pop()
+
+        if stackPPos and isMatch(stackPPos) then
+            --[[
+            TODO: do implicit lp.queue buffering here.
+            ]]
+            func(assert(lp.posToSlot(stackPPos)), stackPPos)
+
+            consider(stackPPos, -1, 0)
+            consider(stackPPos, 0, -1)
+            consider(stackPPos, 1, 0)
+            consider(stackPPos, 0, 1)
+        end
+    end
+end
+
+
 --[[
 
 TODO:
@@ -216,14 +278,7 @@ So you can only choose 1.
 local pickButton = {
     action = function(ent, clientId)
         umg.melt([[
-        This is bad and broken. Fix this!
-
-        We can actually make this code a WHOLE lot better;
-        We should make the whole "consider" thing a helper-function;
-        and we should add implicit `queueWithEntity` to it.loc
-
-        Note that we also probably want to reuse this code for other
-        slots (specifically; strong-shop-slots; not just cloud-slots.)
+        This is bad and broken. Fix me plz.
         ]])
 
         shopButton.action(ent, clientId)
@@ -235,46 +290,6 @@ local pickButton = {
         -- Set current entity to DOOMED-1
         ent.doomCount = 1
         ent.cloudSlotPicked = true
-        local stack = {}
-
-        ---@param ppos lootplot.PPos
-        ---@param x integer
-        ---@param y integer
-        local function consider(ppos, x, y)
-            local targPPos = ppos:move(x, y)
-            if targPPos then
-                local slotEnt = lp.posToSlot(targPPos)
-                if slotEnt and slotEnt:hasComponent("cloudSlotPicked") and not slotEnt.cloudSlotPicked then
-                    stack[#stack+1] = targPPos:getSlotIndex()
-                end
-            end
-        end
-
-        local ppos = assert(lp.getPos(ent))
-        local plot = ppos:getPlot()
-        consider(ppos, -1, 0)
-        consider(ppos, 0, -1)
-        consider(ppos, 1, 0)
-        consider(ppos, 0, 1)
-
-        while #stack > 0 do
-            local stackPPos = plot:getPPosFromSlotIndex(table.remove(stack))
-            local slotEnt = lp.posToSlot(stackPPos)
-
-            if slotEnt and slotEnt:hasComponent("cloudSlotPicked") and not slotEnt.cloudSlotPicked then
-                local itemEnt = lp.posToItem(stackPPos)
-                if itemEnt then
-                    -- TODO: Use "delete instantly" mechanism so DESTROY trigger is not triggered.
-                    lp.destroy(itemEnt)
-                end
-
-                lp.destroy(slotEnt)
-                consider(stackPPos, -1, 0)
-                consider(stackPPos, 0, -1)
-                consider(stackPPos, 1, 0)
-                consider(stackPPos, 0, 1)
-            end
-        end
     end,
     canDisplay = function(ent, clientId)
         return ent.itemLock
