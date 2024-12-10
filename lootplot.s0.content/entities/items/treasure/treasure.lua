@@ -35,6 +35,8 @@ local function defineTreasure(id, name, etype)
 
     etype.name = loc(name)
 
+    etype.image = etype.image or id
+
     if etype.generateTreasureItem then
         local gen = etype.generateTreasureItem
         local transform = etype.transformTreasureItem or dummy
@@ -132,6 +134,7 @@ EG:
 ---@return function
 local function withFilter(filterFunc)
     assert(filterFunc,"?")
+    ---@type generation.Generator
     local itemGen
     local function generate()
         itemGen = itemGen or lp.newItemGenerator({
@@ -140,7 +143,7 @@ local function withFilter(filterFunc)
                 return filterFunc(etype)
             end
         })
-        return itemGen()
+        return itemGen:query()
     end
     return generate
 end
@@ -212,7 +215,7 @@ defChest("chest_iron_big", "Big Iron Chest", {
 
 defChest("chest_grubby", "Grubby Chest", {
     rarity = lp.rarities.UNCOMMON,
-    description = loc("Spawns an item that that is %{RARE} or above, and gives it {lootplot:GRUB_COLOR_LIGHT}GRUB-10."),
+    description = locRarity("Spawns an item that that is %{RARE} or above, and gives it {lootplot:GRUB_COLOR_LIGHT}GRUB-10."),
 
     grubMoneyCap = 10,
 
@@ -250,12 +253,14 @@ defChest("chest_abstract", "Abstract Chest", {
     rarity = lp.rarities.UNCOMMON,
     description = function(ent)
         local r1 = ent.rarity
-        return ABSTRACT_DESC(r1.displayString)
+        return ABSTRACT_DESC({
+            rarity = r1.displayString
+        })
     end,
 
     generateTreasureItem = function(ent)
         abstractGen = abstractGen or lp.newItemGenerator({})
-        return abstractGen(function(entry)
+        return abstractGen:query(function(entry)
             local etype = server.entities[entry]
             if etype and etype.rarity == ent.rarity then
                 return 1
@@ -270,7 +275,7 @@ defChest("chest_abstract", "Abstract Chest", {
 
 
 defChest("chest_legendary", "Legendary Chest", {
-    description = loc("Spawns a %{LEGENDARY} item."),
+    description = locRarity("Spawns a %{LEGENDARY} item."),
     rarity = lp.rarities.EPIC,
     generateTreasureItem = withFilter(ofRarity({r.LEGENDARY}))
 })
@@ -278,7 +283,7 @@ defChest("chest_legendary", "Legendary Chest", {
 
 
 defChest("chest_mana", "Mana Chest", {
-    description = loc("Spawns an %{EPIC} or %{LEGENDARY} item."),
+    description = locRarity("Spawns an %{EPIC} or %{LEGENDARY} item."),
 
     manaCost = 2,
 
