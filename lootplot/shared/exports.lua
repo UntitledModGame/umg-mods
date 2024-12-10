@@ -964,37 +964,6 @@ end
 
 
 
---[[
-Q: whats the difference between these two?
-
-A: 
-getConstantSpawnWeight is called ONCE, at load-time.
-EntityTypes cannot change their weights after they are called.
-
-getDynamicSpawnChance is called multiple times at runtime, within
-the generation queries.
-(It is a lot less efficient, but provides for greater flexibility)
-]]
-local function getEntityTypeSpawnWeight(entityType)
-    return umg.ask("lootplot:getConstantSpawnWeightMultiplier", entityType) or 1
-end
-
----Availability: **Server**
----@param etypeName string
----@param generationEnt Entity
----@return integer
-function lp.getDynamicSpawnChance(etypeName, generationEnt)
-    local etype = server.entities[etypeName]
-
-    local value = 1
-    if etype.getDynamicSpawnChance then
-        value = etype:getDynamicSpawnChance(generationEnt)
-    end
-
-    local qbusValue = umg.ask("lootplot:getDynamicSpawnChance", etype, generationEnt) or 1
-    return value * qbusValue
-end
-
 lp.DEFAULT_ITEM_SPAWN = 1
 
 local LootplotSeed = require("shared.LootplotSeed")
@@ -1312,7 +1281,7 @@ umg.on("@load", function(...)
     for _, e in ipairs(bufferedEntityTypes) do
         ---@cast e lootplot._BufferedEtype
         local gen = e.generator
-        gen:add(e.name, getEntityTypeSpawnWeight(e.entityType))
+        gen:add(e.name, 1)
     end
 end)
 

@@ -10,7 +10,10 @@ local function generateItem(ent)
     itemGen = itemGen or lp.newItemGenerator()
     local itemName = itemGen
         :query(function(entityType)
-            return lp.getDynamicSpawnChance(entityType, ent)
+            --[[
+            TODO: Create custom runtime behaviour here...?
+            ]]
+            return 1
         end)
     return itemName or lp.FALLBACK_NULL_ITEM
 end

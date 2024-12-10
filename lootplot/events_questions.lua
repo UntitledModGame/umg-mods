@@ -37,9 +37,6 @@ umg.defineQuestion("lootplot:canCombineItems", reducers.OR)
 umg.defineEvent("lootplot:itemsCombined")
 
 
--- TODO: should these be serverside only questions...?
-umg.defineQuestion("lootplot:getConstantSpawnWeightMultiplier", reducers.MULTIPLY)
-umg.defineQuestion("lootplot:getDynamicSpawnChance", reducers.MULTIPLY)
 
 
 if server then

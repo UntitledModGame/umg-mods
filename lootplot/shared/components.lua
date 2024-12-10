@@ -13,9 +13,6 @@ components.defineComponent("buttonSlot")
 
 
 
--- function component
-components.defineComponent("getDynamicSpawnChance")
-
 
 
 components.defineComponent("onReroll")

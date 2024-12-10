@@ -28,18 +28,6 @@ local function hsl(h,s,l)
 end
 
 
-umg.answer("lootplot:getConstantSpawnWeightMultiplier", function(etype)
-    local rarity = etype.rarity
-    ---@cast rarity lootplot.rarities.Rarity
-    if rarity then
-        return rarity.rarityWeight
-    end
-
-    -- items without any rarity cannot be generated:
-    return 0
-end)
-
-
 
 
 if client then
@@ -129,27 +117,6 @@ function lp.rarities.shiftRarity(rarity, delta)
     return rarity
 end
 
-
-
-local configured = false
----@param levelRarities table<lootplot.rarities.Rarity, integer>
-function lp.rarities.configureLevelSpawningLimits(levelRarities)
-    if configured then
-        return
-    end
-
-    configured = true
-    umg.answer("lootplot:getDynamicSpawnChance", function(etype, generationEnt)
-        local level = lp.getLevel(generationEnt) or 0
-        ---@cast etype +table<string, any>
-
-        local minLevel = levelRarities[etype.rarity] or 0
-        if level and (level < minLevel) then
-            return 0
-        end
-        return 1
-    end)
-end
 
 
 

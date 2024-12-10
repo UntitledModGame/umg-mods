@@ -35,11 +35,16 @@ end)
 
 
 
-local r = lp.rarities
-lp.rarities.configureLevelSpawningLimits({
+--[[
+
+OLD CODE:
+Level spawning requirements:
+
     [r.UNCOMMON] = 2, -- UNCOMMON items spawn at this level
     [r.RARE] = 4, -- RARE items start spawning at this level
     [r.EPIC] = 7, -- (etc)
     [r.LEGENDARY] = 12,
     [r.MYTHIC] = 16,
-})
+
+]]
+
