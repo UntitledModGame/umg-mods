@@ -161,6 +161,17 @@ local function ofRarity(possibleRarities)
 end
 
 
+-- useful helper for displaying rarities in strings
+local function locRarity(txt)
+    return localization.newInterpolator(txt){
+        COMMON = r.COMMON.displayString,
+        UNCOMMON = r.UNCOMMON.displayString,
+        RARE = r.RARE.displayString,
+        EPIC = r.EPIC.displayString,
+        LEGENDARY = r.LEGENDARY.displayString,
+    }
+end
+
 
 
 
@@ -186,14 +197,14 @@ defChest("chest_iron_small", "Small Iron Chest", {
     rarity = lp.rarities.UNCOMMON,
     basePrice = 2,
 
-    description = loc("Spawns an {lootplot:INFO_COLOR}RARE{lootplot:INFO_COLOR} item"),
+    description = locRarity("Spawns a %{RARE} item"),
 
     generateTreasureItem = withFilter(ofRarity({r.RARE}))
 })
 
 defChest("chest_iron_big", "Big Iron Chest", {
     rarity = lp.rarities.RARE,
-    description = loc("Spawns an item that that is {lootplot:INFO_COLOR}EPIC{lootplot:INFO_COLOR} or above"),
+    description = locRarity("Spawns an item that that is %{EPIC} or above"),
 
     generateTreasureItem = withFilter(ofRarity({r.EPIC, r.LEGENDARY})),
 })
@@ -201,7 +212,7 @@ defChest("chest_iron_big", "Big Iron Chest", {
 
 defChest("chest_grubby", "Grubby Chest", {
     rarity = lp.rarities.UNCOMMON,
-    description = loc("Spawns an item that that is {lootplot:INFO_COLOR}RARE{lootplot:INFO_COLOR} or above, and gives it {lootplot:GRUB_COLOR_LIGHT}GRUB-10."),
+    description = loc("Spawns an item that that is %{RARE} or above, and gives it {lootplot:GRUB_COLOR_LIGHT}GRUB-10."),
 
     grubMoneyCap = 10,
 
@@ -259,7 +270,7 @@ defChest("chest_abstract", "Abstract Chest", {
 
 
 defChest("chest_legendary", "Legendary Chest", {
-    description = loc("Spawns a LEGENDARY item."),
+    description = loc("Spawns a %{LEGENDARY} item."),
     rarity = lp.rarities.EPIC,
     generateTreasureItem = withFilter(ofRarity({r.LEGENDARY}))
 })
@@ -267,7 +278,7 @@ defChest("chest_legendary", "Legendary Chest", {
 
 
 defChest("chest_mana", "Mana Chest", {
-    description = loc("Spawns an EPIC or LEGENDARY item."),
+    description = loc("Spawns an %{EPIC} or %{LEGENDARY} item."),
 
     manaCost = 2,
 
