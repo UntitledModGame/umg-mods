@@ -318,7 +318,7 @@ end
 local TUT_CAT_ID = "lootplot.main:tutorial_cat"
 lp.worldgen.STARTING_ITEMS:add(TUT_CAT_ID)
 
-local MOVEMENT_TEXT = loc("WASD / Right click to move.\nScroll to zoom.{/wavy}")
+local MOVEMENT_TEXT = loc("WASD / Right click to move.\nScroll to zoom.")
 
 lp.defineItem(TUT_CAT_ID, {
     name = loc("Tutorial Cat"),
