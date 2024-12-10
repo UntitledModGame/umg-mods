@@ -105,6 +105,33 @@ defineCard("hearts_card", {
 })
 
 
+defineCard("mana_card", {
+    name = loc("Mana Card"),
+    shape = lp.targets.VerticalShape(1),
+
+    target = {
+        type = "SLOT",
+        description = loc("Shuffle {lootplot.mana:MANA_COLOR}mana{/lootplot.mana:MANA_COLOR} between target slots"),
+    },
+
+    onActivate = function(selfEnt)
+        local targets = shuffled(
+            lp.targets.getShapePositions(selfEnt):map(lp.posToSlot)
+        )
+        apply(targets, function(e1,e2)
+            local m1 = e1.manaCount or 0
+            local m2 = e2.manaCount or 0
+            e1.manaCount = m2
+            e2.manaCount = m1
+        end)
+    end,
+
+    rarity = lp.rarities.RARE
+})
+
+
+
+
 defineCard("price_card", {
     name = loc("Price Card"),
 
