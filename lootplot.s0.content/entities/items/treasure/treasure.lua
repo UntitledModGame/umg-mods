@@ -2,6 +2,10 @@
 local loc = localization.localize
 local interp = localization.newInterpolator
 
+local itemGenHelper = require("shared.item_gen_helper")
+local newLazyGen = itemGenHelper.createLazyGenerator
+
+
 local r = lp.rarities
 
 --[[
@@ -129,27 +133,15 @@ EG:
 ]]
 
 
+local DEFAULT_WEIGHT = itemGenHelper.createRarityWeightAdjuster({
+    COMMON = 3,
+    UNCOMMON = 2,
+    RARE = 1,
+    EPIC = 0.333,
+    LEGENDARY = 0.02,
+})
 
----@param filterFunc fun(etype: EntityType): boolean
----@return function
-local function withFilter(filterFunc)
-    assert(filterFunc,"?")
-    ---@type generation.Generator
-    local itemGen
-    local function generate()
-        itemGen = itemGen or lp.newItemGenerator({
-            filter = function(item, weight)
-                local etype = server.entities[item]
-                return filterFunc(etype)
-            end
-        })
-        return itemGen:query()
-    end
-    return generate
-end
-
-
----@param possibleRarities lootplot.rarities.Rarity
+---@param possibleRarities lootplot.rarities.Rarity[]
 ---@return fun(etype: EntityType): boolean
 local function ofRarity(possibleRarities)
     ---@param etype EntityType
@@ -202,14 +194,14 @@ defChest("chest_iron_small", "Small Iron Chest", {
 
     description = locRarity("Spawns a %{RARE} item"),
 
-    generateTreasureItem = withFilter(ofRarity({r.RARE}))
+    generateTreasureItem = newLazyGen(ofRarity({r.RARE}), DEFAULT_WEIGHT)
 })
 
 defChest("chest_iron_big", "Big Iron Chest", {
     rarity = lp.rarities.RARE,
     description = locRarity("Spawns an item that that is %{EPIC} or above"),
 
-    generateTreasureItem = withFilter(ofRarity({r.EPIC, r.LEGENDARY})),
+    generateTreasureItem = newLazyGen(ofRarity({r.EPIC, r.LEGENDARY}), DEFAULT_WEIGHT),
 })
 
 
@@ -219,7 +211,7 @@ defChest("chest_grubby", "Grubby Chest", {
 
     grubMoneyCap = 10,
 
-    generateTreasureItem = withFilter(ofRarity({r.RARE, r.EPIC, r.LEGENDARY})),
+    generateTreasureItem = newLazyGen(ofRarity({r.RARE, r.EPIC, r.LEGENDARY}), DEFAULT_WEIGHT),
     transformTreasureItem = function(ent)
         ent.grubMoneyCap = 10
     end
@@ -234,9 +226,9 @@ defChest("chest_food", "Food Chest", {
     rarity = lp.rarities.UNCOMMON,
     description = loc("Spawns a {lootplot:DOOMED_LIGHT_COLOR}DOOMED-1{/lootplot:DOOMED_LIGHT_COLOR} item"),
 
-    generateTreasureItem = withFilter(function(etype)
+    generateTreasureItem = newLazyGen(function(etype)
         return etype.doomCount == 1
-    end)
+    end, DEFAULT_WEIGHT)
 })
 
 
@@ -277,7 +269,7 @@ defChest("chest_abstract", "Abstract Chest", {
 defChest("chest_legendary", "Legendary Chest", {
     description = locRarity("Spawns a %{LEGENDARY} item."),
     rarity = lp.rarities.EPIC,
-    generateTreasureItem = withFilter(ofRarity({r.LEGENDARY}))
+    generateTreasureItem = newLazyGen(ofRarity({r.LEGENDARY}), DEFAULT_WEIGHT)
 })
 
 
@@ -288,7 +280,7 @@ defChest("chest_mana", "Mana Chest", {
     manaCost = 2,
 
     rarity = lp.rarities.RARE,
-    generateTreasureItem = withFilter(ofRarity({r.EPIC, r.LEGENDARY})),
+    generateTreasureItem = newLazyGen(ofRarity({r.EPIC, r.LEGENDARY}), DEFAULT_WEIGHT),
 })
 
 

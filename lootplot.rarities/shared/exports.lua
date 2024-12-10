@@ -114,6 +114,7 @@ function lp.rarities.shiftRarity(rarity, delta)
         end
     end
     -- FAILED!
+    umg.log.error("What the sigma??? This code should nevr run...")
     return rarity
 end
 
