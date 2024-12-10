@@ -177,16 +177,20 @@ defBalloon("green_balloon", "Green Balloon", {
 
 
 defBalloon("rotation_balloon", "Rotation Balloon", {
-    rarity = lp.rarities.RARE,
+    rarity = lp.rarities.EPIC,
 
     basePrice = 10,
 
+    activateDescription = loc("Rotates all target items"),
+
     listen = {
         trigger = "BUY",
-        description = loc("Rotate the purchased item"),
+    },
+    target = {
+        type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
             lp.rotateItem(targetEnt, 1)
-        end,
+        end
     }
 })
 
