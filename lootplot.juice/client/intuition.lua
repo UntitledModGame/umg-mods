@@ -11,9 +11,11 @@ umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER, function(ent, x,y, rot
         if lp.isSlotEntity(ent) then
             dy = 0
             if ent.doomCount <= 1 then
-                q = client.assets.images.crack_big
+                q = client.assets.images.doom_slot_visual_1
+            elseif ent.doomCount <= 3 then
+                q = client.assets.images.doom_slot_visual_3
             else
-                q = client.assets.images.crack_small
+                q = client.assets.images.doom_slot_visual_small
             end
         elseif lp.isItemEntity(ent) then
             dy = 2 * math.sin(love.timer.getTime() * BOB_SPEED)
