@@ -119,23 +119,45 @@ defineFood("eggplant", {
 
 
 
-defineFood("heart_fruit", {
+defineFood("heartfruit", {
     name = loc("Heart Fruit"),
+    activateDescription = loc("Gives +1 lives to target item (or slot)"),
 
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.RARE,
 
-    shape = lp.targets.UP_SHAPE,
+    shape = lp.targets.UpShape(2),
 
     basePrice = 6,
 
     target = {
         type = "ITEM_OR_SLOT",
-        description = loc("Gives +2 lives to target."),
         activate = function(selfEnt, ppos, targetEnt)
             targetEnt.lives = (targetEnt.lives or 0) + 2
         end
     },
 })
+
+
+defineFood("heartfruit_half", {
+    name = loc("Half Heart Fruit"),
+    activateDescription = loc("Gives +1 lives to target item (or slot)"),
+
+    rarity = lp.rarities.UNCOMMON,
+
+    shape = lp.targets.UP_SHAPE,
+
+    basePrice = 4,
+
+    target = {
+        type = "ITEM_OR_SLOT",
+        description = loc("Gives +1 lives to target."),
+        activate = function(selfEnt, ppos, targetEnt)
+            targetEnt.lives = (targetEnt.lives or 0) + 1
+        end
+    },
+})
+
+
 
 
 
