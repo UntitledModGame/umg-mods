@@ -2,7 +2,6 @@
 local loc = localization.localize
 local interp = localization.newInterpolator
 
-local shopHelper = require("shared.shop_helper")
 local itemGenHelper = require("shared.item_gen_helper")
 
 
@@ -11,6 +10,146 @@ local function defShopSlot(id, name, etype)
     etype.image = etype.image or id
     lp.defineSlot("lootplot.s0.content:" .. id, etype)
 end
+
+
+
+---@param ent Entity
+---@param bool boolean
+local function setItemLock(ent, bool)
+    ent.itemLock = bool
+    sync.syncComponent(ent, "itemLock")
+end
+
+local BUY_TEXT = interp("BUY ($%{price})")
+
+---@param slotEnt Entity
+local function buyServer(slotEnt)
+    local itemEnt = lp.slotToItem(slotEnt)
+    if itemEnt then
+        lp.subtractMoney(slotEnt, itemEnt.price)
+        lp.tryTriggerEntity("BUY", itemEnt)
+        setItemLock(slotEnt, false)
+    end
+end
+
+local function buyClient(slotEnt)
+    lp.deselectItem()
+    local itemEnt = lp.slotToItem(slotEnt)
+    if itemEnt then
+        lp.selectItem(itemEnt, true)
+    end
+end
+
+
+local SHOP_BUTTON = {
+    action = function(ent, clientId)
+        if server then
+            buyServer(ent)
+        elseif client then
+            buyClient(ent)
+        end
+    end,
+    canDisplay = function(ent, clientId)
+        return ent.itemLock
+    end,
+    canClick = function(ent, clientId)
+        local itemEnt = lp.slotToItem(ent)
+        if itemEnt and ent.itemLock then
+            return lp.getMoney(itemEnt) >= itemEnt.price
+        end
+    end,
+    text = function(ent)
+        local itemEnt = lp.slotToItem(ent)
+        if not itemEnt then
+            return ""
+        end
+        return BUY_TEXT(itemEnt)
+    end,
+    color = objects.Color(0.39,0.66,0.24),
+}
+
+
+
+
+---@param ent Entity
+---@param bool boolean
+local function setRerollLock(ent, bool)
+    ent.rerollLock = bool
+    sync.syncComponent(ent, "rerollLock")
+end
+
+local LOCK_TEXT = loc("Lock")
+local UNLOCK_TEXT = loc("Unlock")
+
+
+local LOCK_REROLL_BUTTON = {
+    action = function(ent, clientId)
+        if server then
+            setRerollLock(ent, not ent.rerollLock)
+        end
+    end,
+    canDisplay = function(ent, clientId)
+        return lp.slotToItem(ent)
+    end,
+    canClick = function(ent, clientId)
+        return lp.slotToItem(ent)
+    end,
+    text = function(ent)
+        if ent.rerollLock then
+            return UNLOCK_TEXT
+        else
+            return LOCK_TEXT
+        end
+    end,
+    color = objects.Color(0.7,0.7,0.7),
+}
+
+
+
+local TEXT_MAX_WIDTH = 200
+---@param text string
+---@param x number
+---@param y number
+---@param rot number
+---@param sx number
+---@param sy number
+---@param oy number
+---@param kx number
+---@param ky number
+local function printCenterWithOutline(text, x, y, rot, sx, sy, oy, kx, ky)
+    local r, g, b, a = love.graphics.getColor()
+    local ox = TEXT_MAX_WIDTH / 2
+
+    love.graphics.setColor(0, 0, 0, a)
+    for outY = -1, 1 do
+        for outX = -1, 1 do
+            if not (outX == 0 and outY == 0) then
+                love.graphics.printf(text, x + outX * sx, y + outY * sy, TEXT_MAX_WIDTH, "center", rot, sx, sy, ox, oy, kx, ky)
+            end
+        end
+    end
+
+    love.graphics.setColor(r, g, b, a)
+    love.graphics.printf(text, x, y, TEXT_MAX_WIDTH, "center", rot, sx, sy, ox, oy, kx, ky)
+end
+
+
+local PRICE_TEXT = interp("$%{price}")
+local PRICE_COLOR = objects.Color.fromByteRGBA(252, 211, 3)
+local GREEN_PRICE_COLOR = objects.Color.fromByteRGBA(100, 252, 30)
+
+local function drawItemPrice(slotEnt, itemEnt)
+    if slotEnt.itemLock and itemEnt.price then
+        if itemEnt.price > 0 then
+            love.graphics.setColor(PRICE_COLOR)
+        else
+            love.graphics.setColor(GREEN_PRICE_COLOR)
+        end
+        printCenterWithOutline(PRICE_TEXT(itemEnt), itemEnt.x, itemEnt.y, 0, 0.75, 0.75, 20, 0, 0)
+    end
+end
+
+
 
 
 local truthy = function ()return 1 end
@@ -42,11 +181,11 @@ defShopSlot("shop_slot", "Shop slot", {
         return not slotEnt.itemLock
     end,
     onActivate = function(slotEnt)
-        shopHelper.setItemLock(slotEnt, true)
+        setItemLock(slotEnt, true)
     end,
-    onItemDraw = shopHelper.drawItemPrice,
+    onItemDraw = drawItemPrice,
     actionButtons = {
-        shopHelper.SHOP_BUTTON
+        SHOP_BUTTON
     }
 })
 
@@ -73,17 +212,17 @@ lp.defineSlot("lootplot.s0.content:lockable_shop_slot", {
         return not slotEnt.itemLock
     end,
     onActivate = function(slotEnt)
-        shopHelper.setItemLock(slotEnt, true)
+        setItemLock(slotEnt, true)
     end,
     onItemDraw = function(selfEnt, itemEnt, x,y, rot, sx,sy)
         if selfEnt.rerollLock then
             rendering.drawImage("slot_reroll_padlock", x,y, rot, sx,sy)
         end
-        return shopHelper.drawItemPrice(selfEnt, itemEnt)
+        return drawItemPrice(selfEnt, itemEnt)
     end,
     actionButtons = {
-        shopHelper.SHOP_BUTTON,
-        shopHelper.LOCK_REROLL_BUTTON
+        SHOP_BUTTON,
+        LOCK_REROLL_BUTTON
     }
 })
 
@@ -116,7 +255,7 @@ lp.defineSlot("lootplot.s0.content:lockable_reroll_slot", {
         return not ent.rerollLock
     end,
     actionButtons = {
-        shopHelper.LOCK_REROLL_BUTTON
+        LOCK_REROLL_BUTTON
     }
 })
 
@@ -156,9 +295,9 @@ lp.defineSlot("lootplot.s0.content:treasure_slot", {
             slotEnt.doomCount = 1
         end
     end,
-    onItemDraw = shopHelper.drawItemPrice,
+    onItemDraw = drawItemPrice,
     actionButtons = {
-        shopHelper.SHOP_BUTTON
+        SHOP_BUTTON
     }
 })
 
@@ -195,9 +334,9 @@ lp.defineSlot("lootplot.s0.content:paper_slot", {
             slotEnt.doomCount = 1
         end
     end,
-    onItemDraw = shopHelper.drawItemPrice,
+    onItemDraw = drawItemPrice,
     actionButtons = {
-        shopHelper.SHOP_BUTTON
+        SHOP_BUTTON
     }
 })
 
