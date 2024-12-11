@@ -127,14 +127,40 @@ defineHelmet("doom_helmet", {
 
     triggers = {"PULSE"},
 
+    activateDescription = loc("Give all targetted items on {lootplot:DOOMED_COLOR}DOOMED{/lootplot:DOOMED_COLOR} slots {lootplot:POINTS_MOD_COLOR}+3 points."),
+
     basePrice = 14,
-    basePointsGenerated = 1,
 
     target = {
         type = "ITEM",
-        description = loc("If item is DOOMED, buff item +10 points"),
         filter = function(selfEnt, ppos, targItem)
-            return targItem.doomCount
+            local slotEnt = lp.posToSlot(ppos)
+            return slotEnt and slotEnt.doomCount
+        end,
+        activate = function (selfEnt, ppos, targItem)
+            lp.modifierBuff(targItem, "pointsGenerated", 3, selfEnt)
+        end
+    },
+
+    rarity = lp.rarities.EPIC,
+})
+
+
+defineHelmet("demon_helmet", {
+    name = loc("Demon Helmet"),
+
+    activateDescription = loc("Give all targetted {lootplot:REPEATER_COLOR}REPEATER{/lootplot:REPEATER_COLOR} items {lootplot:POINTS_MOD_COLOR}+4 points"),
+    triggers = {"PULSE"},
+
+    basePrice = 12,
+
+    repeatActivations = true,
+    baseMaxActivations = 1,
+
+    target = {
+        type = "ITEM",
+        filter = function(selfEnt, ppos, targItem)
+            return targItem.repeatActivations
         end,
         activate = function (selfEnt, ppos, targItem)
             lp.modifierBuff(targItem, "pointsGenerated", 10, selfEnt)
@@ -146,23 +172,10 @@ defineHelmet("doom_helmet", {
 
 
 
-defItem("skull", {
-    name = loc("Skull"),
 
-    activateDescription = interp("Permanently gains {lootplot:POINTS_MOD_COLOR}+6 Points-Generated"),
+--[[
 
-    listen = {
-        trigger = "DESTROY"
-    },
-    shape = lp.targets.KING_SHAPE,
+TODO:
+teal helmet
 
-    basePrice = 10,
-    basePointsGenerated = 1,
-
-    onActivate = function(ent)
-        lp.modifierBuff(ent, "pointsGenerated", 6)
-    end,
-
-    rarity = lp.rarities.RARE,
-})
-
+]]

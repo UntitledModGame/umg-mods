@@ -164,12 +164,12 @@ defItem("crystal_ball", "Crystal Ball", {
 defItem("mana_heart", "Mana Heart", {
     name = loc("Heart Fruit"),
 
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.RARE,
     shape = lp.targets.UP_SHAPE,
 
     activateDescription = loc("Gives +1 lives to target items."),
 
-    manaCost = 2,
+    manaCost = 1,
     basePrice = 12,
 
     target = {

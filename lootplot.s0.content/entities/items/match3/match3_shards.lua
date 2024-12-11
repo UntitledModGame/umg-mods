@@ -97,6 +97,19 @@ defShards("golden_shards", "Golden Shards",
 
 
 
+local function spawnFoodBg(itemEnt)
+    lp.addMoney(itemEnt, 8)
+end
+defShards("golden_shards", "Golden Shards",
+    earn8Money, "Earn {lootplot:MONEY_COLOR}$4{/lootplot:MONEY_COLOR}.",
+{
+    rarity = lp.rarities.COMMON,
+    basePrice = 4,
+})
+
+
+
+
 --[[
 
 

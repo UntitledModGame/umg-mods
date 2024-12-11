@@ -202,27 +202,47 @@ defDestructive("pink_mitten", {
 
 
 
---[[
 
-TODO:
-Do something with this.
+-- TODO:
+-- Do something with this.
 
 defDestructive("dark_skull", {
     name = loc("Dark Skull"),
 
+    activateDescription = loc("Spawns rock-items."),
+
     rarity = lp.rarities.EPIC,
 
-    basePrice = 12,
+    basePrice = 10,
 
     shape = lp.targets.RookShape(1),
 
     target = {
         type = "NO_ITEM",
-        description = loc("Spawns rocks"),
         activate = function(selfEnt, ppos, targetEnt)
             lp.trySpawnItem(ppos, server.entities.rock, selfEnt.lootplotTeam)
         end
     },
 })
 
-]]
+
+
+defDestructive("skull", {
+    name = loc("Skull"),
+
+    activateDescription = loc("Spawns bone-items."),
+
+    rarity = lp.rarities.RARE,
+
+    basePrice = 6,
+
+    shape = lp.targets.RookShape(1),
+
+    target = {
+        type = "NO_ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.trySpawnItem(ppos, server.entities.bone, selfEnt.lootplotTeam)
+        end
+    },
+})
+
