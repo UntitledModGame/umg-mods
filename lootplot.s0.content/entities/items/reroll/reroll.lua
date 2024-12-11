@@ -18,7 +18,7 @@ end
 local function defineDice(id, name, etype)
     etype.name = loc(name)
     etype.rarity = assert(etype.rarity)
-    etype.basePrice = 6
+    etype.basePrice = etype.basePrice or 6
     etype.image = etype.image or id
 
     return lp.defineItem("lootplot.s0.content:"..id, etype)
@@ -139,10 +139,10 @@ defineDice("triple_dice", "Triple Dice", {
     rarity = lp.rarities.UNCOMMON,
 
     basePrice = 8,
-    baseMaxActivations = 2,
+    baseMaxActivations = 3,
     baseMoneyGenerated = 1,
 
-    grubMoneyCap = consts.GRUB_MONEY_CAP_LOW
+    grubMoneyCap = assert(consts.DEFAULT_GRUB_MONEY_CAP)
 })
 
 
@@ -156,7 +156,7 @@ defineDice("quad_dice", "Quad Dice", {
     baseMaxActivations = 10,
     basePointsGenerated = PTS,
 
-    grubMoneyCap = consts.GRUB_MONEY_CAP_LOW,
+    grubMoneyCap = assert(consts.DEFAULT_GRUB_MONEY_CAP)
 })
 
 

@@ -1,9 +1,9 @@
 
 local loc = localization.localize
 local interp = localization.newInterpolator
-local helper = require("shared.helper")
 
-local MONEY_REQUIREMENT = 30
+local consts = require("shared.constants")
+local MONEY_REQUIREMENT = assert(consts.GOLDSMITH_MONEY_REQUIREMENT)
 
 
 local function defItem(id, etype)
