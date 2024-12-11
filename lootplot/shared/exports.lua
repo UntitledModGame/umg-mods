@@ -1128,6 +1128,23 @@ function lp.hasTrigger(ent, name)
     return false
 end
 
+---@param ent Entity
+---@param triggerName string
+function lp.addTrigger(ent, triggerName)
+    assert(lp.isValidTrigger(triggerName))
+    if not lp.hasTrigger(ent, triggerName) then
+        local triggers = objects.Array(ent.triggers or {})
+        triggers:add(triggerName)
+        ent.triggers = triggers
+        sync.syncComponent(ent, "triggers")
+    end
+end
+
+-- HMM:
+-- Should we add `lp.removeTrigger` here in the future...?
+
+
+
 
 ---Availability: Client and Server
 ---@param name string

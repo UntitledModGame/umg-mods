@@ -191,14 +191,14 @@ defChest("chest_iron_small", "Small Iron Chest", {
     rarity = lp.rarities.UNCOMMON,
     basePrice = 2,
 
-    description = locRarity("Spawns a %{RARE} item"),
+    activateDescription = locRarity("Spawns a %{RARE} item"),
 
     generateTreasureItem = newLazyGen(ofRarity({r.RARE}), DEFAULT_WEIGHT)
 })
 
 defChest("chest_iron_big", "Big Iron Chest", {
     rarity = lp.rarities.RARE,
-    description = locRarity("Spawns an item that that is %{EPIC} or above"),
+    activateDescription = locRarity("Spawns an item that that is %{EPIC} or above"),
 
     generateTreasureItem = newLazyGen(ofRarity({r.EPIC, r.LEGENDARY}), DEFAULT_WEIGHT),
 })
@@ -206,7 +206,7 @@ defChest("chest_iron_big", "Big Iron Chest", {
 
 defChest("chest_grubby", "Grubby Chest", {
     rarity = lp.rarities.UNCOMMON,
-    description = locRarity("Spawns an item that that is %{RARE} or above, and gives it {lootplot:GRUB_COLOR_LIGHT}GRUB-10."),
+    activateDescription = locRarity("Spawns an item that that is %{RARE} or above, and gives it {lootplot:GRUB_COLOR_LIGHT}GRUB-10."),
 
     grubMoneyCap = 10,
 
@@ -218,18 +218,19 @@ defChest("chest_grubby", "Grubby Chest", {
 
 
 
-
-
-
 defChest("chest_food", "Food Chest", {
     rarity = lp.rarities.UNCOMMON,
-    description = loc("Spawns a {lootplot:DOOMED_LIGHT_COLOR}DOOMED-1{/lootplot:DOOMED_LIGHT_COLOR} food item."),
+    activateDescription = loc("Spawns a {lootplot:DOOMED_LIGHT_COLOR}DOOMED-1{/lootplot:DOOMED_LIGHT_COLOR} food item."),
+
+    doomCount = 1,
+    -- we only put this here to give a nice visual.
+    -- (It doesn't actually do anything; but it serves as a nice indicator;
+    -- to demonstrate that the spawned item will be DOOMED.)
 
     generateTreasureItem = newLazyGen(function(etype)
         return etype.doomCount == 1
     end, DEFAULT_WEIGHT)
 })
-
 
 
 local ABSTRACT_DESC = interp("Spawns an item of the same rarity as this chest!\n(Currently: %{rarity})")
@@ -242,7 +243,7 @@ It kinda looks a bit fragile...?
 local abstractGen
 defChest("chest_abstract", "Abstract Chest", {
     rarity = lp.rarities.UNCOMMON,
-    description = function(ent)
+    activateDescription = function(ent)
         local r1 = ent.rarity
         return ABSTRACT_DESC({
             rarity = r1.displayString
@@ -263,18 +264,14 @@ defChest("chest_abstract", "Abstract Chest", {
 
 
 
-
-
 defChest("chest_legendary", "Legendary Chest", {
-    description = locRarity("Spawns a %{LEGENDARY} item."),
+    activateDescription = locRarity("Spawns a %{LEGENDARY} item."),
     rarity = lp.rarities.EPIC,
     generateTreasureItem = newLazyGen(ofRarity({r.LEGENDARY}), DEFAULT_WEIGHT)
 })
 
-
-
 defChest("chest_mana", "Mana Chest", {
-    description = locRarity("Spawns an %{EPIC} or %{LEGENDARY} item."),
+    activateDescription = locRarity("Spawns an %{EPIC} or %{LEGENDARY} item."),
 
     manaCost = 2,
 
@@ -284,4 +281,120 @@ defChest("chest_mana", "Mana Chest", {
 
 
 
+
+--[[
+==========================================
+Sack items:
+==========================================
+]]
+
+local function isFood(etype)
+    return etype.doomCount == 1
+end
+
+defSack("sack_rare", "Rare Sack", {
+    activateDescription = locRarity("Spawns a %{RARE} item."),
+
+    rarity = lp.rarities.RARE,
+    generateTreasureItem = newLazyGen(function (etype)
+        return etype.rarity == r.RARE and (not isFood(etype))
+    end, DEFAULT_WEIGHT),
+})
+
+defSack("sack_epic", "Epic Sack", {
+    activateDescription = locRarity("Spawns an %{EPIC} item."),
+
+    rarity = lp.rarities.EPIC,
+    generateTreasureItem = newLazyGen(function (etype)
+        return etype.rarity == r.EPIC and (not isFood(etype))
+    end, DEFAULT_WEIGHT),
+})
+
+defSack("sack_food", "Food Sack", {
+    activateDescription = loc("Spawns a {lootplot:DOOMED_LIGHT_COLOR}DOOMED-1{/lootplot:DOOMED_LIGHT_COLOR} food item."),
+    doomCount = 1,
+
+    basePrice = 3,
+
+    rarity = lp.rarities.COMMON,
+    generateTreasureItem = newLazyGen(isFood, DEFAULT_WEIGHT),
+})
+
+defSack("sack_ruby", "Ruby Sack", {
+    activateDescription = locRarity("Spawns a %{RARE} item, and gives it {lootplot:INFO_COLOR}REPEATER."),
+
+    rarity = lp.rarities.RARE,
+    generateTreasureItem = newLazyGen(function (etype)
+        return etype.rarity == r.RARE and (not isFood(etype))
+    end, DEFAULT_WEIGHT),
+
+    repeatActivations = true,
+    -- this ^^^^ shcomp doesnt actually do anything;
+    -- it just serves as an indicator, so the player can visualize what item they obtain.
+
+    baseMaxActivations = 1,
+
+    transformTreasureItem = function(item, ppos)
+        item.repeatActivations = true
+        sync.syncComponent(item, "repeatActivations")
+    end
+})
+
+defSack("sack_reroll", "Reroll Sack", {
+    activateDescription = locRarity("Spawns a %{RARE} item, and adds {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} trigger to it."),
+
+    rarity = lp.rarities.EPIC,
+
+    generateTreasureItem = newLazyGen(function (etype)
+        return etype.rarity == r.RARE and (not isFood(etype))
+    end, DEFAULT_WEIGHT),
+
+    transformTreasureItem = function(item, ppos)
+        lp.addTrigger(item, "REROLL")
+    end
+})
+
+defSack("sack_grubby", "Grubby Sack", {
+    activateDescription = locRarity("Spawns a %{RARE} item, and gives it {lootplot:GRUB_COLOR_LIGHT}GRUB-10{/lootplot:GRUB_COLOR_LIGHT}."),
+
+    rarity = lp.rarities.RARE,
+
+    grubMoneyCap = 20,
+    -- this ^^^^ shcomp serves as an indicator, 
+    -- so the player can better intuit about what item is spawned.
+
+    generateTreasureItem = newLazyGen(function (etype)
+        return etype.rarity == r.RARE and (not isFood(etype))
+    end, DEFAULT_WEIGHT),
+
+    transformTreasureItem = function(item, ppos)
+        item.grubMoneyCap = 10
+    end
+})
+
+
+local ABSTRACT_SACK_DESC = interp("Spawns an item of the same rarity as this sack!\n(Currently: %{rarity})")
+
+---@type generation.Generator
+local tatteredGen
+defChest("sack_tattered", "Tattered Sack", {
+    rarity = lp.rarities.UNCOMMON,
+    activateDescription = function(ent)
+        local r1 = ent.rarity
+        return ABSTRACT_SACK_DESC({
+            rarity = r1.displayString
+        })
+    end,
+
+    generateTreasureItem = function(ent)
+        tatteredGen = tatteredGen or lp.newItemGenerator({})
+        return abstractGen:query(function(entry)
+            local etype = server.entities[entry]
+            if etype and etype.rarity == ent.rarity then
+                return 1
+            end
+            return 0
+        end)
+    end
+})
 

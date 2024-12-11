@@ -24,8 +24,12 @@ end
 
 
 local entTc = typecheck.assert("entity")
+
+---@param ent lootplot.SlotEntity
+---@return integer
 function lp.mana.getManaCount(ent)
     entTc(ent)
+    assert(lp.isSlotEntity(ent), "Mana can only eixst on slots!")
     return ent.manaCount or 0
 end
 
@@ -76,7 +80,7 @@ umg.answer("lootplot:canActivateEntity", function(ent)
     if ent.manaCost then
         local ppos = lp.getPos(ent)
         local slot = ppos and lp.posToSlot(ppos)
-        if slot and lp.mana.getManaCount(ent) < ent.manaCost then
+        if slot and lp.mana.getManaCount(slot) < ent.manaCost then
             -- You have no MANA!
             return false
         end

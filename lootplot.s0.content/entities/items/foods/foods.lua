@@ -86,12 +86,7 @@ defineFood("green_olive", {
         type = "ITEM",
         description = loc("Gives REROLL Trigger to target item."),
         activate = function(selfEnt, ppos, targetEnt)
-            if not lp.hasTrigger(targetEnt, "REROLL") then
-                local triggers = objects.Array(targetEnt.triggers or {})
-                triggers:add("REROLL")
-                targetEnt.triggers = triggers
-                sync.syncComponent(targetEnt, "triggers")
-            end
+            lp.addTrigger(targetEnt, "REROLL")
         end
     }
 })
