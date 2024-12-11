@@ -111,7 +111,7 @@ defineCard("mana_card", {
 
     target = {
         type = "SLOT",
-        description = loc("Shuffle {lootplot.mana:MANA_COLOR}mana{/lootplot.mana:MANA_COLOR} between target slots"),
+        description = loc("Shuffle {lootplot.mana:LIGHT_MANA_COLOR}mana{/lootplot.mana:LIGHT_MANA_COLOR} between target slots"),
     },
 
     onActivate = function(selfEnt)

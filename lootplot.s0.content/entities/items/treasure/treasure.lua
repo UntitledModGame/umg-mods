@@ -114,9 +114,8 @@ We could have a lot more interesting mechanics.
 INSPIRATION:
 Sack-normal: Spawns a random item.
 Sack-doomed: Spawns a random DOOMED item.
-Sack-normal: Spawns a random item. Gives REPEATER to spawned item
+Sack-repeater: Spawns a random item. Gives REPEATER to spawned item
 Sack-normal: Spawns a random item. Gives REROLL trigger to spawned item
-Sack-mana: Spawns a random item. The spawned item costs 1 mana to activate.
 Sack-golden: Spawns a random MONEY item.
 Sack-of-mana: Spawns a random Mana item.
 Sack-tattered: Spawns a random item. Gives the spawned item +10 max activations, and activates it 10 times.
@@ -224,7 +223,7 @@ defChest("chest_grubby", "Grubby Chest", {
 
 defChest("chest_food", "Food Chest", {
     rarity = lp.rarities.UNCOMMON,
-    description = loc("Spawns a {lootplot:DOOMED_LIGHT_COLOR}DOOMED-1{/lootplot:DOOMED_LIGHT_COLOR} item"),
+    description = loc("Spawns a {lootplot:DOOMED_LIGHT_COLOR}DOOMED-1{/lootplot:DOOMED_LIGHT_COLOR} food item."),
 
     generateTreasureItem = newLazyGen(function(etype)
         return etype.doomCount == 1
