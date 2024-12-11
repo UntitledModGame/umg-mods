@@ -97,14 +97,14 @@ defShards("golden_shards", "Golden Shards",
 
 
 
-local function spawnFoodBg(itemEnt)
-    lp.addMoney(itemEnt, 8)
+local function spawnFoodSack(itemEnt)
+    umg.log.error("TODO: spawn food sack!")
 end
-defShards("golden_shards", "Golden Shards",
-    earn8Money, "Earn {lootplot:MONEY_COLOR}$4{/lootplot:MONEY_COLOR}.",
+defShards("food_shards", "Food Shards",
+    spawnFoodSack, "Spawns a {lootplot:INFO_COLOR}Food Sack",
 {
     rarity = lp.rarities.COMMON,
-    basePrice = 4,
+    basePrice = 3,
 })
 
 
