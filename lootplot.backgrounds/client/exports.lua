@@ -30,11 +30,14 @@ function bg.registerBackground(name, def)
     typecheck.assertKeys(def, registerBGTableTc)
     assert(not defined[name], "background '"..name.."' is already registered")
 
-    defined:add(name)
-    registry[#registry+1] = def
+    registry[#registry + 1] = def
     defined[name] = def
 end
 
+---@return lootplot.backgrounds.BackgroundInfo[]
+function bg.getRegisteredBackgrounds()
+    return table.copy(registry, false)
+end
 
 
 ---@type lootplot.backgrounds.IBackground?

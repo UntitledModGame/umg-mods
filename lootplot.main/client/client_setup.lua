@@ -1,7 +1,6 @@
 local LoadingState = require("client.states.LoadingState")
 local PulsingCloudBackground = require("client.backgrounds.PulsingCloudBackground")
 local FunkyBackground = require("client.backgrounds.FunkyBackground")
-local backgroundManager = require("client.background_manager")
 local musicManager = require("client.music_manager")
 local Z_ORDER = require("client.z_order")
 
@@ -14,11 +13,17 @@ require("shared.exports")
 -- HACK: kinda hacky, hardcode plot offset
 local minsize = math.min(lp.main.constants.WORLD_PLOT_SIZE[1], lp.main.constants.WORLD_PLOT_SIZE[2])
 local DELTA = (minsize * lp.constants.WORLD_SLOT_DISTANCE) / 2
+local DEFAULT_BG_NAME = "lootplot.main:cloud_background"
 
-local BACKGROUND = PulsingCloudBackground({
-    worldX = -W/2 + DELTA, worldY = -H/2 + DELTA,
-    worldWidth = W, worldHeight = H,
-    numberOfClouds = 100
+lp.backgrounds.registerBackground(DEFAULT_BG_NAME, {
+    name = localization.localize("Cloud Background"),
+    constructor = function()
+        return PulsingCloudBackground({
+            worldX = -W/2 + DELTA, worldY = -H/2 + DELTA,
+            worldWidth = W, worldHeight = H,
+            numberOfClouds = 100
+        })
+    end
 })
 
 --[[
@@ -36,7 +41,7 @@ local BACKGROUND = FunkyBackground({
 })
 ]]
 
-backgroundManager.setBackground(BACKGROUND)
+lp.backgrounds.setBackground(DEFAULT_BG_NAME)
 
 
 state.push(LoadingState(), Z_ORDER.LOADING_STATE)
