@@ -1,35 +1,32 @@
+
 local loc = localization.localize
+local interp = localization.localize
 
-local function triggerUnlock(ent)
-    return lp.tryTriggerEntity("UNLOCK", ent)
-end
 
----@param ppos lootplot.PPos
----@param x integer
----@param y integer
-local function consider(ppos, x, y)
-    local targPPos = ppos:move(x, y)
-    if targPPos then
-        local slotEnt = lp.posToSlot(targPPos)
-        if slotEnt and lp.hasTrigger(slotEnt, "UNLOCK") then
-            lp.queueWithEntity(slotEnt, triggerUnlock)
-            lp.wait(ppos, 0.2)
-        end
-    end
-end
+local DESC = interp("Unlocks on level %{levelNumber}.")
 
-lp.defineSlot("lootplot.unlocks:locked_slot", {
-    image = "locked_slot",
-    name = loc("Locked Slot"),
-    description = loc("Can be unlocked with a {lootplot:INFO_COLOR}key!"),
-    triggers = {"UNLOCK"},
-    audioVolume = 0,
+lp.defineSlot("lootplot.unlocks:mystery_slot", {
+    image = "mystery_slot",
+    name = loc("Mystery Slot"),
+    description = function(ent)
+        return DESC({
+            levelNumber = ent.unlockLevel or 1000
+        })
+    end,
+
+    triggers = {"PULSE"},
+
     canAddItemToSlot = function()
         return false -- cant hold items!!!
     end,
 
     ---@param self lootplot.SlotEntity
     onActivate = function(self)
+        if self.levelNumber < lp.getLevel(self) then
+            return
+        end
+
+        -- else: ITS TIME!!! Begin the unlock process.
         local ppos = assert(lp.getPos(self))
         local tslot = self.targetSlot
         local titem = self.targetItem
@@ -55,10 +52,5 @@ lp.defineSlot("lootplot.unlocks:locked_slot", {
                 titem:delete()
             end
         end
-
-        consider(ppos, -1, 0)
-        consider(ppos, 0, -1)
-        consider(ppos, 1, 0)
-        consider(ppos, 0, 1)
     end
 })
