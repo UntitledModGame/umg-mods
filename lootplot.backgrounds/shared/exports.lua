@@ -4,9 +4,26 @@ local bg = {}
 assert(not lp.backgrounds, "\27]8;;https://youtu.be/dQw4w9WgXcQ\27\\Unexpected error!\27]8;;\27\\")
 lp.backgrounds = bg
 
-local IBackground = require("client.IBackground")
-local IBGTc = typecheck.interface(IBackground)
+
+umg.defineEvent("lootplot.backgrounds:backgroundChanged")
+-- Note: The reason we don't use `sync.proxyEventToClient` is that we want to set
+-- the background **first** then firing the event bus in the client so that calls to
+-- `lp.backgrounds.getBackground()` inside the `lootplot.backgrounds:backgroundChanged`
+-- evbus return up-to-date values.
+umg.definePacket("lootplot.backgrounds:backgroundChanged", {typelist = {"string"}})
+
+
+local IBackground = nil
+local IBGTc = nil
+
+if client then
+    IBackground = require("client.IBackground")
+    IBGTc = typecheck.interface(IBackground)
+end
+
+---Availability: **Client**
 bg.backgroundTypecheck = IBGTc
+---Availability: **Client**
 bg.IBackground = IBackground
 
 ---@type lootplot.backgrounds.BackgroundInfo[]
@@ -16,12 +33,15 @@ local defined = {}
 
 ---@class lootplot.backgrounds.BackgroundInfo
 ---@field public name string
----@field public constructor fun():lootplot.backgrounds.IBackground
+---@field public constructor (fun():lootplot.backgrounds.IBackground)? @note this is nil on server-side
 ---@field public description string?
 ---@field public icon string?
 
 local registerBGTc = typecheck.assert("string", "table")
-local registerBGTableTc = {"name", "constructor"}
+local registerBGTableTc = {"name"}
+if client then
+    registerBGTableTc[#registerBGTableTc+1] = "constructor"
+end
 
 ---@param name string
 ---@param def lootplot.backgrounds.BackgroundInfo
@@ -29,6 +49,10 @@ function bg.registerBackground(name, def)
     registerBGTc(name, def)
     typecheck.assertKeys(def, registerBGTableTc)
     assert(not defined[name], "background '"..name.."' is already registered")
+
+    if server then
+        def.constructor = nil
+    end
 
     registry[#registry + 1] = def
     defined[name] = def
@@ -39,24 +63,41 @@ function bg.getRegisteredBackgrounds()
     return table.copy(registry, false)
 end
 
+---@type string?
+local currentBackgroundName = nil
+
+---Availability: Client and Server
+function bg.getBackground()
+    return currentBackgroundName
+end
+
+if client then
+
+assert(IBGTc)
 
 ---@type lootplot.backgrounds.IBackground?
 local previousBackground = nil
 ---@type lootplot.backgrounds.IBackground?
 local currentBackground = nil
----@type string?
-local currentBackgroundName = nil
 local interpolationTime = 0
 local swapTime = 0
 
 ---@param background string?
 ---@param interpTime number?
-function bg.setBackground(background, interpTime)
+local function setBGImpl(background, interpTime)
     interpTime = interpTime or 0
     local backgroundObj = nil
 
     if background then
-        backgroundObj = assert(defined[background], "unknown background").constructor()
+        local bginfo = defined[background]
+        if not bginfo then
+            umg.melt("unknown background '"..background.."'")
+        end
+        if not bginfo.constructor then
+            umg.melt("missing background constructor '"..background.."'")
+        end
+
+        backgroundObj = bginfo.constructor()
         IBGTc(backgroundObj)
     end
 
@@ -80,11 +121,27 @@ function bg.setBackground(background, interpTime)
     currentBackgroundName = background
 end
 
-function bg.getBackground()
-    return currentBackgroundName
+client.on("lootplot.backgrounds:backgroundChanged", function(data)
+    local bgdata = json.decode(data)
+    setBGImpl(bgdata.background, bgdata.interpolation)
+    umg.call("lootplot.backgrounds:backgroundChanged", bgdata.background, bgdata.interpolation)
+end)
+
+
+---Availability: Client and Server
+---@param background string?
+---@param interpTime number?
+function bg.setBackground(background, interpTime)
+    if currentBackgroundName ~= background then
+        if background then
+            assert(defined[background], "unknown background")
+        end
+
+        setBGImpl(background, interpTime)
+        umg.call("lootplot.backgrounds:backgroundChanged", background, interpTime)
+        currentBackgroundName = background
+    end
 end
-
-
 
 umg.on("@update", function(dt)
     swapTime = math.min(swapTime + dt, interpolationTime)
@@ -118,5 +175,23 @@ umg.on("rendering:drawBackground", function()
     end
 end)
 
+else -- if client
+
+---Availability: Client and Server
+---@param background string?
+---@param interpTime number?
+function bg.setBackground(background, interpTime)
+    if currentBackgroundName ~= background then
+        currentBackgroundName = background
+        -- Broadcasts so client can change the background
+        server.broadcast("lootplot.backgrounds:backgroundChanged", json.encode({
+            background = background,
+            interpolation = interpTime
+        }))
+        umg.call("lootplot.backgrounds:backgroundChanged", background, interpTime)
+    end
+end
+
+end -- if client
 
 return bg

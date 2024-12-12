@@ -1,3 +1,5 @@
+local CONST = require("shared.lpmain_const")
+
 ---@class lootplot.main.RunManager
 local runManager = {}
 
@@ -75,7 +77,12 @@ local startRunService = require("server.start_run_service")
 server.on("lootplot.main:startRun", function(clientId, runOptionsString)
     if server.getHostClient() == clientId then
         local runOptions = umg.deserialize(runOptionsString)
-        startRunService.startGame(lp.main.PLAYER_TEAM, runOptions.starterItem, runOptions.worldgenItem)
+        startRunService.startGame(
+            lp.main.PLAYER_TEAM,
+            runOptions.starterItem,
+            runOptions.worldgenItem,
+            runOptions.backgrouund or CONST.DEFAULT_BG_NAME
+        )
         lp.setPlayerTeam(clientId, lp.main.PLAYER_TEAM)
     end
 end)
@@ -171,7 +178,7 @@ local newRunOptionsTc = typecheck.assert({
     starterItem = "string",
     seed = "string"
 })
----@param options {starterItem:string,seed:string}
+---@param options {starterItem:string,seed:string,background:string?}
 function runManager.startRun(options)
     newRunOptionsTc(options)
     client.send("lootplot.main:startRun", umg.serialize(options))

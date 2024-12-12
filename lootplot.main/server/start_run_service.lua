@@ -148,12 +148,14 @@ end
 ---@param team string
 ---@param perk string
 ---@param wgen string
-function startRunService.startGame(team, perk, wgen)
+---@param bg string
+function startRunService.startGame(team, perk, wgen, bg)
     ---@type lootplot.main.Run
-    local run = Run(perk) -- lp.initialize has been called.
+    local run = Run(perk, bg) -- lp.initialize has been called.
     local plot = run:getPlot()
     local midPPos = plot:getCenterPPos()
 
+    lp.backgrounds.setBackground(bg)
     startRunService.spawnItemAndSlots(midPPos, team, perk, wgen)
 
     -- Set camera to center
