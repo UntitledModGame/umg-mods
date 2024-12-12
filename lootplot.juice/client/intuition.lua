@@ -121,17 +121,17 @@ umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER, function(ent, x,y, rot
             local img = client.assets.images.item_repeater_visual
 
             dx, dy = AMPL * math.sin(t), AMPL * math.cos(t)
-            rendering.drawImage(img, x+dx, y+dy, rot , sx,sy, kx,ky)
+            rendering.drawImage(img, x+dx, y+dy, rot, sx,sy, kx,ky)
 
             local off = math.pi
             dx, dy = AMPL * math.sin(t + off), AMPL * math.cos(t + off)
-            rendering.drawImage(img, x+dx, y+dy, rot , sx,sy, kx,ky)
+            rendering.drawImage(img, x+dx, y+dy, rot, sx,sy, kx,ky)
         end
 
         if ent.manaCost and ent.manaCost > 0 then
             local img = client.assets.images.mana_cost_item_visual
             local dy = 2 * math.sin(love.timer.getTime() * BOB_SPEED + math.pi)
-            rendering.drawImage(img, x + 6, y - 6 + dy, 0, sx,sy)
+            rendering.drawImage(img, x + 6, y - 5 + dy, 0, sx,sy)
         end
     end
 end)
