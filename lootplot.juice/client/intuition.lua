@@ -154,8 +154,13 @@ umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER + 1, function(ent, x,y,
         rendering.drawImage(img, x,y,rot,sx,sy,kx,ky)
     end
     local moneyEarn = ent.moneyGenerated
-    if moneyEarn and moneyEarn > 0 then
-        rendering.drawImage("gold_strip_slot_visual", x,y,rot,sx,sy,kx,ky)
+    if moneyEarn and math.abs(moneyEarn) > 0.1 then
+        if not ent.buttonSlot then
+            -- KINDA HACKY:
+            -- button-slots will generally have a COST text on them;
+            -- so we explicitly skip them.
+            rendering.drawImage("gold_strip_slot_visual", x,y,rot,sx,sy,kx,ky)
+        end
     end
 end)
 
