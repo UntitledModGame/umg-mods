@@ -34,7 +34,8 @@ umg.defineEntityType("lootplot.main:world", {})
 
 
 ---@param perkItem string
-function Run:init(perkItem)
+---@param bg string
+function Run:init(perkItem, bg)
     assert(typecheck.isType(perkItem, "string"))
 
     local ent = server.entities.world()
@@ -52,7 +53,7 @@ function Run:init(perkItem)
     local constants = lp.main.constants
 
     self.perkItem = perkItem
-    self.currentBackground = nil
+    self.currentBackground = bg
 
     self.attrs = {}
     self.attrs.COMBO = 0

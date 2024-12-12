@@ -166,6 +166,8 @@ end
 ---@param rngState lootplot.LootplotSeedSerialized
 function startRunService.continueGame(serRun, rngState)
     local run = Run.deserialize(serRun)
+    lp.backgrounds.setBackground(run:getBackground())
+
     local plot = run:getPlot()
     local midPPos = plot:getCenterPPos()
 
