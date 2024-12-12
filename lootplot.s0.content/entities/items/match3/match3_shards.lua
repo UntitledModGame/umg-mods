@@ -77,10 +77,10 @@ local function give2ManaToSlot(itemEnt)
     end
 end
 defShards("mana_shards", "Mana Shards",
-    give2ManaToSlot, "Give {lootplot.mana:LIGHT_MANA_COLOR}+1 mana{/lootplot.mana:LIGHT_MANA_COLOR} to slot",
+    give2ManaToSlot, "Give {lootplot.mana:LIGHT_MANA_COLOR}+2 mana{/lootplot.mana:LIGHT_MANA_COLOR} to slot",
 {
     rarity = lp.rarities.COMMON,
-    basePrice = 2,
+    basePrice = 4,
 })
 
 
@@ -89,7 +89,7 @@ local function earn8Money(itemEnt)
     lp.addMoney(itemEnt, 8)
 end
 defShards("golden_shards", "Golden Shards",
-    earn8Money, "Earn {lootplot:MONEY_COLOR}$4{/lootplot:MONEY_COLOR}.",
+    earn8Money, "Earn {lootplot:MONEY_COLOR}$8{/lootplot:MONEY_COLOR}.",
 {
     rarity = lp.rarities.COMMON,
     basePrice = 4,
@@ -105,6 +105,39 @@ defShards("food_shards", "Food Shards",
 {
     rarity = lp.rarities.COMMON,
     basePrice = 3,
+})
+
+
+
+local function spawnKey(itemEnt)
+    local ppos = lp.getPos(itemEnt)
+    if ppos then
+        lp.forceSpawnItem(ppos, server.entities.key, itemEnt.lootplotTeam)
+    end
+end
+defShards("key_shards", "Key Shards",
+    spawnKey, "Spawns a {lootplot:INFO_COLOR}Key",
+{
+    rarity = lp.rarities.UNCOMMON,
+    basePointsGenerated = 10,
+    basePrice = 6,
+})
+
+
+
+
+local function spawnNormalSack(itemEnt)
+    local ppos = lp.getPos(itemEnt)
+    if ppos then
+        lp.forceSpawnItem(ppos, server.entities.sack_rare, itemEnt.lootplotTeam)
+    end
+end
+defShards("iron_shards", "Iron Shards",
+    spawnNormalSack, "Spawns a {lootplot:INFO_COLOR}Rare Sack!",
+{
+    rarity = lp.rarities.UNCOMMON,
+    basePointsGenerated = 15,
+    basePrice = 8,
 })
 
 
