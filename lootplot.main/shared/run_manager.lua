@@ -81,7 +81,7 @@ server.on("lootplot.main:startRun", function(clientId, runOptionsString)
             lp.main.PLAYER_TEAM,
             runOptions.starterItem,
             runOptions.worldgenItem,
-            runOptions.backgrouund or CONST.DEFAULT_BG_NAME
+            runOptions.background or CONST.DEFAULT_BG_NAME
         )
         lp.setPlayerTeam(clientId, lp.main.PLAYER_TEAM)
     end

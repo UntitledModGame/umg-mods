@@ -1,8 +1,8 @@
 
 
 
----@class lootplot.main.FunkyBackground: lootplot.backgrounds.IBackground
-local FunkyBackground = objects.Class("lootplot.main:FunkyBackground"):implement(lp.backgrounds.IBackground)
+---@class lootplot.s0.backgrounds.FunkyBackground: lootplot.backgrounds.IBackground
+local FunkyBackground = objects.Class("lootplot.s0.backgrounds:FunkyBackground"):implement(lp.backgrounds.IBackground)
 
 
 
