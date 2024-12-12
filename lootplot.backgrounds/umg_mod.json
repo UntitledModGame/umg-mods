@@ -1,8 +1,8 @@
 {
     type: "base",
     uses: [
-        "objects",
-        "lootplot",
-        "typecheck",
+        "objects", // For objects.Class
+        "lootplot", // Need base `lp` table
+        "typecheck", // For parameter validation
     ],
 }
