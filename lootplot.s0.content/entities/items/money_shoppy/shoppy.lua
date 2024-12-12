@@ -21,9 +21,9 @@ defItem("a_big_loan", {
     triggers = {"BUY"},
     activateDescription = loc("Destroys slot and earns money."),
 
-    basePrice = 100,
+    basePrice = 0,
     baseMaxActivations = 1,
-    baseMoneyGenerated = 200,
+    baseMoneyGenerated = 50,
 
     canItemFloat = true,
     rarity = lp.rarities.RARE,
@@ -44,11 +44,11 @@ defItem("a_small_loan", {
     name = loc("A Small Loan"),
 
     triggers = {"BUY"},
-    activateDescription = loc("Destroys slot and earns money."),
+    activateDescription = loc("Permanently gives shop slot {lootplot:BAD_COLOR}-$1 money-earned"),
 
     basePrice = 0,
     baseMaxActivations = 1,
-    baseMoneyGenerated = 50,
+    baseMoneyGenerated = 20,
 
     canItemFloat = true,
     rarity = lp.rarities.RARE,
@@ -57,10 +57,9 @@ defItem("a_small_loan", {
         local ppos = lp.getPos(ent)
         local slotEnt = ppos and lp.posToSlot(ppos)
         if slotEnt then
-            -- this will almost certainly be a shop-slot.
-            lp.destroy(slotEnt)
+            lp.modifierBuff(slotEnt, "moneyGenerated", -1)
         end
-    end
+    end,
 })
 
 
@@ -85,6 +84,34 @@ defItem("a_pointy_loan", {
 
     rarity = lp.rarities.RARE,
 })
+
+
+
+defItem("a_demonic_loan", {
+    name = loc("A Demonic Loan"),
+
+    triggers = {"BUY"},
+
+    activateDescription = loc("Destroys all target slots."),
+
+    canItemFloat = true,
+
+    basePrice = 0,
+    baseMaxActivations = 1,
+    baseMoneyGenerated = 100,
+
+    shape = lp.targets.KING_SHAPE,
+    target = {
+        type = "SLOT",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.destroy(targetEnt)
+        end
+    },
+
+    rarity = lp.rarities.EPIC,
+})
+
+
 
 
 
