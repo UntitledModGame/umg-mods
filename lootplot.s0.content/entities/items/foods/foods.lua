@@ -127,7 +127,7 @@ defineFood("heartfruit", {
     target = {
         type = "ITEM_OR_SLOT",
         activate = function(selfEnt, ppos, targetEnt)
-            targetEnt.lives = (targetEnt.lives or 0) + 2
+            targetEnt.lives = (targetEnt.lives or 0) + 1
         end
     },
 })
