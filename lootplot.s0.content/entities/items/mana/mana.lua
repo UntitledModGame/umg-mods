@@ -122,6 +122,22 @@ defItem("holy_necklace", "Holy necklace", {
 })
 
 
+defItem("mana_rocks", "Mana Rocks", {
+    --[[
+    (similar to `rocks` in early-game.)
+    ]]
+    rarity = lp.rarities.RARE,
+
+    basePrice = 8,
+    basePointsGenerated = 30,
+
+    manaCost = -1,
+    lives = 2,
+    triggers = {"DESTROY"},
+})
+
+
+
 defItem("unholy_necklace", "Unholy necklace", {
     rarity = lp.rarities.RARE,
 

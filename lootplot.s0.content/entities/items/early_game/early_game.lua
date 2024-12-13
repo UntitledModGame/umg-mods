@@ -15,15 +15,15 @@ end
 
 
 --[[
-This gives the user good intuition behind how the
+Rock-items give the user good intuition behind how the
 destroy-lives systems interact with each other.
 ]]
 defItem("rocks", {
+    name = loc("Rocks"),
     basePrice = 3,
-    basePointsGenerated = 10,
+    basePointsGenerated = 15,
 
     lives = 1,
-    name = loc("Rocks"),
     rarity = lp.rarities.COMMON,
     triggers = {"DESTROY"},
 })
