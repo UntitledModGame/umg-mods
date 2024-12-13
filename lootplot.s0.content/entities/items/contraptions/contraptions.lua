@@ -175,17 +175,20 @@ defContra("slot_copy_tool", {
 
     activateDescription = loc("Copies a random target slot into this item's position."),
 
+    target = {
+        -- this is just for visuals
+        type = "SLOT"
+    },
+
     onActivate = function(selfEnt)
         local targs = lp.targets.getShapePositions(selfEnt) or {}
-        for _, ppos in ipairs(targs) do
+        if #targs > 0 then
+            local ppos = table.random(targs)
+            local selfPos = lp.getPos(selfEnt)
             local slotEnt = lp.posToSlot(ppos)
-            if slotEnt then
+            if selfPos and slotEnt then
                 local clone = lp.clone(slotEnt)
-                local oldSlot = lp.posToSlot(ppos)
-                if oldSlot then
-                    lp.destroy(oldSlot)
-                end
-                lp.setSlot(ppos, clone)
+                lp.setSlot(selfPos, clone)
                 return
             end
         end
