@@ -24,7 +24,7 @@ components.defineComponent("onActivateClient")
 
 
 components.defineComponent("repeatActivations")
--- bool: 
+-- bool: whether items should use all their activations in one go.
 
 components.defineComponent("grubMoneyCap")
 -- If money > ent.grubMoneyCap, the entity won't activate!!!

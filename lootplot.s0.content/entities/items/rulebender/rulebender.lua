@@ -319,6 +319,12 @@ defItem("ping_pong_paddle", {
 
 
 
+--[[
+
+TODO: Change this!!!!
+its not emergent.
+
+]]
 defItem("feather", {
     name = loc("Feather"),
 
@@ -335,6 +341,31 @@ defItem("feather", {
         trigger = "PULSE",
         activate = function(selfEnt, ppos, targetEnt)
             lp.trySpawnSlot(ppos, server.entities.steel_slot, selfEnt.lootplotTeam)
+        end
+    }
+})
+
+
+
+defItem("ruby", {
+    name = loc("Ruby"),
+    activateDescription = loc("Gives {lootplot:REPEATER_COLOR}REPEATER{/lootplot:REPEATER_COLOR} to all target items."),
+
+    triggers = {"PULSE"},
+
+    rarity = lp.rarities.LEGENDARY,
+
+    manaCost = 1,
+
+    basePrice = 12,
+    baseMaxActivations = 5,
+
+    shape = lp.targets.UpShape(1),
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            targetEnt.repeatActivations = true
+            sync.syncComponent(targetEnt, "repeatActivations")
         end
     }
 })
