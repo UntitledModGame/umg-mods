@@ -38,9 +38,20 @@ umg.on("lootplot:selectionChanged", function(s)
 end)
 
 
+local function getXY(ppos)
+    if ppos.xyCoord then
+        return ppos.xyCoord.x, ppos.xyCoord.y
+    end
+end
 
+local function drawBorder(ppos, image, dx, dy, rot, progress)
+    local x,y = ppos:getWorldPos()
+    rendering.drawImage(image, x+dx, y+dy, math.rad(rot), progress, progress)
+end
 
-
+local border = "border_active"
+local border_corner = "border_corner"
+local border_corner_out = "border_corner_out"
 
 ---@param item Entity
 ---@param image string
@@ -58,6 +69,20 @@ local function drawTargets(item, image, imageInactive, color, canInteract)
 
     assert(selectionTargets)
     assert(selected)
+
+    -- sort targets by target[x][y]
+    local indexedTarget = {}
+    for _, ppos in ipairs(selectionTargets) do
+        local plot = ppos:getPlot()
+        local x, y = plot:indexToCoords(ppos.slot)
+        if indexedTarget[x] == nil then
+            indexedTarget[x] = {}
+        end
+        indexedTarget[x][y] = ppos
+
+        ppos.xyCoord = {x=x, y=y}
+    end
+
     for _, ppos in ipairs(selectionTargets) do
         local dist = util.chebyshevDistance(selected.ppos:getDifference(ppos))
         local elapsedTime = t - selected.time
@@ -71,13 +96,45 @@ local function drawTargets(item, image, imageInactive, color, canInteract)
         end
         
         local progress = math.min(elapsedTime-fadeTime, FADE_IN) / FADE_IN
-        local opacity = 1
-        local img = image
+        local img = border
         if not canInteract(item, ppos) then
-            opacity = 0.4
-            img = imageInactive
+            renderSelectionTarget(ppos, imageInactive, progress, color, 1)
+        else
+            renderSelectionTarget(ppos, image, progress, color, 1)
         end
-        renderSelectionTarget(ppos, img, progress, color, opacity)
+
+
+        local rotTable = {
+            {-1, 0},
+            {0, -1},
+            {1, 0},
+            {0, 1},
+        }
+
+        local x,y = getXY(ppos)
+        if ppos.xyCoord and x and y then
+            love.graphics.setColor(color)
+            for i, rotations in ipairs(rotTable) do
+                if (indexedTarget[x+rotations[1]] == nil or indexedTarget[x+rotations[1]][y+rotations[2]] == nil) then
+                    drawBorder(ppos, img, rotations[1], rotations[2], (i-1)*90, progress)
+                end
+            end
+            --draw borders
+
+            --draw corner
+            for i, rotations in ipairs(rotTable) do
+                    local secondRot = rotTable[i+1] or rotTable[1]
+                if (indexedTarget[x+rotations[1]] and indexedTarget[x+rotations[1]][y+rotations[2]]) == (indexedTarget[x+secondRot[1]] and indexedTarget[x+secondRot[1]][y+secondRot[2]])then
+                    drawBorder(ppos, border_corner, rotations[1]+secondRot[1], rotations[2]+secondRot[2], (i-1)*90, progress)
+                end
+                
+                --inward corner
+                if (indexedTarget[x+rotations[1]] and indexedTarget[x+rotations[1]][y+rotations[2]]) ~= nil and (indexedTarget[x+secondRot[1]] and indexedTarget[x+secondRot[1]][y+secondRot[2]]) ~= nil
+                and (indexedTarget[x+secondRot[1]+rotations[1]] and indexedTarget[x+secondRot[1]+rotations[1]][y+secondRot[2]+rotations[2]]) == nil then
+                    drawBorder(ppos, border_corner_out, rotations[1]+secondRot[1], rotations[2]+secondRot[2], (i-1)*90, progress)
+                end
+            end
+        end
     end
     love.graphics.setColor(1, 1, 1)
 end
@@ -92,14 +149,13 @@ umg.on("rendering:drawEffects", function(camera)
         return
     end
 
+    local color = lp.targets.TARGET_COLOR
     if item.listen then
-        local img, color = "listener_plus", lp.COLORS.LISTEN_COLOR
-        local img2 = "listener_plus_inactive"
-        drawTargets(item, img, img2, color, util.canListen)
+        color = lp.COLORS.LISTEN_COLOR
     end
 
-    if item.target then
-        local img, color = "target_plus", lp.targets.TARGET_COLOR
+    if item.target or item.listen then
+        local img = "target_plus"
         local img2 = "target_plus_inactive"
         drawTargets(item, img, img2, color, util.canTarget)
     end
@@ -119,7 +175,7 @@ umg.on("lootplot.targets:targetActivated", function (itemEnt, ppos)
     ent.targetX, ent.targetY = targX, targY
 
     ent.color = objects.Color.RED
-    ent.image = "target_plus"
+    ent.image = "target_plus_active"
 
     --[[
         TODO:
