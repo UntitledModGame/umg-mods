@@ -51,7 +51,7 @@ local LOCKED_SLOT = "lootplot.unlocks:locked_slot"
 function lp.unlocks.forceSpawnLockedSlot(ppos, transformSlotEnt, lockedItemEnt)
     spawnLockedSlotTc(ppos, transformSlotEnt, lockedItemEnt)
     local team = "" -- no team
-    return forceSpawn(LOCKED_SLOT, ppos, team, transformSlotEnt, lockedItemEnt)
+    return forceSpawn(LOCKED_SLOT, team, ppos, transformSlotEnt, lockedItemEnt)
 end
 
 ---Availability: **Server**
@@ -62,7 +62,7 @@ end
 function lp.unlocks.trySpawnLockedSlot(ppos, transformSlotEnt, lockedItemEnt)
     spawnLockedSlotTc(ppos, transformSlotEnt, lockedItemEnt)
     local team = "" -- no team
-    return trySpawn(LOCKED_SLOT, ppos, team, transformSlotEnt, lockedItemEnt)
+    return trySpawn(LOCKED_SLOT, team, ppos, transformSlotEnt, lockedItemEnt)
 end
 
 
