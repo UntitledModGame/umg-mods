@@ -157,10 +157,17 @@ defDestructive("bomb", {
 
 
 
+--[[
+
+TODO: Refactor this item!
+It's not interesting.
+
+We can do WAY better, imo.
+This item literally doesnt synergize with *anything.*
+
+]]
 defDestructive("goblet_of_blood", {
     name = loc("Goblet of Blood"),
-
-    triggers = {"PULSE"},
 
     rarity = lp.rarities.EPIC,
     doomCount = 10,
