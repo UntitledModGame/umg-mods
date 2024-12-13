@@ -46,12 +46,13 @@ end
 
 local function drawBorder(ppos, image, dx, dy, rot, progress)
     local x,y = ppos:getWorldPos()
-    rendering.drawImage(image, x+dx, y+dy, math.rad(rot), progress, progress)
+    local rot = math.rad(rot)
+    rendering.drawImage(image, x+dx, y+dy, rot, progress, progress)
 end
 
-local border = "border_active"
-local border_corner = "border_corner"
-local border_corner_out = "border_corner_out"
+local border_image = "border_active"
+local border_corner_image = "border_corner" -- corners for the insides when adjacent targerts are nil
+local border_corner_out_image = "border_corner_out" -- corners for outward when adjacent targerts exist
 
 ---@param item Entity
 ---@param image string
@@ -70,15 +71,15 @@ local function drawTargets(item, image, imageInactive, color, canInteract)
     assert(selectionTargets)
     assert(selected)
 
-    -- sort targets by target[x][y]
-    local indexedTarget = {}
+    -- sort targets with target[x][y]
+    local XYindexedTarget = {}
     for _, ppos in ipairs(selectionTargets) do
         local plot = ppos:getPlot()
         local x, y = plot:indexToCoords(ppos.slot)
-        if indexedTarget[x] == nil then
-            indexedTarget[x] = {}
+        if XYindexedTarget[x] == nil then
+            XYindexedTarget[x] = {}
         end
-        indexedTarget[x][y] = ppos
+        XYindexedTarget[x][y] = ppos
 
         ppos.xyCoord = {x=x, y=y}
     end
@@ -96,10 +97,8 @@ local function drawTargets(item, image, imageInactive, color, canInteract)
         end
         
         local progress = math.min(elapsedTime-fadeTime, FADE_IN) / FADE_IN
-        local img = border
-        if not canInteract(item, ppos) then
-            renderSelectionTarget(ppos, imageInactive, progress, color, 1)
-        else
+
+        if canInteract(item, ppos) then
             renderSelectionTarget(ppos, image, progress, color, 1)
         end
 
@@ -114,26 +113,30 @@ local function drawTargets(item, image, imageInactive, color, canInteract)
         local x,y = getXY(ppos)
         if ppos.xyCoord and x and y then
             love.graphics.setColor(color)
+            --draw borders
             for i, rotations in ipairs(rotTable) do
-                if (indexedTarget[x+rotations[1]] == nil or indexedTarget[x+rotations[1]][y+rotations[2]] == nil) then
-                    drawBorder(ppos, img, rotations[1], rotations[2], (i-1)*90, progress)
+                if (XYindexedTarget[x+rotations[1]] == nil or XYindexedTarget[x+rotations[1]][y+rotations[2]] == nil) then
+                    drawBorder(ppos, border_image, rotations[1], rotations[2], (i-1)*90, progress)
                 end
             end
-            --draw borders
 
             --draw corner
             for i, rotations in ipairs(rotTable) do
-                    local secondRot = rotTable[i+1] or rotTable[1]
-                if (indexedTarget[x+rotations[1]] and indexedTarget[x+rotations[1]][y+rotations[2]]) == (indexedTarget[x+secondRot[1]] and indexedTarget[x+secondRot[1]][y+secondRot[2]])then
-                    drawBorder(ppos, border_corner, rotations[1]+secondRot[1], rotations[2]+secondRot[2], (i-1)*90, progress)
+                -- the second target, kinda like turned 90 degree
+                local secondRot = rotTable[i+1] or rotTable[1]
+                --inward corner, checks if adjacent target doesn't exist
+                if (XYindexedTarget[x+rotations[1]] and XYindexedTarget[x+rotations[1]][y+rotations[2]]) == (XYindexedTarget[x+secondRot[1]] and XYindexedTarget[x+secondRot[1]][y+secondRot[2]])then
+                    drawBorder(ppos, border_corner_image, rotations[1]+secondRot[1], rotations[2]+secondRot[2], (i-1)*90, progress)
                 end
                 
-                --inward corner
-                if (indexedTarget[x+rotations[1]] and indexedTarget[x+rotations[1]][y+rotations[2]]) ~= nil and (indexedTarget[x+secondRot[1]] and indexedTarget[x+secondRot[1]][y+secondRot[2]]) ~= nil
-                and (indexedTarget[x+secondRot[1]+rotations[1]] and indexedTarget[x+secondRot[1]+rotations[1]][y+secondRot[2]+rotations[2]]) == nil then
-                    drawBorder(ppos, border_corner_out, rotations[1]+secondRot[1], rotations[2]+secondRot[2], (i-1)*90, progress)
+                --outward corner, checks if adjacent target exist and the combined XY doesn't
+                if (XYindexedTarget[x+rotations[1]] and XYindexedTarget[x+rotations[1]][y+rotations[2]]) ~= nil and (XYindexedTarget[x+secondRot[1]] and XYindexedTarget[x+secondRot[1]][y+secondRot[2]]) ~= nil
+                and (XYindexedTarget[x+secondRot[1]+rotations[1]] and XYindexedTarget[x+secondRot[1]+rotations[1]][y+secondRot[2]+rotations[2]]) == nil then
+                    drawBorder(ppos, border_corner_out_image, rotations[1]+secondRot[1], rotations[2]+secondRot[2], (i-1)*90, progress)
                 end
             end
+
+            ppos.xyCoord = nil
         end
     end
     love.graphics.setColor(1, 1, 1)
@@ -154,10 +157,13 @@ umg.on("rendering:drawEffects", function(camera)
         color = lp.COLORS.LISTEN_COLOR
     end
 
-    if item.target or item.listen then
-        local img = "target_plus"
-        local img2 = "target_plus_inactive"
+    local img = "target_plus"
+    local img2 = "target_plus_inactive"
+    if item.target then
         drawTargets(item, img, img2, color, util.canTarget)
+    end
+    if item.listen then
+        drawTargets(item, img, img2, color, util.canListen)
     end
 end)
 
