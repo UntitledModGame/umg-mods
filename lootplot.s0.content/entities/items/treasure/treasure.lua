@@ -187,7 +187,22 @@ defChest("chest_gold_big", "Big Golden Chest", {
 
 
 
-defChest("chest_iron_small", "Small Iron Chest", {
+defChest("chest_dark", "Dark Chest", {
+    rarity = lp.rarities.UNCOMMON,
+    basePrice = 1,
+
+    activateDescription = locRarity("Spawns a %{RARE} item, and {lootplot:DOOMED_LIGHT_COLOR}DESTROYS{/lootplot:DOOMED_LIGHT_COLOR} all target-items."),
+
+    generateTreasureItem = newLazyGen(ofRarity({r.RARE}), DEFAULT_WEIGHT),
+
+    shape = lp.targets.QueenShape(2),
+    target = {
+        type = "ITEM",
+    }
+})
+
+
+defChest("chest_rare", "Rare Chest", {
     rarity = lp.rarities.UNCOMMON,
     basePrice = 2,
 
@@ -196,7 +211,7 @@ defChest("chest_iron_small", "Small Iron Chest", {
     generateTreasureItem = newLazyGen(ofRarity({r.RARE}), DEFAULT_WEIGHT)
 })
 
-defChest("chest_iron_big", "Big Iron Chest", {
+defChest("chest_epic", "Epic Chest", {
     rarity = lp.rarities.RARE,
     activateDescription = locRarity("Spawns an item that that is %{EPIC} or above"),
 
