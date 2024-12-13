@@ -169,6 +169,8 @@ defItem("golden_heart", {
     name = loc("Golden Heart"),
     activateDescription = loc("Gives +1 lives to target item (or slot).\nSets {lootplot:MONEY_COLOR}money{/lootplot:MONEY_COLOR} to {lootplot:BAD_COLOR}$-1"),
 
+    doomCount = 6,
+
     rarity = lp.rarities.RARE,
 
     shape = lp.targets.UpShape(1),
