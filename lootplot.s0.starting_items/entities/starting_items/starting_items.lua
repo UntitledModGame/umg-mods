@@ -24,7 +24,7 @@ end
 
 local function spawnShop(ent)
     local ppos, team = getPosTeam(ent)
-    wg.spawnSlots(assert(ppos:move(-4,0)), server.entities.lockable_shop_slot, 3,1, team)
+    wg.spawnSlots(assert(ppos:move(-4,0)), server.entities.weak_shop_slot, 3,1, team)
 end
 
 local function spawnRerollButton(ent)

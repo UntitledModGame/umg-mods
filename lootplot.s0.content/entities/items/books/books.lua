@@ -58,8 +58,8 @@ defineBook("book_of_rerolling",
 )
 defineBook("book_of_shopping",
     "Book of Shopping",
-    "shop_slot",
-    "Shop Slot",
+    "weak_shop_slot",
+    "Weak Shop Slot",
     lp.rarities.EPIC
 )
 defineBook("book_of_selling",

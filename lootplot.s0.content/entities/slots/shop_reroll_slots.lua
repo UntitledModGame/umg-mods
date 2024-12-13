@@ -152,79 +152,136 @@ end
 
 
 
-local truthy = function ()return 1 end
-local generateItem = itemGenHelper.createLazyGenerator(
-    truthy,
+
+
+local function makeShopSlot(id, name, comps)
+    local full_id = "lootplot.s0.content:" .. id
+    local etype = {
+        itemLock = true,
+
+        image = id,
+
+        baseMaxActivations = 100,
+        name = loc(name),
+        triggers = {"REROLL", "PULSE"},
+        itemSpawner = generateItem,
+        itemReroller = generateItem,
+        baseCanSlotPropagate = false,
+        canActivate = function(ent)
+            -- if rerollLock=true, then we dont activate!
+            return (not ent.rerollLock) or (not lp.slotToItem(ent))
+        end,
+        canPlayerAccessItemInSlot = function(slotEnt, itemEnt)
+            return not slotEnt.itemLock
+        end,
+        onActivate = function(slotEnt)
+            setItemLock(slotEnt, true)
+        end,
+        onItemDraw = function(selfEnt, itemEnt, x,y, rot, sx,sy)
+            if selfEnt.rerollLock then
+                rendering.drawImage("slot_reroll_padlock", x,y, rot, sx,sy)
+            end
+            return drawItemPrice(selfEnt, itemEnt)
+        end,
+        actionButtons = {
+            SHOP_BUTTON,
+            LOCK_REROLL_BUTTON
+        }
+    }
+    for k,v in pairs(comps) do
+        etype[k]=v
+    end
+    lp.defineSlot(full_id, etype)
+end
+
+
+
+
+local allFilter = function () return true end
+
+
+local generateWeakItem
+
+do
+local OK_RARITIES = {lp.rarities.COMMON, lp.rarities.UNCOMMON}
+
+generateWeakItem = itemGenHelper.createLazyGenerator(
+    function(etype)
+        if itemGenHelper.hasRarity(etype, OK_RARITIES) then
+            return true
+        end
+        if etype.doomCount == 1 then
+            return true -- (Food items are OK to spawn here.)
+        end
+        return false
+    end,
     itemGenHelper.createRarityWeightAdjuster({
-        COMMON = 3,
+        COMMON = 4,
         UNCOMMON = 2,
-        RARE = 1,
-        EPIC = 0.333,
-        LEGENDARY = 0.02,
+        
+        -- NOTE: RARE/EPIC items aren't actually spawned;
+        -- UNLESS they are food-items
+        RARE = 0.6,
+        EPIC = 0.1
     })
 )
-
-
-defShopSlot("shop_slot", "Shop slot", {
-    itemLock = true,
-    activateDescription = loc("Spawns a random item."),
-
-    triggers = {"REROLL", "PULSE"},
-
-    itemSpawner = generateItem,
-    itemReroller = generateItem,
-
-    baseCanSlotPropagate = false,
+end
+makeShopSlot("weak_shop_slot", "Weak Shop Slot", {
+    activateDescription = loc("Spawns weak items"),
     baseMaxActivations = 100,
-
-    canPlayerAccessItemInSlot = function(slotEnt, itemEnt)
-        return not slotEnt.itemLock
-    end,
-    onActivate = function(slotEnt)
-        setItemLock(slotEnt, true)
-    end,
-    onItemDraw = drawItemPrice,
-    actionButtons = {
-        SHOP_BUTTON
-    }
+    itemReroller = generateWeakItem,
+    itemSpawner = generateWeakItem
 })
 
 
 
 
-lp.defineSlot("lootplot.s0.content:lockable_shop_slot", {
-    itemLock = true,
-
-    image = "shop_slot",
-    -- TODO: make a different image for this!
-
-    baseMaxActivations = 100,
-    name = loc("Lockable Shop slot"),
-    triggers = {"REROLL", "PULSE"},
-    itemSpawner = generateItem,
-    itemReroller = generateItem,
-    baseCanSlotPropagate = false,
-    canActivate = function(ent)
-        -- if rerollLock=true, then we dont activate!
-        return (not ent.rerollLock) or (not lp.slotToItem(ent))
-    end,
-    canPlayerAccessItemInSlot = function(slotEnt, itemEnt)
-        return not slotEnt.itemLock
-    end,
-    onActivate = function(slotEnt)
-        setItemLock(slotEnt, true)
-    end,
-    onItemDraw = function(selfEnt, itemEnt, x,y, rot, sx,sy)
-        if selfEnt.rerollLock then
-            rendering.drawImage("slot_reroll_padlock", x,y, rot, sx,sy)
-        end
-        return drawItemPrice(selfEnt, itemEnt)
-    end,
-    actionButtons = {
-        SHOP_BUTTON,
-        LOCK_REROLL_BUTTON
-    }
+local generateStrongItem = itemGenHelper.createLazyGenerator(
+    allFilter,
+    itemGenHelper.createRarityWeightAdjuster({
+        UNCOMMON = 2,
+        RARE = 5,
+        EPIC = 1,
+        LEGENDARY = 0.04
+    })
+)
+makeShopSlot("strong_shop_slot", "Strong Shop Slot", {
+    activateDescription = loc("Spawns strong items.\nWill delete n"),
+    baseMaxActivations = 1,
+    itemReroller = generateStrongItem,
+    itemSpawner = generateStrongItem
 })
+
+
+
+
+local function isTreasureItem(etype)
+    --[[
+    TODO: implement this!
+    We might need trait system again...?
+    ]]
+end
+
+local generateTreasureItem = itemGenHelper.createLazyGenerator(
+        -- TODO: implement
+    isTreasureItem,
+    itemGenHelper.createRarityWeightAdjuster({
+        COMMON = 2,
+        UNCOMMON = 3,
+        RARE = 2,
+        EPIC = 1,
+        LEGENDARY = 0.04
+    })
+)
+makeShopSlot("treasure_shop_slot", "Treasure Shop Slot", {
+    activateDescription = loc("Spawns treasure items"),
+    baseMaxActivations = 2,
+    itemReroller = generateTreasureItem,
+    itemSpawner = generateTreasureItem
+})
+
+
+
 
 
 
@@ -234,23 +291,10 @@ lp.defineSlot("lootplot.s0.content:reroll_slot", {
     name = loc("Reroll slot"),
     activateDescription = loc("Rerolls item."),
     triggers = {"REROLL", "PULSE"},
-    itemReroller = generateItem,
+    itemReroller = generateWeakItem,
     baseCanSlotPropagate = false,
     baseMaxActivations = 500,
-})
 
-
-
-lp.defineSlot("lootplot.s0.content:lockable_reroll_slot", {
-    image = "reroll_slot",
-    -- TODO ^^^ different image pls!
-
-    name = loc("Reroll slot"),
-    description = loc("Put an item inside to reroll it!"),
-    triggers = {"REROLL", "PULSE"},
-    itemReroller = generateItem,
-    baseCanSlotPropagate = false,
-    baseMaxActivations = 500,
     canActivate = function(ent)
         return not ent.rerollLock
     end,
@@ -261,10 +305,10 @@ lp.defineSlot("lootplot.s0.content:lockable_reroll_slot", {
 
 
 
-lp.defineSlot("lootplot.s0.content:treasure_slot", {
+lp.defineSlot("lootplot.s0.content:offer_slot", {
     itemLock = true,
     image = "slot",
-    color = {objects.Color.RED:getRGBA()},
+    color = objects.Color.RED,
 
     name = loc("Treasure slot"),
 
@@ -420,7 +464,7 @@ local pickButton = {
         This is bad and broken. Fix me plz.
         ]])
 
-        shopButton.action(ent, clientId)
+        SHOP_BUTTON.action(ent, clientId)
 
         if not server then
             return

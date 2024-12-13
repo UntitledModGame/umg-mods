@@ -1,6 +1,6 @@
 local loc = localization.localize
 
-local TREASURE_SLOT_BUFF = {
+local OFFER_SLOT_BUFF = {
     -- GRUB-10
     {
         chance = 0.1,
@@ -139,12 +139,12 @@ local SPAWNER = {
         weight = 2,
         ---@param team string
         handler = function(team)
-            local slotEnt = server.entities["lootplot.s0.content:treasure_slot"]()
+            local slotEnt = server.entities["lootplot.s0.content:offer_slot"]()
             setSlotDefaults(slotEnt, team)
 
             local itemEnt = constructRareOrHigherItem(team)
             -- Grant random buff
-            for _, tbuff in ipairs(TREASURE_SLOT_BUFF) do
+            for _, tbuff in ipairs(OFFER_SLOT_BUFF) do
                 if lp.SEED.worldGenRNG:random() <= tbuff.chance then
                     tbuff.handler(itemEnt)
                 end
