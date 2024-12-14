@@ -100,6 +100,8 @@ local function drawTargets(item, image, imageInactive, color, canInteract)
 
         if canInteract(item, ppos) then
             renderSelectionTarget(ppos, image, progress, color, 1)
+        else
+            renderSelectionTarget(ppos, imageInactive, progress, color, 1)
         end
 
 
