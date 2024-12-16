@@ -38,10 +38,10 @@ umg.on("lootplot:selectionChanged", function(s)
 end)
 
 
-local function drawBorder(ppos, image, dx, dy, rot, progress)
+local function drawAtPPos(ppos, image, dx, dy, rot, progress)
     local x,y = ppos:getWorldPos()
     local r = math.rad(rot)
-    rendering.drawImage(image, x+dx, y+dy, r, progress, progress)
+    rendering.drawImage(image, math.floor(x+dx), math.floor(y+dy), r, progress, progress)
 end
 
 local border_image = "border_active"
@@ -68,9 +68,16 @@ local function drawTargets(item, image, imageInactive, color, canInteract)
     local targHash = {--[[
         [slotIndex] = ppos
     ]]}
+    local function coordsToInt(x,y)
+        return (1000+x)*2 * (1000+y)*3
+    end
     for _, ppos in ipairs(selectionTargets) do
         ---@cast ppos lootplot.PPos
-        targHash[ppos] = ppos
+        local x,y = ppos:getCoords()
+        targHash[coordsToInt(x,y)] = true
+    end
+    local function isFilled(x,y)
+        return targHash[coordsToInt(x,y)]
     end
 
     for _, ppos in ipairs(selectionTargets) do
@@ -93,43 +100,41 @@ local function drawTargets(item, image, imageInactive, color, canInteract)
             renderSelectionTarget(ppos, imageInactive, progress, color, 1)
         end
 
-        local neighbors = {
-            {-1, 0},
-            {0, -1},
-            {1, 0},
-            {0, 1},
+        local sides = {
+            {-1, 0}, {0, -1},
+            {1, 0}, {0, 1}
         }
 
         ---@cast ppos lootplot.PPos
         local x,y = ppos:getCoords()
         love.graphics.setColor(color)
         --draw borders
-        for i, delt in ipairs(neighbors) do
-            local dx,dy = delt[1], delt[2]
-            local newPos = ppos:move(dx,dy)
-            if newPos and targHash[newPos:getSlotIndex()] then
-                drawBorder(ppos, border_image, dx, dy, (i-1)*90, progress)
+        for i, side in pairs(sides) do
+            local dx,dy = side[1], side[2]
+            if not isFilled(x+dx, y+dy) then
+                drawAtPPos(ppos, border_image, dx, dy, (i-1)*90, progress)
             end
         end
 
         --draw corner
-        for i, rotation in ipairs(neighbors) do
-            -- dx,dy of the first rotation.
-            local dx,dy = rotation[1], rotation[2]
+        for i, side in ipairs(sides) do
+            local dx,dy = side[1],side[2]
 
-            -- dx,dy of the next rotation (turned 90 degree)
-            local rotation90 = neighbors[i+1] or neighbors[1]
-            local dx2, dy2 = rotation90[1], rotation90[2]
+            local side2 = sides[i+1] or sides[1]
+            local dx2,dy2 = side2[1], side2[2]
 
-            --inward corner, checks if adjacent target doesn't exist
-            if (targHash[x+dx] and targHash[x+dx][y+dy]) == (targHash[x+dx2] and targHash[x+dx2][y+dy2])then
-                drawBorder(ppos, border_corner_image, dx+dx2, dy+dy2, (i-1)*90, progress)
+            local isSideFilled = isFilled(x+dx, y+dy)
+            local isNextSideFilled = isFilled(x+dx2, y+dy2)
+            local isCornerFilled = isFilled(x+dx+dx2, y+dy+dy2)
+
+            -- try draw inner corner:
+            if (not isSideFilled) and (not isNextSideFilled) then
+                drawAtPPos(ppos, border_corner_image, dx+dx2, dy+dy2, (i-1)*90, progress)
             end
 
-            --outward corner, checks if adjacent target exist and the combined XY doesn't
-            if (targHash[x+dx] and targHash[x+dx][y+dy]) ~= nil and (targHash[x+dx2] and targHash[x+dx2][y+dy2]) ~= nil
-            and (targHash[x+dx2+dx] and targHash[x+dx2+dx][y+dy2+dy]) == nil then
-                drawBorder(ppos, border_corner_out_image, dx+dx2, dy+dy2, (i-1)*90, progress)
+            -- try draw outward corner:
+            if (isSideFilled) and (isNextSideFilled) and (not isCornerFilled) then
+                drawAtPPos(ppos, border_corner_out_image, dx+dx2, dy+dy2, (i-1)*90, progress)
             end
         end
     end
