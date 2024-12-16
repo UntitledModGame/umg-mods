@@ -1,7 +1,5 @@
-local Background = require("client.Background")
-
----@class lootplot.main.CloudBackground: lootplot.main.Background
-local CloudBackground = objects.Class("lootplot.main:CloudBackground"):implement(Background)
+---@class lootplot.main.CloudBackground: lootplot.backgrounds.IBackground
+local CloudBackground = objects.Class("lootplot.main:CloudBackground"):implement(lp.backgrounds.IBackground)
 
 function CloudBackground:init()
     ---@type love.Texture[][]
