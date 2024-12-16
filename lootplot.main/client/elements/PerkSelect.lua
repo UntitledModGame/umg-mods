@@ -57,13 +57,19 @@ function PerkSelect:init()
         end
     end
     self.starterItems:sortInPlace(function(a, b)
-        local an = umg.splitNamespacedString(a.etype:getTypename())
-        local bn = umg.splitNamespacedString(b.etype:getTypename())
+        local am, an = umg.splitNamespacedString(a.etype:getTypename())
+        local bm, bn = umg.splitNamespacedString(b.etype:getTypename())
         local aa = a.isUnlocked and 0 or 1
         local bb = b.isUnlocked and 0 or 1
 
         if aa == bb then
-            return (MODNAME_ORDER[an] or 0) < (MODNAME_ORDER[bn] or 0)
+            local ao = MODNAME_ORDER[am] or 0
+            local bo = MODNAME_ORDER[bm] or 0
+            if ao == bo then
+                return an < bn
+            end
+
+            return ao < bo
         end
 
         return aa < bb

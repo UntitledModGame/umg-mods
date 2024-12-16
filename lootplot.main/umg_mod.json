@@ -12,6 +12,7 @@
         "lootplot.slots",
         "lootplot.sound",
         "lootplot.worldgen",
-        "lootplot.metaprogression"
+        "lootplot.metaprogression",
+        "lootplot.backgrounds"
     ]
 }

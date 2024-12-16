@@ -34,7 +34,8 @@ umg.defineEntityType("lootplot.main:world", {})
 
 
 ---@param perkItem string
-function Run:init(perkItem)
+---@param bg string
+function Run:init(perkItem, bg)
     assert(typecheck.isType(perkItem, "string"))
 
     local ent = server.entities.world()
@@ -52,6 +53,7 @@ function Run:init(perkItem)
     local constants = lp.main.constants
 
     self.perkItem = perkItem
+    self.currentBackground = bg
 
     self.attrs = {}
     self.attrs.COMBO = 0
@@ -218,6 +220,18 @@ function Run:isLose()
     return self.attrs.ROUND > self.attrs.NUMBER_OF_ROUNDS and self.attrs.POINTS < self.attrs.REQUIRED_POINTS
 end
 
+
+
+function Run:getBackground()
+    return self.currentBackground
+end
+
+umg.on("lootplot.backgrounds:backgroundChanged", function(bg)
+    local run = lp.main.getRun()
+    if run then
+        run.currentBackground = bg
+    end
+end)
 
 return Run
 
