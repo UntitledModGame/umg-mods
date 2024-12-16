@@ -38,16 +38,10 @@ umg.on("lootplot:selectionChanged", function(s)
 end)
 
 
-local function getXY(ppos)
-    if ppos.xyCoord then
-        return ppos.xyCoord.x, ppos.xyCoord.y
-    end
-end
-
 local function drawBorder(ppos, image, dx, dy, rot, progress)
     local x,y = ppos:getWorldPos()
-    local rot = math.rad(rot)
-    rendering.drawImage(image, x+dx, y+dy, rot, progress, progress)
+    local r = math.rad(rot)
+    rendering.drawImage(image, x+dx, y+dy, r, progress, progress)
 end
 
 local border_image = "border_active"
@@ -71,17 +65,12 @@ local function drawTargets(item, image, imageInactive, color, canInteract)
     assert(selectionTargets)
     assert(selected)
 
-    -- sort targets with target[x][y]
-    local XYindexedTarget = {}
+    local targHash = {--[[
+        [slotIndex] = ppos
+    ]]}
     for _, ppos in ipairs(selectionTargets) do
-        local plot = ppos:getPlot()
-        local x, y = plot:indexToCoords(ppos.slot)
-        if XYindexedTarget[x] == nil then
-            XYindexedTarget[x] = {}
-        end
-        XYindexedTarget[x][y] = ppos
-
-        ppos.xyCoord = {x=x, y=y}
+        ---@cast ppos lootplot.PPos
+        targHash[ppos] = ppos
     end
 
     for _, ppos in ipairs(selectionTargets) do
@@ -104,41 +93,44 @@ local function drawTargets(item, image, imageInactive, color, canInteract)
             renderSelectionTarget(ppos, imageInactive, progress, color, 1)
         end
 
-
-        local rotTable = {
+        local neighbors = {
             {-1, 0},
             {0, -1},
             {1, 0},
             {0, 1},
         }
 
-        local x,y = getXY(ppos)
-        if ppos.xyCoord and x and y then
-            love.graphics.setColor(color)
-            --draw borders
-            for i, rotations in ipairs(rotTable) do
-                if (XYindexedTarget[x+rotations[1]] == nil or XYindexedTarget[x+rotations[1]][y+rotations[2]] == nil) then
-                    drawBorder(ppos, border_image, rotations[1], rotations[2], (i-1)*90, progress)
-                end
+        ---@cast ppos lootplot.PPos
+        local x,y = ppos:getCoords()
+        love.graphics.setColor(color)
+        --draw borders
+        for i, delt in ipairs(neighbors) do
+            local dx,dy = delt[1], delt[2]
+            local newPos = ppos:move(dx,dy)
+            if newPos and targHash[newPos:getSlotIndex()] then
+                drawBorder(ppos, border_image, dx, dy, (i-1)*90, progress)
+            end
+        end
+
+        --draw corner
+        for i, rotation in ipairs(neighbors) do
+            -- dx,dy of the first rotation.
+            local dx,dy = rotation[1], rotation[2]
+
+            -- dx,dy of the next rotation (turned 90 degree)
+            local rotation90 = neighbors[i+1] or neighbors[1]
+            local dx2, dy2 = rotation90[1], rotation90[2]
+
+            --inward corner, checks if adjacent target doesn't exist
+            if (targHash[x+dx] and targHash[x+dx][y+dy]) == (targHash[x+dx2] and targHash[x+dx2][y+dy2])then
+                drawBorder(ppos, border_corner_image, dx+dx2, dy+dy2, (i-1)*90, progress)
             end
 
-            --draw corner
-            for i, rotations in ipairs(rotTable) do
-                -- the second target, kinda like turned 90 degree
-                local secondRot = rotTable[i+1] or rotTable[1]
-                --inward corner, checks if adjacent target doesn't exist
-                if (XYindexedTarget[x+rotations[1]] and XYindexedTarget[x+rotations[1]][y+rotations[2]]) == (XYindexedTarget[x+secondRot[1]] and XYindexedTarget[x+secondRot[1]][y+secondRot[2]])then
-                    drawBorder(ppos, border_corner_image, rotations[1]+secondRot[1], rotations[2]+secondRot[2], (i-1)*90, progress)
-                end
-                
-                --outward corner, checks if adjacent target exist and the combined XY doesn't
-                if (XYindexedTarget[x+rotations[1]] and XYindexedTarget[x+rotations[1]][y+rotations[2]]) ~= nil and (XYindexedTarget[x+secondRot[1]] and XYindexedTarget[x+secondRot[1]][y+secondRot[2]]) ~= nil
-                and (XYindexedTarget[x+secondRot[1]+rotations[1]] and XYindexedTarget[x+secondRot[1]+rotations[1]][y+secondRot[2]+rotations[2]]) == nil then
-                    drawBorder(ppos, border_corner_out_image, rotations[1]+secondRot[1], rotations[2]+secondRot[2], (i-1)*90, progress)
-                end
+            --outward corner, checks if adjacent target exist and the combined XY doesn't
+            if (targHash[x+dx] and targHash[x+dx][y+dy]) ~= nil and (targHash[x+dx2] and targHash[x+dx2][y+dy2]) ~= nil
+            and (targHash[x+dx2+dx] and targHash[x+dx2+dx][y+dy2+dy]) == nil then
+                drawBorder(ppos, border_corner_out_image, dx+dx2, dy+dy2, (i-1)*90, progress)
             end
-
-            ppos.xyCoord = nil
         end
     end
     love.graphics.setColor(1, 1, 1)
