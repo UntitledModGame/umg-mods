@@ -1,4 +1,3 @@
-local defBG = require("shared.itemdef")
 local loc = localization.localize
 
 local constructor = nil
@@ -13,7 +12,7 @@ end
 
 end
 
-defBG("lootplot.s0.backgrounds:star_background", {
+lp.backgrounds.registerBackground("lootplot.s0.backgrounds:star_background", {
     name = loc("Star Background"),
     description = loc("Just stars"),
     constructor = constructor
