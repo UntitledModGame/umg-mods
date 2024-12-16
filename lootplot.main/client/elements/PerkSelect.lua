@@ -63,10 +63,16 @@ function PerkSelect:init()
         local bb = b.isUnlocked and 0 or 1
 
         if aa == bb then
-            return (MODNAME_ORDER[am] or 0) < (MODNAME_ORDER[bm] or 0)
+            local ao = MODNAME_ORDER[am] or 0
+            local bo = MODNAME_ORDER[bm] or 0
+            if ao == bo then
+                return an < bn
+            end
+
+            return ao < bo
         end
 
-        return aa < bb and am < bm
+        return aa < bb
     end)
     for _, elem in ipairs(self.starterItems) do
         self:addChild(elem)
