@@ -60,11 +60,18 @@ umg.on("lootplot:moneyChanged", function(ent, delta)
 end)
 
 umg.on("lootplot:pointsChanged", function(ent, delta)
+    local multxt = ""
+    local pmul = lp.getAttribute("POINTS_MUL", ent)
+    if pmul > 1 then
+        multxt = " x"..pmul
+    end
+
+    delta = delta / pmul -- get the original point value
     if delta > 0.5 then
-        local txt = "+" .. tostring(math.floor(delta+0.5))
+        local txt = "+" .. tostring(math.floor(delta+0.5)) .. multxt
         makePopup(ent, txt, objects.Color.BLUE)
     elseif delta < -0.5 then
-        local txt = "-" .. tostring(math.floor(-delta+0.5))
+        local txt = "-" .. tostring(math.floor(-delta+0.5)) .. multxt
         makePopup(ent, txt, objects.Color.DARK_RED)
     end
 end)
