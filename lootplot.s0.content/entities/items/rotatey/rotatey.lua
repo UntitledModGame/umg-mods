@@ -143,6 +143,7 @@ defRecord("record_blue", "Blue Record", {
 --[[
 TODO: Is this way too OP?
 Probably...
+-- no it is not Oli
 ]]
 defRecord("record_red", "Red Record", {
     activateDescription = loc("Buff all {lootplot.targets:COLOR}target items{lootplot.targets:COLOR}, +1 activation\n(Maximum of 20 activations)"),
@@ -151,8 +152,8 @@ defRecord("record_red", "Red Record", {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
             local maxAct = targetEnt.maxActivations or 0
-            if maxAct < 30 then
-                lp.addMultiplierBuff(targetEnt, "pointsGenerated", 1, selfEnt)
+            if maxAct < 20 then
+                lp.modifierBuff(targetEnt, "maxActivations", 1, selfEnt)
             end
         end
     }
