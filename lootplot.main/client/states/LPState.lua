@@ -26,6 +26,12 @@ umg.on("lootplot:selectionChanged", function(selection)
     end
 end)
 
+umg.on("lootplot:pointsChanged", function(_, delta)
+    if lpState then
+        lpState:pointsChanged(delta)
+    end
+end)
+
 
 function LPState:init()
     ---@type lootplot.main.Scene
@@ -163,10 +169,10 @@ function LPState:onRemoved()
 end
 
 -- Total: 4 seconds
-local ACCUMULATED_POINT_FADE_IN = 0.5
-local ACCUMULATED_POINT_FADE_OUT = 1
-local ACCUMULATED_POINT_IDLE = 2.5
-local ACCUMULATED_POINT_TOTAL_TIME = ACCUMULATED_POINT_FADE_IN + ACCUMULATED_POINT_FADE_OUT + ACCUMULATED_POINT_IDLE
+local ACCUMULATED_POINT_FADE_IN = 0.3
+local ACCUMULATED_POINT_FADE_OUT = 0.4
+local ACCUMULATED_POINT_TOTAL_TIME = 2
+assert((ACCUMULATED_POINT_FADE_IN + ACCUMULATED_POINT_FADE_OUT) <= ACCUMULATED_POINT_TOTAL_TIME)
 
 function LPState:pointsChanged(points)
     self.accumulatedPoints.accumulated = self.accumulatedPoints.accumulated + points
@@ -207,7 +213,7 @@ function LPState:update(dt)
 
     if self.accumulatedPoints.timeout > 0 then
         self.accumulatedPoints.timeout = self.accumulatedPoints.timeout - dt
-        if dt <= 0 then
+        if self.accumulatedPoints.timeout <= 0 then
             self.accumulatedPoints.accumulated = 0 -- reset
         end
     end
@@ -230,6 +236,16 @@ local MONEY = interp("{wavy freq=0.6 spacing=0.8 amp=0.4}{outline thickness=2}{c
 local function printRichTextByConstraint(constraint, txt, font, align, s)
     local x, y, w = constraint:get()
     return text.printRich(txt, font, x, y, w / s, align, 0, s, s)
+end
+
+---@param x number
+local function easeOutQuad(x)
+    return 1 - (1 - x) * (1 - x);
+end
+
+---@param x number
+local function easeOutCubic(x)
+    return 1 - x ^ 3
 end
 
 function LPState:drawHUD()
@@ -296,6 +312,36 @@ function LPState:drawHUD()
     printRichTextByConstraint(self.layout.bottomLeft, pointsText, font, "left", gs)
     printRichTextByConstraint(self.layout.topRight, LEVEL_NUM({level = run:getAttribute("LEVEL")}), font, "right", gs)
     printRichTextByConstraint(self.layout.bottomRight, MONEY({money = run:getAttribute("MONEY")}), font, "right", gs)
+
+    if self.accumulatedPoints.timeout > 0 then
+        local x, y, w = self.layout.bottomLeft:get()
+        local acX = x + (font:getWidth(text.stripEffects(pointsText)) + 8) * gs
+        local opacity = 1
+        local t = ACCUMULATED_POINT_TOTAL_TIME - self.accumulatedPoints.timeout
+
+        if t <= ACCUMULATED_POINT_FADE_IN then
+            local p = easeOutQuad(t / ACCUMULATED_POINT_FADE_IN)
+            acX = acX - 10 * (1 - p)
+            opacity = p
+        elseif self.accumulatedPoints.timeout <= ACCUMULATED_POINT_FADE_OUT then
+            local p = easeOutCubic(math.max(self.accumulatedPoints.timeout / ACCUMULATED_POINT_FADE_OUT, 0))
+            acX = acX + 10 * p
+            opacity = 1 - p
+        end
+
+        local accStr, col
+        if self.accumulatedPoints.accumulated < 0 then
+            accStr = tostring(self.accumulatedPoints.accumulated)
+            col = lp.COLORS.BAD_COLOR
+        else
+            accStr = "+"..math.abs(self.accumulatedPoints.accumulated)
+            col = lp.COLORS.POINTS_COLOR
+        end
+
+        local richText = string.format("{wavy}{outline thickness=%.2f}%s", opacity * 2, accStr)
+        love.graphics.setColor(col[1], col[2], col[3], opacity)
+        text.printRich(richText, font, acX, y, w, "left", 0, gs, gs)
+    end
 end
 
 function LPState:draw()
