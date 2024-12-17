@@ -54,7 +54,7 @@ lp.defineItem("lootplot.main:doom_egg", {
         dclock.x, dclock.y, dclock.dimension = wppos:getWorldPos()
 
         -- Clear fog around doom clock
-        clearFogInCircle(ppos, team, 5)
+        clearFogInCircle(ppos, team, 1)
 
         -- Meta-buttons
         lp.forceSpawnSlot(

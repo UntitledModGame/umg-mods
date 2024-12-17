@@ -13,6 +13,10 @@ components.defineComponent("buttonSlot")
 
 
 
+components.defineComponent("lootplotTags")
+-- a table of string-names; denoting what "traits" this etype has.
+-- (Can only be a shcomp. Useful for proc-gen.)
+
 
 
 components.defineComponent("onReroll")

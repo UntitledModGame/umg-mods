@@ -86,58 +86,6 @@ end
 
 
 
----@param value number
----@param nsig integer
----@return string
-local function showNSignificant(value, nsig)
-	local zeros = math.floor(math.log10(math.max(math.abs(value), 1)))
-	local mulby = 10 ^ math.max(nsig - zeros, 0)
-	return tostring(math.floor(value * mulby) / mulby)
-end
-
-
-local POINTS = interp("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}Points: %{colorEffect}%{points}/%{requiredPoints}")
-local function drawPoints(ent, x,y, rot, sx,sy)
-    local points = assert(lp.getPoints(ent), "no points")
-    local requiredPoints = lp.main.getRequiredPoints(ent)
-    local colorEffect
-    if points >= requiredPoints then
-        colorEffect = "{c r=0.1 g=1 b=0.2}"
-    elseif points < 0 then
-        colorEffect = "{c r=1 g=0.2 b=0.1}"
-    else
-        colorEffect = "{c r=1 g=1 b=1}"
-    end
-
-    local needPoints = POINTS({
-        points = showNSignificant(points, 3),
-        requiredPoints = requiredPoints,
-        colorEffect = colorEffect
-    })
-
-    local font = love.graphics.getFont()
-    local limit = 0xffff
-    text.printRichCentered(needPoints, font, x, y - 40, limit, "left", rot, sx,sy)
-end
-
-
-local GAME_OVER = interp("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}{c r=0.7 g=0.1 b=0}GAME OVER! (%{points}/%{requiredPoints})")
-local function drawGameOver(ent, x,y,rot,sx,sy)
-    local font = love.graphics.getFont()
-    local limit = 0xffff
-    local points = assert(lp.getPoints(ent), "no points")
-    local requiredPoints = lp.main.getRequiredPoints(ent)
-    local gameOver = GAME_OVER({
-        points = showNSignificant(points, 3),
-        requiredPoints = requiredPoints,
-    })
-    text.printRichCentered(gameOver, font, x, y - 40, limit, "left", rot, sx,sy)
-end
-
-
-
-local MONEY = interp("{wavy freq=0.6 spacing=0.8 amp=0.4}{outline}{c r=1 g=0.843 b=0.1}$ %{money}")
-
 umg.defineEntityType("lootplot.main:doom_clock", {
     image = "doom_clock",
 
@@ -157,31 +105,6 @@ umg.defineEntityType("lootplot.main:doom_clock", {
     end,
 
     onUpdateClient = moveClockToClearPosition,
-
-    onDraw = function(ent, x,y, rot, sx,sy)
-        --[[
-        generally, we shouldnt use `onDraw` for entities;
-        But this is a very special case :)
-        ]]
-        local scale = 1.5
-        local font = love.graphics.getFont()
-        local limit = 0xffff
-    
-        local money = MONEY({
-            money = math.floor(assert(lp.getMoney(ent)))
-        })
-        text.printRichCentered(money, font, x, y - 24, limit, "left", rot, sx*scale,sy*scale)
-
-        local points = lp.getPoints(ent)
-        local requiredPoints = lp.main.getRequiredPoints(ent)
-        local round = lp.main.getRound(ent)
-        local numRounds = lp.main.getNumberOfRounds(ent)
-        if (numRounds < round) and (points < requiredPoints) then
-            drawGameOver(ent, x,y, rot, sx*scale, sy*scale)
-        else
-            drawPoints(ent, x,y, rot, sx*scale, sy*scale)
-        end
-    end,
 
     onActivate = function(ent)
         local round = lp.main.getRound(ent)

@@ -2,6 +2,8 @@
 local loc = localization.localize
 local interp = localization.newInterpolator
 
+local constants = require("shared.constants")
+
 local itemGenHelper = require("shared.item_gen_helper")
 
 
@@ -260,6 +262,7 @@ local function isTreasureItem(etype)
     TODO: implement this!
     We might need trait system again...?
     ]]
+    return lp.hasTag(etype, constants.tags.TREASURE)
 end
 
 local generateTreasureItem = itemGenHelper.createLazyGenerator(
@@ -275,7 +278,7 @@ local generateTreasureItem = itemGenHelper.createLazyGenerator(
 )
 makeShopSlot("treasure_shop_slot", "Treasure Shop Slot", {
     activateDescription = loc("Spawns treasure items"),
-    baseMaxActivations = 2,
+    baseMaxActivations = 10,
     itemReroller = generateTreasureItem,
     itemSpawner = generateTreasureItem
 })
