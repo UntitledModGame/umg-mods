@@ -96,15 +96,50 @@ lp.defineSlot("lootplot.main:pulse_button_slot", {
 })
 
 
+local function hasLevelUpTrigger(ent)
+    for _,t in ipairs(ent.triggers)do
+        if t == "LEVEL_UP" then
+            return true
+        end
+    end
+    return false
+end
+
+---@param ppos lootplot.PPos
+local function shouldTrigger(ppos)
+    local slot = lp.posToSlot(ppos)
+    if slot and hasLevelUpTrigger(slot) then
+        return true
+    end
+    local item = lp.posToItem(ppos)
+    if item and hasLevelUpTrigger(item) then
+        return true
+    end
+    return false
+end
 
 local function nextLevel(ent)
+    local ppos = lp.getPos(ent)
+    if not ppos then return end
+
     lp.setPoints(ent, 0)
     lp.main.setRound(ent, 1)
     lp.setLevel(ent, lp.getLevel(ent) + 1)
+
+    local plot = ppos:getPlot()
+    lp.Bufferer()
+        :all(plot)
+        :filter(shouldTrigger)
+        :withDelay(0.05)
+        :to("SLOT_OR_ITEM")
+        :execute(function(ppos, ent)
+            lp.resetCombo(ent)
+            lp.tryTriggerEntity("LEVEL_UP", ent)
+        end)
 end
 
 
-local NEXT_LEVEL = loc("Click to progress to the next level!")
+local NEXT_LEVEL = interp("Click to progress to the next level! Triggers {lootplot:TRIGGER_COLOR}%{name}{/lootplot:TRIGGER_COLOR} on all items and slots!")
 local NEED_POINTS = interp("{c r=1 g=0.6 b=0.5}Need %{pointsLeft} more points!")
 
 lp.defineSlot("lootplot.main:next_level_button_slot", {
@@ -116,8 +151,8 @@ lp.defineSlot("lootplot.main:next_level_button_slot", {
             local points = lp.getPoints(ent)
             local requiredPoints = lp.main.getRequiredPoints(ent)
             local pointsLeft = requiredPoints - points
-            if pointsLeft < 0 then
-                return NEXT_LEVEL
+            if pointsLeft <= 0 then
+                return NEXT_LEVEL({name = lp.getTriggerDisplayName("LEVEL_UP")})
             else
                 return NEED_POINTS({
                     pointsLeft = pointsLeft
