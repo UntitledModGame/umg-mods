@@ -1,12 +1,15 @@
 
 
 local loc = localization.localize
+local constants = require("shared.constants")
 
 
 local function defineFood(id, etype)
     etype.doomCount = etype.doomCount or 1
     etype.image = etype.image or id
     etype.baseMaxActivations = 1
+
+    etype.lootplotTags = {constants.tags.FOOD}
     if not etype.listen then
         etype.triggers = etype.triggers or {"PULSE"}
     end

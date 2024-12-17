@@ -5,6 +5,8 @@ local interp = localization.newInterpolator
 local itemGenHelper = require("shared.item_gen_helper")
 local newLazyGen = itemGenHelper.createLazyGenerator
 
+local constants = require("shared.constants")
+
 
 local r = lp.rarities
 
@@ -34,8 +36,11 @@ Spawns arbitrary item
 local dummy = function() end
 
 
+
 local function defineTreasure(id, name, etype)
     etype = etype or {}
+
+    etype.lootplotTags = {constants.tags.TREASURE}
 
     etype.name = loc(name)
 
@@ -392,7 +397,7 @@ local ABSTRACT_SACK_DESC = interp("Spawns an item of the same rarity as this sac
 
 ---@type generation.Generator
 local tatteredGen
-defChest("sack_tattered", "Tattered Sack", {
+defSack("sack_tattered", "Tattered Sack", {
     rarity = lp.rarities.UNCOMMON,
     activateDescription = function(ent)
         local r1 = ent.rarity

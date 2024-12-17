@@ -945,6 +945,53 @@ function lp.forceSpawnSlot(ppos, slotEType, team)
 end
 
 
+
+
+local validTags = {}
+
+typecheck.addType("lootplot:tag", function (x)
+    return validTags[x], "Expected lootplot tag"
+end)
+
+---Availability: Client and Server
+---@param ent_or_etype table
+---@return table
+function lp.getTags(ent_or_etype)
+    return ent_or_etype.lootplotTags or {}
+end
+
+local ttc = typecheck.assert("table", "lootplot:tag")
+---Availability: Client and Server
+---@param ent_or_etype table
+---@param tag string
+---@return boolean
+function lp.hasTag(ent_or_etype, tag)
+    ttc(ent_or_etype, tag)
+    local tags = lp.getTags(ent_or_etype)
+    if not tags then return false end
+    -- linear search is fine; we dont expect too many tags per etype.
+    for _, t in ipairs(tags) do
+        if t == tag then
+            return true
+        end
+    end
+    return false
+end
+
+---Availability: Client and Server
+---@param tagName string
+function lp.defineTag(tagName)
+    validTags[tagName] = true
+end
+
+---Availability: Client and Server
+---@param tagName string
+function lp.isValidTag(tagName)
+    return validTags[tagName]
+end
+
+
+
 local DEFAULT_PROPS = {
     "pointsGenerated", 
     "moneyGenerated", 
