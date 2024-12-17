@@ -228,6 +228,15 @@ local GAME_OVER = interp("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline thickness=
 local LEVEL_NUM = interp("{wavy amp=0.5 k=0.5}{outline thickness=2}Level %{level}")
 local MONEY = interp("{wavy freq=0.6 spacing=0.8 amp=0.4}{outline thickness=2}{c r=1 g=0.843 b=0.1}$ %{money}")
 
+---@param value number
+---@param nsig integer
+---@return string
+local function showNSignificant(value, nsig)
+	local zeros = math.floor(math.log10(math.max(math.abs(value), 1)))
+	local mulby = 10 ^ math.max(nsig - zeros, 0)
+	return tostring(math.floor(value * mulby) / mulby)
+end
+
 ---@param constraint {get:fun(self:any):(number,number,number,number)}
 ---@param txt string
 ---@param font love.Font
@@ -275,13 +284,13 @@ function LPState:drawHUD()
     local pointsText
     if (numberOfRounds < round) and (points < requiredPoints) then
         pointsText = GAME_OVER({
-            points = points,
+            points = showNSignificant(points, 3),
             requiredPoints = requiredPoints
         })
     elseif pointMul ~= 1 then
         pointsText = POINTS_WITH_MUL({
             colorEffect = colorEffect,
-            points = points,
+            points = showNSignificant(points, 3),
             requiredPoints = requiredPoints,
             mulColorEffect = string.format(
                 "{c r=%.2f g=%.2f b=%.2f}",
@@ -292,7 +301,7 @@ function LPState:drawHUD()
     else
         pointsText = POINTS_NORMAL({
             colorEffect = colorEffect,
-            points = points,
+            points = showNSignificant(points, 3),
             requiredPoints = requiredPoints,
         })
     end
