@@ -1,4 +1,6 @@
 local Scene = require("client.scenes.LPScene")
+local globalScale = require("client.globalScale")
+local fonts = require("client.fonts")
 
 ---@class lootplot.main.State: objects.Class, state.IState
 local LPState = objects.Class("lootplot.main:State")
@@ -67,6 +69,11 @@ function LPState:init()
         end
     end)
 
+    self.accumulatedPoints = {
+        accumulated = 0,
+        timeout = 0 -- if 0 = disappear and set accumulated to 0
+    }
+
     -- self.listener:onReleased("input:CLICK_PRIMARY", function()
     --     if not self.claimedByControl then
     --         local run = lp.main.getRun()
@@ -124,6 +131,15 @@ function LPState:init()
             end
         end
     end)
+
+    -- NLay layouts
+    self.layout = {}
+    self.layout.root = layout.NLay.constraint(layout.NLay, layout.NLay, layout.NLay, layout.NLay, layout.NLay)
+        :size(0, 0)
+    self.layout.top = layout.NLay.constraint(self.layout.root, self.layout.root, self.layout.root, nil, self.layout.root)
+    self.layout.bottom = layout.NLay.constraint(self.layout.root, self.layout.top, self.layout.root, nil, self.layout.root)
+    self.layout.topLeft, self.layout.topRight = layout.NLay.split(self.layout.top, "horizontal", 1, 1)
+    self.layout.bottomLeft, self.layout.bottomRight = layout.NLay.split(self.layout.bottom, "horizontal", 1, 1)
 end
 
 function LPState:onAdded(zorder)
@@ -144,6 +160,17 @@ function LPState:onRemoved()
     input.removeListener(hoverables.getListener())
     input.removeListener(self.listener)
     lpState = nil
+end
+
+-- Total: 4 seconds
+local ACCUMULATED_POINT_FADE_IN = 0.5
+local ACCUMULATED_POINT_FADE_OUT = 1
+local ACCUMULATED_POINT_IDLE = 2.5
+local ACCUMULATED_POINT_TOTAL_TIME = ACCUMULATED_POINT_FADE_IN + ACCUMULATED_POINT_FADE_OUT + ACCUMULATED_POINT_IDLE
+
+function LPState:pointsChanged(points)
+    self.accumulatedPoints.accumulated = self.accumulatedPoints.accumulated + points
+    self.accumulatedPoints.timeout = ACCUMULATED_POINT_TOTAL_TIME
 end
 
 function LPState:update(dt)
@@ -178,6 +205,97 @@ function LPState:update(dt)
         self.lastHoveredEntity = hoveredEntity
     end
 
+    if self.accumulatedPoints.timeout > 0 then
+        self.accumulatedPoints.timeout = self.accumulatedPoints.timeout - dt
+        if dt <= 0 then
+            self.accumulatedPoints.accumulated = 0 -- reset
+        end
+    end
+end
+
+local interp = localization.newInterpolator
+local ROUND_NUM = interp("{wavy amp=0.5 k=0.5}{outline thickness=2}Round %{round}/%{numberOfRounds}")
+local FINAL_ROUND_NUM = interp("{wavy freq=2.5 amp=0.75 k=1}{c r=1 g=0.2 b=0.1}{outline thickness=2}FINAL ROUND %{round}/%{numberOfRounds}")
+local POINTS_NORMAL = interp("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline thickness=2}Points: %{colorEffect}%{points}/%{requiredPoints}")
+local POINTS_WITH_MUL = interp("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline thickness=2}Points: %{colorEffect}%{points}/%{requiredPoints}{/c} %{mulColorEffect}(x%{mul})")
+local GAME_OVER = interp("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline thickness=2}{c r=0.7 g=0.1 b=0}GAME OVER! (%{points}/%{requiredPoints})")
+local LEVEL_NUM = interp("{wavy amp=0.5 k=0.5}{outline thickness=2}Level %{level}")
+local MONEY = interp("{wavy freq=0.6 spacing=0.8 amp=0.4}{outline thickness=2}{c r=1 g=0.843 b=0.1}$ %{money}")
+
+---@param constraint {get:fun(self:any):(number,number,number,number)}
+---@param txt string
+---@param font love.Font
+---@param align love.AlignMode
+---@param s number
+local function printRichTextByConstraint(constraint, txt, font, align, s)
+    local x, y, w = constraint:get()
+    return text.printRich(txt, font, x, y, w / s, align, 0, s, s)
+end
+
+function LPState:drawHUD()
+    local run = lp.main.getRun()
+    if not run then return end
+
+    local gs = globalScale.get()
+    self.layout.root:margin(gs * 16)
+    self.layout.top:margin({gs * -8, 0, 0, 0}):size(0, 32 * gs)
+    self.layout.bottom:size(0, 32 * gs)
+
+    local points = run:getAttribute("POINTS")
+    local pointMul = run:getAttribute("POINTS_MUL")
+    local requiredPoints = run:getAttribute("REQUIRED_POINTS")
+    local round = run:getAttribute("ROUND")
+    local numberOfRounds = run:getAttribute("NUMBER_OF_ROUNDS")
+
+    local colorEffect
+    if points >= requiredPoints then
+        colorEffect = "{c r=0.1 g=1 b=0.2}"
+    elseif points < 0 then
+        colorEffect = "{c r=1 g=0.2 b=0.1}"
+    else
+        colorEffect = "{c r=1 g=1 b=1}"
+    end
+
+    local pointsText
+    if (numberOfRounds < round) and (points < requiredPoints) then
+        pointsText = GAME_OVER({
+            points = points,
+            requiredPoints = requiredPoints
+        })
+    elseif pointMul ~= 1 then
+        pointsText = POINTS_WITH_MUL({
+            colorEffect = colorEffect,
+            points = points,
+            requiredPoints = requiredPoints,
+            mulColorEffect = string.format(
+                "{c r=%.2f g=%.2f b=%.2f}",
+                objects.Color.HSVtoRGB(math.log(pointMul, 2) / 10, 0.6, 1)
+            ),
+            mul = pointMul
+        })
+    else
+        pointsText = POINTS_NORMAL({
+            colorEffect = colorEffect,
+            points = points,
+            requiredPoints = requiredPoints,
+        })
+    end
+
+    local roundTextMaker = ROUND_NUM
+    if round >= numberOfRounds and points < requiredPoints then
+        roundTextMaker = FINAL_ROUND_NUM
+    end
+    local roundText = roundTextMaker({
+        round = round,
+        numberOfRounds = numberOfRounds
+    })
+
+    local font = fonts.getSmallFont(32)
+    love.graphics.setColor(1, 1, 1)
+    printRichTextByConstraint(self.layout.topLeft, roundText, font, "left", gs)
+    printRichTextByConstraint(self.layout.bottomLeft, pointsText, font, "left", gs)
+    printRichTextByConstraint(self.layout.topRight, LEVEL_NUM({level = run:getAttribute("LEVEL")}), font, "right", gs)
+    printRichTextByConstraint(self.layout.bottomRight, MONEY({money = run:getAttribute("MONEY")}), font, "right", gs)
 end
 
 function LPState:draw()
@@ -185,6 +303,7 @@ function LPState:draw()
 
     rendering.drawWorld()
     self.scene:render(x, y, w, h)
+    self:drawHUD()
     chat.getChatBoxElement():render(x, y, w, h)
 end
 
