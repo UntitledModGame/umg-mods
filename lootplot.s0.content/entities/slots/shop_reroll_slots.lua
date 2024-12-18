@@ -22,53 +22,6 @@ local function setItemLock(ent, bool)
     sync.syncComponent(ent, "itemLock")
 end
 
-local BUY_TEXT = interp("BUY ($%{price})")
-
----@param slotEnt Entity
-local function buyServer(slotEnt)
-    local itemEnt = lp.slotToItem(slotEnt)
-    if itemEnt then
-        lp.subtractMoney(slotEnt, itemEnt.price)
-        lp.tryTriggerEntity("BUY", itemEnt)
-        setItemLock(slotEnt, false)
-    end
-end
-
-local function buyClient(slotEnt)
-    lp.deselectItem()
-    local itemEnt = lp.slotToItem(slotEnt)
-    if itemEnt then
-        lp.selectItem(itemEnt, true)
-    end
-end
-
-
-local SHOP_BUTTON = {
-    action = function(ent, clientId)
-        if server then
-            buyServer(ent)
-        elseif client then
-            buyClient(ent)
-        end
-    end,
-    canDisplay = function(ent, clientId)
-        return ent.itemLock
-    end,
-    canClick = function(ent, clientId)
-        local itemEnt = lp.slotToItem(ent)
-        if itemEnt and ent.itemLock then
-            return lp.getMoney(itemEnt) >= itemEnt.price
-        end
-    end,
-    text = function(ent)
-        local itemEnt = lp.slotToItem(ent)
-        if not itemEnt then
-            return ""
-        end
-        return BUY_TEXT(itemEnt)
-    end,
-    color = objects.Color(0.39,0.66,0.24),
-}
 
 
 
@@ -104,6 +57,67 @@ local LOCK_REROLL_BUTTON = {
         end
     end,
     color = objects.Color(0.7,0.7,0.7),
+}
+
+
+
+local BUY_TEXT = interp("BUY ($%{price})")
+
+---@param slotEnt Entity
+local function buyServer(slotEnt)
+    local itemEnt = lp.slotToItem(slotEnt)
+    if itemEnt then
+        lp.subtractMoney(slotEnt, itemEnt.price)
+        lp.tryTriggerEntity("BUY", itemEnt)
+        setItemLock(slotEnt, false)
+    end
+end
+
+local function buyClient(slotEnt)
+    lp.deselectItem()
+    local itemEnt = lp.slotToItem(slotEnt)
+    if itemEnt then
+        lp.selectItem(itemEnt, true)
+    end
+end
+
+---@param ent Entity
+---@param clientId string
+local function shopButtonBuyItem(ent, clientId)
+    if server then
+        setRerollLock(ent, false)
+        buyServer(ent)
+    elseif client then
+        buyClient(ent)
+    end
+end
+
+local function canDisplayShopButton(ent, clientId)
+    return ent.itemLock
+end
+
+local function canClickShopButton(ent, clientId)
+    local itemEnt = lp.slotToItem(ent)
+    if itemEnt and ent.itemLock then
+        return lp.getMoney(itemEnt) >= itemEnt.price
+    end
+end
+
+local function getShopButtonText(ent)
+    local itemEnt = lp.slotToItem(ent)
+    if not itemEnt then
+        return ""
+    end
+    return BUY_TEXT(itemEnt)
+end
+
+
+local SHOP_BUTTON = {
+    action = shopButtonBuyItem,
+    canDisplay = canDisplayShopButton,
+    canClick = canClickShopButton,
+    text = getShopButtonText,
+    color = objects.Color(0.39,0.66,0.24),
 }
 
 
@@ -166,8 +180,6 @@ local function makeShopSlot(id, name, comps)
         baseMaxActivations = 100,
         name = loc(name),
         triggers = {"REROLL", "PULSE"},
-        itemSpawner = generateItem,
-        itemReroller = generateItem,
         baseCanSlotPropagate = false,
         canActivate = function(ent)
             -- if rerollLock=true, then we dont activate!
@@ -185,10 +197,6 @@ local function makeShopSlot(id, name, comps)
             end
             return drawItemPrice(selfEnt, itemEnt)
         end,
-        actionButtons = {
-            SHOP_BUTTON,
-            LOCK_REROLL_BUTTON
-        }
     }
     for k,v in pairs(comps) do
         etype[k]=v
@@ -212,7 +220,8 @@ generateWeakItem = itemGenHelper.createLazyGenerator(
         if itemGenHelper.hasRarity(etype, OK_RARITIES) then
             return true
         end
-        if etype.doomCount == 1 then
+        ---@cast etype table
+        if lp.hasTag(etype, constants.tags.FOOD) then
             return true -- (Food items are OK to spawn here.)
         end
         return false
@@ -232,26 +241,11 @@ makeShopSlot("weak_shop_slot", "Weak Shop Slot", {
     activateDescription = loc("Spawns weak items"),
     baseMaxActivations = 100,
     itemReroller = generateWeakItem,
-    itemSpawner = generateWeakItem
-})
-
-
-
-
-local generateStrongItem = itemGenHelper.createLazyGenerator(
-    allFilter,
-    itemGenHelper.createRarityWeightAdjuster({
-        UNCOMMON = 2,
-        RARE = 5,
-        EPIC = 1,
-        LEGENDARY = 0.04
-    })
-)
-makeShopSlot("strong_shop_slot", "Strong Shop Slot", {
-    activateDescription = loc("Spawns strong items.\nWill delete n"),
-    baseMaxActivations = 1,
-    itemReroller = generateStrongItem,
-    itemSpawner = generateStrongItem
+    itemSpawner = generateWeakItem,
+    actionButtons = {
+        SHOP_BUTTON,
+        LOCK_REROLL_BUTTON
+    }
 })
 
 
@@ -270,9 +264,9 @@ local generateTreasureItem = itemGenHelper.createLazyGenerator(
     isTreasureItem,
     itemGenHelper.createRarityWeightAdjuster({
         COMMON = 2,
-        UNCOMMON = 3,
-        RARE = 2,
-        EPIC = 1,
+        UNCOMMON = 5,
+        RARE = 1.5,
+        EPIC = 0.3,
         LEGENDARY = 0.04
     })
 )
@@ -280,9 +274,123 @@ makeShopSlot("treasure_shop_slot", "Treasure Shop Slot", {
     activateDescription = loc("Spawns treasure items"),
     baseMaxActivations = 10,
     itemReroller = generateTreasureItem,
-    itemSpawner = generateTreasureItem
+    itemSpawner = generateTreasureItem,
+    actionButtons = {
+        SHOP_BUTTON,
+        LOCK_REROLL_BUTTON
+    }
 })
 
+
+
+
+
+--- Iterates over all touching slot-entities of the same type as `rootSlotEnt`.
+--- Useful for deleting all slots of the same type that are touching, for example.
+--- Or, for clearing all touching shop-slots.
+---@param rootSlotEnt lootplot.SlotEntity
+---@param func fun(e: lootplot.SlotEntity, ppos: lootplot.PPos)
+local function foreachTouchingSlot(rootSlotEnt, func)
+    local seen = {--[[
+        [ppos] -> bool
+        true if we have already search this ppos.
+    ]]}
+
+    ---@param pos lootplot.PPos?
+    ---@return boolean
+    local function isMatch(pos)
+        local slotEnt = pos and lp.posToSlot(pos)
+        if slotEnt and slotEnt:type() == rootSlotEnt:type() then
+            return true
+        end
+        return false
+    end
+
+    ---@param p lootplot.PPos
+    ---@param x integer
+    ---@param y integer
+    local function consider(p, x, y)
+        local ppos = p:move(x, y)
+        if ppos and (not seen[ppos]) and isMatch(ppos) then
+            -- we havent discovered this one yet:
+            seen[ppos] = true
+
+            consider(ppos, -1, 0)
+            consider(ppos, 0, -1)
+            consider(ppos, 1, 0)
+            consider(ppos, 0, 1)
+        end
+    end
+
+    local ppos = lp.getPos(rootSlotEnt)
+    if ppos then
+        consider(ppos, 0,0)
+    end
+
+    for pos, _ in pairs(seen) do
+        local slotEnt = lp.posToSlot(pos)
+        if slotEnt then
+            lp.queueWithEntity(slotEnt, function(ent)
+                local pos1 = lp.getPos(ent)
+                if pos1 then
+                    func(ent, pos1)
+                    lp.wait(pos1, 0.4)
+                end
+            end)
+        end
+    end
+end
+
+
+--[[
+This function will delete all "attached" items;
+That is, all items that are 
+]]
+local function deleteAttachedItems(ent)
+    foreachTouchingSlot(ent, function(e, ppos)
+        if e == ent then
+            -- we delete every item, EXCEPT self.
+            return
+        end
+        local item = lp.posToItem(ppos)
+        if item then
+            item:delete()
+        end
+    end)
+end
+
+
+
+local STRONG_SHOP_BUTTON = {
+    action = function(ent, clientId)
+        shopButtonBuyItem(ent, clientId)
+        deleteAttachedItems(ent)
+    end,
+    canDisplay = canDisplayShopButton,
+    canClick = canClickShopButton,
+    text = getShopButtonText,
+    color = objects.Color(0.39,0.66,0.24),
+}
+
+
+local generateStrongItem = itemGenHelper.createLazyGenerator(
+    allFilter,
+    itemGenHelper.createRarityWeightAdjuster({
+        UNCOMMON = 2,
+        RARE = 5,
+        EPIC = 1,
+        LEGENDARY = 0.04
+    })
+)
+makeShopSlot("strong_shop_slot", "Strong Shop Slot", {
+    activateDescription = loc("Spawns strong items.\nWill delete n"),
+    baseMaxActivations = 1,
+    itemReroller = generateStrongItem,
+    itemSpawner = generateStrongItem,
+    actionButtons = {
+        STRONG_SHOP_BUTTON,
+    }
+})
 
 
 
@@ -389,103 +497,18 @@ lp.defineSlot("lootplot.s0.content:paper_slot", {
 
 
 
---- Iterates over all touching slot-entities of the same type as `rootSlotEnt`.
---- Useful for deleting all slots of the same type that are touching, for example.
---- Or, for clearing all touching shop-slots.
----@param rootSlotEnt lootplot.SlotEntity
----@param func fun(e: lootplot.SlotEntity, ppos: lootplot.PPos)
-local function foreachTouchingSlot(rootSlotEnt, func)
-    local ppos = assert(lp.getPos(rootSlotEnt))
-    local plot = ppos:getPlot()
-
-    local stack = objects.Array()
-    local seen = {--[[
-        [ppos] -> bool
-        true if we have already search this ppos.
-    ]]}
-
-    seen[ppos] = true
-
-    ---@param pos lootplot.PPos?
-    ---@return boolean
-    local function isMatch(pos)
-        local slotEnt = pos and lp.posToSlot(pos)
-        if slotEnt and slotEnt:type() == rootSlotEnt:type() then
-            return true
-        end
-        return false
-    end
-
-    ---@param p lootplot.PPos
-    ---@param x integer
-    ---@param y integer
-    local function consider(p, x, y)
-        local targPPos = p:move(x, y)
-        if isMatch(targPPos) then
-            stack:add(targPPos)
-        end
-    end
-
-    consider(ppos, -1, 0)
-    consider(ppos, 0, -1)
-    consider(ppos, 1, 0)
-    consider(ppos, 0, 1)
-
-    local MAX_ITER = 10000
-    for i=1,MAX_ITER do
-        local stackPPos = stack:pop()
-
-        if stackPPos and isMatch(stackPPos) then
-            --[[
-            TODO: do implicit lp.queue buffering here.
-            ]]
-            func(assert(lp.posToSlot(stackPPos)), stackPPos)
-
-            consider(stackPPos, -1, 0)
-            consider(stackPPos, 0, -1)
-            consider(stackPPos, 1, 0)
-            consider(stackPPos, 0, 1)
-        end
-    end
-end
 
 
---[[
-
-TODO:
-Create CHOICE-SHOP slots.
-(Or maybe we should call them "strong" shop-slots...??)
-
-Basically; the idea is that if you buy one item;
-all other items disappear.
-So you can only choose 1.
-
-]]
 local pickButton = {
     action = function(ent, clientId)
-        umg.melt([[
-        This is bad and broken. Fix me plz.
-        ]])
-
-        SHOP_BUTTON.action(ent, clientId)
-
-        if not server then
-            return
-        end
-
-        -- Set current entity to DOOMED-1
-        ent.doomCount = 1
-        ent.cloudSlotPicked = true
-    end,
-    canDisplay = function(ent, clientId)
-        return ent.itemLock
-    end,
-    canClick = function(ent, clientId)
-        local itemEnt = lp.slotToItem(ent)
-        if itemEnt and ent.itemLock then
-            return lp.getMoney(itemEnt) >= itemEnt.price
+        shopButtonBuyItem(ent, clientId)
+        if server then
+            deleteAttachedItems(ent)
+            ent.doomCount = 1
         end
     end,
+    canDisplay = canDisplayShopButton,
+    canClick = canClickShopButton,
     text = loc("PICK"),
     color = objects.Color(0.39,0.66,0.24),
 }
@@ -497,8 +520,6 @@ lp.defineSlot("lootplot.s0.content:cloud_slot", {
     triggers = {},
     baseMaxActivations = 0,
     itemLock = true,
-
-    cloudSlotPicked = false, -- used to prevent item being destroyed when propagating across cloud slots.
 
     slotItemProperties = {
         multipliers = {

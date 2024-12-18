@@ -167,6 +167,8 @@ defItem("grub_converter", {
 
 defItem("golden_heart", {
     name = loc("Golden Heart"),
+    triggers = {"PULSE"},
+
     activateDescription = loc("Gives +1 lives to target item (or slot).\nSets {lootplot:MONEY_COLOR}money{/lootplot:MONEY_COLOR} to {lootplot:BAD_COLOR}$-1"),
 
     doomCount = 6,
