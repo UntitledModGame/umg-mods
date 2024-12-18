@@ -4,19 +4,11 @@
 ## Early-game changes:
 
 
-- Remove/rework guppies (?)
-**IDEA:**
-Goldfish: Increases money by 10% (Max of $10)
-Pointfish: Increases points by 20%
---- ^^^ ehhh, feels a bit "meh".  Not emergent.
-    Doesnt add any value.
-    Maybe we should just promote fish to RARE items.
-FINAL IDEA: 
-- Remove guppies.
+- (((DONE))) Remove guppies.
 
-- Remove octos.
+- (((DONE))) Remove octos.
 
-- Add WOODEN activation items. (activator.lua)
+- (((DONE))) Add WOODEN activation items. (activator.lua)
 
 
 REMOVE BLOAT FROM TREASURE-ITEMS:
