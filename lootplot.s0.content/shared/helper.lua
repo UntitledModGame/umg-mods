@@ -97,7 +97,7 @@ end
 
 
 
-local DELAY_DESC = localization.newInterpolator("After {lootplot:INFO_COLOR}%{count} activations{/lootplot:INFO_COLOR}: %{delayDescription}")
+local DELAY_DESC = localization.newInterpolator("After {lootplot:INFO_COLOR}%{count} activations{/lootplot:INFO_COLOR},\n%{delayDescription}")
 
 function helper.defineDelayItem(id, name, etype)
     typecheck.assertKeys(etype, {
