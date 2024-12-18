@@ -19,11 +19,10 @@ lp.defineItem("lootplot.s0.content:square_basket", {
         COMMON = lp.rarities.COMMON.displayString,
         UNCOMMON = lp.rarities.UNCOMMON.displayString,
     }),
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.RARE,
     triggers = {"LEVEL_UP"},
 
-    doomCount = 1,
-    shape = lp.targets.KING_SHAPE,
+    shape = lp.targets.ROOK_SHAPE,
     target = {
         type = "SLOT_NO_ITEM",
         activate = function(self, ppos)
@@ -68,6 +67,6 @@ lp.defineItem("lootplot.s0.content:gold_bell", {
     baseMoneyGenerated = 10,
     baseMaxActivations = 1,
 
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.RARE,
     triggers = {"LEVEL_UP"},
 })
