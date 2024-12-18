@@ -70,6 +70,8 @@ defineHelmet("ruby_helmet", {
 
     triggers = {"PULSE"},
 
+    rarity = lp.rarities.LEGENDARY,
+
     basePrice = 12,
 
     mineralType = "ruby",
