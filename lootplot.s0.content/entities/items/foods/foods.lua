@@ -157,6 +157,30 @@ defineFood("heartfruit_half", {
 
 
 
+-- Global points multiplier manipulation food
+defineFood("coffee_cup", {
+    name = loc("Coffee Drink"),
+    description = loc("Multiplies global points multiplier by 1.25x."),
+    triggers = {"PULSE"},
+    rarity = lp.rarities.RARE,
+    onActivate = function(self)
+        local gmul = lp.getAttribute("POINTS_MUL", self)
+        return lp.setAttribute("POINTS_MUL", self, gmul * 1.25)
+    end
+})
+
+defineFood("tricolor_dango", { -- Loved by an introverted Shogun in another dimension
+    name = loc("Tricolor Dango"),
+    description = loc("Increments global points multiplier by 3."),
+    triggers = {"PULSE"},
+    rarity = lp.rarities.RARE,
+    doomCount = 3,
+    baseMaxActivations = 3,
+    onActivate = function(self)
+        local gmul = lp.getAttribute("POINTS_MUL", self)
+        return lp.setAttribute("POINTS_MUL", self, gmul + 3)
+    end
+})
 
 
 

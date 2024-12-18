@@ -155,20 +155,6 @@ defItem("death_by_taxes", {
 
 
 
-defItem("gold_bell", {
-    name = loc("Golden Bell"),
-    basePrice = 2,
-
-    baseMoneyGenerated = -4,
-    baseMaxActivations = 10,
-    basePointsGenerated = 500,
-
-    rarity = lp.rarities.EPIC,
-    triggers = {"PULSE"},
-})
-
-
-
 defItem("gold_crown", {
     name = loc("Gold Crown"),
 
