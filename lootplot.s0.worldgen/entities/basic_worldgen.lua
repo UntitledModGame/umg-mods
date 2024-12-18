@@ -124,7 +124,7 @@ local SPAWNER = {
     },
     -- DOOMED-4 normal, point-generating slot
     {
-        weight = 3,
+        weight = 2,
         ---@param team string
         handler = function(team)
             local slotEnt = server.entities["lootplot.s0.content:slot"]()
@@ -169,7 +169,7 @@ local SPAWNER = {
     },
     -- Cloud Slot
     {
-        weight = 2,
+        weight = 4,
         ---@param team string
         handler = function(team)
             local slotEnt = server.entities["lootplot.s0.content:cloud_slot"]()
@@ -202,9 +202,15 @@ lp.worldgen.defineWorldgen("lootplot.s0.worldgen:basic_worldgen", {
         local allocator = lp.worldgen.IslandAllocator(selfPPos:getPlot())
         local sx = (love.math.random() - 0.5) * 4000
         local sy = (love.math.random() - 0.5) * 4000
+
+        local NOISE_PERIOD = 0.5
+        local NOISE_THRESHOLD = 0.65
         allocator:map(function(ppos)
             local x, y = ppos:getCoords()
-            return love.math.simplexNoise(sx + x / 5, sy + y / 5) >= 0.7
+            return love.math.simplexNoise(
+                sx + x*NOISE_PERIOD,
+                sy + y*NOISE_PERIOD
+            ) >= NOISE_THRESHOLD
         end)
         allocator:cullNearbyIslands(4)
 
