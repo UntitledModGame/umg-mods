@@ -279,7 +279,11 @@ end
 
 
 function Scene:openPauseBox()
-    self.popupElement = self.pauseBox
+    if not self.popupElement then
+        self.popupElement = self.pauseBox
+    elseif self.popupElement == self.pauseBox then
+        self.popupElement = nil
+    end
 end
 
 return Scene

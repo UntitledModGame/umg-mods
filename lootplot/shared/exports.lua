@@ -262,7 +262,7 @@ lp.defineAttribute = attributes.defineAttribute
 
 lp.defineAttribute("MONEY")
 lp.defineAttribute("POINTS")
-
+lp.defineAttribute("POINTS_MUL") -- maybe we should have multipler for attribute?
 
 -- COMBO = number of successive activations without interruption.
 lp.defineAttribute("COMBO")
@@ -310,12 +310,14 @@ function lp.setPoints(fromEnt, x)
     lp.setAttribute("POINTS", fromEnt, x)
 end
 
+---If you need to bypass `POINTS_MUL` attribute, use `lp.modifyAttribute("POINTS", fromEnt, x)` instead.
+---
 ---Availability: **Server**
 ---@param fromEnt Entity
 ---@param x number
 function lp.addPoints(fromEnt, x)
     modifyTc(fromEnt, x)
-    lp.modifyAttribute("POINTS", fromEnt, x)
+    lp.modifyAttribute("POINTS", fromEnt, x * lp.getAttribute("POINTS_MUL", fromEnt))
 end
 
 
