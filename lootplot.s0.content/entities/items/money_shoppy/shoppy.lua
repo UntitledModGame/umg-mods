@@ -277,6 +277,9 @@ defBalloon("mana_balloon", "Mana Balloon", {
 helper.defineDelayItem("key_balloon", "Key Balloon", {
     --[[
     After X activations, turn into a floating key
+
+    TODO:
+    This is TRASH! We can do way better than this, man
     ]]
     listen = {
         trigger = "BUY",
@@ -333,3 +336,24 @@ defItem("neko_cat", {
         type = "ITEM"
     }
 })
+
+
+
+
+defItem("top_hat", {
+    name = loc("Top Hat"),
+    description = loc("Triggers {lootplot:TRIGGER_COLOR}BUY{/lootplot:TRIGGER_COLOR}for all target items, (without actually buying them.)"),
+
+    rarity = lp.rarities.LEGENDARY,
+
+    basePrice = 15,
+
+    shape = lp.targets.KNIGHT_SHAPE,
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.tryTriggerEntity("BUY", targetEnt)
+        end
+    }
+})
+
