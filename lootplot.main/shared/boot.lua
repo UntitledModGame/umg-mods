@@ -12,9 +12,6 @@ lp.defineAttribute("REQUIRED_POINTS")
 -- once we reach this number, we can progress to next level.
 
 
-lp.defineTrigger("LEVEL_UP", localization.localize("Level Up"))
-
-
 
 
 umg.on("@playerJoin", function(clientId)

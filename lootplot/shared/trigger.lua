@@ -99,7 +99,8 @@ trigger.defineTrigger("DESTROY", "Destroyed")
 trigger.defineTrigger("BUY", "Buy")
 trigger.defineTrigger("ROTATE", "Rotate")
 trigger.defineTrigger("SPAWN", "Spawn")
+trigger.defineTrigger("LEVEL_UP", "Level-Up")
 
----@alias lootplot.Trigger "REROLL"|"PULSE"|"RESET"|"DESTROY"|"BUY"|"ROTATE"|"SPAWN"
+---@alias lootplot.Trigger "REROLL"|"PULSE"|"RESET"|"DESTROY"|"BUY"|"ROTATE"|"SPAWN"|"LEVEL_UP"
 
 return trigger
