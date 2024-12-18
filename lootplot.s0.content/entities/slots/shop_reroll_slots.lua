@@ -386,7 +386,7 @@ local generateStrongItem = itemGenHelper.createLazyGenerator(
     })
 )
 makeShopSlot("strong_shop_slot", "Strong Shop Slot", {
-    activateDescription = loc("Spawns strong items.\nWill delete n"),
+    activateDescription = loc("Spawns RARE items or above.\nWill delete all neighbouring items when an item is purchased."),
     baseMaxActivations = 1,
     itemReroller = generateStrongItem,
     itemSpawner = generateStrongItem,
