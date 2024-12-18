@@ -14,7 +14,8 @@ local SQUARE_BASKET_GEN = itemGenHelper.createLazyGenerator(
 
 lp.defineItem("lootplot.s0.content:square_basket", {
     name = loc("Square Basket"),
-    description = loc("Spawns %{COMMON} or %{UNCOMMON} items.", {
+    image = "square_basket",
+    activateDescription = loc("Spawns %{COMMON} or %{UNCOMMON} items.", {
         COMMON = lp.rarities.COMMON.displayString,
         UNCOMMON = lp.rarities.UNCOMMON.displayString,
     }),
@@ -40,7 +41,7 @@ lp.defineItem("lootplot.s0.content:square_basket", {
 lp.defineItem("lootplot.s0.content:red_key", {
     name = loc("Red Key"),
     image = "red_key",
-    description = loc("Trigger %{UNLOCK} to items and slots.", {UNLOCK = lp.getTriggerDisplayName("UNLOCK")}),
+    activateDescription = loc("Trigger %{UNLOCK} to items and slots.", {UNLOCK = lp.getTriggerDisplayName("UNLOCK")}),
     rarity = lp.rarities.RARE,
     triggers = {"LEVEL_UP"},
 
