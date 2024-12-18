@@ -211,7 +211,7 @@ defItem("4_leaf_clover", {
 
     description = loc("10% chance to turn into a {lootplot:INFO_COLOR} key."),
 
-    basePrice = 0,
+    basePrice = 6,
     basePointsGenerated = 10,
     baseMaxActivations = 20,
 
