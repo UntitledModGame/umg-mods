@@ -347,6 +347,7 @@ This function will delete all "attached" items;
 That is, all items that are 
 ]]
 local function deleteAttachedItems(ent)
+    assert(server,"?")
     foreachTouchingSlot(ent, function(e, ppos)
         if e == ent then
             -- we delete every item, EXCEPT self.
@@ -364,7 +365,9 @@ end
 local STRONG_SHOP_BUTTON = {
     action = function(ent, clientId)
         shopButtonBuyItem(ent, clientId)
-        deleteAttachedItems(ent)
+        if server then
+            deleteAttachedItems(ent)
+        end
     end,
     canDisplay = canDisplayShopButton,
     canClick = canClickShopButton,
