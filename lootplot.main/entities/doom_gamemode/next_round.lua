@@ -31,6 +31,7 @@ local function startRound(ent, ppos)
             lp.resetEntity(ent)
         end)
         lp.addMoney(ent, lp.main.constants.MONEY_PER_ROUND)
+        lp.setAttribute("POINTS_MUL", ent, 1)
 
         -- Snapshot the run again.
         runManager.saveRun()
