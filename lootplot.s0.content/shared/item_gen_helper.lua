@@ -5,7 +5,6 @@ local itemGenHelper = {}
 
 ---@param filterFunc fun(etype: EntityType): boolean
 ---@param weightAdjuster fun(etype: EntityType): number
----@return function
 function itemGenHelper.createLazyGenerator(filterFunc, weightAdjuster)
     --[[
     Question: Why do we need this function?

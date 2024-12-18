@@ -14,7 +14,6 @@ lp.defineAttribute("REQUIRED_POINTS")
 
 
 
-
 umg.on("@playerJoin", function(clientId)
     local p = server.entities.player(clientId)
     p.x,p.y = 200, 100

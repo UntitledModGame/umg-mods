@@ -145,7 +145,7 @@ function LPState:init()
     self.layout.top = layout.NLay.constraint(self.layout.root, self.layout.root, self.layout.root, nil, self.layout.root)
     self.layout.bottom = layout.NLay.constraint(self.layout.root, self.layout.top, self.layout.root, nil, self.layout.root)
     self.layout.topLeft, self.layout.topRight = layout.NLay.split(self.layout.top, "horizontal", 1, 1)
-    self.layout.bottomLeft, self.layout.bottomRight = layout.NLay.split(self.layout.bottom, "horizontal", 1, 1)
+    self.layout.bottomLeft, self.layout.bottomRight = layout.NLay.split(self.layout.bottom, "horizontal", 2, 1)
 end
 
 function LPState:onAdded(zorder)
@@ -169,8 +169,8 @@ function LPState:onRemoved()
 end
 
 -- Total: 4 seconds
-local ACCUMULATED_POINT_FADE_IN = 0.3
-local ACCUMULATED_POINT_FADE_OUT = 0.4
+local ACCUMULATED_POINT_FADE_IN = 0.15
+local ACCUMULATED_POINT_FADE_OUT = 0.3
 local ACCUMULATED_POINT_TOTAL_TIME = 2
 assert((ACCUMULATED_POINT_FADE_IN + ACCUMULATED_POINT_FADE_OUT) <= ACCUMULATED_POINT_TOTAL_TIME)
 

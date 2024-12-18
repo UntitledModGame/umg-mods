@@ -162,13 +162,13 @@ end
 
 -- useful helper for displaying rarities in strings
 local function locRarity(txt)
-    return localization.newInterpolator(txt){
+    return localization.localize(txt, {
         COMMON = r.COMMON.displayString,
         UNCOMMON = r.UNCOMMON.displayString,
         RARE = r.RARE.displayString,
         EPIC = r.EPIC.displayString,
         LEGENDARY = r.LEGENDARY.displayString,
-    }
+    })
 end
 
 
