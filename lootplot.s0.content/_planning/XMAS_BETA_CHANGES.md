@@ -61,6 +61,8 @@ It has EXCELLENT base-points and scaling.
 (Otherwise its identical to iron)
 
 
+- Change key-balloon. It's garbage design.
+
 ------
 
 Rotation tool: Make it cost $0 (max 3 activations)

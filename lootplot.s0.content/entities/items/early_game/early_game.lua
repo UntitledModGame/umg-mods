@@ -199,6 +199,39 @@ lp.defineItem("lootplot.s0.content:bone", {
 
 
 
+
+--[[
+TODO: This needs testing!
+
+]]
+defItem("4_leaf_clover", {
+    name = loc("4 Leaf Clover"),
+
+    triggers = {"REROLL"},
+
+    description = loc("10% chance to turn into a {lootplot:INFO_COLOR} key."),
+
+    basePrice = 0,
+    basePointsGenerated = 10,
+    baseMaxActivations = 20,
+
+    rarity = lp.rarities.COMMON,
+
+    onActivate = function(ent)
+        if lp.SEED:randomMisc() < 0.1 then
+            local pos = lp.getPos(ent)
+            if pos then
+                lp.forceSpawnItem(pos, server.entities.key, ent.lootplotTeam)
+            end
+        end
+    end
+})
+
+
+
+
+
+
 local activateToot, dedToot
 if client then
     local dirObj = umg.getModFilesystem()
