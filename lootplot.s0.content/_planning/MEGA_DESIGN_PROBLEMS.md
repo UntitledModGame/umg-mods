@@ -7,7 +7,7 @@ We need to make items rarer, WITHOUT making the game boring. The player should a
 
 ### PROPOSED SOLUTION(S): 
 - Weak/Strong items: 
-    - Weak items: kinda like resources.
+    - Weak items: kinda like resources/consumable items
     - Strong items: Very rare; hard to obtain (like Jokers in Balatro) but have impressive effects.
 Weak items will provide the player with "something to do", and provide a way to build up the run more slowly.
 
@@ -42,30 +42,3 @@ Perhaps we should add "Resources" to work with?
 - Items that create/duplicate resources
 - Items that need resources to function
 AWESOME IDEA: What if resources could STACK??? Ie, you could have 10 units of "iron" on a singular slot?
-
-^^^ Nahh, thats bad.
-
-=======================================
-
-=======================================
-
-
-
-# FINALIZED SOLUTION:
-
-The core issue is that its too *easy* to get items.
-Specifically, its way too easy to get RARE items, and above.
-
-Have 2 "kinds" of items:
-- Weak items
-- Strong items
-
-"Weak" items are easy to get, and are often food/doomed consumables.
-(Ie match3 items, gold-bar, key-bar)
-RARITY => UNCOMMON or COMMON
-
-"Strong" items are items that ACTUALLY make a difference.
-RARITY => RARE or above.
-
-
-
