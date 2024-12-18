@@ -3,10 +3,7 @@ local itemGenHelper = require("shared.item_gen_helper")
 local loc = localization.localize
 
 local SQUARE_BASKET_GEN = itemGenHelper.createLazyGenerator(
-    function(etype)
-        local rar = etype.rarity or lp.rarities.UNIQUE
-        return lp.rarities.getWeight(rar) >= lp.rarities.getWeight(lp.rarities.UNCOMMON)
-    end,
+    function() return true end,
     itemGenHelper.createRarityWeightAdjuster({
         COMMON = 2, UNCOMMON = 1
     })
@@ -22,7 +19,7 @@ lp.defineItem("lootplot.s0.content:square_basket", {
     rarity = lp.rarities.RARE,
     triggers = {"LEVEL_UP"},
 
-    shape = lp.targets.ROOK_SHAPE,
+    shape = lp.targets.RookShape(1),
     target = {
         type = "SLOT_NO_ITEM",
         activate = function(self, ppos)
@@ -47,11 +44,8 @@ lp.defineItem("lootplot.s0.content:red_key", {
     shape = lp.targets.VerticalShape(1),
     target = {
         type = "ITEM_OR_SLOT",
-        activate = function(self, ppos)
-            local target = lp.posToItem(ppos) or lp.posToSlot(ppos)
-            if target then
-                lp.tryTriggerEntity("UNLOCK", target)
-            end
+        activate = function(_, _, target)
+            return lp.tryTriggerEntity("UNLOCK", target)
         end
     }
 })

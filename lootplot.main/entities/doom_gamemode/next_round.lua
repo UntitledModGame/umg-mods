@@ -97,23 +97,14 @@ lp.defineSlot("lootplot.main:pulse_button_slot", {
 })
 
 
-local function hasLevelUpTrigger(ent)
-    for _,t in ipairs(ent.triggers)do
-        if t == "LEVEL_UP" then
-            return true
-        end
-    end
-    return false
-end
-
 ---@param ppos lootplot.PPos
 local function shouldTrigger(ppos)
     local slot = lp.posToSlot(ppos)
-    if slot and hasLevelUpTrigger(slot) then
+    if slot and lp.hasTrigger(slot, "LEVEL_UP") then
         return true
     end
     local item = lp.posToItem(ppos)
-    if item and hasLevelUpTrigger(item) then
+    if item and lp.hasTrigger(item, "LEVEL_UP") then
         return true
     end
     return false
