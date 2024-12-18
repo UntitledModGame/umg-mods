@@ -39,6 +39,7 @@ lp.defineItem("lootplot.s0.content:square_basket", {
 
 lp.defineItem("lootplot.s0.content:red_key", {
     name = loc("Red Key"),
+    image = "red_key",
     description = loc("Trigger %{UNLOCK} to items and slots.", {UNLOCK = lp.getTriggerDisplayName("UNLOCK")}),
     rarity = lp.rarities.RARE,
     triggers = {"LEVEL_UP"},
@@ -53,4 +54,19 @@ lp.defineItem("lootplot.s0.content:red_key", {
             end
         end
     }
+})
+
+
+
+
+lp.defineItem("lootplot.s0.content:gold_bell", {
+    name = loc("Golden Bell"),
+    image = "gold_bell",
+    basePrice = 6,
+
+    baseMoneyGenerated = 10,
+    baseMaxActivations = 1,
+
+    rarity = lp.rarities.UNCOMMON,
+    triggers = {"LEVEL_UP"},
 })
