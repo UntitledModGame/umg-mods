@@ -67,7 +67,6 @@ defDestructive("empty_cauldron", {
 
 defDestructive("candle", {
     name = loc("Candle"),
-    basePointsGenerated = 5,
 
     triggers = {"PULSE"},
 
@@ -108,12 +107,13 @@ defDestructive("tooth_necklace", {
     basePrice = 4,
     baseMaxActivations = 1,
 
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.RARE,
     shape = lp.targets.ON_SHAPE,
+
+    activateDescription = loc("Gives all {lootplot.targets:COLOR}target slots{/lootplot.targets:COLOR} {lootplot:DOOMED_COLOR}DOOMED-6{/lootplot:DOOMED_COLOR}, and earn {lootplot:MONEY_COLOR}4${/lootplot:MONEY_COLOR} for each slot.\n(Only works if the {lootplot.targets:COLOR}slot{/lootplot.targets:COLOR} isn't doomed!)"),
 
     target = {
         type = "SLOT",
-        description = loc("Gives slot {lootplot:DOOMED_COLOR}DOOMED-6{/lootplot:DOOMED_COLOR}, and earn {lootplot:MONEY_COLOR}4${/lootplot:MONEY_COLOR}.\nOnly activates if the slot isn't doomed!"),
         activate = function(ent, ppos, slotEnt)
             lp.addMoney(ent, 4)
             slotEnt.doomCount = 6
@@ -125,6 +125,36 @@ defDestructive("tooth_necklace", {
         end,
     }
 })
+
+
+defDestructive("mana_necklace", {
+    name = loc("Mana Necklace"),
+
+    triggers = {"PULSE"},
+
+    basePrice = 4,
+    baseMaxActivations = 1,
+
+    activateDescription = loc("Gives all {lootplot.targets:COLOR}target slots{/lootplot.targets:COLOR} {lootplot:DOOMED_COLOR}DOOMED-6{/lootplot:DOOMED_COLOR}, and {lootplot.mana:LIGHT_MANA_COLOR}+2 mana{/lootplot.mana:LIGHT_MANA_COLOR}.\n(Only works if the {lootplot.targets:COLOR}slot{/lootplot.targets:COLOR} isn't doomed!)"),
+
+    rarity = lp.rarities.RARE,
+    shape = lp.targets.ON_SHAPE,
+
+    target = {
+        type = "SLOT",
+        activate = function(ent, ppos, slotEnt)
+            lp.mana.addMana(slotEnt, 2)
+            slotEnt.doomCount = 6
+        end,
+        filter = function(ent, ppos, slotEnt)
+            if slotEnt and (not slotEnt.doomCount) then
+                return true
+            end
+        end,
+    }
+})
+
+
 
 
 
