@@ -73,6 +73,31 @@ defItem("boxing_glove", "Boxing Glove", {
 
 
 
+defItem("ping_pong_paddle", "Ping pong paddle", {
+    shape = lp.targets.KNIGHT_SHAPE,
+
+    basePrice = 7,
+    baseMaxActivations = 10,
+
+    rarity = lp.rarities.UNCOMMON,
+
+    activateDescription = loc("Activates item again."),
+
+    listen = {
+        trigger = "PULSE",
+        activate = function(selfEnt, ppos, targetEnt)
+            if lp.hasTrigger(targetEnt, "PULSE") and lp.canActivateEntity(targetEnt) then
+                lp.queueWithEntity(targetEnt, function(e)
+                    lp.tryActivateEntity(e)
+                end)
+                lp.wait(ppos, 0.1)
+            end
+        end
+    }
+})
+
+
+
 
 
 --[[
