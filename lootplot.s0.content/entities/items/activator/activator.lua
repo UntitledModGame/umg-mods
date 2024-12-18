@@ -1,0 +1,112 @@
+
+local loc = localization.localize
+
+local helper = require("shared.helper")
+
+
+local function defItem(id, name, etype)
+    etype.image = etype.image or id
+    etype.name = loc(name)
+    return lp.defineItem("lootplot.s0.content:"..id, etype)
+end
+
+
+local PULSE_TARGET = {
+    type = "ITEM",
+    activate = function(selfEnt, ppos, targetEnt)
+        lp.tryTriggerEntity("PULSE", targetEnt)
+    end
+}
+
+local PULSE_DESC = loc("{lootplot:TRIGGER_COLOR}Pulses{/lootplot:TRIGGER_COLOR} all {lootplot.targets:COLOR}target items.")
+
+
+defItem("ukulele", "Ukulele", {
+    rarity = lp.rarities.RARE,
+    triggers = {"PULSE"},
+
+    activateDescription = PULSE_DESC,
+
+    basePrice = 12,
+    baseMaxActivations = 2,
+
+    shape = lp.targets.KingShape(1),
+
+    target = PULSE_TARGET
+})
+
+
+
+
+defItem("pipe", "Pipe", {
+    rarity = lp.rarities.RARE,
+    triggers = {"PULSE"},
+
+    activateDescription = PULSE_DESC,
+
+    basePrice = 10,
+    baseMaxActivations = 2,
+
+    shape = lp.targets.UpShape(4),
+
+    target = PULSE_TARGET
+})
+
+
+
+defItem("boxing_glove", "Boxing Glove", {
+    rarity = lp.rarities.RARE,
+    triggers = {"PULSE"},
+
+    activateDescription = PULSE_DESC,
+
+    repeatActivations = true,
+
+    basePrice = 12,
+    baseMaxActivations = 3,
+
+    shape = lp.targets.UpShape(1),
+
+    target = PULSE_TARGET
+})
+
+
+
+
+
+
+--[[
+
+
+-- OLD OCTOPUS DEFINITIONS:
+
+
+defineOcto("pink_octopus", {
+    name = loc("Pink Octopus"),
+
+    target = {
+        type = "ITEM",
+        description = loc("{lootplot:TRIGGER_COLOR}{wavy}PULSES{/wavy}{/lootplot:TRIGGER_COLOR} item."),
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.tryTriggerEntity("PULSE", targetEnt)
+        end
+    }
+})
+
+
+defineOcto("green_octopus", {
+    name = loc("Green Octopus"),
+
+    triggers = {"REROLL", "PULSE"},
+
+    target = {
+        type = "ITEM",
+        description = loc("Triggers {lootplot:TRIGGER_COLOR}{wavy}REROLL{/wavy}{/lootplot:TRIGGER_COLOR} on item."),
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.tryTriggerEntity("REROLL", targetEnt)
+        end
+    }
+})
+
+]]
+

@@ -105,69 +105,6 @@ defItem("spear_of_war", {
 
 
 
-------------------------------------------------------------
-
-
-
-
-local function defineOcto(name, etype)
-    local id = "lootplot.s0.content:" .. name
-
-    etype.image = etype.image or id
-    etype.shape = etype.shape or lp.targets.KING_SHAPE
-    etype.rarity = etype.rarity or lp.rarities.RARE
-    etype.triggers = etype.triggers or {"PULSE"}
-
-    etype.basePrice = 8
-    etype.baseMaxActivations = 5
-
-    lp.defineItem(id, etype)
-end
-
-defineOcto("pink_octopus", {
-    name = loc("Pink Octopus"),
-
-    target = {
-        type = "ITEM",
-        description = loc("{lootplot:TRIGGER_COLOR}{wavy}PULSES{/wavy}{/lootplot:TRIGGER_COLOR} item."),
-        activate = function(selfEnt, ppos, targetEnt)
-            lp.tryTriggerEntity("PULSE", targetEnt)
-        end
-    }
-})
-
-defineOcto("dark_octopus", {
-    name = loc("Dark Octopus"),
-
-    rarity = lp.rarities.EPIC,
-
-    target = {
-        type = "ITEM",
-        description = loc("Triggers {lootplot:TRIGGER_COLOR}{wavy}DESTROY{/wavy}{/lootplot:TRIGGER_COLOR} on item, without destroying it."),
-        activate = function(selfEnt, ppos, targetEnt)
-            lp.tryTriggerEntity("DESTROY", targetEnt)
-        end
-    }
-})
-
-defineOcto("green_octopus", {
-    name = loc("Green Octopus"),
-
-    triggers = {"REROLL", "PULSE"},
-
-    target = {
-        type = "ITEM",
-        description = loc("Triggers {lootplot:TRIGGER_COLOR}{wavy}REROLL{/wavy}{/lootplot:TRIGGER_COLOR} on item."),
-        activate = function(selfEnt, ppos, targetEnt)
-            lp.tryTriggerEntity("REROLL", targetEnt)
-        end
-    }
-})
-
-------------------------------------------------------------
-
-
-
 
 
 defItem("blank_page", {
@@ -193,27 +130,6 @@ defItem("blank_page", {
     }
 })
 
-
-
-defItem("ukulele", {
-    name = loc("Ukulele"),
-
-    rarity = lp.rarities.UNCOMMON,
-    triggers = {"PULSE"},
-
-    basePrice = 6,
-    baseMaxActivations = 2,
-
-    shape = lp.targets.RookShape(1),
-
-    target = {
-        type = "ITEM",
-        description = loc("Triggers {lootplot:TRIGGER_COLOR}{wavy}PULSE{/wavy}{/lootplot:TRIGGER_COLOR} for item."),
-        activate = function(selfEnt, ppos, targetEnt)
-            lp.tryTriggerEntity("PULSE", targetEnt)
-        end
-    }
-})
 
 
 

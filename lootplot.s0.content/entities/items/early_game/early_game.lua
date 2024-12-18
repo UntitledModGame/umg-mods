@@ -198,53 +198,6 @@ lp.defineItem("lootplot.s0.content:bone", {
 
 
 
---[[
-
-The purpose of pink-guppy is to make players more aware of
-the existance of octopus.
-
-Because in reality, octopus is VERY CENTRAL to the game.
-
-]]
-local GUPPY_COUNT = 8
-
-helper.defineTransformItem("pink_guppy", "Pink Guppy", {
-    transformId = "pink_octopus",
-    transformName = "Pink Octopus",
-    delayCount = GUPPY_COUNT,
-
-    basePrice = 4,
-    baseMaxActivations = 2,
-    basePointsGenerated = 5,
-
-    rarity = lp.rarities.COMMON,
-
-    triggers = {"PULSE"},
-})
-
-
-
---[[
-Green-guppy = pink-guppy but green-octopus instead.
-]]
-helper.defineTransformItem("green_guppy", "Green Guppy", {
-    transformId = "green_octopus",
-    transformName = "Green Octopus",
-    delayCount = GUPPY_COUNT,
-
-    triggers = {"REROLL"},
-
-    basePrice = 4,
-    baseMaxActivations = 2,
-    basePointsGenerated = 5,
-
-    rarity = lp.rarities.COMMON,
-})
-
-
-
-
-
 
 local activateToot, dedToot
 if client then
