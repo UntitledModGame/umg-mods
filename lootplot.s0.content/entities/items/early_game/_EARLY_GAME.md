@@ -36,6 +36,8 @@ Buff to 50 points
 
 - Make Spanner UNCOMMON
 
+- (((DONE))) Make Rotation-balloon UNCOMMON 
+
 - Make Coconut UNCOMMON
 
 

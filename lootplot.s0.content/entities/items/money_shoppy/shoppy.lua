@@ -204,9 +204,9 @@ defBalloon("green_balloon", "Green Balloon", {
 
 
 defBalloon("rotation_balloon", "Rotation Balloon", {
-    rarity = lp.rarities.EPIC,
+    rarity = lp.rarities.UNCOMMON,
 
-    basePrice = 10,
+    basePrice = 6,
 
     activateDescription = loc("Rotates all target items"),
 
