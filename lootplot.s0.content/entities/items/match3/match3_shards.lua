@@ -118,7 +118,7 @@ end
 defShards("key_shards", "Key Shards",
     spawnKey, "Spawns a {lootplot:INFO_COLOR}Key",
 {
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.COMMON,
     basePointsGenerated = 10,
     basePrice = 6,
 })
@@ -135,7 +135,7 @@ end
 defShards("iron_shards", "Iron Shards",
     spawnNormalSack, "Spawns a {lootplot:INFO_COLOR}Rare Sack!",
 {
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.COMMON,
     basePointsGenerated = 15,
     basePrice = 8,
 })
