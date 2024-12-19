@@ -6,6 +6,7 @@ local globalScale = require("client.globalScale")
 local StretchableBox = require("client.elements.StretchableBox")
 local StretchableButton = require("client.elements.StretchableButton")
 
+local BackgroundSelect = require("client.elements.BackgroundSelect")
 local PerkSelect = require("client.elements.PerkSelect")
 
 
@@ -24,7 +25,9 @@ local NewRunScene = ui.Element("lootplot.main:NewRunScene")
 local FONT_SIZE = 32
 local BACKGROUND_COLOR = objects.Color(objects.Color.HSLtoRGB(250, 0.1, 0.32))
 local KEYS = {
-    startNewRun = true
+    startNewRun = true,
+    backgrounds = true, -- lootplot.backgrounds.BackgroundInfoData[]
+    lastSelectedBackground = true -- string (ID of background)
 }
 
 local FOREGROUND_COLOR = objects.Color(objects.Color.HSLtoRGB(250, 0.1, 0.14))
@@ -59,7 +62,7 @@ function NewRunScene:init(arg)
             end
             local typName = itemEType:getTypename()
             assert(itemEType:getEntityMt())
-            return arg.startNewRun(assert(typName))
+            return arg.startNewRun(assert(typName), self:getSelectedBackground())
         end,
         text = NEW_RUN_BUTTON_STRING,
         scale = 2,
@@ -86,6 +89,14 @@ function NewRunScene:init(arg)
         content = self.perkSelect
     })
 
+    ---@type lootplot.main.BackgroundSelect
+    e.bgSelect = BackgroundSelect(arg.backgrounds, arg.lastSelectedBackground)
+    e.backgroundBox = StretchableBox("white_pressed_big", 8, {
+        stretchType = "repeat",
+        color = FOREGROUND_COLOR,
+        scale = 1
+    })
+
     for _, v in pairs(e) do
         self:addChild(v)
     end
@@ -96,6 +107,10 @@ end
 
 function NewRunScene:getSelectedPerkItem()
     return self.perkSelect:getSelectedItem()
+end
+
+function NewRunScene:getSelectedBackground()
+    return self.elements.bgSelect:getSelectedBackground().id
 end
 
 
@@ -170,20 +185,24 @@ function NewRunScene:onRender(x, y, w, h)
 
     e.title:render(title:get())
 
-    local perkBox, seedBox, bottomBox = left:splitVertical(4,1,4)
+    local perkBox, backgroundBox = left:splitVertical(4,5)
     -- perk:
     local perkImg, perkText = perkBox:padRatio(0.1):splitHorizontal(1,3)
     local perkName, perkDesc = perkText:splitVertical(1,2)
     perkImg = bob(perkImg:padRatio(0.2):shrinkToAspectRatio(1,1), 0.1, 1.5)
     e.perkBox:render(perkBox:get())
     do
-    local etype = self:getSelectedPerkItem() or {}
-    drawTextIn(etype.name or "?", bob(perkName, 0.1, 2.3))
-    drawTextIn(etype.description or "???", perkDesc:padRatio(0.1))
-    if etype.image then
-        ui.drawImageInBox(client.assets.images[etype.image], perkImg:get())
+        local etype = self:getSelectedPerkItem() or {}
+        drawTextIn(etype.name or "?", bob(perkName, 0.1, 2.3))
+        drawTextIn(etype.description or "???", perkDesc:padRatio(0.1))
+        if etype.image then
+            ui.drawImageInBox(client.assets.images[etype.image], perkImg:get())
+        end
     end
-    end
+
+    -- background:
+    e.backgroundBox:render(backgroundBox:get())
+    e.bgSelect:render(backgroundBox:padRatio(0.1):get())
 
     -- selection:
     local perkSelectTitle, perkSelect = right:splitVertical(1,6)

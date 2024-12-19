@@ -8,7 +8,7 @@ local FunkyBackground = require("client.FunkyBackground")
 
 local W,H = 3000,1500
 -- HACK: kinda hacky, hardcode plot offset
-local minsize = math.min(lp.main.constants.WORLD_PLOT_SIZE[1], lp.main.constants.WORLD_PLOT_SIZE[2])
+local minsize = 100
 local DELTA = (minsize * lp.constants.WORLD_SLOT_DISTANCE) / 2
 
 function constructor()
@@ -31,5 +31,6 @@ end
 lp.backgrounds.registerBackground("lootplot.s0.backgrounds:funky_background", {
     name = loc("Funky Background"),
     description = loc("Acid Trip"),
-    constructor = constructor
+    constructor = constructor,
+    icon = "funky_background"
 })

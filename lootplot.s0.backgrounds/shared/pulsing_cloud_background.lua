@@ -1,10 +1,8 @@
-local CONST = require("shared.lpmain_const")
-
 local constructor = nil
 
 if client then
 
-local PulsingCloudBackground = require("client.backgrounds.PulsingCloudBackground")
+local PulsingCloudBackground = require("client.PulsingCloudBackground")
 
 local W,H = 3000,1500
 -- HACK: kinda hacky, hardcode plot offset
@@ -21,7 +19,8 @@ end
 
 end
 
-lp.backgrounds.registerBackground(CONST.DEFAULT_BG_NAME, {
+lp.backgrounds.registerBackground("lootplot.s0.backgrounds:pulsing_cloud_background", {
     name = localization.localize("Cloud Background"),
-    constructor = constructor
+    constructor = constructor,
+    icon = "pulsing_cloud_background"
 })
