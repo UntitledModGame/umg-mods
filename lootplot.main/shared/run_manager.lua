@@ -1,5 +1,3 @@
-local CONST = require("shared.lpmain_const")
-
 ---@class lootplot.main.RunManager
 local runManager = {}
 
@@ -81,7 +79,7 @@ server.on("lootplot.main:startRun", function(clientId, runOptionsString)
             lp.main.PLAYER_TEAM,
             runOptions.starterItem,
             runOptions.worldgenItem,
-            runOptions.background or CONST.DEFAULT_BG_NAME
+            runOptions.background
         )
         lp.setPlayerTeam(clientId, lp.main.PLAYER_TEAM)
     end
