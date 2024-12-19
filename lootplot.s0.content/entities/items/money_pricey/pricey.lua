@@ -36,7 +36,7 @@ defItem("gold_watch", {
 defItem("gold_helmet", {
     name = loc("Gold Helmet"),
 
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.RARE,
     triggers = {"PULSE"},
 
     basePrice = 8,

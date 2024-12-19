@@ -136,10 +136,10 @@ defItem("blank_page", {
 defItem("map", {
     name = loc("Map"),
 
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.RARE,
     triggers = {"PULSE"},
 
-    shape = lp.targets.CircleShape(5),
+    shape = lp.targets.CircleShape(6),
 
     doomCount = 1,
     basePrice = 5,

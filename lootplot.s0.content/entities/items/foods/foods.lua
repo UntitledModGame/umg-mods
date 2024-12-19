@@ -238,7 +238,7 @@ defineSlotSpawner("glass_tube", "Glass Bottle", "glass_slot", "Glass Slot", lp.t
 defineSlotSpawner("stone_fruit", "Stone fruit", "null_slot", "Null Slot", lp.targets.ON_SHAPE, {
     basePrice = 2,
     canItemFloat = true,
-    rarity = lp.rarities.COMMON
+    rarity = lp.rarities.UNCOMMON
 })
 
 defineSlotSpawner("dragonfruit", "Dragonfruit", "slot", "Normal Slot", lp.targets.RookShape(1), {
@@ -262,14 +262,16 @@ defineSlotSpawner("soy_sauce", "Soy Sauce", "slot", "{lootplot:DOOMED_COLOR}DOOM
     setDoomCountTo(8)
 )
 
-defineSlotSpawner("ruby_candy", "Ruby Candy", "ruby_slot", "{c r=1 b=0.2 g=0.3}Ruby{/c} {lootplot:DOOMED_COLOR}DOOMED-25{/lootplot:DOOMED_COLOR} Slot",
-    lp.targets.RookShape(1), {},
-    setDoomCountTo(25)
-)
-defineSlotSpawner("diamond_candy", "Diamond Candy", "diamond_slot", "{c r=0.6 b=0.95 g=1}Diamond{/c} {lootplot:DOOMED_COLOR}DOOMED-25{/lootplot:DOOMED_COLOR} Slot",
-    lp.targets.RookShape(1), {},
-    setDoomCountTo(25)
-)
+defineSlotSpawner("ruby_candy", "Ruby Candy", "ruby_slot", "{c r=1 b=0.2 g=0.3}Ruby{/c} {lootplot:DOOMED_COLOR}DOOMED-25{/lootplot:DOOMED_COLOR} Slot", lp.targets.RookShape(1), {
+    rarity = lp.rarities.RARE
+},
+setDoomCountTo(25))
+
+defineSlotSpawner("diamond_candy", "Diamond Candy", "diamond_slot", "{c r=0.6 b=0.95 g=1}Diamond{/c} {lootplot:DOOMED_COLOR}DOOMED-25{/lootplot:DOOMED_COLOR} Slot", lp.targets.RookShape(1), {
+    rarity = lp.rarities.RARE
+},
+setDoomCountTo(25))
+
 --[[
 TODO: could do 
 gold-candy,
@@ -280,8 +282,8 @@ steel-candy in future?
 
 
 defineSlotSpawner("steelberry", "Steel-Berry", "steel_slot", "Steel Slot", lp.targets.RookShape(1), {
-    basePrice = 7,
-    rarity = lp.rarities.UNCOMMON
+    basePrice = 9,
+    rarity = lp.rarities.RARE
 })
 
 
@@ -291,8 +293,8 @@ defineSlotSpawner("avacado", "Avacado", "emerald_slot", "Emerald Slot", lp.targe
 })
 
 
-defineSlotSpawner("fried_egg", "Fried Egg", "slot", "Slot with -5 points", lp.targets.KING_SHAPE, {}, function(slotEnt)
-    lp.modifierBuff(slotEnt, "pointsGenerated", -5)
+defineSlotSpawner("fried_egg", "Fried Egg", "slot", "Slot with -10 points", lp.targets.KING_SHAPE, {}, function(slotEnt)
+    lp.modifierBuff(slotEnt, "pointsGenerated", -10)
 end)
 
 
@@ -370,7 +372,7 @@ end
 
 local APPLE_PRICE = 10
 defineSlotConverter("tangerine", "Tangerine", "rotate_slot", "Rotate Slot", lp.targets.ON_SHAPE, {
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.RARE,
     basePrice = APPLE_PRICE
 })
 
@@ -396,7 +398,7 @@ defineSlotConverter("diamond_apple", "Diamond Apple", "diamond_slot", "Diamond S
 
 
 defineSlotConverter("cucumber_slices", "Cucumber Slices", "reroll_slot", "{lootplot:DOOMED_COLOR}DOOMED-20{/lootplot:DOOMED_COLOR} Reroll Slot", lp.targets.ON_SHAPE, {
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.RARE,
     basePrice = 6
 }, setDoomCountTo(20))
 
@@ -593,7 +595,7 @@ definePotion("potion_green", {
 definePotion("potion_blue", {
     name = loc("Blue Potion"),
 
-    rarity = lp.rarities.COMMON,
+    rarity = lp.rarities.RARE,
 
     target = {
         type = "ITEM_OR_SLOT",
@@ -626,7 +628,7 @@ definePotion("potion_red", {
 definePotion("potion_purple", {
     name = loc("Purple Potion"),
 
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.RARE,
 
     target = {
         type = "ITEM_OR_SLOT",

@@ -51,7 +51,7 @@ helper.defineDelayItem("gold_bar", "Gold Bar", {
     baseMaxActivations = 2,
     basePrice = 4,
 
-    rarity = lp.rarities.COMMON,
+    rarity = lp.rarities.UNCOMMON,
     triggers = {"PULSE"},
 
     delayCount = GOLD_BAR_ACTS,

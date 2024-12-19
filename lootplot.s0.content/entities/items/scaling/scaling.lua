@@ -47,19 +47,19 @@ defineHelmet("iron_helmet", {
 
 defItem("moon_knife", {
     name = loc("Moon Knife"),
-    activateDescription = loc("Gain 1 point permanently"),
+    activateDescription = loc("Gain 2 points permanently"),
 
     triggers = {"PULSE"},
 
     basePointsGenerated = -10,
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.RARE,
 
     basePrice = 9,
 
     baseMaxActivations = 3,
 
     onActivate = function(ent)
-        lp.modifierBuff(ent, "pointsGenerated", 1)
+        lp.modifierBuff(ent, "pointsGenerated", 2)
     end
 })
 

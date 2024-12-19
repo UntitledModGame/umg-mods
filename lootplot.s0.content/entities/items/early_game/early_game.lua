@@ -24,7 +24,7 @@ defItem("rocks", {
     basePointsGenerated = 15,
 
     lives = 1,
-    rarity = lp.rarities.COMMON,
+    rarity = lp.rarities.UNCOMMON,
     triggers = {"DESTROY"},
 })
 
@@ -52,7 +52,7 @@ helper.defineDelayItem("mana_goo", "Mana Goo", {
     baseMaxActivations = 1,
     basePointsGenerated = 6,
 
-    rarity = lp.rarities.COMMON,
+    rarity = lp.rarities.UNCOMMON,
 })
 
 
@@ -70,7 +70,7 @@ helper.defineTransformItem("key_bar", "Key Bar", {
     baseMaxActivations = 2,
     basePointsGenerated = 5,
 
-    rarity = lp.rarities.COMMON,
+    rarity = lp.rarities.UNCOMMON,
 })
 
 
@@ -152,7 +152,7 @@ defItem("coins", {
         })
     end,
 
-    rarity = lp.rarities.COMMON,
+    rarity = lp.rarities.UNCOMMON,
 
     basePointsGenerated = 5,
     baseMaxActivations = 2,

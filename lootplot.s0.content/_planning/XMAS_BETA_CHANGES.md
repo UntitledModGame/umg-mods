@@ -44,6 +44,41 @@ REMOVE BLOAT FROM TREASURE-ITEMS:
 (ie isn't doomed!!! Shape UP-1, rarity=EPIC)
 
 
+(((ALL DONE)))
+PUSH TO RARE:
+Gold helmet
+Moon knife (and buff it?)
+Pineapple ring
+Egg
+Tangering
+Quad dice
+Cucumber slices
+Ruby Candy
+Diamond Candy
+Dark Chest
+Abstract Chest
+Steel berries
+Purple potion
+Map
+
+
+(((ALL DONE)))
+PUSH TO UNCOMMON:
+Blue-potion
+Stone-fruit
+Rocks
+Gold-bar
+Key-bar
+Mana goo
+Coins
+
+
+Remove (or refactor) boot-items
+
+
+Remove (or refactor?) mult-book, and points-book
+
+
 - MINERAL items changes:
 Swords changed to UNCOMMON/RARE
 - Mineral items (Especially swords) are self-buffing.
@@ -66,7 +101,7 @@ Copper has GRUB-cap. (Other than that; same as iron)
 
 - Change key-balloon. It's garbage design.
 
-- Mult-items designing
+- Design new mult-items 
 
 ------
 

@@ -96,7 +96,7 @@ defGrubby("pineapple_ring", {
 
     shape = lp.targets.CircleShape(2),
 
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.RARE,
 })
 
 

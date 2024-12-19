@@ -179,7 +179,7 @@ defChest("chest_gold_small", "Small Golden Chest", {
     doomCount = 1,
     baseMoneyGenerated = 15,
     basePrice = 4,
-    rarity = lp.rarities.UNCOMMON
+    rarity = lp.rarities.RARE
 })
 
 
@@ -193,7 +193,7 @@ defChest("chest_gold_big", "Big Golden Chest", {
 
 
 defChest("chest_dark", "Dark Chest", {
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.RARE,
     basePrice = 1,
 
     activateDescription = locRarity("Spawns a %{RARE} item, and {lootplot:DOOMED_LIGHT_COLOR}DESTROYS{/lootplot:DOOMED_LIGHT_COLOR} all target-items."),
@@ -248,7 +248,7 @@ It kinda looks a bit fragile...?
 ---@type generation.Generator
 local abstractGen
 defChest("chest_abstract", "Abstract Chest", {
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.RARE,
     activateDescription = function(ent)
         local r1 = ent.rarity
         return ABSTRACT_DESC({
