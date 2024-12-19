@@ -44,18 +44,6 @@ defItem("reroll_decoration", "Reroll Decoration", {
     baseMaxActivations = 100,
 })
 
-defItem("cactus", "Cactus", {
-    triggers = {"REROLL"},
-
-    rarity = lp.rarities.COMMON,
-
-    doomCount = 12,
-
-    basePrice = 4,
-    basePointsGenerated = 20,
-    baseMaxActivations = 100,
-})
-
 
 
 
@@ -127,6 +115,20 @@ end
 
 
 
+defineDice("quad_dice", "Quad Dice", {
+    triggers = {"REROLL"},
+
+    rarity = lp.rarities.UNCOMMON,
+
+    basePrice = 8,
+    baseMaxActivations = 10,
+    basePointsGenerated = 50,
+})
+
+
+
+
+
 --[[
 ====================
 GRUBBY SUB-ARCHETYPE:
@@ -145,19 +147,6 @@ defineDice("triple_dice", "Triple Dice", {
     grubMoneyCap = assert(consts.DEFAULT_GRUB_MONEY_CAP)
 })
 
-
-local PTS = 20
-defineDice("quad_dice", "Quad Dice", {
-    triggers = {"REROLL"},
-
-    rarity = lp.rarities.UNCOMMON,
-
-    basePrice = 8,
-    baseMaxActivations = 10,
-    basePointsGenerated = PTS,
-
-    grubMoneyCap = assert(consts.DEFAULT_GRUB_MONEY_CAP)
-})
 
 
 

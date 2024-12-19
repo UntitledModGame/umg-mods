@@ -204,7 +204,7 @@ defBalloon("green_balloon", "Green Balloon", {
 
 
 defBalloon("rotation_balloon", "Rotation Balloon", {
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.RARE,
 
     basePrice = 6,
 

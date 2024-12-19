@@ -126,21 +126,21 @@ defItem("leather", {
 --[[
 purpose is to give intuition about how target-system works
 ]]
-defItem("net", {
-    name = loc("Net"),
+defItem("blue_net", {
+    name = loc("Blue Net"),
 
-    rarity = lp.rarities.COMMON,
+    rarity = lp.rarities.UNCOMMON,
 
-    basePrice = 3,
+    basePrice = 5,
 
     listen = {
         trigger = "PULSE"
     },
     shape = lp.targets.KING_SHAPE,
 
-    baseMaxActivations = 8,
+    baseMaxActivations = 20,
 
-    basePointsGenerated = 2,
+    basePointsGenerated = 3,
 })
 
 
@@ -189,7 +189,7 @@ lp.defineItem("lootplot.s0.content:bone", {
     basePrice = 0,
 
     lives = 6,
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.COMMON,
 
     triggers = {"PULSE"},
 })

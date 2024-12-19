@@ -13,31 +13,30 @@
 
 REMOVE BLOAT FROM TREASURE-ITEMS:
 - (((NOT-DONE.))) Remove GRUBBY sacks
-    - I really like the sprite for GRUBBY-sacks; i wanna keep it lol
+    -(((I like the sprite for GRUBBY-sacks; so keep it)))
 - (((DONE))) Make REPEATER/REROLL sacks EPIC
 
 
-- Buff stick  (+8 points?)
+- (((DONE))) Buff stick  (+8 points?)
 
-- Make Bone COMMON
+- (((DONE))) Make Bone COMMON
 
-- Remove cactus
+- (((DONE))) Remove cactus
 
-- Make Net UNCOMMON (and make it blue!)
+- (((DONE))) Make Net UNCOMMON (and make it blue!)
+
 - Create New Multiplier-Net item  (RARE)
 
 - Make leather UNCOMMON; remove money mult
 
-- Quad dice: 
-Remove GRUBBY from it
-Buff to 50 points
+- (((DONE))) Quad dice: Remove GRUBBY from it. Buff to 50 points
 
 - Trumpet: make UNCOMMON. Buff points
 
 
 - Make Spanner UNCOMMON
 
-- (((DONE))) Make Rotation-balloon UNCOMMON 
+- (((DONE))) Make Rotation-balloon RARE 
 
 - Make Coconut UNCOMMON
 
@@ -60,6 +59,9 @@ NEW MINERAL TYPE: "Cobalt"
 Cobalt needs 1 mana to activate. 
 It has EXCELLENT base-points and scaling.
 (Otherwise its identical to iron)
+
+NEW MINERAL TYPE: "Copper"
+Copper has GRUB-cap. (Other than that; same as iron)
 
 
 - Change key-balloon. It's garbage design.
