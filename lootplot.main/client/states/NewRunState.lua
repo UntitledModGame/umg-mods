@@ -22,15 +22,26 @@ function NewRunState:init(cancelAction)
         end
     end
 
+    local backgrounds = lp.backgrounds.getRegisteredBackgrounds()
+    assert(#backgrounds > 0, "no backgrounds?")
+    table.sort(backgrounds, function(a, b)
+        return a.id < b.id
+    end)
+    local selected = backgrounds[1].id -- TODO: Respect last selected
+
     self.scene = NewRunScene({
+        backgrounds = backgrounds,
+        lastSelectedBackground = selected,
+
         -- BIG TODO AND FIXME
         -- Currently we picked first option.
         -- We should create worldgen selection screen for it though.
-        startNewRun = function(startingItemName)
+        startNewRun = function(startingItemName, background)
             umg.analytics.collect("lootplot.main:newRun", {
                 starterItem = startingItemName,
                 worldgenItem = lp.worldgen.STARTING_WORLDGEN[1],
-                hadRun = not not cancelRun
+                hadRun = not not cancelRun,
+                background = background
             })
 
             state.pop(self)
@@ -40,6 +51,7 @@ function NewRunState:init(cancelAction)
                 starterItem = startingItemName,
                 worldgenItem = lp.worldgen.STARTING_WORLDGEN[1],
                 seed = "",
+                background = background
             })
         end,
         cancelRun = cancelRun
@@ -57,6 +69,7 @@ function NewRunState:onRemoved()
 end
 
 function NewRunState:update(dt)
+    return self.scene:update(dt)
 end
 
 function NewRunState:draw()

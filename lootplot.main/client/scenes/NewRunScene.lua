@@ -24,13 +24,22 @@ local NewRunScene = ui.Element("lootplot.main:NewRunScene")
 local FONT_SIZE = 32
 local BACKGROUND_COLOR = objects.Color(objects.Color.HSLtoRGB(250, 0.1, 0.32))
 local KEYS = {
-    startNewRun = true
+    startNewRun = true,
+    backgrounds = true, -- lootplot.backgrounds.BackgroundInfoData[]
+    lastSelectedBackground = true -- string (ID of background)
 }
 
 local FOREGROUND_COLOR = objects.Color(objects.Color.HSLtoRGB(250, 0.1, 0.14))
+local BACKGROUND_ANIM_TIME = 0.5
 
 function NewRunScene:init(arg)
     typecheck.assertKeys(arg, KEYS)
+
+    ---@type lootplot.backgrounds.BackgroundInfoData[]
+    self.backgrounds = arg.backgrounds
+    self.backgroundIndexFloat = 1
+    self.backgroundAnimStart = 0 -- if above 0, move according to "direction"
+    self.backgroundAnimDir = 0 -- 1 = right to left, -1 = left to right
 
     local e = {}
     e.base = StretchableBox("white_pressed_big", 8, {
@@ -86,6 +95,30 @@ function NewRunScene:init(arg)
         content = self.perkSelect
     })
 
+    e.backgroundBox = StretchableBox("white_pressed_big", 8, {
+        stretchType = "repeat",
+        color = FOREGROUND_COLOR,
+        scale = 1
+    })
+    e.backgroundPrev = ui.elements.Button({
+        click = function()
+            if self.backgroundAnimStart <= 0 then
+                self.backgroundAnimDir = -1
+                self.backgroundAnimStart = BACKGROUND_ANIM_TIME
+            end
+        end,
+        image = client.assets.images.prev_list_button
+    })
+    e.backgroundNext = ui.elements.Button({
+        click = function()
+            if self.backgroundAnimStart <= 0 then
+                self.backgroundAnimDir = 1
+                self.backgroundAnimStart = BACKGROUND_ANIM_TIME
+            end
+        end,
+        image = client.assets.images.next_list_button
+    })
+
     for _, v in pairs(e) do
         self:addChild(v)
     end
@@ -93,9 +126,45 @@ function NewRunScene:init(arg)
 end
 
 
+---@param a integer
+---@param b integer
+local function moduloBy1(a, b)
+    return (a - 1) % b + 1
+end
+
+function NewRunScene:onUpdate(dt)
+    -- Update background animation
+    if self.backgroundAnimStart > 0 then
+        self.backgroundIndexFloat = self.backgroundIndexFloat + dt * self.backgroundAnimDir / BACKGROUND_ANIM_TIME
+        self.backgroundAnimStart = self.backgroundAnimStart - dt
+    else
+        if self.backgroundAnimDir > 0 then
+            self.backgroundIndexFloat = math.floor(self.backgroundIndexFloat)
+        elseif self.backgroundAnimDir < 0 then
+            self.backgroundIndexFloat = math.ceil(self.backgroundIndexFloat)
+        end
+
+        self.backgroundAnimDir = 0
+    end
+
+    self.backgroundIndexFloat = moduloBy1(self.backgroundIndexFloat, #self.backgrounds)
+end
+
+
 
 function NewRunScene:getSelectedPerkItem()
     return self.perkSelect:getSelectedItem()
+end
+
+function NewRunScene:getSelectedBackground()
+    local index = self.backgroundIndexFloat
+    if self.backgroundAnimDir > 0 then
+        index = math.ceil(index)
+    elseif self.backgroundAnimDir < 0 then
+        index = math.floor(index)
+    end
+
+    return math.floor(moduloBy1(index, #self.backgrounds)) -- another math.floor just to be safe
 end
 
 
@@ -141,6 +210,9 @@ local function bob(region, amp, speed)
     return region:moveRatio(0, (amp or 0.1) * math.sin(love.timer.getTime() * (speed or 1)))
 end
 
+local LOWEST_INDEX = 2
+local BACKGROUND_DRAW_ORDER = {-2, 2, -1, 1, 0}
+
 function NewRunScene:onRender(x, y, w, h)
     love.graphics.setColor(objects.Color.WHITE)
     local r = layout.Region(x,y,w,h):padRatio(0.15, 0.1)
@@ -170,20 +242,48 @@ function NewRunScene:onRender(x, y, w, h)
 
     e.title:render(title:get())
 
-    local perkBox, seedBox, bottomBox = left:splitVertical(4,1,4)
+    local perkBox, backgroundBox = left:splitVertical(4,5)
     -- perk:
     local perkImg, perkText = perkBox:padRatio(0.1):splitHorizontal(1,3)
     local perkName, perkDesc = perkText:splitVertical(1,2)
     perkImg = bob(perkImg:padRatio(0.2):shrinkToAspectRatio(1,1), 0.1, 1.5)
     e.perkBox:render(perkBox:get())
     do
-    local etype = self:getSelectedPerkItem() or {}
-    drawTextIn(etype.name or "?", bob(perkName, 0.1, 2.3))
-    drawTextIn(etype.description or "???", perkDesc:padRatio(0.1))
-    if etype.image then
-        ui.drawImageInBox(client.assets.images[etype.image], perkImg:get())
+        local etype = self:getSelectedPerkItem() or {}
+        drawTextIn(etype.name or "?", bob(perkName, 0.1, 2.3))
+        drawTextIn(etype.description or "???", perkDesc:padRatio(0.1))
+        if etype.image then
+            ui.drawImageInBox(client.assets.images[etype.image], perkImg:get())
+        end
     end
+
+    -- background:
+    e.backgroundBox:render(backgroundBox:get())
+    local bgName, bgSelectBase = backgroundBox:padRatio(0.1):splitVertical(1, 2)
+    local bgButtonLeft, bgList, bgButtonRight = bgSelectBase:splitHorizontal(1, 4, 1)
+
+    local currentSelectedIndex = self:getSelectedBackground()
+    drawTextIn(self.backgrounds[currentSelectedIndex].name, bgName)
+
+    e.backgroundPrev:render(bgButtonLeft:get())
+    e.backgroundNext:render(bgButtonRight:get())
+
+    bgList = bgList:padRatio(0.2, 0, 0.2, 0)
+    local halfWidth = bgList.w / 2
+    local drawY = bgList.y + bgList.h / 2
+    local LOWEST_INDEX_PLUS_1 = LOWEST_INDEX + 1
+
+    for _, relidx in ipairs(BACKGROUND_DRAW_ORDER) do
+        local fract = self.backgroundIndexFloat % 1
+        local tbdIndex = moduloBy1(currentSelectedIndex + relidx, #self.backgrounds)
+
+        local drawX = bgList.x + halfWidth + (relidx + fract) * halfWidth / LOWEST_INDEX
+        local baseScale = (LOWEST_INDEX_PLUS_1 - math.abs(relidx + fract)) / LOWEST_INDEX_PLUS_1
+        local scale = bgList.h * baseScale / (16 * LOWEST_INDEX)
+        rendering.drawImage(self.backgrounds[tbdIndex].icon, drawX, drawY, 0, scale, scale)
     end
+    print(self.backgroundIndexFloat)
+    drawRegions {bgButtonLeft, bgButtonRight, bgList}
 
     -- selection:
     local perkSelectTitle, perkSelect = right:splitVertical(1,6)
