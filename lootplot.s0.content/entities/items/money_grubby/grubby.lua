@@ -103,8 +103,7 @@ defGrubby("pineapple_ring", {
 
 
 do
-local CENT_REQ = GRUB_MONEY_CAP-1
-local PRICE_SET = 4
+local PRICE_CAP = GRUB_MONEY_CAP-1
 
 defGrubby("2_cent_ticket", {
     name = loc("2 Cent Ticket"),
@@ -113,6 +112,10 @@ defGrubby("2_cent_ticket", {
     grubMoneyCap = GRUB_MONEY_CAP,
     canItemFloat = true,
 
+    activateDescription = loc("Limit all target item prices to {lootplot:MONEY_COLOR}$%{priceCap}.", {
+        priceCap = PRICE_CAP,
+    }),
+
     baseMaxActivations = 20,
 
     triggers = {"REROLL", "PULSE"},
@@ -120,15 +123,11 @@ defGrubby("2_cent_ticket", {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
             local price = targetEnt.price
-            if price and price > CENT_REQ then
-                local delta = targetEnt.price - PRICE_SET
+            if price and price > PRICE_CAP then
+                local delta = targetEnt.price - PRICE_CAP
                 lp.modifierBuff(targetEnt, "price", -delta, selfEnt)
             end
         end,
-        description = interp("If item price more than $%{price}, set item's price to $%{priceSet}."){
-            price = CENT_REQ,
-            priceSet = PRICE_SET
-        }
     },
 
     shape = lp.targets.CircleShape(3),
@@ -137,6 +136,53 @@ defGrubby("2_cent_ticket", {
 })
 
 end
+
+
+defItem("0_cent_ticket", {
+    name = loc("0 Cent Ticket"),
+    triggers = {"PULSE", "REROLL"},
+
+    activateDescription = loc("Reduces all target item prices by {lootplot:MONEY_COLOR}$3{/lootplot:MONEY_COLOR}."),
+
+    basePrice = 6,
+    grubMoneyCap = GRUB_MONEY_CAP,
+    canItemFloat = true,
+
+    rarity = lp.rarities.RARE,
+
+    shape = lp.targets.DownShape(1),
+
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            local price = targetEnt.price
+            if price then
+                lp.modifierBuff(targetEnt, "price", -3, selfEnt)
+            end
+        end
+    },
+})
+
+
+
+
+defItem("3_cent_ticket", {
+    name = loc("3 Cent Ticket"),
+
+    listen = {
+        trigger = "BUY",
+    },
+
+    basePrice = 12,
+    grubMoneyCap = 5,
+    baseMoneyGenerated = 5,
+    canItemFloat = true,
+
+    rarity = lp.rarities.LEGENDARY,
+
+    shape = lp.targets.KingShape(3),
+})
+
 
 
 
