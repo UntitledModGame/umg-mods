@@ -73,6 +73,10 @@ Mana goo
 Coins
 
 
+HMMM: Should pies be RARE?
+Right now they are UNCOMMON. Maybe thats a bit OP.
+
+
 Remove (or refactor) boot-items
 
 
