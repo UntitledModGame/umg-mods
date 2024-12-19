@@ -224,20 +224,6 @@ defChest("chest_epic", "Epic Chest", {
 })
 
 
-defChest("chest_grubby", "Grubby Chest", {
-    rarity = lp.rarities.UNCOMMON,
-    activateDescription = locRarity("Spawns an item that that is %{RARE} or above, and gives it {lootplot:GRUB_COLOR_LIGHT}GRUB-10."),
-
-    grubMoneyCap = 10,
-
-    generateTreasureItem = newLazyGen(ofRarity({r.RARE, r.EPIC, r.LEGENDARY}), DEFAULT_WEIGHT),
-    transformTreasureItem = function(ent)
-        ent.grubMoneyCap = 10
-    end
-})
-
-
-
 defChest("chest_food", "Food Chest", {
     rarity = lp.rarities.UNCOMMON,
     activateDescription = loc("Spawns a {lootplot:DOOMED_LIGHT_COLOR}DOOMED-1{/lootplot:DOOMED_LIGHT_COLOR} food item."),
@@ -286,7 +272,7 @@ defChest("chest_abstract", "Abstract Chest", {
 
 defChest("chest_legendary", "Legendary Chest", {
     activateDescription = locRarity("Spawns a %{LEGENDARY} item."),
-    rarity = lp.rarities.EPIC,
+    rarity = lp.rarities.LEGENDARY,
     generateTreasureItem = newLazyGen(ofRarity({r.LEGENDARY}), DEFAULT_WEIGHT)
 })
 
@@ -315,7 +301,7 @@ end
 defSack("sack_rare", "Rare Sack", {
     activateDescription = locRarity("Spawns a %{RARE} item."),
 
-    rarity = lp.rarities.RARE,
+    rarity = lp.rarities.UNCOMMON,
     generateTreasureItem = newLazyGen(function (etype)
         return etype.rarity == r.RARE and (not isFood(etype))
     end, DEFAULT_WEIGHT),
@@ -334,7 +320,7 @@ defSack("sack_food", "Food Sack", {
     activateDescription = loc("Spawns a {lootplot:DOOMED_LIGHT_COLOR}DOOMED-1{/lootplot:DOOMED_LIGHT_COLOR} food item."),
     doomCount = 1,
 
-    basePrice = 3,
+    basePrice = 2,
 
     rarity = lp.rarities.COMMON,
     generateTreasureItem = newLazyGen(isFood, DEFAULT_WEIGHT),
@@ -343,7 +329,7 @@ defSack("sack_food", "Food Sack", {
 defSack("sack_ruby", "Ruby Sack", {
     activateDescription = locRarity("Spawns a %{RARE} item, and gives it {lootplot:INFO_COLOR}REPEATER."),
 
-    rarity = lp.rarities.RARE,
+    rarity = lp.rarities.EPIC,
     generateTreasureItem = newLazyGen(function (etype)
         return etype.rarity == r.RARE and (not isFood(etype))
     end, DEFAULT_WEIGHT),
@@ -378,6 +364,8 @@ defSack("sack_grubby", "Grubby Sack", {
     activateDescription = locRarity("Spawns a %{RARE} item, and gives it {lootplot:GRUB_COLOR_LIGHT}GRUB-10{/lootplot:GRUB_COLOR_LIGHT}."),
 
     rarity = lp.rarities.RARE,
+
+    basePrice = 3,
 
     grubMoneyCap = 20,
     -- this ^^^^ shcomp serves as an indicator, 

@@ -12,8 +12,9 @@
 
 
 REMOVE BLOAT FROM TREASURE-ITEMS:
-- Remove GRUBBY sacks 
-- Make REPEATER/REROLL sacks EPIC
+- (((NOT-DONE.))) Remove GRUBBY sacks
+    - I really like the sprite for GRUBBY-sacks; i wanna keep it lol
+- (((DONE))) Make REPEATER/REROLL sacks EPIC
 
 
 - Buff stick  (+8 points?)
