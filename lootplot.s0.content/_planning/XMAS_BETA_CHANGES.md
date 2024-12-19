@@ -66,10 +66,13 @@ Copper has GRUB-cap. (Other than that; same as iron)
 
 - Change key-balloon. It's garbage design.
 
+- Mult-items designing
+
 ------
 
-Rotation tool: Make it cost $0 (max 3 activations)
+Rotation tool: Make it cost $2 (max 3 activations)
 
-Rotation slot: Add an `ACTIVATE` button; allowing people to rotate items during the round.
+Rotation slot: Add an `ACTIVATE` button; costing $2;
+allowing people to rotate items during the round.
 This would make stuff way better.
 
