@@ -63,7 +63,7 @@ function (selfEnt, ppos, targetEnt)
 end)
 
 
-defineCap("gold_cap", "Blue Cap",
+defineCap("golden_cap", "Golden Cap",
 "Earns {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} for every target-item that earns money",
 function(selfEnt, ppos, targetEnt)
     return targetEnt.moneyGenerated and targetEnt.moneyGenerated > 0
@@ -74,10 +74,10 @@ end)
 
 
 defineCap("red_cap", "Red Cap",
-"Earns {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} for every target-item that earns money",
+"Adds a {lootplot:POINTS_MULT_COLOR}0.1 multiplier{/lootplot:POINTS_MULT_COLOR} for every target-item that gives multiplier",
 function(selfEnt, ppos, targetEnt)
-    return umg.melt("TODO: Make a proper component and fix this!")
+    return targetEnt.multGenerated and targetEnt.multGenerated > 1
 end,
 function (selfEnt, ppos, targetEnt)
-    umg.melt("Add mult here.")
+    lp.addPointsMult(selfEnt, 0.1)
 end)
