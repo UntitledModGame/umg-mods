@@ -30,7 +30,7 @@ local KEYS = {
 }
 
 local FOREGROUND_COLOR = objects.Color(objects.Color.HSLtoRGB(250, 0.1, 0.14))
-local BACKGROUND_ANIM_TIME = 0.5
+local BACKGROUND_ANIM_TIME = 0.2
 
 function NewRunScene:init(arg)
     typecheck.assertKeys(arg, KEYS)
@@ -40,6 +40,13 @@ function NewRunScene:init(arg)
     self.backgroundIndexFloat = 1
     self.backgroundAnimStart = 0 -- if above 0, move according to "direction"
     self.backgroundAnimDir = 0 -- 1 = right to left, -1 = left to right
+
+    for i, bg in ipairs(self.backgrounds) do
+        if bg.id == arg.lastSelectedBackground then
+            self.backgroundIndexFloat = i
+            break
+        end
+    end
 
     local e = {}
     e.base = StretchableBox("white_pressed_big", 8, {
@@ -68,7 +75,7 @@ function NewRunScene:init(arg)
             end
             local typName = itemEType:getTypename()
             assert(itemEType:getEntityMt())
-            return arg.startNewRun(assert(typName))
+            return arg.startNewRun(assert(typName), self.backgrounds[self:getSelectedBackground()].id)
         end,
         text = NEW_RUN_BUTTON_STRING,
         scale = 2,
@@ -135,13 +142,16 @@ end
 function NewRunScene:onUpdate(dt)
     -- Update background animation
     if self.backgroundAnimStart > 0 then
-        self.backgroundIndexFloat = self.backgroundIndexFloat + dt * self.backgroundAnimDir / BACKGROUND_ANIM_TIME
         self.backgroundAnimStart = self.backgroundAnimStart - dt
+    end
+
+    if self.backgroundAnimStart > 0 then
+        self.backgroundIndexFloat = self.backgroundIndexFloat + dt * self.backgroundAnimDir / BACKGROUND_ANIM_TIME
     else
         if self.backgroundAnimDir > 0 then
-            self.backgroundIndexFloat = math.floor(self.backgroundIndexFloat)
+            self.backgroundIndexFloat = math.floor(self.backgroundIndexFloat + 0.5)
         elseif self.backgroundAnimDir < 0 then
-            self.backgroundIndexFloat = math.ceil(self.backgroundIndexFloat)
+            self.backgroundIndexFloat = math.ceil(self.backgroundIndexFloat - 0.5)
         end
 
         self.backgroundAnimDir = 0
@@ -276,14 +286,16 @@ function NewRunScene:onRender(x, y, w, h)
     for _, relidx in ipairs(BACKGROUND_DRAW_ORDER) do
         local fract = self.backgroundIndexFloat % 1
         local tbdIndex = moduloBy1(currentSelectedIndex + relidx, #self.backgrounds)
+        if self.backgroundAnimDir > 0 then
+            -- HACK
+            tbdIndex = moduloBy1(tbdIndex - 1, #self.backgrounds)
+        end
 
-        local drawX = bgList.x + halfWidth + (relidx + fract) * halfWidth / LOWEST_INDEX
-        local baseScale = (LOWEST_INDEX_PLUS_1 - math.abs(relidx + fract)) / LOWEST_INDEX_PLUS_1
-        local scale = bgList.h * baseScale / (16 * LOWEST_INDEX)
+        local drawX = bgList.x + halfWidth + (relidx - fract) * halfWidth / LOWEST_INDEX
+        local baseScale = (LOWEST_INDEX_PLUS_1 - math.abs(relidx - fract)) / LOWEST_INDEX_PLUS_1
+        local scale = bgList.h * baseScale / 16
         rendering.drawImage(self.backgrounds[tbdIndex].icon, drawX, drawY, 0, scale, scale)
     end
-    print(self.backgroundIndexFloat)
-    drawRegions {bgButtonLeft, bgButtonRight, bgList}
 
     -- selection:
     local perkSelectTitle, perkSelect = right:splitVertical(1,6)
