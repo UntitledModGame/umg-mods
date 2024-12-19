@@ -87,9 +87,9 @@ defItem("stick", {
 
     triggers = {"REROLL", "PULSE"},
 
-    rarity = lp.rarities.COMMON,
+    rarity = lp.rarities.UNCOMMON,
 
-    basePointsGenerated = 4,
+    basePointsGenerated = 8,
     basePrice = 2,
 })
 
@@ -209,16 +209,16 @@ defItem("4_leaf_clover", {
 
     triggers = {"REROLL"},
 
-    description = loc("10% chance to turn into a {lootplot:INFO_COLOR} key."),
+    description = loc("4% chance to turn into a {lootplot:INFO_COLOR} key."),
 
     basePrice = 6,
     basePointsGenerated = 10,
-    baseMaxActivations = 20,
+    baseMaxActivations = 50,
 
     rarity = lp.rarities.COMMON,
 
     onActivate = function(ent)
-        if lp.SEED:randomMisc() < 0.1 then
+        if lp.SEED:randomMisc() < 0.04 then
             local pos = lp.getPos(ent)
             if pos then
                 lp.forceSpawnItem(pos, server.entities.key, ent.lootplotTeam)
