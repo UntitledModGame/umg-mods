@@ -267,7 +267,7 @@ function LPState:drawHUD()
     self.layout.bottom:size(0, 32 * gs)
 
     local points = run:getAttribute("POINTS")
-    local pointMul = run:getAttribute("POINTS_MUL")
+    local pointMul = run:getAttribute("POINTS_MULT")
     local requiredPoints = run:getAttribute("REQUIRED_POINTS")
     local round = run:getAttribute("ROUND")
     local numberOfRounds = run:getAttribute("NUMBER_OF_ROUNDS")

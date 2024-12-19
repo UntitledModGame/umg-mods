@@ -262,7 +262,7 @@ lp.defineAttribute = attributes.defineAttribute
 
 lp.defineAttribute("MONEY")
 lp.defineAttribute("POINTS")
-lp.defineAttribute("POINTS_MUL") -- maybe we should have multipler for attribute?
+lp.defineAttribute("POINTS_MULT")
 
 -- COMBO = number of successive activations without interruption.
 lp.defineAttribute("COMBO")
@@ -310,14 +310,15 @@ function lp.setPoints(fromEnt, x)
     lp.setAttribute("POINTS", fromEnt, x)
 end
 
----If you need to bypass `POINTS_MUL` attribute, use `lp.modifyAttribute("POINTS", fromEnt, x)` instead.
+---If you need to bypass `POINTS_MULT` attribute, use `lp.modifyAttribute("POINTS", fromEnt, x)` instead.
 ---
 ---Availability: **Server**
 ---@param fromEnt Entity
 ---@param x number
 function lp.addPoints(fromEnt, x)
     modifyTc(fromEnt, x)
-    lp.modifyAttribute("POINTS", fromEnt, x * lp.getAttribute("POINTS_MUL", fromEnt))
+    local val = x * (lp.getPointsMult(fromEnt) or 1)
+    lp.modifyAttribute("POINTS", fromEnt, val)
 end
 
 
@@ -328,6 +329,33 @@ function lp.getPoints(ent)
     entityTc(ent)
     return lp.getAttribute("POINTS", ent)
 end
+
+
+
+
+---Availability: Client and Server
+---@param fromEnt Entity
+---@return number?
+function lp.getPointsMult(fromEnt)
+    entityTc(fromEnt)
+    return lp.getAttribute("POINTS_MULT", fromEnt)
+end
+
+---Availability: Server
+---@param fromEnt Entity
+---@return number?
+function lp.setPointsMult(fromEnt, x)
+    entityTc(fromEnt)
+    lp.setAttribute("POINTS_MULT", fromEnt, x)
+end
+
+---Availability: Server
+---@param fromEnt Entity
+function lp.addPointsMult(fromEnt, x)
+    entityTc(fromEnt)
+    lp.modifyAttribute("POINTS_MULT", fromEnt, x)
+end
+
 
 
 

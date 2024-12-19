@@ -164,8 +164,8 @@ defineFood("coffee_cup", {
     triggers = {"PULSE"},
     rarity = lp.rarities.RARE,
     onActivate = function(self)
-        local gmul = lp.getAttribute("POINTS_MUL", self)
-        return lp.setAttribute("POINTS_MUL", self, gmul * 1.25)
+        local gmul = lp.getPointsMult(self)
+        return lp.setPointsMult(self, gmul * 1.25)
     end
 })
 
@@ -177,8 +177,7 @@ defineFood("tricolor_dango", { -- Loved by an introverted Shogun in another dime
     doomCount = 3,
     baseMaxActivations = 3,
     onActivate = function(self)
-        local gmul = lp.getAttribute("POINTS_MUL", self)
-        return lp.setAttribute("POINTS_MUL", self, gmul + 3)
+        return lp.addPointsMult(self, 3)
     end
 })
 

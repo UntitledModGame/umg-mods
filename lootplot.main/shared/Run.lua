@@ -64,9 +64,11 @@ function Run:init(perkItem, bg)
     self.attrs.REQUIRED_POINTS = 0
     self.attrs.ROUND = 1
     self.attrs.NUMBER_OF_ROUNDS = constants.ROUNDS_PER_LEVEL
-    self.attrs.POINTS_MUL = 1
+    self.attrs.POINTS_MULT = 1
     for _, a in ipairs(lp.getAllAttributes()) do
-        assert(self.attrs[a], "we missed one!")
+        if not (self.attrs[a]) then
+            umg.melt("we missed one: " .. a)
+        end
     end
 end
 

@@ -61,7 +61,7 @@ end)
 
 umg.on("lootplot:pointsChanged", function(ent, delta)
     local multxt = ""
-    local pmul = lp.getAttribute("POINTS_MUL", ent)
+    local pmul = lp.getPointsMult(ent)
     if pmul > 1 then
         multxt = " x"..pmul
     end
