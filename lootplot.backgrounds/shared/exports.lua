@@ -26,9 +26,9 @@ bg.backgroundTypecheck = IBGTc
 ---Availability: **Client**
 bg.IBackground = IBackground
 
----@type lootplot.backgrounds.BackgroundInfo[]
+---@type lootplot.backgrounds.BackgroundInfoData[]
 local registry = {}
----@type table<string, lootplot.backgrounds.BackgroundInfo>
+---@type table<string, lootplot.backgrounds.BackgroundInfoData>
 local defined = {}
 
 ---@class lootplot.backgrounds.BackgroundInfo
@@ -36,6 +36,9 @@ local defined = {}
 ---@field public constructor (fun():lootplot.backgrounds.IBackground)? @note this is nil on server-side
 ---@field public description string?
 ---@field public icon string?
+
+---@class lootplot.backgrounds.BackgroundInfoData: lootplot.backgrounds.BackgroundInfo
+---@field public id string
 
 local registerBGTc = typecheck.assert("string", "table")
 local registerBGTableTc = {"name"}
@@ -54,13 +57,14 @@ function bg.registerBackground(name, def)
         def.constructor = nil
     end
 
+    ---@cast def lootplot.backgrounds.BackgroundInfoData
+    def.id = name
     registry[#registry + 1] = def
     defined[name] = def
 end
 
----@return lootplot.backgrounds.BackgroundInfo[]
 function bg.getRegisteredBackgrounds()
-    return table.copy(registry, false)
+    return table.shallowCopy(registry)
 end
 
 ---@type string?
