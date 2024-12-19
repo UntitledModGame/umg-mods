@@ -164,12 +164,26 @@ end
 
 local EARN_MONEY = interp("{lootplot:MONEY_COLOR}Earns $%{moneyGenerated:.1f}", VERB_CTX)
 local STEAL_MONEY = interp("{lootplot:BAD_COLOR}Costs {lootplot:MONEY_COLOR}$%{cost:.1f}{/lootplot:MONEY_COLOR} to activate!")
-local MONEY_INFO = interp("  ({lootplot:POINTS_MOD_COLOR}%{mod}{/lootplot:POINTS_MOD_COLOR} x {lootplot:POINTS_MULT_COLOR}%{mult} mult{/lootplot:POINTS_MULT_COLOR})")
+
+local GAIN_MULT = interp("Adds {lootplot:POINTS_MULT_COLOR}%{multGenerated:.1f} multiplier")
+local LOSE_MULT = interp("{lootplot:BAD_COLOR}Subtracts %{multCost:.1f} multiplier!")
+
 
 umg.on("lootplot:populateDescription", 30, function(ent, arr)
     local pgen = ent.pointsGenerated
     if pgen and pgen ~= 0 then
         addPointsDescription(ent, arr, pgen)
+    end
+
+    local multGen = ent.multGenerated
+    if multGen and multGen ~= 0 then
+        if multGen > 0 then
+            arr:add(GAIN_MULT(ent))
+        else
+            arr:add(LOSE_MULT({
+                multCost = -ent.multGenerated
+            }))
+        end
     end
 
     local mEarn = ent.moneyGenerated

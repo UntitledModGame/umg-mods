@@ -174,6 +174,10 @@ end)
 if server then
     
 umg.on("lootplot:entityActivated", function(ent)
+    if ent.multGenerated and ent.multGenerated ~= 0 then
+        lp.addPointsMult(ent, ent.multGenerated)
+    end
+
     if ent.pointsGenerated and ent.pointsGenerated ~= 0 then
         lp.addPoints(ent, ent.pointsGenerated)
     end

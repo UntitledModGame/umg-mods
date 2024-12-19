@@ -123,5 +123,8 @@ defNumberProperty("pointsGenerated", {base="basePointsGenerated", default=0})
 
 defNumberProperty("moneyGenerated", {base="baseMoneyGenerated", default=0})
 
+defNumberProperty("multGenerated", {base="baseMultGenerated", default=0})
+-- ^^^ adds global-mult
+
 
 sync.autoSyncComponent("lootplotTeam", {type = "string"})

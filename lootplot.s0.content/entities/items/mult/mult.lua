@@ -54,8 +54,6 @@ Items that put mult into negative,
 
 
 
-
-
 ....
 
 todo;
@@ -64,6 +62,25 @@ plan others.
 ...
 
 ]]
+
+
+
+
+
+defItem("red_net", "Red Net", {
+    rarity = lp.rarities.UNCOMMON,
+
+    basePrice = 5,
+
+    listen = {
+        trigger = "PULSE"
+    },
+    shape = lp.targets.KING_SHAPE,
+
+    baseMaxActivations = 10,
+
+    baseMultGenerated = 0.111,
+})
 
 
 
