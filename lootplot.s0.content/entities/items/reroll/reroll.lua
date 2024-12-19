@@ -26,26 +26,6 @@ end
 
 
 
---[[
-EARLY GAME / TEMPO REROLL ITEMS:
-]]
-defItem("reroll_decoration", "Reroll Decoration", {
-    triggers = {"REROLL"},
-    -- This item seems a bit... strong.
-    -- This item works late-game AS WELL AS early.
-    -- (^^^ is this a bad thing, tho????)
-    rarity = lp.rarities.UNCOMMON,
-
-    doomCount = 6,
-
-    basePrice = 4,
-    baseMoneyGenerated = 1,
-    basePointsGenerated = 10,
-    baseMaxActivations = 100,
-})
-
-
-
 
 --[[
 ==================================================
@@ -118,7 +98,7 @@ end
 defineDice("quad_dice", "Quad Dice", {
     triggers = {"REROLL"},
 
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.RARE,
 
     basePrice = 8,
     baseMaxActivations = 10,
