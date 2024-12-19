@@ -23,5 +23,6 @@ end
 
 lp.backgrounds.registerBackground(CONST.DEFAULT_BG_NAME, {
     name = localization.localize("Cloud Background"),
-    constructor = constructor
+    constructor = constructor,
+    icon = "default_background"
 })
