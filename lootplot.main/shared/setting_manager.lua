@@ -82,5 +82,6 @@ local function defineSetting(name, defval)
 end
 
 settingManager.getSpeedFactor, settingManager.setSpeedFactor = defineSetting("SPEED_FACTOR", 0)
+settingManager.getLastSelectedBackground, settingManager.setLastSelectedBackground = defineSetting("BACKGROUND", "")
 
 return settingManager

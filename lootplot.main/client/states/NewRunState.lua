@@ -1,5 +1,6 @@
 
 local runManager = require("shared.run_manager")
+local settingManager = require("shared.setting_manager")
 local helper = require("client.states.helper")
 local Z_ORDER = require("client.z_order")
 
@@ -27,7 +28,7 @@ function NewRunState:init(cancelAction)
     table.sort(backgrounds, function(a, b)
         return a.id < b.id
     end)
-    local selected = backgrounds[1].id -- TODO: Respect last selected
+    local selected = settingManager.getLastSelectedBackground()
 
     self.scene = NewRunScene({
         backgrounds = backgrounds,
@@ -46,6 +47,8 @@ function NewRunState:init(cancelAction)
 
             state.pop(self)
             state.push(LPState(), Z_ORDER.LOOTPLOT_STATE)
+            settingManager.setLastSelectedBackground(background)
+
             -- TODO: Proper setup options
             return runManager.startRun({
                 starterItem = startingItemName,
