@@ -316,7 +316,7 @@ defineSlotSpawner("golden_loaf", "Golden Loaf", "weak_shop_slot", "Shop Slot",
 )
 
 defineSlotSpawner("coconut", "Coconut", "dirt_slot", "Dirt Slot", lp.targets.KingShape(1), {
-    rarity = lp.rarities.COMMON,
+    rarity = lp.rarities.UNCOMMON,
 })
 
 

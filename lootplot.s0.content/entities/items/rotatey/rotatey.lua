@@ -39,11 +39,6 @@ On item purchased:
 Rotate purchased item twice
 
 
-Spanner:
-On LEVEL_UP:
-Rotate all target-items
-(CIRCLE-3 SHAPE)
-
 
 
 Blue Record:

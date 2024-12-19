@@ -187,23 +187,27 @@ defItem("3_cent_ticket", {
 
 
 
-defItem("grub_converter", {
-    name = loc("Grub Converter"),
+--[[
+TODO:
+this really isn't a grubby-item....
+idk why its here...?
+]]
+defItem("dirt_maker", {
+    name = loc("Dirt Maker"),
     triggers = {"PULSE"},
 
-    basePrice = 6,
-    baseMaxActivations = 1,
+    basePrice = 10,
+    baseMaxActivations = 10,
 
-    shape = lp.targets.UP_SHAPE,
+    activateDescription = loc("Spawns dirt slots."),
+
+    shape = lp.targets.UpShape(1),
+
     target = {
-        type = "ITEM",
+        type = "NO_SLOT",
         activate = function(selfEnt, ppos, targetEnt)
-            if not targetEnt.grubMoneyCap then
-                lp.multiplierBuff(targetEnt, "pointsGenerated", 4)
-                targetEnt.grubMoneyCap = GRUB_MONEY_CAP
-            end
+            lp.trySpawnSlot(ppos, server.entities.dirt_slot, selfEnt.lootplotTeam)
         end,
-        description = loc("If target item is {lootplot:GRUB_COLOR}NOT grubby{/lootplot:GRUB_COLOR}, give it a {lootplot:POINTS_MULT_COLOR}x4 points-multiplier{/lootplot:POINTS_MULT_COLOR}, and give it {lootplot:GRUB_COLOR}GRUB-10.")
     },
 
     rarity = lp.rarities.EPIC,

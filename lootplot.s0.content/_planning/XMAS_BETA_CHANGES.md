@@ -12,7 +12,7 @@
 
 
 REMOVE BLOAT FROM TREASURE-ITEMS:
-- (((NOT-DONE.))) Remove GRUBBY sacks
+- (((SCRAPPED))) Remove GRUBBY sacks
     -(((I like the sprite for GRUBBY-sacks; so keep it)))
 - (((DONE))) Make REPEATER/REROLL sacks EPIC
 
@@ -25,22 +25,22 @@ REMOVE BLOAT FROM TREASURE-ITEMS:
 
 - (((DONE))) Make Net UNCOMMON (and make it blue!)
 
-- Create New Multiplier-Net item  (RARE)
+- (((DONE))) Create New Multiplier-Net item  (RARE)
 
-- Make leather UNCOMMON; remove money mult
+- (((DONE))) Make leather UNCOMMON; remove money mult
 
 - (((DONE))) Quad dice: Remove GRUBBY from it. Buff to 50 points
 
-- Trumpet: make UNCOMMON. Buff points
+- (((DONE))) Trumpet: make UNCOMMON. Buff points
 
 
-- Make Spanner UNCOMMON
+- (((SCRAPPED))) Make Spanner UNCOMMON
 
 - (((DONE))) Make Rotation-balloon RARE 
 
-- Make Coconut UNCOMMON
+- (((DONE))) Make Coconut UNCOMMON
 
-- Make an item that infinitely spawns dirt-slots
+- (((DONE))) Make an item that infinitely spawns dirt-slots
 (ie isn't doomed!!! Shape UP-1, rarity=EPIC)
 
 

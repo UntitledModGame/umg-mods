@@ -90,6 +90,7 @@ defItem("stick", {
     rarity = lp.rarities.UNCOMMON,
 
     basePointsGenerated = 8,
+    baseMaxActivations = 5,
     basePrice = 2,
 })
 
@@ -97,29 +98,23 @@ defItem("stick", {
 
 
 --[[
-Leather's "purpose" is to give intuition about the `mult` system.
+Leather's "purpose" is to give intuition about the `global-mult` system.
 ]]
 defItem("leather", {
     name = loc("Leather"),
-    description = loc("Has a 3x points multiplier!"),
-    grubMoneyCap = 10,
 
-    rarity = lp.rarities.COMMON,
+    triggers = {"PULSE"},
 
-    lootplotProperties = {
-        multipliers = {
-            pointsGenerated = 3
-        }
-    },
+    rarity = lp.rarities.UNCOMMON,
 
     basePrice = 4,
 
-    baseMaxActivations = 15,
-
-    basePointsGenerated = 5,
-
-    triggers = {"PULSE"},
+    baseMaxActivations = 5,
+    baseMultGenerated = 0.1,
 })
+
+
+
 
 
 
@@ -246,14 +241,14 @@ lp.defineItem("lootplot.s0.content:trumpet", {
     image = "trumpet",
     name = loc("Trumpet"),
     activateDescription = loc("Makes a toot sound"),
-    rarity = lp.rarities.COMMON,
+    rarity = lp.rarities.UNCOMMON,
 
     triggers = {"PULSE"},
 
     baseMaxActivations = 10,
-    basePrice = 3,
+    basePrice = 5,
 
-    basePointsGenerated = 5,
+    basePointsGenerated = 8,
 
     -- just for the funni
     onActivateClient = function(ent)

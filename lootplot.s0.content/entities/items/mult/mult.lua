@@ -68,7 +68,7 @@ plan others.
 
 
 defItem("red_net", "Red Net", {
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.RARE,
 
     basePrice = 5,
 
@@ -81,7 +81,5 @@ defItem("red_net", "Red Net", {
 
     baseMultGenerated = 0.111,
 })
-
-
 
 
