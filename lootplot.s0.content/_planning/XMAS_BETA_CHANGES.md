@@ -76,10 +76,10 @@ Coins
 (((SCRAPPED))) HMMM: Should pies be RARE? Right now they are UNCOMMON. Maybe thats a bit OP.
 
 
-Remove (or refactor) boot-items
+(((DONE))) Remove (or refactor) boot-items
 
 
-Remove (or refactor?) mult-book, and points-book
+(((DONE))) Remove (or refactor?) mult-book, and points-book
 
 
 - MINERAL items changes:
