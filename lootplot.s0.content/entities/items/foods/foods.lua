@@ -221,7 +221,7 @@ defineFood("heartfruit_purple", {
 
     shape = lp.targets.UP_SHAPE,
 
-    basePrice = 4,
+    basePrice = 3,
 
     target = {
         type = "ITEM_OR_SLOT",
@@ -236,15 +236,14 @@ defineFood("heartfruit_purple", {
 
 
 
--- Global points multiplier manipulation food
 defineFood("coffee", {
     name = loc("Coffee"),
-    activateDescription = loc("Multiplies current multiplier by {lootplot:POINTS_MULT_COLOR}1.25x"),
+    activateDescription = loc("Multiplies current multiplier by {lootplot:POINTS_MULT_COLOR}1.5x"),
     triggers = {"PULSE"},
     rarity = lp.rarities.RARE,
     onActivate = function(self)
         local gmul = lp.getPointsMult(self)
-        return lp.setPointsMult(self, gmul * 1.25)
+        return lp.setPointsMult(self, gmul * 1.5)
     end
 })
 
@@ -318,13 +317,13 @@ defineSlotSpawner("stone_fruit", "Stone fruit", "null_slot", "Null Slot", lp.tar
 })
 
 defineSlotSpawner("dragonfruit", "Dragonfruit", "slot", "Normal Slot", lp.targets.RookShape(1), {
-    basePrice = 4,
+    basePrice = 5,
     rarity = lp.rarities.COMMON
 })
 
 defineSlotSpawner("dragonfruit_slice", "Dragonfruit Slice", "slot", "Normal Slot", lp.targets.BishopShape(1), {
-    basePrice = 4,
-    rarity = lp.rarities.UNCOMMON
+    basePrice = 6,
+    rarity = lp.rarities.RARE
 })
 
 
