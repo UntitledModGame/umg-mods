@@ -1,6 +1,12 @@
 local loc = localization.localize
 
 
+local function defItem(id, name, etype)
+    etype.image = etype.image or id
+    etype.name = loc(name)
+    return lp.defineItem("lootplot.s0.content:"..id, etype)
+end
+
 
 local function defineCard(name, cardEType)
     cardEType.image = cardEType.image or name
@@ -38,47 +44,63 @@ end
 
 
 
+local function shuffleTargetShapes(selfEnt)
+    local targets = lp.targets.getShapePositions(selfEnt)
+    if not targets then
+        return
+    end
+
+    local itemEntities = {}
+    local itemEntShapes = {}
+
+    for _, ppos in ipairs(targets) do
+        local itemEnt = lp.posToItem(ppos)
+        if itemEnt then
+            itemEntities[#itemEntities+1] = itemEnt
+            itemEntShapes[#itemEntities] = itemEnt.shape
+        end
+    end
+
+    -- Shuffle shapes
+    itemEntShapes = shuffled(itemEntShapes)
+
+    -- Assign shapes
+    for i, itemEnt in ipairs(itemEntities) do
+        if itemEnt.shape ~= itemEntShapes[i] then
+            lp.targets.setShape(itemEnt, itemEntShapes[i])
+        end
+    end
+end
 
 defineCard("star_card", {
     name = loc("Star Card"),
-
+    activateDescription = loc("Shuffle shapes between target items"),
     rarity = lp.rarities.LEGENDARY,
-
     shape = lp.targets.VerticalShape(1),
-
     target = {
         type = "ITEM",
-        description = loc("Shuffle shapes between target items"),
     },
 
-    onActivate = function(selfEnt)
-        local targets = lp.targets.getShapePositions(selfEnt)
-        if not targets then
-            return
-        end
-
-        local itemEntities = {}
-        local itemEntShapes = {}
-
-        for _, ppos in ipairs(targets) do
-            local itemEnt = lp.posToItem(ppos)
-            if itemEnt then
-                itemEntities[#itemEntities+1] = itemEnt
-                itemEntShapes[#itemEntities] = itemEnt.shape
-            end
-        end
-
-        -- Shuffle shapes
-        itemEntShapes = shuffled(itemEntShapes)
-
-        -- Assign shapes
-        for i, itemEnt in ipairs(itemEntities) do
-            if itemEnt.shape ~= itemEntShapes[i] then
-                lp.targets.setShape(itemEnt, itemEntShapes[i])
-            end
-        end
-    end
+    onActivate = shuffleTargetShapes
 })
+
+
+--[[
+This is a food-item, but it is defined OUTSIDE of `foods`.
+(Because theres helper-functions in this file; also its pretty much identical to star-card)
+]]
+defItem("star", "Star", {
+    triggers = {"PULSE"},
+    activateDescription = loc("Shuffle shapes between target items"),
+    rarity = lp.rarities.EPIC,
+    doomCount = 1,
+    shape = lp.targets.VerticalShape(1),
+    target = {
+        type = "ITEM",
+    },
+    onActivate = shuffleTargetShapes
+})
+
 
 
 defineCard("hearts_card", {
