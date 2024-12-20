@@ -15,5 +15,6 @@ end
 lp.backgrounds.registerBackground("lootplot.s0.backgrounds:star_background", {
     name = loc("Star Background"),
     description = loc("Just stars"),
-    constructor = constructor
+    constructor = constructor,
+    icon = "star_background"
 })
