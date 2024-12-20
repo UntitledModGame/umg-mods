@@ -227,12 +227,12 @@ generateWeakItem = itemGenHelper.createLazyGenerator(
         return false
     end,
     itemGenHelper.createRarityWeightAdjuster({
-        COMMON = 4,
-        UNCOMMON = 2,
+        COMMON = 11,
+        UNCOMMON = 1,
         
         -- NOTE: RARE/EPIC items aren't actually spawned;
         -- UNLESS they are food-items
-        RARE = 0.6,
+        RARE = 0.4,
         EPIC = 0.1
     })
 )
