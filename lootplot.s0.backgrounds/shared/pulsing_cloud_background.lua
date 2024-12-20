@@ -6,7 +6,7 @@ local PulsingCloudBackground = require("client.PulsingCloudBackground")
 
 local W,H = 3000,1500
 -- HACK: kinda hacky, hardcode plot offset
-local minsize = math.min(lp.main.constants.WORLD_PLOT_SIZE[1], lp.main.constants.WORLD_PLOT_SIZE[2])
+local minsize = 40
 local DELTA = (minsize * lp.constants.WORLD_SLOT_DISTANCE) / 2
 
 function constructor()
