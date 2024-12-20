@@ -80,6 +80,10 @@ function LPState:init()
         string = "",
         timeout = 0 -- if 0 = disappear and set accumulated to 0
     }
+    self.multiplierEffect = {
+        last = 1,
+        timeout = 0, -- if 0 = don't play effects
+    }
 
     -- self.listener:onReleased("input:CLICK_PRIMARY", function()
     --     if not self.claimedByControl then
@@ -186,8 +190,9 @@ local function showNSignificant(value, nsig)
 	return tostring(math.floor(value * mulby) / mulby)
 end
 
-local ACCUMULATED_POINT_SINGLE_CHAR = 0.05
+local ACCUMULATED_POINT_SINGLE_CHAR = 0.01
 local ACCUMULATED_POINT_FADE_OUT = 0.3
+local ACCUMULATED_EFFECT_START = 0.2
 local ACCUMULATED_POINT_TOTAL_TIME = 2
 
 function LPState:pointsChanged(points)
@@ -233,10 +238,21 @@ function LPState:update(dt)
     end
 
     if self.accumulatedPoints.timeout > 0 then
-        self.accumulatedPoints.timeout = self.accumulatedPoints.timeout - dt
+        self.accumulatedPoints.timeout = math.max(self.accumulatedPoints.timeout - dt, 0)
         if self.accumulatedPoints.timeout <= 0 then
             self.accumulatedPoints.accumulated = 0 -- reset
             self.accumulatedPoints.string = "" -- reset
+        end
+    end
+
+    local run = lp.main.getRun()
+    if run then
+        self.multiplierEffect.timeout = math.max(self.multiplierEffect.timeout - dt, 0)
+        local pointMul = run:getAttribute("POINTS_MULT")
+
+        if self.multiplierEffect.last ~= pointMul then
+            self.multiplierEffect.timeout = ACCUMULATED_EFFECT_START
+            self.multiplierEffect.last = pointMul
         end
     end
 end
@@ -258,14 +274,36 @@ local function printRichTextByConstraint(constraint, txt, font, align, s)
     return text.printRich(txt, font, x, y, w / s, align, 0, s, s)
 end
 
+---@param constraint {get:fun(self:any):(number,number,number,number)}
+---@param txt string
+---@param font love.Font
+---@param align love.AlignMode
+---@param s number
+---@param eff number
+local function printRichTextByConstraintWithRotEffect(constraint, txt, font,  align, s, eff)
+    local rot = math.sin(eff * 8) * 0.15
+    local x, y, w, h = constraint:get()
+    local hw, hh = w / 2, h / 2
+    return text.printRich(txt, font, x + hw, y + hh, w / s, align, rot, s, s, hw / s, hh / s)
+end
+
 ---@param x number
 local function easeOutQuad(x)
     return 1 - (1 - x) * (1 - x);
 end
 
----@param x number
-local function easeOutCubic(x)
-    return 1 - x ^ 3
+---@param color number[]
+---@param text string
+local function surroundColor(color, text)
+    return string.format("{c r=%.2f g=%.2f b=%.2f}%s{/c}", color[1], color[2], color[3], text)
+end
+
+local function drawRegions(rlist)
+    love.graphics.setColor(0,1,1)
+    for _, r in pairs(rlist) do
+        love.graphics.rectangle("line", r:get())
+    end
+    love.graphics.setColor(1,1,1)
 end
 
 function LPState:drawHUD()
@@ -274,19 +312,19 @@ function LPState:drawHUD()
 
     local gs = globalScale.get()
     local l = self.layout
-    l.root:margin(gs * 16)
+    l.root:margin({gs * 16, gs * 16, 0, gs * 48})
     l.leftTop:margin({gs * -8, 0, 0, 0}):size(0, 32 * gs)
     l.leftMid:size(0, 32 * gs)
     l.leftBottom:size(0, 32 * gs)
-    l.rightTop:margin({gs * -8, 0, 0, 0}):size(0, 48 * gs)
-    l.rightBottom:size(0, 48 * gs)
+    l.rightTop:margin({gs * -8, 0, 0, 0}):size(0, 64 * gs)
+    l.rightBottom:size(0, 64 * gs)
 
-    local pointMul = run:getAttribute("POINTS_MULT")
-    local largerFont = fonts.getSmallFont(48)
+    local pointMul = self.multiplierEffect.last
+    local largerFont = fonts.getSmallFont(64)
     local accWidth = largerFont:getWidth(self.accumulatedPoints.string)
     local mulText = ""
     if pointMul ~= 1 then
-        mulText = "("..showNSignificant(pointMul, 4)..")"
+        mulText = "(x"..showNSignificant(pointMul, 4)..")"
     end
     local mulWidth = largerFont:getWidth(mulText)
     local mulConstraint
@@ -339,13 +377,13 @@ function LPState:drawHUD()
     love.graphics.setColor(1, 1, 1)
     printRichTextByConstraint(l.leftTop, roundText, font, "left", gs)
     printRichTextByConstraint(l.leftMid, pointsText, font, "left", gs)
-    printRichTextByConstraint(l.leftBottom, MONEY({money = run:getAttribute("MONEY")}), font, "right", gs)
+    printRichTextByConstraint(l.leftBottom, MONEY({money = run:getAttribute("MONEY")}), font, "left", gs)
 
     if self.accumulatedPoints.timeout > 0 then
         local t = ACCUMULATED_POINT_TOTAL_TIME - self.accumulatedPoints.timeout
         local sub = self.accumulatedPoints.string:sub(1, math.floor(t / ACCUMULATED_POINT_SINGLE_CHAR))
         local opacity = easeOutQuad(math.clamp(self.accumulatedPoints.timeout / ACCUMULATED_POINT_FADE_OUT, 0, 1))
-        local richText = string.format("{wavy}{outline thickness=%.2f}", opacity * 2)
+        local richText = string.format("{wavy}{outline thickness=%.2f}", opacity * 4)
 
         local col
         if self.accumulatedPoints.accumulated < 0 then
@@ -356,8 +394,14 @@ function LPState:drawHUD()
 
         l.accumulator:size(accWidth * gs, 0)
         love.graphics.setColor(col[1], col[2], col[3], opacity)
-        printRichTextByConstraint(l.accumulator, richText..sub, largerFont, "center", gs)
+        local eff = self.accumulatedPoints.timeout - ACCUMULATED_POINT_TOTAL_TIME + ACCUMULATED_EFFECT_START
+        printRichTextByConstraintWithRotEffect(l.accumulator, richText..sub, largerFont, "left", gs, math.max(eff / ACCUMULATED_EFFECT_START, 0))
     end
+
+    local mulTextWithEff = "{wavy}{outline thickness=4}"..mulText.."{/outline}{/wavy}"
+    love.graphics.setColor(1, 1, 1)
+    printRichTextByConstraintWithRotEffect(mulConstraint, surroundColor(lp.COLORS.POINTS_MULT_COLOR, mulTextWithEff), largerFont, "center", gs, self.multiplierEffect.timeout / ACCUMULATED_EFFECT_START)
+    -- drawRegions(l)
 end
 
 function LPState:draw()
