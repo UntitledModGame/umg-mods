@@ -52,6 +52,8 @@ These food(s?) are always free to be used!
 defineFood("magic_turnip", {
     name = loc("Magic Turnip"),
 
+    activateDescription = loc("Transforms into target item."),
+
     rarity = lp.rarities.EPIC,
 
     basePrice = 10,
@@ -59,7 +61,6 @@ defineFood("magic_turnip", {
 
     target = {
         type = "ITEM",
-        description = loc("Transforms into random target item."),
         activate = function(selfEnt, ppos, targetEnt)
             local selfPPos = lp.getPos(selfEnt)
             if selfPPos then
@@ -73,6 +74,64 @@ defineFood("magic_turnip", {
         end
     }
 })
+
+
+local DOOMED_TURNIP_DOOMCOUNT = 5
+defineFood("doomed_turnip", {
+    name = loc("Doomed Turnip"),
+
+    activateDescription = loc("Transforms into target item, and makes the transform item {lootplot:DOOMED_COLOR}DOOMED"),
+    rarity = lp.rarities.UNCOMMON,
+
+    basePrice = 4,
+    shape = lp.targets.UP_SHAPE,
+
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            local selfPPos = lp.getPos(selfEnt)
+            if selfPPos then
+                lp.destroy(selfEnt)
+                local copyEnt = lp.clone(targetEnt)
+                local success = lp.trySetItem(selfPPos, copyEnt)
+                if not copyEnt.doomCount then
+                    -- dont apply to items that are already DOOMED.
+                    copyEnt.doomCount = DOOMED_TURNIP_DOOMCOUNT
+                end
+                if not success then
+                    copyEnt:delete()
+                end
+            end
+        end
+    }
+})
+
+defineFood("slot_turnip", {
+    name = loc("Slot Turnip"),
+
+    activateDescription = loc("Clones target slot to its current position."),
+
+    rarity = lp.rarities.EPIC,
+
+    basePrice = 10,
+    canItemFloat = true,
+
+    shape = lp.targets.UP_SHAPE,
+
+    target = {
+        type = "SLOT",
+        activate = function(selfEnt, ppos, targetEnt)
+            local selfPPos = lp.getPos(selfEnt)
+            if selfPPos then
+                lp.destroy(selfEnt)
+                local copyEnt = lp.clone(targetEnt)
+                lp.setSlot(selfPPos, copyEnt)
+            end
+        end
+    }
+})
+
+
 
 
 

@@ -23,7 +23,7 @@ local function defineSword(mineral_type, name, etype)
 
         basePointsGenerated = pgen,
 
-        rarity = etype.rarity or lp.rarities.COMMON,
+        rarity = etype.rarity or lp.rarities.UNCOMMON,
 
         basePrice = 4,
     }
@@ -34,6 +34,29 @@ local function defineSword(mineral_type, name, etype)
     defineMineral(mineral_type, etypeName, swordType)
 end
 
+
+
+local function defineSpear(mineral_type, name, etype)
+    local namespace = umg.getModName() .. ":"
+    local etypeName = namespace .. mineral_type .. "_spear"
+    local image = mineral_type .. "_spear"
+
+    local spearType = {
+        image = image,
+        name = loc(name .. " Spear"),
+
+        baseMultGenerated = 0.2,
+
+        rarity = etype.rarity or lp.rarities.RARE,
+
+        basePrice = 4,
+    }
+    for k,v in pairs(etype) do
+        spearType[k] = spearType[k] or v
+    end
+
+    defineMineral(mineral_type, etypeName, spearType)
+end
 
 
 
@@ -138,7 +161,6 @@ Activates multiple times, like boomerang.
 ]]
 defineMineralClass("ruby", "Ruby", {
     baseMaxActivations = 3,
-    description = loc("Uses all activations at once!"),
     repeatActivations = true,
     triggers = {"PULSE"}
 })
