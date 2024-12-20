@@ -207,19 +207,39 @@ defineFood("heartfruit_half", {
 
     target = {
         type = "ITEM_OR_SLOT",
-        description = loc("Gives +1 lives to target."),
         activate = function(selfEnt, ppos, targetEnt)
             targetEnt.lives = (targetEnt.lives or 0) + 1
         end
     },
 })
 
+defineFood("heartfruit_purple", {
+    name = loc("Purple Heart Fruit"),
+    activateDescription = loc("Gives {lootplot:DOOMED_COLOR}DOOMED-2{/lootplot:DOOMED_COLOR} to target item (or slot)"),
+
+    rarity = lp.rarities.UNCOMMON,
+
+    shape = lp.targets.UP_SHAPE,
+
+    basePrice = 4,
+
+    target = {
+        type = "ITEM_OR_SLOT",
+        activate = function(selfEnt, ppos, targetEnt)
+            targetEnt.doomCount = 2
+        end
+    },
+})
+
+
+
+
 
 
 -- Global points multiplier manipulation food
-defineFood("coffee_cup", {
-    name = loc("Coffee Drink"),
-    description = loc("Multiplies global points multiplier by 1.25x."),
+defineFood("coffee", {
+    name = loc("Coffee"),
+    activateDescription = loc("Multiplies current multiplier by {lootplot:POINTS_MULT_COLOR}1.25x"),
     triggers = {"PULSE"},
     rarity = lp.rarities.RARE,
     onActivate = function(self)
@@ -230,14 +250,11 @@ defineFood("coffee_cup", {
 
 defineFood("tricolor_dango", { -- Loved by an introverted Shogun in another dimension
     name = loc("Tricolor Dango"),
-    description = loc("Increments global points multiplier by 3."),
     triggers = {"PULSE"},
     rarity = lp.rarities.RARE,
     doomCount = 3,
     baseMaxActivations = 3,
-    onActivate = function(self)
-        return lp.addPointsMult(self, 3)
-    end
+    baseMultGenerated = 1
 })
 
 

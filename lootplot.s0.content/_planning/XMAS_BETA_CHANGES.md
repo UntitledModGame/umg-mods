@@ -91,6 +91,7 @@ Swords changed to UNCOMMON/RARE
 - Hammer-items (same as Axes; but target items. Shape=ROOK-1)
     - (Buffed every 2 activations)
 - Spear items (give global mult?)
+    - (Buffed every 5 activations?)
 
 
 
