@@ -1,6 +1,6 @@
 
----@class lootplot.main.PulsingCloudBackground: lootplot.backgrounds.IBackground
-local PulsingCloudBackground = objects.Class("lootplot.main:PulsingCloudBackground"):implement(lp.backgrounds.IBackground)
+---@class lootplot.s0.backgrounds.PulsingCloudBackground: lootplot.backgrounds.IBackground
+local PulsingCloudBackground = objects.Class("lootplot.s0.backgrounds:PulsingCloudBackground"):implement(lp.backgrounds.IBackground)
 
 
 
