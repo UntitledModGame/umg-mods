@@ -90,7 +90,11 @@ Swords changed to UNCOMMON/RARE
     - (Buffed every 4 activations)
 - Hammer-items (same as Axes; but target items. Shape=ROOK-1)
     - (Buffed every 2 activations)
-- Scythe items (give global mult?)
+- Spear items (give global mult?)
+
+
+
+(((DONE))) Make 4-leaf-clover UNCOMMON
 
 
 NEW MINERAL TYPE: "Cobalt"
@@ -101,6 +105,8 @@ It has EXCELLENT base-points and scaling.
 NEW MINERAL TYPE: "Copper"
 Copper has GRUB-cap. (Other than that; same as iron)
 
+
+- Rework chubby-cat. Its currently too *non-emergent.*
 
 - Change key-balloon. It's garbage design.
 

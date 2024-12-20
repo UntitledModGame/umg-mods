@@ -210,7 +210,7 @@ defItem("4_leaf_clover", {
     basePointsGenerated = 10,
     baseMaxActivations = 50,
 
-    rarity = lp.rarities.COMMON,
+    rarity = lp.rarities.UNCOMMON,
 
     onActivate = function(ent)
         if lp.SEED:randomMisc() < 0.04 then

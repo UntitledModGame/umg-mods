@@ -94,7 +94,7 @@ end
 
 
 local function defChest(id, name, etype)
-    etype.triggers = {"UNLOCK"}
+    etype.triggers = etype.triggers or {"UNLOCK"}
     etype.basePrice = etype.basePrice or 6
     etype.rarity = etype.rarity or lp.rarities.RARE
     defineTreasure(id, name, etype)
@@ -277,12 +277,13 @@ defChest("chest_legendary", "Legendary Chest", {
 })
 
 defChest("chest_mana", "Mana Chest", {
-    activateDescription = locRarity("Spawns an %{EPIC} or %{LEGENDARY} item."),
+    triggers = {"PULSE"},
+    activateDescription = locRarity("Spawns a %{RARE} item."),
 
     manaCost = 2,
 
     rarity = lp.rarities.RARE,
-    generateTreasureItem = newLazyGen(ofRarity({r.EPIC, r.LEGENDARY}), DEFAULT_WEIGHT),
+    generateTreasureItem = newLazyGen(ofRarity({r.RARE}), DEFAULT_WEIGHT),
 })
 
 
