@@ -397,7 +397,7 @@ defSack("sack_tattered", "Tattered Sack", {
 
     generateTreasureItem = function(ent)
         tatteredGen = tatteredGen or lp.newItemGenerator({})
-        return abstractGen:query(function(entry)
+        return tatteredGen:query(function(entry)
             local etype = server.entities[entry]
             if etype and etype.rarity == ent.rarity then
                 return 1
