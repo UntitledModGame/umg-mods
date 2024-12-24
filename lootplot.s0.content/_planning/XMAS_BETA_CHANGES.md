@@ -82,29 +82,26 @@ Coins
 (((DONE))) Remove (or refactor?) mult-book, and points-book
 
 
+
+(((DONE))) Make 4-leaf-clover UNCOMMON
+
+
 - MINERAL items changes:
 Swords changed to UNCOMMON/RARE
 - Mineral items (Especially swords) are self-buffing.
     - Emerald tools: Get buffed on REROLL
-- Axes changed (target-empty slots ONLY)
+- Axes: (target-items)
     - (Buffed every 4 activations)
-- Hammer-items (same as Axes; but target items. Shape=ROOK-1)
-    - (Buffed every 2 activations)
 - Spear items (give global mult?)
-    - (Buffed every 5 activations?)
-
-
-
-(((DONE))) Make 4-leaf-clover UNCOMMON
-
+    - (Buffed every 2 activations?)
+- Hammer-items (same as Axes; but with global-mult)
+    - (Buffed every 4 activations)
 
 NEW MINERAL TYPE: "Cobalt"
 Cobalt needs 1 mana to activate. 
 It has EXCELLENT base-points and scaling.
 (Otherwise its identical to iron)
 
-NEW MINERAL TYPE: "Copper"
-Copper has GRUB-cap. (Other than that; same as iron)
 
 
 - Rework chubby-cat. Its currently too *non-emergent.*

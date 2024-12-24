@@ -11,6 +11,43 @@ end
 
 
 
+local SCALING_RATES = {
+    emerald = 2,
+    iron = 2,
+    ruby = 1,
+    cobalt = 30,
+}
+
+
+local BUFF_DESC_PREFIXES = {
+    emerald = "Every %{n} rerolls, ",
+    iron = "Every %{n} pulses, ",
+    ruby = "Every %{n} activations, ",
+    cobalt = "Every %{n} activations, ",
+}
+
+local BUFF_DESC_PREFIXES_SINGULAR = {
+    emerald = "When rerolled, ",
+    iron = "When pulsed, ",
+    ruby = "When activated, ",
+    cobalt = "When pulsed, ",
+}
+
+local function getBuffDescription(mineralType, count, actionDesc)
+    local prefix
+    if count == 1 then
+        prefix = assert(BUFF_DESC_PREFIXES_SINGULAR[mineralType])
+    else
+        prefix = assert(BUFF_DESC_PREFIXES[mineralType])
+    end
+
+    return loc(prefix .. actionDesc, {
+        n = count
+    })
+end
+
+
+
 local function defineSword(mineral_type, name, etype)
     local namespace = umg.getModName() .. ":"
     local etypeName = namespace .. mineral_type .. "_sword"
@@ -132,6 +169,7 @@ local function defineMineralClass(mineral_type, name, etype)
     defineSword(mineral_type, name, etype)
     defineAxe(mineral_type, name, etype)
     definePickaxe(mineral_type, name, etype)
+    defineSpear(mineral_type, name, etype)
 end
 
 
