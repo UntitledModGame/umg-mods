@@ -131,6 +131,39 @@ defineFood("slot_turnip", {
     }
 })
 
+defineFood("gray_turnip", {
+    name = loc("Gray Turnip"),
+
+    activateDescription = loc("Transforms into a random target item."),
+
+    rarity = lp.rarities.UNCOMMON,
+    basePrice = 4,
+
+    onActivate = function(ent)
+        umg.melt([[
+            todo: implement this! (turn into a random item)
+        ]])
+    end,
+
+    shape = lp.targets.QueenShape(3),
+
+    target = {
+        type = "SLOT",
+        activate = function(selfEnt, ppos, targetEnt)
+            local selfPPos = lp.getPos(selfEnt)
+            if selfPPos then
+                lp.destroy(selfEnt)
+                local copyEnt = lp.clone(targetEnt)
+                local success = lp.trySetItem(selfPPos, copyEnt)
+                if not success then
+                    copyEnt:delete()
+                end
+            end
+        end
+    }
+})
+
+
 
 
 
