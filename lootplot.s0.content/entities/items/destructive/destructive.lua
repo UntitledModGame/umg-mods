@@ -271,7 +271,7 @@ defDestructive("skull", "Skull", {
 
 
 defDestructive("dagger", "Dagger", {
-    activateDescription = loc("Destroys target items.\nEarns 30 points for each."),
+    activateDescription = loc("Destroys target items.\nEarns {lootplot:POINTS_COLOR}30 points{/lootplot:POINTS_COLOR} for each."),
 
     rarity = lp.rarities.UNCOMMON,
 

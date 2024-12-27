@@ -418,7 +418,7 @@ chat.handleCommand("spawnAllItems", {
         end
 
         local DEBUG_SLOT = server.entities["lootplot.main:debugslot"]
-        local MAX_ITEMS_IN_PPOS_X = 12
+        local MAX_ITEMS_IN_PPOS_X = 16
         local X_OFFSET = 5
 
         local _,height = plot:getDimensions()
