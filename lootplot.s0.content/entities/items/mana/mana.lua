@@ -128,7 +128,7 @@ defItem("mana_rocks", "Mana Rocks", {
     ]]
     rarity = lp.rarities.RARE,
 
-    basePrice = 8,
+    basePrice = 7,
     basePointsGenerated = 30,
 
     manaCost = -1,
