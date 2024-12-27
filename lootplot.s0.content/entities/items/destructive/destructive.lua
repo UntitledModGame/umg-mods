@@ -4,8 +4,9 @@ local interp = localization.newInterpolator
 
 
 
-local function defDestructive(id, etype)
+local function defDestructive(id, name, etype)
     etype.image = etype.image or id
+    etype.name = loc(name)
 
     return lp.defineItem("lootplot.s0.content:"..id, etype)
 end
@@ -40,9 +41,7 @@ Earn $2
 ]]
 
 
-defDestructive("empty_cauldron", {
-    name = loc("Empty Cauldron"),
-
+defDestructive("empty_cauldron", "Empty Cauldron", {
     triggers = {"DESTROY"},
 
     rarity = lp.rarities.RARE,
@@ -65,9 +64,7 @@ defDestructive("empty_cauldron", {
 })
 
 
-defDestructive("candle", {
-    name = loc("Candle"),
-
+defDestructive("candle", "Candle", {
     triggers = {"PULSE"},
 
     rarity = lp.rarities.LEGENDARY,
@@ -99,9 +96,7 @@ defDestructive("candle", {
 
 
 
-defDestructive("tooth_necklace", {
-    name = loc("Tooth Necklace"),
-
+defDestructive("tooth_necklace", "Tooth Necklace", {
     triggers = {"PULSE"},
 
     basePrice = 4,
@@ -127,9 +122,7 @@ defDestructive("tooth_necklace", {
 })
 
 
-defDestructive("mana_necklace", {
-    name = loc("Mana Necklace"),
-
+defDestructive("mana_necklace", "Mana Necklace", {
     triggers = {"PULSE"},
 
     basePrice = 4,
@@ -158,9 +151,7 @@ defDestructive("mana_necklace", {
 
 
 
-defDestructive("bomb", {
-    name = loc("Bomb"),
-
+defDestructive("bomb", "Bomb", {
     triggers = {"PULSE"},
 
     rarity = lp.rarities.UNCOMMON,
@@ -196,9 +187,7 @@ We can do WAY better, imo.
 This item literally doesnt synergize with *anything.*
 
 ]]
-defDestructive("goblet_of_blood", {
-    name = loc("Goblet of Blood"),
-
+defDestructive("goblet_of_blood", "Goblet of Blood", {
     rarity = lp.rarities.EPIC,
     doomCount = 10,
 
@@ -222,9 +211,7 @@ defDestructive("goblet_of_blood", {
 
 
 
-defDestructive("pink_mitten", {
-    name = loc("Pink Mitten"),
-
+defDestructive("pink_mitten", "Pink Mitten", {
     triggers = {"PULSE"},
 
     onActivate = function(ent)
@@ -243,9 +230,7 @@ defDestructive("pink_mitten", {
 -- TODO:
 -- Do something with this.
 
-defDestructive("dark_skull", {
-    name = loc("Dark Skull"),
-
+defDestructive("dark_skull", "Dark Skull", {
     activateDescription = loc("Spawns rock-items."),
 
     rarity = lp.rarities.EPIC,
@@ -264,7 +249,7 @@ defDestructive("dark_skull", {
 
 
 
-defDestructive("skull", {
+defDestructive("skull", "Skull", {
     name = loc("Skull"),
 
     activateDescription = loc("Spawns bone-items."),
@@ -279,6 +264,25 @@ defDestructive("skull", {
         type = "NO_ITEM",
         activate = function(selfEnt, ppos, targetEnt)
             lp.trySpawnItem(ppos, server.entities.bone, selfEnt.lootplotTeam)
+        end
+    },
+})
+
+
+
+defDestructive("dagger", "Dagger", {
+    activateDescription = loc("Destroys target items.\nEarns 30 points for each."),
+
+    rarity = lp.rarities.UNCOMMON,
+
+    basePrice = 4,
+
+    shape = lp.targets.UpShape(1),
+
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.destroy(targetEnt)
         end
     },
 })
