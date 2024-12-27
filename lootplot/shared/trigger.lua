@@ -61,6 +61,9 @@ function trigger.tryTriggerEntity(name, ent)
     else
         umg.call("lootplot:entityTriggerFailed", name, ent)
     end
+    if ent.onTriggered then
+        ent:onTriggered(name, canTrigger)
+    end
 
     -- TODO: should this be inside the `if canTrigger` if block???
     if lp.isSlotEntity(ent) and ent.canSlotPropagate then

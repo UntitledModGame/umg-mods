@@ -1,6 +1,23 @@
 
 local loc = localization.localize
 
+--[[
+
+===================================================
+Mineral items:
+----
+Do something basic, (like adds mult, or adds points)
+but usually have self-scaling.
+===================================================
+
+TODO:
+This entire file is overly complex and overly coupled.
+Argh!!! stupid. So stupid. 
+Please dont take inspiration from this file, its bad.
+
+(At least the complexity is 100% localized)
+
+]]
 
 local function defineMineral(mineralType, name, etype)
     etype.baseMaxActivations = etype.baseMaxActivations or 10
@@ -11,39 +28,113 @@ end
 
 
 
-local SCALING_RATES = {
+local MINERAL_TYPES = objects.Enum({
+    iron = "iron",
+    emerald = "emerald",
+    cobalt = "cobalt",
+    ruby = "ruby"
+})
+
+
+
+local TOOL_TYPES = objects.Enum({
+    axe = true,
+    sword = true,
+    pickaxe = true,
+    spear = true,
+    hammer = true,
+})
+
+
+local SCALING_RATES_BY_MINERAL = {
     emerald = 2,
     iron = 2,
     ruby = 1,
-    cobalt = 30,
+    cobalt = 20,
 }
 
 
-local BUFF_DESC_PREFIXES = {
-    emerald = "Every %{n} rerolls, ",
-    iron = "Every %{n} pulses, ",
-    ruby = "Every %{n} activations, ",
-    cobalt = "Every %{n} activations, ",
+local SCALING_RATES_BY_TOOL = {
+    -- points:
+    axe = 0.2,
+    sword = 1,
+    pickaxe = 2,
+
+    -- mult:
+    spear = 0.1,
+    hammer = 0.05
 }
 
-local BUFF_DESC_PREFIXES_SINGULAR = {
-    emerald = "When rerolled, ",
-    iron = "When pulsed, ",
-    ruby = "When activated, ",
-    cobalt = "When pulsed, ",
+
+local SCALED_PROPS_BY_TOOL = {
+    axe = "pointsGenerated",
+    sword = "pointsGenerated",
+    pickaxe = "pointsGenerated",
+
+    spear = "multGenerated",
+    hammer = "multGenerated"
 }
 
-local function getBuffDescription(mineralType, count, actionDesc)
-    local prefix
-    if count == 1 then
-        prefix = assert(BUFF_DESC_PREFIXES_SINGULAR[mineralType])
+
+---@param mineralType string
+---@param toolType string
+---@return number
+local function getBuffAmount(mineralType, toolType)
+    local toolScaling = assert(SCALING_RATES_BY_TOOL[toolType])
+    local mineralScaling = assert(SCALING_RATES_BY_MINERAL[mineralType])
+    -- round to nearest 0.1
+    return math.floor((toolScaling * mineralScaling) * 10) / 10
+end
+
+
+---@param mineralType string
+---@param toolType string
+---@return string
+local function getBuffDescription(mineralType, toolType)
+    local prefix = "When activated, "
+    local amount = getBuffAmount(mineralType, toolType)
+    local prop = assert(SCALED_PROPS_BY_TOOL[toolType])
+    local action
+    if prop == "multGenerated" then
+        action = "permanently gain {lootplot:POINTS_MULT_COLOR}%{amount} mult."
+    elseif prop == "pointsGenerated" then
+        action = "permanently gain {lootplot:POINTS_COLOR}%{amount} points."
     else
-        prefix = assert(BUFF_DESC_PREFIXES[mineralType])
+        umg.melt("?")
+    end
+    return loc(prefix .. action, {
+        amount = amount
+    })
+end
+
+
+local function scale(ent, mineralType, toolType)
+    local prop = assert(SCALED_PROPS_BY_TOOL[toolType])
+    lp.modifierBuff(ent, prop, getBuffAmount(mineralType, toolType))
+end
+
+local function addScalingToEtype(etype, mineralType, toolType)
+    if mineralType == MINERAL_TYPES.ruby
+        or mineralType == MINERAL_TYPES.iron
+            or mineralType == MINERAL_TYPES.emerald then
+        -- ruby and iron scale the same:
+        etype.onActivate = function(ent)
+            scale(ent, mineralType, toolType)
+        end
+    elseif mineralType == MINERAL_TYPES.cobalt then
+        -- cobalt costs mana:
+        etype.onActivate = function(ent)
+            local slotEnt = lp.itemToSlot(ent)
+            if slotEnt and lp.mana.getManaCount(slotEnt) >= 1 then
+                lp.mana.addMana(slotEnt,-1)
+                scale(ent, mineralType, toolType)
+            end
+        end
+    else
+        umg.melt("you gotta put stuff here!")
     end
 
-    return loc(prefix .. actionDesc, {
-        n = count
-    })
+    etype.description = getBuffDescription(mineralType, toolType)
 end
 
 
@@ -67,6 +158,7 @@ local function defineSword(mineral_type, name, etype)
     for k,v in pairs(etype) do
         swordType[k] = swordType[k] or v
     end
+    addScalingToEtype(swordType, mineral_type, TOOL_TYPES.sword)
 
     defineMineral(mineral_type, etypeName, swordType)
 end
@@ -89,8 +181,9 @@ local function defineSpear(mineral_type, name, etype)
         basePrice = 4,
     }
     for k,v in pairs(etype) do
-        spearType[k] = spearType[k] or v
+        spearType[k] = v
     end
+    addScalingToEtype(spearType, mineral_type, TOOL_TYPES.spear)
 
     defineMineral(mineral_type, etypeName, spearType)
 end
@@ -107,19 +200,17 @@ local function definePickaxe(mineral_type, name, etype)
         image = image,
         name = loc(name .. " Pickaxe"),
 
-        doomCount = 15,
-
         mineralType = mineral_type,
 
         basePrice = 4,
         basePointsGenerated = pgen,
-        baseMaxActivations = 5,
 
-        rarity = etype.rarity or lp.rarities.UNCOMMON,
+        rarity = lp.rarities.RARE,
     }
     for k,v in pairs(etype) do
         pickType[k] = pickType[k] or v
     end
+    addScalingToEtype(pickType, mineral_type, TOOL_TYPES.pickaxe)
 
     defineMineral(mineral_type, etypeName, pickType)
 end
@@ -136,6 +227,7 @@ local function defineAxe(mineral_type, name, etype)
     local axeType = {
         image = image,
         name = loc(name .. " Axe"),
+
         mineralType = mineral_type,
 
         rarity = etype.rarity or lp.rarities.UNCOMMON,
@@ -145,9 +237,10 @@ local function defineAxe(mineral_type, name, etype)
 
         shape = lp.targets.KNIGHT_SHAPE,
 
+        activateDescription = loc("Earn points for every target item."),
+
         target = {
             type = "ITEM",
-            description = loc("Earn points for every target item."),
             activate = function(selfEnt, ppos, targetEnt)
                 lp.addPoints(selfEnt, selfEnt.pointsGenerated or 0)
             end
@@ -157,6 +250,8 @@ local function defineAxe(mineral_type, name, etype)
     for k,v in pairs(etype) do
         axeType[k] = axeType[k] or v
     end
+
+    addScalingToEtype(axeType, mineral_type, TOOL_TYPES.axe)
 
     defineMineral(mineral_type, etypeName, axeType)
 end
@@ -179,7 +274,7 @@ end
 Doesnt do anything special; has decent stats
 ]]
 defineMineralClass("iron", "Iron", {
-    baseMaxActivations = 15,
+    baseMaxActivations = 10,
     triggers = {"PULSE"}
 })
 
@@ -188,7 +283,8 @@ defineMineralClass("iron", "Iron", {
 Activates on reroll
 ]]
 defineMineralClass("emerald", "Emerald", {
-    triggers = {"REROLL"}
+    baseMaxActivations = 10,
+    triggers = {"PULSE", "REROLL"}
 })
 
 
@@ -198,21 +294,15 @@ Activates multiple times, like boomerang.
 (since octopuses dont matter for ruby-items.)
 ]]
 defineMineralClass("ruby", "Ruby", {
-    baseMaxActivations = 3,
+    baseMaxActivations = 4,
+    triggers = {"PULSE"},
     repeatActivations = true,
-    triggers = {"PULSE"}
 })
 
 
 
---[[
-
-Can be used in BOTH reroll AND 
-
-]]
 defineMineralClass("cobalt", "Cobalt", {
-    triggers = {"PULSE", "REROLL"},
-    rarity = lp.rarities.RARE
+    triggers = {"PULSE"},
 })
 
 

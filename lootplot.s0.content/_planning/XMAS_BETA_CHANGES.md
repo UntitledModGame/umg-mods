@@ -93,22 +93,23 @@ Swords changed to UNCOMMON/RARE
 - Axes: (target-items)
     - (Buffed every 4 activations)
 - Spear items (give global mult?)
-    - (Buffed every 2 activations?)
+    - (Buffed every 3 activations?)
 - Hammer-items (same as Axes; but with global-mult)
-    - (Buffed every 4 activations)
+    - (Buffed every 8 activations)
 
 NEW MINERAL TYPE: "Cobalt"
-Cobalt needs 1 mana to activate. 
+Cobalt needs 1 mana to scale. 
 It has EXCELLENT base-points and scaling.
 (Otherwise its identical to iron)
-
-
 
 - Rework chubby-cat. Its currently too *non-emergent.*
 
 - Change key-balloon. It's garbage design.
 
-- Design new mult-items 
+- Remove ALL uses of `mult-buff`. It's bad design!!!!
+(replace with soemthing else)
+
+- Design new global mult-items 
 
 ------
 
@@ -117,4 +118,11 @@ Rotation tool: Make it cost $2 (max 3 activations)
 Rotation slot: Add an `ACTIVATE` button; costing $2;
 allowing people to rotate items during the round.
 This would make stuff way better.
+
+
+Create STICKY/STUCK components
+
+NEW MINERAL TYPE: "Quartz"
+quartz has slightly stronger buffs, but is STICKY.
+
 

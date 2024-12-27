@@ -19,9 +19,12 @@ components.defineComponent("lootplotTags")
 
 
 
-components.defineComponent("onReroll")
 components.defineComponent("onDestroy")
 components.defineComponent("onActivate")
+
+components.defineComponent("onTriggered") -- fun(ent, triggerName, wasActivated)
+-- called when `tryTriggerEntity` is called. NOTE: this function is called
+-- even if the ent doesnt have the trigger!!!
 
 components.defineComponent("onDestroyClient")
 components.defineComponent("onActivateClient")
