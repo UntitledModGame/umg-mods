@@ -45,7 +45,7 @@ end
 
 
 local function shuffleTargetShapes(selfEnt)
-    local targets = lp.targets.getShapePositions(selfEnt)
+    local targets = lp.targets.getTargets(selfEnt)
     if not targets then
         return
     end
@@ -113,7 +113,7 @@ defineCard("hearts_card", {
 
     onActivate = function(selfEnt)
         local targets = shuffled(
-            lp.targets.getShapePositions(selfEnt):map(lp.posToItem)
+            lp.targets.getTargets(selfEnt):map(lp.posToItem)
         )
         apply(targets, function(e1,e2)
             local l1 = e1.lives or 0
@@ -138,7 +138,7 @@ defineCard("mana_card", {
 
     onActivate = function(selfEnt)
         local targets = shuffled(
-            lp.targets.getShapePositions(selfEnt):map(lp.posToSlot)
+            lp.targets.getTargets(selfEnt):map(lp.posToSlot)
         )
         apply(targets, function(e1,e2)
             local m1 = e1.manaCount or 0
@@ -188,7 +188,7 @@ defineCard("spades_card", {
     },
 
     onActivate = function(selfEnt)
-        local targets = lp.targets.getShapePositions(selfEnt)
+        local targets = lp.targets.getTargets(selfEnt)
         if not targets then
             return
         end

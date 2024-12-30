@@ -48,8 +48,8 @@ local function sortPPos(basePPos)
 end
 
 ---@param itemEnt lootplot.ItemEntity
----@return objects.Array?
-function targets.getShapePositions(itemEnt)
+---@return lootplot.PPos[]?
+function targets.getTargets(itemEnt)
     local pos = lp.getPos(itemEnt)
     local targetList = nil
 
@@ -71,6 +71,34 @@ function targets.getShapePositions(itemEnt)
 
     return targetList
 end
+
+
+---@param itemEnt lootplot.ItemEntity
+---@return Entity[]
+function targets.getConvertedTargets(itemEnt)
+    local targetList = targets.getTargets(itemEnt)
+    if not targetList then
+        return objects.Array()
+    end
+    targetList = objects.Array(targetList)
+
+    local convertType = itemEnt.target and itemEnt.target.type
+    if convertType then
+        targetList:map(function(ppos)
+            local ok, ent = lp.tryConvert(ppos, convertType)
+            if ok then
+                return ent
+            end
+        end)
+        return targetList
+    else
+        -- no convertType..? I guess we just return empty.
+        return {}
+    end
+end
+
+
+
 
 ---@param itemEnt lootplot.ItemEntity
 ---@param shape lootplot.targets.ShapeData

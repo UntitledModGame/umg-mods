@@ -11,6 +11,10 @@ ent.target = {
     filter = function(selfEnt, ppos, targetEnt_or_nil) return bool end,
     description = "Clones target item",
     type = "ITEM" or "SLOT" or "NO_ITEM" or "NO_SLOT"
+
+    -- Transforms the pposList however you want.
+    -- useful for stuff like: "targets a random item", "targets the cheapest item"
+    transform = function(selfEnt, pposList) return { table.pick_random(pposList) } end
 }
 
 

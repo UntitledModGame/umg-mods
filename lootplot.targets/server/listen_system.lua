@@ -108,7 +108,7 @@ local function updateListenTargets(ent)
         return -- its not inside a plot!
     end
 
-    local pposLis = lp.targets.getShapePositions(ent)
+    local pposLis = lp.targets.getTargets(ent)
     if not pposLis then
         umg.log.fatal("Couldn't listen, had no shape-positions ", ent)
         return

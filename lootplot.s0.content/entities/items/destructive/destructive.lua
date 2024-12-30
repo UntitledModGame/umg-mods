@@ -51,7 +51,7 @@ defDestructive("empty_cauldron", "Empty Cauldron", {
     shape = lp.targets.RookShape(1),
 
     onActivate = function(ent)
-        local posList = lp.targets.getShapePositions(ent) or {}
+        local posList = lp.targets.getTargets(ent) or {}
         for _,ppos in ipairs(posList) do
             lp.trySpawnSlot(ppos, server.entities.sell_slot, ent.lootplotTeam)
         end

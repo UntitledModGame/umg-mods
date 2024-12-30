@@ -5,9 +5,9 @@ local util = require("shared.util")
 
 ---@param ent lootplot.ItemEntity
 ---@param pposList objects.Array
----@param conversion? "ITEM"|"SLOT"
-local function activateTargets(ent, pposList, conversion)
+local function activateTargets(ent, pposList)
     local target = ent.target
+    local conversion = target.type
     assert(target, "wot wot?")
     lp.Bufferer()
         :addAll(pposList)
@@ -31,17 +31,15 @@ end
 
 
 umg.on("lootplot:entityActivated", function(ent)
-    if lp.isItemEntity(ent) then
-        if ent.target then
-            ---@cast ent lootplot.ItemEntity
-            local pposList = lp.targets.getShapePositions(ent)
-            if pposList then
-                local to = ent.target.type
-                if (to and (not lp.CONVERSIONS[to])) then
-                    error("Invalid target.type: " .. tostring(to))
-                end
-                activateTargets(ent, pposList, to)
+    if lp.isItemEntity(ent) and ent.target then
+        ---@cast ent lootplot.ItemEntity
+        local pposList = lp.targets.getTargets(ent)
+        if pposList then
+            local to = ent.target.type
+            if (to and (not lp.CONVERSIONS[to])) then
+                error("Invalid target.type: " .. tostring(to))
             end
+            activateTargets(ent, pposList)
         end
     end
 end)

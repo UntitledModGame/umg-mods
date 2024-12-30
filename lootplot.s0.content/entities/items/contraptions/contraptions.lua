@@ -181,7 +181,7 @@ defContra("slot_copy_tool", {
     },
 
     onActivate = function(selfEnt)
-        local targs = lp.targets.getShapePositions(selfEnt) or {}
+        local targs = lp.targets.getTargets(selfEnt) or {}
         if #targs > 0 then
             local ppos = table.random(targs)
             local selfPos = lp.getPos(selfEnt)

@@ -17,7 +17,7 @@ lp.defineItem("lootplot.unlocks:key", {
         Keys will only activate is there is actually an entity TO activate.
         (Or else its a silly waste!)
         ]]
-        local targs = lp.targets.getShapePositions(ent)
+        local targs = lp.targets.getTargets(ent)
         if not targs then return false end
         for _,ppos in ipairs(targs) do
             local item = lp.posToItem(ppos)
