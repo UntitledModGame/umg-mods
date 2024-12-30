@@ -51,6 +51,11 @@ local function defineSword(mineral_type, name, strength, etype)
 end
 
 
+local function floorTo01(x)
+    -- floors to nearest 0.1
+    return math.floor(x * 10) / 10
+end
+
 
 local function defineSpear(mineral_type, name, strength, etype)
     local namespace = umg.getModName() .. ":"
@@ -61,8 +66,7 @@ local function defineSpear(mineral_type, name, strength, etype)
         image = image,
         name = loc(name .. " Spear"),
 
-        -- round to nearest 0.1
-        baseMultGenerated = math.floor(0.2 * strength * 10) / 10,
+        baseMultGenerated = floorTo01(0.2 * strength),
 
         rarity = etype.rarity or lp.rarities.RARE,
 
@@ -119,7 +123,7 @@ local function defineAxe(mineral_type, name, strength, etype)
 
         rarity = etype.rarity or lp.rarities.UNCOMMON,
 
-        basePrice = 5,
+        basePrice = 6,
         basePointsGenerated = math.floor(2 * strength),
 
         shape = lp.targets.KNIGHT_SHAPE,
@@ -143,11 +147,51 @@ end
 
 
 
+local function defineHammer(mineral_type, name, strength, etype)
+    local namespace = umg.getModName() .. ":"
+    local etypeName = namespace .. mineral_type .. "_hammer"
+    local image = mineral_type .. "_hammer"
+
+    local hammerType = {
+        image = image,
+        name = loc(name .. " Hammer"),
+
+        mineralType = mineral_type,
+
+        rarity = etype.rarity or lp.rarities.EPIC,
+
+        basePrice = 10,
+        baseMultGenerated = floorTo01(0.1 * strength),
+
+        shape = lp.targets.HorizontalShape(2),
+
+        activateDescription = loc("Gives {lootplot:POINTS_MULT_COLOR}mult{/lootplot:POINTS_MULT_COLOR} for every slot without an item."),
+
+        target = {
+            type = "SLOT_NO_ITEM",
+            activate = function(selfEnt, ppos, targetEnt)
+                lp.addPointsMult(selfEnt, selfEnt.multGenerated or 0)
+            end
+        }
+    }
+
+    for k,v in pairs(etype) do
+        hammerType[k] = hammerType[k] or v
+    end
+
+    defineMineral(mineral_type, etypeName, hammerType)
+end
+
+
+
+
+
 local function defineMineralClass(mineral_type, name, strength, etype)
     defineSword(mineral_type, name, strength, etype)
     defineAxe(mineral_type, name, strength, etype)
     definePickaxe(mineral_type, name, strength,  etype)
     defineSpear(mineral_type, name, strength,  etype)
+    defineHammer(mineral_type, name, strength,  etype)
 end
 
 

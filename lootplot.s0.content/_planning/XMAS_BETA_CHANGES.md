@@ -118,6 +118,7 @@ Rotation slot: Add an `ACTIVATE` button; costing $2;
 allowing people to rotate items during the round.
 This would make stuff way better.
 
+Change feather. It is currently non-emergent.
 
 Create STICKY/STUCK components
 
