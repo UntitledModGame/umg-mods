@@ -262,12 +262,19 @@ defItem("ruby", {
 
 
 defItem("seraphim", {
+    --[[
+    TODO:
+    this isnt very emergent YET.
+    We need more emergent interactions with FLOATY items for this to work better!
+    ]]
     name = loc("Seraphim"),
     activateDescription = loc("Gives {lootplot:INFO_COLOR}FLOATY{/lootplot:INFO_COLOR} to all target items."),
 
     triggers = {"PULSE"},
 
     rarity = lp.rarities.LEGENDARY,
+
+    manaCost = 1,
 
     basePrice = 12,
     baseMaxActivations = 5,
