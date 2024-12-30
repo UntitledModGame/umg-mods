@@ -28,128 +28,16 @@ end
 
 
 
-local MINERAL_TYPES = objects.Enum({
-    iron = "iron",
-    emerald = "emerald",
-    cobalt = "cobalt",
-    ruby = "ruby"
-})
-
-
-
-local TOOL_TYPES = objects.Enum({
-    axe = true,
-    sword = true,
-    pickaxe = true,
-    spear = true,
-    hammer = true,
-})
-
-
-local SCALING_RATES_BY_MINERAL = {
-    emerald = 2,
-    iron = 2,
-    ruby = 1,
-    cobalt = 20,
-}
-
-
-local SCALING_RATES_BY_TOOL = {
-    -- points:
-    axe = 0.2,
-    sword = 1,
-    pickaxe = 2,
-
-    -- mult:
-    spear = 0.1,
-    hammer = 0.05
-}
-
-
-local SCALED_PROPS_BY_TOOL = {
-    axe = "pointsGenerated",
-    sword = "pointsGenerated",
-    pickaxe = "pointsGenerated",
-
-    spear = "multGenerated",
-    hammer = "multGenerated"
-}
-
-
----@param mineralType string
----@param toolType string
----@return number
-local function getBuffAmount(mineralType, toolType)
-    local toolScaling = assert(SCALING_RATES_BY_TOOL[toolType])
-    local mineralScaling = assert(SCALING_RATES_BY_MINERAL[mineralType])
-    -- round to nearest 0.1
-    return math.floor((toolScaling * mineralScaling) * 10) / 10
-end
-
-
----@param mineralType string
----@param toolType string
----@return string
-local function getBuffDescription(mineralType, toolType)
-    local prefix = "When activated, "
-    local amount = getBuffAmount(mineralType, toolType)
-    local prop = assert(SCALED_PROPS_BY_TOOL[toolType])
-    local action
-    if prop == "multGenerated" then
-        action = "permanently gain {lootplot:POINTS_MULT_COLOR}%{amount} mult."
-    elseif prop == "pointsGenerated" then
-        action = "permanently gain {lootplot:POINTS_COLOR}%{amount} points."
-    else
-        umg.melt("?")
-    end
-    return loc(prefix .. action, {
-        amount = amount
-    })
-end
-
-
-local function scale(ent, mineralType, toolType)
-    local prop = assert(SCALED_PROPS_BY_TOOL[toolType])
-    lp.modifierBuff(ent, prop, getBuffAmount(mineralType, toolType))
-end
-
-local function addScalingToEtype(etype, mineralType, toolType)
-    if mineralType == MINERAL_TYPES.ruby
-        or mineralType == MINERAL_TYPES.iron
-            or mineralType == MINERAL_TYPES.emerald then
-        -- ruby and iron scale the same:
-        etype.onActivate = function(ent)
-            scale(ent, mineralType, toolType)
-        end
-    elseif mineralType == MINERAL_TYPES.cobalt then
-        -- cobalt costs mana:
-        etype.onActivate = function(ent)
-            local slotEnt = lp.itemToSlot(ent)
-            if slotEnt and lp.mana.getManaCount(slotEnt) >= 1 then
-                lp.mana.addMana(slotEnt,-1)
-                scale(ent, mineralType, toolType)
-            end
-        end
-    else
-        umg.melt("you gotta put stuff here!")
-    end
-
-    etype.description = getBuffDescription(mineralType, toolType)
-end
-
-
-
-local function defineSword(mineral_type, name, etype)
+local function defineSword(mineral_type, name, strength, etype)
     local namespace = umg.getModName() .. ":"
     local etypeName = namespace .. mineral_type .. "_sword"
     local image = mineral_type .. "_sword"
-    local pgen = 4
 
     local swordType = {
         image = image,
         name = loc(name .. " Sword"),
 
-        basePointsGenerated = pgen,
+        basePointsGenerated = math.floor(4 * strength),
 
         rarity = etype.rarity or lp.rarities.UNCOMMON,
 
@@ -158,14 +46,13 @@ local function defineSword(mineral_type, name, etype)
     for k,v in pairs(etype) do
         swordType[k] = swordType[k] or v
     end
-    addScalingToEtype(swordType, mineral_type, TOOL_TYPES.sword)
 
     defineMineral(mineral_type, etypeName, swordType)
 end
 
 
 
-local function defineSpear(mineral_type, name, etype)
+local function defineSpear(mineral_type, name, strength, etype)
     local namespace = umg.getModName() .. ":"
     local etypeName = namespace .. mineral_type .. "_spear"
     local image = mineral_type .. "_spear"
@@ -174,7 +61,8 @@ local function defineSpear(mineral_type, name, etype)
         image = image,
         name = loc(name .. " Spear"),
 
-        baseMultGenerated = 0.2,
+        -- round to nearest 0.1
+        baseMultGenerated = math.floor(0.2 * strength * 10) / 10,
 
         rarity = etype.rarity or lp.rarities.RARE,
 
@@ -183,18 +71,16 @@ local function defineSpear(mineral_type, name, etype)
     for k,v in pairs(etype) do
         spearType[k] = v
     end
-    addScalingToEtype(spearType, mineral_type, TOOL_TYPES.spear)
 
     defineMineral(mineral_type, etypeName, spearType)
 end
 
 
 
-local function definePickaxe(mineral_type, name, etype)
+local function definePickaxe(mineral_type, name, strength, etype)
     local namespace = umg.getModName() .. ":"
     local etypeName = namespace .. mineral_type .. "_pickaxe"
     local image = mineral_type .. "_pickaxe"
-    local pgen = 10
 
     local pickType = {
         image = image,
@@ -203,14 +89,15 @@ local function definePickaxe(mineral_type, name, etype)
         mineralType = mineral_type,
 
         basePrice = 4,
-        basePointsGenerated = pgen,
+        basePointsGenerated = 10,
+
+        doomCount = 30,
 
         rarity = lp.rarities.RARE,
     }
     for k,v in pairs(etype) do
         pickType[k] = pickType[k] or v
     end
-    addScalingToEtype(pickType, mineral_type, TOOL_TYPES.pickaxe)
 
     defineMineral(mineral_type, etypeName, pickType)
 end
@@ -219,7 +106,7 @@ end
 
 
 
-local function defineAxe(mineral_type, name, etype)
+local function defineAxe(mineral_type, name, strength, etype)
     local namespace = umg.getModName() .. ":"
     local etypeName = namespace .. mineral_type .. "_axe"
     local image = mineral_type .. "_axe"
@@ -233,7 +120,7 @@ local function defineAxe(mineral_type, name, etype)
         rarity = etype.rarity or lp.rarities.UNCOMMON,
 
         basePrice = 5,
-        basePointsGenerated = 2,
+        basePointsGenerated = math.floor(2 * strength),
 
         shape = lp.targets.KNIGHT_SHAPE,
 
@@ -251,20 +138,16 @@ local function defineAxe(mineral_type, name, etype)
         axeType[k] = axeType[k] or v
     end
 
-    addScalingToEtype(axeType, mineral_type, TOOL_TYPES.axe)
-
     defineMineral(mineral_type, etypeName, axeType)
 end
 
 
 
-
-
-local function defineMineralClass(mineral_type, name, etype)
-    defineSword(mineral_type, name, etype)
-    defineAxe(mineral_type, name, etype)
-    definePickaxe(mineral_type, name, etype)
-    defineSpear(mineral_type, name, etype)
+local function defineMineralClass(mineral_type, name, strength, etype)
+    defineSword(mineral_type, name, strength, etype)
+    defineAxe(mineral_type, name, strength, etype)
+    definePickaxe(mineral_type, name, strength,  etype)
+    defineSpear(mineral_type, name, strength,  etype)
 end
 
 
@@ -273,19 +156,57 @@ end
 "basic" mineral type.
 Doesnt do anything special; has decent stats
 ]]
-defineMineralClass("iron", "Iron", {
+defineMineralClass("iron", "Iron", 2, {
     baseMaxActivations = 10,
     triggers = {"PULSE"}
 })
 
 
 --[[
-Activates on reroll
+EMERALD TOOLS:
+
+Emerald tools are buffed when rerolled.
 ]]
-defineMineralClass("emerald", "Emerald", {
-    baseMaxActivations = 10,
-    triggers = {"PULSE", "REROLL"}
+do
+local ACTIVATIONS = 10
+local TRIGGERS = {"PULSE", "REROLL"}
+-- the triggers must contain `REROLL`; (or else onTriggered isnt called for REROLL)
+local EMERALD_STRENGTH = 0.5
+local function rerollBuff(property, amount)
+    return function(ent, triggerName)
+        if triggerName == "REROLL" then
+            lp.modifierBuff(ent, property, amount)
+        end
+    end
+end
+defineSword("emerald", "Emerald", EMERALD_STRENGTH, {
+    baseMaxActivations = ACTIVATIONS,
+    triggers = TRIGGERS,
+    onTriggered = rerollBuff("pointsGenerated", 4),
+    description = loc("When {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} is triggered, permanently gain {lootplot:POINTS_COLOR}+4 points")
 })
+
+defineAxe("emerald", "Emerald", EMERALD_STRENGTH, {
+    baseMaxActivations = ACTIVATIONS,
+    triggers = TRIGGERS,
+    onTriggered = rerollBuff("pointsGenerated", 1),
+    description = loc("When {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} is triggered, permanently gain {lootplot:POINTS_COLOR}+1 points")
+})
+
+definePickaxe("emerald", "Emerald", EMERALD_STRENGTH, {
+    baseMaxActivations = ACTIVATIONS,
+    triggers = TRIGGERS,
+    onTriggered = rerollBuff("pointsGenerated", 4),
+    description = loc("When {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} is triggered, permanently gain {lootplot:POINTS_COLOR}+4 points")
+})
+
+defineSpear("emerald", "Emerald", EMERALD_STRENGTH, {
+    baseMaxActivations = ACTIVATIONS,
+    triggers = TRIGGERS,
+    onTriggered = rerollBuff("multGenerated", 0.1),
+    description = loc("When Reroll is triggered, permanently gain {lootplot:POINTS_MULT_COLOR}+0.1 mult")
+})
+end
 
 
 --[[
@@ -293,16 +214,22 @@ Activates multiple times, like boomerang.
 (anti-synergy with octopus/activator builds!!)
 (since octopuses dont matter for ruby-items.)
 ]]
-defineMineralClass("ruby", "Ruby", {
-    baseMaxActivations = 4,
+defineMineralClass("ruby", "Ruby", 1, {
+    baseMaxActivations = 5,
     triggers = {"PULSE"},
     repeatActivations = true,
 })
 
 
 
-defineMineralClass("cobalt", "Cobalt", {
+--[[
+
+Cobalt costs mana to activate
+
+]]
+defineMineralClass("cobalt", "Cobalt", 50, {
     triggers = {"PULSE"},
+    manaCost = 1
 })
 
 

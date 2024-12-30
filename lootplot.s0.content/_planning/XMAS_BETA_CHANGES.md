@@ -88,8 +88,7 @@ Coins
 
 - MINERAL items changes:
 Swords changed to UNCOMMON/RARE
-- Mineral items (Especially swords) are self-buffing.
-    - Emerald tools: Get buffed on REROLL
+- Emerald tools: Get buffed on REROLL
 - Axes: (target-items)
     - (Buffed every 4 activations)
 - Spear items (give global mult?)
