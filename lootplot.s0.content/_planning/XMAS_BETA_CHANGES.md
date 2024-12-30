@@ -108,10 +108,9 @@ It has EXCELLENT base-points and scaling.
 
 - (((DONE))) Rework chubby-cat. Its currently too *non-emergent.*
 
-- Change key-balloon. It's garbage design.
+- (((DONE))) Change key-balloon. It's garbage design.
 
-- Remove ALL uses of `mult-buff`. It's bad design!!!!
-(replace with soemthing else)
+- (((DONE))) Remove ALL uses of `mult-buff`. It's bad design!!!!
 
 - Design new global mult-items 
 

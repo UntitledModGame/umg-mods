@@ -733,26 +733,6 @@ definePotion("potion_red", {
 })
 
 
-definePotion("potion_purple", {
-    name = loc("Purple Potion"),
-
-    rarity = lp.rarities.RARE,
-
-    target = {
-        type = "ITEM_OR_SLOT",
-        description = loc("If item is {lootplot:DOOMED_COLOR}DOOMED{/lootplot:DOOMED_COLOR}, Give it a {lootplot:POINTS_MULT_COLOR}x4 point multiplier."),
-        filter = function(selfEnt, ppos, targetEnt)
-            return targetEnt.doomCount
-        end,
-        activate = function (selfEnt, ppos, targetEnt)
-            if targetEnt.doomCount then
-                lp.multiplierBuff(targetEnt, "pointsGenerated", 4, selfEnt)
-            end
-        end
-    }
-})
-
-
 
 --------------------------------------------------------------------------
 

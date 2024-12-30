@@ -195,9 +195,12 @@ defBalloon("green_balloon", "Green Balloon", {
 
     listen = {
         trigger = "BUY",
-        description = loc("Give a {lootplot:POINTS_COLOR}2x points multiplier{/lootplot:POINTS_COLOR} to purchased item."),
+        description = loc("Doubles the {lootplot:POINTS_COLOR}points-earned{/lootplot:POINTS_COLOR} of the purchased item."),
         activate = function(selfEnt, ppos, targetEnt)
-            lp.multiplierBuff(targetEnt, "pointsGenerated", 2, selfEnt)
+            local pgen = targetEnt.pointsGenerated or 0
+            if pgen ~= 0 then
+                lp.modifierBuff(targetEnt, "pointsGenerated", pgen, selfEnt)
+            end
         end,
     }
 })
