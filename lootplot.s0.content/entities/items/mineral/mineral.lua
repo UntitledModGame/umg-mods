@@ -67,7 +67,7 @@ local function defineSpear(mineral_type, name, strength, etype)
         image = image,
         name = loc(name .. " Spear"),
 
-        baseMultGenerated = floorTo01(0.2 * strength),
+        baseMultGenerated = floorTo01(0.1 * strength),
 
         rarity = etype.rarity or lp.rarities.RARE,
 
