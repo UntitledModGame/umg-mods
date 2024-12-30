@@ -41,10 +41,10 @@ defineFood("butter", {
     basePrice = 8,
     rarity = lp.rarities.RARE,
 
-    activateDescription = loc("Doubles money.\n(Maximum of $40)."),
+    activateDescription = loc("Doubles money.\n(Maximum of $25)."),
 
     onActivate = function (selfEnt)
-        local money = math.min(lp.getMoney(selfEnt) or 0, 40)
+        local money = math.min(lp.getMoney(selfEnt) or 0, 25)
         lp.addMoney(selfEnt, money)
     end
 })
