@@ -274,40 +274,6 @@ defBalloon("mana_balloon", "Mana Balloon", {
 
 
 
-helper.defineDelayItem("key_balloon", "Key Balloon", {
-    --[[
-    After X activations, turn into a floating key
-
-    TODO:
-    This is TRASH! We can do way better than this, man
-    ]]
-    listen = {
-        trigger = "BUY",
-    },
-
-    shape = lp.targets.CircleShape(3),
-    baseMaxActivations = 50,
-    canItemFloat = true,
-
-    delayAction = function(ent)
-        local ppos = lp.getPos(ent)
-        if not ppos then return end
-        lp.trySpawnSlot(ppos, server.entities.steel_slot, ent.lootplotTeam)
-        local keyEnt = lp.forceSpawnItem(ppos, server.entities.key, ent.lootplotTeam)
-        if keyEnt then
-            keyEnt.canItemFloat = true
-        end
-    end,
-    delayCount = 8,
-    delayDescription = "Spawns a {lootplot:INFO_COLOR}STEEL-SLOT{/lootplot:INFO_COLOR}, and a {lootplot:INFO_COLOR}FLOATY-KEY{/lootplot:INFO_COLOR}!",
-
-    basePrice = 8,
-
-    rarity = lp.rarities.RARE,
-})
-
-
-
 defItem("neko_cat", {
     name = loc("Neko Cat"),
 
