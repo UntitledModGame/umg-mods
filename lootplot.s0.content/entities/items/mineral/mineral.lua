@@ -165,48 +165,13 @@ defineMineralClass("iron", "Iron", 2, {
 --[[
 EMERALD TOOLS:
 
-Emerald tools are buffed when rerolled.
+Activated when rerolled
 ]]
-do
-local ACTIVATIONS = 10
-local TRIGGERS = {"PULSE", "REROLL"}
--- the triggers must contain `REROLL`; (or else onTriggered isnt called for REROLL)
-local EMERALD_STRENGTH = 0.5
-local function rerollBuff(property, amount)
-    return function(ent, triggerName)
-        if triggerName == "REROLL" then
-            lp.modifierBuff(ent, property, amount)
-        end
-    end
-end
-defineSword("emerald", "Emerald", EMERALD_STRENGTH, {
-    baseMaxActivations = ACTIVATIONS,
-    triggers = TRIGGERS,
-    onTriggered = rerollBuff("pointsGenerated", 4),
-    description = loc("When {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} is triggered, permanently gain {lootplot:POINTS_COLOR}+4 points")
+defineMineralClass("emerald", "Emerald", 4, {
+    baseMaxActivations = 10,
+    triggers = {"REROLL"}
 })
 
-defineAxe("emerald", "Emerald", EMERALD_STRENGTH, {
-    baseMaxActivations = ACTIVATIONS,
-    triggers = TRIGGERS,
-    onTriggered = rerollBuff("pointsGenerated", 1),
-    description = loc("When {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} is triggered, permanently gain {lootplot:POINTS_COLOR}+1 points")
-})
-
-definePickaxe("emerald", "Emerald", EMERALD_STRENGTH, {
-    baseMaxActivations = ACTIVATIONS,
-    triggers = TRIGGERS,
-    onTriggered = rerollBuff("pointsGenerated", 4),
-    description = loc("When {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} is triggered, permanently gain {lootplot:POINTS_COLOR}+4 points")
-})
-
-defineSpear("emerald", "Emerald", EMERALD_STRENGTH, {
-    baseMaxActivations = ACTIVATIONS,
-    triggers = TRIGGERS,
-    onTriggered = rerollBuff("multGenerated", 0.1),
-    description = loc("When Reroll is triggered, permanently gain {lootplot:POINTS_MULT_COLOR}+0.1 mult")
-})
-end
 
 
 --[[
