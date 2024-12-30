@@ -71,15 +71,28 @@ defItem("red_net", "Red Net", {
     rarity = lp.rarities.RARE,
 
     basePrice = 5,
+    baseMaxActivations = 10,
+    baseMultGenerated = 0.1,
 
     listen = {
         trigger = "PULSE"
     },
     shape = lp.targets.KING_SHAPE,
+})
 
-    baseMaxActivations = 10,
 
-    baseMultGenerated = 0.111,
+
+defItem("red_pin", "Red Pin", {
+    rarity = lp.rarities.RARE,
+
+    triggers = {"PULSE"},
+
+    basePrice = 3,
+    baseMaxActivations = 3,
+
+    onActivate = function(ent)
+        lp.setPointsMult(ent, 1.5)
+    end
 })
 
 
