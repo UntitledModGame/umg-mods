@@ -8,6 +8,8 @@ lp.defineItem("lootplot.unlocks:key", {
     image = "key",
     name = loc("Key"),
 
+    activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}UNLOCK{lootplot:TRIGGER_COLOR} for slots and items."),
+
     triggers = {"PULSE"},
 
     doomCount = 1,
@@ -45,7 +47,6 @@ lp.defineItem("lootplot.unlocks:key", {
                 lp.tryTriggerEntity("UNLOCK", slot)
             end
         end,
-        description = loc("Triggers {lootplot:TRIGGER_COLOR}UNLOCK{lootplot:TRIGGER_COLOR} for slots and items."),
     },
 })
 

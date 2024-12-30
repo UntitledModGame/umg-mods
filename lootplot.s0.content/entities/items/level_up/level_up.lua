@@ -2,6 +2,19 @@ local itemGenHelper = require("shared.item_gen_helper")
 
 local loc = localization.localize
 
+local function defItem(id, name, etype)
+    etype.image = etype.image or id
+    etype.name = loc(name)
+
+    if not etype.listen then
+        etype.triggers = etype.triggers or {"LEVEL_UP"}
+    end
+
+    lp.defineItem("lootplot.s0.content:"..id, etype)
+end
+
+
+
 local SQUARE_BASKET_GEN = itemGenHelper.createLazyGenerator(
     function() return true end,
     itemGenHelper.createRarityWeightAdjuster({
@@ -9,15 +22,12 @@ local SQUARE_BASKET_GEN = itemGenHelper.createLazyGenerator(
     })
 )
 
-lp.defineItem("lootplot.s0.content:square_basket", {
-    name = loc("Square Basket"),
-    image = "square_basket",
+defItem("square_basket", {
     activateDescription = loc("Spawns %{COMMON} or %{UNCOMMON} items.", {
         COMMON = lp.rarities.COMMON.displayString,
         UNCOMMON = lp.rarities.UNCOMMON.displayString,
     }),
     rarity = lp.rarities.RARE,
-    triggers = {"LEVEL_UP"},
 
     shape = lp.targets.RookShape(1),
     target = {
@@ -34,12 +44,10 @@ lp.defineItem("lootplot.s0.content:square_basket", {
 
 
 
-lp.defineItem("lootplot.s0.content:red_key", {
-    name = loc("Red Key"),
-    image = "red_key",
-    activateDescription = loc("Trigger %{UNLOCK} to items and slots.", {UNLOCK = lp.getTriggerDisplayName("UNLOCK")}),
+defItem("red_key", {
+    activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}UNLOCK{lootplot:TRIGGER_COLOR} for slots and items."),
+
     rarity = lp.rarities.RARE,
-    triggers = {"LEVEL_UP"},
 
     shape = lp.targets.VerticalShape(1),
     target = {
@@ -53,14 +61,35 @@ lp.defineItem("lootplot.s0.content:red_key", {
 
 
 
-lp.defineItem("lootplot.s0.content:gold_bell", {
-    name = loc("Golden Bell"),
-    image = "gold_bell",
+defItem("gold_bell", {
     basePrice = 6,
 
-    baseMoneyGenerated = 10,
+    baseMoneyGenerated = 6,
     baseMaxActivations = 1,
 
     rarity = lp.rarities.RARE,
-    triggers = {"LEVEL_UP"},
 })
+
+
+
+
+defItem("calender", {
+    activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}Level-Up{/lootplot:TRIGGER_COLOR} for all target-items."),
+
+    triggers = {"PULSE"},
+
+    rarity = lp.rarities.EPIC,
+
+    basePrice = 10,
+    baseMaxActivations = 1,
+
+    shape = lp.targets.UpShape(1),
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.tryTriggerEntity("LEVEL_UP", targetEnt)
+        end
+    }
+})
+
+
