@@ -190,23 +190,6 @@ defItem("foghorn", {
 
 
 
-defItem("anchor", {
-    name = loc("Anchor"),
-    activateDescription = loc("Sets points to 0."),
-
-    rarity = lp.rarities.EPIC,
-    triggers = {"PULSE"},
-
-    basePrice = 7,
-    baseMaxActivations = 3,
-    baseMoneyGenerated = 5,
-
-    onActivate = function(ent)
-        lp.setPoints(ent, 0)
-    end
-})
-
-
 
 --[[
 

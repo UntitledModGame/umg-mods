@@ -117,3 +117,19 @@ defItem("sponge", "Sponge", {
 })
 
 
+
+defItem("anchor", "Anchor", {
+    activateDescription = loc("Set {lootplot:POINTS_MULT_COLOR}mult{/lootplot:POINTS_MULT_COLOR} to 1"),
+
+    rarity = lp.rarities.RARE,
+    triggers = {"PULSE"},
+
+    basePrice = 7,
+    baseMaxActivations = 3,
+    basePointsGenerated = 60,
+
+    onActivate = function(ent)
+        lp.setPointsMult(ent, 0)
+    end
+})
+
