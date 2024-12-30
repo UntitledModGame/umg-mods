@@ -8,6 +8,10 @@ local function defDestructive(id, name, etype)
     etype.image = etype.image or id
     etype.name = loc(name)
 
+    if not etype.listen then
+        etype.triggers = etype.triggers or {"PULSE"}
+    end
+
     return lp.defineItem("lootplot.s0.content:"..id, etype)
 end
 
@@ -65,8 +69,6 @@ defDestructive("empty_cauldron", "Empty Cauldron", {
 
 
 defDestructive("candle", "Candle", {
-    triggers = {"PULSE"},
-
     rarity = lp.rarities.LEGENDARY,
 
     basePrice = 15,
@@ -97,8 +99,6 @@ defDestructive("candle", "Candle", {
 
 
 defDestructive("tooth_necklace", "Tooth Necklace", {
-    triggers = {"PULSE"},
-
     basePrice = 4,
     baseMaxActivations = 1,
 
@@ -123,8 +123,6 @@ defDestructive("tooth_necklace", "Tooth Necklace", {
 
 
 defDestructive("mana_necklace", "Mana Necklace", {
-    triggers = {"PULSE"},
-
     basePrice = 4,
     baseMaxActivations = 1,
 
@@ -152,8 +150,6 @@ defDestructive("mana_necklace", "Mana Necklace", {
 
 
 defDestructive("bomb", "Bomb", {
-    triggers = {"PULSE"},
-
     rarity = lp.rarities.UNCOMMON,
     doomCount = 1,
 
@@ -212,8 +208,6 @@ defDestructive("goblet_of_blood", "Goblet of Blood", {
 
 
 defDestructive("pink_mitten", "Pink Mitten", {
-    triggers = {"PULSE"},
-
     onActivate = function(ent)
         ent.lives = (ent.lives or 0) + 1
     end,
@@ -283,6 +277,7 @@ defDestructive("dagger", "Dagger", {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
             lp.destroy(targetEnt)
+            lp.addPoints(selfEnt, 30)
         end
     },
 })

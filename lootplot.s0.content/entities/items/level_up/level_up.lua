@@ -22,7 +22,7 @@ local SQUARE_BASKET_GEN = itemGenHelper.createLazyGenerator(
     })
 )
 
-defItem("square_basket", {
+defItem("square_basket", "Square Basket", {
     activateDescription = loc("Spawns %{COMMON} or %{UNCOMMON} items.", {
         COMMON = lp.rarities.COMMON.displayString,
         UNCOMMON = lp.rarities.UNCOMMON.displayString,
@@ -44,7 +44,7 @@ defItem("square_basket", {
 
 
 
-defItem("red_key", {
+defItem("red_key", "Red Key", {
     activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}UNLOCK{lootplot:TRIGGER_COLOR} for slots and items."),
 
     rarity = lp.rarities.RARE,
@@ -61,7 +61,7 @@ defItem("red_key", {
 
 
 
-defItem("gold_bell", {
+defItem("gold_bell", "Gold Bell", {
     basePrice = 6,
 
     baseMoneyGenerated = 6,
@@ -73,7 +73,7 @@ defItem("gold_bell", {
 
 
 
-defItem("calender", {
+defItem("calender", "Calender", {
     activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}Level-Up{/lootplot:TRIGGER_COLOR} for all target-items."),
 
     triggers = {"PULSE"},

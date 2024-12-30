@@ -174,19 +174,18 @@ defItem("coins", {
 
 
 
-lp.defineItem("lootplot.s0.content:bone", {
-    image = "bone",
-
-    description = loc("Has 6 lives."),
-
+defItem("bone", {
     name = loc("Bone"),
 
+    description = loc("Has 6 lives. (Destroy this item to use it!)"),
+
+    triggers = {"DESTROY"},
+
     basePrice = 0,
+    basePointsGenerated = 2,
 
     lives = 6,
     rarity = lp.rarities.COMMON,
-
-    triggers = {"PULSE"},
 })
 
 
