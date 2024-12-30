@@ -259,3 +259,27 @@ defItem("ruby", {
     }
 })
 
+
+
+defItem("seraphim", {
+    name = loc("Seraphim"),
+    activateDescription = loc("Gives {lootplot:INFO_COLOR}FLOATY{/lootplot:INFO_COLOR} to all target items."),
+
+    triggers = {"PULSE"},
+
+    rarity = lp.rarities.LEGENDARY,
+
+    basePrice = 12,
+    baseMaxActivations = 5,
+    canItemFloat = true,
+
+    shape = lp.targets.UpShape(1),
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            targetEnt.canItemFloat = true
+            sync.syncComponent(targetEnt, "canItemFloat")
+        end
+    }
+})
+
