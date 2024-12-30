@@ -208,3 +208,25 @@ defineCard("spades_card", {
         end
     end
 })
+
+
+
+defineCard("multiplier_card", {
+    name = loc("Multiplier Card"),
+    activateDescription = loc("Swaps global points and global mult"),
+
+    onActivate = function(ent)
+        local mult, points = lp.getPoints(ent), lp.getPointsMult(ent)
+        if mult and points then
+            lp.setPoints(ent, mult)
+            lp.setPointsMult(ent, points)
+        end
+    end,
+
+    manaCost = 4,
+
+    baseMaxActivations = 1,
+    basePrice = 10,
+    rarity = lp.rarities.LEGENDARY,
+})
+
