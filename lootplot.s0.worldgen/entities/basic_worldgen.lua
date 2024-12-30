@@ -1,16 +1,6 @@
 local loc = localization.localize
 
 local OFFER_SLOT_BUFF = {
-    -- GRUB-10
-    {
-        chance = 0.1,
-        ---@param itemEnt lootplot.ItemEntity
-        handler = function(itemEnt)
-            if not itemEnt:hasComponent("grubMoneyCap") then
-                itemEnt.grubMoneyCap = 10
-            end
-        end
-    },
     -- DOOMED-30
     {
         chance = 0.1,
@@ -31,14 +21,6 @@ local OFFER_SLOT_BUFF = {
             end
         end
     },
-    -- Point multipler
-    {
-        chance = 0.1,
-        ---@param itemEnt lootplot.ItemEntity
-        handler = function(itemEnt)
-            return lp.multiplierBuff(itemEnt, "pointsGenerated", lp.SEED.worldGenRNG:random(2, 5))
-        end
-    },
     -- REROLL trigger
     {
         chance = 0.1,
@@ -50,25 +32,6 @@ local OFFER_SLOT_BUFF = {
                 itemEnt.triggers = triggers
                 sync.syncComponent(itemEnt, "triggers")
             end
-        end
-    },
-    -- triple activation-count
-    {
-        chance = 0.1,
-        ---@param itemEnt lootplot.ItemEntity
-        handler = function(itemEnt)
-            return lp.multiplierBuff(itemEnt, "maxActivations", 3)
-        end
-    },
-    -- chance to be a tier higher
-    {
-        chance = 0.2,
-        ---@param itemEnt lootplot.ItemEntity
-        handler = function(itemEnt)
-            return lp.rarities.setEntityRarity(
-                itemEnt,
-                lp.rarities.shiftRarity(itemEnt.rarity, 1)
-            )
         end
     },
 }
