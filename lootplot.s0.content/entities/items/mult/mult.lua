@@ -7,6 +7,7 @@ File for items that give global-multipliers.
 ]]
 
 local loc = localization.localize
+local interp = localization.newInterpolator
 
 
 local function defItem(id, name, etype)
@@ -35,7 +36,7 @@ Just, some super basic ones.
 
 Sponge: 
 earn money equal to current multiplier. (Currently: $X)
-Then, set mult to 0.
+Then, set mult to -1.
 
 
 Pin:
@@ -83,6 +84,8 @@ defItem("red_net", "Red Net", {
 
 
 defItem("red_pin", "Red Pin", {
+    activateDescription = loc("Set multiplier to {lootplot:POINTS_MULT_COLOR}1.5"),
+
     rarity = lp.rarities.RARE,
 
     triggers = {"PULSE"},
@@ -93,6 +96,24 @@ defItem("red_pin", "Red Pin", {
     onActivate = function(ent)
         lp.setPointsMult(ent, 1.5)
     end
+})
+
+
+
+defItem("sponge", "Sponge", {
+    triggers = {"PULSE"},
+
+    activateDescription = loc("earn money equal to current multiplier.\nThen, set mult to -1."),
+
+    onActivate = function(ent)
+        lp.addMoney(ent, lp.getPointsMult(ent) or 0)
+        lp.setPointsMult(ent, -1)
+    end,
+
+    rarity = lp.rarities.EPIC,
+
+    basePrice = 10,
+    baseMaxActivations = 3,
 })
 
 
