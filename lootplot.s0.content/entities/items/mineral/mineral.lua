@@ -1,5 +1,6 @@
 
 local loc = localization.localize
+local interp = localization.newInterpolator
 
 --[[
 
@@ -108,7 +109,7 @@ end
 
 
 
-
+local AXE_DESC = interp("Earn {lootplot:POINTS_COLOR}%{points} points{/lootplot:POINTS_COLOR} for every target item.")
 
 local function defineAxe(mineral_type, name, strength, etype)
     local namespace = umg.getModName() .. ":"
@@ -128,7 +129,11 @@ local function defineAxe(mineral_type, name, strength, etype)
 
         shape = lp.targets.KNIGHT_SHAPE,
 
-        activateDescription = loc("Earn points for every target item."),
+        activateDescription = function(ent)
+            return AXE_DESC({
+                points = ent.pointsGenerated or 0
+            })
+        end,
 
         target = {
             type = "ITEM",
@@ -146,6 +151,9 @@ local function defineAxe(mineral_type, name, strength, etype)
 end
 
 
+
+
+local HAMMER_DESC = interp("Gives {lootplot:POINTS_MULT_COLOR}%{mult} mult{/lootplot:POINTS_MULT_COLOR} for every slot without an item.")
 
 local function defineHammer(mineral_type, name, strength, etype)
     local namespace = umg.getModName() .. ":"
@@ -165,7 +173,11 @@ local function defineHammer(mineral_type, name, strength, etype)
 
         shape = lp.targets.HorizontalShape(2),
 
-        activateDescription = loc("Gives {lootplot:POINTS_MULT_COLOR}mult{/lootplot:POINTS_MULT_COLOR} for every slot without an item."),
+        activateDescription = function(ent)
+            return HAMMER_DESC({
+                mult = ent.multGenerated or 0
+            })
+        end,
 
         target = {
             type = "SLOT_NO_ITEM",
