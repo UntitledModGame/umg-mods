@@ -360,6 +360,13 @@ defineSlotSpawner("glass_tube", "Glass Bottle", "glass_slot", "Glass Slot", lp.t
     rarity = lp.rarities.UNCOMMON,
 })
 
+defineSlotSpawner("sniper_fruit", "Sniper Fruit", "slot", "Normal Slot", lp.targets.ON_SHAPE, {
+    -- useful for bridging large gaps in land
+    basePrice = 4,
+    canItemFloat = true,
+    rarity = lp.rarities.EPIC,
+})
+
 defineSlotSpawner("stone_fruit", "Stone fruit", "null_slot", "Null Slot", lp.targets.ON_SHAPE, {
     basePrice = 2,
     canItemFloat = true,
