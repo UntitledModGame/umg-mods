@@ -724,6 +724,26 @@ definePotion("potion_green", {
 
 
 
+definePotion("potion_sticky", {
+    name = loc("Sticky Potion"),
+
+    rarity = lp.rarities.RARE,
+    activateDescription = loc("Converts STUCK to STICKY,\n(allows you to move STUCK items.)"),
+
+    target = {
+        type = "ITEM",
+        filter = function (selfEnt, ppos, targetEnt)
+            return targetEnt.stuck
+        end,
+        activate = function (selfEnt, ppos, targetEnt)
+            targetEnt.stuck = false
+            targetEnt.sticky = true
+        end
+    }
+})
+
+
+
 definePotion("potion_blue", {
     name = loc("Blue Potion"),
 
