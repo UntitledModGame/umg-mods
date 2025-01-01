@@ -37,16 +37,19 @@ end)
 umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER + 0.01, function(ent, x,y, rot, sx,sy, kx,ky)
     if lp.isItemEntity(ent) then
         if ent.stuck or ent.sticky then
-            local extraRot = 0
-            local t = love.timer.getTime()
+            local opacity = 1
+            local t = love.timer.getTime() * 8
             if not ent.stuck then
-                -- then, rotate the visual over time,
+                -- then, blink the visual over time,
                 -- to indicate that its not stuck YET.
-                extraRot = love.timer.getTime()
+                opacity = (math.sin(t) + 1)/2
             end
             local img = client.assets.images.sticky_item_visual
-            local ox, oy = 8, math.sin(t * 3) * 2
-            rendering.drawImage(img, x + ox, y + oy, extraRot)
+            local ox, oy = 8, math.sin(t/2)
+            love.graphics.push("all")
+            love.graphics.setColor(1,1,1,opacity)
+            rendering.drawImage(img, x + ox, y + oy)
+            love.graphics.pop()
         end
     else
         if ent.stickySlot then
