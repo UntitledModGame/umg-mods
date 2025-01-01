@@ -2,7 +2,7 @@
 local loc = localization.localize
 
 
-local ROTATE_BUTTON_COST = 2
+local ROTATE_BUTTON_COST = 3
 
 return lp.defineSlot("lootplot.s0.content:rotate_slot", {
     image = "rotate_slot",
@@ -23,7 +23,7 @@ return lp.defineSlot("lootplot.s0.content:rotate_slot", {
 
     actionButtons = {
         {
-        text = loc("Rotate ($2)"),
+        text = loc("Rotate ($%{cost})", {cost = ROTATE_BUTTON_COST}),
         action = function(selfEnt)
             if server then
                 if lp.canActivateEntity(selfEnt) and (lp.getMoney(selfEnt) or 0) >= ROTATE_BUTTON_COST then
