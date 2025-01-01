@@ -112,13 +112,12 @@ It has EXCELLENT base-points and scaling.
 
 - (((DONE))) Remove ALL uses of `mult-buff`. It's bad design!!!!
 
-- Design new global mult-items 
+- (((DONE))) Design new global mult-items 
 
-------
 
-Rotation tool: Make it cost $2 (max 3 activations)
+(((DONE))) Rotation tool: Make it cost $2 (max 3 activations)
 
-Rotation slot: Add an `ACTIVATE` button; costing $2;
+(((DONE))) Rotation slot: Add an `ACTIVATE` button; costing $2;
 allowing people to rotate items during the round.
 This would make stuff way better.
 

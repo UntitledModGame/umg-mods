@@ -103,7 +103,7 @@ defItem("red_pin", "Red Pin", {
 defItem("sponge", "Sponge", {
     triggers = {"PULSE"},
 
-    activateDescription = loc("earn money equal to current multiplier.\nThen, set mult to -1."),
+    activateDescription = loc("Earn money equal to current mult.\nThen, set mult to -1."),
 
     onActivate = function(ent)
         lp.addMoney(ent, lp.getPointsMult(ent) or 0)
