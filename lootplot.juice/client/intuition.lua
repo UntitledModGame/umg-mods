@@ -34,12 +34,37 @@ end)
 
 
 
+umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER + 0.01, function(ent, x,y, rot, sx,sy, kx,ky)
+    if lp.isItemEntity(ent) then
+        if ent.stuck or ent.sticky then
+            local extraRot = 0
+            local t = love.timer.getTime()
+            if not ent.stuck then
+                -- then, rotate the visual over time,
+                -- to indicate that its not stuck YET.
+                extraRot = love.timer.getTime()
+            end
+            local img = client.assets.images.sticky_item_visual
+            local ox, oy = 8, math.sin(t * 3) * 2
+            rendering.drawImage(img, x + ox, y + oy, extraRot)
+        end
+    else
+        if ent.stickySlot then
+            -- local img = client.assets.images.sticky_slot_visual
+            local img = client.assets.images.sticky_slot_visual_final
+            rendering.drawImage(img, x, y, rot, sx,sy,kx,ky)
+        end
+    end
+end)
+
+
+
 
 umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER + 0.5, function(ent, x,y, rot, sx,sy, kx,ky)
     if ent.lives and ent.lives > 0 then
-        local ox, oy = 0, 0
         if lp.isItemEntity(ent) then
-            ox, oy = 6, 6
+            local t = love.timer.getTime()
+            local ox, oy = 6, 6 + math.sin(t)
             local img = client.assets.images.life_visual
             rendering.drawImage(img, x + ox, y + oy, rot, sx,sy, kx,ky)
         elseif lp.isSlotEntity(ent) then

@@ -121,14 +121,14 @@ It has EXCELLENT base-points and scaling.
 allowing people to rotate items during the round.
 This would make stuff way better.
 
-Change feather. It is currently non-emergent.
-
 Create STICKY/STUCK components
 
 Create food that converts STUCK --> STICKY
 
 NEW MINERAL TYPE: "Quartz"
 quartz has slightly stronger buffs, but is STICKY.
+
+Change feather. It is currently non-emergent.
 
 
 

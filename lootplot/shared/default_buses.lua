@@ -129,14 +129,18 @@ end)
 
 
 
-umg.answer("lootplot:canAddItemToSlot", function(slotEnt)
-    -- button slots cant hold items!
-    return not slotEnt:hasComponent("buttonSlot")
+umg.answer("lootplot:canAddItem", function(itemEnt, ppos)
+    local slot = lp.posToSlot(ppos)
+    if slot then
+        -- button slots cant hold items!
+        return not slot:hasComponent("buttonSlot")
+    end
+    return true -- else, its fine
 end)
 
-umg.answer("lootplot:canRemoveItemFromSlot", function(slotEnt, _)
-    -- we need this to return true coz we are using AND reducer!
-    return true
+
+umg.answer("lootplot:canRemoveItem", function(itemEnt, ppos)
+    return not itemEnt.stuck
 end)
 
 
@@ -200,6 +204,22 @@ umg.on("lootplot:entityActivated", FIRST_ORDER, function(ent)
                     lp.destroy(ent)
                 end
             end)
+        end
+    end
+end)
+
+
+
+-- sticky/stuck:
+umg.on("lootplot:entityActivated", function(ent)
+    if ent.sticky and lp.isItemEntity(ent) then
+        ent.stuck = true
+    end
+
+    if ent.stickySlot and lp.isSlotEntity(ent) then
+        local itemEnt = lp.slotToItem(ent)
+        if itemEnt then
+            itemEnt.stuck = true
         end
     end
 end)

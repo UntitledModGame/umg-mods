@@ -182,3 +182,29 @@ defItem("gold_crown", {
     triggers = {"PULSE"},
 })
 
+
+
+defItem("coins_and_emerald", {
+    name = loc("Coins and Emerald"),
+
+    description = loc("Destroys itself if {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} is triggered."),
+
+    sticky = true,
+
+    baseMoneyGenerated = 1,
+    baseMaxActivations = 1,
+
+    basePrice = 8,
+
+    rarity = lp.rarities.RARE,
+
+    triggers = {"PULSE", "REROLL"},
+
+    onTriggered = function(triggerName, ent)
+        if triggerName == "REROLL" then
+            lp.destroy(ent)
+        end
+    end,
+})
+
+

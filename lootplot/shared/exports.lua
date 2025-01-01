@@ -510,42 +510,29 @@ end
 
     For now, embrace yagni.
 ]]
----@param slotEnt lootplot.SlotEntity?
-local function canRemoveItemOrNoItem(slotEnt)
-    if not slotEnt then
+---@param ppos lootplot.PPos
+---@return boolean canRemove true if we can remove the item from ppos, false if we cannot.
+local function canRemoveItemOrNoItem(ppos)
+    local itemEnt = lp.posToItem(ppos)
+    if not itemEnt then
+        -- if no item; well, its fine :)
         return true
     end
 
-    -- whether or not we can REMOVE an item at ppos
-    local itemEnt = lp.slotToItem(slotEnt)
-
-    if itemEnt then
-        if slotEnt.canRemoveItemFromSlot and (not slotEnt:canRemoveItemFromSlot(itemEnt)) then
-            return false
-        end
-        return umg.ask("lootplot:canRemoveItemFromSlot", slotEnt, itemEnt)
-    end
-
-    return true
-end
-
----@param ppos lootplot.PPos
----@param itemEnt lootplot.ItemEntity
-function lp.couldContainItem(ppos, itemEnt)
     local slotEnt = lp.posToSlot(ppos)
-    if (not slotEnt) then
-        local plot = ppos:getPlot()
-        return lp.canItemFloat(itemEnt) and plot:isFogRevealed(ppos, itemEnt.lootplotTeam)
+    if slotEnt and slotEnt.canRemoveItemFromSlot and (not slotEnt:canRemoveItemFromSlot(itemEnt)) then
+        return false
     end
-
-    return lp.couldSlotHoldItem(slotEnt, itemEnt)
+    return umg.ask("lootplot:canRemoveItem", itemEnt, ppos)
 end
+
+
 
 ---Availability: Client and Server
 ---@param slotEnt lootplot.SlotEntity
 ---@param itemEnt lootplot.ItemEntity?
 ---@return boolean
-function lp.couldSlotHoldItem(slotEnt, itemEnt)
+local function couldSlotHoldItem(slotEnt, itemEnt)
     --[[
         checks whether or not a slot COULD hold the item,
 
@@ -557,9 +544,27 @@ function lp.couldSlotHoldItem(slotEnt, itemEnt)
         if slotEnt.canAddItemToSlot and (not slotEnt:canAddItemToSlot(itemEnt)) then
             return false
         end
-        return umg.ask("lootplot:canAddItemToSlot", slotEnt, itemEnt)
     end
     return true
+end
+
+
+
+---@param ppos lootplot.PPos
+---@param itemEnt lootplot.ItemEntity
+---@return boolean
+--- True if a ppos could contain an item; false otherwise
+function lp.couldContainItem(ppos, itemEnt)
+    local slotEnt = lp.posToSlot(ppos)
+    local ok
+    if (slotEnt) then
+        ok = couldSlotHoldItem(slotEnt, itemEnt)
+    else
+        local plot = ppos:getPlot()
+        ok = lp.canItemFloat(itemEnt) and plot:isFogRevealed(ppos, itemEnt.lootplotTeam)
+    end
+
+    return ok and umg.ask("lootplot:canAddItem", itemEnt, ppos)
 end
 
 
@@ -581,7 +586,7 @@ local function canMoveFromTo(srcPPos, targetPPos)
         return true -- its always OK to move nothing.
     end
 
-    return lp.couldContainItem(targetPPos, item) and canRemoveItemOrNoItem(lp.posToSlot(srcPPos))
+    return lp.couldContainItem(targetPPos, item) and canRemoveItemOrNoItem(srcPPos)
 end
 
 ---Availability: Client and Server
@@ -1101,7 +1106,6 @@ local strTabTc = typecheck.assert("string", "table")
 ---@field public basePrice number
 ---@field public pointsGenerated number
 ---@field public moneyGenerated number
----@field public canItemMove boolean
 ---@field public canBeDestroyed boolean
 ---@field public canActivate boolean
 ---@alias lootplot.ItemEntity lootplot.ItemEntityClass|lootplot.LayerEntity|Entity
@@ -1342,6 +1346,8 @@ lp.COLORS = {
     LIFE_COLOR = {1, 0.51, 0.75},
     DOOMED_COLOR = {0.7, 0.3, 1},
     DOOMED_LIGHT_COLOR = {0.8, 0.6, 1},
+
+    STUCK_COLOR = {200/255, 222/255, 70/255},
 
     GRUB_COLOR = {0.78, 0.65, 0.13},
     GRUB_COLOR_LIGHT = {1,0.85,0.43},

@@ -45,8 +45,8 @@ if server then
 end
 
 
-umg.defineQuestion("lootplot:canRemoveItemFromSlot", reducers.AND)
-umg.defineQuestion("lootplot:canAddItemToSlot", reducers.AND)
+umg.defineQuestion("lootplot:canRemoveItem", reducers.AND)
+umg.defineQuestion("lootplot:canAddItem", reducers.AND)
 
 umg.defineQuestion("lootplot:canItemFloat", reducers.OR)
 

@@ -88,6 +88,16 @@ local function defineNumberNoLerp(compName)
 end
 
 
+local function defineBool(compName)
+    components.defineComponent(compName)
+    sync.autoSyncComponent(compName, {
+        type = "boolean",
+    })
+end
+
+
+
+
 defineNumberNoLerp("doomCount")
 -- how many activations until deletion?
 
@@ -102,12 +112,18 @@ defineNumberNoLerp("activationCount") -- <<< set to 0 when `lp.resetEntity()` ca
 defineNumberNoLerp("lootplotRotation") -- <<< set to 0 when `lp.resetEntity()` called
 
 
+-- sticky/stuck components:
+defineBool("sticky") -- itemEnt.sticky = true ::  When activated, becomes stuck.
+defineBool("stuck") -- itemEnt.stuck = true :: Cannot be moved by the player
+
+defineBool("stickySlot")
+-- slotEnt.stickySlot = true :: Makes contained-item stuck when activated.
+
+
 
 --[[
     boolean properties for lootplot
 ]]
-defBoolProperty("canItemMove", "baseCanItemMove")
-
 defBoolProperty("canBeDestroyed", "baseCanBeDestroyed")
 
 defBoolProperty("canSlotPropagate", "baseCanSlotPropagate")

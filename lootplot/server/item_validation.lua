@@ -29,14 +29,7 @@ local function isInvalid(itemEnt, ppos)
         return false
     end
 
-    local slotEnt = lp.posToSlot(ppos)
-    if slotEnt then
-        -- its valid if the slot can hold the item
-        return not lp.couldSlotHoldItem(slotEnt, itemEnt)
-    else
-        -- No slot. Valid if the item can float
-        return not lp.canItemFloat(itemEnt)
-    end
+    return not lp.couldContainItem(ppos, itemEnt)
 end
 
 
