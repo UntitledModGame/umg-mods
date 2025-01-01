@@ -44,7 +44,7 @@ umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER + 0.01, function(ent, x
                 -- to indicate that its not stuck YET.
                 opacity = (math.sin(t) + 1)/2
             end
-            local img = client.assets.images.sticky_item_visual
+            local img = client.assets.images.sticky_item_visual_final
             local ox, oy = 8, math.sin(t/2)
             love.graphics.push("all")
             love.graphics.setColor(1,1,1,opacity)
