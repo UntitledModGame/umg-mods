@@ -730,6 +730,8 @@ definePotion("potion_sticky", {
     rarity = lp.rarities.RARE,
     activateDescription = loc("Converts STUCK to STICKY,\n(allows you to move STUCK items.)"),
 
+    shape = lp.targets.KING_SHAPE,
+
     target = {
         type = "ITEM",
         filter = function (selfEnt, ppos, targetEnt)
