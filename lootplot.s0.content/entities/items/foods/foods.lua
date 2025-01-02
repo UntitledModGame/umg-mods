@@ -703,7 +703,7 @@ This gives the player great intuition about what they do.
 ]]
 
 local function definePotion(name, etype)
-    etype.shape = lp.targets.UP_SHAPE
+    etype.shape = etype.shape or lp.targets.UP_SHAPE
     etype.basePrice = etype.basePrice or 3
     defineFood(name, etype)
 end
@@ -730,7 +730,7 @@ definePotion("potion_sticky", {
     rarity = lp.rarities.RARE,
     activateDescription = loc("Converts STUCK to STICKY,\n(allows you to move STUCK items.)"),
 
-    shape = lp.targets.KING_SHAPE,
+    shape = lp.targets.QueenShape(2),
 
     target = {
         type = "ITEM",

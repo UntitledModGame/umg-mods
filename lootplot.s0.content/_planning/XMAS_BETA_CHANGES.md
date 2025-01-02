@@ -121,7 +121,7 @@ It has EXCELLENT base-points and scaling.
 allowing people to rotate items during the round.
 This would make stuff way better.
 
-Create STICKY/STUCK components
+(((DONE))) Create STICKY/STUCK components
 
 Create food that converts STUCK --> STICKY
 
