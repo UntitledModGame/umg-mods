@@ -7,13 +7,19 @@ local DELAY_PER_UNIT = 0.04
 ---@param image string
 ---@param progress number
 ---@param color table
----@param opacity number
-local function renderSelectionTarget(ppos, image, progress, color, opacity)
+---@param isActive boolean
+local function renderSelectionTarget(ppos, image, imageInactive, progress, color, isActive)
     local x,y = ppos:getWorldPos()
     local rot = (progress-1) * 3
     local c = color
-    love.graphics.setColor(c[1],c[2],c[3],opacity)
-    rendering.drawImage(image, x, y, rot, progress, progress)
+    if isActive then
+        love.graphics.setColor(c[1],c[2],c[3],1)
+        local xtraRot = math.sin(love.timer.getTime() * 6) / 5
+        rendering.drawImage(image, x, y, rot + xtraRot, progress, progress)
+    else
+        love.graphics.setColor(c[1],c[2],c[3],0.55)
+        rendering.drawImage(imageInactive, x, y, rot, progress, progress)
+    end
 end
 
 ---@type lootplot.Selected?
@@ -69,15 +75,10 @@ local function drawTargets(item, image, imageInactive, color, canInteract)
             -- so we're not interested on the next item.
             break
         end
-        
+
         local progress = math.min(elapsedTime-fadeTime, FADE_IN) / FADE_IN
-        local opacity = 1
-        local img = image
-        if not canInteract(item, ppos) then
-            opacity = 0.4
-            img = imageInactive
-        end
-        renderSelectionTarget(ppos, img, progress, color, opacity)
+        local isActive = canInteract(item, ppos)
+        renderSelectionTarget(ppos, image, imageInactive, progress, color, isActive)
     end
     love.graphics.setColor(1, 1, 1)
 end
