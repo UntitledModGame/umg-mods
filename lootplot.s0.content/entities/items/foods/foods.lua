@@ -73,7 +73,7 @@ defineFood("magic_turnip", {
 
     rarity = lp.rarities.EPIC,
 
-    basePrice = 10,
+    basePrice = 16,
     shape = lp.targets.UP_SHAPE,
 
     target = {
@@ -153,30 +153,30 @@ defineFood("gray_turnip", {
 
     activateDescription = loc("Transforms into a random target item."),
 
-    rarity = lp.rarities.UNCOMMON,
-    basePrice = 4,
+    rarity = lp.rarities.RARE,
+    basePrice = 16,
 
-    onActivate = function(ent)
-        umg.melt([[
-            todo: implement this! (turn into a random item)
-        ]])
+    onActivate = function(selfEnt)
+        local items = lp.targets.getConvertedTargets(selfEnt)
+        if #items <= 0 then
+            return
+        end
+        local itemEnt = table.random(items)
+        local selfPPos = lp.getPos(selfEnt)
+        if selfPPos then
+            lp.destroy(selfEnt)
+            local copyEnt = lp.clone(itemEnt)
+            local success = lp.trySetItem(selfPPos, copyEnt)
+            if not success then
+                copyEnt:delete()
+            end
+        end
     end,
 
     shape = lp.targets.QueenShape(3),
 
     target = {
-        type = "SLOT",
-        activate = function(selfEnt, ppos, targetEnt)
-            local selfPPos = lp.getPos(selfEnt)
-            if selfPPos then
-                lp.destroy(selfEnt)
-                local copyEnt = lp.clone(targetEnt)
-                local success = lp.trySetItem(selfPPos, copyEnt)
-                if not success then
-                    copyEnt:delete()
-                end
-            end
-        end
+        type = "ITEM"
     }
 })
 

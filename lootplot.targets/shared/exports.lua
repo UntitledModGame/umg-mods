@@ -84,13 +84,17 @@ function targets.getConvertedTargets(itemEnt)
 
     local convertType = itemEnt.target and itemEnt.target.type
     if convertType then
-        targetList:map(function(ppos)
+        local ret = targetList:map(function(ppos)
             local ok, ent = lp.tryConvert(ppos, convertType)
             if ok then
+                if not umg.exists(ent) then
+                    -- convertType must convert ppos -> ent, or else this function's "promise" is violated
+                    umg.melt("invalid target-type for entity: " .. tostring(itemEnt))
+                end
                 return ent
             end
         end)
-        return targetList
+        return ret
     else
         -- no convertType..? I guess we just return empty.
         return {}
