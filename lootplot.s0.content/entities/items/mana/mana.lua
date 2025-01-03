@@ -2,6 +2,8 @@
 
 local loc = localization.localize
 
+local helper = require("shared.helper")
+
 local function defItem(id, name, etype)
     etype.image = etype.image or id
     etype.name = loc(name)
@@ -73,6 +75,43 @@ We need MORE items that USE mana!!!
 
 
 
+defItem("mana_goo", "Mana Goo", {
+    triggers = {"PULSE"},
+    basePrice = 10,
+    manaCost = -1,
+    baseMaxActivations = 3,
+    sticky = true,
+    rarity = lp.rarities.RARE
+})
+
+
+
+
+local MANA_BAR_DELAY = 6
+helper.defineDelayItem("mana_bar", "Mana Bar", {
+    delayCount = MANA_BAR_DELAY,
+    delayAction = function(ent)
+        local slot = lp.itemToSlot(ent)
+        if slot then
+            lp.mana.addMana(slot, 2)
+            lp.destroy(ent)
+        end
+    end,
+
+    delayDescription = loc("Destroy self, and give {lootplot.mana:MANA_COLOR}+2 mana{/lootplot.mana:MANA_COLOR} to slot."),
+
+    triggers = {"PULSE"},
+
+    basePrice = 4,
+    baseMaxActivations = 1,
+    basePointsGenerated = 6,
+
+    rarity = lp.rarities.UNCOMMON,
+})
+
+
+
+
 
 --[[
 TODO: define these as foods.
@@ -95,6 +134,8 @@ defItem("mana_syrup", "Mana Syrup", {
     },
     triggers = {"PULSE"},
 })
+
+
 
 defItem("vial_blue", "Blue Vial", {
     rarity = lp.rarities.RARE,

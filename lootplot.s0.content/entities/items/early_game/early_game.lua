@@ -33,29 +33,6 @@ defItem("rocks", {
 
 
 
-local NUM_MANA_GOO_ACTS = 6
-helper.defineDelayItem("mana_goo", "Mana Goo", {
-    delayCount = NUM_MANA_GOO_ACTS,
-    delayAction = function(ent)
-        local slot = lp.itemToSlot(ent)
-        if slot then
-            lp.mana.addMana(slot, 2)
-            lp.destroy(ent)
-        end
-    end,
-
-    delayDescription = loc("Destroy self, and give {lootplot.mana:MANA_COLOR}+2 mana{/lootplot.mana:MANA_COLOR} to slot."),
-
-    triggers = {"PULSE"},
-
-    basePrice = 4,
-    baseMaxActivations = 1,
-    basePointsGenerated = 6,
-
-    rarity = lp.rarities.UNCOMMON,
-})
-
-
 
 
 local NUM_KEY_ACTS = 10
