@@ -171,7 +171,7 @@ local function defineHammer(mineral_type, name, strength, etype)
         basePrice = 10,
         baseMultGenerated = floorTo01(0.1 * strength),
 
-        shape = lp.targets.HorizontalShape(1),
+        shape = lp.targets.RookShape(1),
 
         activateDescription = function(ent)
             return HAMMER_DESC({
