@@ -91,12 +91,16 @@ local function definePickaxe(mineral_type, name, strength, etype)
         image = image,
         name = loc(name .. " Pickaxe"),
 
+        activateDescription = loc("Permanently gain {lootplot:POINTS_COLOR}+%{buff} points{/lootplot:POINTS_COLOR} when activated"),
+
+        onActivate = function(ent)
+            lp.modifierBuff(ent, "pointsGenerated", strength, ent)
+        end,
+
         mineralType = mineral_type,
 
-        basePrice = 4,
-        basePointsGenerated = 10,
-
-        doomCount = 30,
+        basePrice = 12,
+        basePointsGenerated = strength,
 
         rarity = lp.rarities.RARE,
     }
@@ -251,6 +255,20 @@ Cobalt costs mana to activate
 defineMineralClass("cobalt", "Cobalt", 50, {
     triggers = {"PULSE"},
     manaCost = 1
+})
+
+
+
+
+--[[
+
+Sticky items start with `sticky` component
+
+]]
+defineMineralClass("sticky", "Sticky", 4, {
+    triggers = {"PULSE"},
+    sticky = true,
+    baseMaxActivations = 8
 })
 
 

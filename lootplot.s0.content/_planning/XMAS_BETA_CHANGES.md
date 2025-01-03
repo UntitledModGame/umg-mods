@@ -123,7 +123,7 @@ This would make stuff way better.
 
 (((DONE))) Create STICKY/STUCK components
 
-Create food that converts STUCK --> STICKY
+(((DONE))) Create food that converts STUCK --> STICKY
 
 NEW MINERAL TYPE: "Quartz"
 quartz has slightly stronger buffs, but is STICKY.
