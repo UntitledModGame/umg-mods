@@ -65,7 +65,7 @@ defItem("pandoras_box", {
 
 defItem("old_brick", {
     name = loc("Old Brick"),
-    activateDescription = loc("Loses 2 Points-Generated permanently"),
+    activateDescription = loc("This item loses {lootplot:POINTS_COLOR}2 Points{/lootplot:POINTS_COLOR} permanently"),
 
     rarity = lp.rarities.RARE,
     triggers = {"PULSE"},
@@ -78,6 +78,24 @@ defItem("old_brick", {
         lp.modifierBuff(selfEnt, "pointsGenerated", -2)
     end
 })
+
+
+defItem("red_brick", {
+    name = loc("Red Brick"),
+    activateDescription = loc("This item loses {lootplot:POINTS_MULT_COLOR}0.2 Multiplier{/lootplot:POINTS_MULT_COLOR} permanently"),
+
+    rarity = lp.rarities.RARE,
+    triggers = {"PULSE"},
+
+    basePrice = 6,
+    baseMultGenerated = 4,
+    baseMaxActivations = 10,
+
+    onActivate = function(selfEnt)
+        lp.modifierBuff(selfEnt, "multGenerated", -0.2)
+    end
+})
+
 
 
 
@@ -199,7 +217,7 @@ defItem("feather", {
 
     rarity = lp.rarities.RARE,
 
-    activateDescription = loc("Gives {lootplot:POINTS_MULT_COLOR}+1 mult{/lootplot:POINTS_MULT_COLOR} for every targetted floating item."),
+    activateDescription = loc("Gives {lootplot:POINTS_MULT_COLOR}+0.5 mult{/lootplot:POINTS_MULT_COLOR} for every targetted floating item."),
 
     listen = {
         trigger = "PULSE",
@@ -207,7 +225,7 @@ defItem("feather", {
             return targetEnt.canItemFloat
         end,
         activate = function(selfEnt, ppos, targetEnt)
-            lp.addPointsMult(selfEnt, 1)
+            lp.addPointsMult(selfEnt, 0.5)
         end
     }
 })
