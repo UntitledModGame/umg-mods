@@ -58,7 +58,7 @@ defSilvRing("silver_reroll_ring", "Silver Reroll Ring", "REROLL")
 
 
 
-local GOLD_RING_DESC = interp("Earn {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} of interest for every {lootplot:MONEY_COLOR}$10{/lootplot:MONEY_COLOR} you have. (Max of $20)")
+local GOLD_RING_DESC = interp("Earn {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} of interest for every {lootplot:MONEY_COLOR}$10{/lootplot:MONEY_COLOR} you have. (Max of {lootplot:MONEY_COLOR}$20{/lootplot:MONEY_COLOR})")
 
 local function defGoldRing(id, name, trigger)
     defItem(id, {

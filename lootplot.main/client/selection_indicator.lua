@@ -2,16 +2,23 @@
 
 
 
+---@param itemEnt Entity
+---@return boolean
+local function canMoveItem(itemEnt)
+    return lp.canPlayerAccess(itemEnt, client.getClient())
+        and lp.canRemoveItem(itemEnt)
+end
+
+
+
 local PRIO_MOUSE = 10
 umg.answer("lootplot:getItemTargetPosition", function(itemEnt)
     local selection = lp.getCurrentSelection()
     local selectedItem = selection and lp.posToItem(selection.ppos)
-    if itemEnt == selectedItem then
-        if lp.canPlayerAccess(itemEnt, client.getClient()) then
-            local camera = camera.get()
-            local tx,ty = camera:toWorldCoords(input.getPointerPosition())
-            return tx,ty, PRIO_MOUSE
-        end
+    if itemEnt == selectedItem and canMoveItem(itemEnt) then
+        local camera = camera.get()
+        local tx,ty = camera:toWorldCoords(input.getPointerPosition())
+        return tx,ty, PRIO_MOUSE
     end
 end)
 
@@ -87,15 +94,17 @@ umg.on("rendering:drawEffects", function(camera)
     end
 
     local selectedItem = selection.item
-    if (not selectedItem) or (not lp.canPlayerAccess(selectedItem, client.getClient())) then
-        -- cannot access item!
+    if (not selectedItem) or (not canMoveItem(selectedItem)) then
+        -- cannot access/move item!
         return
     end
 
     local ppos = run:getPlot():getClosestPPos(camera:toWorldCoords(input.getPointerPosition()))
+    local hoveredItem = lp.posToItem(ppos)
+    local canAccessHover = (not hoveredItem) or lp.canPlayerAccess(hoveredItem, client.getClient())
 
     local state
-    if lp.canSwapItems(selection.ppos, ppos) and lp.canPlayerAccess(selectedItem, client.getClient()) then
+    if canAccessHover and lp.canSwapItems(selection.ppos, ppos) and lp.canPlayerAccess(selectedItem, client.getClient()) then
         state = CAN_MOVE
     else
         state = CANNOT_MOVE

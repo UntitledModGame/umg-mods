@@ -500,26 +500,17 @@ function lp.swapItems(ppos1, ppos2)
     end
 end
 
---[[
-    TODO:
-    Should we be exporting these functions..?
-    Maybe some systems will want to know whether an item can be moved or not;
-    Example:
-    ITEM- if all touching items cannot move,
-        gain +10 points
 
-    For now, embrace yagni.
-]]
----@param ppos lootplot.PPos
+
+---@param itemEnt Entity the item
 ---@return boolean canRemove true if we can remove the item from ppos, false if we cannot.
-local function canRemoveItemOrNoItem(ppos)
-    local itemEnt = lp.posToItem(ppos)
-    if not itemEnt then
-        -- if no item; well, its fine :)
-        return true
+function lp.canRemoveItem(itemEnt)
+    local slotEnt = lp.itemToSlot(itemEnt)
+    local ppos = lp.getPos(itemEnt)
+    if not ppos then
+        umg.log.error("Ahem, wot wot????")
+        return false -- ?? wot wot??
     end
-
-    local slotEnt = lp.posToSlot(ppos)
     if slotEnt and slotEnt.canRemoveItemFromSlot and (not slotEnt:canRemoveItemFromSlot(itemEnt)) then
         return false
     end
@@ -586,7 +577,11 @@ local function canMoveFromTo(srcPPos, targetPPos)
         return true -- its always OK to move nothing.
     end
 
-    return lp.couldContainItem(targetPPos, item) and canRemoveItemOrNoItem(srcPPos)
+    if not lp.couldContainItem(targetPPos, item) then
+        return false
+    end
+
+    return lp.canRemoveItem(item)
 end
 
 ---Availability: Client and Server
