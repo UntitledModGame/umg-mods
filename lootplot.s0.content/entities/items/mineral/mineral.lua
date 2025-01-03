@@ -100,7 +100,7 @@ local function definePickaxe(mineral_type, name, strength, etype)
         mineralType = mineral_type,
 
         basePrice = 12,
-        basePointsGenerated = strength,
+        basePointsGenerated = -strength,
 
         rarity = lp.rarities.RARE,
     }

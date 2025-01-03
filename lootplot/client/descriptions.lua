@@ -282,7 +282,7 @@ end)
 
 local STUCK = loc("{wavy}{lootplot:STUCK_COLOR}STUCK:{/lootplot:STUCK_COLOR}{/wavy} {lootplot:BAD_COLOR}Cannot be moved!")
 local STICKY = loc("{wavy}{lootplot:STUCK_COLOR}STICKY:{/lootplot:STUCK_COLOR}{/wavy} {lootplot:BAD_COLOR}Becomes STUCK when activated!")
-local STICKY_SLOT = loc("{wavy}{lootplot:STUCK_COLOR}STICKY SLOT:{/lootplot:STUCK_COLOR}{/wavy}\n{lootplot:BAD_COLOR}Makes items STUCK!")
+local STICKY_SLOT = loc("{wavy}{lootplot:STUCK_COLOR}STICKY SLOT: {/lootplot:STUCK_COLOR}{/wavy}{lootplot:BAD_COLOR}Makes items STUCK!")
 
 umg.on("lootplot:populateDescription", 60, function(ent, arr)
     if ent.stuck then

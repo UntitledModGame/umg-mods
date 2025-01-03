@@ -360,7 +360,7 @@ defineSlotSpawner("glass_tube", "Glass Bottle", "glass_slot", "Glass Slot", lp.t
     rarity = lp.rarities.UNCOMMON,
 })
 
-defineSlotSpawner("sniper_fruit", "Sniper Fruit", "slot", "Normal Slot", lp.targets.ON_SHAPE, {
+defineSlotSpawner("sniper_berries", "Sniper Berries", "slot", "Normal Slot", lp.targets.ON_SHAPE, {
     -- useful for bridging large gaps in land
     basePrice = 4,
     canItemFloat = true,
@@ -425,9 +425,7 @@ defineSlotSpawner("avacado", "Avacado", "emerald_slot", "Emerald Slot", lp.targe
 })
 
 
-defineSlotSpawner("fried_egg", "Fried Egg", "slot", "Slot with -10 points", lp.targets.KING_SHAPE, {}, function(slotEnt)
-    lp.modifierBuff(slotEnt, "pointsGenerated", -10)
-end)
+defineSlotSpawner("fried_egg", "Fried Egg", "sticky_slot", "Sticky Slot", lp.targets.KING_SHAPE, {})
 
 
 local loafEtype = {
