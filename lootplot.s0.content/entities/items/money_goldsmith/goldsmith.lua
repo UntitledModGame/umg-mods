@@ -25,7 +25,7 @@ local function percentageOfBalanceGetter(percentage)
 end
 
 
-local SILV_RING_DESC = interp("Earn points equal the current balance.\n{lootplot:MONEY_COLOR}(Balance: $%{balance})")
+local SILV_RING_DESC = interp("Earn points equal to the current balance.")
 
 local function defSilvRing(id,name,trigger)
     defItem(id, {
@@ -58,8 +58,7 @@ defSilvRing("silver_reroll_ring", "Silver Reroll Ring", "REROLL")
 
 
 
-local GOLD_RING_DESC = interp("Earn money equal to %{val}% of current balance {lootplot:MONEY_COLOR}($%{balance}){/lootplot:MONEY_COLOR}.\n(Max of $20)")
-local MONEY_PERCENT = 10
+local GOLD_RING_DESC = interp("Earn {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} of interest for every {lootplot:MONEY_COLOR}$10{/lootplot:MONEY_COLOR} you have. (Max of $20)")
 
 local function defGoldRing(id, name, trigger)
     defItem(id, {
@@ -68,7 +67,6 @@ local function defGoldRing(id, name, trigger)
 
         activateDescription = function(ent)
             return GOLD_RING_DESC({
-                val = MONEY_PERCENT,
                 balance = lp.getMoney(ent) or 0
             })
         end,
@@ -81,7 +79,11 @@ local function defGoldRing(id, name, trigger)
                 moneyGenerated = 20
             },
             modifiers = {
-                moneyGenerated = percentageOfBalanceGetter(MONEY_PERCENT/100.0)
+                moneyGenerated = function(ent)
+                    local money = lp.getMoney(ent) or 0
+                    local interest = math.floor(money / 10)
+                    return interest
+                end
             }
         },
 
