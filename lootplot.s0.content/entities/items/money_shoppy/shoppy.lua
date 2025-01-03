@@ -311,13 +311,16 @@ defItem("neko_cat", {
 
 defItem("top_hat", {
     name = loc("Top Hat"),
-    description = loc("Triggers {lootplot:TRIGGER_COLOR}BUY{/lootplot:TRIGGER_COLOR}for all target items, (without actually buying them.)"),
+
+    triggers = {"PULSE"},
+
+    activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}BUY{/lootplot:TRIGGER_COLOR} for all target items, (without actually buying them.)"),
 
     rarity = lp.rarities.LEGENDARY,
 
     basePrice = 15,
 
-    shape = lp.targets.KNIGHT_SHAPE,
+    shape = lp.targets.KingShape(1),
     target = {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)

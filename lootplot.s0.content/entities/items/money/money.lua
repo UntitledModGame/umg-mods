@@ -187,7 +187,7 @@ defItem("gold_crown", {
 defItem("coins_and_emerald", {
     name = loc("Coins and Emerald"),
 
-    description = loc("Destroys itself if {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} is triggered."),
+    activateDescription = loc("Destroys itself if {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} is triggered."),
 
     sticky = true,
 

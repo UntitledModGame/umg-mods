@@ -78,12 +78,13 @@ defItem("calender", "Calender", {
 
     triggers = {"PULSE"},
 
-    rarity = lp.rarities.EPIC,
+    rarity = lp.rarities.LEGENDARY,
 
     basePrice = 10,
     baseMaxActivations = 1,
 
-    shape = lp.targets.UpShape(1),
+    shape = lp.targets.KingShape(1),
+
     target = {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
