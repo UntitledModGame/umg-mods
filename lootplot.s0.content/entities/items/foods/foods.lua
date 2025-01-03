@@ -389,6 +389,11 @@ local function setDoomCountTo(x)
         slotEnt.doomCount = x
     end
 end
+
+local function makeSticky(slotEnt)
+    slotEnt.stickySlot = true
+end
+
 defineSlotSpawner("soy_sauce", "Soy Sauce", "slot", "{lootplot:DOOMED_COLOR}DOOMED-8{/lootplot:DOOMED_COLOR} Slot", 
     lp.targets.QueenShape(3), {},
     setDoomCountTo(8)
@@ -397,12 +402,12 @@ defineSlotSpawner("soy_sauce", "Soy Sauce", "slot", "{lootplot:DOOMED_COLOR}DOOM
 defineSlotSpawner("ruby_candy", "Ruby Candy", "ruby_slot", "{c r=1 b=0.2 g=0.3}Ruby{/c} {lootplot:DOOMED_COLOR}DOOMED-25{/lootplot:DOOMED_COLOR} Slot", lp.targets.RookShape(1), {
     rarity = lp.rarities.RARE
 },
-setDoomCountTo(25))
+makeSticky)
 
 defineSlotSpawner("diamond_candy", "Diamond Candy", "diamond_slot", "{c r=0.6 b=0.95 g=1}Diamond{/c} {lootplot:DOOMED_COLOR}DOOMED-25{/lootplot:DOOMED_COLOR} Slot", lp.targets.RookShape(1), {
     rarity = lp.rarities.RARE
 },
-setDoomCountTo(25))
+makeSticky)
 
 --[[
 TODO: could do 
@@ -419,7 +424,7 @@ defineSlotSpawner("steelberry", "Steel-Berry", "steel_slot", "Steel Slot", lp.ta
 })
 
 
-defineSlotSpawner("avacado", "Avacado", "emerald_slot", "Emerald Slot", lp.targets.RookShape(2), {
+defineSlotSpawner("avacado", "Avacado", "emerald_slot", "Emerald Slot", lp.targets.RookShape(1), {
     basePrice = 8,
     rarity = lp.rarities.RARE
 })
