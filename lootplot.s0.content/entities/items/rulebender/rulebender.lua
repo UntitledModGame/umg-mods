@@ -190,29 +190,24 @@ defItem("foghorn", {
 
 
 
-
---[[
-
-TODO: Change this!!!!
-its not emergent.
-
-]]
 defItem("feather", {
     name = loc("Feather"),
 
-    shape = lp.targets.CircleShape(3),
+    shape = lp.targets.QueenShape(3),
 
     basePrice = 8,
-    baseMaxActivations = 40,
 
     rarity = lp.rarities.RARE,
 
-    activateDescription = loc("Spawns a {lootplot:INFO_COLOR}steel-slot{/lootplot:INFO_COLOR} under the item that Pulsed.\n(Only works on floating-items!)"),
+    activateDescription = loc("Gives {lootplot:POINTS_MULT_COLOR}+1 mult{/lootplot:POINTS_MULT_COLOR} for every targetted floating item."),
 
     listen = {
         trigger = "PULSE",
+        filter = function(selfEnt, ppos, targetEnt)
+            return targetEnt.canItemFloat
+        end,
         activate = function(selfEnt, ppos, targetEnt)
-            lp.trySpawnSlot(ppos, server.entities.steel_slot, selfEnt.lootplotTeam)
+            lp.addPointsMult(selfEnt, 1)
         end
     }
 })

@@ -125,10 +125,9 @@ This would make stuff way better.
 
 (((DONE))) Create food that converts STUCK --> STICKY
 
-NEW MINERAL TYPE: "Quartz"
-quartz has slightly stronger buffs, but is STICKY.
+(((DONE))) NEW MINERAL TYPE: "Quartz"
 
-Change feather. It is currently non-emergent.
+(((DONE))) Change feather. It is currently non-emergent.
 
 
 
