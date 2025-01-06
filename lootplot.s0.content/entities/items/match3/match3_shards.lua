@@ -25,7 +25,7 @@ local function defShards(id, name, onMatchActivate, onMatchDesc, etype)
     local full_id = PREFIX .. id
     IS_SHARD_ITEM[full_id] = true
 
-    etype.baseMaxActivations = 1
+    etype.baseMaxActivations = 7
 
     etype.triggers = {"PULSE"}
     etype.basePointsGenerated = 5
@@ -141,6 +141,32 @@ defShards("iron_shards", "Iron Shards",
 })
 
 
+
+defItem("wildcard_shards", "Wildcard Shards", {
+    triggers = {"PULSE"},
+    activateDescription = loc("If target-item is a shard, transforms into it."),
+
+    shape = lp.targets.RookShape(1),
+
+    target = {
+        type = "ITEM",
+        filter = function(selfEnt, ppos, targetEnt)
+            local id = targetEnt:type()
+            return IS_SHARD_ITEM[id]
+        end,
+        activate = function(selfEnt, ppos, targetEnt)
+            local selfPos = lp.getPos(selfEnt)
+            if selfPos then
+                local copyEnt = lp.clone(targetEnt)
+                local success = lp.forceSetItem(selfPos, copyEnt)
+                if not success then
+                    -- oh shit!
+                    copyEnt:delete()
+                end
+            end
+        end
+    }
+})
 
 
 --[[
