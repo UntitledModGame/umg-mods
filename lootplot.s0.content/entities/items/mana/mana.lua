@@ -98,7 +98,7 @@ helper.defineDelayItem("mana_bar", "Mana Bar", {
         end
     end,
 
-    delayDescription = loc("Destroy self, and give {lootplot.mana:MANA_COLOR}+2 mana{/lootplot.mana:MANA_COLOR} to slot."),
+    delayDescription = loc("Destroy self, and give {lootplot.mana:LIGHT_MANA_COLOR}+2 mana{/lootplot.mana:LIGHT_MANA_COLOR} to slot."),
 
     triggers = {"PULSE"},
 

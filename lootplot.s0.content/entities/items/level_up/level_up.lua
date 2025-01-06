@@ -61,12 +61,66 @@ defItem("red_key", "Red Key", {
 
 
 
-defItem("gold_bell", "Gold Bell", {
-    basePrice = 6,
+defItem("big_gold_bell", "Big Gold Bell", {
+    basePrice = 10,
 
     baseMoneyGenerated = 6,
-    baseMaxActivations = 1,
+    baseMaxActivations = 4,
 
+    rarity = lp.rarities.RARE,
+})
+
+
+defItem("small_gold_bell", "Small Gold Bell", {
+    --[[
+    this item hopefully will show the player how LEVEL-UP system works.
+    (Or at least, give them more intuition behind triggers and such)
+    ]]
+    basePrice = 4,
+
+    baseMoneyGenerated = 2,
+    baseMaxActivations = 4,
+
+    rarity = lp.rarities.UNCOMMON,
+})
+
+
+
+
+
+
+local GOLD_COMPASS_AMOUNT = 12
+
+defItem("gold_compass", "Gold Compass", {
+    activateDescription = loc("Sets money to {lootplot:MONEY_COLOR}$%{amount}", {
+        amount = GOLD_COMPASS_AMOUNT
+    }),
+
+    onActivate = function(ent)
+        lp.setMoney(ent, GOLD_COMPASS_AMOUNT)
+    end,
+
+    basePrice = 8,
+    baseMaxActivations = 4,
+
+    rarity = lp.rarities.RARE,
+})
+
+
+
+defItem("mana_compass", "Mana Compass", {
+    activateDescription = loc("Give {lootplot.mana:LIGHT_MANA_COLOR}+2 mana{/lootplot.mana:LIGHT_MANA_COLOR} to all {lootplot.targets:COLOR}target slots"),
+
+    shape = lp.targets.UpShape(2),
+
+    target = {
+        type = "SLOT",
+        activate = function(selfEnt, ppos, targEnt)
+            lp.mana.addMana(targEnt, 2)
+        end
+    },
+
+    basePrice = 8,
     rarity = lp.rarities.RARE,
 })
 
