@@ -45,7 +45,7 @@ defItem("square_basket", "Square Basket", {
 
 
 defItem("red_key", "Red Key", {
-    activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}UNLOCK{lootplot:TRIGGER_COLOR} for slots and items."),
+    activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}UNLOCK{/lootplot:TRIGGER_COLOR} for slots and items."),
 
     rarity = lp.rarities.RARE,
 
