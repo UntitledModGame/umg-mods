@@ -105,25 +105,6 @@ end
 
 
 
-local BLUE_RECORD_BUFF = 20
-
-defRecord("record_blue", "Blue Record", {
-    activateDescription = loc("Add {lootplot:POINTS_COLOR}+%{buff} points{/lootplot:POINTS_COLOR} to all {lootplot.targets:COLOR}target items", {
-        buff = BLUE_RECORD_BUFF
-    }),
-
-    manaCost = 1,
-
-    shape = lp.targets.CircleShape(2),
-    target = {
-        type = "ITEM",
-        activate = function(selfEnt, ppos, targetEnt)
-            lp.modifierBuff(targetEnt, "pointsGenerated", BLUE_RECORD_BUFF, selfEnt)
-        end
-    }
-})
-
-
 
 local GREEN_RECORD_BUFF = 3
 
@@ -162,6 +143,29 @@ defItem("record_golden", "Golden Record", {
 
     rarity = lp.rarities.RARE,
 })
+
+
+defItem("record_blue", "Blue Record", {
+    triggers = {"ROTATE"},
+
+    basePointsGenerated = 80,
+    basePrice = 6,
+
+    rarity = lp.rarities.RARE,
+})
+
+
+defItem("record_white", "White Record", {
+    triggers = {"ROTATE"},
+
+    baseMultGenerated = 8,
+    basePrice = 12,
+
+    rarity = lp.rarities.EPIC,
+})
+
+
+
 
 
 defItem("spanner", "Spanner", {
