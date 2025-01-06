@@ -248,17 +248,39 @@ defineCard("multiplier_card", {
     activateDescription = loc("Swaps global points and global mult"),
 
     onActivate = function(ent)
-        local mult, points = lp.getPoints(ent), lp.getPointsMult(ent)
-        if mult and points then
+        local points, mult = lp.getPoints(ent), lp.getPointsMult(ent)
+        local ppos = lp.getPos(ent)
+        if ppos and mult and points then
+            lp.wait(ppos, 0.4) -- delay just for extra effect
             lp.setPoints(ent, mult)
             lp.setPointsMult(ent, points)
         end
     end,
 
-    manaCost = 4,
+    manaCost = 3,
 
     baseMaxActivations = 1,
     basePrice = 10,
     rarity = lp.rarities.LEGENDARY,
+})
+
+
+defineCard("hybrid_card", {
+    name = loc("Hybrid Card"),
+    activateDescription = loc("Swaps money and global mult"),
+
+    onActivate = function(ent)
+        local mult, money = lp.getPointsMult(ent), lp.getMoney(ent)
+        local ppos = lp.getPos(ent)
+        if ppos and mult and money then
+            lp.wait(ppos, 0.4) -- delay just for extra effect
+            lp.setMoney(ent, mult)
+            lp.setPointsMult(ent, money)
+        end
+    end,
+
+    baseMaxActivations = 1,
+    basePrice = 10,
+    rarity = lp.rarities.EPIC,
 })
 
