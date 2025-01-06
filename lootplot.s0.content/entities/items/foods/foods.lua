@@ -410,7 +410,6 @@ defineSlotSpawner("stone_fruit", "Stone fruit", "null_slot", "Null Slot", lp.tar
 
 defineSlotSpawner("dragonfruit", "Dragonfruit", "slot", "Normal Slot", lp.targets.RookShape(1), {
     basePrice = 5,
-    doomCount = 10,
     rarity = lp.rarities.COMMON
 })
 
