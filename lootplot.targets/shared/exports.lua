@@ -82,10 +82,14 @@ function targets.getConvertedTargets(itemEnt)
     end
     targetList = objects.Array(targetList)
 
-    local convertType = itemEnt.target and itemEnt.target.type
+    local target = itemEnt.target
+    local convertType = target and itemEnt.target.type
     if convertType then
         local ret = targetList:map(function(ppos)
             local ok, ent = lp.tryConvert(ppos, convertType)
+            if target then
+                ok = ok and util.canTarget(itemEnt, ppos)
+            end
             if ok then
                 if not umg.exists(ent) then
                     -- convertType must convert ppos -> ent, or else this function's "promise" is violated

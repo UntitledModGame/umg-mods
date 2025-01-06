@@ -91,7 +91,9 @@ local function definePickaxe(mineral_type, name, strength, etype)
         image = image,
         name = loc(name .. " Pickaxe"),
 
-        activateDescription = loc("Permanently gain {lootplot:POINTS_COLOR}+%{buff} points{/lootplot:POINTS_COLOR} when activated"),
+        activateDescription = loc("Permanently gain {lootplot:POINTS_COLOR}+%{buff} points{/lootplot:POINTS_COLOR} when activated", {
+            buff = strength
+        }),
 
         onActivate = function(ent)
             lp.modifierBuff(ent, "pointsGenerated", strength, ent)

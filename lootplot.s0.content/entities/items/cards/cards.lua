@@ -138,7 +138,8 @@ defineCard("mana_card", {
 
     onActivate = function(selfEnt)
         local targets = shuffled(
-            lp.targets.getTargets(selfEnt):map(lp.posToSlot)
+            objects.Array(lp.targets.getTargets(selfEnt))
+                :map(lp.posToSlot)
         )
         apply(targets, function(e1,e2)
             local m1 = e1.manaCount or 0
@@ -149,6 +150,37 @@ defineCard("mana_card", {
     end,
 
     rarity = lp.rarities.RARE
+})
+
+
+
+defineCard("doomed_card", {
+    name = loc("Doomed Card"),
+
+    shape = lp.targets.VerticalShape(1),
+
+    activateDescription = loc("Shuffle {lootplot:DOOMED_LIGHT_COLOR}DOOM-COUNT{/lootplot:DOOMED_LIGHT_COLOR} between target items"),
+
+    target = {
+        type = "ITEM",
+        filter = function (selfEnt, ppos, targetEnt)
+            return targetEnt.doomCount
+        end
+    },
+
+    onActivate = function(selfEnt)
+        local targets = shuffled(
+            lp.targets.getConvertedTargets(selfEnt)
+        )
+        apply(targets, function(e1,e2)
+            local m1 = e1.doomCount or 0
+            local m2 = e2.doomCount or 0
+            e1.doomCount = m2
+            e2.doomCount = m1
+        end)
+    end,
+
+    rarity = lp.rarities.EPIC,
 })
 
 

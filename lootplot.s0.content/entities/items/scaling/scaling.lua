@@ -151,7 +151,7 @@ defineHelmet("doom_helmet", {
 defineHelmet("demon_helmet", {
     name = loc("Demon Helmet"),
 
-    activateDescription = loc("Give all targetted {lootplot:REPEATER_COLOR}REPEATER{/lootplot:REPEATER_COLOR} items {lootplot:POINTS_MOD_COLOR}+4 points"),
+    activateDescription = loc("Give all target {lootplot:REPEATER_COLOR}REPEATER{/lootplot:REPEATER_COLOR} items {lootplot:POINTS_MOD_COLOR}+4 points"),
     triggers = {"PULSE"},
 
     basePrice = 12,
@@ -177,7 +177,15 @@ defineHelmet("demon_helmet", {
 
 --[[
 
-TODO:
-teal helmet
+NEW ITEM IDEAS:
+
+
+
+
+Sticky helmet:
+Give all STICKY items +6 points
+
+
+
 
 ]]
