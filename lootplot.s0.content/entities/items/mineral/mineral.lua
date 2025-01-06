@@ -175,7 +175,7 @@ local function defineHammer(mineral_type, name, strength, etype)
         rarity = etype.rarity or lp.rarities.EPIC,
 
         basePrice = 10,
-        baseMultGenerated = floorTo01(0.1 * strength),
+        baseMultGenerated = floorTo01(0.2 * strength),
 
         shape = lp.targets.RookShape(1),
 
