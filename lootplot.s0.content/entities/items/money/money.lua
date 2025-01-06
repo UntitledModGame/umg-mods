@@ -185,6 +185,9 @@ defItem("gold_crown", {
 
 
 defItem("coins_and_emerald", {
+    --[[
+    anti-synergy with reroll builds
+    ]]
     name = loc("Coins and Emerald"),
 
     activateDescription = loc("Destroys itself if {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} is triggered."),
@@ -200,7 +203,7 @@ defItem("coins_and_emerald", {
 
     triggers = {"PULSE", "REROLL"},
 
-    onTriggered = function(triggerName, ent)
+    onTriggered = function(ent, triggerName)
         if triggerName == "REROLL" then
             lp.destroy(ent)
         end
