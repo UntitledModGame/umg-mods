@@ -50,9 +50,6 @@ When rotated, buff target items, +1 mult (max of 20)
 Red Record:
 When rotated, buff target items, +1 activations (max of 30)
 
-White Record:
-When rotated, buff target items, +1 mult
-
 Gold Record:
 When rotated, earn $1 for every slot without an item
 shape=ROOK-3
@@ -96,7 +93,6 @@ defItem("gear", "Gear", {
 
 local function defRecord(id, name, etype)
     etype.triggers = {"ROTATE"}
-    etype.shape = lp.targets.CircleShape(2)
 
     etype.rarity = lp.rarities.EPIC
 
@@ -107,55 +103,64 @@ local function defRecord(id, name, etype)
 end
 
 
-defRecord("record_green", "Green Record", {
-    activateDescription = loc("Buff all {lootplot.targets:COLOR}target items{lootplot.targets:COLOR}, +1 mult\n(Maximum of 20 mult)"),
 
-    target = {
-        type = "ITEM",
-        activate = function(selfEnt, ppos, targetEnt)
-            if targetEnt.pointsGenerated then
-                local _, _, mult = properties.computeProperty(targetEnt, "pointsGenerated")
-                if mult < 20 then
-                    lp.addMultiplierBuff(targetEnt, "pointsGenerated", 1, selfEnt)
-                end
-            end
-        end
-    }
-})
+
+local BLUE_RECORD_BUFF = 20
 
 defRecord("record_blue", "Blue Record", {
-    activateDescription = loc("Buff all {lootplot.targets:COLOR}target items{lootplot.targets:COLOR}, +2 points"),
+    activateDescription = loc("Add {lootplot:POINTS_COLOR}+%{buff} points{/lootplot:POINTS_COLOR} to all {lootplot.targets:COLOR}target items", {
+        buff = BLUE_RECORD_BUFF
+    }),
 
+    manaCost = 1,
+
+    shape = lp.targets.CircleShape(2),
     target = {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
-            lp.addMultiplierBuff(targetEnt, "pointsGenerated", 2, selfEnt)
+            lp.modifierBuff(targetEnt, "pointsGenerated", BLUE_RECORD_BUFF, selfEnt)
         end
     }
 })
 
 
---[[
-TODO: Is this way too OP?
-Probably...
-]]
-defRecord("record_red", "Red Record", {
-    activateDescription = loc("Buff all {lootplot.targets:COLOR}target items{lootplot.targets:COLOR}, +1 activation\n(Maximum of 20 activations)"),
 
+local GREEN_RECORD_BUFF = 3
+
+defRecord("record_green", "Green Record", {
+    activateDescription = loc("Add {lootplot:POINTS_COLOR}+%{buff} points{/lootplot:POINTS_COLOR} to all {lootplot.targets:COLOR}target items", {
+        buff = GREEN_RECORD_BUFF
+    }),
+
+    shape = lp.targets.CircleShape(2),
     target = {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
-            local maxAct = targetEnt.maxActivations or 0
-            if maxAct < 30 then
-                lp.addMultiplierBuff(targetEnt, "pointsGenerated", 1, selfEnt)
-            end
+            lp.modifierBuff(targetEnt, "pointsGenerated", GREEN_RECORD_BUFF, selfEnt)
+        end
+    }
+})
+
+
+defRecord("record_red", "Red Record", {
+    activateDescription = loc("Add {lootplot:POINTS_MULT_COLOR}+0.1 mult{/lootplot:POINTS_MULT_COLOR} to all {lootplot.targets:COLOR}target items"),
+
+    shape = lp.targets.CircleShape(2),
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.modifierBuff(targetEnt, "multGenerated", 0.1, selfEnt)
         end
     }
 })
 
 defItem("record_golden", "Golden Record", {
     triggers = {"ROTATE"},
-    baseMoneyGenerated = 3
+
+    baseMoneyGenerated = 3,
+    basePrice = 9,
+
+    rarity = lp.rarities.RARE,
 })
 
 
