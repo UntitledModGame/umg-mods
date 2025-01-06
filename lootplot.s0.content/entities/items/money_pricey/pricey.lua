@@ -4,16 +4,16 @@ local interp = localization.newInterpolator
 local helper = require("shared.helper")
 
 
-local function defItem(id, etype)
+local function defItem(id, name, etype)
     etype.image = etype.image or id
+    etype.name = etype.name or loc(name)
     return lp.defineItem("lootplot.s0.content:"..id, etype)
 end
 
 
 
 
-defItem("gold_watch", {
-    name = loc("Gold Watch"),
+defItem("gold_watch", "Gold Watch", {
     activateDescription = loc("Increases price by 10%,\n(Max 200)"),
 
     rarity = lp.rarities.EPIC,
@@ -33,9 +33,7 @@ defItem("gold_watch", {
 
 
 
-defItem("gold_helmet", {
-    name = loc("Gold Helmet"),
-
+defItem("gold_helmet", "Gold Helmet", {
     rarity = lp.rarities.RARE,
     triggers = {"PULSE"},
 

@@ -44,6 +44,26 @@ defineDice("white_die", "White Die", {
 
 
 
+-- Red Die: 
+-- When rerolled, gain 0.2 mult
+defineDice("red_die", "Red Die", {
+    triggers = {"REROLL", "PULSE"},
+    activateDescription = loc("When Rerolled, gain {lootplot:POINTS_MULT_COLOR}+0.2 mult"),
+
+    baseMultGenerated = 0.2,
+    baseMaxActivations = 10,
+    basePrice = 8,
+
+    onTriggered = function(ent, name)
+        if name == "REROLL" then
+            lp.modifierBuff(ent, "multGenerated", 0.2)
+        end
+    end,
+
+    rarity = lp.rarities.RARE,
+})
+
+
 defineDice("black_die", "Black Die", {
     triggers = {"REROLL"},
     rarity = lp.rarities.RARE,
@@ -98,11 +118,22 @@ end
 defineDice("quad_dice", "Quad Dice", {
     triggers = {"REROLL"},
 
-    rarity = lp.rarities.RARE,
+    activateDescription = loc("Gives {lootplot:POINTS_COLOR}+3 points{/lootplot:POINTS_COLOR} to all target items"),
 
     basePrice = 8,
     baseMaxActivations = 10,
-    basePointsGenerated = 50,
+
+    sticky = true,
+
+    shape = lp.targets.RookShape(3),
+    target = {
+        type = "ITEM",
+        activate = function(ent, ppos, targetEnt)
+            lp.modifierBuff(targetEnt, "pointsGenerated", 3, ent)
+        end
+    },
+
+    rarity = lp.rarities.RARE,
 })
 
 
