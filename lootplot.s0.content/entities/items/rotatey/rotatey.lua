@@ -189,16 +189,25 @@ defItem("spanner", "Spanner", {
 })
 
 
---[[
-
-TODO:
-
-white_record
-(Something rule-bendy?)
-
-]]
 
 
+defItem("shuriken", "Shuriken", {
+    triggers = {"PULSE", "ROTATE"},
+
+    rarity = lp.rarities.RARE,
+
+    basePrice = 10,
+    basePointsGenerated = 5,
+    baseMaxActivations = 10,
+
+    onTriggered = function(ent, name)
+        if name == "ROTATE" then
+            lp.modifierBuff(ent, "pointsGenerated", 5)
+        end
+    end,
+
+    activateDescription = loc("When rotated, gain {lootplot:POINTS_COLOR}+5 points"),
+})
 
 
 
