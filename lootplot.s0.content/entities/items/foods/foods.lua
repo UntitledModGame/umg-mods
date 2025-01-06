@@ -181,6 +181,35 @@ defineFood("gray_turnip", {
 })
 
 
+defineFood("mana_turnip", {
+    name = loc("Mana Turnip"),
+
+    activateDescription = loc("Transforms into target item."),
+
+    rarity = lp.rarities.RARE,
+
+    basePrice = 6,
+    manaCost = 3,
+    shape = lp.targets.UP_SHAPE,
+
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            local selfPPos = lp.getPos(selfEnt)
+            if selfPPos then
+                lp.destroy(selfEnt)
+                local copyEnt = lp.clone(targetEnt)
+                local success = lp.trySetItem(selfPPos, copyEnt)
+                if not success then
+                    copyEnt:delete()
+                end
+            end
+        end
+    }
+})
+
+
+
 
 
 
@@ -297,13 +326,19 @@ defineFood("coffee", {
     end
 })
 
-defineFood("tricolor_dango", { -- Loved by an introverted Shogun in another dimension
-    name = loc("Tricolor Dango"),
+defineFood("raw_steak", {
+    name = loc("Raw Steak"),
     triggers = {"PULSE"},
     rarity = lp.rarities.RARE,
-    doomCount = 3,
-    baseMaxActivations = 3,
-    baseMultGenerated = 1
+    doomCount = 1,
+    baseMultGenerated = 5
+})
+
+defineFood("raw_potato", {
+    name = loc("Raw Potato"),
+    triggers = {"PULSE"},
+    rarity = lp.rarities.RARE,
+    basePointsGenerated = 60
 })
 
 
