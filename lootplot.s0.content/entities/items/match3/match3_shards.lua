@@ -146,6 +146,9 @@ defItem("wildcard_shards", "Wildcard Shards", {
     triggers = {"PULSE"},
     activateDescription = loc("If target-item is a shard, transforms into it."),
 
+    rarity = lp.rarities.COMMON,
+    basePrice = 6,
+
     shape = lp.targets.RookShape(1),
 
     target = {
