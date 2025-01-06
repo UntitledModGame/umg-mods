@@ -35,19 +35,6 @@ local function joltFunc(t, duration, freq)
     return ease * f
 end
 
----@param itemEnt lootplot.ItemEntity
-local function getStrengthScale(itemEnt)
-    local etype = assert(client.entities[itemEnt:type()])
-    local deltaMaxActivations = math.max((itemEnt.maxActivations or 0) - (etype.baseMaxActivations or 0), 0)
-    local deltaPointsGenerated = math.max((itemEnt.pointsGenerated or 0) - (etype.basePointsGenerated or 0), 0)
-    local deltaMoneyGenerated = math.max((itemEnt.moneyGenerated or 0) - (etype.baseMoneyGenerated or 0), 0)
-    local value =
-        math.floor(deltaMaxActivations / 10) +
-        math.floor(deltaPointsGenerated / 30) +
-        math.floor(deltaMoneyGenerated / 3)
-    local scale = math.log(1 + value / 10, 2)
-    return math.max(scale, 0)
-end
 
 ---@param ent Entity
 umg.answer("rendering:getRotation", function(ent)
@@ -140,7 +127,7 @@ end
 ---@param ent lootplot.LayerEntity
 umg.on("lootplot:entityActivated", function(ent)
     if not ent.drawable then return end
-    local bulgeStrength = 0.5 + getStrengthScale(ent)
+    local bulgeStrength = 1.2
     bulgeAndJolt(ent, 0.33, bulgeStrength)
 end)
 

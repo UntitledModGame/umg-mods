@@ -97,22 +97,11 @@ end)
     x mult:  x2 (red color)
 ]]
 
-local TEXT_FORMAT_BY_TYPE = {
-    [lp.BUFF_TYPES.ADD_MODIFIER] = "+%s",
-    [lp.BUFF_TYPES.ADD_MULTIPLER] = "+%s mult",
-    [lp.BUFF_TYPES.MUL_MULTIPLER] = "x%s mult"
-}
-
-local POINTS_COLOR_BY_TYPE = {
-    [lp.BUFF_TYPES.ADD_MODIFIER] = lp.COLORS.POINTS_MOD_COLOR,
-    [lp.BUFF_TYPES.ADD_MULTIPLER] = objects.Color(0.86, 0.91, 0.31),
-    [lp.BUFF_TYPES.MUL_MULTIPLER] = lp.COLORS.POINTS_MULT_COLOR
-}
 local COLOR_BUFF_DEFAULT = objects.Color(0.35, 0.9, 0.89) -- 5ae6e3
 
-umg.on("lootplot:entityBuffed", function(ent, prop, ptype, amount, srcEnt)
+umg.on("lootplot:entityBuffed", function(ent, prop, amount, srcEnt)
     local prefix = ""
-    local color = POINTS_COLOR_BY_TYPE[ptype] or COLOR_BUFF_DEFAULT
+    local color = COLOR_BUFF_DEFAULT
     if prop == "moneyGenerated" then
         prefix = "$"
     end
@@ -121,7 +110,7 @@ umg.on("lootplot:entityBuffed", function(ent, prop, ptype, amount, srcEnt)
         color = COLOR_BUFF_DEFAULT
     end
 
-    return makePopup(ent, prefix..TEXT_FORMAT_BY_TYPE[ptype]:format(tostring(amount)), color, nil, 1.5)
+    return makePopup(ent, prefix..tostring(amount), color, nil, 1.5)
 end)
 
 

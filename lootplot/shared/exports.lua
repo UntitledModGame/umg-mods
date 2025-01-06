@@ -795,11 +795,6 @@ local function append(tabl, prop, x, operation)
     end
 end
 
-lp.BUFF_TYPES = {
-    ADD_MODIFIER = "ADD",
-    ADD_MULTIPLER = "ADD_MULT",
-    MUL_MULTIPLER = "XMULT",
-}
 
 local buffTc = typecheck.assert("entity", "string", "number", "entity?")
 ---Availability: **Server**
@@ -813,44 +808,8 @@ function lp.modifierBuff(ent, property, amount, srcEnt_or_nil)
     -- Permanently buffs an entity by adding a flat modifier
     ensureDynamicProperties(ent)
     append(ent.buffedProperties.modifiers, property, amount, reducers.ADD)
-    umg.call("lootplot:entityBuffed", ent, property, lp.BUFF_TYPES.ADD_MODIFIER, amount, srcEnt_or_nil)
+    umg.call("lootplot:entityBuffed", ent, property, amount, srcEnt_or_nil)
     sync.syncComponent(ent, "buffedProperties")
-end
-
----Availability: **Server**
----@param ent Entity
----@param property string
----@param amount number
----@param op fun(a:number,b:number):number
----@param type string
----@param srcEnt_or_nil Entity? entity that invoked the buff (maybe nil)
-local function multBuff(ent, property, amount, op, type, srcEnt_or_nil)
-    buffTc(ent, property, amount, srcEnt_or_nil)
-    ensureDynamicProperties(ent)
-    assert(properties.getPropertyType(property), "Invalid property: " .. property)
-    append(ent.buffedProperties.multipliers, property, amount, op)
-    umg.call("lootplot:entityBuffed", ent, property, type, amount, srcEnt_or_nil)
-    sync.syncComponent(ent, "buffedProperties")
-end
-
----Availability: **Server**
----@param ent Entity
----@param property string
----@param amount number
----@param srcEnt_or_nil Entity? entity that invoked the buff (maybe nil)
-function lp.multiplierBuff(ent, property, amount, srcEnt_or_nil)
-    -- Permanently buffs an entity with a multiplier
-    return multBuff(ent, property, amount, reducers.MULTIPLY, lp.BUFF_TYPES.MUL_MULTIPLER, srcEnt_or_nil)
-end
-
----Availability: **Server**
----@param ent Entity
----@param property string
----@param amount number
----@param srcEnt_or_nil Entity? entity that invoked the buff (maybe nil)
-function lp.addMultiplierBuff(ent, property, amount, srcEnt_or_nil)
-    -- Permanently buffs an entity with a multiplier
-    return multBuff(ent, property, amount, reducers.ADD, lp.BUFF_TYPES.ADD_MULTIPLER, srcEnt_or_nil)
 end
 
 
