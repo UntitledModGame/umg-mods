@@ -175,7 +175,7 @@ local function defineHammer(mineral_type, name, strength, etype)
         rarity = etype.rarity or lp.rarities.EPIC,
 
         basePrice = 10,
-        baseMultGenerated = floorTo01(0.2 * strength),
+        baseMultGenerated = floorTo01(0.1 * strength),
 
         shape = lp.targets.RookShape(1),
 
@@ -202,6 +202,48 @@ end
 
 
 
+local CROSSBOW_DESC = "Gives {lootplot:POINTS_COLOR}+%{buff} points{/lootplot:POINTS_COLOR} to all target items."
+
+local function defineCrossbow(mineral_type, name, strength, etype)
+    local namespace = umg.getModName() .. ":"
+    local etypeName = namespace .. mineral_type .. "_crossbow"
+    local image = mineral_type .. "_crossbow"
+
+    local buffAmount = strength
+
+    local crossbowType = {
+        image = image,
+        name = loc(name .. " Crossbow"),
+
+        mineralType = mineral_type,
+
+        rarity = etype.rarity or lp.rarities.RARE,
+
+        basePrice = 12,
+
+        shape = lp.targets.UpShape(2),
+
+        activateDescription = loc(CROSSBOW_DESC, {
+            buff = strength
+        }),
+
+        target = {
+            type = "ITEM",
+            activate = function(selfEnt, ppos, targetEnt)
+                lp.modifierBuff(targetEnt, "pointsGenerated", buffAmount)
+            end
+        }
+    }
+
+    for k,v in pairs(etype) do
+        crossbowType[k] = crossbowType[k] or v
+    end
+
+    defineMineral(mineral_type, etypeName, crossbowType)
+end
+
+
+
 
 
 local function defineMineralClass(mineral_type, name, strength, etype)
@@ -210,6 +252,7 @@ local function defineMineralClass(mineral_type, name, strength, etype)
     definePickaxe(mineral_type, name, strength,  etype)
     defineSpear(mineral_type, name, strength,  etype)
     defineHammer(mineral_type, name, strength,  etype)
+    defineCrossbow(mineral_type, name, strength,  etype)
 end
 
 
