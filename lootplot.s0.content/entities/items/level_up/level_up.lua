@@ -109,14 +109,14 @@ defItem("gold_compass", "Gold Compass", {
 
 
 defItem("mana_compass", "Mana Compass", {
-    activateDescription = loc("Give {lootplot.mana:LIGHT_MANA_COLOR}+2 mana{/lootplot.mana:LIGHT_MANA_COLOR} to all {lootplot.targets:COLOR}target slots"),
+    activateDescription = loc("Give {lootplot.mana:LIGHT_MANA_COLOR}+3 mana{/lootplot.mana:LIGHT_MANA_COLOR} to all {lootplot.targets:COLOR}target slots"),
 
     shape = lp.targets.UpShape(2),
 
     target = {
         type = "SLOT",
         activate = function(selfEnt, ppos, targEnt)
-            lp.mana.addMana(targEnt, 2)
+            lp.mana.addMana(targEnt, 3)
         end
     },
 

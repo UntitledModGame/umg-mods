@@ -91,7 +91,7 @@ end
 defShards("golden_shards", "Golden Shards",
     earn8Money, "Earn {lootplot:MONEY_COLOR}$8{/lootplot:MONEY_COLOR}.",
 {
-    rarity = lp.rarities.COMMON,
+    rarity = lp.rarities.UNCOMMON,
     basePrice = 4,
 })
 
@@ -118,7 +118,7 @@ end
 defShards("key_shards", "Key Shards",
     spawnKey, "Spawns a {lootplot:INFO_COLOR}Key",
 {
-    rarity = lp.rarities.COMMON,
+    rarity = lp.rarities.UNCOMMON,
     basePointsGenerated = 10,
     basePrice = 6,
 })
@@ -147,7 +147,7 @@ defItem("wildcard_shards", "Wildcard Shards", {
     activateDescription = loc("If target-item is a shard, transforms into it."),
 
     rarity = lp.rarities.COMMON,
-    basePrice = 6,
+    basePrice = 5,
 
     shape = lp.targets.RookShape(1),
 
