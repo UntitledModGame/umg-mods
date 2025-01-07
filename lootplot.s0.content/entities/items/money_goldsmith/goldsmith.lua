@@ -96,7 +96,7 @@ defGoldRing("gold_reroll_ring", "Gold Reroll Ring", "REROLL")
 
 
 local TOPAZ_BUFF = 3
-local TOPAZ_DESC = interp("If {lootplot:MONEY_COLOR}money > $%{moneyReq}{/lootplot:MONEY_COLOR}, permanently gain %{pointBuff} points.\n"){
+local TOPAZ_DESC = interp("If {lootplot:MONEY_COLOR}money more than $%{moneyReq}{/lootplot:MONEY_COLOR}, permanently gain %{pointBuff} points.\n"){
     pointBuff = 3,
     moneyReq = MONEY_REQUIREMENT
 }
@@ -120,47 +120,48 @@ defItem("belt_topaz", {
 
 
 
-do
-local RUBY_DESC = interp("Only works if {lootplot:MONEY_COLOR}money > $%{moneyReq}!"){
-    moneyReq = MONEY_REQUIREMENT
-}
-defItem("belt_ruby", {
-    name = loc("Ruby Belt"),
-    activateDescription = RUBY_DESC,
 
-    baseMaxActivations = 4,
-    basePointsGenerated = 50,
 
-    canActivate = function(ent)
-        if (lp.getMoney(ent) or 0) > MONEY_REQUIREMENT then
-            return true
-        end
-    end,
+--[[
 
-    rarity = lp.rarities.UNCOMMON,
-    triggers = {"PULSE"},
+===========
+items that only work when money > REQUIREMENT
+===========
+]]
+
+local DEFAULT_ACTIVATE_DESC = loc("Only works if {lootplot:MONEY_COLOR}money{/lootplot:MONEY_COLOR} exceeds {lootplot:MONEY_COLOR}$%{amount}", {
+    amount = MONEY_REQUIREMENT
 })
+
+local DEFAULT_CAN_ACTIVATE = function(ent)
+    return (lp.getMoney(ent) or 0) > MONEY_REQUIREMENT
 end
 
 
 
+defItem("belt_ruby", {
+    name = loc("Ruby Belt"),
 
+    activateDescription = DEFAULT_ACTIVATE_DESC,
+    canActivate = DEFAULT_CAN_ACTIVATE,
+
+    baseMaxActivations = 10,
+    basePointsGenerated = 50,
+
+    rarity = lp.rarities.UNCOMMON,
+    triggers = {"PULSE"},
+})
 
 
 defItem("gold_coin", {
     name = loc("Gold Coin"),
-    activateDescription = interp("Only activates if {lootplot:MONEY_COLOR}money > $%{moneyReq}{/lootplot:MONEY_COLOR}"){
-        moneyReq = MONEY_REQUIREMENT
-    },
 
-    baseMoneyGenerated = 1,
-    baseMaxActivations = 1,
+    activateDescription = DEFAULT_ACTIVATE_DESC,
+    canActivate = DEFAULT_CAN_ACTIVATE,
+
+    baseMaxActivations = 5,
     basePrice = 12,
-    basePointsGenerated = 200,
-
-    canActivate = function(ent)
-        return (lp.getMoney(ent) or 0) > MONEY_REQUIREMENT
-    end,
+    baseMultGenerated = 2,
 
     rarity = lp.rarities.RARE,
     triggers = {"PULSE"},
@@ -186,28 +187,22 @@ defItem("robbers_bag", {
 
 
 
-local function exponential(ent)
-    return 2^(ent.totalActivationCount or 0)
-end
 
 defItem("golden_spoon", {
-    name = loc("Golden Spoon"),
-    activateDescription = loc("Cost and points are doubled each activation."),
-
-    basePrice = 20,
-
-    rarity = lp.rarities.EPIC,
+    --[[
+    Used as a way to "pivot into" goldsmith builds
+    ]]
     triggers = {"PULSE"},
 
-    lootplotProperties = {
-        multipliers = {
-            moneyGenerated = exponential,
-            pointsGenerated = exponential
-        }
-    },
+    activateDescription = DEFAULT_ACTIVATE_DESC,
+    canActivate = DEFAULT_CAN_ACTIVATE,
 
-    baseMoneyGenerated = -1,
-    basePointsGenerated = 100,
+    name = loc("Golden Spoon"),
+
+    basePrice = 8,
+    baseMoneyGenerated = 1,
+
+    rarity = lp.rarities.UNCOMMON,
 })
 
 

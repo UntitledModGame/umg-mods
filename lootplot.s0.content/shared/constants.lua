@@ -5,7 +5,7 @@ local constants = {
 
     DEFAULT_GRUB_MONEY_CAP = 10,
 
-    GOLDSMITH_MONEY_REQUIREMENT = 30,
+    GOLDSMITH_MONEY_REQUIREMENT = 20,
 
     -- item tags:
     tags = setmetatable({
