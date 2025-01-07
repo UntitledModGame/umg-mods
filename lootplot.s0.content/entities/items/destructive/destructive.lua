@@ -244,8 +244,6 @@ defDestructive("dark_skull", "Dark Skull", {
 
 
 defDestructive("skull", "Skull", {
-    name = loc("Skull"),
-
     activateDescription = loc("Spawns bone-items."),
 
     rarity = lp.rarities.RARE,
@@ -281,4 +279,25 @@ defDestructive("dagger", "Dagger", {
         end
     },
 })
+
+
+
+defDestructive("unholy_bible", "Unholy Bible", {
+    activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} on all target items.\n(Without actually destroying the items!)"),
+
+    rarity = lp.rarities.LEGENDARY,
+
+    basePrice = 13,
+
+    shape = lp.targets.KingShape(1),
+
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.tryTriggerEntity("DESTROY", targetEnt)
+        end
+    },
+})
+
+
 
