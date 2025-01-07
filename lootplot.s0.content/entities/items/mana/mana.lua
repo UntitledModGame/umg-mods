@@ -184,7 +184,7 @@ defItem("unholy_necklace", "Unholy necklace", {
 
     baseMoneyGenerated = -4,
 
-    shape = lp.targets.ON_SHAPE,
+    shape = lp.targets.UpShape(1),
     target = {
         type = "SLOT",
         activate = function(ent, ppos, slotEnt)
