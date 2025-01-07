@@ -86,7 +86,7 @@ defItem("red_net", "Red Net", {
 defItem("red_pin", "Red Pin", {
     activateDescription = loc("Set multiplier to {lootplot:POINTS_MULT_COLOR}1.5"),
 
-    rarity = lp.rarities.RARE,
+    rarity = lp.rarities.UNCOMMON,
 
     triggers = {"PULSE"},
 
