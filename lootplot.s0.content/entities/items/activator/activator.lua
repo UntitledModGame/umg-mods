@@ -54,7 +54,7 @@ defItem("pipe", "Pipe", {
 
 
 
-defItem("boxing_glove", "Boxing Glove", {
+defItem("red_boxing_glove", "Red Boxing Glove", {
     rarity = lp.rarities.RARE,
     triggers = {"PULSE"},
 
@@ -63,7 +63,7 @@ defItem("boxing_glove", "Boxing Glove", {
     repeatActivations = true,
 
     basePrice = 12,
-    baseMaxActivations = 3,
+    baseMaxActivations = 15,
 
     shape = lp.targets.UpShape(1),
 
