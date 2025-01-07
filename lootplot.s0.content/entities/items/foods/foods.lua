@@ -567,10 +567,10 @@ defineSlotConverter("diamond_apple", "Diamond Apple", "diamond_slot", "Diamond S
 })
 
 
-defineSlotConverter("cucumber_slices", "Cucumber Slices", "reroll_slot", "{lootplot:DOOMED_COLOR}DOOMED-20{/lootplot:DOOMED_COLOR} Reroll Slot", lp.targets.ON_SHAPE, {
+defineSlotConverter("cucumber_slices", "Cucumber Slices", "emerald_slot", "Emerald Slot", lp.targets.ON_SHAPE, {
     rarity = lp.rarities.RARE,
     basePrice = 6
-}, setDoomCountTo(20))
+})
 
 
 defineSlotConverter("lychee", "Lychee", "pink_slot", "DOOMED-6 Pink Slot", lp.targets.ON_SHAPE, {
