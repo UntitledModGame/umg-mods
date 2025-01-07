@@ -114,3 +114,9 @@ More consumable/food items that cost mana/money to use!
 IDEA-2:
 In the weak-shop, when we randomly generate items, we should give some items a mana-cost, and reduce the items price by 2/3 (or something like that) 
 
+
+
+## Change or rework treasure-sack items:
+They are kinda... bad?? Idk. They feel very un-interactive...
+
+

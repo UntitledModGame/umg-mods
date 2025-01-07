@@ -1,6 +1,12 @@
 
 local loc = localization.localize
 
+local constants = require("shared.constants")
+
+local itemGenHelper = require("shared.item_gen_helper")
+
+
+
 local match3 = require("shared.match3")
 
 local PREFIX = "lootplot.s0.content:"
@@ -126,19 +132,46 @@ defShards("key_shards", "Key Shards",
 
 
 
-local function spawnNormalSack(itemEnt)
+local generateItem = itemGenHelper.createLazyGenerator(
+    function(etype) return true end,
+    itemGenHelper.createRarityWeightAdjuster({
+        UNCOMMON = 2,
+        RARE = 5,
+        EPIC = 2
+    })
+)
+
+
+local function spawnCloudWithItem(itemEnt)
     local ppos = lp.getPos(itemEnt)
     if ppos then
-        lp.forceSpawnItem(ppos, server.entities.sack_rare, itemEnt.lootplotTeam)
+        lp.forceSpawnSlot(ppos, server.entities.cloud_slot, itemEnt.lootplotTeam)
+        local itemTypeId = generateItem()
+        assert(itemTypeId, "uhhh, what???")
+        lp.forceSpawnItem(ppos, server.entities[itemTypeId], itemEnt.lootplotTeam)
     end
 end
 defShards("iron_shards", "Iron Shards",
-    spawnNormalSack, "Spawns a {lootplot:INFO_COLOR}Rare Sack!",
-{
+    spawnCloudWithItem, "Spawns a {lootplot:INFO_COLOR}Cloud Slot Item!", {
     rarity = lp.rarities.COMMON,
-    basePointsGenerated = 15,
-    basePrice = 8,
+    basePointsGenerated = 6,
+    canItemFloat = true,
+    basePrice = 4,
 })
+
+
+
+--[[
+same as iron; except, cannot float.
+This means that the player will be forced to delete slots.
+]]
+defShards("coal_shards", "Coal Shards",
+    spawnCloudWithItem, "Spawns a {lootplot:INFO_COLOR}Cloud Slot Item!", {
+    rarity = lp.rarities.COMMON,
+    baseMultGenerated = 0.1,
+    basePrice = 4,
+})
+
 
 
 

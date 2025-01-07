@@ -87,7 +87,7 @@ defItem("leather", {
     basePrice = 4,
 
     baseMaxActivations = 5,
-    baseMultGenerated = 0.1,
+    baseMultGenerated = 0.2,
 })
 
 

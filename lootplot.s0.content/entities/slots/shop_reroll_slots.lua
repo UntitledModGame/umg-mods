@@ -227,7 +227,7 @@ generateWeakItem = itemGenHelper.createLazyGenerator(
         return false
     end,
     itemGenHelper.createRarityWeightAdjuster({
-        COMMON = 11,
+        COMMON = 18,
         UNCOMMON = 1,
         
         -- NOTE: RARE/EPIC items aren't actually spawned;
@@ -342,32 +342,9 @@ local function foreachTouchingSlot(rootSlotEnt, func)
 end
 
 
---[[
-This function will delete all "attached" items;
-That is, all items that are 
-]]
-local function deleteAttachedItems(ent)
-    assert(server,"?")
-    foreachTouchingSlot(ent, function(e, ppos)
-        if e == ent then
-            -- we delete every item, EXCEPT self.
-            return
-        end
-        local item = lp.posToItem(ppos)
-        if item then
-            item:delete()
-        end
-    end)
-end
-
-
-
 local STRONG_SHOP_BUTTON = {
     action = function(ent, clientId)
         shopButtonBuyItem(ent, clientId)
-        if server then
-            deleteAttachedItems(ent)
-        end
     end,
     canDisplay = canDisplayShopButton,
     canClick = canClickShopButton,
@@ -387,6 +364,7 @@ local generateStrongItem = itemGenHelper.createLazyGenerator(
 )
 makeShopSlot("strong_shop_slot", "Strong Shop Slot", {
     activateDescription = loc("Spawns RARE items or above.\nWill delete all neighbouring items when an item is purchased."),
+    triggers = {"LEVEL_UP"},
     baseMaxActivations = 1,
     itemReroller = generateStrongItem,
     itemSpawner = generateStrongItem,
@@ -502,11 +480,34 @@ lp.defineSlot("lootplot.s0.content:paper_slot", {
 
 
 
+--[[
+This function will delete all "attached" items;
+That is, all items that are 
+]]
+local function deleteAttachedCloudSlots(ent)
+    assert(server,"?")
+    foreachTouchingSlot(ent, function(e, ppos)
+        if e == ent then
+            -- we delete every item, EXCEPT self.
+            return
+        end
+        local item = lp.posToItem(ppos)
+        if item then
+            item:delete()
+        end
+        local slot = lp.posToSlot(ppos)
+        if slot then
+            slot:delete()
+        end
+    end)
+end
+
+
 local pickButton = {
     action = function(ent, clientId)
         shopButtonBuyItem(ent, clientId)
         if server then
-            deleteAttachedItems(ent)
+            deleteAttachedCloudSlots(ent)
             ent.doomCount = 1
         end
     end,
