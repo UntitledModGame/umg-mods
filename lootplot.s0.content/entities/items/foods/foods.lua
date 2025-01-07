@@ -637,13 +637,9 @@ defineFood("doomed_cloneberries", {
 
 
 defineFood("golden_syrup", {
-    --[[
-    is this item too OP?
-    probably, honestly. Oh well
-    ]]
     name = loc("Golden Syrup"),
 
-    rarity = lp.rarities.EPIC,
+    rarity = lp.rarities.LEGENDARY,
 
     shape = lp.targets.UP_SHAPE,
 
@@ -651,9 +647,9 @@ defineFood("golden_syrup", {
 
     target = {
         type = "ITEM_OR_SLOT",
-        description = loc("Gives target item/slot +1 money-earned"),
+        description = loc("Gives target item/slot +2 money-earned"),
         activate = function(selfEnt, ppos, ent)
-            lp.modifierBuff(ent, "moneyGenerated", 1)
+            lp.modifierBuff(ent, "moneyGenerated", 2)
         end
     }
 })
