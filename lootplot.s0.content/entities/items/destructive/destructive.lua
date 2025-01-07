@@ -326,3 +326,30 @@ defDestructive("unholy_bible", "Unholy Bible", {
 
 
 
+--[[
+
+PINK SHIELD:
+Gives lives to target items.
+
+Needs more refining/planning.
+
+"Give {lootplot:LIFE_COLOR}+1 lives{/lootplot:LIFE_COLOR} to all target-items with a {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} trigger"
+
+defDestructive("pink_shield", "Pink Shield", {
+    activateDescription = loc(" to all non-{lootplot:DOOMED_COLOR}DOOMED{/lootplot:DOOMED_COLOR} target items."),
+
+    shape = lp.targets.KingShape(1),
+
+    target = {
+        type = "ITEM",
+        filter = function(selfEnt, ppos, targetEnt)
+            return not targetEnt.doomCount
+        end,
+        activate = function(selfEnt, ppos, targetEnt)
+            targetEnt.lives
+        end,
+    },
+})
+
+]]
+
