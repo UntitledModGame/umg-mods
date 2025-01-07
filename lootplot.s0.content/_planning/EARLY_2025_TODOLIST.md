@@ -9,7 +9,13 @@ Stuff to do/implement our beta-test.
 ------------
 
 
-- Rework iron shards (cloud-slot)
+- (((DONE))) Rework iron shards (cloud-slot)
+
+
+- (((DONE))) Make strong-shop-slots trigger on LEVEL-UP
+
+
+- Make cloud-slots trigger BUY properly! (To work with balloons, etc)
 
 
 - Create coal shards
