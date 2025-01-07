@@ -231,7 +231,7 @@ end)
 
 
 
-local PRICE = interp("Price: {wavy}{lootplot:MONEY_COLOR}$%{price}")
+local PRICE = interp("Price: {wavy}{lootplot:MONEY_COLOR}$%{price:.1f}")
 
 umg.on("lootplot:populateDescription", 50, function(ent, arr)
     if ent.price then

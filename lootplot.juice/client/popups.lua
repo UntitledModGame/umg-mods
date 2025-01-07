@@ -110,7 +110,7 @@ umg.on("lootplot:entityBuffed", function(ent, prop, amount, srcEnt)
         color = COLOR_BUFF_DEFAULT
     end
 
-    return makePopup(ent, prefix..tostring(amount), color, nil, 1.5)
+    return makePopup(ent, prefix..string.format("%.2f", amount), color, nil, 1.5)
 end)
 
 
