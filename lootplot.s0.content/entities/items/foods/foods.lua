@@ -802,12 +802,9 @@ definePotion("potion_red", {
 
     target = {
         type = "ITEM_OR_SLOT",
-        description = loc("If item/slot generates less than 10 points, Buff target's points by 100"),
+        description = loc("Permanently buffs item/slots multiplier by 1"),
         activate = function (selfEnt, ppos, targetEnt)
-            local x = targetEnt.pointsGenerated or 0
-            if x < 10 then
-                lp.modifierBuff(targetEnt, "pointsGenerated", 100, selfEnt)
-            end
+            lp.modifierBuff(targetEnt, "multGenerated", 1, selfEnt)
         end
     }
 })
