@@ -4,8 +4,10 @@ local interp = localization.newInterpolator
 local helper = require("shared.helper")
 
 
-local function defItem(id, etype)
+local function defItem(id, name, etype)
     etype.image = etype.image or id
+
+    etype.name = loc(name)
 
     return lp.defineItem("lootplot.s0.content:"..id, etype)
 end
@@ -16,7 +18,10 @@ end
 --[===[
 NOTE:::
 
-I actually really liked how these items turned out!!!
+I actually really liked these items!!!
+(Especially old golden-axe!)
+
+Perhaps reuse the behaviour for something else?
 
 ]===]
 
@@ -80,9 +85,7 @@ helper.defineDelayItem("gold_bar", "Gold Bar", {
 
 
 
-defItem("lucky_horseshoe", {
-    name = loc("Lucky Horseshoe"),
-
+defItem("lucky_horseshoe", "Lucky Horseshoe", {
     rarity = lp.rarities.RARE,
 
     shape = lp.targets.ON_SHAPE,
@@ -114,9 +117,7 @@ defItem("lucky_horseshoe", {
 
 
 
-defItem("gold_knuckles", {
-    name = loc("Gold Knuckles"),
-
+defItem("gold_knuckles", "Gold Knuckles", {
     rarity = lp.rarities.RARE,
 
     triggers = {"PULSE"},
@@ -144,9 +145,7 @@ defItem("gold_knuckles", {
 
 local DBT_DESC = interp("Gain {lootplot:POINTS_COLOR}%{points}{/lootplot:POINTS_COLOR} points.\n(money count cubed)\nThen, multiply money by -1.")
 
-defItem("death_by_taxes", {
-    name = loc("Death by Taxes"),
-
+defItem("death_by_taxes", "Death by Taxes", {
     basePrice = 20,
     baseMaxActivations = 2,
     rarity = lp.rarities.LEGENDARY,
@@ -168,9 +167,11 @@ defItem("death_by_taxes", {
 
 
 
-defItem("gold_crown", {
-    name = loc("Gold Crown"),
-
+defItem("gold_crown", "Gold Crown", {
+    --[[
+    TODO: 
+    THIS ITEM IS POORLY DESIGNED!!! 
+    ]]
     shape = lp.targets.KING_SHAPE,
 
     basePrice = 10,
@@ -197,12 +198,42 @@ defItem("gold_crown", {
 
 
 
-defItem("coins_and_emerald", {
+
+local SCISSORS_MONEY_EARNED = 2
+
+defItem("golden_scissors", "Golden Scissors", {
+    --[[
+    useful for "cutting through" cloud slots,
+    and getting free items.
+    ]]
+    triggers = {"PULSE"},
+
+    activateDescription = loc("Destroy all target-slots. Earn $%{amount} for each slot destroyed.", {
+        amount = SCISSORS_MONEY_EARNED
+    }),
+
+    basePrice = 10,
+    baseMaxActivations = 1,
+
+    shape = lp.targets.UpShape(3),
+    target = {
+        type = "SLOT",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.addMoney(selfEnt, SCISSORS_MONEY_EARNED)
+            lp.destroy(targetEnt)
+        end
+    },
+
+    rarity = lp.rarities.RARE,
+})
+
+
+
+
+defItem("coins_and_emerald", "Coins and Emerald", {
     --[[
     anti-synergy with reroll builds
     ]]
-    name = loc("Coins and Emerald"),
-
     activateDescription = loc("Destroys itself if {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} is triggered."),
 
     sticky = true,
