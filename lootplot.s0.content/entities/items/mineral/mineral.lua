@@ -254,9 +254,24 @@ defineMineralClass("ruby", "Ruby", 1, {
 Cobalt costs mana to activate
 
 ]]
-defineMineralClass("cobalt", "Cobalt", 50, {
+defineMineralClass("cobalt", "Cobalt", 60, {
     triggers = {"PULSE"},
-    manaCost = 1
+    manaCost = 1,
+    baseMaxActivations = 8
+})
+
+
+
+
+--[[
+
+Golden items cost $1 to activate
+
+]]
+defineMineralClass("golden", "Golden", 15, {
+    triggers = {"PULSE"},
+    baseMoneyGenerated = -1,
+    baseMaxActivations = 8
 })
 
 

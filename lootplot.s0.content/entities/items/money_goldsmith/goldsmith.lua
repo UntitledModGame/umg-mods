@@ -129,7 +129,7 @@ items that only work when money > REQUIREMENT
 ===========
 ]]
 
-local DEFAULT_ACTIVATE_DESC = loc("Only works if {lootplot:MONEY_COLOR}money{/lootplot:MONEY_COLOR} exceeds {lootplot:MONEY_COLOR}$%{amount}", {
+local DEFAULT_ACTIVATE_DESC = loc("(Only works if {lootplot:MONEY_COLOR}money{/lootplot:MONEY_COLOR} exceeds {lootplot:MONEY_COLOR}$%{amount}{/lootplot:MONEY_COLOR})", {
     amount = MONEY_REQUIREMENT
 })
 

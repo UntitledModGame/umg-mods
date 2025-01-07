@@ -11,6 +11,16 @@ local function defItem(id, etype)
 end
 
 
+--[[
+
+--[===[
+NOTE:::
+
+I actually really liked how these items turned out!!!
+
+]===]
+
+
 defItem("gold_sword", {
     basePrice = 6,
     name = loc("Golden Sword"),
@@ -42,6 +52,9 @@ defItem("gold_axe", {
 
     triggers = {"PULSE"},
 })
+
+]]
+
 
 
 local GOLD_BAR_ACTS = 10
