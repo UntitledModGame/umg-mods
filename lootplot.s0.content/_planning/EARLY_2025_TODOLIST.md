@@ -15,7 +15,11 @@ Stuff to do/implement our beta-test.
 - (((DONE))) Make strong-shop-slots trigger on LEVEL-UP
 
 
-- Make cloud-slots trigger BUY properly! (To work with balloons, etc)
+- (((DONE))) Make cloud-slots trigger BUY properly! (To work with balloons, etc)
+
+
+- Write blog-post detailing 2024 learning recap
+- Write document detailing what future-UMG would look like
 
 
 - Create coal shards
@@ -41,6 +45,9 @@ When an item fails activation, Big red cross animation?
 
 
 ## ITEMS:
+
+- Create 3 more items
+
 - Simplify hammer items: 
 "Earns X mult. Destroys a random target item"
 

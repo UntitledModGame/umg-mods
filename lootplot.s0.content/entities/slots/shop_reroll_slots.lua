@@ -520,9 +520,9 @@ local pickButton = {
 lp.defineSlot("lootplot.s0.content:cloud_slot", {
     image = "cloud_slot",
     name = loc("Cloud slot"),
-    description = loc("Pick single item from the adjacent cloud slots then destroy the others."),
-    triggers = {},
-    baseMaxActivations = 0,
+    triggers = {"PULSE"},
+    activateDescription = loc("Choose 1 item!"),
+    baseMaxActivations = 1,
     itemLock = true,
 
     slotItemProperties = {
