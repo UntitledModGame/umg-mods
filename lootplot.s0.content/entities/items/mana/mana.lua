@@ -138,6 +138,8 @@ defItem("mana_syrup", "Mana Syrup", {
 
 
 defItem("vial_blue", "Blue Vial", {
+    activateDescription = loc("Gives {lootplot.mana:LIGHT_MANA_COLOR}+2 mana {/lootplot.mana:LIGHT_MANA_COLOR}to target slot"),
+
     rarity = lp.rarities.RARE,
     doomCount = 1,
 
@@ -147,7 +149,6 @@ defItem("vial_blue", "Blue Vial", {
         activate = function(ent, ppos, slotEnt)
             lp.mana.addMana(slotEnt, 2)
         end,
-        description = loc("Gives {lootplot.mana:LIGHT_MANA_COLOR}+2 mana {/lootplot.mana:LIGHT_MANA_COLOR}to slot")
     },
     triggers = {"PULSE"},
 })
@@ -180,6 +181,8 @@ defItem("mana_rocks", "Mana Rocks", {
 
 
 defItem("unholy_necklace", "Unholy necklace", {
+    activateDescription = loc("Gives {lootplot.mana:LIGHT_MANA_COLOR}+1 mana{/lootplot.mana:LIGHT_MANA_COLOR} to target slot"),
+
     rarity = lp.rarities.RARE,
 
     baseMoneyGenerated = -4,
@@ -190,7 +193,6 @@ defItem("unholy_necklace", "Unholy necklace", {
         activate = function(ent, ppos, slotEnt)
             lp.mana.addMana(slotEnt, 1)
         end,
-        description = loc("Gives {lootplot.mana:LIGHT_MANA_COLOR}+1 mana{/lootplot.mana:LIGHT_MANA_COLOR} to slot")
     },
     triggers = {"PULSE"},
 })
@@ -199,7 +201,7 @@ defItem("unholy_necklace", "Unholy necklace", {
 
 defItem("crystal_ball", "Crystal Ball", {
     rarity = lp.rarities.EPIC,
-    description = loc("Gives {lootplot.mana:LIGHT_MANA_COLOR}+1 mana{/lootplot.mana:LIGHT_MANA_COLOR} to target slots"),
+    activateDescription = loc("Gives {lootplot.mana:LIGHT_MANA_COLOR}+1 mana{/lootplot.mana:LIGHT_MANA_COLOR} to target slots"),
 
     canActivateEntity = function(ent)
         return lp.getMoney(ent) < 0

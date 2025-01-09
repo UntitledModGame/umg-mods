@@ -152,13 +152,13 @@ end
 
 
 defBalloon("pink_balloon", "Pink Balloon", {
+    activateDescription = loc("Give purchased item {lootplot:LIFE_COLOR}+1 life!{/lootplot:LIFE_COLOR}"),
     rarity = lp.rarities.RARE,
 
     basePrice = 15,
 
     listen = {
         trigger = "BUY",
-        description = loc("Give purchased item {lootplot:LIFE_COLOR}+1 life!{/lootplot:LIFE_COLOR}"),
         activate = function(selfEnt, ppos, targetEnt)
             local lives = targetEnt.lives or 0
             targetEnt.lives = lives + 1
@@ -190,13 +190,13 @@ defBalloon("white_balloon", "White Balloon", {
 
 
 defBalloon("green_balloon", "Green Balloon", {
+    activateDescription = loc("Doubles the {lootplot:POINTS_COLOR}points{/lootplot:POINTS_COLOR} of the purchased item."),
     rarity = lp.rarities.RARE,
 
     basePrice = 15,
 
     listen = {
         trigger = "BUY",
-        description = loc("Doubles the {lootplot:POINTS_COLOR}points-earned{/lootplot:POINTS_COLOR} of the purchased item."),
         activate = function(selfEnt, ppos, targetEnt)
             local pgen = targetEnt.pointsGenerated or 0
             if pgen ~= 0 then
@@ -247,13 +247,13 @@ defBalloon("blue_balloon", "Blue Balloon", {
 
 
 defBalloon("golden_balloon", "Golden Balloon", {
+    activateDescription = loc("If purchased item price is more than $3, {lootplot:MONEY_COLOR}earn $1"),
     rarity = lp.rarities.EPIC,
 
     basePrice = 10,
 
     listen = {
         trigger = "BUY",
-        description = loc("If purchased item price is more than $3, {lootplot:MONEY_COLOR}earn $1"),
         activate = function(selfEnt, ppos, targetEnt)
             if (targetEnt.price or 0) > 3 then
                 lp.addMoney(selfEnt, 1)
@@ -280,6 +280,7 @@ defBalloon("mana_balloon", "Mana Balloon", {
 
 defItem("neko_cat", {
     name = loc("Neko Cat"),
+    activateDescription = loc("Activates {lootplot:INFO_COLOR}ALL{/lootplot:INFO_COLOR} target items directly."),
 
     rarity = lp.rarities.EPIC,
 
@@ -302,7 +303,6 @@ defItem("neko_cat", {
         activate = function(selfEnt, ppos, targetEnt)
             lp.tryActivateEntity(targetEnt)
         end,
-        description = loc("Activates {lootplot:INFO_COLOR}ALL{/lootplot:INFO_COLOR} target items directly."),
         type = "ITEM"
     }
 })

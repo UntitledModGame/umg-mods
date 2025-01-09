@@ -154,7 +154,7 @@ defItem("coins", {
 defItem("bone", {
     name = loc("Bone"),
 
-    description = loc("Has 6 lives. (Destroy this item to use it!)"),
+    description = loc("Has 6 lives. (Try selling or destroying this item!)"),
 
     triggers = {"DESTROY"},
 

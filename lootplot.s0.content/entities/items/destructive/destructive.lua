@@ -48,6 +48,8 @@ Earn $2
 defDestructive("empty_cauldron", "Empty Cauldron", {
     triggers = {"DESTROY"},
 
+    activateDescription = loc("Spawns a SELL slot."),
+
     rarity = lp.rarities.RARE,
     basePrice = 8,
     baseMaxActivations = 1,
@@ -63,13 +65,14 @@ defDestructive("empty_cauldron", "Empty Cauldron", {
 
     target = {
         type = "NO_SLOT",
-        description = loc("Spawns a SELL slot."),
     }
 })
 
 
 defDestructive("candle", "Candle", {
     rarity = lp.rarities.LEGENDARY,
+
+    activateDescription = loc("Clones the below item into target slots with {lootplot:DOOMED_COLOR}DOOMED-1."),
 
     basePrice = 15,
     baseMaxActivations = 1,
@@ -78,7 +81,6 @@ defDestructive("candle", "Candle", {
 
     target = {
         type = "SLOT_NO_ITEM",
-        description = loc("Clones the below item into target slots with {lootplot:DOOMED_COLOR}DOOMED-1."),
         activate = function(selfEnt, ppos, targetEnt)
             local selfPos = lp.getPos(selfEnt)
             if not selfPos then return end
@@ -150,6 +152,8 @@ defDestructive("mana_necklace", "Mana Necklace", {
 
 
 defDestructive("bomb", "Bomb", {
+    activateDescription = loc("Destroy target slots"),
+
     rarity = lp.rarities.UNCOMMON,
     doomCount = 1,
 
@@ -163,7 +167,6 @@ defDestructive("bomb", "Bomb", {
 
     target = {
         type = "SLOT",
-        description = loc("Destroy target slots"),
         activate = function(selfEnt, ppos, targetEnt)
             -- TODO: Make an explosion animation here...?
             lp.destroy(targetEnt)

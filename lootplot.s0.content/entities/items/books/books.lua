@@ -21,9 +21,10 @@ local function defineBook(id, name, targetSlot, targetSlotName, rarity)
         basePrice = 15,
         baseMaxActivations = 1,
 
+        activateDescription = loc("Converts target slot(s) into " .. targetSlotName),
+
         target = {
             type = "SLOT",
-            description = loc("Converts target slot into " .. targetSlotName),
 
             activate = function(selfEnt, ppos, targetEnt)
                 local targSlot

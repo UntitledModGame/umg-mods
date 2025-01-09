@@ -106,9 +106,11 @@ defItem("star", "Star", {
 defineCard("hearts_card", {
     name = loc("Hearts Card"),
     shape = lp.targets.VerticalShape(1),
+
+    activateDescription = loc("Shuffle lives between target items"),
+
     target = {
         type = "ITEM",
-        description = loc("Shuffle lives between target items"),
     },
 
     onActivate = function(selfEnt)
@@ -131,9 +133,10 @@ defineCard("mana_card", {
     name = loc("Mana Card"),
     shape = lp.targets.VerticalShape(1),
 
+    activateDescription = loc("Shuffle {lootplot.mana:LIGHT_MANA_COLOR}mana{/lootplot.mana:LIGHT_MANA_COLOR} between target slots"),
+
     target = {
         type = "SLOT",
-        description = loc("Shuffle {lootplot.mana:LIGHT_MANA_COLOR}mana{/lootplot.mana:LIGHT_MANA_COLOR} between target slots"),
     },
 
     onActivate = function(selfEnt)
@@ -186,22 +189,26 @@ defineCard("doomed_card", {
 
 
 
+
+local PRICE_CHANGE = 2
+
 defineCard("price_card", {
     name = loc("Price Card"),
 
     shape = lp.targets.UP_SHAPE,
+    activateDescription = loc("Increase item price by {lootplot:MONEY_COLOR}$%{amount}", {
+        amount = PRICE_CHANGE
+    }),
 
     doomCount = 10,
 
     target = {
         type = "ITEM",
-        description = loc("Increase item price by 20%"),
         filter = function(targetEnt)
             return targetEnt.price
         end,
         activate = function(selfEnt, ppos, targetEnt)
-            local mod = targetEnt.price * 0.2
-            lp.modifierBuff(targetEnt, "price", mod, selfEnt)
+            lp.modifierBuff(targetEnt, "price", PRICE_CHANGE, selfEnt)
         end
     },
 
@@ -214,9 +221,10 @@ defineCard("spades_card", {
 
     shape = lp.targets.UpShape(2),
 
+    activateDescription = loc("Shuffle positions of target items"),
+
     target = {
         type = "ITEM",
-        description = loc("Shuffle positions of target items"),
     },
 
     onActivate = function(selfEnt)

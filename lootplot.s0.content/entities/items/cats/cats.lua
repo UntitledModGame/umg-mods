@@ -43,9 +43,10 @@ defineCat("copycat", {
 
     shape = lp.targets.RookShape(1),
 
+    activateDescription = loc("Copies self into target slots"),
+
     target = {
         type = "NO_ITEM",
-        description = loc("{lootplot.targets:COLOR}Copies self into target slots"),
         activate = function(selfEnt, ppos, targetEnt)
             copySelf(selfEnt, ppos)
         end
@@ -67,9 +68,10 @@ defineCat("copykitten", {
 
     shape = lp.targets.RookShape(1),
 
+    activateDescription = loc("Copies self into target slots"),
+
     target = {
         type = "NO_ITEM",
-        description = loc("Copies self into target slots"),
         activate = function(selfEnt, ppos, targetEnt)
             if selfEnt.doomCount <= 0 then
                 return
@@ -91,9 +93,10 @@ defineCat("copykato", {
 
     shape = lp.targets.RookShape(1),
 
+    activateDescription = loc("Copies self into target slots, and gives {lootplot:POINTS_MOD_COLOR}25 points{/lootplot:POINTS_MOD_COLOR} to the copy!"),
+
     target = {
         type = "NO_ITEM",
-        description = loc("Copies self into target slots, and gives {lootplot:POINTS_MOD_COLOR}25 points{/lootplot:POINTS_MOD_COLOR} to the copy!"),
         activate = function(selfEnt, ppos)
             local e = copySelf(selfEnt, ppos)
             if e then
@@ -143,9 +146,10 @@ defineCat("crappy_cat", {
 
     shape = lp.targets.RookShape(1),
 
+    acitvateDescription = loc("Converts target items into a clone of itself"),
+
     target = {
         type = "ITEM",
-        description = loc("{lootplot.targets:COLOR}Converts target items into a clone of itself"),
         activate = function(selfEnt, ppos, targetEnt)
             local copyEnt = lp.clone(selfEnt)
             local success = lp.forceSetItem(ppos, copyEnt)

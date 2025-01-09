@@ -28,6 +28,7 @@ end
 
 defineHelmet("iron_helmet", {
     name = loc("Iron Helmet"),
+    activateDescription = interp("Give all target items {lootplot:POINTS_COLOR}+2 points."),
 
     triggers = {"PULSE"},
 
@@ -36,7 +37,6 @@ defineHelmet("iron_helmet", {
 
     target = {
         type = "ITEM",
-        description = interp("Buff all target items: +2 points."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.modifierBuff(targetEnt, "pointsGenerated", 2, selfEnt)
         end,
@@ -67,6 +67,7 @@ defItem("moon_knife", {
 
 defineHelmet("ruby_helmet", {
     name = loc("Ruby Helmet"),
+    activateDescription = loc("Give +1 activations to all target items.\n(Capped at 20)"),
 
     triggers = {"PULSE"},
 
@@ -78,7 +79,6 @@ defineHelmet("ruby_helmet", {
 
     target = {
         type = "ITEM",
-        description = loc("Buff all target items:\n+1 activations. (Capped at 20)"),
         activate = function(selfEnt, ppos, targetEnt)
             if (targetEnt.maxActivations or 0) < 20 then
                 lp.modifierBuff(targetEnt, "maxActivations", 1, selfEnt)
@@ -105,17 +105,17 @@ end
 
 defineHelmet("emerald_helmet", {
     name = loc("Emerald Helmet"),
+    activateDescription = loc("Give target items {lootplot:POINTS_MOD_COLOR}+1 points."),
 
-    triggers = {"REROLL"},
+    triggers = {"REROLL", "PULSE"},
 
     basePrice = 10,
     mineralType = "emerald",
 
     target = {
         type = "ITEM",
-        description = loc("If target has {lootplot:TRIGGER_COLOR}REROLL trigger{/lootplot:TRIGGER_COLOR}, buff target {lootplot:POINTS_MOD_COLOR}+5 points."),
         activate = function(selfEnt, ppos, targetEnt)
-            lp.modifierBuff(targetEnt, "pointsGenerated", 5, selfEnt)
+            lp.modifierBuff(targetEnt, "pointsGenerated", 1, selfEnt)
         end,
         filter = function(selfEnt, ppos, targetEnt)
             return hasRerollTrigger(targetEnt)

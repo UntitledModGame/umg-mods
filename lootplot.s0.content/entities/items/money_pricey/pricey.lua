@@ -34,6 +34,8 @@ defItem("gold_watch", "Gold Watch", {
 
 
 defItem("gold_helmet", "Gold Helmet", {
+    activateDescription = loc("Generate points equal to the price of target items."),
+
     rarity = lp.rarities.RARE,
     triggers = {"PULSE"},
 
@@ -44,7 +46,6 @@ defItem("gold_helmet", "Gold Helmet", {
 
     target = {
         type = "ITEM",
-        description = loc("Generate points equal to the price of item."),
         filter = function(selfEnt, ppos, targetEnt)
             return targetEnt.price
         end,

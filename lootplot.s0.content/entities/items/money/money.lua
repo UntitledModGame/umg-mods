@@ -86,6 +86,7 @@ helper.defineDelayItem("gold_bar", "Gold Bar", {
 
 
 defItem("lucky_horseshoe", "Lucky Horseshoe", {
+    activateDescription = loc("50% chance to destroy slot.\n40% Chance to earn $5.\n10% Chance to spawn a KEY."),
     rarity = lp.rarities.RARE,
 
     shape = lp.targets.ON_SHAPE,
@@ -96,7 +97,6 @@ defItem("lucky_horseshoe", "Lucky Horseshoe", {
 
     target = {
         type = "SLOT",
-        description = loc("50% chance to destroy slot.\n40% Chance to earn $5.\n10% Chance to spawn a KEY."),
         activate = function(selfEnt, ppos, targetEnt)
             if lp.SEED:randomMisc() <= 0.5 then
                 lp.destroy(targetEnt)
@@ -118,6 +118,8 @@ defItem("lucky_horseshoe", "Lucky Horseshoe", {
 
 
 defItem("gold_knuckles", "Gold Knuckles", {
+    activateDescription = loc("Destroy target item(s), earns $2 for each"),
+
     rarity = lp.rarities.RARE,
 
     triggers = {"PULSE"},
@@ -131,10 +133,9 @@ defItem("gold_knuckles", "Gold Knuckles", {
     target = {
         type = "ITEM",
         activate = function(selfEnt, ppos, ent)
-            lp.addMoney(selfEnt,selfEnt.moneyGenerated)
+            lp.addMoney(selfEnt,2)
             lp.destroy(ent)
         end,
-        description = "Destroy item, and earn money!",
     }
 })
 

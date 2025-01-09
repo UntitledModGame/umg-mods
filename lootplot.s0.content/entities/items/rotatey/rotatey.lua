@@ -70,6 +70,8 @@ TODO.
 
 
 defItem("gear", "Gear", {
+    activateDescription = loc("Rotate target items"),
+
     shape = lp.targets.KingShape(1),
 
     triggers = {"PULSE", "ROTATE"},
@@ -84,7 +86,6 @@ defItem("gear", "Gear", {
         activate = function(selfEnt, ppos, targetEnt)
             lp.rotateItem(targetEnt, 1)
         end,
-        description = loc("Rotate target item")
     }
 })
 

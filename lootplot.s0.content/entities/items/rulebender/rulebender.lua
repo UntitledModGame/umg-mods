@@ -39,6 +39,7 @@ helper.defineDelayItem("gift_box", "Gift Box", {
 
 defItem("pandoras_box", {
     name = loc("Pandora's Box"),
+    activateDescription = loc("Spawn RARE items."),
 
     rarity = lp.rarities.EPIC,
     triggers = {"PULSE"},
@@ -51,7 +52,6 @@ defItem("pandoras_box", {
 
     target = {
         type = "SLOT_NO_ITEM",
-        description = loc("Spawn RARE items."),
         activate = function(selfEnt, ppos, targetEnt)
             local etype = lp.rarities.randomItemOfRarity(lp.rarities.RARE)
             if etype then
@@ -124,6 +124,11 @@ defItem("spear_of_war", {
 
 
 
+--[[
+
+TODO: Rework this item.
+Its current broken due to mult
+
 
 defItem("blank_page", {
     name = loc("Blank Page"),
@@ -138,7 +143,6 @@ defItem("blank_page", {
 
     target = {
         type = "ITEM",
-        description = loc("Copies Points-Generated of target item"),
         activate = function(selfEnt, ppos, targetEnt)
             if targetEnt.pointsGenerated then
                 selfEnt.basePointsGenerated = targetEnt.pointsGenerated
@@ -148,11 +152,13 @@ defItem("blank_page", {
     }
 })
 
+]]
 
 
 
 defItem("map", {
     name = loc("Map"),
+    activateDescription = loc("Reveals fog."),
 
     rarity = lp.rarities.RARE,
     triggers = {"PULSE"},
@@ -163,7 +169,6 @@ defItem("map", {
     basePrice = 5,
 
     target = {
-        description = loc("Reveals fog."),
         filter = function(selfEnt, ppos)
             ---@type lootplot.Plot
             local plot = ppos:getPlot()
@@ -180,6 +185,7 @@ defItem("map", {
 
 defItem("foghorn", {
     name = loc("Fog Horn"),
+    activateDescription = loc("Reveals fog."),
 
     rarity = lp.rarities.RARE,
     triggers = {"PULSE"},
@@ -191,7 +197,6 @@ defItem("foghorn", {
 
     target = {
         type = "NO_SLOT",
-        description = loc("Reveals fog."),
         filter = function(selfEnt, ppos)
             ---@type lootplot.Plot
             local plot = ppos:getPlot()

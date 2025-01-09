@@ -216,6 +216,7 @@ defineFood("mana_turnip", {
 
 defineFood("green_olive", {
     name = loc("Green Olive"),
+    activateDescription = loc("Gives {lootplot:TRIGGER_COLOR}REROLL{/lootplot:TRIGGER_COLOR} Trigger to target item."),
 
     rarity = lp.rarities.EPIC,
 
@@ -225,7 +226,6 @@ defineFood("green_olive", {
 
     target = {
         type = "ITEM",
-        description = loc("Gives REROLL Trigger to target item."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.addTrigger(targetEnt, "REROLL")
         end
@@ -237,6 +237,7 @@ defineFood("green_olive", {
 
 defineFood("eggplant", {
     name = loc("Eggplant"),
+    activateDescription = loc("Give {wavy}{lootplot:DOOMED_COLOR}DOOMED-10{/lootplot:DOOMED_COLOR}{/wavy} to all target items"),
 
     rarity = lp.rarities.LEGENDARY,
 
@@ -244,7 +245,6 @@ defineFood("eggplant", {
 
     target = {
         type = "ITEM_OR_SLOT",
-        description = loc("Give {wavy}{lootplot:DOOMED_COLOR}DOOMED-10{/lootplot:DOOMED_COLOR}{/wavy} to target"),
         activate = function(selfEnt, ppos, targetEnt)
             if targetEnt.doomCount then
                 targetEnt.doomCount = 10
@@ -354,6 +354,7 @@ local function defineSlotSpawner(id_image, name, spawnSlot, spawnSlotName, shape
     local etype = {
         image = id_image,
         name = loc(name),
+        activateDescription = loc("Spawns a " .. spawnSlotName),
 
         rarity = extraComponents.rarity or lp.rarities.UNCOMMON,
 
@@ -361,7 +362,6 @@ local function defineSlotSpawner(id_image, name, spawnSlot, spawnSlotName, shape
 
         target = {
             type = "NO_SLOT",
-            description = loc("Spawns a " .. spawnSlotName),
             activate = function (selfEnt, ppos)
                 local etype = server.entities["lootplot.s0.content:" .. spawnSlot]
                 assert(etype, "?")
@@ -517,12 +517,12 @@ local function defineSlotConverter(id, name, spawnSlot, spawnSlotName, shape, ex
     local etype = {
         image = id,
         name = loc(name),
+        activateDescription = loc("Converts target slot into " .. spawnSlotName),
 
         shape = shape,
 
         target = {
             type = "SLOT",
-            description = loc("Converts target slot into " .. spawnSlotName),
             activate = function (selfEnt, ppos)
                 local etype = server.entities["lootplot.s0.content:" .. spawnSlot]
                 assert(etype, "?")
@@ -584,15 +584,15 @@ end)
 
 defineFood("cloneberries", {
     name = loc("Clone-Berries"),
+    activateDescription = loc("Clones the current slot the item is in."),
 
     rarity = lp.rarities.RARE,
     basePrice = 7,
 
-    shape = lp.targets.KING_SHAPE,
+    shape = lp.targets.BishopShape(1),
 
     target = {
         type = "NO_SLOT",
-        description = loc("Clones the current slot the item is in."),
         activate = function(selfEnt, ppos, ent)
             local slotEnt = lp.itemToSlot(selfEnt)
             if slotEnt then
@@ -609,6 +609,7 @@ defineFood("cloneberries", {
 
 defineFood("doomed_cloneberries", {
     name = loc("Doomed Clone-Berries"),
+    activateDescription = loc("Clones the current slot the item is in, and gives the slot {lootplot:DOOMED_COLOR}{wavy}DOOMED-10"),
 
     rarity = lp.rarities.UNCOMMON,
     basePrice = 7,
@@ -617,7 +618,6 @@ defineFood("doomed_cloneberries", {
 
     target = {
         type = "NO_SLOT",
-        description = loc("Clones the current slot the item is in, and gives the slot {lootplot:DOOMED_COLOR}{wavy}DOOMED-10"),
         activate = function(selfEnt, ppos, ent)
             local slotEnt = lp.itemToSlot(selfEnt)
             if slotEnt then
@@ -638,6 +638,7 @@ defineFood("doomed_cloneberries", {
 
 defineFood("golden_syrup", {
     name = loc("Golden Syrup"),
+    activateDescription = loc("Gives target item/slots +2 money-earned"),
 
     rarity = lp.rarities.LEGENDARY,
 
@@ -647,7 +648,6 @@ defineFood("golden_syrup", {
 
     target = {
         type = "ITEM_OR_SLOT",
-        description = loc("Gives target item/slot +2 money-earned"),
         activate = function(selfEnt, ppos, ent)
             lp.modifierBuff(ent, "moneyGenerated", 2)
         end
@@ -657,6 +657,7 @@ defineFood("golden_syrup", {
 
 defineFood("slice_of_cake", {
     name = loc("Slice of Cake"),
+    activateDescription = loc("Gives target item/slot {lootplot:POINTS_COLOR}+3{/lootplot:POINTS_COLOR} points"),
 
     rarity = lp.rarities.UNCOMMON,
 
@@ -666,7 +667,6 @@ defineFood("slice_of_cake", {
 
     target = {
         type = "ITEM_OR_SLOT",
-        description = loc("Gives target item/slot {lootplot:POINTS_COLOR}+3{/lootplot:POINTS_COLOR} points"),
         activate = function(selfEnt, ppos, ent)
             lp.modifierBuff(ent, "pointsGenerated", 3)
         end
@@ -686,6 +686,7 @@ local function definePie(id, name, desc, addShape, rarity)
     defineFood(id, {
         image = id,
         name = loc(name),
+        activateDescription = loc(desc),
 
         basePrice = 6,
 
@@ -695,7 +696,6 @@ local function definePie(id, name, desc, addShape, rarity)
 
         target = {
             type = "ITEM",
-            description = loc(desc),
             activate = function(selfEnt, ppos, targetItemEnt)
                 local oldShape = targetItemEnt.shape
                 if oldShape then
@@ -714,13 +714,13 @@ local function definePie(id, name, desc, addShape, rarity)
 end
 
 -- uncommon pies:
-definePie("small_rooks_pie", "Small Rook's Pie", "Adds ROOK-2 Shape to item", lp.targets.RookShape(2), lp.rarities.UNCOMMON)
-definePie("kings_pie", "King's Pie", "Adds KING-1 Shape to item", lp.targets.KingShape(1), lp.rarities.UNCOMMON)
-definePie("bishops_pie", "Bishop's Pie", "Adds BISHOP-2 Shape to item", lp.targets.BishopShape(2), lp.rarities.UNCOMMON)
+definePie("small_rooks_pie", "Small Rook's Pie", "Adds ROOK-2 Shape to target item", lp.targets.RookShape(2), lp.rarities.UNCOMMON)
+definePie("kings_pie", "King's Pie", "Adds KING-1 Shape to target item", lp.targets.KingShape(1), lp.rarities.UNCOMMON)
+definePie("bishops_pie", "Bishop's Pie", "Adds BISHOP-2 Shape to target item", lp.targets.BishopShape(2), lp.rarities.UNCOMMON)
 
 -- rare/epic pies:
-definePie("knights_pie", "Knight's Pie", "Adds KNIGHT Shape to item", lp.targets.KNIGHT_SHAPE, lp.rarities.RARE)
-definePie("rooks_pie", "Rook's Pie", "Adds ROOK-5 Shape to item", lp.targets.RookShape(4), lp.rarities.EPIC)
+definePie("knights_pie", "Knight's Pie", "Adds KNIGHT Shape to target item", lp.targets.KNIGHT_SHAPE, lp.rarities.RARE)
+definePie("rooks_pie", "Rook's Pie", "Adds ROOK-5 Shape to target item", lp.targets.RookShape(4), lp.rarities.EPIC)
 
 
 ----------------------------------------------------------------------------
@@ -744,12 +744,12 @@ end
 
 definePotion("potion_green", {
     name = loc("Green Potion"),
+    activateDescription = loc("Gives +5 max-activations to target item."),
 
     rarity = lp.rarities.RARE,
 
     target = {
         type = "ITEM_OR_SLOT",
-        description = loc("Gives +5 max-activations to target."),
         activate = function (selfEnt, ppos, targetEnt)
             lp.modifierBuff(targetEnt, "maxActivations", 5, selfEnt)
         end
@@ -782,12 +782,12 @@ definePotion("potion_sticky", {
 
 definePotion("potion_blue", {
     name = loc("Blue Potion"),
+    activateDescription = loc("Permanently buffs item/slots points by {lootplot:POINTS_COLOR}+10"),
 
     rarity = lp.rarities.RARE,
 
     target = {
         type = "ITEM_OR_SLOT",
-        description = loc("Permanently buffs item/slots points by 10"),
         activate = function (selfEnt, ppos, targetEnt)
             lp.modifierBuff(targetEnt, "pointsGenerated", 10, selfEnt)
         end
@@ -797,12 +797,12 @@ definePotion("potion_blue", {
 
 definePotion("potion_red", {
     name = loc("Red Potion"),
+    activateDescription = loc("Permanently buffs item/slots multiplier by {lootplot:POINTS_MULT_COLOR}+1"),
 
     rarity = lp.rarities.EPIC,
 
     target = {
         type = "ITEM_OR_SLOT",
-        description = loc("Permanently buffs item/slots multiplier by 1"),
         activate = function (selfEnt, ppos, targetEnt)
             lp.modifierBuff(targetEnt, "multGenerated", 1, selfEnt)
         end
@@ -827,11 +827,12 @@ end
 
 defineMush("mushroom_red", {
     name = loc("Red Mushroom"),
+    activateDescription = loc("Shifts target item rarity down"),
+
     shape = lp.targets.KING_SHAPE,
 
     target = {
         type = "ITEM",
-        description = loc("Shifts item rarity down by 1"),
         filter = function (selfEnt, ppos, targetEnt)
             return targetEnt.rarity
         end,
@@ -846,11 +847,12 @@ defineMush("mushroom_red", {
 
 defineMush("mushroom_green", {
     name = loc("Green Mushroom"),
+    activateDescription = loc("Shifts target item rarity up"),
+
     shape = lp.targets.KING_SHAPE,
 
     target = {
         type = "ITEM",
-        description = loc("Shifts item rarity up by 1"),
         filter = function (selfEnt, ppos, targetEnt)
             return targetEnt.rarity
         end,
@@ -864,12 +866,19 @@ defineMush("mushroom_green", {
 })
 
 defineMush("mushroom_purple", {
+    --[[
+    TODO:
+    This item doesnt really feel very emergent...
+    maybe remove it?
+    Or repurpose it.
+    ]]
     name = loc("Purple Mushroom"),
+    activateDescription = loc("Randomizes item rarity"),
+
     shape = lp.targets.KING_SHAPE,
 
     target = {
         type = "ITEM",
-        description = loc("Randomizes item rarity"),
         filter = function (selfEnt, ppos, targetEnt)
             return targetEnt.rarity
         end,
@@ -884,11 +893,12 @@ defineMush("mushroom_purple", {
 
 defineMush("mushroom_floaty", {
     name = loc("Floaty Mushroom"),
+    activateDescription = loc("Makes target items float"),
+
     shape = lp.targets.UP_SHAPE,
     basePrice = 6,
 
     target = {
-        description = loc("Allows item to float"),
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
             targetEnt.canItemFloat = true
@@ -910,6 +920,7 @@ local function defineDonut(id, name, targetDesc, buffAmount)
     local etype = {
         image = id,
         name = loc(name),
+        activateDescription = loc(targetDesc),
 
         basePrice = 4,
         canItemFloat = true,
@@ -919,7 +930,6 @@ local function defineDonut(id, name, targetDesc, buffAmount)
 
         target = {
             type = "ITEM",
-            description = loc(targetDesc),
             activate = function(selfEnt, ppos, targetEnt)
                 lp.modifierBuff(targetEnt, "price", buffAmount, selfEnt)
             end
@@ -929,6 +939,6 @@ local function defineDonut(id, name, targetDesc, buffAmount)
 end
 
 
-defineDonut("frosted_donut", "Frosted Donut", "Decreases item price by $10", -10)
-defineDonut("pink_donut", "Pink Donut",  "Increases item price by $10", 10)
+defineDonut("frosted_donut", "Frosted Donut", "Decreases target item price by $10", -10)
+defineDonut("pink_donut", "Pink Donut",  "Increases target item price by $10", 10)
 

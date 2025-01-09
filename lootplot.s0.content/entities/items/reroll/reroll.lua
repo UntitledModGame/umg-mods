@@ -66,6 +66,8 @@ defineDice("red_die", "Red Die", {
 
 defineDice("black_die", "Black Die", {
     triggers = {"REROLL"},
+    activateDescription = loc("{lootplot:TRIGGER_COLOR}{wavy}PULSES{/wavy}{/lootplot:TRIGGER_COLOR} item."),
+
     rarity = lp.rarities.RARE,
 
     shape = lp.targets.KING_SHAPE,
@@ -74,7 +76,6 @@ defineDice("black_die", "Black Die", {
 
     target = {
         type = "ITEM",
-        description = loc("{lootplot:TRIGGER_COLOR}{wavy}PULSES{/wavy}{/lootplot:TRIGGER_COLOR} item."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.tryTriggerEntity("PULSE", targetEnt)
         end

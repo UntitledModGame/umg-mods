@@ -75,9 +75,10 @@ defContra("pulse_tool", {
     baseMoneyGenerated = -4,
     baseMaxActivations = 4,
 
+    activateDescription = loc("Trigger {lootplot:TRIGGER_COLOR}{wavy}PULSE{/wavy}{/lootplot:TRIGGER_COLOR} on target slot"),
+
     target = {
-        type = "SLOT",
-        description = loc("{lootplot:TRIGGER_COLOR}{wavy}PULSE{/wavy}{/lootplot:TRIGGER_COLOR} on Slot!"),
+        type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
             lp.tryTriggerEntity("PULSE", targetEnt)
         end
@@ -98,9 +99,10 @@ defContra("item_destruction_tool", {
     baseMaxActivations = 10,
     baseMoneyGenerated = -2,
 
+    activateDescription = loc("Activates and destroys target items"),
+
     target = {
         type = "ITEM",
-        description = loc("Activates and destroys item"),
         activate = function(selfEnt, ppos, targetEnt)
             lp.queueWithEntity(targetEnt, function ()
                 lp.destroy(targetEnt)
@@ -127,9 +129,10 @@ defContra("reroll_machine", {
     baseMoneyGenerated = -4,
     baseMaxActivations = 4,
 
+    activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}REROLL{/lootplot:TRIGGER_COLOR} on slot."),
+
     target = {
         type = "SLOT",
-        description = loc("Triggers {lootplot:TRIGGER_COLOR}REROLL for slot."),
         activate = function(selfEnt, ppos, targetEnt)
             lp.tryTriggerEntity("REROLL", targetEnt)
         end
