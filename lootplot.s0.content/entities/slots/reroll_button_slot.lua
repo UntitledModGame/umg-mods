@@ -43,7 +43,7 @@ return lp.defineSlot("lootplot.s0.content:reroll_button_slot", {
     activateAnimation = {
         activate = "reroll_button_hold",
         idle = "reroll_button_up",
-        duration = 0.25
+        duration = 0.1
     },
     baseMaxActivations = 100,
     triggers = {},

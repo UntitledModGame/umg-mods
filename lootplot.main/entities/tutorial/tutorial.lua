@@ -37,7 +37,7 @@ lp.defineSlot("lootplot.main:tutorial_reroll_button_slot", {
     activateAnimation = {
         activate = "tutorial_reroll_button_hold",
         idle = "tutorial_reroll_button_up",
-        duration = 0.25
+        duration = 0.15
     },
 
     baseMaxActivations = 100,
@@ -272,7 +272,7 @@ lp.defineSlot(TUTORIAL_BUTTON_ID, {
     activateAnimation = {
         activate = "tutorial_button_down",
         idle = "tutorial_button_up",
-        duration = 0.25
+        duration = 0.15
     },
 
     baseMaxActivations = 100,

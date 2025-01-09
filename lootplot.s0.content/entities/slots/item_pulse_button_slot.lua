@@ -28,7 +28,7 @@ return lp.defineSlot("lootplot.s0.content:item_pulse_button_slot", {
     activateAnimation = {
         activate = "item_pulse_button_hold",
         idle = "item_pulse_button_up",
-        duration = 0.25
+        duration = 0.1
     },
 
     triggers = {},

@@ -63,7 +63,7 @@ lp.defineSlot("lootplot.main:pulse_button_slot", {
     activateAnimation = {
         activate = "pulse_button_hold",
         idle = "pulse_button_up",
-        duration = 0.25
+        duration = 0.1
     },
 
     onDraw = function(ent, x, y, rot, sx,sy)
@@ -157,7 +157,7 @@ lp.defineSlot("lootplot.main:next_level_button_slot", {
     activateAnimation = {
         activate = "level_button_hold",
         idle = "level_button_up",
-        duration = 0.25
+        duration = 0.1
     },
 
     baseMaxActivations = 100,
