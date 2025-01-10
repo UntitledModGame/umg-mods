@@ -229,7 +229,7 @@ local function defineCrossbow(mineral_type, name, strength, etype)
         shape = lp.targets.UpShape(2),
 
         activateDescription = loc(CROSSBOW_DESC, {
-            buff = strength
+            buff = buffAmount
         }),
 
         target = {
