@@ -522,7 +522,10 @@ lp.defineSlot("lootplot.s0.content:cloud_slot", {
     name = loc("Cloud slot"),
     triggers = {"PULSE"},
     activateDescription = loc("Choose 1 item!"),
+
     baseMaxActivations = 1,
+    baseCanSlotPropagate = false,
+
     itemLock = true,
 
     slotItemProperties = {

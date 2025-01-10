@@ -34,7 +34,6 @@ local function defShards(id, name, onMatchActivate, onMatchDesc, etype)
     etype.baseMaxActivations = 7
 
     etype.triggers = {"PULSE"}
-    etype.basePointsGenerated = 5
 
     local function isMatch(ppos)
         local item = lp.posToItem(ppos)
@@ -76,17 +75,18 @@ end
 
 
 
-local function give2ManaToSlot(itemEnt)
+local function giveManaToSlot(itemEnt)
     local slotEnt = lp.itemToSlot(itemEnt)
     if slotEnt then
-        lp.mana.addMana(slotEnt, 2)
+        lp.mana.addMana(slotEnt, 1)
     end
 end
 defShards("mana_shards", "Mana Shards",
-    give2ManaToSlot, "Give {lootplot.mana:LIGHT_MANA_COLOR}+2 mana{/lootplot.mana:LIGHT_MANA_COLOR} to slot",
+    giveManaToSlot, "Give {lootplot.mana:LIGHT_MANA_COLOR}+1 mana{/lootplot.mana:LIGHT_MANA_COLOR} to slot",
 {
     rarity = lp.rarities.COMMON,
-    basePrice = 4,
+    basePointsGenerated = 5,
+    basePrice = 3,
 })
 
 
@@ -103,14 +103,36 @@ defShards("golden_shards", "Golden Shards",
 
 
 
-local function spawnFoodSack(itemEnt)
-    umg.log.error("TODO: spawn food sack!")
+
+local generateFoodItem = itemGenHelper.createLazyGenerator(
+    function(etype)
+        return etype.doomCount == 1
+    end,
+    itemGenHelper.createRarityWeightAdjuster({
+        COMMON = 2,
+        UNCOMMON = 5,
+        RARE = 5,
+        EPIC = 2
+    })
+)
+
+local function spawnCloudWithFoodItem(itemEnt)
+    local ppos = lp.getPos(itemEnt)
+    if ppos then
+        lp.forceSpawnSlot(ppos, server.entities.cloud_slot, itemEnt.lootplotTeam)
+        local itemTypeId = generateFoodItem()
+        assert(itemTypeId, "uhhh, what???")
+        lp.forceSpawnItem(ppos, server.entities[itemTypeId], itemEnt.lootplotTeam)
+    end
 end
+
 defShards("food_shards", "Food Shards",
-    spawnFoodSack, "Spawns a {lootplot:INFO_COLOR}Food Sack",
+    spawnCloudWithFoodItem, "Spawns a {lootplot:INFO_COLOR}Cloud Food Item",
 {
     rarity = lp.rarities.COMMON,
     basePrice = 3,
+    basePointsGenerated = 5,
+    canItemFloat = true
 })
 
 
@@ -168,8 +190,8 @@ This means that the player will be forced to delete slots.
 defShards("coal_shards", "Coal Shards",
     spawnCloudWithItem, "Spawns a {lootplot:INFO_COLOR}Cloud Slot Item!", {
     rarity = lp.rarities.COMMON,
-    baseMultGenerated = 0.1,
-    basePrice = 4,
+    baseMultGenerated = 0.2,
+    basePrice = 2,
 })
 
 

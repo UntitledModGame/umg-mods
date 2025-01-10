@@ -5,6 +5,11 @@
 Stuff to do/implement our beta-test.
 
 
+## 10/JAN/2025 PARETO-PLANNING:
+We need to get beta-release out ASAP.
+
+Work on 
+
 
 ------------
 
@@ -18,15 +23,15 @@ Stuff to do/implement our beta-test.
 - (((DONE))) Make cloud-slots trigger BUY properly! (To work with balloons, etc)
 
 
-- Write blog-post detailing 2024 learning recap
-- Write document detailing what future-UMG would look like
+- (((DONE))) Write blog-post detailing 2024 learning recap
+- (((DONE))) Write document detailing what future-UMG would look like
 
 
-- Create coal shards
+- (((DONE))) Create coal shards
 same as iron-shards, but NOT floating! Gives mult instead of points
 
 
-- Rework food shards
+- (((DONE))) Rework food shards
 
 
 - Item activation denial juice:
@@ -35,21 +40,60 @@ When an item fails activation, Big red cross animation?
 
 
 - Put a juicy click and animation visual when clicking button-slots
-(The serverside-delay makes it feel unresponsive)
+    (The serverside-delay makes it feel unresponsive)
 
 
-- Remove `target.description` field, and refactor target descriptions
+- (((DONE))) Remove `target.description` field, and refactor target descriptions
 
+
+- Grubby refactor  GRUB-X: Limits money to $X!
 
 
 
 
 ## ITEMS:
 
-- Create 3 more items
 
 - Simplify hammer items: 
 "Earns X mult. Destroys a random target item"
+
+
+- ITEM: Demonic loan: (refactor)
+On Buy: Earn $25
+Destroy all target items
+(shape=ROOK-10)
+
+- ITEM: Basic loan
+Increase round by 1
+Earn $20
+
+- ITEM: 
+On Pulse, Reroll:
+Triggers REROLL for all target items
+(shape: KING)
+^^^ same as green octopus!!!
+
+- ITEM: Up-Glove
+Gives UP-1 shape to item
+
+- ITEM:
+Set money to -$8.
+Converts target slots to steel slots
+(shape: VERTICAL-1)
+
+- ITEM:
+Multiplies points by -1. 
+Adds 6 multiplier.
+
+- ITEM:
+Set multiplier to -30
+Spawns steak items in UP-3 shape
+(note: the way this works, is the steaks will offset the -30 mult, to give a net benefit. The player may also modify the shape for even more benefits/synergies)
+
+- ITEM:
+Lose 0.1 multiplier
+Earn 20 points
+
 
 - ITEM: Anvil:
 Buff target items points-earned by the current mult (currently: X)
