@@ -10,12 +10,19 @@ audio.defineAudioInDirectory(
 
 
 local activateItem = LootplotSound("lootplot.sound:activate_item", 0.7, 1)
-local activateSlot = LootplotSound("lootplot.sound:click", 0.12, 0.25)
+
+local activateSlot = LootplotSound("lootplot.sound:click", 0.15, 0.25)
+local activateButtonSlot = LootplotSound("lootplot.sound:click", 0.72, 1)
+
 umg.on("lootplot:entityActivated", function(ent)
     if lp.isItemEntity(ent) then
         activateItem:play(ent)
     elseif lp.isSlotEntity(ent) then
-        activateSlot:play(ent)
+        if ent.buttonSlot then
+            activateButtonSlot:play(ent)
+        else
+            activateSlot:play(ent)
+        end
     end
 end)
 
