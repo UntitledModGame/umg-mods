@@ -203,6 +203,7 @@ defItem("wildcard_shards", "Wildcard Shards", {
 
     rarity = lp.rarities.COMMON,
     basePrice = 5,
+    basePointsGenerated = 6,
 
     shape = lp.targets.RookShape(1),
 

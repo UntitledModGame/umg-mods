@@ -54,7 +54,7 @@ When an item fails activation, Big red cross animation?
 ## ITEMS:
 
 
-- Simplify hammer items: 
+- (((DONE))) Simplify hammer items: 
 "Earns X mult. Destroys a random target item"
 
 

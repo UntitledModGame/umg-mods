@@ -159,7 +159,7 @@ end
 
 
 
-local HAMMER_DESC = interp("Gives {lootplot:POINTS_MULT_COLOR}%{mult} mult{/lootplot:POINTS_MULT_COLOR} for every slot without an item.")
+local HAMMER_DESC = interp("Destroys a random target item")
 
 local function defineHammer(mineral_type, name, strength, etype)
     local namespace = umg.getModName() .. ":"
@@ -175,21 +175,20 @@ local function defineHammer(mineral_type, name, strength, etype)
         rarity = etype.rarity or lp.rarities.EPIC,
 
         basePrice = 10,
-        baseMultGenerated = floorTo01(0.1 * strength),
+        baseMultGenerated = floorTo01(0.5 * strength),
 
         shape = lp.targets.RookShape(1),
 
-        activateDescription = function(ent)
-            return HAMMER_DESC({
-                mult = ent.multGenerated or 0
-            })
+        activateDescription = HAMMER_DESC,
+
+        onActivate = function(ent)
+            local items = lp.targets.getConvertedTargets(ent)
+            local e = table.random(items)
+            lp.destroy(e)
         end,
 
         target = {
-            type = "SLOT_NO_ITEM",
-            activate = function(selfEnt, ppos, targetEnt)
-                lp.addPointsMult(selfEnt, selfEnt.multGenerated or 0)
-            end
+            type = "ITEM",
         }
     }
 
@@ -209,7 +208,13 @@ local function defineCrossbow(mineral_type, name, strength, etype)
     local etypeName = namespace .. mineral_type .. "_crossbow"
     local image = mineral_type .. "_crossbow"
 
-    local buffAmount = strength
+    local buffAmount = math.ceil((strength * 2) ^ 0.5)
+    -- arbitrary balancing function. 
+    -- Time is a resource, so buffing faster is much stronger.
+    -- (As a result, gold/mana crossbows are OP, others are weaker. 
+    --  This adjustment seeks to balance that.)
+    -- QUESTION: How was this function derived/obtained?
+    -- ANSWER: desmos + outta my ass.
 
     local crossbowType = {
         image = image,
