@@ -932,8 +932,8 @@ local function defineDonut(id, name, targetDesc, buffAmount)
 end
 
 
-defineDonut("frosted_donut", "Frosted Donut", "Decreases target item price by $10", -10)
-defineDonut("pink_donut", "Pink Donut",  "Increases target item price by $10", 10)
+defineDonut("frosted_donut", "Frosted Donut", "Decreases target item price by $5", -5)
+defineDonut("pink_donut", "Pink Donut",  "Increases target item price by $8", 8)
 
 
 
