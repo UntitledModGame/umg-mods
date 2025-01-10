@@ -34,7 +34,7 @@ components.defineComponent("repeatActivations")
 -- bool: whether items should use all their activations in one go.
 
 components.defineComponent("grubMoneyCap")
--- If money > ent.grubMoneyCap, the entity won't activate!!!
+-- When this entity is activated, money is limited to `grubMoneyCap`.
 -- (Useful to encourage low-money builds.)
 
 

@@ -8,8 +8,6 @@ Stuff to do/implement our beta-test.
 ## 10/JAN/2025 PARETO-PLANNING:
 We need to get beta-release out ASAP.
 
-Work on 
-
 
 ------------
 
@@ -38,15 +36,14 @@ same as iron-shards, but NOT floating! Gives mult instead of points
 When an item fails activation, Big red cross animation?
 
 
-
-- Put a juicy click and animation visual when clicking button-slots
+- (((DONE))) Put a juicy click and animation visual when clicking button-slots
     (The serverside-delay makes it feel unresponsive)
 
 
 - (((DONE))) Remove `target.description` field, and refactor target descriptions
 
 
-- Grubby refactor  GRUB-X: Limits money to $X!
+- (((DONE))) Grubby refactor  GRUB-X: Limits money to $X!
 
 
 
@@ -154,7 +151,7 @@ Do something with the mineral-ring items.
 
 
 ## MORE REROLL-SCALING ITEMS:
-Dont be scared to put "Bonus" or "Extra" triggers on items.
+Dont be scared to put extra triggers on items; 
 Especially on scaling items.
 We should have more scaling items with `trigger = {"PULSE", "REROLL"}`.
 (That way, REROLL becomes a more viable build!!!)

@@ -158,18 +158,6 @@ end)
 
 
 umg.answer("lootplot:canActivateEntity", function(ent)
-    if ent.grubMoneyCap then
-        local money = lp.getMoney(ent)
-        if money and money >= ent.grubMoneyCap then
-            return false
-        end
-    end
-    return true
-end)
-
-
-
-umg.answer("lootplot:canActivateEntity", function(ent)
     return (ent.activationCount or 0) < (ent.maxActivations or -1)
 end)
 
@@ -188,6 +176,14 @@ umg.on("lootplot:entityActivated", function(ent)
 
     if ent.moneyGenerated and ent.moneyGenerated ~= 0 then
         lp.addMoney(ent, ent.moneyGenerated)
+    end
+
+    if ent.grubMoneyCap then
+        local money = lp.getMoney(ent)
+        if money and money >= ent.grubMoneyCap then
+            local delta = money - ent.grubMoneyCap
+            lp.subtractMoney(ent, delta)
+        end
     end
 end)
 
