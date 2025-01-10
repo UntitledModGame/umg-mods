@@ -45,14 +45,22 @@ same as iron-shards, but NOT floating! Gives mult instead of points
 - (((DONE))) Update mana visuals
 
 
-## ITEMS:
+- Move doomclock, round, requiredPoints, etc to `lootplot.s0`.
+DO A LOT OF THINKING AS TO HOW BEST THIS WOULD WORK!!!
+Perhaps we have a `lootplot:startGame` callback, or something....? 
 
+- Remove `lootplot.s0.content`, replace with `lootplot.s0` maybe?  It makes namespacing nicer.
+
+
+
+
+## ITEMS:
 
 - (((DONE))) Simplify hammer items: 
 "Earns X mult. Destroys a random target item"
 
 
-- ITEM: Demonic loan: (refactor)
+- (((DONE))) ITEM: Demonic loan: (refactor)
 On Buy: Earn $25
 Destroy all target items
 (shape=ROOK-10)
@@ -67,7 +75,7 @@ Triggers REROLL for all target items
 (shape: KING)
 ^^^ same as green octopus!!!
 
-- ITEM: Up-Glove
+- ITEM: Cracked Glove:
 Gives UP-1 shape to item
 
 - ITEM:
@@ -80,13 +88,13 @@ Multiplies points by -1.
 Adds 6 multiplier.
 
 - ITEM:
-Set multiplier to -30
+Set multiplier to -10
 Spawns steak items in UP-3 shape
 (note: the way this works, is the steaks will offset the -30 mult, to give a net benefit. The player may also modify the shape for even more benefits/synergies)
 
 - ITEM:
 Lose 0.1 multiplier
-Earn 20 points
+Earn 30 points
 
 
 - ITEM: Anvil:
@@ -103,15 +111,16 @@ Increases price by $1
 (^^^ Maybe we should replace golden_watch with this? Make it simpler)
 
 
-- ITEM: Bread
+- (((DONE))) ITEM: Bread
 If target item is DOOMED, transforms into target item
 shape: ROOK-1
-(^^^ ie same as wildcard shards)
 
 
 - ITEM: Sticky necklace:
 Makes target slots STICKY, earns $2 for each slot.
 (Only works if the slot isnt already sticky!)
+(^^^ maybe it should be earns $6? A sticky-slot is really annoying!)
+
 
 - FOOD ITEM:  Copies it's own target-shape to all target items.
 (Currently: ROOK-1)
@@ -159,6 +168,24 @@ Especially on scaling items.
 We should have more scaling items with `trigger = {"PULSE", "REROLL"}`.
 (That way, REROLL becomes a more viable build!!!)
 
+
+
+## More activation items!!!
+It's quite hard to get a activator-build going.  
+Back when we had octopi, this wasnt really a problem. But it just seems like now, there aren't enough activator items!!!  
+IDEAS:
+```
+ITEM: Trigger Pulse on all target RARE/EPIC items 
+^^^ (triggers={PULSE,REROLL})
+
+ITEM: Trigger Pulse on all target COMMON/UNCOMMON items 
+^^^ (triggers={PULSE,REROLL})
+
+ITEM: Trigger Pulse on all items. (KING-2 shape)
+(Cost $1 to activate)
+
+ITEM: Trigger Pulse on all items (Queen-2 shape)  (STICKY)
+```
 
 
 ## PLANNING SPIKE:

@@ -40,26 +40,49 @@ defItem("a_big_loan", {
 
 
 
-defItem("a_small_loan", {
-    name = loc("A Small Loan"),
+--[[
+
+--[==[
+TODO::: we need to move the round-changing infrastructure to lootplot.s0.
+Maybe its best to rename `lootplot.s0.content --> lootplot.s0`?
+Then we can expose a nicer API for it.
+]==] 
+
+
+defItem("a_basic_loan", {
+    name = loc("A Basic Loan"),
+
+    activateDescription = loc("Increases round by 1"),
 
     triggers = {"BUY"},
-    activateDescription = loc("Permanently gives shop slot {lootplot:BAD_COLOR}-$1 money-earned"),
 
     basePrice = 0,
     baseMaxActivations = 1,
-    baseMoneyGenerated = 20,
+    baseMoneyGenerated = 30,
 
     canItemFloat = true,
     rarity = lp.rarities.RARE,
 
     onActivate = function(ent)
-        local ppos = lp.getPos(ent)
-        local slotEnt = ppos and lp.posToSlot(ppos)
-        if slotEnt then
-            lp.modifierBuff(slotEnt, "moneyGenerated", -1)
-        end
+        lp.main.getRound()
     end,
+})
+
+]]
+
+
+defItem("a_small_loan", {
+    name = loc("A Small Loan"),
+
+    triggers = {"BUY"},
+
+    basePrice = 0,
+    baseMaxActivations = 1,
+    baseMoneyGenerated = 20,
+    baseMultGenerated = -10,
+
+    canItemFloat = true,
+    rarity = lp.rarities.RARE,
 })
 
 
@@ -92,17 +115,17 @@ defItem("a_demonic_loan", {
 
     triggers = {"BUY"},
 
-    activateDescription = loc("Destroys all target slots."),
+    activateDescription = loc("Destroys all target items."),
 
     canItemFloat = true,
 
     basePrice = 0,
     baseMaxActivations = 1,
-    baseMoneyGenerated = 100,
+    baseMoneyGenerated = 30,
 
-    shape = lp.targets.KING_SHAPE,
+    shape = lp.targets.QueenShape(4),
     target = {
-        type = "SLOT",
+        type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
             lp.destroy(targetEnt)
         end
