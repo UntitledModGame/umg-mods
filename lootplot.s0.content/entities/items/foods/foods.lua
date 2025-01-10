@@ -3,11 +3,24 @@
 local loc = localization.localize
 local constants = require("shared.constants")
 
+local function defineFoodNoDoomed(id, name, etype)
+    etype.image = etype.image or id
+    etype.baseMaxActivations = 1
+
+    etype.lootplotTags = {constants.tags.FOOD}
+    if not etype.listen then
+        etype.triggers = etype.triggers or {"PULSE"}
+    end
+
+    lp.defineItem("lootplot.s0.content:" .. id, etype)
+end
+
+
 
 local function defineFood(id, etype)
     etype.doomCount = etype.doomCount or 1
-    etype.image = etype.image or id
     etype.baseMaxActivations = 1
+    etype.image = etype.image or id
 
     etype.lootplotTags = {constants.tags.FOOD}
     if not etype.listen then
@@ -926,12 +939,32 @@ defineDonut("pink_donut", "Pink Donut",  "Increases target item price by $10", 1
 
 
 
-lp.defineItem("lootplot.s0.content:bread", {
+--[[
+this is a food-item; but it doesnt have DOOMED!
+]]
+defineFoodNoDoomed("bread", "Bread", {
+    activateDescription = loc("If target item is {lootplot:DOOMED_LIGHT_COLOR}DOOMED{/lootplot:DOOMED_LIGHT_COLOR}, transforms into target item."),
+
+    basePrice = 9,
+    baseMaxActivations = 1,
+
+    triggers = {"PULSE"},
+
     lootplotTags = {constants.tags.FOOD},
 
     shape = lp.targets.RookShape(1),
 
     target = {
-        activate = fun
+        type = "ITEM",
+        filter = function(selfEnt, ppos, targetEnt)
+            return targetEnt.doomCount
+        end,
+        activate = function(selfEnt, ppos, targetEnt)
+            local selfPPos = lp.getPos(selfEnt)
+            if selfPPos then
+                lp.forceCloneItem(targetEnt, selfPPos)
+            end
+        end
     }
 })
+
