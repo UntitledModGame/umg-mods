@@ -71,7 +71,7 @@ defItem("old_brick", {
     triggers = {"PULSE"},
 
     basePrice = 6,
-    basePointsGenerated = 60,
+    basePointsGenerated = 40,
     baseMaxActivations = 10,
 
     onActivate = function(selfEnt)
