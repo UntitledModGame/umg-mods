@@ -81,12 +81,7 @@ defineFood("magic_turnip", {
         activate = function(selfEnt, ppos, targetEnt)
             local selfPPos = lp.getPos(selfEnt)
             if selfPPos then
-                lp.destroy(selfEnt)
-                local copyEnt = lp.clone(targetEnt)
-                local success = lp.trySetItem(selfPPos, copyEnt)
-                if not success then
-                    copyEnt:delete()
-                end
+                lp.forceCloneItem(targetEnt, selfPPos)
             end
         end
     }
@@ -107,17 +102,12 @@ defineFood("doomed_turnip", {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
             local selfPPos = lp.getPos(selfEnt)
-            if selfPPos then
-                lp.destroy(selfEnt)
-                local copyEnt = lp.clone(targetEnt)
-                local success = lp.trySetItem(selfPPos, copyEnt)
-                if not copyEnt.doomCount then
-                    -- dont apply to items that are already DOOMED.
-                    copyEnt.doomCount = DOOMED_TURNIP_DOOMCOUNT
-                end
-                if not success then
-                    copyEnt:delete()
-                end
+            if not selfPPos then return end
+
+            local copyEnt = lp.forceCloneItem(targetEnt, selfPPos)
+            if copyEnt and not copyEnt.doomCount then
+                -- dont apply to items that are already DOOMED.
+                copyEnt.doomCount = DOOMED_TURNIP_DOOMCOUNT
             end
         end
     }
@@ -164,12 +154,7 @@ defineFood("gray_turnip", {
         local itemEnt = table.random(items)
         local selfPPos = lp.getPos(selfEnt)
         if selfPPos then
-            lp.destroy(selfEnt)
-            local copyEnt = lp.clone(itemEnt)
-            local success = lp.trySetItem(selfPPos, copyEnt)
-            if not success then
-                copyEnt:delete()
-            end
+            lp.forceCloneItem(itemEnt, selfPPos)
         end
     end,
 
@@ -197,12 +182,7 @@ defineFood("mana_turnip", {
         activate = function(selfEnt, ppos, targetEnt)
             local selfPPos = lp.getPos(selfEnt)
             if selfPPos then
-                lp.destroy(selfEnt)
-                local copyEnt = lp.clone(targetEnt)
-                local success = lp.trySetItem(selfPPos, copyEnt)
-                if not success then
-                    copyEnt:delete()
-                end
+                lp.forceCloneItem(targetEnt, selfPPos)
             end
         end
     }
@@ -942,3 +922,16 @@ end
 defineDonut("frosted_donut", "Frosted Donut", "Decreases target item price by $10", -10)
 defineDonut("pink_donut", "Pink Donut",  "Increases target item price by $10", 10)
 
+
+
+
+
+lp.defineItem("lootplot.s0.content:bread", {
+    lootplotTags = {constants.tags.FOOD},
+
+    shape = lp.targets.RookShape(1),
+
+    target = {
+        activate = fun
+    }
+})

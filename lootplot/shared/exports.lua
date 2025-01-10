@@ -772,6 +772,41 @@ function lp.clone(ent)
 end
 
 
+--- Force-clones an item, using `lp.forceSetItem`.
+--- If an item already exists, the old item is deleted.
+--- This operation can still fail though; 
+--- (if the ppos cannot contain the item)
+---@param cloneEnt Entity
+---@param ppos lootplot.PPos
+---@return Entity?
+function lp.forceCloneItem(cloneEnt, ppos)
+    local ent = lp.clone(cloneEnt)
+    local success = lp.forceSetItem(ppos, ent)
+    if not success then
+        ent:delete()
+        return nil
+    end
+    return ent
+end
+
+
+--- Tries to clone an item, using `lp.trySetItem`.
+--- If an item already exists, this operation fails.
+---@param cloneEnt Entity
+---@param ppos lootplot.PPos
+---@return Entity?
+function lp.tryCloneItem(cloneEnt, ppos)
+    local ent = lp.clone(cloneEnt)
+    local success = lp.trySetItem(ppos, ent)
+    if not success then
+        ent:delete()
+        return nil
+    end
+    return ent
+end
+
+
+
 
 local function ensureDynamicProperties(ent)
     assertServer()

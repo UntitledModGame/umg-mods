@@ -216,12 +216,7 @@ defItem("wildcard_shards", "Wildcard Shards", {
         activate = function(selfEnt, ppos, targetEnt)
             local selfPos = lp.getPos(selfEnt)
             if selfPos then
-                local copyEnt = lp.clone(targetEnt)
-                local success = lp.forceSetItem(selfPos, copyEnt)
-                if not success then
-                    -- oh shit!
-                    copyEnt:delete()
-                end
+                lp.forceCloneItem(targetEnt, selfPos)
             end
         end
     }

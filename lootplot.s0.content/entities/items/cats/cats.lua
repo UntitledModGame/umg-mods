@@ -13,19 +13,6 @@ end
 
 
 
----@param selfEnt Entity
----@param ppos lootplot.PPos
----@return Entity?
-local function copySelf(selfEnt, ppos)
-    local copyEnt = lp.clone(selfEnt)
-    local success = lp.trySetItem(ppos, copyEnt)
-    if not success then
-        copyEnt:delete()
-        return nil
-    end
-    return copyEnt
-end
-
 
 defineCat("copycat", {
     name = loc("Copycat"),
@@ -48,7 +35,7 @@ defineCat("copycat", {
     target = {
         type = "NO_ITEM",
         activate = function(selfEnt, ppos, targetEnt)
-            copySelf(selfEnt, ppos)
+            lp.tryCloneItem(selfEnt, ppos)
         end
     }
 })
@@ -76,7 +63,7 @@ defineCat("copykitten", {
             if selfEnt.doomCount <= 0 then
                 return
             end
-            copySelf(selfEnt, ppos)
+            lp.tryCloneItem(selfEnt, ppos)
         end
     }
 })
@@ -98,7 +85,7 @@ defineCat("copykato", {
     target = {
         type = "NO_ITEM",
         activate = function(selfEnt, ppos)
-            local e = copySelf(selfEnt, ppos)
+            local e = lp.tryCloneItem(selfEnt, ppos)
             if e then
                 lp.modifierBuff(e, "pointsGenerated", 25, selfEnt)
             end
@@ -151,11 +138,7 @@ defineCat("crappy_cat", {
     target = {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
-            local copyEnt = lp.clone(selfEnt)
-            local success = lp.forceSetItem(ppos, copyEnt)
-            if not success then
-                copyEnt:delete()
-            end
+            lp.forceCloneItem(selfEnt, ppos)
         end
     }
 })
