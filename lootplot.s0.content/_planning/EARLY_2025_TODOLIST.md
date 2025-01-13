@@ -77,14 +77,6 @@ Spawns steak items in UP-3 shape
 (note: the way this works, is the steaks will offset the -30 mult, to give a net benefit. The player may also modify the shape for even more benefits/synergies)
 
 
-- ITEM: 
-On Pulse, Reroll:
-Triggers REROLL for all target items
-(shape: KING)
-^^^ same as green octopus!!!
-
-
-
 - ITEM: Anvil:
 Buff target items points-earned by the current mult (currently: X)
 
@@ -107,7 +99,8 @@ shape: ROOK-1
 - ITEM: Sticky necklace:
 Makes target slots STICKY, earns $2 for each slot.
 (Only works if the slot isnt already sticky!)
-(^^^ maybe it should be earns $6? A sticky-slot is really annoying!)
+(^^^ maybe it should be earns $6? A sticky-slot is really annoying!
+and it doesnt self-destruct like tooth-necklace!)
 
 
 - FOOD ITEM:  Copies it's own target-shape to all target items.

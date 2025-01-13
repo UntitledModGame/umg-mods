@@ -131,6 +131,25 @@ definePerk("one_ball", {
 
 
 
+definePerk("five_ball", {
+    name = loc("Five Ball"),
+    description = loc("Starts with a rotation-slot"),
+
+    onActivateOnce = function(ent)
+        local ppos, team = getPosTeam(ent)
+
+        spawnShop(ent)
+        spawnRerollButton(ent)
+        spawnNormal(ent)
+        spawnSell(ent)
+        spawnMoneyLimit(ent)
+        wg.spawnSlots(assert(ppos:move(3, 0)), server.entities.rotate_slot, 1,1, team)
+    end
+})
+
+
+
+
 definePerk("nine_ball", {
     name = loc("Nine Ball"),
     description = loc("Lose $1 per turn. Has no money limit."),
