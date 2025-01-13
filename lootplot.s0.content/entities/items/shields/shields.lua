@@ -39,17 +39,14 @@ end
 
 
 
-local MONEY_FLOOR = 3
 
 defShield("money_shield", "Money Shield", {
-    activateDescription = loc("If money is less than {lootplot:MONEY_COLOR}$%{amount}{/lootplot:MONEY_COLOR}, set money to {lootplot:MONEY_COLOR}$%{amount}", {
-        amount = MONEY_FLOOR
-    }),
+    activateDescription = loc("If money is negative, make money positive."),
 
     onActivate = function(ent)
         local mon = lp.getMoney(ent) or 100
-        if mon < MONEY_FLOOR then
-            lp.setMoney(ent, MONEY_FLOOR)
+        if mon < 0 then
+            lp.setMoney(ent, mon * -1)
         end
     end,
 
@@ -58,17 +55,14 @@ defShield("money_shield", "Money Shield", {
 
 
 
-local POINTS_FLOOR = 0
 
 defShield("points_shield", "Points Shield", {
-    activateDescription = loc("If points are less than {lootplot:POINTS_COLOR}%{amount}{/lootplot:POINTS_COLOR}, set points to {lootplot:POINTS_COLOR}%{amount}", {
-        amount = POINTS_FLOOR
-    }),
+    activateDescription = loc("If points are negative, make points positive."),
 
     onActivate = function(ent)
-        local mon = lp.getPoints(ent) or 100
-        if mon < POINTS_FLOOR then
-            lp.setPoints(ent, POINTS_FLOOR)
+        local pts = lp.getPoints(ent) or 100
+        if pts < 0 then
+            lp.setPoints(ent, pts * -1)
         end
     end,
 
@@ -78,17 +72,14 @@ defShield("points_shield", "Points Shield", {
 
 
 
-local MULT_FLOOR = 2
 
 defShield("red_shield", "Red Shield", {
-    activateDescription = loc("If multiplier is less than {lootplot:POINTS_MULT_COLOR}%{amount}{/lootplot:POINTS_MULT_COLOR}, set multiplier to {lootplot:POINTS_MULT_COLOR}%{amount}", {
-        amount = MULT_FLOOR
-    }),
+    activateDescription = loc("If multiplier is negative, make multiplier positive.");
 
     onActivate = function(ent)
-        local mon = lp.getPointsMult(ent) or 100
-        if mon < MULT_FLOOR then
-            lp.setPointsMult(ent, MULT_FLOOR)
+        local mult = lp.getPointsMult(ent) or 100
+        if mult < 0 then
+            lp.setPointsMult(ent, mult * -1)
         end
     end,
 
