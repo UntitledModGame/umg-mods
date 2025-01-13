@@ -41,6 +41,31 @@ defineCat("copycat", {
 })
 
 
+defineCat("chubby_cat", {
+    name = loc("Chubby Cat"),
+
+    rarity = lp.rarities.EPIC,
+
+    basePrice = 0,
+    baseMaxActivations = 10,
+    baseMultGenerated = 1,
+    sticky = true,
+
+    shape = lp.targets.RookShape(1),
+
+    activateDescription = loc("Copies self into target slots"),
+
+    target = {
+        type = "NO_ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.tryCloneItem(selfEnt, ppos)
+        end
+    }
+})
+
+
+
+
 defineCat("copykitten", {
     name = loc("Copykitten"),
 
