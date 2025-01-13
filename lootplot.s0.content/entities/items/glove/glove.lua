@@ -26,6 +26,12 @@ local function defineGlove(id, name, description, giveShape, rarity)
 end
 
 
+defineGlove("up_glove",
+    "Up Glove",
+    "Set target item's shape to UP-1.",
+    lp.targets.UpShape(1),
+    lp.rarities.RARE
+)
 
 defineGlove("knight_glove",
     "Knight Glove",
@@ -33,6 +39,14 @@ defineGlove("knight_glove",
     lp.targets.KNIGHT_SHAPE,
     lp.rarities.RARE
 )
+
+defineGlove("bishop_glove",
+    "Bishop Glove",
+    "Set target item's shape to BISHOP-3.",
+    lp.targets.BishopShape(3),
+    lp.rarities.RARE
+)
+
 
 defineGlove("king_glove",
     "King Glove",

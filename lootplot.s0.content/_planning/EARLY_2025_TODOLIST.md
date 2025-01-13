@@ -59,13 +59,6 @@ On Buy: Earn $25
 Destroy all target items
 (shape=ROOK-10)
 
-
-- ITEM: 
-On Pulse, Reroll:
-Triggers REROLL for all target items
-(shape: KING)
-^^^ same as green octopus!!!
-
 - ITEM: Cracked Glove:
 Gives UP-1 shape to item
 
@@ -77,6 +70,7 @@ Converts target slots to steel slots
 - ITEM:
 Multiplies points by -1. 
 Adds 6 multiplier.
+STICKY.
 
 - ITEM:
 Set multiplier to -10
@@ -86,6 +80,14 @@ Spawns steak items in UP-3 shape
 - ITEM:
 Lose 0.1 multiplier
 Earn 30 points
+
+
+- ITEM: 
+On Pulse, Reroll:
+Triggers REROLL for all target items
+(shape: KING)
+^^^ same as green octopus!!!
+
 
 
 - ITEM: Anvil:
