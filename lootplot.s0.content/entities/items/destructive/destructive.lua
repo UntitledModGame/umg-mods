@@ -24,6 +24,7 @@ DESTRUCTIVE ARCHETYPE REFACTOR:
  --- IMPORTANT NOTES ---
 ========================================
 
+
 The new destructive-archetype should not only about destroying items...
 But also about *clearing space* of bad items.
 
@@ -48,9 +49,11 @@ If there are no target items, give +8 mult.
 Then, spawn manure-items in a ROOK-1 shape.
 (^^^^ idea is- is that the player will a)
 
-====
+
+============
 ANOTHER IDEA: 
 "CONCENTRATION OF FIREPOWER":
+============
 
 If there's one item with REALLY good stats; 
 IE:
@@ -61,8 +64,6 @@ Item: Super rock:
 then it would make sense to concentrate all of the "firepower"
 on that singular item!
 ^^^ lean into this, this is a neat idea
-
-
 
 
 

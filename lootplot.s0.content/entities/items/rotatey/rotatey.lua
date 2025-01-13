@@ -180,7 +180,7 @@ defItem("spanner", "Spanner", {
     baseMoneyGenerated = -1,
     baseMaxActivations = 4,
 
-    activateDescription = loc("Rotates {lootplot.targets:COLOR}target items"),
+    activateDescription = loc("Rotates all {lootplot.targets:COLOR}target items"),
 
     target = {
         type = "ITEM",

@@ -22,7 +22,7 @@ local PULSE_DESC = loc("{lootplot:TRIGGER_COLOR}Pulses{/lootplot:TRIGGER_COLOR} 
 
 
 defItem("ukulele", "Ukulele", {
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.RARE,
     triggers = {"PULSE"},
 
     activateDescription = PULSE_DESC,
@@ -75,28 +75,11 @@ defItem("violin", "Violin", {
 
 
 
-defItem("red_violin", "Red Violin", {
-    rarity = lp.rarities.RARE,
-    triggers = {"PULSE"},
-
-    activateDescription = PULSE_DESC,
-
-    basePrice = 8,
-    baseMaxActivations = 3,
-
-    repeatActivations = true,
-
-    shape = lp.targets.RookShape(2),
-    target = PULSE_TARGET
-})
-
-
-
 
 
 defItem("pipe", "Pipe", {
-    rarity = lp.rarities.RARE,
-    triggers = {"PULSE"},
+    rarity = lp.rarities.UNCOMMON,
+    triggers = {"PULSE", "REROLL"},
 
     activateDescription = PULSE_DESC,
 
