@@ -177,6 +177,7 @@ defItem("spanner", "Spanner", {
     rarity = lp.rarities.UNCOMMON,
 
     basePrice = 6,
+    baseMoneyGenerated = -1,
     baseMaxActivations = 4,
 
     activateDescription = loc("Rotates {lootplot.targets:COLOR}target items"),
