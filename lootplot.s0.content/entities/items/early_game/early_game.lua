@@ -74,24 +74,6 @@ defItem("stick", {
 
 
 
---[[
-Leather's "purpose" is to give intuition about the `global-mult` system.
-]]
-defItem("leather", {
-    name = loc("Leather"),
-
-    triggers = {"PULSE"},
-
-    rarity = lp.rarities.UNCOMMON,
-
-    basePrice = 4,
-
-    baseMaxActivations = 5,
-    baseMultGenerated = 0.3,
-    basePointsGenerated = -5
-})
-
-
 
 
 

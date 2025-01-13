@@ -59,13 +59,12 @@ On Buy: Earn $25
 Destroy all target items
 (shape=ROOK-10)
 
-- ITEM: Cracked Glove:
+- (((DONE))) ITEM: Up Glove:
 Gives UP-1 shape to item
 
-- ITEM:
-Set money to -$8.
-Converts target slots to steel slots
-(shape: VERTICAL-1)
+- (((DONE))) ITEM:
+Lose 0.1 multiplier
+Earn 30 points
 
 - ITEM:
 Multiplies points by -1. 
@@ -76,10 +75,6 @@ STICKY.
 Set multiplier to -10
 Spawns steak items in UP-3 shape
 (note: the way this works, is the steaks will offset the -30 mult, to give a net benefit. The player may also modify the shape for even more benefits/synergies)
-
-- ITEM:
-Lose 0.1 multiplier
-Earn 30 points
 
 
 - ITEM: 

@@ -66,6 +66,43 @@ plan others.
 
 
 
+--[[
+Leather's "purpose" is to give intuition about the `global-mult` system.
+]]
+defItem("leather", "Leather", {
+    triggers = {"PULSE"},
+
+    rarity = lp.rarities.UNCOMMON,
+
+    basePrice = 4,
+
+    baseMaxActivations = 5,
+    baseMultGenerated = -0.1,
+    basePointsGenerated = 30
+
+})
+
+
+
+--[[
+Opposite of leather!
+]]
+defItem("red_leather", "Red Leather", {
+    triggers = {"PULSE"},
+
+    rarity = lp.rarities.UNCOMMON,
+
+    basePrice = 4,
+
+    baseMaxActivations = 5,
+    baseMultGenerated = 0.5,
+    basePointsGenerated = -20
+})
+
+
+
+
+
 
 
 defItem("red_net", "Red Net", {
