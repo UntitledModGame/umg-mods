@@ -750,6 +750,23 @@ definePotion("potion_green", {
 })
 
 
+definePotion("potion_gold", {
+    name = loc("Golden Potion"),
+    activateDescription = loc("Buff target item's points by the current balance."),
+
+    rarity = lp.rarities.RARE,
+
+    target = {
+        type = "ITEM_OR_SLOT",
+        activate = function (selfEnt, ppos, targetEnt)
+            local x = lp.getMoney(selfEnt) or 0
+            if x > 0 then
+                lp.modifierBuff(targetEnt, "pointsGenerated", x, selfEnt)
+            end
+        end
+    }
+})
+
 
 definePotion("potion_sticky", {
     name = loc("Sticky Potion"),
