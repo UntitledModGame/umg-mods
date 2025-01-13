@@ -154,9 +154,26 @@ local SPAWNER = {
     }
 }
 
-lp.worldgen.defineWorldgen("lootplot.s0.worldgen:basic_worldgen", {
+
+
+---@param id string
+---@param opts table<string, any>
+local function defWorldgenItem(id, opts)
+    id = "lootplot.s0.worldgen:" .. id
+
+    opts.rarity = lp.rarities.UNIQUE
+    opts.canItemFloat = true
+    opts.maxActivations = 1
+    opts.doomCount = 1
+    opts.triggers = {"PULSE"}
+    lp.defineItem(id, opts)
+    lp.worldgen.WORLDGEN_ITEMS:add(id)
+end
+
+
+defWorldgenItem("basic_worldgen", {
     name = loc("Worldgen Item"),
-    description = loc("Never gonna give you the description, never gonna let you look the description."),
+    description = loc("This is a worldgen item"),
 
     ---@param self lootplot.ItemEntity
     onActivateOnce = function(self)

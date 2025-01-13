@@ -35,41 +35,18 @@ worldgen.STARTING_ITEMS = objects.Array()
 -- contains etype-names that are perks.
 --[[
 WARNING:
-dont add non-etypes to this array!!!
+dont add non-etype strings to this array!!!
 or stuff will break
 ]]
 
 
 
 
-
---[[
-
-
-
-TODO:
+---@type objects.Array
+worldgen.WORLDGEN_ITEMS = objects.Array()
+-- contains etype-names that are worldgen-items.
 
 
-Add support for worldgen items here.
-Ie, items that generate random islands, and such.
-
-
-
-
-]]
-worldgen.STARTING_WORLDGEN = objects.Array()
-
----@param name string
----@param opts table<string, any>
-function worldgen.defineWorldgen(name, opts)
-    opts.rarity = lp.rarities.UNIQUE
-    opts.canItemFloat = true
-    opts.maxActivations = 1
-    opts.doomCount = 1
-    opts.triggers = {"PULSE"}
-    lp.defineItem(name, opts)
-    lp.worldgen.STARTING_WORLDGEN:add(name)
-end
 
 if server then
 

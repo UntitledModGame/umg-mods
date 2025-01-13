@@ -122,3 +122,31 @@ ChatBox:isChatOpen() -- checks whether box is open (or not)
 
 
 
+<br/>
+<br/>
+<br/>
+<br/>
+
+
+# S0 REFACTOR:
+- Remove Pulse-Button, DoomClock, and Levels/Rounds from `lootplot.main`
+- Create `lootplot.s0` mod
+- ^^^ put them in `lootplot.s0` instead
+
+<br/>
+
+```
+s0.backgrounds
+
+s0.bundle
+
+{
+    s0.content
+    s0.starting_items
+    s0.worldgen
+    lootplot.main (Levels, rounds, tutorial-cat)
+}
+^^^ COMBINE INTO 1 MOD
+```
+
+

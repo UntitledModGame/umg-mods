@@ -40,7 +40,7 @@ function NewRunState:init(cancelAction)
         startNewRun = function(startingItemName, background)
             umg.analytics.collect("lootplot.main:newRun", {
                 starterItem = startingItemName,
-                worldgenItem = lp.worldgen.STARTING_WORLDGEN[1],
+                worldgenItem = lp.worldgen.WORLDGEN_ITEMS[1],
                 hadRun = not not cancelRun,
                 background = background
             })
@@ -52,7 +52,7 @@ function NewRunState:init(cancelAction)
             -- TODO: Proper setup options
             return runManager.startRun({
                 starterItem = startingItemName,
-                worldgenItem = lp.worldgen.STARTING_WORLDGEN[1],
+                worldgenItem = lp.worldgen.WORLDGEN_ITEMS[1],
                 seed = "",
                 background = background
             })

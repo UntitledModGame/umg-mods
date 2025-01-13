@@ -26,6 +26,7 @@ Level
 # FOLDER ORGANIZATION:
 # ========================
 
+```
 books
 cards
 contraptions
@@ -44,4 +45,4 @@ rulebender (??? <-- do sub-categories??)
 scaling (??? We havent even figured out HOW TO DO SCALING!!)
 seasonal
 special
-
+```
