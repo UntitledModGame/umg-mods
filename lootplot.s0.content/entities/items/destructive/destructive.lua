@@ -18,22 +18,77 @@ end
 
 --[[
 
+
+========================================
+DESTRUCTIVE ARCHETYPE REFACTOR:
+ --- IMPORTANT NOTES ---
+========================================
+
+The new destructive-archetype should not only about destroying items...
+But also about *clearing space* of bad items.
+
+For example:
+
+ITEM: 
+Spawns manure-items in a KING-1 shape.
+(Each manure steals 15 points, and is sticky)
+Give +2 mult for every turd that was spawned.
+
+OR, with money:
+
+ITEM: 
+Spawns sticky-turds in a UP-3 shape.
+Each turd steals $1 when activated.
+Earn $3 for every turd that was spawned.
+
+Or alternatively, a more aggressive form:
+
+ITEM:
+If there are no target items, give +8 mult.
+Then, spawn manure-items in a ROOK-1 shape.
+(^^^^ idea is- is that the player will a)
+
+====
+ANOTHER IDEA: 
+"CONCENTRATION OF FIREPOWER":
+
+If there's one item with REALLY good stats; 
+IE:
+Item: Super rock:
+- has 1000 lives
+- Earns 190 points
+
+then it would make sense to concentrate all of the "firepower"
+on that singular item!
+^^^ lean into this, this is a neat idea
+
+
+
+
+
+
+
+
+-------------------------------
+
 ===========
 IDEAS FOR NEW DESTRUCTIVE ITEMS:
 -------------------------
 
 On target destroyed:
-Try spawn a wildcard-shard item
+Try spawn a rock item
 
 On target destroyed:
 Give 1 mana to slot
 
 On target destroyed:
-Spawn a COIN item:
+Try spawn a COIN item:
 (Coin: doomed-1, gives $1 when activated)
 
-On target destroyed:
-Try spawn a wildcard-shard item
+On Pulse:
+(shape: KING)
+If target has DESTROY trigger, give it +1 life
+
 
 ----
 
@@ -286,6 +341,13 @@ defDestructive("dagger", "Dagger", {
 
 
 defDestructive("black_boxing_glove", "Black Boxing Glove", {
+    --[[
+    TODO:
+    This is a terribly designed item
+
+    Make it better!  
+    (but also perhaps make it SOMEWHAT similar to red-boxing-glove?)
+    ]]
     rarity = lp.rarities.RARE,
     triggers = {"PULSE"},
 
