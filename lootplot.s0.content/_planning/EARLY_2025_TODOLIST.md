@@ -45,13 +45,7 @@ same as iron-shards, but NOT floating! Gives mult instead of points
 - (((DONE))) Update mana visuals
 
 
-- Move doomclock, round, requiredPoints, etc to `lootplot.s0`.
-DO A LOT OF THINKING AS TO HOW BEST THIS WOULD WORK!!!
-Perhaps we have a `lootplot:startGame` callback, or something....? 
-
-- Remove `lootplot.s0.content`, replace with `lootplot.s0` maybe?  It makes namespacing nicer.
-
-
+- (((DONE))) Give mult-visual to slots
 
 
 ## ITEMS:
