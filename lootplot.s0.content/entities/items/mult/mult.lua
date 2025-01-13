@@ -123,6 +123,28 @@ defItem("eye_worm", "Eye Worm", {
 
 
 
+defItem("steak_maker", "Steak Maker", {
+    triggers = {"PULSE"},
+    activateDescription = loc("Spawns steak items."),
+
+    basePrice = 15,
+    baseMaxActivations = 10,
+    baseMultGenerated = -15,
+
+    target = {
+        type = "SLOT",
+        activate = function(ent, ppos)
+            lp.trySpawnItem(ppos, server.entities.raw_steak, ent.lootplotTeam)
+        end
+    },
+    shape = lp.targets.UpShape(3),
+
+    rarity = lp.rarities.RARE,
+})
+
+
+
+
 
 defItem("red_net", "Red Net", {
     rarity = lp.rarities.RARE,

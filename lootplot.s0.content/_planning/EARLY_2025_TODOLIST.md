@@ -66,7 +66,7 @@ Gives UP-1 shape to item
 Lose 0.1 multiplier
 Earn 30 points
 
-- ITEM:
+- (((DONE))) ITEM:
 Multiplies points by -1. 
 Adds 6 multiplier.
 STICKY.
