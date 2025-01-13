@@ -174,7 +174,7 @@ defItem("spanner", "Spanner", {
 
     triggers = {"PULSE"},
 
-    rarity = lp.rarities.RARE,
+    rarity = lp.rarities.UNCOMMON,
 
     basePrice = 6,
     baseMaxActivations = 4,
