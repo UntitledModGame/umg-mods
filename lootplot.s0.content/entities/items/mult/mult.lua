@@ -102,6 +102,25 @@ defItem("red_leather", "Red Leather", {
 
 
 
+defItem("eye_worm", "Eye Worm", {
+    triggers = {"PULSE"},
+    activateDescription = loc("Multiplies points by -1"),
+
+    onActivate = function(ent)
+        local pts = lp.getPoints(ent) or 0
+        lp.setPoints(ent, -pts)
+    end,
+
+    baseMaxActivations = 1,
+    baseMultGenerated = 5,
+    basePrice = 9,
+    sticky = true,
+
+    rarity = lp.rarities.RARE,
+})
+
+
+
 
 
 
