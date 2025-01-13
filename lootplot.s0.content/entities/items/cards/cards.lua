@@ -253,23 +253,16 @@ defineCard("spades_card", {
 
 defineCard("multiplier_card", {
     name = loc("Multiplier Card"),
-    activateDescription = loc("Swaps global points and global mult"),
+    activateDescription = loc("Multiplies global-multiplier by {lootplot:BAD_COLOR}-2"),
 
     onActivate = function(ent)
-        local points, mult = lp.getPoints(ent), lp.getPointsMult(ent)
-        local ppos = lp.getPos(ent)
-        if ppos and mult and points then
-            lp.wait(ppos, 0.4) -- delay just for extra effect
-            lp.setPoints(ent, mult)
-            lp.setPointsMult(ent, points)
-        end
+        local mult = lp.getPointsMult(ent)
+        lp.setPointsMult(ent, mult * -2)
     end,
-
-    manaCost = 3,
 
     baseMaxActivations = 1,
     basePrice = 10,
-    rarity = lp.rarities.LEGENDARY,
+    rarity = lp.rarities.EPIC,
 })
 
 
