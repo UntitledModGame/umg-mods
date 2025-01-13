@@ -130,7 +130,7 @@ defShards("food_shards", "Food Shards",
     spawnCloudWithFoodItem, "Spawns a {lootplot:INFO_COLOR}Cloud Food Item",
 {
     rarity = lp.rarities.COMMON,
-    basePrice = 3,
+    basePrice = 2,
     basePointsGenerated = 5,
     canItemFloat = true
 })
