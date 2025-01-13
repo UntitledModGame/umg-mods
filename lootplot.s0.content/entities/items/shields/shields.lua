@@ -17,6 +17,12 @@ For example, items like these:
 
 Shield-items generally aren't useful UNLESS you have items like these ^^^
 
+
+
+TODO:
+We have wooden-shield and broken-shield.
+
+Come up with something for these two items; thanks.
 ]]
 
 local loc = localization.localize
