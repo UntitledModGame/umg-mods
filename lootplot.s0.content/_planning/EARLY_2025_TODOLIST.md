@@ -59,9 +59,6 @@ On Buy: Earn $25
 Destroy all target items
 (shape=ROOK-10)
 
-- ITEM: Basic loan
-Increase round by 1
-Earn $20
 
 - ITEM: 
 On Pulse, Reroll:

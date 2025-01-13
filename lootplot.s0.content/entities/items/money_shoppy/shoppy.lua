@@ -40,36 +40,6 @@ defItem("a_big_loan", {
 
 
 
---[[
-
---[==[
-TODO::: we need to move the round-changing infrastructure to lootplot.s0.
-Maybe its best to rename `lootplot.s0.content --> lootplot.s0`?
-Then we can expose a nicer API for it.
-]==] 
-
-
-defItem("a_basic_loan", {
-    name = loc("A Basic Loan"),
-
-    activateDescription = loc("Increases round by 1"),
-
-    triggers = {"BUY"},
-
-    basePrice = 0,
-    baseMaxActivations = 1,
-    baseMoneyGenerated = 30,
-
-    canItemFloat = true,
-    rarity = lp.rarities.RARE,
-
-    onActivate = function(ent)
-        lp.main.getRound()
-    end,
-})
-
-]]
-
 
 defItem("a_small_loan", {
     name = loc("A Small Loan"),
