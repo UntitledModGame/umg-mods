@@ -1,6 +1,8 @@
 
 
 local loc = localization.localize
+local interp = localization.newInterpolator
+
 local constants = require("shared.constants")
 
 local function defineFoodNoDoomed(id, name, etype)
@@ -718,6 +720,30 @@ definePie("rooks_pie", "Rook's Pie", "Adds ROOK-5 Shape to target item", lp.targ
 
 ----------------------------------------------------------------------------
 
+local BURGER_DESC = interp("Copies it's own shape to all target items.\n{lootplot.targets:COLOR}(Currently: %{shapeName})")
+
+defineFood("burger", {
+    name = loc("Burger"),
+
+    basePrice = 12,
+
+    activateDescription = function(ent)
+        return BURGER_DESC({
+            shapeName = ent.shape.name
+        })
+    end,
+
+    shape = lp.targets.RookShape(1),
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            assert(selfEnt.shape, "??")
+            lp.targets.setShape(targetEnt, selfEnt.shape)
+        end
+    },
+
+    rarity = lp.rarities.EPIC,
+})
 
 
 

@@ -94,16 +94,18 @@ Generates 5 points
 Increases price by $1
 (^^^ Maybe we should replace golden_watch with this? Make it simpler)
 
+
+- (((DONE))) FOOD ITEM: (burger?) Copies it's own target-shape to all target items.
+(Currently: ROOK-1)
+(Shape: ROOK-1)
+
+
 - ITEM: Sticky necklace:
 Makes target slots STICKY, earns $2 for each slot.
 (Only works if the slot isnt already sticky!)
 (^^^ maybe it should be earns $6? A sticky-slot is really annoying!
 and it doesnt self-destruct like tooth-necklace!)
 
-
-- FOOD ITEM: (burger?) Copies it's own target-shape to all target items.
-(Currently: ROOK-1)
-(Shape: ROOK-1)
 
 - ITEM: Earn $1 for every target item that is STUCK
 
