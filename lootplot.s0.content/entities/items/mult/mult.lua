@@ -196,6 +196,30 @@ defItem("sponge", "Sponge", {
 
 
 
+defItem("flamingo", "Flamingo", {
+    triggers = {"PULSE"},
+    activateDescription = loc("Adds {lootplot:POINTS_MULT_COLOR}mult{/lootplot:POINTS_MULT_COLOR} equal to the number of lives that this item has."),
+
+    rarity = lp.rarities.EPIC,
+
+    basePrice = 10,
+    baseMaxActivations = 3,
+    baseMultGenerated = 0,
+
+    lives = 1,
+
+    lootplotProperties = {
+        modifiers = {
+            multGenerated = function(ent)
+                return ent.lives or 0
+            end
+        }
+    }
+})
+
+
+
+
 
 defItem("red_fan", "Red Fan", {
     triggers = {"PULSE"},
