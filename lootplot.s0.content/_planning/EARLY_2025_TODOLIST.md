@@ -100,16 +100,9 @@ Increases price by $1
 (Shape: ROOK-1)
 
 
-- ITEM: Sticky necklace:
-Makes target slots STICKY, earns $2 for each slot.
-(Only works if the slot isnt already sticky!)
-(^^^ maybe it should be earns $6? A sticky-slot is really annoying!
-and it doesnt self-destruct like tooth-necklace!)
+- (((DONE))) ITEM: Earn +1 mult for every target item that is STUCK
 
-
-- ITEM: Earn $1 for every target item that is STUCK
-
-- ITEM: Increases price of all target items by $6 (Cost 1 mana)
+- (((DONE))) ITEM: Increases price of all target items by $6 (Cost 1 mana)
 
 - ITEM:
 Gives mult equal to the number of lives that this item has
@@ -122,6 +115,13 @@ Items placed on this slot dont cost any money to activate (And cannot earn money
 - ITEM: Swashbuckler apple: Creates a swashbuckler slot
 
 - ITEM REFACTOR: Change ping-pong paddle. Its currently a bit... meh. Maybe something to do with mult, since it's red-colored?
+
+- ITEM CHANGE: Do something with FEATHER!
+(we already have an item-def for it; its just that the current definition overlaps with white-cap. 
+So change it to something new; thx.
+Maybe something that costs mana...?)
+IDEA-1: manaCost=2, gives x2 mult
+IDEA-2: manaCost=1, gives +1 mult. Permanently increase mult by 1.
 
 
 ## ITEM PLANNING SPIKE:

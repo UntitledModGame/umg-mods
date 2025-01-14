@@ -74,10 +74,35 @@ end)
 
 
 defineCap("red_cap", "Red Cap",
-"Adds a {lootplot:POINTS_MULT_COLOR}0.1 multiplier{/lootplot:POINTS_MULT_COLOR} for every target-item that gives multiplier",
+"Gives {lootplot:POINTS_MULT_COLOR}+0.2 mult{/lootplot:POINTS_MULT_COLOR} for every target-item",
 function(selfEnt, ppos, targetEnt)
-    return targetEnt.multGenerated and targetEnt.multGenerated > 1
+    return true
 end,
 function (selfEnt, ppos, targetEnt)
-    lp.addPointsMult(selfEnt, 0.1)
+    lp.addPointsMult(selfEnt, 0.3)
 end)
+
+
+
+defineCap("sticky_cap", "Sticky Cap",
+"Gives {lootplot:POINTS_MULT_COLOR}+1 mult{/lootplot:POINTS_MULT_COLOR} for every {lootplot:STUCK_COLOR}STICKY{/lootplot:STUCK_COLOR} target-item",
+function(selfEnt, ppos, targetEnt)
+    return targetEnt.sticky or targetEnt.stuck
+end,
+function (selfEnt, ppos, targetEnt)
+    lp.addPointsMult(selfEnt, 1)
+end)
+
+
+
+defineCap("white_cap", "White Cap",
+"Earns {lootplot:POINTS_MULT_COLOR}+0.4 mult{/lootplot:POINTS_MULT_COLOR} for every {lootplot:INFO_COLOR}floating{/lootplot:INFO_COLOR} target-item",
+function(selfEnt, ppos, targetEnt)
+    return targetEnt.canItemFloat
+end,
+function (selfEnt, ppos, targetEnt)
+    lp.addPointsMult(selfEnt, 0.4)
+end, {
+    canItemFloat = true
+})
+

@@ -211,7 +211,7 @@ defItem("foghorn", {
 })
 
 
-
+--[[
 
 defItem("feather", {
     name = loc("Feather"),
@@ -235,6 +235,7 @@ defItem("feather", {
     }
 })
 
+]]
 
 
 defItem("ruby", {
