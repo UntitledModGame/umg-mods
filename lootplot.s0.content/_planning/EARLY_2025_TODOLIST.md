@@ -113,6 +113,8 @@ Gives mult equal to the number of lives that this item has
 
 - SLOT: Swashbuckler Slot:
 Items placed on this slot dont cost any money to activate (And cannot earn money either!)
+(NOTE- use `destroy_slot_concept_2.png` for the image!)
+Color should be gold tho, maybe...?
 
 - ITEM: Swashbuckler apple: Creates a swashbuckler slot
 
