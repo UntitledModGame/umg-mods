@@ -11,6 +11,17 @@ local function defItem(id, etype)
     return lp.defineItem("lootplot.s0.content:"..id, etype)
 end
 
+--[[
+
+TODO::
+
+golden_helmet needs something!!!
+Related to money, prefereably.
+
+
+
+]]
+
 
 local function defineHelmet(id, etype)
     etype.rarity = etype.rarity or lp.rarities.RARE

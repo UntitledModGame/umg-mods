@@ -30,29 +30,6 @@ defItem("gold_watch", "Gold Watch", {
 
 
 
-defItem("gold_helmet", "Gold Helmet", {
-    activateDescription = loc("Generate points equal to the price of target items."),
-
-    rarity = lp.rarities.RARE,
-    triggers = {"PULSE"},
-
-    basePrice = 8,
-    baseMaxActivations = 5,
-
-    shape = lp.targets.KING_SHAPE,
-
-    target = {
-        type = "ITEM",
-        filter = function(selfEnt, ppos, targetEnt)
-            return targetEnt.price
-        end,
-        activate = function(selfEnt, ppos, targetEnt)
-            lp.addPoints(selfEnt, targetEnt.price)
-        end
-    }
-})
-
-
 
 ---@param arr Entity[]
 ---@return Entity?
@@ -85,7 +62,12 @@ end
 
 
 
-defItem("diamond_ring", "Diamond Ring", {
+local function defMagnet(id, name, etype)
+
+    defItem(id, name, etype)
+end
+
+defItem("golden_magnet", "Golden Magnet", {
     triggers = {"LEVEL_UP"},
 
     activateDescription = loc("Earn money equal to the price of the cheapest target item.\n(Can be negative!)"),
@@ -112,7 +94,7 @@ defItem("diamond_ring", "Diamond Ring", {
 
 
 
-defItem("golden_magnet", "Golden Magnet", {
+defItem("red_magnet", "Red Magnet", {
     triggers = {"PULSE"},
 
     activateDescription = loc("Adds multiplier equal to the price of the cheapest target item.\n(Can be negative!)"),
@@ -139,21 +121,50 @@ defItem("golden_magnet", "Golden Magnet", {
 
 
 
+defItem("blue_magnet", "Blue Magnet", {
+    activateDescription = loc("Generate points equal to the price of target items."),
+
+    rarity = lp.rarities.RARE,
+    triggers = {"PULSE"},
+
+    basePrice = 8,
+    baseMaxActivations = 5,
+
+    shape = lp.targets.KING_SHAPE,
+
+    target = {
+        type = "ITEM",
+        filter = function(selfEnt, ppos, targetEnt)
+            return targetEnt.price
+        end,
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.addPoints(selfEnt, targetEnt.price)
+        end
+    }
+})
+
+
+
+
+
+local GOLDEN_DONUT_PRICE_INCREMENT = 4
+
 defItem("golden_donut", "Golden Donut", {
     triggers = {"PULSE"},
 
-    activateDescription = loc("Increases target item price by $3"),
+    activateDescription = loc("Increases target item price by {lootplot:MONEY_COLOR}$%{buff}", {
+        buff = GOLDEN_DONUT_PRICE_INCREMENT
+    }),
 
-    basePrice = 12,
-    baseMaxActivations = 2,
+    basePrice = 8,
+    baseMaxActivations = 10,
     manaCost = 1,
-    sticky = true,
 
     shape = lp.targets.KingShape(1),
     target = {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
-            lp.modifierBuff(targetEnt, "price", 2)
+            lp.modifierBuff(targetEnt, "price", GOLDEN_DONUT_PRICE_INCREMENT)
         end
     },
 

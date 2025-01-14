@@ -119,6 +119,7 @@ Items placed on this slot dont cost any money to activate (And cannot earn money
 
 - ITEM: Swashbuckler apple: Creates a swashbuckler slot
 
+- ITEM REFACTOR: Change ping-pong paddle. Its currently a bit... meh. Maybe something to do with mult, since it's red-colored?
 
 
 ## ITEM PLANNING SPIKE:
