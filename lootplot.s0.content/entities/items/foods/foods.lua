@@ -213,12 +213,12 @@ defineFood("green_olive", {
     name = loc("Green Olive"),
     activateDescription = loc("Gives {lootplot:TRIGGER_COLOR}REROLL{/lootplot:TRIGGER_COLOR} Trigger to target item."),
 
-    rarity = lp.rarities.LEGENDARY,
+    rarity = lp.rarities.EPIC,
+
+    basePrice = 6,
+    manaCost = 4,
 
     shape = lp.targets.UP_SHAPE,
-
-    basePrice = 2,
-
     target = {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
@@ -226,6 +226,27 @@ defineFood("green_olive", {
         end
     }
 })
+
+
+defineFood("teal_olive", {
+    name = loc("Teal Olive"),
+    activateDescription = loc("Gives {lootplot:TRIGGER_COLOR}PULSE{/lootplot:TRIGGER_COLOR} Trigger to target item."),
+
+    rarity = lp.rarities.EPIC,
+
+    basePrice = 6,
+    manaCost = 4,
+
+    shape = lp.targets.UP_SHAPE,
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.addTrigger(targetEnt, "PULSE")
+        end
+    }
+})
+
+
 
 
 
