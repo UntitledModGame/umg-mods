@@ -174,4 +174,28 @@ defItem("golden_donut", "Golden Donut", {
 
 
 
+defItem("red_award", "Red Award", {
+    triggers = {"PULSE"},
+
+    activateDescription = loc("Adds {lootplot:POINTS_MULT_COLOR}mult{/lootplot:POINTS_MULT_COLOR} equal to this item's price"),
+
+    basePrice = 4,
+
+    sticky = true,
+    baseMaxActivations = 8,
+    baseMoneyGenerated = -1,
+    baseMultGenerated = 0,
+
+    lootplotProperties = {
+        modifiers = {
+            multGenerated = function(ent)
+                return ent.price or 0
+            end
+        }
+    },
+
+    rarity = lp.rarities.RARE,
+})
+
+
 
