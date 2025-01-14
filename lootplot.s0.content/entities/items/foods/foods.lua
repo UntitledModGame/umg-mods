@@ -419,18 +419,18 @@ defineSlotSpawner("sniper_berries", "Sniper Berries", "slot", "Normal Slot", lp.
 })
 
 defineSlotSpawner("stone_fruit", "Stone fruit", "null_slot", "Null Slot", lp.targets.ON_SHAPE, {
-    basePrice = 2,
+    basePrice = 5,
     canItemFloat = true,
-    rarity = lp.rarities.UNCOMMON
+    rarity = lp.rarities.COMMON
 })
 
 defineSlotSpawner("dragonfruit", "Dragonfruit", "slot", "Normal Slot", lp.targets.RookShape(1), {
-    basePrice = 5,
+    basePrice = 8,
     rarity = lp.rarities.COMMON
 })
 
 defineSlotSpawner("dragonfruit_slice", "Dragonfruit Slice", "slot", "Normal Slot", lp.targets.BishopShape(1), {
-    basePrice = 6,
+    basePrice = 9,
     rarity = lp.rarities.RARE
 })
 
@@ -451,12 +451,14 @@ defineSlotSpawner("soy_sauce", "Soy Sauce", "slot", "{lootplot:DOOMED_COLOR}DOOM
 )
 
 defineSlotSpawner("ruby_candy", "Ruby Candy", "ruby_slot", "{c r=1 b=0.2 g=0.3}Ruby{/c} {lootplot:STUCK_COLOR}STUCKY{/lootplot:STUCK_COLOR} Slot", lp.targets.RookShape(1), {
-    rarity = lp.rarities.RARE
+    rarity = lp.rarities.RARE,
+    basePrice = 8
 },
 makeSticky)
 
 defineSlotSpawner("diamond_candy", "Diamond Candy", "diamond_slot", "{c r=0.6 b=0.95 g=1}Diamond{/c} {lootplot:STUCK_COLOR}STICKY{/lootplot:STUCK_COLOR} Slot", lp.targets.RookShape(1), {
-    rarity = lp.rarities.RARE
+    rarity = lp.rarities.RARE,
+    basePrice = 8
 },
 makeSticky)
 
@@ -470,18 +472,21 @@ steel-candy in future?
 
 
 defineSlotSpawner("steelberry", "Steel-Berry", "steel_slot", "Steel Slot", lp.targets.RookShape(1), {
-    basePrice = 9,
+    basePrice = 12,
     rarity = lp.rarities.RARE
 })
 
 
 defineSlotSpawner("avacado", "Avacado", "emerald_slot", "Emerald Slot", lp.targets.RookShape(1), {
+    -- maybe this should be more expensive... but i just LOVE this item sooo much
     basePrice = 8,
     rarity = lp.rarities.RARE
 })
 
 
-defineSlotSpawner("fried_egg", "Fried Egg", "sticky_slot", "Sticky Slot", lp.targets.KING_SHAPE, {})
+defineSlotSpawner("fried_egg", "Fried Egg", "sticky_slot", "Sticky Slot", lp.targets.KING_SHAPE, {
+    basePrice = 6
+})
 
 
 local loafEtype = {
@@ -494,6 +499,7 @@ local loafEtype = {
         end
     end,
     canItemFloat = true,
+    basePrice = 8,
     rarity = lp.rarities.RARE
 }
 defineSlotSpawner("burned_loaf", "Burned Loaf", "sell_slot", "Sell Slot",
@@ -504,7 +510,7 @@ defineSlotSpawner("golden_loaf", "Golden Loaf", "weak_shop_slot", "Shop Slot",
 )
 
 defineSlotSpawner("coconut", "Coconut", "dirt_slot", "Dirt Slot", lp.targets.KingShape(1), {
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.COMMON,
 })
 
 
