@@ -251,30 +251,25 @@ makeShopSlot("weak_shop_slot", "Weak Shop Slot", {
 
 
 
-local function isTreasureItem(etype)
-    --[[
-    TODO: implement this!
-    We might need trait system again...?
-    ]]
-    return lp.hasTag(etype, constants.tags.TREASURE)
+local function isFoodItem(etype)
+    return lp.hasTag(etype, constants.tags.FOOD)
 end
 
-local generateTreasureItem = itemGenHelper.createLazyGenerator(
-        -- TODO: implement
-    isTreasureItem,
+local generateFoodItem = itemGenHelper.createLazyGenerator(
+    isFoodItem,
     itemGenHelper.createRarityWeightAdjuster({
-        COMMON = 2,
-        UNCOMMON = 5,
-        RARE = 1.5,
+        COMMON = 6,
+        UNCOMMON = 8,
+        RARE = 1,
         EPIC = 0.3,
         LEGENDARY = 0.04
     })
 )
-makeShopSlot("treasure_shop_slot", "Treasure Shop Slot", {
-    activateDescription = loc("Spawns treasure items"),
-    baseMaxActivations = 10,
-    itemReroller = generateTreasureItem,
-    itemSpawner = generateTreasureItem,
+makeShopSlot("food_shop_slot", "Food Shop Slot", {
+    activateDescription = loc("Spawns food items"),
+    baseMaxActivations = 100,
+    itemReroller = generateFoodItem,
+    itemSpawner = generateFoodItem,
     actionButtons = {
         SHOP_BUTTON,
         LOCK_REROLL_BUTTON

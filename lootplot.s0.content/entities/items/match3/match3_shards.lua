@@ -130,6 +130,14 @@ defShards("food_shards", "Food Shards",
     spawnCloudWithFoodItem, "Spawns a {lootplot:INFO_COLOR}Cloud Food Item",
 {
     rarity = lp.rarities.COMMON,
+    --[[
+    QUESTION: Isn't ($2x3) = $6 too expensive for a food item?
+
+    ANSWER: Kinda... but remember that the user can easily activate 
+    the food-item WHILST it is inside the cloud-slot.
+    So that needs to be baked into the price somehow.
+    (If anything; perhaps it should be more expensive!)
+    ]]
     basePrice = 2,
     basePointsGenerated = 5,
     canItemFloat = true
