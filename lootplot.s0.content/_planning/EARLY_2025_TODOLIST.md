@@ -104,10 +104,12 @@ Increases price by $1
 
 - (((DONE))) ITEM: Increases price of all target items by $6 (Cost 1 mana)
 
-- ITEM:
+- (((DONE))) ITEM:
 Gives mult equal to the number of lives that this item has
 [Gives +1 mult]
 (starts with 1 extra life)
+
+- SLOT: Create interest-slot
 
 - SLOT: Swashbuckler Slot:
 Items placed on this slot dont cost any money to activate (And cannot earn money either!)
@@ -127,13 +129,6 @@ IDEA-2: manaCost=1, gives +1 mult. Permanently increase mult by 1.
 ## ITEM PLANNING SPIKE:
 https://discord.com/channels/@me/698376055140122624/1321378894196117525
 
-
-
-
-
-
-## PLANNING SPIKE:
-Do something with the mineral-ring items.
 
 
 
@@ -191,6 +186,13 @@ They are kinda... bad?? Idk. They feel very un-interactive...
 When an item fails activation, Big red cross animation?  
 ^^^ IDK, is it a good idea to have this?  
 We already have it so the item shakes when it cant activate...
+
+
+
+
+
+## PLANNING SPIKE:
+Do something with the mineral-ring items.
 
 
 
