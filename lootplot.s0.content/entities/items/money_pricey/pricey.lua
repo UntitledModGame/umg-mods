@@ -177,7 +177,7 @@ defItem("golden_donut", "Golden Donut", {
 defItem("red_award", "Red Award", {
     triggers = {"PULSE"},
 
-    activateDescription = loc("Adds {lootplot:POINTS_MULT_COLOR}mult{/lootplot:POINTS_MULT_COLOR} equal to this item's price"),
+    activateDescription = loc("Gains {lootplot:POINTS_MULT_COLOR}mult{/lootplot:POINTS_MULT_COLOR} equal to this item's price"),
 
     basePrice = 2,
 

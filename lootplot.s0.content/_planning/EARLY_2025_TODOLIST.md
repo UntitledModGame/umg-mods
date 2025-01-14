@@ -109,7 +109,7 @@ Gives mult equal to the number of lives that this item has
 [Gives +1 mult]
 (starts with 1 extra life)
 
-- SLOT: Create interest-slot
+- (((DONE))) SLOT: Create interest-slot
 
 - SLOT: Swashbuckler Slot:
 Items placed on this slot dont cost any money to activate (And cannot earn money either!)

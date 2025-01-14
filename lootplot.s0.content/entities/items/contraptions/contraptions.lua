@@ -63,6 +63,42 @@ local ACTIVATE_SELF_BUTTON = {
 
 
 
+defContra("doomed_tool", {
+    --[[
+    QUESTION::
+    Isn't this item really weak...?
+
+    ANSWER:
+    No! (Because you can use it on shop-slots, or cloud-slots!!!)
+    So you can steal from shop-slots, or even split cloud-slots.
+    ]]
+    name = loc("Doomed Tool"),
+
+    triggers = {},
+
+    baseMaxActivations = 10,
+    basePrice = 8,
+
+    activateDescription = loc("If target item is {lootplot:DOOMED_COLOR}DOOMED-1{/lootplot:DOOMED_COLOR}, Trigger {lootplot:TRIGGER_COLOR}{wavy}PULSE{/wavy}{/lootplot:TRIGGER_COLOR} on it."),
+
+    shape = lp.targets.UpShape(1),
+    target = {
+        type = "ITEM",
+        filter = function(selfEnt, ppos, targetEnt)
+            return targetEnt.doomCount == 1
+        end,
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.tryTriggerEntity("PULSE", targetEnt)
+        end
+    },
+
+    rarity = lp.rarities.EPIC,
+
+    actionButtons = {ACTIVATE_SELF_BUTTON},
+})
+
+
+
 defContra("pulse_tool", {
     name = loc("Pulse Tool"),
 
@@ -75,7 +111,7 @@ defContra("pulse_tool", {
     baseMoneyGenerated = -4,
     baseMaxActivations = 4,
 
-    activateDescription = loc("Trigger {lootplot:TRIGGER_COLOR}{wavy}PULSE{/wavy}{/lootplot:TRIGGER_COLOR} on target slot"),
+    activateDescription = loc("Trigger {lootplot:TRIGGER_COLOR}{wavy}PULSE{/wavy}{/lootplot:TRIGGER_COLOR} on target item"),
 
     target = {
         type = "ITEM",
