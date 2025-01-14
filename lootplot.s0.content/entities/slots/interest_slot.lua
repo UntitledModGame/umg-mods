@@ -2,6 +2,17 @@
 local loc = localization.localize
 
 
+local function earnMoneyFancy(ent, moneyEarned)
+    local ppos = assert(lp.getPos(ent))
+    for _=1, moneyEarned do
+        lp.wait(ppos, 0.15)
+        lp.queueWithEntity(ent, function(selfEnt)
+            lp.addMoney(selfEnt, 1)
+        end)
+        lp.wait(ppos, 0.15)
+    end
+end
+
 
 return lp.defineSlot("lootplot.s0.content:interest_slot", {
     image = "interest_slot",
@@ -18,9 +29,12 @@ return lp.defineSlot("lootplot.s0.content:interest_slot", {
 
     triggers = {"PULSE"},
     onActivate = function(ent)
+        local ppos = lp.getPos(ent)
+        if not ppos then return end -- okay???
+
         local money = lp.getMoney(ent)
-        local interest = math.min(5, math.floor(money / 10))
-        lp.addMoney(ent, interest)
+        local moneyEarned = math.min(5, math.floor(money / 10))
+        earnMoneyFancy(ent, moneyEarned)
     end
 })
 

@@ -149,7 +149,7 @@ We should have more scaling items with `trigger = {"PULSE", "REROLL"}`.
 
 
 
-## More activation items!!!
+## (((DONE))) More activation items!!!
 It's quite hard to get a activator-build going.  
 Back when we had octopi, this wasnt really a problem. But it just seems like now, there aren't enough activator items!!!  
 IDEAS:
