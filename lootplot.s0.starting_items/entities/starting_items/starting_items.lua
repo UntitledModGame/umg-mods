@@ -52,6 +52,11 @@ local function spawnMoneyLimit(ent)
     wg.spawnSlots(plot:getPPos(ppos:getCoords(), 0), server.entities.money_limit_slot, 1,1, team)
 end
 
+local function spawnInterestSlot(ent)
+    local ppos, team = getPosTeam(ent)
+    wg.spawnSlots(assert(ppos:move(5,-4), server.entities.interest_slot, 1,1, team))
+end
+
 -------------------------------------------------------------------
 
 -------------------------------------------------------------------
@@ -110,6 +115,7 @@ definePerk("one_ball", {
         spawnNormal(ent)
         spawnRerollButton(ent)
         spawnSell(ent)
+        spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
 
         -- Display tutorial text
@@ -142,6 +148,7 @@ definePerk("five_ball", {
         spawnRerollButton(ent)
         spawnNormal(ent)
         spawnSell(ent)
+        spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
         wg.spawnSlots(assert(ppos:move(3, 0)), server.entities.rotate_slot, 1,1, team)
     end
@@ -162,6 +169,7 @@ definePerk("nine_ball", {
         spawnRerollButton(ent)
         spawnNormal(ent)
         spawnSell(ent)
+        spawnInterestSlot(ent)
     end
 })
 
@@ -179,6 +187,7 @@ definePerk("eight_ball", {
         spawnRerollButton(ent)
         spawnNormal(ent)
         spawnSell(ent)
+        spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
         wg.spawnSlots(assert(ppos:move(3, 0)), server.entities.null_slot, 1,3, team)
     end
@@ -197,8 +206,9 @@ definePerk("fourteen_ball", {
 
         wg.spawnSlots(assert(ppos:move(3, 0)), server.entities.reroll_slot, 1,3, team)
 
-        spawnSell(ent)
         spawnNormal(ent)
+        spawnSell(ent)
+        spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
     end
 })
@@ -238,10 +248,11 @@ definePerk("four_ball", {
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
 
+        spawnNormal(ent)
         spawnShop(ent)
         spawnSell(ent)
+        spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
-        spawnNormal(ent)
         local plot = ppos:getPlot()
         local D = 7
         local x,y = ppos:getCoords()
