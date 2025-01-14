@@ -232,26 +232,6 @@ defDestructive("bomb", "Bomb", {
 })
 
 
-defDestructive("focused_bomb", "Red Bomb", {
-    activateDescription = loc("Destroy target slots"),
-
-    rarity = lp.rarities.UNCOMMON,
-    doomCount = 1,
-
-    basePrice = 2,
-    baseMaxActivations = 1,
-    basePointsGenerated = 100,
-
-    shape = lp.targets.UpShape(3),
-    target = {
-        type = "SLOT",
-        activate = function(selfEnt, ppos, targetEnt)
-            lp.destroy(targetEnt)
-        end
-    },
-})
-
-
 
 
 
