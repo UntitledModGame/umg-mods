@@ -29,7 +29,7 @@ defItem("square_basket", "Square Basket", {
     }),
     rarity = lp.rarities.RARE,
 
-    shape = lp.targets.RookShape(1),
+    shape = lp.targets.KingShape(1),
     target = {
         type = "SLOT_NO_ITEM",
         activate = function(self, ppos)
