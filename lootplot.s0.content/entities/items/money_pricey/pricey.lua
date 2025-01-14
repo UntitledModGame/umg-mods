@@ -14,21 +14,18 @@ end
 
 
 defItem("gold_watch", "Gold Watch", {
-    activateDescription = loc("Increases price by 10%,\n(Max 200)"),
-
-    rarity = lp.rarities.EPIC,
     triggers = {"PULSE"},
 
-    onActivate = function(ent)
-        local x = ent.price * 0.10
-        lp.modifierBuff(ent, "price", x, ent)
-    end,
+    activateDescription = loc("Increases its price by $1"),
 
-    lootplotProperties = {
-        maximums = {
-            price = 200
-        }
-    },
+    basePointsGenerated = 10,
+    baseMaxActivations = 4,
+
+    rarity = lp.rarities.RARE,
+
+    onActivate = function(ent)
+        lp.modifierBuff(ent, "price", 1, ent)
+    end,
 })
 
 
@@ -54,4 +51,116 @@ defItem("gold_helmet", "Gold Helmet", {
         end
     }
 })
+
+
+
+---@param arr Entity[]
+---@return Entity?
+local function findCheapestItem(arr)
+    local bestPrice = 0xffffffff
+    local bestEnt
+    for _,ent in ipairs(arr) do
+        if ent.price and (ent.price < bestPrice) then
+            bestPrice = ent.price
+            bestEnt = ent
+        end
+    end
+    return bestEnt
+end
+
+
+---@param arr Entity[]
+---@return Entity?
+local function findMostExpensiveItem(arr)
+    local bestPrice = -0xffffffff
+    local bestEnt
+    for _,ent in ipairs(arr) do
+        if ent.price and (ent.price > bestPrice) then
+            bestPrice = ent.price
+            bestEnt = ent
+        end
+    end
+    return bestEnt
+end
+
+
+
+defItem("diamond_ring", "Diamond Ring", {
+    triggers = {"LEVEL_UP"},
+
+    activateDescription = loc("Earn money equal to the price of the cheapest target item.\n(Can be negative!)"),
+
+    onActivate = function (ent)
+        local items = lp.targets.getConvertedTargets(ent)
+        local cheapEnt = findCheapestItem(items)
+        if cheapEnt then
+            lp.addMoney(ent, cheapEnt.price)
+        end
+    end,
+
+    basePrice = 8,
+    baseMaxActivations = 1,
+    sticky = true,
+
+    shape = lp.targets.KingShape(3),
+    target = {
+        type = "ITEM",
+    },
+
+    rarity = lp.rarities.EPIC,
+})
+
+
+
+defItem("golden_magnet", "Golden Magnet", {
+    triggers = {"PULSE"},
+
+    activateDescription = loc("Adds multiplier equal to the price of the cheapest target item.\n(Can be negative!)"),
+
+    onActivate = function (ent)
+        local items = lp.targets.getConvertedTargets(ent)
+        local cheapEnt = findCheapestItem(items)
+        if cheapEnt then
+            lp.addPointsMult(ent, cheapEnt.price)
+        end
+    end,
+
+    basePrice = 12,
+    baseMaxActivations = 2,
+    sticky = true,
+
+    shape = lp.targets.KingShape(3),
+    target = {
+        type = "ITEM",
+    },
+
+    rarity = lp.rarities.EPIC,
+})
+
+
+
+defItem("golden_donut", "Golden Donut", {
+    triggers = {"PULSE"},
+
+    activateDescription = loc("Increases target item price by $3"),
+
+    basePrice = 12,
+    baseMaxActivations = 2,
+    manaCost = 1,
+    sticky = true,
+
+    shape = lp.targets.KingShape(1),
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.modifierBuff(targetEnt, "price", 2)
+        end
+    },
+
+    rarity = lp.rarities.RARE,
+})
+
+
+
+
 

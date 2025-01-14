@@ -932,7 +932,7 @@ local function defineDonut(id, name, targetDesc, buffAmount)
         name = loc(name),
         activateDescription = loc(targetDesc),
 
-        basePrice = 4,
+        basePrice = 6,
         canItemFloat = true,
 
         rarity = lp.rarities.RARE,

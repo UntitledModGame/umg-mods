@@ -196,6 +196,58 @@ defItem("sponge", "Sponge", {
 
 
 
+
+defItem("red_fan", "Red Fan", {
+    triggers = {"PULSE"},
+
+    activateDescription = loc("Buff target items points-earned by the current multiplier"),
+
+    basePrice = 12,
+    baseMaxActivations = 6,
+
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            local amount = lp.getPointsMult(selfEnt) or 0
+            lp.modifierBuff(targetEnt, "pointsGenerated", amount)
+        end
+    },
+    shape = lp.targets.UpShape(2),
+
+    rarity = lp.rarities.RARE,
+})
+
+
+
+local ANVIL_BUFF = 6
+local ANVIL_MULT_REDUCE = 0.5
+defItem("anvil", "Anvil", {
+    triggers = {"PULSE"},
+
+    activateDescription = loc("Buff each target's points-earned by %{buff}.\nReduce multiplier by %{reduce} for every item that was buffed.", {
+        reduce = ANVIL_MULT_REDUCE,
+        buff = ANVIL_BUFF
+    }),
+
+    basePrice = 12,
+    baseMaxActivations = 6,
+
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.modifierBuff(targetEnt, "pointsGenerated", ANVIL_BUFF)
+            lp.addPointsMult(selfEnt, -ANVIL_MULT_REDUCE)
+        end
+    },
+    shape = lp.targets.HorizontalShape(3),
+
+    rarity = lp.rarities.RARE,
+})
+
+
+
+
+
 defItem("anchor", "Anchor", {
     activateDescription = loc("Set {lootplot:POINTS_MULT_COLOR}mult{/lootplot:POINTS_MULT_COLOR} to 1"),
 
