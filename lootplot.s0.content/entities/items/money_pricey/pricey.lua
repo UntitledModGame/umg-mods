@@ -179,7 +179,7 @@ defItem("red_award", "Red Award", {
 
     activateDescription = loc("Adds {lootplot:POINTS_MULT_COLOR}mult{/lootplot:POINTS_MULT_COLOR} equal to this item's price"),
 
-    basePrice = 4,
+    basePrice = 2,
 
     sticky = true,
     baseMaxActivations = 8,
