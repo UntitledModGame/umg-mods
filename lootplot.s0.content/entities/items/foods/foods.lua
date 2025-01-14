@@ -213,7 +213,7 @@ defineFood("green_olive", {
     name = loc("Green Olive"),
     activateDescription = loc("Gives {lootplot:TRIGGER_COLOR}REROLL{/lootplot:TRIGGER_COLOR} Trigger to target item."),
 
-    rarity = lp.rarities.EPIC,
+    rarity = lp.rarities.LEGENDARY,
 
     shape = lp.targets.UP_SHAPE,
 
