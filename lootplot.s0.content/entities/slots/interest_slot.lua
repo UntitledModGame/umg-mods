@@ -14,7 +14,7 @@ local function earnMoneyFancy(ent, moneyEarned)
 end
 
 
-local MAX_INTEREST = 4
+local MAX_INTEREST = 3
 local INTEREST_REQUIREMENT = 10 -- $1 per $10
 
 return lp.defineSlot("lootplot.s0.content:interest_slot", {
