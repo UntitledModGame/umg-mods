@@ -47,7 +47,7 @@ defItem("pandoras_box", {
     shape = lp.targets.RookShape(1),
     doomCount = 1,
 
-    basePrice = 8,
+    basePrice = 9,
     baseMaxActivations = 1,
 
     target = {
@@ -70,7 +70,7 @@ defItem("old_brick", {
     rarity = lp.rarities.RARE,
     triggers = {"PULSE"},
 
-    basePrice = 6,
+    basePrice = 8,
     basePointsGenerated = 40,
     baseMaxActivations = 10,
 
@@ -87,7 +87,7 @@ defItem("red_brick", {
     rarity = lp.rarities.RARE,
     triggers = {"PULSE"},
 
-    basePrice = 6,
+    basePrice = 8,
     baseMultGenerated = 4,
     baseMaxActivations = 10,
 
@@ -166,7 +166,7 @@ defItem("map", {
     shape = lp.targets.CircleShape(6),
 
     doomCount = 1,
-    basePrice = 5,
+    basePrice = 6,
 
     target = {
         filter = function(selfEnt, ppos)
@@ -193,7 +193,7 @@ defItem("foghorn", {
     shape = lp.targets.RookShape(8),
 
     doomCount = 3,
-    basePrice = 5,
+    basePrice = 8,
 
     target = {
         type = "NO_SLOT",
@@ -211,31 +211,24 @@ defItem("foghorn", {
 })
 
 
---[[
 
 defItem("feather", {
     name = loc("Feather"),
 
-    shape = lp.targets.QueenShape(3),
+    triggers = {"PULSE"},
 
-    basePrice = 8,
+    basePrice = 10,
+    baseMultGenerated = 2,
+    manaCost = 1,
 
     rarity = lp.rarities.RARE,
 
-    activateDescription = loc("Gives {lootplot:POINTS_MULT_COLOR}+0.5 mult{/lootplot:POINTS_MULT_COLOR} for every targetted floating item."),
-
-    listen = {
-        trigger = "PULSE",
-        filter = function(selfEnt, ppos, targetEnt)
-            return targetEnt.canItemFloat
-        end,
-        activate = function(selfEnt, ppos, targetEnt)
-            lp.addPointsMult(selfEnt, 0.5)
-        end
-    }
+    activateDescription = loc("Increases {lootplot:POINTS_MULT_COLOR}mult{/lootplot:POINTS_MULT_COLOR} by 1 permanently"),
+    onActivate = function(ent)
+        lp.modifierBuff(ent, "multGenerated", 0.5, ent)
+    end,
 })
 
-]]
 
 
 defItem("ruby", {
