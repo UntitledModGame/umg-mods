@@ -74,7 +74,7 @@ defItem("leather", "Leather", {
 
     rarity = lp.rarities.UNCOMMON,
 
-    basePrice = 4,
+    basePrice = 6,
 
     baseMaxActivations = 5,
     baseMultGenerated = -0.1,
@@ -92,7 +92,7 @@ defItem("red_leather", "Red Leather", {
 
     rarity = lp.rarities.UNCOMMON,
 
-    basePrice = 4,
+    basePrice = 6,
 
     baseMaxActivations = 5,
     baseMultGenerated = 0.5,
@@ -112,7 +112,7 @@ defItem("eye_worm", "Eye Worm", {
     end,
 
     baseMaxActivations = 1,
-    baseMultGenerated = 5,
+    baseMultGenerated = 4,
     basePrice = 9,
     sticky = true,
 
@@ -149,7 +149,7 @@ defItem("steak_maker", "Steak Maker", {
 defItem("red_net", "Red Net", {
     rarity = lp.rarities.RARE,
 
-    basePrice = 5,
+    basePrice = 8,
     baseMaxActivations = 10,
     baseMultGenerated = 0.1,
 
@@ -168,7 +168,7 @@ defItem("red_pin", "Red Pin", {
 
     triggers = {"PULSE"},
 
-    basePrice = 3,
+    basePrice = 6,
     baseMaxActivations = 3,
 
     onActivate = function(ent)
@@ -190,7 +190,7 @@ defItem("sponge", "Sponge", {
 
     rarity = lp.rarities.EPIC,
 
-    basePrice = 10,
+    basePrice = 13,
     baseMaxActivations = 3,
 })
 

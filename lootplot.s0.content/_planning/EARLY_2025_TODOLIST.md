@@ -128,6 +128,12 @@ IDEA-1: manaCost=2, gives x2 mult
 IDEA-2: manaCost=1, gives +1 mult. Permanently increase mult by 1.
 
 
+- Tweaks/adjustments to shop-slot spawn-rates. Do some good experimentation with this!!
+-> Jot down what the game is seeking to achieve with spawn-rates
+-> Write down EXACTLY what kind of rates we want from shop-slots
+-> Change anything if appropriate
+
+
 - Item placement target-Juice:
 https://discord.com/channels/@me/698376055140122624/1328663740203143198
 

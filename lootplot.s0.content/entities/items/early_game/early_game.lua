@@ -144,10 +144,10 @@ defItem("bone", {
     triggers = {"DESTROY"},
 
     basePrice = 0,
-    basePointsGenerated = 2,
+    basePointsGenerated = 20,
 
     lives = 6,
-    rarity = lp.rarities.COMMON,
+    rarity = lp.rarities.UNCOMMON,
 })
 
 

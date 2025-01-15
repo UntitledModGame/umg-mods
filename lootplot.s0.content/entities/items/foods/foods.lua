@@ -419,14 +419,14 @@ defineSlotSpawner("sniper_berries", "Sniper Berries", "slot", "Normal Slot", lp.
 })
 
 defineSlotSpawner("stone_fruit", "Stone fruit", "null_slot", "Null Slot", lp.targets.ON_SHAPE, {
-    basePrice = 5,
+    basePrice = 6,
     canItemFloat = true,
-    rarity = lp.rarities.COMMON
+    rarity = lp.rarities.UNCOMMON
 })
 
 defineSlotSpawner("dragonfruit", "Dragonfruit", "slot", "Normal Slot", lp.targets.RookShape(1), {
     basePrice = 8,
-    rarity = lp.rarities.COMMON
+    rarity = lp.rarities.UNCOMMON
 })
 
 defineSlotSpawner("dragonfruit_slice", "Dragonfruit Slice", "slot", "Normal Slot", lp.targets.BishopShape(1), {
@@ -510,7 +510,7 @@ defineSlotSpawner("golden_loaf", "Golden Loaf", "weak_shop_slot", "Shop Slot",
 )
 
 defineSlotSpawner("coconut", "Coconut", "dirt_slot", "Dirt Slot", lp.targets.KingShape(1), {
-    rarity = lp.rarities.COMMON,
+    rarity = lp.rarities.UNCOMMON,
 })
 
 

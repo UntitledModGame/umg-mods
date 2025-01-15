@@ -42,7 +42,7 @@ local function defineSword(mineral_type, name, strength, etype)
 
         rarity = etype.rarity or lp.rarities.UNCOMMON,
 
-        basePrice = 4,
+        basePrice = 6,
     }
     for k,v in pairs(etype) do
         swordType[k] = swordType[k] or v
@@ -71,7 +71,7 @@ local function defineSpear(mineral_type, name, strength, etype)
 
         rarity = etype.rarity or lp.rarities.RARE,
 
-        basePrice = 4,
+        basePrice = 6,
     }
     for k,v in pairs(etype) do
         spearType[k] = v
@@ -130,7 +130,7 @@ local function defineAxe(mineral_type, name, strength, etype)
 
         rarity = etype.rarity or lp.rarities.RARE,
 
-        basePrice = 6,
+        basePrice = 8,
         basePointsGenerated = math.floor(2 * strength),
 
         shape = lp.targets.KNIGHT_SHAPE,
