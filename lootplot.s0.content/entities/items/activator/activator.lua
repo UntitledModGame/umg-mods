@@ -113,6 +113,8 @@ defItem("red_boxing_glove", "Red Boxing Glove", {
 
 
 defItem("ping_pong_paddle", "Ping pong paddle", {
+    triggers = {"PULSE"},
+
     shape = lp.targets.UpShape(1),
 
     basePrice = 7,
@@ -120,10 +122,12 @@ defItem("ping_pong_paddle", "Ping pong paddle", {
 
     rarity = lp.rarities.RARE,
 
+    manaCost = 1,
+
     activateDescription = loc("Gives target item {lootplot:REPEATER_COLOR}REPEATER{/lootplot:REPEATER_COLOR}, but makes it {lootplot:GRUB_COLOR}STUCK."),
 
     target = {
-        trigger = "PULSE",
+        type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
             targetEnt.repeatActivations = true
             targetEnt.sticky = true
