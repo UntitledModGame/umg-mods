@@ -77,8 +77,7 @@ function LPState:init()
 
     self.accumulatedPoints = {
         accumulated = 0,
-        string = "",
-        timeout = 0 -- if 0 = disappear and set accumulated to 0
+        timeout = 0
     }
     self.multiplierEffect = {
         last = 1,
@@ -190,19 +189,18 @@ local function showNSignificant(value, nsig)
 	return tostring(math.floor(value * mulby) / mulby)
 end
 
-local ACCUMULATED_POINT_SINGLE_CHAR = 0.01
 local ACCUMULATED_POINT_FADE_OUT = 0.3
-local ACCUMULATED_EFFECT_START = 0.2
 local ACCUMULATED_POINT_TOTAL_TIME = 2
+
+local ACCUMULATED_JOLT_DURATION = 0.2 -- in seconds
+
+local ACCUMULATED_JOLT_ROTATION_AMOUNT = math.rad(20)
+local ACCUMULATED_JOLT_SCALE_BULGE_AMOUNT = 1.5
+
 
 function LPState:pointsChanged(points)
     self.accumulatedPoints.accumulated = self.accumulatedPoints.accumulated + points
     self.accumulatedPoints.timeout = ACCUMULATED_POINT_TOTAL_TIME
-    self.accumulatedPoints.string = showNSignificant(self.accumulatedPoints.accumulated, 3)
-
-    if self.accumulatedPoints.accumulated > 0 then
-        self.accumulatedPoints.string = "+"..self.accumulatedPoints.string
-    end
 end
 
 function LPState:update(dt)
@@ -241,7 +239,6 @@ function LPState:update(dt)
         self.accumulatedPoints.timeout = math.max(self.accumulatedPoints.timeout - dt, 0)
         if self.accumulatedPoints.timeout <= 0 then
             self.accumulatedPoints.accumulated = 0 -- reset
-            self.accumulatedPoints.string = "" -- reset
         end
     end
 
@@ -251,7 +248,7 @@ function LPState:update(dt)
         local pointMul = run:getAttribute("POINTS_MULT")
 
         if self.multiplierEffect.last ~= pointMul then
-            self.multiplierEffect.timeout = ACCUMULATED_EFFECT_START
+            self.multiplierEffect.timeout = ACCUMULATED_JOLT_DURATION
             self.multiplierEffect.last = pointMul
         end
     end
@@ -269,22 +266,22 @@ local MONEY = interp("{wavy freq=0.6 spacing=0.8 amp=0.4}{outline thickness=2}{c
 ---@param font love.Font
 ---@param align love.AlignMode
 ---@param s number
-local function printRichTextByConstraint(constraint, txt, font, align, s)
-    local x, y, w = constraint:get()
+local function printRichTextByConstraint(constraint, txt, font, align, s, rot)
+    local x, y, w, h = constraint:get()
+    local hw, hh = w / 2, h / 2
     return text.printRich(txt, font, x, y, w / s, align, 0, s, s)
 end
+
 
 ---@param constraint {get:fun(self:any):(number,number,number,number)}
 ---@param txt string
 ---@param font love.Font
 ---@param align love.AlignMode
 ---@param s number
----@param eff number
-local function printRichTextByConstraintWithRotEffect(constraint, txt, font,  align, s, eff)
-    local rot = math.sin(eff * 8) * 0.15
+local function printRichTextCenteredByConstraint(constraint, txt, font, align, s, rot)
     local x, y, w, h = constraint:get()
     local hw, hh = w / 2, h / 2
-    return text.printRich(txt, font, x + hw, y + hh, w / s, align, rot, s, s, hw / s, hh / s)
+    return text.printRichCentered(txt, font, x + hw, y + hh, 0xffff, align, rot, s,s)
 end
 
 ---@param x number
@@ -306,6 +303,17 @@ local function drawRegions(rlist)
     love.graphics.setColor(1,1,1)
 end
 
+
+local function getAccumTextRotAndScale(timeSinceChange)
+    -- jolt is number from 0 -> 1, representing how "far" along the jolt we are
+    local jolt = math.clamp((ACCUMULATED_JOLT_DURATION - timeSinceChange) / ACCUMULATED_JOLT_DURATION, 0,1)
+
+    local rot = -(jolt * ACCUMULATED_JOLT_ROTATION_AMOUNT)
+    local scale = math.min(jolt, 1-jolt) * ACCUMULATED_JOLT_SCALE_BULGE_AMOUNT
+    return rot, 1+scale
+end
+
+
 function LPState:drawHUD()
     local run = lp.main.getRun()
     if not run then return end
@@ -321,7 +329,8 @@ function LPState:drawHUD()
 
     local pointMul = self.multiplierEffect.last
     local largerFont = fonts.getSmallFont(64)
-    local accWidth = largerFont:getWidth(self.accumulatedPoints.string)
+    local accumPointsText = showNSignificant(self.accumulatedPoints.accumulated, 3)
+    local accWidth = largerFont:getWidth(accumPointsText)
     local mulText = ""
     if pointMul ~= 1 then
         mulText = "(x"..showNSignificant(pointMul, 4)..")"
@@ -380,8 +389,6 @@ function LPState:drawHUD()
     printRichTextByConstraint(l.leftBottom, MONEY({money = run:getAttribute("MONEY")}), font, "left", gs)
 
     if self.accumulatedPoints.timeout > 0 then
-        local t = ACCUMULATED_POINT_TOTAL_TIME - self.accumulatedPoints.timeout
-        local sub = self.accumulatedPoints.string:sub(1, math.floor(t / ACCUMULATED_POINT_SINGLE_CHAR))
         local opacity = easeOutQuad(math.clamp(self.accumulatedPoints.timeout / ACCUMULATED_POINT_FADE_OUT, 0, 1))
         local richText = string.format("{wavy}{outline thickness=%.2f}", opacity * 4)
 
@@ -394,13 +401,17 @@ function LPState:drawHUD()
 
         l.accumulator:size(accWidth * gs, 0)
         love.graphics.setColor(col[1], col[2], col[3], opacity)
-        local eff = self.accumulatedPoints.timeout - ACCUMULATED_POINT_TOTAL_TIME + ACCUMULATED_EFFECT_START
-        printRichTextByConstraintWithRotEffect(l.accumulator, richText..sub, largerFont, "left", gs, math.max(eff / ACCUMULATED_EFFECT_START, 0))
+
+        local timeSincePointsChange = ACCUMULATED_POINT_TOTAL_TIME - self.accumulatedPoints.timeout
+        local pointsRot, pointsScale = getAccumTextRotAndScale(timeSincePointsChange)
+        printRichTextCenteredByConstraint(l.accumulator, richText..accumPointsText, largerFont, "left", gs*pointsScale, pointsRot)
     end
 
     local mulTextWithEff = "{wavy}{outline thickness=4}"..mulText.."{/outline}{/wavy}"
     love.graphics.setColor(1, 1, 1)
-    printRichTextByConstraintWithRotEffect(mulConstraint, surroundColor(lp.COLORS.POINTS_MULT_COLOR, mulTextWithEff), largerFont, "center", gs, self.multiplierEffect.timeout / ACCUMULATED_EFFECT_START)
+    local timeSinceMultChange = ACCUMULATED_JOLT_DURATION - self.multiplierEffect.timeout
+    local multRot, multScale = getAccumTextRotAndScale(timeSinceMultChange)
+    printRichTextCenteredByConstraint(mulConstraint, surroundColor(lp.COLORS.POINTS_MULT_COLOR, mulTextWithEff), largerFont, "center", gs*multScale, multRot)
     -- drawRegions(l)
 end
 

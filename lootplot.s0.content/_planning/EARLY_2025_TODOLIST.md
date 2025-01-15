@@ -133,7 +133,12 @@ https://discord.com/channels/@me/698376055140122624/1328663740203143198
 
 
 - Make mult-increment / point-increment visual better;
---> currently it disappears! It should bob up and down instead.
+--> (((DONE))) currently it disappears! It should bob up and down instead.
 --> fix the rounding
 
+
+- Make mult-packet visuals!!
+We have packet-visuals for points, but NOT for mult.  Change this.
+(^^^ also maybe change the points-sprites back to the old-version..?)
+(What about just a basic white square sprite as the packet?)
 
