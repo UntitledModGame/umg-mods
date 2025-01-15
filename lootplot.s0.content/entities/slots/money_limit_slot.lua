@@ -10,7 +10,7 @@ local MONEY_LIMIT = 100
 return lp.defineSlot("lootplot.s0.content:money_limit_slot", {
     image = "money_limit_slot",
     name = loc("Money-limit slot"),
-    description = MONEY_LIMIT_TEXT({limit = MONEY_LIMIT}),
+    activateDescription = MONEY_LIMIT_TEXT({limit = MONEY_LIMIT}),
 
     baseCanSlotPropagate = false,
     canAddItemToSlot = function()
