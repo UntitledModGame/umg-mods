@@ -134,7 +134,8 @@ https://discord.com/channels/@me/698376055140122624/1328663740203143198
 
 - Make mult-increment / point-increment visual better;
 --> (((DONE))) currently it disappears! It should bob up and down instead.
---> fix the rounding
+--> fix the rounding (NOTE: we have a function for this: `showNSignificant`)
+--> FIX THE MULT NOT SHOWING!!! idk wtf is happening, but it aint working
 
 
 - Make mult-packet visuals!!
