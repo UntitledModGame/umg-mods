@@ -113,24 +113,21 @@ defItem("red_boxing_glove", "Red Boxing Glove", {
 
 
 defItem("ping_pong_paddle", "Ping pong paddle", {
-    shape = lp.targets.KNIGHT_SHAPE,
+    shape = lp.targets.UpShape(1),
 
     basePrice = 7,
-    baseMaxActivations = 10,
+    baseMaxActivations = 1,
 
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.RARE,
 
-    activateDescription = loc("Activates item again."),
+    activateDescription = loc("Gives target item {lootplot:REPEATER_COLOR}REPEATER{/lootplot:REPEATER_COLOR}, but makes it {lootplot:GRUB_COLOR}STUCK."),
 
-    listen = {
+    target = {
         trigger = "PULSE",
         activate = function(selfEnt, ppos, targetEnt)
-            if lp.hasTrigger(targetEnt, "PULSE") and lp.canActivateEntity(targetEnt) then
-                lp.queueWithEntity(targetEnt, function(e)
-                    lp.tryActivateEntity(e)
-                end)
-                lp.wait(ppos, 0.1)
-            end
+            targetEnt.repeatActivations = true
+            targetEnt.sticky = true
+            targetEnt.stuck = true
         end
     }
 })

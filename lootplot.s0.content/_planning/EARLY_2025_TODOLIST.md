@@ -111,14 +111,14 @@ Gives mult equal to the number of lives that this item has
 
 - (((DONE))) SLOT: Create interest-slot
 
-- SLOT: Swashbuckler Slot:
+- (((DONE))) SLOT: Swashbuckler Slot:
 Items placed on this slot dont cost any money to activate (And cannot earn money either!)
 (NOTE- use `destroy_slot_concept_2.png` for the image!)
 Color should be gold tho, maybe...?
 
-- ITEM: Swashbuckler apple: Creates a swashbuckler slot
+- (((DONE))) ITEM: Swashbuckler apple: Creates a swashbuckler slot
 
-- ITEM REFACTOR: Change ping-pong paddle. Its currently a bit... meh. Maybe something to do with mult, since it's red-colored?
+- (((DONE))) ITEM REFACTOR: Change ping-pong paddle. Its currently a bit... meh. Maybe something to do with mult, since it's red-colored?
 
 - ITEM CHANGE: Do something with FEATHER!
 (we already have an item-def for it; its just that the current definition overlaps with white-cap. 
