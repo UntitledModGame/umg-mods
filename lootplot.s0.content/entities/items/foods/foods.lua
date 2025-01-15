@@ -573,8 +573,13 @@ defineSlotConverter("sliced_apple", "Sliced Apple", "item_pulse_button_slot", "I
     basePrice = APPLE_PRICE
 })
 
+defineSlotConverter("bananas", "Bananas", "swashbuckler_slot", "Swashbuckler Slot", lp.targets.ON_SHAPE, {
+    rarity = lp.rarities.EPIC,
+    basePrice = APPLE_PRICE
+})
+
 defineSlotConverter("golden_apple", "Golden Apple", "golden_slot", "Golden Slot", lp.targets.ON_SHAPE, {
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.RARE,
     basePrice = APPLE_PRICE
 })
 
