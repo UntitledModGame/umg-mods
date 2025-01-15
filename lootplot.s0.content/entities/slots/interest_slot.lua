@@ -14,12 +14,17 @@ local function earnMoneyFancy(ent, moneyEarned)
 end
 
 
+local MAX_INTEREST = 4
+local INTEREST_REQUIREMENT = 10 -- $1 per $10
+
 return lp.defineSlot("lootplot.s0.content:interest_slot", {
     image = "interest_slot",
     name = loc("Interest Slot"),
     activateDescription = loc(
-        "Earns {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} for every {lootplot:MONEY_COLOR}$10{/lootplot:MONEY_COLOR} you have.\n(Max: {lootplot:MONEY_COLOR}$5{/lootplot:MONEY_COLOR})"
-    ),
+    "Earns {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} for every {lootplot:MONEY_COLOR}$%{requirement}{/lootplot:MONEY_COLOR} you have.\n(Max: {lootplot:MONEY_COLOR}$%{max}{/lootplot:MONEY_COLOR})", {
+        max = MAX_INTEREST,
+        requirement = INTEREST_REQUIREMENT
+    }),
 
     baseCanSlotPropagate = false,
     canAddItemToSlot = function()
