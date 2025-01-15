@@ -101,10 +101,10 @@ local function definePickaxe(mineral_type, name, strength, etype)
 
         mineralType = mineral_type,
 
-        basePrice = 12,
+        basePrice = 16,
         basePointsGenerated = -strength,
 
-        rarity = lp.rarities.RARE,
+        rarity = lp.rarities.EPIC,
     }
     for k,v in pairs(etype) do
         pickType[k] = pickType[k] or v
@@ -222,9 +222,9 @@ local function defineCrossbow(mineral_type, name, strength, etype)
 
         mineralType = mineral_type,
 
-        rarity = etype.rarity or lp.rarities.RARE,
+        rarity = etype.rarity or lp.rarities.EPIC,
 
-        basePrice = 12,
+        basePrice = 16,
 
         shape = lp.targets.UpShape(2),
 
