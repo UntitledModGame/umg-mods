@@ -120,7 +120,7 @@ Color should be gold tho, maybe...?
 
 - (((DONE))) ITEM REFACTOR: Change ping-pong paddle. Its currently a bit... meh. Maybe something to do with mult, since it's red-colored?
 
-- ITEM CHANGE: Do something with FEATHER!
+- (((DONE))) ITEM CHANGE: Do something with FEATHER!
 (we already have an item-def for it; its just that the current definition overlaps with white-cap. 
 So change it to something new; thx.
 Maybe something that costs mana...?)
@@ -128,17 +128,12 @@ IDEA-1: manaCost=2, gives x2 mult
 IDEA-2: manaCost=1, gives +1 mult. Permanently increase mult by 1.
 
 
-- Tweaks/adjustments to shop-slot spawn-rates. Do some good experimentation with this!!
--> Jot down what the game is seeking to achieve with spawn-rates
--> Write down EXACTLY what kind of rates we want from shop-slots
--> Change anything if appropriate
-
-
-- Item placement target-Juice:
+- (((DONE))) Item placement target-Juice:
 https://discord.com/channels/@me/698376055140122624/1328663740203143198
 
 
 - Make mult-increment / point-increment visual better;
-currently it disappears! It should bob up and down instead.
+--> currently it disappears! It should bob up and down instead.
+--> fix the rounding
 
 

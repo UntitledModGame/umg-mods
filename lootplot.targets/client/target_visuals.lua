@@ -138,3 +138,120 @@ umg.on("lootplot.targets:targetActivated", function (itemEnt, ppos)
 end)
 
 
+
+
+
+--[[
+
+Item placement juice:
+
+When items are swapped, we should see what other entities that the swapped item targets.
+Then, we should play a nice click/reload sound, and bulge each new entity that was targetted. (maybe play a little orange target-animation too?)
+That way, when you place an item somewhere that targets a lot of other items, its super satisfying.
+
+ALSO IMPORTANT:
+Maybe delay the juice by 0.3-0.4 seconds?
+We ideally want the juice to play when the item actually lands in the slot.
+]]
+
+
+local ENT_TARGET_TYPES = {
+    -- its pretty shit hardcoding this, but its "fine" i guess
+    ITEM = true,
+    SLOT = true,
+    SLOT_OR_ITEM = true,
+    ITEM_OR_SLOT = true,
+    SLOT_NO_ITEM = true,
+}
+
+
+--[[
+returns true IFF itemEnt is targetting other entities
+]]
+local function isTargettingEntities(itemEnt)
+    if not itemEnt.shape then
+        return
+    end
+    local target = itemEnt.target
+    return target and ENT_TARGET_TYPES[target.type]
+end
+
+
+local dirObj = umg.getModFilesystem()
+
+audio.defineAudioInDirectory(
+    dirObj:cloneWithSubpath("assets/sfx"), "lootplot.targets:", {"audio:sfx"}
+)
+local targetClickSound = sound.Sound("lootplot.targets:target_placement_click", 0.56, 0.8)
+
+
+
+local function doTargetJuice(itemEnt)
+    if not isTargettingEntities(itemEnt) then
+        return
+    end
+
+    local time = love.timer.getTime()
+
+    local targList = lp.targets.getTargets(itemEnt)
+    local magnitude = 1
+    if #targList <= 2 then
+        magnitude = 1.5 -- go HARD! 
+        -- There arent many targetted ents, so we wont overwhelm player.
+    elseif #targList > 8 then
+        magnitude = 0.7
+        -- there are many targetted ents, so tone it down.
+        -- dont wanna overwhelm player.
+    elseif #targList > 16 then
+        magnitude = 0.35 -- tone down EXTRA!
+    end
+
+    local entList = lp.targets.getConvertedTargets(itemEnt)
+    for _, targEnt in ipairs(entList) do
+        --[[
+            TODO: HACK: FIXME: This is terrible!
+            We shouldn't be using these components here.
+            They belong to the lootplot.juice mod; NOT lp.targets mod!!!
+            OH WELL, not gonna fix now. We borrow from the bank of tech debt
+        ]]
+        local bulgeAmp = 0.6
+        if lp.isSlotEntity(targEnt) then
+            bulgeAmp = 0.15 -- slot bulge should be less
+        end
+
+        targEnt:addComponent("bulgeJuice", {
+            start = time,
+            duration = 0.35,
+            amp = bulgeAmp * magnitude
+        })
+
+        targEnt:addComponent("joltJuice", {
+            freq = 1.3,
+            amp = math.rad(40),
+            start = time,
+            duration = 0.55
+        })
+    end
+
+    if (#entList > 0) then
+        -- dont play if we arent targetting anything.
+        targetClickSound:play()
+    end
+end
+
+
+
+umg.on("lootplot:itemMoved", function(itemEnt, ppos1, ppos2)
+    doTargetJuice(itemEnt)
+end)
+
+
+
+---@param selectedd lootplot.Selected
+umg.on("lootplot:selectionChanged", function(selectedd)
+    local itemEnt = selectedd and selectedd.item
+    if itemEnt then
+        doTargetJuice(itemEnt)
+    end
+end)
+

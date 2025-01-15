@@ -13,6 +13,16 @@ Nebulous planning should be kept in this file instead.
 ===============================================================
 
 
+
+## Tweaks/adjustments to shop-slot spawn-rates
+Do some good experimentation with this!!
+-> Jot down what the game is seeking to achieve with spawn-rates
+-> Write down EXACTLY what kind of rates we want from shop-slots
+-> Change anything if appropriate
+
+
+
+
 ## ITEM PLANNING SPIKE:
 https://discord.com/channels/@me/698376055140122624/1321378894196117525
 
