@@ -126,6 +126,9 @@ defItem("bull_helmet", {
         end,
     },
 
+    sticky = true,
+    canItemFloat = true,
+
     rarity = lp.rarities.EPIC,
 })
 
@@ -135,8 +138,9 @@ defItem("bull_helmet", {
 
 local function defBalloon(id, name, etype)
     etype.name = loc(name)
-    etype.shape = etype.shape or lp.targets.CircleShape(3)
+    etype.shape = etype.shape or lp.targets.CircleShape(2)
     etype.baseMaxActivations = 50
+    etype.sticky = true
     if etype.canItemFloat == nil then
         etype.canItemFloat = true
     end
@@ -240,7 +244,7 @@ defBalloon("blue_balloon", "Blue Balloon", {
 
 
 defBalloon("golden_balloon", "Golden Balloon", {
-    activateDescription = loc("If purchased item price is more than $3, {lootplot:MONEY_COLOR}earn $1"),
+    activateDescription = loc("If purchased item price is more than {lootplot:MONEY_COLOR}$3,\nEarn $1"),
     rarity = lp.rarities.EPIC,
 
     basePrice = 10,
@@ -256,30 +260,17 @@ defBalloon("golden_balloon", "Golden Balloon", {
 })
 
 
-defBalloon("mana_balloon", "Mana Balloon", {
-    rarity = lp.rarities.RARE,
-
-    basePrice = 15,
-
-    manaCost = -1,
-
-    listen = {
-        trigger = "BUY",
-    }
-})
-
-
 
 
 defItem("neko_cat", {
     name = loc("Neko Cat"),
-    activateDescription = loc("Activates {lootplot:INFO_COLOR}ALL{/lootplot:INFO_COLOR} target items directly."),
+    activateDescription = loc("Activates {lootplot:INFO_COLOR}ALL{/lootplot:INFO_COLOR} target items.\nWorks on all triggers!"),
 
     rarity = lp.rarities.EPIC,
 
     basePrice = 10,
     canItemFloat = true,
-
+    sticky = true,
 
     listen = {
         trigger = "BUY",
