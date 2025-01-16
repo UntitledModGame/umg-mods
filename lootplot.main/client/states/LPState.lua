@@ -195,7 +195,7 @@ local ACCUMULATED_POINT_TOTAL_TIME = 2
 local ACCUMULATED_JOLT_DURATION = 0.2 -- in seconds
 
 local ACCUMULATED_JOLT_ROTATION_AMOUNT = math.rad(20)
-local ACCUMULATED_JOLT_SCALE_BULGE_AMOUNT = 1.5
+local ACCUMULATED_JOLT_SCALE_BULGE_AMOUNT = 1.2
 
 
 function LPState:pointsChanged(points)
@@ -333,7 +333,7 @@ function LPState:drawHUD()
     local accWidth = largerFont:getWidth(accumPointsText)
     local mulText = ""
     if pointMul ~= 1 then
-        mulText = "(x"..showNSignificant(pointMul, 4)..")"
+        mulText = "(x"..showNSignificant(pointMul, 1)..")"
     end
     local mulWidth = largerFont:getWidth(mulText)
     local mulConstraint
@@ -411,7 +411,7 @@ function LPState:drawHUD()
     love.graphics.setColor(1, 1, 1)
     local timeSinceMultChange = ACCUMULATED_JOLT_DURATION - self.multiplierEffect.timeout
     local multRot, multScale = getAccumTextRotAndScale(timeSinceMultChange)
-    printRichTextCenteredByConstraint(mulConstraint, surroundColor(lp.COLORS.POINTS_MULT_COLOR, mulTextWithEff), largerFont, "center", gs*multScale, multRot)
+    printRichTextCenteredByConstraint(mulConstraint, surroundColor(lp.COLORS.POINTS_MULT_COLOR, mulTextWithEff), largerFont, "left", gs*multScale, multRot)
     -- drawRegions(l)
 end
 
