@@ -154,10 +154,10 @@ Add 1 mana cost to it
 
 - (((DONE))) Make shoppy items sticky, nerf the shapes of them (especially balloons!)
 
-- Redo some of the money-items; some of them are bad.
+- (((DONE))) Redo some of the money-items; some of them are bad.
 
-- Fix fullscreen crash: 
+- (((DONE))) Fix fullscreen crash: 
 REPRO: Fullscreen game when in the NewRunScene (gets error due to stencil)
 
-- RELEASE PLAYTEST
+- (((DONE))) RELEASE PLAYTEST!!! (DONE DONE DONE)
 
