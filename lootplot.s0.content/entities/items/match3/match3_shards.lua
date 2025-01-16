@@ -94,6 +94,13 @@ defShards("mana_shards", "Mana Shards",
 local function earn8Money(itemEnt)
     lp.addMoney(itemEnt, 8)
 end
+--[[
+IDEA: 
+Instead of earning money,
+Golden-shards should spawn DOOMED-1 shop-slots with items inside.
+That'll make them more "interesting"
+(That way, we can make them COMMON too!)
+]]
 defShards("golden_shards", "Golden Shards",
     earn8Money, "Earn {lootplot:MONEY_COLOR}$8{/lootplot:MONEY_COLOR}.",
 {

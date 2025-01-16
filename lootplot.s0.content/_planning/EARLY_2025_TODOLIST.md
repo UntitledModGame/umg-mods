@@ -161,4 +161,3 @@ REPRO: Fullscreen game when in the NewRunScene (gets error due to stencil)
 
 - RELEASE PLAYTEST
 
-- Gold-shards should spawn DOOMED-1 strong shop slot

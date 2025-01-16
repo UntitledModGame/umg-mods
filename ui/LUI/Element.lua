@@ -184,20 +184,26 @@ local function activate(self)
 end
 
 
+local function tryStartStencil(x,y,w,h)
+    love.graphics.setStencilMode("draw", 1)
+    love.graphics.rectangle("fill",x,y,w,h)
+    love.graphics.setStencilMode("test", 1)
+end
+
 --- Starts stenciling
 ---@param x number
 ---@param y number
 ---@param w number
 ---@param h number
 function Element:startStencil(x,y,w,h)
-    love.graphics.setStencilMode("draw", 1)
-    love.graphics.rectangle("fill",x,y,w,h)
-    love.graphics.setStencilMode("test", 1)
+    -- Wrap in pcall to avoid error with canvases
+    pcall(tryStartStencil, x,y,w,h)
 end
 
 
 function Element:endStencil()
-    love.graphics.setStencilMode("off")
+    -- Wrap in pcall to avoid error with canvases
+    pcall(love.graphics.setStencilMode, "off")
 end
 
 
