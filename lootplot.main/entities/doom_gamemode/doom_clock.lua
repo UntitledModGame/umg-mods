@@ -14,7 +14,7 @@ local loc = localization.localize
 
 
 local EARLY_LEVELS = {
-    60, 500, 6000, 30000, 100000, 500000
+    60, 500, 6000, 20000, 80000, 350000
 }
 local RAMP_UP = 12
 
@@ -45,6 +45,8 @@ local function getRequiredPoints(levelNumber)
     local number = (4^(levelNumber-0.5)) * 100
     return makePretty(number)
 end
+
+
 
 
 
