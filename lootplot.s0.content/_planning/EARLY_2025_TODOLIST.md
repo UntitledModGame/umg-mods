@@ -152,9 +152,13 @@ Add 1 mana cost to it
 - (((DONE))) Add coin-visual on top of items for when moneyEarned is negative!
 (Grubby visual should have bronze coins, negative moneyEarned should be gold coins)
 
-- Make shoppy items sticky, nerf the shapes of them (especially balloons!)
-
-- Gold-shards should spawn DOOMED-1 strong shop slot
+- (((DONE))) Make shoppy items sticky, nerf the shapes of them (especially balloons!)
 
 - Redo some of the money-items; some of them are bad.
 
+- Fix fullscreen crash: 
+REPRO: Fullscreen game when in the NewRunScene (gets error due to stencil)
+
+- RELEASE PLAYTEST
+
+- Gold-shards should spawn DOOMED-1 strong shop slot

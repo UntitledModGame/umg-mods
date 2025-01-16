@@ -506,7 +506,7 @@ local loafEtype = {
 defineSlotSpawner("burned_loaf", "Burned Loaf", "sell_slot", "Sell Slot",
     lp.targets.ON_SHAPE, loafEtype
 )
-defineSlotSpawner("golden_loaf", "Golden Loaf", "weak_shop_slot", "Shop Slot",
+defineSlotSpawner("golden_loaf", "Golden Loaf", "weak_shop_slot", "Weak Shop Slot",
     lp.targets.ON_SHAPE, loafEtype
 )
 
