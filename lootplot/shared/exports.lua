@@ -1140,8 +1140,6 @@ end
 ---@field public canSlotPropagate boolean
 ---@field public buttonSlot boolean
 ---@field public onActivate? fun(ent:lootplot.SlotEntity)
----@field public itemSpawner? fun(ent:lootplot.SlotEntity): string
----@field public itemReroller? fun(ent:lootplot.SlotEntity): string
 ---@alias lootplot.SlotEntity lootplot.SlotEntityClass|lootplot.LayerEntity|Entity
 
 local DEFAULT_SLOT_HITBOX_AREA = {width = 22, height = 22, ox = 0, oy = 0}
