@@ -103,17 +103,6 @@ defineHelmet("ruby_helmet", {
 
 
 
-local function hasRerollTrigger(ent)
-    if ent.triggers then
-        for _,t in ipairs(ent.triggers) do
-            if t == "REROLL" then
-                return true
-            end
-        end
-    end
-    return false
-end
-
 defineHelmet("emerald_helmet", {
     name = loc("Emerald Helmet"),
     activateDescription = loc("Give target items {lootplot:POINTS_MOD_COLOR}+1 points."),
@@ -128,9 +117,6 @@ defineHelmet("emerald_helmet", {
         activate = function(selfEnt, ppos, targetEnt)
             lp.modifierBuff(targetEnt, "pointsGenerated", 1, selfEnt)
         end,
-        filter = function(selfEnt, ppos, targetEnt)
-            return hasRerollTrigger(targetEnt)
-        end
     }
 })
 
