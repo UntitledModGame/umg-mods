@@ -13,11 +13,25 @@ local loc = localization.localize
 
 
 
-
 local EARLY_LEVELS = {
-    100,250, 650, 1500, 3500, 7500
+    60, 500, 6000, 30000, 100000, 500000
 }
 local RAMP_UP = 12
+
+
+local function makePretty(num)
+    --[[
+    132 --> 130
+    67043 --> 67000
+    12 --> 12
+    1349545442335 --> 13000000000
+    etc
+    ]]
+    local numZeros = math.floor(math.log(num, 10))
+    local floorVal = 10 ^ (numZeros)
+    return math.floor(num / floorVal) * floorVal
+end
+
 
 ---@param levelNumber integer
 local function getRequiredPoints(levelNumber)
@@ -28,13 +42,11 @@ local function getRequiredPoints(levelNumber)
         return EARLY_LEVELS[levelNumber]
     end
 
-    local extra = 0
-    if levelNumber > RAMP_UP then
-        local exp = (levelNumber-(RAMP_UP-3))^2
-        extra = math.floor((5 ^ exp)/10000) * 10000
-    end
-    return extra + math.floor((2^(levelNumber+0.5))/10) * 1000
+    local number = (4^(levelNumber-0.5)) * 100
+    return makePretty(number)
 end
+
+
 
 
 --[[
