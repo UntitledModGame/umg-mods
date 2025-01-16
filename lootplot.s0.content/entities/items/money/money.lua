@@ -155,6 +155,8 @@ defItem("gold_knuckles", "Gold Knuckles", {
 
 
 
+--[[
+-- TODO: Rework this item at some point.
 
 local DBT_DESC = interp("Gain {lootplot:POINTS_COLOR}%{points}{/lootplot:POINTS_COLOR} points.\n(money count cubed)\nThen, multiply money by -1.")
 
@@ -177,14 +179,14 @@ defItem("death_by_taxes", "Death by Taxes", {
         lp.addPoints(ent, money^3)
     end
 })
+]]
 
 
 
+
+--[[
+-- TODO: Rework this item at some point.
 defItem("gold_crown", "Gold Crown", {
-    --[[
-    TODO: 
-    THIS ITEM IS POORLY DESIGNED!!! 
-    ]]
     shape = lp.targets.KING_SHAPE,
 
     basePrice = 10,
@@ -209,6 +211,7 @@ defItem("gold_crown", "Gold Crown", {
     triggers = {"PULSE"},
 })
 
+]]
 
 
 
