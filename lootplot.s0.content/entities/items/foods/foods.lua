@@ -159,7 +159,7 @@ defineFood("gray_turnip", {
     activateDescription = loc("Transforms into a random target item."),
 
     rarity = lp.rarities.RARE,
-    basePrice = 16,
+    basePrice = 8,
 
     onActivate = function(selfEnt)
         local items = lp.targets.getConvertedTargets(selfEnt)
