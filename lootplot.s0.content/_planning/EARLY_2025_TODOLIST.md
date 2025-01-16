@@ -156,7 +156,5 @@ Add 1 mana cost to it
 
 - Gold-shards should spawn DOOMED-1 strong shop slot
 
-- Make proc-genned mana items
-
 - Redo some of the money-items; some of them are bad.
 

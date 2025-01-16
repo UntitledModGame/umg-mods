@@ -126,10 +126,11 @@ defineCat("copykato", {
 defineCat("pink_cat", {
     name = loc("Pink Cat"),
     description = loc("Starts with 9 lives"),
-    triggers = {},
+    triggers = {"PULSE"},
 
     basePrice = 6,
-    baseMaxActivations = 20,
+    baseMaxActivations = 15,
+    basePointsGenerated = 10,
 
     onDraw = function(ent)
         if ent.lives and ent.lives < 1 then
