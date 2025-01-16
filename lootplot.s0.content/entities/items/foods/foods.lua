@@ -6,6 +6,7 @@ local interp = localization.newInterpolator
 local constants = require("shared.constants")
 
 local function defineFoodNoDoomed(id, name, etype)
+    etype.name = loc(name)
     etype.image = etype.image or id
     etype.baseMaxActivations = 1
 
@@ -1023,10 +1024,6 @@ defineFoodNoDoomed("bread", "Bread", {
     basePrice = 9,
     baseMaxActivations = 1,
 
-    triggers = {"PULSE"},
-
-    lootplotTags = {constants.tags.FOOD},
-
     shape = lp.targets.RookShape(1),
 
     target = {
@@ -1040,6 +1037,8 @@ defineFoodNoDoomed("bread", "Bread", {
                 lp.forceCloneItem(targetEnt, selfPPos)
             end
         end
-    }
+    },
+
+    rarity = lp.rarities.RARE,
 })
 
