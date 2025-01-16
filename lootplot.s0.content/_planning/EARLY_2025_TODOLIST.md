@@ -139,8 +139,24 @@ https://discord.com/channels/@me/698376055140122624/1328663740203143198
 --> (((DONE))) FIX THE MULT NOT SHOWING!!! idk wtf is happening, but it aint working
 
 
-- Make mult-packet visuals!!
+- (((DONE))) Make mult-packet visuals!!
 We have packet-visuals for points, but NOT for mult.  Change this.
 (^^^ also maybe change the points-sprites back to the old-version..?)
 (What about just a basic white square sprite as the packet?)
+
+
+- PROCEDURALLY GEN MANA ITEMS:::
+Reduce item price by $4
+Add 1 mana cost to it
+
+- Add coin-visual on top of items for when moneyEarned is negative!
+(Grubby visual should have bronze coins, negative moneyEarned should be gold coins)
+
+- Make shoppy items sticky, nerf the shapes of them (especially balloons!)
+
+- Gold-shards should spawn DOOMED-1 strong shop slot
+
+- Make proc-genned mana items
+
+- Redo some of the money-items; some of them are bad.
 
