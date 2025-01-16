@@ -200,6 +200,7 @@ defItem("golden_spoon", {
     name = loc("Golden Spoon"),
 
     basePrice = 8,
+    baseMaxActivations = 1,
     baseMoneyGenerated = 1,
 
     rarity = lp.rarities.UNCOMMON,
