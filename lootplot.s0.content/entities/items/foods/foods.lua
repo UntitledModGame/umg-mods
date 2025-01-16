@@ -637,7 +637,7 @@ defineFood("cloneberries", {
 
 defineFood("doomed_cloneberries", {
     name = loc("Doomed Clone-Berries"),
-    activateDescription = loc("Clones the current slot the item is in, and gives the slot {lootplot:DOOMED_COLOR}{wavy}DOOMED-10"),
+    activateDescription = loc("Clones the current slot the item is in, and gives the slot {lootplot:DOOMED_COLOR}{wavy}DOOMED-6"),
 
     rarity = lp.rarities.UNCOMMON,
     basePrice = 7,
@@ -655,7 +655,7 @@ defineFood("doomed_cloneberries", {
                     lp.destroy(oldSlot)
                 end
                 lp.setSlot(ppos, clone)
-                clone.doomCount = 10
+                clone.doomCount = 6
             end
         end
     }
