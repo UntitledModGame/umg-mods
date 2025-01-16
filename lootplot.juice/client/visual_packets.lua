@@ -62,13 +62,17 @@ end
 
 local function getPacketScale(delta)
     local x = math.abs(delta)
-    return math.log(x + 4, 10) / 2
+    -- try experimenting with https://onecompiler.com/lua
+    -- these numbers are all NOOMA
+    local DIV = 5
+    return 1 + (math.log(x, 10) / DIV) - (1/DIV)
 end
 
 
 
+
 umg.on("lootplot:pointsChanged", function(ent, delta)
-    if lp.isItemEntity(ent) and delta>0 then
+    if delta>0 then
         local dvec = {
             x = ent.x, y = ent.y,
             dimension = ent.dimension
@@ -78,10 +82,32 @@ umg.on("lootplot:pointsChanged", function(ent, delta)
             return camera:toWorldCoords(love.mouse.getPosition())
         end)
 
-        packetEnt.image = "point_packet_tag"
+        packetEnt.image = "packet1"
+        packetEnt.color = lp.COLORS.POINTS_COLOR
         packetEnt.scale = getPacketScale(delta)
     end
 end)
+
+
+
+umg.on("lootplot:multChanged", function(ent, delta)
+    if delta>0 then
+        local dvec = {
+            x = ent.x, y = ent.y,
+            dimension = ent.dimension
+        }
+        local packetEnt = newPacketEnt(dvec, 400, 450, function()
+            local camera = camera.get()
+            return camera:toWorldCoords(love.mouse.getPosition())
+        end)
+
+        packetEnt.image = "packet1"
+        packetEnt.color = lp.COLORS.POINTS_MULT_COLOR
+        packetEnt.scale = getPacketScale(delta)
+    end
+end)
+
+
 
 
 

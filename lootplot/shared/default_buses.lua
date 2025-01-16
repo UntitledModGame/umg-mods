@@ -3,7 +3,8 @@
 local calls = {
     COMBO = "lootplot:comboChanged",
     POINTS = "lootplot:pointsChanged",
-    MONEY = "lootplot:moneyChanged"
+    POINTS_MULT = "lootplot:multChanged",
+    MONEY = "lootplot:moneyChanged",
 }
 
 umg.on("lootplot:attributeChanged", function(attr, ent, delta, oldVal, newVal)

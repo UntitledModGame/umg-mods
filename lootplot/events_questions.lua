@@ -26,6 +26,7 @@ umg.defineEvent("lootplot:attributeChanged")
 
 umg.defineEvent("lootplot:moneyChanged")
 umg.defineEvent("lootplot:pointsChanged")
+umg.defineEvent("lootplot:multChanged")
 umg.defineEvent("lootplot:comboChanged")
 
 

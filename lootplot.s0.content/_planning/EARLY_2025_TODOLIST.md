@@ -134,10 +134,9 @@ https://discord.com/channels/@me/698376055140122624/1328663740203143198
 
 - Make mult-increment / point-increment visual better;
 --> (((DONE))) currently it disappears! It should bob up and down instead.
---> fix the rounding (NOTE: we have a function for this: `showNSignificant`)
+--> (((DONE))) fix the rounding (NOTE: we have a function for this: `showNSignificant`)
 
---> FIX THE MULT NOT SHOWING!!! idk wtf is happening, but it aint working
-https://github.com/UntitledModGame/umg-mods/commit/81b7009417fa01237d3993dff3c5a7a6d21192e5#diff-0251a03c26b20b2c6e97385888c70b6a2e746ca70dc062a4bd5ddf31f56a8c96R284
+--> (((DONE))) FIX THE MULT NOT SHOWING!!! idk wtf is happening, but it aint working
 
 
 - Make mult-packet visuals!!
