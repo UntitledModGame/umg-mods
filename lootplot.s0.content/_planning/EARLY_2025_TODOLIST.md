@@ -145,11 +145,11 @@ We have packet-visuals for points, but NOT for mult.  Change this.
 (What about just a basic white square sprite as the packet?)
 
 
-- PROCEDURALLY GEN MANA ITEMS:::
+- (((DONE))) PROCEDURALLY GEN MANA ITEMS:::
 Reduce item price by $4
 Add 1 mana cost to it
 
-- Add coin-visual on top of items for when moneyEarned is negative!
+- (((DONE))) Add coin-visual on top of items for when moneyEarned is negative!
 (Grubby visual should have bronze coins, negative moneyEarned should be gold coins)
 
 - Make shoppy items sticky, nerf the shapes of them (especially balloons!)

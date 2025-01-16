@@ -97,15 +97,15 @@ end)
 
 
 umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER + 0.5, function(ent, x,y, rot, sx,sy, kx,ky)
-    if ent.grubMoneyCap then
-        if lp.isItemEntity(ent) then
+    if lp.isItemEntity(ent) then
+        if ent.grubMoneyCap then
             local dy = 1 * math.sin(love.timer.getTime() * BOB_SPEED)
-            local img = client.assets.images.grub_visual
+            local img = client.assets.images.money_limit_visual
             rendering.drawImage(img, x, y+dy, rot, sx,sy, kx,ky)
-        elseif lp.isSlotEntity(ent) then
-            -- TODO: Grubby-visual for slots!
-            -- local img = client.assets.images.slot_life_visual
-            -- rendering.drawImage(img, x, y, rot, sx,sy, kx,ky)
+        elseif ent.moneyGenerated and ent.moneyGenerated < 0 then
+            local dy = 1 * math.sin(love.timer.getTime() * BOB_SPEED)
+            local img = client.assets.images.money_cost_visual
+            rendering.drawImage(img, x, y+dy, rot, sx,sy, kx,ky)
         end
     end
 end)
