@@ -150,6 +150,7 @@ defineCat("pink_cat", {
 
 defineCat("crappy_cat", {
     name = loc("Crappy Cat"),
+    activateDescription = loc("Converts target items into a clone of itself"),
 
     rarity = lp.rarities.RARE,
 
@@ -157,8 +158,6 @@ defineCat("crappy_cat", {
     baseMaxActivations = 100,
 
     shape = lp.targets.RookShape(1),
-
-    acitvateDescription = loc("Converts target items into a clone of itself"),
 
     target = {
         type = "ITEM",
