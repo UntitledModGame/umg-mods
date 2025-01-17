@@ -228,6 +228,21 @@ end
 
 
 
+do
+-- Conclusion
+local TXT = loc("Tutorial complete.\nGood luck!")
+
+tutorialSections:add(function(tutEnt)
+    clearEverythingExceptSelf(tutEnt)
+    addText(tutEnt, 0,-1, TXT)
+end)
+end
+
+
+
+
+
+
 
 
 do
