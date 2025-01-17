@@ -182,8 +182,6 @@ local dirObj = umg.getModFilesystem()
 audio.defineAudioInDirectory(
     dirObj:cloneWithSubpath("assets/sfx"), "lootplot.targets:", {"audio:sfx"}
 )
-local targetClickSound = sound.Sound("lootplot.targets:target_placement_click", 0.56, 0.8)
-
 
 
 local function doTargetJuice(itemEnt)
@@ -235,7 +233,10 @@ local function doTargetJuice(itemEnt)
 
     if (#entList > 0) then
         -- dont play if we arent targetting anything.
-        targetClickSound:play()
+        audio.play("lootplot.targets:target_placement_click", {
+            volume = 0.56,
+            pitch = 0.8
+        })
     end
 end
 
