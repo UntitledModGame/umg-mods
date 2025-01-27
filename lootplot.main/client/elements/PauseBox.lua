@@ -24,7 +24,7 @@ local ARG_KEYS = {
 
 local strings = {
     MENU = loc("Menu"),
-    QUIT = loc("Quit"),
+    QUIT = loc("Save-Quit"),
     RESUME = loc("Resume")
 }
 

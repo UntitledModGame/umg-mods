@@ -13,10 +13,10 @@ Touch ups for existing items; ensure emergence and depth.
 ------------------------
 
 
-- Lootplot money-earned juice packets
+- (((DONE))) Lootplot money-earned juice packets
 
 
-- Quit button should instead say: "Save and Quit" 
+- (((DONE))) Quit button should instead say: "Save and Quit" 
 
 
 ## Shop-balance refactor: 
