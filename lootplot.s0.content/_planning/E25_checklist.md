@@ -2,7 +2,10 @@
 
 ## E25 SPRINT CHECKLIST:
 
-A couple of small checks to keep us on target:
+A couple of small checks to keep us on target.
+
+We should mentally check in with these frequently;
+regardless of what task we are working on.
 
 
 
