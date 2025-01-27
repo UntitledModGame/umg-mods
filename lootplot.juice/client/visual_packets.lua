@@ -111,24 +111,32 @@ end)
 
 
 local COIN_SPIN_SPEED = 4
+local MAX_COINS_SPAWN_COUNT = 8
+
+local function spawnMoneyPacket(ent)
+    local dvec = {
+        x = ent.x, y = ent.y,
+        dimension = ent.dimension
+    }
+    local packetEnt = newPacketEnt(dvec, 500, 350, function()
+        local camera = camera.get()
+        return camera:toWorldCoords(love.mouse.getPosition())
+    end)
+
+    packetEnt.scale = 1
+    packetEnt.image = "money_packet"
+    packetEnt.color = lp.COLORS.MONEY_COLOR
+
+    packetEnt.onUpdateClient = function(e1)
+        e1.scaleX = math.sin(love.timer.getTime() * COIN_SPIN_SPEED)
+    end
+end
 
 umg.on("lootplot:moneyChanged", function(ent, delta)
     if delta>0 then
-        local dvec = {
-            x = ent.x, y = ent.y,
-            dimension = ent.dimension
-        }
-        local packetEnt = newPacketEnt(dvec, 300, 350, function()
-            local camera = camera.get()
-            return camera:toWorldCoords(love.mouse.getPosition())
-        end)
-
-        packetEnt.scale = 1
-        packetEnt.image = "money_packet"
-        packetEnt.color = lp.COLORS.MONEY_COLOR
-
-        packetEnt.onUpdateClient = function(e1)
-            e1.scaleX = math.sin(love.timer.getTime() * COIN_SPIN_SPEED)
+        delta = math.min(delta, MAX_COINS_SPAWN_COUNT)
+        for i=1, delta do
+            spawnMoneyPacket(ent)
         end
     end
 end)
