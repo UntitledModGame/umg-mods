@@ -22,16 +22,13 @@ It's more like:
 ^^^ all in all, it just adds a tremendous amount of depth.
 
 
-## Unrefined brainstorming:
-- Instead of PULSE-BUTTON pulsing everything, pulse items randomly.
-(like, 50% of items?)
 
-- What if PULSing was done via dragging stuff on top of other items?  
-The "quality" and "shape" of the pulse is dependent on the thing you dragged.  
-Could be many different "types" of Pulsers?
+## OLI THOUGHTS:
+I think it's hard to add "risk" to lootplot in a systemic way.  
 
-- Maybe we don't need variance in PULSING?  
-Maybe we need variance in other areas....
+Instead, we should focus on the execution.
+Add risk via the items:
+EG:  
+- Golden-horseshoe: 50% chance to double money, 50% chance to lose it.
+- Treasure-bags: 
 
-- Consider SAP. There isnt weird, deckbuilding mechanics in that game.  
-It's all super simple!!  SAP adds variance through the shop itself.

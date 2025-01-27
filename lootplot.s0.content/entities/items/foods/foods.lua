@@ -419,10 +419,11 @@ defineSlotSpawner("sniper_berries", "Sniper Berries", "slot", "Normal Slot", lp.
     rarity = lp.rarities.EPIC,
 })
 
-defineSlotSpawner("stone_fruit", "Stone fruit", "null_slot", "Null Slot", lp.targets.ON_SHAPE, {
-    basePrice = 6,
+local STONE_FRUIT_SHAPE = lp.targets.UnionShape(lp.targets.ON_SHAPE, lp.targets.HorizontalShape(1))
+defineSlotSpawner("stone_fruit", "Stone fruit", "null_slot", "Null Slot", STONE_FRUIT_SHAPE, {
+    basePrice = 3,
     canItemFloat = true,
-    rarity = lp.rarities.UNCOMMON
+    rarity = lp.rarities.COMMON
 })
 
 defineSlotSpawner("dragonfruit", "Dragonfruit", "slot", "Normal Slot", lp.targets.RookShape(1), {
