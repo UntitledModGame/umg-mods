@@ -110,21 +110,26 @@ end)
 
 
 
+local COIN_SPIN_SPEED = 4
 
 umg.on("lootplot:moneyChanged", function(ent, delta)
-    if lp.isItemEntity(ent) and delta>0 then
+    if delta>0 then
         local dvec = {
             x = ent.x, y = ent.y,
             dimension = ent.dimension
         }
-        local packetEnt = newPacketEnt(dvec, 400, 450, function()
+        local packetEnt = newPacketEnt(dvec, 300, 350, function()
             local camera = camera.get()
             return camera:toWorldCoords(love.mouse.getPosition())
         end)
 
-        packetEnt.scale = getPacketScale(delta)
-        packetEnt.image = "packet0"
+        packetEnt.scale = 1
+        packetEnt.image = "money_packet"
         packetEnt.color = lp.COLORS.MONEY_COLOR
+
+        packetEnt.onUpdateClient = function(e1)
+            e1.scaleX = math.sin(love.timer.getTime() * COIN_SPIN_SPEED)
+        end
     end
 end)
 
