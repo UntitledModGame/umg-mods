@@ -181,7 +181,6 @@ defItem("red_award", "Red Award", {
 
     basePrice = 2,
 
-    sticky = true,
     baseMaxActivations = 8,
     baseMoneyGenerated = -1,
     baseMultGenerated = 0,
