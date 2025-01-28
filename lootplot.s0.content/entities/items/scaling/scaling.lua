@@ -28,7 +28,7 @@ local function defineHelmet(id, etype)
     etype.shape = etype.shape or lp.targets.KingShape(1)
 
     etype.basePrice = etype.basePrice or 10
-    etype.baseMaxActivations = etype.baseMaxActivations or 1
+    etype.baseMaxActivations = etype.baseMaxActivations or 6
 
     defItem(id,etype)
 end
