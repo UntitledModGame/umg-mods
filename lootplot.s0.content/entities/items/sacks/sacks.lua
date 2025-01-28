@@ -1,4 +1,5 @@
 
+
 local loc = localization.localize
 local interp = localization.newInterpolator
 
@@ -10,35 +11,41 @@ local constants = require("shared.constants")
 
 local r = lp.rarities
 
---[[
-
-PLANNING:
-
-
-Treasure chest:
-Needs key to unlock (trigger = UNLOCK)
-Spawns arbitrary item
-
-
-Treasure sack:
-Activates on PULSE
-Spawns arbitrary item
-
-
-Treasure briefcase:
-Activates on PULSE
-Spawns arbitrary item
-
-]]
-
-
 
 local dummy = function() end
 
 
 
-local function defineTreasure(id, name, etype)
+---@param ppos lootplot.PPos?
+---@param ent lootplot.ItemEntity
+---@param gen generation.Generator
+---@param transform function
+local function trySpawnCloudWithItem(ppos, ent, gen, transform)
+    if not ppos then
+        return
+    end
+    local itemId = gen(ent)
+    if not itemId then
+        return
+    end
+    local itemEtype = server.entities[itemId]
+    local success = lp.trySpawnSlot(ppos, server.entities.cloud_slot, ent.lootplotTeam)
+    if success then
+        local item = lp.forceSpawnItem(ppos, itemEtype, ent.lootplotTeam)
+        if item then
+            transform(item, ppos)
+        end
+    end
+end
+
+local function defSack(id, name, etype)
     etype = etype or {}
+
+    etype.triggers = {"PULSE"}
+    etype.basePrice = etype.basePrice or 12
+    etype.rarity = etype.rarity or lp.rarities.RARE
+    etype.canItemFloat = true
+    etype.name = loc(name)
 
     etype.lootplotTags = {constants.tags.TREASURE}
 
@@ -57,15 +64,12 @@ local function defineTreasure(id, name, etype)
             if prevOnActivate then
                 prevOnActivate(ent)
             end
-            local itemId = gen(ent)
-            if not itemId then return end
-            local itemEtype = server.entities[itemId]
             local ppos = lp.getPos(ent)
-            if ppos then
-                local item = lp.forceSpawnItem(ppos, itemEtype, ent.lootplotTeam)
-                if item then
-                    transform(item, ppos)
-                end
+            local slot = lp.itemToSlot(ent)
+            if ppos and (not slot) then
+                trySpawnCloudWithItem(ppos, ent, gen, transform)
+                trySpawnCloudWithItem(ppos:move(1,0), ent, gen, transform)
+                trySpawnCloudWithItem(ppos:move(-1,0), ent, gen, transform)
             end
         end
     end
@@ -84,57 +88,6 @@ local function defineTreasure(id, name, etype)
     lp.defineItem("lootplot.s0.content:" .. id, etype)
 end
 
-
-local function defSack(id, name, etype)
-    etype.triggers = {"PULSE"}
-    etype.basePrice = etype.basePrice or 12
-    etype.rarity = lp.rarities.RARE
-    defineTreasure(id, name, etype)
-end
-
-
-local function defChest(id, name, etype)
-    etype.triggers = etype.triggers or {"UNLOCK"}
-    etype.basePrice = etype.basePrice or 6
-    etype.rarity = etype.rarity or lp.rarities.RARE
-    defineTreasure(id, name, etype)
-end
-
-
---[[
-
-=============
-
-TREASURE SACK:
-Activates on PULSE: Spawns a random RARE item
-
-FOOD SACK:
-Activates on PULSE: Spawns a random FOOD item
-
-========
-
-TODO: think of other types of sacks!!!
-We could have a lot more interesting mechanics.
-
-INSPIRATION:
-Sack-normal: Spawns a random item.
-Sack-doomed: Spawns a random DOOMED item.
-Sack-repeater: Spawns a random item. Gives REPEATER to spawned item
-Sack-normal: Spawns a random item. Gives REROLL trigger to spawned item
-Sack-golden: Spawns a random MONEY item.
-Sack-of-mana: Spawns a random Mana item.
-Sack-tattered: Spawns a random item. Gives the spawned item +10 max activations, and activates it 10 times.
-Sack-charl: gives REROLL trigger to spawned item
-Sack-delta: gives DOOMED-10 to spawned item
-
-OR MAYBE; ALTERNATIVELY:
-Sacks should randomly give spawned items properties?
-EG:
-10% chance to have REROLL trigger
-10% chance to be repeater
-10% chance to have +10 points
-
-]]
 
 
 local DEFAULT_WEIGHT = itemGenHelper.createRarityWeightAdjuster({
@@ -174,121 +127,6 @@ end
 
 
 
-
-defChest("chest_gold_small", "Small Golden Chest", {
-    doomCount = 1,
-    baseMoneyGenerated = 15,
-    basePrice = 4,
-    rarity = lp.rarities.RARE
-})
-
-
-defChest("chest_gold_big", "Big Golden Chest", {
-    doomCount = 1,
-    baseMoneyGenerated = 40,
-    basePrice = 10,
-    rarity = lp.rarities.EPIC
-})
-
-
-
-defChest("chest_dark", "Dark Chest", {
-    rarity = lp.rarities.RARE,
-    basePrice = 1,
-
-    activateDescription = locRarity("Spawns a %{RARE} item, and {lootplot:DOOMED_LIGHT_COLOR}DESTROYS{/lootplot:DOOMED_LIGHT_COLOR} all target-items."),
-
-    generateTreasureItem = newLazyGen(ofRarity({r.RARE}), DEFAULT_WEIGHT),
-
-    shape = lp.targets.QueenShape(2),
-    target = {
-        type = "ITEM",
-    }
-})
-
-
-defChest("chest_rare", "Rare Chest", {
-    rarity = lp.rarities.UNCOMMON,
-    basePrice = 2,
-
-    activateDescription = locRarity("Spawns a %{RARE} item"),
-
-    generateTreasureItem = newLazyGen(ofRarity({r.RARE}), DEFAULT_WEIGHT)
-})
-
-defChest("chest_epic", "Epic Chest", {
-    rarity = lp.rarities.RARE,
-    activateDescription = locRarity("Spawns an item that that is %{EPIC} or above"),
-
-    generateTreasureItem = newLazyGen(ofRarity({r.EPIC, r.LEGENDARY}), DEFAULT_WEIGHT),
-})
-
-
-defChest("chest_food", "Food Chest", {
-    rarity = lp.rarities.UNCOMMON,
-    activateDescription = loc("Spawns a {lootplot:DOOMED_LIGHT_COLOR}DOOMED-1{/lootplot:DOOMED_LIGHT_COLOR} food item."),
-
-    doomCount = 1,
-    -- we only put this here to give a nice visual.
-    -- (It doesn't actually do anything; but it serves as a nice indicator;
-    -- to demonstrate that the spawned item will be DOOMED.)
-
-    generateTreasureItem = newLazyGen(function(etype)
-        return etype.doomCount == 1
-    end, DEFAULT_WEIGHT)
-})
-
-
-local ABSTRACT_DESC = interp("Spawns an item of the same rarity as this chest!\n(Currently: %{rarity})")
---[[
-NOTE:
-make sure to test this!!!
-It kinda looks a bit fragile...?
-]]
----@type generation.Generator
-local abstractGen
-defChest("chest_abstract", "Abstract Chest", {
-    rarity = lp.rarities.RARE,
-    activateDescription = function(ent)
-        local r1 = ent.rarity
-        return ABSTRACT_DESC({
-            rarity = r1.displayString
-        })
-    end,
-
-    generateTreasureItem = function(ent)
-        abstractGen = abstractGen or lp.newItemGenerator({})
-        return abstractGen:query(function(entry)
-            local etype = server.entities[entry]
-            if etype and etype.rarity == ent.rarity then
-                return 1
-            end
-            return 0
-        end)
-    end
-})
-
-
-
-defChest("chest_legendary", "Legendary Chest", {
-    activateDescription = locRarity("Spawns a %{LEGENDARY} item."),
-    rarity = lp.rarities.LEGENDARY,
-    generateTreasureItem = newLazyGen(ofRarity({r.LEGENDARY}), DEFAULT_WEIGHT)
-})
-
-defChest("chest_mana", "Mana Chest", {
-    triggers = {"PULSE"},
-    activateDescription = locRarity("Spawns a %{RARE} item."),
-
-    manaCost = 2,
-
-    rarity = lp.rarities.RARE,
-    generateTreasureItem = newLazyGen(ofRarity({r.RARE}), DEFAULT_WEIGHT),
-})
-
-
-
-
 --[[
 ==========================================
 Sack items:
@@ -300,7 +138,7 @@ local function isFood(etype)
 end
 
 defSack("sack_rare", "Rare Sack", {
-    activateDescription = locRarity("Spawns a %{RARE} item."),
+    activateDescription = locRarity("Choose between 3 %{RARE} items."),
 
     rarity = lp.rarities.UNCOMMON,
     generateTreasureItem = newLazyGen(function (etype)
@@ -309,13 +147,29 @@ defSack("sack_rare", "Rare Sack", {
 })
 
 defSack("sack_epic", "Epic Sack", {
-    activateDescription = locRarity("Spawns an %{EPIC} item."),
+    activateDescription = locRarity("Choose between 3 %{EPIC} items."),
 
     rarity = lp.rarities.EPIC,
     generateTreasureItem = newLazyGen(function (etype)
         return etype.rarity == r.EPIC and (not isFood(etype))
     end, DEFAULT_WEIGHT),
 })
+
+
+
+
+
+
+--[[
+
+Old sack items.
+
+I've gotten rid of these because they were quite bloat-y.
+
+]]
+
+
+--[=====[
 
 defSack("sack_food", "Food Sack", {
     activateDescription = loc("Spawns a {lootplot:DOOMED_LIGHT_COLOR}DOOMED-1{/lootplot:DOOMED_LIGHT_COLOR} food item."),
@@ -406,4 +260,6 @@ defSack("sack_tattered", "Tattered Sack", {
         end)
     end
 })
+
+]=====]
 

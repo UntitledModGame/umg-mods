@@ -19,17 +19,15 @@ Touch ups for existing items; ensure emergence and depth.
 - (((DONE))) Quit button should instead say: "Save and Quit" 
 
 
-- Change treasure-bags: Make them spawn cloud-slots, have them FLOATY.
+- Change sack-items: Make them spawn cloud-slots, have them FLOATY.
 ^^^ These will ideally replace SHARDS.
 
-- IDEA: Maybe we should have treasure-bags that spawn *types* of items.  
-EG:
-- "Treasure-bag that spawns a REROLL item"
-- "Treasure-bag that spawns a REPEATER item"
-- "Treasure-bag that spawns a ROTATING item"
-- "Treasure-bag that spawns a GRUBBY item"
-^^^^ This allows players to take calculated risks when doing their build...?  
-Hmmm... but such a mechanism would thin the item-pool. Maybe it's better to pick from a global pool of items, and just give the item GRUBBY, or give the item REROLL *after* its been generated...?
+
+- Change treasure-items:
+Instead of spawning items, have more *direct* use-cases:
+- Red-chest: On UNLOCK: Give +1 mult to all target items  (KING-1)
+- Diamond-chest: On UNLOCK: Spawn diamond slots  (KING-1)
+- Blue-chest: On UNLOCK: Give +20 points to all target items  (KING-1)
 
 
 
@@ -144,6 +142,7 @@ https://www.reddit.com/r/balatro/comments/1g0o0ax/wow_not_caring_about_the_endle
 (specifically; explain that putting bonus BEFORE points is good!)
 
 - Explain target-visuals in the tutorial
+(dragonfruit item + potion, maybe?)
 
 
 ## Perhaps create different activator items?
