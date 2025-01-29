@@ -5,7 +5,7 @@ return function()
     local width, height = testData.getPlotDimensions()
 
     local SLOT_NAME = "lootplot.s0.content:slot"
-    local SLOT_NAME_REROLL = "lootplot.s0.content:weak_shop_slot"
+    local SLOT_NAME_REROLL = "lootplot.s0.content:shop_slot"
 
     testUtils.addTest("slot_pulse_trigger", function(self)
         local plot = testUtils.prepare(self, true)

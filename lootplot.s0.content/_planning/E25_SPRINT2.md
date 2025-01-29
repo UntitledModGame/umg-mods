@@ -25,9 +25,8 @@ Touch ups for existing items; ensure emergence and depth.
 
 - (((DONE))) More treasure-items:
 Instead of spawning items, have more *direct* use-cases:
-- Red-chest: On UNLOCK: Give +1 mult to all target items  (KING-1)
-- Diamond-chest: On UNLOCK: Spawn diamond slots  (KING-1)
-- Blue-chest: On UNLOCK: Give +20 points to all target items  (KING-1)
+- (((DONE))) Diamond-chest: On UNLOCK: Spawn diamond slots  (KING-1)
+- (((DONE))) Blue-chest: On UNLOCK: Give +20 points to all target items  (KING-1)
 
 
 
@@ -49,6 +48,7 @@ Instead of spawning items, have more *direct* use-cases:
 So, say an iron-sword earns 20 points 6 times in a round. 
 There should be blue text above it, that says "120".
 (Same for mult.)
+(^^^ TODO: not sure if this is a good idea. Might be bloaty)
 
 
 - Worldgen consistency: Make it so only golden-slots spawn

@@ -237,7 +237,7 @@ generateWeakItem = itemGenHelper.createLazyGenerator(
     })
 )
 end
-makeShopSlot("weak_shop_slot", "Weak Shop Slot", {
+makeShopSlot("shop_slot", "Shop Slot", {
     activateDescription = loc("Spawns weak items"),
     baseMaxActivations = 100,
     itemReroller = generateWeakItem,
@@ -395,7 +395,7 @@ lp.defineSlot("lootplot.s0.content:reroll_slot", {
     image = "reroll_slot",
     name = loc("Reroll slot"),
     activateDescription = loc("Rerolls item."),
-    triggers = {"REROLL", "PULSE"},
+    triggers = {"REROLL"},
     itemReroller = generateWeakItem,
     baseCanSlotPropagate = false,
     baseMaxActivations = 500,

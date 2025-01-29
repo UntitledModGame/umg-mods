@@ -507,7 +507,7 @@ local loafEtype = {
 defineSlotSpawner("burned_loaf", "Burned Loaf", "sell_slot", "Sell Slot",
     lp.targets.ON_SHAPE, loafEtype
 )
-defineSlotSpawner("golden_loaf", "Golden Loaf", "weak_shop_slot", "Weak Shop Slot",
+defineSlotSpawner("golden_loaf", "Golden Loaf", "shop_slot", "Weak Shop Slot",
     lp.targets.ON_SHAPE, loafEtype
 )
 
@@ -522,7 +522,7 @@ defineSlotSpawner("lime", "Lime", "reroll_slot", "DOOMED-5 Reroll Slot", lp.targ
 }, setDoomCountTo(5))
 
 
-defineSlotSpawner("lemon", "Lemon", "strong_shop_slot", "DOOMED-4 Shop Slot", lp.targets.KingShape(1), {
+defineSlotSpawner("lemon", "Lemon", "shop_slot", "DOOMED-4 Shop Slot", lp.targets.KingShape(1), {
     rarity = lp.rarities.RARE,
     basePrice = 8
 }, setDoomCountTo(2))

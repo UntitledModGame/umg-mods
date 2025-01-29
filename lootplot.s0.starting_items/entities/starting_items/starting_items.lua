@@ -24,11 +24,9 @@ end
 
 local function spawnShop(ent)
     local ppos, team = getPosTeam(ent)
-    wg.spawnSlots(assert(ppos:move(-4,0)), server.entities.weak_shop_slot, 3,1, team)
+    wg.spawnSlots(assert(ppos:move(-4,0)), server.entities.shop_slot, 3,1, team)
 
     wg.spawnSlots(assert(ppos:move(-3,3)), server.entities.food_shop_slot, 1,2, team)
-
-    wg.spawnSlots(assert(ppos:move(-6,2)), server.entities.strong_shop_slot, 3,1, team)
 end
 
 local function spawnRerollButton(ent)
@@ -277,8 +275,7 @@ definePerk("bowling_ball", {
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
 
-        wg.spawnSlots(assert(ppos:move(-4, 0)), server.entities.weak_shop_slot, 3,1, team)
-        wg.spawnSlots(assert(ppos:move(-4, -1)), server.entities.reroll_button_slot, 1,1, team)
+        spawnShop(ent)
         spawnSell(ent)
         spawnMoneyLimit(ent)
 
