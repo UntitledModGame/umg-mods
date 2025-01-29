@@ -9,7 +9,9 @@ local function defChest(id, name, etype)
     etype.basePrice = etype.basePrice or 6
     etype.rarity = etype.rarity or lp.rarities.RARE
 
+    etype.image = id
     etype.name = loc(name)
+
     lp.defineItem("lootplot.s0.content:" .. id, etype)
 end
 
@@ -17,19 +19,57 @@ end
 
 
 defChest("chest_gold_small", "Small Golden Chest", {
-    doomCount = 1,
-    baseMoneyGenerated = 15,
+    baseMoneyGenerated = 10,
     basePrice = 4,
     rarity = lp.rarities.RARE
 })
 
 
 defChest("chest_gold_big", "Big Golden Chest", {
-    doomCount = 1,
-    baseMoneyGenerated = 40,
+    baseMoneyGenerated = 25,
     basePrice = 10,
     rarity = lp.rarities.EPIC
 })
+
+
+
+defChest("chest_diamond", "Diamond Chest", {
+    activateDescription = loc("Spawns diamond slots."),
+
+    shape = lp.targets.KingShape(1),
+    target = {
+        type = "NO_SLOT",
+        activate = function(selfEnt, ppos)
+            lp.trySpawnSlot(ppos, server.entities.diamond_slot, selfEnt.lootplotTeam)
+        end
+    },
+
+    rarity = lp.rarities.RARE,
+})
+
+
+
+local POINTS_BUFF = 20
+
+defChest("chest_points", "Points Chest", {
+    activateDescription = loc("Gives {lootplot:POINTS_COLOR}+%{buff} points{/lootplot:POINTS_COLOR} to items permanently", {
+        buff = POINTS_BUFF
+    }),
+
+    shape = lp.targets.KingShape(1),
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, itemEnt)
+            lp.modifierBuff(itemEnt, "pointsGenerated", POINTS_BUFF, selfEnt)
+        end
+    },
+
+    rarity = lp.rarities.RARE,
+})
+
+
+
+
 
 
 
@@ -116,16 +156,4 @@ defChest("chest_gold_big", "Big Golden Chest", {
 --     rarity = lp.rarities.LEGENDARY,
 --     generateTreasureItem = newLazyGen(ofRarity({r.LEGENDARY}), DEFAULT_WEIGHT)
 -- })
-
--- defChest("chest_mana", "Mana Chest", {
---     triggers = {"PULSE"},
---     activateDescription = locRarity("Spawns a %{RARE} item."),
-
---     manaCost = 2,
-
---     rarity = lp.rarities.RARE,
---     generateTreasureItem = newLazyGen(ofRarity({r.RARE}), DEFAULT_WEIGHT),
--- })
-
-
 

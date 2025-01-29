@@ -19,11 +19,11 @@ Touch ups for existing items; ensure emergence and depth.
 - (((DONE))) Quit button should instead say: "Save and Quit" 
 
 
-- Change sack-items: Make them spawn cloud-slots, have them FLOATY.
+- (((DONE))) Change sack-items: Make them spawn cloud-slots, have them FLOATY.
 ^^^ These will ideally replace SHARDS.
 
 
-- Change treasure-items:
+- (((DONE))) More treasure-items:
 Instead of spawning items, have more *direct* use-cases:
 - Red-chest: On UNLOCK: Give +1 mult to all target items  (KING-1)
 - Diamond-chest: On UNLOCK: Spawn diamond slots  (KING-1)
@@ -40,6 +40,9 @@ Instead of spawning items, have more *direct* use-cases:
 - Rare/Epic items can now spawn in normal shop- BUT they are extremely rare.
 - Treasure-items now spawn in shop
 - Change reroll-slot to trigger on LEVEL-UP.
+
+
+- Make slot-spawner items rarer, and more expensive.
 
 
 - AGGREGATE display of points above each item:
