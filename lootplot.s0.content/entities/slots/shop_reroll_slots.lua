@@ -207,41 +207,32 @@ end
 
 
 
-local allFilter = function () return true end
-
-
-local generateWeakItem
+local generateItem
 
 do
-local OK_RARITIES = {lp.rarities.COMMON, lp.rarities.UNCOMMON}
-
-generateWeakItem = itemGenHelper.createLazyGenerator(
+generateItem = itemGenHelper.createLazyGenerator(
     function(etype)
-        if itemGenHelper.hasRarity(etype, OK_RARITIES) then
-            return true
-        end
         ---@cast etype table
         if lp.hasTag(etype, constants.tags.FOOD) then
-            return true -- (Food items are OK to spawn here.)
+            -- dont spawn food-items in normal-shop
+            return false
         end
-        return false
+        return true
     end,
     itemGenHelper.createRarityWeightAdjuster({
-        COMMON = 18,
+        COMMON = 13,
         UNCOMMON = 1,
-        
-        -- NOTE: RARE/EPIC items aren't actually spawned;
-        -- UNLESS they are food-items
-        RARE = 0.4,
-        EPIC = 0.1
+        RARE = 0.03,
+        EPIC = 0.02
     })
 )
 end
+
 makeShopSlot("shop_slot", "Shop Slot", {
     activateDescription = loc("Spawns weak items"),
     baseMaxActivations = 100,
-    itemReroller = generateWeakItem,
-    itemSpawner = generateWeakItem,
+    itemReroller = generateItem,
+    itemSpawner = generateItem,
     actionButtons = {
         SHOP_BUTTON,
         LOCK_REROLL_BUTTON
@@ -355,38 +346,6 @@ local function foreachTouchingSlot(rootSlotEnt, func)
 end
 
 
-local STRONG_SHOP_BUTTON = {
-    action = function(ent, clientId)
-        shopButtonBuyItem(ent, clientId)
-    end,
-    canDisplay = canDisplayShopButton,
-    canClick = canClickShopButton,
-    text = getShopButtonText,
-    color = objects.Color(0.39,0.66,0.24),
-}
-
-
-local generateStrongItem = itemGenHelper.createLazyGenerator(
-    allFilter,
-    itemGenHelper.createRarityWeightAdjuster({
-        UNCOMMON = 2,
-        RARE = 5,
-        EPIC = 1,
-        LEGENDARY = 0.04
-    })
-)
-makeShopSlot("strong_shop_slot", "Strong Shop Slot", {
-    activateDescription = loc("Spawns RARE items or above."),
-    triggers = {"LEVEL_UP"},
-    baseMaxActivations = 1,
-    itemReroller = generateStrongItem,
-    itemSpawner = generateStrongItem,
-    actionButtons = {
-        STRONG_SHOP_BUTTON,
-    }
-})
-
-
 
 
 
@@ -396,7 +355,7 @@ lp.defineSlot("lootplot.s0.content:reroll_slot", {
     name = loc("Reroll slot"),
     activateDescription = loc("Rerolls item."),
     triggers = {"REROLL"},
-    itemReroller = generateWeakItem,
+    itemReroller = generateItem,
     baseCanSlotPropagate = false,
     baseMaxActivations = 500,
 

@@ -25,6 +25,7 @@ end
 local function spawnShop(ent)
     local ppos, team = getPosTeam(ent)
     wg.spawnSlots(assert(ppos:move(-4,0)), server.entities.shop_slot, 3,1, team)
+    wg.spawnSlots(assert(ppos:move(-5,1)), server.entities.shop_slot, 1,1, team)
 
     wg.spawnSlots(assert(ppos:move(-3,3)), server.entities.food_shop_slot, 1,2, team)
 end

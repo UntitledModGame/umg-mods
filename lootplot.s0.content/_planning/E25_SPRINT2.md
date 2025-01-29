@@ -34,14 +34,16 @@ Instead of spawning items, have more *direct* use-cases:
 ## Shop-balance refactor: 
 - (((DONE))) Make stone-fruit cheap and COMMON, null-slots easy to get.
 - Rework shop: 
-    - 2 food-shop slots
-    - 4 normal shop slots
-- Rare/Epic items can now spawn in normal shop- BUT they are extremely rare.
-- Treasure-items now spawn in shop
-- Change reroll-slot to trigger on LEVEL-UP.
+    - (((DONE))) 2 food-shop slots
+    - (((DONE))) 4 normal shop slots
+- (((DONE))) Rare/Epic items can now spawn (INFREQUENTLY) in normal shop
+- (((DONE))) Sack-items now spawn in shop
 
 
 - Make slot-spawner items rarer, and more expensive.
+
+
+- Rework shards to do something else
 
 
 - AGGREGATE display of points above each item:

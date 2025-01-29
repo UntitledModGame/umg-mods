@@ -140,7 +140,8 @@ end
 defSack("sack_rare", "Rare Sack", {
     activateDescription = locRarity("Choose between 3 %{RARE} items."),
 
-    rarity = lp.rarities.UNCOMMON,
+    basePrice = 12,
+    rarity = lp.rarities.COMMON,
     generateTreasureItem = newLazyGen(function (etype)
         return etype.rarity == r.RARE and (not isFood(etype))
     end, DEFAULT_WEIGHT),
@@ -149,7 +150,8 @@ defSack("sack_rare", "Rare Sack", {
 defSack("sack_epic", "Epic Sack", {
     activateDescription = locRarity("Choose between 3 %{EPIC} items."),
 
-    rarity = lp.rarities.EPIC,
+    basePrice = 16,
+    rarity = lp.rarities.UNCOMMON,
     generateTreasureItem = newLazyGen(function (etype)
         return etype.rarity == r.EPIC and (not isFood(etype))
     end, DEFAULT_WEIGHT),
