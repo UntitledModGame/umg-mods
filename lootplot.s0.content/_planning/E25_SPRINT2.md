@@ -40,17 +40,11 @@ Instead of spawning items, have more *direct* use-cases:
 - (((DONE))) Sack-items now spawn in shop
 
 
-- Make slot-spawner items rarer, and more expensive.
+- (((DONE))) Make slot-spawner items rarer, and more expensive.
 
 
 - Rework shards to do something else
-
-
-- AGGREGATE display of points above each item:
-So, say an iron-sword earns 20 points 6 times in a round. 
-There should be blue text above it, that says "120".
-(Same for mult.)
-(^^^ TODO: not sure if this is a good idea. Might be bloaty)
+(Ideally, we want them to *NOT* destroy themselves when used, lmao)
 
 
 - Worldgen consistency: Make it so only golden-slots spawn
@@ -164,4 +158,14 @@ Our players have loved activator-items so far; lets lean into it.
 
 - For lootplot demo, instead of restricting items,
 Make it so the player can only play 2 runs.
+
+
+
+- AGGREGATE display of points above each item:
+So, say an iron-sword earns 20 points 6 times in a round. 
+There should be blue text above it, that says "120".
+(Same for mult.)
+(^^^ TODO: not sure if this is a good idea. Might cause visual bloat and confusion...?)
+
+
 

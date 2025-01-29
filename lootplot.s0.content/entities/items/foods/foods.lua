@@ -401,9 +401,11 @@ end
 
 defineSlotSpawner("dirty_muffin", "Dirty Muffin", "dirt_slot", "Dirt Slot", lp.targets.CircleShape(2), {
     rarity = lp.rarities.RARE,
+    basePrice = 12,
 })
 
 defineSlotSpawner("glass_bottle", "Glass Bottle", "glass_slot", "Glass Slot", lp.targets.QueenShape(5), {
+    basePrice = 8,
     rarity = lp.rarities.RARE,
 })
 
@@ -414,7 +416,7 @@ defineSlotSpawner("glass_tube", "Glass Bottle", "glass_slot", "Glass Slot", lp.t
 
 defineSlotSpawner("sniper_berries", "Sniper Berries", "slot", "Normal Slot", lp.targets.ON_SHAPE, {
     -- useful for bridging large gaps in land
-    basePrice = 4,
+    basePrice = 8,
     canItemFloat = true,
     rarity = lp.rarities.EPIC,
 })
@@ -426,14 +428,25 @@ defineSlotSpawner("stone_fruit", "Stone fruit", "null_slot", "Null Slot", STONE_
     rarity = lp.rarities.COMMON
 })
 
+
 defineSlotSpawner("dragonfruit", "Dragonfruit", "slot", "Normal Slot", lp.targets.RookShape(1), {
-    basePrice = 8,
-    rarity = lp.rarities.UNCOMMON
+    basePrice = 20,
+    rarity = lp.rarities.RARE
 })
 
 defineSlotSpawner("dragonfruit_slice", "Dragonfruit Slice", "slot", "Normal Slot", lp.targets.BishopShape(1), {
-    basePrice = 9,
+    basePrice = 25,
     rarity = lp.rarities.RARE
+})
+
+defineSlotSpawner("sausage", "Sausage", "slot", "Normal Slot", lp.targets.HorizontalShape(1), {
+    init = function(ent)
+        if lp.SEED:randomMisc() < 0.5 then
+            lp.rotateItem(ent, 1)
+        end
+    end,
+    basePrice = 14,
+    rarity = lp.rarities.UNCOMMON
 })
 
 
@@ -447,10 +460,9 @@ local function makeSticky(slotEnt)
     slotEnt.stickySlot = true
 end
 
-defineSlotSpawner("soy_sauce", "Soy Sauce", "slot", "{lootplot:DOOMED_COLOR}DOOMED-8{/lootplot:DOOMED_COLOR} Slot", 
-    lp.targets.QueenShape(3), {},
-    setDoomCountTo(8)
-)
+defineSlotSpawner("soy_sauce", "Soy Sauce", "slot", "{lootplot:DOOMED_COLOR}DOOMED-8{/lootplot:DOOMED_COLOR} Slot", lp.targets.QueenShape(3), {
+    basePrice = 7
+}, setDoomCountTo(8))
 
 defineSlotSpawner("ruby_candy", "Ruby Candy", "ruby_slot", "{c r=1 b=0.2 g=0.3}Ruby{/c} {lootplot:STUCK_COLOR}STUCKY{/lootplot:STUCK_COLOR} Slot", lp.targets.RookShape(1), {
     rarity = lp.rarities.RARE,
@@ -473,15 +485,15 @@ steel-candy in future?
 
 
 
-defineSlotSpawner("steelberry", "Steel-Berry", "steel_slot", "Steel Slot", lp.targets.RookShape(1), {
-    basePrice = 12,
-    rarity = lp.rarities.RARE
+defineSlotSpawner("steelberry", "Steel-Berry", "steel_slot", "Steel Slot", lp.targets.HorizontalShape(1), {
+    basePrice = 16,
+    rarity = lp.rarities.EPIC
 })
 
 
 defineSlotSpawner("avacado", "Avacado", "emerald_slot", "Emerald Slot", lp.targets.RookShape(1), {
     -- maybe this should be more expensive... but i just LOVE this item sooo much
-    basePrice = 8,
+    basePrice = 20,
     rarity = lp.rarities.RARE
 })
 
@@ -512,6 +524,7 @@ defineSlotSpawner("golden_loaf", "Golden Loaf", "shop_slot", "Weak Shop Slot",
 )
 
 defineSlotSpawner("coconut", "Coconut", "dirt_slot", "Dirt Slot", lp.targets.KingShape(1), {
+    basePrice = 8,
     rarity = lp.rarities.UNCOMMON,
 })
 
