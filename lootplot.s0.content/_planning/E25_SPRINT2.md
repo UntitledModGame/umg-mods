@@ -46,7 +46,7 @@ Instead of spawning items, have more *direct* use-cases:
 - (((DONE))) Worldgen consistency: Make it so only golden-slots spawn
 
 
-- Bug with cloud slots:
+- (((DONE))) Bug with cloud slots:
 If you have negative money, you are unable to pick items from cloud slots
 
 

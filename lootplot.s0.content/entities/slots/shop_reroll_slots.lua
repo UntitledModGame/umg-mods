@@ -99,7 +99,18 @@ end
 local function canClickShopButton(ent, clientId)
     local itemEnt = lp.slotToItem(ent)
     if itemEnt and ent.itemLock then
-        return lp.getMoney(itemEnt) >= itemEnt.price
+        local money = lp.getMoney(itemEnt) or 0
+        if money >= itemEnt.price then
+            -- then we can afford the item
+            return true
+        end
+        if itemEnt.price <= 0 then
+            -- we can always buy free/negative-price items, 
+            -- no matter what.
+            -- (This check is needed for when money is negative;
+            --  we still want to be able to purchase free-items.)
+            return true
+        end
     end
 end
 
