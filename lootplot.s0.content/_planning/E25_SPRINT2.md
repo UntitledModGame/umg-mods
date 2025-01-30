@@ -43,11 +43,8 @@ Instead of spawning items, have more *direct* use-cases:
 - (((DONE))) Make slot-spawner items rarer, and more expensive.
 
 
-- Rework shards to do something else
-(Ideally, we want them to *NOT* destroy themselves when used, lmao)
+- (((DONE))) Worldgen consistency: Make it so only golden-slots spawn
 
-
-- Worldgen consistency: Make it so only golden-slots spawn
 
 - Bug with cloud slots:
 If you have negative money, you are unable to pick items from cloud slots
@@ -65,6 +62,10 @@ That way, the user can SEE visually how it actually works.
 And it isn't just another confusing number.
 (Might need to pass a flag or something so it doesn't enter infinite loop...? Not sure... OR, create a new function: `lp.addPointsRaw`, that doesn't invoke the mult/bonus mechanisms.)
 
+
+## (SPIKE)
+- Rework shards to do something else
+(Ideally, we want them to *NOT* destroy themselves when used, lmao)
 
 
 - Create mineral shovel-items (Give +1 bonus)
@@ -110,6 +111,14 @@ If mult is below 1, add 4 mult
 
 
 
+## (SPIKE)
+### PASSIVE ITEMS:
+Why don't we have passive items?
+IE: items that don't activate directly, but use `onUpdate` to have an effect.
+
+
+
+## (SPIKE)
 ### Create Items interacting with BONUS:
 (ONLY DO THIS TASK WHEN YOU ARE FEELING REFRESHED AND CREATIVE!!!)
 - ITEM: lose bonus, increase mult
@@ -132,6 +141,11 @@ Perhaps we need to allow attributes to have default-values?
 This prevents the player ruining the game for themselves.
 https://www.reddit.com/r/balatro/comments/1g0o0ax/wow_not_caring_about_the_endless_mode_made_the/
 
+
+- Change one-ball tutorial-text:
+Instead of appearing on top of slots, we should spawn a button
+
+
 - Have an end to the tutorial, (and maybe an exit-button?)
 
 - Have mult in tutorial. 
@@ -144,6 +158,7 @@ https://www.reddit.com/r/balatro/comments/1g0o0ax/wow_not_caring_about_the_endle
 (dragonfruit item + potion, maybe?)
 
 
+## (SPIKE)
 ## Perhaps create different activator items?
 REMEMBER: We want maximum fun, and maximum synergies.
 Our players have loved activator-items so far; lets lean into it.
