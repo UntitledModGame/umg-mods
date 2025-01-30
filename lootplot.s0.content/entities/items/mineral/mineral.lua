@@ -250,6 +250,31 @@ end
 
 
 
+local function defineShover(mineral_type, name, strength, etype)
+    local namespace = umg.getModName() .. ":"
+    local etypeName = namespace .. mineral_type .. "_shovel"
+    local image = mineral_type .. "_shovel"
+
+    local etype1 = {
+        image = image,
+        name = loc(name .. " Shovel"),
+
+        baseBonusGenerated = strength,
+
+        rarity = etype.rarity or lp.rarities.RARE,
+
+        basePrice = 6,
+    }
+    for k,v in pairs(etype) do
+        etype1[k] = v
+    end
+
+    defineMineral(mineral_type, etypeName, etype1)
+end
+
+
+
+
 
 local function defineMineralClass(mineral_type, name, strength, etype)
     defineSword(mineral_type, name, strength, etype)

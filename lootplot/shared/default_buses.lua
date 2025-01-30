@@ -171,6 +171,10 @@ umg.on("lootplot:entityActivated", function(ent)
         lp.addPointsMult(ent, ent.multGenerated)
     end
 
+    if ent.bonusGenerated and ent.bonusGenerated ~= 0 then
+        lp.addPointsBonus(ent, ent.bonusGenerated)
+    end
+
     if ent.pointsGenerated and ent.pointsGenerated ~= 0 then
         lp.addPoints(ent, ent.pointsGenerated)
     end

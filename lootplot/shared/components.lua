@@ -138,12 +138,16 @@ defNumberProperty("price", {base="basePrice", default=5})
 
 defNumberProperty("maxActivations", {base="baseMaxActivations", default=5})
 
+
 defNumberProperty("pointsGenerated", {base="basePointsGenerated", default=0})
 
 defNumberProperty("moneyGenerated", {base="baseMoneyGenerated", default=0})
 
 defNumberProperty("multGenerated", {base="baseMultGenerated", default=0})
 -- ^^^ adds global-mult
+
+defNumberProperty("bonusGenerated", {base="baseBonusGenerated", default=0})
+-- ^^^ adds global-bonus
 
 
 sync.autoSyncComponent("lootplotTeam", {type = "string"})

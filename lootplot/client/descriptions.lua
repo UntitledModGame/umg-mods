@@ -168,6 +168,9 @@ local STEAL_MONEY = interp("{lootplot:BAD_COLOR}Costs {lootplot:MONEY_COLOR}$%{c
 local GAIN_MULT = interp("Adds {lootplot:POINTS_MULT_COLOR}%{multGenerated:.1f} multiplier")
 local LOSE_MULT = interp("{lootplot:BAD_COLOR}Subtracts %{multCost:.1f} multiplier!")
 
+local GAIN_BONUS = interp("Adds {lootplot:BONUS_COLOR}%{bonusGenerated:.1f} bonus")
+local LOSE_BONUS = interp("{lootplot:BAD_COLOR}Subtracts %{bonusCost:.1f} bonus!")
+
 
 umg.on("lootplot:populateDescription", 30, function(ent, arr)
     local pgen = ent.pointsGenerated
@@ -182,6 +185,17 @@ umg.on("lootplot:populateDescription", 30, function(ent, arr)
         else
             arr:add(LOSE_MULT({
                 multCost = -ent.multGenerated
+            }))
+        end
+    end
+
+    local bonusGen = ent.bonusGenerated
+    if bonusGen and bonusGen ~= 0 then
+        if bonusGen > 0 then
+            arr:add(GAIN_BONUS(ent))
+        else
+            arr:add(LOSE_BONUS({
+                bonusCost = -ent.bonusGenerated
             }))
         end
     end

@@ -1380,6 +1380,7 @@ lp.COLORS = {
     POINTS_COLOR = {0.3, 1, 0.3},
     POINTS_MULT_COLOR = {0.92, 0.32, 0.46}, -- eb5276
     POINTS_MOD_COLOR = {0.1, 0.9, 0.5},
+    BONUS_COLOR = {173/255, 255/255, 250/255},
 
     -- COMPONENTS:
     LIFE_COLOR = {1, 0.51, 0.75},

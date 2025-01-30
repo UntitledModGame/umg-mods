@@ -51,17 +51,21 @@ If you have negative money, you are unable to pick items from cloud slots
 
 
 ### Bonus mechanism:
-- Add `bonus` mechanism
-- Create `lp.addBonus`, `lp.get/setBonus`, etc.
-- Create `bonusGenerated` property
+- (((DONE))) Add `bonus` mechanism
+- (((DONE))) Create `lp.addBonus`, `lp.get/setBonus`, etc.
+- (((DONE))) Create `bonusGenerated` property + descriptions
 - Put `+X BONUS` UI in `lootplot.main`, next to the global-mult count.
 
 
-## Bonus UX:
+## (((DONE))) Bonus UX:
 Whenever points are earned with bonus, use `lp.queue` to add bonus points.
 That way, the user can SEE visually how it actually works.
 And it isn't just another confusing number.
 (Might need to pass a flag or something so it doesn't enter infinite loop...? Not sure... OR, create a new function: `lp.addPointsRaw`, that doesn't invoke the mult/bonus mechanisms.)
+
+
+Remove mana systems
+Remove all `manaCost` items
 
 
 ## (SPIKE)

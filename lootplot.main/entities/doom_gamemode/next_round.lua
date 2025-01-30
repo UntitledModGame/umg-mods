@@ -32,6 +32,7 @@ local function startRound(ent, ppos)
         end)
         lp.addMoney(ent, lp.main.constants.MONEY_PER_ROUND)
         lp.setPointsMult(ent, 1)
+        lp.setPointsBonus(ent, 0)
 
         -- Snapshot the run again.
         runManager.saveRun()
