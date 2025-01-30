@@ -52,6 +52,7 @@ If you have negative money, you are unable to pick items from cloud slots
 
 ### Bonus mechanism:
 - Add `bonus` mechanism
+- Create `lp.addBonus`, `lp.get/setBonus`, etc.
 - Create `bonusGenerated` property
 - Put `+X BONUS` UI in `lootplot.main`, next to the global-mult count.
 

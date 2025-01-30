@@ -27,16 +27,19 @@ local attributes = {}
 ---@alias lootplot.AttributeInitArgs { [string]: lootplot.AttributeSetter }
 
 
----@type {[string]:true}
-local knownAttrs = {}
+---@type {[string]:number}
+local knownAttrs = {--[[
+    [attributeName] -> defaultValue
+    -- (the value that this attribute starts with)
+]]}
 
 ---@type {[string]: lootplot.AttributeSetter}
 local attributeSetters = nil
 
 
-function attributes.defineAttribute(attr)
+function attributes.defineAttribute(attr, defaultValue)
     assert(not knownAttrs[attr], "Redefined existing attribute!")
-    knownAttrs[attr] = true
+    knownAttrs[attr] = defaultValue
 end
 
 function attributes.getAllAttributes()
@@ -47,7 +50,7 @@ function attributes.getAllAttributes()
     return buf
 end
 
-function attributes.isValidAttribute(attr)
+function attributes.getAttributeDefault(attr)
     return knownAttrs[attr]
 end
 
@@ -110,7 +113,7 @@ function attributes.initialize(args)
     assert(not attributeSetters, "Attempted to initialize twice?")
     attributeSetters = {}
     for attr, setter in pairs(args)do
-        assert(attributes.isValidAttribute(attr), "Invalid attribute: "..tostring(attr))
+        assert(attributes.getAttributeDefault(attr), "Invalid attribute: "..tostring(attr))
         attributeSetters[attr] = setter
     end
     for _, attr in ipairs(attributes.getAllAttributes()) do

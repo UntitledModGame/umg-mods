@@ -256,13 +256,14 @@ lp.getAttribute = attributes.getAttribute
 lp.setAttribute = attributes.setAttribute
 lp.getAllAttributes = attributes.getAllAttributes
 lp.modifyAttribute = attributes.modifyAttribute
-lp.isValidAttribute = attributes.isValidAttribute
+lp.getAttributeDefault = attributes.getAttributeDefault
 
 lp.defineAttribute = attributes.defineAttribute
 
 lp.defineAttribute("MONEY")
 lp.defineAttribute("POINTS")
 lp.defineAttribute("POINTS_MULT")
+lp.defineAttribute("POINTS_BONUS")
 
 -- COMBO = number of successive activations without interruption.
 lp.defineAttribute("COMBO")

@@ -116,8 +116,8 @@ end
 
 
 function Run:syncValue(key)
-    if not lp.isValidAttribute(key) then
-        error("Invalid key: " .. key)
+    if not lp.getAttributeDefault(key) then
+        error("Invalid attribute: " .. key)
     end
     server.broadcast("lootplot.main:syncContextAttribute", assert(self.ownerEnt), key, self.attrs[key])
 end
