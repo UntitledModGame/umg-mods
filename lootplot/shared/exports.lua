@@ -263,6 +263,7 @@ lp.defineAttribute = attributes.defineAttribute
 lp.defineAttribute("MONEY", 0)
 lp.defineAttribute("POINTS", 0)
 lp.defineAttribute("POINTS_MULT", 1)
+lp.defineAttribute("POINTS_BONUS", 0)
 
 -- COMBO = number of successive activations without interruption.
 lp.defineAttribute("COMBO", 0)
@@ -310,15 +311,38 @@ function lp.setPoints(fromEnt, x)
     lp.setAttribute("POINTS", fromEnt, x)
 end
 
----If you need to bypass `POINTS_MULT` attribute, use `lp.modifyAttribute("POINTS", fromEnt, x)` instead.
----
+--- (Doesn't include multiplier or bonus!!!)
+---Availability: **Server**
+---@param fromEnt Entity
+---@param x number
+function lp.addPointsRaw(fromEnt, x)
+    modifyTc(fromEnt, x)
+    lp.modifyAttribute("POINTS", fromEnt, x)
+end
+
+
 ---Availability: **Server**
 ---@param fromEnt Entity
 ---@param x number
 function lp.addPoints(fromEnt, x)
     modifyTc(fromEnt, x)
-    local val = x * (lp.getPointsMult(fromEnt) or 1)
-    lp.modifyAttribute("POINTS", fromEnt, val)
+    local mult = lp.getPointsMult(fromEnt) or 1
+    local bonus = (lp.getPointsBonus(fromEnt) or 0)
+
+    local val = x * mult
+    local bonusVal = bonus * mult
+
+    -- normal points:
+    lp.addPointsRaw(fromEnt, val)
+
+    -- bonus mechanism:
+    local ppos = lp.getPos(fromEnt)
+    if ppos and bonusVal ~= 0 then
+        lp.queueWithEntity(fromEnt, function(ent)
+            lp.addPointsRaw(ent, bonusVal)
+        end)
+        lp.wait(ppos, 0.15)
+    end
 end
 
 
@@ -328,6 +352,33 @@ end
 function lp.getPoints(ent)
     entityTc(ent)
     return lp.getAttribute("POINTS", ent)
+end
+
+
+
+
+---Availability: Client and Server
+---@param fromEnt Entity
+---@return number?
+function lp.getPointsBonus(fromEnt)
+    entityTc(fromEnt)
+    return lp.getAttribute("POINTS_BONUS", fromEnt)
+end
+
+---Availability: **Server**
+---@param fromEnt Entity
+---@param x number
+function lp.addPointsBonus(fromEnt, x)
+    modifyTc(fromEnt, x)
+    lp.modifyAttribute("POINTS_BONUS", fromEnt, x)
+end
+
+---Availability: **Server**
+---@param fromEnt Entity
+---@param x number
+function lp.setPointsBonus(fromEnt, x)
+    modifyTc(fromEnt, x)
+    lp.setAttribute("POINTS_BONUS", fromEnt, x)
 end
 
 
