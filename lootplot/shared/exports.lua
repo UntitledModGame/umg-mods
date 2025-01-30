@@ -338,6 +338,7 @@ function lp.addPoints(fromEnt, x)
     -- bonus mechanism:
     local ppos = lp.getPos(fromEnt)
     if ppos and bonusVal ~= 0 then
+        lp.wait(ppos, 0.15)
         lp.queueWithEntity(fromEnt, function(ent)
             lp.addPointsRaw(ent, bonusVal)
         end)
