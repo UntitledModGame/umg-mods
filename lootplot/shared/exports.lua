@@ -260,17 +260,16 @@ lp.getAttributeDefault = attributes.getAttributeDefault
 
 lp.defineAttribute = attributes.defineAttribute
 
-lp.defineAttribute("MONEY")
-lp.defineAttribute("POINTS")
-lp.defineAttribute("POINTS_MULT")
-lp.defineAttribute("POINTS_BONUS")
+lp.defineAttribute("MONEY", 0)
+lp.defineAttribute("POINTS", 0)
+lp.defineAttribute("POINTS_MULT", 1)
 
 -- COMBO = number of successive activations without interruption.
-lp.defineAttribute("COMBO")
+lp.defineAttribute("COMBO", 0)
 
 -- "LEVEL" is a general difficulty indicator.
 -- higher level = higher difficulty.
-lp.defineAttribute("LEVEL")
+lp.defineAttribute("LEVEL", 1)
 
 
 

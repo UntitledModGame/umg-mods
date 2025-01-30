@@ -37,7 +37,9 @@ local knownAttrs = {--[[
 local attributeSetters = nil
 
 
+local defAttributeTc = typecheck.assert("string", "number")
 function attributes.defineAttribute(attr, defaultValue)
+    defAttributeTc(attr, defaultValue)
     assert(not knownAttrs[attr], "Redefined existing attribute!")
     knownAttrs[attr] = defaultValue
 end
