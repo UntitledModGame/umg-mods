@@ -250,7 +250,7 @@ end
 
 
 
-local function defineShover(mineral_type, name, strength, etype)
+local function defineShovel(mineral_type, name, strength, etype)
     local namespace = umg.getModName() .. ":"
     local etypeName = namespace .. mineral_type .. "_shovel"
     local image = mineral_type .. "_shovel"
@@ -280,6 +280,7 @@ local function defineMineralClass(mineral_type, name, strength, etype)
     defineSword(mineral_type, name, strength, etype)
     defineAxe(mineral_type, name, strength, etype)
     definePickaxe(mineral_type, name, strength,  etype)
+    defineShovel(mineral_type, name, strength, etype)
     defineSpear(mineral_type, name, strength,  etype)
     defineHammer(mineral_type, name, strength,  etype)
     defineCrossbow(mineral_type, name, strength,  etype)

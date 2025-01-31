@@ -65,7 +65,7 @@ If you have negative money, you are unable to pick items from cloud slots
 - (((DONE))) JUICE: when collecting coin-packets, make a "ding" sound
 
 
-- Create mineral shovel-items (Give +1 bonus)
+- (((DONE))) Create mineral shovel-items (Give +1 bonus)
 
 
 - Make Star background better-  
