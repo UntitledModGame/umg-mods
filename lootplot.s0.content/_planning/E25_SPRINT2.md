@@ -54,14 +54,8 @@ If you have negative money, you are unable to pick items from cloud slots
 - (((DONE))) Add `bonus` mechanism
 - (((DONE))) Create `lp.addBonus`, `lp.get/setBonus`, etc.
 - (((DONE))) Create `bonusGenerated` property + descriptions
-- Put `+X BONUS` UI in `lootplot.main`, next to the global-mult count.
-
-
-## (((DONE))) Bonus UX:
-Whenever points are earned with bonus, use `lp.queue` to add bonus points.
-That way, the user can SEE visually how it actually works.
-And it isn't just another confusing number.
-(Might need to pass a flag or something so it doesn't enter infinite loop...? Not sure... OR, create a new function: `lp.addPointsRaw`, that doesn't invoke the mult/bonus mechanisms.)
+- (((DONE))) Put `+X BONUS` UI in `lootplot.main`, next to global-mult.
+- (((DONE))) use `lp.queue` to add bonus points. Its better for UX
 
 
 - Remove mana systems
@@ -74,6 +68,9 @@ there should be a little pop animation when touching mouse, like STS.
 
 
 - Create mineral shovel-items (Give +1 bonus)
+
+
+- Do something with feather-item (was removed due to mana changes)
 
 
 - Make Star background better-  
@@ -115,14 +112,26 @@ Earn $1 for each
 If mult is below 1, add 4 mult
 
 
-
 ## (SPIKE)
+Make the destructive archetype better.
+We already have some ideas for this at top of `destructive.lua`.
+(REMEMBER: We want maximum synergies and strategy!!! Try to weave destructive archetype into other archetypes.
+It SHOULDN'T be standalone.)
+
+
+- Make ROTATE archetype more "global". Currently it's a bit... standalone.
+Add a bunch more items that rotate stuff, BUT ALSO do other stuff.
+(REMEMBER: ITS OKAYYYY IF STUFF IS OP. We actually *WANT* stuff to be OP.)
+
+
+
+## (SPIKE: PLANNING)
 ### PASSIVE ITEMS:
 Why don't we have passive items?
 IE: items that don't activate directly, but use `onUpdate` to have an effect.
 
 
-## (SPIKE)
+## (SPIKE: PLANNING)
 - Rework shards to do something else
 (Ideally, we want them to *NOT* destroy themselves when used, lmao)
 
