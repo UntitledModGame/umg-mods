@@ -68,8 +68,9 @@ If you have negative money, you are unable to pick items from cloud slots
 - (((DONE))) Create mineral shovel-items (Give +1 bonus)
 
 
-- Make Star background better-  
+- (((DONE))) Make Star background better-  
 back stars should be smaller and more transparent
+
 
 - Change color of fog/clouds for different backgrounds
 

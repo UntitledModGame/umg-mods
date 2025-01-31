@@ -63,8 +63,6 @@ function StarBackground:init(nlayers)
         local oy = (rng:random() * 2 - 1) * 5000
         self.noises[#self.noises+1] = makeNoise(c[1], c[2], c[3], 300, ox, oy)
     end
-
-    self.cover = layout.NLay.cover(layout.NLay):ratio(1)
 end
 
 function StarBackground:draw(opacity)
@@ -73,7 +71,7 @@ function StarBackground:draw(opacity)
     do
         love.graphics.push()
         love.graphics.origin()
-        local x, y, w, h = self.cover:get()
+        local x, y, w, h = 0,0,love.graphics.getDimensions()
         love.graphics.setColor(1, 1, 1, 0.3)
         for _, n in ipairs(self.noises) do
             love.graphics.draw(n, x, y, 0, w / BACKGROUND_SIZE, h / BACKGROUND_SIZE)
@@ -86,7 +84,11 @@ function StarBackground:draw(opacity)
 
     love.graphics.setColor(1, 1, 1)
     for l, sb in ipairs(self.layers) do
-        local parallaxScale = 1 - (l / (#self.layers + 1))
+        -- HACK:  DONT ask how this works, i shotgun debugged it
+        local parallaxScale = (1.2 - ((l+1)/(#self.layers))/2)
+        local len = #self.layers
+        local opacityy = l/len
+        love.graphics.setColor(1,1,1, opacityy)
         love.graphics.draw(sb, cx * parallaxScale, cy * parallaxScale, 0, 1, 1)
     end
 end
