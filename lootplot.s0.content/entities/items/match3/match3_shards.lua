@@ -75,21 +75,6 @@ end
 
 
 
-local function giveManaToSlot(itemEnt)
-    local slotEnt = lp.itemToSlot(itemEnt)
-    if slotEnt then
-        lp.mana.addMana(slotEnt, 1)
-    end
-end
-defShards("mana_shards", "Mana Shards",
-    giveManaToSlot, "Give {lootplot.mana:LIGHT_MANA_COLOR}+1 mana{/lootplot.mana:LIGHT_MANA_COLOR} to slot",
-{
-    rarity = lp.rarities.COMMON,
-    basePointsGenerated = 5,
-    basePrice = 3,
-})
-
-
 
 local function earn8Money(itemEnt)
     lp.addMoney(itemEnt, 8)

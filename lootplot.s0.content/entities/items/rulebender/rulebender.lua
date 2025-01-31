@@ -212,23 +212,20 @@ defItem("foghorn", {
 
 
 
+--[[
+----
+TODO: Do something with feather.
+it used to use mana previously; but that was removed
+
 defItem("feather", {
     name = loc("Feather"),
 
     triggers = {"PULSE"},
 
     basePrice = 10,
-    baseMultGenerated = 2,
-    manaCost = 1,
-
-    rarity = lp.rarities.RARE,
-
-    activateDescription = loc("Increases {lootplot:POINTS_MULT_COLOR}mult{/lootplot:POINTS_MULT_COLOR} by 1 permanently"),
-    onActivate = function(ent)
-        lp.modifierBuff(ent, "multGenerated", 0.5, ent)
-    end,
 })
 
+]]
 
 
 defItem("ruby", {
@@ -238,8 +235,6 @@ defItem("ruby", {
     triggers = {"PULSE"},
 
     rarity = lp.rarities.LEGENDARY,
-
-    manaCost = 1,
 
     basePrice = 12,
     baseMaxActivations = 5,
@@ -268,8 +263,6 @@ defItem("seraphim", {
     triggers = {"PULSE"},
 
     rarity = lp.rarities.LEGENDARY,
-
-    manaCost = 1,
 
     basePrice = 12,
     baseMaxActivations = 5,

@@ -121,7 +121,8 @@ It SHOULDN'T be standalone.)
 
 - Make ROTATE archetype more "global". Currently it's a bit... standalone.
 Add a bunch more items that rotate stuff, BUT ALSO do other stuff.
-(REMEMBER: ITS OKAYYYY IF STUFF IS OP. We actually *WANT* stuff to be OP.)
+(EG: generates points, AND rotates target items)
+(REMEMBER: ITS **OKAY** IF STUFF IS OP. We actually *WANT* stuff to be OP.)
 
 
 

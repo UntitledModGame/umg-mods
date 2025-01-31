@@ -1,7 +1,7 @@
 {
     "uses": [
         "lootplot.targets", "lootplot", "lootplot.rarities", 
-        "lootplot.metaprogression", "lootplot.mana",
+        "lootplot.metaprogression",
         "lootplot.worldgen", "lootplot.unlocks", "sound"
     ]
 }

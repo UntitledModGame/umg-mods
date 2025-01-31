@@ -122,8 +122,6 @@ defItem("ping_pong_paddle", "Ping pong paddle", {
 
     rarity = lp.rarities.RARE,
 
-    manaCost = 1,
-
     activateDescription = loc("Gives target item {lootplot:REPEATER_COLOR}REPEATER{/lootplot:REPEATER_COLOR}, but makes it {lootplot:GRUB_COLOR}STUCK."),
 
     target = {

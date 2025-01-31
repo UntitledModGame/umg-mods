@@ -129,33 +129,6 @@ defineCard("hearts_card", {
 })
 
 
-defineCard("mana_card", {
-    name = loc("Mana Card"),
-    shape = lp.targets.VerticalShape(1),
-
-    activateDescription = loc("Shuffle {lootplot.mana:LIGHT_MANA_COLOR}mana{/lootplot.mana:LIGHT_MANA_COLOR} between target slots"),
-
-    target = {
-        type = "SLOT",
-    },
-
-    onActivate = function(selfEnt)
-        local targets = shuffled(
-            objects.Array(lp.targets.getTargets(selfEnt))
-                :map(lp.posToSlot)
-        )
-        apply(targets, function(e1,e2)
-            local m1 = e1.manaCount or 0
-            local m2 = e2.manaCount or 0
-            e1.manaCount = m2
-            e2.manaCount = m1
-        end)
-    end,
-
-    rarity = lp.rarities.RARE
-})
-
-
 
 defineCard("doomed_card", {
     name = loc("Doomed Card"),

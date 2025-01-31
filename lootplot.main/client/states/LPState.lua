@@ -79,8 +79,13 @@ function LPState:init()
         accumulated = 0,
         timeout = 0
     }
+
     self.multiplierEffect = {
         last = 1,
+        timeout = 0, -- if 0 = don't play effects
+    }
+    self.bonusEffect = {
+        last = 0,
         timeout = 0, -- if 0 = don't play effects
     }
 
@@ -227,12 +232,20 @@ function LPState:update(dt)
 
     local run = lp.main.getRun()
     if run then
-        self.multiplierEffect.timeout = math.max(self.multiplierEffect.timeout - dt, 0)
+        local mulEffect = self.multiplierEffect
+        mulEffect.timeout = math.max(mulEffect.timeout - dt, 0)
         local pointMul = run:getAttribute("POINTS_MULT")
+        if mulEffect.last ~= pointMul then
+            mulEffect.timeout = ACCUMULATED_JOLT_DURATION
+            mulEffect.last = pointMul
+        end
 
-        if self.multiplierEffect.last ~= pointMul then
-            self.multiplierEffect.timeout = ACCUMULATED_JOLT_DURATION
-            self.multiplierEffect.last = pointMul
+        local bEffect = self.bonusEffect
+        bEffect.timeout = math.max(bEffect.timeout - dt, 0)
+        local pointBonus = run:getAttribute("POINTS_BONUS")
+        if bEffect.last ~= pointBonus then
+            bEffect.timeout = ACCUMULATED_JOLT_DURATION
+            bEffect.last = pointBonus
         end
     end
 end
@@ -371,7 +384,7 @@ function LPState:drawHUD()
             xtraRot, s*xtraScale, s*xtraScale
         )
 
-        currentTextY = currentTextY + math.floor(h + TXT_PAD/3)*gs
+        currentTextY = currentTextY + h*gs
     end
 
     local accumPointsText = showNSignificant(self.accumulatedPoints.accumulated, 3)
@@ -392,10 +405,18 @@ function LPState:drawHUD()
         drawOnRight(richText, accumPointsText, pRot, pScale)
     end
 
+    local pBonus = self.bonusEffect.last
+    if pBonus ~= 0 then
+        local bonText = "(+"..showNSignificant(pBonus, 1)..")"
+        local timeSinceBonusChange = ACCUMULATED_JOLT_DURATION - self.multiplierEffect.timeout
+        local r, sc = getAccumTextRotAndScale(timeSinceBonusChange)
+        love.graphics.setColor(lp.COLORS.BONUS_COLOR)
+        drawOnRight("{wavy}{outline thickness=4}", bonText, r, sc)
+    end
+
     local pointMul = self.multiplierEffect.last
     if pointMul ~= 1 then
         local mulText = "(x"..showNSignificant(pointMul, 1)..")"
-        love.graphics.setColor(1, 1, 1)
         local timeSinceMultChange = ACCUMULATED_JOLT_DURATION - self.multiplierEffect.timeout
         local multRot, multScale = getAccumTextRotAndScale(timeSinceMultChange)
         love.graphics.setColor(lp.COLORS.POINTS_MULT_COLOR)

@@ -268,8 +268,6 @@ local generateFoodItem = itemGenHelper.createLazyGenerator(
     })
 )
 
-local CHANCE_FOR_MANA = 0.2
-
 makeShopSlot("food_shop_slot", "Food Shop Slot", {
     activateDescription = loc("Spawns food items"),
     baseMaxActivations = 100,
@@ -281,11 +279,6 @@ makeShopSlot("food_shop_slot", "Food Shop Slot", {
         if not ppos then return end
 
         local itemEnt = lp.forceSpawnItem(ppos, etype, slotEnt.lootplotTeam)
-        if itemEnt and lp.SEED:randomMisc() < CHANCE_FOR_MANA then
-            -- increase manaCost by 1, decrease price by $4
-            itemEnt.manaCost = (itemEnt.manaCost or 0) + 1
-            lp.modifierBuff(itemEnt, "price", -4, itemEnt)
-        end
 
         setItemLock(slotEnt, true)
     end,

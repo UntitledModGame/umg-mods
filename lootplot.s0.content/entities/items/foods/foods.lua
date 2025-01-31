@@ -182,31 +182,6 @@ defineFood("gray_turnip", {
 })
 
 
-defineFood("mana_turnip", {
-    name = loc("Mana Turnip"),
-
-    activateDescription = loc("Transforms into target item."),
-
-    rarity = lp.rarities.RARE,
-
-    basePrice = 6,
-    manaCost = 3,
-    shape = lp.targets.UP_SHAPE,
-
-    target = {
-        type = "ITEM",
-        activate = function(selfEnt, ppos, targetEnt)
-            local selfPPos = lp.getPos(selfEnt)
-            if selfPPos then
-                lp.forceCloneItem(targetEnt, selfPPos)
-            end
-        end
-    }
-})
-
-
-
-
 
 
 
@@ -216,8 +191,7 @@ defineFood("green_olive", {
 
     rarity = lp.rarities.EPIC,
 
-    basePrice = 6,
-    manaCost = 4,
+    basePrice = 10,
 
     shape = lp.targets.UP_SHAPE,
     target = {
@@ -235,8 +209,7 @@ defineFood("teal_olive", {
 
     rarity = lp.rarities.EPIC,
 
-    basePrice = 6,
-    manaCost = 4,
+    basePrice = 10,
 
     shape = lp.targets.UP_SHAPE,
     target = {

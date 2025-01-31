@@ -180,31 +180,6 @@ defDestructive("tooth_necklace", "Tooth Necklace", {
 })
 
 
-defDestructive("mana_necklace", "Mana Necklace", {
-    basePrice = 4,
-    baseMaxActivations = 1,
-
-    activateDescription = loc("Gives all {lootplot.targets:COLOR}target slots{/lootplot.targets:COLOR} {lootplot:DOOMED_COLOR}DOOMED-6{/lootplot:DOOMED_COLOR}, and {lootplot.mana:LIGHT_MANA_COLOR}+2 mana{/lootplot.mana:LIGHT_MANA_COLOR}.\n(Only works if the {lootplot.targets:COLOR}slot{/lootplot.targets:COLOR} isn't doomed!)"),
-
-    rarity = lp.rarities.RARE,
-    shape = lp.targets.ON_SHAPE,
-
-    target = {
-        type = "SLOT",
-        activate = function(ent, ppos, slotEnt)
-            lp.mana.addMana(slotEnt, 2)
-            slotEnt.doomCount = 6
-        end,
-        filter = function(ent, ppos, slotEnt)
-            if slotEnt and (not slotEnt.doomCount) then
-                return true
-            end
-        end,
-    }
-})
-
-
-
 
 
 defDestructive("bomb", "Bomb", {

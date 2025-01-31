@@ -108,24 +108,6 @@ defItem("gold_compass", "Gold Compass", {
 
 
 
-defItem("mana_compass", "Mana Compass", {
-    activateDescription = loc("Give {lootplot.mana:LIGHT_MANA_COLOR}+3 mana{/lootplot.mana:LIGHT_MANA_COLOR} to all {lootplot.targets:COLOR}target slots"),
-
-    shape = lp.targets.UpShape(2),
-
-    target = {
-        type = "SLOT",
-        activate = function(selfEnt, ppos, targEnt)
-            lp.mana.addMana(targEnt, 3)
-        end
-    },
-
-    basePrice = 8,
-    rarity = lp.rarities.RARE,
-})
-
-
-
 
 defItem("calender", "Calender", {
     activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}Level-Up{/lootplot:TRIGGER_COLOR} for all target-items."),

@@ -158,7 +158,7 @@ defItem("golden_donut", "Golden Donut", {
 
     basePrice = 8,
     baseMaxActivations = 10,
-    manaCost = 1,
+    baseMoneyGenerated = -4,
 
     shape = lp.targets.KingShape(1),
     target = {
@@ -168,7 +168,7 @@ defItem("golden_donut", "Golden Donut", {
         end
     },
 
-    rarity = lp.rarities.RARE,
+    rarity = lp.rarities.EPIC,
 })
 
 

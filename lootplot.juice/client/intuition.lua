@@ -81,11 +81,6 @@ end)
 
 umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER + 0.1, function(ent, x,y, rot, sx,sy, kx,ky)
     if lp.isSlotEntity(ent) then
-        if ent.manaCount and ent.manaCount > 0 and lp.isSlotEntity(ent) then
-            local index = math.clamp(math.floor(ent.manaCount), 1, 4)
-            local img = client.assets.images["slot_mana_charge_" .. index]
-            rendering.drawImage(img, x, y, rot, sx,sy, kx,ky)
-        end
         if (ent.multGenerated) and ent.multGenerated > 0.05 then
             local img = "slot_multiplier_visual"
             rendering.drawImage(img, x, y, rot, sx,sy, kx,ky)
@@ -161,12 +156,6 @@ umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER, function(ent, x,y, rot
             local off = math.pi
             dx, dy = AMPL * math.sin(t + off), AMPL * math.cos(t + off)
             rendering.drawImage(img, x+dx, y+dy, rot, sx,sy, kx,ky)
-        end
-
-        if ent.manaCost and ent.manaCost > 0 then
-            local img = client.assets.images.mana_cost_item_visual
-            local dy = 2 * math.sin(love.timer.getTime() * BOB_SPEED + math.pi)
-            rendering.drawImage(img, x + 6, y - 5 + dy, 0, sx,sy)
         end
     end
 end)
