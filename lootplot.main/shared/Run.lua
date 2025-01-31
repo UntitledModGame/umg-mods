@@ -60,7 +60,7 @@ function Run:init(perkItem, bg)
     self.attrs.LEVEL = 1
     self.attrs.MONEY = constants.STARTING_MONEY
     self.attrs.POINTS = constants.STARTING_POINTS
-    self.attrs.POINTS_BONUS = -2
+    self.attrs.POINTS_BONUS = 0
     self.attrs.POINTS_MULT = 1
 
     self.attrs.REQUIRED_POINTS = 0
