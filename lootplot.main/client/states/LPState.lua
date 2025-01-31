@@ -141,23 +141,6 @@ function LPState:init()
             end
         end
     end)
-
-    -- NLay layouts
-    local l = {}
-    l.root = layout.NLay.constraint(layout.NLay, layout.NLay, layout.NLay, layout.NLay, layout.NLay)
-        :size(0, 0)
-    -- Rest of size and data will be set on :draw()
-    l.leftTop = layout.NLay.constraint(l.root, l.root, l.root, nil, l.root)
-    l.leftMid = layout.NLay.constraint(l.root, l.leftTop, l.root, nil, l.root)
-    l.leftBottom = layout.NLay.constraint(l.root, l.leftMid, l.root, nil, l.root)
-    l.rightTop = layout.NLay.constraint(l.root, l.root, l.root, nil, l.root)
-    l.rightBottom = layout.NLay.constraint(l.root, l.rightTop, l.root, nil, l.root)
-    l.accumulator = layout.NLay.constraint(l.rightTop, l.rightTop, l.rightTop, l.rightTop, l.rightTop)
-        :bias(1, nil)
-    l.multiplier1 = layout.NLay.constraint(l.rightBottom, l.rightBottom, l.rightBottom, l.rightBottom, l.rightBottom)
-        :bias(1, nil) -- if width(mul) > width(accumulator)
-    l.multiplier2 = layout.NLay.constraint(l.rightBottom, l.rightBottom, l.accumulator, l.rightBottom, l.accumulator)
-    self.layout = l
 end
 
 function LPState:onAdded(zorder)
@@ -295,14 +278,6 @@ local function surroundColor(color, text)
     return string.format("{c r=%.2f g=%.2f b=%.2f}%s{/c}", color[1], color[2], color[3], text)
 end
 
-local function drawRegions(rlist)
-    love.graphics.setColor(0,1,1)
-    for _, r in pairs(rlist) do
-        love.graphics.rectangle("line", r:get())
-    end
-    love.graphics.setColor(1,1,1)
-end
-
 
 local function getAccumTextRotAndScale(timeSinceChange)
     -- jolt is number from 0 -> 1, representing how "far" along the jolt we are
@@ -312,110 +287,6 @@ local function getAccumTextRotAndScale(timeSinceChange)
     local scale = math.min(jolt, 1-jolt) * ACCUMULATED_JOLT_SCALE_BULGE_AMOUNT
     return rot, 1+scale
 end
-
-
-function LPState:drawHUD()
-    local run = lp.main.getRun()
-    if not run then return end
-
-    local gs = globalScale.get()
-    local l = self.layout
-    l.root:margin({gs * 16, gs * 16, 0, gs * 48})
-    l.leftTop:margin({gs * -8, 0, 0, 0}):size(0, 32 * gs)
-    l.leftMid:size(0, 32 * gs)
-    l.leftBottom:size(0, 32 * gs)
-    l.rightTop:margin({gs * -8, 0, 0, 0}):size(0, 64 * gs)
-    l.rightBottom:size(0, 64 * gs)
-
-    local pointMul = self.multiplierEffect.last
-    local largerFont = fonts.getSmallFont(64)
-    local accumPointsText = showNSignificant(self.accumulatedPoints.accumulated, 3)
-    local accWidth = largerFont:getWidth(accumPointsText)
-    local mulText = ""
-    if pointMul ~= 1 then
-        mulText = "(x"..showNSignificant(pointMul, 1)..")"
-    end
-    local mulWidth = largerFont:getWidth(mulText)
-    local mulConstraint
-    if accWidth == 0 then
-        mulConstraint = l.accumulator
-    else
-        mulConstraint = mulWidth > accWidth and l.multiplier1 or l.multiplier2
-    end
-    mulConstraint:size(mulWidth * gs, 0)
-
-    local points = run:getAttribute("POINTS")
-    local requiredPoints = run:getAttribute("REQUIRED_POINTS")
-    local round = run:getAttribute("ROUND")
-    local numberOfRounds = run:getAttribute("NUMBER_OF_ROUNDS")
-
-    local colorEffect
-    if points >= requiredPoints then
-        colorEffect = "{c r=0.1 g=1 b=0.2}"
-    elseif points < 0 then
-        colorEffect = "{c r=1 g=0.2 b=0.1}"
-    else
-        colorEffect = "{c r=1 g=1 b=1}"
-    end
-
-    local pointsText
-    if (numberOfRounds < round) and (points < requiredPoints) then
-        pointsText = POINTS_GAME_OVER({
-            points = showNSignificant(points, 3),
-            requiredPoints = requiredPoints
-        })
-    else
-        pointsText = POINTS_NORMAL({
-            colorEffect = colorEffect,
-            points = showNSignificant(points, 3),
-            requiredPoints = requiredPoints,
-        })
-    end
-
-    local roundTextMaker = ROUND_AND_LEVEL
-    if round >= numberOfRounds and points < requiredPoints then
-        roundTextMaker = FINAL_ROUND_LEVEL
-    end
-    local roundText = roundTextMaker({
-        round = round,
-        numberOfRounds = numberOfRounds,
-        level = run:getAttribute("LEVEL")
-    })
-
-    local font = fonts.getSmallFont(32)
-    love.graphics.setColor(1, 1, 1)
-    printRichTextByConstraint(l.leftTop, roundText, font, "left", gs)
-    printRichTextByConstraint(l.leftMid, pointsText, font, "left", gs)
-    printRichTextByConstraint(l.leftBottom, MONEY({money = run:getAttribute("MONEY")}), font, "left", gs)
-
-    if self.accumulatedPoints.timeout > 0 then
-        local opacity = easeOutQuad(math.clamp(self.accumulatedPoints.timeout / ACCUMULATED_POINT_FADE_OUT, 0, 1))
-        local richText = string.format("{wavy}{outline thickness=%.2f}", opacity * 4)
-
-        local col
-        if self.accumulatedPoints.accumulated < 0 then
-            col = lp.COLORS.BAD_COLOR
-        else
-            col = lp.COLORS.POINTS_COLOR
-        end
-
-        l.accumulator:size(accWidth * gs, 0)
-        love.graphics.setColor(col[1], col[2], col[3], opacity)
-
-        local timeSincePointsChange = ACCUMULATED_POINT_TOTAL_TIME - self.accumulatedPoints.timeout
-        local pointsRot, pointsScale = getAccumTextRotAndScale(timeSincePointsChange)
-        printRichTextCenteredByConstraint(l.accumulator, richText..accumPointsText, largerFont, "left", gs*pointsScale, pointsRot)
-    end
-
-    local mulTextWithEff = "{wavy}{outline thickness=4}"..mulText.."{/outline}{/wavy}"
-    love.graphics.setColor(1, 1, 1)
-    local timeSinceMultChange = ACCUMULATED_JOLT_DURATION - self.multiplierEffect.timeout
-    local multRot, multScale = getAccumTextRotAndScale(timeSinceMultChange)
-    printRichTextCenteredByConstraint(mulConstraint, surroundColor(lp.COLORS.POINTS_MULT_COLOR, mulTextWithEff), largerFont, "left", gs*multScale, multRot)
-    -- drawRegions(l)
-end
-
-
 
 
 function LPState:drawHUD()
