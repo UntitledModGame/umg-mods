@@ -72,7 +72,6 @@ umg.on("rendering:drawEffects", function(camera)
     local background = run:getBackground()
     local bg = lp.backgrounds.getBackgroundInfo(background)
     ---@cast bg lootplot.backgrounds.BackgroundInfoData
-    assert(bg and bg.fogColor,"?")
     local fogCol = (bg and bg.fogColor) or objects.Color.WHITE
     love.graphics.setColor(fogCol)
 
