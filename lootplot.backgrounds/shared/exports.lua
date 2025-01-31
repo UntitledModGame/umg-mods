@@ -36,6 +36,7 @@ local defined = {}
 ---@field public constructor (fun():lootplot.backgrounds.IBackground)? @note this is nil on server-side
 ---@field public description string?
 ---@field public icon string?
+---@field public fogColor objects.Color?
 
 ---@class lootplot.backgrounds.BackgroundInfoData: lootplot.backgrounds.BackgroundInfo
 ---@field public id string
@@ -66,6 +67,14 @@ end
 function bg.getRegisteredBackgrounds()
     return table.shallowCopy(registry)
 end
+
+
+---@param bgName string
+---@return lootplot.backgrounds.BackgroundInfoData?
+function bg.getBackgroundInfo(bgName)
+    return defined[bgName]
+end
+
 
 ---@type string?
 local currentBackgroundName = nil

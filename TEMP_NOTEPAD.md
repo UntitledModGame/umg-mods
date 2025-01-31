@@ -150,3 +150,22 @@ s0.bundle
 ```
 
 
+
+
+OK:
+setting fog color:
+We clearly need to "expose" the fog color at base lootplot.
+Or else, our backgrounds wont be able to touch it.
+
+We have a few options:
+- Fog color is property of plot
+PROS: simple
+CONS: stateful, needs to be set sometime
+
+- Fog color is obtained via qbus
+PROS: simple, allows for overrides
+CONS: needs to be polled per frame (not really an issue)
+
+A big "benefit" of having qbus for fog is that we can have items/other systems that temporarily change the fog color  
+(ie imagine a boss-fight)
+

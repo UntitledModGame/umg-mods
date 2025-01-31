@@ -40,7 +40,6 @@ end
 
 ---@param ppos lootplot.PPos
 local function drawFog(ppos)
-    love.graphics.setColor(1,1,1)
     local plot = ppos:getPlot()
     if not plot:isFogRevealed(ppos, lp.main.PLAYER_TEAM) then
         local x,y,_dim = plot:pposToWorldCoords(ppos)
@@ -69,7 +68,15 @@ umg.on("rendering:drawEffects", function(camera)
     local pposBL = offsetPPosBy(getPPosByScreenCoords(plot, camera, 0, h), -1, 1)
     local x1, y1, x2, y2 = computeBoundingBox(pposTL, pposTR, pposBR, pposBL)
 
-    love.graphics.setColor(0, 0, 0)
+    -- set fog color
+    local background = run:getBackground()
+    local bg = lp.backgrounds.getBackgroundInfo(background)
+    ---@cast bg lootplot.backgrounds.BackgroundInfoData
+    assert(bg and bg.fogColor,"?")
+    local fogCol = (bg and bg.fogColor) or objects.Color.WHITE
+    love.graphics.setColor(fogCol)
+
+    -- draw fog
     plot:foreachInArea(x1, y1, x2, y2, drawFog)
 end)
 

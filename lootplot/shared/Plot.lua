@@ -40,6 +40,8 @@ function Plot:init(ownerEnt, width, height)
 
     self.grid = objects.Grid(width,height) -- dummy grid; contains nothing.
 
+    self.fogColor = objects.Color(1,1,1)
+
     self.layers = {
         --[[
             todo: Do we want custom Layer objects here,
@@ -163,18 +165,31 @@ end
 
 
 if client then
-    client.on("lootplot:setPlotEntry", function(plotEnt, index, ent)
-        local plot = plotEnt.plot
-        local x,y = plot:indexToCoords(index)
-        plot:set(x, y, ent)
-    end)
-    client.on("lootplot:clearPlotEntry", function(plotEnt, index, layer)
-        plotEnt.plot:clear(index, layer)
-    end)
 
-    client.on("lootplot:setPipelineRunningBool", function(plotEnt, bool)
-        plotEnt.plot._cachedIsPipelineRunning = bool
-    end)
+client.on("lootplot:setPlotEntry", function(plotEnt, index, ent)
+    local plot = plotEnt.plot
+    local x,y = plot:indexToCoords(index)
+    plot:set(x, y, ent)
+end)
+client.on("lootplot:clearPlotEntry", function(plotEnt, index, layer)
+    plotEnt.plot:clear(index, layer)
+end)
+
+client.on("lootplot:setPipelineRunningBool", function(plotEnt, bool)
+    plotEnt.plot._cachedIsPipelineRunning = bool
+end)
+
+
+---@param fogColor objects.Color
+function Plot:setFogColor(fogColor)
+    self.fogColor = fogColor
+end
+
+---@return objects.Color
+function Plot:getFogColor()
+    return self.fogColor
+end
+
 end
 
 

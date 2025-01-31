@@ -72,7 +72,10 @@ If you have negative money, you are unable to pick items from cloud slots
 back stars should be smaller and more transparent
 
 
-- Change color of fog/clouds for different backgrounds
+- (((DONE))) Change color of fog/clouds for different backgrounds
+
+
+- Add animation/particles when fog is cleared (test w/ map)
 
 
 - Instead of saying "Round 7/6", It should say "LEVEL COMPLETE"
