@@ -182,16 +182,11 @@ end
 
 
 
-local TIER_TEXT = localization.newInterpolator("TIER-%{tier}")
-
 local function populateDescriptionBox(ent)
     local description = lp.getLongDescription(ent)
     local dbox = DescriptionBox(fonts.getSmallFont(32))
 
     local title = "{wavy}"..lp.getEntityName(ent).." {/wavy}"
-    if ent.tier and ent.tier ~= 1 then
-        title = title .. "{lootplot:COMBINE_COLOR}" .. TIER_TEXT(ent)
-    end
 
     dbox:addRichText(title, fonts.getLargeFont(32))
     dbox:newline()
