@@ -28,7 +28,7 @@ end
 
 
 defItem("morning_star", "Morning Star", {
-    baseBonusGenerated = 3,
+    baseBonusGenerated = 5,
     baseMultGenerated = -0.1
 })
 

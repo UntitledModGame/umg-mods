@@ -415,6 +415,126 @@ function LPState:drawHUD()
     -- drawRegions(l)
 end
 
+
+
+
+function LPState:drawHUD()
+    local run = lp.main.getRun()
+    if not run then return end
+
+    local gs = globalScale.get()
+
+    local font = fonts.getSmallFont(32)
+    local largerFont = fonts.getSmallFont(64)
+
+    local points = run:getAttribute("POINTS")
+    local requiredPoints = run:getAttribute("REQUIRED_POINTS")
+    local round = run:getAttribute("ROUND")
+    local numberOfRounds = run:getAttribute("NUMBER_OF_ROUNDS")
+
+    -- draw text on the left
+    -- (Round/Level, money, points/required points)
+    do
+    local colorEffect
+    if points >= requiredPoints then
+        colorEffect = "{c r=0.1 g=1 b=0.2}"
+    elseif points < 0 then
+        colorEffect = "{c r=1 g=0.2 b=0.1}"
+    else
+        colorEffect = "{c r=1 g=1 b=1}"
+    end
+
+    local pointsText
+    if (numberOfRounds < round) and (points < requiredPoints) then
+        pointsText = POINTS_GAME_OVER({
+            points = showNSignificant(points, 3),
+            requiredPoints = requiredPoints
+        })
+    else
+        pointsText = POINTS_NORMAL({
+            colorEffect = colorEffect,
+            points = showNSignificant(points, 3),
+            requiredPoints = requiredPoints,
+        })
+    end
+
+    local roundTextMaker = ROUND_AND_LEVEL
+    if round >= numberOfRounds and points < requiredPoints then
+        roundTextMaker = FINAL_ROUND_LEVEL
+    end
+    local roundText = roundTextMaker({
+        round = round,
+        numberOfRounds = numberOfRounds,
+        level = run:getAttribute("LEVEL")
+    })
+
+    local moneyText = MONEY({money = run:getAttribute("MONEY")})
+
+    local fH = font:getHeight()
+    local TXT_PAD = 10 * gs
+    love.graphics.setColor(1, 1, 1)
+    text.printRich(roundText, font,  TXT_PAD, TXT_PAD + (fH+TXT_PAD)*0, 0xfffff, "left", 0, gs, gs)
+    text.printRich(pointsText, font, TXT_PAD, TXT_PAD + (fH+TXT_PAD)*1, 0xfffff, "left", 0, gs, gs)
+    text.printRich(moneyText, font,  TXT_PAD, TXT_PAD + (fH+TXT_PAD)*2, 0xfffff, "left", 0, gs, gs)
+    end
+
+    -- draw text on the right
+    -- (Bonus, mult, points-accumulated)
+    do
+    local TXT_PAD = 10
+
+    local currentTextY = TXT_PAD*gs
+
+    local function drawOnRight(effectTxt, txt, xtraRot, xtraScale)
+        -- We pass the effectTxt in manually because we need to compute the width
+
+        -- effectTxt MUST NOT contain anything other than effects!!!
+        -- Or else the width will be bugged
+        local w = largerFont:getWidth(txt)
+        local h = largerFont:getHeight()
+        local s = gs
+        local x = love.graphics.getWidth() - (w/2 + TXT_PAD*2)*gs
+        text.printRichCentered(
+            effectTxt .. txt, largerFont, x, currentTextY + h/2,
+            0xffffff, "left",
+            xtraRot, s*xtraScale, s*xtraScale
+        )
+
+        currentTextY = currentTextY + math.floor(h + TXT_PAD/3)*gs
+    end
+
+    local accumPointsText = showNSignificant(self.accumulatedPoints.accumulated, 3)
+    if self.accumulatedPoints.timeout > 0 then
+        local opacity = easeOutQuad(math.clamp(self.accumulatedPoints.timeout / ACCUMULATED_POINT_FADE_OUT, 0, 1))
+        local richText = string.format("{wavy}{outline thickness=%.2f}", opacity * 4)
+
+        local col
+        if self.accumulatedPoints.accumulated < 0 then
+            col = lp.COLORS.BAD_COLOR
+        else
+            col = lp.COLORS.POINTS_COLOR
+        end
+        love.graphics.setColor(col[1], col[2], col[3], opacity)
+
+        local timeSincePointsChange = ACCUMULATED_POINT_TOTAL_TIME - self.accumulatedPoints.timeout
+        local pRot, pScale = getAccumTextRotAndScale(timeSincePointsChange)
+        drawOnRight(richText, accumPointsText, pRot, pScale)
+    end
+
+    local pointMul = self.multiplierEffect.last
+    if pointMul ~= 1 then
+        local mulText = "(x"..showNSignificant(pointMul, 1)..")"
+        love.graphics.setColor(1, 1, 1)
+        local timeSinceMultChange = ACCUMULATED_JOLT_DURATION - self.multiplierEffect.timeout
+        local multRot, multScale = getAccumTextRotAndScale(timeSinceMultChange)
+        love.graphics.setColor(lp.COLORS.POINTS_MULT_COLOR)
+        drawOnRight("{wavy}{outline thickness=4}", mulText, multRot, multScale)
+    end
+
+    end
+end
+
+
 function LPState:draw()
     local x, y, w, h = love.window.getSafeArea()
 

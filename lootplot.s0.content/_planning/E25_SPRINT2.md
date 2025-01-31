@@ -64,13 +64,13 @@ And it isn't just another confusing number.
 (Might need to pass a flag or something so it doesn't enter infinite loop...? Not sure... OR, create a new function: `lp.addPointsRaw`, that doesn't invoke the mult/bonus mechanisms.)
 
 
-Remove mana systems
-Remove all `manaCost` items
+- Remove mana systems
+- Remove all `manaCost` items
 
 
-## (SPIKE)
-- Rework shards to do something else
-(Ideally, we want them to *NOT* destroy themselves when used, lmao)
+- JUICE: when collecting coin-packets, 
+there should be a little pop animation when touching mouse, like STS.
+(Also a quiet little "ding" sound or something, when collected?)
 
 
 - Create mineral shovel-items (Give +1 bonus)
@@ -91,7 +91,7 @@ If this item isnt targetting any other items,
 Give +5 mult
 
 - ITEM:
-Earn $1
+Earn $2
 GRUB-10
 
 - ITEM: 
@@ -121,6 +121,10 @@ If mult is below 1, add 4 mult
 Why don't we have passive items?
 IE: items that don't activate directly, but use `onUpdate` to have an effect.
 
+
+## (SPIKE)
+- Rework shards to do something else
+(Ideally, we want them to *NOT* destroy themselves when used, lmao)
 
 
 ## (SPIKE)
