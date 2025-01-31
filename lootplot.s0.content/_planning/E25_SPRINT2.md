@@ -75,7 +75,17 @@ back stars should be smaller and more transparent
 - (((DONE))) Change color of fog/clouds for different backgrounds
 
 
+- (((DONE))) Add cherry-background (Cloud-background, but pink)
+- (((DONE))) Add sunset-background (Cloud-background, but orange)
+
+
 - Add animation/particles when fog is cleared (test w/ map)
+
+
+- Make background select UI much nicer:
+- Make proper cards for it
+- Touch up the icons
+- Touch up the arrow-buttons
 
 
 - Instead of saying "Round 7/6", It should say "LEVEL COMPLETE"
@@ -114,8 +124,8 @@ If mult is below 1, add 4 mult
 ## (SPIKE)
 Make the destructive archetype better.
 We already have some ideas for this at top of `destructive.lua`.
-(REMEMBER: We want maximum synergies and strategy!!! Try to weave destructive archetype into other archetypes.
-It SHOULDN'T be standalone.)
+(REMEMBER: We want maximum synergies and strategy!!! Try to weave destructive archetype into other archetypes. It SHOULDN'T be standalone.)
+(NOTE:: it's **OKAY** if stuff is OP. We want to maximise FUN. Not balance.)
 
 
 - Make ROTATE archetype more "global". Currently it's a bit... standalone.

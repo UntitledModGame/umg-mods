@@ -1,134 +1,154 @@
 
-
-local lg = love.graphics
-
-
----@class lootplot.s0.backgrounds.CloudBackground: lootplot.backgrounds.IBackground
+---@class lootplot.s0.backgrounds.CloudBackground
 local CloudBackground = objects.Class("lootplot.s0.backgrounds:CloudBackground"):implement(lp.backgrounds.IBackground)
 
 
 
-local NUM_CLOUD_LAYERS = 5
-local CLOUDS_PER_LAYER = 35
+--- CONSTANTS:
+local CLOUD_MOVE_SPEED = 3.5
 
-local BASE_CLOUD_SPEED = 10
+local CLOUD_SIZE = 1.5
 
-
----@param baseColor objects.Color
----@return objects.Color[]
-local function makeColors(baseColor)
-    local arr = objects.Array()
-
-    local h,s,l = baseColor:getHSL()
-
-    local MAX_L = 1
-    local MIN_L = l
-    local dl = (MAX_L - MIN_L) / NUM_CLOUD_LAYERS
-
-    for i=1, NUM_CLOUD_LAYERS do
-        local newL = l + (dl * i)
-        arr:add(objects.Color(
-            objects.Color.HSLtoRGB(h, s, newL)
-        ))
-    end
-
-    return arr
-end
+local CLOUD_BLOB_PULSE_SPEED = 0.6
 
 
-local BOUNDS = 2000
+-- local CLOUD_COLOR_LEVEL = {
+--     objects.Color("#FF94A3FF"),  -- bottom cloud 2
+--     objects.Color("#FF94A3FF"),  -- bottom cloud
+--     objects.Color("#FFA8B5FF"), -- mid2 cloud
+--     objects.Color("#FFBDC6FF"), -- mid1 cloud
+--     -- objects.Color("#FFD1D8FF"), -- top cloud
+-- }
 
 
-local POSSIBLE_CLOUD_BITS = objects.Array()
-for i=1,5 do
-    POSSIBLE_CLOUD_BITS:add("background_cloud_bit_" .. i)
-end
 
 
-local MIN_BITS_PER_CLOUD = 1
-local MAX_BITS_PER_CLOUD = 4
+local function generateCloudBlobs(rng, size)
+    local BASE_BLOB_SIZE = 1 -- higher = blobs are similar sizes
+    local CLUMP_FACTOR = 1.5 -- higher = more clumped
 
-local CLOUD_BIT_SEP = 8
-local CLOUD_BIT_VARIANCE = 3
-
-local function newCloud(layerIndex)
-    local bits = objects.Array()
-    local numBits = math.floor(math.random(MIN_BITS_PER_CLOUD, MAX_BITS_PER_CLOUD))
-
-    local d = CLOUD_BIT_VARIANCE
-    for i=1, numBits do
-        bits:add({
-            ox = math.random(-d,d) + i * CLOUD_BIT_SEP,
-            oy = math.random(-d,d),
-            image = table.random(POSSIBLE_CLOUD_BITS)
+    local blobs = objects.Array()
+    local numBlobs = rng:random(4,7)
+    for x=-numBlobs/2, numBlobs/2 do
+        blobs:add({
+            size = size * (BASE_BLOB_SIZE + (1 - math.abs(x)/(numBlobs/2))),
+            x = x/CLUMP_FACTOR * size,
+            y = ((rng:random() - 0.5) * 2) * size * 0.7/CLUMP_FACTOR
         })
     end
+    return blobs
+end
 
-    return {
-        x = love.math.random(-BOUNDS, BOUNDS),
-        y = love.math.random(-BOUNDS, BOUNDS),
 
-        layerIndex = layerIndex,
-
-        bits = bits,
+---@param rng love.RandomGenerator
+local function newCloud(self, rng)
+    local cloud = {
+        x = self.worldX + rng:random() * self.worldWidth,
+        y = self.worldY + rng:random() * self.worldHeight,
+        level = rng:random(1,#self.cloudColors),
     }
+    cloud.blobs = generateCloudBlobs(rng, self.cloudSize / ((3+cloud.level) / 3))
+    cloud.speed = cloud.level * CLOUD_MOVE_SPEED
+    self.clouds:add(cloud)
 end
 
 
-local function drawCloud(cloud)
-    for _,b in ipairs(cloud.bits) do
-        local rot = love.timer.getTime()
-        rendering.drawImage(b.image, cloud.x + b.ox, cloud.y + b.oy, rot)
+---@param args table
+function CloudBackground:init(args)
+    typecheck.assertKeys(args, {
+        "numberOfClouds", "worldX", "worldY", "worldWidth", "worldHeight",
+        "backgroundColor",
+        "cloudColor"
+    })
+    self.clouds = objects.Array()
+
+    self.backgroundColor = args.backgroundColor
+
+    do
+    local C = objects.Color(args.cloudColor)
+    self.cloudColors = objects.Array()
+    local h,s,v = C:getHSV()
+    local NUM_CLOUD_TYPES = 4
+    for saturation = 1,NUM_CLOUD_TYPES do
+        local col = objects.Color(1,1,1)
+        col:setHSV(h, s - (saturation/NUM_CLOUD_TYPES)/4.3, v)
+        self.cloudColors:add(col)
     end
+    end
+
+    self.worldX = args.worldX
+    self.worldY = args.worldY
+    self.worldWidth = args.worldWidth
+    self.worldHeight = args.worldHeight
+    self.cloudSize = self.worldWidth / 50 * CLOUD_SIZE
+
+    local rng = love.math.newRandomGenerator(love.math.getRandomSeed())
+    for _=1, args.numberOfClouds do
+        newCloud(self, rng)
+    end
+    table.sort(self.clouds, function(a, b)
+        return a.level < b.level
+    end)
 end
 
 
-local function updateCloud(cloud, dt)
-    cloud.x = cloud.x + cloud.layerIndex * BASE_CLOUD_SPEED * dt
-
-    if cloud.x > BOUNDS then
-        cloud.x = -BOUNDS
-    end
+local function distToHorizontalEdge(self, cloud)
+    local center = self.worldX + self.worldWidth/2
+    local distFromCenter = math.abs(center - cloud.x)
+    local distToEdge = self.worldWidth/2 - distFromCenter
+    return distToEdge
 end
 
 
-
----@param baseColor objects.Color
-function CloudBackground:init(baseColor)
-    self.colors = makeColors(baseColor)
-
-    self.cloudLayers = {--[[
-        [layerIndex] -> Array-of-clouds
-    ]]}
-
-    for layer=1, NUM_CLOUD_LAYERS do
-        local clouds = objects.Array()
-        for _=1, #CLOUDS_PER_LAYER do
-            clouds:add(newCloud(layer))
-        end
-        self.cloudLayers[layer] = clouds
+local function updateCloud(self, cloud, dt)
+    local d = distToHorizontalEdge(self, cloud)
+    if d < -10 then
+        cloud.x = self.worldX - 5
     end
-end
-
-
-function CloudBackground:draw(opacity)
-    for i, clouds in pairs(self.cloudLayers) do
-        lg.setColor(self.colors[i])
-        for _, cloud in ipairs(clouds) do
-            drawCloud(cloud)
-        end
-    end
+    cloud.x = cloud.x + cloud.speed * dt
 end
 
 
 ---@param dt number
 function CloudBackground:update(dt)
-    for layerIndex, clouds in pairs(self.cloudLayers) do
-        for _, cloud in ipairs(clouds) do
-            updateCloud(cloud, dt)
-        end
+    for _, c in ipairs(self.clouds)do
+        updateCloud(self, c, dt)
     end
 end
 
+
+
+local lg = love.graphics
+local function drawCloud(self, cloud, opacity)
+    lg.setColor(self.cloudColors[cloud.level])
+    for i, b in ipairs(cloud.blobs) do
+        local x,y = cloud.x + b.x, cloud.y + b.y
+        local s = b.size
+        lg.push()
+        lg.translate(x+s/2,y+s/2)
+        local offset = i % 2 == 0 and 1.44343 or -0.3
+        local time = love.timer.getTime() * CLOUD_BLOB_PULSE_SPEED
+        local dr = 0.2 * (s/2) * (1 + math.sin(time + offset)) / 2
+        lg.circle("fill", -s/2, -s/2, s/2 + dr)
+        -- lg.rectangle("fill", -s/2,-s/2,s,s)
+        lg.pop()
+    end
+end
+
+
+
+---@param opacity number
+function CloudBackground:draw(opacity)
+    love.graphics.setColor(self.backgroundColor * opacity)
+    love.graphics.rectangle("fill", self.worldX, self.worldY, self.worldWidth, self.worldHeight)
+    for _,c in ipairs(self.clouds) do
+        drawCloud(self, c, opacity)
+    end
+end
+
+---@param width number
+---@param height number
+function CloudBackground:resize(width, height)
+end
 
 return CloudBackground
