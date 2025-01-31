@@ -62,15 +62,10 @@ If you have negative money, you are unable to pick items from cloud slots
 - (((DONE))) Remove all `manaCost` items
 
 
-- JUICE: when collecting coin-packets, 
-there should be a little pop animation when touching mouse, like STS.
-(Also a quiet little "ding" sound or something, when collected?)
+- (((DONE))) JUICE: when collecting coin-packets, make a "ding" sound
 
 
 - Create mineral shovel-items (Give +1 bonus)
-
-
-- Do something with feather-item (was removed due to mana changes)
 
 
 - Make Star background better-  
@@ -123,6 +118,10 @@ It SHOULDN'T be standalone.)
 Add a bunch more items that rotate stuff, BUT ALSO do other stuff.
 (EG: generates points, AND rotates target items)
 (REMEMBER: ITS **OKAY** IF STUFF IS OP. We actually *WANT* stuff to be OP.)
+
+
+
+- SPIKE: Do something with feather-item (was removed due to mana changes)
 
 
 

@@ -28,6 +28,9 @@ local function updateEnt(ent)
 
     if math.distance(ddx, ddy) < MIN_DIST then
         -- we have reached target
+        if ent._onDeleted then
+            ent:_onDeleted()
+        end
         ent:delete()
     end
 end
@@ -110,6 +113,13 @@ end)
 
 
 
+
+local dirObj = umg.getModFilesystem()
+audio.defineAudioInDirectory(
+    dirObj:cloneWithSubpath("assets/sfx"), "lootplot.juice:", {"audio:sfx"}
+)
+
+
 local COIN_SPIN_SPEED = 4
 local MAX_COINS_SPAWN_COUNT = 8
 
@@ -126,6 +136,12 @@ local function spawnMoneyPacket(ent)
     packetEnt.scale = 1
     packetEnt.image = "money_packet"
     packetEnt.color = lp.COLORS.MONEY_COLOR
+    packetEnt._onDeleted = function(e)
+        audio.play("lootplot.juice:collect_money", {
+            pitch = 0.8,
+            volume = 0.15
+        })
+    end
 
     packetEnt.onUpdateClient = function(e1)
         e1.scaleX = math.sin(love.timer.getTime() * COIN_SPIN_SPEED)
