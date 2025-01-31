@@ -58,8 +58,8 @@ If you have negative money, you are unable to pick items from cloud slots
 - (((DONE))) use `lp.queue` to add bonus points. Its better for UX
 
 
-- Remove mana systems
-- Remove all `manaCost` items
+- (((DONE))) Remove mana systems
+- (((DONE))) Remove all `manaCost` items
 
 
 - JUICE: when collecting coin-packets, 
