@@ -147,7 +147,9 @@ function BackgroundSelect:onRender(x, y, w, h)
 
         local drawX = bgList.x + halfWidth + (relidx - fract) * halfWidth / LOWEST_INDEX
         local baseScale = (LOWEST_INDEX_PLUS_1 - math.abs(relidx - fract)) / LOWEST_INDEX_PLUS_1
-        local scale = bgList.h * baseScale / 16
+        local BG_CONTAINER_SIZE = 26
+        local scale = bgList.h * baseScale / BG_CONTAINER_SIZE
+        rendering.drawImage("background_select_container", drawX, drawY, 0, scale, scale)
         rendering.drawImage(self.backgrounds[tbdIndex].icon, drawX, drawY, 0, scale, scale)
     end
 end

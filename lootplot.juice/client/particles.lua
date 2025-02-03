@@ -103,8 +103,6 @@ umg.on("lootplot:plotFogChanged", function(plot, team, ppos, hasFog)
         ---@type love.ParticleSystem
         local ps = makeBallPS(COUNT)
         ps:setPosition(x,y)
-        local c = plot:getFogColor()
-        ps:setColors(c[1],c[2],c[3],1)
         -- HACK: hardcoding how big the clouds are
         ps:setEmissionArea("uniform", 12,12, 0)
         ps:emit(COUNT)

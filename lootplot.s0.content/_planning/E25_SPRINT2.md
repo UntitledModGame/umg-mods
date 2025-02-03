@@ -85,10 +85,10 @@ back stars should be smaller and more transparent
 - (((DONE))) Add animation/particles when fog is cleared (test w/ map)
 
 
-- Make background select UI much nicer:
-- Make proper cards for it
-- Touch up the icons
-- Touch up the arrow-buttons
+- (((DONE))) Make background select UI much nicer:
+- (((DONE))) Make proper cards for it
+- (((DONE))) Touch up the icons
+- (((DONE))) Touch up the arrow-buttons
 
 
 - Instead of saying "Round 7/6", It should say "LEVEL COMPLETE"

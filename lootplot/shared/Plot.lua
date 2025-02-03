@@ -179,17 +179,6 @@ client.on("lootplot:setPipelineRunningBool", function(plotEnt, bool)
     plotEnt.plot._cachedIsPipelineRunning = bool
 end)
 
-
----@param fogColor objects.Color
-function Plot:setFogColor(fogColor)
-    self.fogColor = fogColor
-end
-
----@return objects.Color
-function Plot:getFogColor()
-    return self.fogColor
-end
-
 end
 
 
