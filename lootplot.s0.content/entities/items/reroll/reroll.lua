@@ -153,8 +153,8 @@ defineDice("triple_dice", "Triple Dice", {
     rarity = lp.rarities.UNCOMMON,
 
     basePrice = 8,
-    baseMaxActivations = 3,
-    baseMoneyGenerated = 1,
+    baseMaxActivations = 6,
+    baseMoneyGenerated = 2,
 
     grubMoneyCap = assert(consts.DEFAULT_GRUB_MONEY_CAP)
 })

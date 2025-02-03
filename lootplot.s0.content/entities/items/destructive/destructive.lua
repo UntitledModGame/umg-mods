@@ -104,7 +104,7 @@ Earn $2
 defDestructive("empty_cauldron", "Empty Cauldron", {
     triggers = {"DESTROY"},
 
-    activateDescription = loc("Spawns a SELL slot."),
+    activateDescription = loc("Clones the slot that it is on."),
 
     rarity = lp.rarities.RARE,
     basePrice = 8,
@@ -163,7 +163,7 @@ defDestructive("tooth_necklace", "Tooth Necklace", {
     rarity = lp.rarities.RARE,
     shape = lp.targets.ON_SHAPE,
 
-    activateDescription = loc("Gives all {lootplot.targets:COLOR}target slots{/lootplot.targets:COLOR} {lootplot:DOOMED_COLOR}DOOMED-6{/lootplot:DOOMED_COLOR}, and earn {lootplot:MONEY_COLOR}4${/lootplot:MONEY_COLOR} for each slot.\n(Only works if the {lootplot.targets:COLOR}slot{/lootplot.targets:COLOR} isn't doomed!)"),
+    activateDescription = loc("Gives {lootplot.targets:COLOR}slots{/lootplot.targets:COLOR} {lootplot:DOOMED_COLOR}DOOMED-6{/lootplot:DOOMED_COLOR}, and earn {lootplot:MONEY_COLOR}4${/lootplot:MONEY_COLOR} for each slot.\n(Only works if the {lootplot.targets:COLOR}slot{/lootplot.targets:COLOR} isn't doomed!)"),
 
     target = {
         type = "SLOT",
@@ -182,8 +182,30 @@ defDestructive("tooth_necklace", "Tooth Necklace", {
 
 
 
+defDestructive("lone_sword", "Lone Sword", {
+    basePrice = 12,
+    baseMaxActivations = 10,
+    baseBonusGenerated = 15,
+
+    rarity = lp.rarities.RARE,
+    shape = lp.targets.RookShape(3),
+
+    activateDescription = loc("Destroys items."),
+
+    target = {
+        type = "ITEM",
+        activate = function(ent, ppos, itemEnt)
+            lp.destroy(itemEnt)
+        end,
+    }
+})
+
+
+
+
+
 defDestructive("bomb", "Bomb", {
-    activateDescription = loc("Destroy target slots"),
+    activateDescription = loc("Destroy slots"),
 
     rarity = lp.rarities.UNCOMMON,
     doomCount = 1,
@@ -315,6 +337,27 @@ defDestructive("dagger", "Dagger", {
         end
     },
 })
+
+
+defDestructive("golden_dagger", "Golden Dagger", {
+    activateDescription = loc("Destroys target items.\nEarns {lootplot:MONEY_COLOR}$4{/lootplot:MONEY_COLOR} for each."),
+
+    rarity = lp.rarities.RARE,
+
+    basePrice = 4,
+
+    shape = lp.targets.UpShape(1),
+
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.destroy(targetEnt)
+            lp.addMoney(selfEnt, 4)
+        end
+    },
+})
+
+
 
 
 

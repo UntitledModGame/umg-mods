@@ -17,6 +17,10 @@ end
 defineCat("copycat", {
     name = loc("Copycat"),
 
+    -- I prefer both PULSE and REROLL, because its funny lol.
+    -- Also; it makes the game more interesting :)
+    triggers = {"PULSE", "REROLL"},
+
     init = function(ent)
         if lp.SEED:randomMisc()<0.01 then
             ent.image = "copycat_but_cool"
@@ -39,6 +43,34 @@ defineCat("copycat", {
         end
     }
 })
+
+
+
+defineCat("tumbling_cat", {
+    name = loc("Tumbling Cat"),
+
+    rarity = lp.rarities.RARE,
+
+    basePrice = 0,
+    baseMaxActivations = 10,
+    basePointsGenerated = 10,
+
+    shape = lp.targets.UpShape(1),
+
+    activateDescription = loc("Copies self into target slots, and rotates the copy"),
+
+    target = {
+        type = "NO_ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            local cloneEnt = lp.tryCloneItem(selfEnt, ppos)
+            if cloneEnt then
+                lp.rotateItem(cloneEnt, 1)
+            end
+        end
+    }
+})
+
+
 
 
 defineCat("chubby_cat", {

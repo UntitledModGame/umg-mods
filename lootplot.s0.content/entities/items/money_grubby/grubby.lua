@@ -66,7 +66,7 @@ defGrubby("spare_coins", {
     grubMoneyCap = GRUB_MONEY_CAP,
 
     basePrice = 6,
-    baseMoneyGenerated = 1,
+    baseMoneyGenerated = 2,
     baseMaxActivations = 2,
 
     rarity = lp.rarities.UNCOMMON,
@@ -212,6 +212,27 @@ defItem("dirt_maker", {
 
     rarity = lp.rarities.EPIC,
 })
+
+
+
+
+local BREAD_BUFF = 5
+
+defGrubby("bread_mace", {
+    name = loc("Bread Mace"),
+
+    activateDescription = loc("If money is less than {lootplot:MONEY_COLOR}$10{/lootplot:MONEY_COLOR}, permanently gain {lootplot:POINTS_MOD_COLOR}+%{buff} points", {
+        buff = BREAD_BUFF
+    }),
+
+    triggers = {"PULSE", "REROLL"},
+
+    basePrice = 10,
+    basePointsGenerated = 5,
+
+    rarity = lp.rarities.RARE,
+})
+
 
 
 

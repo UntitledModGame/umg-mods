@@ -84,6 +84,28 @@ defItem("leather", "Leather", {
 
 
 
+
+local RED_FLAG_MULT = 5
+--[[
+If mult < 1, add +X mult
+]]
+defItem("red_flag", "Red Flag", {
+    triggers = {"PULSE"},
+
+    activateDescription = loc("If {lootplot:POINTS_MULT_COLOR}mult{/lootplot:POINTS_MULT_COLOR} is less than 1, add {lootplot:POINTS_MULT_COLOR}+{mult} multiplier", {
+        mult = RED_FLAG_MULT
+    }),
+
+    onActivate = function(ent)
+        local m = lp.getPointsMult(ent) or 10
+        if m < 1 then
+            lp.addPointsMult(ent, RED_FLAG_MULT)
+        end
+    end
+})
+
+
+
 --[[
 Opposite of leather!
 ]]
@@ -224,7 +246,7 @@ defItem("flamingo", "Flamingo", {
 defItem("red_fan", "Red Fan", {
     triggers = {"PULSE"},
 
-    activateDescription = loc("Buff target items points-earned by the current multiplier"),
+    activateDescription = loc("Buff items points by the current multiplier"),
 
     basePrice = 12,
     baseMaxActivations = 6,

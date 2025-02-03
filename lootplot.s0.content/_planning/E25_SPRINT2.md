@@ -94,34 +94,81 @@ back stars should be smaller and more transparent
 - (((DONE))) Instead of saying "Round 7/6", It should say "LEVEL COMPLETE"
 
 
-- ITEM: Lone-sword:
+- (((DONE))) ITEM: Lone-sword:
 Shape: Rook-5
-If this item isnt targetting any other items,
-Give +5 mult
+Give +3 mult
+Destroy all items. Give +X bonus
 
-- ITEM:
+- (((DONE))) ITEM:
 Earn $2
 GRUB-10
 
-- ITEM: 
+- (((DONE-variation))) ITEM: 
 If money is less than $10, permanenly gain +8 points
 Earns 8 points
 
-- ITEM: Tumbling cat:
+- (((DONE-variation))) ITEM: Tumbling cat:
 Same as copycat, but UP-3
 Rotates when activated
 
-- ITEM: Trigger = REROLL,PULSE
+- (((DONE-variation))) ITEM: Trigger = REROLL,PULSE
 Permanently Gain +5 points when REROLLed.
 Earns 5 points
 
-- ITEM: golden knife
+- (((DONE))) ITEM: golden knife
 Destroy target items.
 Earn $1 for each
 (shape: UP-1)
 
-- ITEM: Red lid:
+- (((DONE))) ITEM: Red flag:
 If mult is below 1, add 4 mult
+
+
+- (((DONE))) Gear: make it an RARE/EPIC item
+
+- (((DONE))) Records work with REROLL trigger, as well as ROTATE trigger
+
+
+- Rename `lootplot.main` -> `lootplot.singleplayer`.
+- Rename `lootplot.s0.content` --> `lootplot.s0`.
+- Move `lootplot.s0.starting_items` --> `lootplot.s0`.
+- Move doomclock, pulse-button, next-level-button to `lootplot.s0`
+^^^ WARNING: Will require refactors to attributes. 
+Perhaps we need to allow attributes to have default-values?
+
+
+- RESET items BEFORE Pulsing the plot. This ensures that REROLL archetype doesn't avoid activations.
+ALSO: We will need to refactor how the round-increment works.
+Currently, the round-increment works by listening to RESET trigger. But this will cause rounds to be incremented twice, which is nasty.
+Fix this!
+
+
+- Remove golden-cap. It's poorly designed. Remove other caps too...?
+
+- Simplify Anvil. It's a biiiit complex...?
+Maybe make it related to BONUS or something...?
+
+
+- Destroy all shop-slots after LEVEL-10.
+This prevents the player ruining the game for themselves.
+https://www.reddit.com/r/balatro/comments/1g0o0ax/wow_not_caring_about_the_endless_mode_made_the/
+
+
+- Change one-ball tutorial-text:
+Instead of appearing on top of slots, we should spawn a button
+
+
+- Have an end to the tutorial, (and maybe an exit-button?)
+
+- Have mult in tutorial. 
+(specifically; explain that putting mult BEFORE points is good!)
+
+- Have BONUS in tutorial.
+(specifically; explain that putting bonus BEFORE points is good!)
+
+- Explain target-visuals in the tutorial
+(dragonfruit item + potion, maybe?)
+
 
 
 ## (SPIKE)
@@ -131,6 +178,7 @@ We already have some ideas for this at top of `destructive.lua`.
 (NOTE:: it's **OKAY** if stuff is OP. We want to maximise FUN. Not balance.)
 
 
+## (SPIKE)
 - Make ROTATE archetype more "global". Currently it's a bit... standalone.
 Add a bunch more items that rotate stuff, BUT ALSO do other stuff.
 (EG: generates points, AND rotates target items)
@@ -163,34 +211,10 @@ IE: items that don't activate directly, but use `onUpdate` to have an effect.
 - BONUS-SHIELD: If bonus is negative, make bonus positive
 - (Create more BONUS items; be creative; look for SYNERGIES.)
 
+## (SPIKE bonus-2)
+Make sure to have items that have an ANTI-SYNERGY with Bonus!!
+EG: Item: lose -5 bonus. Gain +1 mult.
 
-- Rename `lootplot.main` -> `lootplot.singleplayer`.
-- Rename `lootplot.s0.content` --> `lootplot.s0`.
-- Move `lootplot.s0.starting_items` --> `lootplot.s0`.
-- Move doomclock, pulse-button, next-level-button to `lootplot.s0`
-^^^ WARNING: Will require refactors to attributes. 
-Perhaps we need to allow attributes to have default-values?
-
-
-- Destroy all shop-slots after LEVEL-10.
-This prevents the player ruining the game for themselves.
-https://www.reddit.com/r/balatro/comments/1g0o0ax/wow_not_caring_about_the_endless_mode_made_the/
-
-
-- Change one-ball tutorial-text:
-Instead of appearing on top of slots, we should spawn a button
-
-
-- Have an end to the tutorial, (and maybe an exit-button?)
-
-- Have mult in tutorial. 
-(specifically; explain that putting mult BEFORE points is good!)
-
-- Have BONUS in tutorial.
-(specifically; explain that putting bonus BEFORE points is good!)
-
-- Explain target-visuals in the tutorial
-(dragonfruit item + potion, maybe?)
 
 
 ## (SPIKE)
@@ -217,6 +241,7 @@ So, say an iron-sword earns 20 points 6 times in a round.
 There should be blue text above it, that says "120".
 (Same for mult.)
 (^^^ TODO: not sure if this is a good idea. Might cause visual bloat and confusion...?)
+(For now, lets abandon this task.)
 
 
 

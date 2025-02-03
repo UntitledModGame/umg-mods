@@ -57,7 +57,7 @@ Slot that rotates items
 
 
 defItem("gear", "Gear", {
-    activateDescription = loc("Rotate target items"),
+    activateDescription = loc("Rotates items"),
 
     shape = lp.targets.KingShape(1),
 
@@ -90,7 +90,7 @@ defItem("spanner", "Spanner", {
     baseMoneyGenerated = -1,
     baseMaxActivations = 4,
 
-    activateDescription = loc("Rotates all {lootplot.targets:COLOR}target items"),
+    activateDescription = loc("Rotates items"),
 
     target = {
         type = "ITEM",
@@ -119,6 +119,28 @@ defItem("shuriken", "Shuriken", {
 
     activateDescription = loc("When rotated, gain {lootplot:POINTS_COLOR}+5 points"),
 })
+
+
+
+defItem("screw", "Screw", {
+    triggers = {"PULSE"},
+
+    rarity = lp.rarities.RARE,
+
+    basePrice = 8,
+    baseMaxActivations = 10,
+
+    activateDescription = loc("Rotates items"),
+
+    shape = lp.targets.KNIGHT_SHAPE,
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, itemEnt)
+            lp.rotateItem(itemEnt, 1)
+        end
+    }
+})
+
 
 
 
