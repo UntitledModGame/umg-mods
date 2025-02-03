@@ -9,7 +9,7 @@ local function definePerk(id, etype)
     etype.canItemFloat = true -- perk always float
     etype.triggers = {"PULSE"}
 
-    id = "lootplot.s0.content:" .. id
+    id = "lootplot.s0:" .. id
     lp.defineItem(id, etype)
     lp.worldgen.STARTING_ITEMS:add(id)
 end
@@ -69,7 +69,7 @@ local MOVEMENT_TEXT = loc("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}WASD / Ri
 local OBJECTIVE_TEXT = interp("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}{c r=1 g=0.4 b=0.3}You have {lootplot:INFO_COLOR}%{numRounds}{/lootplot:INFO_COLOR} Rounds to\nget the required points!{/outline}{/wavy}")
 
 
-umg.defineEntityType("lootplot.s0.content:one_ball_tutorial_text", {
+umg.defineEntityType("lootplot.s0:one_ball_tutorial_text", {
     lifetime = 50,
     drawDepth = 200,
 

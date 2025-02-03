@@ -2,7 +2,7 @@
 
 local loc = localization.localize
 
-lp.defineSlot("lootplot.s0.content:swashbuckler_slot", {
+lp.defineSlot("lootplot.s0:swashbuckler_slot", {
     image = "swashbuckler_slot",
     name = loc("Swashbuckler Slot"),
 

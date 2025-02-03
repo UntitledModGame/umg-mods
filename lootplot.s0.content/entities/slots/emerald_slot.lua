@@ -2,7 +2,7 @@
 local loc = localization.localize
 
 
-return lp.defineSlot("lootplot.s0.content:emerald_slot", {
+return lp.defineSlot("lootplot.s0:emerald_slot", {
     image = "emerald_slot",
     name = loc("Emerald Slot"),
 

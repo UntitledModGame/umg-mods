@@ -7,7 +7,7 @@ local function defineCat(id, etype)
         etype.triggers = etype.triggers or {"PULSE"}
     end
     etype.image = etype.image or id
-    return lp.defineItem("lootplot.s0.content:"..id, etype)
+    return lp.defineItem("lootplot.s0:"..id, etype)
 end
 
 

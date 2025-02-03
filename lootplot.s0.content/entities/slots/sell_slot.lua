@@ -1,6 +1,6 @@
 local loc = localization.localize
 
-lp.defineSlot("lootplot.s0.content:sell_slot", {
+lp.defineSlot("lootplot.s0:sell_slot", {
     image = "sell_slot",
     name = loc("Sell slot"),
     activateDescription = loc("Destroys contained item.\nEarn money equal to half the item's price."),

@@ -6,7 +6,7 @@ local bookTc = typecheck.assert("string", "string", "string|function", "string",
 
 local function defineBook(id, name, targetSlot, targetSlotName, rarity)
     bookTc(id, name, targetSlot, targetSlotName, rarity)
-    return lp.defineItem("lootplot.s0.content:"..id, {
+    return lp.defineItem("lootplot.s0:"..id, {
         image = id,
         name = loc(name),
 
@@ -34,7 +34,7 @@ local function defineBook(id, name, targetSlot, targetSlotName, rarity)
                     targSlot = targetSlot
                 end
 
-                local slotEType = server.entities["lootplot.s0.content:"..targSlot]
+                local slotEType = server.entities["lootplot.s0:"..targSlot]
                 if not slotEType then
                     return
                 end

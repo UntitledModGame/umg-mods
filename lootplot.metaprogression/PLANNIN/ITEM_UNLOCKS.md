@@ -11,14 +11,14 @@ Core goals of the API:
 
 ### FULL API PLANNING:
 ```lua
-lp.metaprogression.unlock("lootplot.s0.content:my_apple")
-lp.metaprogression.see("lootplot.s0.content:my_apple")
+lp.metaprogression.unlock("lootplot.s0:my_apple")
+lp.metaprogression.see("lootplot.s0:my_apple")
 
 lp.metaprogression.setStat("stat", val)
 lp.metaprogression.getStat("stat", val)
 
-local bool = lp.metaprogression.isLocked("lootplot.s0.content:my_apple")
-local bool = lp.metaprogression.isSeen("lootplot.s0.content:my_apple")
+local bool = lp.metaprogression.isLocked("lootplot.s0:my_apple")
+local bool = lp.metaprogression.isSeen("lootplot.s0:my_apple")
 
 lp.metaprogression.tryUnlock(plot, selfTeamId)
 
@@ -247,7 +247,7 @@ lp.metaprogression.winRun(plot)
 # FINAL-3 "good enough" PLAN:
 - Add function: `lp.metaprogression.winGame(plot)`
 - Create `unlock` API (keep it simple!)
-- Define unlocks in `lootplot.s0.content`
+- Define unlocks in `lootplot.s0`
 - Define a helper function: `unlockByWinningWith("perk_item")`
 - ITEMS SHOULD BE UNLOCKED BY DEFAULT!!! `lp.main` should lock them!
 

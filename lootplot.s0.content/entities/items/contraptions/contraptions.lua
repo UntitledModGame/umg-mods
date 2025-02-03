@@ -37,7 +37,7 @@ local function defContra(id, etype)
 
     etype.description = DESC
 
-    lp.defineItem("lootplot.s0.content:" .. id, etype)
+    lp.defineItem("lootplot.s0:" .. id, etype)
 end
 
 

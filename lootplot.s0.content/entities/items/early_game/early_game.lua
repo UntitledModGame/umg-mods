@@ -8,7 +8,7 @@ local helper = require("shared.helper")
 local function defItem(id, etype)
     etype.image = etype.image or id
 
-    return lp.defineItem("lootplot.s0.content:"..id, etype)
+    return lp.defineItem("lootplot.s0:"..id, etype)
 end
 
 
@@ -192,13 +192,13 @@ local activateToot, dedToot
 if client then
     local dirObj = umg.getModFilesystem()
     audio.defineAudioInDirectory(
-        dirObj:cloneWithSubpath("entities/items/early_game/sounds"), "lootplot.s0.content:", {"audio:sfx"}
+        dirObj:cloneWithSubpath("entities/items/early_game/sounds"), "lootplot.s0:", {"audio:sfx"}
     )
-    activateToot = sound.Sound("lootplot.s0.content:trumpet_toot")
-    dedToot = sound.Sound("lootplot.s0.content:trumpet_destroyed")
+    activateToot = sound.Sound("lootplot.s0:trumpet_toot")
+    dedToot = sound.Sound("lootplot.s0:trumpet_destroyed")
 end
 
-lp.defineItem("lootplot.s0.content:trumpet", {
+lp.defineItem("lootplot.s0:trumpet", {
     image = "trumpet",
     name = loc("Trumpet"),
     activateDescription = loc("Makes a toot sound"),

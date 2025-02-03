@@ -85,7 +85,7 @@ local function defSack(id, name, etype)
     etype.generateTreasureItem = nil
     etype.transformTreasureItem = nil
 
-    lp.defineItem("lootplot.s0.content:" .. id, etype)
+    lp.defineItem("lootplot.s0:" .. id, etype)
 end
 
 

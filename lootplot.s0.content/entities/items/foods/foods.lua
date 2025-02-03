@@ -15,7 +15,7 @@ local function defineFoodNoDoomed(id, name, etype)
         etype.triggers = etype.triggers or {"PULSE"}
     end
 
-    lp.defineItem("lootplot.s0.content:" .. id, etype)
+    lp.defineItem("lootplot.s0:" .. id, etype)
 end
 
 
@@ -30,7 +30,7 @@ local function defineFood(id, etype)
         etype.triggers = etype.triggers or {"PULSE"}
     end
 
-    lp.defineItem("lootplot.s0.content:" .. id, etype)
+    lp.defineItem("lootplot.s0:" .. id, etype)
 end
 
 
@@ -353,7 +353,7 @@ local function defineSlotSpawner(id_image, name, spawnSlot, spawnSlotName, shape
         target = {
             type = "NO_SLOT",
             activate = function (selfEnt, ppos)
-                local etype = server.entities["lootplot.s0.content:" .. spawnSlot]
+                local etype = server.entities["lootplot.s0:" .. spawnSlot]
                 assert(etype, "?")
                 local slotEnt = lp.trySpawnSlot(ppos, etype, selfEnt.lootplotTeam)
                 if slotModifier and slotEnt then
@@ -534,7 +534,7 @@ local function defineSlotConverter(id, name, spawnSlot, spawnSlotName, shape, ex
         target = {
             type = "SLOT",
             activate = function (selfEnt, ppos)
-                local etype = server.entities["lootplot.s0.content:" .. spawnSlot]
+                local etype = server.entities["lootplot.s0:" .. spawnSlot]
                 assert(etype, "?")
                 local slotEnt = lp.forceSpawnSlot(ppos, etype, selfEnt.lootplotTeam)
                 if slotModifier and slotEnt then

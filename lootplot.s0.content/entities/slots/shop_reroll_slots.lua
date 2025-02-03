@@ -10,7 +10,7 @@ local itemGenHelper = require("shared.item_gen_helper")
 local function defShopSlot(id, name, etype)
     etype.name = loc(name)
     etype.image = etype.image or id
-    lp.defineSlot("lootplot.s0.content:" .. id, etype)
+    lp.defineSlot("lootplot.s0:" .. id, etype)
 end
 
 
@@ -182,7 +182,7 @@ end
 
 
 local function makeShopSlot(id, name, comps)
-    local full_id = "lootplot.s0.content:" .. id
+    local full_id = "lootplot.s0:" .. id
     local etype = {
         itemLock = true,
 
@@ -354,7 +354,7 @@ end
 
 
 
-lp.defineSlot("lootplot.s0.content:reroll_slot", {
+lp.defineSlot("lootplot.s0:reroll_slot", {
     image = "reroll_slot",
     name = loc("Reroll slot"),
     activateDescription = loc("Rerolls item."),
@@ -373,7 +373,7 @@ lp.defineSlot("lootplot.s0.content:reroll_slot", {
 
 
 
-lp.defineSlot("lootplot.s0.content:offer_slot", {
+lp.defineSlot("lootplot.s0:offer_slot", {
     itemLock = true,
     image = "slot",
     color = objects.Color.RED,
@@ -414,7 +414,7 @@ lp.defineSlot("lootplot.s0.content:offer_slot", {
 })
 
 
-lp.defineSlot("lootplot.s0.content:paper_slot", {
+lp.defineSlot("lootplot.s0:paper_slot", {
     itemLock = true,
     image = "paper_slot",
 
@@ -493,7 +493,7 @@ local pickButton = {
     color = objects.Color(0.39,0.66,0.24),
 }
 
-lp.defineSlot("lootplot.s0.content:cloud_slot", {
+lp.defineSlot("lootplot.s0:cloud_slot", {
     image = "cloud_slot",
     name = loc("Cloud slot"),
     triggers = {"PULSE"},

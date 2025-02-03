@@ -4,7 +4,7 @@ local loc = localization.localize
 
 local ROTATE_BUTTON_COST = 3
 
-return lp.defineSlot("lootplot.s0.content:rotate_slot", {
+return lp.defineSlot("lootplot.s0:rotate_slot", {
     image = "rotate_slot",
     name = loc("Rotate Slot"),
 

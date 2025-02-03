@@ -25,7 +25,7 @@ local function defineItem(season, id, etype)
     etype.baseMaxActivations = etype.baseMaxActivations or 10
     etype.image = id
     etype.triggers = {"PULSE"}
-    lp.defineItem("lootplot.s0.content:"..id, etype)
+    lp.defineItem("lootplot.s0:"..id, etype)
 end
 
 

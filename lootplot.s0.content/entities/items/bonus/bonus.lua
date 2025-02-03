@@ -22,7 +22,7 @@ local function defItem(id, name, etype)
         etype.triggers = etype.triggers or {"PULSE"}
     end
 
-    return lp.defineItem("lootplot.s0.content:"..id, etype)
+    return lp.defineItem("lootplot.s0:"..id, etype)
 end
 
 

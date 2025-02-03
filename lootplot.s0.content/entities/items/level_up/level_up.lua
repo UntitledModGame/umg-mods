@@ -10,7 +10,7 @@ local function defItem(id, name, etype)
         etype.triggers = etype.triggers or {"LEVEL_UP"}
     end
 
-    lp.defineItem("lootplot.s0.content:"..id, etype)
+    lp.defineItem("lootplot.s0:"..id, etype)
 end
 
 

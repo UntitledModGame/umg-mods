@@ -9,7 +9,7 @@ local itemGenHelper = require("shared.item_gen_helper")
 
 local match3 = require("shared.match3")
 
-local PREFIX = "lootplot.s0.content:"
+local PREFIX = "lootplot.s0:"
 
 
 local IS_SHARD_ITEM = {--[[

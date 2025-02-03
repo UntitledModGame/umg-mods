@@ -17,7 +17,7 @@ end
 local MAX_INTEREST = 3
 local INTEREST_REQUIREMENT = 10 -- $1 per $10
 
-return lp.defineSlot("lootplot.s0.content:interest_slot", {
+return lp.defineSlot("lootplot.s0:interest_slot", {
     image = "interest_slot",
     name = loc("Interest Slot"),
     activateDescription = loc(

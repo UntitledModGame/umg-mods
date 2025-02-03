@@ -137,7 +137,7 @@ function helper.defineDelayItem(id, name, etype)
     for k,v in pairs(etype) do
         itemType[k] = v
     end
-    lp.defineItem("lootplot.s0.content:"..id, itemType)
+    lp.defineItem("lootplot.s0:"..id, itemType)
 end
 
 

@@ -6,7 +6,7 @@ local helper = require("shared.helper")
 local COST_TEXT = localization.newInterpolator("{lootplot:MONEY_COLOR}{wavy amp=0.5 k=0.5}{outline}Cost: $%{cost}")
 local FREE_TEXT = localization.newInterpolator("{c r=0.5 g=1 b=0.4}{wavy amp=0.5 k=0.5}{outline}Get: $%{cost}")
 
-return lp.defineSlot("lootplot.s0.content:reroll_button_slot", {
+return lp.defineSlot("lootplot.s0:reroll_button_slot", {
 
     name = loc("Reroll button"),
     description = loc("Click to trigger {wavy}{lootplot:TRIGGER_COLOR}REROLL{/lootplot:TRIGGER_COLOR} for the whole plot!"),

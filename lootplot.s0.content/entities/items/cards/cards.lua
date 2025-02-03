@@ -4,7 +4,7 @@ local loc = localization.localize
 local function defItem(id, name, etype)
     etype.image = etype.image or id
     etype.name = loc(name)
-    return lp.defineItem("lootplot.s0.content:"..id, etype)
+    return lp.defineItem("lootplot.s0:"..id, etype)
 end
 
 
@@ -18,7 +18,7 @@ local function defineCard(name, cardEType)
     cardEType.baseMaxActivations = 1
     cardEType.basePrice = cardEType.basePrice or 10
 
-    lp.defineItem("lootplot.s0.content:" .. name, cardEType)
+    lp.defineItem("lootplot.s0:" .. name, cardEType)
 end
 
 

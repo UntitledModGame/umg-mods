@@ -13,7 +13,7 @@ local function activateItem(slotEnt)
 end
 
 
-return lp.defineSlot("lootplot.s0.content:ruby_slot", {
+return lp.defineSlot("lootplot.s0:ruby_slot", {
     image = "ruby_slot",
     name = loc("Ruby slot"),
     baseMaxActivations = 100,

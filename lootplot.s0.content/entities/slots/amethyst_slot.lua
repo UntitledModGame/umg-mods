@@ -1,7 +1,7 @@
 local loc = localization.localize
 
 
-return lp.defineSlot("lootplot.s0.content:amethyst_slot", {
+return lp.defineSlot("lootplot.s0:amethyst_slot", {
     image = "amethyst_slot",
     name = loc("Amethyst slot"),
     description = loc("TODO: Not sure what this will do."),
@@ -9,7 +9,7 @@ return lp.defineSlot("lootplot.s0.content:amethyst_slot", {
     triggers = {"PULSE"},
     baseCanSlotPropagate = false,
 
-    transformTo = "lootplot.s0.content:slot",
+    transformTo = "lootplot.s0:slot",
 
     -- TODO: Use slot listener? Eh this will do for now.
     onActivate = function(self)

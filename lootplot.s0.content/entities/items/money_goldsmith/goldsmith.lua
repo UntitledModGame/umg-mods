@@ -8,7 +8,7 @@ local MONEY_REQUIREMENT = assert(consts.GOLDSMITH_MONEY_REQUIREMENT)
 
 local function defItem(id, etype)
     etype.image = etype.image or id
-    return lp.defineItem("lootplot.s0.content:"..id, etype)
+    return lp.defineItem("lootplot.s0:"..id, etype)
 end
 
 

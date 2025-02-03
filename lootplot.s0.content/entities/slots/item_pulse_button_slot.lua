@@ -3,7 +3,7 @@ local loc = localization.localize
 local NONE_TEXT = loc"{lootplot:BAD_COLOR}{wavy amp=0.5 k=0.5}{outline}None!"
 
 
-return lp.defineSlot("lootplot.s0.content:item_pulse_button_slot", {
+return lp.defineSlot("lootplot.s0:item_pulse_button_slot", {
 
     name = loc("Item Pulse button"),
     activateDescription = loc("Click to trigger {wavy}{lootplot:TRIGGER_COLOR}PULSE{/lootplot:TRIGGER_COLOR} on the above item!"),

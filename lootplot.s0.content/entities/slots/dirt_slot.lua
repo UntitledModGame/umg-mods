@@ -1,6 +1,6 @@
 local loc = localization.localize
 
-return lp.defineSlot("lootplot.s0.content:dirt_slot", {
+return lp.defineSlot("lootplot.s0:dirt_slot", {
     image = "dirt_slot1",
     name = loc("Dirt slot"),
     description = loc("Cannot hold %{displayString} items.\n(Or anything higher.)", lp.rarities.RARE),

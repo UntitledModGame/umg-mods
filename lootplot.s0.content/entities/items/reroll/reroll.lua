@@ -10,7 +10,7 @@ local consts = require("shared.constants")
 local function defItem(id, name, etype)
     etype.image = etype.image or id
     etype.name = loc(name)
-    return lp.defineItem("lootplot.s0.content:"..id, etype)
+    return lp.defineItem("lootplot.s0:"..id, etype)
 end
 
 
@@ -21,7 +21,7 @@ local function defineDice(id, name, etype)
     etype.basePrice = etype.basePrice or 6
     etype.image = etype.image or id
 
-    return lp.defineItem("lootplot.s0.content:"..id, etype)
+    return lp.defineItem("lootplot.s0:"..id, etype)
 end
 
 

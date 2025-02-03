@@ -9,8 +9,8 @@ local constants = {
 
     -- item tags:
     tags = setmetatable({
-        TREASURE = "lootplot.s0.content:treasure",
-        FOOD = "lootplot.s0.content:food"
+        TREASURE = "lootplot.s0:treasure",
+        FOOD = "lootplot.s0:food"
     }, {__index=umg.melt})
 }
 

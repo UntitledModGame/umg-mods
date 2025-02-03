@@ -49,7 +49,7 @@ local function defineCap(id, name, desc, filter, activate, etype)
         filter = filter
     }
 
-    lp.defineItem("lootplot.s0.content:"..id, etype)
+    lp.defineItem("lootplot.s0:"..id, etype)
 end
 
 

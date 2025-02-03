@@ -4,8 +4,8 @@ local testUtils = require("shared.testUtils")
 return function()
     local width, height = testData.getPlotDimensions()
 
-    local SLOT_NAME = "lootplot.s0.content:slot"
-    local SLOT_NAME_REROLL = "lootplot.s0.content:shop_slot"
+    local SLOT_NAME = "lootplot.s0:slot"
+    local SLOT_NAME_REROLL = "lootplot.s0:shop_slot"
 
     testUtils.addTest("slot_pulse_trigger", function(self)
         local plot = testUtils.prepare(self, true)

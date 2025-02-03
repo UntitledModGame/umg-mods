@@ -12,7 +12,7 @@ local function defChest(id, name, etype)
     etype.image = id
     etype.name = loc(name)
 
-    lp.defineItem("lootplot.s0.content:" .. id, etype)
+    lp.defineItem("lootplot.s0:" .. id, etype)
 end
 
 

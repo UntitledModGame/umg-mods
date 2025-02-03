@@ -45,7 +45,7 @@ defWorldgenItem("basic_worldgen", {
                 ---@type fun(team:string):(lootplot.SlotEntity,lootplot.ItemEntity?)
                 lp.queue(island[1], function ()
                     for _, ppos in ipairs(island) do
-                        local goldenSlotId = "lootplot.s0.content:golden_slot"
+                        local goldenSlotId = "lootplot.s0:golden_slot"
                         local slotEnt = server.entities[goldenSlotId]()
                         local islandSize = #island
                         if islandSize > 5 then

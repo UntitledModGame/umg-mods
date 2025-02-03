@@ -4,12 +4,12 @@ local glassBreakSound
 
 if client then
     local source = love.audio.newSource("entities/slots/sounds/glass_break_04.wav", "static")
-    audio.defineAudio("lootplot.s0.content:glass_break_04", source)
-    audio.tag("lootplot.s0.content:glass_break_04", "audio:sfx")
-    glassBreakSound = sound.Sound("lootplot.s0.content:glass_break_04", 0.4)
+    audio.defineAudio("lootplot.s0:glass_break_04", source)
+    audio.tag("lootplot.s0:glass_break_04", "audio:sfx")
+    glassBreakSound = sound.Sound("lootplot.s0:glass_break_04", 0.4)
 end
 
-return lp.defineSlot("lootplot.s0.content:glass_slot", {
+return lp.defineSlot("lootplot.s0:glass_slot", {
     image = "glass_slot",
     name = loc("Glass slot"),
     description = loc("Has a 10% chance of being destroyed when activated"),

@@ -30,6 +30,6 @@ local function defBoots(id, name, etype)
 
     etype.baseMaxActivations = 4
 
-    return lp.defineItem("lootplot.s0.content:"..id, etype)
+    return lp.defineItem("lootplot.s0:"..id, etype)
 end
 
