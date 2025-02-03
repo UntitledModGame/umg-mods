@@ -218,7 +218,7 @@ defItem("dirt_maker", {
 
 local BREAD_BUFF = 5
 
-defGrubby("bread_mace", {
+defItem("bread_mace", {
     name = loc("Bread Mace"),
 
     activateDescription = loc("If money is less than {lootplot:MONEY_COLOR}$10{/lootplot:MONEY_COLOR}, permanently gain {lootplot:POINTS_MOD_COLOR}+%{buff} points", {
