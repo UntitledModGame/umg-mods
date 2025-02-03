@@ -91,7 +91,7 @@ back stars should be smaller and more transparent
 - (((DONE))) Touch up the arrow-buttons
 
 
-- Instead of saying "Round 7/6", It should say "LEVEL COMPLETE"
+- (((DONE))) Instead of saying "Round 7/6", It should say "LEVEL COMPLETE"
 
 
 - ITEM: Lone-sword:

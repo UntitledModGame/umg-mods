@@ -251,10 +251,13 @@ function LPState:update(dt)
 end
 
 local interp = localization.newInterpolator
+
 local ROUND_AND_LEVEL = interp("{wavy amp=0.5 k=0.5}{outline thickness=2}Round %{round}/%{numberOfRounds} - Level %{level}")
 local FINAL_ROUND_LEVEL = interp("{wavy freq=2.5 amp=0.75 k=1}{outline thickness=2}{c r=1 g=0.2 b=0.1}FINAL ROUND %{round}/%{numberOfRounds}{/outline}{/wavy}{wavy amp=0.5 k=0.5}{outline thickness=2} - Level %{level}")
+local LEVEL_COMPLETE = interp("{c r=0.2 g=1 b=0.4}{wavy amp=0.5 k=0.5}{outline thickness=2}Level %{level} Complete!")
+local GAME_OVER = interp("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline thickness=2}{c r=0.7 g=0.1 b=0}GAME OVER! (Round %{round}/%{numberOfRounds})")
+
 local POINTS_NORMAL = interp("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline thickness=2}Points: %{colorEffect}%{points}/%{requiredPoints}")
-local POINTS_GAME_OVER = interp("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline thickness=2}{c r=0.7 g=0.1 b=0}GAME OVER! (%{points}/%{requiredPoints})")
 local MONEY = interp("{wavy freq=0.6 spacing=0.8 amp=0.4}{outline thickness=2}{c r=1 g=0.843 b=0.1}$ %{money}")
 
 ---@param constraint {get:fun(self:any):(number,number,number,number)}
@@ -328,23 +331,22 @@ function LPState:drawHUD()
         colorEffect = "{c r=1 g=1 b=1}"
     end
 
-    local pointsText
-    if (numberOfRounds < round) and (points < requiredPoints) then
-        pointsText = POINTS_GAME_OVER({
-            points = showNSignificant(points, 3),
-            requiredPoints = requiredPoints
-        })
-    else
-        pointsText = POINTS_NORMAL({
-            colorEffect = colorEffect,
-            points = showNSignificant(points, 3),
-            requiredPoints = requiredPoints,
-        })
-    end
+    local pointsText = POINTS_NORMAL({
+        colorEffect = colorEffect,
+        points = showNSignificant(points, 3),
+        requiredPoints = requiredPoints,
+    })
 
-    local roundTextMaker = ROUND_AND_LEVEL
-    if round >= numberOfRounds and points < requiredPoints then
+    local roundTextMaker
+    if round > numberOfRounds and points >= requiredPoints then
+        roundTextMaker = LEVEL_COMPLETE
+
+    elseif round > numberOfRounds and points < requiredPoints then
+        roundTextMaker = GAME_OVER
+    elseif round >= numberOfRounds and points < requiredPoints then
         roundTextMaker = FINAL_ROUND_LEVEL
+    else
+        roundTextMaker = ROUND_AND_LEVEL
     end
     local roundText = roundTextMaker({
         round = round,
