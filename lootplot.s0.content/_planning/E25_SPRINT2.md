@@ -79,7 +79,10 @@ back stars should be smaller and more transparent
 - (((DONE))) Add sunset-background (Cloud-background, but orange)
 
 
-- Add animation/particles when fog is cleared (test w/ map)
+- (((DONE))) Added Copper tools - activate on ROTATE
+
+
+- (((DONE))) Add animation/particles when fog is cleared (test w/ map)
 
 
 - Make background select UI much nicer:
@@ -201,6 +204,7 @@ Our players have loved activator-items so far; lets lean into it.
 
 
 - Point balancing. Make the game easier; its too oppressive right now.
+- Balance the game for noobs. **DONT** BALANCE FOR PROS!!!
 
 
 - For lootplot demo, instead of restricting items,

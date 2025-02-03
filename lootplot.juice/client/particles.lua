@@ -61,13 +61,6 @@ local function hasPosition(ent)
 end
 
 
-umg.on("lootplot:attributeChanged", function(ent, delta, oldVal, newVal)
-    if (newVal > 2) and hasPosition(ent) then
-        local particleCount = math.floor(math.sqrt(newVal) * 1)
-        makeSparkParticles(ent, particleCount)
-    end
-end)
-
 umg.on("lootplot:entityDestroyed", function(ent)
     if lp.isSlotEntity(ent) or lp.isItemEntity(ent) then
         if hasPosition(ent) then
@@ -89,3 +82,34 @@ umg.on("lootplot:entityActivated", function(ent)
         newEnt.drawDepth = 100
     end
 end)
+
+
+
+
+---@param plot lootplot.Plot
+---@param team string
+---@param ppos lootplot.PPos
+---@param hasFog boolean
+umg.on("lootplot:plotFogChanged", function(plot, team, ppos, hasFog)
+    local clId = client.getClient()
+    if (not hasFog) and lp.getPlayerTeam(clId) == team then
+        local COUNT = 20
+        local newEnt = client.entities.empty()
+        local x,y,dimension = ppos:getWorldPos()
+        newEnt.x, newEnt.y = x,y
+        newEnt.dimension = dimension
+        newEnt.lifetime = 0.5 -- delete after X seconds
+
+        ---@type love.ParticleSystem
+        local ps = makeBallPS(COUNT)
+        ps:setPosition(x,y)
+        local c = plot:getFogColor()
+        ps:setColors(c[1],c[2],c[3],1)
+        -- HACK: hardcoding how big the clouds are
+        ps:setEmissionArea("uniform", 12,12, 0)
+        ps:emit(COUNT)
+        newEnt.particles = ps
+        newEnt.drawDepth = 100
+    end
+end)
+

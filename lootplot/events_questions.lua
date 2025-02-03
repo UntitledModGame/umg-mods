@@ -30,6 +30,9 @@ umg.defineEvent("lootplot:multChanged")
 umg.defineEvent("lootplot:comboChanged")
 
 
+umg.defineEvent("lootplot:plotFogChanged")
+
+
 umg.defineEvent("lootplot:populateSelectionButtons")
 
 

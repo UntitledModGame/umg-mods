@@ -451,6 +451,8 @@ function Plot:setFogRevealed(ppos, team, reveal)
     grid:set(x, y, not reveal)
 
     if old ~= reveal then
+        local hasFog = not reveal
+        umg.call("lootplot:plotFogChanged", self, team, ppos, hasFog)
         server.broadcast("lootplot:fogReveal", self.ownerEnt, team, ppos:getSlotIndex(), reveal)
     end
 end
@@ -478,6 +480,9 @@ client.on("lootplot:fogReveal", function(plotEnt, team, index, reveal)
         plot.fogs[team] = grid
     end
 
+    local ppos = assert(plot:getPPosFromSlotIndex(index))
+    local hasFog = not reveal
+    umg.call("lootplot:plotFogChanged", plot, team, ppos, hasFog)
     local x, y = plot:indexToCoords(index)
     grid:set(x, y, not reveal)
 end)
