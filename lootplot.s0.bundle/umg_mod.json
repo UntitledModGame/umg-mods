@@ -3,7 +3,6 @@
     "uses": [
         "lootplot.s0.backgrounds",
         "lootplot.s0.content",
-        "lootplot.s0.starting_items",
         "lootplot.s0.worldgen",
         "lootplot.singleplayer", 
         "lootplot.juice", 
