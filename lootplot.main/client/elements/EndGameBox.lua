@@ -5,8 +5,8 @@ local StretchableButton = require("client.elements.StretchableButton")
 
 local loc = localization.localize
 
----@class lootplot.main.EndGameBox: Element
-local EndGameBox = ui.Element("lootplot.main:EndGameBox")
+---@class lootplot.singleplayer.EndGameBox: Element
+local EndGameBox = ui.Element("lootplot.singleplayer:EndGameBox")
 
 local strings = {
     OK = loc("OK lol!"),

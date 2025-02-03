@@ -22,14 +22,14 @@ graph LR
 
     subgraph LOOTPLOT_GAME
         direction LR
-        lootplot --> lootplot.main
+        lootplot --> lootplot.singleplayer
         lootplot --> lootplot.entities
     end
 ```
 In this example, `LOOTPLOT_GAME` is a mod *bundle.*
 
 What's interesting, is that the `lootplot` mod makes NO ASSUMPTIONS about how the game works.<br/>
-It's `lootplot.main` that actually provides the base "assumptions",
+It's `lootplot.singleplayer` that actually provides the base "assumptions",
 like the loot-monster, and win-condition, etc.
 
 ## `lootplot`:
@@ -37,7 +37,7 @@ Provides basic API for everything.
 Emits events for points; but does not keep track of points.
 Defines a bunch of basic augments/systems/components to be used elsewhere.
 
-## `lootplot.main`:
+## `lootplot.singleplayer`:
 Provides the loot-monster, alongside a win-condition.  
 Spawns a shop.  
 Spawns base-slots in.

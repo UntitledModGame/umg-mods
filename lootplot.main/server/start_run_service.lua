@@ -23,13 +23,13 @@ local potentialPlayerGroup = umg.group("controllable", "x", "y")
 
 
 
-local SELECTION_SLOT_TYPE = "lootplot.main:start_run.selection_slot"
+local SELECTION_SLOT_TYPE = "lootplot.singleplayer:start_run.selection_slot"
 lp.defineSlot(SELECTION_SLOT_TYPE, {
 })
 
 
 
-local START_SLOT_TYPE = "lootplot.main:start_run.start_button_slot"
+local START_SLOT_TYPE = "lootplot.singleplayer:start_run.start_button_slot"
 lp.defineSlot(START_SLOT_TYPE, {
 })
 
@@ -99,7 +99,7 @@ function startRunService.spawnItemAndSlots(midPPos, team, perk, wgen)
     -- Perk item floats
     lp.forceSpawnItem(midPPos, server.entities[perk], team)
     -- Doom egg floats
-    lp.forceSpawnItem(assert(midPPos:move(0, -4)), server.entities["lootplot.main:doom_egg"], team)
+    lp.forceSpawnItem(assert(midPPos:move(0, -4)), server.entities["lootplot.singleplayer:doom_egg"], team)
     -- Worldgen item must be next to doom egg so proper culling works.
     local worldgenPPos = assert(midPPos:move(1, -4))
     plot:setFogRevealed(worldgenPPos, lp.main.PLAYER_TEAM, true)
@@ -150,7 +150,7 @@ end
 ---@param wgen string
 ---@param bg string
 function startRunService.startGame(team, perk, wgen, bg)
-    ---@type lootplot.main.Run
+    ---@type lootplot.singleplayer.Run
     local run = Run(perk, bg) -- lp.initialize has been called.
     local plot = run:getPlot()
     local midPPos = plot:getCenterPPos()

@@ -1,6 +1,6 @@
 local winLose = {}
 
-umg.definePacket("lootplot.main:gameEnded", {typelist={"boolean"}})
+umg.definePacket("lootplot.singleplayer:gameEnded", {typelist={"boolean"}})
 
 if server then
 
@@ -15,12 +15,12 @@ function winLose.endGame(clientId, win)
     end
 
     if clientId then
-        server.unicast(clientId, "lootplot.main:gameEnded", win)
+        server.unicast(clientId, "lootplot.singleplayer:gameEnded", win)
     else
-        server.broadcast("lootplot.main:gameEnded", win)
+        server.broadcast("lootplot.singleplayer:gameEnded", win)
     end
 
-    umg.analytics.collect("lootplot.main:endGame", {
+    umg.analytics.collect("lootplot.singleplayer:endGame", {
         win = not not win,
         runMeta = run:getMetadata()
     })
@@ -35,7 +35,7 @@ function winLose.setEndGameCallback(callback)
     endGameCallback = callback
 end
 
-client.on("lootplot.main:gameEnded", function(win)
+client.on("lootplot.singleplayer:gameEnded", function(win)
     if endGameCallback then
         endGameCallback(win)
     end

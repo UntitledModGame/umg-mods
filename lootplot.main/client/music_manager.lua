@@ -20,7 +20,7 @@ local function load(arr, path, filename, extension)
         return -- ignore
     end
     local fullpath = path.."/"..filename..(extension or "")
-    local id = "lootplot.main:" .. filename
+    local id = "lootplot.singleplayer:" .. filename
     define(id, fullpath)
     arr:add(id)
 end
@@ -41,7 +41,7 @@ end
 --[[
 If we want to change volume of any music, do it here:
 
-setVolume("lootplot.main:zigzag.mp3", 0.7)
+setVolume("lootplot.singleplayer:zigzag.mp3", 0.7)
 
 ]]
 

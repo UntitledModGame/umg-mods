@@ -8,8 +8,8 @@ local LPState = require("client.states.LPState")
 local NewRunScene = require("client.scenes.NewRunScene")
 
 
----@class lootplot.main.NewRunState: objects.Class, state.IState
-local NewRunState = objects.Class("lootplot.main:NewRunState")
+---@class lootplot.singleplayer.NewRunState: objects.Class, state.IState
+local NewRunState = objects.Class("lootplot.singleplayer:NewRunState")
 
 
 ---@param cancelAction function?
@@ -38,7 +38,7 @@ function NewRunState:init(cancelAction)
         -- Currently we picked first option.
         -- We should create worldgen selection screen for it though.
         startNewRun = function(startingItemName, background)
-            umg.analytics.collect("lootplot.main:newRun", {
+            umg.analytics.collect("lootplot.singleplayer:newRun", {
                 starterItem = startingItemName,
                 worldgenItem = lp.worldgen.WORLDGEN_ITEMS[1],
                 hadRun = not not cancelRun,

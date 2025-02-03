@@ -1,5 +1,5 @@
 
-std = "umg+lua51+love+base+other+lootplot+lootplot.main"
+std = "umg+lua51+love+base+other+lootplot+lootplot.singleplayer"
 
 [rules]
 multiple_statements = "allow"

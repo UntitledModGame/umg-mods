@@ -19,8 +19,8 @@ local CHOOSE_UR_STARTING_ITEM = loc("Choose your starting item!")
 
 
 
----@class lootplot.main.NewRunScene: Element
-local NewRunScene = ui.Element("lootplot.main:NewRunScene")
+---@class lootplot.singleplayer.NewRunScene: Element
+local NewRunScene = ui.Element("lootplot.singleplayer:NewRunScene")
 
 local FONT_SIZE = 32
 local BACKGROUND_COLOR = objects.Color(objects.Color.HSLtoRGB(250, 0.1, 0.32))
@@ -89,7 +89,7 @@ function NewRunScene:init(arg)
         content = self.perkSelect
     })
 
-    ---@type lootplot.main.BackgroundSelect
+    ---@type lootplot.singleplayer.BackgroundSelect
     e.bgSelect = BackgroundSelect(arg.backgrounds, arg.lastSelectedBackground)
     e.backgroundBox = StretchableBox("white_pressed_big", 8, {
         stretchType = "repeat",

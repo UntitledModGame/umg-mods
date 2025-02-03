@@ -1,7 +1,7 @@
 local fonts = require("client.fonts")
 
----@class lootplot.main.BackgroundSelect: Element
-local BackgroundSelect = ui.Element("lootplot.main:BackgroundSelect")
+---@class lootplot.singleplayer.BackgroundSelect: Element
+local BackgroundSelect = ui.Element("lootplot.singleplayer:BackgroundSelect")
 
 local BACKGROUND_ANIM_TIME = 0.1
 local LOWEST_INDEX = 2

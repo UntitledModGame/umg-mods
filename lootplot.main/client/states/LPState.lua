@@ -2,8 +2,8 @@ local Scene = require("client.scenes.LPScene")
 local globalScale = require("client.globalScale")
 local fonts = require("client.fonts")
 
----@class lootplot.main.State: objects.Class, state.IState
-local LPState = objects.Class("lootplot.main:State")
+---@class lootplot.singleplayer.State: objects.Class, state.IState
+local LPState = objects.Class("lootplot.singleplayer:State")
 
 
 -- This global-state is kinda bad, but we need it 
@@ -34,7 +34,7 @@ end)
 
 
 function LPState:init()
-    ---@type lootplot.main.Scene
+    ---@type lootplot.singleplayer.Scene
     assert(not lpState, "Cannot push 2 LPStates!")
     lpState = self
     self.scene = Scene(self)

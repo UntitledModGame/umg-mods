@@ -1,5 +1,5 @@
----@class lootplot.main.Slider: Element
-local Slider = ui.Element("lootplot.main:Slider")
+---@class lootplot.singleplayer.Slider: Element
+local Slider = ui.Element("lootplot.singleplayer:Slider")
 
 function Slider:init(args)
     typecheck.assertKeys(args, {"onValueChanged", "min", "max"})

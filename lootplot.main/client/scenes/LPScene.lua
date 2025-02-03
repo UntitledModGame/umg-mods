@@ -9,8 +9,8 @@ local DescriptionBox = require("client.DescriptionBox")
 
 local settingManager = require("shared.setting_manager")
 
----@class lootplot.main.Scene: Element
-local Scene = ui.Element("lootplot.main:Screen")
+---@class lootplot.singleplayer.Scene: Element
+local Scene = ui.Element("lootplot.singleplayer:Screen")
 
 local strings = {
     SPEED_NORM = localization.localize("Speed: Normal"),
@@ -26,7 +26,7 @@ local function showNSignificant(value, nsig)
 	return tostring(math.floor(value * mulby) / mulby)
 end
 
----@param lpState lootplot.main.State
+---@param lpState lootplot.singleplayer.State
 function Scene:init(lpState)
     self.lpState = assert(lpState)
 
@@ -93,7 +93,7 @@ local function drawSideBox(x, y, w, h)
 end
 
 ---@param progress number
----@param dbox lootplot.main.DescriptionBox
+---@param dbox lootplot.singleplayer.DescriptionBox
 ---@param color objects.Color
 ---@param region layout.Region
 ---@param backgroundDrawer fun(x:number,y:number,w:number,h:number)
@@ -117,7 +117,7 @@ local function drawDescription(progress, dbox, color, region, backgroundDrawer)
 end
 
 
----@param self lootplot.main.Scene
+---@param self lootplot.singleplayer.Scene
 local function isSelectionValid(self)
     local selection = lp.getCurrentSelection()
     if selection and selection == self.currentSelection then
@@ -208,7 +208,7 @@ function Scene:setCursorDescription(ent)
     self.cursorDescriptionTime = 0
 end
 
----@param self lootplot.main.Scene
+---@param self lootplot.singleplayer.Scene
 ---@param selection lootplot.Selected?
 local function setSelectedItemDescription(self, selection)
     local itemEnt

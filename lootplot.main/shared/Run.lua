@@ -3,7 +3,7 @@
 
 Run:
 
-There is one "Run" object when a lootplot.main game is running.
+There is one "Run" object when a lootplot.singleplayer game is running.
 (The "Run" object belongs to the worldEnt)
 
 ----------------------------------
@@ -19,18 +19,18 @@ Get enough points to kill the loot-monster.
 
 local settingManager = require("shared.setting_manager")
 
----@class lootplot.main.Run: objects.Class
-local Run = objects.Class("lootplot.main:Run")
+---@class lootplot.singleplayer.Run: objects.Class
+local Run = objects.Class("lootplot.singleplayer:Run")
 
 
-umg.definePacket("lootplot.main:syncContextAttribute", {
+umg.definePacket("lootplot.singleplayer:syncContextAttribute", {
     typelist = {"entity", "string", "number"}
 })
 
 local attributeList = nil
 
 
-umg.defineEntityType("lootplot.main:world", {})
+umg.defineEntityType("lootplot.singleplayer:world", {})
 
 
 ---@param perkItem string
@@ -120,7 +120,7 @@ function Run:syncValue(key)
     if not lp.getAttributeDefault(key) then
         error("Invalid attribute: " .. key)
     end
-    server.broadcast("lootplot.main:syncContextAttribute", assert(self.ownerEnt), key, self.attrs[key])
+    server.broadcast("lootplot.singleplayer:syncContextAttribute", assert(self.ownerEnt), key, self.attrs[key])
 end
 
 end -- if server
@@ -133,7 +133,7 @@ end
 
 
 if client then
-    client.on("lootplot.main:syncContextAttribute", function(ent, field, val)
+    client.on("lootplot.singleplayer:syncContextAttribute", function(ent, field, val)
         assert(ent, "?")
         ent.lootplotMainRun.attrs[field] = val
     end)
@@ -144,7 +144,7 @@ function Run:getAttributeSetters()
     local attributeSetters = {}
     for _, attr in ipairs(lp.getAllAttributes()) do
         --[[
-        in lootplot.main,
+        in lootplot.singleplayer,
         attributes are shared between ALL players.
         ]]
         attributeSetters[attr] = {
@@ -181,7 +181,7 @@ function Run:serialize()
 end
 
 ---@param data string
----@return lootplot.main.Run
+---@return lootplot.singleplayer.Run
 function Run.deserialize(data)
     return assert(umg.deserialize(data, {
         entityTypeFallbackHandler = function(name)
@@ -199,7 +199,7 @@ end
 
 
 function Run:getMetadata()
-    ---@class lootplot.main.RunMeta
+    ---@class lootplot.singleplayer.RunMeta
     local t = {
         level = self.attrs.LEVEL,
         perk = self.perkItem,

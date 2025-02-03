@@ -2,8 +2,8 @@
 local NUM_PER_LINE = 4
 
 
----@class lootplot.main.PerkButton: Element
-local PerkButton = ui.Element("lootplot.main:_PerkButton")
+---@class lootplot.singleplayer.PerkButton: Element
+local PerkButton = ui.Element("lootplot.singleplayer:_PerkButton")
 
 function PerkButton:init(etype, perkSelect)
     self.etype = etype
@@ -39,11 +39,11 @@ end
 
 
 
----@class lootplot.main.PerkSelect: Element
-local PerkSelect = ui.Element("lootplot.main:PerkSelect")
+---@class lootplot.singleplayer.PerkSelect: Element
+local PerkSelect = ui.Element("lootplot.singleplayer:PerkSelect")
 
 local MODNAME_ORDER = {
-    ["lootplot.main"] = -1
+    ["lootplot.singleplayer"] = -1
 }
 
 function PerkSelect:init()

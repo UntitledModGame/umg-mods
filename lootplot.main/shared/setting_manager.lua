@@ -5,7 +5,7 @@ local settingManager = {
 
 local FILENAME = "settings.json"
 
-umg.definePacket("lootplot.main:syncSetting", {typelist = {"string", "string"}})
+umg.definePacket("lootplot.singleplayer:syncSetting", {typelist = {"string", "string"}})
 
 local function saveSetting()
     assert(server)
@@ -14,11 +14,11 @@ local function saveSetting()
 end
 
 if client then
-    client.on("lootplot.main:syncSetting", function(name, encVal)
+    client.on("lootplot.singleplayer:syncSetting", function(name, encVal)
         settingManager.data[name] = json.decode(encVal)
     end)
 else
-    server.on("lootplot.main:syncSetting", function (clientId, name, encVal)
+    server.on("lootplot.singleplayer:syncSetting", function (clientId, name, encVal)
         if server.getHostClient() == clientId then
             settingManager.data[name] = json.decode(encVal)
             saveSetting()
@@ -48,7 +48,7 @@ if server then
 
     umg.on("@playerJoin", function(clientId)
         for k, v in pairs(settingManager.data) do
-            server.unicast(clientId, "lootplot.main:syncSetting", k, json.encode(v))
+            server.unicast(clientId, "lootplot.singleplayer:syncSetting", k, json.encode(v))
         end
     end)
 end
@@ -67,14 +67,14 @@ local function defineSetting(name, defval)
 
     local function setter(value)
         if client then
-            client.send("lootplot.main:syncSetting", name, json.encode(value))
+            client.send("lootplot.singleplayer:syncSetting", name, json.encode(value))
         end
 
         settingManager.data[name] = value
 
         if server then
             saveSetting()
-            server.broadcast("lootplot.main:syncSetting", name, json.encode(value))
+            server.broadcast("lootplot.singleplayer:syncSetting", name, json.encode(value))
         end
     end
 

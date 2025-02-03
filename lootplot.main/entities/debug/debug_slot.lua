@@ -1,4 +1,4 @@
-lp.defineSlot("lootplot.main:debugslot", {
+lp.defineSlot("lootplot.singleplayer:debugslot", {
     triggers = {"PULSE"},
     baseCanSlotPropagate = false,
     audioVolume = 0,

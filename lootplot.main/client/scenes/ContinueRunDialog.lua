@@ -10,8 +10,8 @@ local RUN_INFO_STRING = localization.newInterpolator("Level: %{level}\nRound: %{
 
 
 
----@class lootplot.main.ContinueRunDialog: Element
-local ContinueRunDialog = ui.Element("lootplot.main:ContinueRunDialog")
+---@class lootplot.singleplayer.ContinueRunDialog: Element
+local ContinueRunDialog = ui.Element("lootplot.singleplayer:ContinueRunDialog")
 
 local FONT_SIZE = 32
 local BACKGROUND_COLOR = objects.Color(objects.Color.HSLtoRGB(250, 0.1, 0.32))
@@ -24,7 +24,7 @@ local KEYS = {
 function ContinueRunDialog:init(args)
     typecheck.assertKeys(args, KEYS)
 
-    ---@type lootplot.main.RunMeta
+    ---@type lootplot.singleplayer.RunMeta
     local runInfo = args.runInfo
     local perkEType = client.entities[runInfo.perk]
     local friendlyRunInfo = {

@@ -2,15 +2,15 @@ local StretchableBox = require("client.elements.StretchableBox")
 local globalScale = require("client.globalScale")
 local fonts = require("client.fonts")
 
----@class lootplot.main.StretchableButton: Element
-local StretchableButton = ui.Element("lootplot.main:StretchableButton")
+---@class lootplot.singleplayer.StretchableButton: Element
+local StretchableButton = ui.Element("lootplot.singleplayer:StretchableButton")
 
 local lg=love.graphics
 
 local BUTTON_PADDING = {4, 5, 5, 7}
 
----@param self lootplot.main.StretchableButton
----@param elem lootplot.main.StretchableBox
+---@param self lootplot.singleplayer.StretchableButton
+---@param elem lootplot.singleplayer.StretchableBox
 local function giveTextElement(self, elem)
     if not self.text then
         return
@@ -56,7 +56,7 @@ end
 
 if false then
     ---@param args {onClick:function,color:objects.Color,text?:string|fun():(string),scale:number?}
-    ---@return lootplot.main.StretchableButton
+    ---@return lootplot.singleplayer.StretchableButton
     function StretchableButton(args) end
 end
 

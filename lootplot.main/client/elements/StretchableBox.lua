@@ -1,7 +1,7 @@
 local globalScale = require("client.globalScale")
 
----@class lootplot.main.StretchableBox: Element
-local StretchableBox = ui.Element("lootplot.main:StretchableBox")
+---@class lootplot.singleplayer.StretchableBox: Element
+local StretchableBox = ui.Element("lootplot.singleplayer:StretchableBox")
 
 
 ---@param quadName string
@@ -32,7 +32,7 @@ if false then
     ---@param quadName string
     ---@param padding number[]|number
     ---@param args? {stretchType?: n9slice.StretchType, content?: any, scale:number?}
-    ---@return lootplot.main.StretchableBox
+    ---@return lootplot.singleplayer.StretchableBox
     function StretchableBox(quadName, padding, args) end
 end
 

@@ -10,19 +10,19 @@ local LPState = require("client.states.LPState")
 local NewRunState = require("client.states.NewRunState")
 
 
----@class lootplot.main.ContinueState: objects.Class, state.IState
-local ContinueState = objects.Class("lootplot.main:ContinueState")
+---@class lootplot.singleplayer.ContinueState: objects.Class, state.IState
+local ContinueState = objects.Class("lootplot.singleplayer:ContinueState")
 
 
----@param runInfo lootplot.main.RunMeta
+---@param runInfo lootplot.singleplayer.RunMeta
 function ContinueState:init(runInfo)
 
     self.callbackCalled = false
-    ---@type lootplot.main.ContinueRunDialog
+    ---@type lootplot.singleplayer.ContinueRunDialog
     self.scene = ContinueRunDialog({
         runInfo = runInfo,
         continueRun = function()
-            umg.analytics.collect("lootplot.main:continueRun", {
+            umg.analytics.collect("lootplot.singleplayer:continueRun", {
                 runMeta = runInfo
             })
 

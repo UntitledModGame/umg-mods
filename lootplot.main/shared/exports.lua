@@ -1,12 +1,12 @@
 
 --[[
-    lootplot.main does not do any global exports;
+    lootplot.singleplayer does not do any global exports;
         but rather, exports a `main` table to the existing `lp` namespace.
 ]]
 
 -- selene: allow(incorrect_standard_library_use)
 assert(not lp.main, "invalid mod setup")
----@class lootplot.main
+---@class lootplot.singleplayer
 local main = {}
 
 main.PLAYER_TEAM = "@player" -- Player team
@@ -23,12 +23,12 @@ lpWorldGroup:onAdded(function(ent)
         currentRun = ent.lootplotMainRun
         lp.initialize(currentRun:getAttributeSetters())
     else
-        umg.log.fatal("WARNING::: Duplicate lootplot.main context created!!")
+        umg.log.fatal("WARNING::: Duplicate lootplot.singleplayer context created!!")
     end
 end)
 
 ---Availability: Client and Server
----@return lootplot.main.Run|nil
+---@return lootplot.singleplayer.Run|nil
 function main.getRun()
     -- assert(currentRun, "Not ready yet! (Check using lp.main.isReady() )")
     return currentRun
@@ -79,7 +79,7 @@ end
 main.constants = setmetatable({
     --[[
         feel free to override any of these.
-        Access via `lootplot.main.constants`
+        Access via `lootplot.singleplayer.constants`
     ]] 
     WORLD_PLOT_SIZE = {60, 40},
 

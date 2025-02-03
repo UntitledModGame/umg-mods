@@ -31,7 +31,7 @@ for the default gamemode.
 
 
 ]]
-lp.defineItem("lootplot.main:doom_egg", {
+lp.defineItem("lootplot.singleplayer:doom_egg", {
     doomCount = 1,
     image = "doom_egg",
     name = loc("Doom Egg"),

@@ -1,12 +1,12 @@
----@class lootplot.main.DescriptionBox: objects.Class
-local DescriptionBox = objects.Class("lootplot.main:DescriptionBox")
+---@class lootplot.singleplayer.DescriptionBox: objects.Class
+local DescriptionBox = objects.Class("lootplot.singleplayer:DescriptionBox")
 
 local RICH_TEXT_TYPE = "richtext"
 local DRAWABLE_TYPE = "drawable"
 local NEWLINE_TYPE = "\n"
 
 ---@alias lootplot.DescriptionBoxFunction fun(x:number,y:number,w:number,h:number)
----@class lootplot.main._DescriptionBoxData
+---@class lootplot.singleplayer._DescriptionBoxData
 ---@field public type string
 ---@field public height integer?
 ---@field public data string|fun():string|lootplot.DescriptionBoxFunction
@@ -15,7 +15,7 @@ local NEWLINE_TYPE = "\n"
 ---@param defaultFont love.Font?
 function DescriptionBox:init(defaultFont)
     ---@private
-    self.contents = {} ---@type lootplot.main._DescriptionBoxData[]
+    self.contents = {} ---@type lootplot.singleplayer._DescriptionBoxData[]
     ---@private
     self.defaultFont = defaultFont or love.graphics.getFont()
 end
@@ -138,7 +138,7 @@ end
 if false then
     ---Create new description box.
     ---@param font love.Font? Default font object to use (defaults to `love.graphics.getFont()`).
-    ---@return lootplot.main.DescriptionBox
+    ---@return lootplot.singleplayer.DescriptionBox
     ---@diagnostic disable-next-line: missing-return, cast-local-type
     function DescriptionBox(font) end
 end

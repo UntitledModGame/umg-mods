@@ -32,7 +32,7 @@ Are there any valid use-cases for blocking item-removal?
 (A)  in lootplot.base, as a generic scene for lootplot.
 If mods wanna add to the scene, tag into some api deployed by lootplot.base
 
-(B)  in lootplot.main. We would then add the "core buttons" directly inside of this scene.
+(B)  in lootplot.singleplayer. We would then add the "core buttons" directly inside of this scene.
 DOWNSIDE: The "core-buttons" would need to be duct-taped on kinda jankily.
 
 (C)  in some base-mod; like uibasics mod.
@@ -55,7 +55,7 @@ activate
 
 
 ## Game shitty-ness:
-For `lootplot.main` specifically:  
+For `lootplot.singleplayer` specifically:  
 We *need* `MainGame` to be able to be accessed on BOTH server AND client.
 We will need syncing for this...   
 Should we have some sort of auto-syncing feature...?  

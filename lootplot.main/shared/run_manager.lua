@@ -1,11 +1,11 @@
----@class lootplot.main.RunManager
+---@class lootplot.singleplayer.RunManager
 local runManager = {}
 
 
 
-umg.definePacket("lootplot.main:runData", {typelist = {"boolean", "string"}})
-umg.definePacket("lootplot.main:startRun", {typelist = {"string"}})
-umg.definePacket("lootplot.main:continueRun", {typelist = {}})
+umg.definePacket("lootplot.singleplayer:runData", {typelist = {"boolean", "string"}})
+umg.definePacket("lootplot.singleplayer:startRun", {typelist = {"string"}})
+umg.definePacket("lootplot.singleplayer:continueRun", {typelist = {}})
 
 
 local RUN_FILENAME = "run.bin"
@@ -15,7 +15,7 @@ local function loadRunServer()
     local save = server.getSaveFilesystem()
 
     if save:exists(RUN_FILENAME) then
-        ---@type lootplot.main.RunSerialized
+        ---@type lootplot.singleplayer.RunSerialized
         local runSerialized, msg = umg.deserialize((assert(save:read(RUN_FILENAME))))
         if not runSerialized then
             umg.log.error("Cannot serialize run: "..msg)
@@ -38,9 +38,9 @@ local function queryRunServer()
     return nil
 end
 
----@param run lootplot.main.Run
+---@param run lootplot.singleplayer.Run
 local function serializeRun(run)
-    ---@class lootplot.main.RunSerialized
+    ---@class lootplot.singleplayer.RunSerialized
     local data = {
         runMeta = run:getMetadata(),
         runData = run:serialize(),
@@ -49,7 +49,7 @@ local function serializeRun(run)
     return umg.serialize(data)
 end
 
----@param run lootplot.main.Run
+---@param run lootplot.singleplayer.Run
 local function saveRunServer(run)
     local save = server.getSaveFilesystem()
     local runSerialized = nil
@@ -72,7 +72,7 @@ if server then
 
 local startRunService = require("server.start_run_service")
 
-server.on("lootplot.main:startRun", function(clientId, runOptionsString)
+server.on("lootplot.singleplayer:startRun", function(clientId, runOptionsString)
     if server.getHostClient() == clientId then
         local runOptions = umg.deserialize(runOptionsString)
         startRunService.startGame(
@@ -85,7 +85,7 @@ server.on("lootplot.main:startRun", function(clientId, runOptionsString)
     end
 end)
 
-server.on("lootplot.main:continueRun", function(clientId)
+server.on("lootplot.singleplayer:continueRun", function(clientId)
     if server.getHostClient() == clientId then
         local runSerialized = assert(loadRunServer())
         startRunService.continueGame(runSerialized.runData, runSerialized.rngState)
@@ -103,7 +103,7 @@ umg.on("@playerJoin", function(clientId)
             runData = umg.serialize(info)
         end
     end
-    server.unicast(clientId, "lootplot.main:runData", isHost, runData)
+    server.unicast(clientId, "lootplot.singleplayer:runData", isHost, runData)
 end)
 
 umg.on("@quit", function()
@@ -143,7 +143,7 @@ local runInfo = nil
 
 if client then
 
-client.on("lootplot.main:runData", function(isHost, runmeta)
+client.on("lootplot.singleplayer:runData", function(isHost, runmeta)
     -- TODO: Keep the isHost, in case if we want to support multiplayer
     runInfoArrived = true
 
@@ -168,7 +168,7 @@ function runManager.getSavedRun()
 end
 
 function runManager.continueRun()
-    client.send("lootplot.main:continueRun")
+    client.send("lootplot.singleplayer:continueRun")
 end
 
 
@@ -179,7 +179,7 @@ local newRunOptionsTc = typecheck.assert({
 ---@param options {starterItem:string,seed:string,background:string?}
 function runManager.startRun(options)
     newRunOptionsTc(options)
-    client.send("lootplot.main:startRun", umg.serialize(options))
+    client.send("lootplot.singleplayer:startRun", umg.serialize(options))
 end
 
 return runManager

@@ -417,7 +417,7 @@ chat.handleCommand("spawnAllItems", {
             arr:add(itemETypeStr)
         end
 
-        local DEBUG_SLOT = server.entities["lootplot.main:debugslot"]
+        local DEBUG_SLOT = server.entities["lootplot.singleplayer:debugslot"]
         local MAX_ITEMS_IN_PPOS_X = 16
         local X_OFFSET = 5
 

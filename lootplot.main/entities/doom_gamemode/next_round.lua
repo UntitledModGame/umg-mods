@@ -54,7 +54,7 @@ local function startRound(ent, ppos)
 end
 
 
-lp.defineSlot("lootplot.main:pulse_button_slot", {
+lp.defineSlot("lootplot.singleplayer:pulse_button_slot", {
     image = "pulse_button_up",
 
     name = loc("Pulse Button"),
@@ -135,7 +135,7 @@ end
 local NEXT_LEVEL = interp("Click to progress to the next level! Triggers {lootplot:TRIGGER_COLOR}%{name}{/lootplot:TRIGGER_COLOR} on all items and slots!")
 local NEED_POINTS = interp("{c r=1 g=0.6 b=0.5}Need %{pointsLeft} more points!")
 
-lp.defineSlot("lootplot.main:next_level_button_slot", {
+lp.defineSlot("lootplot.singleplayer:next_level_button_slot", {
     image = "level_button_up",
 
     name = loc("Next-Level Button"),

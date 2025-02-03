@@ -9,8 +9,8 @@ local StretchableButton = require("client.elements.StretchableButton")
 
 local loc = localization.localize
 
----@class lootplot.main.PauseBox: Element
-local PauseBox = ui.Element("lootplot.main:PauseBox")
+---@class lootplot.singleplayer.PauseBox: Element
+local PauseBox = ui.Element("lootplot.singleplayer:PauseBox")
 
 local ARG_KEYS = {
     onResume = true,

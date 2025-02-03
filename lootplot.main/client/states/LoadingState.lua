@@ -4,8 +4,8 @@ local Z_ORDER = require("client.z_order")
 local ContinueState = require("client.states.ContinueState")
 local NewRunState = require("client.states.NewRunState")
 
----@class lootplot.main.LoadingState: objects.Class, state.IState
-local LoadingState = objects.Class("lootplot.main:LoadingState")
+---@class lootplot.singleplayer.LoadingState: objects.Class, state.IState
+local LoadingState = objects.Class("lootplot.singleplayer:LoadingState")
 
 
 

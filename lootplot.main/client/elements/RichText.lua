@@ -1,5 +1,5 @@
----@class lootplot.main.RichText: Element
-local RichText = ui.Element("lootplot.main:RichText")
+---@class lootplot.singleplayer.RichText: Element
+local RichText = ui.Element("lootplot.singleplayer:RichText")
 --[[
 RichText is a text element that will scale itself to
 automatically fit the given box + support for rich formatting.
@@ -28,7 +28,7 @@ end
 
 if false then
     ---@param args string|{text:string,font?:love.Font,scale?:number,color?:objects.Color,wrap?:number}
-    ---@return lootplot.main.RichText
+    ---@return lootplot.singleplayer.RichText
     function RichText(args) end
 end
 
