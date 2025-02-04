@@ -85,7 +85,7 @@ defItem("leather", "Leather", {
 
 
 
-local RED_FLAG_MULT = 5
+local RED_FLAG_MULT = 8
 --[[
 If mult < 1, add +X mult
 ]]
