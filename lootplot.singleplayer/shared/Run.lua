@@ -56,21 +56,13 @@ function Run:init(perkItem, bg)
     self.currentBackground = bg
 
     self.attrs = {}
-    self.attrs.COMBO = 0
-    self.attrs.LEVEL = 1
+
+    for _, a in ipairs(lp.getAllAttributes()) do
+        self.attrs[a] = lp.getAttributeDefault(a)
+    end
+
     self.attrs.MONEY = constants.STARTING_MONEY
     self.attrs.POINTS = constants.STARTING_POINTS
-    self.attrs.POINTS_BONUS = 0
-    self.attrs.POINTS_MULT = 1
-
-    self.attrs.REQUIRED_POINTS = 0
-    self.attrs.ROUND = 1
-    self.attrs.NUMBER_OF_ROUNDS = constants.ROUNDS_PER_LEVEL
-    for _, a in ipairs(lp.getAllAttributes()) do
-        if not (self.attrs[a]) then
-            umg.melt("we missed one: " .. a)
-        end
-    end
 end
 
 

@@ -1,9 +1,10 @@
 
 
 
-# Lootplot items mod!!!
+# Lootplot s0 mod!!!
 
-This mod contains a bunch of item definitions for lootplot.
+Season 0 of lootplot.  
+This mod contains the "core game" that is the default gamemode
 
 :D
 
