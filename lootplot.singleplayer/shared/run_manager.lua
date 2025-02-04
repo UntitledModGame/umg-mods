@@ -134,6 +134,31 @@ function runManager.deleteRun()
     save:remove(RUN_FILENAME)
 end
 
+
+
+-- Whether or not we autosave.
+local AUTOSAVE = true
+
+if AUTOSAVE then
+    local dirty = true
+
+    umg.on("@tick", function(dt)
+        local run = lp.main.getRun()
+        if not run then return end
+
+        if run:getPlot():isPipelineRunning() then
+            dirty = true
+        else -- pipeline is empty- therefore, it is safe to save.
+            if dirty then
+                runManager.saveRun()
+                dirty = false
+            end
+        end
+    end)
+
+end
+
+
 end -- if server
 
 

@@ -22,6 +22,57 @@ local function getPosTeam(ent)
 end
 
 
+---@param ppos lootplot.PPos
+---@param team string
+---@param radius integer
+local function clearFogInCircle(ppos, team, radius)
+    local plot = ppos:getPlot()
+    local rsq = radius * radius
+
+    for y = -radius, radius do
+        for x = -radius, radius do
+            local newPPos = ppos:move(x, y)
+
+            if newPPos then
+                local sq = x * x + y * y
+                if sq <= rsq then
+                    plot:setFogRevealed(newPPos, team, true)
+                end
+            end
+        end
+    end
+end
+
+local function spawnDoomClock(ent)
+    local plot = lp.getPos(ent):getPlot()
+    local team = assert(ent.lootplotTeam)
+    local ppos = assert(lp.getPos(ent)
+        :move(0, -4)
+    )
+
+    local dclock = server.entities.doom_clock()
+    dclock._plotX, dclock._plotY = ppos:getCoords()
+    plot:set(dclock._plotX, dclock._plotY, dclock)
+    local wppos = plot:getPPos(dclock._plotX, dclock._plotY)
+    dclock.x, dclock.y, dclock.dimension = wppos:getWorldPos()
+
+    -- Clear fog around doom clock
+    clearFogInCircle(ppos, team, 1)
+
+    -- Meta-buttons
+    lp.forceSpawnSlot(
+        assert(ppos:move(-4,0)),
+        server.entities.pulse_button_slot,
+        team
+    )
+    lp.forceSpawnSlot(
+        assert(ppos:move(-3,0)),
+        server.entities.next_level_button_slot,
+        team
+    )
+end
+
+
 local function spawnShop(ent)
     local ppos, team = getPosTeam(ent)
     wg.spawnSlots(assert(ppos:move(-4,0)), server.entities.shop_slot, 3,1, team)
@@ -109,13 +160,14 @@ definePerk("one_ball", {
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
-
         spawnShop(ent)
         spawnNormal(ent)
         spawnRerollButton(ent)
         spawnSell(ent)
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
+
+        spawnDoomClock(ent)
 
         -- Display tutorial text
         spawnTutorialText(assert(ppos:move(0, -3)), {
@@ -149,6 +201,9 @@ definePerk("five_ball", {
         spawnSell(ent)
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
+
+        spawnDoomClock(ent)
+
         wg.spawnSlots(assert(ppos:move(3, 0)), server.entities.rotate_slot, 1,1, team)
     end
 })
@@ -158,9 +213,8 @@ definePerk("five_ball", {
 
 definePerk("nine_ball", {
     name = loc("Nine Ball"),
-    description = loc("Lose $1 per turn. Has no money limit."),
+    description = loc("Has no money limit."),
 
-    baseMoneyGenerated = -1,
     baseMaxActivations = 1,
 
     onActivateOnce = function(ent)
@@ -169,6 +223,7 @@ definePerk("nine_ball", {
         spawnNormal(ent)
         spawnSell(ent)
         spawnInterestSlot(ent)
+        spawnDoomClock(ent)
     end
 })
 
@@ -188,6 +243,7 @@ definePerk("eight_ball", {
         spawnSell(ent)
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
+        spawnDoomClock(ent)
         wg.spawnSlots(assert(ppos:move(3, 0)), server.entities.null_slot, 1,3, team)
     end
 })
@@ -209,6 +265,7 @@ definePerk("fourteen_ball", {
         spawnSell(ent)
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
+        spawnDoomClock(ent)
     end
 })
 
@@ -261,6 +318,8 @@ definePerk("four_ball", {
                 spawnSpecialGlassSlot(pos, team)
             end
         end)
+
+        spawnDoomClock(ent)
     end
 })
 
@@ -286,6 +345,8 @@ definePerk("bowling_ball", {
         plot:foreachSlot(function(slotEnt, _ppos)
             slotEnt.doomCount = lp.SEED:randomMisc(40, 50)
         end)
+
+        spawnDoomClock(ent)
     end
 })
 

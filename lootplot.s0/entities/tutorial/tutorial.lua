@@ -2,7 +2,7 @@
 local loc = localization.localize
 
 
-umg.defineEntityType("lootplot.singleplayer:tutorial_text", {
+umg.defineEntityType("lootplot.s0:tutorial_text", {
     onUpdateClient = function(ent)
         local run = lp.main.getRun()
         if run then
@@ -14,14 +14,14 @@ umg.defineEntityType("lootplot.singleplayer:tutorial_text", {
 
 
 
-lp.defineItem("lootplot.singleplayer:tutorial_egg", {
+lp.defineItem("lootplot.s0:tutorial_egg", {
     name = loc("Egg"),
     image = "tutorial_egg",
     triggers = {"PULSE"},
     basePointsGenerated = 1,
 })
 
-lp.defineSlot("lootplot.singleplayer:tutorial_slot", {
+lp.defineSlot("lootplot.s0:tutorial_slot", {
     name = loc("Slot"),
     image = "tutorial_slot",
     description = loc("Holds items"),
@@ -29,7 +29,7 @@ lp.defineSlot("lootplot.singleplayer:tutorial_slot", {
 })
 
 
-lp.defineSlot("lootplot.singleplayer:tutorial_reroll_button_slot", {
+lp.defineSlot("lootplot.s0:tutorial_reroll_button_slot", {
     name = loc("Reroll button"),
     description = loc("Click to trigger {wavy}{lootplot:TRIGGER_COLOR}REROLL{/lootplot:TRIGGER_COLOR} for the whole plot!"),
 
@@ -278,7 +278,7 @@ USE A WHITEBOARD!!!   Be smart!
 
 
 
-local TUTORIAL_BUTTON_ID = "lootplot.singleplayer:next_tutorial_stage_button"
+local TUTORIAL_BUTTON_ID = "lootplot.s0:next_tutorial_stage_button"
 lp.defineSlot(TUTORIAL_BUTTON_ID, {
     name = loc("Tutorial Button"),
     activateDescription = loc("Click to go next!"),
@@ -330,7 +330,7 @@ local function clearFogInCircle(ppos, team, radius)
 end
 
 
-local TUT_CAT_ID = "lootplot.singleplayer:tutorial_cat"
+local TUT_CAT_ID = "lootplot.s0:tutorial_cat"
 lp.worldgen.STARTING_ITEMS:add(TUT_CAT_ID)
 
 local MOVEMENT_TEXT = loc("WASD / Right click to move.\nScroll to zoom.")

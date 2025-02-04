@@ -132,7 +132,8 @@ If mult is below 1, add 4 mult
 - (((DONE))) Rename `lootplot.main` -> `lootplot.singleplayer`.
 - (((DONE))) Move `lootplot.s0.starting_items` --> `lootplot.s0`.
 - (((DONE))) Rename `lootplot.s0.content` --> `lootplot.s0`.
-- Move doomclock, pulse-button, next-level-button to `lootplot.s0`
+- (((DONE))) Move doomclock, pulse-button, next-level-button to `lootplot.s0`
+- Move tutorial to `lootplot.s0`
 ^^^ WARNING: Will require refactors to attributes. 
 Perhaps we need to allow attributes to have default-values?
 

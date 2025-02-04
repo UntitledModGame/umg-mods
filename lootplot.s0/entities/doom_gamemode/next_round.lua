@@ -8,7 +8,6 @@ Progresses to next-round, be activating and resetting the whole slot.
 
 
 ]]
-local runManager = require("shared.run_manager")
 
 local loc = localization.localize
 local interp = localization.newInterpolator
@@ -22,9 +21,6 @@ end
 ---@param ppos lootplot.PPos
 local function startRound(ent, ppos)
     local plot = ppos:getPlot()
-    -- Ensure we have the run snapshot before starting round.
-    runManager.saveRun()
-
     lp.queue(ppos, function()
         -- This will execute LAST.
         plot:foreachLayerEntry(function(ent, ppos, layer)
@@ -33,9 +29,6 @@ local function startRound(ent, ppos)
         lp.addMoney(ent, lp.main.constants.MONEY_PER_ROUND)
         lp.setPointsMult(ent, 1)
         lp.setPointsBonus(ent, 0)
-
-        -- Snapshot the run again.
-        runManager.saveRun()
     end)
 
     -- pulse all slots:
@@ -54,7 +47,7 @@ local function startRound(ent, ppos)
 end
 
 
-lp.defineSlot("lootplot.singleplayer:pulse_button_slot", {
+lp.defineSlot("lootplot.s0:pulse_button_slot", {
     image = "pulse_button_up",
 
     name = loc("Pulse Button"),
@@ -135,7 +128,7 @@ end
 local NEXT_LEVEL = interp("Click to progress to the next level! Triggers {lootplot:TRIGGER_COLOR}%{name}{/lootplot:TRIGGER_COLOR} on all items and slots!")
 local NEED_POINTS = interp("{c r=1 g=0.6 b=0.5}Need %{pointsLeft} more points!")
 
-lp.defineSlot("lootplot.singleplayer:next_level_button_slot", {
+lp.defineSlot("lootplot.s0:next_level_button_slot", {
     image = "level_button_up",
 
     name = loc("Next-Level Button"),

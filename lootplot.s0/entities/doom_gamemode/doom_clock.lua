@@ -100,7 +100,7 @@ end
 
 
 
-umg.defineEntityType("lootplot.singleplayer:doom_clock", {
+umg.defineEntityType("lootplot.s0:doom_clock", {
     image = "doom_clock",
 
     layer = "world",
