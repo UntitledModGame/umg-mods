@@ -268,6 +268,12 @@ lp.defineAttribute("POINTS_BONUS", 0)
 -- COMBO = number of successive activations without interruption.
 lp.defineAttribute("COMBO", 0)
 
+
+
+----------------------------
+-- OPTIONAL ATTRIBUTES:::
+----------------------------
+
 -- "LEVEL" is a general difficulty indicator.
 -- higher level = higher difficulty.
 lp.defineAttribute("LEVEL", 1)
@@ -283,9 +289,14 @@ lp.defineAttribute("NUMBER_OF_ROUNDS", ROUNDS_PER_LEVEL)
 
 lp.defineAttribute("REQUIRED_POINTS", -1)
 -- once we reach this number, we can progress to next level.
--- (Default of -1 to indicate that this value MUST be changed!!!)
 
-
+-- IMPORTANT NOTE::::
+-- Note that these "optional attributes" don't *need* to be used.
+-- It depends on the gamemode.
+-- Perhaps some gamemode use all the attributes;
+-- Perhaps another gamemode uses only the required ones.
+-- Perhaps another gamemode defines it's own custom attributes!
+-- It's entirely up to you.
 
 
 
