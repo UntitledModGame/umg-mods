@@ -57,6 +57,36 @@ defItem("a_small_loan", {
 
 
 
+local MONEY_NEGATIVE = 50
+local BACK_LOAN_ROUND = 1
+
+defItem("a_backwards_loan", {
+    name = loc("A Backwards Loan"),
+
+    triggers = {"BUY"},
+
+    basePrice = 0,
+
+    activateDescription = loc("Sets money to {lootplot:MONEY_COLOR}-$%{money}{/lootplot:MONEY_COLOR}.\nSets round to %{round}.", {
+        money = MONEY_NEGATIVE,
+        round = BACK_LOAN_ROUND
+    }),
+
+    onActivate = function(ent)
+        lp.setMoney(ent, -MONEY_NEGATIVE)
+        lp.setRound(ent, BACK_LOAN_ROUND)
+    end,
+
+    doomCount = 2,
+    baseMaxActivations = 1,
+
+    canItemFloat = true,
+    rarity = lp.rarities.EPIC,
+})
+
+
+
+
 defItem("a_pointy_loan", {
     name = loc("A Pointy Loan"),
 

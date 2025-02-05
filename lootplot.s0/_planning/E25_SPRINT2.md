@@ -146,6 +146,7 @@ Fix this!
 
 - Remove golden-cap. It's poorly designed. Remove other caps too...?
 
+
 - Simplify Anvil. It's a biiiit complex...?
 Maybe make it related to BONUS or something...?
 
@@ -188,13 +189,6 @@ Add a bunch more items that rotate stuff, BUT ALSO do other stuff.
 
 
 - SPIKE: Do something with feather-item (was removed due to mana changes)
-
-
-
-## (SPIKE: PLANNING)
-### PASSIVE ITEMS:
-Why don't we have passive items?
-IE: items that don't activate directly, but use `onUpdate` to have an effect.
 
 
 ## (SPIKE: PLANNING)
@@ -244,5 +238,10 @@ There should be blue text above it, that says "120".
 (^^^ TODO: not sure if this is a good idea. Might cause visual bloat and confusion...?)
 (For now, lets abandon this task.)
 
+
+## (SPIKE: PLANNING)
+### PASSIVE ITEMS:
+Why don't we have passive items?
+IE: items that don't activate directly, but use `onUpdate` to have an effect.
 
 
