@@ -292,7 +292,7 @@ end
 "basic" mineral type.
 Doesnt do anything special; has decent stats
 ]]
-defineMineralClass("iron", "Iron", 2, {
+defineMineralClass("iron", "Iron", 3, {
     baseMaxActivations = 10,
     triggers = {"PULSE"}
 })
@@ -303,7 +303,7 @@ EMERALD TOOLS:
 
 Activated when rerolled
 ]]
-defineMineralClass("emerald", "Emerald", 4, {
+defineMineralClass("emerald", "Emerald", 2, {
     baseMaxActivations = 10,
     triggers = {"REROLL"}
 })
