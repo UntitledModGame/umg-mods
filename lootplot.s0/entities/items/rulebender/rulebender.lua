@@ -210,45 +210,6 @@ defItem("foghorn", {
 
 
 
---[[
-----
-TODO: Do something with feather.
-it used to use mana previously; but that was removed
-
-defItem("feather", {
-    name = loc("Feather"),
-
-    triggers = {"PULSE"},
-
-    basePrice = 10,
-})
-
-]]
-
-
-defItem("ruby", {
-    name = loc("Ruby"),
-    activateDescription = loc("Gives {lootplot:REPEATER_COLOR}REPEATER{/lootplot:REPEATER_COLOR} to all target items."),
-
-    triggers = {"PULSE"},
-
-    rarity = lp.rarities.LEGENDARY,
-
-    basePrice = 12,
-    baseMaxActivations = 5,
-
-    shape = lp.targets.UpShape(1),
-    target = {
-        type = "ITEM",
-        activate = function(selfEnt, ppos, targetEnt)
-            targetEnt.repeatActivations = true
-            sync.syncComponent(targetEnt, "repeatActivations")
-        end
-    }
-})
-
-
-
 defItem("seraphim", {
     --[[
     TODO:

@@ -244,6 +244,28 @@ defineFood("eggplant", {
 })
 
 
+defineFood("raspberry", {
+    name = loc("Raspberry"),
+    activateDescription = loc("Gives {lootplot:REPEATER_COLOR}REPEATER{/lootplot:REPEATER_COLOR} to items."),
+
+    triggers = {"PULSE"},
+
+    rarity = lp.rarities.RARE,
+
+    basePrice = 8,
+
+    shape = lp.targets.UpShape(1),
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            targetEnt.repeatActivations = true
+            sync.syncComponent(targetEnt, "repeatActivations")
+        end
+    }
+})
+
+
+
 
 defineFood("heartfruit", {
     name = loc("Heart Fruit"),

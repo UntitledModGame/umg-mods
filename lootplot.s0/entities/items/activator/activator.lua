@@ -137,6 +137,29 @@ defItem("ping_pong_paddle", "Ping pong paddle", {
 
 
 
+defItem("ruby", "Ruby", {
+    activateDescription = loc("Gives {lootplot:REPEATER_COLOR}REPEATER{/lootplot:REPEATER_COLOR} to all target items."),
+
+    triggers = {"PULSE"},
+
+    rarity = lp.rarities.LEGENDARY,
+
+    basePrice = 12,
+    baseMaxActivations = 5,
+
+    shape = lp.targets.UpShape(1),
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            targetEnt.repeatActivations = true
+            sync.syncComponent(targetEnt, "repeatActivations")
+        end
+    }
+})
+
+
+
+
 helper.defineDelayItem("ruby_bar", "Ruby Bar", {
     basePrice = 6,
 
