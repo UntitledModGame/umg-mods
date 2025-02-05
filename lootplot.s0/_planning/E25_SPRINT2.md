@@ -174,6 +174,23 @@ Or, items that add mult, but reduce BONUS.
 
 
 
+- Make negative-bonus display correctly.
+Currently, it displays like:  `(+-2 bonus)`.
+Maybe change color to red too...?
+
+
+- Proc gen food items:
+Some food items should have a chance (say, 15%?) to spawn with doomCount=3, baseMoneyGenerated=-8 or something.   
+(What if the baseMoneyGenerated is equal to the original basePrice of the item...?)
+That way, the food item can be stored and reused.  Its a cool feature that adds variation.  
+=======>
+LIKEWISE: What if we had a 10% chance to spawn food-items with 1 extra life, but they were 50% more expensive? 
+
+
+## SPIKE:
+More items that cost *money* to use.
+We want money to be very much a finite-resource. Spreading the player thin!
+
 
 - ITEM: Adds DESTROY trigger to items
 
