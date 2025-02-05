@@ -8,10 +8,6 @@ Provides win/lose conditions
 ]]
 
 
-local interp = localization.newInterpolator
-local loc = localization.localize
-
-
 
 local EARLY_LEVELS = {
     60, 400, 1500, 4000, 10000, 35000
@@ -99,7 +95,6 @@ umg.defineEntityType("lootplot.s0:doom_clock", {
     image = "doom_clock",
 
     layer = "world",
-    triggers = {"RESET"},
 
     baseMaxActivations = 100,
 
@@ -117,12 +112,8 @@ umg.defineEntityType("lootplot.s0:doom_clock", {
 
     onActivate = function(ent)
         local round = lp.getAttribute("ROUND", ent)
-        local numOfRounds = lp.getAttribute("NUMBER_OF_ROUNDS", ent)
-        local requiredPoints = lp.getAttribute("REQUIRED_POINTS", ent)
-        local points = lp.getPoints(ent)
-
         local newRound = round + 1
-        lp.setAttribute("ROUND", ent, newRound)
+        lp.setRound(ent, newRound)
     end
 })
 

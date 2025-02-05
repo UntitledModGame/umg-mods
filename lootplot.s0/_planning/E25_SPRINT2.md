@@ -138,7 +138,7 @@ If mult is below 1, add 4 mult
 Perhaps we need to allow attributes to have default-values?
 
 
-- RESET items BEFORE Pulsing the plot. This ensures that REROLL archetype doesn't avoid activations.
+- (((DONE))) RESET items BEFORE Pulsing the plot. This ensures that REROLL archetype doesn't avoid activations.
 ALSO: We will need to refactor how the round-increment works.
 Currently, the round-increment works by listening to RESET trigger. But this will cause rounds to be incremented twice, which is nasty.
 Fix this!

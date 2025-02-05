@@ -18,32 +18,34 @@ local interp = localization.newInterpolator
 local function fogFilter(ppos, ent)
     local plot = ppos:getPlot()
     local team = ent.lootplotTeam
-    return plot:isFogRevealed(ppos, team) and lp.hasTrigger(ent, "PULSE")
+    if team then
+        return plot:isFogRevealed(ppos, team) and lp.hasTrigger(ent, "PULSE")
+    else
+        return false
+    end
 end
 
 ---@param ent Entity
----@param ppos lootplot.PPos
-local function startRound(ent, ppos)
+local function resetPlot(ent, ppos)
     local plot = ppos:getPlot()
     lp.queue(ppos, function()
         -- This will execute LAST.
-        plot:foreachLayerEntry(function(ent, ppos, layer)
-            lp.resetEntity(ent)
+        plot:foreachLayerEntry(function(e, _ppos, layer)
+            lp.resetEntity(e)
         end)
         lp.addMoney(ent, constants.MONEY_PER_ROUND)
         lp.setPointsMult(ent, 1)
         lp.setPointsBonus(ent, 0)
     end)
+end
 
-    -- pulse all slots:
-    lp.Bufferer()
-        :all(plot)
-        :to("SLOT_OR_ITEM") -- ppos-->slot
-        :filter(fogFilter)
-        :execute(function(_ppos, slotEnt)
-            lp.resetCombo(slotEnt)
-            lp.tryTriggerEntity("PULSE", slotEnt)
-        end)
+
+local function pulseWorldLayer(ent, plot)
+    plot:foreachLayerEntry(function(e, ppos, layer)
+        if layer == "world" then
+            lp.tryActivateEntity(e)
+        end
+    end)
 end
 
 
@@ -85,7 +87,22 @@ lp.defineSlot("lootplot.s0:pulse_button_slot", {
     onActivate = function(ent)
         local ppos=lp.getPos(ent)
         if ppos then
-            startRound(ent, ppos)
+            resetPlot(ent, ppos)
+
+            local plot = ppos:getPlot()
+            lp.Bufferer()
+                :all(plot)
+                :to("SLOT_OR_ITEM") -- ppos-->slot
+                :filter(fogFilter)
+                :execute(function(_ppos, slotEnt)
+                    lp.resetCombo(slotEnt)
+                    lp.tryTriggerEntity("PULSE", slotEnt)
+                end)
+
+            resetPlot(ent, ppos)
+
+            pulseWorldLayer(ent, plot)
+            -- ^^^ this needs to be done so the doomClock updates
         end
     end,
 })
