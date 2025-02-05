@@ -34,19 +34,6 @@ function singleplayer.getRun()
     return currentRun
 end
 
----Availability: Client and Server
----@param ent Entity
----@return number
-function singleplayer.getRound(ent)
-    return lp.getAttribute("ROUND", ent)
-end
----Availability: Client and Server
----@param ent Entity
-function singleplayer.setRound(ent, x)
-    lp.setAttribute("ROUND", ent, x)
-end
-
-
 
 
 local winLose = require("shared.win_lose")
