@@ -12,10 +12,8 @@ end
 
 
 helper.defineDelayItem("gift_box", "Gift Box", {
-    name = loc("Gift Box"),
-
     basePrice = 6,
-    baseMaxActivations = 2,
+    baseMaxActivations = 5,
 
     rarity = lp.rarities.RARE,
     triggers = {"PULSE"},

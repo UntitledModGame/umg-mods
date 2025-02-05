@@ -137,6 +137,34 @@ defItem("ping_pong_paddle", "Ping pong paddle", {
 
 
 
+helper.defineDelayItem("ruby_bar", "Ruby Bar", {
+    basePrice = 6,
+
+    rarity = lp.rarities.RARE,
+    triggers = {"PULSE"},
+
+    baseMaxActivations = 5,
+    basePointsGenerated = 4,
+    delayCount = 15,
+
+    delayDescription = "Give {lootplot:REPEATER_COLOR}repeater{/lootplot:REPEATER_COLOR} to items",
+
+    shape = lp.targets.RookShape(1),
+    target = {
+        type = "ITEM"
+    },
+
+    delayAction = function(selfEnt)
+        local items = lp.targets.getConvertedTargets(selfEnt)
+        for _, item in ipairs(items) do
+            item.repeatActivations = true
+            sync.syncComponent(item, "repeatActivations")
+            lp.destroy(selfEnt)
+        end
+    end
+})
+
+
 
 --[[
 
