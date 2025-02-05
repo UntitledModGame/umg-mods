@@ -295,17 +295,17 @@ defItem("anvil", "Anvil", {
 
 
 defItem("anchor", "Anchor", {
-    activateDescription = loc("Set {lootplot:POINTS_MULT_COLOR}mult{/lootplot:POINTS_MULT_COLOR} to 1"),
+    activateDescription = loc("Set {lootplot:POINTS_MULT_COLOR}mult{/lootplot:POINTS_MULT_COLOR} to 1.\nSet {lootplot:BONUS_COLOR}bonus{/lootplot:BONUS_COLOR} to 0."),
 
     rarity = lp.rarities.RARE,
     triggers = {"PULSE"},
 
     basePrice = 7,
-    baseMaxActivations = 3,
-    basePointsGenerated = 60,
+    baseMaxActivations = 10,
 
     onActivate = function(ent)
-        lp.setPointsMult(ent, 0)
+        lp.setPointsMult(ent, 1)
+        lp.setPointsBonus(ent, 0)
     end
 })
 
