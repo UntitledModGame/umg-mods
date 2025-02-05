@@ -154,6 +154,24 @@ Fix this!
 
 
 
+- Make negative-bonus display correctly.
+Currently, it displays like:  `(+-2 bonus)`.
+Maybe change color to red too...?
+
+
+- Have an end to the tutorial, (and maybe an exit-button?)
+
+- Have mult in tutorial. 
+(specifically; explain that putting mult BEFORE points is good!)
+
+- Have BONUS in tutorial.
+(specifically; explain that putting bonus BEFORE points is good!)
+
+- Explain target-visuals in the tutorial
+(dragonfruit item + potion, maybe?)
+
+
+
 ## (SPIKE)
 ### Create pro-bonus items:
 (ONLY DO THIS TASK WHEN YOU ARE FEELING REFRESHED AND CREATIVE!!!)
@@ -173,12 +191,6 @@ Or, items that add mult, but reduce BONUS.
 **IMPORTANT!!! Remember SYNERGIES!!! Try to make it emergent**
 
 
-
-- Make negative-bonus display correctly.
-Currently, it displays like:  `(+-2 bonus)`.
-Maybe change color to red too...?
-
-
 - Proc gen food items:
 Some food items should have a chance (say, 15%?) to spawn with doomCount=3, baseMoneyGenerated=-8 or something.   
 (What if the baseMoneyGenerated is equal to the original basePrice of the item...?)
@@ -187,8 +199,8 @@ That way, the food item can be stored and reused.  Its a cool feature that adds 
 LIKEWISE: What if we had a 10% chance to spawn food-items with 1 extra life, but they were 50% more expensive? 
 
 
-## SPIKE:
-More items that cost *money* to use.
+## (SPIKE)
+### More items that cost *money* to use.
 We want money to be very much a finite-resource. Spreading the player thin!
 
 
@@ -209,18 +221,6 @@ https://www.reddit.com/r/balatro/comments/1g0o0ax/wow_not_caring_about_the_endle
 
 - Change one-ball tutorial-text:
 Instead of appearing on top of slots, we should spawn a button
-
-
-- Have an end to the tutorial, (and maybe an exit-button?)
-
-- Have mult in tutorial. 
-(specifically; explain that putting mult BEFORE points is good!)
-
-- Have BONUS in tutorial.
-(specifically; explain that putting bonus BEFORE points is good!)
-
-- Explain target-visuals in the tutorial
-(dragonfruit item + potion, maybe?)
 
 
 

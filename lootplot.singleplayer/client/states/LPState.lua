@@ -305,6 +305,8 @@ local function getAccumTextRotAndScale(timeSinceChange)
 end
 
 
+local BONUS_TEXT = interp("(%{val} Bonus)")
+
 function LPState:drawHUD()
     local run = lp.singleplayer.getRun()
     if not run then return end
@@ -409,10 +411,19 @@ function LPState:drawHUD()
 
     local pBonus = self.bonusEffect.last
     if pBonus ~= 0 then
-        local bonText = "(+"..showNSignificant(pBonus, 1)..")"
+        local bonusVal
+        if pBonus > 0 then
+            love.graphics.setColor(lp.COLORS.BONUS_COLOR)
+            bonusVal = "+"..showNSignificant(pBonus, 1)
+        elseif pBonus < 0 then
+            love.graphics.setColor(lp.COLORS.BAD_COLOR)
+            bonusVal = "-"..showNSignificant(-pBonus, 1)
+        end
+        local bonText = BONUS_TEXT({
+            val = bonusVal
+        })
         local timeSinceBonusChange = ACCUMULATED_JOLT_DURATION - self.multiplierEffect.timeout
         local r, sc = getAccumTextRotAndScale(timeSinceBonusChange)
-        love.graphics.setColor(lp.COLORS.BONUS_COLOR)
         drawOnRight("{wavy}{outline thickness=4}", bonText, r, sc)
     end
 
