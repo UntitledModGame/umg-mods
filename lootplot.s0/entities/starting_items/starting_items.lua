@@ -163,6 +163,7 @@ definePerk("one_ball", {
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
         lp.setMoney(ent, constants.STARTING_MONEY)
+        lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
         spawnShop(ent)
         spawnNormal(ent)
         spawnRerollButton(ent)
@@ -199,6 +200,7 @@ definePerk("five_ball", {
         local ppos, team = getPosTeam(ent)
 
         lp.setMoney(ent, constants.STARTING_MONEY)
+        lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
         spawnShop(ent)
         spawnRerollButton(ent)
         spawnNormal(ent)
@@ -223,6 +225,7 @@ definePerk("nine_ball", {
 
     onActivateOnce = function(ent)
         lp.setMoney(ent, constants.STARTING_MONEY)
+        lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
         spawnShop(ent)
         spawnRerollButton(ent)
         spawnNormal(ent)
@@ -243,6 +246,7 @@ definePerk("eight_ball", {
         local ppos, team = getPosTeam(ent)
 
         lp.setMoney(ent, constants.STARTING_MONEY)
+        lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
         spawnShop(ent)
         spawnRerollButton(ent)
         spawnNormal(ent)
@@ -264,6 +268,7 @@ definePerk("fourteen_ball", {
         local ppos, team = getPosTeam(ent)
 
         lp.setMoney(ent, constants.STARTING_MONEY)
+        lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
         spawnShop(ent)
         spawnRerollButton(ent)
 
@@ -279,55 +284,19 @@ definePerk("fourteen_ball", {
 
 
 
-
-local function spawnSpecialGlassSlot(pos, team)
-    local ent = lp.trySpawnSlot(pos, server.entities.glass_slot, team)
-    if not ent then return end
-    if lp.SEED:randomMisc() < 0.2 then
-        lp.modifierBuff(ent, "pointsGenerated", 3)
-    end
-    if lp.SEED:randomMisc() < 0.2 then
-        ent.lives = 2
-    end
-    if lp.SEED:randomMisc() < 0.2 then
-        lp.modifierBuff(ent, "pointsGenerated", -2)
-    end
-    if lp.SEED:randomMisc() < 0.1 then
-        ent.doomCount = 4
-    end
-end
-
-
 definePerk("four_ball", {
-    --[[
-    The purpose of this item isnt really to be a "well-designed" starter item,
-    but rather, it serves to provide INSPIRATION for future modded starter-items!!!
-    YOU!!! PERSON READING THIS CODE!
-    BE INSPIRED!!!
-    (because im NGL, this item is designed very very poorly.)
-    ]]
     name = loc("Four Ball"),
-    description = loc("Starts with funny glass-slots"),
+    description = loc("Has an extra round per level"),
 
     onActivateOnce = function(ent)
-        local ppos, team = getPosTeam(ent)
-
         lp.setMoney(ent, constants.STARTING_MONEY)
+        local numRounds = constants.ROUNDS_PER_LEVEL + 1
+        lp.setAttribute("NUMBER_OF_ROUNDS", ent, numRounds)
         spawnNormal(ent)
         spawnShop(ent)
         spawnSell(ent)
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
-        local plot = ppos:getPlot()
-        local D = 7
-        local x,y = ppos:getCoords()
-        plot:foreachInArea(x-D,y-D,x+D,y+D, function(pos)
-            local xx,yy = pos:getCoords()
-            if (xx+yy) % 2 == 0 then
-                spawnSpecialGlassSlot(pos, team)
-            end
-        end)
-
         spawnDoomClock(ent)
     end
 })
@@ -344,6 +313,7 @@ definePerk("bowling_ball", {
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
         lp.setMoney(ent, constants.STARTING_MONEY)
+        lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
 
         spawnShop(ent)
         spawnSell(ent)

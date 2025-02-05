@@ -297,7 +297,8 @@ local ROUNDS_PER_LEVEL = 6
 lp.defineAttribute("NUMBER_OF_ROUNDS", ROUNDS_PER_LEVEL)
 -- The number of rounds allowed per level
 -- (should generally be kept constant.)
--- if ROUND > NUMBER_OF_ROUNDS, lose.
+-- (Typically, if ROUND > NUMBER_OF_ROUNDS, lose.)
+-- However, this attribute can be used however you like.
 
 ---Availability: Client and Server
 ---@param ent Entity
