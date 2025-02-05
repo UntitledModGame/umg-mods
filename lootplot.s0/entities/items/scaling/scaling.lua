@@ -39,7 +39,7 @@ end
 
 defineHelmet("iron_helmet", {
     name = loc("Iron Helmet"),
-    activateDescription = interp("Give all target items {lootplot:POINTS_COLOR}+2 points."),
+    activateDescription = interp("Give items {lootplot:POINTS_COLOR}+2 points."),
 
     triggers = {"PULSE"},
 
