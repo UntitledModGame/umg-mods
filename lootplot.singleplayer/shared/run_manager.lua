@@ -76,12 +76,12 @@ server.on("lootplot.singleplayer:startRun", function(clientId, runOptionsString)
     if server.getHostClient() == clientId then
         local runOptions = umg.deserialize(runOptionsString)
         startRunService.startGame(
-            lp.main.PLAYER_TEAM,
+            lp.singleplayer.PLAYER_TEAM,
             runOptions.starterItem,
             runOptions.worldgenItem,
             runOptions.background
         )
-        lp.setPlayerTeam(clientId, lp.main.PLAYER_TEAM)
+        lp.setPlayerTeam(clientId, lp.singleplayer.PLAYER_TEAM)
     end
 end)
 
@@ -89,7 +89,7 @@ server.on("lootplot.singleplayer:continueRun", function(clientId)
     if server.getHostClient() == clientId then
         local runSerialized = assert(loadRunServer())
         startRunService.continueGame(runSerialized.runData, runSerialized.rngState)
-        lp.setPlayerTeam(clientId, lp.main.PLAYER_TEAM)
+        lp.setPlayerTeam(clientId, lp.singleplayer.PLAYER_TEAM)
     end
 end)
 
@@ -107,7 +107,7 @@ umg.on("@playerJoin", function(clientId)
 end)
 
 umg.on("@quit", function()
-    local run = lp.main.getRun()
+    local run = lp.singleplayer.getRun()
 
     if run and run:getAttribute("LEVEL") >= 1 and run:getAttribute("ROUND") >= 1 then
         if run:isLose() then
@@ -119,7 +119,7 @@ umg.on("@quit", function()
 end)
 
 function runManager.saveRun()
-    local run = lp.main.getRun()
+    local run = lp.singleplayer.getRun()
 
     if run then
         saveRunServer(run)
@@ -143,7 +143,7 @@ if AUTOSAVE then
     local dirty = true
 
     umg.on("@tick", function(dt)
-        local run = lp.main.getRun()
+        local run = lp.singleplayer.getRun()
         if not run then return end
 
         if run:getPlot():isPipelineRunning() then

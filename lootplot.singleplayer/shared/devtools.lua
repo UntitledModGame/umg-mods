@@ -19,7 +19,7 @@ local runManager = require("shared.run_manager")
 if server then
 
 local function getPPos(clientId)
-    local ctx = assert(lp.main.getRun())
+    local ctx = assert(lp.singleplayer.getRun())
     local plot = ctx:getPlot()
 
     local player = control.getControlledEntities(clientId)[1]
@@ -50,7 +50,7 @@ chat.handleCommand("spawnItem", {
         local ppos = getPPos(clientId)
         local slotEnt = lp.posToSlot(ppos)
         if slotEnt or ctor.canItemFloat then
-            if not lp.forceSpawnItem(ppos, ctor, lp.main.PLAYER_TEAM) then
+            if not lp.forceSpawnItem(ppos, ctor, lp.singleplayer.PLAYER_TEAM) then
                 chat.privateMessage(clientId, "Cannot spawn item.")
             end
         else
@@ -77,7 +77,7 @@ chat.handleCommand("spawnSlot", {
             return
         end
         local ppos = getPPos(clientId)
-        lp.forceSpawnSlot(ppos, ctor, lp.main.PLAYER_TEAM)
+        lp.forceSpawnSlot(ppos, ctor, lp.singleplayer.PLAYER_TEAM)
     end
 })
 
@@ -93,7 +93,7 @@ chat.handleCommand("addMoney", {
             return
         end
 
-        local run = assert(lp.main.getRun())
+        local run = assert(lp.singleplayer.getRun())
         lp.addMoney(run:getPlot():getOwnerEntity(), amount)
     end
 })
@@ -109,7 +109,7 @@ chat.handleCommand("addPoints", {
             return
         end
 
-        local run = assert(lp.main.getRun())
+        local run = assert(lp.singleplayer.getRun())
         lp.addPoints(run:getPlot():getOwnerEntity(), amount)
     end
 })
@@ -208,10 +208,10 @@ chat.handleCommand("reveal", {
     handler = function(clientId, shapeName)
         if not server then return end
 
-        local run = assert(lp.main.getRun())
+        local run = assert(lp.singleplayer.getRun())
         local plot = run:getPlot()
         plot:foreach(function(ppos)
-            plot:setFogRevealed(ppos, lp.main.PLAYER_TEAM, true)
+            plot:setFogRevealed(ppos, lp.singleplayer.PLAYER_TEAM, true)
         end)
     end
 })
@@ -395,7 +395,7 @@ chat.handleCommand("spawnAllItems", {
     arguments = {},
     handler = function(clientId)
         if not server then return end
-        local run = lp.main.getRun()
+        local run = lp.singleplayer.getRun()
         if not run then return end
 
         local plot = run:getPlot()
@@ -441,7 +441,7 @@ chat.handleCommand("spawnAllItems", {
                     end
 
                     local ppos = plot:getPPos(x + X_OFFSET, y)
-                    local slot = lp.forceSpawnSlot(ppos, DEBUG_SLOT, lp.main.PLAYER_TEAM)
+                    local slot = lp.forceSpawnSlot(ppos, DEBUG_SLOT, lp.singleplayer.PLAYER_TEAM)
                     slot.target = itemETypeStr
                     lp.forceActivateEntity(slot)
 

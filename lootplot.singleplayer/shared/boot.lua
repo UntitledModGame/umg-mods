@@ -11,7 +11,7 @@ end)
 
 umg.on("@tick", function(dt)
     if server then
-        local run = lp.main.getRun()
+        local run = lp.singleplayer.getRun()
         if run then
             run:sync()
             run:tick(dt)

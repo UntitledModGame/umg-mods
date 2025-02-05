@@ -20,7 +20,7 @@ end)
 
 
 umg.on("@tick", function(dt)
-    local ctx = lp.main.getRun()
+    local ctx = lp.singleplayer.getRun()
 
     if ctx then
         local p = ctx:getPlot()

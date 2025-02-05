@@ -13,13 +13,13 @@ local function clampByMinMax(value, minV, maxV)
 end
 
 umg.on("@update", function()
-    local run = lp.main.getRun()
+    local run = lp.singleplayer.getRun()
     if run then
         local plot = run:getPlot()
         local topPPos = plot:getPPos(0, 0)
         local bottomPPos = plot:getPPos(
-            lp.main.constants.WORLD_PLOT_SIZE[1] - 1,
-            lp.main.constants.WORLD_PLOT_SIZE[2] - 1
+            lp.singleplayer.constants.WORLD_PLOT_SIZE[1] - 1,
+            lp.singleplayer.constants.WORLD_PLOT_SIZE[2] - 1
         )
 
         local topWorldX, topWorldY = topPPos:getWorldPos()

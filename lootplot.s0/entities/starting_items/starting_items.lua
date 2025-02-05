@@ -3,6 +3,8 @@ local loc = localization.localize
 local interp = localization.newInterpolator
 local wg = lp.worldgen
 
+local constants = require("shared.constants")
+
 
 local function definePerk(id, etype)
     etype.image = etype.image or id
@@ -125,14 +127,14 @@ umg.defineEntityType("lootplot.s0:one_ball_tutorial_text", {
     drawDepth = 200,
 
     onUpdateServer = function(ent)
-        local run = lp.main.getRun()
+        local run = lp.singleplayer.getRun()
         if run and run:getAttribute("ROUND") > 1 then
             ent:delete()
         end
     end,
 
     onUpdateClient = function(ent)
-        local run = lp.main.getRun()
+        local run = lp.singleplayer.getRun()
         if run then
             local plot = run:getPlot()
             local ppos = plot:getPPos(ent.pposX, ent.pposY)
@@ -160,6 +162,7 @@ definePerk("one_ball", {
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
+        lp.setMoney(ent, constants.STARTING_MONEY)
         spawnShop(ent)
         spawnNormal(ent)
         spawnRerollButton(ent)
@@ -172,7 +175,7 @@ definePerk("one_ball", {
         -- Display tutorial text
         spawnTutorialText(assert(ppos:move(0, -3)), {
             text = OBJECTIVE_TEXT({
-                numRounds = lp.main.getNumberOfRounds(ent)
+                numRounds = lp.getNumberOfRounds(ent)
             }),
             align = "center",
             oy = 10
@@ -195,6 +198,7 @@ definePerk("five_ball", {
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
 
+        lp.setMoney(ent, constants.STARTING_MONEY)
         spawnShop(ent)
         spawnRerollButton(ent)
         spawnNormal(ent)
@@ -218,6 +222,7 @@ definePerk("nine_ball", {
     baseMaxActivations = 1,
 
     onActivateOnce = function(ent)
+        lp.setMoney(ent, constants.STARTING_MONEY)
         spawnShop(ent)
         spawnRerollButton(ent)
         spawnNormal(ent)
@@ -237,6 +242,7 @@ definePerk("eight_ball", {
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
 
+        lp.setMoney(ent, constants.STARTING_MONEY)
         spawnShop(ent)
         spawnRerollButton(ent)
         spawnNormal(ent)
@@ -256,6 +262,8 @@ definePerk("fourteen_ball", {
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
+
+        lp.setMoney(ent, constants.STARTING_MONEY)
         spawnShop(ent)
         spawnRerollButton(ent)
 
@@ -304,6 +312,7 @@ definePerk("four_ball", {
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
 
+        lp.setMoney(ent, constants.STARTING_MONEY)
         spawnNormal(ent)
         spawnShop(ent)
         spawnSell(ent)
@@ -334,6 +343,7 @@ definePerk("bowling_ball", {
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
+        lp.setMoney(ent, constants.STARTING_MONEY)
 
         spawnShop(ent)
         spawnSell(ent)

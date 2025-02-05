@@ -7,7 +7,7 @@ if server then
 ---@param clientId string|nil
 ---@param win boolean
 function winLose.endGame(clientId, win)
-    local run = assert(lp.main.getRun())
+    local run = assert(lp.singleplayer.getRun())
 
     if win then
         local plot = run:getPlot()

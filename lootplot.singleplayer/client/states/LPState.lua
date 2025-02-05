@@ -91,7 +91,7 @@ function LPState:init()
 
     -- self.listener:onReleased("input:CLICK_PRIMARY", function()
     --     if not self.claimedByControl then
-    --         local run = lp.main.getRun()
+    --         local run = lp.singleplayer.getRun()
 
     --         if run then
     --             local plot = run:getPlot()
@@ -230,7 +230,7 @@ function LPState:update(dt)
         end
     end
 
-    local run = lp.main.getRun()
+    local run = lp.singleplayer.getRun()
     if run then
         local mulEffect = self.multiplierEffect
         mulEffect.timeout = math.max(mulEffect.timeout - dt, 0)
@@ -306,7 +306,7 @@ end
 
 
 function LPState:drawHUD()
-    local run = lp.main.getRun()
+    local run = lp.singleplayer.getRun()
     if not run then return end
 
     local gs = globalScale.get()

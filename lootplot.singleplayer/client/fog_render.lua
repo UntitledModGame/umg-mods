@@ -41,7 +41,7 @@ end
 ---@param ppos lootplot.PPos
 local function drawFog(ppos)
     local plot = ppos:getPlot()
-    if not plot:isFogRevealed(ppos, lp.main.PLAYER_TEAM) then
+    if not plot:isFogRevealed(ppos, lp.singleplayer.PLAYER_TEAM) then
         local x,y,_dim = plot:pposToWorldCoords(ppos)
         local i = ppos:getSlotIndex()
         local img = FOG_CLOUDS[(i % NUM_CLOUDS) + 1]
@@ -56,7 +56,7 @@ end
 
 ---@param camera camera.Camera
 umg.on("rendering:drawEffects", function(camera)
-    local run = lp.main.getRun()
+    local run = lp.singleplayer.getRun()
     if not run then return end
 
     -- Get plot foreach area
@@ -87,5 +87,5 @@ umg.answer("rendering:isHidden", function(ent)
     end
 
     local plot = ppos:getPlot()
-    return not plot:isFogRevealed(ppos, lp.main.PLAYER_TEAM)
+    return not plot:isFogRevealed(ppos, lp.singleplayer.PLAYER_TEAM)
 end)

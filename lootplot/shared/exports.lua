@@ -280,6 +280,18 @@ lp.defineAttribute("LEVEL", 1)
 
 -- ROUND = current round number
 lp.defineAttribute("ROUND", 1)
+---@param ent Entity
+---@return number
+function lp.getRound(ent)
+    return lp.getAttribute("ROUND", ent)
+end
+---@param ent Entity
+---@param x number
+function lp.setRound(ent, x)
+    lp.setAttribute("ROUND", ent, x)
+end
+
+
 
 local ROUNDS_PER_LEVEL = 6
 lp.defineAttribute("NUMBER_OF_ROUNDS", ROUNDS_PER_LEVEL)
@@ -287,8 +299,24 @@ lp.defineAttribute("NUMBER_OF_ROUNDS", ROUNDS_PER_LEVEL)
 -- (should generally be kept constant.)
 -- if ROUND > NUMBER_OF_ROUNDS, lose.
 
+---Availability: Client and Server
+---@param ent Entity
+---@return number
+function lp.getNumberOfRounds(ent)
+    return lp.getAttribute("NUMBER_OF_ROUNDS", ent)
+end
+
+
 lp.defineAttribute("REQUIRED_POINTS", -1)
--- once we reach this number, we can progress to next level.
+-- The required-points for some condition.
+-- Can be used in any way that is deemed fit
+
+---@param ent Entity
+---@return number
+function lp.getRequiredPoints(ent)
+    return lp.getAttribute("REQUIRED_POINTS", ent)
+end
+
 
 -- IMPORTANT NOTE::::
 -- Note that these "optional attributes" don't *need* to be used.

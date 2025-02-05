@@ -5,11 +5,11 @@
 ]]
 
 -- selene: allow(incorrect_standard_library_use)
-assert(not lp.main, "invalid mod setup")
+assert(not lp.singleplayer, "invalid mod setup")
 ---@class lootplot.singleplayer
-local main = {}
+local singleplayer = {}
 
-main.PLAYER_TEAM = "@player" -- Player team
+singleplayer.PLAYER_TEAM = "@player" -- Player team
 
 
 local currentRun = nil
@@ -29,38 +29,23 @@ end)
 
 ---Availability: Client and Server
 ---@return lootplot.singleplayer.Run|nil
-function main.getRun()
-    -- assert(currentRun, "Not ready yet! (Check using lp.main.isReady() )")
+function singleplayer.getRun()
+    -- assert(currentRun, "Not ready yet! (Check using lp.singleplayer.isReady() )")
     return currentRun
 end
 
 ---Availability: Client and Server
 ---@param ent Entity
 ---@return number
-function main.getRound(ent)
+function singleplayer.getRound(ent)
     return lp.getAttribute("ROUND", ent)
 end
 ---Availability: Client and Server
 ---@param ent Entity
-function main.setRound(ent, x)
+function singleplayer.setRound(ent, x)
     lp.setAttribute("ROUND", ent, x)
 end
 
-
-
----Availability: Client and Server
----@param ent Entity
----@return number
-function main.getNumberOfRounds(ent)
-    return lp.getAttribute("NUMBER_OF_ROUNDS", ent)
-end
-
----Availability: Client and Server
----@param ent Entity
----@return number
-function main.getRequiredPoints(ent)
-    return lp.getAttribute("REQUIRED_POINTS", ent)
-end
 
 
 
@@ -70,24 +55,19 @@ if server then
     ---Availability: **Server**
     ---@param clientId string|nil
     ---@param win boolean
-    function main.endGame(clientId, win)
+    function singleplayer.endGame(clientId, win)
         return winLose.endGame(clientId, win)
     end
 end
 
 ---Availability: Client and Server
-main.constants = setmetatable({
+singleplayer.constants = setmetatable({
     --[[
         feel free to override any of these.
         Access via `lootplot.singleplayer.constants`
     ]] 
     WORLD_PLOT_SIZE = {60, 40},
-
-    STARTING_MONEY = 10,
-    STARTING_POINTS = 0,
-    ROUNDS_PER_LEVEL = 6,
-    MONEY_PER_ROUND = 5,
 },{__index=function(msg,k,v) error("undefined const: " .. tostring(k)) end})
 
 ---Availability: Client and Server
-lp.main = main
+lp.singleplayer = singleplayer

@@ -54,7 +54,7 @@ end
 
 local function fogFilter(ppos)
     local plot = ppos:getPlot()
-    return plot:isFogRevealed(ppos, lp.main.PLAYER_TEAM)
+    return plot:isFogRevealed(ppos, lp.singleplayer.PLAYER_TEAM)
 end
 
 ---@param plot lootplot.Plot
@@ -86,18 +86,18 @@ local function spawnItemAndSlots(midPPos, team, perk, wgen)
     local plot = midPPos:getPlot()
     -- Hide all fog by default
     plot:foreach(function(ppos)
-        plot:setFogRevealed(ppos, lp.main.PLAYER_TEAM, false)
+        plot:setFogRevealed(ppos, lp.singleplayer.PLAYER_TEAM, false)
     end)
     -- Clear circle center
-    circularFogClear(plot, midPPos, lp.main.PLAYER_TEAM, 4)
-    assert(plot:isFogRevealed(midPPos, lp.main.PLAYER_TEAM))
+    circularFogClear(plot, midPPos, lp.singleplayer.PLAYER_TEAM, 4)
+    assert(plot:isFogRevealed(midPPos, lp.singleplayer.PLAYER_TEAM))
 
     -- Perk item floats
     lp.forceSpawnItem(midPPos, server.entities[perk], team)
 
     -- Worldgen item must be done afterwards, so culling works
     local worldgenPPos = assert(midPPos:move(0, -4))
-    plot:setFogRevealed(worldgenPPos, lp.main.PLAYER_TEAM, true)
+    plot:setFogRevealed(worldgenPPos, lp.singleplayer.PLAYER_TEAM, true)
     lp.forceSpawnItem(worldgenPPos, server.entities[wgen], team)
 
     scheduling.delay(0.1, function()

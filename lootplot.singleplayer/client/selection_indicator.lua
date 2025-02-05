@@ -83,7 +83,7 @@ end
 
 ---@param camera camera.Camera
 umg.on("rendering:drawEffects", function(camera)
-    local run = lp.main.getRun()
+    local run = lp.singleplayer.getRun()
     if not run then
         return
     end

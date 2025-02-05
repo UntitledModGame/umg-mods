@@ -46,11 +46,9 @@ function Run:init(perkItem, bg)
 
     ent.plot = lp.Plot(
         ent,
-        lp.main.constants.WORLD_PLOT_SIZE[1],
-        lp.main.constants.WORLD_PLOT_SIZE[2]
+        lp.singleplayer.constants.WORLD_PLOT_SIZE[1],
+        lp.singleplayer.constants.WORLD_PLOT_SIZE[2]
     )
-
-    local constants = lp.main.constants
 
     self.perkItem = perkItem
     self.currentBackground = bg
@@ -60,9 +58,6 @@ function Run:init(perkItem, bg)
     for _, a in ipairs(lp.getAllAttributes()) do
         self.attrs[a] = lp.getAttributeDefault(a)
     end
-
-    self.attrs.MONEY = constants.STARTING_MONEY
-    self.attrs.POINTS = constants.STARTING_POINTS
 end
 
 
@@ -223,7 +218,7 @@ function Run:getBackground()
 end
 
 umg.on("lootplot.backgrounds:backgroundChanged", function(bg)
-    local run = lp.main.getRun()
+    local run = lp.singleplayer.getRun()
     if run then
         run.currentBackground = bg
     end

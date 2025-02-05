@@ -5,6 +5,11 @@ local constants = {
 
     DEFAULT_GRUB_MONEY_CAP = 10,
 
+    STARTING_MONEY = 10,
+    STARTING_POINTS = 0,
+    ROUNDS_PER_LEVEL = 6,
+    MONEY_PER_ROUND = 5,
+
     GOLDSMITH_MONEY_REQUIREMENT = 20,
 
     -- item tags:

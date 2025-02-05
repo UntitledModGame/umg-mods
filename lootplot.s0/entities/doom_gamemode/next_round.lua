@@ -9,12 +9,16 @@ Progresses to next-round, be activating and resetting the whole slot.
 
 ]]
 
+local constants = require("shared.constants")
+
+
 local loc = localization.localize
 local interp = localization.newInterpolator
 
 local function fogFilter(ppos, ent)
     local plot = ppos:getPlot()
-    return plot:isFogRevealed(ppos, lp.main.PLAYER_TEAM) and lp.hasTrigger(ent, "PULSE")
+    local team = ent.lootplotTeam
+    return plot:isFogRevealed(ppos, team) and lp.hasTrigger(ent, "PULSE")
 end
 
 ---@param ent Entity
@@ -26,7 +30,7 @@ local function startRound(ent, ppos)
         plot:foreachLayerEntry(function(ent, ppos, layer)
             lp.resetEntity(ent)
         end)
-        lp.addMoney(ent, lp.main.constants.MONEY_PER_ROUND)
+        lp.addMoney(ent, constants.MONEY_PER_ROUND)
         lp.setPointsMult(ent, 1)
         lp.setPointsBonus(ent, 0)
     end)
@@ -37,10 +41,6 @@ local function startRound(ent, ppos)
         :to("SLOT_OR_ITEM") -- ppos-->slot
         :filter(fogFilter)
         :execute(function(_ppos, slotEnt)
-            if slotEnt.lootplotTeam ~= lp.main.PLAYER_TEAM then
-                return
-            end
-
             lp.resetCombo(slotEnt)
             lp.tryTriggerEntity("PULSE", slotEnt)
         end)
@@ -74,8 +74,8 @@ lp.defineSlot("lootplot.s0:pulse_button_slot", {
     buttonSlot = true,
 
     canActivate = function(ent)
-        local round = lp.main.getRound(ent)
-        local numOfRounds = lp.main.getNumberOfRounds(ent)
+        local round = lp.getRound(ent)
+        local numOfRounds = lp.getNumberOfRounds(ent)
         if round < (numOfRounds + 1) then
             return true
         end
@@ -109,7 +109,7 @@ local function nextLevel(ent)
     if not ppos then return end
 
     lp.setPoints(ent, 0)
-    lp.main.setRound(ent, 1)
+    lp.setRound(ent, 1)
     lp.setLevel(ent, lp.getLevel(ent) + 1)
 
     local plot = ppos:getPlot()
@@ -135,7 +135,7 @@ lp.defineSlot("lootplot.s0:next_level_button_slot", {
     activateDescription = function(ent)
         if umg.exists(ent) then
             local points = lp.getPoints(ent)
-            local requiredPoints = lp.main.getRequiredPoints(ent)
+            local requiredPoints = lp.getRequiredPoints(ent)
             local pointsLeft = requiredPoints - points
             if pointsLeft <= 0 then
                 return NEXT_LEVEL({name = lp.getTriggerDisplayName("LEVEL_UP")})
@@ -167,7 +167,7 @@ lp.defineSlot("lootplot.s0:next_level_button_slot", {
     end,
 
     canActivate = function(ent)
-        local requiredPoints = lp.main.getRequiredPoints(ent)
+        local requiredPoints = lp.getRequiredPoints(ent)
         local points = lp.getPoints(ent)
         if points >= requiredPoints then
             return true

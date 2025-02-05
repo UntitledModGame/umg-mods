@@ -4,7 +4,7 @@ local loc = localization.localize
 
 umg.defineEntityType("lootplot.s0:tutorial_text", {
     onUpdateClient = function(ent)
-        local run = lp.main.getRun()
+        local run = lp.singleplayer.getRun()
         if run then
             local plot = run:getPlot()
             ent.x, ent.y = plot:getPPos(ent.pposX, ent.pposY):getWorldPos()
@@ -355,7 +355,7 @@ lp.defineItem(TUT_CAT_ID, {
 
         addText(ent, 0,2, MOVEMENT_TEXT)
 
-        clearFogInCircle(fromMiddle(ent,0,0), lp.main.PLAYER_TEAM, 9.8)
+        clearFogInCircle(fromMiddle(ent,0,0), ent.lootplotTeam, 9.8)
     end
 })
 

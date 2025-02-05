@@ -58,11 +58,6 @@ end
 ]]
 
 
-local function lose()
-    lp.main.endGame(nil, false)
-end
-
-
 --[[
     This code tries to relocate the doom clock if ther are slot or item below it.
 ]]
@@ -110,7 +105,7 @@ umg.defineEntityType("lootplot.s0:doom_clock", {
 
     onUpdateServer = function(ent)
         local level = lp.getLevel(ent)
-        local currentRequiredPoints = lp.main.getRequiredPoints(ent)
+        local currentRequiredPoints = lp.getRequiredPoints(ent)
         local neededRequiredPoints = getRequiredPoints(level)
 
         if currentRequiredPoints ~= neededRequiredPoints then
@@ -121,16 +116,13 @@ umg.defineEntityType("lootplot.s0:doom_clock", {
     onUpdateClient = moveClockToClearPosition,
 
     onActivate = function(ent)
-        local round = lp.main.getRound(ent)
-        local numOfRounds = lp.main.getNumberOfRounds(ent)
-        local requiredPoints = lp.main.getRequiredPoints(ent)
+        local round = lp.getAttribute("ROUND", ent)
+        local numOfRounds = lp.getAttribute("NUMBER_OF_ROUNDS", ent)
+        local requiredPoints = lp.getAttribute("REQUIRED_POINTS", ent)
         local points = lp.getPoints(ent)
 
         local newRound = round + 1
-        lp.main.setRound(ent, newRound)
-        if (newRound > numOfRounds) and (points < requiredPoints) then
-            lose()
-        end
+        lp.setAttribute("ROUND", ent, newRound)
     end
 })
 
