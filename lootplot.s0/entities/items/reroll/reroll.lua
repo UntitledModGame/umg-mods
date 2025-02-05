@@ -88,6 +88,9 @@ defineDice("red_die", "Red Die", {
 })
 
 
+
+-- Black Die:
+-- When rerolled, PULSE items
 defineDice("black_die", "Black Die", {
     triggers = {"REROLL"},
     activateDescription = loc("{lootplot:TRIGGER_COLOR}{wavy}PULSES{/wavy}{/lootplot:TRIGGER_COLOR} item."),

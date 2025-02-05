@@ -144,7 +144,38 @@ Currently, the round-increment works by listening to RESET trigger. But this wil
 Fix this!
 
 
-- Remove golden-cap. It's poorly designed. Remove other caps too...?
+- (((DONE))) Remove golden-cap. It's poorly designed. Remove other caps too...?
+
+
+- (((DONE))) Change hammer items --> scythe items
+- (((DONE))) Create NEW hammer items --> Earn points, lose BONUS
+
+- (((DONE))) Create bonus archetype folders
+
+
+
+## (SPIKE)
+### Create pro-bonus items:
+(ONLY DO THIS TASK WHEN YOU ARE FEELING REFRESHED AND CREATIVE!!!)
+- ITEM: lose bonus, increase mult
+- ITEM-2: gain bonus, decrease mult
+- ITEM-3: earn 30 points, decrease bonus by 1
+- ITEM-4: If bonus is more/less than X, do XYZ
+- BONUS-SHIELD: If bonus is negative, make bonus positive
+- (Create more BONUS items; be creative; look for SYNERGIES.)
+- Do something with feather-item (was removed due to mana changes)
+**IMPORTANT!!! Remember SYNERGIES!!! Try to make it emergent**
+========>  
+## Create anti-bonus items
+EG: Item: lose -5 bonus. Gain +1 mult.
+Items that generate LARGE amounts of points, but reduce BONUS.
+Or, items that add mult, but reduce BONUS.
+**IMPORTANT!!! Remember SYNERGIES!!! Try to make it emergent**
+
+
+
+
+- ITEM: Adds DESTROY trigger to items
 
 
 - Simplify Anvil. It's a biiiit complex...?
@@ -154,6 +185,9 @@ Maybe make it related to BONUS or something...?
 - Destroy all shop-slots after LEVEL-10.
 This prevents the player ruining the game for themselves.
 https://www.reddit.com/r/balatro/comments/1g0o0ax/wow_not_caring_about_the_endless_mode_made_the/
+
+
+- ITEM: panic button: Set round to 1. Destroy half of items.
 
 
 - Change one-ball tutorial-text:
@@ -188,27 +222,9 @@ Add a bunch more items that rotate stuff, BUT ALSO do other stuff.
 
 
 
-- SPIKE: Do something with feather-item (was removed due to mana changes)
-
-
 ## (SPIKE: PLANNING)
 - Rework shards to do something else
 (Ideally, we want them to *NOT* destroy themselves when used, lmao)
-
-
-## (SPIKE)
-### Create Items interacting with BONUS:
-(ONLY DO THIS TASK WHEN YOU ARE FEELING REFRESHED AND CREATIVE!!!)
-- ITEM: lose bonus, increase mult
-- ITEM-2: gain bonus, decrease mult
-- ITEM-3: earn 30 points, decrease bonus by 1
-- ITEM-4: If bonus is more/less than X, do XYZ
-- BONUS-SHIELD: If bonus is negative, make bonus positive
-- (Create more BONUS items; be creative; look for SYNERGIES.)
-
-## (SPIKE bonus-2)
-Make sure to have items that have an ANTI-SYNERGY with Bonus!!
-EG: Item: lose -5 bonus. Gain +1 mult.
 
 
 

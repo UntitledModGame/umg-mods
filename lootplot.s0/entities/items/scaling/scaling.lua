@@ -78,7 +78,7 @@ defItem("moon_knife", {
 
 defineHelmet("ruby_helmet", {
     name = loc("Ruby Helmet"),
-    activateDescription = loc("Give +1 activations to all target items.\n(Capped at 20)"),
+    activateDescription = loc("Give +1 activations to items.\n(Capped at 20)"),
 
     triggers = {"PULSE"},
 
@@ -105,7 +105,7 @@ defineHelmet("ruby_helmet", {
 
 defineHelmet("emerald_helmet", {
     name = loc("Emerald Helmet"),
-    activateDescription = loc("Give target items {lootplot:POINTS_MOD_COLOR}+1 points."),
+    activateDescription = loc("Give items {lootplot:POINTS_MOD_COLOR}+1 points."),
 
     triggers = {"REROLL", "PULSE"},
 
@@ -171,18 +171,3 @@ defineHelmet("demon_helmet", {
 
 
 
-
---[[
-
-NEW ITEM IDEAS:
-
-
-
-
-Sticky helmet:
-Give all STICKY items +6 points
-
-
-
-
-]]

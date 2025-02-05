@@ -1,12 +1,42 @@
 
-
 --[[
 
-Items that interact with BONUS mechanism
+BONUS-PRO:
+
+----------
+
+Items that work well with high-bonus,
+Or items that INCREASE bonus.
+
+----------
+
+
+NOTE:
+ruby-items, (and any multiple-activation item), automatically
+synergizes REALLY well with bonus.
 
 
 
-TODO!
+=====================
+ITEM IDEAS
+=====================
+
+Blue pin:
+Set bonus to 8
+(^^^ same as red pin, but for bonus)
+
+Bonus capsule:
+Lose 40 points
+Add 4 bonus
+
+
+ITEM: 
+Loses 1 point.
+(repeatActivations = true)
+(has 40 activations!) 
+
+
+
 ]]
 
 
@@ -31,4 +61,5 @@ defItem("morning_star", "Morning Star", {
     baseBonusGenerated = 5,
     baseMultGenerated = -0.1
 })
+
 
