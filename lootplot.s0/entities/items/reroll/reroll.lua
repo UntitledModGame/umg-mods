@@ -44,6 +44,30 @@ defineDice("white_die", "White Die", {
 
 
 
+-- Orange Die: 
+-- Rotates items
+defineDice("orange_die", "Orange Die", {
+    activateDescription = loc("Rotates items"),
+
+    shape = lp.targets.RookShape(1),
+
+    triggers = {"REROLL"},
+
+    rarity = lp.rarities.RARE,
+
+    basePrice = 6,
+    baseMaxActivations = 30,
+
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.rotateItem(targetEnt, 1)
+        end,
+    }
+})
+
+
+
 -- Red Die: 
 -- When rerolled, gain 0.2 mult
 defineDice("red_die", "Red Die", {
