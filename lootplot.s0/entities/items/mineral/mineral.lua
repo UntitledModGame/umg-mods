@@ -159,16 +159,16 @@ end
 
 
 
-local HAMMER_DESC = interp("Destroys a random target item")
+local SCYTHE_DESC = interp("Destroys items")
 
-local function defineHammer(mineral_type, name, strength, etype)
+local function defineScythe(mineral_type, name, strength, etype)
     local namespace = umg.getModName() .. ":"
-    local etypeName = namespace .. mineral_type .. "_hammer"
-    local image = mineral_type .. "_hammer"
+    local etypeName = namespace .. mineral_type .. "_scythe"
+    local image = mineral_type .. "_scythe"
 
     local hammerType = {
         image = image,
-        name = loc(name .. " Hammer"),
+        name = loc(name .. " Scythe"),
 
         mineralType = mineral_type,
 
@@ -179,16 +179,13 @@ local function defineHammer(mineral_type, name, strength, etype)
 
         shape = lp.targets.RookShape(1),
 
-        activateDescription = HAMMER_DESC,
-
-        onActivate = function(ent)
-            local items = lp.targets.getConvertedTargets(ent)
-            local e = table.random(items)
-            lp.destroy(e)
-        end,
+        activateDescription = SCYTHE_DESC,
 
         target = {
             type = "ITEM",
+            activate = function(selfEnt, ppos, itemEnt)
+                lp.destroy(itemEnt)
+            end
         }
     }
 
@@ -198,6 +195,33 @@ local function defineHammer(mineral_type, name, strength, etype)
 
     defineMineral(mineral_type, etypeName, hammerType)
 end
+
+
+
+local function defineHammer(mineral_type, name, strength, etype)
+    local namespace = umg.getModName() .. ":"
+    local etypeName = namespace .. mineral_type .. "_hammer"
+    local image = mineral_type .. "_hammer"
+
+    local hammerType = {
+        image = image,
+        name = loc(name .. " Hammer"),
+
+        basePointsGenerated = strength * 20,
+        baseBonusGenerated = strength * -2,
+
+        rarity = etype.rarity or lp.rarities.RARE,
+
+        basePrice = 12,
+    }
+    for k,v in pairs(etype) do
+        hammerType[k] = v
+    end
+
+    defineMineral(mineral_type, etypeName, hammerType)
+end
+
+
 
 
 
@@ -283,6 +307,7 @@ local function defineMineralClass(mineral_type, name, strength, etype)
     defineShovel(mineral_type, name, strength, etype)
     defineSpear(mineral_type, name, strength,  etype)
     defineHammer(mineral_type, name, strength,  etype)
+    defineScythe(mineral_type, name, strength,  etype)
     defineCrossbow(mineral_type, name, strength,  etype)
 end
 
