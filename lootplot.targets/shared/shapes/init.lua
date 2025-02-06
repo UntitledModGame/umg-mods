@@ -95,6 +95,20 @@ shapes.ON_SHAPE = {
 }
 
 
+function shapes.NorthEastShape(x)
+    return UniDirectionalShape(1, -1, x, "NE-" .. tostring(x))
+end
+function shapes.NorthWestShape(x)
+    return UniDirectionalShape(-1, -1, x, "NW-" .. tostring(x))
+end
+function shapes.SouthEastShape(x)
+    return UniDirectionalShape(1, 1, x, "SE-" .. tostring(x))
+end
+function shapes.SouthWestShape(x)
+    return UniDirectionalShape(-1, 1, x, "SW-" .. tostring(x))
+end
+
+
 function shapes.UpShape(x)
     return UniDirectionalShape(0, -1, x, "UP-" .. tostring(x))
 end

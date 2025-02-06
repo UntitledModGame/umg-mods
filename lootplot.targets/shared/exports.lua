@@ -23,6 +23,11 @@ targets.DownShape = shapes.DownShape
 targets.LeftShape = shapes.LeftShape
 targets.RightShape = shapes.RightShape
 
+targets.NorthEastShape = shapes.NorthEastShape
+targets.NorthWestShape = shapes.NorthWestShape
+targets.SouthEastShape = shapes.SouthEastShape
+targets.SouthWestShape = shapes.SouthWestShape
+
 
 -- Pre-defined shape instance
 targets.KING_SHAPE = shapes.KING_SHAPE

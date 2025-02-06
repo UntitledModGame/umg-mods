@@ -58,6 +58,9 @@ local function floorTo01(x)
 end
 
 
+
+local SPEAR_PULSE_DESC = loc("{lootplot:TRIGGER_COLOR}Pulses{/lootplot:TRIGGER_COLOR} items.")
+
 local function defineSpear(mineral_type, name, strength, etype)
     local namespace = umg.getModName() .. ":"
     local etypeName = namespace .. mineral_type .. "_spear"
@@ -67,7 +70,17 @@ local function defineSpear(mineral_type, name, strength, etype)
         image = image,
         name = loc(name .. " Spear"),
 
+        activateDescription = SPEAR_PULSE_DESC,
+
         baseMultGenerated = floorTo01(0.2 * strength),
+
+        shape = lp.targets.NorthEastShape(1),
+        target = {
+            type = "ITEM",
+            activate = function(selfEnt, ppos, itemEnt)
+                lp.tryTriggerEntity("PULSE", itemEnt)
+            end
+        },
 
         rarity = etype.rarity or lp.rarities.RARE,
 

@@ -50,6 +50,11 @@ for i = 1, 5 do
     makeTest(shapes.DownShape(i))
     makeTest(shapes.LeftShape(i))
     makeTest(shapes.RightShape(i))
+
+    makeTest(shapes.NorthEastShape(i))
+    makeTest(shapes.NorthWestShape(i))
+    makeTest(shapes.SouthEastShape(i))
+    makeTest(shapes.SouthWestShape(i))
 end
 
 
