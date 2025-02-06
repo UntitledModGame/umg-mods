@@ -159,7 +159,7 @@ defItem("steak_maker", "Steak Maker", {
             lp.trySpawnItem(ppos, server.entities.raw_steak, ent.lootplotTeam)
         end
     },
-    shape = lp.targets.UpShape(3),
+    shape = lp.targets.KingShape(1),
 
     rarity = lp.rarities.RARE,
 })
