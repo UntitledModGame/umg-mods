@@ -185,6 +185,53 @@ Maybe change color to red too...?
 - (((DONE))) Have an end to the tutorial, (and maybe an exit-button?)
 
 
+
+- Create diagonal-shapes
+
+
+- SHOVEL-ITEM CHANGES:
+if item has DESTROY trigger, destroy item
+
+
+- ITEM:
+On destroy, generate 5 points 10 times  (great w/ bonus)
+
+- ITEM:
+On destroy, give +5 mult
+
+- ITEM: Rock printer
+Adds +0.5 mult. Spawn rocks. (shape=ABOVE-2)
+
+- ITEM:
+On LEVEL-UP, BUY:  Add +1 bonus to items/slots (ROOK-3)
+
+- ITEM:
+On LEVEL-UP, BUY:  Add +0.2 mult to items/slots (ROOK-3)
+
+- ITEM:
+On LEVEL-UP, BUY:  Add +10 points to items/slots (ROOK-3)
+
+- ITEM: Salmon steak:
+Trigger BUY, LEVEL-UP, ROTATE, and REROLL on targetted items.
+doomCount = 1
+
+- Simplify Anvil. It's a biiiit complex...?
+Maybe make it related to BONUS or something...?
+
+
+- Destroy all shop-slots after LEVEL-10.
+This prevents the player ruining the game for themselves.
+https://www.reddit.com/r/balatro/comments/1g0o0ax/wow_not_caring_about_the_endless_mode_made_the/
+
+
+- ITEM: panic button: Set round to 1. Destroy half of items.
+
+
+- Change one-ball tutorial-text:
+Instead of appearing on top of slots, we should spawn a button
+
+
+
 - Proc gen food items:
 Some food items should have a chance (say, 15%?) to spawn with doomCount=3, baseMoneyGenerated=-8 or something.   
 (What if the baseMoneyGenerated is equal to the original basePrice of the item...?)
@@ -218,31 +265,17 @@ Or, items that add mult, but reduce BONUS.
 We want money to be very much a finite-resource. Spreading the player thin!
 
 
-- ITEM: Adds DESTROY trigger to items
-
-
-- Simplify Anvil. It's a biiiit complex...?
-Maybe make it related to BONUS or something...?
-
-
-- Destroy all shop-slots after LEVEL-10.
-This prevents the player ruining the game for themselves.
-https://www.reddit.com/r/balatro/comments/1g0o0ax/wow_not_caring_about_the_endless_mode_made_the/
-
-
-- ITEM: panic button: Set round to 1. Destroy half of items.
-
-
-- Change one-ball tutorial-text:
-Instead of appearing on top of slots, we should spawn a button
 
 
 
-## (SPIKE)
-Make the destructive archetype better.
-We already have some ideas for this at top of `destructive.lua`.
+## (SPIKE)  DESTRUCTIVE ARCHETYPE!
 (REMEMBER: We want maximum synergies and strategy!!! Try to weave destructive archetype into other archetypes. It SHOULDN'T be standalone.)
 (NOTE:: it's **OKAY** if stuff is OP. We want to maximise FUN. Not balance.)
+--->>
+NOTES/PLANNING:
+I think destructive-archetype will be best if we focus on the items WITH the `Destroy` triggers.
+- Items that clone `Destroy` items
+- Items that clone `Destroy` items
 
 
 ## (SPIKE)
