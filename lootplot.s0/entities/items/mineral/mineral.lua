@@ -287,6 +287,8 @@ end
 
 
 
+local SHOVEL_DESCRIPTION = loc("If items have {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} trigger, destroy items")
+
 local function defineShovel(mineral_type, name, strength, etype)
     local namespace = umg.getModName() .. ":"
     local etypeName = namespace .. mineral_type .. "_shovel"
@@ -296,11 +298,25 @@ local function defineShovel(mineral_type, name, strength, etype)
         image = image,
         name = loc(name .. " Shovel"),
 
+        activateDescription = SHOVEL_DESCRIPTION,
+
+        shape = lp.targets.NorthEastShape(2),
+        target = {
+            type = "ITEM",
+            filter = function (ent, ppos, targetEnt)
+                return lp.hasTrigger(targetEnt, "DESTROY")
+            end,
+            activate = function(ent, ppos, targetEnt)
+                if lp.hasTrigger(targetEnt, "DESTROY") then
+                    lp.destroy(targetEnt)
+                end
+            end
+        },
+
         baseBonusGenerated = strength,
+        basePrice = 6,
 
         rarity = etype.rarity or lp.rarities.RARE,
-
-        basePrice = 6,
     }
     for k,v in pairs(etype) do
         etype1[k] = v

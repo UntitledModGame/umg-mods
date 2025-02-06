@@ -186,11 +186,22 @@ Maybe change color to red too...?
 
 
 
-- Create diagonal-shapes
+- (((DONE))) Create diagonal-shapes
+
+- (((DONE))) Make spears activate items
 
 
-- SHOVEL-ITEM CHANGES:
+- (((DONE))) SHOVEL-ITEM CHANGES:
 if item has DESTROY trigger, destroy item
+
+
+- Doomed-loaf:
+Spawn a food-shop-slot (shape=ON)
+
+
+## REALLY INTERESTING IDEA:
+Consider more *SLOTS* that have exotic triggers.
+For example, slots that have LEVEL-UP trigger, or DESTROY trigger.
 
 
 - ITEM:
@@ -198,6 +209,15 @@ On destroy, generate 5 points 10 times  (great w/ bonus)
 
 - ITEM:
 On destroy, give +5 mult
+
+- ITEM:
+On destroy, give +200 points. (lives=60, price=-$2)
+(^^^^ I'm imagining the player lining up multiple shovels to proc this item)
+
+- ITEM: Wildcard stone
+If target item has DESTROY trigger, transform into it
+(^^^ THIS SHOULD BE UNCOMMON!!! this item is an AMAZING idea.)
+(more items like these please)
 
 - ITEM: Rock printer
 Adds +0.5 mult. Spawn rocks. (shape=ABOVE-2)
