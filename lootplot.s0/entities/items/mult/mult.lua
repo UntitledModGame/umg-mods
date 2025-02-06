@@ -92,9 +92,11 @@ If mult < 1, add +X mult
 defItem("red_flag", "Red Flag", {
     triggers = {"PULSE"},
 
-    activateDescription = loc("If {lootplot:POINTS_MULT_COLOR}mult{/lootplot:POINTS_MULT_COLOR} is less than 1, add {lootplot:POINTS_MULT_COLOR}+{mult} multiplier", {
+    activateDescription = loc("If {lootplot:POINTS_MULT_COLOR}mult{/lootplot:POINTS_MULT_COLOR} is less than 1, add {lootplot:POINTS_MULT_COLOR}+%{mult} multiplier", {
         mult = RED_FLAG_MULT
     }),
+
+    rarity = lp.rarities.RARE,
 
     onActivate = function(ent)
         local m = lp.getPointsMult(ent) or 10
@@ -151,7 +153,7 @@ defItem("steak_maker", "Steak Maker", {
 
     basePrice = 15,
     baseMaxActivations = 10,
-    baseMultGenerated = -15,
+    baseMultGenerated = -5,
 
     target = {
         type = "SLOT",
@@ -159,7 +161,7 @@ defItem("steak_maker", "Steak Maker", {
             lp.trySpawnItem(ppos, server.entities.raw_steak, ent.lootplotTeam)
         end
     },
-    shape = lp.targets.KingShape(1),
+    shape = lp.targets.RookShape(1),
 
     rarity = lp.rarities.RARE,
 })
