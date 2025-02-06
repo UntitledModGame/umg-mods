@@ -117,7 +117,7 @@ defItem("calender", "Calender", {
     rarity = lp.rarities.LEGENDARY,
 
     basePrice = 10,
-    baseMaxActivations = 1,
+    baseMaxActivations = 4,
 
     shape = lp.targets.KingShape(1),
 

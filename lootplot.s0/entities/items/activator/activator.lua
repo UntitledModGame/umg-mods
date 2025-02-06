@@ -18,7 +18,7 @@ local PULSE_TARGET = {
     end
 }
 
-local PULSE_DESC = loc("{lootplot:TRIGGER_COLOR}Pulses{/lootplot:TRIGGER_COLOR} all {lootplot.targets:COLOR}target items.")
+local PULSE_DESC = loc("{lootplot:TRIGGER_COLOR}Pulses{/lootplot:TRIGGER_COLOR} items.")
 
 
 defItem("ukulele", "Ukulele", {
