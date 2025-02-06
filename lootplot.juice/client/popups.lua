@@ -61,6 +61,7 @@ end)
 
 
 
+
 umg.on("lootplot:pointsChangedViaCall", function(ent, delta)
     if delta > 0.5 then
         local txt = "+" .. tostring(math.floor(delta+0.5))
@@ -76,10 +77,38 @@ umg.on("lootplot:pointsChangedViaBonus", function(ent, delta)
         local txt = "(+" .. tostring(math.floor(delta+0.5)) .. ")"
         makePopup(ent, txt, lp.COLORS.BONUS_COLOR)
     elseif delta < -0.5 then
-        local txt = "-" .. tostring(math.floor(-delta+0.5))
+        local txt = "(-" .. tostring(math.floor(-delta+0.5)) .. ")"
         makePopup(ent, txt, objects.Color.DARK_RED)
     end
 end)
+
+
+
+
+umg.on("lootplot:multChanged", function(ent, delta, oldVal, newVal)
+    if math.abs(delta) < 0.01 then
+        return
+    end
+    if newVal > 0 then
+        local txt = "x" .. tostring(math.floor(newVal*10)/10) .. "!"
+        makePopup(ent, txt, lp.COLORS.POINTS_MULT_COLOR)
+    elseif newVal < 0 then
+        local txt = "-x" .. tostring(math.floor(newVal*10)/10) .. "!"
+        makePopup(ent, txt, objects.Color.DARK_RED)
+    end
+end)
+
+umg.on("lootplot:bonusChanged", function(ent, delta)
+    if delta > 0.5 then
+        local txt = "+" .. tostring(math.floor(delta+0.5)) .. "!"
+        makePopup(ent, txt, lp.COLORS.BONUS_COLOR)
+    elseif delta < -0.5 then
+        local txt = "-" .. tostring(math.floor(-delta+0.5)) .. "!"
+        makePopup(ent, txt, objects.Color.DARK_RED)
+    end
+end)
+
+
 
 
 local COMBO = localization.newInterpolator("COMBO: %{combo:.0f}")

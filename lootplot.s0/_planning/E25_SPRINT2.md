@@ -164,8 +164,10 @@ Maybe change color to red too...?
 - (((DONE))) Text popup should be same color as BONUS_COLOR
 - (((DONE))) Sound should play when bonus points are generated
 
-- Sound + popups for when `bonus` increases/decreases
 - Sound + popups for when `mult` increases/decreases
+
+- Sound + popups for when `bonus` increases/decreases
+
 
 - Have mult in tutorial. 
 (specifically; explain that putting mult BEFORE points is good!)
@@ -178,6 +180,15 @@ Maybe change color to red too...?
 
 
 - Have an end to the tutorial, (and maybe an exit-button?)
+
+
+- Proc gen food items:
+Some food items should have a chance (say, 15%?) to spawn with doomCount=3, baseMoneyGenerated=-8 or something.   
+(What if the baseMoneyGenerated is equal to the original basePrice of the item...?)
+That way, the food item can be stored and reused.  Its a cool feature that adds variation.  
+=======>
+LIKEWISE: What if we had a 10% chance to spawn food-items with 1 extra life, but they were 50% more expensive? 
+
 
 
 ## (SPIKE)
@@ -197,14 +208,6 @@ EG: Item: lose -5 bonus. Gain +1 mult.
 Items that generate LARGE amounts of points, but reduce BONUS.
 Or, items that add mult, but reduce BONUS.
 **IMPORTANT!!! Remember SYNERGIES!!! Try to make it emergent**
-
-
-- Proc gen food items:
-Some food items should have a chance (say, 15%?) to spawn with doomCount=3, baseMoneyGenerated=-8 or something.   
-(What if the baseMoneyGenerated is equal to the original basePrice of the item...?)
-That way, the food item can be stored and reused.  Its a cool feature that adds variation.  
-=======>
-LIKEWISE: What if we had a 10% chance to spawn food-items with 1 extra life, but they were 50% more expensive? 
 
 
 ## (SPIKE)
@@ -269,6 +272,15 @@ Our players have loved activator-items so far; lets lean into it.
 
 - For lootplot demo, instead of restricting items,
 Make it so the player can only play 2 runs.
+
+
+- Unlockable starting-items.
+Tutorial item should be available first. Then, one-ball.
+
+
+- Add unlocks to regular items
+### SPIKE:
+How are we actually going to do this sensibly?
 
 
 

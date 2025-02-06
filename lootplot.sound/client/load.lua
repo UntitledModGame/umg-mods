@@ -30,9 +30,6 @@ end)
 local pointsEarned = LootplotSound("lootplot.sound:collect_point", 1, 0.8, nil, 0.15)
 local pointsStolen = LootplotSound("lootplot.sound:steal_point", 0.7, 1.6, 10, 0.1)
 
-local pointsEarnedViaBonus = LootplotSound("lootplot.sound:points_changed_via_bonus", 1, 1.2, nil, 0.1)
-local pointsStolenViaBonus = LootplotSound("lootplot.sound:points_changed_via_bonus", 1, 0.7, nil, 0.1)
-
 umg.on("lootplot:pointsChangedViaCall", function(ent, delta)
     if delta > 0.5 then
         pointsEarned:play(ent)
@@ -41,11 +38,39 @@ umg.on("lootplot:pointsChangedViaCall", function(ent, delta)
     end
 end)
 
+
+
+local pointsEarnedViaBonus = LootplotSound("lootplot.sound:points_changed_via_bonus", 0.8, 1.1, nil, 0.1)
+local pointsStolenViaBonus = LootplotSound("lootplot.sound:points_changed_via_bonus", 0.8, 0.6, nil, 0.1)
+
 umg.on("lootplot:pointsChangedViaBonus", function(ent, delta)
     if delta > 0.5 then
         pointsEarnedViaBonus:play(ent)
     elseif delta < -0.5 then
         pointsStolenViaBonus:play(ent)
+    end
+end)
+
+-- play the same sounds for bonus changed:
+umg.on("lootplot:bonusChanged", function(ent, delta)
+    if delta > 0.5 then
+        pointsEarnedViaBonus:play(ent)
+    elseif delta < -0.5 then
+        pointsStolenViaBonus:play(ent)
+    end
+end)
+
+
+
+
+local MULT_VOL = 0.8
+local multIncreased = LootplotSound("lootplot.sound:multiplier_increased", MULT_VOL,1.2, nil, 0.1)
+local multDecreased = LootplotSound("lootplot.sound:multiplier_increased", MULT_VOL,0.7, nil, 0.1)
+umg.on("lootplot:multChanged", function(ent, delta)
+    if delta > 0.01 then
+        multIncreased:play(ent)
+    elseif delta < -0.01 then
+        multDecreased:play(ent)
     end
 end)
 
