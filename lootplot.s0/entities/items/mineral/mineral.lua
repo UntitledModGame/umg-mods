@@ -225,7 +225,7 @@ end
 
 
 
-local CROSSBOW_DESC = "Gives {lootplot:POINTS_COLOR}+%{buff} points{/lootplot:POINTS_COLOR} to all target items."
+local CROSSBOW_DESC = "Gives {lootplot:POINTS_COLOR}+%{buff} points{/lootplot:POINTS_COLOR} to items."
 
 local function defineCrossbow(mineral_type, name, strength, etype)
     local namespace = umg.getModName() .. ":"
