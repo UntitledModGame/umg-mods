@@ -117,7 +117,7 @@ defItem("red_magnet", "Red Magnet", {
 
 
 defItem("blue_magnet", "Blue Magnet", {
-    activateDescription = loc("Generate points equal to the price of target items."),
+    activateDescription = loc("Generate points equal to the price of items."),
 
     rarity = lp.rarities.RARE,
     triggers = {"PULSE"},

@@ -287,7 +287,7 @@ end
 
 
 
-local SHOVEL_DESCRIPTION = loc("If items have {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} trigger, destroy items")
+local SHOVEL_DESCRIPTION = loc("Destroys items with {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} trigger")
 
 local function defineShovel(mineral_type, name, strength, etype)
     local namespace = umg.getModName() .. ":"
