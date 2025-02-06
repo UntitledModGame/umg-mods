@@ -275,7 +275,7 @@ defineFood("heartfruit", {
 
     shape = lp.targets.UpShape(2),
 
-    basePrice = 6,
+    basePrice = 4,
 
     target = {
         type = "ITEM_OR_SLOT",
@@ -294,7 +294,7 @@ defineFood("heartfruit_half", {
 
     shape = lp.targets.UP_SHAPE,
 
-    basePrice = 4,
+    basePrice = 3,
 
     target = {
         type = "ITEM_OR_SLOT",

@@ -164,9 +164,9 @@ Maybe change color to red too...?
 - (((DONE))) Text popup should be same color as BONUS_COLOR
 - (((DONE))) Sound should play when bonus points are generated
 
-- Sound + popups for when `mult` increases/decreases
+- (((DONE))) Sound + popups for when `mult` increases/decreases
 
-- Sound + popups for when `bonus` increases/decreases
+- (((DONE))) Sound + popups for when `bonus` increases/decreases
 
 
 - Have mult in tutorial. 
