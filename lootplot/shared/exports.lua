@@ -394,12 +394,12 @@ function lp.addPoints(fromEnt, x)
     -- bonus mechanism:
     local ppos = lp.getPos(fromEnt)
     if ppos and bonusVal ~= 0 then
-        lp.wait(ppos, 0.15)
+        lp.wait(ppos, 0.25) -- wait 0.25 AFTER the bonus
+        -- (remember, its LIFO)
         lp.queueWithEntity(fromEnt, function(ent)
             umg.call("lootplot:pointsChangedViaBonus", fromEnt, bonusVal)
             lp.addPointsRaw(ent, bonusVal)
         end)
-        lp.wait(ppos, 0.15)
     end
 end
 
