@@ -33,9 +33,6 @@ local function resetPlot(ent, ppos)
         plot:foreachLayerEntry(function(e, _ppos, layer)
             lp.resetEntity(e)
         end)
-        lp.addMoney(ent, constants.MONEY_PER_ROUND)
-        lp.setPointsMult(ent, 1)
-        lp.setPointsBonus(ent, 0)
     end)
 end
 
@@ -88,6 +85,13 @@ lp.defineSlot("lootplot.s0:pulse_button_slot", {
         local ppos=lp.getPos(ent)
         if ppos then
             resetPlot(ent, ppos)
+
+            -- LIFO: we want to reset stuff last, so we queue this FIRST.
+            lp.queueWithEntity(ent, function(e)
+                lp.addMoney(e, constants.MONEY_PER_ROUND)
+                lp.setPointsMult(e, 1)
+                lp.setPointsBonus(e, 0)
+            end)
 
             local plot = ppos:getPlot()
             lp.Bufferer()
