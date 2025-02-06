@@ -195,11 +195,17 @@ Maybe change color to red too...?
 if item has DESTROY trigger, destroy item
 
 
-- Doomed-loaf:
+- (((DONE))) Doomed-loaf:
 Spawn a food-shop-slot (shape=ON)
 
 
-## REALLY INTERESTING IDEA:
+- (((DONE))) Replace bonus-points sound with this one:
+A: https://freesound.org/people/Mafon2/sounds/371878/  
+B: https://freesound.org/people/rhodesmas/sounds/342759/?  
+I think I prefer A tho.
+
+
+## (SPIKE) REALLY INTERESTING IDEA:
 Consider more *SLOTS* that have exotic triggers.
 For example, slots that have LEVEL-UP trigger, or DESTROY trigger.
 

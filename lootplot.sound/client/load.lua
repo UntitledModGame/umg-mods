@@ -40,8 +40,9 @@ end)
 
 
 
-local pointsEarnedViaBonus = LootplotSound("lootplot.sound:points_changed_via_bonus", 0.8, 1.1, nil, 0.1)
-local pointsStolenViaBonus = LootplotSound("lootplot.sound:points_changed_via_bonus", 0.8, 0.6, nil, 0.1)
+local BONUS_VOL = 0.7
+local pointsEarnedViaBonus = LootplotSound("lootplot.sound:points_changed_via_bonus", BONUS_VOL, 0.65, nil, 0.1)
+local pointsStolenViaBonus = LootplotSound("lootplot.sound:points_changed_via_bonus", BONUS_VOL, 0.5, nil, 0.1)
 
 umg.on("lootplot:pointsChangedViaBonus", function(ent, delta)
     if delta > 0.5 then
