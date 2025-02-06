@@ -128,11 +128,11 @@ defItem("red_leather", "Red Leather", {
 
 defItem("eye_worm", "Eye Worm", {
     triggers = {"PULSE"},
-    activateDescription = loc("Multiplies points by -1"),
+    activateDescription = loc("Multiplies bonus by -1"),
 
     onActivate = function(ent)
-        local pts = lp.getPoints(ent) or 0
-        lp.setPoints(ent, -pts)
+        local bonus = lp.getPointsBonus(ent) or 0
+        lp.setPointsBonus(ent, -bonus)
     end,
 
     baseMaxActivations = 1,
