@@ -169,17 +169,20 @@ Maybe change color to red too...?
 - (((DONE))) Sound + popups for when `bonus` increases/decreases
 
 
-- Have mult in tutorial. 
+- (((DONE))) Have mult in tutorial. 
 (specifically; explain that putting mult BEFORE points is good!)
 
-- Have BONUS in tutorial.
+- (((DONE))) Have BONUS in tutorial.
 (specifically; explain that putting bonus BEFORE points is good!)
 
-- Explain target-visuals in the tutorial
-(dragonfruit item + potion, maybe?)
+- (((DONE))) Explain target-visuals in the tutorial
 
+- (((DONE))) Make custom pulse-button in tutorial.
+    - (((DONE))) Pulse-button shouldn't generate money
+    - (((DONE))) Points, mult, bonus should ALL be reset at the end of every round
+    - (((DONE))) Description should be better
 
-- Have an end to the tutorial, (and maybe an exit-button?)
+- (((DONE))) Have an end to the tutorial, (and maybe an exit-button?)
 
 
 - Proc gen food items:
