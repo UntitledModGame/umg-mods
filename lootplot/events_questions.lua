@@ -25,9 +25,16 @@ umg.defineEvent("lootplot:itemRotated")
 umg.defineEvent("lootplot:attributeChanged")
 
 umg.defineEvent("lootplot:moneyChanged")
-umg.defineEvent("lootplot:pointsChanged")
+umg.defineEvent("lootplot:pointsChanged") -- (includes bonus AND normal changes)
+umg.defineEvent("lootplot:bonusChanged")
 umg.defineEvent("lootplot:multChanged")
 umg.defineEvent("lootplot:comboChanged")
+
+
+umg.defineEvent("lootplot:pointsChangedViaCall")
+umg.defineEvent("lootplot:pointsChangedViaBonus")
+-- These callbacks allow us to differentiate between bonus-mechanism and points-mechanism
+
 
 
 umg.defineEvent("lootplot:plotFogChanged")

@@ -12,6 +12,9 @@ sync.proxyEventToClient("lootplot:entityTriggerFailed")
 
 sync.proxyEventToClient("lootplot:attributeChanged")
 
+sync.proxyEventToClient("lootplot:pointsChangedViaCall")
+sync.proxyEventToClient("lootplot:pointsChangedViaBonus")
+
 sync.proxyEventToClient("lootplot:itemsCombined")
 
 sync.proxyEventToClient("lootplot:entityBuffed")

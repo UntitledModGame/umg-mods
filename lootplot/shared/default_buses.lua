@@ -3,6 +3,7 @@
 local calls = {
     COMBO = "lootplot:comboChanged",
     POINTS = "lootplot:pointsChanged",
+    POINTS_BONUS = "lootplot:bonusChanged",
     POINTS_MULT = "lootplot:multChanged",
     MONEY = "lootplot:moneyChanged",
 }

@@ -389,12 +389,14 @@ function lp.addPoints(fromEnt, x)
 
     -- normal points:
     lp.addPointsRaw(fromEnt, val)
+    umg.call("lootplot:pointsChangedViaCall", fromEnt, val)
 
     -- bonus mechanism:
     local ppos = lp.getPos(fromEnt)
     if ppos and bonusVal ~= 0 then
         lp.wait(ppos, 0.15)
         lp.queueWithEntity(fromEnt, function(ent)
+            umg.call("lootplot:pointsChangedViaBonus", fromEnt, bonusVal)
             lp.addPointsRaw(ent, bonusVal)
         end)
         lp.wait(ppos, 0.15)

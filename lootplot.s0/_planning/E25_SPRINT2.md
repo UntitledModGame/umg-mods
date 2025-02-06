@@ -154,12 +154,18 @@ Fix this!
 
 
 
-- Make negative-bonus display correctly.
+- (((DONE))) Make negative-bonus display correctly.
 Currently, it displays like:  `(+-2 bonus)`.
 Maybe change color to red too...?
 
 
-- Have an end to the tutorial, (and maybe an exit-button?)
+(((DONE))) Make BONUS more intuitive:  
+- (((DONE))) Seperate `pointsGenerated` callbacks into bonusPointsGenerated and normalPointsGenerated
+- (((DONE))) Text popup should be same color as BONUS_COLOR
+- (((DONE))) Sound should play when bonus points are generated
+
+- Sound + popups for when `bonus` increases/decreases
+- Sound + popups for when `mult` increases/decreases
 
 - Have mult in tutorial. 
 (specifically; explain that putting mult BEFORE points is good!)
@@ -170,6 +176,8 @@ Maybe change color to red too...?
 - Explain target-visuals in the tutorial
 (dragonfruit item + potion, maybe?)
 
+
+- Have an end to the tutorial, (and maybe an exit-button?)
 
 
 ## (SPIKE)
