@@ -514,9 +514,13 @@ local loafEtype = {
 defineSlotSpawner("burned_loaf", "Burned Loaf", "sell_slot", "Sell Slot",
     lp.targets.ON_SHAPE, loafEtype
 )
-defineSlotSpawner("golden_loaf", "Golden Loaf", "shop_slot", "Weak Shop Slot",
+defineSlotSpawner("golden_loaf", "Golden Loaf", "shop_slot", "Shop Slot",
     lp.targets.ON_SHAPE, loafEtype
 )
+defineSlotSpawner("purple_loaf", "Purple Loaf", "food_shop_slot", "Food Shop Slot",
+    lp.targets.ON_SHAPE, loafEtype
+)
+
 
 defineSlotSpawner("coconut", "Coconut", "dirt_slot", "Dirt Slot", lp.targets.KingShape(1), {
     basePrice = 8,
