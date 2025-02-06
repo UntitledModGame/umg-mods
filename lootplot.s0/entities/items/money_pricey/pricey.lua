@@ -62,13 +62,8 @@ end
 
 
 
-local function defMagnet(id, name, etype)
-
-    defItem(id, name, etype)
-end
-
 defItem("golden_magnet", "Golden Magnet", {
-    triggers = {"LEVEL_UP"},
+    triggers = {"PULSE"},
 
     activateDescription = loc("Earn money equal to the price of the cheapest target item.\n(Can be negative!)"),
 
