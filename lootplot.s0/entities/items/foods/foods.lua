@@ -725,7 +725,7 @@ local function definePie(id, name, desc, addShape, rarity)
         name = loc(name),
         activateDescription = loc(desc),
 
-        basePrice = 6,
+        basePrice = 4,
 
         rarity = rarity,
 
