@@ -210,6 +210,18 @@ Consider more *SLOTS* that have exotic triggers.
 For example, slots that have LEVEL-UP trigger, or DESTROY trigger.
 
 
+- ITEM: Fortune cookie
+Randomizes items, preserving rarity.
+Doesn't work on UNIQUE items.
+
+
+- ITEM: panic button:
+Randomizes ALL items. Doesn't work on UNIQUE items
+
+- ITEM:
+multiplies mult by -1.5
+
+
 - ITEM:
 On destroy, generate 5 points 10 times  (great w/ bonus)
 
@@ -248,9 +260,6 @@ Maybe make it related to BONUS or something...?
 - Destroy all shop-slots after LEVEL-10.
 This prevents the player ruining the game for themselves.
 https://www.reddit.com/r/balatro/comments/1g0o0ax/wow_not_caring_about_the_endless_mode_made_the/
-
-
-- ITEM: panic button: Set round to 1. Destroy half of items.
 
 
 - Change one-ball tutorial-text:

@@ -80,8 +80,6 @@ defItem("gear", "Gear", {
 
 
 defItem("spanner", "Spanner", {
-    shape = lp.targets.UpShape(4),
-
     triggers = {"PULSE"},
 
     rarity = lp.rarities.UNCOMMON,
@@ -92,6 +90,7 @@ defItem("spanner", "Spanner", {
 
     activateDescription = loc("Rotates items"),
 
+    shape = lp.targets.UpShape(4),
     target = {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
@@ -99,6 +98,34 @@ defItem("spanner", "Spanner", {
         end,
     }
 })
+
+
+
+
+-- On level up:
+-- Earn $3. Rotate items.
+defItem("bronze_spanner", "Spanner", {
+    triggers = {"LEVEL_UP"},
+
+    rarity = lp.rarities.RARE,
+
+    basePrice = 6,
+    baseMaxActivations = 4,
+    baseMoneyGenerated = 3,
+
+    sticky = true,
+
+    activateDescription = loc("Rotates items"),
+
+    shape = lp.targets.QueenShape(4),
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.rotateItem(targetEnt, 1)
+        end,
+    }
+})
+
 
 
 
