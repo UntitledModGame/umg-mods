@@ -29,6 +29,8 @@ defItem("square_basket", "Square Basket", {
     }),
     rarity = lp.rarities.RARE,
 
+    sticky = true,
+
     shape = lp.targets.KingShape(1),
     target = {
         type = "SLOT_NO_ITEM",
@@ -67,6 +69,8 @@ defItem("big_gold_bell", "Big Gold Bell", {
     baseMoneyGenerated = 6,
     baseMaxActivations = 4,
 
+    sticky = true,
+
     rarity = lp.rarities.RARE,
 })
 
@@ -77,6 +81,8 @@ defItem("small_gold_bell", "Small Gold Bell", {
     (Or at least, give them more intuition behind triggers and such)
     ]]
     basePrice = 4,
+
+    sticky = true,
 
     baseMoneyGenerated = 2,
     baseMaxActivations = 4,
