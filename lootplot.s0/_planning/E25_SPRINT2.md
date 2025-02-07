@@ -205,11 +205,6 @@ B: https://freesound.org/people/rhodesmas/sounds/342759/?
 I think I prefer A tho.
 
 
-## (SPIKE) REALLY INTERESTING IDEA:
-Consider more *SLOTS* that have exotic triggers.
-For example, slots that have LEVEL-UP trigger, or DESTROY trigger.
-
-
 - ITEM: Fortune cookie
 Randomizes items, preserving rarity.
 Doesn't work on UNIQUE items.
@@ -218,7 +213,7 @@ Doesn't work on UNIQUE items.
 - ITEM: panic button:
 Randomizes ALL items. Doesn't work on UNIQUE items
 
-- ITEM:
+- (((DONE))) ITEM:
 multiplies mult by -1.5
 
 
@@ -273,6 +268,11 @@ Some food items should have a chance (say, 15%?) to spawn with doomCount=3, base
 That way, the food item can be stored and reused.  Its a cool feature that adds variation.  
 =======>
 LIKEWISE: What if we had a 10% chance to spawn food-items with 1 extra life, but they were 50% more expensive? 
+
+
+## (SPIKE) REALLY INTERESTING IDEA:
+Consider more *SLOTS* that have exotic triggers.
+For example, slots that have LEVEL-UP trigger, or DESTROY trigger.
 
 
 

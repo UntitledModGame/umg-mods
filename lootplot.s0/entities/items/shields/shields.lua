@@ -47,7 +47,7 @@ end
 
 
 defShield("money_shield", "Money Shield", {
-    activateDescription = loc("If money is negative, make money positive."),
+    activateDescription = loc("If {lootplot:MONEY_COLOR}money{/lootplot:MONEY_COLOR} is negative, make {lootplot:MONEY_COLOR}money{/lootplot:MONEY_COLOR} positive."),
 
     onActivate = function(ent)
         local mon = lp.getMoney(ent) or 100
@@ -62,25 +62,23 @@ defShield("money_shield", "Money Shield", {
 
 
 
-defShield("points_shield", "Points Shield", {
-    activateDescription = loc("If points are negative, make points positive."),
+defShield("bonus_shield", "Bonus Shield", {
+    activateDescription = loc("If {lootplot:BONUS_COLOR}bonus{/lootplot:BONUS_COLOR} is negative, make {lootplot:BONUS_COLOR}bonus{/lootplot:BONUS_COLOR} positive."),
 
     onActivate = function(ent)
-        local pts = lp.getPoints(ent) or 100
+        local pts = lp.getPointsBonus(ent) or 100
         if pts < 0 then
-            lp.setPoints(ent, pts * -1)
+            lp.setPointsBonus(ent, pts * -1)
         end
     end,
-
-    baseMultGenerated = 0.4
 })
 
 
 
 
 
-defShield("red_shield", "Red Shield", {
-    activateDescription = loc("If multiplier is negative, make multiplier positive.");
+defShield("multiplier_shield", "Multiplier Shield", {
+    activateDescription = loc("If {lootplot:POINTS_MULT_COLOR}multiplier{/lootplot:POINTS_MULT_COLOR} is negative, make {lootplot:POINTS_MULT_COLOR}multiplier{/lootplot:POINTS_MULT_COLOR} positive.");
 
     onActivate = function(ent)
         local mult = lp.getPointsMult(ent) or 100
@@ -88,8 +86,17 @@ defShield("red_shield", "Red Shield", {
             lp.setPointsMult(ent, mult * -1)
         end
     end,
+})
 
-    basePointsGenerated = 8
+
+
+defShield("negative_shield", "Negative Shield", {
+    activateDescription = loc("Multiply multiplier by {lootplot:POINTS_MULT_COLOR}-1.5");
+
+    onActivate = function(ent)
+        local mult = lp.getPointsMult(ent) or 1
+        lp.setPointsMult(ent, mult * -1.5)
+    end,
 })
 
 
