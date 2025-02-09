@@ -208,12 +208,12 @@ I think I prefer A tho.
 multiplies mult by -1.5
 
 
-- ITEM: Fortune cookie
+- (((DONE))) ITEM: Fortune cookie
 Randomizes items, preserving rarity.
 Doesn't work on UNIQUE items.
 
 
-- Orange die:
+- (((DONE))) Orange die:
 On Reroll:
 Rotate items
 Trigger PULSE on items

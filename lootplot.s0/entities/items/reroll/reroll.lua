@@ -47,7 +47,7 @@ defineDice("white_die", "White Die", {
 -- Orange Die: 
 -- Rotates items
 defineDice("orange_die", "Orange Die", {
-    activateDescription = loc("Rotates items"),
+    activateDescription = loc("Rotates and {lootplot:TRIGGER_COLOR}Pulses{/lootplot:TRIGGER_COLOR} items"),
 
     shape = lp.targets.RookShape(1),
 
@@ -62,6 +62,7 @@ defineDice("orange_die", "Orange Die", {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
             lp.rotateItem(targetEnt, 1)
+            lp.tryTriggerEntity("PULSE", targetEnt)
         end,
     }
 })
