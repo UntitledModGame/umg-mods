@@ -204,17 +204,35 @@ A: https://freesound.org/people/Mafon2/sounds/371878/
 B: https://freesound.org/people/rhodesmas/sounds/342759/?  
 I think I prefer A tho.
 
+- (((DONE))) ITEM:
+multiplies mult by -1.5
+
 
 - ITEM: Fortune cookie
 Randomizes items, preserving rarity.
 Doesn't work on UNIQUE items.
 
 
+- Orange die:
+On Reroll:
+Rotate items
+Trigger PULSE on items
+(archetype broadening)
+
+
+- Mushroom refactors idea:
+- Red mush: Give BONUS to slot 
+- Blue mush: Give MULT to slot
+- Green mush: Give POINTS to slot
+- Purple mush: Randomize slots
+KING-shape?
+The reason this would work well, IMO, is because it would make the plot more interesting.
+Instead of just having slots with no properties, suddenly, slots have mult! Slots have Bonus! Its all very interesting 
+
+
+
 - ITEM: panic button:
 Randomizes ALL items. Doesn't work on UNIQUE items
-
-- (((DONE))) ITEM:
-multiplies mult by -1.5
 
 
 - ITEM:
@@ -232,17 +250,21 @@ If target item has DESTROY trigger, transform into it
 (^^^ THIS SHOULD BE UNCOMMON!!! this item is an AMAZING idea.)
 (more items like these please)
 
+- ITEM: Voidbox
+Cost $3 to activate
+Add +1 doomed to doomed-items
+
 - ITEM: Rock printer
 Adds +0.5 mult. Spawn rocks. (shape=ABOVE-2)
 
 - ITEM:
-On LEVEL-UP, BUY:  Add +1 bonus to items/slots (ROOK-3)
+On LEVEL-UP, UNLOCK:  Add +1 bonus to items/slots (ROOK-3)
 
 - ITEM:
-On LEVEL-UP, BUY:  Add +0.2 mult to items/slots (ROOK-3)
+On LEVEL-UP, UNLOCK:  Add +0.2 mult to items/slots (ROOK-3)
 
 - ITEM:
-On LEVEL-UP, BUY:  Add +10 points to items/slots (ROOK-3)
+On LEVEL-UP, UNLOCK:  Add +10 points to items/slots (ROOK-3)
 
 - ITEM: Salmon steak:
 Trigger BUY, LEVEL-UP, ROTATE, and REROLL on targetted items.
@@ -250,6 +272,19 @@ doomCount = 1
 
 - Simplify Anvil. It's a biiiit complex...?
 Maybe make it related to BONUS or something...?
+
+
+- When quitting game:
+Put a screen that says "QUITTING".
+Currently, the game appears to freeze when you click exit.
+I dont think there is a way to fix this directly, so instead we should just make the screen brown, and put "QUITTING..." text in the middle of the screen
+
+
+- Fix Listener items on Null-slots still activating!
+Listener-items still activate when in a null-slot/shop-slot.
+This is confusing at best, bugged at worst.
+(fix this. Fix for shop-slots too!)
+(IMPORTANT:: Make sure that the `BUY` trigger still works for shop-items when purchased!!!)
 
 
 - Destroy all shop-slots after LEVEL-10.
@@ -310,7 +345,7 @@ We want money to be very much a finite-resource. Spreading the player thin!
 NOTES/PLANNING:
 I think destructive-archetype will be best if we focus on the items WITH the `Destroy` triggers.
 - Items that clone `Destroy` items
-- Items that clone `Destroy` items
+- Items that modify triggers (IE: gives PULSE trigger to a rock-item)
 
 
 ## (SPIKE)

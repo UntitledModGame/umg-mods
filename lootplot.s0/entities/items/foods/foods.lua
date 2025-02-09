@@ -3,6 +3,8 @@
 local loc = localization.localize
 local interp = localization.newInterpolator
 
+local itemGenHelper = require("shared.item_gen_helper")
+
 local constants = require("shared.constants")
 
 local function defineFoodNoDoomed(id, name, etype)
@@ -248,8 +250,6 @@ defineFood("raspberry", {
     name = loc("Raspberry"),
     activateDescription = loc("Gives {lootplot:REPEATER_COLOR}REPEATER{/lootplot:REPEATER_COLOR} to items."),
 
-    triggers = {"PULSE"},
-
     rarity = lp.rarities.RARE,
 
     basePrice = 8,
@@ -260,6 +260,44 @@ defineFood("raspberry", {
         activate = function(selfEnt, ppos, targetEnt)
             targetEnt.repeatActivations = true
             sync.syncComponent(targetEnt, "repeatActivations")
+        end
+    }
+})
+
+
+
+
+local VALID_RARITIES = {}
+do
+    local r = lp.rarities
+    VALID_RARITIES[r.COMMON] = true
+    VALID_RARITIES[r.UNCOMMON] = true
+    VALID_RARITIES[r.RARE] = true
+    VALID_RARITIES[r.EPIC] = true
+    VALID_RARITIES[r.LEGENDARY] = true
+end
+
+defineFood("fortune_cookie", {
+    name=loc("Fortune Cookie"),
+
+    activateDescription = loc("Randomizes items, preserving rarity."),
+
+    shape = lp.targets.KingShape(1),
+    target = {
+        type = "ITEM",
+        filter = function(selfEnt, ppos, targetEnt)
+            local r = targetEnt.rarity
+            if r and VALID_RARITIES[r] then
+                return true
+            end
+        end,
+        activate = function(selfEnt, ppos, targetEnt)
+            local r = targetEnt.rarity
+            if not VALID_RARITIES[r] then return end
+            local etype = lp.rarities.randomItemOfRarity(r)
+            if etype then
+                lp.forceSpawnItem(ppos, etype, targetEnt.lootplotTeam)
+            end
         end
     }
 })
