@@ -204,16 +204,16 @@ defItem("red_pin", "Red Pin", {
 defItem("sponge", "Sponge", {
     triggers = {"PULSE"},
 
-    activateDescription = loc("Earn money equal to current mult.\nThen, set mult to -1."),
+    activateDescription = loc("Earn money equal to current mult.\nThen, set {lootplot:POINTS_MULT_COLOR}multiplier{/lootplot:POINTS_MULT_COLOR} to 0."),
 
     onActivate = function(ent)
         lp.addMoney(ent, lp.getPointsMult(ent) or 0)
-        lp.setPointsMult(ent, -1)
+        lp.setPointsMult(ent, 0)
     end,
 
     rarity = lp.rarities.EPIC,
 
-    basePrice = 13,
+    basePrice = 10,
     baseMaxActivations = 3,
 })
 
