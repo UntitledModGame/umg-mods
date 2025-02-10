@@ -138,7 +138,7 @@ local function defMegaHelmet(id, name, etype)
     etype.basePrice = 12
     etype.baseMaxActivations = 10
 
-    etype.rarity = etype.rarity or lp.rarities.RARE
+    etype.rarity = etype.rarity or lp.rarities.EPIC
 
     do
     local e1 = copy(etype)
