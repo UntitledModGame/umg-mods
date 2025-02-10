@@ -361,38 +361,6 @@ defDestructive("golden_dagger", "Golden Dagger", {
 
 
 
-defDestructive("black_boxing_glove", "Black Boxing Glove", {
-    --[[
-    TODO:
-    This is a terribly designed item
-
-    Make it better!  
-    (but also perhaps make it SOMEWHAT similar to red-boxing-glove?)
-    ]]
-    rarity = lp.rarities.RARE,
-    triggers = {"PULSE"},
-
-    activateDescription = loc("Destroys target items. \nEarns {lootplot:POINTS_COLOR}30 points{/lootplot:POINTS_COLOR} for each."),
-
-    repeatActivations = true,
-
-    basePrice = 8,
-    baseMaxActivations = 15,
-
-    shape = lp.targets.UpShape(1),
-
-    target = {
-        type = "ITEM",
-        activate = function(selfEnt, ppos, targetEnt)
-            lp.destroy(targetEnt)
-            lp.addPoints(selfEnt, 30)
-        end
-    },
-})
-
-
-
-
 defDestructive("unholy_bible", "Unholy Bible", {
     activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} on all target items.\n(Without actually destroying the items!)"),
 
