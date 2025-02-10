@@ -72,6 +72,8 @@ lp.defineSlot("lootplot.s0:pulse_button_slot", {
     triggers = {},
     buttonSlot = true,
 
+    rarity = lp.rarities.RARE,
+
     canActivate = function(ent)
         local round = lp.getRound(ent)
         local numOfRounds = lp.getNumberOfRounds(ent)
@@ -178,6 +180,8 @@ lp.defineSlot("lootplot.s0:next_level_button_slot", {
     baseMaxActivations = 100,
     triggers = {},
     buttonSlot = true,
+
+    rarity = lp.rarities.EPIC,
 
     onDraw = function(ent)
         if not lp.canActivateEntity(ent) then

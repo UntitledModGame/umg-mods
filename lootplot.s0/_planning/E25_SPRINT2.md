@@ -210,7 +210,7 @@ multiplies mult by -1.5
 
 - (((DONE))) ITEM: Fortune cookie
 Randomizes items, preserving rarity.
-Doesn't work on UNIQUE items.
+(Doesn't work on UNIQUE items)
 
 
 - (((DONE))) Orange die:
@@ -230,9 +230,12 @@ The reason this would work well, IMO, is because it would make the plot more int
 Instead of just having slots with no properties, suddenly, slots have mult! Slots have Bonus! Its all very interesting 
 
 
+- Bonus visual for slots
+
 
 - ITEM: panic button:
-Randomizes ALL items. Doesn't work on UNIQUE items
+Randomizes ALL items, preserving rarity.
+(Doesn't work on UNIQUE items)
 
 
 - ITEM:

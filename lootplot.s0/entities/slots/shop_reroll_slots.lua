@@ -10,6 +10,9 @@ local itemGenHelper = require("shared.item_gen_helper")
 local function defShopSlot(id, name, etype)
     etype.name = loc(name)
     etype.image = etype.image or id
+
+    etype.rarity = etype.rarity or lp.rarities.UNCOMMON
+
     lp.defineSlot("lootplot.s0:" .. id, etype)
 end
 
@@ -182,14 +185,10 @@ end
 
 
 local function makeShopSlot(id, name, comps)
-    local full_id = "lootplot.s0:" .. id
     local etype = {
         itemLock = true,
 
-        image = id,
-
         baseMaxActivations = 100,
-        name = loc(name),
         triggers = {"REROLL", "PULSE"},
         baseCanSlotPropagate = false,
         canActivate = function(ent)
@@ -212,7 +211,7 @@ local function makeShopSlot(id, name, comps)
     for k,v in pairs(comps) do
         etype[k]=v
     end
-    lp.defineSlot(full_id, etype)
+    defShopSlot(id, name, etype)
 end
 
 
@@ -498,6 +497,8 @@ lp.defineSlot("lootplot.s0:cloud_slot", {
     name = loc("Cloud slot"),
     triggers = {"PULSE"},
     activateDescription = loc("Choose 1 item!"),
+
+    rarity = lp.rarities.UNIQUE,
 
     baseMaxActivations = 1,
     baseCanSlotPropagate = false,

@@ -14,6 +14,9 @@ return lp.defineSlot("lootplot.s0:glass_slot", {
     name = loc("Glass slot"),
     description = loc("Has a 10% chance of being destroyed when activated"),
     triggers = {"PULSE"},
+
+    rarity = lp.rarities.UNCOMMON,
+
     onActivate = function(ent)
         if lp.SEED:randomMisc() < 0.1 then
             -- WELP! riparoni pepperoni

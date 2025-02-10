@@ -8,6 +8,8 @@ lp.defineSlot("lootplot.s0:sell_slot", {
     baseCanSlotPropagate = false,
     baseMaxActivations = 500,
 
+    rarity = lp.rarities.UNCOMMON,
+
     canActivate = function(slotEnt)
         local itemEnt = lp.slotToItem(slotEnt)
         if not itemEnt then

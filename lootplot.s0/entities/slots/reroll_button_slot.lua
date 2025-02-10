@@ -13,6 +13,8 @@ return lp.defineSlot("lootplot.s0:reroll_button_slot", {
 
     baseMoneyGenerated = -2,
 
+    rarity = lp.rarities.RARE,
+
     onDraw = function(ent, x, y, rot, sx,sy)
         local cost = -(ent.moneyGenerated or 0)
         local costTxt

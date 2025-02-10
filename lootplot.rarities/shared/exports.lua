@@ -120,11 +120,17 @@ end
 
 
 
+local function dummy()
+    return 1
+end
 
+
+
+do
 ---@type {[string]: generation.Generator}
 local genCache = {}
 
-local function createGenerator(rarity)
+local function createItemGenerator(rarity)
     return lp.newItemGenerator({
         filter = function(etypeName, _)
             local etype = server.entities[etypeName]
@@ -136,21 +142,54 @@ local function createGenerator(rarity)
     })
 end
 
-local function dummy()
-    return 1
-end
 
 ---Availability: Client and Server
 ---@param rarity lootplot.rarities.Rarity
 ---@param dynamicSpawnChance? generation.PickChanceFunction Function that returns the chance of an item being picked. 1 means pick always, 0 means fully skip this item (filtered out), anything inbetween is the chance of said entry be accepted or be rerolled.
 ---@return (fun(...): Entity)?
 function lp.rarities.randomItemOfRarity(rarity, dynamicSpawnChance)
-    local gen = genCache[rarity] or createGenerator(rarity)
+    local gen = genCache[rarity] or createItemGenerator(rarity)
     dynamicSpawnChance = dynamicSpawnChance or dummy
     ---@cast gen generation.Generator
     local etypeName = gen:query(function(entry, weight)
         return dynamicSpawnChance(entry, weight) or 1
     end)
     return server.entities[etypeName]
+end
+
+end
+
+
+
+do
+---@type {[string]: generation.Generator}
+local genCache = {}
+
+local function createSlotGenerator(rarity)
+    return lp.newSlotGenerator({
+        filter = function(etypeName, _)
+            local etype = server.entities[etypeName]
+            if etype and etype.rarity and etype.rarity.id == rarity.id then
+                return true
+            end
+            return false
+        end
+    })
+end
+
+---Availability: Client and Server
+---@param rarity lootplot.rarities.Rarity
+---@param dynamicSpawnChance? generation.PickChanceFunction Function that returns the chance of an item being picked. 1 means pick always, 0 means fully skip this item (filtered out), anything inbetween is the chance of said entry be accepted or be rerolled.
+---@return (fun(...): Entity)?
+function lp.rarities.randomSlotOfRarity(rarity, dynamicSpawnChance)
+    local gen = genCache[rarity] or createSlotGenerator(rarity)
+    dynamicSpawnChance = dynamicSpawnChance or dummy
+    ---@cast gen generation.Generator
+    local etypeName = gen:query(function(entry, weight)
+        return dynamicSpawnChance(entry, weight) or 1
+    end)
+    return server.entities[etypeName]
+end
+
 end
 

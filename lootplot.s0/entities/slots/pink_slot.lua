@@ -5,6 +5,7 @@ return lp.defineSlot("lootplot.s0:pink_slot", {
     name = loc("Pink Slot"),
     activateDescription = loc("Gives an extra life to item."),
     triggers = {"PULSE"},
+    rarity = lp.rarities.EPIC,
 
     onActivate = function(slotEnt)
         local itemEnt = lp.slotToItem(slotEnt)

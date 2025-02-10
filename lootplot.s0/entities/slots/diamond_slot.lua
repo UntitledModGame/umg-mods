@@ -6,6 +6,7 @@ return lp.defineSlot("lootplot.s0:diamond_slot", {
     description = loc("Item gets a {lootplot:POINTS_MULT_COLOR}5 x POINTS-MULTIPLIER{/lootplot:POINTS_MULT_COLOR}."),
     baseMaxActivations = 100,
     triggers = {"PULSE"},
+    rarity = lp.rarities.RARE,
     slotItemProperties = {
         multipliers = {
             pointsGenerated = 5

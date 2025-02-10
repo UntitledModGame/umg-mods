@@ -21,6 +21,8 @@ return lp.defineSlot("lootplot.s0:ruby_slot", {
     triggers = {"PULSE"},
     activateDescription = loc("Causes item to {lootplot:TRIGGER_COLOR}PULSE{/lootplot:TRIGGER_COLOR} up to 100 times!\n(Uses all activations)"),
 
+    rarity = lp.rarities.RARE,
+
     onActivate = function(slotEnt)
         local ppos = lp.getPos(slotEnt)
         local itemEnt = lp.slotToItem(slotEnt)

@@ -6,6 +6,8 @@ return lp.defineSlot("lootplot.s0:dirt_slot", {
     description = loc("Cannot hold %{displayString} items.\n(Or anything higher.)", lp.rarities.RARE),
     triggers = {"PULSE"},
 
+    rarity = lp.rarities.COMMON,
+
     init = function(ent)
         -- randomly flip the image to make it look cool.
         if math.random() < 0.5 then

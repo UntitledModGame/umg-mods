@@ -16,6 +16,7 @@ return lp.defineSlot("lootplot.s0:money_limit_slot", {
     canAddItemToSlot = function()
         return false -- cant hold items!!!
     end,
+    rarity = lp.rarities.UNIQUE,
 
     triggers = {"PULSE", "RESET"},
     onActivate = function(ent)

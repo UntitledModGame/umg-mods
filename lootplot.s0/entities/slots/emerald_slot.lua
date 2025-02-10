@@ -11,6 +11,8 @@ return lp.defineSlot("lootplot.s0:emerald_slot", {
     triggers = {"REROLL"},
     baseCanSlotPropagate = false,
 
+    rarity = lp.rarities.UNCOMMON,
+
     onActivate = function(slotEnt)
         local item = lp.slotToItem(slotEnt)
         if item then

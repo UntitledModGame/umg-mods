@@ -9,6 +9,8 @@ lp.defineSlot("lootplot.s0:swashbuckler_slot", {
     triggers = {"PULSE"},
     activateDescription = loc("Items placed on this slot don't cost any money to activate.\n(And cannot earn money!)"),
 
+    rarity = lp.rarities.EPIC,
+
     slotItemProperties = {
         multipliers = {
             moneyGenerated = 0
