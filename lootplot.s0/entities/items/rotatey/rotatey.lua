@@ -4,6 +4,9 @@ local loc = localization.localize
 local function defItem(id, name, etype)
     etype.image = etype.image or id
     etype.name = loc(name)
+
+    etype.baseMaxActivations = etype.baseMaxActivations or 10
+
     return lp.defineItem("lootplot.s0:"..id, etype)
 end
 
@@ -263,7 +266,7 @@ defItem("record_white", "White Record", {
 
 
 defItem("cd_rom", "CD-ROM", {
-    triggers = RECORD_TRIGGERS,
+    triggers = {"ROTATE"},
 
     baseMultGenerated = 10,
     basePointsGenerated = 150,
