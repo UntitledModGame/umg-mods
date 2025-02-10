@@ -249,13 +249,13 @@ Cost $3 to activate
 Add +1 doomed to doomed-items
 
 
-Scaling items:
+(((DONE))) Scaling items:
 {
-    - ITEM:
+    - (((DONE))) ITEM:
     On LEVEL-UP, UNLOCK:  Add +1 bonus to items/slots (ROOK-3)
-    - ITEM:
+    - (((DONE))) ITEM:
     On LEVEL-UP, UNLOCK:  Add +0.2 mult to items/slots (ROOK-3)
-    - ITEM:
+    - (((DONE))) ITEM:
     On LEVEL-UP, UNLOCK:  Add +10 points to items/slots (ROOK-3)
 }
 
