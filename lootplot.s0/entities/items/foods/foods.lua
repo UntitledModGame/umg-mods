@@ -944,6 +944,11 @@ definePotion("potion_red", {
 
 
 
+--[[
+==========================================
+-- MUSHROOMS:
+==========================================
+]]
 do
 
 ---@param id string
@@ -1004,29 +1009,65 @@ defineMush("mushroom_blue", {
 })
 
 
+do
+local rr = lp.rarities
+---@type {[1]: lootplot.rarities.Rarity, [2]: number}[]
+local weights = {
+    {rr.COMMON, 1},
+    {rr.UNCOMMON, 1},
+    {rr.RARE, 1},
+    {rr.EPIC, 0.5},
+    {rr.LEGENDARY, 0.1},
+}
+
+local slotBuffs = {
+    pointsGenerated = 10,
+    multGenerated = 0.2,
+    bonusGenerated = 1
+}
+local keys = {}
+for k,v in pairs(slotBuffs) do table.insert(keys, k) end
+
+local function buffSlotRandomly(slotEnt)
+    local prop = table.random(keys)
+    local buffAmount = slotBuffs[prop]
+    assert(buffAmount,"?? aye?")
+    if lp.SEED:randomMisc() < 0.33 then
+        -- 1/3 chance for the buff to be negative!
+        lp.modifierBuff(slotEnt, prop, -buffAmount)
+    else
+        lp.modifierBuff(slotEnt, prop, buffAmount)
+    end
+end
+
+
 defineMush("mushroom_purple", {
-    --[[
-    TODO:
-    This item doesnt really feel very emergent...
-    maybe remove it?
-    Or repurpose it.
-    ]]
     name = loc("Purple Mushroom"),
-    activateDescription = loc("Randomizes item rarity"),
+    activateDescription = loc("Randomizes slots!"),
 
     shape = lp.targets.KING_SHAPE,
 
+    rarity = lp.rarities.EPIC,
+
     target = {
-        type = "ITEM",
-        filter = function (selfEnt, ppos, targetEnt)
-            return targetEnt.rarity
-        end,
+        type = "SLOT",
         activate = function(selfEnt, ppos, targetEnt)
-            local randomRarity = table.random(lp.rarities.RARITY_LIST)
-            lp.rarities.setEntityRarity(targetEnt, randomRarity)
+            local r = generation.pickWeighted(weights)
+            local etype = lp.rarities.randomSlotOfRarity(r)
+            if etype then
+                local slotEnt = lp.forceSpawnSlot(ppos, etype, targetEnt.lootplotTeam)
+                if lp.SEED:randomMisc() < 0.2 then
+                    slotEnt.doomCount = 8
+                elseif lp.SEED:randomMisc() < 0.5 then
+                    buffSlotRandomly(slotEnt)
+                end
+            end
         end
     }
 })
+
+end
+
 
 
 
