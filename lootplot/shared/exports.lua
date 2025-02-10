@@ -1126,8 +1126,10 @@ end
 
 
 local DEFAULT_PROPS = {
-    "pointsGenerated", 
-    "moneyGenerated", 
+    "pointsGenerated",
+    "moneyGenerated",
+    "multGenerated",
+    "bonusGenerated",
     "maxActivations"
 }
 
@@ -1258,6 +1260,9 @@ local DEFAULT_SLOT_HITBOX_AREA = {width = 22, height = 22, ox = 0, oy = 0}
 ---@param slotType table<string, any>
 function lp.defineSlot(name, slotType)
     strTabTc(name, slotType)
+    if not slotType.rarity then
+        umg.log.warn("!!! SLOT NOT GIVEN RARITY:", name)
+    end
 
     slotType.slot = true
     slotType.layer = "slot"

@@ -267,20 +267,27 @@ defineFood("raspberry", {
 
 
 
+do
 local VALID_RARITIES = {}
 do
-    local r = lp.rarities
-    VALID_RARITIES[r.COMMON] = true
-    VALID_RARITIES[r.UNCOMMON] = true
-    VALID_RARITIES[r.RARE] = true
-    VALID_RARITIES[r.EPIC] = true
-    VALID_RARITIES[r.LEGENDARY] = true
+local r = lp.rarities
+VALID_RARITIES[r.COMMON] = true
+VALID_RARITIES[r.UNCOMMON] = true
+VALID_RARITIES[r.RARE] = true
+VALID_RARITIES[r.EPIC] = true
+VALID_RARITIES[r.LEGENDARY] = true
 end
 
 defineFood("fortune_cookie", {
     name=loc("Fortune Cookie"),
 
     activateDescription = loc("Randomizes items, preserving rarity."),
+    --[[
+    NOTE: doesnt work on UNIQUE items!
+    that would be a recipe for DISASTER.
+
+    So instead, we make an explicit whitelist of item rarities.
+    ]]
 
     shape = lp.targets.KingShape(1),
     target = {
@@ -302,6 +309,7 @@ defineFood("fortune_cookie", {
     }
 })
 
+end
 
 
 
@@ -936,54 +944,65 @@ definePotion("potion_red", {
 
 
 
+do
 
 ---@param id string
 ---@param etype table
 local function defineMush(id, etype)
     etype.rarity = etype.rarity or lp.rarities.RARE
-    etype.basePrice = etype.basePrice or 2
+    etype.basePrice = etype.basePrice or 6
+    etype.shape = etype.shape or lp.targets.KING_SHAPE
     defineFood(id, etype)
 end
 
+
+local MULT_BUFF = 0.2
 defineMush("mushroom_red", {
     name = loc("Red Mushroom"),
-    activateDescription = loc("Shifts target item rarity down"),
-
-    shape = lp.targets.KING_SHAPE,
+    activateDescription = loc("Gives {lootplot:POINTS_MULT_COLOR}+%{buff} mult{/lootplot:POINTS_MULT_COLOR} to slots permanently", {
+        buff = MULT_BUFF
+    }),
 
     target = {
-        type = "ITEM",
-        filter = function (selfEnt, ppos, targetEnt)
-            return targetEnt.rarity
-        end,
+        type = "SLOT",
         activate = function(selfEnt, ppos, targetEnt)
-            lp.rarities.setEntityRarity(
-                targetEnt,
-                lp.rarities.shiftRarity(targetEnt.rarity, -1)
-            )
+            lp.modifierBuff(targetEnt, "multGenerated", MULT_BUFF, selfEnt)
         end
     }
 })
 
+
+local POINTS_BUFF = 10
 defineMush("mushroom_green", {
     name = loc("Green Mushroom"),
-    activateDescription = loc("Shifts target item rarity up"),
-
-    shape = lp.targets.KING_SHAPE,
+    activateDescription = loc("Gives {lootplot:POINTS_COLOR}+%{buff} points{/lootplot:POINTS_COLOR} to slots permanently", {
+        buff = POINTS_BUFF
+    }),
 
     target = {
-        type = "ITEM",
-        filter = function (selfEnt, ppos, targetEnt)
-            return targetEnt.rarity
-        end,
+        type = "SLOT",
         activate = function(selfEnt, ppos, targetEnt)
-            lp.rarities.setEntityRarity(
-                targetEnt,
-                lp.rarities.shiftRarity(targetEnt.rarity, 1)
-            )
+            lp.modifierBuff(targetEnt, "pointsGenerated", POINTS_BUFF, selfEnt)
         end
     }
 })
+
+
+local BONUS_BUFF = 1
+defineMush("mushroom_blue", {
+    name = loc("Blue Mushroom"),
+    activateDescription = loc("Gives {lootplot:BONUS_COLOR}+%{buff} bonus{/lootplot:BONUS_COLOR} to slots permanently", {
+        buff = BONUS_BUFF
+    }),
+
+    target = {
+        type = "SLOT",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.modifierBuff(targetEnt, "bonusGenerated", BONUS_BUFF, selfEnt)
+        end
+    }
+})
+
 
 defineMush("mushroom_purple", {
     --[[
@@ -1027,6 +1046,7 @@ defineMush("mushroom_floaty", {
     }
 })
 
+end
 
 
 
