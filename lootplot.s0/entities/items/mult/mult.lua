@@ -320,7 +320,7 @@ defItem("anchor", "Anchor", {
     triggers = {"PULSE"},
 
     basePrice = 7,
-    baseMaxActivations = 10,
+    baseMaxActivations = 3,
 
     baseMoneyGenerated = 1,
 
