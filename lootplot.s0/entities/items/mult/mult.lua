@@ -322,7 +322,7 @@ defItem("anchor", "Anchor", {
     basePrice = 7,
     baseMaxActivations = 10,
 
-    basePointsGenerated = 80,
+    baseMoneyGenerated = 1,
 
     onActivate = function(ent)
         lp.setPointsMult(ent, 1)
