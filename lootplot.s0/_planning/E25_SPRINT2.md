@@ -220,26 +220,26 @@ Trigger PULSE on items
 (archetype broadening)
 
 
-- Mushroom refactors idea:
-- Red mush: Give BONUS to slot 
-- Blue mush: Give MULT to slot
-- Green mush: Give POINTS to slot
-- Purple mush: Randomize slots
+- (((DONE))) Mushroom refactors idea:
+- (((DONE))) Red mush: Give BONUS to slot 
+- (((DONE))) Blue mush: Give MULT to slot
+- (((DONE))) Green mush: Give POINTS to slot
+- (((DONE))) Purple mush: Randomize slots
 KING-shape?
 The reason this would work well, IMO, is because it would make the plot more interesting.
 Instead of just having slots with no properties, suddenly, slots have mult! Slots have Bonus! Its all very interesting 
 
 
-- Bonus visual for slots
+- (((DONE))) Bonus visual for slots
 
 
-- ITEM: panic button:
-Randomizes ALL items, preserving rarity.
-(Doesn't work on UNIQUE items)
+- (((DONE))) SLOT:
+rulebender slot: Item's properties are multiplied by -1
+(points, bonus, mult, moneyGenerated)
 
 
 - ITEM:
-On destroy, generate 5 points 10 times  (great w/ bonus)
+On destroy, generate 5 points 20 times  (great w/ bonus)
 
 - ITEM:
 On destroy, give +5 mult
@@ -248,10 +248,15 @@ On destroy, give +5 mult
 On destroy, give +200 points. (lives=60, price=-$2)
 (^^^^ I'm imagining the player lining up multiple shovels to proc this item)
 
+- ITEM: (Golden rocks)
+On destroy: 
+Give mult equal to the current balance (currently $X)
+
 - ITEM: Wildcard stone
 If target item has DESTROY trigger, transform into it
 (^^^ THIS SHOULD BE UNCOMMON!!! this item is an AMAZING idea.)
 (more items like these please)
+
 
 - ITEM: Voidbox
 Cost $3 to activate
@@ -275,6 +280,17 @@ doomCount = 1
 
 - Simplify Anvil. It's a biiiit complex...?
 Maybe make it related to BONUS or something...?
+
+
+- ITEM: spawns null-slots with
+random food-items on top
+
+- ITEM: spawns 3 null-slots.
+50% chance to earn $5.
+
+- ITEM: spawns null-slots that steal 10 points
+(price = $0) 
+
 
 
 - When quitting game:
@@ -405,5 +421,10 @@ There should be blue text above it, that says "120".
 ### PASSIVE ITEMS:
 Why don't we have passive items?
 IE: items that don't activate directly, but use `onUpdate` to have an effect.
+
+
+- ITEM: panic button:
+Randomizes ALL items, preserving rarity.
+(Doesn't work on UNIQUE items)
 
 

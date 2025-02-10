@@ -666,6 +666,14 @@ defineSlotConverter("lychee", "Lychee", "pink_slot", "DOOMED-6 Pink Slot", lp.ta
     slotEnt.doomCount = 6
 end)
 
+defineSlotConverter("purple_brain", "Purple Brain", "rulebender_slot", "DOOMED-10 Rulebender Slot", lp.targets.ON_SHAPE, {
+    rarity = lp.rarities.EPIC,
+    basePrice = APPLE_PRICE
+}, function(slotEnt)
+    slotEnt.doomCount = 10
+end)
+
+
 ----------------------------------------------------------------------------
 
 
