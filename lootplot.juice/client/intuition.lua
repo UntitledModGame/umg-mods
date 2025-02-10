@@ -167,6 +167,7 @@ umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER + 1, function(ent, x,y,
     if not lp.isSlotEntity(ent) then
         return
     end
+
     local pgen = ent.pointsGenerated
     if pgen and pgen ~= 0 and lp.isSlotEntity(ent) then
         local img
@@ -177,6 +178,7 @@ umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER + 1, function(ent, x,y,
         end
         rendering.drawImage(img, x,y,rot,sx,sy,kx,ky)
     end
+
     local moneyEarn = ent.moneyGenerated
     if moneyEarn and math.abs(moneyEarn) > 0.1 then
         if not ent.buttonSlot then
@@ -185,6 +187,13 @@ umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER + 1, function(ent, x,y,
             -- so we explicitly skip them.
             rendering.drawImage("gold_strip_slot_visual", x,y,rot,sx,sy,kx,ky)
         end
+    end
+
+    local bonusGen = ent.bonusGenerated or 0
+    if bonusGen > 0.1 then
+        rendering.drawImage("bonus_up_slot_visual", x,y,rot,sx,sy,kx,ky)
+    elseif bonusGen < -0.1 then
+        rendering.drawImage("bonus_down_slot_visual", x,y,rot,sx,sy,kx,ky)
     end
 end)
 
