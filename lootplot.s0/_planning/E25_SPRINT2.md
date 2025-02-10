@@ -248,14 +248,16 @@ Lose 2 bonus permanently when activated
 Cost $3 to activate
 Add +1 doomed to doomed-items
 
-- ITEM:
-On LEVEL-UP, UNLOCK:  Add +1 bonus to items/slots (ROOK-3)
 
-- ITEM:
-On LEVEL-UP, UNLOCK:  Add +0.2 mult to items/slots (ROOK-3)
-
-- ITEM:
-On LEVEL-UP, UNLOCK:  Add +10 points to items/slots (ROOK-3)
+Scaling items:
+{
+    - ITEM:
+    On LEVEL-UP, UNLOCK:  Add +1 bonus to items/slots (ROOK-3)
+    - ITEM:
+    On LEVEL-UP, UNLOCK:  Add +0.2 mult to items/slots (ROOK-3)
+    - ITEM:
+    On LEVEL-UP, UNLOCK:  Add +10 points to items/slots (ROOK-3)
+}
 
 - ITEM: Salmon steak:
 Trigger BUY, LEVEL-UP, ROTATE, and REROLL on targetted items.
@@ -277,9 +279,10 @@ random food-items on top
 
 
 ## DESTRUCTIVE ITEMS::: SPIKE
-These need some planning.
-Brainstorm the systems at play, and the intended playstyles at play.
-{
+These need some planning.  
+Brainstorm the systems at play, and the intended playstyles at play.   
+(SEE: `_DESTRUCTIVE_PLANNING.md`)  
+```
     - ITEM:
     On destroy, generate 5 points 20 times  (great w/ bonus)
 
@@ -301,7 +304,7 @@ Brainstorm the systems at play, and the intended playstyles at play.
 
     - ITEM: Rock printer
     Adds +0.5 mult. Spawn rocks. (shape=ABOVE-2)
-}
+```
 
 
 - When quitting game:
@@ -349,7 +352,7 @@ Some food items should have a chance (say, 15%?) to spawn with doomCount=3, base
 (What if the baseMoneyGenerated is equal to the original basePrice of the item...?)
 That way, the food item can be stored and reused.  Its a cool feature that adds variation.  
 =======>
-LIKEWISE: What if we had a 10% chance to spawn food-items with 1 extra life, but they were 50% more expensive? 
+LIKEWISE: What if we had a 10% chance to spawn food-items with 1 extra life, but they were 70% more expensive? 
 
 
 ## (SPIKE) REALLY INTERESTING IDEA:

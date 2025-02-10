@@ -16,8 +16,11 @@ But it *NEEDS* be be executed well.
 - Destroyers: Destroy items
 (eg. destroy target items, earn $1 for each)
 
+- Garbage: items that have a negative-effect
+(eg. Turd-item: steals $1, sticky)
+
 - Spawners: Spawns items
-(eg. spawn turd-items. For each turd spawned, earn $3. Each turd is sticky, and costs $1 per turn)
+(eg. spawn turd-items. For each turd spawned, earn $3)
 (eg.2: spawn rock-items)
 
 
@@ -35,7 +38,7 @@ Which means that it is temporary.
 Maybe this is fine...? Idk...
 i feel like it'd just get annoying tho, and it would make the `destructive` archetype unreliable.
 
-## IDEA:
+## IDEA / SOLUTION:
 What if we made clone-rocks very common, and easy to generate???
 - Clone-rock: If item has `Destroy` trigger, transform into it
 IE:

@@ -121,30 +121,6 @@ defineHelmet("emerald_helmet", {
 })
 
 
-defineHelmet("doom_helmet", {
-    name = loc("Doom Helmet"),
-
-    triggers = {"PULSE"},
-
-    activateDescription = loc("Give all targetted items on {lootplot:DOOMED_COLOR}DOOMED{/lootplot:DOOMED_COLOR} slots {lootplot:POINTS_MOD_COLOR}+3 points."),
-
-    basePrice = 14,
-
-    target = {
-        type = "ITEM",
-        filter = function(selfEnt, ppos, targItem)
-            local slotEnt = lp.posToSlot(ppos)
-            return slotEnt and slotEnt.doomCount
-        end,
-        activate = function (selfEnt, ppos, targItem)
-            lp.modifierBuff(targItem, "pointsGenerated", 3, selfEnt)
-        end
-    },
-
-    rarity = lp.rarities.EPIC,
-})
-
-
 defineHelmet("demon_helmet", {
     name = loc("Demon Helmet"),
 
