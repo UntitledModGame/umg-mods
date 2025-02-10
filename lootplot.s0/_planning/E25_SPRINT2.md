@@ -238,13 +238,13 @@ rulebender slot: Item's properties are multiplied by -1
 (points, bonus, mult, moneyGenerated)
 
 
-- ITEM:
+- (((DONE))) ITEM:
 Bonus brick:
 Give +20 bonus
 Lose 2 bonus permanently when activated
 
 
-- ITEM: Voidbox
+- (((DONE))) ITEM: Voidbox
 Cost $3 to activate
 Add +1 doomed to doomed-items
 
@@ -275,29 +275,33 @@ random food-items on top
 (price = $0) 
 
 
--- DESTRUCTIVE ITEMS:::
 
-- ITEM:
-On destroy, generate 5 points 20 times  (great w/ bonus)
+## DESTRUCTIVE ITEMS::: SPIKE
+These need some planning.
+Brainstorm the systems at play, and the intended playstyles at play.
+{
+    - ITEM:
+    On destroy, generate 5 points 20 times  (great w/ bonus)
 
-- ITEM:
-On destroy, give +5 mult
+    - ITEM:
+    On destroy, give +5 mult
 
-- ITEM:
-On destroy, give +200 points. (lives=60, price=-$2)
-(^^^^ I'm imagining the player lining up multiple shovels to proc this item)
+    - ITEM:
+    On destroy, give +200 points. (lives=60, price=-$2)
+    (^^^^ I'm imagining the player lining up multiple shovels to proc this item)
 
-- ITEM: (Golden rocks)
-On destroy: 
-Give mult equal to the current balance (currently $X)
+    - ITEM: (Golden rocks)
+    On destroy: 
+    Give mult equal to the current balance (currently $X)
 
-- ITEM: Wildcard stone
-If target item has DESTROY trigger, transform into it
-(^^^ THIS SHOULD BE UNCOMMON!!! this item is an AMAZING idea.)
-(more items like these please)
+    - ITEM: Wildcard stone
+    If target item has DESTROY trigger, transform into it
+    (^^^ THIS SHOULD BE UNCOMMON!!! this item is an AMAZING idea.)
+    (more items like these please)
 
-- ITEM: Rock printer
-Adds +0.5 mult. Spawn rocks. (shape=ABOVE-2)
+    - ITEM: Rock printer
+    Adds +0.5 mult. Spawn rocks. (shape=ABOVE-2)
+}
 
 
 - When quitting game:
@@ -316,6 +320,23 @@ This is confusing at best, bugged at worst.
 - Destroy all shop-slots after LEVEL-10.
 This prevents the player ruining the game for themselves.
 https://www.reddit.com/r/balatro/comments/1g0o0ax/wow_not_caring_about_the_endless_mode_made_the/
+
+
+- Juice/Feedback when the point requirement is breached!!!!
+If the player goes above the point quota, we should play a satisfying sound,
+play a cool animation, and just make it JUICY and satisfying.
+(Idk what to do, just make it SATISFYING! :D)
+
+
+- Erik Idea:
+Chest items spawn near your plot and if you don't get a slot under them in a couple rounds, they disappear.
+The way we would implement them in practice is to make the chests STICKY, and put them on a DOOMED-4 slot or something
+^^^^ Make it part of the worldgen even?
+--------->
+OLI FINALIZED:
+Islands that are 3 or bigger: Spawn golden slots.
+Islands that are exactly 1 in size: Spawns a sticky-chest item (on a null slot) 
+
 
 
 - Change one-ball tutorial-text:

@@ -4,8 +4,9 @@ local helper = require("shared.helper")
 local loc = localization.localize
 
 
-local function defItem(id, etype)
+local function defItem(id, name, etype)
     etype.image = etype.image or id
+    etype.name = loc(name)
     return lp.defineItem("lootplot.s0:"..id, etype)
 end
 
@@ -35,8 +36,7 @@ helper.defineDelayItem("gift_box", "Gift Box", {
 
 
 
-defItem("pandoras_box", {
-    name = loc("Pandora's Box"),
+defItem("pandoras_box", "Pandora's Box", {
     activateDescription = loc("Spawn RARE items."),
 
     rarity = lp.rarities.EPIC,
@@ -61,8 +61,7 @@ defItem("pandoras_box", {
 
 
 
-defItem("old_brick", {
-    name = loc("Old Brick"),
+defItem("old_brick", "Old Brick", {
     activateDescription = loc("This item loses {lootplot:POINTS_COLOR}2 Points{/lootplot:POINTS_COLOR} permanently"),
 
     rarity = lp.rarities.RARE,
@@ -80,8 +79,7 @@ defItem("old_brick", {
 
 
 
-defItem("spear_of_war", {
-    name = loc("Spear of War"),
+defItem("spear_of_war", "Spear of War", {
     activateDescription = loc("Generates points equal to the current combo"),
 
     rarity = lp.rarities.EPIC,
@@ -98,6 +96,32 @@ defItem("spear_of_war", {
             lp.addPoints(ent, combo * mult)
         end
     end
+})
+
+
+
+
+defItem("void_box", "Void Box", {
+    activateDescription = loc("Gives {lootplot:DOOMED_LIGHT_COLOR}+1 doomed{/lootplot:DOOMED_LIGHT_COLOR} to doomed-items"),
+
+    triggers = {"PULSE"},
+
+    baseMaxActivations = 3,
+    basePrice = 12,
+    baseMoneyGenerated = -8,
+
+    shape = lp.targets.RookShape(1),
+    target = {
+        type = "ITEM",
+        filter = function(selfEnt, ppos, targetEnt)
+            return targetEnt.doomCount
+        end,
+        activate = function(selfEnt, ppos, targetEnt)
+            targetEnt.doomCount = (targetEnt.doomCount or 0) + 1
+        end,
+    },
+
+    rarity = lp.rarities.EPIC,
 })
 
 
@@ -136,8 +160,7 @@ defItem("blank_page", {
 
 
 
-defItem("map", {
-    name = loc("Map"),
+defItem("map", "Map", {
     activateDescription = loc("Reveals fog."),
 
     rarity = lp.rarities.RARE,
@@ -163,8 +186,7 @@ defItem("map", {
 })
 
 
-defItem("foghorn", {
-    name = loc("Fog Horn"),
+defItem("foghorn", "Fog Horn", {
     activateDescription = loc("Reveals fog."),
 
     rarity = lp.rarities.RARE,
@@ -192,13 +214,12 @@ defItem("foghorn", {
 
 
 
-defItem("seraphim", {
+defItem("seraphim", "Seraphim", {
     --[[
     TODO:
     this isnt very emergent YET.
     We need more emergent interactions with FLOATY items for this to work better!
     ]]
-    name = loc("Seraphim"),
     activateDescription = loc("Gives {lootplot:INFO_COLOR}FLOATY{/lootplot:INFO_COLOR} to all target items."),
 
     triggers = {"PULSE"},

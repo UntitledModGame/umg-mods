@@ -452,7 +452,7 @@ function Plot:removeDeletedEntities()
         for layer, grid in pairs(self.layers) do
             local ent = grid:get(px, py)
             if ent and not umg.exists(ent) then
-                umg.log.error("ppos "..tostring(ppos), ": entity "..tostring(ent).." was deleted at layer "..layer)
+                umg.log.trace("ppos "..tostring(ppos), ": entity "..tostring(ent).." was deleted at layer "..layer ". Clearing the grid...")
                 grid:set(px, py, nil)
             end
         end
