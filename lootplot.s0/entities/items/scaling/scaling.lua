@@ -120,30 +120,3 @@ defineHelmet("emerald_helmet", {
     }
 })
 
-
-defineHelmet("demon_helmet", {
-    name = loc("Demon Helmet"),
-
-    activateDescription = loc("Give all target {lootplot:REPEATER_COLOR}REPEATER{/lootplot:REPEATER_COLOR} items {lootplot:POINTS_MOD_COLOR}+4 points"),
-    triggers = {"PULSE"},
-
-    basePrice = 12,
-
-    repeatActivations = true,
-    baseMaxActivations = 1,
-
-    target = {
-        type = "ITEM",
-        filter = function(selfEnt, ppos, targItem)
-            return targItem.repeatActivations
-        end,
-        activate = function (selfEnt, ppos, targItem)
-            lp.modifierBuff(targItem, "pointsGenerated", 10, selfEnt)
-        end
-    },
-
-    rarity = lp.rarities.EPIC,
-})
-
-
-
