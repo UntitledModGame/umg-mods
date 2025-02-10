@@ -57,8 +57,8 @@ defineGlove("king_glove",
 
 defineGlove("rook_glove",
     "Rook Glove",
-    "Set target item's shape to ROOK-10.",
-    lp.targets.RookShape(10),
+    "Set target item's shape to ROOK-6.",
+    lp.targets.RookShape(6),
     lp.rarities.LEGENDARY
 )
 
