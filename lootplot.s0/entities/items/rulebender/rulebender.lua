@@ -78,24 +78,6 @@ defItem("old_brick", {
 })
 
 
-defItem("red_brick", {
-    name = loc("Red Brick"),
-    activateDescription = loc("This item loses {lootplot:POINTS_MULT_COLOR}0.2 Multiplier{/lootplot:POINTS_MULT_COLOR} permanently"),
-
-    rarity = lp.rarities.RARE,
-    triggers = {"PULSE"},
-
-    basePrice = 8,
-    baseMultGenerated = 4,
-    baseMaxActivations = 10,
-
-    onActivate = function(selfEnt)
-        lp.modifierBuff(selfEnt, "multGenerated", -0.2)
-    end
-})
-
-
-
 
 
 defItem("spear_of_war", {

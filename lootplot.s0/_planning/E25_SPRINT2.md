@@ -239,31 +239,14 @@ rulebender slot: Item's properties are multiplied by -1
 
 
 - ITEM:
-On destroy, generate 5 points 20 times  (great w/ bonus)
-
-- ITEM:
-On destroy, give +5 mult
-
-- ITEM:
-On destroy, give +200 points. (lives=60, price=-$2)
-(^^^^ I'm imagining the player lining up multiple shovels to proc this item)
-
-- ITEM: (Golden rocks)
-On destroy: 
-Give mult equal to the current balance (currently $X)
-
-- ITEM: Wildcard stone
-If target item has DESTROY trigger, transform into it
-(^^^ THIS SHOULD BE UNCOMMON!!! this item is an AMAZING idea.)
-(more items like these please)
+Bonus brick:
+Give +20 bonus
+Lose 2 bonus permanently when activated
 
 
 - ITEM: Voidbox
 Cost $3 to activate
 Add +1 doomed to doomed-items
-
-- ITEM: Rock printer
-Adds +0.5 mult. Spawn rocks. (shape=ABOVE-2)
 
 - ITEM:
 On LEVEL-UP, UNLOCK:  Add +1 bonus to items/slots (ROOK-3)
@@ -291,6 +274,30 @@ random food-items on top
 - ITEM: spawns null-slots that steal 10 points
 (price = $0) 
 
+
+-- DESTRUCTIVE ITEMS:::
+
+- ITEM:
+On destroy, generate 5 points 20 times  (great w/ bonus)
+
+- ITEM:
+On destroy, give +5 mult
+
+- ITEM:
+On destroy, give +200 points. (lives=60, price=-$2)
+(^^^^ I'm imagining the player lining up multiple shovels to proc this item)
+
+- ITEM: (Golden rocks)
+On destroy: 
+Give mult equal to the current balance (currently $X)
+
+- ITEM: Wildcard stone
+If target item has DESTROY trigger, transform into it
+(^^^ THIS SHOULD BE UNCOMMON!!! this item is an AMAZING idea.)
+(more items like these please)
+
+- ITEM: Rock printer
+Adds +0.5 mult. Spawn rocks. (shape=ABOVE-2)
 
 
 - When quitting game:

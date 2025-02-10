@@ -82,6 +82,25 @@ defItem("blue_pin", "Blue Pin", {
 
 
 
+
+defItem("blue_brick", "Blue Brick", {
+    activateDescription = loc("This item loses {lootplot:BONUS_COLOR}2 Bonus{/lootplot:BONUS_COLOR} permanently"),
+
+    rarity = lp.rarities.RARE,
+    triggers = {"PULSE"},
+
+    basePrice = 8,
+    baseBonusGenerated = 20,
+    baseMaxActivations = 10,
+
+    onActivate = function(selfEnt)
+        lp.modifierBuff(selfEnt, "bonusGenerated", -2)
+    end
+})
+
+
+
+
 defItem("blue_cube", "Blue Cube", {
     rarity = lp.rarities.RARE,
 

@@ -138,7 +138,6 @@ defItem("eye_worm", "Eye Worm", {
     baseMaxActivations = 1,
     baseMultGenerated = 4,
     basePrice = 9,
-    sticky = true,
 
     rarity = lp.rarities.RARE,
 })
@@ -217,6 +216,24 @@ defItem("sponge", "Sponge", {
     basePrice = 13,
     baseMaxActivations = 3,
 })
+
+
+
+defItem("red_brick", "Red Brick", {
+    activateDescription = loc("This item loses {lootplot:POINTS_MULT_COLOR}0.2 Multiplier{/lootplot:POINTS_MULT_COLOR} permanently"),
+
+    rarity = lp.rarities.RARE,
+    triggers = {"PULSE"},
+
+    basePrice = 8,
+    baseMultGenerated = 4,
+    baseMaxActivations = 10,
+
+    onActivate = function(selfEnt)
+        lp.modifierBuff(selfEnt, "multGenerated", -0.2)
+    end
+})
+
 
 
 
