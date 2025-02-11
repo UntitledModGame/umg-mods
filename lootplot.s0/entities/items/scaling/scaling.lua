@@ -123,6 +123,27 @@ defineHelmet("emerald_helmet", "Emerald Helmet", {
 
 
 
+defineHelmet("deathly_helmet", "Deathly Helmet", {
+    activateDescription = loc("Give items {lootplot:POINTS_MOD_COLOR}+10 points"),
+
+    triggers = {},
+    listen = {
+        trigger = "DESTROY",
+    },
+
+    basePrice = 10,
+    baseMaxActivations = 10,
+
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.modifierBuff(targetEnt, "pointsGenerated", 10, selfEnt)
+        end,
+    }
+})
+
+
+
 local function copy(t)
     local ret = {}
     for k,v in pairs(t) do
