@@ -76,27 +76,33 @@ defItem("stick", {
 
 
 --[[
-Bowl gives +2 bonus,
-and rotates itself.
+Bowl gives +1 bonus,
+and activates items.
 
-Gives intuition about rotation-system, bonus-system, and Reroll-triggers.
+Gives intuition about bonus-system, and Reroll-triggers.
 ]]
+local PULSE_DESC = loc("{lootplot:TRIGGER_COLOR}Pulses{/lootplot:TRIGGER_COLOR} items.")
+
 defItem("empty_bowl", {
     image = "empty_bowl",
     name = loc("Empty Bowl"),
-    activateDescription = loc("Rotates itself"),
-
     triggers = {"PULSE", "REROLL"},
+
+    activateDescription = PULSE_DESC,
+
+    baseBonusGenerated = 1,
+    baseMaxActivations = 15,
+    basePrice = 6,
 
     rarity = lp.rarities.UNCOMMON,
 
-    onActivate = function(ent)
-        lp.rotateItem(ent,1)
-    end,
-
-    baseBonusGenerated = 2,
-    baseMaxActivations = 8,
-    basePrice = 6,
+    shape = lp.targets.UpShape(1),
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.tryTriggerEntity("PULSE", targetEnt)
+        end
+    },
 })
 
 

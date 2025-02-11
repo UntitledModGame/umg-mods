@@ -36,26 +36,6 @@ defItem("ukulele", "Ukulele", {
 })
 
 
-defItem("sticky_ukulele", "Sticky Ukulele", {
-    image = "ukulele",
-
-    rarity = lp.rarities.UNCOMMON,
-    triggers = {"PULSE"},
-
-    activateDescription = PULSE_DESC,
-
-    basePrice = 8,
-    baseMaxActivations = 12,
-
-    sticky = true,
-
-    shape = lp.targets.KingShape(1),
-
-    target = PULSE_TARGET
-})
-
-
-
 
 
 defItem("violin", "Violin", {
@@ -64,10 +44,11 @@ defItem("violin", "Violin", {
 
     activateDescription = PULSE_DESC,
 
-    basePrice = 12,
+    basePrice = 4,
     baseMaxActivations = 5,
+    baseMoneyGenerated = -1,
 
-    shape = lp.targets.RookShape(2),
+    shape = lp.targets.KingShape(1),
 
     target = PULSE_TARGET
 })
@@ -83,10 +64,11 @@ defItem("pipe", "Pipe", {
 
     activateDescription = PULSE_DESC,
 
-    basePrice = 10,
+    basePrice = 8,
     baseMaxActivations = 5,
+    baseBonusGenerated = -1,
 
-    shape = lp.targets.UpShape(4),
+    shape = lp.targets.BishopShape(1),
 
     target = PULSE_TARGET
 })

@@ -270,7 +270,7 @@ Earn 2 points 6 times
 On Pulse, Reroll:
 Rotates itself, and earns +2 bonus
 
-- ITEM: Violin
+- (((DONE))) ITEM: Violin
 Pulses items. Cost $1 to activate
 
 - ITEM: Death robes
