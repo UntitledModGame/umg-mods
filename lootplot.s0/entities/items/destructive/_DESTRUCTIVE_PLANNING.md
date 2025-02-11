@@ -13,7 +13,7 @@ But it *NEEDS* be be executed well.
 - Rocks: Do something when destroyed
 (eg. earn points/mult when destroyed)
 
-- Destroyers: Destroy items
+- Destructive: Destroy items, interact with Destroy items, etc.
 (eg. destroy target items, earn $1 for each)
 
 - Garbage: items that have a negative-effect
