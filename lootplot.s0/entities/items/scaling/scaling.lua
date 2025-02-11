@@ -162,14 +162,6 @@ local function defMegaHelmet(id, name, etype)
     etype.rarity = etype.rarity or lp.rarities.EPIC
 
     do
-    local e1 = copy(etype)
-    e1.baseMoneyGenerated = -8
-    e1.triggers = {"PULSE"}
-    e1.image = id
-    defineHelmet(id .. "_v1", name, e1)
-    end
-
-    do
     local e2 = copy(etype)
     e2.triggers = {"LEVEL_UP", "UNLOCK"}
     e2.image = id
@@ -190,21 +182,6 @@ defMegaHelmet("mega_points_helmet", "Mega Points Helmet", {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
             lp.modifierBuff(targetEnt, "pointsGenerated", POINTS_BUFF, selfEnt)
-        end
-    }
-})
-
-
-local MULT_BUFF = 0.2
-
-defMegaHelmet("mega_mult_helmet", "Mega Multiplier Helmet", {
-    activateDescription = loc("Adds {lootplot:POINTS_MULT_COLOR}+%{buff} mult{/lootplot:POINTS_MULT_COLOR} to items", {
-        buff = MULT_BUFF
-    }),
-    target = {
-        type = "ITEM",
-        activate = function(selfEnt, ppos, targetEnt)
-            lp.modifierBuff(targetEnt, "multGenerated", MULT_BUFF, selfEnt)
         end
     }
 })
