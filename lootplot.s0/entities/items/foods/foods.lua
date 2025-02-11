@@ -388,15 +388,40 @@ defineFood("raw_steak", {
     name = loc("Raw Steak"),
     triggers = {"PULSE"},
     rarity = lp.rarities.RARE,
-    doomCount = 1,
-    baseMultGenerated = 5
+    baseMultGenerated = 5,
+    basePrice = 4,
 })
 
 defineFood("raw_potato", {
     name = loc("Raw Potato"),
     triggers = {"PULSE"},
     rarity = lp.rarities.RARE,
-    basePointsGenerated = 60
+    basePointsGenerated = 60,
+    basePrice = 4,
+})
+
+
+local SALMON_STEAK_TRIGGERS = {
+    "BUY", "LEVEL_UP", "REROLL",
+    -- ROTATE <-- done via lp.rotateItem
+}
+defineFood("salmon_steak", {
+    name = loc("Salmon Steak"),
+    activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}Buy, Level-Up, Rotate, and Reroll{/lootplot:TRIGGER_COLOR} on targetted items."),
+    triggers = {"PULSE"},
+    rarity = lp.rarities.RARE,
+    basePrice = 4,
+
+    shape = lp.targets.KingShape(1),
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            for _, t in ipairs(SALMON_STEAK_TRIGGERS) do
+                lp.tryTriggerEntity(t, targetEnt)
+            end
+            lp.rotateItem(targetEnt, 1)
+        end
+    }
 })
 
 

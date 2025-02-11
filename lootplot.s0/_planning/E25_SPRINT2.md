@@ -267,14 +267,95 @@ doomCount = 1
 Maybe make it related to BONUS or something...?
 
 
-- ITEM: spawns null-slots with
-random food-items on top
+- ITEM: spawns null-slots with random food-items on top
 
-- ITEM: spawns 3 null-slots.
-50% chance to earn $5.
+- ITEM: spawns a null-slot with a key on it
 
 - ITEM: spawns null-slots that steal 10 points
 (price = $0) 
+
+
+- Item: Bowl (UNCOMMON)
+Triggers PULSE and REROLL on above item
+
+- ITEM: Spinning top (UNCOMMON)
+On Pulse:
+Rotates itself, and earns 8 points
+
+- ITEM: Violin
+Pulses items. Cost $1 to activate
+
+- ITEM: Death robes
+When a target item is destroyed, give all target items +16 points and -1 bonus
+
+- ITEM: Blue gear
+When a target item is rotated, give +15 bonus.
+(This item also has 4 lives; for the sake of archetype broadening) 
+
+- ITEM: Broken shield:
+has action-buttons, allowing the player to transform it into ANY other shield
+(has a button for every other shield-type)
+
+
+- ITEM: Emerald bar
+Activates On Reroll:
+After 10 activations, spawns a Reroll button-slot
+
+
+- ITEM:  Majestic knife:
+Permanently gain points equal to the current Bonus
+
+
+- ITEM: (KING-1)
+Convert items into clone-rocks
+
+
+- ITEM: (BISHOP-1)
+Reduce Bonus of items by 1.
+Increase points of item by 15.
+(Cost $1 to activate)
+
+
+-->> (smol sub-archetype: works best when mult is low)
+- ITEM:
+If multiplier is less than 2, gain +2 mult and earn $1.
+
+- ITEM:
+If multiplier is less than 2, gain +2 mult and +10 bonus
+
+- ITEM:
+If multiplier is less than 2, gain +10 bonus
+
+
+- ITEM:  Auto-reroll ticket
+When an item is purchased, trigger Reroll on target slots.
+(shape: KING-1)
+(sticky)
+
+
+- ITEM:
+
+
+
+
+- AETHER ITEMS:
+{
+- Red Aether: Multiplies mult by 2.
+Destroys a random null-slot
+
+- Blue Aether: Multiplies bonus by 3.
+Destroys a random null-slot
+
+- Green Aether: Earns $8
+Destroys all reroll-buttons
+
+- Golden Aether: Earns $4.
+Destroys a random null-slot
+
+- Pink Aether:
+Gives +1 lives to items. (ROOK-1)
+Destroys a random dirt slot
+}
 
 
 
@@ -294,17 +375,52 @@ Brainstorm the systems at play, and the intended playstyles at play.
     (^^^^ I'm imagining the player lining up multiple shovels to proc this item)
 
     - ITEM: (Golden rocks)
-    On destroy: 
-    Give mult equal to the current balance (currently $X)
+    On Destroy, Rotate: 
+    Set mult to 0
+    Earn $1
 
-    - ITEM: Wildcard stone
+    - ITEM: Clone-rocks
     If target item has DESTROY trigger, transform into it
     (^^^ THIS SHOULD BE UNCOMMON!!! this item is an AMAZING idea.)
     (more items like these please)
 
+    - ITEM: Green rock:
+    On Reroll, Destroy:
+    Gives +3 bonus
+    Gives +0.4 mult
+    Steals 10 points
+
+    - ITEM: Crimson rocks
+    On Reroll, Destroy:
+    Add mult equal to the current balance
+
+    - ITEM: Muddy rocks
+    On Rotate, Destroy:
+    Add +0.5 mult
+    Add +10 bonus
+    (GRUB-10)
+
+    - ITEM: Orange rock:
+    On Rotate, Destroy:
+    Earn +40 points
+    Adds +1 mult
+    Steals -2 bonus
+
+    - ITEM: Anchor rock
+    On Destroy:
+    Set bonus to 0
+    Earn 90 points
+
     - ITEM: Rock printer
-    Adds +0.5 mult. Spawn rocks. (shape=ABOVE-2)
+    Adds +0.5 mult. Spawn clone-rocks. (shape=ABOVE-2)
 ```
+
+
+
+
+ITEM: Black olive
+Give Destroy trigger and Rotate trigger to items
+(^^^ Note: this synergizes EXTREMELY WELL with clone-rocks; since you can duplicate any item you want!)
 
 
 - When quitting game:
@@ -341,10 +457,19 @@ Islands that are 3 or bigger: Spawn golden slots.
 Islands that are exactly 1 in size: Spawns a sticky-chest item (on a null slot) 
 
 
+Match3 shards:
+When matched, a little sprite should pop up above them, just like when a shape is matched in CROPS!
+
+
 
 - Change one-ball tutorial-text:
 Instead of appearing on top of slots, we should spawn a button
 
+
+- Activations:
+Currently, there are many income-items that have 1/1 activations.
+I think we should change this! Give them 2/2 or 3/3 activations instead. It makes it more fun. Doesnt matter too much that its OP.
+(Maybe nerf one-ball to $1, but give it 3 activations?)
 
 
 - Proc gen food items:
