@@ -75,6 +75,32 @@ defItem("stick", {
 
 
 
+--[[
+Bowl gives +2 bonus,
+and rotates itself.
+
+Gives intuition about rotation-system, bonus-system, and Reroll-triggers.
+]]
+defItem("empty_bowl", {
+    image = "empty_bowl",
+    name = loc("Empty Bowl"),
+    activateDescription = loc("Rotates itself"),
+
+    triggers = {"PULSE", "REROLL"},
+
+    rarity = lp.rarities.UNCOMMON,
+
+    onActivate = function(ent)
+        lp.rotateItem(ent,1)
+    end,
+
+    baseBonusGenerated = 2,
+    baseMaxActivations = 8,
+    basePrice = 6,
+})
+
+
+
 
 
 --[[

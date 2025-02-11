@@ -263,10 +263,10 @@ Add +1 doomed to doomed-items
 Trigger BUY, LEVEL-UP, ROTATE, and REROLL on targetted items.
 
 
-- ITEM: Boomerang (UNCOMMON)
+- (((DONE))) ITEM: Boomerang (UNCOMMON)
 Earn 2 points 6 times
 
-- ITEM: Bowl (UNCOMMON)
+- (((DONE))) ITEM: Bowl (UNCOMMON)
 On Pulse, Reroll:
 Rotates itself, and earns +2 bonus
 
@@ -315,14 +315,20 @@ Increase points of item by 15.
 
 
 -->> (smol sub-archetype: works best when mult is low)
-- ITEM:
-If multiplier is less than 2, gain +2 mult and earn $1.
+{
+    - ITEM:
+    If multiplier is less than 2, gain +2 mult and earn $1.
 
-- ITEM:
-If multiplier is less than 2, gain +2 mult and +10 bonus
+    - ITEM:
+    If multiplier is less than 2, gain +2 mult and +10 bonus
 
-- ITEM:
-If multiplier is less than 2, gain +10 bonus
+    - ITEM:
+    If multiplier is less than 2, gain +10 bonus
+
+## TODO: I dislike these items.
+### can we do something better?
+The *goal* is to make low-mult a viable strategy
+}
 
 
 - ITEM:  Auto-reroll ticket
