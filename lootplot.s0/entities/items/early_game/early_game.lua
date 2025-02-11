@@ -77,6 +77,42 @@ defItem("stick", {
 
 
 
+--[[
+Boomerang synergizes with BONUS archetype
+]]
+local BOOMERANG_POINT_ACTIVATION_COUNT = 10
+local BOOMERANG_POINTS = 1
+
+defItem("boomerang", {
+    image = "boomerang",
+    name = loc("Boomerang"),
+    activateDescription = loc("Earns {lootplot:POINTS_COLOR}+%{points} points{/lootplot:POINTS_COLOR} %{n} times", {
+        n = BOOMERANG_POINT_ACTIVATION_COUNT,
+        points = BOOMERANG_POINTS
+    }),
+
+    triggers = {"PULSE"},
+
+    rarity = lp.rarities.UNCOMMON,
+
+    onActivate = function(ent)
+        local ppos=lp.getPos(ent)
+        if not ppos then return end
+
+        for i=1, BOOMERANG_POINT_ACTIVATION_COUNT do
+            lp.wait(ppos, 0.2)
+            lp.queueWithEntity(ent, function(e)
+                lp.addPoints(e, BOOMERANG_POINTS)
+            end)
+        end
+    end,
+
+    baseMaxActivations = 8,
+    basePrice = 8,
+})
+
+
+
 
 
 

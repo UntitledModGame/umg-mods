@@ -259,34 +259,26 @@ Add +1 doomed to doomed-items
     On LEVEL-UP, UNLOCK:  Add +10 points to items/slots (ROOK-3)
 }
 
-- ITEM: Salmon steak:
+- (((DONE))) ITEM: Salmon steak:
 Trigger BUY, LEVEL-UP, ROTATE, and REROLL on targetted items.
-doomCount = 1
-
-- Simplify Anvil. It's a biiiit complex...?
-Maybe make it related to BONUS or something...?
 
 
-- ITEM: spawns null-slots with random food-items on top
+- ITEM: Boomerang (UNCOMMON)
+Earn 2 points 6 times
 
-- ITEM: spawns a null-slot with a key on it
-
-- ITEM: spawns null-slots that steal 10 points
-(price = $0) 
-
-
-- Item: Bowl (UNCOMMON)
-Triggers PULSE and REROLL on above item
-
-- ITEM: Spinning top (UNCOMMON)
-On Pulse:
-Rotates itself, and earns 8 points
+- ITEM: Bowl (UNCOMMON)
+On Pulse, Reroll:
+Rotates itself, and earns +2 bonus
 
 - ITEM: Violin
 Pulses items. Cost $1 to activate
 
 - ITEM: Death robes
-When a target item is destroyed, give all target items +16 points and -1 bonus
+When a target item is destroyed, give all target items +20 points and -1 bonus
+
+- ITEM REFACTOR: Anvil.
+On Pulse:
+Give items +10 points, and -1 bonus permanently
 
 - ITEM: Blue gear
 When a target item is rotated, give +15 bonus.
@@ -295,6 +287,12 @@ When a target item is rotated, give +15 bonus.
 - ITEM: Broken shield:
 has action-buttons, allowing the player to transform it into ANY other shield
 (has a button for every other shield-type)
+
+
+- ITEM: spawns null-slots with random food-items on top
+
+- ITEM: spawns null-slots that steal 10 points
+(price = $0) 
 
 
 - ITEM: Emerald bar
@@ -331,10 +329,6 @@ If multiplier is less than 2, gain +10 bonus
 When an item is purchased, trigger Reroll on target slots.
 (shape: KING-1)
 (sticky)
-
-
-- ITEM:
-
 
 
 
