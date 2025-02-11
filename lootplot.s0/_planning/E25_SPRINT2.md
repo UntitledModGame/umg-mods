@@ -273,7 +273,7 @@ Rotates itself, and earns +2 bonus
 - (((DONE))) ITEM: Violin
 Pulses items. Cost $1 to activate
 
-- ITEM: Deathly helmet 
+- (((DONE))) ITEM: Deathly helmet 
 When a target item is destroyed, give items +10 points
 
 - ITEM CLASS: Chestplates!!! (Shape: HORIZONTAL-3)
@@ -282,9 +282,7 @@ When a target item is destroyed, give items +10 points
 - Copper chestplate: Cost $1 to activate. Increase price of items by $3. Rotate items.
 - Iron chestplate: Cost $1 to activate. Give +1 bonus to items.
 - Magical chestplate: Cost $2 to activate. Buff item points by the current bonus
-- Ethereal chestplate: Cost $1 to activate. If item has negative-bonus, give item +1 mult. Otherwise, reduce item bonus by 1.
-- Merchant Tunic: (floaty) (sticky) When an item is purchased, earn +10 bonus, and earn $1
-- Dirty Tunic: (floaty) (sticky) When an item is purchased, earn $3. GRUB-10
+- Ethereal chestplate: Cost $1 to activate. If item has negative-bonus, give item +1 mult
 
 
 - ITEM REFACTOR: Anvil.
@@ -330,6 +328,9 @@ The "hard bit" is deciding how to actually spawn the paper-slots.
 Do some thinking.  Make sure not to overdo it... we dont want to kill reroll-archetype;
 we just want to make it a bit less "all-encompassing".
 
+
+UX CHANGE:
+When purchasing off a cloud-slot, transform into a null-slot
 
 
 - ITEM: Blue gear

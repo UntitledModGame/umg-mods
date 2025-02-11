@@ -26,3 +26,104 @@ end
 
 
 
+defChestplate("deathly_chestplate", "Deathly Chestplate", {
+    listen = {
+        trigger="DESTROY"
+    },
+
+    activateDescription = loc("Give items {lootplot:POINTS_COLOR}+20 points{/lootplot:POINTS_COLOR}, and subtract {lootplot:BONUS_COLOR}-1 bonus"),
+
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, itemEnt)
+            lp.modifierBuff(itemEnt, "pointsGenerated", 20, selfEnt)
+            lp.modifierBuff(itemEnt, "bonusGenerated", -1, selfEnt)
+        end
+    }
+})
+
+
+
+defChestplate("iron_chestplate", "Iron Chestplate", {
+    activateDescription = loc("Give items {lootplot:BONUS_COLOR}+1 bonus"),
+
+    baseMoneyGenerated = -1,
+
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, itemEnt)
+            lp.modifierBuff(itemEnt, "bonusGenerated", 1, selfEnt)
+        end
+    }
+})
+
+
+
+defChestplate("copper_chestplate", "Copper Chestplate", {
+    activateDescription = loc("Increase price of items by {lootplot:MONEY_COLOR}$3{/lootplot:MONEY_COLOR}.\nRotate items."),
+
+    baseMoneyGenerated = -1,
+
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, itemEnt)
+            lp.modifierBuff(itemEnt, "price", 3, selfEnt)
+            lp.rotateItem(itemEnt, 1)
+        end
+    }
+})
+
+
+
+defChestplate("golden_chestplate", "Golden Chestplate", {
+    activateDescription = loc("Earn {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} for every targetted item."),
+
+    baseMoneyGenerated = -3,
+
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, itemEnt)
+            lp.addMoney(selfEnt, 1)
+        end
+    }
+})
+
+
+
+defChestplate("magical_chestplate", "Magical Chestplate", {
+    activateDescription = loc("Buff {lootplot:POINTS_COLOR}points{/lootplot:POINTS_COLOR} of items by the current {lootplot:BONUS_COLOR}Bonus"),
+
+    baseMoneyGenerated = -2,
+
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, itemEnt)
+            local b = lp.getPointsBonus(selfEnt) or 0
+            if b ~= 0 then
+                lp.modifierBuff(itemEnt, "pointsGenerated", b, selfEnt)
+            end
+        end
+    }
+})
+
+
+
+
+defChestplate("ethereal_tunic", "Ethereal Tunic", {
+    activateDescription = loc("If items have negative bonus, give items {lootplot:POINTS_MULT_COLOR}+1 multiplier"),
+
+    baseMoneyGenerated = -2,
+
+    target = {
+        type = "ITEM",
+        filter = function(selfEnt, ppos, itemEnt)
+            return (itemEnt.bonusGenerated or 0xff) < 0
+        end,
+        activate = function(selfEnt, ppos, itemEnt)
+            lp.modifierBuff(itemEnt, "multGenerated", 1, selfEnt)
+        end
+    }
+})
+
+
+
