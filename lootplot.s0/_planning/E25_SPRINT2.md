@@ -276,13 +276,13 @@ Pulses items. Cost $1 to activate
 - (((DONE))) ITEM: Deathly helmet 
 When a target item is destroyed, give items +10 points
 
-- ITEM CLASS: Chestplates!!! (Shape: HORIZONTAL-3)
-- Deathly chestplate: When an item is destroyed, give items +20 points and -1 bonus
-- Golden chestplate: Cost $3 to activate. Earn $1 for every target item
-- Copper chestplate: Cost $1 to activate. Increase price of items by $3. Rotate items.
-- Iron chestplate: Cost $1 to activate. Give +1 bonus to items.
-- Magical chestplate: Cost $2 to activate. Buff item points by the current bonus
-- Ethereal chestplate: Cost $1 to activate. If item has negative-bonus, give item +1 mult
+- (((DONE))) ITEM CLASS: Chestplates!!! (Shape: HORIZONTAL-3)
+- (((DONE))) Deathly chestplate: When an item is destroyed, give items +20 points and -1 bonus
+- (((DONE))) Golden chestplate: Cost $3 to activate. Earn $1 for every target item
+- (((DONE))) Copper chestplate: Cost $1 to activate. Increase price of items by $3. Rotate items.
+- (((DONE))) Iron chestplate: Cost $1 to activate. Give +1 bonus to items.
+- (((DONE))) Magical chestplate: Cost $2 to activate. Buff item points by the current bonus
+- (((DONE))) Ethereal chestplate: Cost $1 to activate. If item has negative-bonus, give item +1 mult
 
 
 - ITEM REFACTOR: Anvil.
@@ -327,6 +327,14 @@ And what's coolest, is that players can even game the system to make it *work WI
 The "hard bit" is deciding how to actually spawn the paper-slots.  
 Do some thinking.  Make sure not to overdo it... we dont want to kill reroll-archetype;
 we just want to make it a bit less "all-encompassing".
+-->> ITEM IDEAS:
+```
+ITEM: (floaty, doomed-1)
+Spawns a paper-slot with a key inside it
+
+ITEM:
+Spawns paper-slots.
+```
 
 
 UX CHANGE:

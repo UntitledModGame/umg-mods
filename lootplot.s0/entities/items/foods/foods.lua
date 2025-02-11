@@ -494,6 +494,21 @@ defineSlotSpawner("stone_fruit", "Stone fruit", "null_slot", "Null Slot", STONE_
     rarity = lp.rarities.COMMON
 })
 
+defineSlotSpawner("sliced_stone_fruit", "Sliced Stone fruit", "null_slot", "Null Slot", STONE_FRUIT_SHAPE, {
+    --[[
+    TODO:
+    TODO:
+    TODO:
+    Make this actually work!
+    Do planning, as per E25 document
+    ]]
+    basePrice = 3,
+    canItemFloat = true,
+    rarity = lp.rarities.UNIQUE
+})
+
+
+
 
 defineSlotSpawner("dragonfruit", "Dragonfruit", "slot", "Normal Slot", lp.targets.RookShape(1), {
     basePrice = 12,
