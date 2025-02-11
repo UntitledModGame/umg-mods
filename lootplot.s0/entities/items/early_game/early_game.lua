@@ -81,14 +81,13 @@ and activates items.
 
 Gives intuition about bonus-system, and Reroll-triggers.
 ]]
-local PULSE_DESC = loc("{lootplot:TRIGGER_COLOR}Pulses{/lootplot:TRIGGER_COLOR} items.")
 
 defItem("empty_bowl", {
     image = "empty_bowl",
     name = loc("Empty Bowl"),
     triggers = {"PULSE", "REROLL"},
 
-    activateDescription = PULSE_DESC,
+    activateDescription = loc("{lootplot:TRIGGER_COLOR}Pulses{/lootplot:TRIGGER_COLOR} item."),
 
     baseBonusGenerated = 1,
     baseMaxActivations = 15,
