@@ -273,12 +273,64 @@ Rotates itself, and earns +2 bonus
 - (((DONE))) ITEM: Violin
 Pulses items. Cost $1 to activate
 
-- ITEM: Death robes
-When a target item is destroyed, give all target items +20 points and -1 bonus
+- ITEM: Deathly helmet 
+When a target item is destroyed, give items +10 points
+
+- ITEM CLASS: Chestplates!!! (Shape: HORIZONTAL-3)
+- Deathly chestplate: When an item is destroyed, give items +20 points and -1 bonus
+- Golden chestplate: Cost $3 to activate. Earn $1 for every target item
+- Copper chestplate: Cost $1 to activate. Increase price of items by $3. Rotate items.
+- Iron chestplate: Cost $1 to activate. Give +1 bonus to items.
+- Magical chestplate: Cost $2 to activate. Buff item points by the current bonus
+- Ethereal chestplate: Cost $1 to activate. If item has negative-bonus, give item +1 mult. Otherwise, reduce item bonus by 1.
+- Merchant Tunic: (floaty) (sticky) When an item is purchased, earn +10 bonus, and earn $1
+- Dirty Tunic: (floaty) (sticky) When an item is purchased, earn $3. GRUB-10
+
 
 - ITEM REFACTOR: Anvil.
 On Pulse:
-Give items +10 points, and -1 bonus permanently
+Give items +2 activations, and -1 bonus permanently
+shape: Union(NorthEast(1), NorthWest(1)) 
+
+
+- ITEM REFACTOR: Clover
+On Reroll: Give items/slots +1 points permanently
+(shape: BISHOP-1)
+
+
+- ITEM: Grass (RARE)
+On Reroll: Give items +1 activations, and increase item prices by $1
+DOOMED-25
+(shape: UP-2)
+
+
+## Anti-reroll mechanism IDEA:
+We need more anti-reroll stuff. Or else, reroll-archetype is gonna be ALL-ENCOMPASSING.
+---->
+One idea is to have items that trigger On-Reroll, and have negative-effects.  
+But.... this doesn't really work, since the player can just destroy/remove the items.  
+HOWEVER!  
+What if we had *SLOTS* that were On-Reroll?  (Paper slot?)
+EG:
+```
+Paper Slot: activates on Reroll
+----
+examples / opportunities:
+Paper Slot: DOOMED-10  (can only be rerolled 10 times before dead)
+Paper Slot: bonusGenerated = -1
+Paper Slot: multGenerated = -0.1
+Paper Slot: pointsGenerated = -10
+Paper Slot: moneyEarned = -0.5
+```
+^^^ This is an excellent idea!!! :)  
+And what's coolest, is that players can even game the system to make it *work WITH* reroll-archetype  
+(ie by using mushrooms to buff the slots)  
+---->  
+The "hard bit" is deciding how to actually spawn the paper-slots.  
+Do some thinking.  Make sure not to overdo it... we dont want to kill reroll-archetype;
+we just want to make it a bit less "all-encompassing".
+
+
 
 - ITEM: Blue gear
 When a target item is rotated, give +15 bonus.
@@ -312,23 +364,6 @@ Convert items into clone-rocks
 Reduce Bonus of items by 1.
 Increase points of item by 15.
 (Cost $1 to activate)
-
-
--->> (smol sub-archetype: works best when mult is low)
-{
-    - ITEM:
-    If multiplier is less than 2, gain +2 mult and earn $1.
-
-    - ITEM:
-    If multiplier is less than 2, gain +2 mult and +10 bonus
-
-    - ITEM:
-    If multiplier is less than 2, gain +10 bonus
-
-## TODO: I dislike these items.
-### can we do something better?
-The *goal* is to make low-mult a viable strategy
-}
 
 
 - ITEM:  Auto-reroll ticket
@@ -368,7 +403,7 @@ Brainstorm the systems at play, and the intended playstyles at play.
     On destroy, generate 5 points 20 times  (great w/ bonus)
 
     - ITEM:
-    On destroy, give +5 mult
+    On destroy, give +2.5 mult
 
     - ITEM:
     On destroy, give +200 points. (lives=60, price=-$2)
