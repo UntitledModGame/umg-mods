@@ -545,17 +545,17 @@ defineSlotSpawner("soy_sauce", "Soy Sauce", "slot", "{lootplot:DOOMED_COLOR}DOOM
     basePrice = 5
 }, setDoomCountTo(8))
 
-defineSlotSpawner("ruby_candy", "Ruby Candy", "ruby_slot", "{c r=1 b=0.2 g=0.3}Ruby{/c} {lootplot:STUCK_COLOR}STUCKY{/lootplot:STUCK_COLOR} Slot", lp.targets.RookShape(1), {
+defineSlotSpawner("ruby_candy", "Ruby Candy", "ruby_slot", "{c r=1 b=0.2 g=0.3}Ruby{/c} {lootplot:DOOMED_LIGHT_COLOR}DOOMED-20{/lootplot:DOOMED_LIGHT_COLOR} Slot", lp.targets.RookShape(1), {
     rarity = lp.rarities.RARE,
     basePrice = 8
 },
-makeSticky)
+setDoomCountTo(20))
 
-defineSlotSpawner("diamond_candy", "Diamond Candy", "diamond_slot", "{c r=0.6 b=0.95 g=1}Diamond{/c} {lootplot:STUCK_COLOR}STICKY{/lootplot:STUCK_COLOR} Slot", lp.targets.RookShape(1), {
+defineSlotSpawner("diamond_candy", "Diamond Candy", "diamond_slot", "{c r=0.6 b=0.95 g=1}Diamond{/c} {lootplot:DOOMED_LIGHT_COLOR}DOOMED-20{/lootplot:DOOMED_LIGHT_COLOR} Slot", lp.targets.RookShape(1), {
     rarity = lp.rarities.RARE,
     basePrice = 8
 },
-makeSticky)
+setDoomCountTo(20))
 
 --[[
 TODO: could do 
