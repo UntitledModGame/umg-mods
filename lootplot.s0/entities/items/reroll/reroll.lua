@@ -110,38 +110,6 @@ defineDice("black_die", "Black Die", {
     }
 })
 
-do
-local CHANCE = 5
-local MONEY_EARN = 3
-
-defineDice("green_pencil", "Green Pencil", {
-    triggers = {"REROLL"},
-
-    shape = lp.targets.KING_SHAPE,
-
-    description = interp("Has a %{chance}% chance to spawn a {c r=0.6 g=1 b=0.7}REROLL-SLOT{/c} that earns an extra {lootplot:MONEY_COLOR}$%{earn}"){
-        chance = CHANCE,
-        earn = MONEY_EARN
-    },
-
-    baseMaxActivations = 20,
-    basePointsGenerated = 40,
-
-    onActivate = function(ent)
-        local ppos = lp.getPos(ent)
-        if ppos and (lp.SEED:randomMisc()) < (CHANCE/100) then
-            local slotEnt = lp.forceSpawnSlot(ppos, server.entities.reroll_button_slot, ent.lootplotTeam)
-            if slotEnt then
-                lp.modifierBuff(slotEnt, "moneyGenerated", MONEY_EARN, ent)
-            end
-            lp.destroy(ent)
-        end
-    end,
-
-    rarity = lp.rarities.EPIC,
-})
-end
-
 
 
 defineDice("quad_dice", "Quad Dice", {
@@ -204,6 +172,10 @@ helper.defineDelayItem("emerald_bar", "Emerald Bar", {
         end
         lp.destroy(ent)
     end,
+
+    -- we want player to put the reroll-buttons next to each other;
+    -- hence why this item can float.
+    canItemFloat = true,
 
     basePrice = 8,
     baseMaxActivations = 2,
