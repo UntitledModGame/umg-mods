@@ -220,7 +220,7 @@ local function defineHammer(mineral_type, name, strength, etype)
         image = image,
         name = loc(name .. " Hammer"),
 
-        basePointsGenerated = strength * 15,
+        basePointsGenerated = strength * 30,
         baseBonusGenerated = strength * -2,
 
         rarity = etype.rarity or lp.rarities.UNCOMMON,
