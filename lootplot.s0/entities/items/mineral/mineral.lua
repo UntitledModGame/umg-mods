@@ -313,7 +313,7 @@ local function defineShovel(mineral_type, name, strength, etype)
             end
         },
 
-        baseBonusGenerated = strength,
+        baseBonusGenerated = strength * 2,
         basePrice = 6,
 
         rarity = etype.rarity or lp.rarities.RARE,
