@@ -263,7 +263,7 @@ local function defineCrossbow(mineral_type, name, strength, etype)
 
         basePrice = 16,
 
-        shape = lp.targets.UpShape(2),
+        shape = lp.targets.NorthWestShape(2),
 
         activateDescription = loc(CROSSBOW_DESC, {
             buff = buffAmount
