@@ -439,7 +439,7 @@ local function defineSlotSpawner(id_image, name, spawnSlot, spawnSlotName, shape
         name = loc(name),
         activateDescription = loc("Spawns a " .. spawnSlotName),
 
-        rarity = extraComponents.rarity or lp.rarities.UNCOMMON,
+        rarity = assert(extraComponents.rarity),
 
         basePrice = 5,
 
@@ -494,18 +494,41 @@ defineSlotSpawner("stone_fruit", "Stone fruit", "null_slot", "Null Slot", STONE_
     rarity = lp.rarities.COMMON
 })
 
-defineSlotSpawner("sliced_stone_fruit", "Sliced Stone fruit", "null_slot", "Null Slot", STONE_FRUIT_SHAPE, {
-    --[[
-    TODO:
-    TODO:
-    TODO:
-    Make this actually work!
-    Do planning, as per E25 document
-    ]]
-    basePrice = 3,
+defineSlotSpawner("dark_egg", "Dark egg", "null_slot", "Null Slot with -5 points", STONE_FRUIT_SHAPE, {
+    basePrice = 0,
     canItemFloat = true,
-    rarity = lp.rarities.UNIQUE
-})
+    rarity = lp.rarities.UNCOMMON
+}, function(slotEnt)
+    lp.modifierBuff(slotEnt, "pointsGenerated", -5)
+end)
+
+local function isFoodItem(etype)
+    return lp.hasTag(etype, constants.tags.FOOD)
+end
+
+local generateFoodItem = itemGenHelper.createLazyGenerator(
+    isFoodItem,
+    itemGenHelper.createRarityWeightAdjuster({
+        COMMON = 6,
+        UNCOMMON = 8,
+        RARE = 1,
+        EPIC = 0.3,
+        LEGENDARY = 0.04
+    })
+)
+
+defineSlotSpawner("sliced_stone_fruit", "Sliced Stone fruit", "null_slot", "Null Slot with a food item", lp.targets.ON_SHAPE, {
+    basePrice = 6,
+    canItemFloat = true,
+    rarity = lp.rarities.UNCOMMON
+}, function(slotEnt)
+    local itemId = generateFoodItem()
+    local etype = server.entities[itemId]
+    local ppos = lp.getPos(slotEnt)
+    if not ppos then return end
+    lp.forceSpawnItem(ppos, etype, slotEnt.lootplotTeam)
+end)
+
 
 
 
@@ -542,7 +565,8 @@ local function makeSticky(slotEnt)
 end
 
 defineSlotSpawner("soy_sauce", "Soy Sauce", "slot", "{lootplot:DOOMED_COLOR}DOOMED-8{/lootplot:DOOMED_COLOR} Slot", lp.targets.QueenShape(3), {
-    basePrice = 5
+    basePrice = 5,
+    rarity = lp.rarities.UNCOMMON,
 }, setDoomCountTo(8))
 
 defineSlotSpawner("ruby_candy", "Ruby Candy", "ruby_slot", "{c r=1 b=0.2 g=0.3}Ruby{/c} {lootplot:DOOMED_LIGHT_COLOR}DOOMED-20{/lootplot:DOOMED_LIGHT_COLOR} Slot", lp.targets.RookShape(1), {
@@ -580,7 +604,8 @@ defineSlotSpawner("avacado", "Avacado", "emerald_slot", "Emerald Slot", lp.targe
 
 
 defineSlotSpawner("fried_egg", "Fried Egg", "sticky_slot", "Sticky Slot", lp.targets.KING_SHAPE, {
-    basePrice = 5
+    basePrice = 5,
+    rarity = lp.rarities.UNCOMMON,
 })
 
 

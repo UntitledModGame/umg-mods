@@ -306,11 +306,6 @@ DOOMED-10
 When purchasing off a cloud-slot, transform into a null-slot
 
 
-- ITEM: Broken shield:
-has action-buttons, allowing the player to transform it into ANY other shield
-(has a button for every other shield-type)
-
-
 - ITEM: spawns null-slots with random food-items on top
 
 - ITEM: spawns null-slots that steal 10 points
@@ -340,6 +335,11 @@ Increase points of item by 15.
 When an item is purchased, trigger Reroll on target slots.
 (shape: KING-1)
 (sticky)
+
+
+- ITEM: Broken shield:
+has action-buttons, allowing the player to transform it into ANY other shield
+(has a button for every other shield-type)
 
 
 
