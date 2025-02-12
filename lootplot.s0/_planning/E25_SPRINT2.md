@@ -302,42 +302,7 @@ DOOMED-10
 (shape: UP-2)
 
 
-## Anti-reroll mechanism IDEA:
-We need more anti-reroll stuff. Or else, reroll-archetype is gonna be ALL-ENCOMPASSING.
----->
-One idea is to have items that trigger On-Reroll, and have negative-effects.  
-But.... this doesn't really work, since the player can just destroy/remove the items.  
-HOWEVER!  
-What if we had *SLOTS* that were On-Reroll?  (Paper slot?)
-EG:
-```
-Paper Slot: activates on Reroll
-----
-examples / opportunities:
-Paper Slot: DOOMED-10  (can only be rerolled 10 times before dead)
-Paper Slot: bonusGenerated = -1
-Paper Slot: multGenerated = -0.1
-Paper Slot: pointsGenerated = -10
-Paper Slot: moneyEarned = -0.5
-```
-^^^ This is an excellent idea!!! :)  
-And what's coolest, is that players can even game the system to make it *work WITH* reroll-archetype  
-(ie by using mushrooms to buff the slots)  
----->  
-The "hard bit" is deciding how to actually spawn the paper-slots.  
-Do some thinking.  Make sure not to overdo it... we dont want to kill reroll-archetype;
-we just want to make it a bit less "all-encompassing".
--->> ITEM IDEAS:
-```
-ITEM: (floaty, doomed-1)
-Spawns a paper-slot with a key inside it
-
-ITEM:
-Spawns paper-slots.
-```
-
-
-UX CHANGE:
+- (((DONE))) UX CHANGE:
 When purchasing off a cloud-slot, transform into a null-slot
 
 
@@ -453,6 +418,42 @@ Brainstorm the systems at play, and the intended playstyles at play.
 
     - ITEM: Rock printer
     Adds +0.5 mult. Spawn clone-rocks. (shape=ABOVE-2)
+```
+
+
+
+## Anti-reroll mechanism IDEA:
+We need more anti-reroll stuff. Or else, reroll-archetype is gonna be ALL-ENCOMPASSING.
+---->
+One idea is to have items that trigger On-Reroll, and have negative-effects.  
+But.... this doesn't really work, since the player can just destroy/remove the items.  
+HOWEVER!  
+What if we had *SLOTS* that were On-Reroll?  (Paper slot?)
+EG:
+```
+Paper Slot: activates on Reroll
+----
+examples / opportunities:
+Paper Slot: DOOMED-10  (can only be rerolled 10 times before dead)
+Paper Slot: bonusGenerated = -1
+Paper Slot: multGenerated = -0.1
+Paper Slot: pointsGenerated = -10
+Paper Slot: moneyEarned = -0.5
+```
+^^^ This is an excellent idea!!! :)  
+And what's coolest, is that players can even game the system to make it *work WITH* reroll-archetype  
+(ie by using mushrooms to buff the slots)  
+---->  
+The "hard bit" is deciding how to actually spawn the paper-slots.  
+Do some thinking.  Make sure not to overdo it... we dont want to kill reroll-archetype;
+we just want to make it a bit less "all-encompassing".
+-->> ITEM IDEAS:
+```
+ITEM: (floaty, doomed-1)
+Spawns a paper-slot with a key inside it
+
+ITEM:
+Spawns paper-slots.
 ```
 
 

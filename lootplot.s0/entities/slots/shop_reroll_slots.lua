@@ -341,7 +341,7 @@ local function foreachTouchingSlot(rootSlotEnt, func)
                 local pos1 = lp.getPos(ent)
                 if pos1 then
                     func(ent, pos1)
-                    lp.wait(pos1, 0.4)
+                    lp.wait(pos1, 0.06)
                 end
             end)
         end
@@ -483,7 +483,11 @@ local pickButton = {
         shopButtonBuyItem(ent, clientId)
         if server then
             deleteAttachedCloudSlots(ent)
-            ent.doomCount = 1
+            local ppos = lp.getPos(ent)
+            if ppos then
+                local nullSlotType = server.entities["null_slot"]
+                lp.forceSpawnSlot(ppos, nullSlotType, ent.lootplotTeam)
+            end
         end
     end,
     canDisplay = canDisplayShopButton,
