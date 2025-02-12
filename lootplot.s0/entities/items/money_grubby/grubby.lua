@@ -240,7 +240,7 @@ defItem("golden_heart", {
     name = loc("Golden Heart"),
     triggers = {"PULSE"},
 
-    activateDescription = loc("Gives +1 lives to target item (or slot).\nSets {lootplot:MONEY_COLOR}money{/lootplot:MONEY_COLOR} to {lootplot:BAD_COLOR}$-1"),
+    activateDescription = loc("Gives +1 lives to target item (or slot).\nSets {lootplot:MONEY_COLOR}money{/lootplot:MONEY_COLOR} to {lootplot:MONEY_COLOR}$5"),
 
     doomCount = 6,
 
@@ -254,7 +254,7 @@ defItem("golden_heart", {
         type = "ITEM_OR_SLOT",
         activate = function(selfEnt, ppos, targetEnt)
             targetEnt.lives = (targetEnt.lives or 0) + 1
-            lp.setMoney(selfEnt, -1)
+            lp.setMoney(selfEnt, 5)
         end
     },
 })
