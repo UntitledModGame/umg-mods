@@ -406,19 +406,6 @@ defineMineralClass("golden", "Golden", 15, {
 
 
 
---[[
-
-Copper items activate on ROTATE
-
-]]
-defineMineralClass("copper", "Copper", 10, {
-    triggers = {"ROTATE"},
-    baseMaxActivations = 8
-})
-
-
-
-
 
 --[[
 
