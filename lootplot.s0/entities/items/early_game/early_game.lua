@@ -76,7 +76,7 @@ defItem("stick", {
 
 --[[
 Bowl gives +1 bonus,
-and activates items.
+And pulses item.
 
 Gives intuition about bonus-system, and Reroll-triggers.
 ]]
@@ -85,6 +85,11 @@ defItem("empty_bowl", {
     image = "empty_bowl",
     name = loc("Empty Bowl"),
     triggers = {"PULSE", "REROLL"},
+
+    init = function(ent)
+        -- rotate in a random direction.
+        lp.rotateItem(ent, math.floor(lp.SEED:randomMisc(0,3)))
+    end,
 
     activateDescription = loc("{lootplot:TRIGGER_COLOR}Pulses{/lootplot:TRIGGER_COLOR} item."),
 

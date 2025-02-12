@@ -83,7 +83,7 @@ defItem("gear", "Gear", {
 
 
 defItem("spanner", "Spanner", {
-    triggers = {"PULSE"},
+    triggers = {"PULSE", "REROLL"},
 
     rarity = lp.rarities.UNCOMMON,
 
@@ -250,7 +250,7 @@ defItem("record_golden", "Golden Record", {
     baseMoneyGenerated = 3,
     basePrice = 9,
 
-    rarity = lp.rarities.EPIC,
+    rarity = lp.rarities.RARE,
 })
 
 
@@ -260,7 +260,7 @@ defItem("record_white", "White Record", {
     baseMultGenerated = 3,
     basePrice = 12,
 
-    rarity = lp.rarities.EPIC,
+    rarity = lp.rarities.RARE,
 })
 
 

@@ -308,6 +308,7 @@ When purchasing off a cloud-slot, transform into a null-slot
 
 - (((DONE))) ITEM: spawns null-slots with random food-items on top
 
+
 - (((DONE))) ITEM: spawns null-slots that steal 10 points
 (price = $0) 
 
@@ -317,8 +318,20 @@ Activates On Reroll:
 After 10 activations, spawns a Reroll button-slot
 
 
-- ITEM:  Majestic knife:
-Permanently gain points equal to the current Bonus
+- Convert white-die to golden die.
+- Then, White Die: On Reroll, trigger Reroll on items. (CIRCLE-2 shape)
+
+
+- Add random-rotations to items (spear-items, crossbows, shovel-items.)
+This makes the game just a bit more interesting.
+```lua
+local function rotateRandomlyInit(ent)
+  local rot = lp.SEED:randomMisc(0,3)
+  if rot ~= 0 then
+    lp.rotateItem(ent, rot)
+  end
+end
+```
 
 
 - ITEM: (KING-1)
