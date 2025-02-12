@@ -285,13 +285,13 @@ When a target item is destroyed, give items +10 points
 - (((DONE))) Ethereal chestplate: Cost $1 to activate. If item has negative-bonus, give item +1 mult
 
 
-- ITEM REFACTOR: Anvil.
+- (((DONE))) ITEM REFACTOR: Anvil.
 On Pulse:
 Give items +2 activations, and -1 bonus permanently
 shape: Union(NorthEast(1), NorthWest(1)) 
 
 
-- ITEM REFACTOR: Clover
+- (((DONE))) ITEM REFACTOR: Clover
 On Reroll: Give items/slots +1 points permanently
 (shape: BISHOP-1)
 

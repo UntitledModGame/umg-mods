@@ -223,31 +223,25 @@ defItem("bone", {
 
 
 
---[[
-TODO: This needs testing!
-
-]]
 defItem("4_leaf_clover", {
     name = loc("4 Leaf Clover"),
 
+    activateDescription = loc("Give items/slots {lootplot:POINTS_COLOR}+1 points"),
+
     triggers = {"REROLL"},
 
-    description = loc("4% chance to turn into a {lootplot:INFO_COLOR} key."),
-
     basePrice = 6,
-    basePointsGenerated = 10,
-    baseMaxActivations = 50,
+    baseMaxActivations = 10,
+
+    shape = lp.targets.BishopShape(1),
+    target = {
+        type = "ITEM_OR_SLOT",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.modifierBuff(targetEnt, "pointsGenerated", 1, selfEnt)
+        end
+    },
 
     rarity = lp.rarities.UNCOMMON,
-
-    onActivate = function(ent)
-        if lp.SEED:randomMisc() < 0.04 then
-            local pos = lp.getPos(ent)
-            if pos then
-                lp.forceSpawnItem(pos, server.entities.key, ent.lootplotTeam)
-            end
-        end
-    end
 })
 
 
