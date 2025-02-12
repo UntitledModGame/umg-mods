@@ -109,7 +109,43 @@ defItem("blue_cube", "Blue Cube", {
     basePrice = 8,
     baseMaxActivations = 20,
     basePointsGenerated = -40,
-    baseBonusGenerated = 4
+    baseBonusGenerated = 6
+})
+
+
+
+
+
+--[[
+Boomerang synergizes with BONUS archetype
+]]
+local DIAMOND_POINT_ACTIVATION_COUNT = 40
+local DIAMOND_POINTS = 1
+
+defItem("diamond", "Diamond", {
+    triggers = {"PULSE"},
+
+    activateDescription = loc("Earns {lootplot:POINTS_COLOR}+%{points} points{/lootplot:POINTS_COLOR} %{n} times", {
+        n = DIAMOND_POINT_ACTIVATION_COUNT,
+        points = DIAMOND_POINTS
+    }),
+
+    onActivate = function(ent)
+        local ppos=lp.getPos(ent)
+        if not ppos then return end
+
+        for i=1, DIAMOND_POINT_ACTIVATION_COUNT do
+            lp.wait(ppos, 0.2)
+            lp.queueWithEntity(ent, function(e)
+                lp.addPoints(e, DIAMOND_POINTS)
+            end)
+        end
+    end,
+
+    baseMaxActivations = 10,
+    basePrice = 10,
+
+    rarity = lp.rarities.RARE,
 })
 
 

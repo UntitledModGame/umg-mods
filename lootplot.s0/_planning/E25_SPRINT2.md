@@ -341,10 +341,6 @@ UX CHANGE:
 When purchasing off a cloud-slot, transform into a null-slot
 
 
-- ITEM: Blue gear
-When a target item is rotated, give +15 bonus.
-(This item also has 4 lives; for the sake of archetype broadening) 
-
 - ITEM: Broken shield:
 has action-buttons, allowing the player to transform it into ANY other shield
 (has a button for every other shield-type)
