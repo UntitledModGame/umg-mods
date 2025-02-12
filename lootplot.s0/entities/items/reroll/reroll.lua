@@ -147,7 +147,7 @@ end
 defineDice("quad_dice", "Quad Dice", {
     triggers = {"REROLL"},
 
-    activateDescription = loc("Gives {lootplot:POINTS_COLOR}+3 points{/lootplot:POINTS_COLOR} to all target items"),
+    activateDescription = loc("Gives {lootplot:POINTS_COLOR}+3 points{/lootplot:POINTS_COLOR} to items"),
 
     basePrice = 8,
     baseMaxActivations = 10,
@@ -164,6 +164,30 @@ defineDice("quad_dice", "Quad Dice", {
 
     rarity = lp.rarities.RARE,
 })
+
+
+
+defineDice("grass", "Grass", {
+    triggers = {"REROLL"},
+
+    activateDescription = loc("Gives {lootplot:POINTS_COLOR}+1 activations{/lootplot:POINTS_COLOR} to items, and increases the item prices by {lootplot:MONEY_COLOR}$2"),
+
+    basePrice = 8,
+    baseMaxActivations = 10,
+
+    shape = lp.targets.UpShape(2),
+    target = {
+        type = "ITEM",
+        activate = function(ent, ppos, targetEnt)
+            lp.modifierBuff(targetEnt, "maxActivations", 1, ent)
+            lp.modifierBuff(targetEnt, "price", 2, ent)
+        end
+    },
+
+    rarity = lp.rarities.RARE,
+})
+
+
 
 
 
