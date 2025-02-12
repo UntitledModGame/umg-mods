@@ -284,33 +284,6 @@ defItem("red_fan", "Red Fan", {
 
 
 
-local ANVIL_BUFF = 6
-local ANVIL_MULT_REDUCE = 0.5
-defItem("anvil", "Anvil", {
-    triggers = {"PULSE"},
-
-    activateDescription = loc("Buff each target's points-earned by %{buff}.\nReduce multiplier by %{reduce} for every item that was buffed.", {
-        reduce = ANVIL_MULT_REDUCE,
-        buff = ANVIL_BUFF
-    }),
-
-    basePrice = 12,
-    baseMaxActivations = 6,
-
-    target = {
-        type = "ITEM",
-        activate = function(selfEnt, ppos, targetEnt)
-            lp.modifierBuff(targetEnt, "pointsGenerated", ANVIL_BUFF)
-            lp.addPointsMult(selfEnt, -ANVIL_MULT_REDUCE)
-        end
-    },
-    shape = lp.targets.HorizontalShape(3),
-
-    rarity = lp.rarities.RARE,
-})
-
-
-
 
 
 defItem("anchor", "Anchor", {

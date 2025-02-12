@@ -35,4 +35,48 @@ Buff items +10 points, -1 bonus
 
 ]]
 
+local loc = localization.localize
+local interp = localization.newInterpolator
+
+
+local function defItem(id, name, etype)
+    etype.image = etype.image or id
+    etype.name = loc(name)
+    return lp.defineItem("lootplot.s0:"..id, etype)
+end
+
+
+
+do
+local ACTIV_BUFF = 2
+local BONUS_DEBUFF = 1
+
+defItem("anvil", "Anvil", {
+    triggers = {"PULSE"},
+
+    activateDescription = loc("Give items {lootplot:INFO_COLOR}+%{activs} activations{/lootplot:INFO_COLOR}, but subtracts {lootplot:BONUS_COLOR}-%{bonus} bonus", {
+        activs = ACTIV_BUFF,
+        bonus = BONUS_DEBUFF
+    }),
+
+    basePrice = 8,
+    baseMaxActivations = 6,
+
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.modifierBuff(targetEnt, "bonusGenerated", -BONUS_DEBUFF, selfEnt)
+            lp.modifierBuff(targetEnt, "maxActivations", ACTIV_BUFF, selfEnt)
+        end
+    },
+    shape = lp.targets.UnionShape(
+        lp.targets.NorthEastShape(1),
+        lp.targets.NorthWestShape(1)
+    ),
+
+    rarity = lp.rarities.RARE,
+})
+
+end
+
 
