@@ -306,13 +306,13 @@ DOOMED-10
 When purchasing off a cloud-slot, transform into a null-slot
 
 
-- ITEM: spawns null-slots with random food-items on top
+- (((DONE))) ITEM: spawns null-slots with random food-items on top
 
-- ITEM: spawns null-slots that steal 10 points
+- (((DONE))) ITEM: spawns null-slots that steal 10 points
 (price = $0) 
 
 
-- ITEM: Emerald bar
+- (((DONE))) ITEM: Emerald bar
 Activates On Reroll:
 After 10 activations, spawns a Reroll button-slot
 

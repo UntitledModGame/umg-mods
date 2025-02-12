@@ -190,6 +190,32 @@ defineDice("grass", "Grass", {
 
 
 
+local NUM_EM_BAR_ACTS = 10
+helper.defineDelayItem("emerald_bar", "Emerald Bar", {
+    triggers = {"PULSE", "REROLL"},
+
+    delayCount = NUM_EM_BAR_ACTS,
+    delayDescription = "Spawns a Reroll button",
+
+    delayAction = function(ent)
+        local ppos=lp.getPos(ent)
+        if ppos then
+            lp.forceSpawnSlot(ppos, server.entities.reroll_button_slot, ent.lootplotTeam)
+        end
+        lp.destroy(ent)
+    end,
+
+    basePrice = 8,
+    baseMaxActivations = 2,
+    basePointsGenerated = 8,
+
+    rarity = lp.rarities.RARE,
+})
+
+
+
+
+
 
 
 

@@ -55,7 +55,6 @@ helper.defineTransformItem("key_bar", "Key Bar", {
 
 
 
-
 --[[
 Purpose of STICK is to give intuition
 about how multiple triggers work. (REROLL, PULSE trigger)
