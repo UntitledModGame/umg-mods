@@ -265,7 +265,7 @@ defItem("flamingo", "Flamingo", {
 defItem("red_fan", "Red Fan", {
     triggers = {"PULSE"},
 
-    activateDescription = loc("Buff items points by the current multiplier"),
+    activateDescription = loc("Buff item's {lootplot:POINTS_COLOR}points{/lootplot:POINTS_COLOR} by what the current multiplier is"),
 
     basePrice = 12,
     baseMaxActivations = 6,

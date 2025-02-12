@@ -296,7 +296,7 @@ On Reroll: Give items/slots +1 points permanently
 (shape: BISHOP-1)
 
 
-- ITEM: Grass (RARE)
+- (((DONE))) ITEM: Grass (RARE)
 On Reroll: Give items +1 activations, and increase item prices by $2
 DOOMED-10
 (shape: UP-2)

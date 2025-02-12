@@ -91,7 +91,7 @@ defChestplate("golden_chestplate", "Golden Chestplate", {
 
 
 defChestplate("magical_chestplate", "Magical Chestplate", {
-    activateDescription = loc("Buff {lootplot:POINTS_COLOR}points{/lootplot:POINTS_COLOR} of items by the current {lootplot:BONUS_COLOR}Bonus"),
+    activateDescription = loc("Buff item's {lootplot:POINTS_COLOR}points{/lootplot:POINTS_COLOR} by what the current {lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} is"),
 
     baseMoneyGenerated = -2,
 

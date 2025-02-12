@@ -19,7 +19,7 @@ local function defineBook(id, name, targetSlot, targetSlotName, rarity)
         shape = lp.targets.UP_SHAPE,
 
         basePrice = 15,
-        baseMaxActivations = 1,
+        baseMaxActivations = 10,
 
         activateDescription = loc("Converts target slot(s) into " .. targetSlotName),
 
