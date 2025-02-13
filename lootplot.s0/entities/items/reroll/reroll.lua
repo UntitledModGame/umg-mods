@@ -33,19 +33,39 @@ DICE ITEMS:
 ==================================================
 ]]
 
+
 -- White Die: 
--- When rerolled, earn $2
+-- When rerolled, trigger reroll Reroll on items
 defineDice("white_die", "White Die", {
     triggers = {"REROLL"},
-    rarity = lp.rarities.EPIC,
+    rarity = lp.rarities.RARE,
+
+    activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} on items."),
+
+    shape = lp.targets.CircleShape(2),
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.tryTriggerEntity("REROLL", targetEnt)
+        end
+    }
+})
+
+
+
+-- Golden Die: 
+-- When rerolled, earn $2
+defineDice("golden_die", "Golden Die", {
+    triggers = {"REROLL"},
+    rarity = lp.rarities.RARE,
     baseMoneyGenerated = 2,
-    baseMaxActivations = 3,
+    baseMaxActivations = 4,
 })
 
 
 
 -- Orange Die: 
--- Rotates items
+-- Rotates and Pulses items
 defineDice("orange_die", "Orange Die", {
     activateDescription = loc("Rotates and {lootplot:TRIGGER_COLOR}Pulses{/lootplot:TRIGGER_COLOR} items"),
 
@@ -91,23 +111,24 @@ defineDice("red_die", "Red Die", {
 
 
 -- Black Die:
--- When rerolled, PULSE items
+-- When rerolled, destroy items, and earn $2
 defineDice("black_die", "Black Die", {
     triggers = {"REROLL"},
-    activateDescription = loc("{lootplot:TRIGGER_COLOR}{wavy}PULSES{/wavy}{/lootplot:TRIGGER_COLOR} item."),
+    activateDescription = loc("Destroys items."),
 
     rarity = lp.rarities.RARE,
 
-    shape = lp.targets.KING_SHAPE,
+    shape = lp.targets.RookShape(1),
 
-    baseMaxActivations = 5,
+    baseMoneyGenerated = 2,
+    baseMaxActivations = 4,
 
     target = {
         type = "ITEM",
-        activate = function(selfEnt, ppos, targetEnt)
-            lp.tryTriggerEntity("PULSE", targetEnt)
+        activate = function(ent, ppos, targetEnt)
+            lp.destroy(targetEnt)
         end
-    }
+    },
 })
 
 
