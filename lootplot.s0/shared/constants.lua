@@ -3,7 +3,7 @@
 local constants = {
     NULL_ITEM = "manure",
 
-    DEFAULT_GRUB_MONEY_CAP = 15,
+    DEFAULT_GRUB_MONEY_CAP = 10,
 
     STARTING_MONEY = 10,
     STARTING_POINTS = 0,
