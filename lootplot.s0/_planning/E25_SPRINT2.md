@@ -326,21 +326,56 @@ After 10 activations, spawns a Reroll button-slot
 This makes the game just a bit more interesting.
 
 
-- ITEM: (KING-1)
-Convert items into clone-rocks
+- ITEM- Dark leather:
+Subtract 20 bonus.
+Give +0.5 mult to items with Destroy trigger.
+
+- ITEM- Teal leather:
+Divide the multiplier by 3.
+Give +5 bonus to items with Destroy trigger.
+
+
+- ITEM: Furnace (KING-1)
+On Reroll, Pulse:
+Convert items into clone-rocks.
+For every item that was converted, earn $1
+
+
+- ITEM: Rucksack
+When an item is spawned, earn $1, and give +1 mult
+(ROOK-6)
+(sticky)
 
 
 - ITEM:  Auto-reroll ticket
 When an item is purchased, trigger Reroll on target slots.
-(shape: KING-1)
+(shape: KING-2)
 (sticky)
 
 
-- ITEM: If a COMMON item is spawned, transform it into a random RARE item
+- ITEM: 
+If a DOOMED item is spawned, destroy it, and earn $2
+(sticky)
 
-- ITEM: If an item is spawned that has DESTROY
+- ITEM: 
+If an item with REROLL or ROTATE trigger is spawned, destroy it, and earn $3
+(sticky)
+
 
 - ITEM: Magic wand:
+(shape: NorthEast-1)
+Transform items into a random item
+
+
+- Make the game easier; Add an extra $2 or $3 per turn.
+(The game is honestly just, more *fun* when you have more money.)
+
+
+## SPIKE:
+Pineapple-ring is VERY VERY VERY fun to use.
+Let's create more items like that, please!!!
+Because It is honestly SO FUN.
+Don't worry as much about balance. Just aim for fun. :)
 
 
 - AETHER ITEMS:
@@ -361,7 +396,26 @@ Destroys a random null-slot
 Gives +1 lives to items. (ROOK-1)
 Destroys a random dirt slot
 }
+^^^^^^^^^^^^  
+TODO: Think of something else.  
+I REALLY REALLY Don't like these ideas!!!  
+It is WAY too one-dimensional.  
+"Multiplies mult by X" <--- wtf is this??? That is terrible, it's non-emergent, its dumb.  
+Maybe look at doing something to do with triggers....?  
+IDEA:
+```
+Dark Aether:
+Give all Destroy items +1 lives.
+Destroy a random item with Pulse trigger.
 
+Green Aether:
+Give all Reroll items +0.3 mult.
+Destroy a random item with Pulse trigger.
+
+Golden Aether:
+Earn $6
+Destroy a random item with PULSE trigger.
+```
 
 
 ## DESTRUCTIVE ITEMS::: SPIKE
