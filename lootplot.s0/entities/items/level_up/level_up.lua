@@ -63,19 +63,75 @@ defItem("red_key", "Red Key", {
 
 
 
-defItem("big_gold_bell", "Big Gold Bell", {
-    basePrice = 10,
+defItem("golden_bell", "Big Golden Bell", {
+    basePrice = 6,
 
-    baseMoneyGenerated = 6,
+    activateDescription = loc("Converts slot into a {wavy}{lootplot:MONEY_COLOR}Golden Slot"),
+
+    onActivate = function(ent)
+        local ppos = lp.getPos(ent)
+        if ppos then
+            lp.forceSpawnSlot(ppos, server.entities.golden_slot, ent.lootplotTeam)
+        end
+    end,
+
+    baseMoneyGenerated = 5,
     baseMaxActivations = 4,
-
-    sticky = true,
 
     rarity = lp.rarities.RARE,
 })
 
 
-defItem("small_gold_bell", "Small Gold Bell", {
+
+defItem("steel_bell", "Steel Bell", {
+    basePrice = 6,
+
+    activateDescription = loc("Spawns {lootplot:INFO_COLOR}Steel Slots{/lootplot:INFO_COLOR} that give {lootplot:BONUS_COLOR}+5 Bonus{/lootplot:BONUS_COLOR} and {lootplot:POINTS_MULT_COLOR}+1 Multiplier"),
+
+    shape = lp.targets.RookShape(1),
+    target = {
+        type = "NO_SLOT",
+        activate = function(selfEnt, ppos, targetEnt)
+            local slot = lp.forceSpawnSlot(ppos, server.entities.steel_slot, selfEnt.lootplotTeam)
+            if slot then
+                lp.modifierBuff(slot, "multGenerated", 1)
+                lp.modifierBuff(slot, "bonusGenerated", 5)
+            end
+        end
+    },
+
+    baseMaxActivations = 4,
+
+    rarity = lp.rarities.RARE,
+})
+
+
+
+defItem("bronze_bell", "Bronze Bell", {
+    basePrice = 8,
+
+    activateDescription = loc("Gives slots {lootplot:POINTS_MULT_COLOR}+0.5 Multiplier{/lootplot:POINTS_MULT_COLOR}, but subtracts {lootplot:BONUS_COLOR}-2 Bonus"),
+
+    shape = lp.targets.KingShape(2),
+    target = {
+        type = "SLOT",
+        activate = function(selfEnt, ppos, slotEnt)
+            lp.modifierBuff(slotEnt, "multGenerated", 1)
+            lp.modifierBuff(slotEnt, "bonusGenerated", -5)
+        end
+    },
+
+    sticky = true,
+
+    baseMaxActivations = 4,
+
+    rarity = lp.rarities.RARE,
+})
+
+
+
+
+defItem("small_golden_bell", "Small Golden Bell", {
     --[[
     this item hopefully will show the player how LEVEL-UP system works.
     (Or at least, give them more intuition behind triggers and such)
@@ -84,7 +140,7 @@ defItem("small_gold_bell", "Small Gold Bell", {
 
     sticky = true,
 
-    baseMoneyGenerated = 2,
+    baseMoneyGenerated = 5,
     baseMaxActivations = 4,
 
     rarity = lp.rarities.UNCOMMON,

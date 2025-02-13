@@ -336,6 +336,13 @@ When an item is purchased, trigger Reroll on target slots.
 (sticky)
 
 
+- ITEM: If a COMMON item is spawned, transform it into a random RARE item
+
+- ITEM: If an item is spawned that has DESTROY
+
+- ITEM: Magic wand:
+
+
 - AETHER ITEMS:
 {
 - Red Aether: Multiplies mult by 2.
