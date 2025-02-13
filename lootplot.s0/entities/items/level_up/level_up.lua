@@ -116,8 +116,8 @@ defItem("bronze_bell", "Bronze Bell", {
     target = {
         type = "SLOT",
         activate = function(selfEnt, ppos, slotEnt)
-            lp.modifierBuff(slotEnt, "multGenerated", 1)
-            lp.modifierBuff(slotEnt, "bonusGenerated", -5)
+            lp.modifierBuff(slotEnt, "multGenerated", 0.5)
+            lp.modifierBuff(slotEnt, "bonusGenerated", -2)
         end
     },
 
