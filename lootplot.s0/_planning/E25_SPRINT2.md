@@ -362,6 +362,16 @@ If an item with REROLL or ROTATE trigger is spawned, destroy it, and earn $3
 (sticky)
 
 
+- New Mineral Class:
+Grubby-tools: Same as iron-tools, but grubby.
+
+
+- BALANCING: Buff 2-cent-ticket.
+A big issue with grubby-archetype is that you can't really afford expensive items.
+Make this less of an issue.
+Either we can increase the Grub money cap, OR, we can add grubby-infrastructure to allow purchasing of expensive items.
+
+
 - ITEM: Magic wand:
 (shape: NorthEast-1)
 Transform items into a random item
