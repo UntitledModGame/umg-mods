@@ -28,6 +28,13 @@ local function defineMineral(mineralType, name, etype)
 end
 
 
+local function rotateRandomlyInit(ent)
+    local rot = lp.SEED:randomMisc(0,3)
+    if rot ~= 0 then
+        lp.rotateItem(ent, rot)
+    end
+end
+
 
 local function defineSword(mineral_type, name, strength, etype)
     local namespace = umg.getModName() .. ":"
@@ -69,6 +76,8 @@ local function defineSpear(mineral_type, name, strength, etype)
     local spearType = {
         image = image,
         name = loc(name .. " Spear"),
+
+        init = rotateRandomlyInit,
 
         activateDescription = SPEAR_PULSE_DESC,
 
@@ -257,6 +266,8 @@ local function defineCrossbow(mineral_type, name, strength, etype)
         image = image,
         name = loc(name .. " Crossbow"),
 
+        init = rotateRandomlyInit,
+
         mineralType = mineral_type,
 
         rarity = etype.rarity or lp.rarities.EPIC,
@@ -297,6 +308,8 @@ local function defineShovel(mineral_type, name, strength, etype)
     local etype1 = {
         image = image,
         name = loc(name .. " Shovel"),
+
+        init = rotateRandomlyInit,
 
         activateDescription = SHOVEL_DESCRIPTION,
 

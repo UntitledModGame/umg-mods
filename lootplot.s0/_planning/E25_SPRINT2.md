@@ -318,42 +318,22 @@ Activates On Reroll:
 After 10 activations, spawns a Reroll button-slot
 
 
-- Convert white-die to golden die.
-- Then, White Die: On Reroll, trigger Reroll on items. (CIRCLE-2 shape)
+- (((DONE))) Convert white-die to golden die.
+- (((DONE))) Then, White Die: On Reroll, trigger Reroll on items. (CIRCLE-2 shape)
 
 
-- Add random-rotations to items (spear-items, crossbows, shovel-items.)
+- (((DONE))) Add random-rotations to items (spear-items, crossbows, shovel-items.)
 This makes the game just a bit more interesting.
-```lua
-local function rotateRandomlyInit(ent)
-  local rot = lp.SEED:randomMisc(0,3)
-  if rot ~= 0 then
-    lp.rotateItem(ent, rot)
-  end
-end
-```
 
 
 - ITEM: (KING-1)
 Convert items into clone-rocks
 
 
-- ITEM: (BISHOP-1)
-Reduce Bonus of items by 1.
-Increase points of item by 15.
-(Cost $1 to activate)
-
-
 - ITEM:  Auto-reroll ticket
 When an item is purchased, trigger Reroll on target slots.
 (shape: KING-1)
 (sticky)
-
-
-- ITEM: Broken shield:
-has action-buttons, allowing the player to transform it into ANY other shield
-(has a button for every other shield-type)
-
 
 
 - AETHER ITEMS:
@@ -471,10 +451,22 @@ Spawns paper-slots.
 
 
 
-
 ITEM: Black olive
 Give Destroy trigger and Rotate trigger to items
 (^^^ Note: this synergizes EXTREMELY WELL with clone-rocks; since you can duplicate any item you want!)
+
+
+- ITEM: Broken shield:
+has action-buttons, allowing the player to transform it into ANY other shield
+(has a button for every other shield-type)
+
+
+- ITEM: (BISHOP-1)
+Reduce Bonus of items by 1.
+Increase points of item by 15.
+(Cost $1 to activate)
+
+
 
 
 - When quitting game:
