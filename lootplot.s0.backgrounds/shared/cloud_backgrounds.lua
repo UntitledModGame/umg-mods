@@ -55,8 +55,8 @@ function tealCtor()
         worldWidth = W, worldHeight = H,
         numberOfClouds = 100,
 
-        backgroundColor = objects.Color("#FFC2EEFF"),
-        cloudColor = objects.Color("#FFC2EEFF"),
+        backgroundColor = objects.Color("#FF88FCD7"),
+        cloudColor = objects.Color("#FFBFFFEB"),
     })
 end
 
