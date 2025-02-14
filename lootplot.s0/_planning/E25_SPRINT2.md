@@ -326,16 +326,72 @@ After 10 activations, spawns a Reroll button-slot
 This makes the game just a bit more interesting.
 
 
-- ITEM- Dark leather:
-Subtract 20 bonus.
+- ITEM- Crimson leather:
+Subtract 4 mult.
 Give +0.5 mult to items with Destroy trigger.
 
 - ITEM- Teal leather:
-Divide the multiplier by 3.
+Subtract 25 bonus
 Give +5 bonus to items with Destroy trigger.
 
 
-- ITEM: Furnace (KING-1)
+- ITEM: Earn mult equal to the price of targetted items 
+(shape: UP-1)
+
+- ITEM:
+Earn bonus equal to the prices of targetted items
+(shape: ROOK-1)
+
+- ITEM-REFACTOR:
+Earn points equal to the prices of targetted items
+(shape: Circle-2)
+
+
+
+- ITEM: Fish skeleton:
+Spawn free UNCOMMON items on dirt-slots.
+Give +3 bonus.
+
+
+- ITEM:
+On Pulse:
+Give +4 bonus and +0.2 mult to dirt slots.
+Set money to $8. (<--- archetype broadening)
+
+
+- ITEM: Prism
+Increase points requirement by 50%
+Decrease round count by 1
+
+
+- ITEM: Green necklace (sticky)
+When rerolled, earn $1
+When Pulsed, lose $1
+
+- ITEM: Blue necklace (sticky)
+When Pulsed, earn $1
+When Rerolled, lose $1
+
+
+ITEM ADJUSTMENT:
+Spanner:
+Make it earn +2 mult, as well as rotate items.
+This makes it more broad, and more useful
+
+
+ITEM ADJUSTMENT- Gloves:
+Gloves should earn points too.
+Also, they should trigger on Reroll perhaps...?
+
+
+FOOD: Green Squash:
+DOOMED-1
+Give slots Reroll trigger.
+Set money to $13.
+(useful when low on money. Useful for reroll-archetype too) 
+
+
+- ITEM: Furnace (UP-2)
 On Reroll, Pulse:
 Convert items into clone-rocks.
 For every item that was converted, earn $1
@@ -365,6 +421,10 @@ If an item with REROLL or ROTATE trigger is spawned, destroy it, and earn $3
 - New Mineral Class:
 Grubby-tools: Same as iron-tools, but grubby.
 
+- New Mineral tool: GreatSword (EPIC)
+Earns points.
+Comes with a 3x points multiplier
+
 
 - BALANCING: Buff 2-cent-ticket.
 A big issue with grubby-archetype is that you can't really afford expensive items.
@@ -379,147 +439,6 @@ Transform items into a random item
 
 - Make the game easier; Add an extra $2 or $3 per turn.
 (The game is honestly just, more *fun* when you have more money.)
-
-
-## SPIKE:
-Pineapple-ring is VERY VERY VERY fun to use.
-Let's create more items like that, please!!!
-Because It is honestly SO FUN.
-Don't worry as much about balance. Just aim for fun. :)
-
-
-- AETHER ITEMS:
-{
-- Red Aether: Multiplies mult by 2.
-Destroys a random null-slot
-
-- Blue Aether: Multiplies bonus by 3.
-Destroys a random null-slot
-
-- Green Aether: Earns $8
-Destroys all reroll-buttons
-
-- Golden Aether: Earns $4.
-Destroys a random null-slot
-
-- Pink Aether:
-Gives +1 lives to items. (ROOK-1)
-Destroys a random dirt slot
-}
-^^^^^^^^^^^^  
-TODO: Think of something else.  
-I REALLY REALLY Don't like these ideas!!!  
-It is WAY too one-dimensional.  
-"Multiplies mult by X" <--- wtf is this??? That is terrible, it's non-emergent, its dumb.  
-Maybe look at doing something to do with triggers....?  
-IDEA:
-```
-Dark Aether:
-Give all Destroy items +1 lives.
-Destroy a random item with Pulse trigger.
-
-Green Aether:
-Give all Reroll items +0.3 mult.
-Destroy a random item with Pulse trigger.
-
-Golden Aether:
-Earn $6
-Destroy a random item with PULSE trigger.
-```
-
-
-## DESTRUCTIVE ITEMS::: SPIKE
-These need some planning.  
-Brainstorm the systems at play, and the intended playstyles at play.   
-(SEE: `_DESTRUCTIVE_PLANNING.md`)  
-```
-    - ITEM:
-    On destroy, generate 5 points 20 times  (great w/ bonus)
-
-    - ITEM:
-    On destroy, give +2.5 mult
-
-    - ITEM:
-    On destroy, give +200 points. (lives=60, price=-$2)
-    (^^^^ I'm imagining the player lining up multiple shovels to proc this item)
-
-    - ITEM: (Golden rocks)
-    On Destroy, Rotate: 
-    Set mult to 0
-    Earn $1
-
-    - ITEM: Clone-rocks
-    If target item has DESTROY trigger, transform into it
-    (^^^ THIS SHOULD BE UNCOMMON!!! this item is an AMAZING idea.)
-    (more items like these please)
-
-    - ITEM: Green rock:
-    On Reroll, Destroy:
-    Gives +3 bonus
-    Gives +0.4 mult
-    Steals 10 points
-
-    - ITEM: Crimson rocks
-    On Reroll, Destroy:
-    Add mult equal to the current balance
-
-    - ITEM: Muddy rocks
-    On Rotate, Destroy:
-    Add +0.5 mult
-    Add +10 bonus
-    (GRUB-10)
-
-    - ITEM: Orange rock:
-    On Rotate, Destroy:
-    Earn +40 points
-    Adds +1 mult
-    Steals -2 bonus
-
-    - ITEM: Anchor rock
-    On Destroy:
-    Set bonus to 0
-    Earn 90 points
-
-    - ITEM: Rock printer
-    Adds +0.5 mult. Spawn clone-rocks. (shape=ABOVE-2)
-```
-
-
-
-## Anti-reroll mechanism IDEA:
-We need more anti-reroll stuff. Or else, reroll-archetype is gonna be ALL-ENCOMPASSING.
----->
-One idea is to have items that trigger On-Reroll, and have negative-effects.  
-But.... this doesn't really work, since the player can just destroy/remove the items.  
-HOWEVER!  
-What if we had *SLOTS* that were On-Reroll?  (Paper slot?)
-EG:
-```
-Paper Slot: activates on Reroll
-----
-examples / opportunities:
-Paper Slot: DOOMED-10  (can only be rerolled 10 times before dead)
-Paper Slot: bonusGenerated = -1
-Paper Slot: multGenerated = -0.1
-Paper Slot: pointsGenerated = -10
-Paper Slot: moneyEarned = -0.5
-```
-^^^ This is an excellent idea!!! :)  
-And what's coolest, is that players can even game the system to make it *work WITH* reroll-archetype  
-(ie by using mushrooms to buff the slots)  
----->  
-The "hard bit" is deciding how to actually spawn the paper-slots.  
-Do some thinking.  Make sure not to overdo it... we dont want to kill reroll-archetype;
-we just want to make it a bit less "all-encompassing".
--->> ITEM IDEAS:
-```
-ITEM: (floaty, doomed-1)
-Spawns a paper-slot with a key inside it
-
-ITEM:
-Spawns paper-slots.
-```
-
 
 
 ITEM: Black olive
@@ -538,6 +457,19 @@ Increase points of item by 15.
 (Cost $1 to activate)
 
 
+============================================================================
+
+
+- Sell slots:
+Instead of 
+"selling for half price, then destroy"
+Sell-slots should:
+"Reduce item price by half, earn money equal to price of item, then destroy"
+
+
+- Glass slot QOL changes:
+Make it so glass slots dont die when they have a doomed item inside.
+Its frustrating.
 
 
 - When quitting game:
@@ -645,23 +577,6 @@ I think destructive-archetype will be best if we focus on the items WITH the `De
 Add a bunch more items that rotate stuff, BUT ALSO do other stuff.
 (EG: generates points, AND rotates target items)
 (REMEMBER: ITS **OKAY** IF STUFF IS OP. We actually *WANT* stuff to be OP.)
-
-
-
-## (SPIKE: PLANNING)
-- Rework shards to do something else
-(Ideally, we want them to *NOT* destroy themselves when used, lmao)
-
-
-
-## (SPIKE)
-## Perhaps create different activator items?
-REMEMBER: We want maximum fun, and maximum synergies.
-Our players have loved activator-items so far; lets lean into it.
-- Activator-items:
-- If target items dont earn any points, Pulse them
-- If target items earn more than 5 points, Pulse them 
-^^^ Idk if these are a good idea- we basically just want more synergy!
 
 
 - Point balancing. Make the game easier; its too oppressive right now.
