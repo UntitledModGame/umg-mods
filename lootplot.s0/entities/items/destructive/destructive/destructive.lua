@@ -205,7 +205,7 @@ defDestructive("lone_sword", "Lone Sword", {
 
 
 defDestructive("bomb", "Bomb", {
-    activateDescription = loc("Destroy slots"),
+    activateDescription = loc("Destroy slots.\nEarn {lootplot:MONEY_COLOR}$2{/lootplot:MONEY_COLOR} for every slot destroyed."),
 
     rarity = lp.rarities.UNCOMMON,
     doomCount = 1,
@@ -222,7 +222,7 @@ defDestructive("bomb", "Bomb", {
     target = {
         type = "SLOT",
         activate = function(selfEnt, ppos, targetEnt)
-            -- TODO: Make an explosion animation here...?
+            lp.addMoney(selfEnt, 2)
             lp.destroy(targetEnt)
         end
     },
