@@ -25,13 +25,16 @@ local consts = require("shared.constants")
 local GRUB_MONEY_CAP = assert(consts.DEFAULT_GRUB_MONEY_CAP)
 
 
-local function defItem(id, etype)
+local function defItem(id, name, etype)
     etype.image = etype.image or id
+    etype.name = loc(name)
     return lp.defineItem("lootplot.s0:"..id, etype)
 end
-local function defGrubby(id, etype)
+
+
+local function defGrubby(id, name, etype)
     etype.grubMoneyCap = etype.grubMoneyCap or GRUB_MONEY_CAP
-    defItem(id, etype)
+    defItem(id, name, etype)
 end
 
 
@@ -40,9 +43,7 @@ end
 
 
 
-defGrubby("the_negotiator", {
-    name = loc("The Negotiator"),
-
+defGrubby("the_negotiator", "The Negotiator", {
     basePrice = 10,
     baseMoneyGenerated = 1,
     baseMaxActivations = 50,
@@ -59,24 +60,22 @@ defGrubby("the_negotiator", {
 
 
 
-defGrubby("spare_coins", {
-    name = loc("Spare Coins"),
+defGrubby("spare_coins", "Spare Coins", {
     triggers = {"PULSE"},
 
     grubMoneyCap = GRUB_MONEY_CAP,
 
     basePrice = 6,
     baseMoneyGenerated = 2,
-    baseMaxActivations = 2,
+    baseBonusGenerated = 2,
+    baseMaxActivations = 6,
 
     rarity = lp.rarities.UNCOMMON,
 })
 
 
 
-defGrubby("pineapple_ring", {
-    name = loc("Pineapple Ring"),
-
+defGrubby("pineapple_ring", "Pineapple Ring", {
     basePrice = 8,
     grubMoneyCap = GRUB_MONEY_CAP,
     canItemFloat = true,
@@ -105,9 +104,7 @@ defGrubby("pineapple_ring", {
 do
 local PRICE_CAP = GRUB_MONEY_CAP-1
 
-defGrubby("2_cent_ticket", {
-    name = loc("2 Cent Ticket"),
-
+defGrubby("2_cent_ticket", "2 Cent Ticket", {
     basePrice = 2,
     grubMoneyCap = GRUB_MONEY_CAP,
     canItemFloat = true,
@@ -138,8 +135,7 @@ defGrubby("2_cent_ticket", {
 end
 
 
-defItem("0_cent_ticket", {
-    name = loc("0 Cent Ticket"),
+defItem("0_cent_ticket", "0 Cent Ticket", {
     triggers = {"PULSE", "REROLL"},
 
     activateDescription = loc("Reduces all target item prices by {lootplot:MONEY_COLOR}$3{/lootplot:MONEY_COLOR}."),
@@ -166,9 +162,7 @@ defItem("0_cent_ticket", {
 
 
 
-defItem("3_cent_ticket", {
-    name = loc("3 Cent Ticket"),
-
+defItem("3_cent_ticket", "3 Cent Ticket", {
     listen = {
         trigger = "BUY",
     },
@@ -186,41 +180,9 @@ defItem("3_cent_ticket", {
 
 
 
-
---[[
-TODO:
-this really isn't a grubby-item....
-idk why its here...?
-]]
-defItem("dirt_maker", {
-    name = loc("Dirt Maker"),
-    triggers = {"PULSE"},
-
-    basePrice = 10,
-    baseMaxActivations = 10,
-
-    activateDescription = loc("Spawns dirt slots."),
-
-    shape = lp.targets.UpShape(1),
-
-    target = {
-        type = "NO_SLOT",
-        activate = function(selfEnt, ppos, targetEnt)
-            lp.trySpawnSlot(ppos, server.entities.dirt_slot, selfEnt.lootplotTeam)
-        end,
-    },
-
-    rarity = lp.rarities.EPIC,
-})
-
-
-
-
 local BREAD_BUFF = 5
 
-defItem("bread_mace", {
-    name = loc("Bread Mace"),
-
+defItem("bread_mace", "Bread Mace", {
     activateDescription = loc("If money is less than {lootplot:MONEY_COLOR}$10{/lootplot:MONEY_COLOR}, permanently gain {lootplot:POINTS_MOD_COLOR}+%{buff} points", {
         buff = BREAD_BUFF
     }),
@@ -236,8 +198,7 @@ defItem("bread_mace", {
 
 
 
-defItem("golden_heart", {
-    name = loc("Golden Heart"),
+defItem("golden_heart", "Golden Heart", {
     triggers = {"PULSE"},
 
     activateDescription = loc("Gives +1 lives to target item (or slot).\nSets {lootplot:MONEY_COLOR}money{/lootplot:MONEY_COLOR} to {lootplot:MONEY_COLOR}$5"),
@@ -258,4 +219,43 @@ defItem("golden_heart", {
         end
     },
 })
+
+
+
+
+do
+local BONUS_BUFF = 2
+local MULT_BUFF = 0.1
+local SET_MONEY_TO = 8
+
+defItem("toolbelt", "Toolbelt", {
+    triggers = {"PULSE"},
+
+    activateDescription = loc("Sets money to {lootplot:MONEY_COLOR}$%{money}{/lootplot:MONEY_COLOR}.\n\nGives {lootplot:BONUS_COLOR}+%{bonusBuff} Bonus{/lootplot:BONUS_COLOR} and {lootplot:POINTS_MULT_COLOR}+%{multBuff} mult{/lootplot:POINTS_MULT_COLOR} to dirt-slots", {
+        money = SET_MONEY_TO,
+        bonusBuff = BONUS_BUFF,
+        multBuff = MULT_BUFF
+    }),
+
+    onActivate = function(ent)
+        lp.setMoney(ent, SET_MONEY_TO)
+    end,
+
+    rarity = lp.rarities.RARE,
+    basePrice = 8,
+    canItemFloat = true,
+
+    shape = lp.targets.KingShape(1),
+    target = {
+        type = "SLOT_NO_ITEM",
+        filter = function(selfEnt, ppos, slotEnt)
+            return slotEnt:type() == "lootplot.s0:dirt_slot"
+        end,
+        activate = function(selfEnt, ppos, slotEnt)
+            lp.modifierBuff(slotEnt, "multGenerated", MULT_BUFF, selfEnt)
+            lp.modifierBuff(slotEnt, "bonusGenerated", BONUS_BUFF, selfEnt)
+        end
+    },
+})
+end
 

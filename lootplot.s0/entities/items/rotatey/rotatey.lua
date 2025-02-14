@@ -280,3 +280,27 @@ defItem("cd_rom", "CD-ROM", {
 
 
 
+
+defItem("dirt_maker", "Dirt Maker", {
+    triggers = {"ROTATE"},
+
+    basePrice = 10,
+    baseMaxActivations = 10,
+
+    basePointsGenerated = 50,
+
+    activateDescription = loc("Spawns dirt slots."),
+
+    shape = lp.targets.RookShape(2),
+
+    target = {
+        type = "NO_SLOT",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.trySpawnSlot(ppos, server.entities.dirt_slot, selfEnt.lootplotTeam)
+        end,
+    },
+
+    rarity = lp.rarities.RARE,
+})
+
+
