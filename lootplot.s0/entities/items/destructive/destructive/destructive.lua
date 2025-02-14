@@ -380,30 +380,50 @@ defDestructive("unholy_bible", "Unholy Bible", {
 
 
 
---[[
+defDestructive("crimson_leather", "Crimson Leather", {
+    activateDescription = loc("Gives {lootplot:POINTS_MULT_COLOR}+0.5 mult{/lootplot:POINTS_MULT_COLOR} to items with {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} trigger"),
 
-PINK SHIELD:
-Gives lives to target items.
+    rarity = lp.rarities.RARE,
 
-Needs more refining/planning.
-
-"Give {lootplot:LIFE_COLOR}+1 lives{/lootplot:LIFE_COLOR} to all target-items with a {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} trigger"
-
-defDestructive("pink_shield", "Pink Shield", {
-    activateDescription = loc(" to all non-{lootplot:DOOMED_COLOR}DOOMED{/lootplot:DOOMED_COLOR} target items."),
+    basePrice = 9,
+    baseMultGenerated = -4,
 
     shape = lp.targets.KingShape(1),
 
     target = {
         type = "ITEM",
         filter = function(selfEnt, ppos, targetEnt)
-            return not targetEnt.doomCount
+            return lp.hasTrigger(targetEnt, "DESTROY")
         end,
         activate = function(selfEnt, ppos, targetEnt)
-            targetEnt.lives
-        end,
+            lp.modifierBuff(targetEnt, "multGenerated", 0.5, selfEnt)
+        end
     },
 })
 
-]]
+
+
+defDestructive("teal_leather", "Teal Leather", {
+    activateDescription = loc("Gives {lootplot:BONUS_COLOR}+5 Bonus{/lootplot:BONUS_COLOR} to items with {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} trigger"),
+
+    rarity = lp.rarities.RARE,
+
+    basePrice = 9,
+    baseBonusGenerated = -30,
+
+    shape = lp.targets.KingShape(1),
+
+    target = {
+        type = "ITEM",
+        filter = function(selfEnt, ppos, targetEnt)
+            return lp.hasTrigger(targetEnt, "DESTROY")
+        end,
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.modifierBuff(targetEnt, "bonusGenerated", 5, selfEnt)
+        end
+    },
+})
+
+
+
 
