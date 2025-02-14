@@ -291,7 +291,7 @@ defItem("dirt_maker", "Dirt Maker", {
 
     activateDescription = loc("Spawns dirt slots."),
 
-    shape = lp.targets.RookShape(2),
+    shape = lp.targets.KNIGHT_SHAPE,
 
     target = {
         type = "NO_SLOT",
