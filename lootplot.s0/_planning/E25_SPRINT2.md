@@ -326,31 +326,25 @@ After 10 activations, spawns a Reroll button-slot
 This makes the game just a bit more interesting.
 
 
-- ITEM- Crimson leather:
+- (((DONE))) ITEM- Crimson leather:
 Subtract 4 mult.
 Give +0.5 mult to items with Destroy trigger.
 
-- ITEM- Teal leather:
+- (((DONE))) ITEM- Teal leather:
 Subtract 25 bonus
 Give +5 bonus to items with Destroy trigger.
 
 
-- ITEM: Earn mult equal to the price of targetted items 
-(shape: UP-1)
 
-- ITEM:
-Earn bonus equal to the prices of targetted items
-(shape: ROOK-1)
-
-- ITEM-REFACTOR:
-Earn points equal to the prices of targetted items
-(shape: Circle-2)
-
-
-
-- ITEM: Fish skeleton:
+- (((DONE))) ITEM: Fish skeleton:
 Spawn free UNCOMMON items on dirt-slots.
 Give +3 bonus.
+
+
+ITEM ADJUSTMENT:
+Spanner:
+Make it earn +2 mult, as well as rotate items.
+This makes it more broad, and more useful
 
 
 - ITEM:
@@ -371,12 +365,6 @@ When Pulsed, lose $1
 - ITEM: Blue necklace (sticky)
 When Pulsed, earn $1
 When Rerolled, lose $1
-
-
-ITEM ADJUSTMENT:
-Spanner:
-Make it earn +2 mult, as well as rotate items.
-This makes it more broad, and more useful
 
 
 ITEM ADJUSTMENT- Gloves:

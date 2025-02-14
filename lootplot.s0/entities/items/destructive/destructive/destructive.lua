@@ -381,12 +381,13 @@ defDestructive("unholy_bible", "Unholy Bible", {
 
 
 defDestructive("crimson_leather", "Crimson Leather", {
-    activateDescription = loc("Gives {lootplot:POINTS_MULT_COLOR}+0.5 mult{/lootplot:POINTS_MULT_COLOR} to items with {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} trigger"),
+    activateDescription = loc("Gives {lootplot:POINTS_MULT_COLOR}+0.3 mult{/lootplot:POINTS_MULT_COLOR} to items with {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} trigger"),
 
     rarity = lp.rarities.RARE,
 
     basePrice = 9,
-    baseMultGenerated = -4,
+    baseMultGenerated = -6,
+    baseMaxActivations = 4,
 
     shape = lp.targets.KingShape(1),
 
@@ -404,12 +405,13 @@ defDestructive("crimson_leather", "Crimson Leather", {
 
 
 defDestructive("teal_leather", "Teal Leather", {
-    activateDescription = loc("Gives {lootplot:BONUS_COLOR}+5 Bonus{/lootplot:BONUS_COLOR} to items with {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} trigger"),
+    activateDescription = loc("Gives {lootplot:BONUS_COLOR}+3 Bonus{/lootplot:BONUS_COLOR} to items with {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} trigger"),
 
     rarity = lp.rarities.RARE,
 
     basePrice = 9,
     baseBonusGenerated = -30,
+    baseMaxActivations = 4,
 
     shape = lp.targets.KingShape(1),
 
@@ -419,7 +421,7 @@ defDestructive("teal_leather", "Teal Leather", {
             return lp.hasTrigger(targetEnt, "DESTROY")
         end,
         activate = function(selfEnt, ppos, targetEnt)
-            lp.modifierBuff(targetEnt, "bonusGenerated", 5, selfEnt)
+            lp.modifierBuff(targetEnt, "bonusGenerated", 3, selfEnt)
         end
     },
 })

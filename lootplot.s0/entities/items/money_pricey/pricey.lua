@@ -125,7 +125,7 @@ defItem("blue_magnet", "Blue Magnet", {
     basePrice = 8,
     baseMaxActivations = 5,
 
-    shape = lp.targets.KING_SHAPE,
+    shape = lp.targets.CircleShape(2),
 
     target = {
         type = "ITEM",

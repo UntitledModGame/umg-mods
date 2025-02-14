@@ -145,6 +145,35 @@ defItem("diamond", "Diamond", {
     baseMaxActivations = 10,
     basePrice = 10,
 
+    rarity = lp.rarities.EPIC,
+})
+
+
+
+
+defItem("fish_skeleton", "Fish Skeleton", {
+    triggers = {"PULSE"},
+    activateDescription = loc("Spawn free %{UNCOMMON} items on {lootplot:INFO_COLOR}dirt-slots.", {
+        UNCOMMON = lp.rarities.UNCOMMON.displayString
+    }),
+
+    basePrice = 8,
+    baseBonusGenerated = 4,
+
+    shape = lp.targets.HorizontalShape(2),
+    target = {
+        type = "SLOT_NO_ITEM",
+        filter = function(selfEnt, ppos, slotEnt)
+            return slotEnt:type() == "lootplot.s0:dirt_slot"
+        end,
+        activate = function(selfEnt, ppos, slotEnt)
+            local itemEType = lp.rarities.randomItemOfRarity(lp.rarities.UNCOMMON)
+            if itemEType then
+                lp.trySpawnItem(ppos, itemEType, selfEnt.lootplotTeam)
+            end
+        end
+    },
+
     rarity = lp.rarities.RARE,
 })
 
