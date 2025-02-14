@@ -362,8 +362,7 @@ Gloves should earn points too.
 Also, they should trigger on Reroll perhaps...?
 
 
-FOOD: Green Squash:
-DOOMED-1
+- (((DONE))) FOOD: Green Squash (DOOMED-1):
 Give slots Reroll trigger.
 Set money to $13.
 (useful when low on money. Useful for reroll-archetype too) 

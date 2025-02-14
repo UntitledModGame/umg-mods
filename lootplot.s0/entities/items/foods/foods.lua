@@ -189,7 +189,7 @@ defineFood("gray_turnip", {
 
 defineFood("green_olive", {
     name = loc("Green Olive"),
-    activateDescription = loc("Gives {lootplot:TRIGGER_COLOR}REROLL{/lootplot:TRIGGER_COLOR} Trigger to target item."),
+    activateDescription = loc("Gives {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} Trigger to items."),
 
     rarity = lp.rarities.EPIC,
 
@@ -205,9 +205,37 @@ defineFood("green_olive", {
 })
 
 
+defineFood("green_squash", {
+    --[[
+    Gives Reroll-trigger to slots
+    Sets money to $13
+    ]]
+    name = loc("Green Squash"),
+    activateDescription = loc("Sets money to {lootplot:MONEY_COLOR}$13{/lootplot:MONEY_COLOR}\nGives {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} Trigger to slots."),
+
+    rarity = lp.rarities.RARE,
+
+    basePrice = 6,
+
+    onActivate = function (ent)
+        lp.setMoney(ent, 13)
+    end,
+
+    shape = lp.targets.KingShape(1),
+    target = {
+        type = "SLOT",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.addTrigger(targetEnt, "REROLL")
+        end
+    }
+})
+
+
+
+
 defineFood("teal_olive", {
     name = loc("Teal Olive"),
-    activateDescription = loc("Gives {lootplot:TRIGGER_COLOR}PULSE{/lootplot:TRIGGER_COLOR} Trigger to target item."),
+    activateDescription = loc("Gives {lootplot:TRIGGER_COLOR}Pulse{/lootplot:TRIGGER_COLOR} Trigger to items."),
 
     rarity = lp.rarities.EPIC,
 
