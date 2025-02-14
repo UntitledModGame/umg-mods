@@ -341,7 +341,7 @@ Spawn free UNCOMMON items on dirt-slots.
 Give +3 bonus.
 
 
-ITEM ADJUSTMENT:
+- (((DONE))) ITEM ADJUSTMENT:
 Spanner:
 Make it earn +2 mult, as well as rotate items.
 This makes it more broad, and more useful
@@ -349,7 +349,7 @@ This makes it more broad, and more useful
 
 - ITEM:
 On Pulse:
-Give +4 bonus and +0.2 mult to dirt slots.
+Give +2 bonus and +0.1 mult to dirt slots.
 Set money to $8. (<--- archetype broadening)
 
 

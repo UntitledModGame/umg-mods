@@ -89,6 +89,7 @@ defItem("spanner", "Spanner", {
 
     basePrice = 6,
     baseMoneyGenerated = -1,
+    baseMultGenerated = 2,
     baseMaxActivations = 4,
 
     activateDescription = loc("Rotates items"),
