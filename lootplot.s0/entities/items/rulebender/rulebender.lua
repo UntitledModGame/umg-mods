@@ -240,3 +240,31 @@ defItem("seraphim", "Seraphim", {
     }
 })
 
+
+
+defItem("prism", "Prism", {
+    activateDescription = loc("Decrease round-count by 1."),
+
+    triggers = {"PULSE"},
+
+    rarity = lp.rarities.LEGENDARY,
+
+    basePrice = 16,
+    baseMaxActivations = 1,
+    doomCount = 8,
+    canItemFloat = true,
+
+    lootplotProperties = {
+        modifiers = {
+            pointsGenerated = function(ent)
+                local pointsReq = lp.getRequiredPoints(ent)
+                return -math.floor(pointsReq * 0.5)
+            end
+        }
+    },
+
+    onActivate = function(ent)
+        lp.modifyAttribute("ROUND", ent, -1)
+    end
+})
+

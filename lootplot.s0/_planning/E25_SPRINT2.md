@@ -352,18 +352,9 @@ Give +2 bonus and +0.1 mult to dirt slots.
 Set money to $8. (<--- archetype broadening)
 
 
-- ITEM: Prism
+- (((DONE))) ITEM: Prism
 Increase points requirement by 50%
 Decrease round count by 1
-
-
-- ITEM: Green necklace (sticky)
-When rerolled, earn $1
-When Pulsed, lose $1
-
-- ITEM: Blue necklace (sticky)
-When Pulsed, earn $1
-When Rerolled, lose $1
 
 
 ITEM ADJUSTMENT- Gloves:
@@ -403,6 +394,15 @@ If a DOOMED item is spawned, destroy it, and earn $2
 - ITEM: 
 If an item with REROLL or ROTATE trigger is spawned, destroy it, and earn $3
 (sticky)
+
+
+- ITEM: Green necklace (sticky)
+When rerolled, earn $1
+When Pulsed, lose $1
+
+- ITEM: Blue necklace (sticky)
+When Pulsed, earn $1
+When Rerolled, lose $1
 
 
 - New Mineral Class:
