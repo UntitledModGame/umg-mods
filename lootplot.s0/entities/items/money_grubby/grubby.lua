@@ -231,7 +231,7 @@ local SET_MONEY_TO = 8
 defItem("toolbelt", "Toolbelt", {
     triggers = {"PULSE"},
 
-    activateDescription = loc("Sets money to {lootplot:MONEY_COLOR}$%{money}{/lootplot:MONEY_COLOR}.\n\nGives {lootplot:BONUS_COLOR}+%{bonusBuff} Bonus{/lootplot:BONUS_COLOR} and {lootplot:POINTS_MULT_COLOR}+%{multBuff} mult{/lootplot:POINTS_MULT_COLOR} to dirt-slots", {
+    activateDescription = loc("Sets money to {lootplot:MONEY_COLOR}$%{money}{/lootplot:MONEY_COLOR}.\nGives {lootplot:BONUS_COLOR}+%{bonusBuff} Bonus{/lootplot:BONUS_COLOR} and {lootplot:POINTS_MULT_COLOR}+%{multBuff} mult{/lootplot:POINTS_MULT_COLOR} to dirt-slots", {
         money = SET_MONEY_TO,
         bonusBuff = BONUS_BUFF,
         multBuff = MULT_BUFF
