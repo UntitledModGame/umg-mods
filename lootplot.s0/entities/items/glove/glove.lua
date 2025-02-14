@@ -11,6 +11,8 @@ local function defineGlove(id, name, description, giveShape, rarity)
         triggers = {"PULSE"},
 
         basePrice = 6,
+        basePointsGenerated = 25,
+        baseMaxActivations = 8,
 
         shape = lp.targets.UP_SHAPE,
 

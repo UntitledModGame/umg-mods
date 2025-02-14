@@ -357,7 +357,7 @@ Increase points requirement by 50%
 Decrease round count by 1
 
 
-ITEM ADJUSTMENT- Gloves:
+- (((DONE))) ITEM ADJUSTMENT- Gloves:
 Gloves should earn points too.
 Also, they should trigger on Reroll perhaps...?
 
@@ -445,6 +445,11 @@ Increase points of item by 15.
 
 
 ============================================================================
+
+
+- Slot-visuals in tutorial;
+Showcase DOOMED-slots, mult-slots, point-slots, bonus-slots, glass-slot, dirt-slot, etc etc
+Then show one slot with ALL combined.
 
 
 - Sell slots:
