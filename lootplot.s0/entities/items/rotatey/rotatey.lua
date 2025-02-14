@@ -229,6 +229,7 @@ defRecord("record_red", "Red Record", {
 
 
 defItem("record_blue", "Blue Record", {
+    triggers = RECORD_TRIGGERS,
     activateDescription = loc("Add {lootplot:BONUS_COLOR}+1 bonus{/lootplot:BONUS_COLOR} to items"),
 
     rarity = lp.rarities.EPIC,
