@@ -31,13 +31,12 @@ defChestplate("deathly_chestplate", "Deathly Chestplate", {
         trigger="DESTROY"
     },
 
-    activateDescription = loc("Give items {lootplot:POINTS_COLOR}+20 points{/lootplot:POINTS_COLOR}, and subtract {lootplot:BONUS_COLOR}-1 bonus"),
+    activateDescription = loc("Give items {lootplot:POINTS_COLOR}+10 points"),
 
     target = {
         type = "ITEM",
         activate = function(selfEnt, ppos, itemEnt)
-            lp.modifierBuff(itemEnt, "pointsGenerated", 20, selfEnt)
-            lp.modifierBuff(itemEnt, "bonusGenerated", -1, selfEnt)
+            lp.modifierBuff(itemEnt, "pointsGenerated", 10, selfEnt)
         end
     }
 })
@@ -93,7 +92,7 @@ defChestplate("golden_chestplate", "Golden Chestplate", {
 defChestplate("magical_chestplate", "Magical Chestplate", {
     activateDescription = loc("Buff item's {lootplot:POINTS_COLOR}points{/lootplot:POINTS_COLOR} by what the current {lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} is"),
 
-    baseMoneyGenerated = -2,
+    rarity = lp.rarities.EPIC,
 
     target = {
         type = "ITEM",

@@ -395,7 +395,7 @@ When Pulsed, earn $1
 When Rerolled, lose $1
 
 
-- New Mineral Class:
+- (((DONE))) New Mineral Class:
 Grubby-tools: Same as iron-tools, but grubby.
 
 - New Mineral tool: GreatSword (EPIC)
