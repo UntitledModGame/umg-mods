@@ -429,3 +429,32 @@ defDestructive("teal_leather", "Teal Leather", {
 
 
 
+defDestructive("furnace", "Furnace", {
+    triggers = {"REROLL", "PULSE"},
+
+    activateDescription = loc("Convert items into {lootplot:INFO_COLOR}Clone-Rocks{/lootplot:INFO_COLOR}.\nEarn {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} for every item that was converted"),
+
+    rarity = lp.rarities.EPIC,
+
+    basePrice = 9,
+    baseMaxActivations = 10,
+
+    shape = lp.targets.KingShape(1),
+
+    target = {
+        type = "ITEM",
+        filter = function(selfEnt, ppos, targetEnt)
+            return not lp.hasTrigger(targetEnt, "DESTROY")
+        end,
+        activate = function(selfEnt, ppos, targetEnt)
+            local cloneRockEType = assert(server.entities.clone_rocks)
+            local ok = lp.forceSpawnItem(ppos, cloneRockEType, selfEnt.lootplotTeam)
+            if ok then
+                lp.addMoney(selfEnt, 1)
+            end
+        end
+    },
+})
+
+
+

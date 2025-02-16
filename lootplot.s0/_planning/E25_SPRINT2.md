@@ -368,7 +368,7 @@ Set money to $13.
 (useful when low on money. Useful for reroll-archetype too) 
 
 
-- ITEM: Furnace (UP-2)
+- (((DONE))) ITEM: Furnace (UP-2)
 On Reroll, Pulse:
 Convert items into clone-rocks.
 For every item that was converted, earn $1

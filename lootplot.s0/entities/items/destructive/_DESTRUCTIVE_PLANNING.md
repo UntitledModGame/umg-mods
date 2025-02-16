@@ -1,6 +1,6 @@
 
 
-# DESTRUCTIVE PLANNING:
+## DESTRUCTIVE PLANNING:
 
 Destructive-archetype is going to probably be one of the most interesting archetypes in the game.
 
@@ -8,8 +8,7 @@ But it *NEEDS* be be executed well.
 
 ---
 
-## We have 3 categories:
-
+## 3 CATEGORIES:
 - Rocks: Do something when destroyed
 (eg. earn points/mult when destroyed)
 
@@ -25,7 +24,6 @@ But it *NEEDS* be be executed well.
 
 
 ----
-
 
 ## The ephemerality issue:
 One concern i have is player micromanaging/throwing away rocks.
@@ -48,4 +46,10 @@ THAT WOULD BE AWESOME!
 that would *ALSO* solve the problem of not being able to buff rocks.
 WHICH IS SO COOL.
 RAGH. OKAY. AWESOME.
+
+
+## IDEA / SOLUTION 2:
+Just add a TONNE of lives to rocks.
+This makes them a resource, as opposed to something that needs micromanaging.
+IE im imagining rocks with 20 lives.
 
