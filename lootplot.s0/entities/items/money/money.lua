@@ -250,12 +250,11 @@ defItem("coins_and_emerald", "Coins and Emerald", {
     --[[
     anti-synergy with reroll builds
     ]]
-    activateDescription = loc("Destroys itself if {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} is triggered."),
+    activateDescription = loc("When {lootplot:TRIGGER_COLOR}Pulsed{/lootplot:TRIGGER_COLOR}, earn {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR}\nWhen {lootplot:TRIGGER_COLOR}Rerolled{/lootplot:TRIGGER_COLOR}, lose {lootplot:MONEY_COLOR}$1"),
 
     sticky = true,
 
-    baseMoneyGenerated = 1,
-    baseMaxActivations = 1,
+    baseMaxActivations = 10,
 
     basePrice = 8,
 
@@ -265,7 +264,9 @@ defItem("coins_and_emerald", "Coins and Emerald", {
 
     onTriggered = function(ent, triggerName)
         if triggerName == "REROLL" then
-            lp.destroy(ent)
+            lp.addMoney(ent, -1)
+        elseif triggerName == "PULSE" then
+            lp.addMoney(ent, 1)
         end
     end,
 })

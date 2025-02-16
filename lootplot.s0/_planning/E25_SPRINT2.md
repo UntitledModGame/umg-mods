@@ -386,11 +386,11 @@ Make this less of an issue.
 Either we can increase the Grub money cap, OR, we can add grubby-infrastructure to allow purchasing of expensive items.
 
 
-- ITEM: Green necklace (sticky)
+- (((DEFERRED))) ITEM: Green necklace (sticky)
 When rerolled, earn $1
 When Pulsed, lose $1
 
-- ITEM: Blue necklace (sticky)
+- (((DEFERRED))) ITEM: Blue necklace (sticky)
 When Pulsed, earn $1
 When Rerolled, lose $1
 
