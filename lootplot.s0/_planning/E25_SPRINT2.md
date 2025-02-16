@@ -374,14 +374,8 @@ Convert items into clone-rocks.
 For every item that was converted, earn $1
 
 
-- ITEM: Rucksack
-When an item is spawned, earn $1, and give +1 mult
-(ROOK-6)
-(sticky)
-
-
-- ITEM:  Auto-reroll ticket
-When an item is purchased, trigger Reroll on target slots.
+- (((DONE))) ITEM:  Green ticket
+When an item is purchased, trigger Pulse on target slots.
 (shape: KING-2)
 (sticky)
 
@@ -441,6 +435,12 @@ has action-buttons, allowing the player to transform it into ANY other shield
 Reduce Bonus of items by 1.
 Increase points of item by 15.
 (Cost $1 to activate)
+
+
+- ITEM: Rucksack
+When an item is spawned, earn $1, and give +1 mult
+(ROOK-6)
+(sticky)
 
 
 ============================================================================

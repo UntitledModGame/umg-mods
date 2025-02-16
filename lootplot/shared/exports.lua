@@ -875,7 +875,7 @@ function lp.clone(ent)
     ---@diagnostic disable-next-line: undefined-field
     local cloned = ent:clone()
     --[[
-        TODO: emit events here
+        TODO: emit events here?
     ]]
     return cloned
 end
@@ -895,6 +895,7 @@ function lp.forceCloneItem(cloneEnt, ppos)
         ent:delete()
         return nil
     end
+    lp.tryTriggerEntity("SPAWN", ent)
     return ent
 end
 
@@ -911,6 +912,7 @@ function lp.tryCloneItem(cloneEnt, ppos)
         ent:delete()
         return nil
     end
+    lp.tryTriggerEntity("SPAWN", ent)
     return ent
 end
 

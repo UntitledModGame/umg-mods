@@ -326,6 +326,38 @@ defItem("neko_cat", {
 
 
 
+defItem("green_ticket", {
+    name = loc("Green Ticket"),
+
+    activateDescription = loc("When an item is purchased, trigger {lootplot:TRIGGER_COLOR}Pulse{/lootplot:TRIGGER_COLOR} on other slots."),
+    basePrice = 10,
+
+    sticky = true,
+    canItemFloat = true,
+    shape = lp.targets.KingShape(2),
+
+    listen = {
+        trigger = "BUY",
+        activate = function(selfEnt, ppos, targetEnt)
+            local slots = lp.targets.getConvertedTargets(selfEnt)
+            local shopSlotThatWasPurchasedFrom = lp.itemToSlot(targetEnt)
+            for _,s in ipairs(slots) do
+                if s ~= shopSlotThatWasPurchasedFrom then
+                    -- dont pulse the slot that we purchased from! Thats bad.
+                    lp.tryTriggerEntity("PULSE", s)
+                end
+            end
+        end
+    },
+    target = {
+        type = "SLOT",
+    },
+
+    rarity = lp.rarities.RARE,
+})
+
+
+
 
 defItem("top_hat", {
     name = loc("Top Hat"),
