@@ -398,7 +398,7 @@ When Rerolled, lose $1
 - (((DONE))) New Mineral Class:
 Grubby-tools: Same as iron-tools, but grubby.
 
-- New Mineral tool: GreatSword (EPIC)
+- (((DONE))) New Mineral tool: GreatSword (EPIC)
 Earns points.
 Comes with a 3x points multiplier
 
@@ -457,6 +457,12 @@ Instead of
 "selling for half price, then destroy"
 Sell-slots should:
 "Reduce item price by half, earn money equal to price of item, then destroy"
+
+
+- Dirt-slot scaling:
+When we scale a dirt-slot for variation, it also affects the slot-visuals.
+Fix this!
+Honestly it's probably best to just
 
 
 - Glass slot QOL changes:

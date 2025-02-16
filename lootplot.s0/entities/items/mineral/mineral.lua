@@ -59,6 +59,42 @@ local function defineSword(mineral_type, name, strength, etype)
 end
 
 
+
+local function defineGreatsword(mineral_type, name, strength, etype)
+    local namespace = umg.getModName() .. ":"
+    local etypeName = namespace .. mineral_type .. "_greatsword"
+    local image = mineral_type .. "_greatsword"
+
+    local swordType = {
+        image = image,
+        name = loc(name .. " Great-Sword"),
+
+        description = loc("Comes with a {lootplot:POINTS_MULT_COLOR}%{mult}x points multiplier", {
+            mult = strength
+        }),
+
+        lootplotProperties = {
+            multipliers = {
+                pointsGenerated = strength,
+            }
+        },
+
+        basePointsGenerated = 20,
+
+        rarity = etype.rarity or lp.rarities.EPIC,
+
+        basePrice = 18,
+    }
+    for k,v in pairs(etype) do
+        swordType[k] = swordType[k] or v
+    end
+
+    defineMineral(mineral_type, etypeName, swordType)
+end
+
+
+
+
 local function floorTo01(x)
     -- floors to nearest 0.1
     return math.floor(x * 10) / 10
@@ -351,6 +387,7 @@ local function defineMineralClass(mineral_type, name, strength, etype)
     defineHammer(mineral_type, name, strength,  etype)
     defineScythe(mineral_type, name, strength,  etype)
     defineCrossbow(mineral_type, name, strength,  etype)
+    defineGreatsword(mineral_type, name, strength,  etype)
 end
 
 
