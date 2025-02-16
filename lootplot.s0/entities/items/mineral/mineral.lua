@@ -420,14 +420,19 @@ defineMineralClass("golden", "Golden", 15, {
 
 
 
+
+
+local consts = require("shared.constants")
+local GRUB_MONEY_CAP = assert(consts.DEFAULT_GRUB_MONEY_CAP)
+
 --[[
 
-Sticky items start with `sticky` component
+Grubby items have `grubby` component
 
 ]]
-defineMineralClass("sticky", "Sticky", 4, {
+defineMineralClass("grubby", "Grubby", 5, {
     triggers = {"PULSE"},
-    sticky = true,
+    grubMoneyCap = GRUB_MONEY_CAP,
     baseMaxActivations = 8
 })
 

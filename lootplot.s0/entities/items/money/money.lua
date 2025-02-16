@@ -254,7 +254,7 @@ defItem("coins_and_emerald", "Coins and Emerald", {
 
     sticky = true,
 
-    baseMaxActivations = 10,
+    baseMaxActivations = 6,
 
     basePrice = 8,
 
