@@ -403,9 +403,9 @@ Earns points.
 Comes with a 3x points multiplier
 
 
-- ITEM: Magic wand:
+- (((DONE))) ITEM: Magic wand:
 (shape: NorthEast-1)
-Transform items into a random item
+Transform items into a clone of an existing item on the plot.
 
 
 - Make the game easier; Add an extra $2 or $3 per turn.

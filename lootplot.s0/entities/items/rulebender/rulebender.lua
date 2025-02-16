@@ -214,6 +214,45 @@ defItem("foghorn", "Fog Horn", {
 
 
 
+
+---@param plot lootplot.Plot
+---@return lootplot.ItemEntity?
+local function getRandomPlotItem(plot)
+    local arr = objects.Array()
+    plot:foreachItem(function(itemEnt, ppos)
+        arr:add(itemEnt)
+    end)
+    if #arr > 0 then
+        return table.random(arr)
+    end
+end
+
+defItem("magic_wand", "Magic Wand", {
+    activateDescription = loc("Transform items into a clone of a random item on the plot."),
+
+    triggers = {"PULSE"},
+
+    rarity = lp.rarities.EPIC,
+
+    basePrice = 16,
+    baseMaxActivations = 10,
+
+    shape = lp.targets.NorthEastShape(1),
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            local plot = ppos:getPlot()
+            local itemEnt = getRandomPlotItem(plot)
+            if itemEnt then
+                lp.forceCloneItem(itemEnt, ppos)
+            end
+        end
+    }
+})
+
+
+
+
 defItem("seraphim", "Seraphim", {
     --[[
     TODO:
