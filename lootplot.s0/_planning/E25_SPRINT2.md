@@ -380,13 +380,10 @@ When an item is purchased, trigger Pulse on target slots.
 (sticky)
 
 
-- ITEM: 
-If a DOOMED item is spawned, destroy it, and earn $2
-(sticky)
-
-- ITEM: 
-If an item with REROLL or ROTATE trigger is spawned, destroy it, and earn $3
-(sticky)
+- (((DONE))) BALANCING: Buff 2-cent-ticket.
+A big issue with grubby-archetype is that you can't really afford expensive items.
+Make this less of an issue.
+Either we can increase the Grub money cap, OR, we can add grubby-infrastructure to allow purchasing of expensive items.
 
 
 - ITEM: Green necklace (sticky)
@@ -404,12 +401,6 @@ Grubby-tools: Same as iron-tools, but grubby.
 - New Mineral tool: GreatSword (EPIC)
 Earns points.
 Comes with a 3x points multiplier
-
-
-- BALANCING: Buff 2-cent-ticket.
-A big issue with grubby-archetype is that you can't really afford expensive items.
-Make this less of an issue.
-Either we can increase the Grub money cap, OR, we can add grubby-infrastructure to allow purchasing of expensive items.
 
 
 - ITEM: Magic wand:
@@ -441,6 +432,16 @@ Increase points of item by 15.
 When an item is spawned, earn $1, and give +1 mult
 (ROOK-6)
 (sticky)
+
+- ITEM: 
+If a DOOMED item is spawned, destroy it, and earn $2
+(sticky)
+
+- ITEM: 
+If an item with REROLL or ROTATE trigger is spawned, destroy it, and earn $3
+(sticky)
+
+
 
 
 ============================================================================

@@ -102,9 +102,14 @@ defGrubby("pineapple_ring", "Pineapple Ring", {
 
 
 do
-local PRICE_CAP = GRUB_MONEY_CAP-1
+local PRICE_CAP = 8
+assert(PRICE_CAP < GRUB_MONEY_CAP, "Erm, this is super unbalanced. Price cap MUST be less than GRUB-CAP")
 
-defGrubby("2_cent_ticket", "2 Cent Ticket", {
+--[[
+Consider this one of the "Staple" items of grubby-builds.
+Without this item, grubby-builds are kinda unplayable.
+]]
+defGrubby("8_cent_ticket", "8 Cent Ticket", {
     basePrice = 2,
     grubMoneyCap = GRUB_MONEY_CAP,
     canItemFloat = true,
@@ -113,11 +118,15 @@ defGrubby("2_cent_ticket", "2 Cent Ticket", {
         priceCap = PRICE_CAP,
     }),
 
-    baseMaxActivations = 20,
+    baseMaxActivations = 40,
 
     triggers = {"REROLL", "PULSE"},
     target = {
         type = "ITEM",
+        filter = function(selfEnt, ppos, targetEnt)
+            local price = targetEnt.price
+            return price and price > PRICE_CAP
+        end,
         activate = function(selfEnt, ppos, targetEnt)
             local price = targetEnt.price
             if price and price > PRICE_CAP then
@@ -127,9 +136,9 @@ defGrubby("2_cent_ticket", "2 Cent Ticket", {
         end,
     },
 
-    shape = lp.targets.CircleShape(3),
+    shape = lp.targets.KingShape(1),
 
-    rarity = lp.rarities.RARE,
+    rarity = lp.rarities.UNCOMMON,
 })
 
 end
@@ -138,7 +147,7 @@ end
 defItem("0_cent_ticket", "0 Cent Ticket", {
     triggers = {"PULSE", "REROLL"},
 
-    activateDescription = loc("Reduces all target item prices by {lootplot:MONEY_COLOR}$3{/lootplot:MONEY_COLOR}."),
+    activateDescription = loc("Reduces item prices by {lootplot:MONEY_COLOR}$3{/lootplot:MONEY_COLOR}."),
 
     basePrice = 6,
     grubMoneyCap = GRUB_MONEY_CAP,
@@ -158,6 +167,7 @@ defItem("0_cent_ticket", "0 Cent Ticket", {
         end
     },
 })
+
 
 
 
@@ -186,6 +196,12 @@ defItem("bread_mace", "Bread Mace", {
     activateDescription = loc("If money is less than {lootplot:MONEY_COLOR}$10{/lootplot:MONEY_COLOR}, permanently gain {lootplot:POINTS_MOD_COLOR}+%{buff} points", {
         buff = BREAD_BUFF
     }),
+
+    onActivate = function(selfEnt)
+        if (lp.getMoney(selfEnt) or 0xfff) < 10 then
+            lp.modifierBuff(selfEnt, "pointsGenerated", 5, selfEnt)
+        end
+    end,
 
     triggers = {"PULSE", "REROLL"},
 

@@ -330,7 +330,9 @@ defItem("green_ticket", {
     name = loc("Green Ticket"),
 
     activateDescription = loc("When an item is purchased, trigger {lootplot:TRIGGER_COLOR}Pulse{/lootplot:TRIGGER_COLOR} on other slots."),
+
     basePrice = 10,
+    baseMaxActivations = 50,
 
     sticky = true,
     canItemFloat = true,
