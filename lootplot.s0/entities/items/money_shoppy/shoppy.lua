@@ -153,6 +153,7 @@ defItem("bull_helmet", {
     }),
 
     listen = {
+        type = "ITEM",
         trigger = "BUY",
         activate = function(selfEnt, ppos, targetEnt)
             lp.modifierBuff(targetEnt, "pointsGenerated", BULL_POINTS_BUFF, selfEnt)
@@ -188,6 +189,7 @@ defBalloon("pink_balloon", "Pink Balloon", {
     basePrice = 15,
 
     listen = {
+        type = "ITEM",
         trigger = "BUY",
         activate = function(selfEnt, ppos, targetEnt)
             local lives = targetEnt.lives or 0
@@ -207,6 +209,7 @@ defBalloon("white_balloon", "White Balloon", {
     baseMaxActivations = 20,
 
     listen = {
+        type = "ITEM",
         trigger = "BUY",
         activate = function(selfEnt, ppos, targetEnt)
             targetEnt.canItemFloat = true
@@ -226,6 +229,7 @@ defBalloon("green_balloon", "Green Balloon", {
     basePrice = 15,
 
     listen = {
+        type = "ITEM",
         trigger = "BUY",
         activate = function(selfEnt, ppos, targetEnt)
             local pgen = targetEnt.pointsGenerated or 0
@@ -245,6 +249,7 @@ defBalloon("rotation_balloon", "Rotation Balloon", {
     activateDescription = loc("Rotates all target items"),
 
     listen = {
+        type = "ITEM",
         trigger = "BUY",
     },
     target = {
@@ -271,6 +276,7 @@ defBalloon("blue_balloon", "Blue Balloon", {
     basePrice = 10,
 
     listen = {
+        type = "ITEM",
         trigger = "BUY",
     }
 })
@@ -283,6 +289,7 @@ defBalloon("golden_balloon", "Golden Balloon", {
     basePrice = 10,
 
     listen = {
+        type = "ITEM",
         trigger = "BUY",
         activate = function(selfEnt, ppos, targetEnt)
             if (targetEnt.price or 0) > 3 then
@@ -306,6 +313,7 @@ defItem("neko_cat", {
     sticky = true,
 
     listen = {
+        type = "ITEM",
         trigger = "BUY",
     },
 
@@ -339,6 +347,7 @@ defItem("green_ticket", {
     shape = lp.targets.KingShape(2),
 
     listen = {
+        type = "ITEM",
         trigger = "BUY",
         activate = function(selfEnt, ppos, targetEnt)
             local slots = lp.targets.getConvertedTargets(selfEnt)

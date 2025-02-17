@@ -128,6 +128,7 @@ defineHelmet("deathly_helmet", "Deathly Helmet", {
 
     triggers = {},
     listen = {
+        type = "ITEM",
         trigger = "DESTROY",
     },
 

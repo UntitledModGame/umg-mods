@@ -5,6 +5,7 @@ local util = require("shared.util")
 
 
 ent.listen = {
+    type = "ITEM",
     trigger = "REROLL" or "DESTROY" or "PULSE",
     filter = function(selfEnt, ppos, targetEnt)
         return isFood(targetEnt)
@@ -83,8 +84,20 @@ local listenEntToListenedEnts = {--[[
 
 local listenGroup = umg.group("shape", "listen")
 
+
+local VALID_LISTEN_TYPES = {
+    ITEM = "ITEM",
+    SLOT = "SLOT",
+    ITEM_OR_SLOT = "ITEM_OR_SLOT", -- checks item first, then slot
+    SLOT_OR_ITEM = "SLOT_OR_ITEM", -- checks slot first, then item
+    SLOT_NO_ITEM = "SLOT_NO_ITEM", -- empty slots
+}
+
 listenGroup:onAdded(function(ent)
     local trigger = assert(ent.listen.trigger, "Listen ents need a trigger!")
+    if not VALID_LISTEN_TYPES[ent.listen.type] then
+        umg.melt("Invalid conversion-type: " .. tostring(ent.listen.type) .. " for entity: " .. ent:type())
+    end
     triggerToListenEnt[trigger] = triggerToListenEnt[trigger] or objects.Set()
     triggerToListenEnt[trigger]:add(ent)
 end)
@@ -124,9 +137,9 @@ local function updateListenTargets(ent)
     set:clear()
 
     for _, ppos in ipairs(pposLis) do
-        local targItem = lp.posToItem(ppos)
-        if targItem and util.canListen(ent, ppos) then
-            set:add(targItem)
+        local ok, targEnt = lp.tryConvert(ppos, ent.listen.type)
+        if ok and targEnt and util.canListen(ent, ppos) then
+            set:add(targEnt)
         end
     end
 end

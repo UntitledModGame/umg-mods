@@ -19,6 +19,7 @@ ent.target = {
 
 
 ent.listen = {
+    type = "ITEM",
     trigger = "REROLL" or "DESTROY" or "PULSE",
     filter = function(selfEnt, ppos, targetEnt)
         return isFood(targetEnt)

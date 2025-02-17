@@ -37,9 +37,9 @@ end
 function util.canListen(listenerEnt, ppos)
     local listen = listenerEnt.listen
     assert(listen, "Not a listen entity?")
-    local itemEnt = lp.posToItem(ppos)
-    if itemEnt then
-        return checkFilter(listenerEnt, listen, ppos, itemEnt)
+    local targEnt = lp.tryConvert(ppos, listen.type)
+    if targEnt then
+        return checkFilter(listenerEnt, listen, ppos, targEnt)
     else
         return false
     end

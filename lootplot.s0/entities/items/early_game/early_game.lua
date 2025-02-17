@@ -162,6 +162,7 @@ defItem("blue_net", {
     basePrice = 5,
 
     listen = {
+        type = "ITEM",
         trigger = "PULSE"
     },
     shape = lp.targets.KING_SHAPE,

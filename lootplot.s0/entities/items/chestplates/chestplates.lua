@@ -28,6 +28,7 @@ end
 
 defChestplate("deathly_chestplate", "Deathly Chestplate", {
     listen = {
+        type = "ITEM",
         trigger="DESTROY"
     },
 

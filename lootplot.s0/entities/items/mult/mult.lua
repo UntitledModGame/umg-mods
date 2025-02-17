@@ -177,6 +177,7 @@ defItem("red_net", "Red Net", {
     baseMultGenerated = 0.1,
 
     listen = {
+        type = "ITEM",
         trigger = "PULSE"
     },
     shape = lp.targets.KING_SHAPE,

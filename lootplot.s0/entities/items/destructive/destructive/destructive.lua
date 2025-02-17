@@ -253,6 +253,7 @@ defDestructive("goblet_of_blood", "Goblet of Blood", {
     baseMaxActivations = 10,
 
     listen = {
+        type = "ITEM",
         trigger = "DESTROY",
         activate = function(selfEnt, ppos, targetEnt)
             local points = selfEnt.pointsGenerated
@@ -271,10 +272,28 @@ defDestructive("pink_mitten", "Pink Mitten", {
     end,
 
     rarity = lp.rarities.RARE,
+    baseMultGenerated = 0.6,
+    baseMaxActivations = 8,
     basePrice = 1,
 
     activateDescription = loc("Gains {lootplot:LIFE_COLOR}+1 life{/lootplot:LIFE_COLOR}\n(Maximum of 15)")
 })
+
+
+
+defDestructive("teddy", "Teddy", {
+    listen = {
+        type = "SLOT",
+        trigger = "PULSE"
+    },
+
+    shape = lp.targets.KingShape(1),
+
+    rarity = lp.rarities.RARE,
+    basePrice = 8,
+    baseMoneyGenerated = 3,
+})
+
 
 
 

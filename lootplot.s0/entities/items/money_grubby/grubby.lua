@@ -54,6 +54,7 @@ defGrubby("the_negotiator", "The Negotiator", {
     shape = lp.targets.KING_SHAPE,
 
     listen = {
+        type = "ITEM",
         trigger = "BUY",
     }
 })
@@ -84,6 +85,7 @@ defGrubby("pineapple_ring", "Pineapple Ring", {
     baseMaxActivations = 8,
 
     listen = {
+        type = "ITEM",
         trigger = "BUY",
     },
     target = {
@@ -174,6 +176,7 @@ defItem("0_cent_ticket", "0 Cent Ticket", {
 
 defItem("3_cent_ticket", "3 Cent Ticket", {
     listen = {
+        type = "ITEM",
         trigger = "BUY",
     },
 
