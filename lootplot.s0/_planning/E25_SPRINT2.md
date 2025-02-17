@@ -417,11 +417,51 @@ Give Destroy trigger and Rotate trigger to items
 (^^^ Note: this synergizes EXTREMELY WELL with clone-rocks; since you can duplicate any item you want!)
 
 
+- (((DONE))) ITEM: snake-oil
+Randomize item prices between $0 and $15
+
+- ITEM: pink-mushroom
+Give +6 lives to slots and trigger Pulse on slots.
+
+- Make listen-system work for slots.
+
+- ITEM: Monocle
+When a slot is destroyed, earn $3 and earn +200 points
+
+- ITEM: Velvet cake: Add +0.1 mult to items/slots
+- ITEM: Blue cake: Add +1 bonus to items/slots
+
+- ITEM: Demon knife: (like moon-knife)
+Subtract -2 mult
+Subtracts -8 bonus
+Gain +0.1 mult permanently
+
+- ITEM: Ghost knife: (like moon-knife)
+Subtract -8 bonus
+Gain +0.4 bonus permanently
+
+
+- ITEM: Basilisks eye
+Set rarity of items to UNCOMMON
+Earn 20 points
+
+
 - ITEM: (BISHOP-1)
 Reduce Bonus of items by 1.
 Increase points of item by 15.
 (Cost $1 to activate)
 
+- ITEM REFACTOR: Make key-bar COMMON, make it generate +0.2 mult
+
+- ITEM REFACTOR: Make bomb activate on action-button. Make it earn $2 per slot destroyed.
+Remove DOOMED from it! Bomb shouldn't be doomed.
+
+
+============================================================================
+
+## UNSURE OF STUFF BELOW THIS POINT:
+- SLOT: Paper-slot:
+Cannot hold COMMON/UNCOMMON items
 
 - ITEM: Rucksack
 When an item is spawned, earn $1, and give +1 mult
@@ -436,11 +476,9 @@ If a DOOMED item is spawned, destroy it, and earn $2
 If an item with REROLL or ROTATE trigger is spawned, destroy it, and earn $3
 (sticky)
 
-
 - ITEM: Broken shield:
 has action-buttons, allowing the player to transform it into ANY other shield
 (has a button for every other shield-type)
-
 
 ============================================================================
 

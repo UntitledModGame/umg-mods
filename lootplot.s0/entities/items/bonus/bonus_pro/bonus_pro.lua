@@ -119,7 +119,7 @@ defItem("blue_cube", "Blue Cube", {
 --[[
 Boomerang synergizes with BONUS archetype
 ]]
-local DIAMOND_POINT_ACTIVATION_COUNT = 40
+local DIAMOND_POINT_ACTIVATION_COUNT = 20
 local DIAMOND_POINTS = 1
 
 defItem("diamond", "Diamond", {
@@ -135,7 +135,7 @@ defItem("diamond", "Diamond", {
         if not ppos then return end
 
         for i=1, DIAMOND_POINT_ACTIVATION_COUNT do
-            lp.wait(ppos, 0.2)
+            lp.wait(ppos, 0.03)
             lp.queueWithEntity(ent, function(e)
                 lp.addPoints(e, DIAMOND_POINTS)
             end)

@@ -361,6 +361,33 @@ defItem("green_ticket", {
 
 
 
+defItem("snake_oil", {
+    name = loc("Snake Oil"),
+
+    triggers = {"PULSE", "REROLL"},
+
+    activateDescription = loc("Randomizes item prices between {lootplot:MONEY_COLOR}$0{/lootplot:MONEY_COLOR} and {lootplot:MONEY_COLOR}$15{/lootplot:MONEY_COLOR}"),
+
+    rarity = lp.rarities.RARE,
+    canItemFloat = true,
+    basePrice = 10,
+    baseMaxActivations = 40,
+
+    shape = lp.targets.KingShape(2),
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            local price = lp.SEED:randomMisc(0,15)
+            local actualPrice = (targetEnt.price or 0)
+            local delta = price - actualPrice
+            lp.modifierBuff(targetEnt, "price", delta, selfEnt)
+        end
+    }
+})
+
+
+
+
 defItem("top_hat", {
     name = loc("Top Hat"),
 
