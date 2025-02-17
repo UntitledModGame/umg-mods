@@ -420,7 +420,7 @@ Give Destroy trigger and Rotate trigger to items
 - (((DONE))) ITEM: snake-oil
 Randomize item prices between $0 and $15
 
-- ITEM: pink-mushroom
+- (((DONE))) ITEM: pink-mushroom
 Give +6 lives to slots and trigger Pulse on slots.
 
 - Make listen-system work for slots.
