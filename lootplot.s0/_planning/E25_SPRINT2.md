@@ -408,11 +408,11 @@ Comes with a 3x points multiplier
 Transform items into a clone of an existing item on the plot.
 
 
-- Make the game easier; Add an extra $2 or $3 per turn.
+- (((DONE))) Make the game easier; Add an extra $2 or $3 per turn.
 (The game is honestly just, more *fun* when you have more money.)
 
 
-ITEM: Black olive
+- (((DONE))) ITEM: Black olive
 Give Destroy trigger and Rotate trigger to items
 (^^^ Note: this synergizes EXTREMELY WELL with clone-rocks; since you can duplicate any item you want!)
 

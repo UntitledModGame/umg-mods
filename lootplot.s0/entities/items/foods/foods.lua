@@ -237,7 +237,7 @@ defineFood("teal_olive", {
     name = loc("Teal Olive"),
     activateDescription = loc("Gives {lootplot:TRIGGER_COLOR}Pulse{/lootplot:TRIGGER_COLOR} Trigger to items."),
 
-    rarity = lp.rarities.EPIC,
+    rarity = lp.rarities.LEGENDARY,
 
     basePrice = 10,
 
@@ -249,6 +249,27 @@ defineFood("teal_olive", {
         end
     }
 })
+
+
+
+defineFood("black_olive", {
+    name = loc("Black Olive"),
+    activateDescription = loc("Gives {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} trigger and {lootplot:TRIGGER_COLOR}Rotate{/lootplot:TRIGGER_COLOR} to items."),
+
+    rarity = lp.rarities.RARE,
+
+    basePrice = 10,
+
+    shape = lp.targets.UP_SHAPE,
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.addTrigger(targetEnt, "DESTROY")
+            lp.addTrigger(targetEnt, "ROTATE")
+        end
+    }
+})
+
 
 
 
