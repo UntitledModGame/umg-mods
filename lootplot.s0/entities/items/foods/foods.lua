@@ -883,6 +883,43 @@ defineFood("slice_of_cake", {
 })
 
 
+defineFood("red_cheesecake", {
+    name = loc("Red Cheesecake"),
+    activateDescription = loc("Gives items/slots {lootplot:POINTS_MULT_COLOR}+0.1 mult"),
+
+    rarity = lp.rarities.RARE,
+
+    shape = lp.targets.KING_SHAPE,
+
+    basePrice = 5,
+
+    target = {
+        type = "ITEM_OR_SLOT",
+        activate = function(selfEnt, ppos, ent)
+            lp.modifierBuff(ent, "multGenerated", 0.1)
+        end
+    }
+})
+
+defineFood("blue_cheesecake", {
+    name = loc("Blue Cheesecake"),
+    activateDescription = loc("Gives items/slots {lootplot:BONUS_COLOR}+1 bonus"),
+
+    rarity = lp.rarities.RARE,
+
+    shape = lp.targets.KING_SHAPE,
+
+    basePrice = 5,
+
+    target = {
+        type = "ITEM_OR_SLOT",
+        activate = function(selfEnt, ppos, ent)
+            lp.modifierBuff(ent, "bonusGenerated", 1)
+        end
+    }
+})
+
+
 
 ----------------------------------------------------------------------------
 

@@ -428,8 +428,8 @@ Give +6 lives to slots and trigger Pulse on slots.
 - ITEM: Monocle
 When a slot is destroyed, earn $3 and earn +200 points
 
-- ITEM: Velvet cake: Add +0.1 mult to items/slots
-- ITEM: Blue cake: Add +1 bonus to items/slots
+- (((DONE))) ITEM: Velvet cake: Add +0.1 mult to items/slots
+- (((DONE))) ITEM: Blue cake: Add +1 bonus to items/slots
 
 - ITEM: Demon knife: (like moon-knife)
 Subtract -2 mult
