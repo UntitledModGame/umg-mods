@@ -127,6 +127,34 @@ defItem("void_box", "Void Box", {
 
 
 
+defItem("basilisks_eye", "Basilisk's Eye", {
+    activateDescription = loc("Set rarity of items/slots to %{UNCOMMON}", {
+        UNCOMMON = lp.rarities.UNCOMMON.displayString
+    }),
+
+    triggers = {"PULSE"},
+
+    baseMaxActivations = 10,
+    basePointsGenerated = 20,
+    basePrice = 7,
+
+    shape = lp.targets.RookShape(1),
+    target = {
+        type = "ITEM_OR_SLOT",
+        filter = function(selfEnt, ppos, targetEnt)
+            return targetEnt.rarity ~= lp.rarities.UNCOMMON
+        end,
+        activate = function(selfEnt, ppos, targetEnt)
+            targetEnt.rarity = lp.rarities.UNCOMMON
+            sync.syncComponent(targetEnt, "rarity")
+        end,
+    },
+
+    rarity = lp.rarities.RARE,
+})
+
+
+
 
 --[[
 

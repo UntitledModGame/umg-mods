@@ -128,7 +128,7 @@ defItem("red_leather", "Red Leather", {
 
 defItem("eye_worm", "Eye Worm", {
     triggers = {"PULSE"},
-    activateDescription = loc("Multiplies bonus by -1"),
+    activateDescription = loc("Multiplies {lootplot:BONUS_COLOR}bonus{/lootplot:BONUS_COLOR} by -1"),
 
     onActivate = function(ent)
         local bonus = lp.getPointsBonus(ent) or 0

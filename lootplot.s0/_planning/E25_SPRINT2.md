@@ -431,17 +431,17 @@ When a slot is destroyed, earn $3 and earn +200 points
 - (((DONE))) ITEM: Velvet cake: Add +0.1 mult to items/slots
 - (((DONE))) ITEM: Blue cake: Add +1 bonus to items/slots
 
-- ITEM: Demon knife: (like moon-knife)
+- (((DONE))) ITEM: Demon knife: (like moon-knife)
 Subtract -2 mult
 Subtracts -8 bonus
 Gain +0.1 mult permanently
 
-- ITEM: Ghost knife: (like moon-knife)
+- (((DONE))) ITEM: Ghost knife: (like moon-knife)
 Subtract -8 bonus
 Gain +0.4 bonus permanently
 
 
-- ITEM: Basilisks eye
+- (((DONE))) ITEM: Basilisks eye
 Set rarity of items to UNCOMMON
 Earn 20 points
 
