@@ -278,3 +278,49 @@ defItem("toolbelt", "Toolbelt", {
 })
 end
 
+
+
+
+
+do
+local WITHDRAW_TEXT = interp("Withdraw $%{amount}")
+
+local WITHDRAW_MONEY_BUTTON = {
+    text = function(selfEnt)
+        return WITHDRAW_TEXT({
+            amount = selfEnt.price
+        })
+    end,
+    action = function(selfEnt)
+        if server and selfEnt.price > 0 then
+            lp.addMoney(selfEnt, selfEnt.price)
+            lp.modifierBuff(selfEnt, "price", -selfEnt.price, selfEnt)
+        end
+    end,
+    color = lp.COLORS.MONEY_COLOR
+}
+
+local PRICE_GAIN = 2
+
+defItem("money_sack", "Money Sack", {
+    description = loc("Stores money. Can be withdrawn at any time."),
+
+    basePrice = 0,
+    grubMoneyCap = GRUB_MONEY_CAP,
+
+    triggers = {"PULSE"},
+    baseMoneyGenerated = -PRICE_GAIN,
+
+    onActivate = function(ent)
+        lp.modifierBuff(ent, "price", PRICE_GAIN, ent)
+    end,
+
+    rarity = lp.rarities.RARE,
+
+    actionButtons = {
+        WITHDRAW_MONEY_BUTTON
+    }
+})
+
+end
+

@@ -87,7 +87,6 @@ defItem("demon_knife", {
     triggers = KNIFE_TRIGGERS,
 
     baseMultGenerated = -2,
-    baseBonusGenerated = -8,
     rarity = lp.rarities.RARE,
 
     basePrice = KNIFE_PRICE,

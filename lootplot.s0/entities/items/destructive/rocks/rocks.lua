@@ -7,6 +7,9 @@ local function defRocks(id, name, etype)
     etype.image = etype.image or id
     etype.name = loc(name)
 
+    etype.baseMaxActivations = 30
+    etype.basePrice = 7 -- standard price for rocks
+
     if not etype.listen then
         etype.triggers = etype.triggers or {"DESTROY"}
     end
@@ -20,6 +23,8 @@ defRocks("clone_rocks", "Clone Rocks", {
     triggers = {"PULSE", "DESTROY"},
 
     activateDescription = loc("If item has {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} trigger, transform into a clone of it."),
+
+    rarity = lp.rarities.RARE,
 
     shape = lp.targets.RookShape(1),
     target = {

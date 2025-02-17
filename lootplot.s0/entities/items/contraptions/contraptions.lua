@@ -79,7 +79,7 @@ defContra("doomed_tool", {
     baseMaxActivations = 10,
     basePrice = 8,
 
-    activateDescription = loc("If target item is {lootplot:DOOMED_COLOR}DOOMED-1{/lootplot:DOOMED_COLOR}, Trigger {lootplot:TRIGGER_COLOR}{wavy}PULSE{/wavy}{/lootplot:TRIGGER_COLOR} on it."),
+    activateDescription = loc("If target item is {lootplot:DOOMED_COLOR}DOOMED-1{/lootplot:DOOMED_COLOR}, Trigger {lootplot:TRIGGER_COLOR}{wavy}Pulse{/wavy}{/lootplot:TRIGGER_COLOR} on it."),
 
     shape = lp.targets.UpShape(1),
     target = {
@@ -111,7 +111,7 @@ defContra("pulse_tool", {
     baseMoneyGenerated = -4,
     baseMaxActivations = 4,
 
-    activateDescription = loc("Trigger {lootplot:TRIGGER_COLOR}{wavy}PULSE{/wavy}{/lootplot:TRIGGER_COLOR} on target item"),
+    activateDescription = loc("Trigger {lootplot:TRIGGER_COLOR}{wavy}Pulse{/wavy}{/lootplot:TRIGGER_COLOR} on target item"),
 
     target = {
         type = "ITEM",
@@ -165,7 +165,7 @@ defContra("reroll_machine", {
     baseMoneyGenerated = -4,
     baseMaxActivations = 4,
 
-    activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}REROLL{/lootplot:TRIGGER_COLOR} on slot."),
+    activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} on slot."),
 
     target = {
         type = "SLOT",

@@ -169,8 +169,8 @@ defItem("gold_coin", {
 
 
 
-defItem("robbers_bag", {
-    name = loc("Robbers Bag"),
+defItem("robbers_sack", {
+    name = loc("Robbers Sack"),
     activateDescription = loc("Multiplies money by -1.5"),
 
     basePrice = 10,
