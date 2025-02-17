@@ -16,8 +16,8 @@ local function defChestplate(id, name, etype)
 
     etype.shape = etype.shape or CHESTPLATE_SHAPE
 
-    etype.rarity = lp.rarities.RARE
-    etype.basePrice = 10
+    etype.rarity = etype.rarity or lp.rarities.RARE
+    etype.basePrice = etype.basePrice or 10
 
     etype.baseMaxActivations = 4
 
@@ -40,6 +40,30 @@ defChestplate("deathly_chestplate", "Deathly Chestplate", {
         end
     }
 })
+
+
+
+do
+local PTS_REQ = 50
+local BUFF = 4
+
+defChestplate("hardened_chestplate", "Hardened Chestplate", {
+    activateDescription = loc("If items generate more than {lootplot:POINTS_COLOR}%{req} points{/lootplot:POINTS_COLOR}, Give items {lootplot:POINTS_COLOR}+%{buff} points", {
+        req = PTS_REQ,
+        buff = BUFF
+    }),
+
+    target = {
+        type = "ITEM",
+        filter = function(selfEnt, ppos, itemEnt)
+            return itemEnt.pointsGenerated > PTS_REQ
+        end,
+        activate = function(selfEnt, ppos, itemEnt)
+            lp.modifierBuff(itemEnt, "pointsGenerated", BUFF, selfEnt)
+        end
+    }
+})
+end
 
 
 

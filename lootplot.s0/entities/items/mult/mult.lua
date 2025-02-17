@@ -279,7 +279,7 @@ defItem("red_fan", "Red Fan", {
     },
     shape = lp.targets.UpShape(2),
 
-    rarity = lp.rarities.RARE,
+    rarity = lp.rarities.EPIC,
 })
 
 

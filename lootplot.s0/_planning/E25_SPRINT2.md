@@ -417,11 +417,6 @@ Give Destroy trigger and Rotate trigger to items
 (^^^ Note: this synergizes EXTREMELY WELL with clone-rocks; since you can duplicate any item you want!)
 
 
-- ITEM: Broken shield:
-has action-buttons, allowing the player to transform it into ANY other shield
-(has a button for every other shield-type)
-
-
 - ITEM: (BISHOP-1)
 Reduce Bonus of items by 1.
 Increase points of item by 15.
@@ -442,6 +437,9 @@ If an item with REROLL or ROTATE trigger is spawned, destroy it, and earn $3
 (sticky)
 
 
+- ITEM: Broken shield:
+has action-buttons, allowing the player to transform it into ANY other shield
+(has a button for every other shield-type)
 
 
 ============================================================================
