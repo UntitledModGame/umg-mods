@@ -46,8 +46,8 @@ helper.defineTransformItem("key_bar", "Key Bar", {
     triggers = {"PULSE"},
 
     basePrice = 4,
-    baseMaxActivations = 2,
-    basePointsGenerated = 5,
+    baseMaxActivations = 4,
+    baseMultGenerated = 0.2,
 
     rarity = lp.rarities.UNCOMMON,
 })

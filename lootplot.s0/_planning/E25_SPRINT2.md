@@ -423,9 +423,9 @@ Randomize item prices between $0 and $15
 - (((DONE))) ITEM: pink-mushroom
 Give +6 lives to slots and trigger Pulse on slots.
 
-- Make listen-system work for slots.
+- (((DONE))) Make listen-system work for slots.
 
-- ITEM: Monocle
+- (((DONE))) ITEM: Monocle
 When a slot is destroyed, earn $3 and earn +200 points
 
 - (((DONE))) ITEM: Velvet cake: Add +0.1 mult to items/slots
@@ -451,7 +451,7 @@ Reduce Bonus of items by 1.
 Increase points of item by 15.
 (Cost $1 to activate)
 
-- ITEM REFACTOR: Make key-bar COMMON, make it generate +0.2 mult
+- (((DONE))) ITEM REFACTOR: Make key-bar COMMON, make it generate +0.2 mult
 
 - ITEM REFACTOR: Make bomb activate on action-button. Make it earn $2 per slot destroyed.
 Remove DOOMED from it! Bomb shouldn't be doomed.
@@ -459,7 +459,8 @@ Remove DOOMED from it! Bomb shouldn't be doomed.
 
 ============================================================================
 
-## UNSURE OF STUFF BELOW THIS POINT:
+## UNSURE OF THE BELOW STUFF:
+## It feels a bit "bloaty", and non-emergent.
 - SLOT: Paper-slot:
 Cannot hold COMMON/UNCOMMON items
 

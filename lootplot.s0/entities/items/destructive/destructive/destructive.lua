@@ -284,14 +284,16 @@ defDestructive("pink_mitten", "Pink Mitten", {
 defDestructive("teddy", "Teddy", {
     listen = {
         type = "SLOT",
-        trigger = "PULSE"
+        trigger = "DESTROY"
     },
 
-    shape = lp.targets.KingShape(1),
+    shape = lp.targets.KingShape(2),
 
     rarity = lp.rarities.RARE,
     basePrice = 8,
     baseMoneyGenerated = 3,
+    basePointsGenerated = 200,
+    baseMaxActivations = 30,
 })
 
 

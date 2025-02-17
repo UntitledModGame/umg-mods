@@ -57,23 +57,70 @@ defineHelmet("iron_helmet", "Iron Helmet", {
 
 
 
+do
+local KNIFE_TRIGGERS = {"PULSE", "REROLL", "ROTATE"}
+local KNIFE_ACTIVATIONS = 6
+local KNIFE_PRICE = 9
+
 defItem("moon_knife", {
     name = loc("Moon Knife"),
     activateDescription = loc("Gain 2 points permanently"),
 
-    triggers = {"PULSE", "REROLL", "ROTATE"},
+    triggers = KNIFE_TRIGGERS,
 
     basePointsGenerated = -10,
-    rarity = lp.rarities.RARE,
+    rarity = lp.rarities.UNCOMMON,
 
-    basePrice = 9,
+    basePrice = KNIFE_PRICE,
 
-    baseMaxActivations = 3,
+    baseMaxActivations = KNIFE_ACTIVATIONS,
 
     onActivate = function(ent)
         lp.modifierBuff(ent, "pointsGenerated", 2)
     end
 })
+
+defItem("demon_knife", {
+    name = loc("Demon Knife"),
+    activateDescription = loc("Gain {lootplot:POINTS_MULT_COLOR}+0.1 multiplier{/lootplot:POINTS_MULT_COLOR} permanently"),
+
+    triggers = KNIFE_TRIGGERS,
+
+    baseMultGenerated = -2,
+    baseBonusGenerated = -8,
+    rarity = lp.rarities.RARE,
+
+    basePrice = KNIFE_PRICE,
+
+    baseMaxActivations = KNIFE_ACTIVATIONS,
+
+    onActivate = function(ent)
+        lp.modifierBuff(ent, "multGenerated", 0.1)
+    end
+})
+
+
+local BONUS_BUFF = 0.4
+defItem("ghost_knife", {
+    name = loc("Moon Knife"),
+    activateDescription = loc("Gain {lootplot:BONUS_COLOR}+%{buff} bonus{/lootplot:BONUS_COLOR} permanently", {
+        buff = BONUS_BUFF
+    }),
+
+    triggers = KNIFE_TRIGGERS,
+
+    baseBonusGenerated = -8,
+    rarity = lp.rarities.RARE,
+
+    basePrice = KNIFE_PRICE,
+
+    baseMaxActivations = KNIFE_ACTIVATIONS,
+
+    onActivate = function(ent)
+        lp.modifierBuff(ent, "bonusGenerated", BONUS_BUFF)
+    end
+})
+end
 
 
 
