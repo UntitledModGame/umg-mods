@@ -129,31 +129,6 @@ defItem("golden_horseshoe", "Golden Horseshoe", {
 
 
 
-defItem("gold_knuckles", "Gold Knuckles", {
-    activateDescription = loc("Destroy target item(s), earns $2 for each"),
-
-    rarity = lp.rarities.RARE,
-
-    triggers = {"PULSE"},
-
-    basePrice = 6,
-    baseMaxActivations = 10,
-    baseMoneyGenerated = 2,
-
-    shape = lp.targets.KING_SHAPE,
-
-    target = {
-        type = "ITEM",
-        activate = function(selfEnt, ppos, ent)
-            lp.addMoney(selfEnt,2)
-            lp.destroy(ent)
-        end,
-    }
-})
-
-
-
-
 
 --[[
 -- TODO: Rework this item at some point.

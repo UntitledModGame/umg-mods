@@ -54,7 +54,7 @@ local BONUS_DEBUFF = 1
 defItem("anvil", "Anvil", {
     triggers = {"PULSE"},
 
-    activateDescription = loc("Give items {lootplot:INFO_COLOR}+%{activs} activations{/lootplot:INFO_COLOR}, but subtracts {lootplot:BONUS_COLOR}-%{bonus} bonus", {
+    activateDescription = loc("Give items {lootplot:INFO_COLOR}+%{activs} activations{/lootplot:INFO_COLOR}.\nSubtracts {lootplot:BONUS_COLOR}-%{bonus} bonus{/lootplot:BONUS_COLOR} from items.", {
         activs = ACTIV_BUFF,
         bonus = BONUS_DEBUFF
     }),
@@ -79,4 +79,35 @@ defItem("anvil", "Anvil", {
 
 end
 
+
+
+do
+local PTS_BUFF = 15
+local BONUS_DEBUFF = 1
+
+defItem("ocarina", "Ocarina", {
+    triggers = {"PULSE"},
+
+    activateDescription = loc("Give items {lootplot:POINTS_COLOR}+%{points} points{/lootplot:POINTS_COLOR}.\nSubtracts {lootplot:BONUS_COLOR}-%{bonus} bonus{/lootplot:BONUS_COLOR} from items.", {
+        points = PTS_BUFF,
+        bonus = BONUS_DEBUFF
+    }),
+
+    basePrice = 10,
+    baseMaxActivations = 6,
+    baseMoneyGenerated = -1,
+
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.modifierBuff(targetEnt, "bonusGenerated", -BONUS_DEBUFF, selfEnt)
+            lp.modifierBuff(targetEnt, "pointsGenerated", PTS_BUFF, selfEnt)
+        end
+    },
+    shape = lp.targets.RookShape(1),
+
+    rarity = lp.rarities.RARE,
+})
+
+end
 

@@ -479,3 +479,28 @@ defDestructive("furnace", "Furnace", {
 
 
 
+
+defDestructive("golden_knuckles", "Golden Knuckles", {
+    activateDescription = loc("Destroy target item(s), earns {lootplot:MONEY_COLOR}$1 for each"),
+
+    rarity = lp.rarities.RARE,
+
+    triggers = {"PULSE"},
+
+    basePrice = 6,
+    baseMaxActivations = 10,
+    baseMoneyGenerated = 2,
+
+    shape = lp.targets.KING_SHAPE,
+
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, ent)
+            lp.addMoney(selfEnt,2)
+            lp.destroy(ent)
+        end,
+    }
+})
+
+
+

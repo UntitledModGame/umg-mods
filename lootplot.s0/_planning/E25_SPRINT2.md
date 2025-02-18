@@ -445,16 +445,60 @@ Gain +0.4 bonus permanently
 Set rarity of items to UNCOMMON
 Earn 20 points
 
+- (((DONE))) ITEM REFACTOR: Make key-bar COMMON, make it generate +0.2 mult
 
-- ITEM: (BISHOP-1)
+
+- (((DONE))) ITEM: Ocarina (ROOK-1)
 Reduce Bonus of items by 1.
 Increase points of item by 15.
 (Cost $1 to activate)
 
-- (((DONE))) ITEM REFACTOR: Make key-bar COMMON, make it generate +0.2 mult
 
 - ITEM REFACTOR: Make bomb activate on action-button. Make it earn $2 per slot destroyed.
 Remove DOOMED from it! Bomb shouldn't be doomed.
+
+
+- ITEM REFACTOR: Price-card
+Decrease the price of items below by $4
+Increase the price of items above by $4
+(shape: VERTICAL-4)
+
+
+- ITEM: Wooden-Television: (UNCOMMON)
+Trigger PULSE on RARE items
+(shape: KING-2)
+
+
+- ITEM: Leather boots
+Trigger Pulse on slots
+
+
+- ITEM: King Crab 🦀 
+Spawn random items, and give them GRUB-10.
+Cost $6 to activate
+(GRUB-10)
+(shape = HORIZONTAL-1)
+(NOTE: items that are spawned will be RARE or EPIC. They cannot be doomed) 
+
+
+- ITEM: Champion belt
+Destroys items.
+Gain multiplier equal to 10% of the current balance (Currently: $X)
+
+
+- ANTI-BONUS ITEMS:
+Instead of always doing: "Subtracts X bonus",
+Do something like: "Divides bonus by 2".
+^^^ this is nice, since it works bad with +ve bonus, but GOOD for negative-bonus.
+
+
+## Idea: SIMPLE Anti-archetype items:
+"If there are no REPEATER items on the plot, do XYZ"
+
+"If there are no items with `Reroll` trigger on the plot, do XYZ"
+
+"If there are no items with `Destroy` trigger on the plot, do XYZ"
+
 
 
 ============================================================================
@@ -484,6 +528,12 @@ has action-buttons, allowing the player to transform it into ANY other shield
 ============================================================================
 
 
+- Activations-cap:  
+Limit activations to 50 in base lootplot.  
+Perhaps have `lp.MAX_ACTIVATIONS_CAP = 50`  
+(so modders can change ^^^^ as they wish)
+
+
 - Slot-visuals in tutorial;
 Showcase DOOMED-slots, mult-slots, point-slots, bonus-slots, glass-slot, dirt-slot, etc etc
 Then show one slot with ALL combined.
@@ -496,10 +546,10 @@ Sell-slots should:
 "Reduce item price by half, earn money equal to price of item, then destroy"
 
 
-- Dirt-slot scaling:
+- Dirt-slot visuals:
 When we scale a dirt-slot for variation, it also affects the slot-visuals.
 Fix this!
-Honestly it's probably best to just
+Honestly it's probably best to just create sprites that have been manually flipped in Aseprite.
 
 
 - Glass slot QOL changes:
