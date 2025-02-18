@@ -458,7 +458,7 @@ Increase points of item by 15.
 Remove DOOMED from it! Bomb shouldn't be doomed.
 
 
-- ITEM REFACTOR: Price-card
+- (((DONE))) ITEM REFACTOR: Price-card
 Decrease the price of items below by $4
 Increase the price of items above by $4
 (shape: VERTICAL-4)

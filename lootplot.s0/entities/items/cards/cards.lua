@@ -8,8 +8,9 @@ local function defItem(id, name, etype)
 end
 
 
-local function defineCard(name, cardEType)
-    cardEType.image = cardEType.image or name
+local function defineCard(id, name, cardEType)
+    cardEType.image = cardEType.image or id
+    cardEType.name = loc(name)
     cardEType.rarity = cardEType.rarity or lp.rarities.RARE
     if not cardEType.listen then
         cardEType.triggers = cardEType.triggers or {"PULSE"}
@@ -18,7 +19,7 @@ local function defineCard(name, cardEType)
     cardEType.baseMaxActivations = 1
     cardEType.basePrice = cardEType.basePrice or 10
 
-    lp.defineItem("lootplot.s0:" .. name, cardEType)
+    lp.defineItem("lootplot.s0:" .. id, cardEType)
 end
 
 
@@ -72,8 +73,7 @@ local function shuffleTargetShapes(selfEnt)
     end
 end
 
-defineCard("star_card", {
-    name = loc("Star Card"),
+defineCard("star_card", "Star Card", {
     activateDescription = loc("Shuffle shapes between target items"),
     rarity = lp.rarities.LEGENDARY,
     shape = lp.targets.VerticalShape(1),
@@ -103,8 +103,7 @@ defItem("star", "Star", {
 
 
 
-defineCard("hearts_card", {
-    name = loc("Hearts Card"),
+defineCard("hearts_card", "Hearts Card", {
     shape = lp.targets.VerticalShape(1),
 
     activateDescription = loc("Shuffle lives between target items"),
@@ -115,7 +114,8 @@ defineCard("hearts_card", {
 
     onActivate = function(selfEnt)
         local targets = shuffled(
-            lp.targets.getTargets(selfEnt):map(lp.posToItem)
+            objects.Array(lp.targets.getTargets(selfEnt))
+                :map(lp.posToItem)
         )
         apply(targets, function(e1,e2)
             local l1 = e1.lives or 0
@@ -130,9 +130,7 @@ defineCard("hearts_card", {
 
 
 
-defineCard("doomed_card", {
-    name = loc("Doomed Card"),
-
+defineCard("doomed_card", "Doomed Card", {
     shape = lp.targets.VerticalShape(1),
 
     activateDescription = loc("Shuffle {lootplot:DOOMED_LIGHT_COLOR}DOOM-COUNT{/lootplot:DOOMED_LIGHT_COLOR} between target items"),
@@ -163,17 +161,14 @@ defineCard("doomed_card", {
 
 
 
-local PRICE_CHANGE = 2
+local PRICE_CHANGE = 4
 
-defineCard("price_card", {
-    name = loc("Price Card"),
-
-    shape = lp.targets.UP_SHAPE,
-    activateDescription = loc("Increase item price by {lootplot:MONEY_COLOR}$%{amount}", {
-        amount = PRICE_CHANGE
+defineCard("price_card", "Price Card", {
+    shape = lp.targets.VerticalShape(2),
+    activateDescription = loc("Decrease price of below items by {lootplot:MONEY_COLOR}$%{x}{/lootplot:MONEY_COLOR}.\nIncrease price of above items by {lootplot:MONEY_COLOR}$%{x2}{/lootplot:MONEY_COLOR}", {
+        x = PRICE_CHANGE,
+        x2 = PRICE_CHANGE
     }),
-
-    doomCount = 10,
 
     target = {
         type = "ITEM",
@@ -181,7 +176,14 @@ defineCard("price_card", {
             return targetEnt.price
         end,
         activate = function(selfEnt, ppos, targetEnt)
-            lp.modifierBuff(targetEnt, "price", PRICE_CHANGE, selfEnt)
+            local selfPos = lp.getPos(selfEnt)
+            if not selfPos then return end
+            local _,dy = selfPos:getDifference(ppos)
+            if dy < 0 then
+                lp.modifierBuff(targetEnt, "price", PRICE_CHANGE, selfEnt)
+            elseif dy > 0 then
+                lp.modifierBuff(targetEnt, "price", -PRICE_CHANGE, selfEnt)
+            end
         end
     },
 
@@ -189,9 +191,7 @@ defineCard("price_card", {
 })
 
 
-defineCard("spades_card", {
-    name = loc("Spades Card"),
-
+defineCard("spades_card", "Spades Card", {
     shape = lp.targets.UpShape(2),
 
     activateDescription = loc("Shuffle positions of target items"),
@@ -206,7 +206,7 @@ defineCard("spades_card", {
             return
         end
 
-        local slots = targets:map(lp.posToSlot)
+        local slots = objects.Array(targets):map(lp.posToSlot)
         slots = shuffled(slots)
 
         -- Swap item positions
@@ -224,8 +224,7 @@ defineCard("spades_card", {
 
 
 
-defineCard("multiplier_card", {
-    name = loc("Multiplier Card"),
+defineCard("multiplier_card", "Multiplier Card", {
     activateDescription = loc("Multiplies global-multiplier by {lootplot:BAD_COLOR}-2"),
 
     onActivate = function(ent)
@@ -239,8 +238,7 @@ defineCard("multiplier_card", {
 })
 
 
-defineCard("hybrid_card", {
-    name = loc("Hybrid Card"),
+defineCard("hybrid_card", "Hybrid Card", {
     activateDescription = loc("Swaps money and global mult"),
 
     onActivate = function(ent)
