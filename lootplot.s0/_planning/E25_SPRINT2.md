@@ -478,7 +478,7 @@ Currently the interest-slot looks bad.
 Make it look more like the level-up button. Thx.
 
 
-- ITEM: Toolbelt
+- (((DONE))) ITEM: Toolbelt
 Spawn random items, and give them GRUB-10.
 Cost $6 to activate
 (GRUB-10)
@@ -486,7 +486,7 @@ Cost $6 to activate
 (NOTE: items that are spawned will be RARE or EPIC. They cannot be doomed) 
 
 
-- ITEM: Champion belt
+- (((DONE))) ITEM: Champion belt
 Removes GRUBBY from items.
 Then, destroys items.
 

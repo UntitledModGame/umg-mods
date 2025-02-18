@@ -288,6 +288,33 @@ end
 
 
 
+
+defItem("champions_belt", "Champion's Belt", {
+    triggers = {"PULSE"},
+
+    activateDescription = loc("Removes {lootplot:GRUB_COLOR_LIGHT}GRUBBY{/lootplot:GRUB_COLOR_LIGHT} from items.\nThen, destroys items."),
+
+    rarity = lp.rarities.EPIC,
+    basePrice = 12,
+
+    shape = lp.targets.HorizontalShape(2),
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targEnt)
+            if targEnt.grubMoneyCap then
+                targEnt.grubMoneyCap = false
+                sync.syncComponent(targEnt, "grubMoneyCap")
+            end
+            lp.destroy(targEnt)
+        end
+    },
+})
+
+
+
+
+
+
 defItem("toolbelt", "Toolbelt", {
     triggers = {"PULSE"},
 
