@@ -486,7 +486,10 @@ local pickButton = {
             local ppos = lp.getPos(ent)
             if ppos then
                 local nullSlotType = server.entities["null_slot"]
-                lp.forceSpawnSlot(ppos, nullSlotType, ent.lootplotTeam)
+                local slotEnt = lp.forceSpawnSlot(ppos, nullSlotType, ent.lootplotTeam)
+                if slotEnt then
+                    slotEnt.doomCount = 3
+                end
             end
         end
     end,

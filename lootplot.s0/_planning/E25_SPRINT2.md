@@ -464,7 +464,7 @@ Increase the price of items above by $4
 (shape: VERTICAL-4)
 
 
-- ITEM: Wooden-Television: (UNCOMMON)
+- (((DONE))) ITEM: Wooden-Television: (UNCOMMON)
 Trigger PULSE on RARE items
 (shape: KING-2)
 
