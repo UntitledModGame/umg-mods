@@ -513,17 +513,49 @@ Do something like: "Divides bonus by 2".
 - Maybe add a new item: Copper-Bar...?
 
 
+- Slot: Destroy slot (skull-logo?)
+On Pulse,
+Destroys item 4 times.
+Earns 40 points each time. 
+
 
 - ITEM:
 Spawns a DOOMED-4 LEGENDARY item
-(oli note: Doesnt spawn legendary-items that are already DOOMED.)
+(oli note: Don't pick legendary-items that are already DOOMED.)
+
+
+- ITEM: Points shield
+If points are negative, make points positive
 
 
 ## SPIKE: Items that provide keys
 
 ## SPIKE: Items that use `UNLOCK` trigger
+(Merge with LEVEL-UP / BUY triggers...?)
 
-## SPIKE: Items that give keys
+## SPIKE: More items that have `BUY` trigger?
+(Merge with LEVEL-UP / UNLOCK triggers...?)
+
+## SPIKE: Items that spawn "curses"; ie items that you want to get rid of.
+- Create new Rarities:  `CURSE (I), CURSE (II), CURSE(III)`, in order from most tame -> least tame.
+- Curse items cannot be moved.
+- Use kettlebell-sprites as negative-points/mult/money modifiers.
+logo-color determines potency.
+Light-Green = points
+Red = mult
+Blue = bonus
+Gold = money
+--->
+- ITEM: If there are more than 4 curses on the plot, earn $2
+- ITEM: Black-shield: If target item is a curse, destroy it. Earn +1 mult.
+- ITEM: Black-shield: If target item is a curse, destroy it. 
+- CURSE: Increase round by 1. DOOMED-1
+- CURSE: Make items STUCK. ROOK-1
+- CURSE: On Destroy, On Pulse: Steal 10 points.
+--->
+IMPORTANT NOTE!!!
+When curses spawn, they should spawn with 0 activations.   
+This ensures that they don't activate immediately in an unfair-fashion to the player.
 
 
 - Get rid of dark-egg, it's bad and dumb. Replace with something better please.
