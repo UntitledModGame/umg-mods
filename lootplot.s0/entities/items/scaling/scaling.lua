@@ -22,11 +22,20 @@ Related to money, prefereably.
 
 ]]
 
+local function rotateRandomlyInit(ent)
+    local rot = lp.SEED:randomMisc(0,3)
+    if rot ~= 0 then
+        lp.rotateItem(ent, rot)
+    end
+end
 
 local function defineHelmet(id, name, etype)
     etype.rarity = etype.rarity or lp.rarities.RARE
     etype.name = loc(name)
-    etype.shape = etype.shape or lp.targets.KingShape(1)
+
+    etype.init = etype.init or rotateRandomlyInit
+
+    etype.shape = etype.shape or lp.targets.UpShape(2)
 
     etype.basePrice = etype.basePrice or 10
     etype.baseMaxActivations = etype.baseMaxActivations or 6
@@ -190,66 +199,3 @@ defineHelmet("deathly_helmet", "Deathly Helmet", {
 })
 
 
-
-local function copy(t)
-    local ret = {}
-    for k,v in pairs(t) do
-        ret[k]=v
-    end
-    return ret
-end
-
-
-local function defMegaHelmet(id, name, etype)
-    etype.shape = etype.shape or lp.targets.RookShape(1)
-
-    etype.basePrice = 12
-    etype.baseMaxActivations = 10
-
-    etype.rarity = etype.rarity or lp.rarities.EPIC
-
-    do
-    local e2 = copy(etype)
-    e2.triggers = {"LEVEL_UP", "UNLOCK"}
-    e2.image = id
-    defineHelmet(id .. "_v2", name, e2)
-    end
-end
-
-
-
-do
-local POINTS_BUFF = 15
-
-defMegaHelmet("mega_points_helmet", "Mega Points Helmet", {
-    activateDescription = loc("Adds {lootplot:POINTS_MOD_COLOR}+%{buff} points{/lootplot:POINTS_MOD_COLOR} to items", {
-        buff = POINTS_BUFF
-    }),
-    target = {
-        type = "ITEM",
-        activate = function(selfEnt, ppos, targetEnt)
-            lp.modifierBuff(targetEnt, "pointsGenerated", POINTS_BUFF, selfEnt)
-        end
-    }
-})
-
-
-
-local BONUS_BUFF = 1
-
-defMegaHelmet("mega_bonus_helmet", "Mega Bonus Helmet", {
-    activateDescription = loc("Adds {lootplot:BONUS_COLOR}+%{buff} bonus{/lootplot:BONUS_COLOR} to items", {
-        buff = BONUS_BUFF
-    }),
-    target = {
-        type = "ITEM",
-        activate = function(selfEnt, ppos, targetEnt)
-            lp.modifierBuff(targetEnt, "bonusGenerated", BONUS_BUFF, selfEnt)
-        end
-    }
-})
-
-
-
-
-end

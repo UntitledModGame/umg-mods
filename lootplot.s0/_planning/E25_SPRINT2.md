@@ -469,7 +469,7 @@ Trigger PULSE on RARE items
 (shape: KING-2)
 
 
-- ITEM: Leather boots
+- (((DONE))) ITEM: Leather boots
 Trigger Pulse on slots
 
 
