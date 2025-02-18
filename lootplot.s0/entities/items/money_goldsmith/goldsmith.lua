@@ -202,6 +202,7 @@ defItem("golden_spoon", {
     basePrice = 8,
     baseMaxActivations = 1,
     baseMoneyGenerated = 1,
+    baseBonusGenerated = 4,
 
     rarity = lp.rarities.UNCOMMON,
 })

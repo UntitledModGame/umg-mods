@@ -1174,7 +1174,7 @@ defineMush("mushroom_pink", {
     -- we do this so that the player can activate slots during "planning phase"
 
     name = loc("Pink Mushroom"),
-    activateDescription = loc("Gives {lootplot:LIFE_COLOR}+%{lives} lives{/lootplot:LIFE_COLOR} to slots and trigger {lootplot:TRIGGER_COLOR}Pulse{/lootplot:TRIGGER_COLOR} on slots.", {
+    activateDescription = loc("Gives {lootplot:LIFE_COLOR}+%{lives} lives{/lootplot:LIFE_COLOR} to slots.\nActivates slots.", {
         lives = NUM_LIVES
     }),
 
@@ -1182,7 +1182,7 @@ defineMush("mushroom_pink", {
         type = "SLOT",
         activate = function(selfEnt, ppos, targetEnt)
             targetEnt.lives = (targetEnt.lives or 0) + NUM_LIVES
-            lp.tryTriggerEntity("PULSE", targetEnt)
+            lp.tryActivateEntity(targetEnt)
         end
     }
 })

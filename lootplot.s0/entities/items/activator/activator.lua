@@ -120,6 +120,27 @@ defItem("old_tv", "Old TV", {
 
 
 
+defItem("leather_boots", "Leather Boots", {
+    rarity = lp.rarities.RARE,
+    triggers = {"PULSE"},
+
+    activateDescription = loc("Activates slots."),
+
+    basePrice = 8,
+    baseMaxActivations = 5,
+
+    shape = lp.targets.KingShape(1),
+
+    target = {
+        type = "SLOT",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.tryActivateEntity(targetEnt)
+        end
+    }
+})
+
+
+
 
 
 defItem("ping_pong_paddle", "Ping pong paddle", {
