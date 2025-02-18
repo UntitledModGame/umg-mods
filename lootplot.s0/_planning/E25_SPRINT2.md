@@ -514,7 +514,7 @@ Do something like: "Divides bonus by 2".
 
 - Slot: Destroy slot (skull-logo?)
 On Pulse,
-Destroys item 4 times.
+Destroys item 3 times.
 Earns 40 points each time. 
 
 
