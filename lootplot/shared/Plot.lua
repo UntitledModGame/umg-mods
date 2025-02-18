@@ -379,17 +379,6 @@ function Plot:getClosestPPos(worldX, worldY)
     return self:getPPos(ix, iy)
 end
 
----@param triggerName string
-function Plot:trigger(triggerName)
-    self:foreach(function(ppos)
-        local slotEnt = lp.posToSlot(ppos)
-
-        if slotEnt then
-            lp.tryTriggerEntity(triggerName, slotEnt)
-        end
-    end)
-end
-
 
 function Plot:isPipelineRunning()
     if server then

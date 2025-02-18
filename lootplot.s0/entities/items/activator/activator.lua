@@ -93,6 +93,34 @@ defItem("red_boxing_glove", "Red Boxing Glove", {
 
 
 
+defItem("old_tv", "Old TV", {
+    rarity = lp.rarities.UNCOMMON,
+    triggers = {"PULSE"},
+
+    activateDescription = loc("{lootplot:TRIGGER_COLOR}Pulses{/lootplot:TRIGGER_COLOR} all %{RARE} items.", {
+        RARE = lp.rarities.RARE.displayString
+    }),
+
+    basePrice = 8,
+    baseMaxActivations = 5,
+
+    shape = lp.targets.QueenShape(2),
+
+    target = {
+        type = "ITEM",
+        filter = function(selfEnt, ppos, targetEnt)
+            return targetEnt.rarity == lp.rarities.RARE
+        end,
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.tryTriggerEntity("PULSE", targetEnt)
+        end
+    }
+})
+
+
+
+
+
 
 defItem("ping_pong_paddle", "Ping pong paddle", {
     triggers = {"PULSE"},
