@@ -93,9 +93,19 @@ defItem("red_boxing_glove", "Red Boxing Glove", {
 
 
 
+
+local function rotateRandomlyInit(ent)
+    local rot = lp.SEED:randomMisc(0,3)
+    if rot ~= 0 then
+        lp.rotateItem(ent, rot)
+    end
+end
+
 defItem("old_tv", "Old TV", {
     rarity = lp.rarities.UNCOMMON,
     triggers = {"PULSE"},
+
+    init = rotateRandomlyInit,
 
     activateDescription = loc("{lootplot:TRIGGER_COLOR}Pulses{/lootplot:TRIGGER_COLOR} all %{RARE} items.", {
         RARE = lp.rarities.RARE.displayString
@@ -103,8 +113,9 @@ defItem("old_tv", "Old TV", {
 
     basePrice = 8,
     baseMaxActivations = 5,
+    repeatActivations = true,
 
-    shape = lp.targets.QueenShape(2),
+    shape = lp.targets.UpShape(2),
 
     target = {
         type = "ITEM",
