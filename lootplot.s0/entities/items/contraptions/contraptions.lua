@@ -31,7 +31,9 @@ local interp = localization.newInterpolator
 
 local DESC = loc("Has an activation button.")
 
-local function defContra(id, etype)
+local function defContra(id, name, etype)
+    etype.name = loc(name)
+
     etype.image = etype.image or id
     etype.basePrice = etype.basePrice or 8
 
@@ -63,7 +65,7 @@ local ACTIVATE_SELF_BUTTON = {
 
 
 
-defContra("doomed_tool", {
+defContra("doomed_tool", "Doomed Tool", {
     --[[
     QUESTION::
     Isn't this item really weak...?
@@ -72,8 +74,6 @@ defContra("doomed_tool", {
     No! (Because you can use it on shop-slots, or cloud-slots!!!)
     So you can steal from shop-slots, or even split cloud-slots.
     ]]
-    name = loc("Doomed Tool"),
-
     triggers = {},
 
     baseMaxActivations = 10,
@@ -99,9 +99,7 @@ defContra("doomed_tool", {
 
 
 
-defContra("pulse_tool", {
-    name = loc("Pulse Tool"),
-
+defContra("pulse_tool", "Pulse Tool", {
     triggers = {},
 
     rarity = lp.rarities.RARE,
@@ -125,8 +123,7 @@ defContra("pulse_tool", {
 
 
 
-defContra("item_destruction_tool", {
-    name = loc("Item Destruction Tool"),
+defContra("item_destruction_tool", "Item Destruction Tool", {
     triggers = {},
 
     rarity = lp.rarities.EPIC,
@@ -154,9 +151,7 @@ defContra("item_destruction_tool", {
 
 -- Reroll-contraption: 
 -- Rerolls everything in a KING-2 shape. Doomed-6.
-defContra("reroll_machine", {
-    name = loc("Reroll Machine"),
-
+defContra("reroll_machine", "Reroll Machine", {
     triggers = {},
 
     rarity = lp.rarities.EPIC,
@@ -179,9 +174,7 @@ defContra("reroll_machine", {
 
 
 
-defContra("rotation_tool", {
-    name = loc("Rotation Tool"),
-
+defContra("rotation_tool", "Rotation Tool", {
     triggers = {},
 
     rarity = lp.rarities.RARE,
@@ -204,9 +197,7 @@ defContra("rotation_tool", {
 
 
 
-defContra("slot_copy_tool", {
-    name = loc("Slot Copy Tool"),
-
+defContra("slot_copy_tool", "Slot Copy Tool", {
     triggers = {},
 
     rarity = lp.rarities.EPIC,
@@ -241,14 +232,28 @@ defContra("slot_copy_tool", {
 
 
 
---[[
+defContra("bomb", "Bomb", {
+    activateDescription = loc("Destroy slots.\nEarn {lootplot:MONEY_COLOR}$2{/lootplot:MONEY_COLOR} for every slot destroyed."),
 
-TODO: 
+    rarity = lp.rarities.RARE,
 
-implement mana_tool
+    basePrice = 2,
+    baseMaxActivations = 20,
+
+    shape = lp.targets.KingShape(1),
+
+    target = {
+        type = "SLOT",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.addMoney(selfEnt, 2)
+            lp.destroy(targetEnt)
+        end
+    },
+
+    actionButtons = {ACTIVATE_SELF_BUTTON},
+})
 
 
-]]
 
 
 
@@ -256,8 +261,7 @@ implement mana_tool
 --[[
 HMM: maybe this shit is too OP?
 ]]
-defContra("round_timer", {
-    name = loc("Round timer"),
+defContra("round_timer", "Round timer", {
     activateDescription = loc("Decreases Round by 1"),
     triggers = {},
 

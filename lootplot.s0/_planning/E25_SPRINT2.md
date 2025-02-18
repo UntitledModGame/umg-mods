@@ -454,7 +454,7 @@ Increase points of item by 15.
 (Cost $1 to activate)
 
 
-- ITEM REFACTOR: Make bomb activate on action-button. Make it earn $2 per slot destroyed.
+- (((DONE))) ITEM REFACTOR: Make bomb activate on action-button. Make it earn $2 per slot destroyed.
 Remove DOOMED from it! Bomb shouldn't be doomed.
 
 
@@ -486,18 +486,18 @@ Destroys items.
 Gain multiplier equal to 10% of the current balance (Currently: $X)
 
 
-- ANTI-BONUS ITEMS:
-Instead of always doing: "Subtracts X bonus",
-Do something like: "Divides bonus by 2".
-^^^ this is nice, since it works bad with +ve bonus, but GOOD for negative-bonus.
-
-
 ## Idea: SIMPLE Anti-archetype items:
 "If there are no REPEATER items on the plot, do XYZ"
 
 "If there are no items with `Reroll` trigger on the plot, do XYZ"
 
 "If there are no items with `Destroy` trigger on the plot, do XYZ"
+
+
+- ANTI-BONUS ITEMS:
+Instead of always doing: "Subtracts X bonus",
+Do something like: "Divides bonus by 2".
+^^^ this is nice, since it works bad with +ve bonus, but GOOD for negative-bonus.
 
 
 

@@ -204,32 +204,6 @@ defDestructive("lone_sword", "Lone Sword", {
 
 
 
-defDestructive("bomb", "Bomb", {
-    activateDescription = loc("Destroy slots.\nEarn {lootplot:MONEY_COLOR}$2{/lootplot:MONEY_COLOR} for every slot destroyed."),
-
-    rarity = lp.rarities.UNCOMMON,
-    doomCount = 1,
-
-    basePrice = 2,
-    baseMaxActivations = 1,
-    basePointsGenerated = 100,
-
-    shape = lp.targets.UnionShape(
-        lp.targets.KingShape(1),
-        lp.targets.ON_SHAPE
-    ),
-
-    target = {
-        type = "SLOT",
-        activate = function(selfEnt, ppos, targetEnt)
-            lp.addMoney(selfEnt, 2)
-            lp.destroy(targetEnt)
-        end
-    },
-})
-
-
-
 
 
 --[[
