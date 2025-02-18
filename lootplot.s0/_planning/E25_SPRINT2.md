@@ -473,13 +473,12 @@ Trigger PULSE on RARE items
 Trigger Pulse on slots
 
 
-- Interest-slot art overhaul
+- (((DONE))) Interest-slot art overhaul
 Currently the interest-slot looks bad.
 Make it look more like the level-up button. Thx.
 
 
-
-- ITEM: King Crab
+- ITEM: Toolbelt
 Spawn random items, and give them GRUB-10.
 Cost $6 to activate
 (GRUB-10)

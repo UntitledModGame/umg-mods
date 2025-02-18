@@ -242,44 +242,6 @@ defItem("golden_heart", "Golden Heart", {
 
 
 
-do
-local BONUS_BUFF = 2
-local MULT_BUFF = 0.1
-local SET_MONEY_TO = 8
-
-defItem("toolbelt", "Toolbelt", {
-    triggers = {"PULSE"},
-
-    activateDescription = loc("Sets money to {lootplot:MONEY_COLOR}$%{money}{/lootplot:MONEY_COLOR}.\nGives {lootplot:BONUS_COLOR}+%{bonusBuff} Bonus{/lootplot:BONUS_COLOR} and {lootplot:POINTS_MULT_COLOR}+%{multBuff} mult{/lootplot:POINTS_MULT_COLOR} to dirt-slots", {
-        money = SET_MONEY_TO,
-        bonusBuff = BONUS_BUFF,
-        multBuff = MULT_BUFF
-    }),
-
-    onActivate = function(ent)
-        lp.setMoney(ent, SET_MONEY_TO)
-    end,
-
-    rarity = lp.rarities.RARE,
-    basePrice = 8,
-    canItemFloat = true,
-
-    shape = lp.targets.KingShape(1),
-    target = {
-        type = "SLOT_NO_ITEM",
-        filter = function(selfEnt, ppos, slotEnt)
-            return slotEnt:type() == "lootplot.s0:dirt_slot"
-        end,
-        activate = function(selfEnt, ppos, slotEnt)
-            lp.modifierBuff(slotEnt, "multGenerated", MULT_BUFF, selfEnt)
-            lp.modifierBuff(slotEnt, "bonusGenerated", BONUS_BUFF, selfEnt)
-        end
-    },
-})
-end
-
-
-
 
 
 do
@@ -323,4 +285,76 @@ defItem("money_sack", "Money Sack", {
 })
 
 end
+
+
+
+defItem("toolbelt", "Toolbelt", {
+    triggers = {"PULSE"},
+
+    activateDescription = loc("Spawns random items, and gives them {lootplot:GRUB_COLOR_LIGHT}GRUB-%{grubCap}", {
+        grubCap = GRUB_MONEY_CAP
+    }),
+
+    rarity = lp.rarities.RARE,
+    basePrice = 8,
+    baseMoneyGenerated = -8,
+
+    shape = lp.targets.DownShape(2),
+    target = {
+        type = "SLOT_NO_ITEM",
+        activate = function(selfEnt, ppos, slotEnt)
+            local r = lp.SEED:randomMisc()
+            local itemEType
+            if r < 0.15 then
+                itemEType = lp.rarities.randomItemOfRarity(lp.rarities.EPIC)
+            else
+                itemEType = lp.rarities.randomItemOfRarity(lp.rarities.RARE)
+            end
+
+            local item = itemEType and lp.trySpawnItem(ppos, itemEType, selfEnt.lootplotTeam)
+            if item then
+                item.grubMoneyCap = GRUB_MONEY_CAP
+            end
+        end
+    },
+})
+
+
+
+do
+local BONUS_BUFF = 2
+local MULT_BUFF = 0.1
+local SET_MONEY_TO = 8
+
+defItem("dirty_pillow", "Dirty Pillow", {
+    triggers = {"PULSE"},
+
+    activateDescription = loc("Sets money to {lootplot:MONEY_COLOR}$%{money}{/lootplot:MONEY_COLOR}.\nGives {lootplot:BONUS_COLOR}+%{bonusBuff} Bonus{/lootplot:BONUS_COLOR} and {lootplot:POINTS_MULT_COLOR}+%{multBuff} mult{/lootplot:POINTS_MULT_COLOR} to dirt-slots", {
+        money = SET_MONEY_TO,
+        bonusBuff = BONUS_BUFF,
+        multBuff = MULT_BUFF
+    }),
+
+    onActivate = function(ent)
+        lp.setMoney(ent, SET_MONEY_TO)
+    end,
+
+    rarity = lp.rarities.RARE,
+    basePrice = 8,
+    canItemFloat = true,
+
+    shape = lp.targets.KingShape(1),
+    target = {
+        type = "SLOT_NO_ITEM",
+        filter = function(selfEnt, ppos, slotEnt)
+            return slotEnt:type() == "lootplot.s0:dirt_slot"
+        end,
+        activate = function(selfEnt, ppos, slotEnt)
+            lp.modifierBuff(slotEnt, "multGenerated", MULT_BUFF, selfEnt)
+            lp.modifierBuff(slotEnt, "bonusGenerated", BONUS_BUFF, selfEnt)
+        end
+    },
+})
+end
+
 
