@@ -548,8 +548,12 @@ Gold = money
 --->
 - ITEM: If there are more than 4 curses on the plot, earn $2
 - ITEM: Black-shield: If target item is a curse, destroy it. Earn +1 mult.
-- ITEM: Black-shield: If target item is a curse, destroy it. 
+- ITEM: When a curse is spawned, transform it into a magic-turnip
+- ITEM: Devil deal: Earn $5. Spawn a random `CURSE(I)` curse somewhere on the plot.
 - CURSE: Increase round by 1. DOOMED-1
+- CURSE: On Reroll, lose 0.5 mult. FLOATY. (<--- provides anti-reroll archetype!)
+- CURSE: When an item is destroyed, lose 15 points. KING-2. (<--- provides anti-destroy archetype!)
+- CURSE: When an item is destroyed, lose $1. KING-2.
 - CURSE: Make items STUCK. ROOK-1
 - CURSE: On Destroy, On Pulse: Steal 10 points.
 --->
