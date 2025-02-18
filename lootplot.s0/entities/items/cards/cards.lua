@@ -75,7 +75,7 @@ end
 
 defineCard("star_card", "Star Card", {
     activateDescription = loc("Shuffle shapes between target items"),
-    rarity = lp.rarities.LEGENDARY,
+    rarity = lp.rarities.EPIC,
     shape = lp.targets.VerticalShape(1),
     target = {
         type = "ITEM",

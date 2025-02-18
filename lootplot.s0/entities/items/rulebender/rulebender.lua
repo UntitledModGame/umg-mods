@@ -108,7 +108,7 @@ defItem("void_box", "Void Box", {
 
     baseMaxActivations = 3,
     basePrice = 12,
-    baseMoneyGenerated = -8,
+    baseMoneyGenerated = -5,
 
     shape = lp.targets.RookShape(1),
     target = {
@@ -219,6 +219,8 @@ defItem("foghorn", "Fog Horn", {
 
     rarity = lp.rarities.RARE,
     triggers = {"PULSE"},
+
+    canItemFloat = true,
 
     shape = lp.targets.RookShape(8),
 

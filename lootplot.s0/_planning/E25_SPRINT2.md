@@ -473,7 +473,13 @@ Trigger PULSE on RARE items
 Trigger Pulse on slots
 
 
-- ITEM: King Crab 🦀 
+- Interest-slot art overhaul
+Currently the interest-slot looks bad.
+Make it look more like the level-up button. Thx.
+
+
+
+- ITEM: King Crab
 Spawn random items, and give them GRUB-10.
 Cost $6 to activate
 (GRUB-10)
@@ -482,50 +488,46 @@ Cost $6 to activate
 
 
 - ITEM: Champion belt
-Destroys items.
-Gain multiplier equal to 10% of the current balance (Currently: $X)
+Removes GRUBBY from items.
+Then, destroys items.
 
 
-## Idea: SIMPLE Anti-archetype items:
-"If there are no REPEATER items on the plot, do XYZ"
+- ANTI BONUS ITEMS - 1:
+Gives +1.5 mult
+(Only works if bonus is negative!)
+-->  
+Earns 100 points
+(Only works if bonus is negative!)
 
-"If there are no items with `Reroll` trigger on the plot, do XYZ"
 
-"If there are no items with `Destroy` trigger on the plot, do XYZ"
-
-
-- ANTI-BONUS ITEMS:
+- ANTI-BONUS ITEMS - 2:
 Instead of always doing: "Subtracts X bonus",
 Do something like: "Divides bonus by 2".
 ^^^ this is nice, since it works bad with +ve bonus, but GOOD for negative-bonus.
 
 
+- Rotate-archetype also needs some love.
+- Add copper-sword back.
+- Add copper-greatsword
+- Add copper-hammer
+- Maybe add a new item: Copper-Bar...?
 
-============================================================================
 
-## UNSURE OF THE BELOW STUFF:
-## It feels a bit "bloaty", and non-emergent.
-- SLOT: Paper-slot:
-Cannot hold COMMON/UNCOMMON items
 
-- ITEM: Rucksack
-When an item is spawned, earn $1, and give +1 mult
-(ROOK-6)
-(sticky)
+- ITEM:
+Spawns a DOOMED-4 LEGENDARY item
+(oli note: Doesnt spawn legendary-items that are already DOOMED.)
 
-- ITEM: 
-If a DOOMED item is spawned, destroy it, and earn $2
-(sticky)
 
-- ITEM: 
-If an item with REROLL or ROTATE trigger is spawned, destroy it, and earn $3
-(sticky)
+## SPIKE: Items that provide keys
 
-- ITEM: Broken shield:
-has action-buttons, allowing the player to transform it into ANY other shield
-(has a button for every other shield-type)
+## SPIKE: Items that use `UNLOCK` trigger
 
-============================================================================
+## SPIKE: Items that give keys
+
+
+- Get rid of dark-egg, it's bad and dumb. Replace with something better please.
+Maybe spawns null-slots that earn points, or something?
 
 
 - Activations-cap:  
@@ -568,6 +570,9 @@ Listener-items still activate when in a null-slot/shop-slot.
 This is confusing at best, bugged at worst.
 (fix this. Fix for shop-slots too!)
 (IMPORTANT:: Make sure that the `BUY` trigger still works for shop-items when purchased!!!)
+--
+SIMPLE IDEA: Just have a slot-component: `isItemListenBlocked = true`
+^^^ its very direct, very simple.
 
 
 - Destroy all shop-slots after LEVEL-10.
@@ -593,6 +598,12 @@ Islands that are exactly 1 in size: Spawns a sticky-chest item (on a null slot)
 
 Match3 shards:
 When matched, a little sprite should pop up above them, just like when a shape is matched in CROPS!
+
+
+## SPIKE: SIMPLE Anti-archetype items:
+- "If there are no REPEATER items on the plot, do XYZ"
+- "If there are no items with `Reroll` trigger on the plot, do XYZ"
+- "If there are no items with `Destroy` trigger on the plot, do XYZ"
 
 
 

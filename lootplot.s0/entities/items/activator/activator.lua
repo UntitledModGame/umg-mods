@@ -180,7 +180,7 @@ defItem("ping_pong_paddle", "Ping pong paddle", {
 
 
 defItem("ruby", "Ruby", {
-    activateDescription = loc("Gives {lootplot:REPEATER_COLOR}REPEATER{/lootplot:REPEATER_COLOR} to all target items."),
+    activateDescription = loc("Gives {lootplot:REPEATER_COLOR}REPEATER{/lootplot:REPEATER_COLOR} to items."),
 
     triggers = {"PULSE"},
 

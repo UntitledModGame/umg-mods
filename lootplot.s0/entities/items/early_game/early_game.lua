@@ -20,7 +20,7 @@ destroy-lives systems interact with each other.
 ]]
 defItem("rocks", {
     name = loc("Rocks"),
-    description = loc("(Hint: Put this item in a sell-slot, and watch what happens!)"),
+    description = loc("(Hint: Put this item in a sell-slot!)"),
 
     basePrice = 3,
     basePointsGenerated = 15,
@@ -211,7 +211,7 @@ defItem("coins", {
 defItem("bone", {
     name = loc("Bone"),
 
-    description = loc("Has 6 lives. (Try selling or destroying this item!)"),
+    description = loc("(Hint: Put this item in a sell-slot!)"),
 
     triggers = {"DESTROY"},
 

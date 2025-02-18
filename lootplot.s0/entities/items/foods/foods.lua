@@ -338,6 +338,8 @@ defineFood("fortune_cookie", {
     So instead, we make an explicit whitelist of item rarities.
     ]]
 
+    rarity = lp.rarities.RARE,
+
     shape = lp.targets.KingShape(1),
     target = {
         type = "ITEM",
@@ -868,7 +870,7 @@ defineFood("slice_of_cake", {
     name = loc("Slice of Cake"),
     activateDescription = loc("Gives target item/slot {lootplot:POINTS_COLOR}+3{/lootplot:POINTS_COLOR} points"),
 
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.RARE,
 
     shape = lp.targets.KING_SHAPE,
 
@@ -1014,7 +1016,7 @@ end
 
 definePotion("potion_green", {
     name = loc("Green Potion"),
-    activateDescription = loc("Gives +5 max-activations to target item."),
+    activateDescription = loc("Gives +5 activations to items."),
 
     rarity = lp.rarities.RARE,
 
@@ -1029,7 +1031,7 @@ definePotion("potion_green", {
 
 definePotion("potion_gold", {
     name = loc("Golden Potion"),
-    activateDescription = loc("Buff target item's points by the current balance."),
+    activateDescription = loc("Buff item's points by the current balance."),
 
     rarity = lp.rarities.RARE,
 

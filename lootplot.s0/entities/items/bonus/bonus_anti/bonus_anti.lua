@@ -104,7 +104,7 @@ defItem("ocarina", "Ocarina", {
             lp.modifierBuff(targetEnt, "pointsGenerated", PTS_BUFF, selfEnt)
         end
     },
-    shape = lp.targets.RookShape(1),
+    shape = lp.targets.DownShape(2),
 
     rarity = lp.rarities.RARE,
 })

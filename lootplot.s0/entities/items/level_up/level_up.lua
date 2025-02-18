@@ -47,7 +47,7 @@ defItem("square_basket", "Square Basket", {
 
 
 defItem("red_key", "Red Key", {
-    activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}UNLOCK{/lootplot:TRIGGER_COLOR} for slots and items."),
+    activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}Unlock{/lootplot:TRIGGER_COLOR} for slots and items."),
 
     rarity = lp.rarities.RARE,
 
@@ -55,7 +55,7 @@ defItem("red_key", "Red Key", {
     target = {
         type = "ITEM_OR_SLOT",
         activate = function(_, _, target)
-            return lp.tryTriggerEntity("UNLOCK", target)
+            return lp.tryTriggerEntity("Unlock", target)
         end
     }
 })
