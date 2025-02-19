@@ -111,3 +111,63 @@ defItem("ocarina", "Ocarina", {
 
 end
 
+
+
+local ACTIVATE_IF_NEGATIVE_BONUS_DESC =
+loc("(Only works if {lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} is negative!)")
+
+local ACTIVATE_IF_NEGATIVE_BONUS = function(ent)
+    return (lp.getPointsBonus(ent) or 1) < 0
+end
+
+
+local PULSE_ROTATE_TRIGGER = {"PULSE", "ROTATE"}
+
+
+defItem("blue_carton", "Blue Carton", {
+    triggers = PULSE_ROTATE_TRIGGER,
+
+    activateDescription = ACTIVATE_IF_NEGATIVE_BONUS_DESC,
+    canActivate = ACTIVATE_IF_NEGATIVE_BONUS,
+
+    basePrice = 8,
+    baseMaxActivations = 6,
+    baseBonusGenerated = 20,
+    baseMoneyGenerated = 0.5,
+
+    rarity = lp.rarities.RARE,
+})
+
+
+
+defItem("green_carton", "Green Carton", {
+    triggers = PULSE_ROTATE_TRIGGER,
+
+    activateDescription = ACTIVATE_IF_NEGATIVE_BONUS_DESC,
+    canActivate = ACTIVATE_IF_NEGATIVE_BONUS,
+
+    basePrice = 8,
+    baseMaxActivations = 6,
+    basePointsGenerated = 100,
+    baseMoneyGenerated = 0.5,
+
+    rarity = lp.rarities.RARE,
+})
+
+
+
+defItem("red_carton", "Red Carton", {
+    triggers = PULSE_ROTATE_TRIGGER,
+
+    activateDescription = ACTIVATE_IF_NEGATIVE_BONUS_DESC,
+    canActivate = ACTIVATE_IF_NEGATIVE_BONUS,
+
+    basePrice = 8,
+    baseMaxActivations = 6,
+    baseMultGenerated = 2.5,
+    baseMoneyGenerated = 0.5,
+
+    rarity = lp.rarities.RARE,
+})
+
+

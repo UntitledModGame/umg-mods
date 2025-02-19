@@ -491,7 +491,7 @@ Removes GRUBBY from items.
 Then, destroys items.
 
 
-- ANTI BONUS ITEMS - 1:
+- (((DONE))) ANTI BONUS ITEMS - 1:
 Gives +1.5 mult
 (Only works if bonus is negative!)
 -->  
