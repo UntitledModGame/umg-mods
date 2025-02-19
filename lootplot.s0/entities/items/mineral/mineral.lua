@@ -474,3 +474,30 @@ defineMineralClass("grubby", "Grubby", 5, {
 })
 
 
+
+
+
+
+--[[
+
+Copper-items activate on rotate.
+
+We only defined a few, because:
+A) we dont wanna bloat item-pool
+B) rotated items make it hard to organize your plot.
+    It would feel weird having a rotated-spear, since it activates inconsistently.
+]]
+do
+    local strength = 10
+    local etype = {
+        triggers = {"ROTATE"},
+        baseMaxActivations = 8
+    }
+
+    defineSword("copper", "Copper", strength, etype)
+    defineAxe("copper", "Copper", strength, etype)
+    defineHammer("copper", "Copper", strength,  etype)
+    defineScythe("copper", "Copper", strength,  etype)
+    defineGreatsword("copper", "Copper", strength,  etype)
+end
+
