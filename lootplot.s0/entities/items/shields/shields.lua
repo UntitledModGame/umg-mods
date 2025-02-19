@@ -76,6 +76,19 @@ defShield("bonus_shield", "Bonus Shield", {
 
 
 
+defShield("points_shield", "Points Shield", {
+    activateDescription = loc("If {lootplot:POINTS_COLOR}points{/lootplot:POINTS_COLOR} is negative, make {lootplot:POINTS_COLOR}points{/lootplot:POINTS_COLOR} positive."),
+
+    onActivate = function(ent)
+        local pts = lp.getPoints(ent) or 100
+        if pts < 0 then
+            lp.setPoints(ent, pts * -1)
+        end
+    end,
+})
+
+
+
 
 defShield("multiplier_shield", "Multiplier Shield", {
     activateDescription = loc("If {lootplot:POINTS_MULT_COLOR}multiplier{/lootplot:POINTS_MULT_COLOR} is negative, make {lootplot:POINTS_MULT_COLOR}multiplier{/lootplot:POINTS_MULT_COLOR} positive.");
