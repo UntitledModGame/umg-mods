@@ -492,17 +492,10 @@ Then, destroys items.
 
 
 - (((DONE))) ANTI BONUS ITEMS - 1:
-Gives +1.5 mult
+- (((DONE))) Gives +1.5 mult
 (Only works if bonus is negative!)
--->  
-Earns 100 points
+- (((DONE))) Earns 100 points
 (Only works if bonus is negative!)
-
-
-- ANTI-BONUS ITEMS - 2:
-Instead of always doing: "Subtracts X bonus",
-Do something like: "Divides bonus by 2".
-^^^ this is nice, since it works bad with +ve bonus, but GOOD for negative-bonus.
 
 
 - Rotate-archetype also needs some love.
@@ -518,13 +511,19 @@ Destroys item 3 times.
 Earns 40 points each time. 
 
 
-- ITEM:
-Spawns a DOOMED-4 LEGENDARY item
-(oli note: Don't pick legendary-items that are already DOOMED.)
+- ANTI-BONUS ITEMS - 2:
+Instead of always doing: "Subtracts X bonus",
+Do something like: "Divides bonus by 2".
+^^^ this is nice, since it works bad with +ve bonus, but GOOD for negative-bonus.
 
 
 - ITEM: Points shield
 If points are negative, make points positive
+
+
+- ITEM:
+Spawns a DOOMED-4 LEGENDARY item
+(oli note: Don't pick legendary-items that are already DOOMED.)
 
 
 ## SPIKE: Items that provide keys
@@ -562,7 +561,9 @@ This ensures that they don't activate immediately in an unfair-fashion to the pl
 
 
 - Get rid of dark-egg, it's bad and dumb. Replace with something better please.
-Maybe spawns null-slots that earn points, or something?
+IDEA:
+"Spawn null-slots with keys inside"
+"Spawn 3 null-slots. Spawn a key for each item"
 
 
 - Activations-cap:  
