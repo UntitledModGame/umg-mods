@@ -390,15 +390,92 @@ end -- if client
 
 
 
-chat.handleCommand("spawnAllItems", {
+
+
+do
+
+local function descriptionContains(etype, txt)
+    local actDesc = etype.activateDescription
+    txt = txt:lower()
+    if actDesc and type(actDesc) == "string" and actDesc:lower():find(txt) then
+        return true
+    end
+    local desc = etype.activateDescription
+    if desc and type(desc) == "string" and desc:lower():find(txt) then
+        return true
+    end
+    return false
+end
+
+local itemFilters = {
+    all = function(etype) return true end,
+    clear = function(etype) return false end,
+
+    grubby = function (etype)
+        return etype.grubMoneyCap or descriptionContains(etype, "grub")
+    end,
+    pricey = function (etype)
+        return descriptionContains(etype, "price")
+    end,
+    money = function (etype)
+        return etype.moneyGenerated
+            or descriptionContains(etype, "balance")
+            or descriptionContains(etype, "money")
+    end,
+    doomed = function(etype)
+        return etype.doomCount
+    end,
+    reroll = function(etype)
+        return lp.hasTrigger(etype, "REROLL")
+    end,
+    destroy = function(etype)
+        return lp.hasTrigger(etype, "DESTROY")
+    end,
+    rotate = function(etype)
+        return lp.hasTrigger(etype, "ROTATE")
+    end,
+    unlock = function(etype)
+        return lp.hasTrigger(etype, "UNLOCK")
+    end,
+    levelup = function(etype)
+        return lp.hasTrigger(etype, "LEVEL_UP")
+    end,
+    listen = function(etype)
+        return etype.listen
+    end,
+    shape = function(etype)
+        return etype.shape
+    end,
+    repeater = function(etype)
+        return etype.repeatActivations
+    end,
+}
+
+local VALID_FILTERS = ""
+for filterName,_ in pairs(itemFilters) do
+    VALID_FILTERS = VALID_FILTERS .. filterName .. ", "
+end
+
+
+chat.handleCommand("spawnItems", {
     adminLevel = 120,
-    arguments = {},
-    handler = function(clientId)
+    arguments = {
+        name = "filterType",
+        type = "string"
+    },
+    handler = function(clientId, filterType)
         if not server then return end
         local run = lp.singleplayer.getRun()
         if not run then return end
 
         local plot = run:getPlot()
+
+        local filter = itemFilters[filterType]
+        if not filter then
+            chat.privateMessage(clientId, "Invalid filter: " .. tostring(filterType))
+            chat.privateMessage(clientId, VALID_FILTERS)
+            return
+        end
 
         -- Get all item ETypes
         local allItems = lp.newItemGenerator():getEntries()
@@ -424,13 +501,23 @@ chat.handleCommand("spawnAllItems", {
         local _,height = plot:getDimensions()
         plot:foreachInArea(0,0, X_OFFSET + MAX_ITEMS_IN_PPOS_X + 1, height-1,function(ppos)
             local slot = lp.posToSlot(ppos)
+            local item = lp.posToItem(ppos)
+            if item then item:delete() end
             if slot then slot:delete() end
         end)
 
-        local y = 1
+        local y = 3
         for _, rarity in ipairs(rarities) do
-            local arr = etypes[rarity]
-            if arr then
+            local arr = objects.Array(etypes[rarity] or {})
+                :map(function(itemETypeStr)
+                    return server.entities[itemETypeStr]
+                end)
+                :filter(filter)
+                :map(function(itemEType)
+                    return itemEType:getTypename()
+                end)
+
+            if arr:size() > 0 then
                 local x = 1
 
                 table.sort(arr)
@@ -453,3 +540,5 @@ chat.handleCommand("spawnAllItems", {
         end
     end
 })
+
+end

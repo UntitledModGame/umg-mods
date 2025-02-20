@@ -515,18 +515,20 @@ Earns 40 points each time.
 If points are negative, make points positive
 
 
-- Create better infra for viewing items.
+- (((DONE))) Create better infra for viewing items.
 Instead of just having `/spawnAllItems`, we should have:
-- /spawnItems all
-- /spawnItems clear
-- /spawnItems grubby
-- /spawnItems reroll
-- /spawnItems rotate
-- /spawnItems levelup
-- /spawnItems unlock
-- /spawnItems repeater
-- /spawnItems doomed
-- /spawnItems shape  (items with a shape)
+- (((DONE))) /spawnItems all
+- (((DONE))) /spawnItems clear
+- (((DONE))) /spawnItems grubby
+- (((DONE))) /spawnItems reroll
+- (((DONE))) /spawnItems rotate
+- (((DONE))) /spawnItems levelup
+- (((DONE))) /spawnItems unlock
+- (((DONE))) /spawnItems repeater
+- (((DONE))) /spawnItems listen
+- (((DONE))) /spawnItems money
+- (((DONE))) /spawnItems doomed
+- (((DONE))) /spawnItems shape  (items with a shape)
 
 
 - ANTI-BONUS ITEMS - 2:
