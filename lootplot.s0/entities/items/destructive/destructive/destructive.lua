@@ -345,13 +345,14 @@ defDestructive("dagger", "Dagger", {
 
 
 defDestructive("golden_dagger", "Golden Dagger", {
-    activateDescription = loc("Destroys target items.\nEarns {lootplot:MONEY_COLOR}$4{/lootplot:MONEY_COLOR} for each."),
+    activateDescription = loc("Destroys target items.\nEarns {lootplot:MONEY_COLOR}$2{/lootplot:MONEY_COLOR} for each."),
 
     init = rotateRandomlyInit,
 
     rarity = lp.rarities.RARE,
 
     basePrice = 4,
+    baseMaxActivations = 2,
 
     shape = lp.targets.UpShape(1),
 
@@ -359,7 +360,7 @@ defDestructive("golden_dagger", "Golden Dagger", {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
             lp.destroy(targetEnt)
-            lp.addMoney(selfEnt, 4)
+            lp.addMoney(selfEnt, 2)
         end
     },
 })
@@ -465,24 +466,26 @@ defDestructive("furnace", "Furnace", {
 
 
 
+local KNUCKLES_EARN = 1
 
 defDestructive("golden_knuckles", "Golden Knuckles", {
-    activateDescription = loc("Destroy target item(s), earns {lootplot:MONEY_COLOR}$1 for each"),
+    activateDescription = loc("Destroy target item(s), earns {lootplot:MONEY_COLOR}$%{earn} for each", {
+        earn = KNUCKLES_EARN
+    }),
 
     rarity = lp.rarities.RARE,
 
     triggers = {"PULSE"},
 
     basePrice = 6,
-    baseMaxActivations = 10,
-    baseMoneyGenerated = 2,
+    baseMaxActivations = 4,
 
     shape = lp.targets.KING_SHAPE,
 
     target = {
         type = "ITEM",
         activate = function(selfEnt, ppos, ent)
-            lp.addMoney(selfEnt,2)
+            lp.addMoney(selfEnt,KNUCKLES_EARN)
             lp.destroy(ent)
         end,
     }

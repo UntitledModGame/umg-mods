@@ -180,10 +180,10 @@ defItem("screw", "Screw", {
 
 
 
-local RECORD_TRIGGERS = {"ROTATE", "REROLL"}
+local ROTATE_REROLL_TRIGGERS = {"ROTATE", "REROLL"}
 
 local function defRecord(id, name, etype)
-    etype.triggers = RECORD_TRIGGERS
+    etype.triggers = etype.triggers or ROTATE_REROLL_TRIGGERS
 
     etype.rarity = etype.rarity or lp.rarities.EPIC
 
@@ -204,7 +204,7 @@ defRecord("record_green", "Green Record", {
 
     rarity = lp.rarities.RARE,
 
-    shape = lp.targets.CircleShape(2),
+    shape = lp.targets.RookShape(1),
     target = {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
@@ -230,7 +230,6 @@ defRecord("record_red", "Red Record", {
 
 
 defItem("record_blue", "Blue Record", {
-    triggers = RECORD_TRIGGERS,
     activateDescription = loc("Add {lootplot:BONUS_COLOR}+1 bonus{/lootplot:BONUS_COLOR} to items"),
 
     rarity = lp.rarities.EPIC,
@@ -247,7 +246,7 @@ defItem("record_blue", "Blue Record", {
 
 
 defItem("record_golden", "Golden Record", {
-    triggers = RECORD_TRIGGERS,
+    triggers = {"ROTATE"},
 
     baseMoneyGenerated = 3,
     basePrice = 9,
@@ -257,7 +256,7 @@ defItem("record_golden", "Golden Record", {
 
 
 defItem("record_white", "White Record", {
-    triggers = RECORD_TRIGGERS,
+    triggers = {"ROTATE"},
 
     baseMultGenerated = 3,
     basePrice = 12,

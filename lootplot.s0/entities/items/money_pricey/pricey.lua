@@ -163,7 +163,7 @@ defItem("golden_donut", "Golden Donut", {
         end
     },
 
-    rarity = lp.rarities.EPIC,
+    rarity = lp.rarities.RARE,
 })
 
 

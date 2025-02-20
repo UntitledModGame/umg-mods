@@ -103,6 +103,8 @@ defChestplate("golden_chestplate", "Golden Chestplate", {
     activateDescription = loc("Earn {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} for every targetted item."),
 
     baseMoneyGenerated = -3,
+    baseMaxActivations = 2,
+    rarity = lp.rarities.EPIC,
 
     target = {
         type = "ITEM",

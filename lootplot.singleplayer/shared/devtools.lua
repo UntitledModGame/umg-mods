@@ -430,6 +430,7 @@ local itemFilters = {
     end,
     destroy = function(etype)
         return lp.hasTrigger(etype, "DESTROY")
+            or descriptionContains(etype, "destroy")
     end,
     rotate = function(etype)
         return lp.hasTrigger(etype, "ROTATE")
