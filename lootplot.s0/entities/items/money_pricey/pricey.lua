@@ -153,7 +153,7 @@ defItem("golden_donut", "Golden Donut", {
 
     basePrice = 8,
     baseMaxActivations = 10,
-    baseMoneyGenerated = -4,
+    baseMoneyGenerated = -2,
 
     shape = lp.targets.KingShape(1),
     target = {
