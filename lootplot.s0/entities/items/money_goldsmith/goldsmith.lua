@@ -25,7 +25,8 @@ local function percentageOfBalanceGetter(percentage)
 end
 
 
-local MULT_RING_DESC = interp("Earn {lootplot:POINTS_MULT_COLOR}+1 mult{/lootplot:POINTS_MULT_COLOR} for every {lootplot:MONEY_COLOR}$10{/lootplot:MONEY_COLOR} you have.")
+
+local MULT_RING_DESC = interp("Adds {lootplot:POINTS_MULT_COLOR}mult{/lootplot:POINTS_MULT_COLOR} equal to 10% of the balance {lootplot:MONEY_COLOR}($%{balance})")
 
 local function defMultRing(id,name, triggers)
     defItem(id, {
@@ -47,7 +48,7 @@ local function defMultRing(id,name, triggers)
             modifiers = {
                 multGenerated = function(ent)
                     local money = lp.getMoney(ent) or 0
-                    local interest = math.floor(money / 10)
+                    local interest = money / 10
                     return interest
                 end
             }
@@ -64,7 +65,7 @@ defMultRing("orange_multiplier_ring", "Orange Multiplier Ring", {"ROTATE", "UNLO
 
 
 
-local SILV_RING_DESC = interp("Earns points equal to the current balance.")
+local SILV_RING_DESC = interp("Earns points equal to the current balance {lootplot:MONEY_COLOR}($%{balance})")
 
 local function defSilvRing(id,name,trigger)
     defItem(id, {
