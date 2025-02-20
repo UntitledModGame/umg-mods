@@ -9,21 +9,33 @@ Clone rocks:
 Transform into target rocks
 
 
-Anti-bonus rock, +points (+PULSE)
-Anti-bonus rock, +mult (+PULSE)
-Anti-bonus rock (+REROLL)
+Anti-bonus rocks {
+    [divides bonus by 2]
 
-Anti-bonus rock (+UNLOCK, LEVEL_UP)
+    rock (+PULSE): earns 50 pts 
+    rock (+REROLL): earns 50 pts
+}
 
-rock (+ROTATE)
 
-Pro-bonus/income rock: Earns $1, gives +5 bonus
+Orange rock (+ROTATE):  Earn $0.5, give +50 points
 
-Pro-bonus rock (generates +5 points 10 times)
 
-Grubby Mult rocks, gives +mult, GRUB-10
 
-Golden rocks: Earn $1, give +50 points
+Pro bonus rocks {
+    ICE-CUBE: +10 bonus
+    diamond: (+PULSE) generates +5 points 10 times
+    emerald: (+PULSE) generates +5 points 10 times
+}
+
+
+Grubby rocks, +mult, +points, GRUB-10
+
+
+Golden rocks: Earns points equal to current balance. +1 mult
+
+
+Void-rock (+UNLOCK, LEVEL_UP)
+(^^^ TODO: Come up with a cool idea for this)
 
 
 ]]
@@ -65,4 +77,55 @@ defRocks("clone_rocks", "Clone Rocks", {
         end
     }
 })
+
+
+
+defRocks("ice_cube", "Ice Cube", {
+    triggers = {"DESTROY"},
+    rarity = lp.rarities.RARE,
+
+    baseBonusGenerated = 10,
+
+    lives = 40
+})
+
+
+
+
+do
+local HALF_BONUS_DESC = loc("Halves the current {lootplot:BONUS_COLOR}Bonus")
+local function halfBonus(ent)
+    local bonus = lp.getPointsBonus(ent) or 0
+    lp.setPointsBonus(ent, bonus/2)
+end
+
+defRocks("jagged_rock", "Jagged Rock", {
+    triggers = {"DESTROY", "PULSE"},
+
+    activateDescription = HALF_BONUS_DESC,
+    onActivate = halfBonus,
+
+    rarity = lp.rarities.RARE,
+
+    basePointsGenerated = 60,
+
+    lives = 300
+})
+
+
+defRocks("jagged_emerald", "Jagged Emerald", {
+    triggers = {"DESTROY", "REROLL"},
+
+    activateDescription = HALF_BONUS_DESC,
+    onActivate = halfBonus,
+
+    rarity = lp.rarities.RARE,
+
+    basePointsGenerated = 60,
+
+    lives = 300
+})
+end
+
+
 
