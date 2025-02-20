@@ -106,16 +106,21 @@ defItem("star", "Star", {
 defineCard("hearts_card", "Hearts Card", {
     shape = lp.targets.VerticalShape(1),
 
-    activateDescription = loc("Shuffle lives between target items"),
+    activateDescription = loc("Shuffle lives between target items.\nDoesn't work on items have more than 10 lives."),
 
     target = {
         type = "ITEM",
+        filter = function(selfEnt, ppos, targEnt)
+            if targEnt.lives and targEnt.lives > 10 then
+                return false
+            end
+            return true
+        end
     },
 
     onActivate = function(selfEnt)
         local targets = shuffled(
-            objects.Array(lp.targets.getTargets(selfEnt))
-                :map(lp.posToItem)
+            objects.Array(lp.targets.getConvertedTargets(selfEnt))
         )
         apply(targets, function(e1,e2)
             local l1 = e1.lives or 0
