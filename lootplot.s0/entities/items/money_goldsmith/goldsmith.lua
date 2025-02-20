@@ -25,14 +25,53 @@ local function percentageOfBalanceGetter(percentage)
 end
 
 
-local SILV_RING_DESC = interp("Earn points equal to the current balance.")
+local MULT_RING_DESC = interp("Earn {lootplot:POINTS_MULT_COLOR}+1 mult{/lootplot:POINTS_MULT_COLOR} for every {lootplot:MONEY_COLOR}$10{/lootplot:MONEY_COLOR} you have.")
+
+local function defMultRing(id,name, triggers)
+    defItem(id, {
+        name = loc(name),
+
+        triggers=assert(triggers),
+
+        description = function(ent)
+            return MULT_RING_DESC({
+                balance = lp.getMoney(ent) or 0
+            })
+        end,
+
+        basePrice = 12,
+        baseMultGenerated = 0,
+        baseMaxActivations = 6,
+
+        lootplotProperties = {
+            modifiers = {
+                multGenerated = function(ent)
+                    local money = lp.getMoney(ent) or 0
+                    local interest = math.floor(money / 10)
+                    return interest
+                end
+            }
+        },
+
+        rarity = lp.rarities.RARE,
+    })
+end
+
+defMultRing("red_multiplier_ring", "Red Multiplier Ring", {"PULSE"})
+defMultRing("green_multiplier_ring", "Green Multiplier Ring", {"REROLL"})
+defMultRing("orange_multiplier_ring", "Orange Multiplier Ring", {"ROTATE", "UNLOCK"})
+
+
+
+
+local SILV_RING_DESC = interp("Earns points equal to the current balance.")
 
 local function defSilvRing(id,name,trigger)
     defItem(id, {
         name = loc(name),
         triggers={trigger},
 
-        activateDescription = function(ent)
+        description = function(ent)
             return SILV_RING_DESC({
                 balance = lp.getMoney(ent) or 0
             })
@@ -65,7 +104,7 @@ local function defGoldRing(id, name, trigger)
         name = loc(name),
         triggers = {trigger},
 
-        activateDescription = function(ent)
+        description = function(ent)
             return GOLD_RING_DESC({
                 balance = lp.getMoney(ent) or 0
             })
