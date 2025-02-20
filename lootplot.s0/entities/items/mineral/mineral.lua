@@ -11,13 +11,6 @@ Do something basic, (like adds mult, or adds points)
 but usually have self-scaling.
 ===================================================
 
-TODO:
-This entire file is overly complex and overly coupled.
-Argh!!! stupid. So stupid. 
-Please dont take inspiration from this file, its bad.
-
-(At least the complexity is 100% localized)
-
 ]]
 
 local function defineMineral(mineralType, name, etype)

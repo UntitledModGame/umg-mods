@@ -498,17 +498,35 @@ Then, destroys items.
 (Only works if bonus is negative!)
 
 
-- Rotate-archetype also needs some love.
-- Add copper-sword back.
-- Add copper-greatsword
-- Add copper-hammer
-- Maybe add a new item: Copper-Bar...?
+- (((DONE))) Rotate-archetype also needs some love.
+- (((DONE))) Add copper-sword back.
+- (((DONE))) Add copper-greatsword
+- (((DONE))) Add copper-hammer
+- (((DONE))) Maybe add a new item: Copper-Bar...?
 
 
-- Slot: Destroy slot (skull-logo?)
+- (((DONE))) Slot: Destroy slot (skull-logo?)
 On Pulse,
 Destroys item 3 times.
 Earns 40 points each time. 
+
+
+- (((DONE))) ITEM: Points shield
+If points are negative, make points positive
+
+
+- Create better infra for viewing items.
+Instead of just having `/spawnAllItems`, we should have:
+- /spawnItems all
+- /spawnItems clear
+- /spawnItems grubby
+- /spawnItems reroll
+- /spawnItems rotate
+- /spawnItems levelup
+- /spawnItems unlock
+- /spawnItems repeater
+- /spawnItems doomed
+- /spawnItems shape  (items with a shape)
 
 
 - ANTI-BONUS ITEMS - 2:
@@ -516,15 +534,18 @@ Instead of always doing: "Subtracts X bonus",
 Do something like: "Divides bonus by 2".
 ^^^ this is nice, since it works bad with +ve bonus, but GOOD for negative-bonus.
 
-
-- ITEM: Points shield
-If points are negative, make points positive
+- Create rock items
 
 
 - ITEM:
 Spawns a DOOMED-4 LEGENDARY item
 (oli note: Don't pick legendary-items that are already DOOMED.)
 
+
+## SPIKE: Items that add variance.
+- On LEVEL-UP: Spawn a null-slot. Spawn a random RARE item on the board, and make it STUCK.
+- On LEVEL-UP, DESTROY: Spawns a random CURSE on the plot. Spawns a random RARE item somewhere on the plot.
+- On Destroy: Spawns a random slot somewhere on the plot. (has 1 life)
 
 ## SPIKE: Items that provide keys
 
@@ -560,10 +581,9 @@ When curses spawn, they should spawn with 0 activations.
 This ensures that they don't activate immediately in an unfair-fashion to the player.
 
 
-- Get rid of dark-egg, it's bad and dumb. Replace with something better please.
+- Get rid of dark-egg, it's bad and dumb. Replace with something better please-
 IDEA:
-"Spawn null-slots with keys inside"
-"Spawn 3 null-slots. Spawn a key for each item"
+- "Spawn 3 null-slots. Spawn a STUCK key somewhere random on the plot"
 
 
 - Activations-cap:  

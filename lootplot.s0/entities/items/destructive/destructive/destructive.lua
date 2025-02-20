@@ -315,8 +315,18 @@ defDestructive("skull", "Skull", {
 
 
 
+local function rotateRandomlyInit(ent)
+    local rot = lp.SEED:randomMisc(0,3)
+    if rot ~= 0 then
+        lp.rotateItem(ent, rot)
+    end
+end
+
+
 defDestructive("dagger", "Dagger", {
     activateDescription = loc("Destroys target items.\nEarns {lootplot:POINTS_COLOR}30 points{/lootplot:POINTS_COLOR} for each."),
+
+    init = rotateRandomlyInit,
 
     rarity = lp.rarities.UNCOMMON,
 
@@ -336,6 +346,8 @@ defDestructive("dagger", "Dagger", {
 
 defDestructive("golden_dagger", "Golden Dagger", {
     activateDescription = loc("Destroys target items.\nEarns {lootplot:MONEY_COLOR}$4{/lootplot:MONEY_COLOR} for each."),
+
+    init = rotateRandomlyInit,
 
     rarity = lp.rarities.RARE,
 

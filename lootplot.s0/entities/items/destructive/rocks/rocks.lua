@@ -2,6 +2,31 @@
 local loc = localization.localize
 local interp = localization.newInterpolator
 
+--[[
+
+
+Clone rocks: 
+Transform into target rocks
+
+
+Anti-bonus rock, +points (+PULSE)
+Anti-bonus rock, +mult (+PULSE)
+Anti-bonus rock (+REROLL)
+
+Anti-bonus rock (+UNLOCK, LEVEL_UP)
+
+rock (+ROTATE)
+
+Pro-bonus/income rock: Earns $1, gives +5 bonus
+
+Pro-bonus rock (generates +5 points 10 times)
+
+Grubby Mult rocks, gives +mult, GRUB-10
+
+Golden rocks: Earn $1, give +50 points
+
+
+]]
 
 local function defRocks(id, name, etype)
     etype.image = etype.image or id
