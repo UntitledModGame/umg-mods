@@ -3,9 +3,12 @@
 local loc = localization.localize
 local interp = localization.newInterpolator
 
+local helper = require("shared.helper")
+
 local itemGenHelper = require("shared.item_gen_helper")
 
 local constants = require("shared.constants")
+
 
 local function defineFoodNoDoomed(id, name, etype)
     etype.name = loc(name)
@@ -1009,8 +1012,12 @@ This gives the player great intuition about what they do.
 ]]
 
 local function definePotion(name, etype)
-    etype.shape = etype.shape or lp.targets.UP_SHAPE
+    if not etype.shape then
+        etype.shape = lp.targets.NorthEastShape(1)
+        etype.init = etype.init or helper.rotateRandomly
+    end
     etype.basePrice = etype.basePrice or 3
+
     defineFood(name, etype)
 end
 

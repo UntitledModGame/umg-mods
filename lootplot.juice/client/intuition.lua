@@ -27,7 +27,7 @@ umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER, function(ent, x,y, rot
         end
 
         if q then
-            rendering.drawImage(q, x, y+dy, rot, sx,sy)
+            rendering.drawImage(q, x, y+dy, 0, sx,sy)
         end
     end
 end)
@@ -69,7 +69,7 @@ umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER + 0.5, function(ent, x,
             local t = love.timer.getTime()
             local ox, oy = 6, 6 + math.sin(t)
             local img = client.assets.images.life_visual
-            rendering.drawImage(img, x + ox, y + oy, rot, sx,sy, kx,ky)
+            rendering.drawImage(img, x + ox, y + oy, 0, sx,sy, kx,ky)
         elseif lp.isSlotEntity(ent) then
             local img = client.assets.images.slot_life_visual
             rendering.drawImage(img, x, y, rot, sx,sy, kx,ky)
@@ -96,11 +96,11 @@ umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER + 0.5, function(ent, x,
         if ent.grubMoneyCap then
             local dy = 1 * math.sin(love.timer.getTime() * BOB_SPEED)
             local img = client.assets.images.money_limit_visual
-            rendering.drawImage(img, x, y+dy, rot, sx,sy, kx,ky)
+            rendering.drawImage(img, x, y+dy, 0, sx,sy, kx,ky)
         elseif ent.moneyGenerated and ent.moneyGenerated < 0 then
             local dy = 1 * math.sin(love.timer.getTime() * BOB_SPEED)
             local img = client.assets.images.money_cost_visual
-            rendering.drawImage(img, x, y+dy, rot, sx,sy, kx,ky)
+            rendering.drawImage(img, x, y+dy, 0, sx,sy, kx,ky)
         end
     end
 end)
