@@ -44,6 +44,8 @@ local function drawKettleText(ent, x,y,rot, sx,sy,kx,ky)
 end
 
 
+local i = 0
+
 local function defineKettleCurse(property, propChange, etype)
     etype = etype or {}
 
@@ -60,19 +62,40 @@ local function defineKettleCurse(property, propChange, etype)
     local basePropName = assert(properties.getBase(property))
     etype[basePropName] = propChange
 
-    lp.defineItem("lootplot.s0:kettlecurse_" .. property .. "_" .. tostring(propChange), etype)
+    -- NOTE: this is extremely EXTREMELY HACKY.
+    -- If we serialize kettlecurse_4, and then delete kettlecurse_3,
+    -- then kettlecurse_4's type will be replaced with kettlecurse_5's type next time deser.
+    -- oh *well*, its not toooooo big of a deal.
+    i = i + 1
+    lp.defineItem("lootplot.s0:kettlecurse_" .. tostring(i), etype)
 end
 
 
 
-defineKettleCurse("pointsGenerated", -10)
-defineKettleCurse("pointsGenerated", -20)
+local function getRerollEtype()
+    local REROLL_KETTLECURSE_ETYPE = {
+        triggers = {"REROLL"},
+        image = "kettlecurse_reroll"
+    }
+    return REROLL_KETTLECURSE_ETYPE
+end
+
+
+-- TODO: these should probably scale with level, right?
+defineKettleCurse("pointsGenerated", -100)
+defineKettleCurse("pointsGenerated", -200)
+defineKettleCurse("pointsGenerated", -500)
 
 defineKettleCurse("moneyGenerated", -1)
+defineKettleCurse("moneyGenerated", -1, getRerollEtype())
 
 defineKettleCurse("multGenerated", -0.3)
 defineKettleCurse("multGenerated", -0.5)
 defineKettleCurse("multGenerated", -0.9)
+defineKettleCurse("multGenerated", -0.9, getRerollEtype())
+defineKettleCurse("multGenerated", -0.5, getRerollEtype())
 
-defineKettleCurse("bonusGenerated", -2)
-defineKettleCurse("bonusGenerated", -5)
+defineKettleCurse("bonusGenerated", -8)
+defineKettleCurse("bonusGenerated", -15)
+defineKettleCurse("bonusGenerated", -10, getRerollEtype())
+
