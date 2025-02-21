@@ -601,6 +601,11 @@ IDEA:
 - "Spawn 3 null-slots. Spawn a STUCK key somewhere random on the plot"
 
 
+- ITEM: Paperclip
+If there are no other types of this slot on the plot, give this slot +4 bonus permanently
+(^^^ hmm idk, can we think of something more creative?)
+
+
 - ITEM: Ball of yarn
 (shape: King-1)
 If targetting two items of the same type, give the items +10 points permanently.

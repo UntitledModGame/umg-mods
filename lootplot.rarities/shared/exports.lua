@@ -48,12 +48,19 @@ end
 ---
 ---Availability: Client and Server
 lp.rarities = {
+    -- rarities for "normal" items
     COMMON = newRarity("COMMON", "COMMON (I)", 2, hsl(110, 35, 55)),
     UNCOMMON = newRarity("UNCOMMON", "UNCOMMON (II)", 1.5, hsl(150, 66, 55)),
     RARE = newRarity("RARE", "RARE (III)", 1, hsl(220, 90, 55)),
     EPIC = newRarity("EPIC", "EPIC (IV)", 0.6, hsl(275, 100,45)),
     LEGENDARY = newRarity("LEGENDARY", "LEGENDARY (V)",0.1, hsl(330, 100, 35)),
     MYTHIC = newRarity("MYTHIC", "MYTHIC (VI)", 0.02, hsl(50, 90, 40)),
+
+    -- Curses are for negative-items; ie items you dont want.
+    -- CURSE-1 = not toooo bad; CURSE-3 = really powerful/terrible curses
+    CURSE_1 = newRarity("CURSE_1", "CURSE (I)", 2, hsl(341, 74, 66)),
+    CURSE_2 = newRarity("CURSE_2", "CURSE (II)", 1, hsl(344, 85, 60)),
+    CURSE_3 = newRarity("CURSE_3", "CURSE (III)", 0.3, hsl(360, 100, 53)),
 
     -- Use this rarity when you dont want an item to spawn naturally.
     -- (Useful for easter-egg items, or items that can only be spawned by other items)
