@@ -531,7 +531,7 @@ Instead of just having `/spawnAllItems`, we should have:
 - (((DONE))) /spawnItems shape  (items with a shape)
 
 
-- ANTI-BONUS ITEMS - 2:
+- (((DONE))) ANTI-BONUS ITEMS - 2:
 Instead of always doing: "Subtracts X bonus",
 Do something like: "Divides bonus by 2".
 ^^^ this is nice, since it works bad with +ve bonus, but GOOD for negative-bonus.

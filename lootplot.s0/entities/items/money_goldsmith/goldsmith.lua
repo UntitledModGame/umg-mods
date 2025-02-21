@@ -6,8 +6,10 @@ local consts = require("shared.constants")
 local MONEY_REQUIREMENT = assert(consts.GOLDSMITH_MONEY_REQUIREMENT)
 
 
-local function defItem(id, etype)
+local function defItem(id, name, etype)
     etype.image = etype.image or id
+    etype.name = loc(name)
+
     return lp.defineItem("lootplot.s0:"..id, etype)
 end
 
@@ -29,9 +31,7 @@ end
 local MULT_RING_DESC = interp("Adds {lootplot:POINTS_MULT_COLOR}mult{/lootplot:POINTS_MULT_COLOR} equal to 10% of the balance {lootplot:MONEY_COLOR}($%{balance})")
 
 local function defMultRing(id,name, triggers)
-    defItem(id, {
-        name = loc(name),
-
+    defItem(id, name, {
         triggers=assert(triggers),
 
         description = function(ent)
@@ -68,8 +68,7 @@ defMultRing("orange_multiplier_ring", "Orange Multiplier Ring", {"ROTATE", "UNLO
 local SILV_RING_DESC = interp("Earns points equal to the current balance {lootplot:MONEY_COLOR}($%{balance})")
 
 local function defSilvRing(id,name,trigger)
-    defItem(id, {
-        name = loc(name),
+    defItem(id, name, {
         triggers={trigger},
 
         description = function(ent)
@@ -101,8 +100,7 @@ defSilvRing("silver_reroll_ring", "Silver Reroll Ring", "REROLL")
 local GOLD_RING_DESC = interp("Earn {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} of interest for every {lootplot:MONEY_COLOR}$10{/lootplot:MONEY_COLOR} you have. (Max of {lootplot:MONEY_COLOR}$20{/lootplot:MONEY_COLOR})")
 
 local function defGoldRing(id, name, trigger)
-    defItem(id, {
-        name = loc(name),
+    defItem(id, name, {
         triggers = {trigger},
 
         description = function(ent)
@@ -135,32 +133,6 @@ defGoldRing("gold_pulse_ring", "Gold Pulse Ring", "PULSE")
 defGoldRing("gold_reroll_ring", "Gold Reroll Ring", "REROLL")
 
 
-local TOPAZ_BUFF = 3
-local TOPAZ_DESC = interp("If {lootplot:MONEY_COLOR}money more than $%{moneyReq}{/lootplot:MONEY_COLOR}, permanently gain %{pointBuff} points.\n"){
-    pointBuff = 3,
-    moneyReq = MONEY_REQUIREMENT
-}
-
-defItem("belt_topaz", {
-    name = loc("Topaz Belt"),
-    activateDescription = TOPAZ_DESC,
-
-    basePointsGenerated = 20,
-    baseMaxActivations = 2,
-
-    onActivate = function(ent)
-        if (lp.getMoney(ent) or 0) > MONEY_REQUIREMENT then
-            lp.modifierBuff(ent, "pointsGenerated", TOPAZ_BUFF, ent)
-        end
-    end,
-
-    rarity = lp.rarities.RARE,
-    triggers = {"PULSE"},
-})
-
-
-
-
 
 --[[
 
@@ -178,39 +150,81 @@ local DEFAULT_CAN_ACTIVATE = function(ent)
 end
 
 
+do
+local BUFF = 3
+local DESC = interp("If {lootplot:MONEY_COLOR}money more than $%{moneyReq}{/lootplot:MONEY_COLOR}, permanently gain %{pointBuff} points.\n"){
+    pointBuff = BUFF,
+    moneyReq = MONEY_REQUIREMENT
+}
 
-defItem("belt_ruby", {
-    name = loc("Ruby Belt"),
+defItem("iron_ornament", "Iron Ornament", {
+    activateDescription = DESC,
 
-    activateDescription = DEFAULT_ACTIVATE_DESC,
-    canActivate = DEFAULT_CAN_ACTIVATE,
+    basePointsGenerated = 3,
+    baseMaxActivations = 2,
 
-    baseMaxActivations = 10,
-    basePointsGenerated = 50,
+    onActivate = function(ent)
+        if (lp.getMoney(ent) or 0) > MONEY_REQUIREMENT then
+            lp.modifierBuff(ent, "pointsGenerated", BUFF, ent)
+        end
+    end,
 
     rarity = lp.rarities.UNCOMMON,
     triggers = {"PULSE"},
 })
+end
 
 
-defItem("gold_coin", {
-    name = loc("Gold Coin"),
+
+do
+local BUFF = 0.1
+local DESC = interp("If {lootplot:MONEY_COLOR}money more than $%{moneyReq}{/lootplot:MONEY_COLOR}, permanently gain {lootplot:POINTS_MULT_COLOR}+%{buff} multiplier."){
+    buff = BUFF,
+    moneyReq = MONEY_REQUIREMENT
+}
+
+defItem("ruby_ornament", "Ruby Ornament", {
+    activateDescription = DESC,
+
+    baseMultGenerated = 0.3,
+    baseMaxActivations = 2,
+
+    onActivate = function(ent)
+        if (lp.getMoney(ent) or 0) > MONEY_REQUIREMENT then
+            lp.modifierBuff(ent, "multGenerated", BUFF, ent)
+        end
+    end,
+
+    rarity = lp.rarities.UNCOMMON,
+    triggers = {"PULSE"},
+})
+end
+
+
+
+defItem("golden_ornament", "Golden Ornament", {
+    --[[
+    Used as a way to "pivot into" goldsmith builds
+    ]]
+    triggers = {"PULSE"},
 
     activateDescription = DEFAULT_ACTIVATE_DESC,
     canActivate = DEFAULT_CAN_ACTIVATE,
 
-    baseMaxActivations = 5,
-    basePrice = 12,
-    baseMultGenerated = 2,
+    basePrice = 8,
+    baseMaxActivations = 1,
+    baseMoneyGenerated = 1,
+    baseBonusGenerated = 4,
 
-    rarity = lp.rarities.RARE,
-    triggers = {"PULSE"},
+    rarity = lp.rarities.UNCOMMON,
 })
 
 
 
-defItem("robbers_sack", {
-    name = loc("Robbers Sack"),
+
+
+
+defItem("robbers_sack", "Robbers Sack", {
     activateDescription = loc("Multiplies money by -1.5"),
 
     basePrice = 10,
@@ -224,29 +238,6 @@ defItem("robbers_sack", {
         lp.setMoney(ent, money * -1.5)
     end
 })
-
-
-
-
-defItem("golden_spoon", {
-    --[[
-    Used as a way to "pivot into" goldsmith builds
-    ]]
-    triggers = {"PULSE"},
-
-    activateDescription = DEFAULT_ACTIVATE_DESC,
-    canActivate = DEFAULT_CAN_ACTIVATE,
-
-    name = loc("Golden Spoon"),
-
-    basePrice = 8,
-    baseMaxActivations = 1,
-    baseMoneyGenerated = 1,
-    baseBonusGenerated = 4,
-
-    rarity = lp.rarities.UNCOMMON,
-})
-
 
 
 
