@@ -537,7 +537,7 @@ Do something like: "Divides bonus by 2".
 ^^^ this is nice, since it works bad with +ve bonus, but GOOD for negative-bonus.
 
 
-- Create rock items
+- (((DONE))) Create rock items
 
 
 - ITEM:

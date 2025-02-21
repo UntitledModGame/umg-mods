@@ -58,7 +58,17 @@ defItem("violin", "Violin", {
 
 
 
+local function rotateRandomlyInit(ent)
+    local rot = lp.SEED:randomMisc(0,3)
+    if rot ~= 0 then
+        lp.rotateItem(ent, rot)
+    end
+end
+
+
 defItem("pipe", "Pipe", {
+    init = rotateRandomlyInit,
+
     rarity = lp.rarities.UNCOMMON,
     triggers = {"PULSE", "REROLL"},
 
@@ -68,7 +78,7 @@ defItem("pipe", "Pipe", {
     baseMaxActivations = 5,
     baseBonusGenerated = -1,
 
-    shape = lp.targets.BishopShape(1),
+    shape = lp.targets.UpShape(4),
 
     target = PULSE_TARGET
 })
@@ -76,6 +86,8 @@ defItem("pipe", "Pipe", {
 
 
 defItem("red_boxing_glove", "Red Boxing Glove", {
+    init = rotateRandomlyInit,
+
     rarity = lp.rarities.RARE,
     triggers = {"PULSE"},
 
@@ -92,14 +104,6 @@ defItem("red_boxing_glove", "Red Boxing Glove", {
 })
 
 
-
-
-local function rotateRandomlyInit(ent)
-    local rot = lp.SEED:randomMisc(0,3)
-    if rot ~= 0 then
-        lp.rotateItem(ent, rot)
-    end
-end
 
 defItem("old_tv", "Old TV", {
     rarity = lp.rarities.UNCOMMON,

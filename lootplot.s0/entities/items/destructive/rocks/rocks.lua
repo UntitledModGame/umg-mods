@@ -143,7 +143,7 @@ defRocks("ice_cube", "Ice Cube", {
 
     baseBonusGenerated = 10,
 
-    lives = 40
+    lives = 80
 })
 
 
