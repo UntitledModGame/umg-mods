@@ -57,7 +57,7 @@ end
 
 
 defRocks("clone_rocks", "Clone Rocks", {
-    triggers = {"PULSE", "DESTROY"},
+    triggers = {"PULSE"},
 
     activateDescription = loc("If item has {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} trigger, transform into a clone of it."),
 
@@ -80,18 +80,12 @@ defRocks("clone_rocks", "Clone Rocks", {
 
 
 
-defRocks("ice_cube", "Ice Cube", {
-    triggers = {"DESTROY"},
-    rarity = lp.rarities.RARE,
 
-    baseBonusGenerated = 10,
-
-    lives = 40
-})
-
-
-
-
+--[[
+===================================================
+Anti-bonus sub-archetype:
+===================================================
+]]
 do
 local HALF_BONUS_DESC = loc("Halves the current {lootplot:BONUS_COLOR}Bonus")
 local function halfBonus(ent)
@@ -129,3 +123,83 @@ end
 
 
 
+
+--[[
+Pro-Bonus sub-archetype
+]]
+
+
+
+
+
+--[[
+===================================================
+Pro-bonus sub-archetype:
+===================================================
+]]
+defRocks("ice_cube", "Ice Cube", {
+    triggers = {"DESTROY"},
+    rarity = lp.rarities.RARE,
+
+    baseBonusGenerated = 10,
+
+    lives = 40
+})
+
+
+
+
+
+defRocks("red_rock", "Red Rock", {
+    triggers = {"DESTROY"},
+    rarity = lp.rarities.RARE,
+
+    baseMultGenerated = 2.5,
+
+    lives = 80
+})
+
+
+
+
+
+
+--[[
+===================================================
+Reroll rocks:
+===================================================
+]]
+defRocks("orange_rock", "Orange Rock", {
+    triggers = {"DESTROY", "ROTATE"},
+    rarity = lp.rarities.RARE,
+
+    basePointsGenerated = 50,
+    baseMoneyGenerated = 0.5,
+
+    lives = 120
+})
+
+
+
+----------------------------
+-- GRUBBY sub-archetype:
+----------------------------
+local consts = require("shared.constants")
+
+defRocks("grubby_rock", "Grubby Rock", {
+    triggers = {"DESTROY"},
+    rarity = lp.rarities.RARE,
+
+    grubMoneyCap = consts.DEFAULT_GRUB_MONEY_CAP,
+
+    basePointsGenerated = 50,
+    baseMultGenerated = 1,
+
+    lives = 120
+})
+
+
+
+----------------------------
+-- GOLDSMITH sub-archetype:
+----------------------------
