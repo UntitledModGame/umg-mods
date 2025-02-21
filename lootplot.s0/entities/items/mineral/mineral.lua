@@ -2,6 +2,9 @@
 local loc = localization.localize
 local interp = localization.newInterpolator
 
+local helper = require("shared.helper")
+
+
 --[[
 
 ===================================================
@@ -20,13 +23,6 @@ local function defineMineral(mineralType, name, etype)
     lp.defineItem(name, etype)
 end
 
-
-local function rotateRandomlyInit(ent)
-    local rot = lp.SEED:randomMisc(0,3)
-    if rot ~= 0 then
-        lp.rotateItem(ent, rot)
-    end
-end
 
 
 local function defineSword(mineral_type, name, strength, etype)
@@ -106,7 +102,7 @@ local function defineSpear(mineral_type, name, strength, etype)
         image = image,
         name = loc(name .. " Spear"),
 
-        init = rotateRandomlyInit,
+        init = helper.rotateRandomly,
 
         activateDescription = SPEAR_PULSE_DESC,
 
@@ -295,7 +291,7 @@ local function defineCrossbow(mineral_type, name, strength, etype)
         image = image,
         name = loc(name .. " Crossbow"),
 
-        init = rotateRandomlyInit,
+        init = helper.rotateRandomly,
 
         mineralType = mineral_type,
 
@@ -338,7 +334,7 @@ local function defineShovel(mineral_type, name, strength, etype)
         image = image,
         name = loc(name .. " Shovel"),
 
-        init = rotateRandomlyInit,
+        init = helper.rotateRandomly,
 
         activateDescription = SHOVEL_DESCRIPTION,
 

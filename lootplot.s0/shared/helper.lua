@@ -183,6 +183,22 @@ end
 
 
 
+--[[
+This function will rotate an entity randomly.
+useful with `init`, ie:
+
+defItem("item", {
+    init = helper.rotateRandomlyInit
+})
+
+^^^ items like this add a lot more variance and "spice" to the game.
+]]
+function helper.rotateRandomly(ent)
+    local rot = lp.SEED:randomMisc(0,3)
+    if rot ~= 0 then
+        lp.rotateItem(ent, rot)
+    end
+end
 
 
 

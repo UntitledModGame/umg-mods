@@ -58,16 +58,8 @@ defItem("violin", "Violin", {
 
 
 
-local function rotateRandomlyInit(ent)
-    local rot = lp.SEED:randomMisc(0,3)
-    if rot ~= 0 then
-        lp.rotateItem(ent, rot)
-    end
-end
-
-
 defItem("pipe", "Pipe", {
-    init = rotateRandomlyInit,
+    init = helper.rotateRandomly,
 
     rarity = lp.rarities.UNCOMMON,
     triggers = {"PULSE", "REROLL"},
@@ -86,7 +78,7 @@ defItem("pipe", "Pipe", {
 
 
 defItem("red_boxing_glove", "Red Boxing Glove", {
-    init = rotateRandomlyInit,
+    init = helper.rotateRandomly,
 
     rarity = lp.rarities.RARE,
     triggers = {"PULSE"},
@@ -109,7 +101,7 @@ defItem("old_tv", "Old TV", {
     rarity = lp.rarities.UNCOMMON,
     triggers = {"PULSE"},
 
-    init = rotateRandomlyInit,
+    init = helper.rotateRandomly,
 
     activateDescription = loc("{lootplot:TRIGGER_COLOR}Pulses{/lootplot:TRIGGER_COLOR} all %{RARE} items.", {
         RARE = lp.rarities.RARE.displayString
@@ -168,7 +160,7 @@ defItem("ping_pong_paddle", "Ping pong paddle", {
 
     rarity = lp.rarities.RARE,
 
-    activateDescription = loc("Gives items {lootplot:REPEATER_COLOR}REPEATER{/lootplot:REPEATER_COLOR}, but makes it {lootplot:GRUB_COLOR}STUCK."),
+    activateDescription = loc("Gives items {lootplot:REPEATER_COLOR}REPEATER{/lootplot:REPEATER_COLOR}, but makes it {lootplot:INFO_COLOR}STUCK."),
 
     target = {
         type = "ITEM",

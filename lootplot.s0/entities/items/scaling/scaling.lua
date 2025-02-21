@@ -22,18 +22,12 @@ Related to money, prefereably.
 
 ]]
 
-local function rotateRandomlyInit(ent)
-    local rot = lp.SEED:randomMisc(0,3)
-    if rot ~= 0 then
-        lp.rotateItem(ent, rot)
-    end
-end
 
 local function defineHelmet(id, name, etype)
     etype.rarity = etype.rarity or lp.rarities.RARE
     etype.name = loc(name)
 
-    etype.init = etype.init or rotateRandomlyInit
+    etype.init = etype.init or helper.rotateRandomly
 
     etype.shape = etype.shape or lp.targets.UpShape(2)
 

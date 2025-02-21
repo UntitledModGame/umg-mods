@@ -607,12 +607,6 @@ If targetting two items of the same type, give the items +10 points permanently.
 (^^^^ synergizes with copycat builds!)
 
 
-- ITEM REFACTOR:
-Make the wording better for mult-rings.
-Its confusing. (Also, do we really need to floor() the mult?)
-Why not just: "Adds mult equal to current balance"
-
-
 - Activations-cap:  
 Limit activations to 50 in base lootplot.  
 Perhaps have `lp.MAX_ACTIVATIONS_CAP = 50`  

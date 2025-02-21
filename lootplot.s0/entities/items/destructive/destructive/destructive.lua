@@ -2,6 +2,8 @@
 local loc = localization.localize
 local interp = localization.newInterpolator
 
+local helper = require("shared.helper")
+
 
 
 local function defDestructive(id, name, etype)
@@ -315,18 +317,10 @@ defDestructive("skull", "Skull", {
 
 
 
-local function rotateRandomlyInit(ent)
-    local rot = lp.SEED:randomMisc(0,3)
-    if rot ~= 0 then
-        lp.rotateItem(ent, rot)
-    end
-end
-
-
 defDestructive("dagger", "Dagger", {
     activateDescription = loc("Destroys target items.\nEarns {lootplot:POINTS_COLOR}30 points{/lootplot:POINTS_COLOR} for each."),
 
-    init = rotateRandomlyInit,
+    init = helper.rotateRandomly,
 
     rarity = lp.rarities.UNCOMMON,
 
@@ -347,7 +341,7 @@ defDestructive("dagger", "Dagger", {
 defDestructive("golden_dagger", "Golden Dagger", {
     activateDescription = loc("Destroys target items.\nEarns {lootplot:MONEY_COLOR}$2{/lootplot:MONEY_COLOR} for each."),
 
-    init = rotateRandomlyInit,
+    init = helper.rotateRandomly,
 
     rarity = lp.rarities.RARE,
 
