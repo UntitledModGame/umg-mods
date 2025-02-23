@@ -61,7 +61,8 @@ defRocks("clone_rocks", "Clone Rocks", {
 
     activateDescription = loc("If item has {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} trigger, transform into a clone of it."),
 
-    rarity = lp.rarities.RARE,
+    rarity = lp.rarities.UNCOMMON,
+    basePrice = 8,
 
     shape = lp.targets.RookShape(1),
     target = {
