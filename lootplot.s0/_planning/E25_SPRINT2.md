@@ -540,60 +540,13 @@ Do something like: "Divides bonus by 2".
 - (((DONE))) Create rock items
 
 
-- ITEM:
-Spawns a DOOMED-4 LEGENDARY item
-(oli note: Don't pick legendary-items that are already DOOMED.)
-
-
-## SPIKE: Items that add variance.
-- On LEVEL-UP: Spawn a null-slot. Spawn a random RARE item on the board, and make it STUCK.
-- On LEVEL-UP, DESTROY: Spawns a random CURSE on the plot. Spawns a random RARE item somewhere on the plot.
-- On Destroy: Spawns a random slot somewhere on the plot. (has 1 life)
-- On Destroy: Spawn a random RARE item on the board, and make it DOOMED-5.
-
-## SPIKE: Items that provide keys
-Alteratively- items that provide UNLOCK trigger.
-
-## SPIKE: Items that use `UNLOCK` trigger
-(Merge with LEVEL-UP / BUY triggers...?)
-
-## SPIKE: More items that have `BUY` trigger?
-(Merge with LEVEL-UP / UNLOCK triggers...?)
-
-## SPIKE: Items that spawn "curses"; ie items that you want to get rid of.
-- Create new Rarities:  `CURSE (I), CURSE (II), CURSE(III)`, in order from most tame -> least tame.
-- Curse items cannot be moved.
-- Use kettlebell-sprites as negative-points/mult/money modifiers.
-logo-color determines potency.
-Light-Green = points
-Red = mult
-Blue = bonus
-Gold = money
---->
-- ITEM: If there are more than 4 curses on the plot, earn $2
-- ITEM: Black-shield: If target item is a curse, destroy it. Earn +1 mult.
-- ITEM: When a curse is spawned, transform it into a magic-turnip
-- ITEM: Devil deal: Earn $5. Spawn a random `CURSE(I)` curse somewhere on the plot.
-
-- CURSE: Increase round by 1. DOOMED-1
-- CURSE: On Reroll, lose 0.5 mult. (<--- provides anti-reroll archetype!)
-- CURSE: When an item is destroyed, lose 15 points. KING-2. (<--- provides anti-destroy archetype!)
-- CURSE: When an item is destroyed, lose $1. KING-2.
-- CURSE: Make items STUCK. ROOK-1
-- CURSE: On Destroy, On Pulse: Steal 10 points.
-- CURSE: Evil Copycat: On Pulse: Copy self into target slots. Steal $0.3
---->  
-IMPORTANT NOTE!!!  
-When curses spawn, they should spawn with 0 activations.   
-This ensures that they don't activate immediately in an unfair-fashion to the player.  
---->  
-We should also encourage *limiting* the number of curses in existance.  
-A few curses should be OK, but many curses should be a *BIG PROBLEM.*  
-We can achieve this via an elegant solution:
-- CURSE: Lose $1. If there are more than 4 curses, lose $2 extra.
-- CURSE: Lose 10 points. If there are more than 4 curses, lose 50 points.
-- CURSE: If there are more than 4 curses, spawn another curse.
-- CURSE: On Level-Up: If there are more than 4 curses, spawn another curse.
+- Random-ppos choosing API:
+- Choose a random slot on the plot
+    --> (buttonSlots excluded?)
+- Choose a random slot on the plot without an item
+- Choose a random empty-space on the plot
+    --> (additional contraint: Must be within X spaces of slots)
+    --> eg distance=1 means that its NEXT to slots
 
 
 - Get rid of dark-egg, it's bad and dumb. Replace with something better please-
@@ -602,8 +555,7 @@ IDEA:
 
 
 - ITEM: Paperclip
-If there are no other types of this slot on the plot, give this slot +4 bonus permanently
-(^^^ hmm idk, can we think of something more creative?)
+If there are no other types of this slot on the plot, spawn a copy of this slot somewhere random
 
 
 - ITEM: Ball of yarn
@@ -655,6 +607,20 @@ This is confusing at best, bugged at worst.
 --
 SIMPLE IDEA: Just have a slot-component: `isItemListenBlocked = true`
 ^^^ its very direct, very simple.
+
+
+
+- Rework listen-item descriptions
+We shouldn't have descriptions be implicit; they should be explicit.
+(Maybe we should have a `triggerDescription` component...?)
+
+
+
+
+- ITEM:
+Spawns a DOOMED-4 LEGENDARY item
+(oli note: Don't pick legendary-items that are already DOOMED.)
+
 
 
 - Destroy all shop-slots after LEVEL-10.

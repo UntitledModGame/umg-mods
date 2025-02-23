@@ -67,16 +67,75 @@ Brainstorm the systems at play, and the intended playstyles at play.
 
 
 
-
 ## (SPIKE: PLANNING)
 - Rework shards to do something else
 (Ideally, we want them to *NOT* destroy themselves when used, lmao)
 
 
+
+
+## SPIKE: Items that provide keys
+Alteratively- items that provide UNLOCK trigger.
+
+## SPIKE: Items that use `UNLOCK` trigger
+(Merge with LEVEL-UP / BUY triggers...?)
+
+## SPIKE: More items that have `BUY` trigger?
+(Merge with LEVEL-UP / UNLOCK triggers...?)
+
+## SPIKE: Items that spawn "curses"; ie items that you want to get rid of.
+- Create new Rarities:  `CURSE (I), CURSE (II), CURSE(III)`, in order from most tame -> least tame.
+- Curse items cannot be moved.
+- Use kettlebell-sprites as negative-points/mult/money modifiers.
+logo-color determines potency.
+Light-Green = points
+Red = mult
+Blue = bonus
+Gold = money
+--->
+- ITEM: If there are more than 4 curses on the plot, earn $2
+- ITEM: Black-shield: If target item is a curse, destroy it. Earn +1 mult.
+- ITEM: When a curse is spawned, transform it into a magic-turnip
+- ITEM: Devil deal: Earn $8. Spawn a random `CURSE(I)` curse somewhere on the plot.
+
+- CURSE: Increase round by 1. DOOMED-1
+- CURSE: On Reroll, lose 0.5 mult. (<--- provides anti-reroll archetype!)
+- CURSE: When an item is destroyed, lose 15 points. KING-2. (<--- provides anti-destroy archetype!)
+- CURSE: When an item is destroyed, lose $1. KING-2.
+- CURSE: Make items STUCK. ROOK-1
+- CURSE: On Pulse, trigger Pulse on other curses. KING-2.
+- CURSE: On Destroy, On Pulse: Steal 10 points.
+- CURSE: Evil Copycat: On Pulse: Copy self into target slots. Steal $0.3
+--->  
+IMPORTANT NOTE!!!  
+When curses spawn, they should spawn with 0 activations.   
+This ensures that they don't activate immediately in an unfair-fashion to the player.  
+--->  
+We should also encourage *limiting* the number of curses in existance.  
+A few curses should be OK, but many curses should be a *BIG PROBLEM.*  
+We can achieve this via an elegant solution:
+- CURSE: Lose $1. If there are more than 4 curses, lose $2 extra.
+- CURSE: Lose 10 points. If there are more than 4 curses, lose 50 points.
+- CURSE: If there are more than 4 curses, spawn another curse.
+- CURSE: On Level-Up: If there are more than 4 curses, spawn another curse.
+
+
+
+
+## SPIKE: Items that add variance.
+(see `E25_risk.md` for full notes)
+- On LEVEL-UP: Spawn a null-slot. Spawn a random RARE item on the board, and make it STUCK.
+- On LEVEL-UP, DESTROY: Spawns a random CURSE on the plot. Spawns a random RARE item somewhere on the plot.
+- On Destroy: Spawns a random slot somewhere on the plot. (has 1 life)
+- On Destroy: Spawn a random RARE item on the board, and make it DOOMED-5.
+
+
+
+
 ## Slot-destruction-spike:
 Destroying slots is a great way to add more strategy as well (synergizes with glass/doomed tiles)    
 --   
-Perhaps we should consider adding 
+Perhaps we should consider adding items that listen to this?
 
 
 

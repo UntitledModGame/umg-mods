@@ -134,7 +134,7 @@ defRocks("ice_cube", "Ice Cube", {
     triggers = {"DESTROY"},
     rarity = lp.rarities.RARE,
 
-    baseBonusGenerated = 10,
+    baseBonusGenerated = 15,
 
     lives = 80
 })
@@ -147,7 +147,7 @@ defRocks("red_rock", "Red Rock", {
     triggers = {"DESTROY"},
     rarity = lp.rarities.RARE,
 
-    baseMultGenerated = 2.5,
+    baseMultGenerated = 3,
 
     lives = 80
 })
@@ -166,7 +166,7 @@ defRocks("orange_rock", "Orange Rock", {
     triggers = {"DESTROY", "ROTATE"},
     rarity = lp.rarities.RARE,
 
-    basePointsGenerated = 50,
+    basePointsGenerated = 60,
     baseMoneyGenerated = 0.5,
 
     lives = 120
@@ -185,8 +185,8 @@ defRocks("grubby_rock", "Grubby Rock", {
 
     grubMoneyCap = consts.DEFAULT_GRUB_MONEY_CAP,
 
-    basePointsGenerated = 50,
-    baseMultGenerated = 1,
+    basePointsGenerated = 100,
+    baseMultGenerated = 1.2,
 
     lives = 120
 })
