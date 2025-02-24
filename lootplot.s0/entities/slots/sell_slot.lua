@@ -3,7 +3,8 @@ local loc = localization.localize
 lp.defineSlot("lootplot.s0:sell_slot", {
     image = "sell_slot",
     name = loc("Sell slot"),
-    activateDescription = loc("Destroys contained item.\nEarn money equal to half the item's price."),
+    activateDescription = loc("Reduce item price by half, and earn {lootplot:MONEY_COLOR}money{/lootplot:MONEY_COLOR} equal to the price.\nThen, destroy item."),
+
     triggers = {"PULSE"},
     baseCanSlotPropagate = false,
     baseMaxActivations = 500,
@@ -30,8 +31,9 @@ lp.defineSlot("lootplot.s0:sell_slot", {
             return
         end
 
-        local price = (itemEnt.price or 0) / 2
-        lp.addMoney(itemEnt, price)
+        local price = (itemEnt.price or 0)
+        lp.modifierBuff(itemEnt, "price", -price/2, slotEnt)
+        lp.addMoney(itemEnt, itemEnt.price or 0)
         lp.destroy(itemEnt)
     end
 })

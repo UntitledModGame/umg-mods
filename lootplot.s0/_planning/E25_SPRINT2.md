@@ -587,7 +587,7 @@ We want to be able to go backwards to previous stages
 
 
 
-- Sell slots:
+- (((DONE))) Sell slots:
 Instead of 
 "selling for half price, then destroy"
 Sell-slots should:

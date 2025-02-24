@@ -356,7 +356,9 @@ function LPState:drawHUD()
         level = run:getAttribute("LEVEL")
     })
 
-    local moneyText = MONEY({money = run:getAttribute("MONEY")})
+    local moneyText = MONEY({
+        money = showNSignificant(run:getAttribute("MONEY"), 1)
+    })
 
     local fH = font:getHeight()
     local TXT_PAD = 10 * gs
