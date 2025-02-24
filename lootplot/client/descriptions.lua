@@ -280,7 +280,7 @@ local DOOMED_1 = interp("{wavy}{lootplot:DOOMED_COLOR}DOOMED %{doomCount}:{/loot
 
 umg.on("lootplot:populateDescription", 60, function(ent, arr)
     if ent.doomCount then
-        local interpolator = ent.doomCount == 1 and DOOMED_1 or DOOMED_MULTI
+        local interpolator = (ent.doomCount <= 1 and DOOMED_1) or DOOMED_MULTI
         arr:add(funcLocEnt(interpolator, ent))
     end
 end)
