@@ -25,7 +25,7 @@ defItem("rocks", {
     basePrice = 3,
     basePointsGenerated = 15,
 
-    lives = 1,
+    lives = 4,
     rarity = lp.rarities.UNCOMMON,
     triggers = {"DESTROY"},
 })

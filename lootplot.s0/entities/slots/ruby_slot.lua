@@ -2,11 +2,11 @@
 local loc = localization.localize
 
 
-local function activateItem(slotEnt)
+local function pulseItem(slotEnt)
     local ppos = lp.getPos(slotEnt)
     local item = lp.slotToItem(slotEnt)
     if ppos and item and lp.canActivateEntity(item) and lp.hasTrigger(item, "PULSE") then
-        lp.queueWithEntity(slotEnt, activateItem)
+        lp.queueWithEntity(slotEnt, pulseItem)
         lp.tryTriggerEntity("PULSE", item)
         lp.wait(ppos, 0.25)
     end
@@ -17,7 +17,6 @@ return lp.defineSlot("lootplot.s0:ruby_slot", {
     image = "ruby_slot",
     name = loc("Ruby slot"),
     baseMaxActivations = 100,
-    canSlotPropagate = false,
     triggers = {"PULSE"},
     activateDescription = loc("Causes item to {lootplot:TRIGGER_COLOR}PULSE{/lootplot:TRIGGER_COLOR} up to 100 times!\n(Uses all activations)"),
 
@@ -28,7 +27,7 @@ return lp.defineSlot("lootplot.s0:ruby_slot", {
         local itemEnt = lp.slotToItem(slotEnt)
         if not (ppos and itemEnt) then return end
 
-        lp.queueWithEntity(slotEnt, activateItem)
+        lp.queueWithEntity(slotEnt, pulseItem)
     end
 })
 

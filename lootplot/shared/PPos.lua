@@ -40,14 +40,6 @@ function PPos:getPlot()
 end
 
 
-local ROTATIONS = {
-    -- ac +ve
-    [0] = function(x,y) return x,y end,
-    [1] = function(x,y) return -y,x end,
-    [2] = function(x,y) return -x,-y end,
-    [3] = function(x,y) return y,-x end
-}
-
 ---@cast PPos +fun(args:{slot:integer,plot:lootplot.Plot,rotation?:number}):lootplot.PPos
 local number2Tc = typecheck.assert("number", "number")
 ---@param dx integer

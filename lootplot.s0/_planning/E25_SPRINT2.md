@@ -540,11 +540,11 @@ Do something like: "Divides bonus by 2".
 - (((DONE))) Create rock items
 
 
-- Random-ppos choosing API:
-- Choose a random slot on the plot
+- (((DONE))) Random-ppos choosing API:
+- (((DONE))) Choose a random slot on the plot
     --> (buttonSlots excluded?)
-- Choose a random slot on the plot without an item
-- Choose a random empty-space on the plot
+- (((DONE))) Choose a random slot on the plot without an item
+- (((DONE))) Choose a random empty-space on the plot
     --> (additional contraint: Must be within X spaces of slots)
     --> eg distance=1 means that its NEXT to slots
 
@@ -562,6 +562,19 @@ If there are no other types of this slot on the plot, spawn a copy of this slot 
 (shape: King-1)
 If targetting two items of the same type, give the items +10 points permanently.
 (^^^^ synergizes with copycat builds!)
+
+
+- ITEM: Uranium rocks
+(shape: ROOK-1)
+If item has Reroll trigger, transform into it
+
+
+- Refactor `lives` system, make it so that it doesn't spawn a new entity.
+We should just prevent the `:delete()` operation from occuring
+--->
+LITMUS TEST:
+- Does REPEATER component work on rock items?
+- Does DOOMED cause the item to activate many times?
 
 
 - Activations-cap:  
@@ -652,6 +665,11 @@ When matched, a little sprite should pop up above them, just like when a shape i
 - "If there are no REPEATER items on the plot, do XYZ"
 - "If there are no items with `Reroll` trigger on the plot, do XYZ"
 - "If there are no items with `Destroy` trigger on the plot, do XYZ"
+--->
+Or, even simpler:
+- "Do XYZ. Destroy all items with Reroll trigger. (shape: KING-2)"  (anti-Reroll)
+- "Do XYZ. Destroy all REPEATER items. (shape: KING-2)"  (anti-REPEATER)
+- "Do XYZ. Item lives are limited to 3. (shape: KING-2)"   (anti-destroy)
 
 
 
@@ -733,6 +751,14 @@ Make it so the player can only play 2 runs.
 
 - Unlockable starting-items.
 Tutorial item should be available first. Then, one-ball.
+
+
+
+- Starting-Item idea:
+How about we have a starting-item that doesn't have a Pulse button...?
+Instead, we just have a "special" reroll button that activates the doomClock.
+Then, we start with an extra item that gives `Reroll` trigger to items.
+
 
 
 - Add unlocks to regular items
