@@ -600,7 +600,7 @@ Fix this!
 Honestly it's probably best to just create sprites that have been manually flipped in Aseprite.
 
 
-- Glass slot QOL changes:
+- (((DONE))) Glass slot QOL changes:
 Make it so glass slots dont die when they have a doomed item inside.
 Its frustrating.
 

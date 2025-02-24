@@ -18,6 +18,16 @@ return lp.defineSlot("lootplot.s0:glass_slot", {
     rarity = lp.rarities.UNCOMMON,
 
     onActivate = function(ent)
+        local item = lp.slotToItem(ent)
+        if item and item.doomCount then
+            -- dont destroy self when holding a DOOMED item.
+            -- It's really annoying when this happens lmao,
+            -- I try to expand my plot with a dragonfruit, and the glass-slot breaks!
+
+            -- so im hardcoding it to NOT happen >:)
+            return
+        end
+
         if lp.SEED:randomMisc() < 0.1 then
             -- WELP! riparoni pepperoni
             lp.destroy(ent)
