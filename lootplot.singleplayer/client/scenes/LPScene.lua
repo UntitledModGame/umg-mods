@@ -41,7 +41,9 @@ function Scene:init(lpState)
 
     local SLIDER_SNAP_MULTIPLER = 20
     self.pauseBox = PauseBox({
-        onQuit = client.disconnect,
+        onQuit = function()
+            self.lpState:quitGame()
+        end,
         onResume = function()
             self.popupElement = nil
         end,

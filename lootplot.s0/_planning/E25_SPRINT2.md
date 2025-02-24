@@ -605,7 +605,7 @@ Make it so glass slots dont die when they have a doomed item inside.
 Its frustrating.
 
 
-- When quitting game:
+- (((DONE))) When quitting game:
 Put a screen that says "QUITTING".
 Currently, the game appears to freeze when you click exit.
 I dont think there is a way to fix this directly, so instead we should just make the screen brown, and put "QUITTING..." text in the middle of the screen

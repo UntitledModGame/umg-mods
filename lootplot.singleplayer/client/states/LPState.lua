@@ -2,6 +2,9 @@ local Scene = require("client.scenes.LPScene")
 local globalScale = require("client.globalScale")
 local fonts = require("client.fonts")
 
+local loc = localization.localize
+
+
 ---@class lootplot.singleplayer.State: objects.Class, state.IState
 local LPState = objects.Class("lootplot.singleplayer:State")
 
@@ -43,6 +46,8 @@ function LPState:init()
     self.rightClick = false
     self.lastCamMouse = {0, 0} -- to track threshold
     self.claimedByControl = false
+
+    self.isQuitting = false
 
     self.lastHoveredEntity = nil
 
@@ -442,8 +447,46 @@ function LPState:drawHUD()
 end
 
 
+function LPState:quitGame()
+    self.isQuitting = true
+    client.disconnect()
+end
+
+
+local QUITTING_TEXT = loc("Quitting...")
+
+local function drawQuittingScreen(x,y,w,h)
+    -- draw background:
+    love.graphics.setColor(226/255, 195/255, 127/255)
+    love.graphics.rectangle("fill",x,y,w,h)
+
+    local font = fonts.getLargeFont(32)
+    love.graphics.setFont(font)
+    local W = font:getWidth(QUITTING_TEXT)
+    local sc = globalScale.get() * 3
+
+    -- draw outline
+    local offset = sc * 2
+    love.graphics.setColor(0,0,0)
+    local ww,hh = love.graphics.getDimensions()
+    love.graphics.print(QUITTING_TEXT,x+ww/2 + offset, y+hh/3 + offset, 0, sc,sc, W/2)
+    love.graphics.print(QUITTING_TEXT,x+ww/2 - offset, y+hh/3 - offset, 0, sc,sc, W/2)
+    love.graphics.print(QUITTING_TEXT,x+ww/2 + offset, y+hh/3 - offset, 0, sc,sc, W/2)
+    love.graphics.print(QUITTING_TEXT,x+ww/2 - offset, y+hh/3 + offset, 0, sc,sc, W/2)
+
+    -- draw txt
+    love.graphics.setColor(1,1,1)
+    love.graphics.print(QUITTING_TEXT,x+ww/2, y+hh/3, 0, sc,sc, W/2)
+end
+
+
 function LPState:draw()
     local x, y, w, h = love.window.getSafeArea()
+
+    if self.isQuitting then
+        drawQuittingScreen(x, y, w, h)
+        return
+    end
 
     rendering.drawWorld()
     self.scene:render(x, y, w, h)
