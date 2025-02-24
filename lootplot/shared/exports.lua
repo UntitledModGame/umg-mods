@@ -820,23 +820,38 @@ function lp.destroy(ent)
     entityTc(ent)
     assertServer()
     if umg.exists(ent) then
+        local canDelete = not lp.isInvincible(ent)
+        if ent.lives then
+            ent.lives = ent.lives - 1
+        end
         lp.tryTriggerEntity("DESTROY", ent)
         umg.call("lootplot:entityDestroyed", ent)
         if ent.onDestroy then
             ent:onDestroy()
         end
-        return deleteInstantly(ent)
+
+        if canDelete then
+            deleteInstantly(ent)
+        end
     end
 end
 
----TODO: Implement this on top of our sell system.
----
----Availability: **Server**
----@param ppos lootplot.ItemEntity
-function lp.sellItem(ppos)
-    -- sells the item at `ppos`
-    umg.melt("nyi")
+
+
+--- Checks if an entity is invincible.
+--- If an entity is invincible, it will remain alive even after lp.destroy has been called.
+---@param ent lootplot.LayerEntity
+---@return boolean 
+function lp.isInvincible(ent)
+    if ent.lives and ent.lives > 0 then
+        return true
+    end
+    if type(ent.isInvincible) == "function" and ent:isInvincible() then
+        return true
+    end
+    return umg.ask("lootplot:isInvincible", ent)
 end
+
 
 
 --- Gets rotation count as an integer.

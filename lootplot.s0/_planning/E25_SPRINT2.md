@@ -558,15 +558,10 @@ IDEA:
 If there are no other types of this slot on the plot, spawn a copy of this slot somewhere random
 
 
-- ITEM: Ball of yarn
+- (((DONE))) ITEM: Ball of yarn
 (shape: King-1)
 If targetting two items of the same type, give the items +10 points permanently.
 (^^^^ synergizes with copycat builds!)
-
-
-- ITEM: Uranium rocks
-(shape: ROOK-1)
-If item has Reroll trigger, transform into it
 
 
 - Refactor `lives` system, make it so that it doesn't spawn a new entity.
@@ -620,6 +615,11 @@ This is confusing at best, bugged at worst.
 --
 SIMPLE IDEA: Just have a slot-component: `isItemListenBlocked = true`
 ^^^ its very direct, very simple.
+
+
+- ITEM: Uranium rocks
+(shape: ROOK-1)
+If item has Reroll trigger, transform into it
 
 
 

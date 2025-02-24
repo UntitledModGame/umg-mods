@@ -29,6 +29,14 @@ components.defineComponent("onTriggered") -- fun(ent, triggerName, wasActivated)
 components.defineComponent("onDestroyClient")
 components.defineComponent("onActivateClient")
 
+-- fun(ent) -> boolean
+-- returns true iff the entity is invincible
+components.defineComponent("isInvincible")
+
+components.defineComponent("canAddItemToSlot")
+-- fun(slotEnt, itemEnt) --> boolean
+-- returns true iff the entity can be added to slot
+
 
 components.defineComponent("repeatActivations")
 -- bool: whether items should use all their activations in one go.

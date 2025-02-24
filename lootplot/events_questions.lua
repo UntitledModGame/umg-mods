@@ -63,6 +63,10 @@ umg.defineQuestion("lootplot:canItemFloat", reducers.OR)
 
 umg.defineQuestion("lootplot:hasPlayerAccess", reducers.AND)
 
+
+umg.defineQuestion("lootplot:isInvincible", reducers.OR)
+
+
 if client then
     umg.defineEvent("lootplot:selectionChanged")
     umg.defineEvent("lootplot:hoverChanged")

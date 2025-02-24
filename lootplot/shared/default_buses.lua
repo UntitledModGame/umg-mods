@@ -206,6 +206,7 @@ umg.on("lootplot:entityActivated", FIRST_ORDER, function(ent)
                     lp.destroy(ent)
                 end
             end)
+            lp.wait(ppos, 0.1)
         end
     end
 end)
@@ -222,42 +223,6 @@ umg.on("lootplot:entityActivated", function(ent)
         local itemEnt = lp.slotToItem(ent)
         if itemEnt then
             itemEnt.stuck = true
-        end
-    end
-end)
-
-
-
-umg.on("lootplot:entityDestroyed", function(ent)
-    -- TODO: Maybe we should ask: `lootplot:shouldReviveEntity` here..?
-    -- instead of just checking `.lives` directly.
-    ----
-    -- That would allove for future systems to revive entities, 
-    -- in whatever way they want.
-    if ent.lives and ent.lives > 0 then
-        ent.lives = ent.lives - 1
-        local ppos = lp.getPos(ent)
-        if not ppos then
-            return
-        end
-
-        local cloneEnt = ent:clone()
-
-        if cloneEnt.doomCount and cloneEnt.doomCount <= 0 then
-            -- HACK: Set doomCount directly here.
-            -- For future, we prolly wanna be emitted event-bus, 
-            -- like `lootplot:entityRevived` or something.
-            cloneEnt.doomCount = 1
-        end
-        if lp.isSlotEntity(ent) then
-            lp.setSlot(ppos, cloneEnt)
-        elseif lp.isItemEntity(ent) then
-            local ok = lp.forceSetItem(ppos, cloneEnt)
-            if not ok then
-                cloneEnt:delete()
-            end
-        else
-            umg.log.warn("`.lives` component doesn't work on this ent: ", ent)
         end
     end
 end)

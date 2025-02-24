@@ -44,7 +44,7 @@ local function defRocks(id, name, etype)
     etype.image = etype.image or id
     etype.name = loc(name)
 
-    etype.baseMaxActivations = 30
+    etype.baseMaxActivations = 8
     etype.basePrice = 7 -- standard price for rocks
 
     if not etype.listen then
