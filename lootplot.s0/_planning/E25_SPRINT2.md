@@ -578,9 +578,13 @@ Perhaps have `lp.MAX_ACTIVATIONS_CAP = 50`
 (so modders can change ^^^^ as they wish)
 
 
-- Slot-visuals in tutorial;
+- (((DONE))) Slot-visuals in tutorial;
 Showcase DOOMED-slots, mult-slots, point-slots, bonus-slots, glass-slot, dirt-slot, etc etc
 Then show one slot with ALL combined.
+
+- (((DONE))) Back-button in tutorial
+We want to be able to go backwards to previous stages
+
 
 
 - Sell slots:

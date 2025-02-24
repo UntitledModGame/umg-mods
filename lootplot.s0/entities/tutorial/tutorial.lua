@@ -3,6 +3,7 @@ local loc = localization.localize
 
 
 umg.defineEntityType("lootplot.s0:tutorial_text", {
+    layer = "world",
     onUpdateClient = function(ent)
         local run = lp.singleplayer.getRun()
         if run then
@@ -67,7 +68,7 @@ lp.defineSlot("lootplot.s0:tutorial_pulse_button_slot", {
         local ppos=lp.getPos(ent)
         if ppos then
             resetPlot(ent, ppos)
-            lp.setPoints(ent, 0)
+            lp.rawsetAttribute("POINTS", ent, 0)
 
             local plot = ppos:getPlot()
             lp.Bufferer()
@@ -82,7 +83,7 @@ lp.defineSlot("lootplot.s0:tutorial_pulse_button_slot", {
                 end)
 
             resetPlot(ent, ppos)
-            lp.setPoints(ent, 0)
+            lp.rawsetAttribute("POINTS", ent, 0)
         end
     end,
 })
@@ -135,16 +136,22 @@ lp.defineSlot("lootplot.s0:tutorial_reroll_button_slot", {
 
 
 
+-- ids of button-ents for the tutorial
+local NEXT_TUTORIAL_BUTTON = "lootplot.s0:next_tutorial_stage_button"
+local PREV_TUTORIAL_BUTTON = "lootplot.s0:previous_tutorial_stage_button"
+
+
+
 ---@param tutEnt Entity
 local function clearText(tutEnt)
-    if tutEnt.tutorialText then
-        for _, e in ipairs(tutEnt.tutorialText) do
-            if umg.exists(e) then
-                e:delete()
-            end
+    local ppos = assert(lp.getPos(tutEnt))
+    ---@type lootplot.Plot
+    local plot = ppos:getPlot()
+    plot:foreachLayerEntry(function(ent, _ppos, layer)
+        if layer == "world" then
+            ent:delete()
         end
-        tutEnt.tutorialText = objects.Array()
-    end
+    end)
 end
 
 
@@ -164,7 +171,6 @@ end
 ---@param txt string
 ---@return Entity?
 local function addText(tutEnt, dx,dy, txt)
-    tutEnt.tutorialText = tutEnt.tutorialText or objects.Array()
     local textPos = fromMiddle(tutEnt, dx,dy)
     if not txt:match("%{outline%}") then
         txt = "{wavy freq=0.5 spacing=0.4 amp=0.5}{outline}" .. txt
@@ -172,9 +178,10 @@ local function addText(tutEnt, dx,dy, txt)
 
     local textEnt = server.entities.tutorial_text()
     textEnt.text = txt
-    textEnt.pposX, textEnt.pposY = textPos:getCoords()
+    local x,y = textPos:getCoords()
+    textEnt.pposX, textEnt.pposY = x,y
 
-    tutEnt.tutorialText:add(textEnt)
+    textPos:getPlot():set(x,y, textEnt)
 end
 
 
@@ -203,23 +210,49 @@ local function spawnItem(tutEnt, dx,dy, itemName)
 end
 
 
-local function clearEverythingExceptSelf(tutEnt)
+local function clearEverythingExceptButtons(tutEnt)
     local tutPos = assert(lp.getPos(tutEnt))
-
     tutPos:getPlot():foreachLayerEntry(function (ent, ppos, layer)
-        if ent ~= tutEnt then
+        if ent:type()~=NEXT_TUTORIAL_BUTTON and ent:type()~=PREV_TUTORIAL_BUTTON then
             ppos:clear(layer)
             ent:delete()
         end
     end)
-
     clearText(tutEnt)
+end
+
+
+local function clearEverythingExceptSelf(selfEnt)
+    local tutPos = assert(lp.getPos(selfEnt))
+    tutPos:getPlot():foreachLayerEntry(function (ent, ppos, layer)
+        if ent ~= selfEnt then
+            ppos:clear(layer)
+            ent:delete()
+        end
+    end)
+    clearText(selfEnt)
 end
 
 
 
 
 local tutorialSections = objects.Array()
+
+
+
+
+do
+--[[
+Explain PULSE trigger
+]]
+local MOVEMENT_TEXT = loc("WASD / Right click to move.\nScroll to zoom.")
+
+tutorialSections:add(function(e)
+    clearEverythingExceptButtons(e)
+    addText(e, 0,2, MOVEMENT_TEXT)
+end)
+end
+
 
 
 
@@ -230,7 +263,7 @@ Explain PULSE trigger
 local TXT = loc("This is the {lootplot:TRIGGER_COLOR}PULSE{/lootplot:TRIGGER_COLOR} Button.\nIt will trigger {lootplot:TRIGGER_COLOR}PULSE{/lootplot:TRIGGER_COLOR} on these eggs!")
 
 tutorialSections:add(function(e)
-    clearEverythingExceptSelf(e)
+    clearEverythingExceptButtons(e)
     addText(e, -3,0, TXT)
     spawnSlot(e, -3,3, "tutorial_pulse_button_slot")
 
@@ -251,7 +284,7 @@ Explain other triggers.
 local TXT = loc("Items can have\ndifferent triggers:")
 
 tutorialSections:add(function(e)
-    clearEverythingExceptSelf(e)
+    clearEverythingExceptButtons(e)
     addText(e, -3,0, TXT)
     spawnSlot(e, -3,3, "tutorial_pulse_button_slot")
     spawnSlot(e, -4,3, "tutorial_reroll_button_slot")
@@ -272,19 +305,90 @@ end
 
 
 
+
+
 do
--- DoomCount, lives, grubby, floating visuals
-local TXT = loc("Items can have different properties.\nTake note of the visual indicators!")
+-- Bonus:
+local TXT = loc("{lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} will earn extra-points.\nNotice the order!")
 
 tutorialSections:add(function(tutEnt)
-    clearEverythingExceptSelf(tutEnt)
+    clearEverythingExceptButtons(tutEnt)
+    addText(tutEnt, 0,-1, TXT)
+
+    spawnSlot(tutEnt, 0,1, "tutorial_pulse_button_slot")
+
+    for x=-4, 4 do
+        spawnItem(tutEnt, x, 3, "tutorial_egg")
+    end
+    assert(spawnItem(tutEnt, 0,3, "iron_shovel"))
+end)
+end
+
+
+do
+-- Negative bonus:
+local TXT = loc("{lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} can also be negative!\nWatch out!")
+
+tutorialSections:add(function(tutEnt)
+    clearEverythingExceptButtons(tutEnt)
+    addText(tutEnt, 0,-1, TXT)
+
+    spawnSlot(tutEnt, 0,1, "tutorial_pulse_button_slot")
+
+    for x=-4, 4 do
+        spawnItem(tutEnt, x, 3, "tutorial_egg")
+    end
+
+    do local egg = assert(spawnItem(tutEnt, 0,3, "tutorial_egg"))
+    egg.baseBonusGenerated = -10
+    egg.basePointsGenerated = 20
+    egg.color = {1,0,0} end
+end)
+end
+
+
+
+
+do
+-- Multiplier:
+local TXT = loc("{lootplot:POINTS_MULT_COLOR}Multiplier{/lootplot:POINTS_MULT_COLOR} will multiply any points earned.\nNotice the order!")
+
+tutorialSections:add(function(tutEnt)
+    clearEverythingExceptButtons(tutEnt)
+    addText(tutEnt, 0,-1, TXT)
+
+    spawnSlot(tutEnt, 0,1, "tutorial_pulse_button_slot")
+
+    for x=-4, 4 do
+        spawnItem(tutEnt, x, 3, "tutorial_egg")
+    end
+
+    local e = assert(spawnItem(tutEnt, 0,3, "iron_spear"))
+    e.baseMultGenerated = 2 -- monkeypatch so its clearer.
+end)
+end
+
+
+
+
+
+
+
+
+do
+-- ITEM visuals:
+-- DoomCount, lives, grubby, floating
+local TXT = loc("Items can have different properties.\nNotice the visual indicators!")
+
+tutorialSections:add(function(tutEnt)
+    clearEverythingExceptButtons(tutEnt)
     addText(tutEnt, 0,-1, TXT)
 
     do local egg = assert(spawnItem(tutEnt, -4,1, "tutorial_egg"))
     egg.repeatActivations = true end
 
     do local egg = assert(spawnItem(tutEnt, -3,2, "tutorial_egg"))
-    egg.doomCount = 1 end
+    egg.doomCount = 9 end
 
     do local egg = assert(spawnItem(tutEnt, -1,1, "tutorial_egg"))
     egg.canItemFloat = true end
@@ -311,67 +415,47 @@ end
 
 
 
-do
--- Bonus:
-local TXT = loc("{lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} will earn extra-points.\nNotice the order!")
-
-tutorialSections:add(function(tutEnt)
-    clearEverythingExceptSelf(tutEnt)
-    addText(tutEnt, 0,-1, TXT)
-
-    spawnSlot(tutEnt, 0,1, "tutorial_pulse_button_slot")
-
-    for x=-5, 5 do
-        spawnItem(tutEnt, x, 3, "tutorial_egg")
-    end
-    assert(spawnItem(tutEnt, 0,3, "iron_shovel"))
-end)
-end
-
 
 do
--- Negative bonus:
-local TXT = loc("{lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} can also be negative!\nWatch out!")
+-- SLOT visuals:
+-- DoomCount, lives, money, points, mult, bonus
+local TXT = loc("Slots can also have different properties:")
 
 tutorialSections:add(function(tutEnt)
-    clearEverythingExceptSelf(tutEnt)
+    clearEverythingExceptButtons(tutEnt)
     addText(tutEnt, 0,-1, TXT)
 
-    spawnSlot(tutEnt, 0,1, "tutorial_pulse_button_slot")
+    do local slot = assert(spawnSlot(tutEnt, -4,1, "tutorial_slot"))
+    slot.basePointsGenerated = 10 end
 
-    for x=-3, 3 do
-        spawnItem(tutEnt, x, 3, "tutorial_egg")
+    do local slot = assert(spawnSlot(tutEnt, -3,2, "tutorial_slot"))
+    slot.doomCount = 3 end
+
+    do local slot = assert(spawnSlot(tutEnt, -1,1, "tutorial_slot"))
+    slot.baseMultGenerated = 1 end
+
+    do local slot = assert(spawnSlot(tutEnt, 1,1, "tutorial_slot"))
+    slot.lives = 5 end
+
+    do local slot = assert(spawnSlot(tutEnt, 3,2, "tutorial_slot"))
+    slot.baseBonusGenerated = 2 end
+
+    do local slot = assert(spawnSlot(tutEnt, 4,1, "tutorial_slot"))
+    slot.baseMoneyGenerated = -1 end
+
+    do assert(spawnSlot(tutEnt, 0,2, "tutorial_slot")) end
+
+    do
+    local slot = assert(spawnSlot(tutEnt, 0,3, "tutorial_slot"))
+    slot.basePointsGenerated = 10
+    slot.baseMultGenerated = 1
+    slot.baseBonusGenerated = 2
+    slot.baseMoneyGenerated = -1
+    slot.lives = 5
+    slot.doomCount = 10
     end
-
-    do local egg = assert(spawnItem(tutEnt, 0,3, "tutorial_egg"))
-    egg.baseBonusGenerated = -10
-    egg.basePointsGenerated = 0
-    egg.color = {1,0,0} end
 end)
 end
-
-
-
-
-do
--- Multiplier:
-local TXT = loc("{lootplot:POINTS_MULT_COLOR}Multiplier{/lootplot:POINTS_MULT_COLOR} will multiply any points earned.\nNotice the order!")
-
-tutorialSections:add(function(tutEnt)
-    clearEverythingExceptSelf(tutEnt)
-    addText(tutEnt, 0,-1, TXT)
-
-    spawnSlot(tutEnt, 0,1, "tutorial_pulse_button_slot")
-
-    for x=-5, 5 do
-        spawnItem(tutEnt, x, 3, "tutorial_egg")
-    end
-
-    local e = assert(spawnItem(tutEnt, 0,3, "iron_spear"))
-    e.baseMultGenerated = 2 -- monkeypatch so its clearer.
-end)
-end
-
 
 
 
@@ -381,7 +465,7 @@ do
 local TXT = loc("Items can also target other items.\nHave a play around.")
 
 tutorialSections:add(function(tutEnt)
-    clearEverythingExceptSelf(tutEnt)
+    clearEverythingExceptButtons(tutEnt)
     addText(tutEnt, 0,-1, TXT)
 
     spawnSlot(tutEnt, 0,1, "tutorial_pulse_button_slot")
@@ -404,10 +488,10 @@ end
 do
 -- Conclusion
 local TXT = loc("Tutorial complete!")
-local TXT2 = loc("Press button to restart tutorial.\nEscape to exit.")
+local TXT2 = loc("Escape to exit.")
 
 tutorialSections:add(function(tutEnt)
-    clearEverythingExceptSelf(tutEnt)
+    clearEverythingExceptButtons(tutEnt)
     addText(tutEnt, 0,-1, TXT)
 
     addText(tutEnt, 0,1, TXT2)
@@ -417,79 +501,66 @@ end
 
 
 
-
-
-
-
-do
--- Target system
--- (showcase dragonfruit, showcase PIE)
+local function prepareTutorialStage(selfEnt, step)
+    lp.rawsetAttribute("POINTS", selfEnt, 0)
+    lp.setAttribute("NUMBER_OF_ROUNDS", selfEnt, tutorialSections:size())
+    lp.setAttribute("ROUND", selfEnt, step)
+    clearEverythingExceptButtons(selfEnt)
+    local sect = tutorialSections[step]
+    sect(selfEnt)
 end
 
 
-do
--- Tier/upgrade system
-end
-
---[[
-
-
-TODO:
-We need to do some proper planning for how the 
-round-structure looks.
-
-Perhaps we should delete the DOOM-CLOCK after the 1st explanation...?
-And also delete the next-round button?
-
-Create many helper-functions. Be aggressive.
-Perhaps we should be more "leniant" with our text positioning too.
-
-Maybe instead of having left/right text,
-we should have an array of text entities within the tutorial cat?
-
-DO SOME GOOD PLANNING!!!
-USE A WHITEBOARD!!!   Be smart!
-
-]]
-
-
-
-local TUTORIAL_BUTTON_ID = "lootplot.s0:next_tutorial_stage_button"
-lp.defineSlot(TUTORIAL_BUTTON_ID, {
-    name = loc("Tutorial Button"),
+lp.defineSlot(NEXT_TUTORIAL_BUTTON, {
+    name = loc("Next Button"),
     activateDescription = loc("Click to go next!"),
 
     image = "tutorial_button_up",
     activateAnimation = {
         activate = "tutorial_button_down",
         idle = "tutorial_button_up",
-        duration = 0.15
+        duration = 0.1
     },
 
     baseMaxActivations = 100,
     triggers = {},
     buttonSlot = true,
 
-    init = function(selfEnt)
-        selfEnt.currentTutorialStep = 0
-    end,
-
     onActivate = function(selfEnt)
         local len = tutorialSections:size()
-        lp.setPoints(selfEnt, 0)
-        lp.setAttribute("NUMBER_OF_ROUNDS", selfEnt, len)
-
-        local step = selfEnt.currentTutorialStep + 1
-        if step > len then
-            step = 1
-        end
-        lp.setAttribute("ROUND", selfEnt, step)
-        selfEnt.currentTutorialStep = step
-        clearEverythingExceptSelf(selfEnt)
-        local sect = tutorialSections[step]
-        sect(selfEnt)
+        local step = lp.getRound(selfEnt)
+        step = math.min(step + 1, len)
+        prepareTutorialStage(selfEnt, step)
     end,
 })
+
+
+lp.defineSlot(PREV_TUTORIAL_BUTTON, {
+    name = loc("Previous Button"),
+    activateDescription = loc("Click to go previous!"),
+
+    scaleX = -1,
+
+    image = "tutorial_button_up",
+    activateAnimation = {
+        activate = "tutorial_button_down",
+        idle = "tutorial_button_up",
+        duration = 0.1
+    },
+
+    baseMaxActivations = 100,
+    triggers = {},
+    buttonSlot = true,
+
+    onActivate = function(selfEnt)
+        local step = lp.getRound(selfEnt)
+        step = math.max(step - 1, 1)
+        prepareTutorialStage(selfEnt, step)
+    end,
+})
+
+
+
 
 
 ---@param ppos lootplot.PPos
@@ -531,9 +602,15 @@ lp.defineItem(TUT_CAT_ID, {
 
     onActivate = function(ent)
         clearEverythingExceptSelf(ent)
-        local etype = assert(server.entities[TUTORIAL_BUTTON_ID])
-        local pos1 = fromMiddle(ent, 0, -3)
-        lp.trySpawnSlot(pos1, etype, ent.lootplotTeam)
+        lp.setAttribute("ROUND", ent, 0)
+
+        do local etype = assert(server.entities[PREV_TUTORIAL_BUTTON])
+        local pos1 = fromMiddle(ent, -1, -3)
+        lp.trySpawnSlot(pos1, etype, ent.lootplotTeam) end
+
+        do local etype = assert(server.entities[NEXT_TUTORIAL_BUTTON])
+        local pos1 = fromMiddle(ent, 1, -3)
+        lp.trySpawnSlot(pos1, etype, ent.lootplotTeam) end
 
         lp.setAttribute("REQUIRED_POINTS", ent, 100)
 

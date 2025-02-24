@@ -254,6 +254,7 @@ local attributes = require("shared.attributes")
 
 lp.getAttribute = attributes.getAttribute
 lp.setAttribute = attributes.setAttribute
+lp.rawsetAttribute = attributes.rawsetAttribute
 lp.getAllAttributes = attributes.getAllAttributes
 lp.modifyAttribute = attributes.modifyAttribute
 lp.getAttributeDefault = attributes.getAttributeDefault

@@ -87,6 +87,23 @@ function attributes.setAttribute(attr, ent, x)
     end
 end
 
+
+--- Sets an attribute without calling callbacks
+---@param attr string
+---@param ent Entity
+---@param x number
+function attributes.rawsetAttribute(attr, ent, x)
+    attrEntNumberTc(attr, ent, x)
+    assertServer()
+    local oldVal = attributes.getAttribute(attr, ent)
+    if oldVal ~= x then
+        attributeSetters[attr].set(ent, x)
+    end
+end
+
+
+
+
 ---@param attr string
 ---@param ent Entity
 ---@return number
