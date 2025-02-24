@@ -13,6 +13,9 @@ end
 
 local PULSE_TARGET = {
     type = "ITEM",
+    filter = function(selfEnt, ppos, targetEnt)
+        return lp.hasTrigger(targetEnt, "PULSE")
+    end,
     activate = function(selfEnt, ppos, targetEnt)
         lp.tryTriggerEntity("PULSE", targetEnt)
     end
@@ -116,7 +119,8 @@ defItem("old_tv", "Old TV", {
     target = {
         type = "ITEM",
         filter = function(selfEnt, ppos, targetEnt)
-            return targetEnt.rarity == lp.rarities.RARE
+            return lp.hasTrigger(targetEnt, "PULSE")
+                and targetEnt.rarity == lp.rarities.RARE
         end,
         activate = function(selfEnt, ppos, targetEnt)
             lp.tryTriggerEntity("PULSE", targetEnt)
