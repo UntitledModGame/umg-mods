@@ -594,7 +594,7 @@ Sell-slots should:
 "Reduce item price by half, earn money equal to price of item, then destroy"
 
 
-- Dirt-slot visuals:
+- (((DONE))) Dirt-slot visuals:
 When we scale a dirt-slot for variation, it also affects the slot-visuals.
 Fix this!
 Honestly it's probably best to just create sprites that have been manually flipped in Aseprite.

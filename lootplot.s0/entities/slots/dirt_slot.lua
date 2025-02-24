@@ -21,11 +21,15 @@ return lp.defineSlot("lootplot.s0:dirt_slot", {
 
     init = function(ent)
         -- randomly flip the image to make it look cool.
-        if math.random() < 0.5 then
-            ent.scaleX = -1
-        end
-        if math.random() < 0.5 then
-            ent.scaleY = -1
+        local r = math.random()
+        if r < 0.25 then
+            ent.image = "dirt_slot1"
+        elseif r < 0.5 then
+            ent.image = "dirt_slot2"
+        elseif r < 0.75 then
+            ent.image = "dirt_slot3"
+        else
+            ent.image = "dirt_slot4"
         end
     end,
 
