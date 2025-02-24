@@ -564,15 +564,15 @@ If targetting two items of the same type, give the items +10 points permanently.
 (^^^^ synergizes with copycat builds!)
 
 
-- Refactor `lives` system, make it so that it doesn't spawn a new entity.
+- (((DONE))) Refactor `lives` system, make it so that it doesn't spawn a new entity.
 We should just prevent the `:delete()` operation from occuring
 --->
 LITMUS TEST:
-- Does REPEATER component work on rock items?
-- Does DOOMED cause the item to activate many times?
+- ((PASSED)) Does REPEATER component work on rock items?
+- ((PASSED)) Does DOOMED cause the item to activate many times?
 
 
-- Activations-cap:  
+- (((DONE))) Activations-cap:  
 Limit activations to 50 in base lootplot.  
 Perhaps have `lp.MAX_ACTIVATIONS_CAP = 50`  
 (so modders can change ^^^^ as they wish)
