@@ -12,12 +12,12 @@ end
 lp.defineSlot("lootplot.s0:skull_slot", {
     image = "skull_slot",
     name = loc("Skull slot"),
-    activateDescription = loc("Destroys contained item 3 times."),
+    activateDescription = loc("Destroys item 3 times."),
     triggers = {"PULSE"},
     baseCanSlotPropagate = false,
     baseMaxActivations = 500,
 
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.RARE,
 
     canActivate = function(slotEnt)
         local itemEnt = lp.slotToItem(slotEnt)

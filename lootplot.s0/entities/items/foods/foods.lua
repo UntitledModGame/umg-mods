@@ -550,7 +550,7 @@ defineSlotSpawner("stone_fruit", "Stone fruit", "null_slot", "Null Slot", STONE_
 
 local CHOCO_SHAPE = lp.targets.UnionShape(lp.targets.ON_SHAPE, lp.targets.VerticalShape(1))
 defineSlotSpawner("chocolate_square", "Chocolate Square", "null_slot", "Null Slot with a key inside", CHOCO_SHAPE, {
-    basePrice = 15,
+    basePrice = 14,
     canItemFloat = true,
     rarity = lp.rarities.UNCOMMON
 }, function(slotEnt)

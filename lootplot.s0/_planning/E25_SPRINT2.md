@@ -549,12 +549,12 @@ Do something like: "Divides bonus by 2".
     --> eg distance=1 means that its NEXT to slots
 
 
-- Get rid of dark-egg, it's bad and dumb. Replace with something better please-
+- (((DONE))) Get rid of dark-egg, it's bad and dumb. Replace with something better please-
 IDEA:
-- "Spawn 3 null-slots. Spawn a STUCK key somewhere random on the plot"
+- (((DONE))) "Spawn 3 null-slots. Spawn a STUCK key somewhere random on the plot"
 
 
-- ITEM: Paperclip
+- (((DONE))) ITEM: Paperclip
 If there are no other types of this slot on the plot, spawn a copy of this slot somewhere random
 
 

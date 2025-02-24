@@ -337,3 +337,34 @@ defItem("prism", "Prism", {
     end
 })
 
+
+
+
+do
+local NUM_LIVES = 2
+
+defItem("paperclip", "Paperclip", {
+    activateDescription = loc("Gives {lootplot:LIFE_COLOR}+%{lives} lives{/lootplot:LIFE_COLOR} to slots.", {
+        lives = NUM_LIVES
+    }),
+
+    triggers = {"PULSE"},
+
+    rarity = lp.rarities.EPIC,
+
+    basePrice = 8,
+    baseMaxActivations = 5,
+    baseMultGenerated = 0.8,
+
+    shape = lp.targets.ON_SHAPE,
+
+    target = {
+        type = "SLOT",
+        activate = function(selfEnt, ppos, targetEnt)
+            targetEnt.lives = (targetEnt.lives or 0) + NUM_LIVES
+        end
+    }
+})
+end
+
+
