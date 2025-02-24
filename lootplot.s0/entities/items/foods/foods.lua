@@ -548,12 +548,16 @@ defineSlotSpawner("stone_fruit", "Stone fruit", "null_slot", "Null Slot", STONE_
     rarity = lp.rarities.COMMON
 })
 
-defineSlotSpawner("dark_egg", "Dark egg", "null_slot", "Null Slot with -5 points", STONE_FRUIT_SHAPE, {
-    basePrice = 0,
+local CHOCO_SHAPE = lp.targets.UnionShape(lp.targets.ON_SHAPE, lp.targets.VerticalShape(1))
+defineSlotSpawner("chocolate_square", "Chocolate Square", "null_slot", "Null Slot with a key inside", CHOCO_SHAPE, {
+    basePrice = 15,
     canItemFloat = true,
     rarity = lp.rarities.UNCOMMON
 }, function(slotEnt)
-    lp.modifierBuff(slotEnt, "pointsGenerated", -5)
+    local ppos = lp.getPos(slotEnt)
+    if ppos then
+        lp.trySpawnItem(ppos, server.entities.key, slotEnt.lootplotTeam)
+    end
 end)
 
 local function isFoodItem(etype)
