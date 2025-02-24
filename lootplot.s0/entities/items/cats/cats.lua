@@ -201,3 +201,43 @@ defineCat("crappy_cat", {
 })
 
 
+
+
+do
+local PTS_BUFF = 10
+
+defineCat("ball_of_yarn", {
+    name = loc("Ball of Yarn"),
+    activateDescription = loc("If targetting two items of the same type, give the items {lootplot:POINTS_COLOR}+%{buff} points{/lootplot:POINTS_COLOR}.", {
+        buff = PTS_BUFF
+    }),
+
+    rarity = lp.rarities.EPIC,
+
+    basePrice = 10,
+    baseMaxActivations = 5,
+
+    shape = lp.targets.RookShape(1),
+
+    target = {
+        type = "ITEM",
+        filter = function(selfEnt, ppos, targEnt)
+            -- woops, this is quite inefficient, but oh well
+            local targs = lp.targets.getTargets(selfEnt)
+            if not targs then return false end
+            for _, p1 in ipairs(targs) do
+                local itemEnt = lp.posToItem(p1)
+                if itemEnt and targEnt ~= itemEnt and targEnt:type() == itemEnt:type() then
+                    return true
+                end
+            end
+        end,
+        activate = function(selfEnt, ppos, targEnt)
+            lp.modifierBuff(targEnt, "pointsGenerated", PTS_BUFF, selfEnt)
+        end
+    }
+})
+
+end
+
+
