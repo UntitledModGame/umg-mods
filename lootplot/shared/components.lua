@@ -47,6 +47,13 @@ components.defineComponent("grubMoneyCap")
 
 
 
+components.defineComponent("name")
+components.defineComponent("description")
+components.defineComponent("activateDescription")
+
+
+
+
 --[[
 ==================================================
 Property definitions:

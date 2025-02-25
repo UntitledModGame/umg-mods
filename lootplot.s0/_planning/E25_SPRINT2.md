@@ -611,7 +611,7 @@ Currently, the game appears to freeze when you click exit.
 I dont think there is a way to fix this directly, so instead we should just make the screen brown, and put "QUITTING..." text in the middle of the screen
 
 
-- Fix Listener items on Null-slots still activating!
+- (((DONE))) Fix Listener items on Null-slots still activating!
 Listener-items still activate when in a null-slot/shop-slot.
 This is confusing at best, bugged at worst.
 (fix this. Fix for shop-slots too!)
@@ -621,16 +621,20 @@ SIMPLE IDEA: Just have a slot-component: `isItemListenBlocked = true`
 ^^^ its very direct, very simple.
 
 
-- ITEM: Uranium rocks
-(shape: ROOK-1)
-If item has Reroll trigger, transform into it
+
+- (((DONE))) Erik Idea:
+Chest items spawn near your plot and if you don't get a slot under them in a couple rounds, they disappear.
+The way we would implement them in practice is to make the chests STICKY, and put them on a DOOMED-4 slot or something
+^^^^ Make it part of the worldgen even?
+--------->
+OLI FINALIZED:
+Islands that are 3 or bigger: Spawn golden slots.
+Islands that are exactly 1 in size: Spawns a sticky-chest item (on a null slot) 
 
 
 
-- Rework listen-item descriptions
+- (((DONE))) Rework listen-item descriptions
 We shouldn't have descriptions be implicit; they should be explicit.
-(Maybe we should have a `triggerDescription` component...?)
-
 
 
 
@@ -651,18 +655,14 @@ play a cool animation, and just make it JUICY and satisfying.
 (Idk what to do, just make it SATISFYING! :D)
 
 
-- Erik Idea:
-Chest items spawn near your plot and if you don't get a slot under them in a couple rounds, they disappear.
-The way we would implement them in practice is to make the chests STICKY, and put them on a DOOMED-4 slot or something
-^^^^ Make it part of the worldgen even?
---------->
-OLI FINALIZED:
-Islands that are 3 or bigger: Spawn golden slots.
-Islands that are exactly 1 in size: Spawns a sticky-chest item (on a null slot) 
-
 
 Match3 shards:
 When matched, a little sprite should pop up above them, just like when a shape is matched in CROPS!
+
+
+- ITEM: Uranium rocks
+(shape: ROOK-1)
+If item has Reroll trigger, transform into it
 
 
 - ITEM REFACTOR:
@@ -689,7 +689,8 @@ I literally got a gear-item, and I wasn't able to pivot into rotate-archetype ve
 
 
 - Change one-ball tutorial-text:
-Instead of appearing on top of slots, we should spawn a button
+Instead of appearing on top of slots, we should spawn a singular button + text.
+(Then, when the player is ready, they click the button, and the stuff spawns.)
 
 
 - Activations:

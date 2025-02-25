@@ -228,6 +228,7 @@ defDestructive("goblet_of_blood", "Goblet of Blood", {
     basePrice = 8,
     baseMaxActivations = 10,
 
+    triggerDescription = loc("Activates when an item is destroyed:"),
     listen = {
         type = "ITEM",
         trigger = "DESTROY",
@@ -258,6 +259,7 @@ defDestructive("pink_mitten", "Pink Mitten", {
 
 
 defDestructive("teddy", "Teddy", {
+    triggerDescription = loc("Activates when a slot is destroyed:"),
     listen = {
         type = "SLOT",
         trigger = "DESTROY"
