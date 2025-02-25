@@ -8,7 +8,7 @@ local CURSE_RARITIES = {
 
 
 umg.answer("lootplot:canRemoveItem", function(itemEnt, ppos)
-    if CURSE_RARITIES[itemEnt.rarity] then
+    if itemEnt.rarity and CURSE_RARITIES[itemEnt.rarity] then
         return false
     end
     return true

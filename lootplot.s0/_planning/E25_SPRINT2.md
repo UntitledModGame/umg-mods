@@ -665,6 +665,13 @@ It needs to do something else. How about this:
 IDEA: "Set money to $13. Destroy 2 random curses"
 
 
+- CURSE VISUALS:
+Put some fire-like particles behind the curse-items.
+(see skahds code)
+It should be immediately obvious what items are curses, and what arent.
+
+
+
 ## SPIKE: SIMPLE Anti-archetype items:
 - "If there are no REPEATER items on the plot, do XYZ"
 - "If there are no items with `Reroll` trigger on the plot, do XYZ"
