@@ -638,12 +638,6 @@ We shouldn't have descriptions be implicit; they should be explicit.
 
 
 
-- ITEM:
-Spawns a DOOMED-4 LEGENDARY item
-(oli note: Don't pick legendary-items that are already DOOMED.)
-
-
-
 - Destroy all shop-slots after LEVEL-10.
 This prevents the player ruining the game for themselves.
 https://www.reddit.com/r/balatro/comments/1g0o0ax/wow_not_caring_about_the_endless_mode_made_the/
@@ -691,6 +685,12 @@ I literally got a gear-item, and I wasn't able to pivot into rotate-archetype ve
 - Change one-ball tutorial-text:
 Instead of appearing on top of slots, we should spawn a singular button + text.
 (Then, when the player is ready, they click the button, and the stuff spawns.)
+
+
+- ITEM:
+Spawns a DOOMED-4 LEGENDARY item
+(oli note: Don't pick legendary-items that are already DOOMED.)
+
 
 
 - Activations:

@@ -80,7 +80,7 @@ defGrubby("pineapple_ring", "Pineapple Ring", {
     basePrice = 8,
     grubMoneyCap = GRUB_MONEY_CAP,
     canItemFloat = true,
-    activateDescription = loc("Make all target items $1 cheaper"),
+    activateDescription = loc("Make all target items {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} cheaper"),
 
     baseMaxActivations = 8,
 
