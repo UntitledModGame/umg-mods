@@ -183,6 +183,13 @@ local function triggerEntity(listenerEnt, entThatWasTriggered)
     if canActivate then
         local ppos = lp.getPos(entThatWasTriggered)
         if ppos and util.canListen(listenerEnt, ppos) then
+            local slot = lp.itemToSlot(listenerEnt)
+            if slot and slot.isItemListenBlocked then
+                -- this means that the item with `listen` comp is on a null-slot/shop-slot, etc.
+                -- So we shouldn't activate it.
+                return
+            end
+
             lp.tryActivateEntity(listenerEnt)
             local listen = listenerEnt.listen
             if listen.activate then

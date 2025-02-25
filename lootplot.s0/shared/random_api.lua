@@ -6,7 +6,6 @@ local api = {}
 
 local function canSlotTriggerItem(slotEnt)
     -- Check if we can propagate triggers.
-    umg.melt("todo: check for listener-canPropagate here too!!! (its NYI)")
     return slotEnt.canSlotPropagate
 end
 

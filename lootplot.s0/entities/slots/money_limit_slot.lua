@@ -12,7 +12,6 @@ return lp.defineSlot("lootplot.s0:money_limit_slot", {
     name = loc("Money-limit slot"),
     activateDescription = MONEY_LIMIT_TEXT({limit = MONEY_LIMIT}),
 
-    baseCanSlotPropagate = false,
     canAddItemToSlot = function()
         return false -- cant hold items!!!
     end,

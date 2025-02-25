@@ -3,10 +3,10 @@
 
 ```lua
 
-ent.shape = lp.targets.KingShape(1)
+itemEnt.shape = lp.targets.KingShape(1)
 
 
-ent.target = {
+itemEnt.target = {
     activate = function(selfEnt, ppos, targetEnt_or_nil) end,
     filter = function(selfEnt, ppos, targetEnt_or_nil) return bool end,
     description = "Clones target item",
@@ -18,7 +18,7 @@ ent.target = {
 }
 
 
-ent.listen = {
+itemEnt.listen = {
     type = "ITEM",
     trigger = "REROLL" or "DESTROY" or "PULSE",
     filter = function(selfEnt, ppos, targetEnt)
@@ -32,5 +32,12 @@ ent.listen = {
 -- if the target-item is food,   (filter)  
 -- increase it's price by 1   (activate)
 
+
+
+
+-- If this is true, items on this slot cannot listen to other items.
+-- (Useful for shop-slots, null-slots, etc)
+-- (Kinda similar to `canSlotPropagate` property)
+slotEnt.isItemListenBlocked = true
 
 ```

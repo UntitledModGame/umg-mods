@@ -17,6 +17,8 @@ lp.defineSlot("lootplot.s0:skull_slot", {
     baseCanSlotPropagate = false,
     baseMaxActivations = 500,
 
+    isItemListenBlocked = true,
+
     rarity = lp.rarities.RARE,
 
     canActivate = function(slotEnt)

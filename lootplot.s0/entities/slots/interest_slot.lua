@@ -28,7 +28,6 @@ return lp.defineSlot("lootplot.s0:interest_slot", {
 
     rarity = lp.rarities.EPIC,
 
-    baseCanSlotPropagate = false,
     canAddItemToSlot = function()
         return false -- cant hold items!!!
     end,

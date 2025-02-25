@@ -1,6 +1,8 @@
 lp.defineSlot("lootplot.singleplayer:debugslot", {
     triggers = {"PULSE"},
+
     baseCanSlotPropagate = false,
+    isItemListenBlocked = true,
     audioVolume = 0,
 
     onActivate = function(self)

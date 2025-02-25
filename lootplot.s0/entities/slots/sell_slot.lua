@@ -6,7 +6,10 @@ lp.defineSlot("lootplot.s0:sell_slot", {
     activateDescription = loc("Reduce item price by half, and earn {lootplot:MONEY_COLOR}money{/lootplot:MONEY_COLOR} equal to the price.\nThen, destroy item."),
 
     triggers = {"PULSE"},
+
     baseCanSlotPropagate = false,
+    isItemListenBlocked = true,
+
     baseMaxActivations = 500,
 
     rarity = lp.rarities.UNCOMMON,

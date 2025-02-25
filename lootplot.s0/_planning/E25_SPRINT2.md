@@ -682,6 +682,11 @@ Or, even simpler:
 - "Do XYZ. Item lives are limited to 3. (shape: KING-2)"   (anti-destroy)
 
 
+- Rotate-archetype needs to be a *bit* broader.
+I literally got a gear-item, and I wasn't able to pivot into rotate-archetype very easily.
+- IDEA: More items that activate on `Rotate, Unlock` maybe...?
+- Consider gluing archetypes together, even?
+
 
 - Change one-ball tutorial-text:
 Instead of appearing on top of slots, we should spawn a button
