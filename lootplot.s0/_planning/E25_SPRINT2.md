@@ -665,6 +665,12 @@ Match3 shards:
 When matched, a little sprite should pop up above them, just like when a shape is matched in CROPS!
 
 
+- ITEM REFACTOR:
+Gold-compass: currently too basic.
+It needs to do something else. How about this:
+IDEA: "Set money to $13. Destroy 2 random curses"
+
+
 ## SPIKE: SIMPLE Anti-archetype items:
 - "If there are no REPEATER items on the plot, do XYZ"
 - "If there are no items with `Reroll` trigger on the plot, do XYZ"
