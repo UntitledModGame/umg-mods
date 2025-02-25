@@ -397,6 +397,32 @@ defItem("snake_oil", {
 
 
 
+
+defItem("the_negotiator", {
+    name = loc("The Negotiator"),
+
+    basePrice = 10,
+    baseMoneyGenerated = 1,
+    baseBonusGenerated = -3,
+    baseMaxActivations = 15,
+
+    canItemFloat = true,
+
+    sticky = true,
+
+    rarity = lp.rarities.RARE,
+
+    shape = lp.targets.KING_SHAPE,
+
+    listen = {
+        type = "ITEM",
+        trigger = "BUY",
+    }
+})
+
+
+
+
 defItem("top_hat", {
     name = loc("Top Hat"),
 

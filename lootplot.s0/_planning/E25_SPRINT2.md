@@ -637,6 +637,17 @@ Islands that are exactly 1 in size: Spawns a sticky-chest item (on a null slot)
 We shouldn't have descriptions be implicit; they should be explicit.
 
 
+- Create "trophy" infrastructure.
+Players kinda need a goal; the main "goal" should be to win with all starting-items.
+However, we should also allow players to add their own goals, and run-modifiers.  
+Thus, I propose a "Trophy system".  
+Kinda like Isaac- Each starting-item will have a trophies to earn; they will start blacked-out,
+but will be filled when the player completes a certain challenge.   
+In the base-game ie `lootplot.s0`, there will only be 1 trophy: "Bronze-trophy: Beat level-10"
+But we should support an arbitrary number of trophies for modding-purposes.  
+--> note: we DO NOT need explanations for what the trophies do!!! We just need the visuals.
+
+
 
 - Destroy all shop-slots after LEVEL-10.
 This prevents the player ruining the game for themselves.
@@ -647,7 +658,22 @@ https://www.reddit.com/r/balatro/comments/1g0o0ax/wow_not_caring_about_the_endle
 If the player goes above the point quota, we should play a satisfying sound,
 play a cool animation, and just make it JUICY and satisfying.
 (Idk what to do, just make it SATISFYING! :D)
+- IDEA: 
+- Create a massive shockwave
+- Play an epic sound
 
+
+
+- ITEM-REFACTOR: Sliced-apple refactor
+- Instead of spawning a pulse-button, sliced-apple should spawn a random slot.
+This adds variance, and it makes the game a bit more interesting.
+Also, we should make sliced-apple UNCOMMON rarity.
+
+
+
+- Speed up the pipeline-delays when there is a lot of stuff in the pipeline
+For example, if there are 50 slots in the pipeline, pipeline-speed should be sped up.
+(This also means that you wont need to speed up when doing `/spawnItems all` either! Which is super nice)
 
 
 Match3 shards:

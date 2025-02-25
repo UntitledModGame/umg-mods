@@ -41,26 +41,6 @@ end
 
 
 
-
-
-defGrubby("the_negotiator", "The Negotiator", {
-    basePrice = 10,
-    baseMoneyGenerated = 1,
-    baseMaxActivations = 50,
-    canItemFloat = true,
-
-    rarity = lp.rarities.EPIC,
-
-    shape = lp.targets.KING_SHAPE,
-
-    listen = {
-        type = "ITEM",
-        trigger = "BUY",
-    }
-})
-
-
-
 defGrubby("spare_coins", "Spare Coins", {
     triggers = {"PULSE"},
 
