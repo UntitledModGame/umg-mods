@@ -104,7 +104,7 @@ defItem("demon_knife", {
 
 local BONUS_BUFF = 0.4
 defItem("ghost_knife", {
-    name = loc("Moon Knife"),
+    name = loc("Ghost Knife"),
     activateDescription = loc("Gain {lootplot:BONUS_COLOR}+%{buff} bonus{/lootplot:BONUS_COLOR} permanently", {
         buff = BONUS_BUFF
     }),
