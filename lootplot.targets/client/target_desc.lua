@@ -25,27 +25,38 @@ local HARDCODED_LISTEN_DESCRIPTIONS = {
 
 
 local TRIGGER_ORDER = 10
-local TRIGGER_TXT = interp("Activates On: {lootplot:LISTEN_COLOR}{wavy}Target item %{trigger}")
+local TRIGGER_TXT_ITEM = interp("Activates On: {lootplot:LISTEN_COLOR}{wavy}Target item %{trigger}")
+local TRIGGER_TXT_SLOT = interp("Activates On: {lootplot:LISTEN_COLOR}{wavy}Target slot %{trigger}")
 
 umg.on("lootplot:populateDescription", TRIGGER_ORDER, function(ent, arr)
     if ent.listen and ent.shape then
         local listen = ent.listen
         local triggerName = lp.getTriggerDisplayName(ent.listen.trigger)
 
-        local listenType = listen.type
-        local listenTrigger = listen.trigger
+        local typ = listen.type
+        local trigger = listen.trigger
 
         local targetText
 
-        local t = HARDCODED_LISTEN_DESCRIPTIONS[listenType]
-        if t and t[listenTrigger] then
-            targetText = t[listenTrigger]
+        local t = HARDCODED_LISTEN_DESCRIPTIONS[typ]
+        if t and t[trigger] then
+            targetText = t[trigger]
         else
-            targetText = TRIGGER_TXT({
-                trigger = triggerName
-            })
+            if typ == "SLOT" then
+                targetText = TRIGGER_TXT_SLOT({
+                    trigger = triggerName
+                })
+            elseif typ == "ITEM" then
+                targetText = TRIGGER_TXT_ITEM({
+                    trigger = triggerName
+                })
+            else
+                umg.log.fatal("Invalid listen type: " .. typ)
+            end
         end
-        arr:add(targetText)
+        if targetText then
+            arr:add(targetText)
+        end
     end
 end)
 
