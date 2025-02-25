@@ -1,4 +1,7 @@
 
+local itemGenHelper = require("shared.item_gen_helper")
+local constants = require("shared.constants")
+
 
 local loc = localization.localize
 local interp = localization.newInterpolator
@@ -49,26 +52,66 @@ defChest("chest_diamond", "Diamond Chest", {
 
 
 
-local POINTS_BUFF = 20
+-- local POINTS_BUFF = 20
 
-defChest("chest_points", "Points Chest", {
-    activateDescription = loc("Gives {lootplot:POINTS_COLOR}+%{buff} points{/lootplot:POINTS_COLOR} to items permanently", {
-        buff = POINTS_BUFF
-    }),
+-- defChest("chest_points", "Points Chest", {
+--     activateDescription = loc("Gives {lootplot:POINTS_COLOR}+%{buff} points{/lootplot:POINTS_COLOR} to items permanently", {
+--         buff = POINTS_BUFF
+--     }),
 
-    shape = lp.targets.KingShape(1),
-    target = {
-        type = "ITEM",
-        activate = function(selfEnt, ppos, itemEnt)
-            lp.modifierBuff(itemEnt, "pointsGenerated", POINTS_BUFF, selfEnt)
+--     shape = lp.targets.KingShape(1),
+--     target = {
+--         type = "ITEM",
+--         activate = function(selfEnt, ppos, itemEnt)
+--             lp.modifierBuff(itemEnt, "pointsGenerated", POINTS_BUFF, selfEnt)
+--         end
+--     },
+
+--     rarity = lp.rarities.RARE,
+-- })
+
+
+-- I'm not entirely happy with this idea ^^^^
+-- I think we can do better, honestly.
+
+
+
+
+
+
+do
+local generateItem = itemGenHelper.createLazyGenerator(
+    function(etype)
+        ---@cast etype table
+        if lp.hasTag(etype, constants.tags.FOOD) then
+            return false
         end
-    },
+        return true
+    end,
+    itemGenHelper.createRarityWeightAdjuster({
+        EPIC = 1,
+        LEGENDARY = 0.01
+    })
+)
 
-    rarity = lp.rarities.RARE,
+defChest("chest_epic", "Epic Chest", {
+    rarity = lp.rarities.EPIC,
+
+    activateDescription = loc("Spawns an item that that is %{EPIC} or above", {
+        EPIC = lp.rarities.EPIC.displayString
+    }),
+    baseMoneyGenerated = 10,
+
+    onActivate = function(ent)
+        local ppos = lp.getPos(ent)
+        local etype = server.entities[generateItem()]
+        if ppos and etype then
+            lp.forceSpawnItem(ppos, etype, ent.lootplotTeam)
+        end
+    end
 })
 
-
-
+end
 
 
 

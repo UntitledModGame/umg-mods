@@ -16,6 +16,38 @@ local function defWorldgenItem(id, opts)
 end
 
 
+
+---@param ppos lootplot.PPos
+local function generate1x1Island(ppos)
+    local slotEnt = server.entities.null_slot()
+    local itemEnt = server.entities.chest_epic()
+    itemEnt.stuck = true
+    lp.unlocks.forceSpawnLockedSlot(ppos, slotEnt, itemEnt)
+end
+
+
+---@param island lootplot.PPos[]
+local function generateGoldIsland(island)
+    lp.queue(island[1], function ()
+        for _, ppos in ipairs(island) do
+            local goldenSlotId = "lootplot.s0:golden_slot"
+            local slotEnt = server.entities[goldenSlotId]()
+            local islandSize = #island
+            if islandSize > 5 then
+                slotEnt.doomCount = 2
+            elseif islandSize > 2 then
+                slotEnt.doomCount = 4
+            else
+                slotEnt.doomCount = 6
+            end
+            local itemEnt = nil
+            lp.unlocks.forceSpawnLockedSlot(ppos, slotEnt, itemEnt)
+        end
+    end)
+    lp.wait(island[1], 0.002)
+end
+
+
 defWorldgenItem("basic_worldgen", {
     name = loc("Worldgen Item"),
     description = loc("This is a worldgen item"),
@@ -37,29 +69,14 @@ defWorldgenItem("basic_worldgen", {
                 sy + y*NOISE_PERIOD
             ) >= NOISE_THRESHOLD
         end)
-        allocator:cullNearbyIslands(4)
+        allocator:cullNearbyIslands(3)
 
         local islands = allocator:generateIslands()
         for _, island in ipairs(islands) do
-            if #island >= 2 then
-                ---@type fun(team:string):(lootplot.SlotEntity,lootplot.ItemEntity?)
-                lp.queue(island[1], function ()
-                    for _, ppos in ipairs(island) do
-                        local goldenSlotId = "lootplot.s0:golden_slot"
-                        local slotEnt = server.entities[goldenSlotId]()
-                        local islandSize = #island
-                        if islandSize > 5 then
-                            slotEnt.doomCount = 2
-                        elseif islandSize > 2 then
-                            slotEnt.doomCount = 4
-                        else
-                            slotEnt.doomCount = 6
-                        end
-                        local itemEnt = nil
-                        lp.unlocks.forceSpawnLockedSlot(ppos, slotEnt, itemEnt)
-                    end
-                end)
-                lp.wait(island[1], 0.02)
+            if #island > 2 then
+                generateGoldIsland(island)
+            elseif #island == 1 then
+                generate1x1Island(island[1])
             end
         end
     end
