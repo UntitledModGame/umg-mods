@@ -713,6 +713,57 @@ defineSlotSpawner("lemon", "Lemon", "shop_slot", "DOOMED-4 Shop Slot", lp.target
 
 
 
+local forceSpawnRandomSlot
+do
+local rr = lp.rarities
+---@type {[1]: lootplot.rarities.Rarity, [2]: number}[]
+local weights = {
+    {rr.COMMON, 1},
+    {rr.UNCOMMON, 1},
+    {rr.RARE, 1},
+    {rr.EPIC, 0.5},
+    {rr.LEGENDARY, 0.1},
+}
+
+local slotBuffs = {
+    pointsGenerated = 10,
+    multGenerated = 0.2,
+    bonusGenerated = 1
+}
+local keys = {}
+for k,v in pairs(slotBuffs) do table.insert(keys, k) end
+
+local function buffSlotRandomly(slotEnt)
+    local prop = table.random(keys)
+    local buffAmount = slotBuffs[prop]
+    assert(buffAmount,"?? aye?")
+    if lp.SEED:randomMisc() < 0.33 then
+        -- 1/3 chance for the buff to be negative!
+        lp.modifierBuff(slotEnt, prop, -buffAmount)
+    else
+        lp.modifierBuff(slotEnt, prop, buffAmount)
+    end
+end
+
+
+---@param ppos lootplot.PPos
+---@param lootplotTeam string
+function forceSpawnRandomSlot(ppos, lootplotTeam)
+    local r = generation.pickWeighted(weights)
+    local etype = lp.rarities.randomSlotOfRarity(r)
+    if etype then
+        local slotEnt = lp.forceSpawnSlot(ppos, etype, lootplotTeam)
+        if lp.SEED:randomMisc() < 0.2 then
+            slotEnt.doomCount = 8
+        elseif lp.SEED:randomMisc() < 0.5 then
+            buffSlotRandomly(slotEnt)
+        end
+    end
+end
+
+end
+
+
 
 ----------------------------------------------------------------------------
 
@@ -751,9 +802,20 @@ defineSlotConverter("tangerine", "Tangerine", "rotate_slot", "Rotate Slot", lp.t
     basePrice = APPLE_PRICE
 })
 
-defineSlotConverter("sliced_apple", "Sliced Apple", "item_pulse_button_slot", "Item {lootplot:TRIGGER_COLOR}Pulse{/lootplot:TRIGGER_COLOR} Button", lp.targets.ON_SHAPE, {
-    rarity = lp.rarities.RARE,
-    basePrice = APPLE_PRICE
+defineFood("sliced_apple", {
+    name = loc("Sliced Apple"),
+    activateDescription = loc("Randomizes slot!"),
+
+    shape = lp.targets.ON_SHAPE,
+    target = {
+        type = "SLOT",
+        activate = function(selfEnt, ppos, targEnt)
+            forceSpawnRandomSlot(ppos, selfEnt.lootplotTeam)
+        end
+    },
+
+    rarity = lp.rarities.UNCOMMON,
+    basePrice = 4
 })
 
 defineSlotConverter("bananas", "Bananas", "swashbuckler_slot", "Swashbuckler Slot", lp.targets.ON_SHAPE, {
@@ -1201,38 +1263,6 @@ defineMush("mushroom_pink", {
 })
 
 
-do
-local rr = lp.rarities
----@type {[1]: lootplot.rarities.Rarity, [2]: number}[]
-local weights = {
-    {rr.COMMON, 1},
-    {rr.UNCOMMON, 1},
-    {rr.RARE, 1},
-    {rr.EPIC, 0.5},
-    {rr.LEGENDARY, 0.1},
-}
-
-local slotBuffs = {
-    pointsGenerated = 10,
-    multGenerated = 0.2,
-    bonusGenerated = 1
-}
-local keys = {}
-for k,v in pairs(slotBuffs) do table.insert(keys, k) end
-
-local function buffSlotRandomly(slotEnt)
-    local prop = table.random(keys)
-    local buffAmount = slotBuffs[prop]
-    assert(buffAmount,"?? aye?")
-    if lp.SEED:randomMisc() < 0.33 then
-        -- 1/3 chance for the buff to be negative!
-        lp.modifierBuff(slotEnt, prop, -buffAmount)
-    else
-        lp.modifierBuff(slotEnt, prop, buffAmount)
-    end
-end
-
-
 defineMush("mushroom_purple", {
     name = loc("Purple Mushroom"),
     activateDescription = loc("Randomizes slots!"),
@@ -1244,21 +1274,11 @@ defineMush("mushroom_purple", {
     target = {
         type = "SLOT",
         activate = function(selfEnt, ppos, targetEnt)
-            local r = generation.pickWeighted(weights)
-            local etype = lp.rarities.randomSlotOfRarity(r)
-            if etype then
-                local slotEnt = lp.forceSpawnSlot(ppos, etype, targetEnt.lootplotTeam)
-                if lp.SEED:randomMisc() < 0.2 then
-                    slotEnt.doomCount = 8
-                elseif lp.SEED:randomMisc() < 0.5 then
-                    buffSlotRandomly(slotEnt)
-                end
-            end
+            forceSpawnRandomSlot(ppos, selfEnt.lootplotTeam)
         end
     }
 })
 
-end
 
 
 

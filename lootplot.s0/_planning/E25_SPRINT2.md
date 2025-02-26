@@ -637,13 +637,12 @@ Islands that are exactly 1 in size: Spawns a sticky-chest item (on a null slot)
 We shouldn't have descriptions be implicit; they should be explicit.
 
 
-- Juice/Feedback when the point requirement is breached!!!!
+- (((DONE))) Juice/Feedback when the point requirement is breached!!!!
 If the player goes above the point quota, we should play a satisfying sound,
 play a cool animation, and just make it JUICY and satisfying.
 (Idk what to do, just make it SATISFYING! :D)
-- IDEA: Place it in LPState!
-- Create a screen-space shockwave
-- Play an epic sound
+- (((DONE))) IDEA: Place it in LPState!
+- (((DONE))) Create a screen-space shockwave
 
 
 
