@@ -703,10 +703,11 @@ defineSlotSpawner("lime", "Lime", "reroll_slot", "DOOMED-5 Reroll Slot", lp.targ
 }, setDoomCountTo(5))
 
 
-defineSlotSpawner("lemon", "Lemon", "shop_slot", "DOOMED-4 Shop Slot", lp.targets.KingShape(1), {
+defineSlotSpawner("lemon", "Lemon", "shop_slot", "DOOMED-4 Shop Slot", lp.targets.RookShape(1), {
     rarity = lp.rarities.RARE,
-    basePrice = 8
-}, setDoomCountTo(2))
+    basePrice = 8,
+    canItemFloat = true,
+}, setDoomCountTo(4))
 
 ----------------------------------------------------------------------------
 
