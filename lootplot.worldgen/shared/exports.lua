@@ -15,7 +15,7 @@ local spawnSlotsTc = typecheck.assert("ppos", "table", "number", "number", "stri
 ---@param lootplotTeam string
 function worldgen.spawnSlots(ppos, slotType, w, h, lootplotTeam)
     spawnSlotsTc(ppos, slotType, w, h, lootplotTeam)
-    assert(server, "?")
+    assert(server, "Can only be called on server-side")
     for dx=math.floor(-w/2 + 0.5), math.floor(w/2 + 0.5)-1 do
         for dy=math.floor(-h/2 + 0.5), math.floor(h/2 + 0.5)-1 do
             local p2 = ppos:move(dx,dy)
@@ -30,21 +30,25 @@ function worldgen.spawnSlots(ppos, slotType, w, h, lootplotTeam)
 end
 
 
+
+
+--[[
+WARNING:
+dont add non-etype strings to these arrays!!!
+or stuff will break BADLY.
+]]
+
 ---@type objects.Array
 worldgen.STARTING_ITEMS = objects.Array()
 -- contains etype-names that are perks.
---[[
-WARNING:
-dont add non-etype strings to this array!!!
-or stuff will break
-]]
-
-
-
 
 ---@type objects.Array
 worldgen.WORLDGEN_ITEMS = objects.Array()
 -- contains etype-names that are worldgen-items.
+
+---@type objects.Array
+worldgen.GAMEMODE_ITEMS = objects.Array()
+-- contains etype-names that are gamemode-items.
 
 
 

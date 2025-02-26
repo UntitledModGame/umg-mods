@@ -50,7 +50,7 @@ function NewRunState:init(cancelAction)
             settingManager.setLastSelectedBackground(background)
 
             -- TODO: Proper setup options
-            return runManager.startRun({
+            return runManager.sendStartRunPacket({
                 starterItem = startingItemName,
                 worldgenItem = lp.worldgen.WORLDGEN_ITEMS[1],
                 seed = "",

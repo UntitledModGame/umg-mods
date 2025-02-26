@@ -192,7 +192,7 @@ function runManager.getSavedRun()
     end
 end
 
-function runManager.continueRun()
+function runManager.sendContinueRunPacket()
     client.send("lootplot.singleplayer:continueRun")
 end
 
@@ -202,7 +202,7 @@ local newRunOptionsTc = typecheck.assert({
     seed = "string"
 })
 ---@param options {starterItem:string,seed:string,background:string?}
-function runManager.startRun(options)
+function runManager.sendStartRunPacket(options)
     newRunOptionsTc(options)
     client.send("lootplot.singleplayer:startRun", umg.serialize(options))
 end

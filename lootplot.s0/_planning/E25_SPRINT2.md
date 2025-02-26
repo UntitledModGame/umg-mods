@@ -645,7 +645,11 @@ Kinda like Isaac- Each starting-item will have a trophies to earn; they will sta
 but will be filled when the player completes a certain challenge.   
 In the base-game ie `lootplot.s0`, there will only be 1 trophy: "Bronze-trophy: Beat level-10"
 But we should support an arbitrary number of trophies for modding-purposes.  
---> note: we DO NOT need explanations for what the trophies do!!! We just need the visuals.
+NOTE: we DO NOT need explanations for what the trophies do!!! We just need the visuals.
+- Create trophy API (lootplot.singleplayer)
+- Make doomclock be spawned by GAMEMODE_ITEM (lootplot.singleplayer)
+- Create basic bronze trophy (Trophies handled in lootplot.singleplayer)
+- Make lootplot.worldgen API worldgen items spawn ALL of the items
 
 
 
@@ -707,6 +711,11 @@ Or, even simpler:
 - "Do XYZ. Destroy all items with Reroll trigger. (shape: KING-2)"  (anti-Reroll)
 - "Do XYZ. Destroy all REPEATER items. (shape: KING-2)"  (anti-REPEATER)
 - "Do XYZ. Item lives are limited to 3. (shape: KING-2)"   (anti-destroy)
+
+
+- Hammer items are *boring.* I get that they are supposed to be anti-bonus items.
+But they lowkey are just boring. Surely we can think of a more interesting use for them...?
+Perhaps they should divide `bonus` by 2 instead...?
 
 
 - Rotate-archetype needs to be a *bit* broader.

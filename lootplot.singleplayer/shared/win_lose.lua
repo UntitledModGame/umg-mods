@@ -9,11 +9,6 @@ if server then
 function winLose.endGame(clientId, win)
     local run = assert(lp.singleplayer.getRun())
 
-    if win then
-        local plot = run:getPlot()
-        lp.metaprogression.winAndUnlockItems(plot)
-    end
-
     if clientId then
         server.unicast(clientId, "lootplot.singleplayer:gameEnded", win)
     else

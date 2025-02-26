@@ -22,7 +22,10 @@ local function fromNamespaced(nsStr)
     if s then
         return nsStr:sub(1,s-1), nsStr:sub(s+1)
     end
-    umg.melt("Invalid namespace-str, needs colon: ", nsStr)
+
+    -- "my_string" -- INVALID! Needs to be prefixed by mod
+    -- "my_mod:my_string" <--- valid.
+    umg.melt("Invalid namespaced-string. Needs colon: ", nsStr)
 end
 
 
@@ -102,6 +105,8 @@ function lp.metaprogression.isEntityTypeUnlocked(entityType)
 end
 
 
+--- Marks a string as "unlocked"
+---@param name string Any kind of string value, representing an unlock. Generally, this will be an entity-type name. MUST BE PREFIXED BY THE MOD-NAME!!!  Eg: "my_mod:item"
 function lp.metaprogression.isUnlocked(name)
     if server then
         local ns, str = fromNamespaced(name)
@@ -111,6 +116,9 @@ function lp.metaprogression.isUnlocked(name)
     end
 end
 
+
+--- Marks a string as "unlocked"
+---@param name string Any kind of string value, representing an unlock. Generally, this will be an entity-type name. MUST BE PREFIXED BY THE MOD-NAME!!!  Eg: "my_mod:item"
 function lp.metaprogression.unlock(name)
     assertServer()
     local saved = setValue(UNLOCK_STORAGE, name, true)
@@ -120,56 +128,6 @@ function lp.metaprogression.unlock(name)
 end
 
 
-
-
----@param plot lootplot.Plot
-function lp.metaprogression.winAndUnlockItems(plot)
-    --[[
-    unlock component:
-
-    defineItem("qux", {
-        ...
-        unlock = {
-            requiredItems = {"foo", "bar"},
-            description = "Win using foo and bar items!"
-        }
-    })
-
-    ^^^ if the player wins with `foo` and `bar` items on the plot,
-    then `qux` is unlocked.
-    ]]
-    assert(server, "?")
-    local seen = {}
-    local unlockBuffer = objects.Array()
-    for _name, etype in pairs(server.entities) do
-        if not seen[etype] then
-            seen[etype]=true
-            if etype.unlock then
-                unlockBuffer:add(etype)
-            end
-        end
-    end
-
-    local itemCounts = {}
-    plot:foreachItem(function(item, ppos)
-        local n = item:type()
-        itemCounts[n]=(itemCounts[n] or 0) + 1
-    end)
-
-    unlockBuffer:map(function(etype)
-        local n = etype:getTypename()
-        local unlock = etype.unlock
-        if unlock.requiredItems then
-            for _, itemType in ipairs(unlock.requiredItems) do
-                if (itemCounts[itemType] or 0) <= 0 then
-                    return -- failed!
-                end
-            end
-            -- else, we unlock item:
-            lp.metaprogression.unlock(n)
-        end
-    end)
-end
 
 
 

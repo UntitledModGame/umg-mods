@@ -28,7 +28,7 @@ function ContinueState:init(runInfo)
 
             state.pop(self)
             state.push(LPState(), Z_ORDER.LOOTPLOT_STATE)
-            return runManager.continueRun()
+            return runManager.sendContinueRunPacket()
         end,
         startRun = function()
             state.pop(self)
