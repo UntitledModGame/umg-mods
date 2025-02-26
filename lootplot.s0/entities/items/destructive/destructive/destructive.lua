@@ -276,7 +276,7 @@ defDestructive("teddy", "Teddy", {
 
     rarity = lp.rarities.RARE,
     basePrice = 8,
-    baseBonusGenerated = 20,
+    baseMoneyGenerated = -3,
     baseMaxActivations = 30,
 })
 
