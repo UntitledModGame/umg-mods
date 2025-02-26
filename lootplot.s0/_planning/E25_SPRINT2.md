@@ -646,37 +646,37 @@ play a cool animation, and just make it JUICY and satisfying.
 
 
 
-- ITEM-REFACTOR: Sliced-apple refactor
-- Instead of spawning a pulse-button, sliced-apple should spawn a random slot.
+- (((DONE))) ITEM-REFACTOR: Sliced-apple refactor
+- (((DONE))) Instead of spawning a pulse-button, sliced-apple should spawn a random slot.
 This adds variance, and it makes the game a bit more interesting.
 Also, we should make sliced-apple UNCOMMON rarity.
 
 
 
-- Destroy all shop-slots after LEVEL-10.
-This prevents the player ruining the game for themselves.
-https://www.reddit.com/r/balatro/comments/1g0o0ax/wow_not_caring_about_the_endless_mode_made_the/
-
-
-
-- Speed up the pipeline-delays when there is a lot of stuff in the pipeline
+- (((DONE))) Speed up the pipeline-delays when there is a lot of stuff in the pipeline
 For example, if there are 50 slots in the pipeline, pipeline-speed should be sped up.
 (This also means that you wont need to speed up when doing `/spawnItems all` either! Which is super nice)
+- (((DONE))) On second look; it seems like this isn't possible. Instead, we should speed up the pipeline based on how many slots there are.
 
 
 Match3 shards:
 When matched, a little sprite should pop up above them, just like when a shape is matched in CROPS!
 
+Match3 shard refactor:
+- IDEA: Shards should buff slots!
+- Coal shards: Add +0.7 mult, Subtract 6 bonus
+- Iron shards: Add +6 bonus to slots, and spawn key items
+- Emerald shards: Add +10 points, add Reroll trigger to slots
+- Golden shards: Make slots earn $1, but steal 50 points
+--->  
+We need to make sure we have Randomness tho!!!
+IDEA: Spawn a random shard somewhere on the plot, make it STUCK
+IDEA: Wildcard shards: Transform into target shard, and make it STUCK
+
 
 - ITEM: Uranium rocks
 (shape: ROOK-1)
-If item has Reroll trigger, transform into it
-
-
-- ITEM REFACTOR:
-Gold-compass: currently too basic.
-It needs to do something else. How about this:
-IDEA: "Set money to $13. Destroy 2 random curses"
+If item has Reroll or Rotate trigger, transform into it
 
 
 - CURSE VISUALS:
@@ -690,6 +690,8 @@ It should be immediately obvious what items are curses, and what arent.
 - Hammer items are *boring.* Perhaps they should divide `bonus` by 2 instead...?
 - (Discover any other "boring" items- either purge them, or make them more *broad*.)
 
+
+- More items that work better with negative-bonus, perhaps?
 
 
 - Rotate-archetype needs to be a *bit* broader.
@@ -724,6 +726,48 @@ That way, the food item can be stored and reused.  Its a cool feature that adds 
 - IDEA-2: What if we had a 10% chance to spawn food-items with 1 extra life, but they were 70% more expensive? 
 - IDEA-3: Items in shop / cloud-slots should have a 5% chance to spawn as FLOATY.
 - IDEA-4: Items in cloud/shop slots should have a 3% chance to spawn with REPEATER
+
+
+- ITEM REFACTOR:
+Gold-compass: currently too basic.
+It needs to do something else. How about this:
+IDEA: "Set money to $13. Destroy 2 random curses"
+
+
+
+- Win screen + Prevent the player from playing infinitely 
+https://www.reddit.com/r/balatro/comments/1g0o0ax/wow_not_caring_about_the_endless_mode_made_the/
+- IDEA: Destroy all shop-slots after LEVEL-10?
+- IDEA-2: Prevent next-level button from going past LEVEL-10?
+- FINAL-IDEA: Put "YOU WIN" text after passing level-10. (Then, prevent next-level button from working)
+
+
+
+- ITEM:
+Vampire fang:
+Steal 5 points from the slot.
+Gain +5 points permanently.
+
+
+- ORE SLOTS:
+On Destroy, Unlock: Do (Something)
+Lives = 4
+(^^^ Idea is, the player will try to destroy these slots)
+(Alternatively, if they manage to use Green-Squash on it, they can get BIG rewards)
+======>  
+- SLOT: Gold-ore Slot  (Stone-y slot with gold-ore bits poking out)
+On Destroy: Earn $3
+======>  
+- SLOT: Diamond-ore Slot  (Stone-y slot with diamond-ore bits poking out)
+On Destroy: Earn +30 bonus
+======>  
+- SLOT: Obsidian-ore Slot  (Stone-y slot with diamond-ore bits poking out)
+On Destroy: Subtract -20 bonus, Gain +4 mult
+======>  
+Pickaxes should also target ITEM_OR_SLOT, instead of just item.
+======>  
+ITEM: Ginger root: Create random ore slots (ROOK-1)
+
 
 
 
