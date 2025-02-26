@@ -228,7 +228,6 @@ defDestructive("goblet_of_blood", "Goblet of Blood", {
     basePrice = 8,
     baseMaxActivations = 10,
 
-    triggerDescription = loc("Activates when an item is destroyed:"),
     listen = {
         type = "ITEM",
         trigger = "DESTROY",
@@ -259,18 +258,25 @@ defDestructive("pink_mitten", "Pink Mitten", {
 
 
 defDestructive("teddy", "Teddy", {
-    triggerDescription = loc("Activates when a slot is destroyed:"),
     listen = {
         type = "SLOT",
-        trigger = "DESTROY"
+        trigger = "DESTROY",
+        activate = function(selfEnt, ppos, slotEnt)
+            local selfSlot = lp.itemToSlot(selfEnt)
+            if selfSlot then
+                local cloneSlot = lp.clone(selfSlot)
+                lp.setSlot(ppos, cloneSlot)
+            end
+        end
     },
 
-    shape = lp.targets.KingShape(2),
+    activateDescription = loc("Replace destroyed slot with a clone of the slot that the teddy is on."),
+
+    shape = lp.targets.KingShape(1),
 
     rarity = lp.rarities.RARE,
     basePrice = 8,
-    baseMoneyGenerated = 3,
-    basePointsGenerated = 200,
+    baseBonusGenerated = 20,
     baseMaxActivations = 30,
 })
 

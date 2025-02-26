@@ -713,9 +713,15 @@ Or, even simpler:
 - "Do XYZ. Item lives are limited to 3. (shape: KING-2)"   (anti-destroy)
 
 
-- Hammer items are *boring.* I get that they are supposed to be anti-bonus items.
-But they lowkey are just boring. Surely we can think of a more interesting use for them...?
-Perhaps they should divide `bonus` by 2 instead...?
+- Rework all the boring items.
+- Egg is pretty boring. (How about we have it generate -bonus instead of STICKY slots?)
+- Hammer items are *boring.* Perhaps they should divide `bonus` by 2 instead...?
+- (Discover any other "boring" items- either purge them, or make them more *broad*.)
+
+
+- IDEA: Items in shop / cloud-slots should have a 5% chance to spawn as FLOATY.
+
+- IDEA: Items in cloud/shop slots should have a 3% chance to spawn with REPEATER
 
 
 - Rotate-archetype needs to be a *bit* broader.
