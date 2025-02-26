@@ -26,13 +26,13 @@ end
 
 local function drawKettleText(ent, x,y,rot, sx,sy,kx,ky)
     local txt, color
-    if ent.moneyGenerated < 0 then
+    if (ent.moneyGenerated or 0) < 0 then
         txt, color = "$", lp.COLORS.MONEY_COLOR
-    elseif ent.multGenerated < 0 then
+    elseif (ent.multGenerated or 0) < 0 then
         txt, color = tostring(-ent.multGenerated), lp.COLORS.POINTS_MULT_COLOR
-    elseif ent.bonusGenerated < 0 then
+    elseif (ent.bonusGenerated or 0) < 0 then
         txt, color = tostring(-ent.bonusGenerated), lp.COLORS.BONUS_COLOR
-    elseif ent.pointsGenerated < 0 then
+    elseif (ent.pointsGenerated or 0) < 0 then
         txt, color = tostring(-ent.pointsGenerated), lp.COLORS.POINTS_COLOR
     else
         return
