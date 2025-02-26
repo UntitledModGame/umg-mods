@@ -148,6 +148,26 @@ Don't worry as much about balance. Just aim for fun. :)
 
 
 
+## SPIKE: TROPHY ITEMS:
+- Create "trophy" infrastructure.
+Players kinda need a goal; the main "goal" should be to win with all starting-items.
+However, we should also allow players to add their own goals, and run-modifiers.  
+Thus, I propose a "Trophy system".  
+Kinda like Isaac- Each starting-item will have a trophies to earn; they will start blacked-out,
+but will be filled when the player completes a certain challenge.   
+In the base-game ie `lootplot.s0`, there will only be 1 trophy: "Bronze-trophy: Beat level-10"
+But we should support an arbitrary number of trophies for modding-purposes.  
+NOTE: we DO NOT need explanations for what the trophies do!!! We just need the visuals.
+- Create trophy API (lootplot.singleplayer)
+- Make doomclock be spawned by GAMEMODE_ITEM (lootplot.singleplayer)
+- Create basic bronze trophy (Trophies handled in lootplot.singleplayer)
+- Make lootplot.worldgen API worldgen items spawn ALL of the items
+
+
+
+
+
+
 ## AETHER ITEMS SPIKE:
 It would be cool to do something with these.  
 These items look very otherwordly, and can probably be used for something very rule-bendy

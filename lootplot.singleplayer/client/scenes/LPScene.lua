@@ -26,7 +26,7 @@ local function showNSignificant(value, nsig)
 	return tostring(math.floor(value * mulby) / mulby)
 end
 
----@param lpState lootplot.singleplayer.State
+---@param lpState lootplot.singleplayer.LPState
 function Scene:init(lpState)
     self.lpState = assert(lpState)
 

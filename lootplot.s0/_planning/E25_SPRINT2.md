@@ -637,33 +637,12 @@ Islands that are exactly 1 in size: Spawns a sticky-chest item (on a null slot)
 We shouldn't have descriptions be implicit; they should be explicit.
 
 
-- Create "trophy" infrastructure.
-Players kinda need a goal; the main "goal" should be to win with all starting-items.
-However, we should also allow players to add their own goals, and run-modifiers.  
-Thus, I propose a "Trophy system".  
-Kinda like Isaac- Each starting-item will have a trophies to earn; they will start blacked-out,
-but will be filled when the player completes a certain challenge.   
-In the base-game ie `lootplot.s0`, there will only be 1 trophy: "Bronze-trophy: Beat level-10"
-But we should support an arbitrary number of trophies for modding-purposes.  
-NOTE: we DO NOT need explanations for what the trophies do!!! We just need the visuals.
-- Create trophy API (lootplot.singleplayer)
-- Make doomclock be spawned by GAMEMODE_ITEM (lootplot.singleplayer)
-- Create basic bronze trophy (Trophies handled in lootplot.singleplayer)
-- Make lootplot.worldgen API worldgen items spawn ALL of the items
-
-
-
-- Destroy all shop-slots after LEVEL-10.
-This prevents the player ruining the game for themselves.
-https://www.reddit.com/r/balatro/comments/1g0o0ax/wow_not_caring_about_the_endless_mode_made_the/
-
-
 - Juice/Feedback when the point requirement is breached!!!!
 If the player goes above the point quota, we should play a satisfying sound,
 play a cool animation, and just make it JUICY and satisfying.
 (Idk what to do, just make it SATISFYING! :D)
-- IDEA: 
-- Create a massive shockwave
+- IDEA: Place it in LPState!
+- Create a screen-space shockwave
 - Play an epic sound
 
 
@@ -672,6 +651,12 @@ play a cool animation, and just make it JUICY and satisfying.
 - Instead of spawning a pulse-button, sliced-apple should spawn a random slot.
 This adds variance, and it makes the game a bit more interesting.
 Also, we should make sliced-apple UNCOMMON rarity.
+
+
+
+- Destroy all shop-slots after LEVEL-10.
+This prevents the player ruining the game for themselves.
+https://www.reddit.com/r/balatro/comments/1g0o0ax/wow_not_caring_about_the_endless_mode_made_the/
 
 
 
@@ -701,27 +686,11 @@ Put some fire-like particles behind the curse-items.
 It should be immediately obvious what items are curses, and what arent.
 
 
-
-## SPIKE: SIMPLE Anti-archetype items:
-- "If there are no REPEATER items on the plot, do XYZ"
-- "If there are no items with `Reroll` trigger on the plot, do XYZ"
-- "If there are no items with `Destroy` trigger on the plot, do XYZ"
---->
-Or, even simpler:
-- "Do XYZ. Destroy all items with Reroll trigger. (shape: KING-2)"  (anti-Reroll)
-- "Do XYZ. Destroy all REPEATER items. (shape: KING-2)"  (anti-REPEATER)
-- "Do XYZ. Item lives are limited to 3. (shape: KING-2)"   (anti-destroy)
-
-
 - Rework all the boring items.
 - Egg is pretty boring. (How about we have it generate -bonus instead of STICKY slots?)
 - Hammer items are *boring.* Perhaps they should divide `bonus` by 2 instead...?
 - (Discover any other "boring" items- either purge them, or make them more *broad*.)
 
-
-- IDEA: Items in shop / cloud-slots should have a 5% chance to spawn as FLOATY.
-
-- IDEA: Items in cloud/shop slots should have a 3% chance to spawn with REPEATER
 
 
 - Rotate-archetype needs to be a *bit* broader.
@@ -747,18 +716,32 @@ I think we should change this! Give them 2/2 or 3/3 activations instead. It make
 (Maybe nerf one-ball to $1, but give it 3 activations?)
 
 
-- Proc gen food items:
+- Proc gen items:
 Some food items should have a chance (say, 15%?) to spawn with doomCount=3, baseMoneyGenerated=-8 or something.   
 (What if the baseMoneyGenerated is equal to the original basePrice of the item...?)
 That way, the food item can be stored and reused.  Its a cool feature that adds variation.  
+(^^^^ eh, this might be a bit confusing.)
 =======>
-LIKEWISE: What if we had a 10% chance to spawn food-items with 1 extra life, but they were 70% more expensive? 
+- IDEA-2: What if we had a 10% chance to spawn food-items with 1 extra life, but they were 70% more expensive? 
+- IDEA-3: Items in shop / cloud-slots should have a 5% chance to spawn as FLOATY.
+- IDEA-4: Items in cloud/shop slots should have a 3% chance to spawn with REPEATER
+
 
 
 ## (SPIKE) REALLY INTERESTING IDEA:
 Consider more *SLOTS* that have exotic triggers.
 For example, slots that have LEVEL-UP trigger, or DESTROY trigger.
 
+
+## SPIKE: SIMPLE Anti-archetype items:
+- "If there are no REPEATER items on the plot, do XYZ"
+- "If there are no items with `Reroll` trigger on the plot, do XYZ"
+- "If there are no items with `Destroy` trigger on the plot, do XYZ"
+--->
+Or, even simpler:
+- "Do XYZ. Destroy all items with Reroll trigger. (shape: KING-2)"  (anti-Reroll)
+- "Do XYZ. Destroy all REPEATER items. (shape: KING-2)"  (anti-REPEATER)
+- "Do XYZ. Item lives are limited to 3. (shape: KING-2)"   (anti-destroy)
 
 
 ## (SPIKE)

@@ -2,10 +2,12 @@ local Scene = require("client.scenes.LPScene")
 local globalScale = require("client.globalScale")
 local fonts = require("client.fonts")
 
+local lg = love.graphics
+
 local loc = localization.localize
 
 
----@class lootplot.singleplayer.State: objects.Class, state.IState
+---@class lootplot.singleplayer.LPState: objects.Class, state.IState
 local LPState = objects.Class("lootplot.singleplayer:State")
 
 
@@ -29,9 +31,9 @@ umg.on("lootplot:selectionChanged", function(selection)
     end
 end)
 
-umg.on("lootplot:pointsChanged", function(_, delta)
+umg.on("lootplot:pointsChanged", function(ent, delta, oldVal, newVal)
     if lpState then
-        lpState:pointsChanged(delta)
+        lpState:pointsChanged(ent, delta, oldVal, newVal)
     end
 end)
 
@@ -46,6 +48,9 @@ function LPState:init()
     self.rightClick = false
     self.lastCamMouse = {0, 0} -- to track threshold
     self.claimedByControl = false
+
+    self.victoryShockwave = nil
+    -- a shockwave that occurs when player breaches point requirement
 
     self.isQuitting = false
 
@@ -191,12 +196,66 @@ local ACCUMULATED_JOLT_ROTATION_AMOUNT = math.rad(20)
 local ACCUMULATED_JOLT_SCALE_BULGE_AMOUNT = 1.2
 
 
-function LPState:pointsChanged(points)
-    self.accumulatedPoints.accumulated = self.accumulatedPoints.accumulated + points
-    self.accumulatedPoints.timeout = ACCUMULATED_POINT_TOTAL_TIME
+local function createVictoryShockwave()
+    local sw = {
+        time = 0,
+    }
+    return sw
 end
 
+-- grows 140% of the screen per second
+local VICTORY_SHOCKWAVE_GROW_SPEED = 2.2
+local VICTORY_SHOCKWAVE_DURATION = 2 -- lives for X seconds
+
+---@param self lootplot.singleplayer.LPState
+local function drawVictoryShockwave(self)
+    if not self.victoryShockwave then
+        return
+    end
+    local w,h = lg.getDimensions()
+    local centerX, centerY = w/6,h/6
+    local radius = (w * VICTORY_SHOCKWAVE_GROW_SPEED) * self.victoryShockwave.time
+    local lineWidth = lg.getLineWidth()
+    local sc = globalScale.get()
+    local bandOffset = 40 * sc
+    lg.setLineWidth(bandOffset)
+    local c = lp.COLORS.POINTS_COLOR
+    local r,g,b = c[1],c[2],c[3]
+    lg.setColor(r,g,b,0.4)
+    lg.circle("line", centerX, centerY, radius - (bandOffset-1)*3)
+    lg.setColor(r,g,b,0.6)
+    lg.circle("line", centerX, centerY, radius - (bandOffset-1)*2)
+    lg.setColor(r,g,b,0.8)
+    lg.circle("line", centerX, centerY, radius - (bandOffset-1))
+    lg.setColor(r,g,b)
+    lg.circle("line", centerX, centerY, radius)
+    lg.setLineWidth(lineWidth)
+end
+
+
+
+
+function LPState:pointsChanged(ent, deltaPoints, oldVal, newVal)
+    self.accumulatedPoints.accumulated = self.accumulatedPoints.accumulated + deltaPoints
+    self.accumulatedPoints.timeout = ACCUMULATED_POINT_TOTAL_TIME
+
+    local pointsReq = lp.getRequiredPoints(ent)
+    if pointsReq and pointsReq > oldVal and pointsReq <= newVal then
+        -- then we have breached the boundary! Hallelujah!
+        -- send out a shockwave and stuff
+        self.victoryShockwave = createVictoryShockwave()
+    end
+end
+
+
 function LPState:update(dt)
+    if self.victoryShockwave then
+        self.victoryShockwave.time = self.victoryShockwave.time + dt
+        if self.victoryShockwave.time > VICTORY_SHOCKWAVE_DURATION then
+            self.victoryShockwave = nil
+        end
+    end
+
     local hoveredSlot = lp.getHoveredSlot()
     local hoveredEntity = nil
 
@@ -367,7 +426,7 @@ function LPState:drawHUD()
 
     local fH = font:getHeight()
     local TXT_PAD = 10 * gs
-    love.graphics.setColor(1, 1, 1)
+    lg.setColor(1, 1, 1)
     text.printRich(roundText, font,  TXT_PAD, TXT_PAD + (fH+TXT_PAD)*0, 0xfffff, "left", 0, gs, gs)
     text.printRich(pointsText, font, TXT_PAD, TXT_PAD + (fH+TXT_PAD)*1, 0xfffff, "left", 0, gs, gs)
     text.printRich(moneyText, font,  TXT_PAD, TXT_PAD + (fH+TXT_PAD)*2, 0xfffff, "left", 0, gs, gs)
@@ -388,7 +447,7 @@ function LPState:drawHUD()
         local w = largerFont:getWidth(txt)
         local h = largerFont:getHeight()
         local s = gs
-        local x = love.graphics.getWidth() - (w/2 + TXT_PAD*2)*gs
+        local x = lg.getWidth() - (w/2 + TXT_PAD*2)*gs
         text.printRichCentered(
             effectTxt .. txt, largerFont, x, currentTextY + h/2,
             0xffffff, "left",
@@ -409,7 +468,7 @@ function LPState:drawHUD()
         else
             col = lp.COLORS.POINTS_COLOR
         end
-        love.graphics.setColor(col[1], col[2], col[3], opacity)
+        lg.setColor(col[1], col[2], col[3], opacity)
 
         local timeSincePointsChange = ACCUMULATED_POINT_TOTAL_TIME - self.accumulatedPoints.timeout
         local pRot, pScale = getAccumTextRotAndScale(timeSincePointsChange)
@@ -420,10 +479,10 @@ function LPState:drawHUD()
     if pBonus ~= 0 then
         local bonusVal
         if pBonus > 0 then
-            love.graphics.setColor(lp.COLORS.BONUS_COLOR)
+            lg.setColor(lp.COLORS.BONUS_COLOR)
             bonusVal = "+"..showNSignificant(pBonus, 1)
         elseif pBonus < 0 then
-            love.graphics.setColor(lp.COLORS.BAD_COLOR)
+            lg.setColor(lp.COLORS.BAD_COLOR)
             bonusVal = "-"..showNSignificant(-pBonus, 1)
         end
         local bonText = BONUS_TEXT({
@@ -439,11 +498,13 @@ function LPState:drawHUD()
         local mulText = "(x"..showNSignificant(pointMul, 1)..")"
         local timeSinceMultChange = ACCUMULATED_JOLT_DURATION - self.multiplierEffect.timeout
         local multRot, multScale = getAccumTextRotAndScale(timeSinceMultChange)
-        love.graphics.setColor(lp.COLORS.POINTS_MULT_COLOR)
+        lg.setColor(lp.COLORS.POINTS_MULT_COLOR)
         drawOnRight("{wavy}{outline thickness=4}", mulText, multRot, multScale)
     end
 
     end
+
+    drawVictoryShockwave(self)
 end
 
 
@@ -457,26 +518,26 @@ local QUITTING_TEXT = loc("Quitting...")
 
 local function drawQuittingScreen(x,y,w,h)
     -- draw background:
-    love.graphics.setColor(226/255, 195/255, 127/255)
-    love.graphics.rectangle("fill",x,y,w,h)
+    lg.setColor(226/255, 195/255, 127/255)
+    lg.rectangle("fill",x,y,w,h)
 
     local font = fonts.getLargeFont(32)
-    love.graphics.setFont(font)
+    lg.setFont(font)
     local W = font:getWidth(QUITTING_TEXT)
     local sc = globalScale.get() * 3
 
     -- draw outline
     local offset = sc * 2
-    love.graphics.setColor(0,0,0)
-    local ww,hh = love.graphics.getDimensions()
-    love.graphics.print(QUITTING_TEXT,x+ww/2 + offset, y+hh/3 + offset, 0, sc,sc, W/2)
-    love.graphics.print(QUITTING_TEXT,x+ww/2 - offset, y+hh/3 - offset, 0, sc,sc, W/2)
-    love.graphics.print(QUITTING_TEXT,x+ww/2 + offset, y+hh/3 - offset, 0, sc,sc, W/2)
-    love.graphics.print(QUITTING_TEXT,x+ww/2 - offset, y+hh/3 + offset, 0, sc,sc, W/2)
+    lg.setColor(0,0,0)
+    local ww,hh = lg.getDimensions()
+    lg.print(QUITTING_TEXT,x+ww/2 + offset, y+hh/3 + offset, 0, sc,sc, W/2)
+    lg.print(QUITTING_TEXT,x+ww/2 - offset, y+hh/3 - offset, 0, sc,sc, W/2)
+    lg.print(QUITTING_TEXT,x+ww/2 + offset, y+hh/3 - offset, 0, sc,sc, W/2)
+    lg.print(QUITTING_TEXT,x+ww/2 - offset, y+hh/3 + offset, 0, sc,sc, W/2)
 
     -- draw txt
-    love.graphics.setColor(1,1,1)
-    love.graphics.print(QUITTING_TEXT,x+ww/2, y+hh/3, 0, sc,sc, W/2)
+    lg.setColor(1,1,1)
+    lg.print(QUITTING_TEXT,x+ww/2, y+hh/3, 0, sc,sc, W/2)
 end
 
 
