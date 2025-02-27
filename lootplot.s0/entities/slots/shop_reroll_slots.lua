@@ -255,8 +255,8 @@ end
 local generateFoodItem = itemGenHelper.createLazyGenerator(
     isFoodItem,
     itemGenHelper.createRarityWeightAdjuster({
-        COMMON = 6,
-        UNCOMMON = 8,
+        COMMON = 32,
+        UNCOMMON = 6,
         RARE = 1,
         EPIC = 0.3,
         LEGENDARY = 0.04
