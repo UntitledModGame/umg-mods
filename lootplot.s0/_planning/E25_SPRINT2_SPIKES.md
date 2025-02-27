@@ -67,7 +67,7 @@ Brainstorm the systems at play, and the intended playstyles at play.
 
 
 
-## (SPIKE: PLANNING)
+## (((DONE))) (SPIKE: PLANNING)
 - Rework shards to do something else
 (Ideally, we want them to *NOT* destroy themselves when used, lmao)
 

@@ -87,7 +87,7 @@ end
 
 defShards("golden_shards", "Golden Shards",
     goldShardActivate,
-    "Make slots earn {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} and steal 50 points.", {
+    "Make slots earn {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} and steal 50 points.\nThen, destroy self.", {
     rarity = lp.rarities.UNCOMMON,
     basePrice = 10,
 })
@@ -116,7 +116,6 @@ local generateFoodItem = itemGenHelper.createLazyGenerator(
 
 do
 
-
 local function activateKeyShard(itemEnt)
     local ppos = lp.getPos(itemEnt)
     local slotEnt = lp.itemToSlot(itemEnt)
@@ -129,7 +128,7 @@ local function activateKeyShard(itemEnt)
 end
 
 defShards("key_shards", "Key Shards",
-    activateKeyShard, "Adds {lootplot:BONUS_COLOR}+6 Bonus{/lootplot:BONUS_COLOR} to slots, and spawns {lootplot:INFO_COLOR}Keys", {
+    activateKeyShard, "Adds {lootplot:BONUS_COLOR}+6 Bonus{/lootplot:BONUS_COLOR} to slots, and spawns {lootplot:INFO_COLOR}Keys{/lootplot:INFO_COLOR}.\nThen, destroy self.", {
     rarity = lp.rarities.COMMON,
     basePrice = 8,
 })
@@ -151,7 +150,7 @@ local function coalShardActivate(itemEnt)
 end
 
 defShards("coal_shards", "Coal Shards",
-    coalShardActivate, "Adds {lootplot:POINTS_MULT_COLOR}+0.7 mult{/lootplot:POINTS_MULT_COLOR} to slots, and subtracts {lootplot:BONUS_COLOR}-6 bonus{/lootplot:BONUS_COLOR} from slots", {
+    coalShardActivate, "Adds {lootplot:POINTS_MULT_COLOR}+0.7 mult{/lootplot:POINTS_MULT_COLOR} to slots, and subtracts {lootplot:BONUS_COLOR}-6 bonus{/lootplot:BONUS_COLOR} from slots.\nThen, destroy self.", {
     rarity = lp.rarities.COMMON,
     basePrice = 6,
 })
@@ -173,7 +172,7 @@ local function emeraldShardActivate(itemEnt)
 end
 
 defShards("emerald_shards", "Emerald Shards",
-    emeraldShardActivate, "Adds {lootplot:POINTS_COLOR}+10 points{/lootplot:POINTS_COLOR} to slots, and gives slots {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} trigger", {
+    emeraldShardActivate, "Adds {lootplot:POINTS_COLOR}+10 points{/lootplot:POINTS_COLOR} to slots, and gives slots {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} trigger.\nThen, destroy self.", {
     rarity = lp.rarities.UNCOMMON,
     basePrice = 12,
 })
