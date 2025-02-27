@@ -257,7 +257,7 @@ defineFood("teal_olive", {
 
 defineFood("black_olive", {
     name = loc("Black Olive"),
-    activateDescription = loc("Gives {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} trigger and {lootplot:TRIGGER_COLOR}Rotate{/lootplot:TRIGGER_COLOR} to items."),
+    activateDescription = loc("Gives {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} and {lootplot:TRIGGER_COLOR}Rotate{/lootplot:TRIGGER_COLOR} trigger to items."),
 
     rarity = lp.rarities.RARE,
 
@@ -592,12 +592,12 @@ end)
 
 
 defineSlotSpawner("dragonfruit", "Dragonfruit", "slot", "Normal Slot", lp.targets.RookShape(1), {
-    basePrice = 12,
-    rarity = lp.rarities.RARE
+    basePrice = 20,
+    rarity = lp.rarities.UNCOMMON
 })
 
 defineSlotSpawner("dragonfruit_slice", "Dragonfruit Slice", "slot", "Normal Slot", lp.targets.BishopShape(1), {
-    basePrice = 15,
+    basePrice = 20,
     rarity = lp.rarities.RARE
 })
 
@@ -608,7 +608,7 @@ defineSlotSpawner("sausage", "Sausage", "slot", "Normal Slot", lp.targets.Horizo
         end
     end,
     basePrice = 6,
-    rarity = lp.rarities.UNCOMMON
+    rarity = lp.rarities.COMMON
 })
 
 
@@ -629,13 +629,13 @@ defineSlotSpawner("soy_sauce", "Soy Sauce", "slot", "{lootplot:DOOMED_COLOR}DOOM
 
 defineSlotSpawner("ruby_candy", "Ruby Candy", "ruby_slot", "{c r=1 b=0.2 g=0.3}Ruby{/c} {lootplot:DOOMED_LIGHT_COLOR}DOOMED-20{/lootplot:DOOMED_LIGHT_COLOR} Slot", lp.targets.RookShape(1), {
     rarity = lp.rarities.RARE,
-    basePrice = 8
+    basePrice = 12
 },
 setDoomCountTo(20))
 
 defineSlotSpawner("diamond_candy", "Diamond Candy", "diamond_slot", "{c r=0.6 b=0.95 g=1}Diamond{/c} {lootplot:DOOMED_LIGHT_COLOR}DOOMED-20{/lootplot:DOOMED_LIGHT_COLOR} Slot", lp.targets.RookShape(1), {
     rarity = lp.rarities.RARE,
-    basePrice = 8
+    basePrice = 12
 },
 setDoomCountTo(20))
 
@@ -649,14 +649,14 @@ steel-candy in future?
 
 
 defineSlotSpawner("steelberry", "Steel-Berry", "steel_slot", "Steel Slot", lp.targets.HorizontalShape(1), {
-    basePrice = 16,
+    basePrice = 20,
     rarity = lp.rarities.EPIC
 })
 
 
 defineSlotSpawner("avacado", "Avacado", "emerald_slot", "Emerald Slot", lp.targets.RookShape(1), {
-    -- maybe this should be more expensive... but i just LOVE this item sooo much
-    basePrice = 12,
+    -- i just LOVE this item sooo much btw
+    basePrice = 15,
     rarity = lp.rarities.RARE
 })
 
