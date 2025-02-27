@@ -147,6 +147,34 @@ defSack("sack_rare", "Rare Sack", {
     end, DEFAULT_WEIGHT),
 })
 
+
+
+defSack("sack_uncommon", "Uncommon Sack", {
+    activateDescription = locRarity("Choose between 3 %{RARE} items."),
+
+    basePrice = 4,
+    rarity = lp.rarities.COMMON,
+    generateTreasureItem = newLazyGen(function (etype)
+        return etype.rarity == r.UNCOMMON and (not isFood(etype))
+    end, DEFAULT_WEIGHT),
+})
+
+
+
+defSack("sack_food", "Food Sack", {
+    activateDescription = loc("Spawns a {lootplot:DOOMED_LIGHT_COLOR}DOOMED-1{/lootplot:DOOMED_LIGHT_COLOR} food item."),
+    doomCount = 1,
+
+    basePrice = 4,
+
+    rarity = lp.rarities.COMMON,
+    generateTreasureItem = newLazyGen(function(etype)
+        return etype.rarity ~= r.COMMON and isFood(etype)
+    end, DEFAULT_WEIGHT),
+})
+
+
+
 defSack("sack_epic", "Epic Sack", {
     activateDescription = locRarity("Choose between 3 %{EPIC} items."),
 
