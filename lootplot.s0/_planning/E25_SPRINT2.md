@@ -671,21 +671,17 @@ We need to make sure we have Randomness tho!!!
 - IDEA: Wildcard shards: Transform into target shard, and make it STUCK
 
 
-- Match3 shards:
-When matched, a little sprite should pop up above them, just like when a shape is matched in CROPS!
-
-
-
-- UNCOMMON treasure-sack
+- (((DONE))) UNCOMMON treasure-sack
 ($5 to buy?)
 
-- Food treasure-sack
+- (((DONE))) Food treasure-sack
 ($5 to buy?)
+
 
 
 - ITEM: Uranium rocks
 (shape: ROOK-1)
-If item has Reroll or Rotate trigger, transform into it
+If item has Rotate trigger, transform into it
 
 
 - CURSE VISUALS:
@@ -883,5 +879,10 @@ IE: items that don't activate directly, but use `onUpdate` to have an effect.
 - ITEM: panic button:
 Randomizes ALL items, preserving rarity.
 (Doesn't work on UNIQUE items)
+
+
+- Match3 shards:
+When matched, a little sprite should pop up above them, just like when a shape is matched in CROPS!
+
 
 

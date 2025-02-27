@@ -66,15 +66,6 @@ local LOCK_REROLL_BUTTON = {
 
 local BUY_TEXT = interp("BUY ($%{price})")
 
----@param slotEnt Entity
-local function buyServer(slotEnt)
-    local itemEnt = lp.slotToItem(slotEnt)
-    if itemEnt then
-        lp.subtractMoney(slotEnt, itemEnt.price)
-        lp.tryTriggerEntity("BUY", itemEnt)
-        setItemLock(slotEnt, false)
-    end
-end
 
 local function buyClient(slotEnt)
     lp.deselectItem()
@@ -84,14 +75,18 @@ local function buyClient(slotEnt)
     end
 end
 
----@param ent Entity
----@param clientId string
-local function shopButtonBuyItem(ent, clientId)
+---@param slotEnt Entity
+local function shopButtonBuyItem(slotEnt)
     if server then
-        setRerollLock(ent, false)
-        buyServer(ent)
+        setRerollLock(slotEnt, false)
+        local itemEnt = lp.slotToItem(slotEnt)
+        if itemEnt then
+            lp.subtractMoney(slotEnt, itemEnt.price)
+            lp.tryTriggerEntity("BUY", itemEnt)
+            setItemLock(slotEnt, false)
+        end
     elseif client then
-        buyClient(ent)
+        buyClient(slotEnt)
     end
 end
 
@@ -484,11 +479,14 @@ local function deleteAttachedCloudSlots(ent)
 end
 
 
-local pickButton = {
-    action = function(ent, clientId)
-        shopButtonBuyItem(ent, clientId)
+local cloudPickButton = {
+    action = function(ent, _clientId)
         if server then
             deleteAttachedCloudSlots(ent)
+            local itemEnt = lp.slotToItem(ent)
+            if itemEnt then
+                lp.tryTriggerEntity("BUY", itemEnt)
+            end
             local ppos = lp.getPos(ent)
             if ppos then
                 local nullSlotType = server.entities["null_slot"]
@@ -501,7 +499,7 @@ local pickButton = {
     end,
     canDisplay = canDisplayShopButton,
     canClick = canClickShopButton,
-    text = loc("PICK"),
+    text = loc("Buy (FREE)"),
     color = objects.Color(0.39,0.66,0.24),
 }
 
@@ -520,17 +518,11 @@ lp.defineSlot("lootplot.s0:cloud_slot", {
 
     itemLock = true,
 
-    slotItemProperties = {
-        multipliers = {
-            price = 0 -- make it free
-        }
-    },
-
     canPlayerAccessItemInSlot = function(slotEnt)
         return not slotEnt.itemLock
     end,
 
     actionButtons = {
-        pickButton
+        cloudPickButton
     }
 })
