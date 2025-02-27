@@ -150,7 +150,7 @@ defSack("sack_rare", "Rare Sack", {
 
 
 defSack("sack_uncommon", "Uncommon Sack", {
-    activateDescription = locRarity("Choose between 3 %{RARE} items."),
+    activateDescription = locRarity("Choose between 3 %{UNCOMMON} items."),
 
     basePrice = 4,
     rarity = lp.rarities.COMMON,
