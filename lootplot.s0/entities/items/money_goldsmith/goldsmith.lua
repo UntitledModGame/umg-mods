@@ -28,7 +28,7 @@ end
 
 
 
-local MULT_RING_DESC = interp("Adds {lootplot:POINTS_MULT_COLOR}mult{/lootplot:POINTS_MULT_COLOR} equal to 10% of the balance {lootplot:MONEY_COLOR}($%{balance})")
+local MULT_RING_DESC = interp("Adds {lootplot:POINTS_MULT_COLOR}mult{/lootplot:POINTS_MULT_COLOR} equal to 4% of the balance {lootplot:MONEY_COLOR}($%{balance})")
 
 local function defMultRing(id,name, triggers)
     defItem(id, name, {
@@ -48,7 +48,7 @@ local function defMultRing(id,name, triggers)
             modifiers = {
                 multGenerated = function(ent)
                     local money = lp.getMoney(ent) or 0
-                    local interest = money / 10
+                    local interest = money * (4/100)
                     return interest
                 end
             }
