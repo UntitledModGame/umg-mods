@@ -679,9 +679,10 @@ We need to make sure we have Randomness tho!!!
 
 
 
-- ITEM: Uranium rocks
+- (((DONE))) ITEM: Pumpkin
 (shape: ROOK-1)
-If item has Rotate trigger, transform into it
+If item has Rotate trigger, transform into it.
+Otherwise, rotate items.
 
 
 - CURSE VISUALS:
@@ -752,6 +753,7 @@ https://www.reddit.com/r/balatro/comments/1g0o0ax/wow_not_caring_about_the_endle
 Vampire fang:
 Steal 5 points from the slot.
 Gain +5 points permanently.
+(works great with slots that destroy themselves/temporary slots!)
 
 
 - ORE SLOTS:

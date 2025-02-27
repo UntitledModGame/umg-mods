@@ -280,8 +280,37 @@ defItem("cd_rom", "CD-ROM", {
 
 
 
+defItem("pumpkin", "Pumpkin", {
+    triggers = {"PULSE"},
+
+    basePrice = 10,
+    baseMaxActivations = 1,
+
+    activateDescription = loc("If item has {lootplot:TRIGGER_COLOR}Rotate{/lootplot:TRIGGER_COLOR} trigger, transform into a clone of it.\nOtherwise, rotate items."),
+
+    shape = lp.targets.RookShape(1),
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targEnt)
+            if lp.hasTrigger(targEnt, "ROTATE") then
+                local selfPos = lp.getPos(selfEnt)
+                if selfPos then
+                    lp.forceCloneItem(targEnt, selfPos)
+                end
+            else
+                lp.rotateItem(targEnt, 1)
+            end
+        end,
+    },
+
+    rarity = lp.rarities.UNCOMMON,
+})
+
+
+
+
 defItem("dirt_maker", "Dirt Maker", {
-    triggers = {"ROTATE"},
+    triggers = {"ROTATE", "UNLOCK"},
 
     basePrice = 10,
     baseMaxActivations = 10,
