@@ -659,19 +659,28 @@ For example, if there are 50 slots in the pipeline, pipeline-speed should be spe
 - (((DONE))) On second look; it seems like this isn't possible. Instead, we should speed up the pipeline based on how many slots there are.
 
 
-Match3 shards:
-When matched, a little sprite should pop up above them, just like when a shape is matched in CROPS!
-
 Match3 shard refactor:
-- IDEA: Shards should buff slots!
-- Coal shards: Add +0.7 mult, Subtract 6 bonus
-- Iron shards: Add +6 bonus to slots, and spawn key items
-- Emerald shards: Add +10 points, add Reroll trigger to slots
-- Golden shards: Make slots earn $1, but steal 50 points
+IDEA: Shards should buff slots, then destroy themselves...?
+- (((DONE))) Coal shards: Add +0.7 mult, Subtract 6 bonus
+- (((DONE))) Iron shards: Add +6 bonus to slots, and spawn key items
+- (((DONE))) Emerald shards: Add +10 points, add Reroll trigger to slots
+- (((DONE))) Golden shards: Make slots earn $1, but steal 50 points
 --->  
 We need to make sure we have Randomness tho!!!
-IDEA: Spawn a random shard somewhere on the plot, make it STUCK
-IDEA: Wildcard shards: Transform into target shard, and make it STUCK
+- IDEA: Spawn a random shard somewhere on the plot, make it STUCK
+- IDEA: Wildcard shards: Transform into target shard, and make it STUCK
+
+
+- Match3 shards:
+When matched, a little sprite should pop up above them, just like when a shape is matched in CROPS!
+
+
+
+- UNCOMMON treasure-sack
+($5 to buy?)
+
+- Food treasure-sack
+($5 to buy?)
 
 
 - ITEM: Uranium rocks

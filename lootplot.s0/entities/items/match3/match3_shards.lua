@@ -75,26 +75,28 @@ end
 
 
 
+do
 
-local function earn8Money(itemEnt)
-    lp.addMoney(itemEnt, 8)
+local function goldShardActivate(itemEnt)
+    local slotEnt = lp.itemToSlot(itemEnt)
+    if slotEnt then
+        lp.modifierBuff(slotEnt, "moneyGenerated", 1, itemEnt)
+        lp.modifierBuff(slotEnt, "pointsGenerated", -50, itemEnt)
+    end
 end
---[[
-IDEA: 
-Instead of earning money,
-Golden-shards should spawn DOOMED-1 shop-slots with items inside.
-That'll make them more "interesting"
-(That way, we can make them COMMON too!)
-]]
+
 defShards("golden_shards", "Golden Shards",
-    earn8Money, "Earn {lootplot:MONEY_COLOR}$8{/lootplot:MONEY_COLOR}.",
-{
+    goldShardActivate,
+    "Make slots earn {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} and steal 50 points.", {
     rarity = lp.rarities.UNCOMMON,
-    basePrice = 4,
+    basePrice = 10,
 })
 
+end
 
 
+
+--[[
 
 local generateFoodItem = itemGenHelper.createLazyGenerator(
     function(etype)
@@ -108,91 +110,77 @@ local generateFoodItem = itemGenHelper.createLazyGenerator(
     })
 )
 
-local function spawnCloudWithFoodItem(itemEnt)
+]]
+
+
+
+do
+
+
+local function activateKeyShard(itemEnt)
     local ppos = lp.getPos(itemEnt)
-    if ppos then
-        lp.forceSpawnSlot(ppos, server.entities.cloud_slot, itemEnt.lootplotTeam)
-        local itemTypeId = generateFoodItem()
-        assert(itemTypeId, "uhhh, what???")
-        lp.forceSpawnItem(ppos, server.entities[itemTypeId], itemEnt.lootplotTeam)
-    end
-end
-
-defShards("food_shards", "Food Shards",
-    spawnCloudWithFoodItem, "Spawns a {lootplot:INFO_COLOR}Cloud Food Item",
-{
-    rarity = lp.rarities.COMMON,
-    --[[
-    QUESTION: Isn't ($2x3) = $6 too expensive for a food item?
-
-    ANSWER: Kinda... but remember that the user can easily activate 
-    the food-item WHILST it is inside the cloud-slot.
-    So that needs to be baked into the price somehow.
-    (If anything; perhaps it should be more expensive!)
-    ]]
-    basePrice = 2,
-    basePointsGenerated = 5,
-    canItemFloat = true
-})
-
-
-
-local function spawnKey(itemEnt)
-    local ppos = lp.getPos(itemEnt)
+    local slotEnt = lp.itemToSlot(itemEnt)
     if ppos then
         lp.forceSpawnItem(ppos, server.entities.key, itemEnt.lootplotTeam)
     end
+    if slotEnt then
+        lp.modifierBuff(slotEnt, "bonusGenerated", 6)
+    end
 end
+
 defShards("key_shards", "Key Shards",
-    spawnKey, "Spawns a {lootplot:INFO_COLOR}Key",
-{
-    rarity = lp.rarities.UNCOMMON,
-    basePointsGenerated = 10,
+    activateKeyShard, "Adds {lootplot:BONUS_COLOR}+6 Bonus{/lootplot:BONUS_COLOR} to slots, and spawns {lootplot:INFO_COLOR}Keys", {
+    rarity = lp.rarities.COMMON,
+    basePrice = 8,
+})
+
+end
+
+
+
+
+
+do
+
+local function coalShardActivate(itemEnt)
+    local slotEnt = lp.itemToSlot(itemEnt)
+    if slotEnt then
+        lp.modifierBuff(slotEnt, "bonusGenerated", -6)
+        lp.modifierBuff(slotEnt, "multGenerated", 0.7)
+    end
+end
+
+defShards("coal_shards", "Coal Shards",
+    coalShardActivate, "Adds {lootplot:POINTS_MULT_COLOR}+0.7 mult{/lootplot:POINTS_MULT_COLOR} to slots, and subtracts {lootplot:BONUS_COLOR}-6 bonus{/lootplot:BONUS_COLOR} from slots", {
+    rarity = lp.rarities.COMMON,
     basePrice = 6,
 })
 
+end
 
 
 
-local generateItem = itemGenHelper.createLazyGenerator(
-    function(etype) return true end,
-    itemGenHelper.createRarityWeightAdjuster({
-        UNCOMMON = 2,
-        RARE = 5,
-        EPIC = 2
-    })
-)
 
 
-local function spawnCloudWithItem(itemEnt)
-    local ppos = lp.getPos(itemEnt)
-    if ppos then
-        lp.forceSpawnSlot(ppos, server.entities.cloud_slot, itemEnt.lootplotTeam)
-        local itemTypeId = generateItem()
-        assert(itemTypeId, "uhhh, what???")
-        lp.forceSpawnItem(ppos, server.entities[itemTypeId], itemEnt.lootplotTeam)
+
+do
+local function emeraldShardActivate(itemEnt)
+    local slotEnt = lp.itemToSlot(itemEnt)
+    if slotEnt then
+        lp.addTrigger(slotEnt, "REROLL")
+        lp.modifierBuff(slotEnt, "pointsGenerated", 10)
     end
 end
-defShards("iron_shards", "Iron Shards",
-    spawnCloudWithItem, "Spawns a {lootplot:INFO_COLOR}Cloud Slot Item!", {
-    rarity = lp.rarities.COMMON,
-    basePointsGenerated = 6,
-    canItemFloat = true,
-    basePrice = 4,
+
+defShards("emerald_shards", "Emerald Shards",
+    emeraldShardActivate, "Adds {lootplot:POINTS_COLOR}+10 points{/lootplot:POINTS_COLOR} to slots, and gives slots {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} trigger", {
+    rarity = lp.rarities.UNCOMMON,
+    basePrice = 12,
 })
 
+end
 
 
---[[
-same as iron; except, cannot float.
-This means that the player will be forced to delete slots.
-]]
-defShards("coal_shards", "Coal Shards",
-    spawnCloudWithItem, "Spawns a {lootplot:INFO_COLOR}Cloud Slot Item!", {
-    rarity = lp.rarities.COMMON,
-    baseMultGenerated = 0.2,
-    basePrice = 2,
-})
 
 
 
