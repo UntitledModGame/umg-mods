@@ -49,6 +49,9 @@ local i = 0
 local function defineKettleCurse(property, propChange, etype)
     etype = etype or {}
 
+    etype.isCurse = 1
+    etype.curseCount = 1
+
     etype.name = etype.name or "Kettlecurse"
 
     etype.triggers = etype.triggers or {"PULSE"}

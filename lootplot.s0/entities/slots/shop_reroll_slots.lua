@@ -273,8 +273,7 @@ makeShopSlot("food_shop_slot", "Food Shop Slot", {
         local ppos = lp.getPos(slotEnt)
         if not ppos then return end
 
-        local itemEnt = lp.forceSpawnItem(ppos, etype, slotEnt.lootplotTeam)
-
+        lp.forceSpawnItem(ppos, etype, slotEnt.lootplotTeam)
         setItemLock(slotEnt, true)
     end,
 

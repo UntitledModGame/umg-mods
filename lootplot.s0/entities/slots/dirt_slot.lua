@@ -2,10 +2,6 @@ local loc = localization.localize
 
 
 local SPECIAL_RARITIES = {
-    [lp.rarities.CURSE_1] = true,
-    [lp.rarities.CURSE_2] = true,
-    [lp.rarities.CURSE_3] = true,
-
     [lp.rarities.UNIQUE] = true
 }
 

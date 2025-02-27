@@ -687,33 +687,21 @@ Otherwise, rotate items.
 
 - CURSE VISUALS:
 Put some fire-like particles behind the curse-items.
-(see skahds code)
 It should be immediately obvious what items are curses, and what arent.
+- (((DONE))) TODO: we need to figure out how to discern a curse from a non-curse!
+- (((DONE))) Ideally, we want a simple `isCurse(itemEnt)`; no fudging with rarities or anything. 
+- (((DONE))) In fact, we probably want to decouple curses/rarities anyway, right?
 
 
-- Rework all the boring items.
+- Rework some boring items:
 - Egg is pretty boring. (How about we have it generate -bonus instead of STICKY slots?)
 - Hammer items are *boring.* Perhaps they should divide `bonus` by 2 instead...?
 - (Discover any other "boring" items- either purge them, or make them more *broad*.)
 
 
-- More items that work better with negative-bonus, perhaps?
-
-
-- Rotate-archetype needs to be a *bit* broader.
-I literally got a gear-item, and I wasn't able to pivot into rotate-archetype very easily.
-- IDEA: More items that activate on `Rotate, Unlock` maybe...?
-- Consider gluing archetypes together, even?
-
-
 - Change one-ball tutorial-text:
 Instead of appearing on top of slots, we should spawn a singular button + text.
 (Then, when the player is ready, they click the button, and the stuff spawns.)
-
-
-- ITEM:
-Spawns a DOOMED-4 LEGENDARY item
-(oli note: Don't pick legendary-items that are already DOOMED.)
 
 
 
@@ -732,13 +720,6 @@ That way, the food item can be stored and reused.  Its a cool feature that adds 
 - IDEA-2: What if we had a 10% chance to spawn food-items with 1 extra life, but they were 70% more expensive? 
 - IDEA-3: Items in shop / cloud-slots should have a 5% chance to spawn as FLOATY.
 - IDEA-4: Items in cloud/shop slots should have a 3% chance to spawn with REPEATER
-
-
-- ITEM REFACTOR:
-Gold-compass: currently too basic.
-It needs to do something else. How about this:
-IDEA: "Set money to $13. Destroy 2 random curses"
-
 
 
 - Win screen + Prevent the player from playing infinitely 
@@ -776,6 +757,16 @@ Pickaxes should also target ITEM_OR_SLOT, instead of just item.
 ITEM: Ginger root: Create random ore slots (ROOK-1)
 
 
+- ITEM REFACTOR:
+Gold-compass: currently too basic.
+It needs to do something else. How about this:
+IDEA: "Set money to $13. Destroy 2 random curses"
+
+
+## SPIKE:
+- More items that work better with negative-bonus, perhaps?
+
+
 
 
 ## (SPIKE) REALLY INTERESTING IDEA:
@@ -792,6 +783,10 @@ Or, even simpler:
 - "Do XYZ. Destroy all items with Reroll trigger. (shape: KING-2)"  (anti-Reroll)
 - "Do XYZ. Destroy all REPEATER items. (shape: KING-2)"  (anti-REPEATER)
 - "Do XYZ. Item lives are limited to 3. (shape: KING-2)"   (anti-destroy)
+---->  I PREFER THIS:
+- "If item has only 1 trigger, (buff item, or do XYZ)" <--- works with ALL triggers!
+- "Remove PULSE trigger from a random item"
+- "Remove REROLL trigger from a random item"
 
 
 ## (SPIKE)

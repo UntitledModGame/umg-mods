@@ -109,32 +109,65 @@ end)
 
 
 
+local CURSE_PSYS = love.graphics.newParticleSystem(client.atlas:getTexture())
+CURSE_PSYS:setQuads({
+    client.assets.images.ball_1,
+    client.assets.images.ball_1,
+    client.assets.images.ball_2,
+    client.assets.images.ball_2,
+    client.assets.images.ball_3,
+    client.assets.images.ball_4,
+})
+
+CURSE_PSYS:setEmissionRate(80)
+-- CURSE_PSYS:setEmissionArea("uniform", 5,3)
+CURSE_PSYS:setEmissionArea("normal", 2.5, 1)
+CURSE_PSYS:setSpeed(55,60)
+CURSE_PSYS:setParticleLifetime(0.3,0.35)
+CURSE_PSYS:setDirection(-math.pi/2)
+
+umg.on("@update", function(dt)
+    if lp.curses then
+        CURSE_PSYS:update(dt)
+    end
+end)
+
 
 local WING_FLAG_SPEED = 3
 
 local WING_ROT_OFFSET = -0.4
 local WING_ROTATION = math.pi / 2
 
+
 umg.on("rendering:drawEntity", RENDER_BEFORE_ENTITY_ORDER, function(ent, x,y, rot, sx,sy, kx,ky)
-    if lp.isItemEntity(ent) and lp.canItemFloat(ent) then
-        love.graphics.push("all")
-        local wing = client.assets.images.floating_item_wing_visual
-        local t = love.timer.getTime() * WING_FLAG_SPEED + (ent.id / 3)
-        local dy = 5 * math.sin(t + 0.5)
-        local r = WING_ROTATION * ((math.sin(t) + 1)/2) + WING_ROT_OFFSET
-        local offset = 10
-        if ent.imageShadow then
-            local o = ent.imageShadow.offset
-            love.graphics.setColor(0,0,0, 0.4)
-            rendering.drawImage(wing, x + offset + o, y + dy + o, r, sx,sy, kx,ky)
-            rendering.drawImage(wing, x - offset - o, y + dy + o, -r, sx*-1,sy, kx,ky)
+    if lp.isItemEntity(ent)  then
+        if lp.curses and lp.curses.isCurse(ent) then
+            love.graphics.push("all")
+            love.graphics.setColor(lp.curses.COLOR)
+            love.graphics.draw(CURSE_PSYS, x, y)
+            love.graphics.pop()
         end
 
-        love.graphics.setColor(1,1,1)
-        rendering.drawImage(wing, x + offset, y + dy, r, sx,sy, kx,ky)
-        rendering.drawImage(wing, x - offset, y + dy, -r, sx*-1,sy, kx,ky)
+        if lp.canItemFloat(ent) then
+            love.graphics.push("all")
+            local wing = client.assets.images.floating_item_wing_visual
+            local t = love.timer.getTime() * WING_FLAG_SPEED + (ent.id / 3)
+            local dy = 5 * math.sin(t + 0.5)
+            local r = WING_ROTATION * ((math.sin(t) + 1)/2) + WING_ROT_OFFSET
+            local offset = 10
+            if ent.imageShadow then
+                local o = ent.imageShadow.offset
+                love.graphics.setColor(0,0,0, 0.4)
+                rendering.drawImage(wing, x + offset + o, y + dy + o, r, sx,sy, kx,ky)
+                rendering.drawImage(wing, x - offset - o, y + dy + o, -r, sx*-1,sy, kx,ky)
+            end
 
-        love.graphics.pop()
+            love.graphics.setColor(1,1,1)
+            rendering.drawImage(wing, x + offset, y + dy, r, sx,sy, kx,ky)
+            rendering.drawImage(wing, x - offset, y + dy, -r, sx*-1,sy, kx,ky)
+
+            love.graphics.pop()
+        end
     end
 end)
 
