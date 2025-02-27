@@ -131,7 +131,7 @@ local function nextLevel(ent)
     local ppos = lp.getPos(ent)
     if not ppos then return end
 
-    lp.setPoints(ent, 0)
+    lp.rawsetAttribute("POINTS", ent, 0)
     lp.setRound(ent, 1)
     lp.setLevel(ent, lp.getLevel(ent) + 1)
 
