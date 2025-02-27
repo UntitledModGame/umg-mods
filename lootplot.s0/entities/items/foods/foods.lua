@@ -1006,7 +1006,7 @@ local function definePie(id, name, desc, addShape, rarity)
         name = loc(name),
         activateDescription = loc(desc),
 
-        basePrice = 4,
+        basePrice = 7,
 
         rarity = rarity,
 
@@ -1031,9 +1031,11 @@ local function definePie(id, name, desc, addShape, rarity)
     })
 end
 
+-- uncommon pies:
+definePie("kings_pie", "King's Pie", "Adds KING-1 Shape to target item", lp.targets.KingShape(1), lp.rarities.UNCOMMON)
+
 -- rare pies:
 definePie("small_rooks_pie", "Small Rook's Pie", "Adds ROOK-2 Shape to target item", lp.targets.RookShape(2), lp.rarities.RARE)
-definePie("kings_pie", "King's Pie", "Adds KING-1 Shape to target item", lp.targets.KingShape(1), lp.rarities.RARE)
 definePie("bishops_pie", "Bishop's Pie", "Adds BISHOP-2 Shape to target item", lp.targets.BishopShape(2), lp.rarities.RARE)
 
 -- epic pies:
