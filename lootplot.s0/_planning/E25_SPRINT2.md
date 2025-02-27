@@ -685,12 +685,18 @@ If item has Rotate trigger, transform into it.
 Otherwise, rotate items.
 
 
-- CURSE VISUALS:
+- (((DONE))) CURSE VISUALS:
 Put some fire-like particles behind the curse-items.
 It should be immediately obvious what items are curses, and what arent.
 - (((DONE))) TODO: we need to figure out how to discern a curse from a non-curse!
 - (((DONE))) Ideally, we want a simple `isCurse(itemEnt)`; no fudging with rarities or anything. 
 - (((DONE))) In fact, we probably want to decouple curses/rarities anyway, right?
+
+
+- (((DONE))) ITEM REFACTOR:
+Gold-compass: currently too basic.
+It needs to do something else. How about this:
+IDEA: "Set money to $13. Destroy 2 random curses"
 
 
 - Rework some boring items:
@@ -703,6 +709,18 @@ It should be immediately obvious what items are curses, and what arent.
 Instead of appearing on top of slots, we should spawn a singular button + text.
 (Then, when the player is ready, they click the button, and the stuff spawns.)
 
+
+- SLOT: Green slot:
+(looks like normal-slot, just tinted green)
+Has Reroll trigger instead of Pulse
+
+- SLOT: Teal slot:
+(looks like normal slot, just tinted teal)
+Has Reroll, Pulse triggers
+
+- ITEM: Green-soy-sauce: (UNCOMMON)
+Soy-sauce, but with Green slots.
+(Anti-reroll archetype!)
 
 
 - Activations:
@@ -755,12 +773,6 @@ On Destroy: Subtract -20 bonus, Gain +4 mult
 Pickaxes should also target ITEM_OR_SLOT, instead of just item.
 ======>  
 ITEM: Ginger root: Create random ore slots (ROOK-1)
-
-
-- ITEM REFACTOR:
-Gold-compass: currently too basic.
-It needs to do something else. How about this:
-IDEA: "Set money to $13. Destroy 2 random curses"
 
 
 ## SPIKE:

@@ -151,10 +151,10 @@ defItem("small_golden_bell", "Small Golden Bell", {
 
 
 
-local GOLD_COMPASS_AMOUNT = 12
+local GOLD_COMPASS_AMOUNT = 0
 
 defItem("gold_compass", "Gold Compass", {
-    activateDescription = loc("Sets money to {lootplot:MONEY_COLOR}$%{amount}", {
+    activateDescription = loc("Sets money to {lootplot:MONEY_COLOR}$%{amount}{/lootplot:MONEY_COLOR}. Make slots earn {lootplot:MONEY_COLOR}$1.", {
         amount = GOLD_COMPASS_AMOUNT
     }),
 
@@ -162,10 +162,18 @@ defItem("gold_compass", "Gold Compass", {
         lp.setMoney(ent, GOLD_COMPASS_AMOUNT)
     end,
 
-    basePrice = 8,
+    shape = lp.targets.ON_SHAPE,
+    target = {
+        type = "SLOT",
+        activate = function(selfEnt, ppos, targEnt)
+            lp.modifierBuff(targEnt, "moneyGenerated", 1, selfEnt)
+        end
+    },
+
+    basePrice = 12,
     baseMaxActivations = 4,
 
-    rarity = lp.rarities.RARE,
+    rarity = lp.rarities.EPIC,
 })
 
 
