@@ -746,7 +746,7 @@ https://www.reddit.com/r/balatro/comments/1g0o0ax/wow_not_caring_about_the_endle
 
 
 
-- ORE SLOTS:
+- (((DONE))) STONE SLOTS:
 On Destroy, Unlock: Do (Something)
 Lives = 4
 (^^^ Idea is, the player will try to destroy these slots)
@@ -766,9 +766,24 @@ Pickaxes should also target ITEM_OR_SLOT, instead of just item.
 ITEM: Ginger root: Create random ore slots (ROOK-1)
 
 
+- Convert shovels --> pickaxes.
+- Shovels: "If item is a curse, destroy it"
+
+
+
+- Create visuals for WHERE you can place items.
+(Perhaps a little barrier visual?)
+
+
+
+## ========================
+## FEB PLAYTEST RELEASE. ==
+## ========================
+
+
 - Add shape-visuals to treasure-bags.
 - Make it so cloud-slots are glued together from being spawned together
-- (TODO: Whats a good way to do this?)
+- (TODO: Whats a good way to do this? Lets defer this for now... see user feedback)
 
 
 ## SPIKE:
