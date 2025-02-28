@@ -86,7 +86,7 @@ defItem("golden_bell", "Big Golden Bell", {
 defItem("steel_bell", "Steel Bell", {
     basePrice = 6,
 
-    activateDescription = loc("Spawns {lootplot:INFO_COLOR}Steel Slots{/lootplot:INFO_COLOR} that give {lootplot:BONUS_COLOR}+5 Bonus{/lootplot:BONUS_COLOR} and {lootplot:POINTS_MULT_COLOR}+1 Multiplier"),
+    activateDescription = loc("Spawns {lootplot:INFO_COLOR}Steel Slots{/lootplot:INFO_COLOR} that give {lootplot:BONUS_COLOR}+5 Bonus{/lootplot:BONUS_COLOR}"),
 
     shape = lp.targets.RookShape(1),
     target = {
@@ -94,7 +94,6 @@ defItem("steel_bell", "Steel Bell", {
         activate = function(selfEnt, ppos, targetEnt)
             local slot = lp.forceSpawnSlot(ppos, server.entities.steel_slot, selfEnt.lootplotTeam)
             if slot then
-                lp.modifierBuff(slot, "multGenerated", 1)
                 lp.modifierBuff(slot, "bonusGenerated", 5)
             end
         end
