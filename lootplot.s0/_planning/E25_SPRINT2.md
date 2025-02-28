@@ -739,15 +739,11 @@ Gain +5 points permanently.
 - (((DONE))) Fix fog of war not being revealed for locked-slots
 
 
-- Win screen + Prevent the player from playing infinitely 
+- (((DONE))) Win screen + Prevent the player from playing infinitely 
 https://www.reddit.com/r/balatro/comments/1g0o0ax/wow_not_caring_about_the_endless_mode_made_the/
-- FINAL-IDEA: Put "YOU WIN" text after passing level-10. (Then, prevent next-level button from working)
+- (((DONE))) FINAL-IDEA: Put "YOU WIN" text after passing level-10. (Then, prevent next-level button from working)
 
 
-
-- Add shape-visuals to treasure-bags.
-- Make it so cloud-slots are glued together from being spawned together
-- (TODO: Whats a good way to do this?)
 
 
 - ORE SLOTS:
@@ -768,6 +764,11 @@ On Destroy: Subtract -20 bonus, Gain +4 mult
 Pickaxes should also target ITEM_OR_SLOT, instead of just item.
 ======>  
 ITEM: Ginger root: Create random ore slots (ROOK-1)
+
+
+- Add shape-visuals to treasure-bags.
+- Make it so cloud-slots are glued together from being spawned together
+- (TODO: Whats a good way to do this?)
 
 
 ## SPIKE:

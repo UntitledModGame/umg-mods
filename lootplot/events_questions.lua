@@ -48,6 +48,7 @@ umg.defineQuestion("lootplot:canCombineItems", reducers.OR)
 umg.defineEvent("lootplot:itemsCombined")
 
 
+umg.defineEvent("lootplot:endGame")
 
 
 if server then

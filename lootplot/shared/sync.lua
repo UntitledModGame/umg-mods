@@ -19,6 +19,11 @@ sync.proxyEventToClient("lootplot:itemsCombined")
 
 sync.proxyEventToClient("lootplot:entityBuffed")
 
+
+sync.proxyEventToClient("lootplot:endGame")
+
+
+
 if client then
 
 umg.on("lootplot:entityActivated", function(ent)

@@ -131,6 +131,14 @@ local function nextLevel(ent)
     local ppos = lp.getPos(ent)
     if not ppos then return end
 
+    local level = lp.getLevel(ent)
+    if level >= constants.FINAL_LEVEL then
+        -- oh damn!! GG! :)
+        lp.endGame(server.getHostClient())
+        lp.destroy(ent)
+        return
+    end
+
     lp.rawsetAttribute("POINTS", ent, 0)
     lp.setRound(ent, 1)
     lp.setLevel(ent, lp.getLevel(ent) + 1)

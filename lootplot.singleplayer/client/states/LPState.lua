@@ -13,11 +13,13 @@ local LPState = objects.Class("lootplot.singleplayer:State")
 
 -- This global-state is kinda bad, but we need it 
 -- due to the global-nature of base lootplot evbuses
+---@type lootplot.singleplayer.LPState
 local lpState = nil
 
 
-umg.on("lootplot.singleplayer:endGame", function(isWin)
+umg.on("lootplot:endGame", function()
     if lpState then
+        lpState:endGame()
     end
 end)
 
@@ -524,6 +526,12 @@ function LPState:quitGame()
     self.isQuitting = true
     client.disconnect()
 end
+
+
+function LPState:endGame()
+    self.showWinText = true
+end
+
 
 
 local QUITTING_TEXT = loc("Quitting...")

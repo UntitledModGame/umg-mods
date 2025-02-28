@@ -48,7 +48,7 @@ function singleplayer.endGame(isWin)
         runMeta = run:getMetadata()
     })
 
-    umg.call("lootplot.singleplayer:endGame", isWin)
+    lp.endGame(server.getHostClient())
 end
 
 end
