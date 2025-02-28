@@ -593,7 +593,7 @@ end)
 
 defineSlotSpawner("dragonfruit", "Dragonfruit", "slot", "Normal Slot", lp.targets.RookShape(1), {
     basePrice = 20,
-    rarity = lp.rarities.UNCOMMON
+    rarity = lp.rarities.RARE
 })
 
 defineSlotSpawner("dragonfruit_slice", "Dragonfruit Slice", "slot", "Normal Slot", lp.targets.BishopShape(1), {
@@ -661,10 +661,16 @@ defineSlotSpawner("avacado", "Avacado", "emerald_slot", "Emerald Slot", lp.targe
 })
 
 
-defineSlotSpawner("fried_egg", "Fried Egg", "sticky_slot", "Sticky Slot", lp.targets.KING_SHAPE, {
-    basePrice = 5,
-    rarity = lp.rarities.UNCOMMON,
-})
+local function buffBonus(buff)
+    return function(slotEnt)
+        lp.modifierBuff(slotEnt, "bonusGenerated", buff)
+    end
+end
+
+defineSlotSpawner("fried_egg", "Fried Egg", "slot", "Slot with -4 Bonus", lp.targets.KING_SHAPE, {
+    basePrice = 7,
+    rarity = lp.rarities.RARE,
+}, buffBonus(-4))
 
 
 local loafEtype = {
