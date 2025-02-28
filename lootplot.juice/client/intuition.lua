@@ -17,6 +17,7 @@ umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER, function(ent, x,y, rot
             else
                 q = client.assets.images.doom_slot_visual_small
             end
+            rendering.drawImage(q, x, y+dy, rot, sx,sy)
         elseif lp.isItemEntity(ent) then
             dy = 2 * math.sin(love.timer.getTime() * BOB_SPEED)
             if ent.doomCount <= 1 then
@@ -24,9 +25,6 @@ umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER, function(ent, x,y, rot
             else
                 q = client.assets.images.doom_count_warning_visual
             end
-        end
-
-        if q then
             rendering.drawImage(q, x, y+dy, 0, sx,sy)
         end
     end
