@@ -773,7 +773,7 @@ ITEM: Ginger root: Create random ore slots (ROOK-1)
 this will probably make stuff more interesting!
 
 
-- Fix cloud-slots not being able to buy when low on money
+- (((DONE))) Fix cloud-slots not being able to buy when low on money
 
 
 ## ========================
@@ -783,6 +783,10 @@ this will probably make stuff more interesting!
 
 - (((DEFFERED UNTIL AFTER))) Create visuals for WHERE you can place items.
 (Perhaps a little barrier visual?)
+->> NOTE: The best way to do this is to render the barriers on TOP of the plot-layer.
+(ie as part of `rendering:drawEffects` or something)
+If we try to render on top of entities with `rendering:drawEntity`, it'll just be a disaster; trust me. (ive tried)
+
 
 
 
