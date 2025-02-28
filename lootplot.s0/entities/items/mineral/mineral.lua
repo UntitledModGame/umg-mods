@@ -213,7 +213,7 @@ local function defineScythe(mineral_type, name, strength, etype)
     local etypeName = namespace .. mineral_type .. "_scythe"
     local image = mineral_type .. "_scythe"
 
-    local hammerType = {
+    local scytheType = {
         image = image,
         name = loc(name .. " Scythe"),
 
@@ -237,10 +237,10 @@ local function defineScythe(mineral_type, name, strength, etype)
     }
 
     for k,v in pairs(etype) do
-        hammerType[k] = hammerType[k] or v
+        scytheType[k] = scytheType[k] or v
     end
 
-    defineMineral(mineral_type, etypeName, hammerType)
+    defineMineral(mineral_type, etypeName, scytheType)
 end
 
 
@@ -254,8 +254,13 @@ local function defineHammer(mineral_type, name, strength, etype)
         image = image,
         name = loc(name .. " Hammer"),
 
-        basePointsGenerated = strength * 30,
-        baseBonusGenerated = strength * -2,
+        activateDescription = loc("Halves the current {lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR}"),
+        onActivate = function(ent)
+            local bonus = lp.getPointsBonus(ent)
+            lp.addPointsBonus(ent, -bonus/2)
+        end,
+
+        basePointsGenerated = strength * 20,
 
         rarity = etype.rarity or lp.rarities.UNCOMMON,
 

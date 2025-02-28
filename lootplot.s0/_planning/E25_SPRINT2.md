@@ -699,9 +699,9 @@ It needs to do something else. How about this:
 IDEA: "Set money to $13. Destroy 2 random curses"
 
 
-- Rework some boring items:
-- Egg is pretty boring. (How about we have it generate -bonus instead of STICKY slots?)
-- Hammer items are *boring.* Perhaps they should divide `bonus` by 2 instead...?
+- (((DONE))) Rework some boring items:
+- (((DONE))) Egg is pretty boring. (How about we have it generate -bonus instead of STICKY slots?)
+- (((DONE))) Hammer items are *boring.* Perhaps they should divide `bonus` by 2 instead...?
 - (Discover any other "boring" items- either purge them, or make them more *broad*.)
 
 
@@ -721,6 +721,9 @@ Has Reroll, Pulse triggers
 - ITEM: Green-soy-sauce: (UNCOMMON)
 Soy-sauce, but with Green slots.
 (Anti-reroll archetype!)
+
+
+- ITEM: rusty plate:  When Rotated: Activate the below slot 6 times
 
 
 - Activations:
