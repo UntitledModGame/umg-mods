@@ -1200,55 +1200,70 @@ local function defineMush(id, etype)
 end
 
 
-local MULT_BUFF = 0.2
+local MULT_BUFF = 1.2
 defineMush("mushroom_red", {
     name = loc("Red Mushroom"),
-    activateDescription = loc("Gives {lootplot:POINTS_MULT_COLOR}+%{buff} mult{/lootplot:POINTS_MULT_COLOR} to slots permanently", {
+    activateDescription = loc("Gives a random slot {lootplot:POINTS_MULT_COLOR}+%{buff} mult{/lootplot:POINTS_MULT_COLOR}", {
         buff = MULT_BUFF
     }),
 
+    onActivate = function(ent)
+        local slots = lp.targets.getConvertedTargets(ent)
+        if #slots > 1 then
+            local slotEnt = table.random(slots)
+            lp.modifierBuff(slotEnt, "multGenerated", MULT_BUFF, ent)
+        end
+    end,
+
     target = {
         type = "SLOT",
-        activate = function(selfEnt, ppos, targetEnt)
-            lp.modifierBuff(targetEnt, "multGenerated", MULT_BUFF, selfEnt)
-        end
     }
 })
 
 
-local POINTS_BUFF = 10
+local POINTS_BUFF = 50
 defineMush("mushroom_green", {
     name = loc("Green Mushroom"),
-    activateDescription = loc("Gives {lootplot:POINTS_COLOR}+%{buff} points{/lootplot:POINTS_COLOR} to slots permanently", {
+    activateDescription = loc("Gives a random slot {lootplot:POINTS_COLOR}+%{buff} points{/lootplot:POINTS_COLOR}", {
         buff = POINTS_BUFF
     }),
 
+    onActivate = function(ent)
+        local slots = lp.targets.getConvertedTargets(ent)
+        if #slots > 1 then
+            local slotEnt = table.random(slots)
+            lp.modifierBuff(slotEnt, "pointsGenerated", POINTS_BUFF, ent)
+        end
+    end,
+
     target = {
         type = "SLOT",
-        activate = function(selfEnt, ppos, targetEnt)
-            lp.modifierBuff(targetEnt, "pointsGenerated", POINTS_BUFF, selfEnt)
-        end
     }
 })
 
 
-local BONUS_BUFF = 1
+local BONUS_BUFF = 10
 defineMush("mushroom_blue", {
     name = loc("Blue Mushroom"),
-    activateDescription = loc("Gives {lootplot:BONUS_COLOR}+%{buff} bonus{/lootplot:BONUS_COLOR} to slots permanently", {
+    activateDescription = loc("Gives a random slot {lootplot:BONUS_COLOR}+%{buff} bonus{/lootplot:BONUS_COLOR}", {
         buff = BONUS_BUFF
     }),
 
+    onActivate = function(ent)
+        local slots = lp.targets.getConvertedTargets(ent)
+        if #slots > 1 then
+            local slotEnt = table.random(slots)
+            lp.modifierBuff(slotEnt, "bonusGenerated", BONUS_BUFF, ent)
+        end
+    end,
+
     target = {
         type = "SLOT",
-        activate = function(selfEnt, ppos, targetEnt)
-            lp.modifierBuff(targetEnt, "bonusGenerated", BONUS_BUFF, selfEnt)
-        end
     }
 })
 
 
-local NUM_LIVES = 6
+local NUM_LIVES = 3
 defineMush("mushroom_pink", {
     triggers = {"REROLL", "PULSE"},
     -- we do this so that the player can activate slots during "planning phase"

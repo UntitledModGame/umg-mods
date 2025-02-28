@@ -766,9 +766,11 @@ Pickaxes should also target ITEM_OR_SLOT, instead of just item.
 ITEM: Ginger root: Create random ore slots (ROOK-1)
 
 
-- Convert shovels --> pickaxes.
-- Shovels: "If item is a curse, destroy it"
+- (((DONE))) Swap shovels <--> pickaxes.
 
+
+- Make mushrooms target their whole buff onto a random slot; 
+this will probably make stuff more interesting!
 
 
 - Create visuals for WHERE you can place items.
