@@ -174,6 +174,9 @@ definePerk("one_ball", {
         spawnDoomClock(ent)
 
         -- Display tutorial text
+
+        --[[
+        -- dont display this for now... its a bit bloaty
         spawnTutorialText(assert(ppos:move(0, -3)), {
             text = OBJECTIVE_TEXT({
                 numRounds = lp.getNumberOfRounds(ent)
@@ -181,6 +184,7 @@ definePerk("one_ball", {
             align = "center",
             oy = 10
         })
+        ]]
 
         spawnTutorialText(assert(ppos:move(0, -1)), {
             text = MOVEMENT_TEXT,

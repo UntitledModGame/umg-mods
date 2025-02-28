@@ -705,16 +705,16 @@ IDEA: "Set money to $13. Destroy 2 random curses"
 - (Discover any other "boring" items- either purge them, or make them more *broad*.)
 
 
-- Change one-ball tutorial-text:
+- (((DONE/DEFERRED))) Change one-ball tutorial-text:
 Instead of appearing on top of slots, we should spawn a singular button + text.
 (Then, when the player is ready, they click the button, and the stuff spawns.)
 
 
-- SLOT: Green slot:
+- (((DONE))) SLOT: Green slot:
 (looks like normal-slot, just tinted green)
 Has Reroll trigger instead of Pulse
 
-- SLOT: Teal slot:
+- (((DONE))) SLOT: Teal slot:
 (looks like normal slot, just tinted teal)
 Has Reroll, Pulse triggers
 
