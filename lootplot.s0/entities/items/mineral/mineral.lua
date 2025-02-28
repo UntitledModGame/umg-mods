@@ -129,14 +129,14 @@ end
 
 
 
-local function definePickaxe(mineral_type, name, strength, etype)
+local function defineShovel(mineral_type, name, strength, etype)
     local namespace = umg.getModName() .. ":"
-    local etypeName = namespace .. mineral_type .. "_pickaxe"
-    local image = mineral_type .. "_pickaxe"
+    local etypeName = namespace .. mineral_type .. "_shovel"
+    local image = mineral_type .. "_shovel"
 
-    local pickType = {
+    local shovelType = {
         image = image,
-        name = loc(name .. " Pickaxe"),
+        name = loc(name .. " Shovel"),
 
         activateDescription = loc("Permanently gain {lootplot:POINTS_COLOR}+%{buff} points{/lootplot:POINTS_COLOR} when activated", {
             buff = strength
@@ -154,10 +154,10 @@ local function definePickaxe(mineral_type, name, strength, etype)
         rarity = lp.rarities.EPIC,
     }
     for k,v in pairs(etype) do
-        pickType[k] = pickType[k] or v
+        shovelType[k] = shovelType[k] or v
     end
 
-    defineMineral(mineral_type, etypeName, pickType)
+    defineMineral(mineral_type, etypeName, shovelType)
 end
 
 
@@ -328,24 +328,24 @@ end
 
 
 
-local SHOVEL_DESCRIPTION = loc("Destroys items with {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} trigger")
+local PICKAXE_DESCRIPTION = loc("Destroys items with {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} trigger")
 
-local function defineShovel(mineral_type, name, strength, etype)
+local function definePickaxe(mineral_type, name, strength, etype)
     local namespace = umg.getModName() .. ":"
-    local etypeName = namespace .. mineral_type .. "_shovel"
-    local image = mineral_type .. "_shovel"
+    local etypeName = namespace .. mineral_type .. "_pickaxe"
+    local image = mineral_type .. "_pickaxe"
 
     local etype1 = {
         image = image,
-        name = loc(name .. " Shovel"),
+        name = loc(name .. " Pickaxe"),
 
         init = helper.rotateRandomly,
 
-        activateDescription = SHOVEL_DESCRIPTION,
+        activateDescription = PICKAXE_DESCRIPTION,
 
         shape = lp.targets.NorthEastShape(2),
         target = {
-            type = "ITEM",
+            type = "ITEM_OR_SLOT",
             filter = function (ent, ppos, targetEnt)
                 return lp.hasTrigger(targetEnt, "DESTROY")
             end,
