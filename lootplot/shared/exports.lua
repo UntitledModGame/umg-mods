@@ -1340,6 +1340,20 @@ function lp.addTrigger(ent, triggerName)
     end
 end
 
+---@param ent Entity
+---@param triggers table
+function lp.setTriggers(ent, triggers)
+    for _,v in ipairs(triggers) do
+        assert(lp.isValidTrigger(v))
+    end
+
+    -- defensive copy to be safe
+    ent.triggers = objects.Array(triggers)
+    sync.syncComponent(ent, "triggers")
+end
+
+
+
 -- HMM:
 -- Should we add `lp.removeTrigger` here in the future...?
 

@@ -718,10 +718,6 @@ Has Reroll trigger instead of Pulse
 (looks like normal slot, just tinted teal)
 Has Reroll, Pulse triggers
 
-- ITEM: Green-soy-sauce: (UNCOMMON)
-Soy-sauce, but with Green slots.
-(Anti-reroll archetype!)
-
 
 - ITEM: rusty plate:  When Rotated: Activate the below slot 6 times
 
@@ -780,6 +776,12 @@ ITEM: Ginger root: Create random ore slots (ROOK-1)
 
 ## SPIKE:
 - More items that work better with negative-bonus, perhaps?
+
+
+- ITEM: Green-soy-sauce: (UNCOMMON)
+Soy-sauce, but with Green slots.
+(Anti-reroll archetype!)
+(TODO: Needs rethinking of trigger system!!! Currently, Reroll-only slots dont trigger Pulse items)
 
 
 

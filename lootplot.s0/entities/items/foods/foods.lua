@@ -618,10 +618,6 @@ local function setDoomCountTo(x)
     end
 end
 
-local function makeSticky(slotEnt)
-    slotEnt.stickySlot = true
-end
-
 defineSlotSpawner("soy_sauce", "Soy Sauce", "slot", "{lootplot:DOOMED_COLOR}DOOMED-8{/lootplot:DOOMED_COLOR} Slot", lp.targets.QueenShape(3), {
     basePrice = 5,
     rarity = lp.rarities.UNCOMMON,

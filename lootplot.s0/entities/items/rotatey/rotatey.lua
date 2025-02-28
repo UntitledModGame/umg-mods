@@ -108,7 +108,7 @@ defItem("spanner", "Spanner", {
 
 -- On level up:
 -- Earn $3. Rotate items.
-defItem("bronze_spanner", "Spanner", {
+defItem("copper_spanner", "Copper Spanner", {
     triggers = {"LEVEL_UP"},
 
     rarity = lp.rarities.RARE,
@@ -129,6 +129,41 @@ defItem("bronze_spanner", "Spanner", {
         end,
     }
 })
+
+
+
+do
+local NUM_ACT = 6
+
+defItem("copper_plate", "Copper Plate", {
+    triggers = {"ROTATE"},
+
+    rarity = lp.rarities.RARE,
+
+    basePrice = 8,
+    baseMaxActivations = 3,
+
+    activateDescription = loc("Activates the slot %{n} times", {
+        n = NUM_ACT
+    }),
+
+    onActivate = function(itemEnt)
+        local slotEnt = lp.itemToSlot(itemEnt)
+        local ppos = lp.getPos(itemEnt)
+        if (not slotEnt) or (not ppos) then return end
+
+        for i=1, NUM_ACT do
+            lp.wait(ppos,0.1)
+            lp.queueWithEntity(slotEnt, function(e)
+                lp.tryActivateEntity(e)
+            end)
+        end
+    end
+})
+
+end
+
+
 
 
 
