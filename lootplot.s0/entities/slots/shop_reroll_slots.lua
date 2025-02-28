@@ -491,7 +491,7 @@ local cloudPickButton = {
                 local nullSlotType = server.entities["null_slot"]
                 local slotEnt = lp.forceSpawnSlot(ppos, nullSlotType, ent.lootplotTeam)
                 if slotEnt then
-                    slotEnt.doomCount = 3
+                    slotEnt.doomCount = 2
                 end
             end
         end
