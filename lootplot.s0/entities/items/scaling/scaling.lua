@@ -60,6 +60,30 @@ defineHelmet("iron_helmet", "Iron Helmet", {
 
 
 
+
+defItem("vampire_fang", {
+    name = loc("Vampire Fang"),
+    triggers = {"PULSE"},
+
+    activateDescription = loc("Steal 5 points from the slot.\nGain +5 points permanently."),
+
+    baseMaxActivations = 8,
+    basePrice = 10,
+
+    onActivate = function(ent)
+        local slotEnt = lp.itemToSlot(ent)
+        if slotEnt then
+            lp.modifierBuff(slotEnt, "pointsGenerated", -5, ent)
+            lp.modifierBuff(ent, "pointsGenerated", 5, ent)
+        end
+    end,
+
+    rarity = lp.rarities.RARE,
+})
+
+
+
+
 do
 local KNIFE_TRIGGERS = {"PULSE", "REROLL", "ROTATE"}
 local KNIFE_ACTIVATIONS = 6
