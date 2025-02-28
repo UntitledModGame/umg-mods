@@ -36,16 +36,24 @@ end
 
 
 
-local winLose = require("shared.win_lose")
 
 if server then
-    ---Availability: **Server**
-    ---@param clientId string|nil
-    ---@param win boolean
-    function singleplayer.endGame(clientId, win)
-        return winLose.endGame(clientId, win)
-    end
+
+---@param isWin boolean
+function singleplayer.endGame(isWin)
+    local run = assert(lp.singleplayer.getRun())
+
+    umg.analytics.collect("lootplot.singleplayer:endGame", {
+        win = not not isWin,
+        runMeta = run:getMetadata()
+    })
+
+    umg.call("lootplot.singleplayer:endGame", isWin)
 end
+
+end
+
+
 
 ---Availability: Client and Server
 singleplayer.constants = setmetatable({

@@ -741,8 +741,6 @@ Gain +5 points permanently.
 
 - Win screen + Prevent the player from playing infinitely 
 https://www.reddit.com/r/balatro/comments/1g0o0ax/wow_not_caring_about_the_endless_mode_made_the/
-- IDEA: Destroy all shop-slots after LEVEL-10?
-- IDEA-2: Prevent next-level button from going past LEVEL-10?
 - FINAL-IDEA: Put "YOU WIN" text after passing level-10. (Then, prevent next-level button from working)
 
 

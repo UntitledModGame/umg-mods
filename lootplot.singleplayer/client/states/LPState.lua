@@ -15,12 +15,12 @@ local LPState = objects.Class("lootplot.singleplayer:State")
 -- due to the global-nature of base lootplot evbuses
 local lpState = nil
 
-local winLose = require("shared.win_lose")
-winLose.setEndGameCallback(function(win)
+
+umg.on("lootplot.singleplayer:endGame", function(isWin)
     if lpState then
-        lpState:getScene():showEndGameDialog(win)
     end
 end)
+
 
 -- (action button stuff)
 ---@param selection lootplot.Selected
@@ -48,6 +48,8 @@ function LPState:init()
     self.rightClick = false
     self.lastCamMouse = {0, 0} -- to track threshold
     self.claimedByControl = false
+
+    self.showWinText = false
 
     self.victoryShockwave = nil
     -- a shockwave that occurs when player breaches point requirement
@@ -371,6 +373,8 @@ end
 
 local BONUS_TEXT = interp("(%{val} Bonus)")
 
+local WIN_TEXT = loc("{wavy}{outline thickness=3}{c r=0.3 g=0.9 b=0.1}YOU WIN!")
+
 function LPState:drawHUD()
     local run = lp.singleplayer.getRun()
     if not run then return end
@@ -379,6 +383,14 @@ function LPState:drawHUD()
 
     local font = fonts.getSmallFont(32)
     local largerFont = fonts.getSmallFont(64)
+
+    if self.showWinText then
+        local r = layout.Region(0,0,love.graphics.getDimensions())
+            :splitVertical(.4,.6)
+            :padRatio(0.05)
+        printRichTextByConstraint(r, WIN_TEXT, largerFont, "center", gs)
+        return
+    end
 
     local points = run:getAttribute("POINTS")
     local requiredPoints = run:getAttribute("REQUIRED_POINTS")

@@ -1,6 +1,5 @@
 local fonts = require("client.fonts")
 
-local EndGameBox = require("client.elements.EndGameBox")
 local PauseBox = require("client.elements.PauseBox")
 
 local StretchableButton = require("client.elements.StretchableButton")
@@ -32,12 +31,6 @@ function Scene:init(lpState)
 
     self:makeRoot()
     self:setPassthrough(true)
-
-    self.endGameBox = EndGameBox({
-        onDismiss = function()
-            self.popupElement = nil
-        end
-    })
 
     local SLIDER_SNAP_MULTIPLER = 20
     self.pauseBox = PauseBox({
@@ -77,7 +70,6 @@ function Scene:init(lpState)
 
     self.popupElement = nil
 
-    self:addChild(self.endGameBox)
     self:addChild(self.pauseBox)
 end
 
@@ -267,12 +259,6 @@ function Scene:setSelection(selection)
     setSelectedItemDescription(self, selection)
 end
 
-
----@param win boolean
-function Scene:showEndGameDialog(win)
-    self.endGameBox:setWinning(win)
-    self.popupElement = self.endGameBox
-end
 
 
 function Scene:openPauseBox()
