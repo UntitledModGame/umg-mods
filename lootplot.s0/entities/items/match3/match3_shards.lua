@@ -120,7 +120,7 @@ local function activateKeyShard(itemEnt)
     local ppos = lp.getPos(itemEnt)
     local slotEnt = lp.itemToSlot(itemEnt)
     if ppos then
-        lp.forceSpawnItem(ppos, server.entities.key, itemEnt.lootplotTeam)
+        lp.forceSpawnItem(ppos, server.entities.key, assert(itemEnt.lootplotTeam))
     end
     if slotEnt then
         lp.modifierBuff(slotEnt, "bonusGenerated", 6)

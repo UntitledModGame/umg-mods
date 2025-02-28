@@ -728,6 +728,17 @@ I think we should change this! Give them 2/2 or 3/3 activations instead. It make
 (Maybe nerf one-ball to $1, but give it 3 activations?)
 
 
+
+- (((DONE))) ITEM:
+Vampire fang:
+Steal 5 points from the slot.
+Gain +5 points permanently.
+(works great with slots that destroy themselves/temporary slots!)
+
+
+- (((DONE))) Fix fog of war not being revealed for locked-slots
+
+
 - Win screen + Prevent the player from playing infinitely 
 https://www.reddit.com/r/balatro/comments/1g0o0ax/wow_not_caring_about_the_endless_mode_made_the/
 - IDEA: Destroy all shop-slots after LEVEL-10?
@@ -736,11 +747,9 @@ https://www.reddit.com/r/balatro/comments/1g0o0ax/wow_not_caring_about_the_endle
 
 
 
-- ITEM:
-Vampire fang:
-Steal 5 points from the slot.
-Gain +5 points permanently.
-(works great with slots that destroy themselves/temporary slots!)
+- Add shape-visuals to treasure-bags.
+- Make it so cloud-slots are glued together from being spawned together
+- (TODO: Whats a good way to do this?)
 
 
 - ORE SLOTS:

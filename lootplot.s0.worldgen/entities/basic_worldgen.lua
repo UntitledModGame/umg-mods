@@ -18,20 +18,26 @@ end
 
 
 ---@param ppos lootplot.PPos
-local function generate1x1Island(ppos)
+---@param team string
+local function generate1x1Island(ppos, team)
     local slotEnt = server.entities.null_slot()
+    slotEnt.lootplotTeam = team
     local itemEnt = server.entities.chest_epic()
     itemEnt.stuck = true
+    itemEnt.lootplotTeam = team
     lp.unlocks.forceSpawnLockedSlot(ppos, slotEnt, itemEnt)
 end
 
 
 ---@param island lootplot.PPos[]
-local function generateGoldIsland(island)
+---@param team string
+local function generateGoldIsland(island, team)
     lp.queue(island[1], function ()
         for _, ppos in ipairs(island) do
             local goldenSlotId = "lootplot.s0:golden_slot"
             local slotEnt = server.entities[goldenSlotId]()
+            slotEnt.lootplotTeam = team
+
             local islandSize = #island
             if islandSize > 5 then
                 slotEnt.doomCount = 2
@@ -41,6 +47,7 @@ local function generateGoldIsland(island)
                 slotEnt.doomCount = 6
             end
             local itemEnt = nil
+
             lp.unlocks.forceSpawnLockedSlot(ppos, slotEnt, itemEnt)
         end
     end)
@@ -54,6 +61,8 @@ defWorldgenItem("basic_worldgen", {
 
     ---@param self lootplot.ItemEntity
     onActivateOnce = function(self)
+        local team = self.lootplotTeam
+
         -- TODO: Decouple this?
         local selfPPos = assert(lp.getPos(self), "Houston, we have a problem")
         local allocator = lp.worldgen.IslandAllocator(selfPPos:getPlot())
@@ -74,9 +83,9 @@ defWorldgenItem("basic_worldgen", {
         local islands = allocator:generateIslands()
         for _, island in ipairs(islands) do
             if #island > 2 then
-                generateGoldIsland(island)
+                generateGoldIsland(island, team)
             elseif #island == 1 then
-                generate1x1Island(island[1])
+                generate1x1Island(island[1], team)
             end
         end
     end

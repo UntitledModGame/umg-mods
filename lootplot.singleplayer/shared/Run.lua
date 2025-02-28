@@ -79,7 +79,9 @@ local slotGroup = umg.group("slot")
 function Run:tick(dt)
     -- Reveal fog
     for _, slotEnt in ipairs(slotGroup) do
-        if slotEnt.lootplotTeam then
+        local team = lp.singleplayer.PLAYER_TEAM
+
+        if slotEnt.lootplotTeam == team then
             local ppos = lp.getPos(slotEnt)
             if ppos then
                 local plot = ppos:getPlot()
@@ -89,7 +91,9 @@ function Run:tick(dt)
                     for x = -1, 1 do
                         local newPPos = ppos:move(x, y)
                         if newPPos then
-                            plot:setFogRevealed(newPPos, slotEnt.lootplotTeam, true)
+                            if not plot:isFogRevealed(newPPos, team) then
+                                plot:setFogRevealed(newPPos, slotEnt.lootplotTeam, true)
+                            end
                         end
                     end
                 end
