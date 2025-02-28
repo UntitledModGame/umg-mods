@@ -158,7 +158,7 @@ definePerk("one_ball", {
     description = loc("Gain an extra $2 per turn"),
 
     baseMoneyGenerated = 2,
-    baseMaxActivations = 1,
+    baseMaxActivations = 2,
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
@@ -298,6 +298,7 @@ definePerk("four_ball", {
         lp.setAttribute("NUMBER_OF_ROUNDS", ent, numRounds)
         spawnNormal(ent)
         spawnShop(ent)
+        spawnRerollButton(ent)
         spawnSell(ent)
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
