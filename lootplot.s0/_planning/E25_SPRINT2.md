@@ -719,24 +719,13 @@ Has Reroll trigger instead of Pulse
 Has Reroll, Pulse triggers
 
 
-- ITEM: rusty plate:  When Rotated: Activate the below slot 6 times
+- (((DONE))) ITEM: rusty plate:  When Rotated: Activate the below slot 6 times
 
 
-- Activations:
+- (((DONE))) Activations:
 Currently, there are many income-items that have 1/1 activations.
 I think we should change this! Give them 2/2 or 3/3 activations instead. It makes it more fun. Doesnt matter too much that its OP.
 (Maybe nerf one-ball to $1, but give it 3 activations?)
-
-
-- Proc gen items:
-Some food items should have a chance (say, 15%?) to spawn with doomCount=3, baseMoneyGenerated=-8 or something.   
-(What if the baseMoneyGenerated is equal to the original basePrice of the item...?)
-That way, the food item can be stored and reused.  Its a cool feature that adds variation.  
-(^^^^ eh, this might be a bit confusing.)
-=======>
-- IDEA-2: What if we had a 10% chance to spawn food-items with 1 extra life, but they were 70% more expensive? 
-- IDEA-3: Items in shop / cloud-slots should have a 5% chance to spawn as FLOATY.
-- IDEA-4: Items in cloud/shop slots should have a 3% chance to spawn with REPEATER
 
 
 - Win screen + Prevent the player from playing infinitely 
@@ -778,10 +767,21 @@ ITEM: Ginger root: Create random ore slots (ROOK-1)
 - More items that work better with negative-bonus, perhaps?
 
 
-- ITEM: Green-soy-sauce: (UNCOMMON)
+- (((DEFFERED FOR NOW))) ITEM: Green-soy-sauce: (UNCOMMON)
 Soy-sauce, but with Green slots.
 (Anti-reroll archetype!)
 (TODO: Needs rethinking of trigger system!!! Currently, Reroll-only slots dont trigger Pulse items)
+
+
+- (((DEFFERED FOR NOW))) Proc gen items:
+Some food items should have a chance (say, 15%?) to spawn with doomCount=3, baseMoneyGenerated=-8 or something.   
+(What if the baseMoneyGenerated is equal to the original basePrice of the item...?)
+That way, the food item can be stored and reused.  Its a cool feature that adds variation.  
+(^^^^ eh, this might be a bit confusing.)
+=======>
+- IDEA-2: What if we had a 10% chance to spawn food-items with 1 extra life, but they were 70% more expensive? 
+- IDEA-3: Items in shop / cloud-slots should have a 5% chance to spawn as FLOATY.
+- IDEA-4: Items in cloud/shop slots should have a 3% chance to spawn with REPEATER
 
 
 

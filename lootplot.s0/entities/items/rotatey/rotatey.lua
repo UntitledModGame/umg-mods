@@ -88,13 +88,13 @@ defItem("spanner", "Spanner", {
     rarity = lp.rarities.UNCOMMON,
 
     basePrice = 6,
-    baseMoneyGenerated = -1,
+    baseMoneyGenerated = -2,
     baseMultGenerated = 2,
     baseMaxActivations = 4,
 
     activateDescription = loc("Rotates items"),
 
-    shape = lp.targets.UpShape(4),
+    shape = lp.targets.UpShape(2),
     target = {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
