@@ -769,18 +769,21 @@ ITEM: Ginger root: Create random ore slots (ROOK-1)
 - (((DONE))) Swap shovels <--> pickaxes.
 
 
-- Make mushrooms target their whole buff onto a random slot; 
+- (((DONE))) Make mushrooms target their whole buff onto a random slot; 
 this will probably make stuff more interesting!
 
 
-- Create visuals for WHERE you can place items.
-(Perhaps a little barrier visual?)
-
+- Fix cloud-slots not being able to buy when low on money
 
 
 ## ========================
 ## FEB PLAYTEST RELEASE. ==
 ## ========================
+
+
+- (((DEFFERED UNTIL AFTER))) Create visuals for WHERE you can place items.
+(Perhaps a little barrier visual?)
+
 
 
 - Add shape-visuals to treasure-bags.

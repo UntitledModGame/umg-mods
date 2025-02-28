@@ -478,6 +478,11 @@ local function deleteAttachedCloudSlots(ent)
 end
 
 
+
+local function alwaysTrue()
+    return true
+end
+
 local cloudPickButton = {
     action = function(ent, _clientId)
         if server then
@@ -496,8 +501,8 @@ local cloudPickButton = {
             end
         end
     end,
-    canDisplay = canDisplayShopButton,
-    canClick = canClickShopButton,
+    canDisplay = alwaysTrue,
+    canClick = alwaysTrue,
     text = loc("Buy (FREE)"),
     color = objects.Color(0.39,0.66,0.24),
 }
