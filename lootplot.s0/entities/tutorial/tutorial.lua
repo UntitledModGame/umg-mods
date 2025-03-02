@@ -216,6 +216,10 @@ local function clearEverythingExceptButtons(tutEnt)
         if ent:type()~=NEXT_TUTORIAL_BUTTON and ent:type()~=PREV_TUTORIAL_BUTTON then
             ppos:clear(layer)
             ent:delete()
+        else
+            -- We need to reset activations on tutorial-buttons; or else they may not be reset!
+            -- (Consider player spamming buttons going back and forth)
+            lp.resetEntity(ent)
         end
     end)
     clearText(tutEnt)
@@ -320,7 +324,11 @@ tutorialSections:add(function(tutEnt)
     for x=-4, 4 do
         spawnItem(tutEnt, x, 3, "tutorial_egg")
     end
-    assert(spawnItem(tutEnt, 0,3, "iron_shovel"))
+    
+    local e = assert(spawnItem(tutEnt, 0,3, "tutorial_egg"))
+    e.baseBonusGenerated = 10
+    e.basePointsGenerated = 0
+    e.color = {0.05,0.2,0.7}
 end)
 end
 
@@ -529,7 +537,7 @@ lp.defineSlot(NEXT_TUTORIAL_BUTTON, {
     onActivate = function(selfEnt)
         local len = tutorialSections:size()
         local step = lp.getRound(selfEnt)
-        step = math.min(step + 1, len)
+        step = math.max(2, math.min(step + 1, len))
         prepareTutorialStage(selfEnt, step)
     end,
 })

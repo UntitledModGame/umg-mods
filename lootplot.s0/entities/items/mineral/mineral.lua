@@ -328,7 +328,7 @@ end
 
 
 
-local PICKAXE_DESCRIPTION = loc("Destroys items with {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} trigger")
+local PICKAXE_DESCRIPTION = loc("Destroys items/slots with {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} trigger")
 
 local function definePickaxe(mineral_type, name, strength, etype)
     local namespace = umg.getModName() .. ":"

@@ -751,20 +751,8 @@ On Destroy, Unlock: Do (Something)
 Lives = 4
 (^^^ Idea is, the player will try to destroy these slots)
 (Alternatively, if they manage to use Green-Squash on it, they can get BIG rewards)
-======>  
-- SLOT: Gold-ore Slot  (Stone-y slot with gold-ore bits poking out)
-On Destroy: Earn $3
-======>  
-- SLOT: Diamond-ore Slot  (Stone-y slot with diamond-ore bits poking out)
-On Destroy: Earn +30 bonus
-======>  
-- SLOT: Obsidian-ore Slot  (Stone-y slot with diamond-ore bits poking out)
-On Destroy: Subtract -20 bonus, Gain +4 mult
-======>  
 Pickaxes should also target ITEM_OR_SLOT, instead of just item.
 ======>  
-ITEM: Ginger root: Create random ore slots (ROOK-1)
-
 
 - (((DONE))) Swap shovels <--> pickaxes.
 
@@ -789,6 +777,17 @@ If we try to render on top of entities with `rendering:drawEntity`, it'll just b
 
 
 
+- ITEM: Ginger root: Create random ore slots (ROOK-1)
+======>  
+- SLOT: Gold-ore Slot  (Stone-y slot with gold-ore bits poking out)
+On Destroy: Earn $3
+======>  
+- SLOT: Diamond-ore Slot  (Stone-y slot with diamond-ore bits poking out)
+On Destroy: Earn +30 bonus
+======>  
+- SLOT: Obsidian-ore Slot  (Stone-y slot with diamond-ore bits poking out)
+On Destroy: Subtract -20 bonus, Gain +4 mult
+======>  
 
 - Add shape-visuals to treasure-bags.
 - Make it so cloud-slots are glued together from being spawned together
