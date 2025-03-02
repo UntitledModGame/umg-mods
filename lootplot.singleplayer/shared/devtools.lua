@@ -116,6 +116,40 @@ chat.handleCommand("addPoints", {
 
 
 
+chat.handleCommand("setLevel", {
+    adminLevel = 120,
+    arguments = {
+        {name = "amount", type = "number"},
+    },
+    handler = function(clientId, x)
+        if not server then
+            return
+        end
+
+        local run = assert(lp.singleplayer.getRun())
+        lp.setLevel(run:getPlot():getOwnerEntity(), x)
+    end
+})
+
+
+
+chat.handleCommand("setRound", {
+    adminLevel = 120,
+    arguments = {
+        {name = "amount", type = "number"},
+    },
+    handler = function(clientId, x)
+        if not server then
+            return
+        end
+
+        local run = assert(lp.singleplayer.getRun())
+        lp.setRound(run:getPlot():getOwnerEntity(), x)
+    end
+})
+
+
+
 
 
 

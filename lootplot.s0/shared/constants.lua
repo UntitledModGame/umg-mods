@@ -10,7 +10,7 @@ local constants = {
     ROUNDS_PER_LEVEL = 6,
     MONEY_PER_ROUND = 8,
 
-    FINAL_LEVEL = 2,
+    FINAL_LEVEL = 10,
     -- when you beat this level, you win!
 
     CURSE_COUNT = 4,
