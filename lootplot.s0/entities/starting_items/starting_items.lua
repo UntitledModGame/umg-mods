@@ -221,6 +221,46 @@ definePerk("five_ball", {
 
 
 
+
+definePerk("L_ball", {
+    name = loc("L Ball"),
+    description = loc("Gives lives to items/slots."),
+
+    onActivateOnce = function(ent)
+        local ppos, team = getPosTeam(ent)
+
+        lp.setMoney(ent, constants.STARTING_MONEY)
+        lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
+        spawnShop(ent)
+        spawnRerollButton(ent)
+        spawnNormal(ent)
+        spawnSell(ent)
+        spawnInterestSlot(ent)
+        spawnMoneyLimit(ent)
+
+        wg.spawnSlots(assert(ppos:move(0,-3)), server.entities.null_slot, 1,1, team)
+
+        ent.baseMoneyGenerated = -3
+        -- reason we must do set it here instead of as a shcomp,
+        -- is because money starts at 0. If it's a shcomp, onActivateOnce will never be called!
+
+        spawnDoomClock(ent)
+    end,
+
+    shape = lp.targets.UpShape(1),
+    target = {
+        type = "ITEM_OR_SLOT",
+        activate = function(selfEnt, ppos, targEnt)
+            targEnt.lives = (targEnt.lives or 0) + 1
+        end
+    }
+})
+
+
+
+
+
+
 definePerk("nine_ball", {
     name = loc("Nine Ball"),
     description = loc("Has no money limit."),
