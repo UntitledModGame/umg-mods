@@ -328,7 +328,7 @@ tutorialSections:add(function(tutEnt)
     local e = assert(spawnItem(tutEnt, 0,3, "tutorial_egg"))
     e.baseBonusGenerated = 10
     e.basePointsGenerated = 0
-    e.color = {0.05,0.2,0.7}
+    e.color = {0.15,0.3,0.9}
 end)
 end
 

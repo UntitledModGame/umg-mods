@@ -282,6 +282,18 @@ definePerk("nine_ball", {
 
 
 
+
+--[[
+TODO: 
+Do something more interesting with 8-ball.
+
+Maybe something relating to destructive-archetype...? 
+What if we spawned null-slots with rocks in them, or something?
+(Or what if we spawned stone-slots with strong effects...?)
+]]
+
+--[[
+
 definePerk("eight_ball", {
     name = loc("Eight Ball"),
     description = loc("Starts with 3 null-slots"),
@@ -302,29 +314,41 @@ definePerk("eight_ball", {
     end
 })
 
+]]
 
 
-definePerk("fourteen_ball", {
-    name = loc("Fourteen Ball"),
-    description = loc("Spawns with 3 reroll-slots"),
 
-    onActivateOnce = function(ent)
-        local ppos, team = getPosTeam(ent)
 
-        lp.setMoney(ent, constants.STARTING_MONEY)
-        lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
-        spawnShop(ent)
-        spawnRerollButton(ent)
 
-        wg.spawnSlots(assert(ppos:move(3, 0)), server.entities.reroll_slot, 1,3, team)
+--[[
 
-        spawnNormal(ent)
-        spawnSell(ent)
-        spawnInterestSlot(ent)
-        spawnMoneyLimit(ent)
-        spawnDoomClock(ent)
-    end
-})
+TODO:
+do something more interesting with this!
+:)
+
+]]
+
+-- definePerk("fourteen_ball", {
+--     name = loc("Fourteen Ball"),
+--     description = loc("Spawns with 3 reroll-slots"),
+
+--     onActivateOnce = function(ent)
+--         local ppos, team = getPosTeam(ent)
+
+--         lp.setMoney(ent, constants.STARTING_MONEY)
+--         lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
+--         spawnShop(ent)
+--         spawnRerollButton(ent)
+
+--         wg.spawnSlots(assert(ppos:move(3, 0)), server.entities.reroll_slot, 1,3, team)
+
+--         spawnNormal(ent)
+--         spawnSell(ent)
+--         spawnInterestSlot(ent)
+--         spawnMoneyLimit(ent)
+--         spawnDoomClock(ent)
+--     end
+-- })
 
 
 
@@ -353,8 +377,6 @@ definePerk("bowling_ball", {
     name = loc("Bowling Ball"),
     description = loc("CHALLENGE-ITEM!\nFor PROS ONLY."),
 
-    baseMoneyGenerated = -1,
-
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
         lp.setMoney(ent, constants.STARTING_MONEY)
@@ -363,6 +385,8 @@ definePerk("bowling_ball", {
         spawnShop(ent)
         spawnSell(ent)
         spawnMoneyLimit(ent)
+
+        ent.baseMoneyGenerated = -1
 
         wg.spawnSlots(ppos, server.entities.slot, 1,3, team)
 
