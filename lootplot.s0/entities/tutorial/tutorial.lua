@@ -260,6 +260,38 @@ end
 
 
 
+
+do
+--[[
+Explain SLOTS/ITEMS trigger
+]]
+local SLOT_ITEM_TXT = loc("In lootplot, there are ITEMS and SLOTS.\nClick on the egg item to move it.")
+
+local ITEM_NAME = loc("Egg Item")
+-- its important that it's named "egg item"
+
+tutorialSections:add(function(e)
+    clearEverythingExceptButtons(e)
+
+    addText(e, 0,2, SLOT_ITEM_TXT)
+
+    for x= -1,1 do
+        for y = -1,0 do
+            spawnSlot(e, x,y, "tutorial_slot")
+        end
+    end
+
+    local e1 = spawnItem(e, -1,0, "tutorial_egg")
+    e1.name = ITEM_NAME
+end)
+end
+
+
+
+
+
+
+
 do
 --[[
 Explain PULSE trigger
@@ -271,11 +303,17 @@ tutorialSections:add(function(e)
     addText(e, -3,0, TXT)
     spawnSlot(e, -3,3, "tutorial_pulse_button_slot")
 
-    spawnItem(e, 3,1, "tutorial_egg")
-    spawnItem(e, 4,2, "tutorial_egg")
-    spawnItem(e, 2,0, "tutorial_egg")
+    for x=2,4 do
+        for y=1,4 do
+            spawnSlot(e, x,y, "tutorial_slot")
+        end
+    end
+
+    spawnItem(e, 3,2, "tutorial_egg")
+    spawnItem(e, 4,3, "tutorial_egg")
+    spawnItem(e, 2,1, "tutorial_egg")
     spawnItem(e, 3,4, "tutorial_egg")
-    spawnItem(e, 4,0, "tutorial_egg")
+    spawnItem(e, 4,1, "tutorial_egg")
 end)
 end
 
