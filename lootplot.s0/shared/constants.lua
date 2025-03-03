@@ -13,8 +13,8 @@ local constants = {
     FINAL_LEVEL = 10,
     -- when you beat this level, you win!
 
-    CURSE_COUNT = 4,
-    -- If there are more than 4 curses on the plot, 
+    CURSE_COUNT = 6,
+    -- If there are more than X curses on the plot, 
     -- curses will begin to have adverse effects.
 
     GOLDSMITH_MONEY_REQUIREMENT = 20,

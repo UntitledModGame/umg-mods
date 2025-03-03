@@ -22,12 +22,15 @@
 --> IDEA: Add shapes to sack-items.
 --> IDEA: To balance it, make cloud-slots destroy diagonally too. This makes it a lot more balanced for bishop/knight shapes
 
+- Matt: Didn't understand treasure-sacks
+--> Put something in the description, saying: "only works when floating"
+
 
 - Sheeppollution: Didn't understand what "items" and "slots" were.
 --> Create tutorial-part explaining items/slots, and that you can move items.
 
 
-- Sheeppollution: When moving mouse, sometimes item-descriptions get in way
-(Maybe add a delay?)
+- Sheeppollution: When moving mouse, item-descriptions get in the way
+--> (Maybe add a delay?)
 
 
