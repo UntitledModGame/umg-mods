@@ -73,6 +73,9 @@ Confused as to what target-shape is.
 --> Change to: "FLOATY: This item can sit outside of slots"
 
 
+- Michael: When lining up shards, confused as to why they didn't combine instantly.
+--> IDEA: Have shards combine using `onUpdate`. That way, we can have a juicy animation when the player places them down. Also, it's instant.
+
 
 - Sheepollution: Didn't understand treasure-sacks
 --> IDEA: Add shapes to sack-items.
