@@ -7,6 +7,12 @@
 
 
 
+
+- Give shapes to treasure-bags
+- Make treasure-bags have a 50% chance to have horizontal-shape instead
+- Make cloud-slots destroy other slots diagonally
+
+
 - Lock starter items (except for tutorial-cat)
 - Add unlocks for starter-items (win game)
 
