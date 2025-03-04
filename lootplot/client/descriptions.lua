@@ -265,10 +265,10 @@ end)
 
 
 
-local REPEATER = loc("{lootplot:REPEATER_COLOR}{wavy}REPEATER:{/wavy}{/lootplot:REPEATER_COLOR} {lootplot:REPEATER_COLOR_LIGHT}Activates many times!")
+local REPEATER = interp("{lootplot:REPEATER_COLOR}{wavy}REPEATER:{/wavy}{/lootplot:REPEATER_COLOR} {lootplot:REPEATER_COLOR_LIGHT}Activates %{maxActivations} times!")
 umg.on("lootplot:populateDescription", 59, function(ent, arr)
     if ent.repeatActivations then
-        arr:add(REPEATER)
+        arr:add(REPEATER(ent))
     end
 end)
 
