@@ -351,7 +351,7 @@ end
 
 do
 -- Bonus:
-local TXT = loc("{lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} will earn extra-points.\nNotice the order!")
+local TXT = loc("{lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} will earn extra points.\nNotice the order!")
 
 tutorialSections:add(function(tutEnt)
     clearEverythingExceptButtons(tutEnt)
@@ -534,7 +534,7 @@ end
 do
 -- Conclusion
 local TXT = loc("Tutorial complete!")
-local TXT2 = loc("Escape to exit.")
+local TXT2 = loc("Press escape to exit.")
 
 tutorialSections:add(function(tutEnt)
     clearEverythingExceptButtons(tutEnt)
