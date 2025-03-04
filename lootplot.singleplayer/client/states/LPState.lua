@@ -323,7 +323,7 @@ local interp = localization.newInterpolator
 local ROUND_AND_LEVEL = interp("{wavy amp=0.5 k=0.5}{outline thickness=2}Round %{round}/%{numberOfRounds} - Level %{level}")
 local FINAL_ROUND_LEVEL = interp("{wavy freq=2.5 amp=0.75 k=1}{outline thickness=2}{c r=1 g=0.2 b=0.1}FINAL ROUND %{round}/%{numberOfRounds}{/outline}{/wavy}{wavy amp=0.5 k=0.5}{outline thickness=2} - Level %{level}")
 local LEVEL_COMPLETE = interp("{c r=0.2 g=1 b=0.4}{wavy amp=0.5 k=0.5}{outline thickness=2}Level %{level} Complete!")
-local GAME_OVER = interp("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline thickness=2}{c r=0.7 g=0.1 b=0}GAME OVER! (Round %{round}/%{numberOfRounds})")
+local GAME_OVER = interp("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline thickness=2}{c r=0.7 g=0.1 b=0}GAME OVER! (Level %{level})")
 
 local POINTS_NORMAL = interp("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline thickness=2}Points: %{colorEffect}%{points}/%{requiredPoints}")
 local MONEY = interp("{wavy freq=0.6 spacing=0.8 amp=0.4}{outline thickness=2}{c r=1 g=0.843 b=0.1}$ %{money}")

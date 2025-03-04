@@ -210,6 +210,27 @@ local function spawnItem(tutEnt, dx,dy, itemName)
 end
 
 
+---@param tutEnt Entity
+---@param dx number
+---@param dy number
+---@param itemName string
+---@return Entity?
+local function spawnFloatingItem(tutEnt, dx,dy, itemName)
+    local slotEnt = spawnSlot(tutEnt, dx,dy, "tutorial_slot")
+    local ppos = fromMiddle(tutEnt, dx,dy)
+    local etype = server.entities[itemName]
+    local e = lp.forceSpawnItem(ppos, etype, tutEnt.lootplotTeam)
+    if not e then return nil end
+    e.canItemFloat = true
+    if slotEnt then
+        lp.destroy(slotEnt)
+    end
+    return e
+end
+
+
+
+
 local function clearEverythingExceptButtons(tutEnt)
     local tutPos = assert(lp.getPos(tutEnt))
     tutPos:getPlot():foreachLayerEntry(function (ent, ppos, layer)
@@ -351,7 +372,7 @@ end
 
 do
 -- Bonus:
-local TXT = loc("{lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} will earn extra points.\nNotice the order!")
+local TXT = loc("{lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} will earn extra points.\n({lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} is reset to 0 after the {lootplot:TRIGGER_COLOR}Pulse{/lootplot:TRIGGER_COLOR})")
 
 tutorialSections:add(function(tutEnt)
     clearEverythingExceptButtons(tutEnt)
@@ -387,7 +408,7 @@ tutorialSections:add(function(tutEnt)
 
     do local egg = assert(spawnItem(tutEnt, 0,3, "tutorial_egg"))
     egg.baseBonusGenerated = -10
-    egg.basePointsGenerated = 20
+    egg.basePointsGenerated = 0
     egg.color = {1,0,0} end
 end)
 end
@@ -397,7 +418,7 @@ end
 
 do
 -- Multiplier:
-local TXT = loc("{lootplot:POINTS_MULT_COLOR}Multiplier{/lootplot:POINTS_MULT_COLOR} will multiply any points earned.\nNotice the order!")
+local TXT = loc("{lootplot:POINTS_MULT_COLOR}Multiplier{/lootplot:POINTS_MULT_COLOR} will multiply any points earned.\n(Reset to 1 after Pulse)")
 
 tutorialSections:add(function(tutEnt)
     clearEverythingExceptButtons(tutEnt)
@@ -436,8 +457,7 @@ tutorialSections:add(function(tutEnt)
     do local egg = assert(spawnItem(tutEnt, -3,2, "tutorial_egg"))
     egg.doomCount = 9 end
 
-    do local egg = assert(spawnItem(tutEnt, -1,1, "tutorial_egg"))
-    egg.canItemFloat = true end
+    assert(spawnFloatingItem(tutEnt, -1,1, "tutorial_egg"))
 
     do local egg = assert(spawnItem(tutEnt, 1,1, "tutorial_egg"))
     egg.lives = 5 end

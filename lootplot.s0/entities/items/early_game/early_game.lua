@@ -23,7 +23,7 @@ defItem("rocks", {
     description = loc("(Hint: Put this item in a sell-slot!)"),
 
     basePrice = 3,
-    basePointsGenerated = 15,
+    baseMultGenerated = 2,
 
     lives = 4,
     rarity = lp.rarities.UNCOMMON,

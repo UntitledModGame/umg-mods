@@ -84,6 +84,7 @@ Confused as to what target-shape is.
 
 
 - Sheepollution: Didn't understand treasure-sacks
+--> Don't allow sacks to be placed on normal-slots; (must be placed floating)
 --> IDEA: Add shapes to sack-items.
 --> IDEA: To balance it, make cloud-slots destroy diagonally too. This makes it a lot more balanced for bishop/knight shapes
 

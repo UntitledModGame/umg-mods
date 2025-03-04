@@ -491,7 +491,7 @@ local function defineSlotSpawner(id_image, name, spawnSlot, spawnSlotName, shape
     local etype = {
         image = id_image,
         name = loc(name),
-        activateDescription = loc("Spawns a " .. spawnSlotName),
+        activateDescription = loc("Spawns " .. spawnSlotName),
 
         rarity = assert(extraComponents.rarity),
 
@@ -519,22 +519,22 @@ local function defineSlotSpawner(id_image, name, spawnSlot, spawnSlotName, shape
 end
 
 
-defineSlotSpawner("dirty_muffin", "Dirty Muffin", "dirt_slot", "Dirt Slot", lp.targets.CircleShape(2), {
+defineSlotSpawner("dirty_muffin", "Dirty Muffin", "dirt_slot", "Dirt Slots", lp.targets.CircleShape(2), {
     rarity = lp.rarities.RARE,
     basePrice = 10,
 })
 
-defineSlotSpawner("glass_bottle", "Glass Bottle", "glass_slot", "Glass Slot", lp.targets.QueenShape(5), {
+defineSlotSpawner("glass_bottle", "Glass Bottle", "glass_slot", "Glass Slots", lp.targets.QueenShape(5), {
     basePrice = 4,
     rarity = lp.rarities.RARE,
 })
 
-defineSlotSpawner("glass_tube", "Glass Bottle", "glass_slot", "Glass Slot", lp.targets.RookShape(4), {
+defineSlotSpawner("glass_tube", "Glass Bottle", "glass_slot", "Glass Slots", lp.targets.RookShape(4), {
     basePrice = 2,
     rarity = lp.rarities.UNCOMMON,
 })
 
-defineSlotSpawner("sniper_berries", "Sniper Berries", "slot", "Normal Slot", lp.targets.ON_SHAPE, {
+defineSlotSpawner("sniper_berries", "Sniper Berries", "slot", "Basic Slots", lp.targets.ON_SHAPE, {
     -- useful for bridging large gaps in land
     basePrice = 6,
     canItemFloat = true,
@@ -542,14 +542,14 @@ defineSlotSpawner("sniper_berries", "Sniper Berries", "slot", "Normal Slot", lp.
 })
 
 local STONE_FRUIT_SHAPE = lp.targets.UnionShape(lp.targets.ON_SHAPE, lp.targets.HorizontalShape(1))
-defineSlotSpawner("stone_fruit", "Stone fruit", "null_slot", "Null Slot", STONE_FRUIT_SHAPE, {
+defineSlotSpawner("stone_fruit", "Stone fruit", "null_slot", "Null Slots", STONE_FRUIT_SHAPE, {
     basePrice = 3,
     canItemFloat = true,
     rarity = lp.rarities.COMMON
 })
 
 local CHOCO_SHAPE = lp.targets.UnionShape(lp.targets.ON_SHAPE, lp.targets.VerticalShape(1))
-defineSlotSpawner("chocolate_square", "Chocolate Square", "null_slot", "Null Slot with a key inside", CHOCO_SHAPE, {
+defineSlotSpawner("chocolate_square", "Chocolate Square", "null_slot", "Null Slots with keys inside", CHOCO_SHAPE, {
     basePrice = 14,
     canItemFloat = true,
     rarity = lp.rarities.UNCOMMON
@@ -575,7 +575,7 @@ local generateFoodItem = itemGenHelper.createLazyGenerator(
     })
 )
 
-defineSlotSpawner("sliced_stone_fruit", "Sliced Stone fruit", "null_slot", "Null Slot with a food item", lp.targets.ON_SHAPE, {
+defineSlotSpawner("sliced_stone_fruit", "Sliced Stone fruit", "null_slot", "a Null Slot with a food item", lp.targets.ON_SHAPE, {
     basePrice = 6,
     canItemFloat = true,
     rarity = lp.rarities.UNCOMMON
@@ -591,17 +591,17 @@ end)
 
 
 
-defineSlotSpawner("dragonfruit", "Dragonfruit", "slot", "Normal Slot", lp.targets.RookShape(1), {
+defineSlotSpawner("dragonfruit", "Dragonfruit", "slot", "Basic Slots", lp.targets.RookShape(1), {
     basePrice = 20,
     rarity = lp.rarities.RARE
 })
 
-defineSlotSpawner("dragonfruit_slice", "Dragonfruit Slice", "slot", "Normal Slot", lp.targets.BishopShape(1), {
+defineSlotSpawner("dragonfruit_slice", "Dragonfruit Slice", "slot", "Basic Slots", lp.targets.BishopShape(1), {
     basePrice = 20,
     rarity = lp.rarities.RARE
 })
 
-defineSlotSpawner("sausage", "Sausage", "slot", "Normal Slot", lp.targets.HorizontalShape(1), {
+defineSlotSpawner("sausage", "Sausage", "slot", "Basic Slots", lp.targets.HorizontalShape(1), {
     init = function(ent)
         if lp.SEED:randomMisc() < 0.5 then
             lp.rotateItem(ent, 1)
@@ -618,18 +618,18 @@ local function setDoomCountTo(x)
     end
 end
 
-defineSlotSpawner("soy_sauce", "Soy Sauce", "slot", "{lootplot:DOOMED_COLOR}DOOMED-8{/lootplot:DOOMED_COLOR} Slot", lp.targets.QueenShape(3), {
+defineSlotSpawner("soy_sauce", "Soy Sauce", "slot", "{lootplot:DOOMED_COLOR}DOOMED-8{/lootplot:DOOMED_COLOR} Slots", lp.targets.QueenShape(3), {
     basePrice = 5,
     rarity = lp.rarities.UNCOMMON,
 }, setDoomCountTo(8))
 
-defineSlotSpawner("ruby_candy", "Ruby Candy", "ruby_slot", "{c r=1 b=0.2 g=0.3}Ruby{/c} {lootplot:DOOMED_LIGHT_COLOR}DOOMED-20{/lootplot:DOOMED_LIGHT_COLOR} Slot", lp.targets.RookShape(1), {
+defineSlotSpawner("ruby_candy", "Ruby Candy", "ruby_slot", "{c r=1 b=0.2 g=0.3}Ruby{/c} {lootplot:DOOMED_LIGHT_COLOR}DOOMED-20{/lootplot:DOOMED_LIGHT_COLOR} Slots", lp.targets.RookShape(1), {
     rarity = lp.rarities.RARE,
     basePrice = 12
 },
 setDoomCountTo(20))
 
-defineSlotSpawner("diamond_candy", "Diamond Candy", "diamond_slot", "{c r=0.6 b=0.95 g=1}Diamond{/c} {lootplot:DOOMED_LIGHT_COLOR}DOOMED-20{/lootplot:DOOMED_LIGHT_COLOR} Slot", lp.targets.RookShape(1), {
+defineSlotSpawner("diamond_candy", "Diamond Candy", "diamond_slot", "{c r=0.6 b=0.95 g=1}Diamond{/c} {lootplot:DOOMED_LIGHT_COLOR}DOOMED-20{/lootplot:DOOMED_LIGHT_COLOR} Slots", lp.targets.RookShape(1), {
     rarity = lp.rarities.RARE,
     basePrice = 12
 },
@@ -644,13 +644,13 @@ steel-candy in future?
 
 
 
-defineSlotSpawner("steelberry", "Steel-Berry", "steel_slot", "Steel Slot", lp.targets.HorizontalShape(1), {
+defineSlotSpawner("steelberry", "Steel-Berry", "steel_slot", "Steel Slots", lp.targets.HorizontalShape(1), {
     basePrice = 20,
     rarity = lp.rarities.EPIC
 })
 
 
-defineSlotSpawner("avacado", "Avacado", "emerald_slot", "Emerald Slot", lp.targets.RookShape(1), {
+defineSlotSpawner("avacado", "Avacado", "emerald_slot", "Emerald Slots", lp.targets.RookShape(1), {
     -- i just LOVE this item sooo much btw
     basePrice = 15,
     rarity = lp.rarities.RARE
@@ -663,7 +663,7 @@ local function buffBonus(buff)
     end
 end
 
-defineSlotSpawner("fried_egg", "Fried Egg", "slot", "Slot with -4 Bonus", lp.targets.KING_SHAPE, {
+defineSlotSpawner("fried_egg", "Fried Egg", "slot", "Basic Slots with -4 Bonus", lp.targets.KING_SHAPE, {
     basePrice = 7,
     rarity = lp.rarities.RARE,
 }, buffBonus(-4))
@@ -682,30 +682,30 @@ local loafEtype = {
     basePrice = 8,
     rarity = lp.rarities.RARE
 }
-defineSlotSpawner("burned_loaf", "Burned Loaf", "sell_slot", "Sell Slot",
+defineSlotSpawner("burned_loaf", "Burned Loaf", "sell_slot", "a Sell Slot",
     lp.targets.ON_SHAPE, loafEtype
 )
-defineSlotSpawner("golden_loaf", "Golden Loaf", "shop_slot", "Shop Slot",
+defineSlotSpawner("golden_loaf", "Golden Loaf", "shop_slot", "a Shop Slot",
     lp.targets.ON_SHAPE, loafEtype
 )
-defineSlotSpawner("purple_loaf", "Purple Loaf", "food_shop_slot", "Food Shop Slot",
+defineSlotSpawner("purple_loaf", "Purple Loaf", "food_shop_slot", "a Food Shop Slot",
     lp.targets.ON_SHAPE, loafEtype
 )
 
 
-defineSlotSpawner("coconut", "Coconut", "dirt_slot", "Dirt Slot", lp.targets.KingShape(1), {
+defineSlotSpawner("coconut", "Coconut", "dirt_slot", "Dirt Slots", lp.targets.KingShape(1), {
     basePrice = 8,
     rarity = lp.rarities.UNCOMMON,
 })
 
 
-defineSlotSpawner("lime", "Lime", "reroll_slot", "DOOMED-5 Reroll Slot", lp.targets.KingShape(2), {
+defineSlotSpawner("lime", "Lime", "reroll_slot", "DOOMED-5 Reroll Slots", lp.targets.KingShape(2), {
     rarity = lp.rarities.RARE,
     basePrice = 8
 }, setDoomCountTo(5))
 
 
-defineSlotSpawner("lemon", "Lemon", "shop_slot", "DOOMED-4 Shop Slot", lp.targets.RookShape(1), {
+defineSlotSpawner("lemon", "Lemon", "shop_slot", "DOOMED-4 Shop Slots", lp.targets.RookShape(1), {
     rarity = lp.rarities.RARE,
     basePrice = 8,
     canItemFloat = true,
@@ -776,7 +776,7 @@ local function defineSlotConverter(id, name, spawnSlot, spawnSlotName, shape, ex
     local etype = {
         image = id,
         name = loc(name),
-        activateDescription = loc("Converts target slot into " .. spawnSlotName),
+        activateDescription = loc("Converts slots into " .. spawnSlotName),
 
         shape = shape,
 
@@ -800,7 +800,7 @@ end
 
 
 local APPLE_PRICE = 10
-defineSlotConverter("tangerine", "Tangerine", "rotate_slot", "Rotate Slot", lp.targets.ON_SHAPE, {
+defineSlotConverter("tangerine", "Tangerine", "rotate_slot", "Rotate Slots", lp.targets.ON_SHAPE, {
     rarity = lp.rarities.RARE,
     basePrice = APPLE_PRICE
 })
@@ -892,7 +892,7 @@ defineFood("cloneberries", {
 
 defineFood("doomed_cloneberries", {
     name = loc("Doomed Clone-Berries"),
-    activateDescription = loc("Clones the current slot the item is in, and gives the slot {lootplot:DOOMED_COLOR}{wavy}DOOMED-6"),
+    activateDescription = loc("Clones the slot the item is in, and gives the new slots {lootplot:DOOMED_COLOR}{wavy}DOOMED-6"),
 
     rarity = lp.rarities.UNCOMMON,
     basePrice = 7,
