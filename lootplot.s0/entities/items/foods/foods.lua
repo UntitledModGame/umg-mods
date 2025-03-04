@@ -669,28 +669,21 @@ defineSlotSpawner("fried_egg", "Fried Egg", "slot", "Basic Slots with -4 Bonus",
 }, buffBonus(-4))
 
 
-local loafEtype = {
-    init = function(ent)
-        if math.random() < 0.01 then
-            -- silly easter egg:
-            -- XBOX Color!!! 
-            -- (coz the sprite looks like xbox logo, lol)
-            ent.color = objects.Color.GREEN
-        end
-    end,
+defineSlotSpawner("burned_loaf", "Burned Loaf", "sell_slot", "a Sell Slot", lp.targets.ON_SHAPE, {
+    canItemFloat = true,
+    basePrice = 3,
+    rarity = lp.rarities.UNCOMMON
+})
+defineSlotSpawner("golden_loaf", "Golden Loaf", "shop_slot", "a Shop Slot", lp.targets.ON_SHAPE, {
     canItemFloat = true,
     basePrice = 8,
     rarity = lp.rarities.RARE
-}
-defineSlotSpawner("burned_loaf", "Burned Loaf", "sell_slot", "a Sell Slot",
-    lp.targets.ON_SHAPE, loafEtype
-)
-defineSlotSpawner("golden_loaf", "Golden Loaf", "shop_slot", "a Shop Slot",
-    lp.targets.ON_SHAPE, loafEtype
-)
-defineSlotSpawner("purple_loaf", "Purple Loaf", "food_shop_slot", "a Food Shop Slot",
-    lp.targets.ON_SHAPE, loafEtype
-)
+})
+defineSlotSpawner("purple_loaf", "Purple Loaf", "food_shop_slot", "a Food Shop Slot", lp.targets.ON_SHAPE, {
+    canItemFloat = true,
+    basePrice = 8,
+    rarity = lp.rarities.RARE
+})
 
 
 defineSlotSpawner("coconut", "Coconut", "dirt_slot", "Dirt Slots", lp.targets.KingShape(1), {
