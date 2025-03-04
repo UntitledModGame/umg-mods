@@ -42,8 +42,8 @@ Confused as to why the Pulse-button subtracted 10.
 
 
 
-- Michael: "Wildcard shards should cost WAY more"
---> (C) Make them cost $8 instead?
+- (C) Michael: "Wildcard shards should cost WAY more"
+--> Make them cost $8 instead?
 
 
 - (C) Michael: He isnt checking every item in the shop.
@@ -55,7 +55,7 @@ Confused as to why the Pulse-button subtracted 10.
 --> Nerf boomerangs a bit. (4 x 1 points maybe?)
 
 
-- Michael: "Rotate feels hard to get into"
+- (C) Michael: "Rotate feels hard to get into"
 --> Add more early-game opportunities for REROLL?
 --> Make `orange` item UNCOMMON? Or even COMMON?
 
@@ -70,7 +70,7 @@ Confused as to why the Pulse-button subtracted 10.
 ^^^ need more key-items to use
 
 
-- Michael: BUG:
+- (C) Michael: BUG:
 "YOU WIN" text is black when space-background is active
 
 
@@ -79,15 +79,14 @@ Confused as to why the Pulse-button subtracted 10.
 (Hardcode in base lootplot?)
 
 
-- Michael: 
+- (C) Michael: 
 Confused as to what target-shape is.
---> 
 
 - Michael: Floaty-description is confusing
 --> Change to: "FLOATY: This item can sit outside of slots"
 
 
-- Michael: When lining up shards, confused as to why they didn't combine instantly.
+- (C) Michael: When lining up shards, confused as to why they didn't combine instantly.
 --> IDEA: Have shards combine using `onUpdate`. That way, we can have a juicy animation when the player places them down. Also, it's instant.
 
 
@@ -100,7 +99,7 @@ Confused as to what target-shape is.
 --> Put something in the description, saying: "only works when floating"
 
 
-- Sheeppollution: Didn't understand what "items" and "slots" were.
+- (C) Sheeppollution: Didn't understand what "items" and "slots" were.
 --> Create tutorial-part explaining items/slots, and that you can move items.
 
 

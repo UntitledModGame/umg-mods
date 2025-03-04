@@ -9,7 +9,15 @@
 - Make victory-shockwave cleaner, remove fade from it
 
 
+- Fix: "YOU WIN" text is black when space-background is active
+
+
 - Muting SFX doesnt work (...?)
+
+
+- Remove Pulse trigger from shards, make shards trigger via `onUpdate`.
+--> This also means we can simplify descriptions too!
+--> Also, play a nice animation when shards are combined (Take inspiration from CROPS!)
 
 
 - Make wildcard shards cost $8 or $9
@@ -19,16 +27,30 @@
 ==> 2 shop-slots, 1 food-slot
 
 
+- Make a few more `Rotate/Unlock` items that scale:
+(futuristic-item sprites, top right)
+- Red metal cube: On Rotate/Unlock, give +0.4 mult to slots (shape=ON)
+- Blue metal cube: On Rotate/Unlock, give +3 bonus to slots (shape=ON)
+- Green metal cube: On Rotate/Unlock, trigger Reroll on slots and items (shape=KING-2)
+- Gold metal cube: On Rotate/Unlock, earn $5. GRUB-10.
+
+
+- Make shape-tutorial better (split into 2 parts?)
+- Part-1: Explain what shape is. Simple orange egg-item, on 2x2 slots, spawning slots on ROOK-1
+- Part-2: Provide a "playground" for more complex items (potion, rook-glove, dragonfruit)
+
+
 - Give shapes to treasure-bags
 - Make food-treasure-bags have a vertical shape instead
-- Make cloud-slots destroy other slots diagonally
+- Prevent treasure-bags being added to normal-slots (ie must be floating)
+- Make cloud-slots destroy other slots diagonally (<--- balance reasons! Or else bishop shape is OP)
 
 
 - Lock starter items (except for tutorial-cat)
 - Add unlocks for starter-items (win game)
 
 
-- Make a starting-item that starts with rulebender-slot
+- Make a starting-item that starts with a rulebender-slot
 
 
 - Rename steel-slots to "anti-bonus slots". Make them easier to get.
@@ -62,7 +84,7 @@ Also, when we trigger REROLL on items at start, lets just trigger it instantly. 
 
 
 - Add item unlock infrastructure
-- Create "UNLOCKED" popup
+- Create "UNLOCKED" popup UI widget when the game is won
 - Make complex items locked at the start of the game
 
 
