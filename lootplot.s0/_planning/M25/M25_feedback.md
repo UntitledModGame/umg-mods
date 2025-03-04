@@ -13,12 +13,18 @@
 --> nemene suggestion: Make victory-shockwave a flat-color: fade looks weird
 
 
+- Zomebody: Muting SFX doesnt actually work! (if SFX is 0, sound still plays)
+
+
+- Zomebody: Why do i have to click an item to see its shape. why cant i just see its shape when i hover it?
+
+
 
 - Sheepollution: Some items are kinda confusing when beginning
 --> Lock items behind metaprogression system
 
 
-- Sheepollution/Michael: 
+- Sheepollution/Michael/Zomebody: 
 Confused as to why the Pulse-button subtracted 10.
 --> In the tutorial, maybe it should say: 
 "Bonus is reset after the pulse is done"
