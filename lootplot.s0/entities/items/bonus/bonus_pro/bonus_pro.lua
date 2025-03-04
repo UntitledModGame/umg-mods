@@ -119,7 +119,7 @@ defItem("blue_cube", "Blue Cube", {
 --[[
 Boomerang synergizes with BONUS archetype
 ]]
-local DIAMOND_POINT_ACTIVATION_COUNT = 30
+local DIAMOND_POINT_ACTIVATION_COUNT = 15
 local DIAMOND_POINTS = 1
 
 defItem("diamond", "Diamond", {

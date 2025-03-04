@@ -115,7 +115,7 @@ defItem("empty_bowl", {
 --[[
 Boomerang synergizes with BONUS archetype
 ]]
-local BOOMERANG_POINT_ACTIVATION_COUNT = 10
+local BOOMERANG_POINT_ACTIVATION_COUNT = 5
 local BOOMERANG_POINTS = 1
 
 defItem("boomerang", {

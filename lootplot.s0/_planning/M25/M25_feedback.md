@@ -1,49 +1,57 @@
 
 
-## MID-2025 FEEDBACK DOC:
+# MID-2025 FEEDBACK DOC:
 (BETA v3.0.2 FEEDBACK)
+
+#### KEY:
+(C) = Has been converted into a task in `M25_sprint` file
+(?) = Too nebulous / havent decided what to do about this yet
+(X) = Wont-fix
+
+------------------------------------------------------------
+
 
 
 - Tutorial-cat should be forced onto the player
---> Lock starter items
+--> (C) Lock starter items
 
 
 
 - Victory-shockwave juice should be better!
---> nemene suggestion: Make victory-shockwave a flat-color: fade looks weird
+--> (C) nemene suggestion: Make victory-shockwave a flat-color: fade looks weird
 
 
-- Zomebody: Muting SFX doesnt actually work! (if SFX is 0, sound still plays)
+- (C) Zomebody: Muting SFX doesnt actually work! (if SFX is 0, sound still plays)
 
 
 - Zomebody: Why do i have to click an item to see its shape. why cant i just see its shape when i hover it?
 
 
 
-- Sheepollution: Some items are kinda confusing when beginning
---> Lock items behind metaprogression system
+- (?) Sheepollution: Some items are kinda confusing when beginning
+--> (C) Lock items behind metaprogression system
 
 
-- Sheepollution/Michael/Zomebody: 
+- (C) Sheepollution/Michael/Zomebody: 
 Confused as to why the Pulse-button subtracted 10.
---> In the tutorial, maybe it should say: 
-"Bonus is reset after the pulse is done"
+--> (C) In the tutorial, maybe it should say: "Bonus is reset after the pulse is done"
 
 
-- Michael: Wasn't able to use BONUS with reroll-items.
---> Maybe we should reset Bonus at the start of the PULSE, as opposed to before.
+- (?) Michael: Wasn't able to use BONUS with reroll-items.
+--> (X) Maybe we should reset Bonus at the start of the PULSE, as opposed to before.
+
 
 
 - Michael: "Wildcard shards should cost WAY more"
---> Make them cost $14 instead?
+--> (C) Make them cost $8 instead?
 
 
-- Michael: He isnt checking every item in the shop.
+- (C) Michael: He isnt checking every item in the shop.
 (I think its just a bit too overwhelming?)
 --> Lets make the shop smaller? 2 normal shop-slots, 1 weak shop-slot?
 
 
-- Michael: "Boomerangs are OP!"
+- (C) Michael: "Boomerangs are OP!"
 --> Nerf boomerangs a bit. (4 x 1 points maybe?)
 
 
