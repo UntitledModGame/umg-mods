@@ -5,6 +5,17 @@
 
 - ~~Nerf boomerangs~~
 
+- ~~Fix test-spacing on LPState round-count and stuff (different per screen resolution!)~~
+
+
+==========================================
+ANYTHING ABOVE ^^^ THIS POINT IS COMPLETE
+==========================================
+
+
+
+- Fix skahd shop-lock bug
+
 
 - Make victory-shockwave cleaner, remove fade from it
 
@@ -24,7 +35,8 @@
 
 
 - Make shop smaller (at least, for one-ball)
-==> 2 shop-slots, 1 food-slot
+==> 2 shop-slots, 2 food-slots?
+
 
 
 - Make a few more `Rotate/Unlock` items that scale:

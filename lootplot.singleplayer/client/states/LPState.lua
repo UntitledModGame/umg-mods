@@ -438,12 +438,13 @@ function LPState:drawHUD()
         money = showNSignificant(run:getAttribute("MONEY"), 1)
     })
 
-    local fH = font:getHeight()
-    local TXT_PAD = 10 * gs
+    local fH = font:getHeight() * gs
+    local TXT_PAD = 1 * gs
+    local LEFT_PAD = 10 * gs
     lg.setColor(1, 1, 1)
-    text.printRich(roundText, font,  TXT_PAD, TXT_PAD + (fH+TXT_PAD)*0, 0xfffff, "left", 0, gs, gs)
-    text.printRich(pointsText, font, TXT_PAD, TXT_PAD + (fH+TXT_PAD)*1, 0xfffff, "left", 0, gs, gs)
-    text.printRich(moneyText, font,  TXT_PAD, TXT_PAD + (fH+TXT_PAD)*2, 0xfffff, "left", 0, gs, gs)
+    text.printRich(roundText, font,  LEFT_PAD, TXT_PAD + (fH+TXT_PAD)*0, 0xfffff, "left", 0, gs, gs)
+    text.printRich(pointsText, font, LEFT_PAD, TXT_PAD + (fH+TXT_PAD)*1, 0xfffff, "left", 0, gs, gs)
+    text.printRich(moneyText, font,  LEFT_PAD, TXT_PAD + (fH+TXT_PAD)*2, 0xfffff, "left", 0, gs, gs)
     end
 
     -- draw text on the right

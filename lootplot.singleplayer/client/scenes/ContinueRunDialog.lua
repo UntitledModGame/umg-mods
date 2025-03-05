@@ -5,7 +5,7 @@ local StretchableBox = require("client.elements.StretchableBox")
 local StretchableButton = require("client.elements.StretchableButton")
 
 local UNKNOWN_PERK = localization.localize("Unknown Perk")
-local NEW_RUN_STRING = localization.localize("Starting new\nrun will\noverwrite your\nexisting run.")
+local NEW_RUN_STRING = localization.localize("Starting a new\nrun will\noverwrite your\nexisting run.")
 local RUN_INFO_STRING = localization.newInterpolator("Level: %{level}\nRound: %{round}/%{maxRound}\n\nPerk: %{perk}\n%{perkDescription}")
 
 

@@ -60,7 +60,7 @@ defGrubby("pineapple_ring", "Pineapple Ring", {
     basePrice = 8,
     grubMoneyCap = GRUB_MONEY_CAP,
     canItemFloat = true,
-    activateDescription = loc("Make all target items {lootplot:MONEY_COLOR}$2{/lootplot:MONEY_COLOR} cheaper"),
+    activateDescription = loc("Make all target items {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} cheaper"),
 
     baseMaxActivations = 8,
 
@@ -75,7 +75,7 @@ defGrubby("pineapple_ring", "Pineapple Ring", {
         end,
     },
 
-    shape = lp.targets.KingShape(1),
+    shape = lp.targets.CircleShape(2),
 
     rarity = lp.rarities.UNCOMMON,
 })

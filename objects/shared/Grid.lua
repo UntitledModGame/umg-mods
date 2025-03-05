@@ -180,8 +180,17 @@ if TEST then
         local g2 = umg.deserialize(umg.serialize(g1))
         g1:foreach(function(value, x, y)
             if value ~= g2:get(x,y) then
-                print(umg.inspect(g2.grid), umg.inspect(g1.grid))
-                umg.melt("TEST FAILED!!")
+                umg.melt("WOT WOT??? BUG. FUCK")
+                -- OK: OLI NOTE: this has been "fixed"
+                --
+                -- But If you want to see this bug in action again,
+                -- remove the `false` initialization values from Grid:init.
+                -- When its filled with nils in just the right order, the serialization shits the bed and
+                -- thinks that the grid is a flat array; even tho it isnt.
+                -- I'm guessing its probably due to the binary-search nature of lua's # len operator...?
+                --
+                -- Honeslty this is *probably* a bug with ser/deser rather than the grid...
+                -- but i cba fixing that rn.
             end
         end)
     end
