@@ -24,16 +24,19 @@ end
 
 
 
+local function canSlotTriggerItem(slotEnt)
+    -- Check if we can propagate triggers.
+    return slotEnt.canSlotPropagate
+end
+
+
+
 local function defShards(id, name, onMatchActivate, onMatchDesc, etype)
     etype = etype or {}
     etype.image = etype.image or id
 
     local full_id = PREFIX .. id
     IS_SHARD_ITEM[full_id] = true
-
-    etype.baseMaxActivations = 7
-
-    etype.triggers = {"PULSE"}
 
     local function isMatch(ppos)
         local item = lp.posToItem(ppos)
@@ -42,9 +45,15 @@ local function defShards(id, name, onMatchActivate, onMatchDesc, etype)
         end
     end
 
-    etype.onActivate = function(ent)
+    etype.onUpdateServer = function(ent)
         local ppos = lp.getPos(ent)
         if not ppos then return end
+
+        local slotEnt = lp.itemToSlot(ent)
+        if slotEnt and not canSlotTriggerItem(slotEnt) then
+            -- this means that the item is in a null-slot, or a shop-slot, or somthn.
+            return
+        end
 
         local matchedPoses = match3.test(ppos, isMatch)
         for i = #matchedPoses,1,-1 do

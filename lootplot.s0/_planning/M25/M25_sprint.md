@@ -13,19 +13,18 @@
 
 - ~~Fix: "YOU WIN" text is black when space-background is active~~
 
+- ~~Muting SFX doesnt work (...?)~~
+
+- ~~Remove Pulse trigger from shards, make shards trigger via `onUpdate`.~~
+--> ~~This also means we can simplify descriptions too!~~
+--> ~~(DEFERRED) Also, play a nice animation when shards are combined (Take inspiration from CROPS!)~~
+
 
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
-
-- Muting SFX doesnt work (...?)
-
-
-- Remove Pulse trigger from shards, make shards trigger via `onUpdate`.
---> This also means we can simplify descriptions too!
---> Also, play a nice animation when shards are combined (Take inspiration from CROPS!)
 
 
 - Make wildcard shards cost $8 or $9

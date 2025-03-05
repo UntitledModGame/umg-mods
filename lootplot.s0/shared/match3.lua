@@ -81,10 +81,41 @@ local function test(ppos, isMatch, result, seen, vertical)
     end
 end
 
+
+---@param ppos lootplot.PPos
+---@param isMatch fun(ppos:lootplot.PPos):boolean
+---@return boolean
+local function anyAdjacentMatches(ppos, isMatch)
+    --[[
+    this is used to short-circuit, since match3.test is a bit expensive;
+    incurs some allocations.
+    ^^^ this function incurs NO allocations, by contrast
+    ]]
+    local up = ppos:up(1)
+    local down = ppos:down(1)
+    local left = ppos:left(1)
+    local right = ppos:right(1)
+
+    return not not (
+        (up and isMatch(up))
+        or (down and isMatch(down))
+        or (left and isMatch(left))
+        or (right and isMatch(right))
+    )
+end
+
+
+local EMPTY = {}
+
 ---@param ppos lootplot.PPos
 ---@param isMatch fun(ppos:lootplot.PPos):boolean
 ---@return lootplot.PPos[]
 function match3.test(ppos, isMatch)
+    if not anyAdjacentMatches(ppos, isMatch) then
+        -- short-circuit!
+        return EMPTY
+    end
+
     local resultset = objects.Set()
     local seen = objects.Set()
     test(ppos, isMatch, resultset, seen, false)

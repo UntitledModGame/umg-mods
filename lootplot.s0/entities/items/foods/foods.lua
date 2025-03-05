@@ -137,6 +137,8 @@ defineFood("doomed_turnip", {
 defineFood("slot_turnip", {
     name = loc("Slot Turnip"),
 
+    init = helper.rotateRandomly,
+
     activateDescription = loc("Clones target slot to its current position."),
 
     rarity = lp.rarities.EPIC,
