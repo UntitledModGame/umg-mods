@@ -304,9 +304,9 @@ defineFood("raspberry", {
     name = loc("Raspberry"),
     activateDescription = loc("Gives {lootplot:REPEATER_COLOR}REPEATER{/lootplot:REPEATER_COLOR} to items."),
 
-    rarity = lp.rarities.RARE,
+    rarity = lp.rarities.EPIC,
 
-    basePrice = 8,
+    basePrice = 12,
 
     shape = lp.targets.UpShape(1),
     target = {
