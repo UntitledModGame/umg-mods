@@ -9,13 +9,13 @@
 
 - ~~Fix skahd shop-lock bug (REPRO: buy -> lock -> reroll )~~
 
+- ~~Make victory-shockwave cleaner, remove fade from it~~
+
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
-
-- Make victory-shockwave cleaner, remove fade from it
 
 
 - Fix: "YOU WIN" text is black when space-background is active

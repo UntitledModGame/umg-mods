@@ -219,21 +219,15 @@ local function drawVictoryShockwave(self)
     local w,h = lg.getDimensions()
     local centerX, centerY = w/6,h/6
     local radius = (w * VICTORY_SHOCKWAVE_GROW_SPEED) * self.victoryShockwave.time
-    local lineWidth = lg.getLineWidth()
+    local oldLineWidth = lg.getLineWidth()
     local sc = globalScale.get()
-    local bandOffset = 40 * sc
-    lg.setLineWidth(bandOffset)
+    local width = 80 * sc
+    lg.setLineWidth(width)
     local c = lp.COLORS.POINTS_COLOR
     local r,g,b = c[1],c[2],c[3]
-    lg.setColor(r,g,b,0.4)
-    lg.circle("line", centerX, centerY, radius - (bandOffset-1)*3)
-    lg.setColor(r,g,b,0.6)
-    lg.circle("line", centerX, centerY, radius - (bandOffset-1)*2)
-    lg.setColor(r,g,b,0.8)
-    lg.circle("line", centerX, centerY, radius - (bandOffset-1))
-    lg.setColor(r,g,b)
+    lg.setColor(r,g,b,1)
     lg.circle("line", centerX, centerY, radius)
-    lg.setLineWidth(lineWidth)
+    lg.setLineWidth(oldLineWidth)
 end
 
 
