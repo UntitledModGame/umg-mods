@@ -439,12 +439,12 @@ defineMineralClass("cobalt", "Cobalt", 6, {
 
 --[[
 
-Golden items cost $1 to activate
+Golden items cost money to activate
 
 ]]
 defineMineralClass("golden", "Golden", 15, {
     triggers = {"PULSE"},
-    baseMoneyGenerated = -1,
+    baseMoneyGenerated = -2,
     baseMaxActivations = 8
 })
 
