@@ -84,14 +84,14 @@ defGrubby("pineapple_ring", "Pineapple Ring", {
 
 
 do
-local PRICE_CAP = 8
+local PRICE_CAP = 6
 assert(PRICE_CAP < GRUB_MONEY_CAP, "Erm, this is super unbalanced. Price cap MUST be less than GRUB-CAP")
 
 --[[
 Consider this one of the "Staple" items of grubby-builds.
 Without this item, grubby-builds are kinda unplayable.
 ]]
-defGrubby("8_cent_ticket", "8 Cent Ticket", {
+defGrubby("6_cent_ticket", "6 Cent Ticket", {
     basePrice = 2,
     grubMoneyCap = GRUB_MONEY_CAP,
     canItemFloat = true,
@@ -118,7 +118,7 @@ defGrubby("8_cent_ticket", "8 Cent Ticket", {
         end,
     },
 
-    shape = lp.targets.KingShape(1),
+    shape = lp.targets.DownShape(3),
 
     rarity = lp.rarities.UNCOMMON,
 })
