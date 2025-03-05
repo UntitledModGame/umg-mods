@@ -33,15 +33,48 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 
 - Make a few more `Rotate/Unlock` items that scale:
 (futuristic-item sprites, top right)
+- Give some LEVEL-UP items `Unlock` trigger?
 - Red metal cube: On Rotate/Unlock, give +0.4 mult to slots (shape=ON)
 - Blue metal cube: On Rotate/Unlock, give +3 bonus to slots (shape=ON)
 - Green metal cube: On Rotate/Unlock, trigger Reroll on slots and items (shape=KING-2)
 - Gold metal cube: On Rotate/Unlock, earn $5. GRUB-10.
 
 
+
+- Make a new type of stone-slot: "implicit_stone_slot".
+- Rarity should be EPIC.
+- (Make the original stone-slot rarity=UNIQUE)
+- Implicit stone slots *implicitly* spawn with random properties-
+- +150 points
+- +20 bonus
+- +5 mult
+- Earn $4
+(^^^ or a mixture of the above?)
+
+
+- Create ginger-roots: Spawns stone-slots with 20 lives
+
+
+- Make Destructive-archetype more viable. (Somehow?)
+(Maybe make some rocks UNCOMMON...?)
+
+
+
 - Make shape-tutorial better (split into 2 parts?)
-- Part-1: Explain what shape is. Simple orange egg-item, on 2x2 slots, spawning slots on ROOK-1
-- Part-2: Provide a "playground" for more complex items (potion, rook-glove, dragonfruit)
+- Part-1: Explain what shape is. Simple orange egg-item, on 2x2 slots, spawning slots on ROOK-1. Explain target-visuals:
+```
+"This item has a ROOK-1 shape. It will interact with stuff adjacent to it.
+To view the item's shape, click on the item"
+-- (item here)
+"If the target is wiggling, that means that the target is valid, and the item will do its effect there!"
+```
+---> 
+- Part-2: "playground" for more complex items 
+```
+"Items can have different shapes, and different purposes."
+(potion, rook-glove, dragonfruit)
+"Have a play around!"
+```
 
 
 - Give shapes to treasure-bags
@@ -105,4 +138,17 @@ Also, when we trigger REROLL on items at start, lets just trigger it instantly. 
     Music
     SFX
 }
+
+
+- SPIKE: Make analytics better.
+MAKE SURE ITS DEFINITELY RUNNING PROPERLY BEFORE THE DEMO!!!  
+Do really good planning.  
+What sort of information do we want to gain from analytics?  
+Apply 80/20 rule.  
+- What insights are easy to gather, but have high impact?  
+- What will be the most impactful in terms of player-retention?
+---> Remember, we really need to focus on the players that "drop out" early;
+ie, the players that play for 20 minutes, and then quit/refund.  
+What makes them stop playing?  
+
 
