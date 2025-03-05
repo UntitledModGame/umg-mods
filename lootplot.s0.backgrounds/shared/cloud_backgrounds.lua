@@ -3,6 +3,7 @@ local sunsetCtor = nil
 local cherryCtor = nil
 local skyCtor = nil
 local tealCtor = nil
+local abstractCtor = nil
 
 
 if client then
@@ -60,6 +61,18 @@ function tealCtor()
     })
 end
 
+
+function abstractCtor()
+    return CloudBackground({
+        worldX = -W/2 + DELTA, worldY = -H/2 + DELTA,
+        worldWidth = W, worldHeight = H,
+        numberOfClouds = 0,
+
+        backgroundColor = objects.Color("#FFFFFFFF"),
+        cloudColor = objects.Color("#FFFFFFFF"),
+    })
+end
+
 end
 
 lp.backgrounds.registerBackground("lootplot.s0.backgrounds:sky_cloud_background", {
@@ -84,6 +97,13 @@ lp.backgrounds.registerBackground("lootplot.s0.backgrounds:teal_background", {
     name = localization.localize("Teal Background"),
     constructor = tealCtor,
     icon = "teal_cloud_background"
+})
+
+lp.backgrounds.registerBackground("lootplot.s0.backgrounds:abstract_background", {
+    name = localization.localize("Abstract Background"),
+    constructor = abstractCtor,
+    icon = "abstract_background",
+    fogColor = objects.Color(64/255,0.97,0.98)
 })
 
 

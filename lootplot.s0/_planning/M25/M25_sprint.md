@@ -21,18 +21,14 @@
 
 - ~~Make wildcard shards cost $8 or $9~~
 
+- ~~Create white-background: (White background, Light blue clouds)~~
+
+
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
-
-
-- Make shop smaller (at least, for one-ball)
-==> 2 shop-slots, 2 food-slots?
-
-
-- Create white-background: (White background, Light blue clouds)
 
 
 - Make a few more `Rotate/Unlock` items that scale:
@@ -56,6 +52,10 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 
 - Lock starter items (except for tutorial-cat)
 - Add unlocks for starter-items (win game)
+
+
+- (SPIKE?) Make shop smaller (at least, for one-ball)
+==> 2 shop-slots, 2 food-slots?
 
 
 - Make a starting-item that starts with a rulebender-slot
