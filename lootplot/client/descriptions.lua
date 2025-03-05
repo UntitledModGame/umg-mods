@@ -255,7 +255,7 @@ end)
 
 
 
-local FLOAT = loc("{lootplot:TRIGGER_COLOR}{wavy}FLOATY:{/wavy}{/lootplot:TRIGGER_COLOR} This item can float!")
+local FLOAT = loc("{lootplot:TRIGGER_COLOR}{wavy}FLOATY:{/wavy}{/lootplot:TRIGGER_COLOR} Can be placed in the air!")
 umg.on("lootplot:populateDescription", 59, function(ent, arr)
     if lp.isItemEntity(ent) and lp.canItemFloat(ent) then
         arr:add(FLOAT)

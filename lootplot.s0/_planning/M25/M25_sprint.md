@@ -24,32 +24,25 @@
 - ~~Create white-background: (White background, Light blue clouds)~~
 
 
+~~- Make a new type of stone-slot: "auto_stone_slot".~~
+~~- Rarity should be EPIC.~~
+~~- (Make the original stone-slot rarity=UNIQUE)~~
+~~- Implicit stone slots *implicitly* spawn with random properties-~~
+~~- +150 points~~
+~~- +20 bonus~~
+~~- +5 mult~~
+~~- Earn $4~~
+~~(^^^ or a mixture of the above?)~~
+
+
+~~- Make FLOATY description better: "FLOATY: Can be placed in the air!"~~
+
+
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
-
-
-- Make a few more `Rotate/Unlock` items that scale:
-(futuristic-item sprites, top right)
-- Give some LEVEL-UP items `Unlock` trigger?
-- Red metal cube: On Rotate/Unlock, give +0.4 mult to slots (shape=ON)
-- Blue metal cube: On Rotate/Unlock, give +3 bonus to slots (shape=ON)
-- Green metal cube: On Rotate/Unlock, trigger Reroll on slots and items (shape=KING-2)
-- Gold metal cube: On Rotate/Unlock, earn $5. GRUB-10.
-
-
-
-- Make a new type of stone-slot: "implicit_stone_slot".
-- Rarity should be EPIC.
-- (Make the original stone-slot rarity=UNIQUE)
-- Implicit stone slots *implicitly* spawn with random properties-
-- +150 points
-- +20 bonus
-- +5 mult
-- Earn $4
-(^^^ or a mixture of the above?)
 
 
 - Create ginger-roots: Spawns stone-slots with 20 lives
@@ -92,6 +85,17 @@ To view the item's shape, click on the item"
 
 
 - Make a starting-item that starts with a rulebender-slot
+
+
+
+- Make a few more `Rotate/Unlock` items that scale:
+(futuristic-item sprites, top right)
+- Give some LEVEL-UP items `Unlock` trigger?
+- Red metal cube: On Rotate/Unlock, give +0.4 mult to slots (shape=ON)
+- Blue metal cube: On Rotate/Unlock, give +3 bonus to slots (shape=ON)
+- Green metal cube: On Rotate/Unlock, trigger Reroll on slots and items (shape=KING-2)
+- Gold metal cube: On Rotate/Unlock, earn $5. GRUB-10.
+
 
 
 - Rename steel-slots to "anti-bonus slots". Make them easier to get.
