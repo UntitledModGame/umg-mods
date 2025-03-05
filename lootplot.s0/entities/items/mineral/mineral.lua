@@ -343,7 +343,7 @@ local function definePickaxe(mineral_type, name, strength, etype)
 
         activateDescription = PICKAXE_DESCRIPTION,
 
-        shape = lp.targets.NorthEastShape(2),
+        shape = lp.targets.NorthEastShape(1),
         target = {
             type = "ITEM_OR_SLOT",
             filter = function (ent, ppos, targetEnt)
