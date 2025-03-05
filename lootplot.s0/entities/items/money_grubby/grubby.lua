@@ -298,8 +298,9 @@ defItem("champions_belt", "Champion's Belt", {
 defItem("toolbelt", "Toolbelt", {
     triggers = {"PULSE"},
 
-    activateDescription = loc("Spawns random items, and gives them {lootplot:GRUB_COLOR_LIGHT}GRUB-%{grubCap}", {
-        grubCap = GRUB_MONEY_CAP
+    activateDescription = loc("Spawns random %{RARE} items, and gives them {lootplot:GRUB_COLOR_LIGHT}GRUB-%{grubCap}", {
+        grubCap = GRUB_MONEY_CAP,
+        RARE = lp.rarities.RARE.displayString
     }),
 
     rarity = lp.rarities.RARE,

@@ -29,6 +29,8 @@ defItem("square_basket", "Square Basket", {
     }),
     rarity = lp.rarities.RARE,
 
+    triggers = {"LEVEL_UP", "UNLOCK"},
+
     sticky = true,
 
     shape = lp.targets.KingShape(1),
@@ -136,6 +138,7 @@ defItem("small_golden_bell", "Small Golden Bell", {
     (Or at least, give them more intuition behind triggers and such)
     ]]
     basePrice = 4,
+    triggers = {"LEVEL_UP", "UNLOCK"},
 
     sticky = true,
 
