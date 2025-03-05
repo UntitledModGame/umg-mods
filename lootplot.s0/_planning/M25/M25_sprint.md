@@ -19,15 +19,13 @@
 --> ~~This also means we can simplify descriptions too!~~
 --> ~~(DEFERRED) Also, play a nice animation when shards are combined (Take inspiration from CROPS!)~~
 
+- ~~Make wildcard shards cost $8 or $9~~
 
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
-
-
-- Make wildcard shards cost $8 or $9
 
 
 - Make shop smaller (at least, for one-ball)
