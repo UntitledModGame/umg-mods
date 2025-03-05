@@ -384,6 +384,7 @@ function LPState:drawHUD()
         local r = layout.Region(0,0,love.graphics.getDimensions())
             :splitVertical(.4,.6)
             :padRatio(0.05)
+        love.graphics.setColor(1,1,1)
         printRichTextByConstraint(r, WIN_TEXT, largerFont, "center", gs)
         return
     end

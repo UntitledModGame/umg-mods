@@ -11,14 +11,13 @@
 
 - ~~Make victory-shockwave cleaner, remove fade from it~~
 
+- ~~Fix: "YOU WIN" text is black when space-background is active~~
+
+
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
-
-
-
-- Fix: "YOU WIN" text is black when space-background is active
 
 
 - Muting SFX doesnt work (...?)
@@ -35,6 +34,8 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 - Make shop smaller (at least, for one-ball)
 ==> 2 shop-slots, 2 food-slots?
 
+
+- Create white-background: (White background, Light blue clouds)
 
 
 - Make a few more `Rotate/Unlock` items that scale:

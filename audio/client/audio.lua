@@ -13,20 +13,6 @@ local nameBySource = setmetatable({}, {__mode = "k"})
 
 local EFFECT_SUPPORTED = love.audio.isEffectsSupported()
 
----@param name string
----@param source love.Source
-local function defineSound(name, source)
-    if definedAudios[name] then
-        definedAudios[name]:stop()
-        definedAudios[name]:release()
-    end
-
-    definedAudios[name] = source
-
-    if not tagsOfAudios[name] then
-        tagsOfAudios[name] = objects.Set()
-    end
-end
 
 ---@param name string
 ---@return boolean
@@ -57,7 +43,7 @@ typecheck.addType("audiotag", function(x)
     return isValidTag(x), "expected valid audio tag name"
 end)
 
-local defineSoundTc = typecheck.assert("string", "love:Source")
+local defineAudioTc = typecheck.assert("string", "love:Source")
 
 ---Define a new sound.
 ---
@@ -66,9 +52,23 @@ local defineSoundTc = typecheck.assert("string", "love:Source")
 ---IF an audio with name `name` is redefined, the tags will not be cleared.
 ---@param name string Name of the sound.
 ---@param source love.Source Audio source template.
-function audio.defineAudio(name, source)
-    defineSoundTc(name, source)
-    return defineSound(name, source)
+---@param tags? love.Source Audio source template.
+function audio.defineAudio(name, source, tags)
+    defineAudioTc(name, source)
+    if definedAudios[name] then
+        definedAudios[name]:stop()
+        definedAudios[name]:release()
+    end
+
+    definedAudios[name] = source
+
+    if not tagsOfAudios[name] then
+        if tags then
+            tagsOfAudios[name] = objects.Set(tags)
+        else
+            tagsOfAudios[name] = objects.Set()
+        end
+    end
 end
 
 ---Check if an audio with name `name` has been defined.
@@ -126,7 +126,7 @@ function audio.defineAudioInDirectory(dirobj, prefix, tags, suffix)
                         end
 
                         deflist:add(filename)
-                        defineSound(prefix..filename..suffix, source)
+                        audio.defineAudio(prefix..filename..suffix, source, tags)
                     else
                         umg.log.error("attempt to load as source", fullpath, source)
                     end
@@ -182,29 +182,18 @@ function audio.defineTag(tag)
     return defineTag(tag)
 end
 
----Add tag to the sound with name of `name`
+--- Add tag to the sound with name of `name`.
+--- (Useful for adding extra tags to audios defined by other mods)
 ---@param name string Valid audio name.
----@param ... string List of valid tags to assign.
-function audio.tag(name, ...)
+---@param tags string[] List of valid tags to assign.
+function audio.tag(name, tags)
     validSoundTc(name)
-    for i = 1, select("#", ...) do
-        local tag = select(i, ...)
-        assertTag(tag)
-        tagsOfAudios[name]:add(tag)
+    for _,t in ipairs(tags) do
+        assertTag(t)
+        tagsOfAudios[name]:add(t)
     end
 end
 
----Remove tags from the audio with name of `name`
----@param name string Valid audio name.
----@param ... string List of valid tags to unassign.
-function audio.untag(name, ...)
-    validSoundTc(name)
-    for i = 1, select("#", ...) do
-        local tag = select(i, ...)
-        assertTag(tag)
-        tagsOfAudios[name]:remove(tag)
-    end
-end
 
 local hasTagTc = typecheck.assert("audio", "audiotag")
 
