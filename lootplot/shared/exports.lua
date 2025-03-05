@@ -934,6 +934,21 @@ end
 
 
 
+--- Tries to clone a slot, using `lp.trySetItem`.
+--- If a slot already exists, the old slot is deleted.
+---@param cloneEnt Entity
+---@param ppos lootplot.PPos
+---@return Entity
+function lp.forceCloneSlot(cloneEnt, ppos)
+    local ent = lp.clone(cloneEnt)
+    lp.setSlot(ppos, ent)
+    lp.tryTriggerEntity("SPAWN", ent)
+    return ent
+end
+
+
+
+
 
 local function ensureDynamicProperties(ent)
     assertServer()

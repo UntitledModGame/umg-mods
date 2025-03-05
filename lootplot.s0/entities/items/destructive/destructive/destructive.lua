@@ -116,8 +116,11 @@ defDestructive("empty_cauldron", "Empty Cauldron", {
 
     onActivate = function(ent)
         local posList = lp.targets.getTargets(ent) or {}
+        local selfSlot = lp.itemToSlot(ent)
+        if not selfSlot then return end
+
         for _,ppos in ipairs(posList) do
-            lp.trySpawnSlot(ppos, server.entities.sell_slot, ent.lootplotTeam)
+            lp.forceCloneSlot(selfSlot, ppos)
         end
     end,
 
