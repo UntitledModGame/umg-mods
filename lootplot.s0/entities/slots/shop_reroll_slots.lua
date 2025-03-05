@@ -196,6 +196,7 @@ local function makeShopSlot(id, name, comps)
         end,
         onActivate = function(slotEnt)
             setItemLock(slotEnt, true)
+            setRerollLock(slotEnt, false)
         end,
         onItemDraw = function(selfEnt, itemEnt, x,y, rot, sx,sy)
             if selfEnt.rerollLock then
@@ -275,6 +276,7 @@ makeShopSlot("food_shop_slot", "Food Shop Slot", {
 
         lp.forceSpawnItem(ppos, etype, slotEnt.lootplotTeam)
         setItemLock(slotEnt, true)
+        setRerollLock(slotEnt, false)
     end,
 
     actionButtons = {

@@ -7,14 +7,12 @@
 
 - ~~Fix test-spacing on LPState round-count and stuff (different per screen resolution!)~~
 
+- ~~Fix skahd shop-lock bug (REPRO: buy -> lock -> reroll )~~
+
 
 ==========================================
-ANYTHING ABOVE ^^^ THIS POINT IS COMPLETE
+ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
-
-
-
-- Fix skahd shop-lock bug
 
 
 - Make victory-shockwave cleaner, remove fade from it
