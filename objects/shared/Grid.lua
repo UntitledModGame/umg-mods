@@ -28,7 +28,13 @@ function Grid:init(width, height)
     self.size = width * height
 
     self.grid = {} -- just a flat array
+    for i=1, self.size do
+        -- fill with false values. This avoids nasty serialization issues
+        -- (TODO: we probably should fix umg.serialize?)
+        self.grid[i] = false
+    end
 end
+
 
 if false then
     ---Availability: Client and Server
@@ -152,6 +158,32 @@ if TEST then
     for i=1, 100 do
         local x,y = g:indexToCoords(i)
         assert(i == g:coordsToIndex(x,y),"?")
+    end
+
+    local function fillWithRandom(grid)
+        local sze = grid.width*grid.height
+        for i=1, sze do
+            if math.random() < 0.5 then
+                local x,y = grid:indexToCoords(i)
+                grid:set(x,y, 42)
+            end
+        end
+    end
+
+    -- test serialization:
+    -- (Zomebody found lootplot bug, looked sus with nil values?)
+    -- we might need to flood the array with `false` instead of nils
+    for i=1, 80000 do
+        local g1 = Grid(10,10)
+        fillWithRandom(g1)
+
+        local g2 = umg.deserialize(umg.serialize(g1))
+        g1:foreach(function(value, x, y)
+            if value ~= g2:get(x,y) then
+                print(umg.inspect(g2.grid), umg.inspect(g1.grid))
+                umg.melt("TEST FAILED!!")
+            end
+        end)
     end
 end
 
