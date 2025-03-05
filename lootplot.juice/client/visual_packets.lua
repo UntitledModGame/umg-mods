@@ -116,7 +116,7 @@ end)
 
 local dirObj = umg.getModFilesystem()
 audio.defineAudioInDirectory(
-    dirObj:cloneWithSubpath("assets/sfx"), "lootplot.juice:", {"audio:sfx"}
+    dirObj:cloneWithSubpath("assets/sfx"), {"audio:sfx"}, "lootplot.juice:"
 )
 
 

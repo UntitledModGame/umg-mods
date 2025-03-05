@@ -52,7 +52,7 @@ local defineAudioTc = typecheck.assert("string", "love:Source")
 ---IF an audio with name `name` is redefined, the tags will not be cleared.
 ---@param name string Name of the sound.
 ---@param source love.Source Audio source template.
----@param tags? love.Source Audio source template.
+---@param tags string[] List of tags for this audio
 function audio.defineAudio(name, source, tags)
     defineAudioTc(name, source)
     if definedAudios[name] then
@@ -61,14 +61,7 @@ function audio.defineAudio(name, source, tags)
     end
 
     definedAudios[name] = source
-
-    if not tagsOfAudios[name] then
-        if tags then
-            tagsOfAudios[name] = objects.Set(tags)
-        else
-            tagsOfAudios[name] = objects.Set()
-        end
-    end
+    tagsOfAudios[name] = objects.Set(tags)
 end
 
 ---Check if an audio with name `name` has been defined.
@@ -90,16 +83,15 @@ local defineSoundsInDirectoryTc = typecheck.assert("table", "string?", "table?",
 ---**Warning**: If there's multiple audio name in with different extension or in a different directory, an error will
 ---be issued.
 ---@param dirobj umg.FilesystemObject Directory, of the current loading mod, to iterate.
+---@param tags string[] List of tags to add when defining the sound.
 ---@param prefix string? Prefix to add to the audio name (default is empty string).
----@param tags string[]? List of tags to add when defining the sound.
 ---@param suffix string? Suffix to add to the audio name (default is empty string).
-function audio.defineAudioInDirectory(dirobj, prefix, tags, suffix)
+function audio.defineAudioInDirectory(dirobj, tags, prefix, suffix)
     defineSoundsInDirectoryTc(dirobj, prefix, tags, suffix)
 
     prefix = prefix or ""
     suffix = suffix or ""
     -- validate tags
-    tags = tags or {}
     for _, tag in ipairs(tags) do
         assertTag(tag)
     end

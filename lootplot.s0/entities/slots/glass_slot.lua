@@ -4,8 +4,7 @@ local glassBreakSound
 
 if client then
     local source = love.audio.newSource("entities/slots/sounds/glass_break_04.wav", "static")
-    audio.defineAudio("lootplot.s0:glass_break_04", source)
-    audio.tag("lootplot.s0:glass_break_04", "audio:sfx")
+    audio.defineAudio("lootplot.s0:glass_break_04", source, {"audio:sfx"})
     glassBreakSound = sound.Sound("lootplot.s0:glass_break_04", 0.4)
 end
 

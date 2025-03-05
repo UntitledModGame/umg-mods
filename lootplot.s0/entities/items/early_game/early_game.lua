@@ -258,7 +258,7 @@ local activateToot, dedToot
 if client then
     local dirObj = umg.getModFilesystem()
     audio.defineAudioInDirectory(
-        dirObj:cloneWithSubpath("entities/items/early_game/sounds"), "lootplot.s0:", {"audio:sfx"}
+        dirObj:cloneWithSubpath("entities/items/early_game/sounds"), {"audio:sfx"}, "lootplot.s0:"
     )
     activateToot = sound.Sound("lootplot.s0:trumpet_toot")
     dedToot = sound.Sound("lootplot.s0:trumpet_destroyed")

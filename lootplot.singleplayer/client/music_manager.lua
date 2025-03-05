@@ -4,8 +4,7 @@ local function define(name, path)
     if not ok then
         umg.melt("Couldnt load music" .. tostring(path))
     end
-    audio.defineAudio(name, source)
-    audio.tag(name, "audio:music")
+    audio.defineAudio(name, source, {"audio:music"})
 end
 
 
