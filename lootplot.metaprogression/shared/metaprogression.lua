@@ -134,7 +134,8 @@ end
 
 
 
--- NOTE: we can't use `/` here, because that's an invalid character
+-- NOTE: we can't use proper namespacing with `:` here, because it's invalid file character
+-- (fsys:write was failing lul)
 local STAT_FILE = "lootplot.metaprogression.stats.json"
 
 
