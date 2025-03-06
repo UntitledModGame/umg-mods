@@ -151,9 +151,6 @@ chat.handleCommand("setRound", {
 
 
 
-
-
-
 chat.handleCommand("save", {
     adminLevel = 120,
     arguments = {},
@@ -581,3 +578,53 @@ chat.handleCommand("spawnItems", {
 })
 
 end
+
+
+
+
+
+
+
+
+
+
+
+if server then
+
+chat.handleCommand("setStat", {
+    --[[
+    WARNING: using this command will 100% fuck up
+    ALL of your achievements and progression.
+    It could also cause softlocks.
+    Do NOTTTTT mess with this unless you are a PRO.
+    ]]
+    adminLevel = 120,
+    arguments = {
+        {name = "stat", type = "string"},
+        {name = "value", type = "number"},
+    },
+    handler = function(clientId, key, val)
+        if not server then
+            return
+        end
+
+        lp.metaprogression.setStat(key, val)
+    end
+})
+
+end
+
+
+
+chat.handleCommand("getStat", {
+    adminLevel = 120,
+    arguments = {
+        {name = "stat", type = "string"},
+    },
+    handler = function(clientId, key)
+        print("STAT: ", key, lp.metaprogression.getStat(key))
+    end
+})
+
+
+

@@ -65,7 +65,7 @@ defItem("gold_axe", {
 local GOLD_BAR_ACTS = 10
 
 helper.defineDelayItem("gold_bar", "Gold Bar", {
-    basePointsGenerated = 3,
+    basePointsGenerated = 8,
     baseMaxActivations = 2,
     basePrice = 4,
 

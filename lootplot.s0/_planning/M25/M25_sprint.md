@@ -52,6 +52,11 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 
 
 
+- Lock starter items (except for tutorial-cat)
+- Add unlocks for starter-items (win game)
+
+
+
 - Make Destructive-archetype more viable. (Somehow?)
 (Maybe make some rocks UNCOMMON...?)
 
@@ -71,9 +76,6 @@ To view the item's shape, click on the item"
 (potion, rook-glove, dragonfruit)
 "Have a play around!"
 ```
-
-- Lock starter items (except for tutorial-cat)
-- Add unlocks for starter-items (win game)
 
 
 - (SPIKE?) Make shop smaller (at least, for one-ball)

@@ -132,6 +132,129 @@ end
 
 
 
+
+
+-- NOTE: we can't use `/` here, because that's an invalid character
+local STAT_FILE = "lootplot.metaprogression.stats.json"
+
+
+local statDefaults = {--[[
+    [statKey] -> defaultValue
+]]}
+
+
+local statTable = {}
+
+local statTableOutOfDate = true
+
+if server then
+    local dat = server.getSaveFilesystem()
+        :read(STAT_FILE)
+    if dat then
+        statTable = json.decode(dat)
+    end
+end
+
+
+
+
+local setStatTc = typecheck.assert("string", "number")
+function lp.metaprogression.setStat(key, val)
+    setStatTc(key, val)
+    assert(server, "?")
+    assert(statDefaults[key], "Invalid stat: " .. key)
+    if statTable[key] ~= val then
+        statTableOutOfDate = true
+        statTable[key] = val
+    end
+end
+
+
+
+---@param key any
+---@return number
+function lp.metaprogression.getStat(key)
+    assert(statDefaults[key], "Invalid stat: " .. key)
+    if client then
+        return statTable[key] or statDefaults[key]
+    else
+        -- stat should always exist on server; else bug.
+        assert(statTable[key])
+        return statTable[key]
+    end
+end
+
+
+
+local defStatTc = typecheck.assert("string", "number")
+function lp.metaprogression.defineStat(key, defaultValue)
+    defStatTc(key, defaultValue)
+    assert(umg.isNamespaced(key))
+    statDefaults[key] = defaultValue
+    if server and (not statTable[key]) then
+        lp.metaprogression.setStat(key, defaultValue)
+    end
+end
+
+
+
+umg.definePacket("lootplot.metaprogression:syncStats", {
+    typelist = {"string"}
+})
+
+
+
+if server then
+
+
+---If no clientId is specified, syncs to ALL players
+---@param clientId? string
+local function syncStatsToClient(clientId)
+    assert(server,"?")
+    local data = json.encode(statTable)
+    if clientId then
+        server.unicast(clientId, "lootplot.metaprogression:syncStats", data)
+    else
+        server.broadcast("lootplot.metaprogression:syncStats", data)
+    end
+end
+
+
+local function trySaveStatTable()
+    if statTableOutOfDate then
+        local fsys = server.getSaveFilesystem()
+        fsys:write(STAT_FILE, json.encode(statTable))
+        syncStatsToClient()
+        statTableOutOfDate = false
+    end
+end
+
+
+
+local NUM_SKIP_TICKS = 50
+local ct = 1
+umg.on("@tick", function()
+    ct = ct + 1
+    if ct % NUM_SKIP_TICKS == 0 then
+        trySaveStatTable()
+    end
+end)
+
+umg.on("@playerJoin", function(clientId)
+    syncStatsToClient(clientId)
+end)
+
+end
+
+
+
+
+
+
+
+
+
+
 if server then
 
 ---@param storage table
@@ -163,6 +286,11 @@ client.on("lootplot.metaprogression:allUnlockData", function(unlockData)
         umg.log.error("Couldnt deser data: ", er)
     end
     CLIENT_UNLOCK_CACHE = tabl
+end)
+
+client.on("lootplot.metaprogression:syncStats", function(jsonData)
+    local tabl = json.decode(jsonData)
+    statTable = tabl
 end)
 
 end
