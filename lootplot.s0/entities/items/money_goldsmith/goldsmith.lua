@@ -186,7 +186,7 @@ local DESC = interp("If {lootplot:MONEY_COLOR}money more than $%{moneyReq}{/loot
 defItem("ruby_ornament", "Ruby Ornament", {
     activateDescription = DESC,
 
-    baseMultGenerated = 0.3,
+    baseMultGenerated = -0.5,
     baseMaxActivations = 2,
 
     onActivate = function(ent)
