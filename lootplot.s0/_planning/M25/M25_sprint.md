@@ -37,18 +37,19 @@
 
 ~~- Create ginger-roots: Spawns stone-slots with 20 lives~~
 
+~~- Give shapes to treasure-bags~~
+~~- Make food-treasure-bags have a vertical shape instead~~
+~~- (DEFERRED) Prevent treasure-bags being added to normal-slots (ie must be floating)~~
+~~- Add description to treasure-bags, explaining that they must be placed on air~~
+~~- Make cloud-slots destroy other slots diagonally (<--- balance reasons! Or else bishop/knight shape is OP)~~
+
+
 
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
-
-- Give shapes to treasure-bags
-- Make food-treasure-bags have a vertical shape instead
-- Prevent treasure-bags being added to normal-slots (ie must be floating)
-- Prevent treasure-bags being added to normal-slots (ie must be floating)
-- Make cloud-slots destroy other slots diagonally (<--- balance reasons! Or else bishop/knight shape is OP)
 
 
 - Make Destructive-archetype more viable. (Somehow?)

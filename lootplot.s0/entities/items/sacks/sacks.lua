@@ -38,6 +38,29 @@ local function trySpawnCloudWithItem(ppos, ent, gen, transform)
     end
 end
 
+
+
+local HORIZONTAL_SACK_SHAPE = lp.targets.UnionShape(
+    lp.targets.HorizontalShape(1),
+    lp.targets.ON_SHAPE
+)
+
+
+local VERTICAL_SACK_SHAPE = lp.targets.UnionShape(
+    lp.targets.VerticalShape(1),
+    lp.targets.ON_SHAPE
+)
+
+local function canSpawnCloudSlot(selfEnt, ppos)
+    local itemEnt = lp.posToItem(ppos)
+    local slotEnt = lp.posToSlot(ppos)
+    local slotOK = (not slotEnt)
+    local itemOK = (not itemEnt) or (itemEnt == selfEnt)
+    return slotOK and itemOK
+end
+
+
+
 local function defSack(id, name, etype)
     etype = etype or {}
 
@@ -46,6 +69,8 @@ local function defSack(id, name, etype)
     etype.rarity = etype.rarity or lp.rarities.RARE
     etype.canItemFloat = true
     etype.name = loc(name)
+
+    etype.shape = etype.shape or HORIZONTAL_SACK_SHAPE
 
     etype.lootplotTags = {constants.tags.TREASURE}
 
@@ -58,18 +83,25 @@ local function defSack(id, name, etype)
         local transform = etype.transformTreasureItem or dummy
         ---@cast transform fun(e: Entity, pp: lootplot.PPos)
 
-        local prevOnActivate = etype.onActivate
+        etype.target = {
+            type = "NO_SLOT",
+            filter = function(selfEnt, ppos)
+                local item = lp.posToItem(ppos)
+                return (not item) or item == selfEnt
+            end,
+        }
 
-        etype.onActivate = function(ent)
-            if prevOnActivate then
-                prevOnActivate(ent)
-            end
-            local ppos = lp.getPos(ent)
-            local slot = lp.itemToSlot(ent)
-            if ppos and (not slot) then
-                trySpawnCloudWithItem(ppos, ent, gen, transform)
-                trySpawnCloudWithItem(ppos:move(1,0), ent, gen, transform)
-                trySpawnCloudWithItem(ppos:move(-1,0), ent, gen, transform)
+        etype.canActivate = function(selfEnt)
+            -- only activates when floating
+            return (not lp.itemToSlot(selfEnt))
+        end
+
+        etype.onActivate = function(selfEnt)
+            local targs = lp.targets.getTargets(selfEnt) or {}
+            for _,ppos in ipairs(targs) do
+                if canSpawnCloudSlot(selfEnt, ppos) then
+                    trySpawnCloudWithItem(ppos, selfEnt, gen, transform)
+                end
             end
         end
     end
@@ -138,7 +170,7 @@ local function isFood(etype)
 end
 
 defSack("sack_rare", "Rare Sack", {
-    activateDescription = locRarity("Choose between 3 %{RARE} items."),
+    activateDescription = locRarity("Spawns %{RARE} items.\nMust be placed in the air!"),
 
     basePrice = 12,
     rarity = lp.rarities.COMMON,
@@ -150,7 +182,7 @@ defSack("sack_rare", "Rare Sack", {
 
 
 defSack("sack_uncommon", "Uncommon Sack", {
-    activateDescription = locRarity("Choose between 3 %{UNCOMMON} items."),
+    activateDescription = locRarity("Spawns %{UNCOMMON} items.\nMust be placed in the air!"),
 
     basePrice = 4,
     rarity = lp.rarities.COMMON,
@@ -162,8 +194,11 @@ defSack("sack_uncommon", "Uncommon Sack", {
 
 
 defSack("sack_food", "Food Sack", {
-    activateDescription = loc("Spawns a {lootplot:DOOMED_LIGHT_COLOR}DOOMED-1{/lootplot:DOOMED_LIGHT_COLOR} food item."),
+    activateDescription = locRarity("Spawns food items.\nMust be placed in the air!"),
+
     doomCount = 1,
+
+    shape = VERTICAL_SACK_SHAPE,
 
     basePrice = 4,
 
@@ -176,7 +211,7 @@ defSack("sack_food", "Food Sack", {
 
 
 defSack("sack_epic", "Epic Sack", {
-    activateDescription = locRarity("Choose between 3 %{EPIC} items."),
+    activateDescription = locRarity("Spawns %{EPIC} items.\nMust be placed in the air!"),
 
     basePrice = 16,
     rarity = lp.rarities.UNCOMMON,

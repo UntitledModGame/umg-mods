@@ -323,6 +323,11 @@ local function foreachTouchingSlot(rootSlotEnt, func)
             consider(ppos, 0, -1)
             consider(ppos, 1, 0)
             consider(ppos, 0, 1)
+
+            consider(ppos, -1, -1)
+            consider(ppos, 1, -1)
+            consider(ppos, 1, -1)
+            consider(ppos, -1, 1)
         end
     end
 
@@ -458,8 +463,8 @@ lp.defineSlot("lootplot.s0:paper_slot", {
 
 
 --[[
-This function will delete all "attached" items;
-That is, all items that are 
+This function will delete all "attached" slots;
+That is, all items that are within a KING shape of the cloud slot
 ]]
 local function deleteAttachedCloudSlots(ent)
     assert(server,"?")
@@ -512,8 +517,7 @@ local cloudPickButton = {
 lp.defineSlot("lootplot.s0:cloud_slot", {
     image = "cloud_slot",
     name = loc("Cloud slot"),
-    triggers = {"PULSE"},
-    activateDescription = loc("Choose 1 item!"),
+    activateDescription = loc("When picked, destroy nearby cloud slots."),
 
     rarity = lp.rarities.UNIQUE,
 
