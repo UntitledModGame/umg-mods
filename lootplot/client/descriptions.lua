@@ -223,12 +223,19 @@ end)
 local ACTIVATIONS = interp("Activations: {lootplot:POINTS_COLOR}%{remaining}/%{total}")
 local NO_ACTIVATIONS = interp("{lootplot:BAD_COLOR}No Activations: %{remaining}/%{total}")
 
+local function isDoomedBeforeActivationsRunOut(ent)
+    if ent.doomCount then
+        return (math.max(ent.doomCount, 1) + (ent.lives or 0)) < ent.maxActivations
+    end
+end
+
+
 umg.on("lootplot:populateDescription", 50, function(ent, arr)
     if ent.maxActivations  then
         local activations = ent.activationCount or 0
-        if ent.doomCount and (ent.doomCount < ent.maxActivations) then
-            -- HACK: Doomcount check here.
-            return -- no point in displaying.
+        if ent.doomCount and isDoomedBeforeActivationsRunOut(ent) then
+            -- HACK: This item will get destroyed BEFORE running out of activations.
+            return -- Thus, no point in displaying.
         end
 
         arr:add(function ()
@@ -276,7 +283,7 @@ end)
 
 
 local DOOMED_MULTI = interp("{wavy}{lootplot:DOOMED_COLOR}DOOMED %{doomCount}:{/lootplot:DOOMED_COLOR}{/wavy} {lootplot:DOOMED_LIGHT_COLOR}Destroyed after %{doomCount} activations!")
-local DOOMED_1 = interp("{wavy}{lootplot:DOOMED_COLOR}DOOMED %{doomCount}:{/lootplot:DOOMED_COLOR}{/wavy} {lootplot:DOOMED_LIGHT_COLOR}Destroyed when activated!")
+local DOOMED_1 = interp("{wavy}{lootplot:DOOMED_COLOR}DOOMED 1:{/lootplot:DOOMED_COLOR}{/wavy} {lootplot:DOOMED_LIGHT_COLOR}Destroyed when activated!")
 
 umg.on("lootplot:populateDescription", 60, function(ent, arr)
     if ent.doomCount then

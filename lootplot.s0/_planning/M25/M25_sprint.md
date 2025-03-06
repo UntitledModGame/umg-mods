@@ -43,6 +43,10 @@
 ~~- Add description to treasure-bags, explaining that they must be placed on air~~
 ~~- Make cloud-slots destroy other slots diagonally (<--- balance reasons! Or else bishop/knight shape is OP)~~
 
+~~- Fix bug with doomed description (DoomCount goes into negatives. Fix this.)~~
+
+~~- Fix bug with activations arent shown if DOOMED is less than activations. This works great for items WITHOUT lives!~~
+~~But its an issue when the item has many lives, activations isnt shown~~
 
 
 
@@ -58,7 +62,10 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 
 
 - Make Destructive-archetype more viable. (Somehow?)
-(Maybe make some rocks UNCOMMON...?)
+- IDEA-1: Make some rocks UNCOMMON (ice-cube, mult-rocks?)
+- IDEA-2: Create new UNCOMMON item: 
+- ITEM: Destroy items with Destroy trigger. Trigger Reroll on items with Reroll trigger. Cost $1 to activate
+
 
 
 - Make shape-tutorial better (split into 2 parts?)
