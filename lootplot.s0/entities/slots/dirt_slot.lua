@@ -30,6 +30,9 @@ return lp.defineSlot("lootplot.s0:dirt_slot", {
     end,
 
     canAddItemToSlot = function(slotEnt, itemEnt)
+        if lp.canItemFloat(itemEnt) then
+            return true -- its OK to add.
+        end
         if itemEnt.rarity then
             if SPECIAL_RARITIES[itemEnt.rarity] then
                 return true -- OK to hold these rarities.
