@@ -19,13 +19,6 @@ lp.defineSlot("lootplot.s0:sell_slot", {
         if not itemEnt then
             return false -- no item!
         end
-        local money = lp.getMoney(itemEnt)
-        local price = (itemEnt.price or 0) / 2
-        if (price + money) < 0 then
-            return false -- not enough money!
-            -- (sell-price is negative)
-        end
-        return true
     end,
 
     onActivate = function(slotEnt)
