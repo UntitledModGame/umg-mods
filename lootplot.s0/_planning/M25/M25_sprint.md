@@ -23,7 +23,6 @@
 
 - ~~Create white-background: (White background, Light blue clouds)~~
 
-
 ~~- Make a new type of stone-slot: "auto_stone_slot".~~
 ~~- Rarity should be EPIC.~~
 ~~- (Make the original stone-slot rarity=UNIQUE)~~
@@ -34,8 +33,9 @@
 ~~- Earn $4~~
 ~~(^^^ or a mixture of the above?)~~
 
-
 ~~- Make FLOATY description better: "FLOATY: Can be placed in the air!"~~
+
+~~- Create ginger-roots: Spawns stone-slots with 20 lives~~
 
 
 
@@ -44,13 +44,15 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
 
-
-- Create ginger-roots: Spawns stone-slots with 20 lives
+- Give shapes to treasure-bags
+- Make food-treasure-bags have a vertical shape instead
+- Prevent treasure-bags being added to normal-slots (ie must be floating)
+- Prevent treasure-bags being added to normal-slots (ie must be floating)
+- Make cloud-slots destroy other slots diagonally (<--- balance reasons! Or else bishop/knight shape is OP)
 
 
 - Make Destructive-archetype more viable. (Somehow?)
 (Maybe make some rocks UNCOMMON...?)
-
 
 
 - Make shape-tutorial better (split into 2 parts?)
@@ -68,13 +70,6 @@ To view the item's shape, click on the item"
 (potion, rook-glove, dragonfruit)
 "Have a play around!"
 ```
-
-
-- Give shapes to treasure-bags
-- Make food-treasure-bags have a vertical shape instead
-- Prevent treasure-bags being added to normal-slots (ie must be floating)
-- Make cloud-slots destroy other slots diagonally (<--- balance reasons! Or else bishop shape is OP)
-
 
 - Lock starter items (except for tutorial-cat)
 - Add unlocks for starter-items (win game)

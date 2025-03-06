@@ -543,6 +543,13 @@ defineSlotSpawner("sniper_berries", "Sniper Berries", "slot", "Basic Slots", lp.
     rarity = lp.rarities.EPIC,
 })
 
+defineSlotSpawner("ginger_roots", "Ginger Roots", "auto_stone_slot", "Stone Slots with 20 lives", lp.targets.RookShape(1), {
+    basePrice = 12,
+    rarity = lp.rarities.RARE,
+}, function(slotEnt)
+    slotEnt.lives = 20
+end)
+
 local STONE_FRUIT_SHAPE = lp.targets.UnionShape(lp.targets.ON_SHAPE, lp.targets.HorizontalShape(1))
 defineSlotSpawner("stone_fruit", "Stone fruit", "null_slot", "Null Slots", STONE_FRUIT_SHAPE, {
     basePrice = 3,
