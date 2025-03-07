@@ -55,16 +55,22 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
 
-
+- Add win stat in `lootplot.s0`
 - Lock starter items (except for tutorial-cat)
 - Add unlocks for starter-items (win game)
 
+- Make key-bar transform after 4 activations (and increase mult?)
+
+- Make wildcard-shards UNCOMMON
+
+- Make helmet-items point downwards instead of UP, its better UX, and it makes more sense
+
+- Keys should start with a randomized rotation. (maybe they should point diagonally? Or something? Same as spears)
 
 
 - Make Destructive-archetype more viable. (Somehow?)
 - IDEA-1: Make some rocks UNCOMMON (ice-cube, mult-rocks?)
-- IDEA-2: Create new UNCOMMON item: 
-- ITEM: Destroy items with Destroy trigger. Trigger Reroll on items with Reroll trigger. Cost $1 to activate
+- ITEM: (UNCOMMON) Destroy items with Destroy trigger. Trigger Reroll on items with Reroll trigger. Cost $1 to activate
 
 
 
@@ -125,6 +131,15 @@ Also, when we trigger REROLL on items at start, lets just trigger it instantly. 
 - When a game is lost, dont allow player to "continue run"
 - When a game is lost, dont allow player to recover the run through Rerolling. Lost is LOST!
 - When a game is lost, tell the player: "Game over" text, similar to "You win" text?
+
+
+- SECRET CHALLENGE STARTER-ITEMS:
+What about this for an idea:
+There is a small chance for 1x1 worldgen-locked slots to contain a "meta-chest."
+When the meta-chest is unlocked, you unlock a secret challenge-starting item?
+
+^^^ this would be extremely simple to implement, it would be fun, because itd be exciting to uncover new items, and itd just be a cool thing.
+Bowling-ball could be unlocked this way, for example
 
 
 
