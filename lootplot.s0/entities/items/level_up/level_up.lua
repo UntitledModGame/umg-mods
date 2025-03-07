@@ -53,11 +53,11 @@ defItem("red_key", "Red Key", {
 
     rarity = lp.rarities.RARE,
 
-    shape = lp.targets.VerticalShape(1),
+    shape = lp.targets.RookShape(2),
     target = {
         type = "ITEM_OR_SLOT",
         activate = function(_, _, target)
-            return lp.tryTriggerEntity("Unlock", target)
+            return lp.tryTriggerEntity("UNLOCK", target)
         end
     }
 })
