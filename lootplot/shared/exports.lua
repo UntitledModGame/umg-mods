@@ -1413,22 +1413,31 @@ function lp.getPlayerTeam(clientId)
 end
 
 
+
+
+local metaprogression = require("shared.metaprogression")
+
+lp.metaprogression = {}
+
+lp.metaprogression.isUnlocked = metaprogression.isUnlocked
+lp.metaprogression.unlock = metaprogression.unlock
+
+lp.metaprogression.defineStat = metaprogression.defineStat
+lp.metaprogression.setStat = metaprogression.setStat
+lp.metaprogression.getStat = metaprogression.getStat
+
+
+lp.metaprogression.defineStat("lootplot:WIN_COUNT", 0)
+
+
+
+
 --- Signals the end of the game for a player
 ---@param clientId string
-function lp.endGame(clientId)
-    --[[
-    TODO: this is very "meh",
-    But lootplot.singleplayer and lootplot.s0 *need* a way to communicate.
-
-    (We need this layer so `lp.s0` can signal a win,
-    and the lp.singleplayer HUD can update.)
-
-    For future, we should honestly put the `lp.singleplayer` HUD inside of `lootplot.s0`.
-    (Not the actionButtons, but the money/points display!)
-    This makes it so if future mods want to add extra resources/attributes, they can do so.
-    HUD in lp.s0 would also remove the need for this call.
-    ]]
-    umg.call("lootplot:endGame", clientId)
+function lp.winGame(clientId)
+    local winCount = lp.metaprogression.getStat("lootplot:WIN_COUNT")
+    lp.metaprogression.setStat("lootplot:WIN_COUNT", winCount + 1)
+    umg.call("lootplot:winGame", clientId)
 end
 
 

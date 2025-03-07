@@ -40,15 +40,15 @@ end
 if server then
 
 ---@param isWin boolean
-function singleplayer.endGame(isWin)
+function singleplayer.winGame(isWin)
     local run = assert(lp.singleplayer.getRun())
 
-    umg.analytics.collect("lootplot.singleplayer:endGame", {
+    umg.analytics.collect("lootplot.singleplayer:winGame", {
         win = not not isWin,
         runMeta = run:getMetadata()
     })
 
-    lp.endGame(server.getHostClient())
+    lp.winGame(server.getHostClient())
 end
 
 end

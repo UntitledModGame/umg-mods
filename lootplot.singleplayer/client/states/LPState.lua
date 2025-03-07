@@ -17,9 +17,9 @@ local LPState = objects.Class("lootplot.singleplayer:State")
 local lpState = nil
 
 
-umg.on("lootplot:endGame", function()
+umg.on("lootplot:winGame", function()
     if lpState then
-        lpState:endGame()
+        lpState:winGame()
     end
 end)
 
@@ -524,7 +524,7 @@ function LPState:quitGame()
 end
 
 
-function LPState:endGame()
+function LPState:winGame()
     self.showWinText = true
 end
 

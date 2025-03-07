@@ -136,7 +136,7 @@ local function nextLevel(ent)
     local level = lp.getLevel(ent)
     if level >= constants.FINAL_LEVEL then
         -- oh damn!! GG! :)
-        lp.endGame(server.getHostClient())
+        lp.winGame(server.getHostClient())
         lp.destroy(ent)
         return
     end

@@ -1,12 +1,12 @@
 
 
-lp.metaprogression = {}
+local metaprogression = {}
 
-umg.definePacket("lootplot.metaprogression:unlock", {
+umg.definePacket("lootplot:metaprogression.unlock", {
     typelist = {"string", "boolean"}
 })
 
-umg.definePacket("lootplot.metaprogression:allUnlockData", {
+umg.definePacket("lootplot:metaprogression.allUnlockData", {
     -- pckr table
     typelist = {"string"}
 })
@@ -94,20 +94,10 @@ local function setValue(storage, name, value)
 end
 
 
-local isEntityTypeUnlockedTc = typecheck.assert("table")
-
-function lp.metaprogression.isEntityTypeUnlocked(entityType)
-    isEntityTypeUnlockedTc(entityType)
-    if not entityType.unlock then
-        return true -- its unlocked, because it doesnt have `unlock` component!
-    end
-    return lp.metaprogression.isUnlocked(entityType:getTypename())
-end
-
 
 --- Marks a string as "unlocked"
 ---@param name string Any kind of string value, representing an unlock. Generally, this will be an entity-type name. MUST BE PREFIXED BY THE MOD-NAME!!!  Eg: "my_mod:item"
-function lp.metaprogression.isUnlocked(name)
+function metaprogression.isUnlocked(name)
     if server then
         local ns, str = fromNamespaced(name)
         return getSaveTable(UNLOCK_STORAGE, ns)[str]
@@ -119,11 +109,11 @@ end
 
 --- Marks a string as "unlocked"
 ---@param name string Any kind of string value, representing an unlock. Generally, this will be an entity-type name. MUST BE PREFIXED BY THE MOD-NAME!!!  Eg: "my_mod:item"
-function lp.metaprogression.unlock(name)
+function metaprogression.unlock(name)
     assertServer()
     local saved = setValue(UNLOCK_STORAGE, name, true)
     if saved then
-        server.broadcast("lootplot.metaprogression:unlock", name, true)
+        server.broadcast("lootplot:metaprogression.unlock", name, true)
     end
 end
 
@@ -160,7 +150,7 @@ end
 
 
 local setStatTc = typecheck.assert("string", "number")
-function lp.metaprogression.setStat(key, val)
+function metaprogression.setStat(key, val)
     setStatTc(key, val)
     assert(server, "?")
     assert(statDefaults[key], "Invalid stat: " .. key)
@@ -174,7 +164,7 @@ end
 
 ---@param key any
 ---@return number
-function lp.metaprogression.getStat(key)
+function metaprogression.getStat(key)
     assert(statDefaults[key], "Invalid stat: " .. key)
     if client then
         return statTable[key] or statDefaults[key]
@@ -188,18 +178,21 @@ end
 
 
 local defStatTc = typecheck.assert("string", "number")
-function lp.metaprogression.defineStat(key, defaultValue)
+
+---@param key string
+---@param defaultValue number
+function metaprogression.defineStat(key, defaultValue)
     defStatTc(key, defaultValue)
     assert(umg.isNamespaced(key))
     statDefaults[key] = defaultValue
     if server and (not statTable[key]) then
-        lp.metaprogression.setStat(key, defaultValue)
+        metaprogression.setStat(key, defaultValue)
     end
 end
 
 
 
-umg.definePacket("lootplot.metaprogression:syncStats", {
+umg.definePacket("lootplot:metaprogression.syncStats", {
     typelist = {"string"}
 })
 
@@ -214,9 +207,9 @@ local function syncStatsToClient(clientId)
     assert(server,"?")
     local data = json.encode(statTable)
     if clientId then
-        server.unicast(clientId, "lootplot.metaprogression:syncStats", data)
+        server.unicast(clientId, "lootplot:metaprogression.syncStats", data)
     else
-        server.broadcast("lootplot.metaprogression:syncStats", data)
+        server.broadcast("lootplot:metaprogression.syncStats", data)
     end
 end
 
@@ -267,7 +260,7 @@ end
 createStorage(UNLOCK_STORAGE)
 
 umg.on("@playerJoin",function(clientId)
-    server.unicast(clientId, "lootplot.metaprogression:allUnlockData", umg.serialize(UNLOCK_STORAGE.cache))
+    server.unicast(clientId, "lootplot:metaprogression.allUnlockData", umg.serialize(UNLOCK_STORAGE.cache))
 end)
 
 end
@@ -277,11 +270,11 @@ end
 
 if client then
 
-client.on("lootplot.metaprogression:unlock", function(unlock, bool)
+client.on("lootplot:metaprogression:unlock", function(unlock, bool)
     CLIENT_UNLOCK_CACHE[unlock] = bool
 end)
 
-client.on("lootplot.metaprogression:allUnlockData", function(unlockData)
+client.on("lootplot:metaprogression.allUnlockData", function(unlockData)
     local tabl, er = umg.deserialize(unlockData)
     if not tabl then
         umg.log.error("Couldnt deser data: ", er)
@@ -289,10 +282,12 @@ client.on("lootplot.metaprogression:allUnlockData", function(unlockData)
     CLIENT_UNLOCK_CACHE = tabl
 end)
 
-client.on("lootplot.metaprogression:syncStats", function(jsonData)
+client.on("lootplot:metaprogression.syncStats", function(jsonData)
     local tabl = json.decode(jsonData)
     statTable = tabl
 end)
 
 end
 
+
+return metaprogression

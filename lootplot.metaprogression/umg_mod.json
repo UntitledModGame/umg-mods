@@ -1,4 +1,0 @@
-{
-    "uses": ["lootplot", "sync"],
-    "type": "base"
-}

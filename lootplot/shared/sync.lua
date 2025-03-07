@@ -20,7 +20,7 @@ sync.proxyEventToClient("lootplot:itemsCombined")
 sync.proxyEventToClient("lootplot:entityBuffed")
 
 
-sync.proxyEventToClient("lootplot:endGame")
+sync.proxyEventToClient("lootplot:winGame")
 
 
 
