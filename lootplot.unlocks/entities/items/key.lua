@@ -12,6 +12,13 @@ lp.defineItem("lootplot.unlocks:key", {
 
     triggers = {"PULSE"},
 
+    init = function(ent)
+        local rot = lp.SEED:randomMisc(0,3)
+        if rot ~= 0 then
+            lp.rotateItem(ent, rot)
+        end
+    end,
+
     doomCount = 1,
 
     canActivate = function(ent)
@@ -34,7 +41,7 @@ lp.defineItem("lootplot.unlocks:key", {
         return false
     end,
 
-    shape = lp.targets.VerticalShape(1),
+    shape = lp.targets.HorizontalShape(1),
     target = {
         type = lp.CONVERSIONS.ITEM_OR_SLOT,
         filter = function(_, ppos, targetEnt)
