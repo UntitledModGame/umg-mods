@@ -151,7 +151,7 @@ end
 
 
 defineHelmet("ruby_helmet", "Ruby Helmet", {
-    activateDescription = loc("Give +1 activations to items.\n(Capped at 20)"),
+    activateDescription = loc("Give +2 activations to items.\n(Capped at 40)"),
 
     triggers = {"PULSE"},
 
@@ -164,12 +164,10 @@ defineHelmet("ruby_helmet", "Ruby Helmet", {
     target = {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
-            if (targetEnt.maxActivations or 0) < 20 then
-                lp.modifierBuff(targetEnt, "maxActivations", 1, selfEnt)
-            end
+            lp.modifierBuff(targetEnt, "maxActivations", 2, selfEnt)
         end,
         filter = function(selfEnt, ppos, targetEnt)
-            return (targetEnt.maxActivations or 0) < 20
+            return (targetEnt.maxActivations or 0) < 40
         end
     },
 })
