@@ -37,7 +37,7 @@ defItem("rocks", {
 
 
 
-local NUM_KEY_ACTS = 10
+local NUM_KEY_ACTS = 4
 helper.defineTransformItem("key_bar", "Key Bar", {
     transformId = "key",
     transformName = "Key",
@@ -47,7 +47,7 @@ helper.defineTransformItem("key_bar", "Key Bar", {
 
     basePrice = 4,
     baseMaxActivations = 4,
-    baseMultGenerated = 0.2,
+    baseMultGenerated = 0.3,
 
     rarity = lp.rarities.UNCOMMON,
 })
