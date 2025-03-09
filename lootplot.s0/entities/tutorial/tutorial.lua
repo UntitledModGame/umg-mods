@@ -560,6 +560,9 @@ tutorialSections:add(function(tutEnt)
     clearEverythingExceptButtons(tutEnt)
     addText(tutEnt, 0,-1, TXT)
 
+    -- mark as done- this will unlock the starter-item
+    lp.metaprogression.setFlag("lootplot.s0:isTutorialCompleted", true)
+
     addText(tutEnt, 0,1, TXT2)
 end)
 end

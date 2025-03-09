@@ -6,7 +6,10 @@ local wg = lp.worldgen
 local constants = require("shared.constants")
 
 
+local defPerkTc = typecheck.assert("string", "table")
+
 local function definePerk(id, etype)
+    defPerkTc(id, etype)
     etype.image = etype.image or id
     etype.canItemFloat = true -- perk always float
     etype.triggers = {"PULSE"}
@@ -14,6 +17,17 @@ local function definePerk(id, etype)
     id = "lootplot.s0:" .. id
     lp.defineItem(id, etype)
     lp.worldgen.STARTING_ITEMS:add(id)
+end
+
+
+local function unlockAfterWins(numberOfWins)
+    local isEntityTypeUnlocked = function(etype)
+        if lp.getWinCount() > numberOfWins then
+            return true
+        end
+    end
+
+    return isEntityTypeUnlocked
 end
 
 
@@ -160,6 +174,10 @@ definePerk("one_ball", {
     baseMoneyGenerated = 2,
     baseMaxActivations = 2,
 
+    isEntityTypeUnlocked = function(_etype)
+        return lp.metaprogression.getFlag("lootplot.s0:isTutorialCompleted")
+    end,
+
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
         lp.setMoney(ent, constants.STARTING_MONEY)
@@ -200,6 +218,8 @@ definePerk("five_ball", {
     name = loc("Five Ball"),
     description = loc("Starts with a rotation-slot"),
 
+    isEntityTypeUnlocked = unlockAfterWins(1),
+
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
 
@@ -225,6 +245,8 @@ definePerk("five_ball", {
 definePerk("L_ball", {
     name = loc("L Ball"),
     description = loc("Gives lives to items/slots."),
+
+    isEntityTypeUnlocked = unlockAfterWins(2),
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
@@ -256,28 +278,6 @@ definePerk("L_ball", {
     }
 })
 
-
-
-
-
-
-definePerk("nine_ball", {
-    name = loc("Nine Ball"),
-    description = loc("Has no money limit."),
-
-    baseMaxActivations = 1,
-
-    onActivateOnce = function(ent)
-        lp.setMoney(ent, constants.STARTING_MONEY)
-        lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
-        spawnShop(ent)
-        spawnRerollButton(ent)
-        spawnNormal(ent)
-        spawnSell(ent)
-        spawnInterestSlot(ent)
-        spawnDoomClock(ent)
-    end
-})
 
 
 
@@ -356,6 +356,8 @@ definePerk("four_ball", {
     name = loc("Four Ball"),
     description = loc("Has an extra round per level"),
 
+    isEntityTypeUnlocked = unlockAfterWins(3),
+
     onActivateOnce = function(ent)
         lp.setMoney(ent, constants.STARTING_MONEY)
         local numRounds = constants.ROUNDS_PER_LEVEL + 1
@@ -373,9 +375,35 @@ definePerk("four_ball", {
 
 
 
+definePerk("nine_ball", {
+    name = loc("Nine Ball"),
+    description = loc("Has no money limit."),
+
+    isEntityTypeUnlocked = unlockAfterWins(4),
+
+    baseMaxActivations = 1,
+
+    onActivateOnce = function(ent)
+        lp.setMoney(ent, constants.STARTING_MONEY)
+        lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
+        spawnShop(ent)
+        spawnRerollButton(ent)
+        spawnNormal(ent)
+        spawnSell(ent)
+        spawnInterestSlot(ent)
+        spawnDoomClock(ent)
+    end
+})
+
+
+
+
+
 definePerk("bowling_ball", {
     name = loc("Bowling Ball"),
     description = loc("CHALLENGE-ITEM!\nFor PROS ONLY."),
+
+    isEntityTypeUnlocked = unlockAfterWins(5),
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)

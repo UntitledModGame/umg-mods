@@ -2,11 +2,11 @@
 
 local metaprogression = {}
 
-umg.definePacket("lootplot:metaprogression.unlock", {
+umg.definePacket("lootplot:metaprogression.setFlag", {
     typelist = {"string", "boolean"}
 })
 
-umg.definePacket("lootplot:metaprogression.allUnlockData", {
+umg.definePacket("lootplot:metaprogression.syncFlags", {
     -- pckr table
     typelist = {"string"}
 })
@@ -15,30 +15,32 @@ umg.definePacket("lootplot:metaprogression.allUnlockData", {
 
 local SEP_PATTERN = "%:"
 
-
-local function fromNamespaced(nsStr)
-    --  "modname:str"  --->  "modname", "str"
+local function assertNamespaced(nsStr)
     local s,_ = nsStr:find(SEP_PATTERN)
-    if s then
-        return nsStr:sub(1,s-1), nsStr:sub(s+1)
+    if not s then
+        -- eh this doesnt actually check the mod, but its "good enough"
+        umg.melt("string must be namespaced: " .. tostring(nsStr))
     end
-
-    -- "my_string" -- INVALID! Needs to be prefixed by mod
-    -- "my_mod:my_string" <--- valid.
-    umg.melt("Invalid namespaced-string. Needs colon: ", nsStr)
 end
 
 
 
-local UNLOCK_STORAGE = {
-    folder = "unlocks/",
-    cache = {}
-}
+local FLAG_FILE = "lootplot.metaprogression.flags.json"
 
-local CLIENT_UNLOCK_CACHE = {--[[
-    hash of current unlocks. Keyed by string
-    [unlockString] -> bool
+local flagTable = {--[[
+    table of flag-values. Keyed by string
+    [flag] -> bool
 ]]}
+local flagTableOutOfDate = false
+
+if server then
+    local dat = server.getSaveFilesystem()
+        :read(FLAG_FILE)
+    if dat then
+        flagTable = json.decode(dat)
+    end
+end
+
 
 
 
@@ -47,73 +49,56 @@ local function assertServer()
 end
 
 
----@param storage table
----@param namespace string
-local function getFname(storage, namespace)
-    return storage.folder .. namespace .. ".json"
+
+local VALID_FLAGS = {--[[
+    [flag] -> boolean
+]]}
+
+
+---Defines a flag
+---@param flag string
+function metaprogression.defineFlag(flag)
+    VALID_FLAGS[flag] = true
 end
 
----@param storage table
----@param namespace string
-local function getSaveTable(storage, namespace)
-    assertServer()
-    if storage.cache[namespace] then
-        return storage.cache
+--- Gets a boolean flag value
+---@param flag string Any kind of string value, representing an unlock. Generally, this will be an entity-type name. MUST BE PREFIXED BY THE MOD-NAME!!!  Eg: "my_mod:item"
+---@return boolean
+function metaprogression.getFlag(flag)
+    if not (VALID_FLAGS[flag]) then
+        umg.melt("Invalid flag: " .. tostring(flag))
     end
-    local fsys = server.getSaveFilesystem()
-    local data = fsys:read(getFname(storage, namespace))
-    if data then
-        return json.decode(data)
+    if server then
+        return flagTable[flag]
+    else
+        return flagTable[flag]
     end
-    return {}
 end
 
 
-
----@param storage table
----@param name string
----@param value boolean
-local function setValue(storage, name, value)
+--- Sets a bool value for a flag
+---@param flag string Any kind of string value, representing an unlock. Generally, this will be an entity-type name. MUST BE PREFIXED BY THE MOD-NAME!!!  Eg: "my_mod:item"
+---@param val boolean 
+function metaprogression.setFlag(flag, val)
     assertServer()
-    local namespace, str = fromNamespaced(name)
-    local saveTabl = getSaveTable(storage, namespace)
-    if saveTabl[str] == value then
+    assertNamespaced(flag)
+
+    if not (VALID_FLAGS[flag]) then
+        umg.melt("Invalid flag: " .. tostring(flag))
+    end
+    if flagTable[flag] == val then
+        umg.log.info("setValue delta-compressed: ", flag, val)
         return false
     end
-    saveTabl[str] = value
-    local data = json.encode(saveTabl)
+    flagTable[flag] = val
+    local data = json.encode(flagTable)
     local fsys = server.getSaveFilesystem()
-    local fname = getFname(storage, namespace)
-    local ok, err = fsys:write(fname, data)
+    local ok, err = fsys:write(FLAG_FILE, data)
+
     if ok then
-        umg.log.debug("Saved file: ", fname, " with key-value: ", str, value)
-        return true
+        server.broadcast("lootplot:metaprogression.setFlag", flag, val)
     else
-        umg.log.error(err)
-    end
-end
-
-
-
---- Marks a string as "unlocked"
----@param name string Any kind of string value, representing an unlock. Generally, this will be an entity-type name. MUST BE PREFIXED BY THE MOD-NAME!!!  Eg: "my_mod:item"
-function metaprogression.isUnlocked(name)
-    if server then
-        local ns, str = fromNamespaced(name)
-        return getSaveTable(UNLOCK_STORAGE, ns)[str]
-    else
-        return CLIENT_UNLOCK_CACHE[name]
-    end
-end
-
-
---- Marks a string as "unlocked"
----@param name string Any kind of string value, representing an unlock. Generally, this will be an entity-type name. MUST BE PREFIXED BY THE MOD-NAME!!!  Eg: "my_mod:item"
-function metaprogression.unlock(name)
-    assertServer()
-    local saved = setValue(UNLOCK_STORAGE, name, true)
-    if saved then
-        server.broadcast("lootplot:metaprogression.unlock", name, true)
+        umg.log.error("Failed to set flag: ", err)
     end
 end
 
@@ -214,12 +199,35 @@ local function syncStatsToClient(clientId)
 end
 
 
-local function trySaveStatTable()
+---If no clientId is specified, syncs to ALL players
+---@param clientId? string
+local function syncFlagsToClient(clientId)
+    assert(server,"?")
+    local data = json.encode(flagTable)
+    if clientId then
+        server.unicast(clientId, "lootplot:metaprogression.syncFlags", data)
+    else
+        server.broadcast("lootplot:metaprogression.syncFlags", data)
+    end
+end
+
+
+
+
+
+local function trySaveTables()
     if statTableOutOfDate then
         local fsys = server.getSaveFilesystem()
         fsys:write(STAT_FILE, json.encode(statTable))
         syncStatsToClient()
         statTableOutOfDate = false
+    end
+
+    if flagTableOutOfDate then
+        local fsys = server.getSaveFilesystem()
+        fsys:write(FLAG_FILE, json.encode(flagTable))
+        syncFlagsToClient()
+        flagTableOutOfDate = false
     end
 end
 
@@ -230,56 +238,33 @@ local ct = 1
 umg.on("@tick", function()
     ct = ct + 1
     if ct % NUM_SKIP_TICKS == 0 then
-        trySaveStatTable()
+        trySaveTables()
     end
 end)
 
+
+
 umg.on("@playerJoin", function(clientId)
     syncStatsToClient(clientId)
+    syncFlagsToClient(clientId)
 end)
 
 end
 
 
-
-
-
-
-
-
-
-
-if server then
-
----@param storage table
-local function createStorage(storage)
-    local fsys = server.getSaveFilesystem()
-    fsys:createDirectory(storage.folder)
-end
-
-createStorage(UNLOCK_STORAGE)
-
-umg.on("@playerJoin",function(clientId)
-    server.unicast(clientId, "lootplot:metaprogression.allUnlockData", umg.serialize(UNLOCK_STORAGE.cache))
-end)
-
-end
 
 
 
 
 if client then
 
-client.on("lootplot:metaprogression:unlock", function(unlock, bool)
-    CLIENT_UNLOCK_CACHE[unlock] = bool
+client.on("lootplot:metaprogression.setFlag", function(flag, bool)
+    flagTable[flag] = bool
 end)
 
-client.on("lootplot:metaprogression.allUnlockData", function(unlockData)
-    local tabl, er = umg.deserialize(unlockData)
-    if not tabl then
-        umg.log.error("Couldnt deser data: ", er)
-    end
-    CLIENT_UNLOCK_CACHE = tabl
+client.on("lootplot:metaprogression.syncFlags", function(flagData)
+    local tabl = json.decode(flagData)
+    flagTable = tabl
 end)
 
 client.on("lootplot:metaprogression.syncStats", function(jsonData)

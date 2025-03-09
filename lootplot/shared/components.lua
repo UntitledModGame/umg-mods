@@ -53,6 +53,10 @@ components.defineComponent("activateDescription")
 
 
 
+components.defineComponent("isEntityTypeUnlocked")
+-- function(etype) -> boolean
+
+
 
 --[[
 ==================================================

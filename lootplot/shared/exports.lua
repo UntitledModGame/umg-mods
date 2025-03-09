@@ -1419,24 +1419,38 @@ local metaprogression = require("shared.metaprogression")
 
 lp.metaprogression = {}
 
-lp.metaprogression.isUnlocked = metaprogression.isUnlocked
-lp.metaprogression.unlock = metaprogression.unlock
+lp.metaprogression.defineFlag = metaprogression.defineFlag
+lp.metaprogression.getFlag = metaprogression.getFlag
+lp.metaprogression.setFlag = metaprogression.setFlag
 
 lp.metaprogression.defineStat = metaprogression.defineStat
 lp.metaprogression.setStat = metaprogression.setStat
 lp.metaprogression.getStat = metaprogression.getStat
 
 
+---@param etype table
+---@return boolean isUnlocked whether the etype is unlocked or not
+function lp.metaprogression.isEntityTypeUnlocked(etype)
+    if etype.isEntityTypeUnlocked then
+        return etype:isEntityTypeUnlocked()
+    end
+    return true
+end
+
+
 lp.metaprogression.defineStat("lootplot:WIN_COUNT", 0)
 
+
+function lp.getWinCount()
+    return lp.metaprogression.getStat("lootplot:WIN_COUNT")
+end
 
 
 
 --- Signals the end of the game for a player
 ---@param clientId string
 function lp.winGame(clientId)
-    local winCount = lp.metaprogression.getStat("lootplot:WIN_COUNT")
-    lp.metaprogression.setStat("lootplot:WIN_COUNT", winCount + 1)
+    lp.metaprogression.setStat("lootplot:WIN_COUNT", lp.getWinCount() + 1)
     umg.call("lootplot:winGame", clientId)
 end
 

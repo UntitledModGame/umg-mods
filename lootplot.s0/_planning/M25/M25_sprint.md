@@ -55,7 +55,7 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
 
-- Add win stat in `lootplot.s0`
+~~- Add win stat in `lootplot.s0`~~
 - Lock starter items (except for tutorial-cat)
 - Add unlocks for starter-items (win game)
 
