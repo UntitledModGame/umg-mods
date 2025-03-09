@@ -48,16 +48,16 @@
 ~~- Fix bug with activations arent shown if DOOMED is less than activations. This works great for items WITHOUT lives!~~
 ~~But its an issue when the item has many lives, activations isnt shown~~
 
+~~- Add win stat in `lootplot.s0`~~
+~~- Lock starter items (except for tutorial-cat)~~
+~~- Add unlocks for starter-items (win game)~~
+
 
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
-
-~~- Add win stat in `lootplot.s0`~~
-- Lock starter items (except for tutorial-cat)
-- Add unlocks for starter-items (win game)
 
 - Make key-bar transform after 4 activations (and increase mult?)
 

@@ -22,7 +22,7 @@ end
 
 local function unlockAfterWins(numberOfWins)
     local isEntityTypeUnlocked = function(etype)
-        if lp.getWinCount() > numberOfWins then
+        if lp.getWinCount() >= numberOfWins then
             return true
         end
     end
@@ -246,7 +246,7 @@ definePerk("L_ball", {
     name = loc("L Ball"),
     description = loc("Gives lives to items/slots."),
 
-    isEntityTypeUnlocked = unlockAfterWins(2),
+    isEntityTypeUnlocked = unlockAfterWins(1),
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
@@ -356,7 +356,7 @@ definePerk("four_ball", {
     name = loc("Four Ball"),
     description = loc("Has an extra round per level"),
 
-    isEntityTypeUnlocked = unlockAfterWins(3),
+    isEntityTypeUnlocked = unlockAfterWins(2),
 
     onActivateOnce = function(ent)
         lp.setMoney(ent, constants.STARTING_MONEY)
@@ -379,7 +379,7 @@ definePerk("nine_ball", {
     name = loc("Nine Ball"),
     description = loc("Has no money limit."),
 
-    isEntityTypeUnlocked = unlockAfterWins(4),
+    isEntityTypeUnlocked = unlockAfterWins(3),
 
     baseMaxActivations = 1,
 
@@ -403,7 +403,7 @@ definePerk("bowling_ball", {
     name = loc("Bowling Ball"),
     description = loc("CHALLENGE-ITEM!\nFor PROS ONLY."),
 
-    isEntityTypeUnlocked = unlockAfterWins(5),
+    isEntityTypeUnlocked = unlockAfterWins(4),
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
