@@ -340,10 +340,20 @@ defItem("prism", "Prism", {
 
 
 
+--[[
+
+TODO: 
+Changed paperclip --> bandage
+
+]]
+
+
+
+
 do
 local NUM_LIVES = 2
 
-defItem("paperclip", "Paperclip", {
+defItem("bandage", "Bandage", {
     activateDescription = loc("Gives {lootplot:LIFE_COLOR}+%{lives} lives{/lootplot:LIFE_COLOR} to slots.", {
         lives = NUM_LIVES
     }),

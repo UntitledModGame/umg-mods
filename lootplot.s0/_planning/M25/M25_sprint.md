@@ -53,19 +53,17 @@
 ~~- Add unlocks for starter-items (win game)~~
 
 
+~~- Make key-bar transform after 4 activations (and increase mult?)~~
+~~- Make wildcard-shards UNCOMMON~~
+~~- Make helmet-items point downwards instead of UP, its better UX, and it makes more sense~~
+~~- Keys should start with a randomized rotation. (maybe they should point diagonally? Or something? Same as spears)~~
+
+
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
-
-- Make key-bar transform after 4 activations (and increase mult?)
-
-- Make wildcard-shards UNCOMMON
-
-- Make helmet-items point downwards instead of UP, its better UX, and it makes more sense
-
-- Keys should start with a randomized rotation. (maybe they should point diagonally? Or something? Same as spears)
 
 
 - Make Destructive-archetype more viable. (Somehow?)

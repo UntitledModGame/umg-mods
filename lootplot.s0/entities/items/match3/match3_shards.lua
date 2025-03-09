@@ -197,7 +197,7 @@ defItem("wildcard_shards", "Wildcard Shards", {
     triggers = {"PULSE"},
     activateDescription = loc("If target-item is a shard, transforms into it."),
 
-    rarity = lp.rarities.COMMON,
+    rarity = lp.rarities.UNCOMMON,
     basePrice = 8,
     basePointsGenerated = 6,
 

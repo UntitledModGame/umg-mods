@@ -29,7 +29,7 @@ local function defineHelmet(id, name, etype)
 
     etype.init = etype.init or helper.rotateRandomly
 
-    etype.shape = etype.shape or lp.targets.UpShape(2)
+    etype.shape = etype.shape or lp.targets.DownShape(2)
 
     etype.basePrice = etype.basePrice or 10
     etype.baseMaxActivations = etype.baseMaxActivations or 6
