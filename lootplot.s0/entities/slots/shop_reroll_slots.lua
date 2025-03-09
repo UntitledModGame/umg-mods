@@ -358,7 +358,7 @@ end
 lp.defineSlot("lootplot.s0:reroll_slot", {
     image = "reroll_slot",
     name = loc("Reroll slot"),
-    activateDescription = loc("Rerolls item."),
+    activateDescription = loc("Transforms items into a random item, preserving rarity"),
     triggers = {"REROLL"},
     itemReroller = generateItem,
     baseCanSlotPropagate = false,
