@@ -151,5 +151,25 @@ s0.bundle
 
 
 
+<br/>
+<br/>
+<br/>
+<br/>
+
+## Destructive-archetype en-goodening:
+
+- Remove golden-dagger; make normal-dagger earn money AND points
+
+- Change skull:
+ITEM: (UNCOMMON) Destroy items with Destroy trigger. Trigger Reroll on items with Reroll trigger. Cost $1 to activate
 
 
+
+- ITEM: Paperclip:
+Trigger BUY on items without buying them. Cost $5 to activate!
+
+
+FUNNY IDEA:
+Evil cat:  
+On buy, pulse: subtract -5 mult
+basePrice = -5

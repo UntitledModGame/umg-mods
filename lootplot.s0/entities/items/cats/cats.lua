@@ -216,7 +216,7 @@ defineCat("evil_cat", {
 
     rarity = lp.rarities.UNCOMMON,
 
-    basePrice = -4,
+    basePrice = -3,
     baseMaxActivations = 10,
     baseMultGenerated = -11,
     baseBonusGenerated = 10,

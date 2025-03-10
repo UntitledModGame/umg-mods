@@ -2,6 +2,8 @@
 local loc = localization.localize
 local interp = localization.newInterpolator
 
+local constants = require("shared.constants")
+
 --[[
 
 
@@ -46,6 +48,8 @@ local function defRocks(id, name, etype)
 
     etype.baseMaxActivations = 8
     etype.basePrice = 7 -- standard price for rocks
+
+    etype.lootplotTags = {constants.tags.ROCKS}
 
     if not etype.listen then
         etype.triggers = etype.triggers or {"DESTROY"}

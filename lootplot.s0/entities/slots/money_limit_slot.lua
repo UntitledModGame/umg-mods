@@ -17,7 +17,7 @@ return lp.defineSlot("lootplot.s0:money_limit_slot", {
     end,
     rarity = lp.rarities.UNIQUE,
 
-    triggers = {"PULSE", "RESET"},
+    triggers = {"PULSE", "REROLL"},
     onActivate = function(ent)
         local money = lp.getMoney(ent)
         if money > MONEY_LIMIT then

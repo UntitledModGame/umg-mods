@@ -23,7 +23,7 @@ defItem("a_big_loan", {
 
     basePrice = 0,
     baseMaxActivations = 1,
-    baseMoneyGenerated = 50,
+    baseMoneyGenerated = 20,
 
     canItemFloat = true,
     rarity = lp.rarities.RARE,
@@ -93,9 +93,9 @@ defItem("a_pointy_loan", {
     triggers = {"BUY"},
 
     lootplotProperties = {
-        multipliers = {
+        modifiers = {
             pointsGenerated = function(ent)
-                return lp.getLevel(ent) or 1
+                return (lp.getRequiredPoints(ent) or 0) / 2
             end
         }
     },
@@ -103,7 +103,7 @@ defItem("a_pointy_loan", {
     basePrice = 0,
     baseMaxActivations = 1,
     baseMoneyGenerated = 20,
-    basePointsGenerated = -400,
+    basePointsGenerated = 0,
 
     rarity = lp.rarities.RARE,
 })

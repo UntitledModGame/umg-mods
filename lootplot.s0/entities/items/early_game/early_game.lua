@@ -3,6 +3,9 @@ local loc = localization.localize
 local interp = localization.newInterpolator
 
 local helper = require("shared.helper")
+local itemGenHelper = require("shared.item_gen_helper")
+
+local constants = require("shared.constants")
 
 
 local function defItem(id, etype)
@@ -20,7 +23,7 @@ destroy-lives systems interact with each other.
 ]]
 defItem("rocks", {
     name = loc("Rocks"),
-    description = loc("(Hint: Put this item in a sell-slot!)"),
+    description = loc("(Hint: Put this in a sell-slot!)"),
 
     basePrice = 3,
     baseMultGenerated = 2,
@@ -31,6 +34,46 @@ defItem("rocks", {
 })
 
 
+
+
+do
+local DARK_BAR_WEIGHTS = itemGenHelper.createRarityWeightAdjuster({
+    COMMON = 0.4,
+    UNCOMMON = 0.5,
+    RARE = 1,
+    EPIC = 0.333,
+    LEGENDARY = 0.02,
+})
+
+local gen = itemGenHelper.createLazyGenerator(function(etype)
+    return lp.hasTag(etype, constants.tags.ROCKS)
+end, DARK_BAR_WEIGHTS)
+
+local NUM_KEY_ACTS = 4
+helper.defineDelayItem("dark_bar", "Dark Bar", {
+    delayCount = NUM_KEY_ACTS,
+
+    delayDescription = loc("Spawns a random rock item"),
+
+    delayAction = function(ent)
+        local itemType = gen()
+        local ppos = lp.getPos(ent)
+        if ppos and itemType then
+            local etype = server.entities[itemType]
+            lp.forceSpawnItem(ppos, etype, ent.lootplotTeam)
+        end
+    end,
+
+    triggers = {"PULSE"},
+
+    basePrice = 4,
+    baseMaxActivations = 4,
+    baseMultGenerated = 0.3,
+
+    rarity = lp.rarities.UNCOMMON,
+})
+
+end
 
 
 

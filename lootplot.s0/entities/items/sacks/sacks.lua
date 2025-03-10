@@ -221,6 +221,27 @@ defSack("sack_epic", "Epic Sack", {
 })
 
 
+local function isRock(etype)
+    return lp.hasTag(etype, constants.tags.ROCKS)
+end
+
+defSack("sack_dark", "Dark Sack", {
+    activateDescription = locRarity("Spawns rock items.\nMust be placed in the air!"),
+
+    basePrice = 10,
+
+    shape = VERTICAL_SACK_SHAPE,
+    rarity = lp.rarities.UNCOMMON,
+
+    generateTreasureItem = newLazyGen(function (etype)
+        if isRock(etype) then
+            local r1 = etype.rarity
+            return r1 == r.RARE or r1 == r.EPIC
+        end
+        return false
+    end, DEFAULT_WEIGHT),
+})
+
 
 
 

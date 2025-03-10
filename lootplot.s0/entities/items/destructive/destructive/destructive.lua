@@ -310,18 +310,29 @@ defDestructive("dark_skull", "Dark Skull", {
 
 
 defDestructive("skull", "Skull", {
-    activateDescription = loc("Spawns bone-items."),
+    activateDescription = loc("Destroy items with {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} trigger. Trigger {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} on items with {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} trigger."),
 
-    rarity = lp.rarities.RARE,
+    rarity = lp.rarities.UNCOMMON,
 
-    basePrice = 6,
+    basePrice = 10,
+    baseMaxActivations = 10,
 
     shape = lp.targets.RookShape(1),
 
     target = {
-        type = "NO_ITEM",
-        activate = function(selfEnt, ppos, targetEnt)
-            lp.trySpawnItem(ppos, server.entities.bone, selfEnt.lootplotTeam)
+        type = "ITEM",
+        filter = function(selfEnt, ppos, targEnt)
+            return lp.hasTrigger(targEnt, "REROLL")
+                or lp.hasTrigger(targEnt, "DESTROY")
+        end,
+        activate = function(selfEnt, ppos, targEnt)
+            if lp.hasTrigger(targEnt, "REROLL") then
+                lp.tryTriggerEntity("REROLL", targEnt)
+            end
+
+            if lp.hasTrigger(targEnt, "DESTROY") then
+                lp.destroy(targEnt)
+            end
         end
     },
 })
