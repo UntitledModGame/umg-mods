@@ -16,9 +16,7 @@ lp.defineSlot("lootplot.s0:sell_slot", {
 
     canActivate = function(slotEnt)
         local itemEnt = lp.slotToItem(slotEnt)
-        if not itemEnt then
-            return false -- no item!
-        end
+        return itemEnt -- only activates if there is an item
     end,
 
     onActivate = function(slotEnt)
