@@ -92,9 +92,8 @@ end
 local function spawnShop(ent)
     local ppos, team = getPosTeam(ent)
     wg.spawnSlots(assert(ppos:move(-4,0)), server.entities.shop_slot, 3,1, team)
-    wg.spawnSlots(assert(ppos:move(-5,1)), server.entities.shop_slot, 1,1, team)
 
-    wg.spawnSlots(assert(ppos:move(-3,3)), server.entities.food_shop_slot, 1,2, team)
+    wg.spawnSlots(assert(ppos:move(-3,2)), server.entities.food_shop_slot, 1,2, team)
 end
 
 local function spawnRerollButton(ent)
@@ -183,8 +182,8 @@ definePerk("one_ball", {
         lp.setMoney(ent, constants.STARTING_MONEY)
         lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
         spawnShop(ent)
-        spawnNormal(ent)
         spawnRerollButton(ent)
+        spawnNormal(ent)
         spawnSell(ent)
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)

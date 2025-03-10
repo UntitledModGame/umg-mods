@@ -82,6 +82,12 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 - Make a starting-item that starts with a rulebender-slot
 
 
+- Make dirt-starting item
+
+- Make 8-ball starting item
+
+- Make rainbow-ball starting item
+
 
 - Make a few more `Rotate/Unlock` items that scale:
 (futuristic-item sprites, top right)
