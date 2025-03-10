@@ -72,9 +72,6 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 
 
 
-- ITEM: DARK PIN: Set mult to -10, Set bonus to -10, Earn $1
-
-
 - Make shape-tutorial better (split into 2 parts?)
 - Part-1: Explain what shape is. Simple orange egg-item, on 2x2 slots, spawning slots on ROOK-1. Explain target-visuals:
 ```
@@ -93,7 +90,7 @@ To view the item's shape, click on the item"
 
 
 - (SPIKE?) Make shop smaller (at least, for one-ball)
-==> 2 shop-slots, 2 food-slots?
+==> 3 shop-slots, 2 food-slots?
 
 
 - Make a starting-item that starts with a rulebender-slot

@@ -127,6 +127,21 @@ defItem("void_box", "Void Box", {
 
 
 
+defItem("toilet_paper", "Toilet Paper", {
+    triggers = {"PULSE"},
+
+    baseMaxActivations = 10,
+    basePrice = 12,
+    basePointsGenerated = -50,
+    baseMultGenerated = -10,
+    baseMoneyGenerated = 1,
+
+    rarity = lp.rarities.RARE,
+})
+
+
+
+
 defItem("basilisks_eye", "Basilisk's Eye", {
     activateDescription = loc("Set rarity of items/slots to %{UNCOMMON}", {
         UNCOMMON = lp.rarities.UNCOMMON.displayString
