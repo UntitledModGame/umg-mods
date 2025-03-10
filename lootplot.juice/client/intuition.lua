@@ -79,8 +79,13 @@ end)
 
 umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER + 0.1, function(ent, x,y, rot, sx,sy, kx,ky)
     if lp.isSlotEntity(ent) then
-        if (ent.multGenerated) and ent.multGenerated > 0.05 then
-            local img = "slot_multiplier_visual"
+        if (ent.multGenerated) and math.abs(ent.multGenerated) > 0.05 then
+            local img
+            if ent.multGenerated > 0 then
+                img = "slot_multiplier_up_visual"
+            else
+                img = "slot_multiplier_down_visual"
+            end
             rendering.drawImage(img, x, y, rot, sx,sy, kx,ky)
         end
     end

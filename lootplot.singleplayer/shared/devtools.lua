@@ -603,21 +603,67 @@ chat.handleCommand("spawnSlots", {
 
         local slotETypes = lp.newSlotGenerator():getEntries()
         local x = 1
-        local y = 6
+        local y = 4
+
+        local function goNext()
+            x = x + 1
+            if x >= SLOT_VIEW_WIDTH then
+                y = y + 1
+                x = 1
+            end
+        end
+
+        local function getPos()
+            return plot:getPPos(x + VIEW_AREA_START_X, y)
+        end
+
+        local props = {"pointsGenerated", "multGenerated", "bonusGenerated"}
+        for i, prop in ipairs(props) do
+            for buff = -3, 3, 6 do
+                local slotEnt = lp.forceSpawnSlot(getPos(), server.entities.slot, lp.singleplayer.PLAYER_TEAM)
+                lp.modifierBuff(slotEnt, prop, buff)
+
+                goNext()
+            end
+        end
+
+        do
+        local slotEnt
+        slotEnt = lp.forceSpawnSlot(getPos(), server.entities.slot, lp.singleplayer.PLAYER_TEAM)
+        slotEnt.doomCount = 30
+        goNext()
+
+        slotEnt = lp.forceSpawnSlot(getPos(), server.entities.slot, lp.singleplayer.PLAYER_TEAM)
+        slotEnt.doomCount = 3
+        goNext()
+
+        slotEnt = lp.forceSpawnSlot(getPos(), server.entities.slot, lp.singleplayer.PLAYER_TEAM)
+        slotEnt.doomCount = 1
+        goNext()
+
+        slotEnt = lp.forceSpawnSlot(getPos(), server.entities.slot, lp.singleplayer.PLAYER_TEAM)
+        slotEnt.stickySlot = true
+        goNext()
+
+        slotEnt = lp.forceSpawnSlot(getPos(), server.entities.slot, lp.singleplayer.PLAYER_TEAM)
+        slotEnt.lives = 1
+        goNext()
+
+        slotEnt = lp.forceSpawnSlot(getPos(), server.entities.slot, lp.singleplayer.PLAYER_TEAM)
+        lp.addTrigger(slotEnt, "REROLL")
+        goNext()
+        end
+
+
+        x = 1; y = y + 2
+
         for _, slotType in ipairs(slotETypes) do
             local slotEType = assert(server.entities[slotType])
             if slotEType.rarity then
                 -- dont include slots without rarities (like debug-slot)
+                lp.forceSpawnSlot(getPos(), slotEType, lp.singleplayer.PLAYER_TEAM)
 
-                if x >= SLOT_VIEW_WIDTH then
-                    y = y + 1
-                    x = 1
-                end
-
-                local ppos = plot:getPPos(x + VIEW_AREA_START_X, y)
-                lp.forceSpawnSlot(ppos, slotEType, lp.singleplayer.PLAYER_TEAM)
-
-                x = x + 1
+                goNext()
             end
         end
     end
