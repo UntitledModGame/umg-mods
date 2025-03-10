@@ -361,9 +361,12 @@ lp.defineSlot("lootplot.s0:reroll_slot", {
     activateDescription = loc("Transforms items into a random item, preserving rarity"),
     triggers = {"REROLL"},
     itemReroller = generateItem,
+
     baseCanSlotPropagate = false,
     isItemListenBlocked = true,
     baseMaxActivations = 500,
+
+    rarity = lp.rarities.RARE,
 
     canActivate = function(ent)
         return not ent.rerollLock
