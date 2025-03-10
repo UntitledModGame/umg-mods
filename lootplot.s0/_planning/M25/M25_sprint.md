@@ -66,8 +66,9 @@
 
 ~~- Make shape-tutorial better (split into 2 parts?)~~
 
-
 ~~- (SPIKE?) Make shop smaller (at least, for one-ball) ==> 3 shop-slots, 2 food-slots?~~
+
+~~- Make a starting-item that starts with a rulebender-slot~~
 
 
 
@@ -76,14 +77,11 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
 
-- Make a starting-item that starts with a rulebender-slot
-
-
 - Make dirt-starting item
 
 - Make 8-ball starting item
 
-- Make rainbow-ball starting item (starts with a tonne of random shit)
+- Make rainbow-ball starting item (starts with a tonne of random shit) (Name: "Gay"?)
 
 
 - Make a few more `Rotate/Unlock` items that scale:

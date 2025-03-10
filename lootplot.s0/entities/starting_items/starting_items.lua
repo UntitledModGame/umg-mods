@@ -59,11 +59,13 @@ local function clearFogInCircle(ppos, team, radius)
     end
 end
 
-local function spawnDoomClock(ent)
+local function spawnDoomClock(ent, dy)
+    dy = dy or 0
+
     local plot = lp.getPos(ent):getPlot()
     local team = assert(ent.lootplotTeam)
     local ppos = assert(lp.getPos(ent)
-        :move(0, -4)
+        :move(0, -4 + dy)
     )
 
     local dclock = server.entities.doom_clock()
@@ -279,6 +281,62 @@ definePerk("L_ball", {
 
 
 
+definePerk("four_ball", {
+    name = loc("Four Ball"),
+    description = loc("Has an extra round per level"),
+
+    isEntityTypeUnlocked = unlockAfterWins(2),
+
+    onActivateOnce = function(ent)
+        lp.setMoney(ent, constants.STARTING_MONEY)
+        local numRounds = constants.ROUNDS_PER_LEVEL + 1
+        lp.setAttribute("NUMBER_OF_ROUNDS", ent, numRounds)
+        spawnNormal(ent)
+        spawnShop(ent)
+        spawnRerollButton(ent)
+        spawnSell(ent)
+        spawnInterestSlot(ent)
+        spawnMoneyLimit(ent)
+        spawnDoomClock(ent)
+    end
+})
+
+
+
+
+
+definePerk("blank_ball", {
+    name = loc("Blank Ball"),
+    description = loc("Has a Rulebender slot"),
+
+    isEntityTypeUnlocked = unlockAfterWins(4),
+
+    onActivateOnce = function(ent)
+        local ppos, team = getPosTeam(ent)
+
+        lp.setMoney(ent, constants.STARTING_MONEY)
+        lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
+
+        wg.spawnSlots(assert(ppos:move(-1,-2)), server.entities.shop_slot, 3,1, team)
+        wg.spawnSlots(assert(ppos:move(2,-2)), server.entities.food_shop_slot, 2,1, team)
+        wg.spawnSlots(assert(ppos:move(0,-3)), server.entities.reroll_button_slot, 1,1, team)
+
+        wg.spawnSlots(assert(ppos:move(2, 0)), server.entities.slot, 1,3, team)
+        wg.spawnSlots(assert(ppos:move(-2, 0)), server.entities.slot, 1,3, team)
+
+        wg.spawnSlots(assert(ppos:move(0,1)), server.entities.rulebender_slot, 1,1, team)
+
+        spawnSell(ent)
+        spawnInterestSlot(ent)
+        spawnMoneyLimit(ent)
+
+        spawnDoomClock(ent, -1)
+    end,
+})
+
+
+
+
 
 
 
@@ -348,28 +406,6 @@ do something more interesting with this!
 --         spawnDoomClock(ent)
 --     end
 -- })
-
-
-
-definePerk("four_ball", {
-    name = loc("Four Ball"),
-    description = loc("Has an extra round per level"),
-
-    isEntityTypeUnlocked = unlockAfterWins(2),
-
-    onActivateOnce = function(ent)
-        lp.setMoney(ent, constants.STARTING_MONEY)
-        local numRounds = constants.ROUNDS_PER_LEVEL + 1
-        lp.setAttribute("NUMBER_OF_ROUNDS", ent, numRounds)
-        spawnNormal(ent)
-        spawnShop(ent)
-        spawnRerollButton(ent)
-        spawnSell(ent)
-        spawnInterestSlot(ent)
-        spawnMoneyLimit(ent)
-        spawnDoomClock(ent)
-    end
-})
 
 
 

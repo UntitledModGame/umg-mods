@@ -654,7 +654,6 @@ chat.handleCommand("spawnSlots", {
         goNext()
         end
 
-
         x = 1; y = y + 2
 
         for _, slotType in ipairs(slotETypes) do
