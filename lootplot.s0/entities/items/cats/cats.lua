@@ -218,7 +218,7 @@ defineCat("evil_cat", {
 
     basePrice = -4,
     baseMaxActivations = 10,
-    baseMultGenerated = -6,
+    baseMultGenerated = -11,
     baseBonusGenerated = 10,
 })
 
