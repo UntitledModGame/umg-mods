@@ -290,6 +290,8 @@ defDestructive("teddy", "Teddy", {
 -- TODO:
 -- Do something with this.
 
+--[[
+
 defDestructive("dark_skull", "Dark Skull", {
     activateDescription = loc("Spawns rock-items."),
 
@@ -307,15 +309,21 @@ defDestructive("dark_skull", "Dark Skull", {
     },
 })
 
+]]
+
+
+
 
 
 defDestructive("skull", "Skull", {
-    activateDescription = loc("Destroy items with {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} trigger. Trigger {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} on items with {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} trigger."),
+    activateDescription = loc("Destroy items with {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} trigger. Trigger {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} on items."),
 
     rarity = lp.rarities.UNCOMMON,
 
     basePrice = 10,
     baseMaxActivations = 10,
+
+    baseMoneyGenerated = -1,
 
     shape = lp.targets.RookShape(1),
 
@@ -326,9 +334,7 @@ defDestructive("skull", "Skull", {
                 or lp.hasTrigger(targEnt, "DESTROY")
         end,
         activate = function(selfEnt, ppos, targEnt)
-            if lp.hasTrigger(targEnt, "REROLL") then
-                lp.tryTriggerEntity("REROLL", targEnt)
-            end
+            lp.tryTriggerEntity("REROLL", targEnt)
 
             if lp.hasTrigger(targEnt, "DESTROY") then
                 lp.destroy(targEnt)

@@ -60,16 +60,16 @@
 
 ~~/spawnSlots command~~
 
+~~- Make Destructive-archetype more viable. (Somehow?)~~
+~~- IDEA-1: Make some rocks UNCOMMON (ice-cube, mult-rocks?)~~
+~~- ITEM: (UNCOMMON) Destroy items with Destroy trigger. Trigger Reroll on items with Reroll trigger. Cost $1 to activate~~
+
+
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
-
-
-- Make Destructive-archetype more viable. (Somehow?)
-- IDEA-1: Make some rocks UNCOMMON (ice-cube, mult-rocks?)
-- ITEM: (UNCOMMON) Destroy items with Destroy trigger. Trigger Reroll on items with Reroll trigger. Cost $1 to activate
 
 
 - ITEM: DARK PIN: Set mult to -10, Set bonus to -10, Earn $1
