@@ -64,6 +64,8 @@
 ~~- IDEA-1: Make some rocks UNCOMMON (ice-cube, mult-rocks?)~~
 ~~- ITEM: (UNCOMMON) Destroy items with Destroy trigger. Trigger Reroll on items with Reroll trigger. Cost $1 to activate~~
 
+~~- Make shape-tutorial better (split into 2 parts?)~~
+
 
 
 ==========================================
@@ -71,22 +73,6 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
 
-
-- Make shape-tutorial better (split into 2 parts?)
-- Part-1: Explain what shape is. Simple orange egg-item, on 2x2 slots, spawning slots on ROOK-1. Explain target-visuals:
-```
-"This item has a ROOK-1 shape. It will interact with stuff adjacent to it.
-To view the item's shape, click on the item"
--- (item here)
-"If the target is wiggling, that means that the target is valid, and the item will do its effect there!"
-```
----> 
-- Part-2: "playground" for more complex items 
-```
-"Items can have different shapes, and different purposes."
-(potion, rook-glove, dragonfruit)
-"Have a play around!"
-```
 
 
 - (SPIKE?) Make shop smaller (at least, for one-ball)

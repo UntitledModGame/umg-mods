@@ -161,8 +161,8 @@ defItem("3_cent_ticket", "3 Cent Ticket", {
     },
 
     basePrice = 12,
-    grubMoneyCap = 5,
-    baseMoneyGenerated = 5,
+    grubMoneyCap = GRUB_MONEY_CAP,
+    baseMoneyGenerated = 6,
     canItemFloat = true,
 
     rarity = lp.rarities.LEGENDARY,
