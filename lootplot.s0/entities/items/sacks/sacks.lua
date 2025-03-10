@@ -184,7 +184,7 @@ defSack("sack_rare", "Rare Sack", {
 defSack("sack_uncommon", "Uncommon Sack", {
     activateDescription = locRarity("Spawns %{UNCOMMON} items.\nMust be placed in the air!"),
 
-    basePrice = 4,
+    basePrice = 5,
     rarity = lp.rarities.COMMON,
     generateTreasureItem = newLazyGen(function (etype)
         return etype.rarity == r.UNCOMMON and (not isFood(etype))
@@ -200,7 +200,7 @@ defSack("sack_food", "Food Sack", {
 
     shape = VERTICAL_SACK_SHAPE,
 
-    basePrice = 4,
+    basePrice = 5,
 
     rarity = lp.rarities.COMMON,
     generateTreasureItem = newLazyGen(function(etype)
