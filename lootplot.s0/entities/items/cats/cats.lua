@@ -203,6 +203,29 @@ defineCat("crappy_cat", {
 
 
 
+
+
+defineCat("evil_cat", {
+    --[[
+    lmao this item is kinda troll
+    but its FUNNY AF
+    ]]
+    name = loc("Evil Cat"),
+
+    triggers = {"PULSE", "BUY"},
+
+    rarity = lp.rarities.UNCOMMON,
+
+    basePrice = -4,
+    baseMaxActivations = 10,
+    baseMultGenerated = -6,
+    baseBonusGenerated = 10,
+})
+
+
+
+
+
 do
 local PTS_BUFF = 10
 
