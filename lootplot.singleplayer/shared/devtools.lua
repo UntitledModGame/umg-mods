@@ -425,6 +425,22 @@ end -- if client
 
 do
 
+
+local VIEW_AREA_WIDTH = 16
+local VIEW_AREA_START_X = 5
+
+local function clearViewArea(plot)
+    local _,height = plot:getDimensions()
+    plot:foreachInArea(0,0, VIEW_AREA_START_X + VIEW_AREA_WIDTH + 1, height-1,function(ppos)
+        local slot = lp.posToSlot(ppos)
+        local item = lp.posToItem(ppos)
+        if item then item:delete() end
+        if slot then slot:delete() end
+    end)
+end
+
+
+
 local function descriptionContains(etype, txt)
     local actDesc = etype.activateDescription
     txt = txt:lower()
@@ -531,16 +547,8 @@ chat.handleCommand("spawnItems", {
         end
 
         local DEBUG_SLOT = server.entities["lootplot.singleplayer:debugslot"]
-        local MAX_ITEMS_IN_PPOS_X = 16
-        local X_OFFSET = 5
 
-        local _,height = plot:getDimensions()
-        plot:foreachInArea(0,0, X_OFFSET + MAX_ITEMS_IN_PPOS_X + 1, height-1,function(ppos)
-            local slot = lp.posToSlot(ppos)
-            local item = lp.posToItem(ppos)
-            if item then item:delete() end
-            if slot then slot:delete() end
-        end)
+        clearViewArea(plot)
 
         local y = 3
         for _, rarity in ipairs(rarities) do
@@ -558,12 +566,12 @@ chat.handleCommand("spawnItems", {
 
                 table.sort(arr)
                 for _, itemETypeStr in ipairs(arr) do
-                    if x >= MAX_ITEMS_IN_PPOS_X then
+                    if x >= VIEW_AREA_WIDTH then
                         y = y + 1
                         x = 1
                     end
 
-                    local ppos = plot:getPPos(x + X_OFFSET, y)
+                    local ppos = plot:getPPos(x + VIEW_AREA_START_X, y)
                     local slot = lp.forceSpawnSlot(ppos, DEBUG_SLOT, lp.singleplayer.PLAYER_TEAM)
                     slot.target = itemETypeStr
                     lp.forceActivateEntity(slot)
@@ -577,7 +585,50 @@ chat.handleCommand("spawnItems", {
     end
 })
 
+
+
+chat.handleCommand("spawnSlots", {
+    adminLevel = 120,
+    arguments = {},
+    handler = function(clientId, filterType)
+        if not server then return end
+        local run = lp.singleplayer.getRun()
+        if not run then return end
+
+        local plot = run:getPlot()
+
+        clearViewArea(plot)
+
+        local SLOT_VIEW_WIDTH = VIEW_AREA_WIDTH / 2
+
+        local slotETypes = lp.newSlotGenerator():getEntries()
+        local x = 1
+        local y = 6
+        for _, slotType in ipairs(slotETypes) do
+            local slotEType = assert(server.entities[slotType])
+            if slotEType.rarity then
+                -- dont include slots without rarities (like debug-slot)
+
+                if x >= SLOT_VIEW_WIDTH then
+                    y = y + 1
+                    x = 1
+                end
+
+                local ppos = plot:getPPos(x + VIEW_AREA_START_X, y)
+                lp.forceSpawnSlot(ppos, slotEType, lp.singleplayer.PLAYER_TEAM)
+
+                x = x + 1
+            end
+        end
+    end
+})
+
+
 end
+
+
+
+
 
 
 

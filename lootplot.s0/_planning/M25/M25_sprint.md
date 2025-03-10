@@ -58,6 +58,7 @@
 ~~- Make helmet-items point downwards instead of UP, its better UX, and it makes more sense~~
 ~~- Keys should start with a randomized rotation. (maybe they should point diagonally? Or something? Same as spears)~~
 
+~~/spawnSlots command~~
 
 
 ==========================================
@@ -70,6 +71,8 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 - IDEA-1: Make some rocks UNCOMMON (ice-cube, mult-rocks?)
 - ITEM: (UNCOMMON) Destroy items with Destroy trigger. Trigger Reroll on items with Reroll trigger. Cost $1 to activate
 
+
+- ITEM: DARK PIN: Set mult to -10, Set bonus to -10, Earn $1
 
 
 - Make shape-tutorial better (split into 2 parts?)
