@@ -151,6 +151,27 @@ defItem("leather_boots", "Leather Boots", {
 })
 
 
+defItem("green_boots", "Green Boots", {
+    rarity = lp.rarities.RARE,
+    triggers = {"REROLL"},
+
+    activateDescription = loc("Activates slots."),
+
+    basePrice = 8,
+    baseMaxActivations = 10,
+
+    shape = lp.targets.KingShape(1),
+
+    target = {
+        type = "SLOT",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.tryActivateEntity(targetEnt)
+        end
+    }
+})
+
+
+
 
 
 
