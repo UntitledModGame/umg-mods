@@ -171,6 +171,12 @@ end)
 if server then
     
 umg.on("lootplot:entityActivated", function(ent)
+    --[[
+    NOTE:
+    the order of this is important!
+    mult -> bonus -> points
+    (Especially for items like toilet-paper)
+    ]]
     if ent.multGenerated and ent.multGenerated ~= 0 then
         lp.addPointsMult(ent, ent.multGenerated)
     end

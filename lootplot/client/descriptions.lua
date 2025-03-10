@@ -136,7 +136,7 @@ local VERB_CTX = {
 
 local EARN_POINTS = interp("Earns points: {lootplot:POINTS_COLOR}%{pointsGenerated:.1f}{/lootplot:POINTS_COLOR}", VERB_CTX)
 local STEAL_POINTS = interp("{lootplot:BAD_COLOR}Steals points: {lootplot:POINTS_COLOR}%{pointsGenerated:.1f}{/lootplot:BAD_COLOR}", VERB_CTX)
-local POINT_INFO = interp("  ({lootplot:POINTS_MOD_COLOR}%{mod}{/lootplot:POINTS_MOD_COLOR} x {lootplot:POINTS_MULT_COLOR}%{mult} mult{/lootplot:POINTS_MULT_COLOR})")
+local POINT_INFO = interp("  ({lootplot:POINTS_MOD_COLOR}%{mod}{/lootplot:POINTS_MOD_COLOR} x {lootplot:POINTS_MULT_COLOR}%{mult}{/lootplot:POINTS_MULT_COLOR})")
 
 local function addPointsDescription(ent, arr, pgen)
     arr:add(function()
@@ -173,11 +173,6 @@ local LOSE_BONUS = interp("{lootplot:BAD_COLOR}Subtracts %{bonusCost:.1f} bonus!
 
 
 umg.on("lootplot:populateDescription", 30, function(ent, arr)
-    local pgen = ent.pointsGenerated
-    if pgen and pgen ~= 0 then
-        addPointsDescription(ent, arr, pgen)
-    end
-
     local multGen = ent.multGenerated
     if multGen and multGen ~= 0 then
         if multGen > 0 then
@@ -198,6 +193,11 @@ umg.on("lootplot:populateDescription", 30, function(ent, arr)
                 bonusCost = -ent.bonusGenerated
             }))
         end
+    end
+
+    local pgen = ent.pointsGenerated
+    if pgen and pgen ~= 0 then
+        addPointsDescription(ent, arr, pgen)
     end
 
     local mEarn = ent.moneyGenerated
