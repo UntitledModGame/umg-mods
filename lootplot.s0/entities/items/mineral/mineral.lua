@@ -219,7 +219,7 @@ local function defineScythe(mineral_type, name, strength, etype)
 
         mineralType = mineral_type,
 
-        rarity = etype.rarity or lp.rarities.EPIC,
+        rarity = etype.rarity or lp.rarities.RARE,
 
         basePrice = 10,
         baseMultGenerated = floorTo01(0.5 * strength),
