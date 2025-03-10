@@ -527,26 +527,60 @@ end
 
 
 do
--- Target shape:
-local TXT = loc("Items can also target other items.\nHave a play around.")
+-- Target part ONE:
+
+local TXT_UPPER = loc("This item has a ROOK-1 shape.\nTo view the item's shape, click on the item")
+local TXT_LOWER = loc("If the target is wiggling,\nthat means that the target is valid,\nand slots will spawn!")
+
 
 tutorialSections:add(function(tutEnt)
     clearEverythingExceptButtons(tutEnt)
-    addText(tutEnt, 0,-1, TXT)
+    addText(tutEnt, 0,-1, TXT_UPPER)
+
+    spawnSlot(tutEnt, -3,1, "tutorial_pulse_button_slot")
+
+    local X,Y = 2,1
+    for x=0,1 do
+        for y=0,1 do
+            spawnSlot(tutEnt, x+X, y+Y, "tutorial_slot")
+        end
+    end
+
+    local item = assert(spawnItem(tutEnt, X,Y, "dragonfruit"))
+    item.doomCount = 99
+
+    addText(tutEnt, 0,4, TXT_LOWER)
+end)
+end
+
+
+
+
+do
+-- Target part TWO:
+
+local TXT_UPPER = loc("Items can have different target-shapes,\nand different purposes.")
+
+local TXT_LOWER = loc("Have a play around!")
+
+
+tutorialSections:add(function(tutEnt)
+    clearEverythingExceptButtons(tutEnt)
+    addText(tutEnt, 0,-1, TXT_UPPER)
 
     spawnSlot(tutEnt, 0,1, "tutorial_pulse_button_slot")
 
-    do local e = assert(spawnItem(tutEnt, -2, 3, "dragonfruit"))
+    do local e = assert(spawnItem(tutEnt, -2, 2, "dragonfruit"))
     e.doomCount = 99 end
 
     do local e = assert(spawnItem(tutEnt, 0, 3, "slice_of_cake"))
     e.doomCount = 99 end
 
-    assert(spawnItem(tutEnt, 2, 3, "rook_glove"))
+    assert(spawnItem(tutEnt, 2, 2, "rook_glove"))
+
+    addText(tutEnt, 0,5, TXT_LOWER)
 end)
 end
-
-
 
 
 
