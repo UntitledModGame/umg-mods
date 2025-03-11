@@ -315,7 +315,6 @@ definePerk("seven_ball", {
 
     onActivateOnce = function(ent)
         lp.setMoney(ent, constants.STARTING_MONEY)
-
         local ppos, team = getPosTeam(ent)
 
         local SPREAD = 3
@@ -353,6 +352,46 @@ definePerk("seven_ball", {
         spawnDoomClock(ent)
     end
 })
+
+
+
+
+
+definePerk("eight_ball", {
+    name = loc("Eight Ball"),
+    description = loc("Is surrounded by rocks"),
+
+    -- isEntityTypeUnlocked = unlockAfterWins(2),
+
+    onActivateOnce = function(ent)
+        lp.setMoney(ent, constants.STARTING_MONEY)
+        local ppos, team = getPosTeam(ent)
+
+        wg.spawnSlots(ppos, server.entities.slot, 3,1, team)
+        wg.spawnSlots(ppos, server.entities.slot, 1,3, team)
+
+        wg.spawnSlots(assert(ppos:move(2,0)), server.entities.stone_slot, 1,3, team)
+        wg.spawnSlots(assert(ppos:move(-2,0)), server.entities.stone_slot, 1,3, team)
+
+        wg.spawnSlots(assert(ppos:move(0,2)), server.entities.stone_slot, 3,1, team)
+        wg.spawnSlots(assert(ppos:move(0,-2)), server.entities.stone_slot, 3,1, team)
+
+        lp.forceSpawnSlot(assert(ppos:move(1,1)), server.entities.stone_slot, team)
+        lp.forceSpawnSlot(assert(ppos:move(1,-1)), server.entities.stone_slot, team)
+        lp.forceSpawnSlot(assert(ppos:move(-1,1)), server.entities.stone_slot, team)
+        lp.forceSpawnSlot(assert(ppos:move(-1,-1)), server.entities.stone_slot, team)
+
+        spawnShop(ent, -1,0)
+        spawnRerollButton(ent, -1,0)
+
+        wg.spawnSlots(assert(ppos:move(0,4)), server.entities.skull_slot, 3,1, team)
+
+        spawnInterestSlot(ent)
+        spawnMoneyLimit(ent)
+        spawnDoomClock(ent)
+    end
+})
+
 
 
 
