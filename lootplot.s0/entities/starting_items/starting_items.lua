@@ -6,6 +6,15 @@ local wg = lp.worldgen
 local constants = require("shared.constants")
 
 
+--[[
+we need to make sure tutorial-cat is loaded first,
+because that starting-item should be shown FIRST.
+]]
+require("entities.tutorial.tutorial")
+-- (Since the order of `lp.worldgen.STARTING_ITEMS` matters!)
+
+
+
 local defPerkTc = typecheck.assert("string", "table")
 
 local function definePerk(id, etype)
@@ -25,7 +34,6 @@ local function unlockAfterWins(numberOfWins)
         if lp.getWinCount() >= numberOfWins then
             return true
         end
-        return true
     end
 
     return isEntityTypeUnlocked
@@ -576,7 +584,7 @@ definePerk("rainbow_ball", {
 
 definePerk("bowling_ball", {
     name = loc("Bowling Ball"),
-    description = loc("CHALLENGE-ITEM!\nFor PROS ONLY"),
+    description = loc("CHALLENGE-ITEM!"),
 
     isEntityTypeUnlocked = unlockAfterWins(4),
 

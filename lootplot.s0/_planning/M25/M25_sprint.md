@@ -74,14 +74,17 @@
 
 ~~- Make 8-ball starting item~~
 
+~~- Fix perk-select scroll / layout~~
+
+~~- Make perk-items ordered properly~~
+
+
+
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
 
-- Fix perk-select scroll
-
-- Make perk-items ordered properly
 
 - Make round-increment AFTER Pulse is done activating (This will fix the LPState text being incremented prematurely)
 

@@ -1,5 +1,19 @@
 
-local NUM_PER_LINE = 4
+
+
+
+local function getGridWH(numElems, W, H)
+    for w=1, 1000 do
+        local h = math.ceil(numElems / w)
+
+        if (h/w) < (H/W) then
+            -- boom! thats our solution (I HOPE)
+            return w, h
+        end
+    end
+    error("welp, not gonna search this high")
+end
+
 
 
 ---@class lootplot.singleplayer.PerkButton: Element
@@ -48,9 +62,6 @@ end
 ---@class lootplot.singleplayer.PerkSelect: Element
 local PerkSelect = ui.Element("lootplot.singleplayer:PerkSelect")
 
-local MODNAME_ORDER = {
-    ["lootplot.singleplayer"] = -1
-}
 
 function PerkSelect:init()
     self.selectedItem = nil
@@ -59,28 +70,26 @@ function PerkSelect:init()
     -- used to refresh perks (we dont need to refresh every single frame)
     self.frameCount = 1
 
+    local unlockedPerks = objects.Array()
+    local lockedPerks = objects.Array()
     for _, etypeName in ipairs(lp.worldgen.STARTING_ITEMS) do
         local etype = assert(client.entities[etypeName])
-        self.perkButtons:add(PerkButton(etype, self))
-    end
-    self.perkButtons:sortInPlace(function(a, b)
-        local am, an = umg.splitNamespacedString(a.etype:getTypename())
-        local bm, bn = umg.splitNamespacedString(b.etype:getTypename())
-        local aa = a.isUnlocked and 0 or 1
-        local bb = b.isUnlocked and 0 or 1
-
-        if aa == bb then
-            local ao = MODNAME_ORDER[am] or 0
-            local bo = MODNAME_ORDER[bm] or 0
-            if ao == bo then
-                return an < bn
-            end
-
-            return ao < bo
+        local pb = PerkButton(etype, self)
+        if pb.isUnlocked then
+            unlockedPerks:add(pb)
+        else
+            lockedPerks:add(pb)
         end
+    end
 
-        return aa < bb
-    end)
+    -- add unlocked-perks, THEN locked perks
+    for _, pb in ipairs(unlockedPerks) do
+        self.perkButtons:add(pb)
+    end
+    for _, pb in ipairs(lockedPerks) do
+        self.perkButtons:add(pb)
+    end
+
     for _, elem in ipairs(self.perkButtons) do
         self:addChild(elem)
     end
@@ -89,13 +98,6 @@ end
 
 function PerkSelect:getSelectedItem()
     return self.selectedItem
-end
-
-
-function PerkSelect:getHeight(w, h)
-    local itemSize = (w / NUM_PER_LINE)
-    local itemLines = math.floor(self.perkButtons:size() / NUM_PER_LINE)
-    return itemSize * itemLines
 end
 
 
@@ -110,28 +112,15 @@ end
 
 
 function PerkSelect:onRender(x,y,w,h)
-    local n = math.floor(self.perkButtons:size()/NUM_PER_LINE) + 1
-    local gx,gy,gw,gh = layout.Region(x,y,w,h)
+    local r = layout.Region(x,y,w,h)
         :padRatio(0.1)
-        :get()
 
-    local sze=gw/NUM_PER_LINE
-
-    local gridArr = objects.Array()
-    for yy=0, n-1 do
-        for xx=0,NUM_PER_LINE-1 do
-            gridArr:add(layout.Region(
-                gx + xx*sze,
-                gy + yy*sze,
-                sze,
-                sze
-            ))
-        end
-    end
+    local gridW, gridH = getGridWH(#self.perkButtons, w, h)
+    local gridArr = r:grid(gridW, gridH)
 
     for i, item in ipairs(self.perkButtons)do
-        local r = gridArr[i]
-        item:render(r:padRatio(0.2):get())
+        local r1 = gridArr[i]
+        item:render(r1:padRatio(0.2):get())
     end
 end
 

@@ -80,13 +80,12 @@ function NewRunScene:init(arg)
     end
 
     self.perkSelect = PerkSelect()
+    e.perkSelect = self.perkSelect
+
     e.perkSelectBox = StretchableBox("white_pressed_big", 8, {
         stretchType = "repeat",
         color = FOREGROUND_COLOR,
         scale = 1
-    })
-    e.scrollBox = ui.elements.ScrollBox({
-        content = self.perkSelect
     })
 
     ---@type lootplot.singleplayer.BackgroundSelect
@@ -208,7 +207,7 @@ function NewRunScene:onRender(x, y, w, h)
     local perkSelectTitle, perkSelect = right:splitVertical(1,6)
     drawTextIn(CHOOSE_UR_STARTING_ITEM, perkSelectTitle)
     e.perkSelectBox:render(perkSelect:get())
-    e.scrollBox:render(perkSelect:padRatio(0.2):get())
+    e.perkSelect:render(perkSelect:padRatio(0.2):get())
 
     -- start button:
     local startButton = footer:padRatio(0.15):shrinkToAspectRatio(4,1)

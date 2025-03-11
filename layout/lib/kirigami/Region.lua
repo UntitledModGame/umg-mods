@@ -174,8 +174,8 @@ function Region:grid(width, height)
     local w, h = self.w/width, self.h/height
     local regions = {}
 
-    for ix=0, width-1 do
-        for iy=0, height-1 do
+    for iy=0, height-1 do
+        for ix=0, width-1 do
             local x = self.x + w*ix
             local y = self.y + h*iy
             local r = newRegion(x,y,w,h)
