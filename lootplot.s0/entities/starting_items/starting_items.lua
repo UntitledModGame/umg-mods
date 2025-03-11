@@ -359,7 +359,9 @@ definePerk("seven_ball", {
 
 definePerk("eight_ball", {
     name = loc("Eight Ball"),
-    description = loc("Is surrounded by rocks"),
+    description = loc("Is surrounded by stone"),
+
+    activateDescription = loc("Destroys items"),
 
     -- isEntityTypeUnlocked = unlockAfterWins(2),
 
@@ -389,7 +391,15 @@ definePerk("eight_ball", {
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
         spawnDoomClock(ent)
-    end
+    end,
+
+    shape = lp.targets.RookShape(1),
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targEnt)
+            lp.destroy(targEnt)
+        end
+    }
 })
 
 
