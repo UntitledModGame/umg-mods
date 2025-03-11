@@ -25,6 +25,7 @@ local function unlockAfterWins(numberOfWins)
         if lp.getWinCount() >= numberOfWins then
             return true
         end
+        return true
     end
 
     return isEntityTypeUnlocked
@@ -248,7 +249,7 @@ definePerk("five_ball", {
 
 definePerk("L_ball", {
     name = loc("L Ball"),
-    description = loc("Gives lives to items/slots."),
+    description = loc("Gives lives to items/slots"),
 
     isEntityTypeUnlocked = unlockAfterWins(1),
 
@@ -514,7 +515,7 @@ do something more interesting with this!
 
 definePerk("nine_ball", {
     name = loc("Nine Ball"),
-    description = loc("Has no money limit."),
+    description = loc("Has no money limit"),
 
     isEntityTypeUnlocked = unlockAfterWins(3),
 
@@ -534,11 +535,48 @@ definePerk("nine_ball", {
 
 
 
+definePerk("rainbow_ball", {
+    name = loc("Gay"),
+    description = loc("gay."),
+
+    isEntityTypeUnlocked = unlockAfterWins(7),
+
+    baseMaxActivations = 1,
+
+    onActivateOnce = function(ent)
+        lp.setMoney(ent, constants.STARTING_MONEY)
+        local ppos, team = getPosTeam(ent)
+
+        local curPos = assert(ppos:move(-4, 0))
+
+        local function nextPos()
+            curPos = assert(curPos:move(1,0))
+            return curPos
+        end
+
+        local ents = server.entities
+        lp.forceSpawnSlot(nextPos(), ents.ruby_slot, team) -- red
+        lp.forceSpawnSlot(nextPos(), ents.rotate_slot, team) -- orange
+        lp.forceSpawnSlot(nextPos(), ents.shop_slot, team) -- yellow
+
+        lp.forceSpawnSlot(nextPos(), ents.reroll_button_slot, team) -- green
+
+        lp.forceSpawnSlot(nextPos(), ents.diamond_slot, team) -- blue
+
+        -- lp.forceSpawnSlot(nextPos(), ents.diamond_slot, team) -- indigo
+        umg.melt("TODO ^^^^ put a sapphire slot here")
+
+        lp.forceSpawnSlot(nextPos(), ents.interest_slot, team) -- violet
+    end
+})
+
+
+
 
 
 definePerk("bowling_ball", {
     name = loc("Bowling Ball"),
-    description = loc("CHALLENGE-ITEM!\nFor PROS ONLY."),
+    description = loc("CHALLENGE-ITEM!\nFor PROS ONLY"),
 
     isEntityTypeUnlocked = unlockAfterWins(4),
 

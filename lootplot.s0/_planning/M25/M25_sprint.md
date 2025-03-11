@@ -79,23 +79,20 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
 
-- Make rainbow-ball starting item (starts with a tonne of random shit) (Name: "Gay"?)
-
 - Fix perk-select scroll
 
+- Make perk-items ordered properly
 
-- Make a few more `Rotate/Unlock` items that scale:
-(futuristic-item sprites, top right)
-- Give some LEVEL-UP items `Unlock` trigger?
-- Red metal cube: On Rotate/Unlock, give +0.4 mult to slots (shape=ON)
-- Blue metal cube: On Rotate/Unlock, give +3 bonus to slots (shape=ON)
-- Green metal cube: On Rotate/Unlock, trigger Reroll on slots and items (shape=KING-2)
-- Gold metal cube: On Rotate/Unlock, earn $5. GRUB-10.
+- Make round-increment AFTER Pulse is done activating (This will fix the LPState text being incremented prematurely)
 
 
+- Rework steel-slots per document
 
-- Rename steel-slots to "anti-bonus slots". Make them easier to get.
-(They should do the exact same thing as before, except halve the current bonus)
+- Nerf ruby-slots (Pulses 6 times)
+
+- Create sapphire slots
+
+- Make rainbow-ball starting item (starts with a tonne of random shit) (Name: "Gay"?)
 
 
 - Make slots and items activate a bit separately:  
@@ -136,6 +133,15 @@ Bowling-ball could be unlocked this way, for example
 - Add item unlock infrastructure
 - Create "UNLOCKED" popup UI widget when the game is won
 - Make complex items locked at the start of the game
+
+
+- (SPIKE?) Make a few more `Rotate/Unlock` items that scale:
+(futuristic-item sprites, top right)
+- Give some LEVEL-UP items `Unlock` trigger?
+- Red metal cube: On Rotate/Unlock, give +0.4 mult to slots (shape=ON)
+- Blue metal cube: On Rotate/Unlock, give +3 bonus to slots (shape=ON)
+- Green metal cube: On Rotate/Unlock, trigger Reroll on slots and items (shape=KING-2)
+- Gold metal cube: On Rotate/Unlock, earn $5. GRUB-10.
 
 
 
