@@ -64,11 +64,11 @@ defItem("gear", "Gear", {
 
     shape = lp.targets.KingShape(1),
 
-    triggers = {"PULSE", "ROTATE"},
+    triggers = {"ROTATE"},
 
     rarity = lp.rarities.RARE,
 
-    basePrice = 16,
+    basePrice = 10,
     baseMaxActivations = 4,
 
     target = {
