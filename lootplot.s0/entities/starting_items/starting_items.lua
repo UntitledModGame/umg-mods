@@ -91,15 +91,17 @@ local function spawnDoomClock(ent, dy)
 end
 
 
-local function spawnShop(ent)
+local function spawnShop(ent, dx, dy)
     local ppos, team = getPosTeam(ent)
-    wg.spawnSlots(assert(ppos:move(-4,0)), server.entities.shop_slot, 3,1, team)
+    ppos = assert(ppos:move(dx or 0,dy or 0))
 
+    wg.spawnSlots(assert(ppos:move(-4,0)), server.entities.shop_slot, 3,1, team)
     wg.spawnSlots(assert(ppos:move(-3,2)), server.entities.food_shop_slot, 1,2, team)
 end
 
-local function spawnRerollButton(ent)
+local function spawnRerollButton(ent, dx,dy)
     local ppos, team = getPosTeam(ent)
+    ppos = assert(ppos:move(dx or 0, dy or 0))
     wg.spawnSlots(assert(ppos:move(-4, -1)), server.entities.reroll_button_slot, 1,1, team)
 end
 
@@ -108,8 +110,9 @@ local function spawnNormal(ent)
     wg.spawnSlots(ppos, server.entities.slot, 3,3, team)
 end
 
-local function spawnSell(ent)
+local function spawnSell(ent, dx, dy)
     local ppos, team = getPosTeam(ent)
+    ppos = assert(ppos:move(dx or 0, dy or 0))
     wg.spawnSlots(assert(ppos:move(0, 3)), server.entities.sell_slot, 1,1, team)
 end
 
@@ -295,6 +298,56 @@ definePerk("four_ball", {
         spawnShop(ent)
         spawnRerollButton(ent)
         spawnSell(ent)
+        spawnInterestSlot(ent)
+        spawnMoneyLimit(ent)
+        spawnDoomClock(ent)
+    end
+})
+
+
+
+
+definePerk("seven_ball", {
+    name = loc("Seven Ball"),
+    description = loc("Dirt, Rocks, and a Bomb"),
+
+    --isEntityTypeUnlocked = unlockAfterWins(4),
+
+    onActivateOnce = function(ent)
+        lp.setMoney(ent, constants.STARTING_MONEY)
+
+        local ppos, team = getPosTeam(ent)
+
+        local SPREAD = 3
+
+        do -- spawn floaty bomb
+        local p = assert(ppos:move(SPREAD + 2, 0))
+        lp.forceSpawnSlot(p, server.entities.null_slot, team)
+        local bombEnt = lp.forceSpawnItem(p, server.entities.bomb, team)
+        bombEnt.canItemFloat = true
+        end
+
+        for x=-SPREAD, SPREAD do
+            for y=-SPREAD, SPREAD do
+                -- dont include corners, dont include center
+                if (not (x==0 and y==0)) and (math.abs(x) + math.abs(y)) < (SPREAD * 2) then
+                    local p = assert(ppos:move(x,y))
+                    local r = lp.SEED:randomWorldGen()
+                    if r < 0.3 then
+                        local slotEnt = lp.forceSpawnSlot(p, server.entities.stone_slot, team)
+                        slotEnt.baseMoneyGenerated = -3
+                    elseif r < 0.9 then
+                        lp.forceSpawnSlot(p, server.entities.dirt_slot, team)
+                    else
+                        -- do nothing; air
+                    end
+                end
+            end
+        end
+
+        spawnShop(ent, -2,0)
+        spawnRerollButton(ent, -2,0)
+        spawnSell(ent, 0, 2)
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
         spawnDoomClock(ent)

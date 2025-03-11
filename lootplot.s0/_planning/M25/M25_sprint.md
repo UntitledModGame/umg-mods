@@ -70,6 +70,7 @@
 
 ~~- Make a starting-item that starts with a rulebender-slot~~
 
+~~- Make dirt-starting item~~
 
 
 ==========================================
@@ -77,11 +78,12 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
 
-- Make dirt-starting item
 
 - Make 8-ball starting item
 
 - Make rainbow-ball starting item (starts with a tonne of random shit) (Name: "Gay"?)
+
+- Fix perk-select scroll
 
 
 - Make a few more `Rotate/Unlock` items that scale:

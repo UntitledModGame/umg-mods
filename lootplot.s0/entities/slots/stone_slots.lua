@@ -31,6 +31,9 @@ lp.defineSlot("lootplot.s0:stone_slot", {
 
 
 lp.defineSlot("lootplot.s0:auto_stone_slot", {
+    --[[
+    same as stone-slot, but is automatically given properties.
+    ]]
     name = loc("Stone slot"),
     image = "stone_slot",
 
