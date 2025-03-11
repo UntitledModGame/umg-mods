@@ -109,12 +109,6 @@ umg.defineEntityType("lootplot.s0:doom_clock", {
     end,
 
     onUpdateClient = moveClockToClearPosition,
-
-    onActivate = function(ent)
-        local round = lp.getAttribute("ROUND", ent)
-        local newRound = round + 1
-        lp.setRound(ent, newRound)
-    end
 })
 
 

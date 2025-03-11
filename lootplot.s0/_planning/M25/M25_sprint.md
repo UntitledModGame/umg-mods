@@ -78,15 +78,13 @@
 
 ~~- Make perk-items ordered properly~~
 
+~~- Make round-increment AFTER Pulse is done activating (fixes the LPState text being incorrect)~~
 
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
-
-
-- Make round-increment AFTER Pulse is done activating (This will fix the LPState text being incremented prematurely)
 
 
 - Rework steel-slots per document

@@ -90,11 +90,15 @@ lp.defineSlot("lootplot.s0:pulse_button_slot", {
         if ppos then
             resetPlot(ent, ppos)
 
-            -- LIFO: we want to reset stuff last, so we queue this FIRST.
+            -- LIFO: we want to do this stuff last, so we queue this FIRST.
             lp.queueWithEntity(ent, function(e)
                 lp.addMoney(e, constants.MONEY_PER_ROUND)
                 lp.setPointsMult(e, 1)
                 lp.setPointsBonus(e, 0)
+
+                local round = lp.getAttribute("ROUND", ent)
+                local newRound = round + 1
+                lp.setRound(ent, newRound)
             end)
 
             local plot = ppos:getPlot()
@@ -108,9 +112,6 @@ lp.defineSlot("lootplot.s0:pulse_button_slot", {
                 end)
 
             resetPlot(ent, ppos)
-
-            pulseWorldLayer(ent, plot)
-            -- ^^^ this needs to be done so the doomClock updates
         end
     end,
 })
