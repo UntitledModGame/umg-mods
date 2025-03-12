@@ -171,3 +171,18 @@ defItem("red_carton", "Red Carton", {
 })
 
 
+
+
+defItem("flint", "Flint", {
+    triggers = {"PULSE", "DESTROY"},
+
+    basePrice = 6,
+    baseMaxActivations = 6,
+    baseMultGenerated = 1,
+    baseBonusGenerated = -6,
+
+    lives = 40,
+
+    rarity = lp.rarities.UNCOMMON,
+})
+
