@@ -55,7 +55,7 @@ umg.answer("lootplot:getPipelineDelayMultiplier", function(plot)
     end)
 
     -- NOOMA (Numbers-Out-Of-My-Ass)
-    local speedMult = (numVisibleSlots-12) / 20
+    local speedMult = (numVisibleSlots-12) / 30
     return 1 / math.max(1, speedMult)
 end)
 

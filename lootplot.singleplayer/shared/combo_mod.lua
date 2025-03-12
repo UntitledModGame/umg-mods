@@ -1,5 +1,5 @@
 
-local COMBO_CAP = 30 -- maxes out at after combo count is X
+local COMBO_CAP = 40 -- maxes out at after combo count is X
 
 local MAX_SPEED = 3 -- max speed is X times faster
 
