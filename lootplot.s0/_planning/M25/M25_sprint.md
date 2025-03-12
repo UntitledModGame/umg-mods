@@ -92,14 +92,19 @@
 ~~- Create sapphire slots: Items on this slot gain a 2x points multiplier. ~~
 ~~If bonus is negative, this multiplier is increased to 5x.~~
 
+~~- Make rainbow-ball starting item (starts with a tonne of random shit) (Name: "Gay"?)~~
+
+
+
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
 
-
-
-- Make rainbow-ball starting item (starts with a tonne of random shit) (Name: "Gay"?)
+- Get rid of start-game loading times
+Everyone seems to get annoyed at the loading times.
+Lets try remove the loading-times for worldgen as much as possible.
+Also, when we trigger REROLL on items at start, lets just trigger it instantly. No need to use Bufferer.
 
 
 - Make slots and items activate a bit separately:  
@@ -107,13 +112,6 @@ Michael didnt understand that the slots and items activated independently.
 Maybe we should buffer the activations of the items:  
 Ie, activate slot, then activate item.  
 (instead of both triggering at same time)   
-
-
-
-- Get rid of start-game loading times
-Everyone seems to get annoyed at the loading times.
-Lets try remove the loading-times for worldgen as much as possible.
-Also, when we trigger REROLL on items at start, lets just trigger it instantly. No need to use Bufferer.
 
 
 - Create a more well-defined lose-condition:

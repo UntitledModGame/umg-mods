@@ -548,7 +548,7 @@ definePerk("rainbow_ball", {
     name = loc("Gay"),
     description = loc("gay."),
 
-    isEntityTypeUnlocked = unlockAfterWins(7),
+    --isEntityTypeUnlocked = unlockAfterWins(7),
 
     baseMaxActivations = 1,
 
@@ -556,7 +556,7 @@ definePerk("rainbow_ball", {
         lp.setMoney(ent, constants.STARTING_MONEY)
         local ppos, team = getPosTeam(ent)
 
-        local curPos = assert(ppos:move(-4, 0))
+        local curPos = assert(ppos:move(-4, 1))
 
         local function nextPos()
             curPos = assert(curPos:move(1,0))
@@ -567,15 +567,12 @@ definePerk("rainbow_ball", {
         lp.forceSpawnSlot(nextPos(), ents.ruby_slot, team) -- red
         lp.forceSpawnSlot(nextPos(), ents.rotate_slot, team) -- orange
         lp.forceSpawnSlot(nextPos(), ents.shop_slot, team) -- yellow
-
         lp.forceSpawnSlot(nextPos(), ents.reroll_button_slot, team) -- green
-
         lp.forceSpawnSlot(nextPos(), ents.diamond_slot, team) -- blue
-
-        -- lp.forceSpawnSlot(nextPos(), ents.diamond_slot, team) -- indigo
-        umg.melt("TODO ^^^^ put a sapphire slot here")
-
+        lp.forceSpawnSlot(nextPos(), ents.sapphire_slot, team) -- indigo
         lp.forceSpawnSlot(nextPos(), ents.interest_slot, team) -- violet
+
+        spawnDoomClock(ent)
     end
 })
 
