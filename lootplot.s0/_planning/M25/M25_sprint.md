@@ -87,14 +87,12 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 
 
 
-- Rework steel-slots per document
-Items on this slot gain a 2x points multiplier.
-While on this slot, item activations are capped at 3.
+- Rework steel-slots per document: (Items gain a 2x points multiplier, item activations are capped at 3)
 
 - Rework gold-slots: "Give items 5x point mult. Make items cost $1 extra to activate."
 - If we do this, we MUST rework golden-worldgen slots!!!
 
-- Adjust diamond-slot: Items on this slot earn 3x points, and have 5 extra activations
+- Adjust diamond-slot: Items on this slot earn 4x as much Bonus
 
 - Nerf ruby-slots (Pulses 6 times)
 

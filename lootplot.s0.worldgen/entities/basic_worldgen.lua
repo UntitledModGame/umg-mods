@@ -34,8 +34,9 @@ end
 local function generateGoldIsland(island, team)
     lp.queue(island[1], function ()
         for _, ppos in ipairs(island) do
-            local goldenSlotId = "lootplot.s0:golden_slot"
-            local slotEnt = server.entities[goldenSlotId]()
+            local slotId = "lootplot.s0:slot"
+            local slotEnt = server.entities[slotId]()
+            slotEnt.baseMoneyGenerated = 1
             slotEnt.lootplotTeam = team
 
             local islandSize = #island
