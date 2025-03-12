@@ -105,6 +105,7 @@ local function spawnItemAndSlots(midPPos, team, perk, wgen)
             -- This will be executed AFTER "SLOT_OR_ITEM" bufferer code finishes.
             lp.Bufferer()
                 :all(plot)
+                :withDelay(0)
                 :filter(shouldReroll)
                 :to("SLOT")
                 :execute(function(ppos, ent)
@@ -115,6 +116,7 @@ local function spawnItemAndSlots(midPPos, team, perk, wgen)
 
         lp.Bufferer()
             :all(plot)
+            :withDelay(0)
             :filter(fogFilter)
             :to("SLOT_OR_ITEM") -- ppos-->slot
             :execute(function(_ppos, slotEnt)

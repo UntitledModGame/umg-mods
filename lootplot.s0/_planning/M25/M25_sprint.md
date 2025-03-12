@@ -94,17 +94,14 @@
 
 ~~- Make rainbow-ball starting item (starts with a tonne of random shit) (Name: "Gay"?)~~
 
+~~- Get rid of start-game loading times~~
+
 
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
-
-- Get rid of start-game loading times
-Everyone seems to get annoyed at the loading times.
-Lets try remove the loading-times for worldgen as much as possible.
-Also, when we trigger REROLL on items at start, lets just trigger it instantly. No need to use Bufferer.
 
 
 - Make slots and items activate a bit separately:  
