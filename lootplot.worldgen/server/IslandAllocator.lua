@@ -97,7 +97,7 @@ function IslandAllocator:generateIslands()
 
     -- Pass 3: Flood fill unmarked islands
     local function consider(stack, x, y)
-        if self.grid:get(x, y) and islandGroup:get(x, y) == nil then
+        if self.grid:get(x, y) and (not islandGroup:get(x, y)) then
             stack[#stack+1] = islandGroup:coordsToIndex(x, y)
         end
     end
