@@ -37,14 +37,6 @@ local function resetPlot(ent, ppos)
 end
 
 
-local function pulseWorldLayer(ent, plot)
-    plot:foreachLayerEntry(function(e, ppos, layer)
-        if layer == "world" then
-            lp.tryActivateEntity(e)
-        end
-    end)
-end
-
 
 lp.defineSlot("lootplot.s0:pulse_button_slot", {
     image = "pulse_button_up",

@@ -1,18 +1,28 @@
 
 local loc = localization.localize
 
+local PTS_MULT = 3
+local ACTIVATIONS_CAP = 3
+
+
 return lp.defineSlot("lootplot.s0:steel_slot", {
     image = "steel_slot",
     name = loc("Steel slot"),
 
     rarity = lp.rarities.UNCOMMON,
 
-    description = loc("Item gets a {lootplot:POINTS_MULT_COLOR}2 x POINTS-MULTIPLIER{/lootplot:POINTS_MULT_COLOR}."),
+    description = loc("While on this slot,\nItems earn {lootplot:POINTS_MULT_COLOR}%{mult} x points{/lootplot:POINTS_MULT_COLOR}, and activations are limited to %{activations}.", {
+        mult = PTS_MULT,
+        activations = ACTIVATIONS_CAP
+    }),
     triggers = {"PULSE"},
     baseMaxActivations = 100,
     slotItemProperties = {
         multipliers = {
-            pointsGenerated = 2
+            pointsGenerated = PTS_MULT
+        },
+        maximums = {
+            maxActivations = ACTIVATIONS_CAP
         }
     },
 })
