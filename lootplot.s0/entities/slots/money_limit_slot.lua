@@ -2,7 +2,7 @@
 
 local loc = localization.localize
 
-local MONEY_LIMIT_TEXT = localization.newInterpolator("Limits money to %{limit}")
+local MONEY_LIMIT_TEXT = localization.newInterpolator("Limits money to {lootplot:MONEY_COLOR}$%{limit}{/lootplot:MONEY_COLOR}")
 
 -- Adjust this when balancing. Maybe 100 is better?
 local MONEY_LIMIT = 100

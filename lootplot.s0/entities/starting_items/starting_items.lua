@@ -128,12 +128,13 @@ end
 local function spawnMoneyLimit(ent)
     local ppos, team = getPosTeam(ent)
     local plot = ppos:getPlot()
-    wg.spawnSlots(plot:getPPos(ppos:getCoords(), 0), server.entities.money_limit_slot, 1,1, team)
+    wg.spawnSlots(plot:getPPos(ppos:getCoords(), 2), server.entities.money_limit_slot, 1,1, team)
 end
 
 local function spawnInterestSlot(ent)
     local ppos, team = getPosTeam(ent)
-    wg.spawnSlots(assert(ppos:move(5,-4), server.entities.interest_slot, 1,1, team))
+    local plot = ppos:getPlot()
+    wg.spawnSlots(plot:getPPos(ppos:getCoords(), 3), server.entities.interest_slot, 1,1, team)
 end
 
 -------------------------------------------------------------------
