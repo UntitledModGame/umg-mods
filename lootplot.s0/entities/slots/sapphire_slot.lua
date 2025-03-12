@@ -2,7 +2,8 @@
 
 local loc = localization.localize
 
-local MULT = 6
+local WEAK_MULT = 2
+local STRONG_MULT = 8
 
 return lp.defineSlot("lootplot.s0:sapphire_slot", {
     image = "sapphire_slot",
@@ -10,8 +11,9 @@ return lp.defineSlot("lootplot.s0:sapphire_slot", {
 
     rarity = lp.rarities.RARE,
 
-    description = loc("While on this slot,\nItems earn {lootplot:POINTS_MULT_COLOR}%{mult} x points{/lootplot:POINTS_MULT_COLOR}.\n(Only works when {lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} is negative!)", {
-        mult = MULT,
+    description = loc("While on this slot,\nItems earn {lootplot:POINTS_MULT_COLOR}%{weakMult} x points{/lootplot:POINTS_MULT_COLOR}.\n(If {lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} is negative, becomes {lootplot:POINTS_MULT_COLOR}%{strongMult}x{/lootplot:POINTS_MULT_COLOR})", {
+        weakMult = WEAK_MULT,
+        strongMult = STRONG_MULT,
     }),
 
     triggers = {"PULSE"},
@@ -21,9 +23,9 @@ return lp.defineSlot("lootplot.s0:sapphire_slot", {
             pointsGenerated = function(ent)
                 local isBonusNegative = (lp.getPointsBonus(ent) or 0) < 0
                 if isBonusNegative then
-                    return MULT
+                    return STRONG_MULT
                 else
-                    return 1
+                    return WEAK_MULT
                 end
             end
         }
