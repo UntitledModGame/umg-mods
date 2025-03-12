@@ -179,7 +179,7 @@ defItem("flint", "Flint", {
     basePrice = 6,
     baseMaxActivations = 6,
     baseMultGenerated = 1,
-    baseBonusGenerated = -6,
+    baseBonusGenerated = -10,
 
     lives = 40,
 
