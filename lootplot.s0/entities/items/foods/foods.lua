@@ -113,7 +113,9 @@ local DOOMED_TURNIP_DOOMCOUNT = 5
 defineFood("doomed_turnip", {
     name = loc("Doomed Turnip"),
 
-    activateDescription = loc("Transforms into target item, and makes the transform item {lootplot:DOOMED_COLOR}DOOMED"),
+    activateDescription = loc("Transforms into target item, and makes the new item {lootplot:DOOMED_COLOR}DOOMED-%{n}", {
+        n = DOOMED_TURNIP_DOOMCOUNT
+    }),
     rarity = lp.rarities.UNCOMMON,
 
     basePrice = 4,

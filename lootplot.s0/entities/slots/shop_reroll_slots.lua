@@ -495,9 +495,9 @@ end
 
 local cloudPickButton = {
     action = function(ent, _clientId)
+        local itemEnt = lp.slotToItem(ent)
         if server then
             deleteAttachedCloudSlots(ent)
-            local itemEnt = lp.slotToItem(ent)
             if itemEnt then
                 lp.tryTriggerEntity("BUY", itemEnt)
             end
@@ -508,6 +508,18 @@ local cloudPickButton = {
                 if slotEnt then
                     slotEnt.doomCount = 2
                 end
+            end
+        else
+            assert(client)
+            if itemEnt then
+                -- HACK: we need to select the slot next-tick,
+                -- This is because the server forceSpawns a null-slot,
+                -- and invalidates the old selection.
+                scheduling.nextTick(function()
+                    if umg.exists(itemEnt) then
+                        lp.selectItem(itemEnt, true)
+                    end
+                end)
             end
         end
     end,
