@@ -68,8 +68,12 @@ function trigger.tryTriggerEntity(name, ent)
     -- TODO: should this be inside the `if canTrigger` if block???
     if lp.isSlotEntity(ent) and ent.canSlotPropagate then
         local itemEnt = lp.slotToItem(ent)
-        if itemEnt then
-            trigger.tryTriggerEntity(name, itemEnt)
+        local ppos = lp.getPos(ent)
+        if ppos and itemEnt then
+            lp.wait(ppos, 0.2)
+            lp.queueWithEntity(itemEnt, function(itemEntt)
+                trigger.tryTriggerEntity(name, itemEntt)
+            end)
         end
     end
     return canTrigger

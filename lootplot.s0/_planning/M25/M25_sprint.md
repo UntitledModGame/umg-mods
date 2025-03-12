@@ -1,6 +1,7 @@
 
 
 ## MID-2025 SPRINT:
+### START-DATE: (  3/MARCH/2025  )
 
 
 - ~~Nerf boomerangs~~
@@ -96,19 +97,17 @@
 
 ~~- Get rid of start-game loading times~~
 
+~~- Make slots and items activate a bit separately:~~
+~~Michael didnt understand that slots and items activated independently~~   
+~~Maybe we should buffer the activations of the items:~~   
+~~Ie, activate slot, then activate item.~~    
+~~(instead of both triggering at same time)~~
+
 
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
-
-
-
-- Make slots and items activate a bit separately:  
-Michael didnt understand that the slots and items activated independently.  
-Maybe we should buffer the activations of the items:  
-Ie, activate slot, then activate item.  
-(instead of both triggering at same time)   
 
 
 - Create a more well-defined lose-condition:
