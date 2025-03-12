@@ -36,3 +36,24 @@ umg.answer("properties:getPropertyModifier", function(itemEnt, prop)
 
     return 0
 end)
+
+
+umg.answer("properties:getPropertyClamp", function(itemEnt, prop)
+    if not lp.isItemEntity(itemEnt) then return end
+    local slotEnt = lp.itemToSlot(itemEnt)
+    if slotEnt and slotEnt.slotItemProperties then
+        local props = slotEnt.slotItemProperties
+        local minn, maxx
+
+        if props.minimums and props.minimums[prop] then
+            minn = getValue(slotEnt, itemEnt, props.minimums[prop]) or 0
+        end
+        if props.maximums and props.maximums[prop] then
+            maxx = getValue(slotEnt, itemEnt, props.maximums[prop]) or 0
+        end
+
+        return minn, maxx
+    end
+
+    return nil,nil
+end)
