@@ -43,7 +43,7 @@ chat.handleCommand("spawnItem", {
         end
 
         local ctor = server.entities[etype]
-        if not ctor then
+        if (not ctor) or (not lp.isItemEntity(ctor)) then
             invalidEntityType(clientId, etype)
             return
         end
@@ -72,7 +72,7 @@ chat.handleCommand("spawnSlot", {
         end
 
         local ctor = server.entities[etype]
-        if not ctor then
+        if (not ctor) or (not lp.isSlotEntity(ctor)) then
             invalidEntityType(clientId, etype)
             return
         end

@@ -153,17 +153,17 @@ function lp.slotToItem(slotEnt)
 end
 
 ---Availability: Client and Server
----@param ent Entity
+---@param ent_or_etype Entity|EntityType
 ---@return boolean
-function lp.isSlotEntity(ent)
-    return not not ent.slot
+function lp.isSlotEntity(ent_or_etype)
+    return not not ent_or_etype.slot
 end
 
 ---Availability: Client and Server
----@param ent Entity
+---@param ent_or_etype Entity|EntityType
 ---@return boolean
-function lp.isItemEntity(ent)
-    return not not ent.item
+function lp.isItemEntity(ent_or_etype)
+    return not not ent_or_etype.item
 end
 
 ---Availability: Client and Server
