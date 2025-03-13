@@ -106,17 +106,6 @@ umg.on("@playerJoin", function(clientId)
     server.unicast(clientId, "lootplot.singleplayer:runData", isHost, runData)
 end)
 
-umg.on("@quit", function()
-    local run = lp.singleplayer.getRun()
-
-    if run and run:getAttribute("LEVEL") >= 1 and run:getAttribute("ROUND") >= 1 then
-        if run:isLose() then
-            runManager.deleteRun()
-        else
-            saveRunServer(run)
-        end
-    end
-end)
 
 function runManager.saveRun()
     local run = lp.singleplayer.getRun()
@@ -136,6 +125,21 @@ end
 
 
 
+
+
+local function endSave()
+    runManager.deleteRun()
+    local run = lp.singleplayer.getRun()
+    if run then
+        run.runHasEnded = true
+    end
+end
+
+umg.on("lootplot:loseGame", endSave)
+umg.on("lootplot:winGame", endSave)
+
+
+
 -- Whether or not we autosave.
 local AUTOSAVE = true
 
@@ -145,6 +149,8 @@ if AUTOSAVE then
     umg.on("@tick", function(dt)
         local run = lp.singleplayer.getRun()
         if not run then return end
+
+        if (run.runHasEnded) then return end
 
         if run:getPlot():isPipelineRunning() then
             dirty = true

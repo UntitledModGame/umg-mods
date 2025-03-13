@@ -103,6 +103,10 @@
 ~~Ie, activate slot, then activate item.~~    
 ~~(instead of both triggering at same time)~~
 
+~~- Create a more well-defined lose-condition:~~
+~~- When a game is lost, dont allow player to "continue run"~~
+~~- When a game is lost, dont allow player to recover the run through Rerolling. Lost is LOST!~~
+~~- When a game is lost, tell the player: "Game over" text, similar to "You win" text?~~
 
 
 ==========================================
@@ -110,10 +114,7 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
 
-- Create a more well-defined lose-condition:
-- When a game is lost, dont allow player to "continue run"
-- When a game is lost, dont allow player to recover the run through Rerolling. Lost is LOST!
-- When a game is lost, tell the player: "Game over" text, similar to "You win" text?
+- UMGCLIENT: Make "Loading..." text sizing better (more consistent!)
 
 
 - SECRET CHALLENGE STARTER-ITEMS:

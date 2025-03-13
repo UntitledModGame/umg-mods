@@ -25,8 +25,8 @@ local function fogFilter(ppos, ent)
     end
 end
 
----@param ent Entity
-local function resetPlot(ent, ppos)
+---@param ppos lootplot.PPos
+local function resetPlot(ppos)
     local plot = ppos:getPlot()
     lp.queue(ppos, function()
         -- This will execute LAST.
@@ -36,6 +36,27 @@ local function resetPlot(ent, ppos)
     end)
 end
 
+
+local function hasLost(e)
+    local numberOfRounds = lp.getNumberOfRounds(e)
+    local round = lp.getRound(e)
+    local requiredPoints = lp.getRequiredPoints(e)
+    local points = lp.getPoints(e)
+
+    if (round > numberOfRounds) and (points < requiredPoints) then
+        return true
+    end
+end
+
+
+---@param plot lootplot.Plot
+local function deleteAllButtonSlots(plot)
+    plot:foreachSlot(function(ent, ppos)
+        if ent.buttonSlot then
+            ent:delete()
+        end
+    end)
+end
 
 
 lp.defineSlot("lootplot.s0:pulse_button_slot", {
@@ -71,7 +92,7 @@ lp.defineSlot("lootplot.s0:pulse_button_slot", {
     canActivate = function(ent)
         local round = lp.getRound(ent)
         local numOfRounds = lp.getNumberOfRounds(ent)
-        if round < (numOfRounds + 1) then
+        if round <= numOfRounds then
             return true
         end
         return false
@@ -80,7 +101,8 @@ lp.defineSlot("lootplot.s0:pulse_button_slot", {
     onActivate = function(ent)
         local ppos=lp.getPos(ent)
         if ppos then
-            resetPlot(ent, ppos)
+            local plot = ppos:getPlot()
+            resetPlot(ppos)
 
             -- LIFO: we want to do this stuff last, so we queue this FIRST.
             lp.queueWithEntity(ent, function(e)
@@ -88,12 +110,17 @@ lp.defineSlot("lootplot.s0:pulse_button_slot", {
                 lp.setPointsMult(e, 1)
                 lp.setPointsBonus(e, 0)
 
-                local round = lp.getAttribute("ROUND", ent)
+                local round = lp.getAttribute("ROUND", e)
                 local newRound = round + 1
-                lp.setRound(ent, newRound)
+                lp.setRound(e, newRound)
+
+                if hasLost(e) then
+                    lp.loseGame(ent.lootplotTeam)
+                    -- destroy all button-slots:
+                    deleteAllButtonSlots(plot)
+                end
             end)
 
-            local plot = ppos:getPlot()
             lp.Bufferer()
                 :all(plot)
                 :to("SLOT_OR_ITEM") -- ppos-->slot
@@ -103,7 +130,7 @@ lp.defineSlot("lootplot.s0:pulse_button_slot", {
                     lp.tryTriggerEntity("PULSE", slotEnt)
                 end)
 
-            resetPlot(ent, ppos)
+            resetPlot(ppos)
         end
     end,
 })

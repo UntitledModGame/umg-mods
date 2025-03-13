@@ -39,22 +39,6 @@ local function defineFood(id, etype)
 end
 
 
-defineFood("blueberry", {
-    name = loc("Blueberry"),
-
-    basePrice = 8,
-    rarity = lp.rarities.EPIC,
-
-    activateDescription = loc("Doubles the current point count."),
-
-    onActivate = function (selfEnt)
-        local points = lp.getPoints(selfEnt)
-        if points then
-            lp.addPoints(selfEnt, points)
-        end
-    end
-})
-
 
 defineFood("butter", {
     name = loc("Butter"),
@@ -827,6 +811,11 @@ defineFood("sliced_apple", {
 
 defineSlotConverter("bananas", "Bananas", "swashbuckler_slot", "Swashbuckler Slot", lp.targets.ON_SHAPE, {
     rarity = lp.rarities.EPIC,
+    basePrice = APPLE_PRICE
+})
+
+defineSlotConverter("blueberry", "Blueberry", "sapphire_slot", "Sapphire Slot", lp.targets.ON_SHAPE, {
+    rarity = lp.rarities.RARE,
     basePrice = APPLE_PRICE
 })
 

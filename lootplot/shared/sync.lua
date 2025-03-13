@@ -21,6 +21,7 @@ sync.proxyEventToClient("lootplot:entityBuffed")
 
 
 sync.proxyEventToClient("lootplot:winGame")
+sync.proxyEventToClient("lootplot:loseGame")
 
 
 

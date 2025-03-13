@@ -49,6 +49,7 @@ umg.defineEvent("lootplot:itemsCombined")
 
 
 umg.defineEvent("lootplot:winGame")
+umg.defineEvent("lootplot:loseGame")
 
 
 if server then

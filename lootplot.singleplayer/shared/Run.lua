@@ -11,9 +11,6 @@ There is one "Run" object when a lootplot.singleplayer game is running.
 points are shared between all players.
 money is also shared between all players.
 
-Objective:
-Get enough points to kill the loot-monster.
-
 
 ]]
 
@@ -43,6 +40,8 @@ function Run:init(perkItem, bg)
     ent.x = 0
     ent.y = 0
     self.ownerEnt = ent
+
+    self.runHasEnded = false
 
     ent.plot = lp.Plot(
         ent,
