@@ -61,6 +61,17 @@ function metaprogression.defineFlag(flag)
     VALID_FLAGS[flag] = true
 end
 
+
+
+---Checks whether a flag is a valid flag
+---@param key string
+---@return boolean
+function metaprogression.isValidFlag(key)
+    return VALID_FLAGS[key]
+end
+
+
+
 --- Gets a boolean flag value
 ---@param flag string Any kind of string value, representing an unlock. Generally, this will be an entity-type name. MUST BE PREFIXED BY THE MOD-NAME!!!  Eg: "my_mod:item"
 ---@return boolean
@@ -173,6 +184,15 @@ function metaprogression.defineStat(key, defaultValue)
     if server and (not statTable[key]) then
         metaprogression.setStat(key, defaultValue)
     end
+end
+
+
+
+---Checks whether a stat is a valid stat
+---@param key string
+---@return boolean
+function metaprogression.isValidStat(key)
+    return statDefaults[key]
 end
 
 

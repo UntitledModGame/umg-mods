@@ -570,7 +570,7 @@ definePerk("rainbow_ball", {
         lp.forceSpawnSlot(nextPos(), ents.reroll_button_slot, team) -- green
         lp.forceSpawnSlot(nextPos(), ents.diamond_slot, team) -- blue
         lp.forceSpawnSlot(nextPos(), ents.sapphire_slot, team) -- indigo
-        lp.forceSpawnSlot(nextPos(), ents.interest_slot, team) -- violet
+        lp.forceSpawnSlot(nextPos(), ents.food_shop_slot, team) -- violet
 
         spawnDoomClock(ent)
     end

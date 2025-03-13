@@ -108,13 +108,12 @@
 ~~- When a game is lost, dont allow player to recover the run through Rerolling. Lost is LOST!~~
 ~~- When a game is lost, tell the player: "Game over" text, similar to "You win" text?~~
 
+~~- UMGCLIENT: Make "Loading..." text sizing better (more consistent!)~~
+
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
-
-
-- UMGCLIENT: Make "Loading..." text sizing better (more consistent!)
 
 
 - SECRET CHALLENGE STARTER-ITEMS:

@@ -1420,10 +1420,12 @@ local metaprogression = require("shared.metaprogression")
 lp.metaprogression = {}
 
 lp.metaprogression.defineFlag = metaprogression.defineFlag
+lp.metaprogression.isValidFlag = metaprogression.isValidFlag
 lp.metaprogression.getFlag = metaprogression.getFlag
 lp.metaprogression.setFlag = metaprogression.setFlag
 
 lp.metaprogression.defineStat = metaprogression.defineStat
+lp.metaprogression.isValidStat = metaprogression.isValidStat
 lp.metaprogression.setStat = metaprogression.setStat
 lp.metaprogression.getStat = metaprogression.getStat
 

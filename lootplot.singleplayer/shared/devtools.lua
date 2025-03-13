@@ -700,11 +700,14 @@ chat.handleCommand("setStat", {
         {name = "value", type = "number"},
     },
     handler = function(clientId, key, val)
-        if not server then
-            return
+        if server then
+            if lp.metaprogression.isValidStat(key) then
+                lp.metaprogression.setStat(key, val)
+                chat.privateMessage(clientId, "Successfully set " .. key .. " = " .. tostring(val))
+            else
+                chat.privateMessage(clientId, "Invalid stat: " .. key)
+            end
         end
-
-        lp.metaprogression.setStat(key, val)
     end
 })
 
@@ -718,7 +721,13 @@ chat.handleCommand("getStat", {
         {name = "stat", type = "string"},
     },
     handler = function(clientId, key)
-        print("STAT: ", key, lp.metaprogression.getStat(key))
+        if server then
+            if lp.metaprogression.isValidStat(key) then
+                print("STAT: ", key, lp.metaprogression.getStat(key))
+            else
+                chat.privateMessage(clientId, "Invalid stat: " .. key)
+            end
+        end
     end
 })
 
