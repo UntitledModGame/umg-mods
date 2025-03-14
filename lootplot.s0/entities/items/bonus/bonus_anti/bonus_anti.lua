@@ -172,6 +172,29 @@ defItem("red_carton", "Red Carton", {
 
 
 
+defItem("bukkehorn", "Bukkehorn", {
+    triggers = {"PULSE"},
+
+    basePrice = 8,
+    baseMaxActivations = 6,
+    baseMultGenerated = 0.5,
+
+    lootplotProperties = {
+        modifiers = {
+            multGenerated = function(ent)
+                if (lp.getPointsBonus(ent) or 0) < 0 then
+                    return 4.5
+                end
+                return 0
+            end
+        }
+    },
+
+    rarity = lp.rarities.RARE,
+})
+
+
+
 
 defItem("flint", "Flint", {
     triggers = {"PULSE", "DESTROY"},
