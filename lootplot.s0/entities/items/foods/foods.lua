@@ -539,6 +539,7 @@ end)
 local STONE_FRUIT_SHAPE = lp.targets.UnionShape(lp.targets.ON_SHAPE, lp.targets.HorizontalShape(1))
 defineSlotSpawner("stone_fruit", "Stone fruit", "null_slot", "Null Slots", STONE_FRUIT_SHAPE, {
     basePrice = 3,
+    basePointsGenerated = 25,
     canItemFloat = true,
     rarity = lp.rarities.COMMON
 })
