@@ -110,6 +110,11 @@
 
 ~~- UMGCLIENT: Make "Loading..." text sizing better (more consistent!)~~
 
+~~- Remove abstract-background~~
+~~- Add deep-purple background~~
+~~- make teal-background look better (deeper color?)~~
+~~- make yellow-cloud background~~
+
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
@@ -119,14 +124,17 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 - Make backgrounds locked (Locked behind wins?)
 ~~- Make background-select look better~~
 
-- Remove abstract-background
-- Add deep-purple background
-- make teal-background look better (deeper color?)
-- make yellow-cloud background
+
+- Remove stupid implicit trigger-propagation from slots -> items. There are bugs:
+- (BUG-1: causes a delay when we trigger `RESET` on slots!)
+- (BUG-2: If we destroy a slot, then the item on the slot will ALSO receive Destroy trigger!!!)
 
 
 - Add Steam achievements (?)
 - IDEA: Win with every starter-item? <--- makes it very possible/feasible for achievement hunters
+
+
+- Find more (free) BGMs to use
 
 
 - plan what items should be unlocked at the start of the game   
