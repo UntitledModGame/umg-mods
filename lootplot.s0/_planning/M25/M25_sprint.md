@@ -116,6 +116,10 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
 
+- Make backgrounds locked (?)
+
+
+
 - SECRET CHALLENGE STARTER-ITEMS:
 What about this for an idea:
 There is a small chance for 1x1 worldgen-locked slots to contain a "meta-chest."

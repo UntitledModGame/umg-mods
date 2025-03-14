@@ -217,33 +217,17 @@ defItem("blue_net", {
 
 
 
-local COINS_DESC = interp("20% Chance to earn {lootplot:MONEY_COLOR}$1.\n{wavy}TOTAL EARNED: $%{totalEarned}")
 defItem("coins", {
     name = loc("Coins"),
-    init = function(ent)
-        ent.totalEarned = 0
-    end,
-    activateDescription = function(ent)
-        return COINS_DESC({
-            totalEarned = ent.totalEarned
-        })
-    end,
-
-    rarity = lp.rarities.UNCOMMON,
-
-    basePointsGenerated = 5,
-    baseMaxActivations = 2,
-    basePrice = 4,
-
-    onActivate = function(ent)
-        if lp.SEED:randomMisc()<=0.20 then
-            lp.addMoney(ent, 1)
-            ent.totalEarned = ent.totalEarned + 1
-            sync.syncComponent(ent, "totalEarned")
-        end
-    end,
 
     triggers = {"PULSE"},
+
+    basePointsGenerated = 8,
+    baseMoneyGenerated = 0.5,
+    baseMaxActivations = 2,
+    basePrice = 8,
+
+    rarity = lp.rarities.UNCOMMON,
 })
 
 
