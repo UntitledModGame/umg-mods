@@ -116,18 +116,16 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
 
-- Make backgrounds locked (?)
+- Make backgrounds locked (Locked behind wins?)
+- Make background-select look better
+
+- Remove abstract-background
+- Add deep-purple background
+- make teal-background look better (deeper color?)
+- make yellow-cloud background
 
 
-
-- SECRET CHALLENGE STARTER-ITEMS:
-What about this for an idea:
-There is a small chance for 1x1 worldgen-locked slots to contain a "meta-chest."
-When the meta-chest is unlocked, you unlock a secret challenge-starting item?
-
-^^^ this would be extremely simple to implement, it would be fun, because itd be exciting to uncover new items, and itd just be a cool thing.
-Bowling-ball could be unlocked this way, for example
-
+- Add achievements (?)
 
 
 - plan what items should be unlocked at the start of the game   
@@ -171,4 +169,19 @@ Apply 80/20 rule.
 ie, the players that play for 20 minutes, and then quit/refund.  
 What makes them stop playing?  
 
+
+
+
+=============================================
+ANY TASK BELOW (VVV) STRETCH-GOAL / AFTER DEMO
+=============================================
+
+
+- SECRET CHALLENGE STARTER-ITEMS:
+What about this for an idea:
+There is a small chance for 1x1 worldgen-locked slots to contain a "meta-chest."
+When the meta-chest is unlocked, you unlock a secret challenge-starting item?
+
+^^^ this would be extremely simple to implement, it would be fun, because itd be exciting to uncover new items, and itd just be a cool thing.
+Bowling-ball could be unlocked this way, for example
 

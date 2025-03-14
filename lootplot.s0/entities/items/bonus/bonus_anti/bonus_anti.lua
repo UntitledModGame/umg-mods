@@ -172,18 +172,25 @@ defItem("red_carton", "Red Carton", {
 
 
 
+do
+local BUKKE_BASE_MULT = 0.5
+local BUKKE_FULL_MULT = 3
+
 defItem("bukkehorn", "Bukkehorn", {
     triggers = {"PULSE"},
+    activateDescription = loc("If {lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} is negative, earn {lootplot:POINTS_MULT_COLOR}%{fullMult} mult{/lootplot:POINTS_MULT_COLOR} instead", {
+        fullMult = BUKKE_FULL_MULT
+    }),
 
     basePrice = 8,
     baseMaxActivations = 6,
-    baseMultGenerated = 0.5,
+    baseMultGenerated = BUKKE_BASE_MULT,
 
     lootplotProperties = {
         modifiers = {
             multGenerated = function(ent)
                 if (lp.getPointsBonus(ent) or 0) < 0 then
-                    return 4.5
+                    return (BUKKE_FULL_MULT - BUKKE_BASE_MULT)
                 end
                 return 0
             end
@@ -192,7 +199,7 @@ defItem("bukkehorn", "Bukkehorn", {
 
     rarity = lp.rarities.RARE,
 })
-
+end
 
 
 
