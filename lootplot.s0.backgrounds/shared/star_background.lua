@@ -21,5 +21,8 @@ lp.backgrounds.registerBackground("lootplot.s0.backgrounds:star_background", {
     description = loc("Just stars"),
     constructor = constructor,
     icon = "star_background",
+    isUnlocked = function()
+        return false
+    end,
     fogColor = COLOR,
 })

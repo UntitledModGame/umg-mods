@@ -2,8 +2,10 @@
 local sunsetCtor = nil
 local cherryCtor = nil
 local skyCtor = nil
+local popcornCtor = nil
 local tealCtor = nil
 local abstractCtor = nil
+local voidCtor = nil
 
 
 if client then
@@ -50,60 +52,79 @@ function sunsetCtor()
     })
 end
 
+
+function popcornCtor()
+    return CloudBackground({
+        worldX = -W/2 + DELTA, worldY = -H/2 + DELTA,
+        worldWidth = W, worldHeight = H,
+        numberOfClouds = 100,
+
+        backgroundColor = objects.Color("#" .. "FFFDFAA3"),
+        cloudColor = objects.Color("#" .. "FFFDFAA3"),
+    })
+end
+
+
+function voidCtor()
+    return CloudBackground({
+        worldX = -W/2 + DELTA, worldY = -H/2 + DELTA,
+        worldWidth = W, worldHeight = H,
+        numberOfClouds = 0,
+
+        backgroundColor = objects.Color("#FF370354"),
+        cloudColor = objects.Color("#FF370354"),
+    })
+end
+
+
 function tealCtor()
     return CloudBackground({
         worldX = -W/2 + DELTA, worldY = -H/2 + DELTA,
         worldWidth = W, worldHeight = H,
         numberOfClouds = 100,
 
-        backgroundColor = objects.Color("#FF88FCD7"),
-        cloudColor = objects.Color("#FFBFFFEB"),
-    })
-end
-
-
-function abstractCtor()
-    return CloudBackground({
-        worldX = -W/2 + DELTA, worldY = -H/2 + DELTA,
-        worldWidth = W, worldHeight = H,
-        numberOfClouds = 0,
-
-        backgroundColor = objects.Color("#FFFFFFFF"),
-        cloudColor = objects.Color("#FFFFFFFF"),
+        backgroundColor = objects.Color("#FF53E2AF"),
+        cloudColor = objects.Color("#FF53E2AF"),
     })
 end
 
 end
 
 lp.backgrounds.registerBackground("lootplot.s0.backgrounds:sky_cloud_background", {
-    name = localization.localize("Cloud Background"),
+    name = localization.localize("Default"),
     constructor = skyCtor,
     icon = "sky_cloud_background"
 })
 
 lp.backgrounds.registerBackground("lootplot.s0.backgrounds:cherry_background", {
-    name = localization.localize("Cherry Background"),
+    name = localization.localize("Cherry"),
     constructor = cherryCtor,
     icon = "cherry_cloud_background"
 })
 
 lp.backgrounds.registerBackground("lootplot.s0.backgrounds:sunset_background", {
-    name = localization.localize("Sunset Background"),
+    name = localization.localize("Sunset"),
     constructor = sunsetCtor,
     icon = "sunset_cloud_background"
 })
 
 lp.backgrounds.registerBackground("lootplot.s0.backgrounds:teal_background", {
-    name = localization.localize("Teal Background"),
+    name = localization.localize("Teal"),
     constructor = tealCtor,
     icon = "teal_cloud_background"
 })
 
-lp.backgrounds.registerBackground("lootplot.s0.backgrounds:abstract_background", {
-    name = localization.localize("Abstract Background"),
-    constructor = abstractCtor,
-    icon = "abstract_background",
-    fogColor = objects.Color(64/255,0.97,0.98)
+lp.backgrounds.registerBackground("lootplot.s0.backgrounds:popcorn_background", {
+    name = localization.localize("Popcorn"),
+    constructor = popcornCtor,
+    icon = "popcorn_background",
+})
+
+lp.backgrounds.registerBackground("lootplot.s0.backgrounds:void_background", {
+    name = localization.localize("Void"),
+    constructor = voidCtor,
+    icon = "void_background",
+    fogColor = objects.Color("#" .. "FF250732")
 })
 
 

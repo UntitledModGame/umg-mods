@@ -36,16 +36,20 @@ local defined = {}
 ---@field public constructor (fun():lootplot.backgrounds.IBackground)? @note this is nil on server-side
 ---@field public description string?
 ---@field public icon string?
+---@field public isUnlocked (fun(): boolean)?
 ---@field public fogColor objects.Color?
 
 ---@class lootplot.backgrounds.BackgroundInfoData: lootplot.backgrounds.BackgroundInfo
 ---@field public id string
+---@field public isUnlocked fun():boolean
 
 local registerBGTc = typecheck.assert("string", "table")
 local registerBGTableTc = {"name"}
 if client then
     registerBGTableTc[#registerBGTableTc+1] = "constructor"
 end
+
+local TRUTHY = function() return true end
 
 ---@param name string
 ---@param def lootplot.backgrounds.BackgroundInfo
@@ -60,6 +64,7 @@ function bg.registerBackground(name, def)
 
     ---@cast def lootplot.backgrounds.BackgroundInfoData
     def.id = name
+    def.isUnlocked = def.isUnlocked or TRUTHY
     registry[#registry + 1] = def
     defined[name] = def
 end

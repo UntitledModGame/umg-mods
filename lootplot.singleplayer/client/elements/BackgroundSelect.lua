@@ -1,4 +1,6 @@
 local fonts = require("client.fonts")
+local loc = localization.localize
+
 
 ---@class lootplot.singleplayer.BackgroundSelect: Element
 local BackgroundSelect = ui.Element("lootplot.singleplayer:BackgroundSelect")
@@ -18,16 +20,28 @@ end
 ---@param bgs lootplot.backgrounds.BackgroundInfoData[]
 ---@param lastSelect string
 function BackgroundSelect:init(bgs, lastSelect)
-    self.backgrounds = bgs
     self.backgroundIndexFloat = 1
     self.backgroundAnimStart = 0 -- if above 0, move according to "direction"
     self.backgroundAnimDir = 0 -- 1 = right to left, -1 = left to right
 
-    for i, bg in ipairs(self.backgrounds) do
+    local lockedBackgrounds = objects.Array()
+    self.backgrounds = objects.Array()
+
+    for i, bg in ipairs(bgs) do
+        lp.backgrounds.backgroundTypecheck(bg)
         if bg.id == lastSelect then
             self.backgroundIndexFloat = i
-            break
         end
+
+        if bg.isUnlocked() then
+            self.backgrounds:add(bg)
+        else
+            lockedBackgrounds:add(bg)
+        end
+    end
+    -- locked-backgrounds should be shown last
+    for _, bg in ipairs(lockedBackgrounds) do
+        self.backgrounds:add(bg)
     end
 
     local e = {}
@@ -90,7 +104,14 @@ end
 
 ---@return lootplot.backgrounds.BackgroundInfoData
 function BackgroundSelect:getSelectedBackground()
-    return assert(self.backgrounds[self:getSelectedBackgroundIndex()])
+    local bg = assert(self.backgrounds[self:getSelectedBackgroundIndex()])
+    if bg.isUnlocked() then
+        return bg
+    else
+        local defaultBg = self.backgrounds[1]
+        assert(defaultBg.isUnlocked())
+        return defaultBg
+    end
 end
 
 
@@ -118,6 +139,10 @@ local function drawTextIn(textString, region)
     love.graphics.printf(textString, font, drawX, drawY, limit, "left", 0, scale, scale, tw/2, th/2)
 end
 
+
+local LOCKED_TEXT = loc("Locked")
+
+
 function BackgroundSelect:onRender(x, y, w, h)
     local root = layout.Region(x, y, w, h)
     local e = self.elements
@@ -126,8 +151,14 @@ function BackgroundSelect:onRender(x, y, w, h)
     local bgButtonLeft, bgList, bgButtonRight = bgSelectBase:splitHorizontal(1, 4, 1)
 
     local currentSelectedIndex = self:getSelectedBackgroundIndex()
+    do
     local bg = self.backgrounds[currentSelectedIndex]
-    drawTextIn(bg.name, bgName)
+    if bg.isUnlocked() then
+        drawTextIn(bg.name, bgName)
+    else
+        drawTextIn(LOCKED_TEXT, bgName)
+    end
+    end
 
     e.backgroundPrev:render(bgButtonLeft:get())
     e.backgroundNext:render(bgButtonRight:get())
@@ -150,7 +181,13 @@ function BackgroundSelect:onRender(x, y, w, h)
         local BG_CONTAINER_SIZE = 26
         local scale = bgList.h * baseScale / BG_CONTAINER_SIZE
         rendering.drawImage("background_select_container", drawX, drawY, 0, scale, scale)
-        rendering.drawImage(self.backgrounds[tbdIndex].icon, drawX, drawY, 0, scale, scale)
+
+        local bg = self.backgrounds[tbdIndex]
+        if bg.isUnlocked() then
+            rendering.drawImage(bg.icon, drawX, drawY, 0, scale, scale)
+        else
+            rendering.drawImage("unknown_background_icon", drawX, drawY, 0, scale, scale)
+        end
     end
 end
 

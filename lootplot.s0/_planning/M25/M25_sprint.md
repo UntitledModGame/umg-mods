@@ -117,7 +117,7 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 
 
 - Make backgrounds locked (Locked behind wins?)
-- Make background-select look better
+~~- Make background-select look better~~
 
 - Remove abstract-background
 - Add deep-purple background
@@ -125,7 +125,8 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 - make yellow-cloud background
 
 
-- Add achievements (?)
+- Add Steam achievements (?)
+- IDEA: Win with every starter-item? <--- makes it very possible/feasible for achievement hunters
 
 
 - plan what items should be unlocked at the start of the game   

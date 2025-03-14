@@ -12,6 +12,12 @@ end
 function IBackground:draw(opacity)
 end
 
+---Checks whether a background is unlocked yet
+---@return boolean
+function IBackground:isUnlocked()
+    return true
+end
+
 ---@param width number
 ---@param height number
 function IBackground:resize(width, height)
