@@ -116,14 +116,14 @@
 ~~- make yellow-cloud background~~
 
 
+~~- Remove stupid implicit trigger-propagation from slots -> items. There are bugs:~~
+~~- (BUG-1: causes a delay when we trigger `RESET` on slots!)~~
+~~- (BUG-2: If we destroy a slot, then the item on the slot will ALSO receive Destroy trigger!!!)~~
+
+
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
-
-
-- Remove stupid implicit trigger-propagation from slots -> items. There are bugs:
-- (BUG-1: causes a delay when we trigger `RESET` on slots!)
-- (BUG-2: If we destroy a slot, then the item on the slot will ALSO receive Destroy trigger!!!)
 
 
 - Make backgrounds locked (Locked behind wins?)

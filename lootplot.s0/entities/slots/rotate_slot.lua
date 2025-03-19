@@ -8,7 +8,7 @@ return lp.defineSlot("lootplot.s0:rotate_slot", {
     image = "rotate_slot",
     name = loc("Rotate Slot"),
 
-    baseCanSlotPropagate = false,
+    dontPropagateTriggerToItem = true,
 
     triggers = {"PULSE"},
 

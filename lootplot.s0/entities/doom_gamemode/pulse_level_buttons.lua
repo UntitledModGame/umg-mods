@@ -125,9 +125,9 @@ lp.defineSlot("lootplot.s0:pulse_button_slot", {
                 :all(plot)
                 :to("SLOT_OR_ITEM") -- ppos-->slot
                 :filter(fogFilter)
-                :execute(function(_ppos, slotEnt)
+                :execute(function(ppos1, slotEnt)
                     lp.resetCombo(slotEnt)
-                    lp.tryTriggerEntity("PULSE", slotEnt)
+                    lp.tryTriggerSlotThenItem("PULSE", ppos1)
                 end)
 
             resetPlot(ppos)
@@ -171,9 +171,9 @@ local function nextLevel(ent)
         :filter(shouldTrigger)
         :withDelay(0.4)
         :to("SLOT_OR_ITEM")
-        :execute(function(ppos, ent)
-            lp.resetCombo(ent)
-            lp.tryTriggerEntity("LEVEL_UP", ent)
+        :execute(function(ppos1, e1)
+            lp.resetCombo(e1)
+            lp.tryTriggerSlotThenItem("LEVEL_UP", ppos1)
         end)
 end
 

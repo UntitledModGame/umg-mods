@@ -4,12 +4,6 @@ local api = {}
 
 
 
-local function canSlotTriggerItem(slotEnt)
-    -- Check if we can propagate triggers.
-    return slotEnt.canSlotPropagate
-end
-
-
 ---@param plot lootplot.Plot
 ---@return lootplot.PPos?
 function api.getRandomSlotForItem(plot)
@@ -28,7 +22,7 @@ function api.getRandomSlotForItem(plot)
         slots:add(slotEnt)
     end)
 
-    slots = slots:filter(canSlotTriggerItem)
+    slots = slots:filter(lp.canSlotPropagateTriggerToItem)
     slots = slots:filter(function(slotEnt)
         return (not slotEnt.buttonSlot)
             and slotEnt:type() ~= "lootplot.s0:dirt_slot"
@@ -60,7 +54,7 @@ function api.getRandomSpaceForNormalSlot(plot, distance)
         slots:add(slotEnt)
     end)
 
-    slots = slots:filter(canSlotTriggerItem)
+    slots = slots:filter(lp.canSlotPropagateTriggerToItem)
 
     local pposList = objects.Set()
 

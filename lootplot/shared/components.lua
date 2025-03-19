@@ -141,16 +141,6 @@ defineBool("stickySlot")
 
 
 --[[
-    boolean properties for lootplot
-]]
-defBoolProperty("canBeDestroyed", "baseCanBeDestroyed")
-
-defBoolProperty("canSlotPropagate", "baseCanSlotPropagate")
--- Whether a slot will propagate the trigger to the item
--- TO DO: Do we want different behavior based on trigger types?
-
-
---[[
     number properties for lootplot
 ]]
 defNumberProperty("price", {base="basePrice", default=5})

@@ -14,7 +14,7 @@ lp.defineSlot("lootplot.s0:skull_slot", {
     name = loc("Skull slot"),
     activateDescription = loc("Destroys item 3 times."),
     triggers = {"PULSE"},
-    baseCanSlotPropagate = false,
+    dontPropagateTriggerToItem = true,
     baseMaxActivations = 500,
 
     isItemListenBlocked = true,

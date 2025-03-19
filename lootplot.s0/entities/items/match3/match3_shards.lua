@@ -24,12 +24,6 @@ end
 
 
 
-local function canSlotTriggerItem(slotEnt)
-    -- Check if we can propagate triggers.
-    return slotEnt.canSlotPropagate
-end
-
-
 
 local function defShards(id, name, onMatchActivate, onMatchDesc, etype)
     etype = etype or {}
@@ -50,7 +44,8 @@ local function defShards(id, name, onMatchActivate, onMatchDesc, etype)
         if not ppos then return end
 
         local slotEnt = lp.itemToSlot(ent)
-        if slotEnt and not canSlotTriggerItem(slotEnt) then
+        if slotEnt and not lp.canSlotPropagateTriggerToItem(slotEnt) then
+            -- KINDA HACKY:
             -- this means that the item is in a null-slot, or a shop-slot, or somthn.
             return
         end

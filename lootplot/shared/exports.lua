@@ -1238,7 +1238,6 @@ local strTabTc = typecheck.assert("string", "table")
 ---@field public basePrice number
 ---@field public pointsGenerated number
 ---@field public moneyGenerated number
----@field public canBeDestroyed boolean
 ---@field public canActivate boolean
 ---@alias lootplot.ItemEntity lootplot.ItemEntityClass|lootplot.LayerEntity|Entity
 
@@ -1278,9 +1277,8 @@ end
 ---@field public drawDepth integer
 ---@field public pointsGenerated number
 ---@field public moneyGenerated number
----@field public canBeDestroyed boolean
 ---@field public canActivate boolean
----@field public canSlotPropagate boolean
+---@field public dontPropagateTriggerToItem boolean
 ---@field public buttonSlot boolean
 ---@field public onActivate? fun(ent:lootplot.SlotEntity)
 ---@alias lootplot.SlotEntity lootplot.SlotEntityClass|lootplot.LayerEntity|Entity
@@ -1302,9 +1300,6 @@ function lp.defineSlot(name, slotType)
     slotType.triggers = slotType.triggers or {}
     slotType.hitboxArea = slotType.hitboxArea or DEFAULT_SLOT_HITBOX_AREA
     slotType.hoverable = true
-    if slotType.baseCanSlotPropagate == nil then
-        slotType.baseCanSlotPropagate = true
-    end
     giveCommonComponents(slotType)
     assertTriggersValid(name, slotType.triggers)
 
@@ -1374,6 +1369,7 @@ local EMPTY = {}
 ---Availability: **Server**
 ---@param name string
 ---@param ent Entity
+---@return boolean succeeded whether the entity was triggered successfully
 function lp.tryTriggerEntity(name, ent)
     assert(server, "server-side function only")
     triggerTc(name, ent)
@@ -1389,20 +1385,51 @@ function lp.tryTriggerEntity(name, ent)
         ent:onTriggered(name, canTrigger)
     end
 
-    -- TODO: should this be inside the `if canTrigger` if block???
-    if lp.isSlotEntity(ent) and ent.canSlotPropagate then
-        local itemEnt = lp.slotToItem(ent)
-        local ppos = lp.getPos(ent)
-        if ppos and itemEnt then
+    return canTrigger
+end
+
+
+--- Tries to trigger a slot, THEN triggers the item afterwards.
+--- If the slot doesn't propagate triggers (eg shop-slot, null-slot,)
+--- Then the item isn't triggered.
+---@param name lootplot.Trigger
+---@param ppos lootplot.PPos
+function lp.tryTriggerSlotThenItem(name, ppos)
+    --[[
+    triggers slot, then triggers item.
+    (Useful for Pulse-button-slot, or Reroll-button-slot)
+    ]]
+    local slotEnt = lp.posToSlot(ppos)
+    local itemEnt = lp.posToItem(ppos)
+    if slotEnt then
+        lp.tryTriggerEntity(name, slotEnt)
+
+        local canPropagate = lp.canSlotPropagateTriggerToItem(slotEnt)
+        if itemEnt and canPropagate then
+            -- TODO: We should probably standardize this delay somehow???
             lp.wait(ppos, 0.2)
             lp.queueWithEntity(itemEnt, function(itemEntt)
                 lp.tryTriggerEntity(name, itemEntt)
             end)
         end
+    else
+        if itemEnt then
+            lp.tryTriggerEntity(name, itemEnt)
+        end
     end
-    return canTrigger
-
 end
+
+
+
+---@param ent_or_etype Entity
+---@return boolean canPropagate If the slot can propagate trigger to item
+function lp.canSlotPropagateTriggerToItem(ent_or_etype)
+    assert(lp.isSlotEntity(ent_or_etype))
+    return not ent_or_etype.dontPropagateTriggerToItem
+end
+
+
+
 
 local EMPTY_TRIGGERS = {}
 ---@param ent Entity

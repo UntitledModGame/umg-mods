@@ -7,7 +7,7 @@ lp.defineSlot("lootplot.s0:sell_slot", {
 
     triggers = {"PULSE"},
 
-    baseCanSlotPropagate = false,
+    dontPropagateTriggerToItem = true,
     isItemListenBlocked = true,
 
     baseMaxActivations = 500,

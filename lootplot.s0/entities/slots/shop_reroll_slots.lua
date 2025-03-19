@@ -185,7 +185,7 @@ local function makeShopSlot(id, name, comps)
 
         baseMaxActivations = 100,
         triggers = {"REROLL", "PULSE"},
-        baseCanSlotPropagate = false,
+        dontPropagateTriggerToItem = true,
         isItemListenBlocked = true,
         canActivate = function(ent)
             -- if rerollLock=true, then we dont activate!
@@ -362,7 +362,7 @@ lp.defineSlot("lootplot.s0:reroll_slot", {
     triggers = {"REROLL"},
     itemReroller = generateItem,
 
-    baseCanSlotPropagate = false,
+    dontPropagateTriggerToItem = true,
     isItemListenBlocked = true,
     baseMaxActivations = 500,
 
@@ -387,7 +387,7 @@ lp.defineSlot("lootplot.s0:offer_slot", {
 
     triggers = {"PULSE"},
 
-    baseCanSlotPropagate = false,
+    dontPropagateTriggerToItem = true,
     isItemListenBlocked = true,
 
     baseMaxActivations = 100,
@@ -429,7 +429,7 @@ lp.defineSlot("lootplot.s0:paper_slot", {
 
     triggers = {"PULSE"},
 
-    baseCanSlotPropagate = false,
+    dontPropagateTriggerToItem = true,
     isItemListenBlocked = true,
 
     baseMaxActivations = 100,
@@ -537,7 +537,7 @@ lp.defineSlot("lootplot.s0:cloud_slot", {
     rarity = lp.rarities.UNIQUE,
 
     baseMaxActivations = 1,
-    baseCanSlotPropagate = false,
+    dontPropagateTriggerToItem = true,
 
     isItemListenBlocked = true,
 

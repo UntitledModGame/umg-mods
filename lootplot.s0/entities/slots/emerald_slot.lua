@@ -9,7 +9,7 @@ return lp.defineSlot("lootplot.s0:emerald_slot", {
     activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}PULSE{/lootplot:TRIGGER_COLOR} and {lootplot:TRIGGER_COLOR}REROLL{/lootplot:TRIGGER_COLOR} for item!\n{lootplot:BAD_COLOR}Does not trigger items otherwise."),
     baseMaxActivations = 100,
     triggers = {"REROLL"},
-    baseCanSlotPropagate = false,
+    dontPropagateTriggerToItem = true,
 
     rarity = lp.rarities.UNCOMMON,
 
