@@ -175,7 +175,7 @@ local function defineAxe(mineral_type, name, strength, etype)
 
         mineralType = mineral_type,
 
-        rarity = etype.rarity or lp.rarities.RARE,
+        rarity = etype.rarity or lp.rarities.UNCOMMON,
 
         basePrice = 8,
         basePointsGenerated = math.floor(2 * strength),
