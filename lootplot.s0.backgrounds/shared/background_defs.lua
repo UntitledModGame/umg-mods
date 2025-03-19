@@ -1,23 +1,47 @@
 
+local loc = localization.localize
+
+
 local sunsetCtor = nil
 local cherryCtor = nil
-local skyCtor = nil
+local defaultCtor = nil
 local popcornCtor = nil
 local tealCtor = nil
-local abstractCtor = nil
 local voidCtor = nil
+local starCtor = nil
+
+
+
+-- Backgrounds are unlocked in order of definition,
+-- Each time you win a game, you unlock a new background.
+local UNLOCK_WIN_COUNT = 1
+
+local function winToUnlock()
+    local currWinCount = UNLOCK_WIN_COUNT -- capture closure
+    UNLOCK_WIN_COUNT = UNLOCK_WIN_COUNT + 1
+    local function isUnlocked()
+        if lp.getWinCount() >= currWinCount then
+            return true
+        end
+        return false
+    end
+    return isUnlocked
+end
+
+
 
 
 if client then
 
 local CloudBackground = require("client.CloudBackground")
 
+
 local W,H = 3000,1500
 -- HACK: kinda hacky, hardcode plot offset
 local minsize = 40
 local DELTA = (minsize * lp.constants.WORLD_SLOT_DISTANCE) / 2
 
-function skyCtor()
+function defaultCtor()
     return CloudBackground({
         worldX = -W/2 + DELTA, worldY = -H/2 + DELTA,
         worldWidth = W, worldHeight = H,
@@ -88,43 +112,70 @@ function tealCtor()
     })
 end
 
+
+local StarBackground = require("client.StarBackground")
+function starCtor()
+    return StarBackground(3)
+end
+
+
+
 end
 
 lp.backgrounds.registerBackground("lootplot.s0.backgrounds:sky_cloud_background", {
-    name = localization.localize("Default"),
-    constructor = skyCtor,
+    name = loc("Default"),
+    constructor = defaultCtor,
     icon = "sky_cloud_background"
 })
 
-lp.backgrounds.registerBackground("lootplot.s0.backgrounds:cherry_background", {
-    name = localization.localize("Cherry"),
-    constructor = cherryCtor,
-    icon = "cherry_cloud_background"
-})
-
 lp.backgrounds.registerBackground("lootplot.s0.backgrounds:sunset_background", {
-    name = localization.localize("Sunset"),
+    name = loc("Sunset"),
     constructor = sunsetCtor,
+    isUnlocked = winToUnlock(),
     icon = "sunset_cloud_background"
 })
 
+lp.backgrounds.registerBackground("lootplot.s0.backgrounds:void_background", {
+    name = loc("Void"),
+    constructor = voidCtor,
+    isUnlocked = winToUnlock(),
+    icon = "void_background",
+    fogColor = objects.Color("#" .. "FF250732")
+})
+
+lp.backgrounds.registerBackground("lootplot.s0.backgrounds:cherry_background", {
+    name = loc("Cherry"),
+    constructor = cherryCtor,
+    isUnlocked = winToUnlock(),
+    icon = "cherry_cloud_background"
+})
+
 lp.backgrounds.registerBackground("lootplot.s0.backgrounds:teal_background", {
-    name = localization.localize("Teal"),
+    name = loc("Teal"),
     constructor = tealCtor,
+    isUnlocked = winToUnlock(),
     icon = "teal_cloud_background"
 })
 
 lp.backgrounds.registerBackground("lootplot.s0.backgrounds:popcorn_background", {
-    name = localization.localize("Popcorn"),
+    name = loc("Popcorn"),
     constructor = popcornCtor,
+    isUnlocked = winToUnlock(),
     icon = "popcorn_background",
 })
 
-lp.backgrounds.registerBackground("lootplot.s0.backgrounds:void_background", {
-    name = localization.localize("Void"),
-    constructor = voidCtor,
-    icon = "void_background",
-    fogColor = objects.Color("#" .. "FF250732")
+local STAR_FOG_COLOR
+do
+local R,G,B = 18, 0, 33
+STAR_FOG_COLOR = {R/255, G/255, B/255}
+end
+lp.backgrounds.registerBackground("lootplot.s0.backgrounds:star_background", {
+    name = loc("Star Background"),
+    description = loc("Just stars"),
+    constructor = starCtor,
+    isUnlocked = winToUnlock(),
+    icon = "star_background",
+    fogColor = STAR_FOG_COLOR,
 })
 
 

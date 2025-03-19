@@ -126,8 +126,12 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
 
-- Make backgrounds locked (Locked behind wins?)
+~~- Make backgrounds locked (Locked behind wins?)~~
 ~~- Make background-select look better~~
+
+
+- If you play the tutorial, it counts as a win. This will cause items to be unlocked.
+- Instead of calling lp.winGame, we should just set a flag that unlocks the one-ball directly.
 
 
 - Add Steam achievements (?)
@@ -135,6 +139,8 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 
 
 - Find more (free) BGMs to use
+
+- Add Metta's BGMs to the game
 
 
 - plan what items should be unlocked at the start of the game   

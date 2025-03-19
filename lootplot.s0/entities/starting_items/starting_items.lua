@@ -40,6 +40,22 @@ local function unlockAfterWins(numberOfWins)
 end
 
 
+-- Starting-items are unlocked in order of definition,
+-- Each time you win a game, you unlock a new starting-item.
+local UNLOCK_WIN_COUNT = 2
+local function winToUnlock()
+    local currWinCount = UNLOCK_WIN_COUNT -- capture closure
+    UNLOCK_WIN_COUNT = UNLOCK_WIN_COUNT + 1
+    local function isUnlocked()
+        if lp.getWinCount() >= currWinCount then
+            return true
+        end
+        return false
+    end
+    return isUnlocked
+end
+
+
 ---@param ent Entity
 ---@return lootplot.PPos, string
 local function getPosTeam(ent)
@@ -298,7 +314,7 @@ definePerk("four_ball", {
     name = loc("Four Ball"),
     description = loc("Has an extra round per level"),
 
-    isEntityTypeUnlocked = unlockAfterWins(2),
+    isEntityTypeUnlocked = winToUnlock(),
 
     onActivateOnce = function(ent)
         lp.setMoney(ent, constants.STARTING_MONEY)
@@ -321,7 +337,7 @@ definePerk("seven_ball", {
     name = loc("Seven Ball"),
     description = loc("Dirt, Rocks, and a Bomb"),
 
-    --isEntityTypeUnlocked = unlockAfterWins(4),
+    isEntityTypeUnlocked = winToUnlock(),
 
     onActivateOnce = function(ent)
         lp.setMoney(ent, constants.STARTING_MONEY)
@@ -373,7 +389,7 @@ definePerk("eight_ball", {
 
     activateDescription = loc("Destroys items"),
 
-    -- isEntityTypeUnlocked = unlockAfterWins(2),
+    isEntityTypeUnlocked = winToUnlock(),
 
     onActivateOnce = function(ent)
         lp.setMoney(ent, constants.STARTING_MONEY)
@@ -421,7 +437,7 @@ definePerk("blank_ball", {
     name = loc("Blank Ball"),
     description = loc("Has a Rulebender slot"),
 
-    isEntityTypeUnlocked = unlockAfterWins(4),
+    isEntityTypeUnlocked = winToUnlock(),
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
@@ -526,7 +542,7 @@ definePerk("nine_ball", {
     name = loc("Nine Ball"),
     description = loc("Has no money limit"),
 
-    isEntityTypeUnlocked = unlockAfterWins(3),
+    isEntityTypeUnlocked = winToUnlock(),
 
     baseMaxActivations = 1,
 
@@ -548,7 +564,7 @@ definePerk("rainbow_ball", {
     name = loc("Gay"),
     description = loc("gay."),
 
-    --isEntityTypeUnlocked = unlockAfterWins(7),
+    isEntityTypeUnlocked = winToUnlock(),
 
     baseMaxActivations = 1,
 
@@ -584,7 +600,7 @@ definePerk("bowling_ball", {
     name = loc("Bowling Ball"),
     description = loc("CHALLENGE-ITEM!"),
 
-    isEntityTypeUnlocked = unlockAfterWins(4),
+    isEntityTypeUnlocked = winToUnlock(),
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)

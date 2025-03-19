@@ -87,12 +87,12 @@ helper.defineDelayItem("gold_bar", "Gold Bar", {
 
 defItem("golden_horseshoe", "Golden Horseshoe", {
     activateDescription = loc("50% chance to double your money.\nIf that fails, set money to 0."),
-    rarity = lp.rarities.RARE,
+    rarity = lp.rarities.UNCOMMON,
 
     triggers = {"PULSE"},
 
     onActivate = function(ent)
-        local SUCCESS_CHANCE = 0.60
+        local SUCCESS_CHANCE = 0.55
         if lp.SEED:randomMisc() < SUCCESS_CHANCE then
             local money = lp.getMoney(ent) or 0
             lp.addMoney(ent, money)
@@ -101,7 +101,7 @@ defItem("golden_horseshoe", "Golden Horseshoe", {
         end
         --[[
         shhhh, LMAO!! 
-        Dont tell anyone that its actually 60% success rate!
+        Dont tell anyone that its actually 55% success rate!
         To communicate secretly, to determine whether someone 
         knows about the horseshoe's true nature,
         we shall use code-words:

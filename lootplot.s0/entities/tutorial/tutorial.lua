@@ -598,7 +598,6 @@ tutorialSections:add(function(tutEnt)
     lp.metaprogression.setFlag("lootplot.s0:isTutorialCompleted", true)
 
     addText(tutEnt, 0,1, TXT2)
-    lp.winGame(server.getHostClient())
 end)
 end
 
