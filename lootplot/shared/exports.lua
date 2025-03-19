@@ -6,7 +6,6 @@ slotGrid
 ]]
 
 local ptrack = require("shared.internal.positionTracking")
-local trigger = require("shared.trigger")
 local selection = require("shared.selection")
 
 
@@ -876,7 +875,7 @@ function lp.rotateItem(ent, amount)
     local oldRot = lp.getItemRotation(ent)
     local newRot = (oldRot + amount) % 4
     umg.log.trace("Rotating item: ", ent, amount)
-    trigger.tryTriggerEntity("ROTATE", ent)
+    lp.tryTriggerEntity("ROTATE", ent)
     umg.call("lootplot:itemRotated", ent, amount, oldRot, newRot)
     ent.lootplotRotation = newRot
 end
@@ -1220,7 +1219,7 @@ lp.FALLBACK_NULL_SLOT = false
 
 local function assertTriggersValid(name, triggers)
     for _, t in ipairs(triggers) do
-        if not trigger.isValidTrigger(t) then
+        if not lp.isValidTrigger(t) then
             umg.melt("invalid trigger: '"..t.."'" .. " for " .. tostring(name))
         end
     end
@@ -1318,16 +1317,91 @@ function lp.defineSlot(name, slotType)
 end
 
 
-lp.defineTrigger = trigger.defineTrigger
-lp.getTriggerDisplayName = trigger.getTriggerDisplayName
-lp.isValidTrigger = trigger.isValidTrigger
 
+
+
+
+
+
+
+
+
+do--TRIGGERS
+
+local triggerInfo = {}
+
+
+typecheck.addType("lootplot:trigger", function(x)
+    return type(x) == "string" and triggerInfo[x], "expected trigger"
+end)
+
+local defineTriggerTc = typecheck.assert("string", "string")
+
+---Availability: Client and Server
+---@param id string
+---@param displayName string
+function lp.defineTrigger(id, displayName)
+    defineTriggerTc(id, displayName)
+    assert(not triggerInfo[id], "trigger name already defined")
+    triggerInfo[id] = {
+        displayName = localization.localize(displayName)
+    }
+end
+
+local strTc = typecheck.assert("string")
+
+---Availability: Client and Server
+---@param id string
+---@return string
+function lp.getTriggerDisplayName(id)
+    strTc(id)
+    assert(lp.isValidTrigger(id), "Invalid trigger")
+    return assert(triggerInfo[id].displayName)
+end
+
+---Availability: Client and Server
+---@param id string
+---@return boolean
+function lp.isValidTrigger(id)
+    strTc(id)
+    return triggerInfo[id]
+end
+
+
+local triggerTc = typecheck.assert("lootplot:trigger", "entity")
+local EMPTY = {}
 
 ---Availability: **Server**
 ---@param name string
 ---@param ent Entity
 function lp.tryTriggerEntity(name, ent)
-    return trigger.tryTriggerEntity(name, ent)
+    assert(server, "server-side function only")
+    triggerTc(name, ent)
+
+    local canTrigger = lp.canTrigger(name, ent)
+    umg.call("lootplot:entityTriggered", name, ent)
+    if canTrigger then
+        lp.tryActivateEntity(ent)
+    else
+        umg.call("lootplot:entityTriggerFailed", name, ent)
+    end
+    if ent.onTriggered then
+        ent:onTriggered(name, canTrigger)
+    end
+
+    -- TODO: should this be inside the `if canTrigger` if block???
+    if lp.isSlotEntity(ent) and ent.canSlotPropagate then
+        local itemEnt = lp.slotToItem(ent)
+        local ppos = lp.getPos(ent)
+        if ppos and itemEnt then
+            lp.wait(ppos, 0.2)
+            lp.queueWithEntity(itemEnt, function(itemEntt)
+                lp.tryTriggerEntity(name, itemEntt)
+            end)
+        end
+    end
+    return canTrigger
+
 end
 
 local EMPTY_TRIGGERS = {}
@@ -1368,11 +1442,8 @@ function lp.setTriggers(ent, triggers)
 end
 
 
-
 -- HMM:
 -- Should we add `lp.removeTrigger` here in the future...?
-
-
 
 
 ---Availability: Client and Server
@@ -1380,8 +1451,44 @@ end
 ---@param ent Entity
 ---@return boolean
 function lp.canTrigger(name, ent)
-    return trigger.canTrigger(name, ent)
+    local ok = umg.ask("lootplot:canTrigger", name, ent)
+    if not ok then
+        return false
+    end
+    local triggers = ent.triggers or EMPTY
+    for _, t in ipairs(triggers) do
+        if t == name then
+            return true
+        end
+    end
+    return false
 end
+
+sync.proxyEventToClient("lootplot:entityTriggered")
+
+lp.defineTrigger("REROLL", "Reroll")
+lp.defineTrigger("PULSE", "Pulse")
+lp.defineTrigger("RESET", "Reset")
+lp.defineTrigger("DESTROY", "Destroyed")
+lp.defineTrigger("BUY", "Buy")
+lp.defineTrigger("ROTATE", "Rotate")
+lp.defineTrigger("SPAWN", "Spawn")
+lp.defineTrigger("LEVEL_UP", "Level-Up")
+
+---@alias lootplot.Trigger "REROLL"|"PULSE"|"RESET"|"DESTROY"|"BUY"|"ROTATE"|"SPAWN"|"LEVEL_UP"
+
+end--TRIGGERS
+
+
+
+
+
+
+
+
+
+
+
 
 ---Availability: Client and Server
 ---@param ent lootplot.ItemEntity|lootplot.SlotEntity

@@ -167,6 +167,12 @@ umg.answer("lootplot:canActivateEntity", function(ent)
 end)
 
 
+umg.answer("lootplot:canTrigger", function()
+    return true -- need this for AND reducer
+end)
+
+
+
 
 if server then
     
