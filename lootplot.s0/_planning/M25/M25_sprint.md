@@ -120,18 +120,18 @@
 ~~- (BUG-1: causes a delay when we trigger `RESET` on slots!)~~
 ~~- (BUG-2: If we destroy a slot, then the item on the slot will ALSO receive Destroy trigger!!!)~~
 
+~~- Make backgrounds locked (Locked behind wins?)~~
+~~- Make background-select look better~~
+
+~~- If you play the tutorial, it counts as a win. This will cause items to be unlocked.~~
+~~- Instead of calling lp.winGame, we should just set a flag that unlocks the one-ball directly.~~
+
+
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
-
-~~- Make backgrounds locked (Locked behind wins?)~~
-~~- Make background-select look better~~
-
-
-- If you play the tutorial, it counts as a win. This will cause items to be unlocked.
-- Instead of calling lp.winGame, we should just set a flag that unlocks the one-ball directly.
 
 
 - Add Steam achievements (?)
@@ -185,6 +185,9 @@ ie, the players that play for 20 minutes, and then quit/refund.
 What makes them stop playing?  
 
 
+- Limit number of rounds to 30 for the demo...?
+
+- RELEASE PLAYTEST/DEMO!!!
 
 
 =============================================

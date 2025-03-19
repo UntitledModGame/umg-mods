@@ -544,9 +544,8 @@ defineSlotSpawner("stone_fruit", "Stone fruit", "null_slot", "Null Slots", STONE
     rarity = lp.rarities.COMMON
 })
 
-local CHOCO_SHAPE = lp.targets.UnionShape(lp.targets.ON_SHAPE, lp.targets.VerticalShape(1))
-defineSlotSpawner("chocolate_square", "Chocolate Square", "null_slot", "Null Slots with keys inside", CHOCO_SHAPE, {
-    basePrice = 14,
+defineSlotSpawner("chocolate_square", "Chocolate Square", "null_slot", "Null Slots with keys inside", lp.targets.ON_SHAPE, {
+    basePrice = 6,
     canItemFloat = true,
     rarity = lp.rarities.UNCOMMON
 }, function(slotEnt)
