@@ -126,11 +126,12 @@ local function step(self, ppos)
         end
     end
 
-    self.execution(ppos, val)
-
     if self._delay then
+        -- LIFO: wait *first*, then execute.
         lp.wait(ppos, self._delay)
     end
+
+    self.execution(ppos, val)
 end
 
 
