@@ -253,9 +253,9 @@ defDestructive("pink_mitten", "Pink Mitten", {
     rarity = lp.rarities.RARE,
     baseMultGenerated = 0.6,
     baseMaxActivations = 8,
-    basePrice = 1,
+    basePrice = 4,
 
-    activateDescription = loc("Gains {lootplot:LIFE_COLOR}+1 life{/lootplot:LIFE_COLOR}\n(Maximum of 15)")
+    activateDescription = loc("Gains {lootplot:LIFE_COLOR}+1 life{/lootplot:LIFE_COLOR}")
 })
 
 
