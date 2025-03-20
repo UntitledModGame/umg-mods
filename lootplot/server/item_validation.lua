@@ -46,7 +46,7 @@ umg.on("@tick", scheduling.skip(3, function()
         end
 
         if timeouts[itemEnt] and time > (timeouts[itemEnt] + TIMEOUT) then
-            lp.destroy(itemEnt)
+            itemEnt:delete()
         end
     end
 end))
