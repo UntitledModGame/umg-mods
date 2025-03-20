@@ -88,7 +88,7 @@ lp.defineSlot("lootplot.s0:pulse_button_slot", {
 
     onDraw = buttonOnDraw,
 
-    baseMaxActivations = 100,
+    baseMaxActivations = 3,
 
     triggers = {},
     buttonSlot = true,
@@ -160,7 +160,7 @@ lp.defineSlot("lootplot.s0:gray_pulse_button_slot", {
 
     onDraw = buttonOnDraw,
 
-    baseMaxActivations = 100,
+    baseMaxActivations = 3,
 
     triggers = {},
     buttonSlot = true,
@@ -279,7 +279,7 @@ lp.defineSlot("lootplot.s0:next_level_button_slot", {
         duration = 0.1
     },
 
-    baseMaxActivations = 100,
+    baseMaxActivations = 3,
     triggers = {},
     buttonSlot = true,
 

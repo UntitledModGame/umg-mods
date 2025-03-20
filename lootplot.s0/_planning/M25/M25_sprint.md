@@ -136,6 +136,10 @@
 
 ~~- ITEM:  UP-1; (random rotation)  Give items +10 points. 10% chance to destroy item~~
 
+~~- (SPIKE?) Create an item that adds REPEATER to slots! (It's a really cool/fun idea)~~
+~~- ALTERNATIVELY: We should add `repeatActivations` property to apple~~
+
+
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
@@ -165,8 +169,7 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 - Gold metal cube: On Rotate/Unlock, earn $5. GRUB-10.
 
 
-- (SPIKE?) Create an item that adds REPEATER to slots! (It's a really cool/fun idea)
-- ALTERNATIVELY: We should add `repeatActivations` property to apple
+- Make mystery-book call the same function as sliced-apple and purple-mushroom (extract to `helper`?)
 
 
 - Add credits screen (main menu?)
@@ -177,6 +180,9 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
     Music
     SFX
 }
+
+
+- lootplot.singleplayer UI: Make it so you can change SFX/Volume while paused
 
 
 - SPIKE: Make analytics better.
@@ -192,6 +198,10 @@ What makes them stop playing?
 
 
 - Limit number of rounds to 30 for the demo...?
+
+
+- Gather list of streamers/yters to send keys to
+
 
 - RELEASE DEMO!!!
 
