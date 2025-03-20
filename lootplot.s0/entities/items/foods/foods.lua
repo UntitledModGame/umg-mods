@@ -744,6 +744,10 @@ function forceSpawnRandomSlot(ppos, lootplotTeam)
     local etype = lp.rarities.randomSlotOfRarity(r)
     if etype then
         local slotEnt = lp.forceSpawnSlot(ppos, etype, lootplotTeam)
+        if (not slotEnt.buttonSlot) and lp.SEED:randomMisc() < 0.1 then
+            slotEnt.repeatActivations = true
+        end
+
         if lp.SEED:randomMisc() < 0.2 then
             slotEnt.doomCount = 8
         elseif lp.SEED:randomMisc() < 0.5 then

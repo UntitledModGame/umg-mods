@@ -42,9 +42,9 @@ lp.defineSlot("lootplot.s0:auto_stone_slot", {
     init = function(ent)
         local r = lp.SEED:randomMisc()
         if r < 0.25 then
-            lp.modifierBuff(ent, "moneyGenerated", 4)
+            lp.modifierBuff(ent, "moneyGenerated", 3)
         elseif r < 0.5 then
-            lp.modifierBuff(ent, "multGenerated", 8)
+            lp.modifierBuff(ent, "multGenerated", 6)
         elseif r < 0.75 then
             lp.modifierBuff(ent, "bonusGenerated", 25)
         else
@@ -52,7 +52,7 @@ lp.defineSlot("lootplot.s0:auto_stone_slot", {
         end
 
         -- todo: is this a good value? I think its "fine"
-        ent.lives = lp.SEED:randomMisc(4,7)
+        ent.lives = lp.SEED:randomMisc(8,20)
     end,
 
     canAddItemToSlot = function()

@@ -134,14 +134,12 @@
 ~~- Define and deploy API from umg~~
 ~~- Set achievements from `lootplot.s0`~~
 
+~~- ITEM:  UP-1; (random rotation)  Give items +10 points. 10% chance to destroy item~~
 
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
-
-
-- ITEM:  UP-1; (random rotation)  Give items +10 points. 10% chance to destroy item
 
 
 - Add item unlock infrastructure
