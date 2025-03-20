@@ -167,6 +167,9 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 - Gold metal cube: On Rotate/Unlock, earn $5. GRUB-10.
 
 
+- (SPIKE?) Create an item that adds REPEATER to slots! (It's a really cool/fun idea)
+- ALTERNATIVELY: We should add `repeatActivations` property to apple
+
 
 - Add credits screen (main menu?)
 {

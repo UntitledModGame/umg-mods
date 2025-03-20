@@ -233,11 +233,11 @@ helper.defineDelayItem("ruby_bar", "Ruby Bar", {
     basePointsGenerated = 4,
     delayCount = 15,
 
-    delayDescription = "Give {lootplot:REPEATER_COLOR}repeater{/lootplot:REPEATER_COLOR} to items",
+    delayDescription = "Give {lootplot:REPEATER_COLOR}repeater{/lootplot:REPEATER_COLOR} to items/slots",
 
     shape = lp.targets.RookShape(1),
     target = {
-        type = "ITEM"
+        type = "ITEM_OR_SLOT"
     },
 
     delayAction = function(selfEnt)
@@ -245,8 +245,8 @@ helper.defineDelayItem("ruby_bar", "Ruby Bar", {
         for _, item in ipairs(items) do
             item.repeatActivations = true
             sync.syncComponent(item, "repeatActivations")
-            lp.destroy(selfEnt)
         end
+        lp.destroy(selfEnt)
     end
 })
 

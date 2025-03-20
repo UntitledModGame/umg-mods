@@ -1293,8 +1293,6 @@ function lp.defineSlot(name, slotType)
         umg.log.warn("!!! SLOT NOT GIVEN RARITY:", name)
     end
 
-    slotType.repeatActivations = true
-
     slotType.slot = true
     slotType.layer = "slot"
     slotType.drawDepth = -200

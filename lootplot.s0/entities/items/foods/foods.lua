@@ -296,7 +296,7 @@ defineFood("raspberry", {
 
     shape = lp.targets.UpShape(1),
     target = {
-        type = "ITEM",
+        type = "ITEM_OR_SLOT",
         activate = function(selfEnt, ppos, targetEnt)
             targetEnt.repeatActivations = true
             sync.syncComponent(targetEnt, "repeatActivations")
