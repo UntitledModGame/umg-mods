@@ -33,7 +33,7 @@ end
 
 local function makeAchievementUnlocker(achievementName)
     return function()
-        umg.achievements.setAchievement(achievementName)
+        umg.achievements.unlockAchievement(achievementName)
     end
 end
 

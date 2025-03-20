@@ -229,7 +229,7 @@ local function nextLevel(ent)
     if level >= constants.FINAL_LEVEL then
         -- oh damn!! GG! :)
         lp.winGame(server.getHostClient())
-        lp.destroy(ent)
+        deleteAllButtonSlots(ppos:getPlot())
         return
     end
 
