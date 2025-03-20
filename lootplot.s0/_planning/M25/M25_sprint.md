@@ -137,9 +137,9 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 
 
 - ADD STEAM ACHIEVEMENTS (?)
-- IDEA: Win with every starter-item? <--- makes it very possible/feasible for achievement hunters
-- Define achievements in steamworks
-- Define and deploy API from umg
+~~- IDEA: Win with every starter-item? <--- makes it very possible/feasible for achievement hunters~~
+~~- Define achievements in steamworks~~
+~~- Define and deploy API from umg~~
 - Set achievements from `lootplot.s0`
 
 
@@ -148,9 +148,15 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 - Add Metta's BGMs to the game
 
 
+- ITEM:  UP-1; (random rotation)  Give items +10 points. 10% chance to destroy item
+
+
 
 - Add item unlock infrastructure
 - Create "UNLOCKED" popup UI widget when the game is won
+
+
+
 - plan what items should be unlocked at the start of the game   
     --> rotate items should start locked  
     --> destructive-archetype should probably start locked too?  

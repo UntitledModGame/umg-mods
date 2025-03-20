@@ -544,78 +544,6 @@ definePerk("blank_ball", {
 
 
 
-
-
---[[
-TODO: 
-Do something more interesting with 8-ball.
-
-Maybe something relating to destructive-archetype...? 
-What if we spawned null-slots with rocks in them, or something?
-(Or what if we spawned stone-slots with strong effects...?)
-]]
-
---[[
-
-definePerk("eight_ball", {
-    name = loc("Eight Ball"),
-    description = loc("Starts with 3 null-slots"),
-
-    onActivateOnce = function(ent)
-        local ppos, team = getPosTeam(ent)
-
-        lp.setMoney(ent, constants.STARTING_MONEY)
-        lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
-        spawnShop(ent)
-        spawnRerollButton(ent)
-        spawnNormal(ent)
-        spawnSell(ent)
-        spawnInterestSlot(ent)
-        spawnMoneyLimit(ent)
-        spawnDoomClockAndButtons(ent)
-        wg.spawnSlots(assert(ppos:move(3, 0)), server.entities.null_slot, 1,3, team)
-    end
-})
-
-]]
-
-
-
-
-
---[[
-
-TODO:
-do something more interesting with this!
-:)
-
-]]
-
--- definePerk("fourteen_ball", {
---     name = loc("Fourteen Ball"),
---     description = loc("Spawns with 3 reroll-slots"),
-
---     onActivateOnce = function(ent)
---         local ppos, team = getPosTeam(ent)
-
---         lp.setMoney(ent, constants.STARTING_MONEY)
---         lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
---         spawnShop(ent)
---         spawnRerollButton(ent)
-
---         wg.spawnSlots(assert(ppos:move(3, 0)), server.entities.reroll_slot, 1,3, team)
-
---         spawnNormal(ent)
---         spawnSell(ent)
---         spawnInterestSlot(ent)
---         spawnMoneyLimit(ent)
---         spawnDoomClockAndButtons(ent)
---     end
--- })
-
-
-
-
 definePerk("nine_ball", {
     name = loc("Nine Ball"),
     description = loc("Has no money limit"),
@@ -635,6 +563,7 @@ definePerk("nine_ball", {
         spawnDoomClockAndButtons(ent)
     end
 })
+
 
 
 
