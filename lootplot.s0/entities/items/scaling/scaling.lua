@@ -193,15 +193,15 @@ defineHelmet("emerald_helmet", "Emerald Helmet", {
 
 
 
+do
+local PERCENTAGE_CHANCE = 10
 
 defineHelmet("deathly_helmet", "Deathly Helmet", {
-    activateDescription = loc("Give items {lootplot:POINTS_MOD_COLOR}+10 points"),
+    triggers = {"PULSE"},
 
-    triggers = {},
-    listen = {
-        type = "ITEM",
-        trigger = "DESTROY",
-    },
+    activateDescription = loc("Give items {lootplot:POINTS_COLOR}+10 points.{/lootplot:POINTS_COLOR}\n%{chance}% Chance to destroy items.", {
+        chance = PERCENTAGE_CHANCE
+    }),
 
     basePrice = 10,
     baseMaxActivations = 10,
@@ -210,8 +210,12 @@ defineHelmet("deathly_helmet", "Deathly Helmet", {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
             lp.modifierBuff(targetEnt, "pointsGenerated", 10, selfEnt)
+            if lp.SEED:randomMisc() < (PERCENTAGE_CHANCE/100) then
+                lp.destroy(targetEnt)
+            end
         end,
     }
 })
 
+end
 

@@ -126,6 +126,14 @@
 ~~- If you play the tutorial, it counts as a win. This will cause items to be unlocked.~~
 ~~- Instead of calling lp.winGame, we should just set a flag that unlocks the one-ball directly.~~
 
+~~- Add 6-ball: (Gray pulse-button, Reroll build)~~
+
+~~- ADD STEAM ACHIEVEMENTS (?)~~
+~~- IDEA: Win with every starter-item? <--- makes it very possible/feasible for achievement hunters~~
+~~- Define achievements in steamworks~~
+~~- Define and deploy API from umg~~
+~~- Set achievements from `lootplot.s0`~~
+
 
 
 ==========================================
@@ -133,28 +141,11 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
 
-~~- Add 6-ball: (Gray pulse-button, Reroll build)~~
-
-
-- ADD STEAM ACHIEVEMENTS (?)
-~~- IDEA: Win with every starter-item? <--- makes it very possible/feasible for achievement hunters~~
-~~- Define achievements in steamworks~~
-~~- Define and deploy API from umg~~
-- Set achievements from `lootplot.s0`
-
-
-- Find more (free) BGMs to use
-
-- Add Metta's BGMs to the game
-
-
 - ITEM:  UP-1; (random rotation)  Give items +10 points. 10% chance to destroy item
 
 
-
 - Add item unlock infrastructure
-- Create "UNLOCKED" popup UI widget when the game is won
-
+- (Create "UNLOCKED" popup UI widget when the game is won?)
 
 
 - plan what items should be unlocked at the start of the game   
@@ -164,6 +155,8 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 - (Complex items should be locked for the demo too! Ideally we should use the same API for this)
 
 
+- Add Metta's/Ravi's BGMs to the game
+- Maybe we should have 10-15 second long gaps between the songs...? Or maybe have them gradually fade in/out?
 
 
 - (SPIKE?) Make a few more `Rotate/Unlock` items that scale:
