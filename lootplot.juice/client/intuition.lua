@@ -28,6 +28,17 @@ umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER, function(ent, x,y, rot
             rendering.drawImage(q, x, y+dy, 0, sx,sy)
         end
     end
+
+    if lp.isSlotEntity(ent) then
+        local t = love.timer.getTime()
+        local NUM_FRAMES = 20
+        local FPS = 30
+        local i = ((math.floor(t * FPS + ent.id * 12.33489)) % (NUM_FRAMES * 2))
+        if i < NUM_FRAMES then
+            local quadName = "slot_repeater_animation_" .. i
+            rendering.drawImage(quadName, x,y, rot, sx,sy)
+        end
+    end
 end)
 
 
