@@ -133,6 +133,8 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
 
+- Add 6-ball: (Gray pulse-button, Reroll build)
+
 
 - Add Steam achievements (?)
 - IDEA: Win with every starter-item? <--- makes it very possible/feasible for achievement hunters
@@ -143,14 +145,16 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 - Add Metta's BGMs to the game
 
 
-- plan what items should be unlocked at the start of the game   
-    --> rotate items should start locked  
-    --> destructive-archetype should probably start locked too?  
-
 
 - Add item unlock infrastructure
 - Create "UNLOCKED" popup UI widget when the game is won
-- Make complex items locked at the start of the game
+- plan what items should be unlocked at the start of the game   
+    --> rotate items should start locked  
+    --> destructive-archetype should probably start locked too?  
+- IMPORTANT: PLAN AN API FOR UNLOCKING ITEMS!!!
+- (Complex items should be locked for the demo too! Ideally we should use the same API for this)
+
+
 
 
 - (SPIKE?) Make a few more `Rotate/Unlock` items that scale:
@@ -158,7 +162,6 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 - Give some LEVEL-UP items `Unlock` trigger?
 - Red metal cube: On Rotate/Unlock, give +0.4 mult to slots (shape=ON)
 - Blue metal cube: On Rotate/Unlock, give +3 bonus to slots (shape=ON)
-- Green metal cube: On Rotate/Unlock, trigger Reroll on slots and items (shape=KING-2)
 - Gold metal cube: On Rotate/Unlock, earn $5. GRUB-10.
 
 
@@ -187,7 +190,8 @@ What makes them stop playing?
 
 - Limit number of rounds to 30 for the demo...?
 
-- RELEASE PLAYTEST/DEMO!!!
+- RELEASE DEMO!!!
+
 
 
 =============================================

@@ -59,6 +59,18 @@ local function deleteAllButtonSlots(plot)
 end
 
 
+local function buttonOnDraw(ent)
+    -- NOTE: this is a bit weird/hacky, 
+    -- since we aren't actually drawing anything..
+    -- but its "fine"
+    if not lp.canActivateEntity(ent) then
+        ent.opacity = 0.3
+    else
+        ent.opacity = 1
+    end
+end
+
+
 lp.defineSlot("lootplot.s0:pulse_button_slot", {
     image = "pulse_button_up",
 
@@ -74,13 +86,7 @@ lp.defineSlot("lootplot.s0:pulse_button_slot", {
         duration = 0.1
     },
 
-    onDraw = function(ent, x, y, rot, sx,sy)
-        if not lp.canActivateEntity(ent) then
-            ent.opacity = 0.3
-        else
-            ent.opacity = 1
-        end
-    end,
+    onDraw = buttonOnDraw,
 
     baseMaxActivations = 100,
 
@@ -134,6 +140,72 @@ lp.defineSlot("lootplot.s0:pulse_button_slot", {
         end
     end,
 })
+
+
+
+lp.defineSlot("lootplot.s0:gray_pulse_button_slot", {
+    image = "gray_pulse_button_up",
+
+    name = loc("Gray Button"),
+    description = loc("Click to go to the next round."),
+    activateDescription = loc("(Afterwards, resets everything, and earns {lootplot:MONEY_COLOR}$%{money}{/lootplot:MONEY_COLOR})", {
+        money = constants.MONEY_PER_ROUND
+    }),
+
+    activateAnimation = {
+        activate = "gray_pulse_button_hold",
+        idle = "gray_pulse_button_up",
+        duration = 0.1
+    },
+
+    onDraw = buttonOnDraw,
+
+    baseMaxActivations = 100,
+
+    triggers = {},
+    buttonSlot = true,
+
+    rarity = lp.rarities.RARE,
+
+    canActivate = function(ent)
+        local round = lp.getRound(ent)
+        local numOfRounds = lp.getNumberOfRounds(ent)
+        if round <= numOfRounds then
+            return true
+        end
+        return false
+    end,
+
+    onActivate = function(ent)
+        local ppos=lp.getPos(ent)
+        if ppos then
+            local plot = ppos:getPlot()
+            resetPlot(ppos)
+
+            -- LIFO: we want to do this stuff last, so we queue this FIRST.
+            lp.queueWithEntity(ent, function(e)
+                lp.addMoney(e, constants.MONEY_PER_ROUND)
+                lp.setPointsMult(e, 1)
+                lp.setPointsBonus(e, 0)
+
+                local round = lp.getAttribute("ROUND", e)
+                local newRound = round + 1
+                lp.setRound(e, newRound)
+
+                if hasLost(e) then
+                    lp.loseGame(ent.lootplotTeam)
+                    -- destroy all button-slots:
+                    deleteAllButtonSlots(plot)
+                end
+            end)
+
+            resetPlot(ppos)
+        end
+    end,
+})
+
+
+
 
 
 ---@param ppos lootplot.PPos
@@ -213,13 +285,7 @@ lp.defineSlot("lootplot.s0:next_level_button_slot", {
 
     rarity = lp.rarities.EPIC,
 
-    onDraw = function(ent)
-        if not lp.canActivateEntity(ent) then
-            ent.opacity = 0.3
-        else
-            ent.opacity = 1
-        end
-    end,
+    onDraw = buttonOnDraw,
 
     canActivate = function(ent)
         local requiredPoints = lp.getRequiredPoints(ent)

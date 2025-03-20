@@ -1431,11 +1431,11 @@ end
 
 
 local EMPTY_TRIGGERS = {}
----@param ent Entity
+---@param ent_or_etype Entity|EntityType
 ---@param name string
 ---@return boolean
-function lp.hasTrigger(ent, name)
-    for _,t in ipairs(ent.triggers or EMPTY_TRIGGERS) do
+function lp.hasTrigger(ent_or_etype, name)
+    for _,t in ipairs(ent_or_etype.triggers or EMPTY_TRIGGERS) do
         if t == name then
             return true
         end

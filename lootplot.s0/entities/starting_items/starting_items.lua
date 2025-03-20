@@ -21,7 +21,8 @@ local function definePerk(id, etype)
     defPerkTc(id, etype)
     etype.image = etype.image or id
     etype.canItemFloat = true -- perk always float
-    etype.triggers = {"PULSE"}
+    etype.triggers = etype.triggers or {"PULSE"}
+    assert(lp.hasTrigger(etype, "PULSE"), "?")
 
     id = "lootplot.s0:" .. id
     lp.defineItem(id, etype)
@@ -84,6 +85,26 @@ local function clearFogInCircle(ppos, team, radius)
     end
 end
 
+
+local function spawnNextLevelButton(ent)
+    local ppos, team = getPosTeam(ent)
+    lp.forceSpawnSlot(
+        assert(ppos:move(-3,-4)),
+        server.entities.next_level_button_slot,
+        team
+    )
+end
+
+local function spawnPulseButton(ent)
+    local ppos, team = getPosTeam(ent)
+    lp.forceSpawnSlot(
+        assert(ppos:move(-4,-4)),
+        server.entities.pulse_button_slot,
+        team
+    )
+end
+
+
 local function spawnDoomClock(ent, dy)
     dy = dy or 0
 
@@ -101,18 +122,15 @@ local function spawnDoomClock(ent, dy)
 
     -- Clear fog around doom clock
     clearFogInCircle(ppos, team, 1)
+end
+
+
+local function spawnDoomClockAndButtons(ent, dy)
+    spawnDoomClock(ent, dy)
 
     -- Meta-buttons
-    lp.forceSpawnSlot(
-        assert(ppos:move(-4,0)),
-        server.entities.pulse_button_slot,
-        team
-    )
-    lp.forceSpawnSlot(
-        assert(ppos:move(-3,0)),
-        server.entities.next_level_button_slot,
-        team
-    )
+    spawnNextLevelButton(ent)
+    spawnPulseButton(ent)
 end
 
 
@@ -219,7 +237,7 @@ definePerk("one_ball", {
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
 
-        spawnDoomClock(ent)
+        spawnDoomClockAndButtons(ent)
 
         -- Display tutorial text
 
@@ -262,7 +280,7 @@ definePerk("five_ball", {
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
 
-        spawnDoomClock(ent)
+        spawnDoomClockAndButtons(ent)
 
         wg.spawnSlots(assert(ppos:move(3, 0)), server.entities.rotate_slot, 1,1, team)
     end
@@ -272,9 +290,15 @@ definePerk("five_ball", {
 
 
 
-definePerk("L_ball", {
-    name = loc("L Ball"),
-    description = loc("Gives lives to items/slots"),
+definePerk("six_ball", {
+    name = loc("Six Ball"),
+
+    triggers = {"PULSE", "REROLL"},
+
+    description = loc("Reroll Specialist"),
+    activateDescription = loc("{lootplot:TRIGGER_COLOR}Pulses{/lootplot:TRIGGER_COLOR} items."),
+
+    baseMaxActivations = 10,
 
     isEntityTypeUnlocked = unlockAfterWins(1),
 
@@ -290,13 +314,67 @@ definePerk("L_ball", {
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
 
+        do -- spawn golden-die:
+        lp.trySpawnItem(assert(ppos:move(-1,0)), server.entities.golden_die, team)
+        lp.trySpawnItem(assert(ppos:move(1,0)), server.entities.golden_die, team)
+        end
+
+        do -- spawn green-olive with lives:
+        local p = assert(ppos:move(3,0))
+        lp.trySpawnSlot(p, server.entities.null_slot, team)
+        local itemEnt = lp.trySpawnItem(p, server.entities.green_olive, team)
+        if itemEnt then
+            itemEnt.lives = 10
+        end
+        end
+
+        lp.forceSpawnSlot(assert(ppos:move(-4,-4)), server.entities.gray_pulse_button_slot, team)
+        spawnNextLevelButton(ent)
+        spawnDoomClock(ent)
+    end,
+
+    shape = lp.targets.UpShape(4),
+    target = {
+        type = "ITEM",
+        filter = function(selfEnt, ppos, targetEnt)
+            return lp.hasTrigger(targetEnt, "PULSE")
+        end,
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.tryTriggerEntity("PULSE", targetEnt)
+        end
+    }
+})
+
+
+
+
+
+
+definePerk("L_ball", {
+    name = loc("L Ball"),
+    description = loc("Gives lives to items/slots"),
+
+    isEntityTypeUnlocked = winToUnlock(),
+
+    onActivateOnce = function(ent)
+        local ppos, team = getPosTeam(ent)
+
+        lp.setMoney(ent, constants.STARTING_MONEY)
+        lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
+        spawnShop(ent)
+        spawnRerollButton(ent)
+        spawnNormal(ent)
+        spawnSell(ent)
+        spawnInterestSlot(ent)
+        spawnMoneyLimit(ent)
+
         wg.spawnSlots(assert(ppos:move(0,-3)), server.entities.null_slot, 1,1, team)
 
-        ent.baseMoneyGenerated = -3
+        ent.baseMoneyGenerated = -5
         -- reason we must do set it here instead of as a shcomp,
         -- is because money starts at 0. If it's a shcomp, onActivateOnce will never be called!
 
-        spawnDoomClock(ent)
+        spawnDoomClockAndButtons(ent)
     end,
 
     shape = lp.targets.UpShape(1),
@@ -326,7 +404,7 @@ definePerk("four_ball", {
         spawnSell(ent)
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
-        spawnDoomClock(ent)
+        spawnDoomClockAndButtons(ent)
     end
 })
 
@@ -375,7 +453,7 @@ definePerk("seven_ball", {
         spawnSell(ent, 0, 2)
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
-        spawnDoomClock(ent)
+        spawnDoomClockAndButtons(ent)
     end
 })
 
@@ -416,7 +494,7 @@ definePerk("eight_ball", {
 
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
-        spawnDoomClock(ent)
+        spawnDoomClockAndButtons(ent)
     end,
 
     shape = lp.targets.RookShape(1),
@@ -458,7 +536,7 @@ definePerk("blank_ball", {
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
 
-        spawnDoomClock(ent, -1)
+        spawnDoomClockAndButtons(ent, -1)
     end,
 })
 
@@ -494,7 +572,7 @@ definePerk("eight_ball", {
         spawnSell(ent)
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
-        spawnDoomClock(ent)
+        spawnDoomClockAndButtons(ent)
         wg.spawnSlots(assert(ppos:move(3, 0)), server.entities.null_slot, 1,3, team)
     end
 })
@@ -531,7 +609,7 @@ do something more interesting with this!
 --         spawnSell(ent)
 --         spawnInterestSlot(ent)
 --         spawnMoneyLimit(ent)
---         spawnDoomClock(ent)
+--         spawnDoomClockAndButtons(ent)
 --     end
 -- })
 
@@ -554,7 +632,7 @@ definePerk("nine_ball", {
         spawnNormal(ent)
         spawnSell(ent)
         spawnInterestSlot(ent)
-        spawnDoomClock(ent)
+        spawnDoomClockAndButtons(ent)
     end
 })
 
@@ -588,7 +666,7 @@ definePerk("rainbow_ball", {
         lp.forceSpawnSlot(nextPos(), ents.sapphire_slot, team) -- indigo
         lp.forceSpawnSlot(nextPos(), ents.food_shop_slot, team) -- violet
 
-        spawnDoomClock(ent)
+        spawnDoomClockAndButtons(ent)
     end
 })
 
@@ -620,7 +698,7 @@ definePerk("bowling_ball", {
             slotEnt.doomCount = lp.SEED:randomMisc(40, 50)
         end)
 
-        spawnDoomClock(ent)
+        spawnDoomClockAndButtons(ent)
     end
 })
 
