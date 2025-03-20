@@ -133,11 +133,14 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
 
-- Add 6-ball: (Gray pulse-button, Reroll build)
+~~- Add 6-ball: (Gray pulse-button, Reroll build)~~
 
 
-- Add Steam achievements (?)
+- ADD STEAM ACHIEVEMENTS (?)
 - IDEA: Win with every starter-item? <--- makes it very possible/feasible for achievement hunters
+- Define achievements in steamworks
+- Define and deploy API from umg
+- Set achievements from `lootplot.s0`
 
 
 - Find more (free) BGMs to use

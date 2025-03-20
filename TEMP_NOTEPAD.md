@@ -173,3 +173,9 @@ FUNNY IDEA:
 Evil cat:  
 On buy, pulse: subtract -5 mult
 basePrice = -5
+
+
+Steam achievements:
+- need to somehow deploy an API from core umg
+- Connect with umg base mods
+

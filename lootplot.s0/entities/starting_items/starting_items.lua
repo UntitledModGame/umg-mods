@@ -658,15 +658,15 @@ definePerk("rainbow_ball", {
         end
 
         local ents = server.entities
-        lp.forceSpawnSlot(nextPos(), ents.ruby_slot, team) -- red
+        lp.forceSpawnSlot(nextPos(), ents.next_level_button_slot, team) -- red
         lp.forceSpawnSlot(nextPos(), ents.rotate_slot, team) -- orange
         lp.forceSpawnSlot(nextPos(), ents.shop_slot, team) -- yellow
         lp.forceSpawnSlot(nextPos(), ents.reroll_button_slot, team) -- green
-        lp.forceSpawnSlot(nextPos(), ents.diamond_slot, team) -- blue
+        lp.forceSpawnSlot(nextPos(), ents.pulse_button_slot, team) -- blue
         lp.forceSpawnSlot(nextPos(), ents.sapphire_slot, team) -- indigo
         lp.forceSpawnSlot(nextPos(), ents.food_shop_slot, team) -- violet
 
-        spawnDoomClockAndButtons(ent)
+        spawnDoomClock(ent)
     end
 })
 
