@@ -28,17 +28,6 @@ umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER, function(ent, x,y, rot
             rendering.drawImage(q, x, y+dy, 0, sx,sy)
         end
     end
-
-    if lp.isSlotEntity(ent) then
-        local t = love.timer.getTime()
-        local NUM_FRAMES = 20
-        local FPS = 30
-        local i = ((math.floor(t * FPS + ent.id * 12.33489)) % (NUM_FRAMES * 2))
-        if i < NUM_FRAMES then
-            local quadName = "slot_repeater_animation_" .. i
-            rendering.drawImage(quadName, x,y, rot, sx,sy)
-        end
-    end
 end)
 
 
@@ -230,10 +219,14 @@ umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER + 1, function(ent, x,y,
     if moneyEarn and math.abs(moneyEarn) > 0.1 then
         if not ent.buttonSlot then
             -- KINDA HACKY:
-            -- button-slots will generally have a COST text on them;
+            -- button-slots will often have a COST text on them;
             -- so we explicitly skip them.
             rendering.drawImage("gold_strip_slot_visual", x,y,rot,sx,sy,kx,ky)
         end
+    end
+
+    if ent.repeatActivations then
+        rendering.drawImage("ruby_strip_slot_visual", x,y,rot,sx,sy,kx,ky)
     end
 
     local bonusGen = ent.bonusGenerated or 0
