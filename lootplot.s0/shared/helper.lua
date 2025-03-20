@@ -34,7 +34,7 @@ function helper.rerollPlot(plot)
         :to("SLOT_OR_ITEM")
         :execute(function(ppos, ent)
             lp.resetCombo(ent)
-            lp.tryTriggerEntity("REROLL", ent)
+            lp.tryTriggerSlotThenItem("REROLL", ppos)
         end)
 end
 

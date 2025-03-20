@@ -295,7 +295,7 @@ definePerk("six_ball", {
 
     triggers = {"PULSE", "REROLL"},
 
-    description = loc("Reroll Specialist"),
+    description = loc("Reroll specialist"),
     activateDescription = loc("{lootplot:TRIGGER_COLOR}Pulses{/lootplot:TRIGGER_COLOR} items."),
 
     baseMaxActivations = 10,
