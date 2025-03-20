@@ -29,6 +29,10 @@ components.defineComponent("onTriggered") -- fun(ent, triggerName, wasActivated)
 components.defineComponent("onDestroyClient")
 components.defineComponent("onActivateClient")
 
+components.defineComponent("onWinGame") -- called when the game is won
+
+
+
 -- fun(ent) -> boolean
 -- returns true iff the entity is invincible
 components.defineComponent("isInvincible")

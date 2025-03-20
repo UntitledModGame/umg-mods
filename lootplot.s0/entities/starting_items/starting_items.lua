@@ -30,6 +30,15 @@ local function definePerk(id, etype)
 end
 
 
+
+local function makeAchievementUnlocker(achievementName)
+    return function()
+        umg.achievements.setAchievement(achievementName)
+    end
+end
+
+
+
 local function unlockAfterWins(numberOfWins)
     local isEntityTypeUnlocked = function(etype)
         if lp.getWinCount() >= numberOfWins then
@@ -222,6 +231,8 @@ definePerk("one_ball", {
     baseMoneyGenerated = 2,
     baseMaxActivations = 2,
 
+    onWinGame = makeAchievementUnlocker("WIN_ONE_BALL"),
+
     isEntityTypeUnlocked = function(_etype)
         return lp.metaprogression.getFlag("lootplot.s0:isTutorialCompleted")
     end,
@@ -267,6 +278,7 @@ definePerk("five_ball", {
     description = loc("Starts with a rotation-slot"),
 
     isEntityTypeUnlocked = unlockAfterWins(1),
+    onWinGame = makeAchievementUnlocker("WIN_FIVE_BALL"),
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
@@ -301,6 +313,7 @@ definePerk("six_ball", {
     baseMaxActivations = 10,
 
     isEntityTypeUnlocked = unlockAfterWins(1),
+    onWinGame = makeAchievementUnlocker("WIN_SIX_BALL"),
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
@@ -355,6 +368,7 @@ definePerk("L_ball", {
     description = loc("Gives lives to items/slots"),
 
     isEntityTypeUnlocked = winToUnlock(),
+    onWinGame = makeAchievementUnlocker("WIN_L_BALL"),
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
@@ -393,6 +407,7 @@ definePerk("four_ball", {
     description = loc("Has an extra round per level"),
 
     isEntityTypeUnlocked = winToUnlock(),
+    onWinGame = makeAchievementUnlocker("WIN_FOUR_BALL"),
 
     onActivateOnce = function(ent)
         lp.setMoney(ent, constants.STARTING_MONEY)
@@ -416,6 +431,7 @@ definePerk("seven_ball", {
     description = loc("Dirt, Rocks, and a Bomb"),
 
     isEntityTypeUnlocked = winToUnlock(),
+    onWinGame = makeAchievementUnlocker("WIN_SEVEN_BALL"),
 
     onActivateOnce = function(ent)
         lp.setMoney(ent, constants.STARTING_MONEY)
@@ -468,6 +484,7 @@ definePerk("eight_ball", {
     activateDescription = loc("Destroys items"),
 
     isEntityTypeUnlocked = winToUnlock(),
+    onWinGame = makeAchievementUnlocker("WIN_EIGHT_BALL"),
 
     onActivateOnce = function(ent)
         lp.setMoney(ent, constants.STARTING_MONEY)
@@ -516,6 +533,7 @@ definePerk("blank_ball", {
     description = loc("Has a Rulebender slot"),
 
     isEntityTypeUnlocked = winToUnlock(),
+    onWinGame = makeAchievementUnlocker("WIN_BLANK_BALL"),
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
@@ -549,6 +567,7 @@ definePerk("nine_ball", {
     description = loc("Has no money limit"),
 
     isEntityTypeUnlocked = winToUnlock(),
+    onWinGame = makeAchievementUnlocker("WIN_NINE_BALL"),
 
     baseMaxActivations = 1,
 
@@ -572,11 +591,14 @@ definePerk("rainbow_ball", {
     description = loc("gay."),
 
     isEntityTypeUnlocked = winToUnlock(),
+    onWinGame = makeAchievementUnlocker("WIN_GAY"),
 
     baseMaxActivations = 1,
 
     onActivateOnce = function(ent)
         lp.setMoney(ent, constants.STARTING_MONEY)
+        lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
+        lp.setAttribute("ROUND", ent, -3)
         local ppos, team = getPosTeam(ent)
 
         local curPos = assert(ppos:move(-4, 1))
@@ -608,11 +630,13 @@ definePerk("bowling_ball", {
     description = loc("CHALLENGE-ITEM!"),
 
     isEntityTypeUnlocked = winToUnlock(),
+    onWinGame = makeAchievementUnlocker("WIN_BOWLING_BALL"),
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
         lp.setMoney(ent, constants.STARTING_MONEY)
         lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
+        lp.setAttribute("ROUND", ent, -3)
 
         spawnShop(ent)
         spawnSell(ent)

@@ -1582,11 +1582,16 @@ end
 
 
 
+local winGroup = umg.group("onWinGame")
+
 --- Signals the winning of the game for a player
 ---@param clientId string
 function lp.winGame(clientId)
     lp.metaprogression.setStat("lootplot:WIN_COUNT", lp.getWinCount() + 1)
     umg.call("lootplot:winGame", clientId)
+    for _, ent in ipairs(winGroup) do
+        ent:onWinGame()
+    end
 end
 
 --- Signals the losing of the game for a player
