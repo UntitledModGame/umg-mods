@@ -60,22 +60,27 @@ defItem("pandoras_box", "Pandora's Box", {
 })
 
 
+do
+local DEBUFF = 15
 
 defItem("old_brick", "Old Brick", {
-    activateDescription = loc("This item loses {lootplot:POINTS_COLOR}2 Points{/lootplot:POINTS_COLOR} permanently"),
+    activateDescription = loc("This item loses {lootplot:POINTS_COLOR}%{debuff} Points{/lootplot:POINTS_COLOR} permanently", {
+        debuff = DEBUFF
+    }),
 
     rarity = lp.rarities.RARE,
     triggers = {"PULSE"},
 
     basePrice = 8,
-    basePointsGenerated = 40,
+    basePointsGenerated = DEBUFF * 20,
     baseMaxActivations = 10,
 
     onActivate = function(selfEnt)
-        lp.modifierBuff(selfEnt, "pointsGenerated", -2)
+        lp.modifierBuff(selfEnt, "pointsGenerated", -DEBUFF)
     end
 })
 
+end
 
 
 

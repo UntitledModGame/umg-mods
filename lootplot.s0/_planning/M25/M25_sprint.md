@@ -146,15 +146,15 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
 
-- Add item unlock infrastructure
-- (Create "UNLOCKED" popup UI widget when the game is won?)
-
-
 - plan what items should be unlocked at the start of the game   
     --> rotate items should start locked  
     --> destructive-archetype should probably start locked too?  
 - IMPORTANT: PLAN AN API FOR UNLOCKING ITEMS!!!
 - (Complex items should be locked for the demo too! Ideally we should use the same API for this)
+
+
+- Add item unlock infrastructure
+- (Create "UNLOCKED" popup UI widget when the game is won?)
 
 
 - Add Metta's/Ravi's BGMs to the game

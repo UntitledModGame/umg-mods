@@ -110,7 +110,8 @@ defItem("stick", {
 
     rarity = lp.rarities.UNCOMMON,
 
-    basePointsGenerated = 8,
+    basePointsGenerated = 10,
+    baseBonusGenerated = 2,
     baseMaxActivations = 5,
     basePrice = 2,
 })
