@@ -168,7 +168,7 @@ defDestructive("tooth_necklace", "Tooth Necklace", {
     rarity = lp.rarities.RARE,
     shape = lp.targets.ON_SHAPE,
 
-    activateDescription = loc("Gives {lootplot.targets:COLOR}slots{/lootplot.targets:COLOR} {lootplot:DOOMED_COLOR}DOOMED-6{/lootplot:DOOMED_COLOR}, and earn {lootplot:MONEY_COLOR}4${/lootplot:MONEY_COLOR} for each slot.\n(Only works if the {lootplot.targets:COLOR}slot{/lootplot.targets:COLOR} isn't doomed!)"),
+    activateDescription = loc("Gives slots {lootplot:DOOMED_COLOR}DOOMED-6{/lootplot:DOOMED_COLOR}, and earn {lootplot:MONEY_COLOR}4${/lootplot:MONEY_COLOR} for each slot.\n(Only works if the slot isn't doomed!)"),
 
     target = {
         type = "SLOT",
