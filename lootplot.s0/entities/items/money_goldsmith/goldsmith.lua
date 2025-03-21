@@ -161,7 +161,7 @@ defItem("iron_ornament", "Iron Ornament", {
     activateDescription = DESC,
 
     basePointsGenerated = 3,
-    baseMaxActivations = 2,
+    baseMaxActivations = 6,
 
     onActivate = function(ent)
         if (lp.getMoney(ent) or 0) > MONEY_REQUIREMENT then
@@ -187,7 +187,7 @@ defItem("ruby_ornament", "Ruby Ornament", {
     activateDescription = DESC,
 
     baseMultGenerated = -0.5,
-    baseMaxActivations = 2,
+    baseMaxActivations = 6,
 
     onActivate = function(ent)
         if (lp.getMoney(ent) or 0) > MONEY_REQUIREMENT then
