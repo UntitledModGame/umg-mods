@@ -16,6 +16,7 @@ local function formatCommand(handler)
 end
 
 
+--[[
 
 chat.handleCommand("help", {
     arguments = {},
@@ -25,7 +26,7 @@ chat.handleCommand("help", {
         local adminLevel = permissions.getAdminLevel(sender)
         local commands = chat.getCommands()
         chat.privateMessage(sender, "COMMAND LIST:")
-        for _, handler in ipairs(commands)do
+        for _, cmdName in ipairs(commands)do
             if handler.adminLevel <= adminLevel then
                 local str = formatCommand(handler)
                 chat.privateMessage(sender, str)
@@ -34,6 +35,7 @@ chat.handleCommand("help", {
     end
 })
 
+]]
 
 
 chat.handleCommand("promote", {

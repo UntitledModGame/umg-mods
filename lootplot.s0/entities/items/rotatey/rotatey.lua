@@ -228,7 +228,7 @@ end
 
 
 
-local GREEN_RECORD_BUFF = 5
+local GREEN_RECORD_BUFF = 6
 
 defRecord("record_green", "Green Record", {
     activateDescription = loc("Add {lootplot:POINTS_COLOR}+%{buff} points{/lootplot:POINTS_COLOR} to items", {

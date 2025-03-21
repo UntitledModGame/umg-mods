@@ -37,7 +37,7 @@ local function defShield(id, name, etype)
     etype.rarity = lp.rarities.RARE
     etype.basePrice = 10
 
-    etype.baseMaxActivations = 4
+    etype.baseMaxActivations = etype.baseMaxActivations or 4
 
     return lp.defineItem("lootplot.s0:"..id, etype)
 end
@@ -105,6 +105,8 @@ defShield("multiplier_shield", "Multiplier Shield", {
 
 defShield("negative_shield", "Negative Shield", {
     activateDescription = loc("Multiply {lootplot:POINTS_MULT_COLOR}multiplier{/lootplot:POINTS_MULT_COLOR} by -1.5.\nMultply {lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} by -1.5.");
+
+    baseMaxActivations = 1,
 
     onActivate = function(ent)
         local mult = lp.getPointsMult(ent) or 1

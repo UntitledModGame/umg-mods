@@ -48,7 +48,6 @@ defineHelmet("iron_helmet", "Iron Helmet", {
 
     basePrice = 10,
     baseMaxActivations = 6,
-    mineralType = "iron",
 
     target = {
         type = "ITEM",
@@ -159,8 +158,6 @@ defineHelmet("ruby_helmet", "Ruby Helmet", {
 
     basePrice = 12,
 
-    mineralType = "ruby",
-
     target = {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
@@ -181,7 +178,6 @@ defineHelmet("emerald_helmet", "Emerald Helmet", {
 
     basePrice = 10,
     baseMaxActivations = 10,
-    mineralType = "emerald",
 
     target = {
         type = "ITEM",
@@ -190,6 +186,29 @@ defineHelmet("emerald_helmet", "Emerald Helmet", {
         end,
     }
 })
+
+
+
+
+defineHelmet("cast_helmet", "Cast Helmet", {
+    activateDescription = loc("Give items without {lootplot:TRIGGER_COLOR}Pulse{/lootplot:TRIGGER_COLOR} trigger {lootplot:POINTS_COLOR}+8 points."),
+
+    triggers = {"REROLL"},
+
+    basePrice = 10,
+    baseMaxActivations = 4,
+
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.modifierBuff(targetEnt, "pointsGenerated", 8, selfEnt)
+        end,
+        filter = function(selfEnt, ppos, targEnt)
+            return not lp.hasTrigger(targEnt, "PULSE")
+        end
+    }
+})
+
 
 
 

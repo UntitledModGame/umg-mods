@@ -255,28 +255,34 @@ defItem("bone", {
 
 
 
+do
+local BUFF = 3
 
 defItem("4_leaf_clover", {
     name = loc("4 Leaf Clover"),
+    init = helper.rotateRandomly,
 
-    activateDescription = loc("Give items/slots {lootplot:POINTS_COLOR}+1 points"),
+    activateDescription = loc("Give items/slots {lootplot:POINTS_COLOR}+%{buff} points", {
+        buff = BUFF
+    }),
 
     triggers = {"REROLL"},
 
     basePrice = 6,
     baseMaxActivations = 10,
 
-    shape = lp.targets.BishopShape(1),
+    shape = lp.targets.UpShape(1),
     target = {
         type = "ITEM_OR_SLOT",
         activate = function(selfEnt, ppos, targetEnt)
-            lp.modifierBuff(targetEnt, "pointsGenerated", 1, selfEnt)
+            lp.modifierBuff(targetEnt, "pointsGenerated", BUFF, selfEnt)
         end
     },
 
     rarity = lp.rarities.UNCOMMON,
 })
 
+end
 
 
 

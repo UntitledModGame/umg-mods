@@ -1,5 +1,5 @@
 {
-    "uses": ["base", "permissions", "ui", "rendering", "input"],
+    "uses": ["base", "permissions", "ui", "rendering", "input", "objects"],
     
     "type": "base"
 }

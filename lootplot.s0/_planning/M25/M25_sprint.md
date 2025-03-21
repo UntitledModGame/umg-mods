@@ -139,11 +139,27 @@
 ~~- (SPIKE?) Create an item that adds REPEATER to slots! (It's a really cool/fun idea)~~
 ~~- ALTERNATIVELY: We should add `repeatActivations` property to apple~~
 
+~~- MICHAEL FEEDBACK: Reroll builds dont feel good. They just feel like Pulse builds, but kinda shit.~~
+~~- Reroll items that need to be activated multiple times, eg: "When rerolled 3 times, do XYZ"~~
+
+
+~~- (SPIKE?) Make a few more `Rotate/Unlock` items that scale:~~
+~~(futuristic-item sprites, top right)~~
+~~- Give some LEVEL-UP items `Unlock` trigger?~~
+~~- Red metal cube: On Rotate/Unlock, give +0.4 mult to slots (shape=ON)~~
+~~- Blue metal cube: On Rotate/Unlock, give +3 bonus to slots (shape=ON)~~
+~~- Gold metal cube: On Rotate/Unlock, earn $5. GRUB-10.~~
+
 
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
+
+
+- Animation when legendary spawns (try capture player attention)
+- (Glow around EPIC items too to draw attention to them?)
+- ^^^ ONLY WHEN IN SHOP-SLOT OR CLOUD-SLOT
 
 
 - plan what items should be unlocked at the start of the game   
@@ -164,14 +180,6 @@ https://discord.com/channels/863625920991854602/863625920991854605/1352078855351
 https://discord.com/channels/863625920991854602/863625920991854605/1352072030190698566
 (INCOMPLETE:) https://discord.com/channels/@me/1316601752098967665/1328218664687767573
 (INCOMPLETE:) https://discord.com/channels/@me/1316601752098967665/1351329652500856862
-
-
-- (SPIKE?) Make a few more `Rotate/Unlock` items that scale:
-(futuristic-item sprites, top right)
-- Give some LEVEL-UP items `Unlock` trigger?
-- Red metal cube: On Rotate/Unlock, give +0.4 mult to slots (shape=ON)
-- Blue metal cube: On Rotate/Unlock, give +3 bonus to slots (shape=ON)
-- Gold metal cube: On Rotate/Unlock, earn $5. GRUB-10.
 
 
 - Make mystery-book call the same function as sliced-apple and purple-mushroom (extract to `helper`?)

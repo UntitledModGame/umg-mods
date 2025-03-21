@@ -16,8 +16,10 @@ but usually have self-scaling.
 
 ]]
 
+local DEFAULT_MAX_ACTIVATIONS = 10
+
 local function defineMineral(mineralType, name, etype)
-    etype.baseMaxActivations = etype.baseMaxActivations or 10
+    etype.baseMaxActivations = etype.baseMaxActivations or DEFAULT_MAX_ACTIVATIONS
     etype.mineralType = mineralType
 
     lp.defineItem(name, etype)
@@ -150,6 +152,7 @@ local function defineShovel(mineral_type, name, strength, etype)
 
         basePrice = 16,
         basePointsGenerated = -strength,
+        baseMaxActivations = (etype.baseMaxActivations or DEFAULT_MAX_ACTIVATIONS) * 3,
 
         rarity = lp.rarities.EPIC,
     }
@@ -262,7 +265,7 @@ local function defineHammer(mineral_type, name, strength, etype)
 
         basePointsGenerated = strength * 20,
 
-        rarity = etype.rarity or lp.rarities.UNCOMMON,
+        rarity = etype.rarity or lp.rarities.RARE,
 
         basePrice = 12,
     }

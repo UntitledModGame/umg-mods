@@ -165,7 +165,7 @@ lp.defineSlot("lootplot.s0:gray_pulse_button_slot", {
     triggers = {},
     buttonSlot = true,
 
-    rarity = lp.rarities.RARE,
+    rarity = lp.rarities.UNIQUE,
 
     canActivate = function(ent)
         local round = lp.getRound(ent)
