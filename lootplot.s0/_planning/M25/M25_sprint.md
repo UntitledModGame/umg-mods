@@ -159,6 +159,11 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 
 - Add Metta's/Ravi's BGMs to the game
 - Maybe we should have 10-15 second long gaps between the songs...? Or maybe have them gradually fade in/out?
+MUSICS:
+https://discord.com/channels/863625920991854602/863625920991854605/1352078855351042140
+https://discord.com/channels/863625920991854602/863625920991854605/1352072030190698566
+(INCOMPLETE:) https://discord.com/channels/@me/1316601752098967665/1328218664687767573
+(INCOMPLETE:) https://discord.com/channels/@me/1316601752098967665/1351329652500856862
 
 
 - (SPIKE?) Make a few more `Rotate/Unlock` items that scale:

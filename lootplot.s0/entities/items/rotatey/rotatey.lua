@@ -279,7 +279,7 @@ defRecord("record_blue", "Blue Record", {
 
 
 defRecord("record_golden", "Golden Record", {
-    baseMoneyGenerated = 3,
+    baseMoneyGenerated = 2,
     basePrice = 9,
 
     rarity = lp.rarities.RARE,
@@ -359,5 +359,78 @@ defItem("dirt_maker", "Dirt Maker", {
 
     rarity = lp.rarities.RARE,
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+do -- VAULTS:
+
+local function defVault(id, name, etype)
+    etype.triggers = etype.triggers or {"ROTATE", "UNLOCK"}
+
+    etype.rarity = etype.rarity or lp.rarities.RARE
+
+    etype.baseMaxActivations = 1
+    etype.basePrice = etype.basePrice or 10
+
+    defItem(id, name, etype)
+end
+
+
+local BONUS_BUFF = 4
+defVault("blue_vault", "Blue Vault", {
+    activateDescription = loc("Give {lootplot:BONUS_COLOR}+%{buff} Bonus{/lootplot:BONUS_COLOR} to slots", {
+        buff = BONUS_BUFF
+    }),
+
+    doomCount = 15,
+
+    shape = lp.targets.RookShape(1),
+    target = {
+        type = "SLOT",
+        activate = function(selfEnt, ppos, targEnt)
+            lp.modifierBuff(targEnt, "bonusGenerated", BONUS_BUFF, selfEnt)
+        end
+    }
+})
+
+
+local MULT_BUFF = 0.5
+defVault("red_vault", "Red Vault", {
+    activateDescription = loc("Give {lootplot:POINTS_MULT_COLOR}+%{buff} Mult{/lootplot:POINTS_MULT_COLOR} to slots", {
+        buff = MULT_BUFF
+    }),
+
+    doomCount = 15,
+
+    shape = lp.targets.RookShape(1),
+    target = {
+        type = "SLOT",
+        activate = function(selfEnt, ppos, targEnt)
+            lp.modifierBuff(targEnt, "multGenerated", MULT_BUFF, selfEnt)
+        end
+    }
+})
+
+
+defVault("golden_vault", "Golden Vault", {
+    activateDescription = loc("Give {lootplot:POINTS_MULT_COLOR}+0.4 Mult{/lootplot:POINTS_MULT_COLOR} to slots"),
+
+    doomCount = 15,
+    baseMoneyGenerated = 4,
+})
+
+
+end -- END VAULTS.
+
 
 
