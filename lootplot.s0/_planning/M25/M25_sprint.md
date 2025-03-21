@@ -153,7 +153,7 @@
 
 ~~- Animation when legendary spawns (try capture player attention)~~
 ~~- (Glow around EPIC items too to draw attention to them?)~~
-~~- ^^^ ONLY WHEN IN SHOP-SLOT OR CLOUD-SLOT~`
+~~- ^^^ ONLY WHEN IN SHOP-SLOT OR CLOUD-SLOT~~
 
 
 
