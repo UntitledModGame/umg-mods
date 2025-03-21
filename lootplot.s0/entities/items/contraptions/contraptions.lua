@@ -258,16 +258,13 @@ defContra("bomb", "Bomb", {
 
 
 
---[[
-HMM: maybe this shit is too OP?
-]]
 defContra("round_timer", "Round timer", {
     activateDescription = loc("Decreases Round by 1"),
     triggers = {},
 
     doomCount = 1,
 
-    rarity = lp.rarities.EPIC,
+    rarity = lp.rarities.LEGENDARY,
 
     onActivate = function (ent)
         local round = lp.getAttribute("ROUND", ent)

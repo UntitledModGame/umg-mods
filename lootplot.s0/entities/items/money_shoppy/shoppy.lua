@@ -81,7 +81,7 @@ defItem("a_backwards_loan", {
     baseMaxActivations = 1,
 
     canItemFloat = true,
-    rarity = lp.rarities.EPIC,
+    rarity = lp.rarities.LEGENDARY,
 })
 
 
