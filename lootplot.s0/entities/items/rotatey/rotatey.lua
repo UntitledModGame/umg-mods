@@ -286,7 +286,7 @@ defRecord("record_golden", "Golden Record", {
 })
 
 
-defItem("record_white", "White Record", {
+defRecord("record_white", "White Record", {
     baseMultGenerated = 3,
     basePrice = 12,
 
