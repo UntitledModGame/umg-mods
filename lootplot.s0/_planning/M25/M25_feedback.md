@@ -32,6 +32,24 @@
 --> (C) Lock items behind metaprogression system
 
 
+- MICHAEL FEEDBACK: Description in corner (age of wonders 4)
+
+- MICHAEL FEEDBACK: Ruby shovel/shovel items feel weak? Or kinda useless?
+- IDEA: Make them mult-scaling instead? Or give another purpose to them?
+- IDEA-2: Make them like crossbow, but buffs mult instead!
+
+- MICHAEL FEEDBACK: Reroll builds dont feel good. 
+They just feel like Pulse builds, but kinda shit.
+--> SOLUTION IDEA:
+- More Reroll-items that scale
+- Reroll items that need to be activated multiple times, eg: "When rerolled 3 times, do XYZ"
+- Buff
+
+
+- MICHAEL FEEDBACK: `/help` crashes the game
+
+
+
 - (C) Sheepollution/Michael/Zomebody: 
 Confused as to why the Pulse-button subtracted 10.
 --> (C) In the tutorial, maybe it should say: "Bonus is reset after the pulse is done"

@@ -92,8 +92,8 @@ end
 defShards("golden_shards", "Golden Shards",
     goldShardActivate,
     "Make slots earn {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} and steal 50 points.\nThen, destroy self.", {
-    rarity = lp.rarities.UNCOMMON,
-    basePrice = 10,
+    rarity = lp.rarities.RARE,
+    basePrice = 12,
 })
 
 end

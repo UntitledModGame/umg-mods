@@ -292,7 +292,7 @@ defineFood("raspberry", {
 
     rarity = lp.rarities.EPIC,
 
-    basePrice = 12,
+    basePrice = 16,
 
     shape = lp.targets.UpShape(1),
     target = {
@@ -587,7 +587,7 @@ end)
 
 
 defineSlotSpawner("dragonfruit", "Dragonfruit", "slot", "Basic Slots", lp.targets.RookShape(1), {
-    basePrice = 20,
+    basePrice = 15,
     rarity = lp.rarities.RARE
 })
 
