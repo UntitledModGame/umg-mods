@@ -151,15 +151,19 @@
 ~~- Gold metal cube: On Rotate/Unlock, earn $5. GRUB-10.~~
 
 
+~~- Animation when legendary spawns (try capture player attention)~~
+~~- (Glow around EPIC items too to draw attention to them?)~~
+~~- ^^^ ONLY WHEN IN SHOP-SLOT OR CLOUD-SLOT~`
+
+
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
 
-- Animation when legendary spawns (try capture player attention)
-- (Glow around EPIC items too to draw attention to them?)
-- ^^^ ONLY WHEN IN SHOP-SLOT OR CLOUD-SLOT
+
+- Make round-modifying items LEGENDARY
 
 
 - plan what items should be unlocked at the start of the game   
@@ -168,9 +172,8 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 - IMPORTANT: PLAN AN API FOR UNLOCKING ITEMS!!!
 - (Complex items should be locked for the demo too! Ideally we should use the same API for this)
 
-
 - Add item unlock infrastructure
-- (Create "UNLOCKED" popup UI widget when the game is won?)
+- NO NEED TO ADD AN "UNLOCKED" POPUP- IMO, too complicated. Just unlock items without any indicator, its "fine"
 
 
 - Add Metta's/Ravi's BGMs to the game

@@ -7,9 +7,82 @@ local constants = require("shared.constants")
 local itemGenHelper = require("shared.item_gen_helper")
 
 
+
+
+local drawRarityParticles
+if client then
+
+local RARITY_PSYS
+
+local function tryLoadPsys()
+    if RARITY_PSYS then
+        return
+    end
+
+    RARITY_PSYS = love.graphics.newParticleSystem(client.atlas:getTexture())
+    RARITY_PSYS:setQuads({
+        -- client.assets.images.item_rarity_particle_1,
+        -- client.assets.images.item_rarity_particle_2,
+        -- client.assets.images.item_rarity_particle_3,
+        -- client.assets.images.item_rarity_particle_4,
+        -- client.assets.images.item_rarity_particle_5,
+        -- client.assets.images.item_rarity_particle_6,
+        -- client.assets.images.item_rarity_particle_7,
+
+        client.assets.images.ball_1,
+        client.assets.images.ball_1,
+        client.assets.images.ball_1,
+        client.assets.images.ball_2,
+        client.assets.images.ball_2,
+        client.assets.images.ball_3,
+        client.assets.images.ball_4,
+    })
+
+    RARITY_PSYS:setEmissionRate(16)
+    RARITY_PSYS:setEmissionArea("normal", 3, 1)
+    RARITY_PSYS:setSpeed(10,11)
+    RARITY_PSYS:setParticleLifetime(1.3,1.4)
+    RARITY_PSYS:setDirection(-math.pi/2)
+end
+
+
+umg.on("@update", function(dt)
+    tryLoadPsys()
+    RARITY_PSYS:update(dt)
+end)
+
+
+local SIGNIFICANT_RARITIES = {
+    [lp.rarities.EPIC] = true,
+    [lp.rarities.LEGENDARY] = true
+}
+
+function drawRarityParticles(ent, x, y)
+    local itemEnt = lp.slotToItem(ent)
+
+    if itemEnt and itemEnt.rarity and RARITY_PSYS then
+        ---@type lootplot.rarities.Rarity
+        local r = itemEnt.rarity
+        if SIGNIFICANT_RARITIES[r] then
+            local color = r.color
+            love.graphics.push("all")
+            love.graphics.setColor(color)
+            love.graphics.draw(RARITY_PSYS, x, y)
+            love.graphics.pop()
+        end
+    end
+end
+
+
+end
+
+
 local function defShopSlot(id, name, etype)
     etype.name = loc(name)
     etype.image = etype.image or id
+
+    assert(not etype.onDraw, "onDraw is overridden!! blergh")
+    etype.onDraw = drawRarityParticles
 
     etype.rarity = etype.rarity or lp.rarities.UNCOMMON
 
@@ -529,9 +602,8 @@ local cloudPickButton = {
     color = objects.Color(0.39,0.66,0.24),
 }
 
-lp.defineSlot("lootplot.s0:cloud_slot", {
-    image = "cloud_slot",
-    name = loc("Cloud slot"),
+
+defShopSlot("cloud_slot", "Cloud slot", {
     activateDescription = loc("When picked, destroy nearby cloud slots."),
 
     rarity = lp.rarities.UNIQUE,
