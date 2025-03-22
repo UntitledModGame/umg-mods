@@ -937,18 +937,18 @@ defineFood("golden_syrup", {
 
 defineFood("slice_of_cake", {
     name = loc("Slice of Cake"),
-    activateDescription = loc("Gives target item/slot {lootplot:POINTS_COLOR}+3{/lootplot:POINTS_COLOR} points"),
+    activateDescription = loc("Gives target item/slot {lootplot:POINTS_COLOR}+5{/lootplot:POINTS_COLOR} points"),
 
     rarity = lp.rarities.RARE,
 
-    shape = lp.targets.KING_SHAPE,
+    shape = lp.targets.RookShape(1),
 
     basePrice = 5,
 
     target = {
         type = "ITEM_OR_SLOT",
         activate = function(selfEnt, ppos, ent)
-            lp.modifierBuff(ent, "pointsGenerated", 3)
+            lp.modifierBuff(ent, "pointsGenerated", 5)
         end
     }
 })
