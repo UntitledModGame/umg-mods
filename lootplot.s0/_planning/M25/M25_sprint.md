@@ -156,14 +156,13 @@
 ~~- ^^^ ONLY WHEN IN SHOP-SLOT OR CLOUD-SLOT~~
 
 
+~~- Make round-modifying items LEGENDARY~~
+
+
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
-
-
-
-- Make round-modifying items LEGENDARY
 
 
 - plan what items should be unlocked at the start of the game   

@@ -411,7 +411,7 @@ defDestructive("unholy_bible", "Unholy Bible", {
 
 
 defDestructive("crimson_leather", "Crimson Leather", {
-    activateDescription = loc("Gives {lootplot:POINTS_MULT_COLOR}+0.3 mult{/lootplot:POINTS_MULT_COLOR} to items with {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} trigger"),
+    activateDescription = loc("Gives {lootplot:POINTS_MULT_COLOR}+0.3 mult{/lootplot:POINTS_MULT_COLOR} to items, and then destroys them"),
 
     rarity = lp.rarities.RARE,
 
@@ -423,11 +423,9 @@ defDestructive("crimson_leather", "Crimson Leather", {
 
     target = {
         type = "ITEM",
-        filter = function(selfEnt, ppos, targetEnt)
-            return lp.hasTrigger(targetEnt, "DESTROY")
-        end,
         activate = function(selfEnt, ppos, targetEnt)
             lp.modifierBuff(targetEnt, "multGenerated", 0.5, selfEnt)
+            lp.destroy(targetEnt)
         end
     },
 })
@@ -435,7 +433,7 @@ defDestructive("crimson_leather", "Crimson Leather", {
 
 
 defDestructive("teal_leather", "Teal Leather", {
-    activateDescription = loc("Gives {lootplot:BONUS_COLOR}+3 Bonus{/lootplot:BONUS_COLOR} to items with {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} trigger"),
+    activateDescription = loc("Gives {lootplot:BONUS_COLOR}+3 Bonus{/lootplot:BONUS_COLOR} to items, then destroys them"),
 
     rarity = lp.rarities.RARE,
 
@@ -447,11 +445,9 @@ defDestructive("teal_leather", "Teal Leather", {
 
     target = {
         type = "ITEM",
-        filter = function(selfEnt, ppos, targetEnt)
-            return lp.hasTrigger(targetEnt, "DESTROY")
-        end,
         activate = function(selfEnt, ppos, targetEnt)
             lp.modifierBuff(targetEnt, "bonusGenerated", 3, selfEnt)
+            lp.destroy(targetEnt)
         end
     },
 })

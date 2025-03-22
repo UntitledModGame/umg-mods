@@ -49,7 +49,7 @@ end
 
 do
 local ACTIV_BUFF = 2
-local BONUS_DEBUFF = 1
+local BONUS_DEBUFF = 3
 
 defItem("anvil", "Anvil", {
     triggers = {"PULSE"},
