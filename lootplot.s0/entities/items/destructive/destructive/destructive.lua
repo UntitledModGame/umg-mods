@@ -186,8 +186,10 @@ defDestructive("tooth_necklace", "Tooth Necklace", {
 
 
 
+-- LONE SWORD ITEMS:
+do
 
-defDestructive("lone_sword", "Lone Sword", {
+defDestructive("water_sword", "Water Sword", {
     basePrice = 12,
     baseMaxActivations = 10,
     baseBonusGenerated = 15,
@@ -205,6 +207,28 @@ defDestructive("lone_sword", "Lone Sword", {
     }
 })
 
+
+defDestructive("lava_sword", "Lava Sword", {
+    basePrice = 12,
+    baseMaxActivations = 5,
+    baseMultGenerated = 1,
+
+    repeatActivations = true,
+
+    rarity = lp.rarities.RARE,
+    shape = lp.targets.RookShape(3),
+
+    activateDescription = loc("Destroys items."),
+
+    target = {
+        type = "ITEM",
+        activate = function(ent, ppos, itemEnt)
+            lp.destroy(itemEnt)
+        end,
+    }
+})
+
+end
 
 
 
