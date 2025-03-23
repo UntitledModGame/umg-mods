@@ -85,6 +85,24 @@ defItem("leather", "Leather", {
 
 
 
+
+defItem("goblet_of_blood", "Goblet of Blood", {
+    triggers = {"PULSE"},
+
+    rarity = lp.rarities.RARE,
+
+    basePrice = 12,
+    baseMaxActivations = 20,
+    baseMultGenerated = 1.5,
+    baseMoneyGenerated = -1,
+    repeatActivations = true
+})
+
+
+
+
+
+
 local RED_FLAG_MULT = 8
 --[[
 If mult < 1, add +X mult

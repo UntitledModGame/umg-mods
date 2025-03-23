@@ -211,40 +211,6 @@ defDestructive("lone_sword", "Lone Sword", {
 
 
 
---[[
-
-TODO: Refactor this item!
-It's not interesting.
-
-We can do WAY better, imo.
-This item literally doesnt synergize with *anything.*
-
-]]
-defDestructive("goblet_of_blood", "Goblet of Blood", {
-    rarity = lp.rarities.EPIC,
-    doomCount = 10,
-
-    basePointsGenerated = 1,
-
-    activateDescription = loc("Doubles its own points-generated!"),
-
-    basePrice = 8,
-    baseMaxActivations = 10,
-
-    listen = {
-        type = "ITEM",
-        trigger = "DESTROY",
-        activate = function(selfEnt, ppos, targetEnt)
-            local points = selfEnt.pointsGenerated
-            lp.modifierBuff(selfEnt, "pointsGenerated", points, selfEnt)
-        end,
-    },
-
-    shape = lp.targets.LARGE_KING_SHAPE,
-})
-
-
-
 defDestructive("pink_mitten", "Pink Mitten", {
     onActivate = function(ent)
         ent.lives = (ent.lives or 0) + 1
