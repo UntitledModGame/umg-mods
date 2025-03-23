@@ -27,7 +27,7 @@ defineCat("copycat", {
         end
     end,
 
-    rarity = lp.rarities.EPIC,
+    rarity = lp.rarities.RARE,
 
     basePrice = 0,
     baseMaxActivations = 10,
@@ -106,7 +106,7 @@ defineCat("copykitten", {
     basePrice = 0,
     baseMaxActivations = 3,
     basePointsGenerated = 5,
-    doomCount = 4,
+    doomCount = 6,
 
     canItemFloat = true,
 
