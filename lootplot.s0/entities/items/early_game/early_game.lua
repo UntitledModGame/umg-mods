@@ -310,6 +310,7 @@ lp.defineItem("lootplot.s0:trumpet", {
     basePrice = 5,
 
     basePointsGenerated = 8,
+    baseMultGenerated = 0.2,
 
     -- just for the funni
     onActivateClient = function(ent)
