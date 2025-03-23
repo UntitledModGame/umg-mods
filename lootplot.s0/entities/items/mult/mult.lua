@@ -66,9 +66,7 @@ plan others.
 
 
 
---[[
-Leather's "purpose" is to give intuition about the `global-mult` system.
-]]
+
 defItem("leather", "Leather", {
     triggers = {"PULSE"},
 
@@ -77,9 +75,24 @@ defItem("leather", "Leather", {
     basePrice = 6,
 
     baseMaxActivations = 5,
-    baseMultGenerated = -0.1,
-    basePointsGenerated = 30
+    baseMultGenerated = 0.6,
+    baseBonusGenerated = -5
+})
 
+
+--[[
+Opposite of leather!
+]]
+defItem("red_leather", "Red Leather", {
+    triggers = {"PULSE"},
+
+    rarity = lp.rarities.UNCOMMON,
+
+    basePrice = 6,
+
+    baseMaxActivations = 5,
+    baseBonusGenerated = 4,
+    basePointsGenerated = -20,
 })
 
 
@@ -122,23 +135,6 @@ defItem("red_flag", "Red Flag", {
             lp.addPointsMult(ent, RED_FLAG_MULT)
         end
     end
-})
-
-
-
---[[
-Opposite of leather!
-]]
-defItem("red_leather", "Red Leather", {
-    triggers = {"PULSE"},
-
-    rarity = lp.rarities.UNCOMMON,
-
-    basePrice = 6,
-
-    baseMaxActivations = 5,
-    baseMultGenerated = 0.5,
-    basePointsGenerated = -20
 })
 
 
