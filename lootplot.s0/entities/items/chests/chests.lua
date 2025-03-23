@@ -78,26 +78,31 @@ defChest("chest_diamond", "Diamond Chest", {
 
 
 
+---@param etype EntityType
+---@return boolean
+local function noFood(etype)
+    ---@cast etype table
+    if lp.hasTag(etype, constants.tags.FOOD) then
+        return false
+    end
+    return true
+end
+
+
 
 do
 local generateItem = itemGenHelper.createLazyGenerator(
-    function(etype)
-        ---@cast etype table
-        if lp.hasTag(etype, constants.tags.FOOD) then
-            return false
-        end
-        return true
-    end,
+    noFood,
     itemGenHelper.createRarityWeightAdjuster({
         EPIC = 1,
-        LEGENDARY = 0.01
+        LEGENDARY = 0.03
     })
 )
 
 defChest("chest_epic", "Epic Chest", {
     rarity = lp.rarities.EPIC,
 
-    activateDescription = loc("Spawns an item that that is %{EPIC} or above", {
+    activateDescription = loc("Spawns an random item that is %{EPIC} or above", {
         EPIC = lp.rarities.EPIC.displayString
     }),
     baseMoneyGenerated = 10,
@@ -113,6 +118,36 @@ defChest("chest_epic", "Epic Chest", {
 
 end
 
+
+
+
+do
+local generateItem = itemGenHelper.createLazyGenerator(
+    noFood,
+    itemGenHelper.createRarityWeightAdjuster({
+        RARE = 1
+    })
+)
+
+defChest("chest_rare", "Rare Chest", {
+    rarity = lp.rarities.UNCOMMON,
+
+    activateDescription = loc("Spawns a random %{RARE} item", {
+        RARE = lp.rarities.RARE.displayString
+    }),
+
+    basePrice = 1,
+
+    onActivate = function(ent)
+        local ppos = lp.getPos(ent)
+        local etype = server.entities[generateItem()]
+        if ppos and etype then
+            lp.forceSpawnItem(ppos, etype, ent.lootplotTeam)
+        end
+    end
+})
+
+end
 
 
 
