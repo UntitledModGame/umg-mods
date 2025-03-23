@@ -37,6 +37,7 @@ local function defineSword(mineral_type, name, strength, etype)
         name = loc(name .. " Sword"),
 
         basePointsGenerated = math.floor(10 * strength),
+        baseBonusGenerated = -strength,
 
         rarity = etype.rarity or lp.rarities.UNCOMMON,
 
