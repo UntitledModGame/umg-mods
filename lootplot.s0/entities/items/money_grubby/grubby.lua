@@ -39,6 +39,35 @@ end
 
 
 
+do
+GRUB_MULT = 2
+
+defGrubby("hay_bale", "Hay Bale", {
+    triggers = {"PULSE"},
+    activateDescription = loc("Earns {lootplot:POINTS_MULT_COLOR}+%{mult} mult{/lootplot:POINTS_MULT_COLOR} for each targetted {lootplot:GRUB_COLOR_LIGHT}GRUBBY{/lootplot:GRUB_COLOR_LIGHT} item", {
+        mult = GRUB_MULT
+    }),
+
+    basePrice = 10,
+    baseMaxActivations = 6,
+
+    shape = lp.targets.QueenShape(2),
+    target = {
+        type = "ITEM",
+        filter = function(selfEnt, ppos, targEnt)
+            return targEnt.grubMoneyCap
+        end,
+        activate = function(selfEnt, ppos, targEnt)
+            lp.addPointsMult(selfEnt, GRUB_MULT)
+        end
+    },
+
+    rarity = lp.rarities.RARE,
+})
+
+end
+
+
 
 
 defGrubby("spare_coins", "Spare Coins", {
