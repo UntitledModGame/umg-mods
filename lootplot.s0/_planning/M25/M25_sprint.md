@@ -184,6 +184,13 @@ https://discord.com/channels/863625920991854602/863625920991854605/1352072030190
 (INCOMPLETE:) https://discord.com/channels/@me/1316601752098967665/1351329652500856862
 
 
+
+- Add x64 and x86 support for linux. Currently, in `build/linux64/love.AppImage`, the appimage is x86 ONLY!
+- (Get Auahdark to help...?)
+- Alternatively, we could just put in the steam-requirements that you need an x86 compatible processor.
+
+
+
 - Make mystery-book call the same function as sliced-apple and purple-mushroom (extract to `helper`?)
 
 
