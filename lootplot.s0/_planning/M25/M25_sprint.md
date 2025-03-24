@@ -142,7 +142,6 @@
 ~~- MICHAEL FEEDBACK: Reroll builds dont feel good. They just feel like Pulse builds, but kinda shit.~~
 ~~- Reroll items that need to be activated multiple times, eg: "When rerolled 3 times, do XYZ"~~
 
-
 ~~- (SPIKE?) Make a few more `Rotate/Unlock` items that scale:~~
 ~~(futuristic-item sprites, top right)~~
 ~~- Give some LEVEL-UP items `Unlock` trigger?~~
@@ -150,20 +149,19 @@
 ~~- Blue metal cube: On Rotate/Unlock, give +3 bonus to slots (shape=ON)~~
 ~~- Gold metal cube: On Rotate/Unlock, earn $5. GRUB-10.~~
 
-
 ~~- Animation when legendary spawns (try capture player attention)~~
 ~~- (Glow around EPIC items too to draw attention to them?)~~
 ~~- ^^^ ONLY WHEN IN SHOP-SLOT OR CLOUD-SLOT~~
 
-
 ~~- Make round-modifying items LEGENDARY~~
-
 
 ~~- plan what items should be unlocked at the start of the game~~
 ~~- Add item unlock infrastructure~~
 
-
 ~~- Make mystery-book call the same function as sliced-apple and purple-mushroom (extract to `helper`?)~~
+
+~~- Add credits screen (main menu?) ~~
+
 
 
 ==========================================
@@ -171,18 +169,11 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
 
-- Add credits screen (main menu?)
-{
-    Artist(s)
-    Coders (Auahdark, skahd, myself)
-    Playtesters
-    Music
-    SFX
-}
-
-
 - lootplot.singleplayer UI: Make it so you can change SFX/Volume while paused
 
+
+- Rework some menu items 
+- Move copycat / chubby-cat / copykitten to main-menu screen-items; remove helmet items
 
 
 - SPIKE: Make analytics better.
@@ -207,6 +198,8 @@ https://discord.com/channels/863625920991854602/863625920991854605/1352078855351
 https://discord.com/channels/863625920991854602/863625920991854605/1352072030190698566
 (INCOMPLETE:) https://discord.com/channels/@me/1316601752098967665/1328218664687767573
 (INCOMPLETE:) https://discord.com/channels/@me/1316601752098967665/1351329652500856862
+
+- MUSIC: Consider adding HeatlyBro's music- Dark-Alley
 
 
 
