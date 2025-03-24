@@ -202,4 +202,66 @@ end
 
 
 
+
+
+
+do
+local rr = lp.rarities
+---@type {[1]: lootplot.rarities.Rarity, [2]: number}[]
+local weights = {
+    {rr.COMMON, 1},
+    {rr.UNCOMMON, 1},
+    {rr.RARE, 1},
+    {rr.EPIC, 0.5},
+    {rr.LEGENDARY, 0.1},
+}
+
+local slotBuffs = {
+    pointsGenerated = 10,
+    multGenerated = 0.2,
+    bonusGenerated = 1
+}
+local keys = {}
+for k,v in pairs(slotBuffs) do table.insert(keys, k) end
+
+local function buffSlotRandomly(slotEnt)
+    local prop = table.random(keys)
+    local buffAmount = slotBuffs[prop]
+    assert(buffAmount,"?? aye?")
+    if lp.SEED:randomMisc() < 0.33 then
+        -- 1/3 chance for the buff to be negative!
+        lp.modifierBuff(slotEnt, prop, -buffAmount)
+    else
+        lp.modifierBuff(slotEnt, prop, buffAmount)
+    end
+end
+
+
+---@param ppos lootplot.PPos
+---@param lootplotTeam string
+function helper.forceSpawnRandomSlot(ppos, lootplotTeam)
+    local r = generation.pickWeighted(weights)
+    local etype = lp.rarities.randomSlotOfRarity(r)
+    if etype then
+        local slotEnt = lp.forceSpawnSlot(ppos, etype, lootplotTeam)
+        if (not slotEnt.buttonSlot) and lp.SEED:randomMisc() < 0.1 then
+            slotEnt.repeatActivations = true
+            -- Limit activations to 10 so its not unreasonable
+            slotEnt.baseMaxActivations = math.min(10, slotEnt.baseMaxActivations or 10)
+        end
+
+        if lp.SEED:randomMisc() < 0.2 then
+            slotEnt.doomCount = 8
+        elseif lp.SEED:randomMisc() < 0.5 then
+            buffSlotRandomly(slotEnt)
+        end
+        return slotEnt
+    end
+end
+
+end
+
+
+
+
 return helper

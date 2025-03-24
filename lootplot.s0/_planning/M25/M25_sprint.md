@@ -163,14 +163,12 @@
 ~~- Add item unlock infrastructure~~
 
 
+~~- Make mystery-book call the same function as sliced-apple and purple-mushroom (extract to `helper`?)~~
+
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
-
-
-
-- Make mystery-book call the same function as sliced-apple and purple-mushroom (extract to `helper`?)
 
 
 - Add credits screen (main menu?)
@@ -186,15 +184,6 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 - lootplot.singleplayer UI: Make it so you can change SFX/Volume while paused
 
 
-- Add Metta's/Ravi's BGMs to the game
-- Maybe we should have 10-15 second long gaps between the songs...? Or maybe have them gradually fade in/out?
-MUSICS:
-https://discord.com/channels/863625920991854602/863625920991854605/1352078855351042140
-https://discord.com/channels/863625920991854602/863625920991854605/1352072030190698566
-(INCOMPLETE:) https://discord.com/channels/@me/1316601752098967665/1328218664687767573
-(INCOMPLETE:) https://discord.com/channels/@me/1316601752098967665/1351329652500856862
-
-
 
 - SPIKE: Make analytics better.
 MAKE SURE ITS DEFINITELY RUNNING PROPERLY BEFORE THE DEMO!!!  
@@ -206,6 +195,18 @@ Apply 80/20 rule.
 ---> Remember, we really need to focus on the players that "drop out" early;
 ie, the players that play for 20 minutes, and then quit/refund.  
 What makes them stop playing?  
+
+
+
+
+
+- Add Metta's/Ravi's BGMs to the game
+- Maybe we should have 10-15 second long gaps between the songs...? Or maybe have them gradually fade in/out?
+MUSICS:
+https://discord.com/channels/863625920991854602/863625920991854605/1352078855351042140
+https://discord.com/channels/863625920991854602/863625920991854605/1352072030190698566
+(INCOMPLETE:) https://discord.com/channels/@me/1316601752098967665/1328218664687767573
+(INCOMPLETE:) https://discord.com/channels/@me/1316601752098967665/1351329652500856862
 
 
 

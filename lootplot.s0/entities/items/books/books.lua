@@ -1,27 +1,32 @@
+
 local loc = localization.localize
 
+local helper = require("shared.helper")
 
 
 local bookTc = typecheck.assert("string", "string", "string|function", "string", "table")
 
-local function defineBook(id, name, targetSlot, targetSlotName, rarity)
+
+local function defineBook(id, name, etype)
+    etype.image = id
+    etype.name = loc(name)
+    etype.triggers = {"PULSE"}
+
+    etype.basePrice = 10
+    etype.baseMaxActivations = 10
+
+    etype.doomCount = 20
+    etype.shape = lp.targets.UP_SHAPE
+
+    lp.defineItem(  "lootplot.s0:" .. id, etype)
+end
+
+local function defineBasicBook(id, name, targetSlot, targetSlotName, rarity)
     bookTc(id, name, targetSlot, targetSlotName, rarity)
-    return lp.defineItem("lootplot.s0:"..id, {
-        image = id,
-        name = loc(name),
-
-        triggers = {"PULSE"},
-
+    local etype = {
         rarity = rarity,
 
-        doomCount = 10,
-
-        shape = lp.targets.UP_SHAPE,
-
-        basePrice = 15,
-        baseMaxActivations = 10,
-
-        activateDescription = loc("Converts target slot(s) into " .. targetSlotName),
+        activateDescription = loc("Converts slot(s) into " .. targetSlotName),
 
         target = {
             type = "SLOT",
@@ -41,35 +46,37 @@ local function defineBook(id, name, targetSlot, targetSlotName, rarity)
                 lp.forceSpawnSlot(ppos, slotEType, selfEnt.lootplotTeam)
             end
         }
-    })
+    }
+
+    return defineBook(id, name, etype)
 end
 
 -- FIXME: Ensure slots are defined, then remove the need to specify slot name.
-defineBook("book_of_basics",
+defineBasicBook("book_of_basics",
     "Book of Basics",
     "slot",
     "Normal Slot",
     lp.rarities.RARE
 )
-defineBook("book_of_rerolling",
+defineBasicBook("book_of_rerolling",
     "Book of Rerolling",
     "reroll_slot",
     "Reroll Slot",
     lp.rarities.EPIC
 )
-defineBook("book_of_shopping",
+defineBasicBook("book_of_shopping",
     "Book of Shopping",
     "shop_slot",
     "Shop Slot",
     lp.rarities.EPIC
 )
-defineBook("book_of_selling",
+defineBasicBook("book_of_selling",
     "Book of Selling",
     "sell_slot",
     "Sell Slot",
     lp.rarities.EPIC
 )
-defineBook("empty_book",
+defineBasicBook("empty_book",
     "Empty book",
     "null_slot",
     "Null Slot",
@@ -77,24 +84,15 @@ defineBook("empty_book",
 )
 
 
-local mystery_slot_pool = {
-    "null_slot", "reroll_slot",
-    "dirt_slot", "glass_slot",
-    "reroll_button_slot",
-    "diamond_slot",
-    "golden_slot"
-}
+defineBook("book_of_mystery", "Book of Mystery", {
+    rarity = lp.rarities.RARE,
+    activateDescription = loc("Randomizes slots"),
 
-defineBook("book_of_mystery",
-    "Book of Mystery",
-    function()
-        --[[
-        TODO: Use a proper query here please!!!
-        ]]
-        local rng = lp.SEED.miscRNG
-        return table.random(mystery_slot_pool, rng)
-    end,
-    "{wavy amp=2}{lootplot:TRIGGER_COLOR}???{/lootplot:TRIGGER_COLOR}{/wavy}",
-    lp.rarities.RARE
-)
+    target = {
+        type = "SLOT",
+        activate = function(selfEnt, ppos, targEnt)
+            helper.forceSpawnRandomSlot(ppos, selfEnt.lootplotTeam)
+        end
+    },
+})
 
