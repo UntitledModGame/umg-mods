@@ -162,18 +162,16 @@
 
 ~~- Add credits screen (main menu?) ~~
 
+~~- Update physics-items in UMG-core lootplot menu~~
+~~- Add copycat / chubby-cat / copykitten? remove helmet items?~~
+
+~~- lootplot.singleplayer UI: Make it so you can change SFX/Volume while paused~~
+
 
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
-
-
-- lootplot.singleplayer UI: Make it so you can change SFX/Volume while paused
-
-
-- Rework some menu items 
-- Move copycat / chubby-cat / copykitten to main-menu screen-items; remove helmet items
 
 
 - SPIKE: Make analytics better.
@@ -186,8 +184,6 @@ Apply 80/20 rule.
 ---> Remember, we really need to focus on the players that "drop out" early;
 ie, the players that play for 20 minutes, and then quit/refund.  
 What makes them stop playing?  
-
-
 
 
 

@@ -12,8 +12,8 @@ local settingManager = require("shared.setting_manager")
 local Scene = ui.Element("lootplot.singleplayer:Screen")
 
 local strings = {
-    SPEED_NORM = localization.localize("Speed: Normal"),
-    SPEED = localization.newInterpolator("Speed: %{num:.3g}x")
+    SPEED_NORM = localization.localize("Game Speed: Normal"),
+    SPEED = localization.newInterpolator("Game Speed: %{num:.3g}x")
 }
 
 ---@param value number
