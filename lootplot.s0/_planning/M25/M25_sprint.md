@@ -159,35 +159,14 @@
 ~~- Make round-modifying items LEGENDARY~~
 
 
+~~- plan what items should be unlocked at the start of the game~~
+~~- Add item unlock infrastructure~~
+
+
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
-
-
-- plan what items should be unlocked at the start of the game   
-    --> rotate items should start locked  
-    --> destructive-archetype should probably start locked too?  
-- IMPORTANT: PLAN AN API FOR UNLOCKING ITEMS!!!
-- (Complex items should be locked for the demo too! Ideally we should use the same API for this)
-
-- Add item unlock infrastructure
-- NO NEED TO ADD AN "UNLOCKED" POPUP- IMO, too complicated. Just unlock items without any indicator, its "fine"
-
-
-- Add Metta's/Ravi's BGMs to the game
-- Maybe we should have 10-15 second long gaps between the songs...? Or maybe have them gradually fade in/out?
-MUSICS:
-https://discord.com/channels/863625920991854602/863625920991854605/1352078855351042140
-https://discord.com/channels/863625920991854602/863625920991854605/1352072030190698566
-(INCOMPLETE:) https://discord.com/channels/@me/1316601752098967665/1328218664687767573
-(INCOMPLETE:) https://discord.com/channels/@me/1316601752098967665/1351329652500856862
-
-
-
-- Add x64 and x86 support for linux. Currently, in `build/linux64/love.AppImage`, the appimage is x86 ONLY!
-- (Get Auahdark to help...?)
-- Alternatively, we could just put in the steam-requirements that you need an x86 compatible processor.
 
 
 
@@ -207,6 +186,16 @@ https://discord.com/channels/863625920991854602/863625920991854605/1352072030190
 - lootplot.singleplayer UI: Make it so you can change SFX/Volume while paused
 
 
+- Add Metta's/Ravi's BGMs to the game
+- Maybe we should have 10-15 second long gaps between the songs...? Or maybe have them gradually fade in/out?
+MUSICS:
+https://discord.com/channels/863625920991854602/863625920991854605/1352078855351042140
+https://discord.com/channels/863625920991854602/863625920991854605/1352072030190698566
+(INCOMPLETE:) https://discord.com/channels/@me/1316601752098967665/1328218664687767573
+(INCOMPLETE:) https://discord.com/channels/@me/1316601752098967665/1351329652500856862
+
+
+
 - SPIKE: Make analytics better.
 MAKE SURE ITS DEFINITELY RUNNING PROPERLY BEFORE THE DEMO!!!  
 Do really good planning.  
@@ -217,6 +206,15 @@ Apply 80/20 rule.
 ---> Remember, we really need to focus on the players that "drop out" early;
 ie, the players that play for 20 minutes, and then quit/refund.  
 What makes them stop playing?  
+
+
+
+- Add x64 and x86 support for linux. Currently, in `build/linux64/love.AppImage`, the appimage is x86 ONLY!
+- ALSO, ANOTHER IMPORTANT NOTE: Linux doesnt work anyway!!! (0 bytes, doesnt install anything???)
+- (Get Auahdark to help...?)
+- We could also just put in the steam-requirements that you need an x86 compatible processor.
+
+
 
 
 - Limit number of rounds to 30 for the demo...?
