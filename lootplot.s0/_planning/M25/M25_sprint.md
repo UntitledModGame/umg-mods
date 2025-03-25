@@ -184,13 +184,9 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
 
+- ITEM ADJUSTMENT:  Diamond Chest:
+- Make it doomed-2. Right now its OP
 
-- Apply 80/20 rule:
-- What insights are easy to gather, but have high impact? 
-- What will be the most impactful in terms of player-retention?
----> Remember, we really need to focus on the players that "drop out" early;
-ie, the players that play for 20 minutes, and then quit/refund.  
-What makes them stop playing?  
 
 
 LOOTPLOT BALANCING IDEA:
@@ -228,10 +224,6 @@ Increase money limit to $200
 
 - When you hover an item, and use WASD to move, the item hover stays the same.
 - We can fix this by just calling onUpdate to check the hover
-
-
-- ITEM ADJUSTMENT:  Diamond Chest:
-- Make it doomed-2. Right now its OP
 
 
 - Re-create trailer (follow same structure as old trailer tho.)

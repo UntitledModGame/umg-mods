@@ -47,6 +47,7 @@ defChest("chest_diamond", "Diamond Chest", {
         end
     },
 
+    doomCount = 2,
     rarity = lp.rarities.RARE,
 })
 

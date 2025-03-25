@@ -63,6 +63,8 @@ end
 ---@param plot lootplot.Plot
 ---@return string[]
 local function getAllItems(plot)
+    -- a string list of items on the plot:
+    -- {"lootplot.s0:dragonfruit", "lootplot.s0:blueberry", "iron_sword"}
     local allItems = {}
     local itemSet = {}
     plot:foreachItem(function(itemEnt, _ppos)
