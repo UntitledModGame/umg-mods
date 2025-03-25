@@ -167,6 +167,7 @@
 
 ~~- lootplot.singleplayer UI: Make it so you can change SFX/Volume while paused~~
 
+~~Iron sword, ruby sword, etc should all subtract 1 bonus. It shouldnt scale with strength!! ~~
 
 
 ==========================================
@@ -175,16 +176,56 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 
 
 
-- SPIKE: Make analytics better.
-MAKE SURE ITS DEFINITELY RUNNING PROPERLY BEFORE THE DEMO!!!  
-Do really good planning.  
-What sort of information do we want to gain from analytics?  
-Apply 80/20 rule.  
-- What insights are easy to gather, but have high impact?  
+- SPIKE: PLAN / Make analytics better. What information do we want to gain?  
+- Apply 80/20 rule:
+- What insights are easy to gather, but have high impact? 
 - What will be the most impactful in terms of player-retention?
 ---> Remember, we really need to focus on the players that "drop out" early;
 ie, the players that play for 20 minutes, and then quit/refund.  
 What makes them stop playing?  
+
+
+
+LOOTPLOT BALANCING IDEA:
+We need to make the game more fun for veteran players.
+We need more of a difficulty distribution across different starting items!
+--->    
+We should reduce the money earned by pulse-button,
+and INCREASE the money earned by one-ball, and buff the early game starter items.
+--->    
+PULSE BUTTON:
+Earns $2 less per round
+--->    
+One-ball: Earns $4 per round instead of $2
+--->    
+4-ball: Has 2 extra rounds rather than 1
+--->    
+orange-ball:  Starts with a golden record
+--->    
+LATER-GAME STARTING ITEMS:
+Start with slots that steal money!
+--->    
+MONEY LIMIT:
+Increase money limit to $200
+
+
+
+- SPELLING ERROR: "targetted" should be spelled "targeted"
+
+
+- When you hover an item, and use WASD to move, the item hover stays the same.
+- We can fix this by just calling onUpdate to check the hover
+
+
+- ITEM ADJUSTMENT:  Diamond Chest:
+- Make it doomed-2. Right now its OP
+
+
+- Re-create trailer (follow same structure as old trailer tho.)
+- Ensure visual-variation!!! (different backgrounds!!!)
+
+
+- Make steam-page for demo
 
 
 
