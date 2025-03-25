@@ -169,6 +169,15 @@
 
 ~~Iron sword, ruby sword, etc should all subtract 1 bonus. It shouldnt scale with strength!! ~~
 
+~~- SPIKE: PLAN / Make analytics better. What information do we want to gain?  ~~
+
+~~- CREATE ANALYTICS:~~
+~~- startNewRun~~
+~~- completeLevel~~
+~~- buyItem~~
+~~- winGame~~
+
+
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
@@ -176,14 +185,12 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 
 
 
-- SPIKE: PLAN / Make analytics better. What information do we want to gain?  
 - Apply 80/20 rule:
 - What insights are easy to gather, but have high impact? 
 - What will be the most impactful in terms of player-retention?
 ---> Remember, we really need to focus on the players that "drop out" early;
 ie, the players that play for 20 minutes, and then quit/refund.  
 What makes them stop playing?  
-
 
 
 LOOTPLOT BALANCING IDEA:
@@ -207,6 +214,12 @@ Start with slots that steal money!
 --->    
 MONEY LIMIT:
 Increase money limit to $200
+
+
+
+
+- Put "LOOTPLOT DEMO" text top right, 
+- so people (A) can tell what the game is if viewing screenshots, and (B) understand that its a demo version
 
 
 
@@ -248,14 +261,8 @@ https://discord.com/channels/863625920991854602/863625920991854605/1352072030190
 
 
 
-BUG WITH SERIALIZING:
-Matt got the same issue with the grid.
-Looked like a serialization fail, where it packs stuff into a flat array but doesnt get the order right
-Try reproduce the bug again. Its possible another issue with arrays.
-
-
-
-- Limit number of rounds to 30 for the demo...?
+- DEMO LIMITATION: We should only let the player win 1 game. After they have won, dont let them play again.
+- (This works well, because the player is most likely to want to play more right after winning.)
 
 
 - Gather list of streamers/yters to send keys to

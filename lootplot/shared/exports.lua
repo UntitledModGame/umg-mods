@@ -1577,6 +1577,11 @@ lp.metaprogression.defineStat("lootplot:WIN_COUNT", 0)
 
 
 function lp.getWinCount()
+    -- gets the win count stored on this machines.
+    -- NOTE: If you are playing multiplayer, this will return the win count
+    -- of the HOST. Not any other player!!!
+
+    -- (ultimately, stats are only really meaningful in singleplayer modes)
     return lp.metaprogression.getStat("lootplot:WIN_COUNT")
 end
 

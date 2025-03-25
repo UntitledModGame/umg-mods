@@ -34,22 +34,20 @@ function NewRunState:init(cancelAction)
         backgrounds = backgrounds,
         lastSelectedBackground = selected,
 
-        -- BIG TODO AND FIXME
-        -- Currently we picked first option.
-        -- We should create worldgen selection screen for it though.
         startNewRun = function(startingItemName, background)
-            umg.analytics.collect("lootplot.singleplayer:newRun", {
-                starterItem = startingItemName,
-                worldgenItem = lp.worldgen.WORLDGEN_ITEMS[1],
-                hadRun = not not cancelRun,
-                background = background
+            umg.analytics.collect("lootplot.singleplayer:startNewRun", {
+                playerWinCount = lp.getWinCount(),
+                chosenStartingItem = startingItemName,
+                chosenBackground = background
             })
 
             state.pop(self)
             state.push(LPState(), Z_ORDER.LOOTPLOT_STATE)
             settingManager.setLastSelectedBackground(background)
 
-            -- TODO: Proper setup options
+            -- BIG TODO AND FIXME
+            -- Currently we picked first option for worldgen item.
+            -- Perhaps we create worldgen selection screen...?
             return runManager.sendStartRunPacket({
                 starterItem = startingItemName,
                 worldgenItem = lp.worldgen.WORLDGEN_ITEMS[1],

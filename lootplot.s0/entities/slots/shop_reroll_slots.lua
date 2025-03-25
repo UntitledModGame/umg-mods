@@ -137,6 +137,23 @@ local LOCK_REROLL_BUTTON = {
 
 
 
+
+local entNumTc = typecheck.assert("entity", "number")
+local function buyItemAnalytics(itemEnt, itemPrice)
+    assert(server, "should only be called server-side")
+    entNumTc(itemEnt, itemPrice)
+
+    umg.analytics.collect("lootplot.s0:buyItem", {
+        playerWinCount = lp.getWinCount(),
+        level = lp.getLevel(itemEnt),
+        money = lp.getMoney(itemEnt),
+        itemId = itemEnt:getTypename(),
+        itemPrice = itemPrice, -- cloud slots pass price=0
+    })
+end
+
+
+
 local BUY_TEXT = interp("BUY ($%{price})")
 
 
@@ -154,6 +171,7 @@ local function shopButtonBuyItem(slotEnt)
         setRerollLock(slotEnt, false)
         local itemEnt = lp.slotToItem(slotEnt)
         if itemEnt then
+            buyItemAnalytics(itemEnt, itemEnt.price)
             lp.subtractMoney(slotEnt, itemEnt.price)
             lp.tryTriggerEntity("BUY", itemEnt)
             setItemLock(slotEnt, false)
@@ -572,6 +590,7 @@ local cloudPickButton = {
         if server then
             deleteAttachedCloudSlots(ent)
             if itemEnt then
+                buyItemAnalytics(itemEnt, itemEnt.price or 0)
                 lp.tryTriggerEntity("BUY", itemEnt)
             end
             local ppos = lp.getPos(ent)

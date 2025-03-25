@@ -59,6 +59,52 @@ local function deleteAllButtonSlots(plot)
 end
 
 
+
+---@param plot lootplot.Plot
+---@return string[]
+local function getAllItems(plot)
+    local allItems = {}
+    local itemSet = {}
+    plot:foreachItem(function(itemEnt, _ppos)
+        local itemId = itemEnt:getTypename()
+        if not itemSet[itemId] then
+            table.insert(allItems, itemId)
+        end
+        itemSet[itemId] = true
+    end)
+    return allItems
+end
+
+
+
+local function loseGame(ent, plot)
+    lp.loseGame(ent.lootplotTeam)
+
+    umg.analytics.collect("lootplot.s0:loseGame", {
+        playerWinCount = lp.getWinCount(),
+        items = getAllItems(plot),
+    })
+
+    -- destroy all button-slots:
+    deleteAllButtonSlots(plot)
+end
+
+
+
+---@param plot lootplot.Plot
+local function winGame(plot)
+    -- oh damn!! GG! :)
+    umg.analytics.collect("lootplot.s0:winGame", {
+        playerWinCount = lp.getWinCount(),
+        items = getAllItems(plot),
+    })
+    lp.winGame(server.getHostClient())
+    deleteAllButtonSlots(plot)
+end
+
+
+
+
 local function buttonOnDraw(ent)
     -- NOTE: this is a bit weird/hacky, 
     -- since we aren't actually drawing anything..
@@ -121,9 +167,7 @@ lp.defineSlot("lootplot.s0:pulse_button_slot", {
                 lp.setRound(e, newRound)
 
                 if hasLost(e) then
-                    lp.loseGame(ent.lootplotTeam)
-                    -- destroy all button-slots:
-                    deleteAllButtonSlots(plot)
+                    loseGame(e, plot)
                 end
             end)
 
@@ -193,9 +237,7 @@ lp.defineSlot("lootplot.s0:gray_pulse_button_slot", {
                 lp.setRound(e, newRound)
 
                 if hasLost(e) then
-                    lp.loseGame(ent.lootplotTeam)
-                    -- destroy all button-slots:
-                    deleteAllButtonSlots(plot)
+                    loseGame(ent.lootplotTeam)
                 end
             end)
 
@@ -221,23 +263,35 @@ local function shouldTrigger(ppos)
     return false
 end
 
+
+
+
 local function nextLevel(ent)
     local ppos = lp.getPos(ent)
     if not ppos then return end
+    local plot = ppos:getPlot()
 
     local level = lp.getLevel(ent)
     if level >= constants.FINAL_LEVEL then
-        -- oh damn!! GG! :)
-        lp.winGame(server.getHostClient())
-        deleteAllButtonSlots(ppos:getPlot())
+        winGame(ppos:getPlot())
         return
     end
+
+    umg.analytics.collect("lootplot.s0:completeLevel", {
+        playerWinCount = lp.getWinCount(),
+        level = lp.getLevel(ent),
+        points = lp.getPoints(ent),
+        money = lp.getMoney(ent),
+
+        items = getAllItems(plot)
+        -- a string list of items on the plot:
+        -- {"lootplot.s0:dragonfruit", "lootplot.s0:blueberry", "iron_sword"}
+    })
 
     lp.rawsetAttribute("POINTS", ent, 0)
     lp.setRound(ent, 1)
     lp.setLevel(ent, lp.getLevel(ent) + 1)
 
-    local plot = ppos:getPlot()
     lp.Bufferer()
         :all(plot)
         :filter(shouldTrigger)

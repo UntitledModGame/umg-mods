@@ -22,10 +22,6 @@ function ContinueState:init(runInfo)
     self.scene = ContinueRunDialog({
         runInfo = runInfo,
         continueRun = function()
-            umg.analytics.collect("lootplot.singleplayer:continueRun", {
-                runMeta = runInfo
-            })
-
             state.pop(self)
             state.push(LPState(), Z_ORDER.LOOTPLOT_STATE)
             return runManager.sendContinueRunPacket()
