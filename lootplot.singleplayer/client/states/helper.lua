@@ -2,6 +2,15 @@
 local helper = {}
 
 
+function helper.drawBackground()
+    local t = love.timer.getTime() * 3
+
+    local r,g,b = objects.Color.HSLtoRGB(t, 0.6, 0.7)
+
+    love.graphics.clear(r,g,b)
+end
+
+
 
 function helper.createStateListener(scene)
     local listener = input.InputListener()

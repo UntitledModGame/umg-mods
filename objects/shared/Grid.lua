@@ -191,6 +191,11 @@ if TEST then
                 --
                 -- Honeslty this is *probably* a bug with ser/deser rather than the grid...
                 -- but i cba fixing that rn.
+
+                -- OLI FUTURE NOTE:
+                -- ser/deser has been *fixed.* as of commit 30b1050 in UMG-CORE.
+                -- It occurs when there is a nil in what looks like an array.
+                -- For example, the table: {1, 1, 1, 1, 1, 1, nil, 1} will trigger the bug
             end
         end)
     end

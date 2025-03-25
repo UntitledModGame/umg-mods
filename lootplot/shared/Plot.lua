@@ -220,7 +220,7 @@ function Plot:getPPosFromSlotIndex(index)
         self.pposCache[index] = ppos
     end
 
-    assert(ppos:getSlotIndex() == index, "someone else mutate the ppos")
+    assert(ppos:getSlotIndex() == index, "Don't mutate PPos Objects!!!")
     return ppos
 end
 

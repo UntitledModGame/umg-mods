@@ -174,6 +174,7 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
 
+
 - SPIKE: Make analytics better.
 MAKE SURE ITS DEFINITELY RUNNING PROPERLY BEFORE THE DEMO!!!  
 Do really good planning.  
@@ -204,6 +205,12 @@ https://discord.com/channels/863625920991854602/863625920991854605/1352072030190
 - (Get Auahdark to help...?)
 - We could also just put in the steam-requirements that you need an x86 compatible processor.
 
+
+
+BUG WITH SERIALIZING:
+Matt got the same issue with the grid.
+Looked like a serialization fail, where it packs stuff into a flat array but doesnt get the order right
+Try reproduce the bug again. Its possible another issue with arrays.
 
 
 

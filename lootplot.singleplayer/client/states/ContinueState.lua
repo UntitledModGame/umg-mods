@@ -57,6 +57,7 @@ function ContinueState:update(dt)
 end
 
 function ContinueState:draw()
+    helper.drawBackground()
     if self.scene then
         self.scene:render(love.window.getSafeArea())
     end

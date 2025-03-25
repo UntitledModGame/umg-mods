@@ -76,6 +76,7 @@ function NewRunState:update(dt)
 end
 
 function NewRunState:draw()
+    helper.drawBackground()
     self.scene:render(love.window.getSafeArea())
 end
 
