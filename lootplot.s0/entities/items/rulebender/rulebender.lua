@@ -113,9 +113,9 @@ defItem("void_box", "Void Box", {
 
     baseMaxActivations = 3,
     basePrice = 12,
-    baseMoneyGenerated = -5,
+    baseMoneyGenerated = -6,
 
-    shape = lp.targets.RookShape(1),
+    shape = lp.targets.HorizontalShape(1),
     target = {
         type = "ITEM",
         filter = function(selfEnt, ppos, targetEnt)
