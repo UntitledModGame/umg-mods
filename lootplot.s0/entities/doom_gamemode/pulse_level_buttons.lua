@@ -68,7 +68,7 @@ local function getAllItems(plot)
     local allItems = {}
     local itemSet = {}
     plot:foreachItem(function(itemEnt, _ppos)
-        local itemId = itemEnt:getTypename()
+        local itemId = itemEnt:getEntityType():getTypename()
         if not itemSet[itemId] then
             table.insert(allItems, itemId)
         end
