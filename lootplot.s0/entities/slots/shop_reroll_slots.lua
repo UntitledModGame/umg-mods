@@ -417,7 +417,7 @@ local function foreachTouchingSlot(rootSlotEnt, func)
 
             consider(ppos, -1, -1)
             consider(ppos, 1, -1)
-            consider(ppos, 1, -1)
+            consider(ppos, 1, 1)
             consider(ppos, -1, 1)
         end
     end
