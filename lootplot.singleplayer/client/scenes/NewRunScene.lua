@@ -61,7 +61,7 @@ function NewRunScene:init(arg)
                 return
             end
             local typName = itemEType:getTypename()
-            assert(itemEType:getEntityMt())
+            assert(itemEType:getEntityMetatable())
             return arg.startNewRun(assert(typName), self:getSelectedBackground())
         end,
         text = NEW_RUN_BUTTON_STRING,

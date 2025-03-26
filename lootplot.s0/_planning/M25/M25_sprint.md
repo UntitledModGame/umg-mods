@@ -182,13 +182,13 @@
 ~~- LOOTPLOT BALANCING IDEA: make the game more fun for veteran players.~~
 ~~- Wider difficulty distribution across different starting items!~~
 
+~~- SPELLING ERROR: "targetted" should be spelled "targeted"~~
+
+
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
-
-
-- SPELLING ERROR: "targetted" should be spelled "targeted"
 
 
 
