@@ -252,11 +252,12 @@ end)
 
 
 
-local PRICE = interp("Price: {wavy}{lootplot:MONEY_COLOR}$%{price:.1f}")
 
-umg.on("lootplot:populateDescription", 50, function(ent, arr)
+umg.on("lootplot:populateDescriptionTags", 50, function(ent, arr)
     if ent.price then
-        arr:add(PRICE(ent))
+        local txt = ("{wavy}{lootplot:MONEY_COLOR}$%.1f{/wavy}{/lootplot:MONEY_COLOR}")
+            :format(ent.price)
+        arr:add(txt)
     end
 end)
 

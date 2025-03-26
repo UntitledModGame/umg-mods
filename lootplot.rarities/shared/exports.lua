@@ -31,13 +31,11 @@ end
 
 
 if client then
-    local ORDER = 50
-    local RARITY = localization.newInterpolator("Rarity: %{displayString}")
-    umg.on("lootplot:populateDescription", ORDER, function(ent, arr)
+    umg.on("lootplot:populateDescriptionTags", function(ent, arr)
         local rarity = ent.rarity
         if rarity then
             ---@cast rarity lootplot.rarities.Rarity
-            arr:add(RARITY(rarity))
+            arr:add(rarity.displayString)
         end
     end)
 end

@@ -193,14 +193,16 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 
 
 - Simplify item-descriptions a bit. Put `Rarity` and `Price` on the same line.
+- We need a new system/qbus for this. Maybe `getItemTags`...? Or something?
 
 
 - When a sack-item doesnt have ON shape, it can be used infinitely many times. (ie via bishop glove) 
 
 
+- ITEM: Calculator: (STICKY) Multiplies points by -1. Has an activation button
 
-- Put "LOOTPLOT DEMO" text top right, 
-- so people (A) can tell what the game is if viewing screenshots, and (B) understand that its a demo version
+
+- Give activate-actionButtons to book-items!!! (That'd be fun and cool. Maybe make the button "Read book"?)
 
 
 - When you hover an item, and use WASD to move, the item hover stays the same.
@@ -209,6 +211,9 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 
 - Re-create trailer (follow same structure as old trailer tho.)
 - Ensure visual-variation!!! (different backgrounds!!!)
+
+
+- Update steam screenshots (Ensure visual variation - different backgrounds)
 
 
 - Make steam-page for demo
@@ -233,7 +238,11 @@ https://discord.com/channels/863625920991854602/863625920991854605/1352072030190
 - We could also just put in the steam-requirements that you need an x86 compatible processor.
 
 
-
+- Demo infrastructure; (a way to tell whether the game is a demo or not.)
+-->  
+- Put "LOOTPLOT DEMO" text top right, 
+- so people (A) can tell what the game is if viewing screenshots, and (B) understand that its a demo version
+-->  
 - DEMO LIMITATION: We should only let the player win 1 game. After they have won, dont let them play again.
 - (This works well, because the player is most likely to want to play more right after winning.)
 

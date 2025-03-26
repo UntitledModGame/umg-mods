@@ -189,6 +189,10 @@ local function populateDescriptionBox(ent)
         dbox:addRichText(descriptionText, fonts.getSmallFont(32))
     end
 
+    local descTags = lp.getDescriptionTags(ent)
+    local txt = table.concat(descTags, ", ")
+    dbox:addRichText(txt)
+
     return dbox
 end
 

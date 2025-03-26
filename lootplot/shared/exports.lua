@@ -45,6 +45,27 @@ function lp.getLongDescription(ent)
     return array
 end
 
+
+---Availability: **Client**
+---@param ent Entity
+---@return (string | function)[]
+function lp.getDescriptionTags(ent)
+    local array = objects.Array()
+    --[[
+    description-tags are tiny bits of text that are self-explanatory,
+    and dont need a proper description.
+
+    EG: Rarity, Price 
+    COMMON(I), $5
+
+    ^^^ these dont need an explanation!
+    Basically, this system exists so we can condense information a bit,
+    and be a bit less overwhelming for the player.
+    ]]
+    umg.call("lootplot:populateDescriptionTags", ent, array)
+    return array
+end
+
 end
 
 ---Availability: Client and Server
