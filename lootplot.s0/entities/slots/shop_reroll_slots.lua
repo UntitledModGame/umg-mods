@@ -147,7 +147,7 @@ local function buyItemAnalytics(itemEnt, itemPrice)
         playerWinCount = lp.getWinCount(),
         level = lp.getLevel(itemEnt),
         money = lp.getMoney(itemEnt),
-        itemId = itemEnt:getTypename(),
+        itemId = itemEnt:getEntityType():getTypename(),
         itemPrice = itemPrice, -- cloud slots pass price=0
     })
 end
