@@ -177,15 +177,13 @@
 ~~- buyItem~~
 ~~- winGame~~
 
+~~- ITEM ADJUSTMENT:  Diamond Chest: Make it doomed-2. Right now its OP~~
+
 
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
-
-
-- ITEM ADJUSTMENT:  Diamond Chest:
-- Make it doomed-2. Right now its OP
 
 
 
@@ -211,6 +209,11 @@ Start with slots that steal money!
 MONEY LIMIT:
 Increase money limit to $200
 
+
+- Simplify item-descriptions a bit. Put `Rarity` and `Price` on the same line.
+
+
+- When a sack-item doesnt have ON shape, it can be used infinitely many times. (ie via bishop glove) 
 
 
 

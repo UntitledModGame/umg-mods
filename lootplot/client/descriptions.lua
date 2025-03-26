@@ -225,7 +225,7 @@ local NO_ACTIVATIONS = interp("{lootplot:BAD_COLOR}No Activations: %{remaining}/
 
 local function isDoomedBeforeActivationsRunOut(ent)
     if ent.doomCount then
-        return (math.max(ent.doomCount, 1) + (ent.lives or 0)) < ent.maxActivations
+        return (math.max(ent.doomCount, 1) + (ent.lives or 0)) <= ent.maxActivations
     end
 end
 
