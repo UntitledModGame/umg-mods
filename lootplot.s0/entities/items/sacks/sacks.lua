@@ -78,6 +78,10 @@ local function defSack(id, name, etype)
 
     etype.image = etype.image or id
 
+    etype.onPostActivate = function(ent)
+        lp.destroy(ent)
+    end
+
     if etype.generateTreasureItem then
         local gen = etype.generateTreasureItem
         local transform = etype.transformTreasureItem or dummy

@@ -20,7 +20,9 @@ components.defineComponent("lootplotTags")
 
 
 components.defineComponent("onDestroy")
+
 components.defineComponent("onActivate")
+components.defineComponent("onPostActivate") -- called AFTER everything else
 
 components.defineComponent("onTriggered") -- fun(ent, triggerName, wasActivated)
 -- called when `tryTriggerEntity` is called. NOTE: this function is called

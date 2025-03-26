@@ -184,6 +184,11 @@
 
 ~~- SPELLING ERROR: "targetted" should be spelled "targeted"~~
 
+~~- Simplify item-descriptions a bit. Put `Rarity` and `Price` on the same line.~~
+~~- We need a new system/qbus for this. Maybe `getItemTags`...? Or something?~~
+
+~~- When a sack-item doesnt have ON shape, it can be used infinitely many times. (ie via bishop glove)~~
+
 
 
 ==========================================
@@ -192,17 +197,10 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 
 
 
-- Simplify item-descriptions a bit. Put `Rarity` and `Price` on the same line.
-- We need a new system/qbus for this. Maybe `getItemTags`...? Or something?
-
-
-- When a sack-item doesnt have ON shape, it can be used infinitely many times. (ie via bishop glove) 
-
 
 - ITEM: Calculator: (STICKY) Multiplies points by -1. Has an activation button
 
-
-- Give activate-actionButtons to book-items!!! (That'd be fun and cool. Maybe make the button "Read book"?)
+- ITEM-REFACTOR: Give activate-actionButtons to book-items!!! (Maybe make the button "Read book"?)
 
 
 - When you hover an item, and use WASD to move, the item hover stays the same.

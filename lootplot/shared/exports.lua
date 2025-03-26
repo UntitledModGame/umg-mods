@@ -778,6 +778,9 @@ function lp.forceActivateEntity(ent)
         ent:onActivate()
     end
     umg.call("lootplot:entityActivated", ent)
+    if ent.onPostActivate then
+        ent:onPostActivate()
+    end
 end
 
 ---Availability: **Server**
