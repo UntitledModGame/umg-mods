@@ -438,7 +438,7 @@ defineFood("raw_potato", {
     name = loc("Raw Potato"),
     triggers = {"PULSE"},
     rarity = lp.rarities.RARE,
-    basePointsGenerated = 60,
+    basePointsGenerated = 250,
     basePrice = 4,
 })
 
