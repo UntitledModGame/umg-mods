@@ -146,7 +146,7 @@ end)
 Item placement juice:
 
 When items are swapped, we should see what other entities that the swapped item targets.
-Then, we should play a nice click/reload sound, and bulge each new entity that was targetted. (maybe play a little orange target-animation too?)
+Then, we should play a nice click/reload sound, and bulge each new entity that was targeted. (maybe play a little orange target-animation too?)
 That way, when you place an item somewhere that targets a lot of other items, its super satisfying.
 
 ALSO IMPORTANT:
@@ -195,10 +195,10 @@ local function doTargetJuice(itemEnt)
     local magnitude = 1
     if #targList <= 2 then
         magnitude = 1.5 -- go HARD! 
-        -- There arent many targetted ents, so we wont overwhelm player.
+        -- There arent many targeted ents, so we wont overwhelm player.
     elseif #targList > 8 then
         magnitude = 0.7
-        -- there are many targetted ents, so tone it down.
+        -- there are many targeted ents, so tone it down.
         -- dont wanna overwhelm player.
     elseif #targList > 16 then
         magnitude = 0.35 -- tone down EXTRA!

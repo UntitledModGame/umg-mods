@@ -449,7 +449,7 @@ local SALMON_STEAK_TRIGGERS = {
 }
 defineFood("salmon_steak", {
     name = loc("Salmon Steak"),
-    activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}Buy, Level-Up, Rotate, and Reroll{/lootplot:TRIGGER_COLOR} on targetted items."),
+    activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}Buy, Level-Up, Rotate, and Reroll{/lootplot:TRIGGER_COLOR} on targeted items."),
     triggers = {"PULSE"},
     rarity = lp.rarities.RARE,
     basePrice = 4,

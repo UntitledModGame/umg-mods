@@ -188,6 +188,9 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
 
+- SPELLING ERROR: "targetted" should be spelled "targeted"
+
+
 
 - Simplify item-descriptions a bit. Put `Rarity` and `Price` on the same line.
 
@@ -198,10 +201,6 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 
 - Put "LOOTPLOT DEMO" text top right, 
 - so people (A) can tell what the game is if viewing screenshots, and (B) understand that its a demo version
-
-
-
-- SPELLING ERROR: "targetted" should be spelled "targeted"
 
 
 - When you hover an item, and use WASD to move, the item hover stays the same.

@@ -100,7 +100,7 @@ defChestplate("copper_chestplate", "Copper Chestplate", {
 
 
 defChestplate("golden_chestplate", "Golden Chestplate", {
-    activateDescription = loc("Earn {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} for every targetted item."),
+    activateDescription = loc("Earn {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} for every targeted item."),
 
     baseMoneyGenerated = -3,
     baseMaxActivations = 2,
