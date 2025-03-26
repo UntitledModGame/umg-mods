@@ -95,10 +95,13 @@ local function clearFogInCircle(ppos, team, radius)
 end
 
 
+
+local NEXT_LEVEL_DX, NEXT_LEVEL_DY = -3, -4
+
 local function spawnNextLevelButton(ent)
     local ppos, team = getPosTeam(ent)
-    lp.forceSpawnSlot(
-        assert(ppos:move(-3,-4)),
+    return lp.forceSpawnSlot(
+        assert(ppos:move(NEXT_LEVEL_DX, NEXT_LEVEL_DY)),
         server.entities.next_level_button_slot,
         team
     )
@@ -106,7 +109,7 @@ end
 
 local function spawnPulseButton(ent)
     local ppos, team = getPosTeam(ent)
-    lp.forceSpawnSlot(
+    return lp.forceSpawnSlot(
         assert(ppos:move(-4,-4)),
         server.entities.pulse_button_slot,
         team
@@ -138,8 +141,9 @@ local function spawnDoomClockAndButtons(ent, dy)
     spawnDoomClock(ent, dy)
 
     -- Meta-buttons
-    spawnNextLevelButton(ent)
-    spawnPulseButton(ent)
+    local pulseButton = spawnPulseButton(ent)
+    local nextLevelButton = spawnNextLevelButton(ent)
+    return pulseButton, nextLevelButton
 end
 
 
@@ -224,11 +228,17 @@ local function spawnTutorialText(ppos, text)
 end
 
 
+
+local ONE_BALL_MONEY = 4
+
 definePerk("one_ball", {
     name = loc("One Ball"),
-    description = loc("Gain an extra $2 per turn"),
 
-    baseMoneyGenerated = 2,
+    description = loc("Gain an extra $%{money} per turn", {
+        money = ONE_BALL_MONEY
+    }),
+
+    baseMoneyGenerated = ONE_BALL_MONEY,
     baseMaxActivations = 2,
 
     onWinGame = makeAchievementUnlocker("WIN_ONE_BALL"),
@@ -275,7 +285,7 @@ definePerk("one_ball", {
 
 definePerk("five_ball", {
     name = loc("Five Ball"),
-    description = loc("Starts with a rotation-slot"),
+    description = loc("Good with rotation"),
 
     isEntityTypeUnlocked = unlockAfterWins(1),
     onWinGame = makeAchievementUnlocker("WIN_FIVE_BALL"),
@@ -291,6 +301,9 @@ definePerk("five_ball", {
         spawnSell(ent)
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
+
+        lp.trySpawnItem(assert(ppos:move(1, 0)), server.entities.record_golden, team)
+        lp.trySpawnItem(assert(ppos:move(-1, 0)), server.entities.record_white, team)
 
         spawnDoomClockAndButtons(ent)
 
@@ -328,8 +341,10 @@ definePerk("six_ball", {
         spawnMoneyLimit(ent)
 
         do -- spawn golden-die:
-        lp.trySpawnItem(assert(ppos:move(-1,0)), server.entities.golden_die, team)
-        lp.trySpawnItem(assert(ppos:move(1,0)), server.entities.golden_die, team)
+        local itemEnt = lp.trySpawnItem(assert(ppos:move(-1,0)), server.entities.golden_die, team)
+        itemEnt.baseMoneyGenerated = 3
+        local itemEnt2 = lp.trySpawnItem(assert(ppos:move(1,0)), server.entities.golden_die, team)
+        itemEnt2.baseMoneyGenerated = 3
         end
 
         do -- spawn green-olive with lives:
@@ -359,6 +374,27 @@ definePerk("six_ball", {
 })
 
 
+
+definePerk("four_ball", {
+    name = loc("Four Ball"),
+    description = loc("Has 2 extra rounds per level"),
+
+    isEntityTypeUnlocked = winToUnlock(),
+    onWinGame = makeAchievementUnlocker("WIN_FOUR_BALL"),
+
+    onActivateOnce = function(ent)
+        lp.setMoney(ent, constants.STARTING_MONEY)
+        local numRounds = constants.ROUNDS_PER_LEVEL + 2
+        lp.setAttribute("NUMBER_OF_ROUNDS", ent, numRounds)
+        spawnNormal(ent)
+        spawnShop(ent)
+        spawnRerollButton(ent)
+        spawnSell(ent)
+        spawnInterestSlot(ent)
+        spawnMoneyLimit(ent)
+        spawnDoomClockAndButtons(ent)
+    end
+})
 
 
 
@@ -398,29 +434,6 @@ definePerk("L_ball", {
             targEnt.lives = (targEnt.lives or 0) + 1
         end
     }
-})
-
-
-
-definePerk("four_ball", {
-    name = loc("Four Ball"),
-    description = loc("Has an extra round per level"),
-
-    isEntityTypeUnlocked = winToUnlock(),
-    onWinGame = makeAchievementUnlocker("WIN_FOUR_BALL"),
-
-    onActivateOnce = function(ent)
-        lp.setMoney(ent, constants.STARTING_MONEY)
-        local numRounds = constants.ROUNDS_PER_LEVEL + 1
-        lp.setAttribute("NUMBER_OF_ROUNDS", ent, numRounds)
-        spawnNormal(ent)
-        spawnShop(ent)
-        spawnRerollButton(ent)
-        spawnSell(ent)
-        spawnInterestSlot(ent)
-        spawnMoneyLimit(ent)
-        spawnDoomClockAndButtons(ent)
-    end
 })
 
 
@@ -561,10 +574,12 @@ definePerk("blank_ball", {
 
 
 
+do
+local COST_TO_LEVEL_UP = 60
 
 definePerk("nine_ball", {
     name = loc("Nine Ball"),
-    description = loc("Has no money limit"),
+    description = loc("Costs $$$ to level-up"),
 
     isEntityTypeUnlocked = winToUnlock(),
     onWinGame = makeAchievementUnlocker("WIN_NINE_BALL"),
@@ -572,17 +587,31 @@ definePerk("nine_ball", {
     baseMaxActivations = 1,
 
     onActivateOnce = function(ent)
-        lp.setMoney(ent, constants.STARTING_MONEY)
+        local ppos, team = getPosTeam(ent)
+        lp.setMoney(ent, COST_TO_LEVEL_UP)
         lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
         spawnShop(ent)
         spawnRerollButton(ent)
         spawnNormal(ent)
         spawnSell(ent)
         spawnInterestSlot(ent)
-        spawnDoomClockAndButtons(ent)
+
+        local slotEnt = lp.posToSlot(ppos)
+        slotEnt.baseMoneyGenerated = -1
+
+        spawnDoomClock(ent)
+        spawnPulseButton(ent)
+
+        local nextLevelButton = lp.forceSpawnSlot(
+            assert(ppos:move(NEXT_LEVEL_DX, NEXT_LEVEL_DY)),
+            server.entities.golden_next_level_button_slot,
+            team
+        )
+        nextLevelButton.baseMoneyGenerated = -COST_TO_LEVEL_UP
     end
 })
 
+end
 
 
 
@@ -598,7 +627,7 @@ definePerk("rainbow_ball", {
     onActivateOnce = function(ent)
         lp.setMoney(ent, constants.STARTING_MONEY)
         lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
-        lp.setAttribute("ROUND", ent, -3)
+        lp.setAttribute("ROUND", ent, -1)
         local ppos, team = getPosTeam(ent)
 
         local curPos = assert(ppos:move(-4, 1))
@@ -636,7 +665,7 @@ definePerk("bowling_ball", {
         local ppos, team = getPosTeam(ent)
         lp.setMoney(ent, constants.STARTING_MONEY)
         lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
-        lp.setAttribute("ROUND", ent, -3)
+        lp.setAttribute("ROUND", ent, -1)
 
         spawnShop(ent)
         spawnSell(ent)
@@ -645,10 +674,14 @@ definePerk("bowling_ball", {
         ent.baseMoneyGenerated = -1
 
         wg.spawnSlots(ppos, server.entities.slot, 1,3, team)
+        for y=-1, 1, 2 do
+            local slotEnt = lp.posToSlot(assert(ppos:move(0, y)))
+            slotEnt.baseMoneyGenerated = -1
+        end
 
         local plot = ppos:getPlot()
         plot:foreachSlot(function(slotEnt, _ppos)
-            slotEnt.doomCount = lp.SEED:randomMisc(40, 50)
+            slotEnt.doomCount = lp.SEED:randomMisc(15, 25)
         end)
 
         spawnDoomClockAndButtons(ent)

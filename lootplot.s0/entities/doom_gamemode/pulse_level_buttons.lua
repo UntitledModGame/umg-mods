@@ -309,25 +309,37 @@ end
 local NEXT_LEVEL = interp("Click to progress to the next level! Triggers {lootplot:TRIGGER_COLOR}%{name}{/lootplot:TRIGGER_COLOR} on all items and slots!")
 local NEED_POINTS = interp("{c r=1 g=0.6 b=0.5}Need %{pointsLeft} more points!")
 
+local function nextLevelActivateDescription(ent)
+    if umg.exists(ent) then
+        local points = lp.getPoints(ent)
+        local requiredPoints = lp.getRequiredPoints(ent)
+        local pointsLeft = requiredPoints - points
+        if pointsLeft <= 0 then
+            return NEXT_LEVEL({name = lp.getTriggerDisplayName("LEVEL_UP")})
+        else
+            return NEED_POINTS({
+                pointsLeft = pointsLeft
+            })
+        end
+    end
+    return ""
+end
+
+local function nextLevelCanActivate(ent)
+    local requiredPoints = lp.getRequiredPoints(ent)
+    local points = lp.getPoints(ent)
+    if points >= requiredPoints then
+        return true
+    end
+    return false
+end
+
+
 lp.defineSlot("lootplot.s0:next_level_button_slot", {
     image = "level_button_up",
 
     name = loc("Next-Level Button"),
-    activateDescription = function(ent)
-        if umg.exists(ent) then
-            local points = lp.getPoints(ent)
-            local requiredPoints = lp.getRequiredPoints(ent)
-            local pointsLeft = requiredPoints - points
-            if pointsLeft <= 0 then
-                return NEXT_LEVEL({name = lp.getTriggerDisplayName("LEVEL_UP")})
-            else
-                return NEED_POINTS({
-                    pointsLeft = pointsLeft
-                })
-            end
-        end
-        return ""
-    end,
+    activateDescription = nextLevelActivateDescription,
 
     activateAnimation = {
         activate = "level_button_hold",
@@ -343,21 +355,38 @@ lp.defineSlot("lootplot.s0:next_level_button_slot", {
 
     onDraw = buttonOnDraw,
 
-    canActivate = function(ent)
-        local requiredPoints = lp.getRequiredPoints(ent)
-        local points = lp.getPoints(ent)
-        if points >= requiredPoints then
-            return true
-        end
-        return false
-    end,
+    canActivate = nextLevelCanActivate,
 
-    onActivate = function(ent)
-        local ppos=lp.getPos(ent)
-        if ppos then
-            nextLevel(ent)
-        end
-    end,
+    onActivate = nextLevel,
 })
+
+
+
+lp.defineSlot("lootplot.s0:golden_next_level_button_slot", {
+    image = "golden_level_button_up",
+
+    name = loc("Golden Next-Level Button"),
+    activateDescription = nextLevelActivateDescription,
+
+    activateAnimation = {
+        activate = "golden_level_button_hold",
+        idle = "golden_level_button_up",
+        duration = 0.1
+    },
+
+    baseMaxActivations = 3,
+    baseMoneyGenerated = 15,
+    triggers = {},
+    buttonSlot = true,
+
+    rarity = lp.rarities.EPIC,
+
+    onDraw = buttonOnDraw,
+
+    canActivate = nextLevelCanActivate,
+
+    onActivate = nextLevel,
+})
+
 
 

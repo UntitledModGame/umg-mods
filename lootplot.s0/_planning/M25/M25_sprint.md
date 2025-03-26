@@ -179,35 +179,14 @@
 
 ~~- ITEM ADJUSTMENT:  Diamond Chest: Make it doomed-2. Right now its OP~~
 
+~~- LOOTPLOT BALANCING IDEA: make the game more fun for veteran players.~~
+~~- Wider difficulty distribution across different starting items!~~
 
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
-
-
-LOOTPLOT BALANCING IDEA:
-We need to make the game more fun for veteran players.
-We need more of a difficulty distribution across different starting items!
---->    
-We should reduce the money earned by pulse-button,
-and INCREASE the money earned by one-ball, and buff the early game starter items.
---->    
-PULSE BUTTON:
-Earns $2 less per round
---->    
-One-ball: Earns $4 per round instead of $2
---->    
-4-ball: Has 2 extra rounds rather than 1
---->    
-orange-ball:  Starts with a golden record
---->    
-LATER-GAME STARTING ITEMS:
-Start with slots that steal money!
---->    
-MONEY LIMIT:
-Increase money limit to $200
 
 
 - Simplify item-descriptions a bit. Put `Rarity` and `Price` on the same line.

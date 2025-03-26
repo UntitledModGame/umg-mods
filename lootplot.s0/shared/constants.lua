@@ -8,7 +8,7 @@ local constants = {
     STARTING_MONEY = 10,
     STARTING_POINTS = 0,
     ROUNDS_PER_LEVEL = 6,
-    MONEY_PER_ROUND = 8,
+    MONEY_PER_ROUND = 6,
 
     FINAL_LEVEL = 10,
     -- when you beat this level, you win!

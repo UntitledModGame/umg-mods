@@ -14,7 +14,7 @@ return lp.defineSlot("lootplot.s0:rotate_slot", {
 
     rarity = lp.rarities.RARE,
 
-    activateDescription = loc("Rotates item\n(Without activating it!)"),
+    activateDescription = loc("Rotates item"),
 
     onActivate = function(slotEnt)
         local itemEnt = lp.slotToItem(slotEnt)
