@@ -799,12 +799,10 @@ defineSlotConverter("lychee", "Lychee", "pink_slot", "DOOMED-6 Pink Slot", lp.ta
     slotEnt.doomCount = 6
 end)
 
-defineSlotConverter("purple_brain", "Purple Brain", "rulebender_slot", "DOOMED-10 Rulebender Slot", lp.targets.ON_SHAPE, {
+defineSlotConverter("purple_brain", "Purple Brain", "rulebender_slot", "Rulebender Slot", lp.targets.ON_SHAPE, {
     rarity = lp.rarities.EPIC,
     basePrice = APPLE_PRICE
-}, function(slotEnt)
-    slotEnt.doomCount = 10
-end)
+})
 
 
 ----------------------------------------------------------------------------
@@ -904,29 +902,29 @@ defineFood("slice_of_cake", {
 
 defineFood("red_cheesecake", {
     name = loc("Red Cheesecake"),
-    activateDescription = loc("Gives items/slots {lootplot:POINTS_MULT_COLOR}+0.1 mult"),
+    activateDescription = loc("Gives items/slots {lootplot:POINTS_MULT_COLOR}+0.2 mult"),
 
     rarity = lp.rarities.RARE,
 
-    shape = lp.targets.KING_SHAPE,
+    shape = lp.targets.RookShape(1),
 
     basePrice = 5,
 
     target = {
         type = "ITEM_OR_SLOT",
         activate = function(selfEnt, ppos, ent)
-            lp.modifierBuff(ent, "multGenerated", 0.1)
+            lp.modifierBuff(ent, "multGenerated", 0.2)
         end
     }
 })
 
 defineFood("blue_cheesecake", {
     name = loc("Blue Cheesecake"),
-    activateDescription = loc("Gives items/slots {lootplot:BONUS_COLOR}+1 bonus"),
+    activateDescription = loc("Gives items/slots {lootplot:BONUS_COLOR}+2 bonus"),
 
     rarity = lp.rarities.RARE,
 
-    shape = lp.targets.KING_SHAPE,
+    shape = lp.targets.RookShape(1),
 
     basePrice = 5,
 
