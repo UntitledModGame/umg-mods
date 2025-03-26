@@ -48,7 +48,6 @@ end)
 
 
 local MISC_ORDER = 50
-local SHAPE = interp("Target Shape: {wavy}{lootplot.targets:COLOR}%{name}")
 
 umg.on("lootplot:populateDescriptionTags", MISC_ORDER, function(ent, arr)
     if ent.shape then
