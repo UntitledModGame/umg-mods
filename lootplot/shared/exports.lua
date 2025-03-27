@@ -1430,10 +1430,10 @@ function lp.tryTriggerSlotThenItem(name, ppos)
         local canPropagate = lp.canSlotPropagateTriggerToItem(slotEnt)
         if itemEnt and canPropagate then
             -- TODO: We should probably standardize this delay somehow???
-            lp.wait(ppos, 0.2)
             lp.queueWithEntity(itemEnt, function(itemEntt)
                 lp.tryTriggerEntity(name, itemEntt)
             end)
+            lp.wait(ppos, 0.2)
         end
     else
         if itemEnt then
