@@ -189,6 +189,9 @@
 
 ~~- When a sack-item doesnt have ON shape, it can be used infinitely many times. (ie via bishop glove)~~
 
+~~- ITEM: Calculator: (STICKY) Multiplies points by -1. Has an activation button~~
+
+
 
 
 ==========================================
@@ -197,11 +200,7 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 
 
 
-
-- ITEM: Calculator: (STICKY) Multiplies points by -1. Has an activation button
-
 - ITEM-REFACTOR: Give activate-actionButtons to book-items!!! (Maybe make the button "Read book"?)
-
 
 - When you hover an item, and use WASD to move, the item hover stays the same.
 - We can fix this by just calling onUpdate to check the hover

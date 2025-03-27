@@ -232,6 +232,29 @@ defContra("slot_copy_tool", "Slot Copy Tool", {
 
 
 
+
+defContra("calculator", "Calculator", {
+    triggers = {},
+
+    rarity = lp.rarities.RARE,
+
+    activateDescription = loc("Multiplies points by -1"),
+
+    onActivate = function(selfEnt)
+        local pts = (lp.getPoints(selfEnt) or 0) * -1
+        lp.setPoints(selfEnt, pts)
+    end,
+
+    baseMaxActivations = 20,
+
+    actionButtons = {ACTIVATE_SELF_BUTTON}
+})
+
+
+
+
+
+
 defContra("bomb", "Bomb", {
     activateDescription = loc("Destroy slots.\nEarn {lootplot:MONEY_COLOR}$2{/lootplot:MONEY_COLOR} for every slot destroyed."),
 
