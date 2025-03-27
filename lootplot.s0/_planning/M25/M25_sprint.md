@@ -191,6 +191,12 @@
 
 ~~- ITEM: Calculator: (STICKY) Multiplies points by -1. Has an activation button~~
 
+~~- ITEM-REFACTOR: Give activate-actionButtons to book-items!!! (Maybe make the button "Read book"?)~~
+
+~~- When you hover an item, and use WASD to move, the item hover stays the same.~~
+~~- We can fix this by just calling onUpdate to check the hover~~
+
+~~- Put delays between slot activation and item activation~~
 
 
 
@@ -199,22 +205,15 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
 
-
-- ITEM-REFACTOR: Give activate-actionButtons to book-items!!! (Maybe make the button "Read book"?)
-
-- When you hover an item, and use WASD to move, the item hover stays the same.
-- We can fix this by just calling onUpdate to check the hover
-
-
 - Re-create trailer (follow same structure as old trailer tho.)
 - Ensure visual-variation!!! (different backgrounds!!!)
 
 
 - Update steam screenshots (Ensure visual variation - different backgrounds)
+- MAKE SURE TO SHOW ITEM SYNERGIES IN DESCRIPTIONS HERE!!! (red-flag? Or Coins-and-emerald?)
 
 
 - Make steam-page for demo
-
 
 
 - Add Metta's/Ravi's BGMs to the game
@@ -222,8 +221,8 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 MUSICS:
 https://discord.com/channels/863625920991854602/863625920991854605/1352078855351042140
 https://discord.com/channels/863625920991854602/863625920991854605/1352072030190698566
+https://discord.com/channels/863625920991854602/863625920991854605/1354632103580401754
 (INCOMPLETE:) https://discord.com/channels/@me/1316601752098967665/1328218664687767573
-(INCOMPLETE:) https://discord.com/channels/@me/1316601752098967665/1351329652500856862
 
 - MUSIC: Consider adding HeatlyBro's music- Dark-Alley
 
@@ -254,6 +253,12 @@ https://discord.com/channels/863625920991854602/863625920991854605/1352072030190
 =============================================
 ANY TASK BELOW (VVV) STRETCH-GOAL / AFTER DEMO
 =============================================
+
+
+- Make Japanese localization ?
+
+- Make Korean localization ?
+
 
 
 - SECRET CHALLENGE STARTER-ITEMS:

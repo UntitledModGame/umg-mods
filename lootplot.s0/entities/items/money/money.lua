@@ -119,6 +119,9 @@ defItem("golden_horseshoe", "Golden Horseshoe", {
         Whatever you do, DO NOT spoil the gag publically.
         If you spoil anything in the discord, BAN BAN BAN BAN. BAAANNNN!
         Thank you, my comrades. o7 o7 o7
+
+        (ALSO- dont worry, this is the only item in the game 
+        that intentionally lies about it's description)
         ]]
     end,
 
