@@ -67,7 +67,7 @@ local function defineGreatsword(mineral_type, name, strength, etype)
 
         lootplotProperties = {
             multipliers = {
-                pointsGenerated = strength,
+                pointsGenerated = math.max(2, strength),
             }
         },
 
