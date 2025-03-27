@@ -193,7 +193,7 @@ defRocks("grubby_rock", "Grubby Rock", {
     basePointsGenerated = 100,
     baseMultGenerated = 1.2,
 
-    lives = 120
+    lives = 100
 })
 
 
@@ -201,3 +201,79 @@ defRocks("grubby_rock", "Grubby Rock", {
 ----------------------------
 -- GOLDSMITH sub-archetype:
 ----------------------------
+
+local GOLDEN_ROCK_DESC = interp("Earn multiplier equal to the 10% of the current balance {lootplot:MONEY_COLOR}($%{balance}){/lootplot:MONEY_COLOR}")
+
+defRocks("golden_rock", "Golden Rocks", {
+    triggers = {"ROTATE", "DESTROY"},
+
+    rarity = lp.rarities.RARE,
+
+    description = function(ent)
+        return GOLDEN_ROCK_DESC({
+            balance = lp.getMoney(ent)
+        })
+    end,
+
+    lootplotProperties = {
+        modifiers = {
+            multGenerated = function(ent)
+                return (lp.getMoney(ent) or 0) * 0.1
+            end
+        }
+    },
+
+    lives = 100,
+})
+
+
+
+
+
+
+
+
+
+
+------------------------------------
+-- SPECIAL ROCKS / TOMBSTONE ITEMS:
+------------------------------------
+
+
+defRocks("tombstone", "Tombstone", {
+    triggers = {"DESTROY", "UNLOCK"},
+
+    activateDescription = loc("{lootplot:TRIGGER_COLOR}Pulses{/lootplot:TRIGGER_COLOR} items 3 times."),
+
+    rarity = lp.rarities.EPIC,
+
+    basePointsGenerated = 100,
+    basePrice = 12,
+
+    shape = lp.targets.KingShape(1),
+    target = {
+        type = "ITEM",
+        filter = function(selfEnt, ppos, targetEnt)
+            return lp.hasTrigger(targetEnt, "PULSE")
+        end,
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.tryTriggerEntity("PULSE", targetEnt)
+
+            lp.queueWithEntity(targetEnt, function(e)
+                lp.tryTriggerEntity("PULSE", e)
+            end)
+            lp.wait(ppos, 0.2)
+
+            lp.queueWithEntity(targetEnt, function(e)
+                lp.tryTriggerEntity("PULSE", e)
+            end)
+            lp.wait(ppos, 0.2)
+        end
+    },
+
+    lives = 50,
+})
+
+
+
+
