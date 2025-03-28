@@ -62,9 +62,7 @@ function Scene:init(lpState)
     })
 
     self.itemDescriptionSelected = nil
-    self.itemDescriptionSelectedTime = 0
     self.cursorDescription = nil
-    self.cursorDescriptionTime = 0
     self.slotActionButtons = {}
     self.currentSelection = nil
 
@@ -74,40 +72,11 @@ function Scene:init(lpState)
 end
 
 
-local function drawBoxTransparent(x, y, w, h)
-    love.graphics.setColor(0, 0, 0, 0.75)
-    love.graphics.rectangle("fill", x, y, w, h, 10, 10)
-    love.graphics.setColor(1, 1, 1)
-end
-
-local function drawSideBox(x, y, w, h)
-    love.graphics.setColor(0, 0, 0, 0.8)
-    love.graphics.rectangle("fill", x, y, w, h, 10, 10)
-    love.graphics.setColor(1, 1, 1)
-end
-
 ---@param progress number
 ---@param dbox lootplot.singleplayer.DescriptionBox
 ---@param color objects.Color
 ---@param region layout.Region
----@param backgroundDrawer fun(x:number,y:number,w:number,h:number)
-local function drawDescription(progress, dbox, color, region, backgroundDrawer)
-    local x, y, w, h = region:get()
-    local bestHeight = select(2, dbox:getBestFitDimensions(w))
-    -- local container = layout.Region(0, 0, w, bestHeight)
-    -- local centerContainer = container:center(region)
-    local theHeight = math.min(progress, bestHeight)
-
-    backgroundDrawer(x - 5, y - 5, w + 10, theHeight + 10)
-    love.graphics.setColor(1, 1, 1)
-
-    if progress >= h then
-        love.graphics.setColor(color)
-        dbox:draw(x, y, w, h)
-        return false
-    end
-
-    return true
+local function drawDescription(progress, dbox, color, region)
 end
 
 
@@ -123,10 +92,9 @@ end
 function Scene:onRender(x,y,w,h)
     local r = layout.Region(x,y,w,h)
 
-    local _, _, right = r:padRatio(0.05):splitHorizontal(2, 5, 2)
+    local _, right = r:padRatio(0.05):splitHorizontal(2, 1)
     local HEADER_RATIO = 5
     local _, rest2 = right:splitVertical(1, HEADER_RATIO)
-    local descriptionOpenSpeed = h * 9
 
     if not isSelectionValid(self) then
         self:setSelection(nil)
@@ -150,22 +118,21 @@ function Scene:onRender(x,y,w,h)
 
     if self.cursorDescription then
         local mx, my = input.getPointerPosition()
-        local descW = w/3
-        local descH = select(2, self.cursorDescription:getBestFitDimensions(descW))
+        local idealDescW = w/3
+        local bestDescW, descH = self.cursorDescription:getBestFitDimensions(idealDescW)
+        local descW = math.min(idealDescW, bestDescW)
         local descRegion = layout.Region(
             math.max(mx - 16 - descW, 16),
             math.min(my + 16, h - descH - 16),
             descW,
             descH
         )
-        self.cursorDescriptionTime = self.cursorDescriptionTime + love.timer.getDelta() * descriptionOpenSpeed
-        drawDescription(self.cursorDescriptionTime, self.cursorDescription, objects.Color.WHITE, descRegion, drawBoxTransparent)
+        self.cursorDescription:draw(descRegion:get())
     end
 
     if self.itemDescriptionSelected then
-        local rightDescRegion = select(2, rest2:splitVertical(1, 5))
-        self.itemDescriptionSelectedTime = self.itemDescriptionSelectedTime + love.timer.getDelta() * descriptionOpenSpeed
-        drawDescription(self.itemDescriptionSelectedTime, self.itemDescriptionSelected, objects.Color.WHITE, rightDescRegion, drawSideBox)
+        local _, rightDescRegion = rest2:splitVertical(1, 5)
+        self.itemDescriptionSelected:draw(rightDescRegion:get())
     end
 
     if self.popupElement then
@@ -186,7 +153,11 @@ local function populateDescriptionBox(ent)
     dbox:newline()
 
     for _, descriptionText in ipairs(description) do
-        dbox:addRichText(descriptionText, fonts.getSmallFont(32))
+        if type(descriptionText) == "string" and descriptionText:sub(1,3) == "---" then
+            dbox:addSeparator()
+        else
+            dbox:addRichText(descriptionText, fonts.getSmallFont(32))
+        end
     end
 
     local descTags = lp.getDescriptionTags(ent)
@@ -200,10 +171,10 @@ end
 function Scene:setCursorDescription(ent)
     if ent then
         self.cursorDescription = populateDescriptionBox(ent)
+        self.cursorDescription:startOpen()
     else
         self.cursorDescription = nil
     end
-    self.cursorDescriptionTime = 0
 end
 
 ---@param self lootplot.singleplayer.Scene
@@ -214,11 +185,11 @@ local function setSelectedItemDescription(self, selection)
         itemEnt = lp.posToItem(selection.ppos)
     end
     if itemEnt then
-        self.itemDescriptionSelected = populateDescriptionBox(itemEnt or nil)
+        self.itemDescriptionSelected = populateDescriptionBox(itemEnt)
+        self.itemDescriptionSelected:startOpen()
     else
         self.itemDescriptionSelected = nil
     end
-    self.itemDescriptionSelectedTime = 0
 end
 
 ---@param action lootplot.SlotAction

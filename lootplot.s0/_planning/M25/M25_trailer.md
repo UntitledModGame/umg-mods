@@ -51,7 +51,6 @@ Fade out as the game loads.
 
 - **VOID BACKGROUND**
 - Showcase moving bomb around, blow up dirt/stone slots,
-- which triggers a huge activation chain
 
 - Showcase starter-item screen, select a couple of items
 

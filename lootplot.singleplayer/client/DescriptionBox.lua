@@ -1,7 +1,12 @@
+
+local globalScale = require("client.globalScale")
+
+
 ---@class lootplot.singleplayer.DescriptionBox: objects.Class
 local DescriptionBox = objects.Class("lootplot.singleplayer:DescriptionBox")
 
 local RICH_TEXT_TYPE = "richtext"
+local SEPARATOR = "---"
 local DRAWABLE_TYPE = "drawable"
 local NEWLINE_TYPE = "\n"
 
@@ -9,7 +14,7 @@ local NEWLINE_TYPE = "\n"
 ---@class lootplot.singleplayer._DescriptionBoxData
 ---@field public type string
 ---@field public height integer?
----@field public data string|fun():string|lootplot.DescriptionBoxFunction
+---@field public data string|fun():string|lootplot.DescriptionBoxFunction?
 ---@field public font love.Font?
 
 ---@param defaultFont love.Font?
@@ -18,13 +23,24 @@ function DescriptionBox:init(defaultFont)
     self.contents = {} ---@type lootplot.singleplayer._DescriptionBoxData[]
     ---@private
     self.defaultFont = defaultFont or love.graphics.getFont()
+    ---@private
+    self.borderColor = objects.Color.WHITE
+
+    self.time = 0xfffff
 end
+
 
 ---Add rich text to the description box.
 ---@param text string|fun():string Formatted rich text to add.
 ---@param font love.Font? Font to use when rendering this.
 function DescriptionBox:addRichText(text, font)
     self.contents[#self.contents+1] = {type = RICH_TEXT_TYPE, data = text, font = font}
+end
+
+---Add separator to the description box.
+--- This manifests as a horizontal line.
+function DescriptionBox:addSeparator()
+    self.contents[#self.contents+1] = {type = SEPARATOR}
 end
 
 ---Add arbitrary drawable to the description box.
@@ -41,19 +57,31 @@ function DescriptionBox:newline()
     self.contents[#self.contents+1] = {type = NEWLINE_TYPE, data = "\n"}
 end
 
----Draw the description box.
----@param x number X position of the description box.
----@param y number Y position of the description box.
----@param w number Maximum width of the decription box can use.
----@param h number Maximum height of the description box can use. Any content that exceeded the height will not be rendered.
-function DescriptionBox:draw(x, y, w, h)
+
+function DescriptionBox:startOpen()
+    self.time = 0
+end
+
+
+---@param self lootplot.singleplayer.DescriptionBox
+---@param x number
+---@param y number
+---@param w number
+---@param h number
+function DescriptionBox:drawText(x,y,w,h)
     local r, g, b, a = love.graphics.getColor()
     local scale = love.graphics.getWidth() / 1280
     local currentHeight = 0
     local lastFont = self.defaultFont
 
     for _, content in ipairs(self.contents) do
-        if content.type == NEWLINE_TYPE then
+        if content.type == SEPARATOR then
+            love.graphics.setColor(r,g,b,a)
+            local font = content.font or self.defaultFont
+            local fontH = font:getHeight() * scale
+            love.graphics.line(x, y+currentHeight + fontH/2, x + w, y+currentHeight + fontH/2)
+            currentHeight = currentHeight + fontH
+        elseif content.type == NEWLINE_TYPE then
             -- Let's put the blame on next element
             currentHeight = currentHeight + lastFont:getHeight() * scale
         elseif content.type == RICH_TEXT_TYPE then
@@ -99,6 +127,51 @@ function DescriptionBox:draw(x, y, w, h)
     love.graphics.setColor(r, g, b, a)
 end
 
+
+
+---Draw the description box.
+---@param x number X position of the description box.
+---@param y number Y position of the description box.
+---@param w number Maximum width of the decription box can use.
+---@param h number Maximum height of the description box can use. Any content that exceeded the height will not be rendered.
+function DescriptionBox:draw(x, y, w, h)
+    local bestWidth, bestHeight = self:getBestFitDimensions(w)
+
+    local descriptionOpenSpeed = h * 20
+    self.time = self.time + love.timer.getDelta()
+    local maxHeight = self.time * descriptionOpenSpeed
+    local theHeight = math.min(maxHeight, bestHeight)
+
+    x = x + (w - bestWidth) -- shift right to account for width change
+
+    local gs = globalScale.get()
+
+    local PAD = 5*gs
+    local rx,ry,rw,rh = x-PAD, y-PAD, bestWidth+PAD*2, theHeight+PAD*2
+
+    -- draw BG
+    love.graphics.setColor(0, 0, 0, 0.75)
+    love.graphics.rectangle("fill", rx,ry,rw,rh, 10, 10)
+
+    -- draw border
+    local c = self.borderColor
+    local lw = love.graphics.getLineWidth()
+    love.graphics.setLineWidth(gs * 2)
+    love.graphics.setColor(c[1], c[2], c[3])
+    love.graphics.rectangle("line", rx-gs,ry-gs, rw+gs*2,rh+gs*2, 10, 10)
+    love.graphics.setLineWidth(lw)
+
+    if maxHeight >= h then
+        love.graphics.setColor(1,1,1)
+        self:drawText(x,y,w,h)
+        return false
+    end
+
+    return true
+end
+
+
+
 ---Retrieve the best fit domensions for this description box.
 ---
 ---The returned width and height
@@ -108,8 +181,9 @@ end
 function DescriptionBox:getBestFitDimensions(maxWidth)
     local currentWidth = 0
     local currentHeight = 0
-    local lastFont = self.defaultFont -- For computing newlines
+
     local scale = love.graphics.getWidth() / 1280
+    -- TODO::: WTF IS THIS???? ^^^^ WHY IS THIS SO HACKKY????
 
     for _, content in ipairs(self.contents) do
         if content.type == RICH_TEXT_TYPE then
@@ -124,11 +198,13 @@ function DescriptionBox:getBestFitDimensions(maxWidth)
 
             currentWidth = math.max(currentWidth, width * scale)
             currentHeight = currentHeight + #strings * font:getHeight() * scale
-            lastFont = font
         elseif content.type == NEWLINE_TYPE then
-            currentHeight = currentHeight + lastFont:getHeight() * scale
+            local font = self.defaultFont
+            currentHeight = currentHeight + font:getHeight() * scale
         elseif content.type == DRAWABLE_TYPE then
             currentHeight = currentHeight + (content.height or 0) * scale
+        elseif content.type == SEPARATOR then
+            currentHeight = currentHeight + self.defaultFont:getHeight() * scale
         end
     end
 
