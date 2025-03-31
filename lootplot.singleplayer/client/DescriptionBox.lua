@@ -82,11 +82,16 @@ function DescriptionBox:drawText(x,y,w,h)
 
     for _, content in ipairs(self.contents) do
         if content.type == SEPARATOR then
-            love.graphics.setColor(r,g,b,a)
+            local c = self.borderColor
+            love.graphics.setColor(c[1],c[2],c[3], 0.5)
             local font = content.font or self.defaultFont
             local fontH = font:getHeight() * scale
-            love.graphics.line(x, y+currentHeight + fontH/2, x + w, y+currentHeight + fontH/2)
+            local lw = love.graphics.getLineWidth()
+            love.graphics.setLineWidth(scale * 2)
+            local lineY = y+currentHeight + fontH/2
+            love.graphics.line(x, lineY, x + w, lineY)
             currentHeight = currentHeight + fontH
+            love.graphics.setLineWidth(lw)
         elseif content.type == NEWLINE_TYPE then
             -- Let's put the blame on next element
             currentHeight = currentHeight + lastFont:getHeight() * scale
@@ -212,7 +217,7 @@ function DescriptionBox:getBestFitDimensions(maxWidth)
         elseif content.type == DRAWABLE_TYPE then
             currentHeight = currentHeight + (content.height or 0) * scale
         elseif content.type == SEPARATOR then
-            currentHeight = currentHeight + self.defaultFont:getHeight() * scale
+            currentHeight = currentHeight + (self.defaultFont:getHeight() * scale)
         end
     end
 
