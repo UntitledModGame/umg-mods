@@ -146,6 +146,10 @@ end
 local function populateDescriptionBox(ent)
     local description = lp.getLongDescription(ent)
     local dbox = DescriptionBox(fonts.getSmallFont(32))
+    if lp.rarities and ent.rarity then
+        -- HACK: dipping into rarities mod, even tho we dont have it as a dependency
+        dbox:setBorderColor(ent.rarity.color)
+    end
 
     local title = "{wavy}"..lp.getEntityName(ent).." {/wavy}"
 

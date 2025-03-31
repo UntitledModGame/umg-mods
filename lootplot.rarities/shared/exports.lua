@@ -48,7 +48,7 @@ end
 lp.rarities = {
     -- rarities for "normal" items
     COMMON = newRarity("COMMON", "COMMON (I)", 2, hsl(110, 35, 55)),
-    UNCOMMON = newRarity("UNCOMMON", "UNCOMMON (II)", 1.5, hsl(150, 66, 55)),
+    UNCOMMON = newRarity("UNCOMMON", "UNCOMMON (II)", 1.5, objects.Color("#" .. "FF40B49B")),
     RARE = newRarity("RARE", "RARE (III)", 1, hsl(220, 90, 55)),
     EPIC = newRarity("EPIC", "EPIC (IV)", 0.6, hsl(275, 100,45)),
     LEGENDARY = newRarity("LEGENDARY", "LEGENDARY (V)",0.1, hsl(330, 100, 35)),

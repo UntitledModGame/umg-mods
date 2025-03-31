@@ -24,9 +24,15 @@ function DescriptionBox:init(defaultFont)
     ---@private
     self.defaultFont = defaultFont or love.graphics.getFont()
     ---@private
-    self.borderColor = objects.Color.WHITE
+    self.borderColor = objects.Color(0.9,0.9,0.9)
 
     self.time = 0xfffff
+end
+
+
+---@param borderCol objects.Color
+function DescriptionBox:setBorderColor(borderCol)
+    self.borderColor = borderCol
 end
 
 
@@ -70,7 +76,7 @@ end
 ---@param h number
 function DescriptionBox:drawText(x,y,w,h)
     local r, g, b, a = love.graphics.getColor()
-    local scale = love.graphics.getWidth() / 1280
+    local scale = globalScale.get() / 2
     local currentHeight = 0
     local lastFont = self.defaultFont
 
@@ -144,10 +150,13 @@ function DescriptionBox:draw(x, y, w, h)
 
     x = x + (w - bestWidth) -- shift right to account for width change
 
-    local gs = globalScale.get()
+    local gs = globalScale.get() / 2
 
-    local PAD = 5*gs
-    local rx,ry,rw,rh = x-PAD, y-PAD, bestWidth+PAD*2, theHeight+PAD*2
+    local PAD_Y = 4*gs
+    local PAD_X = 8*gs
+    -- ^^^ NOOMA (numbers out of my ass)
+
+    local rx,ry,rw,rh = x-PAD_X, y-PAD_Y, bestWidth+PAD_X*2, theHeight+PAD_Y*2
 
     -- draw BG
     love.graphics.setColor(0, 0, 0, 0.75)
@@ -156,9 +165,9 @@ function DescriptionBox:draw(x, y, w, h)
     -- draw border
     local c = self.borderColor
     local lw = love.graphics.getLineWidth()
-    love.graphics.setLineWidth(gs * 2)
+    love.graphics.setLineWidth(gs * 3)
     love.graphics.setColor(c[1], c[2], c[3])
-    love.graphics.rectangle("line", rx-gs,ry-gs, rw+gs*2,rh+gs*2, 10, 10)
+    love.graphics.rectangle("line", rx,ry, rw,rh, 10, 10)
     love.graphics.setLineWidth(lw)
 
     if maxHeight >= h then
@@ -182,8 +191,7 @@ function DescriptionBox:getBestFitDimensions(maxWidth)
     local currentWidth = 0
     local currentHeight = 0
 
-    local scale = love.graphics.getWidth() / 1280
-    -- TODO::: WTF IS THIS???? ^^^^ WHY IS THIS SO HACKKY????
+    local scale = globalScale.get() / 2
 
     for _, content in ipairs(self.contents) do
         if content.type == RICH_TEXT_TYPE then
