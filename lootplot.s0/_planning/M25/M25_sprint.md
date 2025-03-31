@@ -198,18 +198,18 @@
 
 ~~- Put delays between slot activation and item activation~~
 
+~~- MAKE DESCRIPTIONS BETTER:~~
+~~- Give rarity border color to description-boxes (just do it hacky- its fine!)~~
+~~- Put rarity/price/shape text below name (scaled down!)~~
+~~- make vertical line split gray, and make it go across the whole box~~
+~~- Shrink the box such that there's no wasted space~~
+
+
 
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
-
-
-- MAKE DESCRIPTIONS BETTER:
-- Give rarity border color to description-boxes (just do it hacky- its fine!)
-- Put rarity/price/shape text below name (scaled down!)
-- make vertical line split gray, and make it go across the whole box
-- Shrink the box such that there's no wasted space
 
 
 - Re-create trailer (follow same structure as old trailer tho.)

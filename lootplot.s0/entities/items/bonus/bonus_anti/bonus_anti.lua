@@ -83,7 +83,7 @@ end
 
 
 do
-local PTS_BUFF = 10
+local PTS_BUFF = 5
 
 defItem("sapphire", "Sapphire", {
     triggers = {"PULSE"},
@@ -98,7 +98,7 @@ defItem("sapphire", "Sapphire", {
 
     basePrice = 8,
     basePointsGenerated = 30,
-    baseMaxActivations = 4,
+    baseMaxActivations = 6,
 
     rarity = lp.rarities.RARE,
 })

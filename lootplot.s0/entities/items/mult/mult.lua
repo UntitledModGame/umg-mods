@@ -200,7 +200,7 @@ defItem("red_net", "Red Net", {
 
 
 defItem("red_pin", "Red Pin", {
-    activateDescription = loc("Set multiplier to {lootplot:POINTS_MULT_COLOR}1.5"),
+    activateDescription = loc("Set multiplier to {lootplot:POINTS_MULT_COLOR}2"),
 
     rarity = lp.rarities.UNCOMMON,
 
@@ -210,7 +210,7 @@ defItem("red_pin", "Red Pin", {
     baseMaxActivations = 3,
 
     onActivate = function(ent)
-        lp.setPointsMult(ent, 1.5)
+        lp.setPointsMult(ent, 2)
     end
 })
 
