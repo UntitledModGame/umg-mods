@@ -137,7 +137,7 @@ defItem("empty_bowl", {
 
     activateDescription = loc("{lootplot:TRIGGER_COLOR}Pulses{/lootplot:TRIGGER_COLOR} item."),
 
-    baseBonusGenerated = 1,
+    baseBonusGenerated = -1,
     baseMaxActivations = 15,
     basePrice = 6,
 
