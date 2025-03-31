@@ -39,6 +39,14 @@ umg.on("lootplot:pointsChanged", function(ent, delta, oldVal, newVal)
     end
 end)
 
+umg.on("lootplot:attributeChanged", function(attr, _ent, delta)
+    if lpState and (attr == "LEVEL") and delta > 0 then
+        lpState:levelUp()
+    end
+end)
+
+
+
 
 function LPState:init()
     ---@type lootplot.singleplayer.Scene
@@ -201,12 +209,16 @@ local ACCUMULATED_JOLT_ROTATION_AMOUNT = math.rad(20)
 local ACCUMULATED_JOLT_SCALE_BULGE_AMOUNT = 1.2
 
 
-local function createShockwave(color)
-    local sw = {
+
+---@param self lootplot.singleplayer.LPState
+---@param color objects.Color
+---@param thickness number? Number from 0->1 denoting thickness of sw.
+local function createShockwave(self, color, thickness)
+    self.shockwave = {
         time = 0,
-        color = color
+        color = color,
+        thickness = (thickness or 1) * 80
     }
-    return sw
 end
 
 -- grows 140% of the screen per second
@@ -223,9 +235,9 @@ local function drawShockwave(self)
     local radius = (w * SHOCKWAVE_GROW_SPEED) * self.shockwave.time
     local oldLineWidth = lg.getLineWidth()
     local sc = globalScale.get()
-    local width = 80 * sc
+    local width = self.shockwave.thickness * sc
     lg.setLineWidth(width)
-    local c = lp.COLORS.POINTS_COLOR
+    local c = self.shockwave.color
     local r,g,b = c[1],c[2],c[3]
     lg.setColor(r,g,b,1)
     lg.circle("line", centerX, centerY, radius)
@@ -243,7 +255,7 @@ function LPState:pointsChanged(ent, deltaPoints, oldVal, newVal)
     if pointsReq and pointsReq > oldVal and pointsReq <= newVal then
         -- then we have breached the boundary! Hallelujah!
         -- send out a shockwave and stuff
-        self.shockwave = createShockwave()
+        createShockwave(self, objects.Color.GREEN, 0.8)
     end
 end
 
@@ -527,7 +539,14 @@ end
 
 
 function LPState:winGame()
+    createShockwave(self, objects.Color.GREEN, 1.2)
     self.showWinText = true
+end
+
+
+
+function LPState:levelUp()
+    createShockwave(self, objects.Color(198/255, 81/255, 95/255), 1.2)
 end
 
 
