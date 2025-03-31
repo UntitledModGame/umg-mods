@@ -41,7 +41,7 @@ local function tryLoadPsys()
     RARITY_PSYS:setEmissionRate(16)
     RARITY_PSYS:setEmissionArea("normal", 3, 1)
     RARITY_PSYS:setSpeed(10,11)
-    RARITY_PSYS:setParticleLifetime(1.3,1.4)
+    RARITY_PSYS:setParticleLifetime(1.6,1.8)
     RARITY_PSYS:setDirection(-math.pi/2)
 end
 

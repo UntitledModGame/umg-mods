@@ -53,8 +53,9 @@ function LPState:init()
 
     self.showWinText = false
 
-    self.victoryShockwave = nil
-    -- a shockwave that occurs when player breaches point requirement
+    self.shockwave = nil
+    -- a shockwave that occurs when player breaches point requirement, 
+    -- OR on level-up
 
     self.isQuitting = false
 
@@ -200,25 +201,26 @@ local ACCUMULATED_JOLT_ROTATION_AMOUNT = math.rad(20)
 local ACCUMULATED_JOLT_SCALE_BULGE_AMOUNT = 1.2
 
 
-local function createVictoryShockwave()
+local function createShockwave(color)
     local sw = {
         time = 0,
+        color = color
     }
     return sw
 end
 
 -- grows 140% of the screen per second
-local VICTORY_SHOCKWAVE_GROW_SPEED = 2.2
-local VICTORY_SHOCKWAVE_DURATION = 2 -- lives for X seconds
+local SHOCKWAVE_GROW_SPEED = 2.2
+local SHOCKWAVE_DURATION = 2 -- lives for X seconds
 
 ---@param self lootplot.singleplayer.LPState
-local function drawVictoryShockwave(self)
-    if not self.victoryShockwave then
+local function drawShockwave(self)
+    if not self.shockwave then
         return
     end
     local w,h = lg.getDimensions()
     local centerX, centerY = w/6,h/6
-    local radius = (w * VICTORY_SHOCKWAVE_GROW_SPEED) * self.victoryShockwave.time
+    local radius = (w * SHOCKWAVE_GROW_SPEED) * self.shockwave.time
     local oldLineWidth = lg.getLineWidth()
     local sc = globalScale.get()
     local width = 80 * sc
@@ -241,16 +243,16 @@ function LPState:pointsChanged(ent, deltaPoints, oldVal, newVal)
     if pointsReq and pointsReq > oldVal and pointsReq <= newVal then
         -- then we have breached the boundary! Hallelujah!
         -- send out a shockwave and stuff
-        self.victoryShockwave = createVictoryShockwave()
+        self.shockwave = createShockwave()
     end
 end
 
 
 function LPState:update(dt)
-    if self.victoryShockwave then
-        self.victoryShockwave.time = self.victoryShockwave.time + dt
-        if self.victoryShockwave.time > VICTORY_SHOCKWAVE_DURATION then
-            self.victoryShockwave = nil
+    if self.shockwave then
+        self.shockwave.time = self.shockwave.time + dt
+        if self.shockwave.time > SHOCKWAVE_DURATION then
+            self.shockwave = nil
         end
     end
 
@@ -514,7 +516,7 @@ function LPState:drawHUD()
 
     end
 
-    drawVictoryShockwave(self)
+    drawShockwave(self)
 end
 
 
