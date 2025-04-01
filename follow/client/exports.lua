@@ -70,7 +70,7 @@ function follow.setZoomSpeed(speed)
 end
 
 ---@param zf number
-function follow.initiateZoom(zf)
+function follow.setZoomFactor(zf)
     previousZoomFactor = displayZoomFactor
     targetZoomFactor = math.clamp(zf, MIN_ZOOM_FACTOR, MAX_ZOOM_FACTOR)
     zoomFactorLerp = 0
@@ -94,10 +94,10 @@ listener:onPressed({"input:SCROLL_UP", "input:SCROLL_DOWN"}, function(self, cont
     local zf = follow.getZoomFactor()
     if controlEnum == "input:SCROLL_UP" then
         -- zoom in:
-        follow.initiateZoom(zf + 1)
+        follow.setZoomFactor(zf + 1)
     else 
         -- else, zoom out:
-        follow.initiateZoom(zf - 1)
+        follow.setZoomFactor(zf - 1)
     end
 
     self:claim(controlEnum)

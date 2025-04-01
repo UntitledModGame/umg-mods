@@ -29,7 +29,7 @@ end
 
 function testUtils.resetCameraPosition()
     if client then
-        follow.initiateZoom(-6)
+        follow.setZoomFactor(-6)
     end
 end
 

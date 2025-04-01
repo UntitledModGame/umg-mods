@@ -27,6 +27,7 @@ Fade out as the game loads.
 
 ## SCENES:
 
+## (DONE)
 - **SUNSET BACKGROUND**
 - EYE-CATCH:
 - Simple activation sequence, with simple bonus,
@@ -35,9 +36,11 @@ Fade out as the game loads.
 
 - START MUSIC
 
+## (DONE)
 - **DEFAULT BACKGROUND**
 - scene with floating copycats that earn money (We have footage for this!)
 
+## (DONE)
 - **CHERRY BACKGROUND**
 (Keep it quite simple! Zoomed in.)
 - Demonstrate synergy by hovering an item. (violin?)
@@ -46,8 +49,10 @@ Fade out as the game loads.
 - (Ensure to show violin "clicking" into place, and move other items to compensate.)
 - Then, click Reroll.
 
+## (DONE)
 - **POPCORN BACKGROUND**
-- Pan over all the items
+- Zoom out over all the items, (slowly rotating too!)
+- (The plot should be filled with ALL items, and a tonne of random slots)
 
 - **VOID BACKGROUND**
 - Showcase moving bomb around, blow up dirt/stone slots,
