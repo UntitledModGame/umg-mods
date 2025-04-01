@@ -148,13 +148,12 @@ do
 local function coalShardActivate(itemEnt)
     local slotEnt = lp.itemToSlot(itemEnt)
     if slotEnt then
-        lp.modifierBuff(slotEnt, "bonusGenerated", -6)
-        lp.modifierBuff(slotEnt, "multGenerated", 0.7)
+        lp.modifierBuff(slotEnt, "multGenerated", 0.5)
     end
 end
 
 defShards("coal_shards", "Coal Shards",
-    coalShardActivate, "Adds {lootplot:POINTS_MULT_COLOR}+0.7 mult{/lootplot:POINTS_MULT_COLOR} to slots, and subtracts {lootplot:BONUS_COLOR}-6 bonus{/lootplot:BONUS_COLOR} from slots.\nThen, destroy self.", {
+    coalShardActivate, "Adds {lootplot:POINTS_MULT_COLOR}+0.5 mult{/lootplot:POINTS_MULT_COLOR} to slots.\nThen, destroy self.", {
     rarity = lp.rarities.COMMON,
     basePrice = 6,
 })
