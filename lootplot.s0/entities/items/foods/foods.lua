@@ -639,8 +639,8 @@ steel-candy in future?
 
 
 
-defineSlotSpawner("steelberry", "Steel-Berry", "steel_slot", "Steel Slots", lp.targets.HorizontalShape(1), {
-    basePrice = 20,
+defineSlotSpawner("steelberry", "Steel-Berry", "steel_slot", "Steel Slots", lp.targets.HorizontalShape(2), {
+    basePrice = 15,
     rarity = lp.rarities.EPIC
 })
 
