@@ -66,6 +66,12 @@ function SequentialPlaylist:getCurrentSource()
     return self.sources[self.internalPlayingIndex]
 end
 
+function SequentialPlaylist:getCurrentAudioName()
+    assert(#self.names > 0, "no songs added in the playlist")
+    return self.names[self.internalPlayingIndex]
+end
+
+
 ---@param source love.Source
 function SequentialPlaylist:songFinished(source)
     if not self.currentlyPlayingRemoved then

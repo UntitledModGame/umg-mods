@@ -8,7 +8,6 @@ local function define(name, path)
 end
 
 
-local epic = objects.Array()
 local normal = objects.Array()
 
 
@@ -29,35 +28,30 @@ dirObj:foreachFile("assets/music/normal", function(path, filename, extension)
     load(normal, path, filename, extension)
 end)
 
-dirObj:foreachFile("assets/music/epic", function(path, filename, extension)
-    load(epic, path, filename, extension)
-end)
 
+
+local VOLUME_MODIFIER = 0.4
+-- NOOMA ^^^ (number out of my ass)
 
 local function setVolume(id, x)
-    audio.getSource(id):setVolume(0.7)
+    audio.getTemplateSource(id):setVolume(x * VOLUME_MODIFIER)
 end
---[[
-If we want to change volume of any music, do it here:
 
-setVolume("lootplot.singleplayer:zigzag.mp3", 0.7)
 
-]]
+setVolume("lootplot.singleplayer:one_sly_move", 0.5)
+setVolume("lootplot.singleplayer:sauve_sandpipe", 0.4)
+setVolume("lootplot.singleplayer:thief", 0.8)
+setVolume("lootplot.singleplayer:zig_zag", 0.5)
+
 
 
 local musicManager = {}
 
 musicManager.normalBGMPlaylist = music.ShufflePlaylist(unpack(normal))
 
-musicManager.bossBGMPlaylist = music.ShufflePlaylist(unpack(epic))
-
 
 function musicManager.playNormalBGM()
     return music.play(musicManager.normalBGMPlaylist)
-end
-
-function musicManager.playBossBGM()
-    return music.play(musicManager.bossBGMPlaylist)
 end
 
 return musicManager

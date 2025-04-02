@@ -82,6 +82,13 @@ function ShufflePlaylist:getCurrentSource()
     return self.sources[self.internalPlayingIndex]
 end
 
+
+function ShufflePlaylist:getCurrentAudioName()
+    assert(#self.names > 0, "no songs added in the playlist")
+    return self.names[self.internalPlayingIndex]
+end
+
+
 ---@param source love.Source
 function ShufflePlaylist:songFinished(source)
     if not self.currentlyPlayingRemoved then

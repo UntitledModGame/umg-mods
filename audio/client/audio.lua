@@ -142,6 +142,18 @@ function audio.getSource(name)
     return source
 end
 
+
+---Retrieve the Template LOVE Source object of audio `name`.
+--- WARNING: Mutating this source will affect ALL other occurances of this audio!
+---@param name any
+---@return love.Source
+function audio.getTemplateSource(name)
+    validSoundTc(name)
+    return definedAudios[name]
+end
+
+
+
 local getNameTc = typecheck.assert("love:Source")
 
 ---Retrieve the audio name based on the LOVE Source object.
@@ -248,6 +260,25 @@ function audio.play(name, args)
     source:play()
     return source
 end
+
+
+
+--- Updates the pitch/volume of a source.
+--- Should be called when music is playing, or else the SFX wont update.
+--- (Should also be called on any long sound Fx)
+---@param name any
+---@param source any
+---@param ent? Entity
+function audio.updateSource(name, source, ent)
+    local template = definedAudios[name]
+    local volume = template:getVolume() * audio.getVolume(name, source, ent)
+    local pitch = template:getPitch() * audio.getPitch(name, source, ent)
+
+    source:setVolume(volume)
+    source:setPitch(pitch)
+end
+
+
 
 ---Check if audio effects are supported.
 ---

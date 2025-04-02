@@ -204,6 +204,11 @@
 ~~- make vertical line split gray, and make it go across the whole box~~
 ~~- Shrink the box such that there's no wasted space~~
 
+~~- Re-create trailer (follow same structure as old trailer tho.)~~
+~~- Ensure visual-variation!!! (different backgrounds!!!)~~
+
+~~- Update steam screenshots (Ensure visual variation - different backgrounds)~~
+~~- MAKE SURE TO SHOW ITEM SYNERGIES IN DESCRIPTIONS HERE!!! (red-flag? Or Coins-and-emerald?)~~
 
 
 
@@ -212,15 +217,17 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
 
-- Re-create trailer (follow same structure as old trailer tho.)
-- Ensure visual-variation!!! (different backgrounds!!!)
+- MUSIC VOLUME: Start at 0.3
+- SFX VOLUME: Start at 0.5
 
 
-- Update steam screenshots (Ensure visual variation - different backgrounds)
-- MAKE SURE TO SHOW ITEM SYNERGIES IN DESCRIPTIONS HERE!!! (red-flag? Or Coins-and-emerald?)
+- Add x64 and x86 support for linux. Currently, in `build/linux64/love.AppImage`, the appimage is x86 ONLY!
+- ALSO, ANOTHER IMPORTANT NOTE: Linux doesnt work anyway!!! (0 bytes, doesnt install anything???)
+- (Get Auahdark to help...?)
+- We could also just put in the steam-requirements that you need an x86 compatible processor.
 
 
-- Make steam-page for demo
+- Submit lootplot build
 
 
 - Add Metta's/Ravi's BGMs to the game
@@ -231,14 +238,12 @@ https://discord.com/channels/863625920991854602/863625920991854605/1352072030190
 https://discord.com/channels/863625920991854602/863625920991854605/1354632103580401754
 (INCOMPLETE:) https://discord.com/channels/@me/1316601752098967665/1328218664687767573
 
+- MUSIC: Adjust the volume of all tracks so it's somewhat consistent and nice
+
 - MUSIC: Consider adding HeatlyBro's music- Dark-Alley
 
 
-
-- Add x64 and x86 support for linux. Currently, in `build/linux64/love.AppImage`, the appimage is x86 ONLY!
-- ALSO, ANOTHER IMPORTANT NOTE: Linux doesnt work anyway!!! (0 bytes, doesnt install anything???)
-- (Get Auahdark to help...?)
-- We could also just put in the steam-requirements that you need an x86 compatible processor.
+- Make steam-page for demo
 
 
 - Demo infrastructure; (a way to tell whether the game is a demo or not.)

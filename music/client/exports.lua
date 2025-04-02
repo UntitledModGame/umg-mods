@@ -3,7 +3,7 @@
 local music = {}
 if false then _G.music = music end
 
----@alias music.MusicInterface {getCurrentSource:(fun(self:any):love.Source),update?:fun(self:any,dt:number),songStartPlay?:fun(self:any,source:love.Source),songInterrupted?:fun(self:any,source:love.Source),songFinished?:fun(self:any,source:love.Source)}
+---@alias music.MusicInterface {getCurrentSource:(fun(self:any):love.Source),update?:fun(self:any,dt:number),songStartPlay?:fun(self:any,source:love.Source),songInterrupted?:fun(self:any,source:love.Source),songFinished?:fun(self:any,source:love.Source),getCurrentAudioName:fun(self:any):string}
 
 ---@type music.MusicInterface?
 local currentMusicObject = nil
@@ -42,6 +42,9 @@ umg.on("@update", function(dt)
             currentMusicObject:songStartPlay(currentSource)
             currentSource:play()
         end
+
+        local audioName = currentMusicObject:getCurrentAudioName()
+        audio.updateSource(audioName, currentSource)
 
         currentMusicObject:update(dt)
 
