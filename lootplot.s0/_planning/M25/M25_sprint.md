@@ -218,10 +218,22 @@
 
 ~~- ACCESSIBILITY: Add a way to exit the game in umg-core lootplot menu~~
 
+~~- Make steam-page for demo~~
+
+~~- Demo infrastructure; (a way to tell whether the game is a demo or not.)~~
+
+~~- (DEFERRED) Put "LOOTPLOT DEMO" text top right, ~~
+~~- so people (A) can tell what the game is if viewing screenshots, and (B) understand that its a demo version~~
+
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
+
+
+- DEMO LIMITATION: We should only let the player win 1 game. After they have won, dont let them play again.
+- (This works well, because the player is most likely to want to play more right after winning.)
+
 
 - Add Metta's/Ravi's BGMs to the game
 - Maybe we should have 10-15 second long gaps between the songs...? Or maybe have them gradually fade in/out?
@@ -236,6 +248,11 @@ https://discord.com/channels/863625920991854602/863625920991854605/1354632103580
 - MUSIC: Consider adding HeatlyBro's music- Dark-Alley
 
 
+
+- Add demo-infra to UMG CI-CD. (Auto-add LOOTPLOT_DEMO.txt)
+
+
+
 - Add x64 and x86 support for linux. Currently, in `build/linux64/love.AppImage`, the appimage is x86 ONLY!
 - ALSO, ANOTHER IMPORTANT NOTE: Linux doesnt work anyway!!! (0 bytes, doesnt install anything???)
 - (Get Auahdark to help...?)
@@ -243,18 +260,6 @@ https://discord.com/channels/863625920991854602/863625920991854605/1354632103580
 
 
 - Submit lootplot build
-
-
-- Make steam-page for demo
-
-
-- Demo infrastructure; (a way to tell whether the game is a demo or not.)
--->  
-- Put "LOOTPLOT DEMO" text top right, 
-- so people (A) can tell what the game is if viewing screenshots, and (B) understand that its a demo version
--->  
-- DEMO LIMITATION: We should only let the player win 1 game. After they have won, dont let them play again.
-- (This works well, because the player is most likely to want to play more right after winning.)
 
 
 - Gather list of streamers/yters to send keys to

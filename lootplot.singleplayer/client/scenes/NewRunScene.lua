@@ -17,6 +17,9 @@ local loc = localization.localize
 local NEW_RUN_STRING = loc("New Run")
 local NEW_RUN_BUTTON_STRING = loc("Start New Run")
 
+local NEW_RUN_DEMO_LOCKED = loc("Buy full game to continue!")
+
+
 local CHOOSE_UR_STARTING_ITEM = loc("Choose your starting item!")
 
 
@@ -221,9 +224,16 @@ function NewRunScene:onRender(x, y, w, h)
     e.perkSelect:render(perkSelect:padRatio(0.2):get())
 
     -- start button:
-    local startButton = footer:padRatio(0.15):shrinkToAspectRatio(4,1)
-    if self:getSelectedPerkItem() then
-        e.newRunButton:render(startButton:get())
+    local isDemoComplete = umg.DEMO_MODE and (lp.getWinCount() > 0)
+    if isDemoComplete then
+        local demoLockTxt = footer:padRatio(0.3)
+        text.printRichContained("{outline thickness=1}" .. NEW_RUN_DEMO_LOCKED, fonts.getLargeFont(16), demoLockTxt:get())
+    else
+
+        local startButton = footer:padRatio(0.15):shrinkToAspectRatio(4,1)
+        if self:getSelectedPerkItem() then
+            e.newRunButton:render(startButton:get())
+        end
     end
 
     -- exit button
