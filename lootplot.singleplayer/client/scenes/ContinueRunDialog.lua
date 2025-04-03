@@ -1,5 +1,7 @@
 local fonts = require("client.fonts")
 local globalScale = require("client.globalScale")
+local helper = require("client.states.helper")
+
 
 local StretchableBox = require("client.elements.StretchableBox")
 local StretchableButton = require("client.elements.StretchableButton")
@@ -23,6 +25,8 @@ local KEYS = {
 
 function ContinueRunDialog:init(args)
     typecheck.assertKeys(args, KEYS)
+
+    self.isQuitting = false
 
     ---@type lootplot.singleplayer.RunMeta
     local runInfo = args.runInfo
@@ -62,6 +66,16 @@ function ContinueRunDialog:init(args)
         color = objects.Color(1,1,1,1):setHSL(184, 0.7, 0.5),
         font = fonts.getLargeFont(),
     })
+    e.exitButton = ui.elements.Button({
+        image = "red_square_1",
+        backgroundColor = objects.Color.TRANSPARENT,
+        outlineColor = objects.Color.TRANSPARENT,
+        click = function()
+            -- leave game:
+            self.isQuitting = true
+            client.disconnect()
+        end,
+    })
     e.newRunInfo = ui.elements.Text({
         text = NEW_RUN_STRING,
         color = objects.Color.WHITE,
@@ -90,12 +104,21 @@ end
 
 function ContinueRunDialog:onRender(x, y, w, h)
     love.graphics.setColor(objects.Color.WHITE)
-    local r = layout.Region(x,y,w,h):padRatio(0.05, 0.2)
+    local r = layout.Region(x,y,w,h):padRatio(0.1, 0.1)
 
-    local title, body = r:splitVertical(1, 4)
+    if self.isQuitting then
+        helper.drawQuittingScreen(x,y,w,h)
+        return
+    end
+
+    local header, body = r:splitVertical(1, 4)
     body = body:padRatio(0.1)
-    title = title:padRatio(0.1)
+    local title = header:padRatio(0.1)
         :moveRatio(0, 0.1 * math.sin(love.timer.getTime()))
+
+    local _, exitButton = header:padRatio(0.1):splitHorizontal(9,1)
+    exitButton = exitButton:padRatio(0.1)
+
     local continuePane, startPane = body:splitHorizontal(1, 1)
     local continueInfo, continueButton = continuePane:splitVertical(4, 1)
     continueButton = continueButton:shrinkToAspectRatio(3,1)
@@ -108,6 +131,7 @@ function ContinueRunDialog:onRender(x, y, w, h)
     self.elements.continueRunButton:render(continueButton:get())
     self.elements.newRunInfo:render(startInfo:get())
     self.elements.newRunButton:render(startButton:get())
+    self.elements.exitButton:render(exitButton:get())
 
     -- Draw pane separator
     local bx, by, bw, bh = body:get()

@@ -29,11 +29,12 @@ function ContinueState:init(runInfo)
         startRun = function()
             state.pop(self)
 
-            local function cancel()
+            local function goBackToContinueState(selfState)
+                state.pop(selfState)
                 return state.push(ContinueState(runInfo), Z_ORDER.CONTINUE_RUN_STATE)
             end
 
-            return state.push(NewRunState(cancel), Z_ORDER.NEW_RUN_STATE)
+            return state.push(NewRunState(goBackToContinueState), Z_ORDER.NEW_RUN_STATE)
         end
     })
 

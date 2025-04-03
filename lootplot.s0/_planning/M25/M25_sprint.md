@@ -210,24 +210,20 @@
 ~~- Update steam screenshots (Ensure visual variation - different backgrounds)~~
 ~~- MAKE SURE TO SHOW ITEM SYNERGIES IN DESCRIPTIONS HERE!!! (red-flag? Or Coins-and-emerald?)~~
 
+~~- MUSIC VOLUME: Start at 0.3~~
+~~- SFX VOLUME: Start at 0.5~~
 
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
+- ACCESSIBILITY: Add a way to pause with mouse
 
-- MUSIC VOLUME: Start at 0.3
-- SFX VOLUME: Start at 0.5
+- ACCESSIBILITY: Add a way to exit the game in umg-core lootplot menu
 
-
-- Add x64 and x86 support for linux. Currently, in `build/linux64/love.AppImage`, the appimage is x86 ONLY!
-- ALSO, ANOTHER IMPORTANT NOTE: Linux doesnt work anyway!!! (0 bytes, doesnt install anything???)
-- (Get Auahdark to help...?)
-- We could also just put in the steam-requirements that you need an x86 compatible processor.
-
-
-- Submit lootplot build
+- ACCESSIBILITY: Add a way to exit the game from lootplot.singleplayer
+- Make lootplot.singleplayer ContinueRun scene ratios better
 
 
 - Add Metta's/Ravi's BGMs to the game
@@ -241,6 +237,15 @@ https://discord.com/channels/863625920991854602/863625920991854605/1354632103580
 - MUSIC: Adjust the volume of all tracks so it's somewhat consistent and nice
 
 - MUSIC: Consider adding HeatlyBro's music- Dark-Alley
+
+
+- Add x64 and x86 support for linux. Currently, in `build/linux64/love.AppImage`, the appimage is x86 ONLY!
+- ALSO, ANOTHER IMPORTANT NOTE: Linux doesnt work anyway!!! (0 bytes, doesnt install anything???)
+- (Get Auahdark to help...?)
+- We could also just put in the steam-requirements that you need an x86 compatible processor.
+
+
+- Submit lootplot build
 
 
 - Make steam-page for demo

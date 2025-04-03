@@ -31,7 +31,10 @@ function LoadingState:update(dt)
             local continueState = ContinueState(runInfo)
             state.push(continueState, Z_ORDER.CONTINUE_RUN_STATE)
         else
-            local newRunState = NewRunState()
+            local quitGame = function ()
+                client.disconnect()
+            end
+            local newRunState = NewRunState(quitGame)
             state.push(newRunState, Z_ORDER.NEW_RUN_STATE)
         end
     end

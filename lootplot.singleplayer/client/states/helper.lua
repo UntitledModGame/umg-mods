@@ -1,4 +1,9 @@
 
+local globalScale = require("client.globalScale")
+local fonts = require("client.fonts")
+
+
+
 local helper = {}
 
 
@@ -52,6 +57,40 @@ function helper.createStateListener(scene)
 
     return listener
 end
+
+
+
+
+
+local QUITTING_TEXT = localization.localize("Quitting...")
+local lg=love.graphics
+
+function helper.drawQuittingScreen(x,y,w,h)
+    -- draw background:
+    lg.setColor(226/255, 195/255, 127/255)
+    lg.rectangle("fill",x,y,w,h)
+
+    local font = fonts.getLargeFont(32)
+    lg.setFont(font)
+    local W = font:getWidth(QUITTING_TEXT)
+    local sc = globalScale.get() * 3
+
+    -- draw outline
+    local offset = sc * 2
+    lg.setColor(0,0,0)
+    local ww,hh = lg.getDimensions()
+    lg.print(QUITTING_TEXT,x+ww/2 + offset, y+hh/3 + offset, 0, sc,sc, W/2)
+    lg.print(QUITTING_TEXT,x+ww/2 - offset, y+hh/3 - offset, 0, sc,sc, W/2)
+    lg.print(QUITTING_TEXT,x+ww/2 + offset, y+hh/3 - offset, 0, sc,sc, W/2)
+    lg.print(QUITTING_TEXT,x+ww/2 - offset, y+hh/3 + offset, 0, sc,sc, W/2)
+
+    -- draw txt
+    lg.setColor(1,1,1)
+    lg.print(QUITTING_TEXT,x+ww/2, y+hh/3, 0, sc,sc, W/2)
+end
+
+
+
 
 
 return helper

@@ -12,16 +12,9 @@ local NewRunScene = require("client.scenes.NewRunScene")
 local NewRunState = objects.Class("lootplot.singleplayer:NewRunState")
 
 
----@param cancelAction function?
-function NewRunState:init(cancelAction)
-    local cancelRun = nil
-
-    if cancelAction then
-        function cancelRun()
-            state.pop(self)
-            return cancelAction()
-        end
-    end
+---@param exitFunc function
+function NewRunState:init(exitFunc)
+    assert(exitFunc, "?")
 
     local backgrounds = lp.backgrounds.getRegisteredBackgrounds()
     assert(#backgrounds > 0, "no backgrounds?")
@@ -55,7 +48,9 @@ function NewRunState:init(cancelAction)
                 background = background
             })
         end,
-        cancelRun = cancelRun
+        exit = function()
+            exitFunc(self)
+        end
     })
     self.scene:makeRoot()
     self.listener = helper.createStateListener(self.scene)

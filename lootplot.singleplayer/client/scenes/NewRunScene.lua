@@ -2,6 +2,8 @@
 local fonts = require("client.fonts")
 local lg=love.graphics
 local globalScale = require("client.globalScale")
+local helper = require("client.states.helper")
+
 
 local StretchableBox = require("client.elements.StretchableBox")
 local StretchableButton = require("client.elements.StretchableButton")
@@ -25,15 +27,18 @@ local NewRunScene = ui.Element("lootplot.singleplayer:NewRunScene")
 local FONT_SIZE = 32
 local BACKGROUND_COLOR = objects.Color(objects.Color.HSLtoRGB(250, 0.1, 0.32))
 local KEYS = {
-    startNewRun = true,
-    backgrounds = true, -- lootplot.backgrounds.BackgroundInfoData[]
-    lastSelectedBackground = true -- string (ID of background)
+    "startNewRun",
+    "backgrounds", -- lootplot.backgrounds.BackgroundInfoData[]
+    "lastSelectedBackground", -- string (ID of background)
+    "exit"
 }
 
 local FOREGROUND_COLOR = objects.Color(objects.Color.HSLtoRGB(250, 0.1, 0.14))
 
 function NewRunScene:init(arg)
     typecheck.assertKeys(arg, KEYS)
+
+    self.isQuitting = false
 
     local e = {}
     e.base = StretchableBox("white_pressed_big", 8, {
@@ -70,14 +75,15 @@ function NewRunScene:init(arg)
         font = fonts.getLargeFont(),
     })
 
-    if arg.cancelRun then
-        e.cancelButton = ui.elements.Button({
-            click = arg.cancelRun,
-            image = "red_square_1",
-            backgroundColor = objects.Color.TRANSPARENT,
-            outlineColor = objects.Color.TRANSPARENT
-        })
-    end
+    e.exitButton = ui.elements.Button({
+        click = function()
+            self.isQuitting = true
+            arg.exit()
+        end,
+        image = "red_square_1",
+        backgroundColor = objects.Color.TRANSPARENT,
+        outlineColor = objects.Color.TRANSPARENT
+    })
 
     self.perkSelect = PerkSelect()
     e.perkSelect = self.perkSelect
@@ -160,6 +166,11 @@ function NewRunScene:onRender(x, y, w, h)
     local r = layout.Region(x,y,w,h):padRatio(0.15, 0.1)
     local e = self.elements
 
+    if self.isQuitting then
+        helper.drawQuittingScreen(x,y,w,h)
+        return
+    end
+
     local title, body, footer = r:splitVertical(1, 4, 1)
     body = body:padRatio(0.1)
     title = bob(title:padRatio(0.1))
@@ -168,13 +179,13 @@ function NewRunScene:onRender(x, y, w, h)
     left = left:padRatio(0.1)
     right = right:padRatio(0.1)
 
-    local cancelButton = nil
-    if e.cancelButton then
+    local exitButton = nil
+    if e.exitButton then
         local iw, ih = select(3, client.assets.images.red_square_1:getViewport())
         local s = globalScale.get() * 2
         local regW, regH = iw * s, ih * s
         local pad = 5
-        cancelButton = layout.Region(0, 0, regW, regH)
+        exitButton = layout.Region(0, 0, regW, regH)
             :attachToRightOf(r)
             :attachToTopOf(r)
             :moveUnit(-regW - pad, regH + pad)
@@ -215,8 +226,9 @@ function NewRunScene:onRender(x, y, w, h)
         e.newRunButton:render(startButton:get())
     end
 
-    if e.cancelButton and cancelButton then
-        e.cancelButton:render(cancelButton:get())
+    -- exit button
+    if e.exitButton and exitButton then
+        e.exitButton:render(exitButton:get())
     end
 
     -- pane separator:
