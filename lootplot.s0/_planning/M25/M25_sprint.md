@@ -213,18 +213,18 @@
 ~~- MUSIC VOLUME: Start at 0.3~~
 ~~- SFX VOLUME: Start at 0.5~~
 
+~~- ACCESSIBILITY: Add a way to exit the game from lootplot.singleplayer~~
+~~- Make lootplot.singleplayer ContinueRun scene ratios better~~
+
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
+
 - ACCESSIBILITY: Add a way to pause with mouse
 
 - ACCESSIBILITY: Add a way to exit the game in umg-core lootplot menu
-
-- ACCESSIBILITY: Add a way to exit the game from lootplot.singleplayer
-- Make lootplot.singleplayer ContinueRun scene ratios better
-
 
 - Add Metta's/Ravi's BGMs to the game
 - Maybe we should have 10-15 second long gaps between the songs...? Or maybe have them gradually fade in/out?

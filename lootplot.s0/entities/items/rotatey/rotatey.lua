@@ -423,8 +423,6 @@ defVault("red_vault", "Red Vault", {
 
 
 defVault("golden_vault", "Golden Vault", {
-    activateDescription = loc("Give {lootplot:POINTS_MULT_COLOR}+0.4 Mult{/lootplot:POINTS_MULT_COLOR} to slots"),
-
     doomCount = 15,
     baseMoneyGenerated = 4,
 })
