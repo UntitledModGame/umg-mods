@@ -216,15 +216,12 @@
 ~~- ACCESSIBILITY: Add a way to exit the game from lootplot.singleplayer~~
 ~~- Make lootplot.singleplayer ContinueRun scene ratios better~~
 
+~~- ACCESSIBILITY: Add a way to exit the game in umg-core lootplot menu~~
+
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
-
-
-- ACCESSIBILITY: Add a way to pause with mouse
-
-- ACCESSIBILITY: Add a way to exit the game in umg-core lootplot menu
 
 - Add Metta's/Ravi's BGMs to the game
 - Maybe we should have 10-15 second long gaps between the songs...? Or maybe have them gradually fade in/out?
@@ -285,4 +282,7 @@ When the meta-chest is unlocked, you unlock a secret challenge-starting item?
 
 ^^^ this would be extremely simple to implement, it would be fun, because itd be exciting to uncover new items, and itd just be a cool thing.
 Bowling-ball could be unlocked this way, for example
+
+
+- ACCESSIBILITY: Add a way to pause with mouse
 
