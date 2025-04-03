@@ -225,14 +225,14 @@
 ~~- (DEFERRED) Put "LOOTPLOT DEMO" text top right, ~~
 ~~- so people (A) can tell what the game is if viewing screenshots, and (B) understand that its a demo version~~
 
+~~- DEMO LIMITATION: We should only let the player win 1 game. After they have won, dont let them play again.~~
+~~- (This works well, because the player is most likely to want to play more right after winning.)~~
+
+
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
-
-
-- DEMO LIMITATION: We should only let the player win 1 game. After they have won, dont let them play again.
-- (This works well, because the player is most likely to want to play more right after winning.)
 
 
 - Add Metta's/Ravi's BGMs to the game
@@ -248,8 +248,7 @@ https://discord.com/channels/863625920991854602/863625920991854605/1354632103580
 - MUSIC: Consider adding HeatlyBro's music- Dark-Alley
 
 
-
-- Add demo-infra to UMG CI-CD. (Auto-add LOOTPLOT_DEMO.txt)
+- Add demo-infra to UMG CI-CD. (LOOTPLOT_DEMO.txt at project root)
 
 
 
