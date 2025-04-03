@@ -104,6 +104,40 @@ function text.printRichCentered(txt, font, x, y, limit, align, rot, sx, sy)
     return drawRichText(parsed, font, x, y, limit, align, rot, sx, sy, ox, oy)
 end
 
+
+---@param font love.Font
+---@param txt string
+---@param wrap number?
+---@return number,number
+local function getTextSize(font, txt, wrap)
+    local width, lines = font:getWrap(txt, wrap or 2147483647)
+    return width, #lines * font:getHeight()
+end
+
+
+---Prints rich text contained inside a x,y,w,h box
+---@param txt string richtext
+---@param font love.Font
+---@param x number
+---@param y number
+---@param w number
+---@param h number
+function text.printRichContained(txt, font, x,y,w,h)
+    strTc(txt)
+    local parsed = assert(parser.ensure(txt))
+    local strippedTxt = text.stripEffects(txt)
+
+    local tw, th = getTextSize(font, assert(strippedTxt), w)
+
+    local limit = w
+    local scale = math.min(limit/tw, h/th)
+    local drawX, drawY = math.floor(x+w/2), math.floor(y+h/2)
+
+    drawRichText(parsed, font, drawX, drawY, limit, "left", 0, scale, scale, tw / 2, th / 2)
+end
+
+
+
 umg.expose("text", text)
 require("client.default_effects")() -- Expose default effects
 
