@@ -169,7 +169,8 @@ end
 local function spawnSell(ent, dx, dy)
     local ppos, team = getPosTeam(ent)
     ppos = assert(ppos:move(dx or 0, dy or 0))
-    wg.spawnSlots(assert(ppos:move(0, 3)), server.entities.sell_slot, 1,1, team)
+    local slotEnt = lp.trySpawnSlot(assert(ppos:move(0, 3)), server.entities.sell_slot, team)
+    return assert(slotEnt)
 end
 
 local function spawnMoneyLimit(ent)
@@ -337,7 +338,6 @@ definePerk("six_ball", {
         spawnRerollButton(ent)
         spawnNormal(ent)
         spawnSell(ent)
-        spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
 
         do -- spawn golden-die:
@@ -355,6 +355,12 @@ definePerk("six_ball", {
             itemEnt.lives = 10
         end
         end
+
+        ppos:getPlot():foreachSlot(function(slotEnt, _p)
+            if not (lp.hasTrigger(slotEnt, "REROLL")) and (not slotEnt.buttonSlot) then
+                lp.setTriggers(slotEnt, {"REROLL"})
+            end
+        end)
 
         lp.forceSpawnSlot(assert(ppos:move(-4,-4)), server.entities.gray_pulse_button_slot, team)
         spawnNextLevelButton(ent)
