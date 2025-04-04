@@ -12,6 +12,13 @@ local BackgroundSelect = require("client.elements.BackgroundSelect")
 local PerkSelect = require("client.elements.PerkSelect")
 
 
+
+local NUM_DEMO_WINS = 2
+--[[
+2 wins before the demo doesn't allow players to play anymore.
+]]
+
+
 local loc = localization.localize
 
 local NEW_RUN_STRING = loc("New Run")
@@ -224,7 +231,7 @@ function NewRunScene:onRender(x, y, w, h)
     e.perkSelect:render(perkSelect:padRatio(0.2):get())
 
     -- start button:
-    local isDemoComplete = umg.DEMO_MODE and (lp.getWinCount() > 0)
+    local isDemoComplete = umg.DEMO_MODE and (lp.getWinCount() >= NUM_DEMO_WINS)
     if isDemoComplete then
         local demoLockTxt = footer:padRatio(0.3)
         text.printRichContained("{outline thickness=1}" .. NEW_RUN_DEMO_LOCKED, fonts.getLargeFont(16), demoLockTxt:get())
