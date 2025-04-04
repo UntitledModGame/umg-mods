@@ -229,27 +229,29 @@
 ~~- (This works well, because the player is most likely to want to play more right after winning.)~~
 
 
+~~- Add Metta's/Ravi's BGMs to the game~~
+~~- Maybe we should have 10-15 second long gaps between the songs...? Or maybe have them gradually fade in/out?~~
+~~MUSICS:~~
+~~https://discord.com/channels/863625920991854602/863625920991854605/1352078855351042140~~
+~~https://discord.com/channels/863625920991854602/863625920991854605/1352072030190698566~~
+~~https://discord.com/channels/863625920991854602/863625920991854605/1354632103580401754~~
+~~(INCOMPLETE:) https://discord.com/channels/@me/1316601752098967665/1328218664687767573~~
+
+~~- MUSIC: Adjust the volume of all tracks so it's somewhat consistent and nice~~
+
+~~- MUSIC: Consider adding HeatlyBro's music- Dark-Alley~~
+
+
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
 
-- Add Metta's/Ravi's BGMs to the game
-- Maybe we should have 10-15 second long gaps between the songs...? Or maybe have them gradually fade in/out?
-MUSICS:
-https://discord.com/channels/863625920991854602/863625920991854605/1352078855351042140
-https://discord.com/channels/863625920991854602/863625920991854605/1352072030190698566
-https://discord.com/channels/863625920991854602/863625920991854605/1354632103580401754
-(INCOMPLETE:) https://discord.com/channels/@me/1316601752098967665/1328218664687767573
-
-- MUSIC: Adjust the volume of all tracks so it's somewhat consistent and nice
-
-- MUSIC: Consider adding HeatlyBro's music- Dark-Alley
-
-
 - Add demo-infra to UMG CI-CD. (LOOTPLOT_DEMO.txt at project root)
 
+
+- In descriptions, rename target-shape to `target`
 
 
 - Add x64 and x86 support for linux. Currently, in `build/linux64/love.AppImage`, the appimage is x86 ONLY!
