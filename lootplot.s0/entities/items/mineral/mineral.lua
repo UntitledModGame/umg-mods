@@ -57,17 +57,19 @@ local function defineGreatsword(mineral_type, name, strength, etype)
     local etypeName = namespace .. mineral_type .. "_greatsword"
     local image = mineral_type .. "_greatsword"
 
+    local mult = math.max(2, strength)
+
     local swordType = {
         image = image,
         name = loc(name .. " Great-Sword"),
 
         description = loc("Comes with a {lootplot:POINTS_MULT_COLOR}%{mult}x points multiplier", {
-            mult = strength
+            mult = mult
         }),
 
         lootplotProperties = {
             multipliers = {
-                pointsGenerated = math.max(2, strength),
+                pointsGenerated = mult
             }
         },
 
