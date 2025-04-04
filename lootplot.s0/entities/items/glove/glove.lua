@@ -30,21 +30,21 @@ end
 
 defineGlove("up_glove",
     "Up Glove",
-    "Set target item's shape to UP-1.",
+    "Set item's targets to UP-1.",
     lp.targets.UpShape(1),
     lp.rarities.RARE
 )
 
 defineGlove("knight_glove",
     "Knight Glove",
-    "Set target item's shape to KNIGHT.",
+    "Set item's targets to KNIGHT.",
     lp.targets.KNIGHT_SHAPE,
     lp.rarities.RARE
 )
 
 defineGlove("bishop_glove",
     "Bishop Glove",
-    "Set target item's shape to BISHOP-3.",
+    "Set item's targets to BISHOP-3.",
     lp.targets.BishopShape(3),
     lp.rarities.RARE
 )
@@ -52,14 +52,14 @@ defineGlove("bishop_glove",
 
 defineGlove("king_glove",
     "King Glove",
-    "Set target item's shape to KING-1.",
+    "Set item's targets to KING-1.",
     lp.targets.KING_SHAPE,
     lp.rarities.EPIC
 )
 
 defineGlove("rook_glove",
     "Rook Glove",
-    "Set target item's shape to ROOK-6.",
+    "Set item's targets to ROOK-6.",
     lp.targets.RookShape(6),
     lp.rarities.LEGENDARY
 )

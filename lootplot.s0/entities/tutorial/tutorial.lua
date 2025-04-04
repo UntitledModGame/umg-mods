@@ -529,7 +529,7 @@ end
 do
 -- Target part ONE:
 
-local TXT_UPPER = loc("This item has a ROOK-1 shape.\nTo view the item's shape, click on the item")
+local TXT_UPPER = loc("This item has a ROOK-1 target-shape.\nTo view the targets, click on the item")
 local TXT_LOWER = loc("If the target is wiggling,\nthat means that the target is valid,\nand slots will spawn!")
 
 
