@@ -241,6 +241,8 @@
 
 ~~- MUSIC: Consider adding HeatlyBro's music- Dark-Alley~~
 
+~~- In descriptions, rename target-shape to `target`~~
+
 
 
 ==========================================
@@ -249,9 +251,6 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 
 
 - Add demo-infra to UMG CI-CD. (LOOTPLOT_DEMO.txt at project root)
-
-
-- In descriptions, rename target-shape to `target`
 
 
 - Add x64 and x86 support for linux. Currently, in `build/linux64/love.AppImage`, the appimage is x86 ONLY!
