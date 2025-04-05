@@ -243,15 +243,13 @@
 
 ~~- In descriptions, rename target-shape to `target`~~
 
+~~- Add demo-infra to UMG CI-CD. (LOOTPLOT_DEMO.txt at project root)~~
 
+~~- Submit lootplot-demo build~~
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
-
-
-- Add demo-infra to UMG CI-CD. (LOOTPLOT_DEMO.txt at project root)
-
 
 - Add x64 and x86 support for linux. Currently, in `build/linux64/love.AppImage`, the appimage is x86 ONLY!
 - ALSO, ANOTHER IMPORTANT NOTE: Linux doesnt work anyway!!! (0 bytes, doesnt install anything???)
@@ -259,14 +257,17 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 - We could also just put in the steam-requirements that you need an x86 compatible processor.
 
 
-- Submit lootplot build
+- Do pricing for lootplot (Remember sales! Factor in 30% sales)
 
+- Submit lootplot build
 
 - Gather list of streamers/yters to send keys to
 
+- Release Demo
 
-- RELEASE DEMO!!!
+- Send keys to streamers
 
+- RELEASE LOOTPLOT
 
 
 =============================================
