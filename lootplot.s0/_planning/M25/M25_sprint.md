@@ -247,25 +247,35 @@
 
 ~~- Submit lootplot-demo build~~
 
+~~- Add x64 and x86 support for linux. Currently, in `build/linux64/love.AppImage`, the appimage is x86 ONLY!~~
+~~- ALSO, ANOTHER IMPORTANT NOTE: Linux doesnt work anyway!!! (0 bytes, doesnt install anything???)~~
+~~- (Get Auahdark to help...?)~~
+~~- We could also just put in the steam-requirements that you need an x86 compatible processor.~~
+
+~~- Do pricing for lootplot (Remember sales! Factor in 30% sales)~~
+
+~~- Submit lootplot build~~
+
+
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
-- Add x64 and x86 support for linux. Currently, in `build/linux64/love.AppImage`, the appimage is x86 ONLY!
-- ALSO, ANOTHER IMPORTANT NOTE: Linux doesnt work anyway!!! (0 bytes, doesnt install anything???)
-- (Get Auahdark to help...?)
-- We could also just put in the steam-requirements that you need an x86 compatible processor.
 
+~~- Make trailer volume louder (currently too quiet!)~~
+~~- Adjust trailer volume per scene~~
+~~- Add subtle zoom in / zoom out to trailer scenes (it makes it look better)~~
+- Upload trailer
 
-- Do pricing for lootplot (Remember sales! Factor in 30% sales)
+- Send lootplot keys to review agencies/companies
 
-- Submit lootplot build
+- Gather BIG list of streamers/yters to send keys to
 
-- Gather list of streamers/yters to send keys to
+- Send keys to streamers
 
 - Release Demo
 
-- Send keys to streamers
+- Send MORE keys to streamers
 
 - RELEASE LOOTPLOT
 
