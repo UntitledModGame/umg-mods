@@ -256,22 +256,27 @@
 
 ~~- Submit lootplot build~~
 
+~~- Make trailer volume louder (currently too quiet!)~~
+~~- Adjust trailer volume per scene~~
+~~- Add subtle zoom in / zoom out to trailer scenes (it makes it look better)~~
+~~- Upload trailer~~
+
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
 
-~~- Make trailer volume louder (currently too quiet!)~~
-~~- Adjust trailer volume per scene~~
-~~- Add subtle zoom in / zoom out to trailer scenes (it makes it look better)~~
-- Upload trailer
-
-- Send lootplot keys to review agencies/companies
+- Gather emails of review agencies/companies
+- Gather a BIG BIG BIG list of curators to review game
 
 - Gather BIG list of streamers/yters to send keys to
 
+- Generate like 300 lootplot steam keys
+
 - Send keys to streamers
+
+- Send keys to review agencies/companies/curators
 
 - Release Demo
 
@@ -288,6 +293,9 @@ ANY TASK BELOW (VVV) STRETCH-GOAL / AFTER DEMO
 - Make Japanese localization ?
 
 - Make Korean localization ?
+
+- Make Chinese localization!!! 
+(There's SOOO MANY chinese curators, ur TROLLING if dont.)
 
 
 
