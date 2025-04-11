@@ -233,6 +233,24 @@ defineDice("triple_dice", "Triple Dice", {
 
 
 
+
+
+defItem("green_pin", "Green Pin", {
+    triggers = {"REROLL", "PULSE"},
+    sticky = true,
+
+    basePointsGenerated = 20,
+    baseBonusGenerated = 1,
+    basePrice = 8,
+    baseMaxActivations = 6,
+
+    rarity = lp.rarities.UNCOMMON
+})
+
+
+
+
+
 --[[
 ========================
 GOLDSMITH SUB-ARCHETYPE:
