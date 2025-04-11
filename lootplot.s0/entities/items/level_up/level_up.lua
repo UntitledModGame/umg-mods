@@ -68,17 +68,19 @@ defItem("red_key", "Red Key", {
 defItem("golden_bell", "Big Golden Bell", {
     basePrice = 6,
 
-    activateDescription = loc("Converts slot into a {wavy}{lootplot:MONEY_COLOR}Golden Slot"),
+    activateDescription = loc("Gives {wavy}{lootplot:MONEY_COLOR}+$1 earned{/lootplot:MONEY_COLOR}{/wavy} to slot"),
 
     onActivate = function(ent)
-        local ppos = lp.getPos(ent)
-        if ppos then
-            lp.forceSpawnSlot(ppos, server.entities.golden_slot, ent.lootplotTeam)
+        local slotEnt = lp.itemToSlot(ent)
+        if slotEnt then
+            lp.modifierBuff(slotEnt, "moneyGenerated", 1, ent)
         end
     end,
 
-    baseMoneyGenerated = 5,
+    baseMoneyGenerated = 2,
     baseMaxActivations = 4,
+
+    sticky = true,
 
     rarity = lp.rarities.RARE,
 })
@@ -155,7 +157,7 @@ defItem("small_golden_bell", "Small Golden Bell", {
 
 local GOLD_COMPASS_AMOUNT = 0
 
-defItem("gold_compass", "Gold Compass", {
+defItem("golden_compass", "Golden Compass", {
     activateDescription = loc("Sets money to {lootplot:MONEY_COLOR}$%{amount}{/lootplot:MONEY_COLOR}. Make slots earn {lootplot:MONEY_COLOR}$1.", {
         amount = GOLD_COMPASS_AMOUNT
     }),

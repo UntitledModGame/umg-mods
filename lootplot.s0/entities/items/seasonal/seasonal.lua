@@ -33,20 +33,23 @@ end
 defineItem(HALLOWEEN, "jack_o_lantern", {
     name = loc("Jack o Lantern"),
     description = loc("Happy Halloween!"),
-    basePointsGenerated = 10,
+    basePointsGenerated = 30,
+    baseMultGenerated = 0.4,
 })
 
 
 defineItem(CHRISTMAS, "santa_hat", {
     name = loc("Santa Hat"),
     description = loc("Merry Christmas!"),
-    basePointsGenerated = 10,
+    baseBonusGenerated = 2,
+    baseMultGenerated = 0.4,
 })
 
 
 defineItem(EASTER, "seasonal_easter_eggs", {
     name = loc("Easter Eggs"),
     description = loc("Happy Easter!"),
-    basePointsGenerated = 10,
+    baseBonusGenerated = -3,
+    baseMultGenerated = 0.9,
 })
 
