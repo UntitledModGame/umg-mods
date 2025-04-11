@@ -179,3 +179,24 @@ Steam achievements:
 - need to somehow deploy an API from core umg
 - Connect with umg base mods
 
+
+
+----
+
+## TUTORIAL RUN:
+
+Start with- 
+
+iron spear
+violin
+
+2 shop-slots
+1 food shop-slot
+
+reroll-button
+
+
+
+
+
+

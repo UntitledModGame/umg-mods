@@ -359,16 +359,14 @@ defItem("toolbelt", "Toolbelt", {
 
 
 do
-local BONUS_BUFF = 2
-local MULT_BUFF = 0.1
+local MULT_BUFF = 0.3
 local SET_MONEY_TO = 8
 
 defItem("dirty_pillow", "Dirty Pillow", {
     triggers = {"PULSE"},
 
-    activateDescription = loc("Sets money to {lootplot:MONEY_COLOR}$%{money}{/lootplot:MONEY_COLOR}.\nGives {lootplot:BONUS_COLOR}+%{bonusBuff} Bonus{/lootplot:BONUS_COLOR} and {lootplot:POINTS_MULT_COLOR}+%{multBuff} mult{/lootplot:POINTS_MULT_COLOR} to dirt-slots", {
+    activateDescription = loc("Sets money to {lootplot:MONEY_COLOR}$%{money}{/lootplot:MONEY_COLOR}.\nGives {lootplot:POINTS_MULT_COLOR}+%{multBuff} mult{/lootplot:POINTS_MULT_COLOR} to dirt-slots", {
         money = SET_MONEY_TO,
-        bonusBuff = BONUS_BUFF,
         multBuff = MULT_BUFF
     }),
 
@@ -388,7 +386,6 @@ defItem("dirty_pillow", "Dirty Pillow", {
         end,
         activate = function(selfEnt, ppos, slotEnt)
             lp.modifierBuff(slotEnt, "multGenerated", MULT_BUFF, selfEnt)
-            lp.modifierBuff(slotEnt, "bonusGenerated", BONUS_BUFF, selfEnt)
         end
     },
 })
