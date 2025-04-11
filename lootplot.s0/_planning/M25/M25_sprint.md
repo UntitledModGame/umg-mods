@@ -261,28 +261,34 @@
 ~~- Add subtle zoom in / zoom out to trailer scenes (it makes it look better)~~
 ~~- Upload trailer~~
 
+~~- Generate like 300 lootplot (pre-release) steam keys~~
+
+~~- Release Demo~~
+
+
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
 
-- Gather emails of review agencies/companies
-- Gather a BIG BIG BIG list of curators to review game
+- Add Matt's tutorial-run idea to lootplot:
+- Instead of ending the tutorial abruptly, put the player into a simple run-situation. 
+(See discord notes; ask Matt for details.)
+
 
 - Gather BIG list of streamers/yters to send keys to
-
-- Generate like 300 lootplot steam keys
 
 - Send keys to streamers
 
 - Send keys to review agencies/companies/curators
 
-- Release Demo
-
 - Send MORE keys to streamers
 
 - RELEASE LOOTPLOT
+
+- Gather emails of review agencies/companies
+- Gather a BIG BIG BIG list of curators to review game
 
 
 =============================================
