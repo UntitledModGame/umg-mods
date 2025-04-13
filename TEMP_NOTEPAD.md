@@ -195,6 +195,7 @@ violin
 
 reroll-button
 
+Slots that earn $1?
 
 
 

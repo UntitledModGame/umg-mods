@@ -125,7 +125,7 @@ lp.defineSlot("lootplot.s0:tutorial_reroll_button_slot", {
         if not ppos then return end
         lp.Bufferer()
             :all(ppos:getPlot())
-            :withDelay(0.05)
+            :withPostDelay(0.05)
             :to("SLOT_OR_ITEM")
             :execute(function(ppos1, e1)
                 lp.resetCombo(e1)
@@ -226,6 +226,19 @@ local function spawnFloatingItem(tutEnt, dx,dy, itemName)
         lp.destroy(slotEnt)
     end
     return e
+end
+
+
+
+
+
+local function clearEverything(tutEnt)
+    local tutPos = assert(lp.getPos(tutEnt))
+    clearText(tutEnt)
+    tutPos:getPlot():foreachLayerEntry(function (ent, ppos, layer)
+        ppos:clear(layer)
+        ent:delete()
+    end)
 end
 
 
@@ -588,7 +601,7 @@ end
 do
 -- Conclusion
 local TXT = loc("Tutorial complete!")
-local TXT2 = loc("Press escape to exit.")
+local TXT2 = loc("Now it's time for a real run...")
 
 tutorialSections:add(function(tutEnt)
     clearEverythingExceptButtons(tutEnt)
@@ -600,6 +613,48 @@ tutorialSections:add(function(tutEnt)
     addText(tutEnt, 0,1, TXT2)
 end)
 end
+
+
+
+do
+-- HANDCRAFTED RUN:
+
+local wg = lp.worldgen
+
+tutorialSections:add(function(tutEnt)
+    local pos, team = fromMiddle(tutEnt, 0,0), tutEnt.lootplotTeam
+
+    lp.rawsetAttribute("POINTS", tutEnt, 0)
+    lp.setAttribute("NUMBER_OF_ROUNDS", tutEnt, 6)
+    lp.setAttribute("ROUND", tutEnt, -3)
+    lp.setAttribute("LEVEL", tutEnt, 9)
+    lp.setAttribute("REQUIRED_POINTS", tutEnt, 40000)
+    lp.setAttribute("MONEY", tutEnt, 30)
+
+    clearEverything(tutEnt)
+
+    -- basic slots
+    wg.spawnSlots(pos, server.entities.slot, 3,3, team)
+
+    -- shop:
+    wg.spawnSlots(assert(pos:move(-3,0)), server.entities.shop_slot, 1,2, team)
+    wg.spawnSlots(assert(pos:move(-3,1)), server.entities.food_shop_slot, 1,1, team)
+    wg.spawnSlots(assert(pos:move(-4,0)), server.entities.reroll_button_slot, 1,1, team)
+
+    -- pulse/level buttons
+    lp.forceSpawnSlot(assert(pos:move(-1,-3)), server.entities.pulse_button_slot, team)
+    lp.forceSpawnSlot(assert(pos:move(1,-3)), server.entities.next_level_button_slot, team)
+
+    local itemEnt = lp.forceSpawnItem(assert(pos:move(-1,1)), server.entities.iron_spear, team)
+    if itemEnt then
+        lp.setItemRotation(itemEnt, 0)
+    end
+    lp.forceSpawnItem(assert(pos:move(0,0)), server.entities.ukulele, team)
+    lp.forceSpawnItem(assert(pos:move(1,0)), server.entities.iron_sword, team)
+end)
+end
+
+
 
 
 

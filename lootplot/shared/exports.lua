@@ -905,6 +905,25 @@ end
 
 
 
+local setItemRotTc = typecheck.assert("entity", "number")
+
+---@param ent lootplot.ItemEntity
+---@param rot number Rotation amount, as an integer. 1 = 90 degrees.
+--- Sets ent rotation to a specific value.
+function lp.setItemRotation(ent, rot)
+    setItemRotTc(ent, rot)
+    rot = math.max(0, math.floor((rot or 1) + 0.5)) % 4
+    local curRot = lp.getItemRotation(ent)
+    local deltaRot = rot - curRot
+    lp.rotateItem(ent, deltaRot)
+end
+
+
+
+
+
+
+
 ---Availability: Client and Server
 ---@generic T: EntityClass
 ---@param ent T
