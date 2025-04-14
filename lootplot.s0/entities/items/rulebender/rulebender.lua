@@ -214,7 +214,7 @@ defItem("map", "Map", {
     rarity = lp.rarities.RARE,
     triggers = {"PULSE"},
 
-    shape = lp.targets.CircleShape(6),
+    shape = lp.targets.CircleShape(9),
 
     doomCount = 1,
     basePrice = 6,
