@@ -1,5 +1,6 @@
 
 local loc = localization.localize
+local interp = localization.newInterpolator
 
 
 umg.defineEntityType("lootplot.s0:tutorial_text", {
@@ -12,83 +13,6 @@ umg.defineEntityType("lootplot.s0:tutorial_text", {
         end
     end,
 })
-
-
-
-
----@param ent Entity
-local function resetPlot(ent, ppos)
-    local plot = ppos:getPlot()
-    lp.queue(ppos, function()
-        -- This will execute LAST.
-        plot:foreachLayerEntry(function(e, _ppos, layer)
-            lp.resetEntity(e)
-        end)
-        lp.setPointsMult(ent, 1)
-        lp.setPointsBonus(ent, 0)
-    end)
-end
-
-lp.defineSlot("lootplot.s0:tutorial_pulse_button_slot", {
-    image = "pulse_button_up",
-
-    name = loc("Pulse Button"),
-    description = loc("Click to {wavy}{lootplot:TRIGGER_COLOR}PULSE{/lootplot:TRIGGER_COLOR}{/wavy} all items/slots,\nand go to the next round!"),
-    activateDescription = loc("(Afterwards, resets item activations.)"),
-
-    activateAnimation = {
-        activate = "pulse_button_hold",
-        idle = "pulse_button_up",
-        duration = 0.1
-    },
-
-    onDraw = function(ent, x, y, rot, sx,sy)
-        if not lp.canActivateEntity(ent) then
-            ent.opacity = 0.3
-        else
-            ent.opacity = 1
-        end
-    end,
-
-    baseMaxActivations = 100,
-
-    triggers = {},
-    buttonSlot = true,
-
-    canActivate = function(ent)
-        local round = lp.getRound(ent)
-        local numOfRounds = lp.getNumberOfRounds(ent)
-        if round < (numOfRounds + 1) then
-            return true
-        end
-        return false
-    end,
-
-    onActivate = function(ent)
-        local ppos=lp.getPos(ent)
-        if ppos then
-            resetPlot(ent, ppos)
-            lp.rawsetAttribute("POINTS", ent, 0)
-
-            local plot = ppos:getPlot()
-            lp.Bufferer()
-                :all(plot)
-                :to("SLOT_OR_ITEM") -- ppos-->slot
-                :filter(function(ppos1, e)
-                    return lp.hasTrigger(e, "PULSE")
-                end)
-                :execute(function(ppos2, slotEnt)
-                    lp.resetCombo(slotEnt)
-                    lp.tryTriggerSlotThenItem("PULSE", ppos2)
-                end)
-
-            resetPlot(ent, ppos)
-            lp.rawsetAttribute("POINTS", ent, 0)
-        end
-    end,
-})
-
-
 
 
 lp.defineItem("lootplot.s0:tutorial_egg", {
@@ -169,7 +93,7 @@ end
 ---@param dx number
 ---@param dy number
 ---@param txt string
----@return Entity?
+---@return Entity
 local function addText(tutEnt, dx,dy, txt)
     local textPos = fromMiddle(tutEnt, dx,dy)
     if not txt:match("%{outline%}") then
@@ -182,6 +106,7 @@ local function addText(tutEnt, dx,dy, txt)
     textEnt.pposX, textEnt.pposY = x,y
 
     textPos:getPlot():set(x,y, textEnt)
+    return textEnt
 end
 
 
@@ -260,6 +185,19 @@ local function clearEverythingExceptButtons(tutEnt)
 end
 
 
+local function clearAllButtonSlots(tutEnt)
+    local tutPos = assert(lp.getPos(tutEnt))
+    tutPos:getPlot():foreachSlot(function (ent, ppos)
+        if ent.buttonSlot then
+            ent:delete()
+            ppos:clear("slot")
+        end
+    end)
+end
+
+
+
+
 local function clearEverythingExceptSelf(selfEnt)
     local tutPos = assert(lp.getPos(selfEnt))
     tutPos:getPlot():foreachLayerEntry(function (ent, ppos, layer)
@@ -270,6 +208,194 @@ local function clearEverythingExceptSelf(selfEnt)
     end)
     clearText(selfEnt)
 end
+
+
+
+
+---@param ent Entity
+local function resetPlot(ent, ppos)
+    local plot = ppos:getPlot()
+    lp.queue(ppos, function()
+        -- This will execute LAST.
+        plot:foreachLayerEntry(function(e, _ppos, layer)
+            lp.resetEntity(e)
+        end)
+        lp.setPointsMult(ent, 1)
+        lp.setPointsBonus(ent, 0)
+    end)
+end
+
+local function buttonOnDraw(ent)
+    -- NOTE: this is a bit weird/hacky, 
+    -- since we aren't actually drawing anything..
+    -- but its "fine"
+    if not lp.canActivateEntity(ent) then
+        ent.opacity = 0.3
+    else
+        ent.opacity = 1
+    end
+end
+
+lp.defineSlot("lootplot.s0:tutorial_pulse_button_slot", {
+    image = "pulse_button_up",
+
+    name = loc("Pulse Button"),
+    description = loc("Click to {wavy}{lootplot:TRIGGER_COLOR}PULSE{/lootplot:TRIGGER_COLOR}{/wavy} all items/slots,\nand go to the next round!"),
+    activateDescription = loc("(Afterwards, resets item activations.)"),
+
+    activateAnimation = {
+        activate = "pulse_button_hold",
+        idle = "pulse_button_up",
+        duration = 0.1
+    },
+
+    onDraw = buttonOnDraw,
+
+    baseMaxActivations = 100,
+
+    triggers = {},
+    buttonSlot = true,
+
+    canActivate = function(ent)
+        local round = lp.getRound(ent)
+        local numOfRounds = lp.getNumberOfRounds(ent)
+        if round < (numOfRounds + 1) then
+            return true
+        end
+        return false
+    end,
+
+    onActivate = function(ent)
+        local ppos=lp.getPos(ent)
+        if ppos then
+            resetPlot(ent, ppos)
+            lp.rawsetAttribute("POINTS", ent, 0)
+
+            local plot = ppos:getPlot()
+            lp.Bufferer()
+                :all(plot)
+                :to("SLOT_OR_ITEM") -- ppos-->slot
+                :filter(function(ppos1, e)
+                    return lp.hasTrigger(e, "PULSE")
+                end)
+                :execute(function(ppos2, slotEnt)
+                    lp.resetCombo(slotEnt)
+                    lp.tryTriggerSlotThenItem("PULSE", ppos2)
+                end)
+
+            resetPlot(ent, ppos)
+            lp.rawsetAttribute("POINTS", ent, 0)
+        end
+    end,
+})
+
+
+
+do
+---@param ppos lootplot.PPos
+local function shouldTrigger(ppos)
+    local slot = lp.posToSlot(ppos)
+    if slot and lp.hasTrigger(slot, "LEVEL_UP") then
+        return true
+    end
+    local item = lp.posToItem(ppos)
+    if item and lp.hasTrigger(item, "LEVEL_UP") then
+        return true
+    end
+    return false
+end
+
+
+local NEXT_LEVEL = interp("Click to progress to the next level! Triggers {lootplot:TRIGGER_COLOR}%{name}{/lootplot:TRIGGER_COLOR} on all items and slots!")
+local NEED_POINTS = interp("{c r=1 g=0.6 b=0.5}Need %{pointsLeft} more points!")
+
+local function nextLevelActivateDescription(ent)
+    if umg.exists(ent) then
+        local points = lp.getPoints(ent)
+        local requiredPoints = lp.getRequiredPoints(ent)
+        local pointsLeft = requiredPoints - points
+        if pointsLeft <= 0 then
+            return NEXT_LEVEL({name = lp.getTriggerDisplayName("LEVEL_UP")})
+        else
+            return NEED_POINTS({
+                pointsLeft = pointsLeft
+            })
+        end
+    end
+    return ""
+end
+
+
+local YOU_WIN_TEXT = loc("GG!\nTutorial completed.")
+
+lp.defineSlot("lootplot.s0:tutorial_next_level_button_slot", {
+    image = "level_button_up",
+
+    name = loc("Next-Level Button"),
+    activateDescription = nextLevelActivateDescription,
+
+    activateAnimation = {
+        activate = "level_button_hold",
+        idle = "level_button_up",
+        duration = 0.1
+    },
+
+    baseMaxActivations = 3,
+    triggers = {},
+    buttonSlot = true,
+
+    rarity = lp.rarities.EPIC,
+
+    onDraw = buttonOnDraw,
+
+    canActivate = function(ent)
+        local requiredPoints = lp.getRequiredPoints(ent)
+        local points = lp.getPoints(ent)
+        if points >= requiredPoints then
+            return true
+        end
+        return false
+    end,
+
+    onActivate = function(ent)
+        local ppos = lp.getPos(ent)
+        if not ppos then return end
+        local plot = ppos:getPlot()
+
+        local level = lp.getLevel(ent)
+        if level >= lp.getNumberOfLevels(ent) then
+            local e = addText(ent, 0, -4, YOU_WIN_TEXT)
+            e.scale = 2
+            e.color = objects.Color.GREEN
+
+            clearAllButtonSlots(ent)
+            return
+        end
+
+        lp.rawsetAttribute("POINTS", ent, 0)
+        lp.setRound(ent, 1)
+        lp.setLevel(ent, lp.getLevel(ent) + 1)
+
+        lp.Bufferer()
+            :all(plot)
+            :filter(shouldTrigger)
+            :withDelay(0.4)
+            :to("SLOT_OR_ITEM")
+            :execute(function(ppos1, e1)
+                lp.resetCombo(e1)
+                lp.tryTriggerSlotThenItem("LEVEL_UP", ppos1)
+            end)
+    end
+})
+
+end
+
+
+
+
+
+
+
 
 
 
@@ -727,7 +853,7 @@ tutorialSections:add(function(tutEnt)
 
     -- pulse/level buttons
     lp.forceSpawnSlot(assert(pos:move(-1,-3)), server.entities.pulse_button_slot, team)
-    lp.forceSpawnSlot(assert(pos:move(1,-3)), server.entities.next_level_button_slot, team)
+    lp.forceSpawnSlot(assert(pos:move(1,-3)), server.entities.tutorial_next_level_button_slot, team)
 
     -- spawn items:
     local itemEnt = lp.forceSpawnItem(assert(pos:move(-1,-1)), server.entities.iron_spear, team)
