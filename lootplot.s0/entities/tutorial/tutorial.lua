@@ -92,14 +92,14 @@ lp.defineSlot("lootplot.s0:tutorial_pulse_button_slot", {
 
 
 lp.defineItem("lootplot.s0:tutorial_egg", {
-    name = loc("Egg"),
+    name = loc("Egg Item"),
     image = "tutorial_egg",
     triggers = {"PULSE"},
     basePointsGenerated = 1,
 })
 
 lp.defineSlot("lootplot.s0:tutorial_slot", {
-    name = loc("Slot"),
+    name = loc("Basic Slot"),
     image = "tutorial_slot",
     description = loc("Holds items"),
     triggers = {"PULSE"},
@@ -339,7 +339,11 @@ tutorialSections:add(function(e)
 
     for x=2,4 do
         for y=1,4 do
-            spawnSlot(e, x,y, "tutorial_slot")
+            local slotEnt = spawnSlot(e, x,y, "tutorial_slot")
+            if slotEnt and (((x==2) or (x==3)) and (y == 2)) then
+                -- give a slot points to explain that slots can activate too!
+                lp.modifierBuff(slotEnt, "pointsGenerated", 5)
+            end
         end
     end
 
@@ -602,10 +606,10 @@ end
 local TUTORIAL_RUN_REQ_POINTS = {
     400,
     900,
-    1500,
-    3000,
+    1400,
+    2000,
+    3500,
     6000,
-    15000,
 }
 
 local ROUNDS_PER_LEVEL = 6
@@ -695,7 +699,7 @@ tutorialSections:add(function(tutEnt)
 
     lp.rawsetAttribute("POINTS", tutEnt, 0)
     lp.setAttribute("NUMBER_OF_ROUNDS", tutEnt, ROUNDS_PER_LEVEL)
-    lp.setAttribute("NUMBER_OF_LEVELS", tutEnt, 4)
+    lp.setAttribute("NUMBER_OF_LEVELS", tutEnt, #TUTORIAL_RUN_REQ_POINTS)
     lp.setAttribute("ROUND", tutEnt, 1)
     lp.setAttribute("LEVEL", tutEnt, 1)
     lp.setAttribute("MONEY", tutEnt, 30)
