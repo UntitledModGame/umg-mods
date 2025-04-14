@@ -44,8 +44,8 @@ defineGlove("knight_glove",
 
 defineGlove("bishop_glove",
     "Bishop Glove",
-    "Set item's targets to BISHOP-3.",
-    lp.targets.BishopShape(3),
+    "Set item's targets to BISHOP-2.",
+    lp.targets.BishopShape(2),
     lp.rarities.RARE
 )
 
