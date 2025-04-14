@@ -96,6 +96,16 @@ end
 
 
 
+--- Tells the bufferer to delay BEFORE the action occurs instead of after.
+--- This is useful for actions that we know will likely be depth-first
+--- (IE item-A activates item-B, which activates item-A again, which activates item-B, etc)
+--- ^^^ if we dont have this, then the entire action will occur at once which sucks.
+---@param x number
+function Bufferer:withEarlyDelay(x)
+    self._earlyDelay = true
+    return self:withDelay(x)
+end
+
 
 --[[
 Finalizes the buffer, and pushes a bunch of functions to the bufferer.
@@ -126,12 +136,18 @@ local function step(self, ppos)
         end
     end
 
+    self.execution(ppos, val)
+
     if self._delay then
         -- LIFO: wait *first*, then execute.
+        -- The reason we wait first is because if we have a complex interaction chain,
+        -- EG 2 items activating each other,
+        -- it'll activate in a depth-first fashion, and 
+        -- the delays will stack up at the end.
+
+        -- TRUST ME!!! dont change this to delay after!
         lp.wait(ppos, self._delay)
     end
-
-    self.execution(ppos, val)
 end
 
 

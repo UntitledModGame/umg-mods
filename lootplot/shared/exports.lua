@@ -415,11 +415,12 @@ function lp.addPoints(fromEnt, x)
     -- bonus mechanism:
     local ppos = lp.getPos(fromEnt)
     if ppos and bonusVal ~= 0 then
+        lp.wait(ppos, 0.1) -- LIFO
         lp.queueWithEntity(fromEnt, function(ent)
             umg.call("lootplot:pointsChangedViaBonus", fromEnt, bonusVal)
             lp.addPointsRaw(ent, bonusVal)
         end)
-        lp.wait(ppos, 0.25) -- LIFO
+        lp.wait(ppos, 0.1) -- LIFO
     end
 end
 
@@ -1449,10 +1450,10 @@ function lp.tryTriggerSlotThenItem(name, ppos)
         local canPropagate = lp.canSlotPropagateTriggerToItem(slotEnt)
         if itemEnt and canPropagate then
             -- TODO: We should probably standardize this delay somehow???
+            lp.wait(ppos, 0.2)
             lp.queueWithEntity(itemEnt, function(itemEntt)
                 lp.tryTriggerEntity(name, itemEntt)
             end)
-            lp.wait(ppos, 0.2)
         end
     else
         if itemEnt then

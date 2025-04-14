@@ -180,6 +180,45 @@ Steam achievements:
 - Connect with umg base mods
 
 
+## DELAY BUG:
+The main question is:
+If something happens, whose responsibility is it to add a delay?
+
+I think it should be the responsibility of the action to space out delays ahead of itself,
+And actions should NOT be responsible for placing delays behind itself.
+
+EG: for Bonus-mechanism, bonus should put a delay in front of itself
+
+#### THE PROBLEM:
+
+AXE-BONUS:
+(step-execution, delayBon, bonus, delay1)
+^^^^ this is what axe-bonus wants (achieved via delay-last)
+---->  
+(step-execution, delay1, delayBon, bonus)
+^^^ And *THIS* is what axe-bonus gets if we delay-first.
+
+DOUBLE-UKULELE:
+(step, delay, step, delay, step, delay)
+^^^ this is what double-ukulele wants. (delay-first)
+---->  
+(step, (step, (step, delay), delay), delay)
+^^^^ And *THIS* is what double-ukulele gets if we delay-last.
+
+RUBY-BONUS:
+(delay, step, delayBon, bonus) x repeated
+^^^ this is what ruby wants
+(step, delay, delayBon, bonus)
+^^^ *THIS* can occur if we delay improperly.
+
+
+
+### Whats happening currently??
+UKE: (delay, step, delay, step, delay, step)
+AXEBON: (delay, step, delayBon, bon) x repeat
+RUBY: () x repeat
+
+
 
 ----
 

@@ -9,24 +9,32 @@ local function activateTargets(ent, pposList)
     local target = ent.target
     local conversion = target.type
     assert(target, "wot wot?")
-    lp.Bufferer()
+    local bufferer = lp.Bufferer()
         :addAll(pposList)
         :to(conversion)
-        :filter(function(ppos)
-            -- this is a bit janky, but oh well
-            if umg.exists(ent)then
-                return util.canTarget(ent, ppos)
+
+    local TARG_DELAY = 0.3
+    if target.complexDelay then
+        bufferer = bufferer:withEarlyDelay(TARG_DELAY)
+    else
+        bufferer = bufferer:withDelay(TARG_DELAY)
+    end
+
+    bufferer:filter(function(ppos)
+        -- this is a bit janky, but oh well
+        if umg.exists(ent)then
+            return util.canTarget(ent, ppos)
+        end
+        return false
+    end)
+    :execute(function(ppos, targetEnt)
+        if umg.exists(ent) then
+            if target.activate then
+                target.activate(ent, ppos, targetEnt)
             end
-            return false
-        end)
-        :execute(function(ppos, targetEnt)
-            if umg.exists(ent) then
-                if target.activate then
-                    target.activate(ent, ppos, targetEnt)
-                end
-                umg.call("lootplot.targets:targetActivated", ent, ppos, targetEnt)
-            end
-        end)
+            umg.call("lootplot.targets:targetActivated", ent, ppos, targetEnt)
+        end
+    end)
 end
 
 
