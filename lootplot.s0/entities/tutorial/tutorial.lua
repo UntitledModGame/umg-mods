@@ -598,10 +598,26 @@ end
 
 
 
+
+local TUTORIAL_RUN_REQ_POINTS = {
+    400,
+    900,
+    1500,
+    3000,
+    6000,
+    15000,
+}
+
+local ROUNDS_PER_LEVEL = 6
+
+
 do
 -- Conclusion
-local TXT = loc("Tutorial complete!")
-local TXT2 = loc("Now it's time for a real run...")
+local TXT = loc("Okay! Time for the real test:")
+local TXT2 = loc("You have %{rounds} Rounds to make %{points} points...\nGood Luck!", {
+    rounds = ROUNDS_PER_LEVEL,
+    points = TUTORIAL_RUN_REQ_POINTS[1]
+})
 
 tutorialSections:add(function(tutEnt)
     clearEverythingExceptButtons(tutEnt)
@@ -618,14 +634,6 @@ end
 
 do
 -- HANDCRAFTED RUN:
-
-local POINTS = {
-    400,
-    1000,
-    4000,
-    10000
-}
-
 
 --[[
     This code tries to relocate the doom clock if ther are slot or item below it.
@@ -669,7 +677,7 @@ umg.defineEntityType("lootplot.s0:tutorial_doom_clock", {
     onUpdateServer = function(ent)
         local level = lp.getLevel(ent)
         local currentRequiredPoints = lp.getRequiredPoints(ent)
-        local neededRequiredPoints = POINTS[level] or 40000
+        local neededRequiredPoints = TUTORIAL_RUN_REQ_POINTS[level] or 40000
 
         if currentRequiredPoints ~= neededRequiredPoints then
             lp.setAttribute("REQUIRED_POINTS", ent, neededRequiredPoints)
@@ -686,7 +694,7 @@ tutorialSections:add(function(tutEnt)
     local pos, team = fromMiddle(tutEnt, 0,0), tutEnt.lootplotTeam
 
     lp.rawsetAttribute("POINTS", tutEnt, 0)
-    lp.setAttribute("NUMBER_OF_ROUNDS", tutEnt, 6)
+    lp.setAttribute("NUMBER_OF_ROUNDS", tutEnt, ROUNDS_PER_LEVEL)
     lp.setAttribute("NUMBER_OF_LEVELS", tutEnt, 4)
     lp.setAttribute("ROUND", tutEnt, 1)
     lp.setAttribute("LEVEL", tutEnt, 1)
@@ -720,11 +728,19 @@ tutorialSections:add(function(tutEnt)
     -- spawn items:
     local itemEnt = lp.forceSpawnItem(assert(pos:move(-1,-1)), server.entities.iron_spear, team)
     if itemEnt then lp.setItemRotation(itemEnt, 1) end
-
+    -----
     lp.forceSpawnItem(assert(pos:move(0,0)), server.entities.ukulele, team)
-
+    -----
     local itemEnt2 = lp.forceSpawnItem(assert(pos:move(-1,0)), server.entities.iron_sword, team)
     itemEnt2.baseBonusGenerated = 0 -- remove -1 bonus so its less confusing, also less footguns
+
+    -- make basic-slots earn money:
+    do
+    local slotEnt = lp.posToSlot(assert(pos:move(-1, -1)))
+    if slotEnt then lp.modifierBuff(slotEnt, "moneyGenerated", 2) end
+    local slotEnt2 = lp.posToSlot(assert(pos:move(1, 0)))
+    if slotEnt2 then lp.modifierBuff(slotEnt2, "moneyGenerated", 2) end
+    end
 end)
 end
 
