@@ -265,16 +265,15 @@
 
 ~~- Release Demo~~
 
+~~- Fix buffering not working for depth-first target-items!!~~
+~~- (EG: spear + violin combo)~~
+~~- The depth-first nature causes the trigger to go instantly.~~
+
 
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
-
-
-- Fix buffering not working for depth-first target-items!!
-- (EG: spear + violin combo)
-- The depth-first nature causes the trigger to go instantly.
 
 
 - Add Matt's tutorial-run idea to lootplot:
