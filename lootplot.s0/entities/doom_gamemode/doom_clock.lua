@@ -7,6 +7,7 @@ Provides win/lose conditions
 
 ]]
 
+local loc = localization.localize
 
 
 local EARLY_LEVELS = {
@@ -93,10 +94,7 @@ end
 
 umg.defineEntityType("lootplot.s0:doom_clock", {
     image = "doom_clock",
-
     layer = "world",
-
-    baseMaxActivations = 100,
 
     onUpdateServer = function(ent)
         local level = lp.getLevel(ent)

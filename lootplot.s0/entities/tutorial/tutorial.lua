@@ -125,7 +125,7 @@ lp.defineSlot("lootplot.s0:tutorial_reroll_button_slot", {
         if not ppos then return end
         lp.Bufferer()
             :all(ppos:getPlot())
-            :withPostDelay(0.05)
+            :withDelay(0.05)
             :to("SLOT_OR_ITEM")
             :execute(function(ppos1, e1)
                 lp.resetCombo(e1)
@@ -619,6 +619,67 @@ end
 do
 -- HANDCRAFTED RUN:
 
+local POINTS = {
+    400,
+    1000,
+    4000,
+    10000
+}
+
+
+--[[
+    This code tries to relocate the doom clock if ther are slot or item below it.
+]]
+-- Plots to be tested for heurestic search
+local SEARCH_SIZE = 2 -- 1 = 3x3, 2 = 5x5, 3 = 7x7, and so on.
+local ORDER_SEARCH = lp.targets.KingShape(SEARCH_SIZE)
+table.insert(ORDER_SEARCH.relativeCoords, {0, 0}) -- Include center
+
+table.sort(ORDER_SEARCH.relativeCoords, function (a, b)
+    local d1 = math.sqrt(a[1] * a[1] + a[2] * a[2])
+    local d2 = math.sqrt(b[1] * b[1] + b[2] * b[2])
+    return d1 < d2
+end)
+
+local function moveClockToClearPosition(ent)
+    local ppos = lp.getPos(ent)
+    if not ppos then return end
+    local plot = ppos:getPlot()
+
+    for _, relpos in ipairs(ORDER_SEARCH.relativeCoords) do
+        local px = ent._plotX + relpos[1]
+        local py = ent._plotY + relpos[2]
+
+        if px >= 0 and py >= 0 then
+            local ppos = plot:getPPos(px, py)
+
+            if not (lp.posToItem(ppos) or lp.posToSlot(ppos)) then
+                -- Move it here
+                ent.x, ent.y, ent.dimension = ppos:getWorldPos()
+                return
+            end
+        end
+    end
+end
+
+umg.defineEntityType("lootplot.s0:tutorial_doom_clock", {
+    image = "tutorial_doom_clock",
+    layer = "world",
+
+    onUpdateServer = function(ent)
+        local level = lp.getLevel(ent)
+        local currentRequiredPoints = lp.getRequiredPoints(ent)
+        local neededRequiredPoints = POINTS[level] or 40000
+
+        if currentRequiredPoints ~= neededRequiredPoints then
+            lp.setAttribute("REQUIRED_POINTS", ent, neededRequiredPoints)
+        end
+    end,
+
+    onUpdateClient = moveClockToClearPosition
+})
+
+
 local wg = lp.worldgen
 
 tutorialSections:add(function(tutEnt)
@@ -626,12 +687,23 @@ tutorialSections:add(function(tutEnt)
 
     lp.rawsetAttribute("POINTS", tutEnt, 0)
     lp.setAttribute("NUMBER_OF_ROUNDS", tutEnt, 6)
-    lp.setAttribute("ROUND", tutEnt, -3)
-    lp.setAttribute("LEVEL", tutEnt, 9)
-    lp.setAttribute("REQUIRED_POINTS", tutEnt, 40000)
+    lp.setAttribute("NUMBER_OF_LEVELS", tutEnt, 4)
+    lp.setAttribute("ROUND", tutEnt, 1)
+    lp.setAttribute("LEVEL", tutEnt, 1)
     lp.setAttribute("MONEY", tutEnt, 30)
 
     clearEverything(tutEnt)
+
+    -- spawn doom-clock
+    do
+    local dclock = server.entities.tutorial_doom_clock()
+    local plot = pos:getPlot()
+    local midX, midY = pos:getCoords()
+    dclock._plotX, dclock._plotY = midX, midY-6
+    plot:set(dclock._plotX, dclock._plotY, dclock)
+    local wpos = plot:getPPos(dclock._plotX, dclock._plotY)
+    dclock.x, dclock.y, dclock.dimension = wpos:getWorldPos()
+    end
 
     -- basic slots
     wg.spawnSlots(pos, server.entities.slot, 3,3, team)
@@ -645,12 +717,14 @@ tutorialSections:add(function(tutEnt)
     lp.forceSpawnSlot(assert(pos:move(-1,-3)), server.entities.pulse_button_slot, team)
     lp.forceSpawnSlot(assert(pos:move(1,-3)), server.entities.next_level_button_slot, team)
 
-    local itemEnt = lp.forceSpawnItem(assert(pos:move(-1,1)), server.entities.iron_spear, team)
-    if itemEnt then
-        lp.setItemRotation(itemEnt, 0)
-    end
+    -- spawn items:
+    local itemEnt = lp.forceSpawnItem(assert(pos:move(-1,-1)), server.entities.iron_spear, team)
+    if itemEnt then lp.setItemRotation(itemEnt, 1) end
+
     lp.forceSpawnItem(assert(pos:move(0,0)), server.entities.ukulele, team)
-    lp.forceSpawnItem(assert(pos:move(1,0)), server.entities.iron_sword, team)
+
+    local itemEnt2 = lp.forceSpawnItem(assert(pos:move(-1,0)), server.entities.iron_sword, team)
+    itemEnt2.baseBonusGenerated = 0 -- remove -1 bonus so its less confusing, also less footguns
 end)
 end
 

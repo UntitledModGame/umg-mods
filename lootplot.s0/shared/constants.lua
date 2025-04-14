@@ -10,9 +10,6 @@ local constants = {
     ROUNDS_PER_LEVEL = 6,
     MONEY_PER_ROUND = 6,
 
-    FINAL_LEVEL = 10,
-    -- when you beat this level, you win!
-
     CURSE_COUNT = 6,
     -- If there are more than X curses on the plot, 
     -- curses will begin to have adverse effects.

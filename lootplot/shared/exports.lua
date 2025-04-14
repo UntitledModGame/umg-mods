@@ -329,6 +329,18 @@ function lp.getNumberOfRounds(ent)
 end
 
 
+local DEFAULT_NUMBER_OF_LEVELS = 10
+lp.defineAttribute("NUMBER_OF_LEVELS", DEFAULT_NUMBER_OF_LEVELS)
+-- Number of levels (Note: this can be changed!!!)
+
+---Availability: Client and Server
+---@param ent Entity
+---@return number
+function lp.getNumberOfLevels(ent)
+    return lp.getAttribute("NUMBER_OF_LEVELS", ent)
+end
+
+
 lp.defineAttribute("REQUIRED_POINTS", -1)
 -- The required-points for some condition.
 -- Can be used in any way that is deemed fit
@@ -916,7 +928,7 @@ function lp.setItemRotation(ent, rot)
     rot = math.max(0, math.floor((rot or 1) + 0.5)) % 4
     local curRot = lp.getItemRotation(ent)
     local deltaRot = rot - curRot
-    lp.rotateItem(ent, deltaRot)
+    lp.rotateItem(ent, deltaRot % 4)
 end
 
 

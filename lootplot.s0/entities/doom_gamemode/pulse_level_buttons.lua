@@ -274,7 +274,7 @@ local function nextLevel(ent)
     local plot = ppos:getPlot()
 
     local level = lp.getLevel(ent)
-    if level >= constants.FINAL_LEVEL then
+    if level >= lp.getNumberOfLevels(ent) then
         winGame(ppos:getPlot())
         return
     end
