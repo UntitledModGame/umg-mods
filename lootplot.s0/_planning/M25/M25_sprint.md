@@ -279,15 +279,19 @@ ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
 
+- Adjust BGMs; remove bad music
+
+- Deploy new builds
+
 - Gather BIG list of streamers/yters to send keys to
 
 - Send keys to streamers
 
+- RELEASE LOOTPLOT
+
 - Send keys to review agencies/companies/curators
 
 - Send MORE keys to streamers
-
-- RELEASE LOOTPLOT
 
 - Gather emails of review agencies/companies
 - Gather a BIG BIG BIG list of curators to review game

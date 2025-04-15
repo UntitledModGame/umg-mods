@@ -119,8 +119,8 @@ umg.on("lootplot:entitySpawned", function(ent)
 end)
 
 
-local select = LootplotSound("lootplot.sound:select_item", 0.15, 2, 20)
-local reverseSelect = LootplotSound("lootplot.sound:reverse_select_item", 0.15, 2, 20)
+local select = LootplotSound("lootplot.sound:select_item", 0.11, 2, 20)
+local reverseSelect = LootplotSound("lootplot.sound:reverse_select_item", 0.11, 2, 20)
 
 umg.on("lootplot:selectionChanged", function(selection)
     if selection then

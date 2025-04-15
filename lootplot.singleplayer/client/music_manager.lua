@@ -38,10 +38,14 @@ local function setVolume(id, x)
 end
 
 
-setVolume("lootplot.singleplayer:one_sly_move", 0.5)
-setVolume("lootplot.singleplayer:sauve_sandpipe", 0.4)
-setVolume("lootplot.singleplayer:thief", 0.75)
-setVolume("lootplot.singleplayer:zig_zag", 0.5)
+-- OLD MUSIC via Incompetech:
+-- setVolume("lootplot.singleplayer:one_sly_move", 0.5)
+-- setVolume("lootplot.singleplayer:sauve_sandpipe", 0.4)
+-- setVolume("lootplot.singleplayer:zig_zag", 0.5)
+-- setVolume("lootplot.singleplayer:thief", 0.65)
+-- ^^^^ i got rid of these tracks coz they were kinda meh.
+
+setVolume("lootplot.singleplayer:andreas_theme", 0.65)
 
 setVolume("lootplot.singleplayer:whimsical_breeze", 0.6)
 setVolume("lootplot.singleplayer:floppy_rules", 0.85)
