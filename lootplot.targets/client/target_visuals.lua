@@ -8,8 +8,7 @@ local DELAY_PER_UNIT = 0.04
 ---@param progress number
 ---@param color table
 ---@param isActive boolean
-local function renderSelectionTarget(ppos, image, imageInactive, progress, color, isActive)
-    local x,y = ppos:getWorldPos()
+local function renderSelectionTarget(x, y, image, imageInactive, progress, color, isActive)
     local rot = (progress-1) * 3
     local c = color
     if isActive then
@@ -65,6 +64,16 @@ local function drawTargets(item, image, imageInactive, color, canInteract)
     assert(selectionTargets)
     assert(selected)
     for _, ppos in ipairs(selectionTargets) do
+        local pX, pY = ppos:getWorldPos()
+        local pbX, pbY = selected.ppos:getWorldPos()
+        local iX, iY = item.x, item.y
+        local plot = ppos:getPlot()
+
+        local x,y = (iX + (pX - pbX)), (iY + (pY - pbY))
+
+        local snappedPos = plot:getClosestPPos(x,y)
+        local snappedX, snappedY = snappedPos:getWorldPos()
+
         local dist = util.chebyshevDistance(selected.ppos:getDifference(ppos))
         local elapsedTime = t - selected.time
         local showTime = dist * DELAY_PER_UNIT
@@ -77,8 +86,8 @@ local function drawTargets(item, image, imageInactive, color, canInteract)
         end
 
         local progress = math.min(elapsedTime-fadeTime, FADE_IN) / FADE_IN
-        local isActive = canInteract(item, ppos)
-        renderSelectionTarget(ppos, image, imageInactive, progress, color, isActive)
+        local isActive = canInteract(item, snappedPos)
+        renderSelectionTarget(snappedX, snappedY, image, imageInactive, progress, color, isActive)
     end
     love.graphics.setColor(1, 1, 1)
 end
