@@ -287,13 +287,13 @@
 
 ~~- In the tutorial, remove the Round/Level UI.~~
 
+~~- Make "Activates On: Pulse" better visual clarity~~
+
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
-
-- Wrap "Activates On: Pulse" in square brackets [] for better visual clarity
 
 - Some items show "activates on Pulse", but then they dont have any activation text. Fix this!!! We should collect descriptions/activation stuff differently thru separate evbuses
 

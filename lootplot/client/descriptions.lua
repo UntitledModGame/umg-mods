@@ -116,7 +116,7 @@ local function getTriggerListString(triggers)
     return table.concat(buf, ", ")
 end
 
-local TRIGGER_LIST = interp("Activates On: {lootplot:TRIGGER_COLOR}{wavy}%{trigger}")
+local TRIGGER_LIST = interp("{c r=0.6 g=0.6 b=0.7}Activates On: {lootplot:TRIGGER_COLOR}{wavy}%{trigger}{/wavy}{/lootplot:TRIGGER_COLOR}")
 
 umg.on("lootplot:populateDescription", 10, function(ent, arr)
     local triggers = ent.triggers
