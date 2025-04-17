@@ -154,7 +154,6 @@ local function populateDescriptionBox(ent)
     local title = "{wavy}"..lp.getEntityName(ent).." {/wavy}"
 
     dbox:addRichText(title, fonts.getLargeFont(32))
-    dbox:newline()
 
     for _, descriptionText in ipairs(description) do
         if type(descriptionText) == "string" and descriptionText:sub(1,3) == "---" then
