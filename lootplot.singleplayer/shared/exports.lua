@@ -37,6 +37,33 @@ end
 
 
 
+umg.definePacket("lootplot.singleplayer:setHUDEnabled", {
+    typelist = {"boolean"}
+})
+
+
+local hudEnabled = true
+
+---@param isEnabled boolean
+function singleplayer.setHUDEnabled(isEnabled)
+    if server then
+        server.broadcast("lootplot.singleplayer:setHUDEnabled", isEnabled)
+    end
+    hudEnabled = isEnabled
+end
+
+function singleplayer.isHUDEnabled()
+    return hudEnabled
+end
+
+if client then
+client.on("lootplot.singleplayer:setHUDEnabled", function (isEnabled)
+    hudEnabled = isEnabled
+end)
+end
+
+
+
 if server then
 
 ---@param isWin boolean

@@ -830,6 +830,8 @@ local wg = lp.worldgen
 tutorialSections:add(function(tutEnt)
     local pos, team = fromMiddle(tutEnt, 0,0), tutEnt.lootplotTeam
 
+    lp.singleplayer.setHUDEnabled(true)
+
     lp.rawsetAttribute("POINTS", tutEnt, 0)
     lp.setAttribute("NUMBER_OF_ROUNDS", tutEnt, ROUNDS_PER_LEVEL)
     lp.setAttribute("NUMBER_OF_LEVELS", tutEnt, #TUTORIAL_RUN_REQ_POINTS)
@@ -989,6 +991,10 @@ lp.defineItem(TUT_CAT_ID, {
         clearEverythingExceptSelf(ent)
         lp.setAttribute("ROUND", ent, 0)
 
+        if lp.singleplayer then
+            lp.singleplayer.setHUDEnabled(false)
+        end
+
         do local etype = assert(server.entities[NEXT_TUTORIAL_BUTTON])
         local pos1 = fromMiddle(ent, 1, -3)
         lp.trySpawnSlot(pos1, etype, ent.lootplotTeam) end
@@ -998,7 +1004,7 @@ lp.defineItem(TUT_CAT_ID, {
         addText(ent, 0,2, MOVEMENT_TEXT)
 
         clearFogInCircle(fromMiddle(ent,0,0), ent.lootplotTeam, 9.8)
-    end
+    end,
 })
 
 

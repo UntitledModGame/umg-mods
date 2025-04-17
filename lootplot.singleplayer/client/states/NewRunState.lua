@@ -38,6 +38,8 @@ function NewRunState:init(exitFunc)
             state.push(LPState(), Z_ORDER.LOOTPLOT_STATE)
             settingManager.setLastSelectedBackground(background)
 
+            lp.singleplayer.setHUDEnabled(true)
+
             -- BIG TODO AND FIXME
             -- Currently we picked first option for worldgen item.
             -- Perhaps we create worldgen selection screen...?

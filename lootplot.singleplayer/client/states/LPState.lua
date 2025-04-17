@@ -567,7 +567,9 @@ function LPState:draw()
 
     rendering.drawWorld()
     self.scene:render(x, y, w, h)
-    self:drawHUD()
+    if lp.singleplayer.isHUDEnabled() then
+        self:drawHUD()
+    end
     chat.getChatBoxElement():render(x, y, w, h)
 end
 

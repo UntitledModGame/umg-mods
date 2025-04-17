@@ -285,17 +285,17 @@
 
 ~~- In the tutorial, make it so the run isnt saved/continued~~
 
+~~- In the tutorial, remove the Round/Level UI.~~
 
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
-- In the tutorial, remove the Round/Level UI.
 
 - Wrap "Activates On: Pulse" in square brackets [] for better visual clarity
 
-- Some items show "activates on Pulse", but then they dont have any activation text. Fix this!!! We should collect deacriptions/activation stuff differently thru separate evbuses
+- Some items show "activates on Pulse", but then they dont have any activation text. Fix this!!! We should collect descriptions/activation stuff differently thru separate evbuses
 
 - Make items locked early-game
 
