@@ -37,31 +37,8 @@ ORDER = 50 misc
 ORDER = 60 important misc
 ]]
 
-local SEPARATOR = "------------------------"
 
--- `description` is the "meta-description" of the entity.
-umg.on("lootplot:populateDescription", -10, function(ent, arr)
-    if ent.description then
-        if type(ent.description) == "string" then
-            -- should already be localized:
-            arr:add(ent.description)
-            arr:add(SEPARATOR)
-        elseif objects.isCallable(ent.description) then
-            arr:add(function()
-                -- need to pass ent manually as a closure
-                if umg.exists(ent) then
-                    return ent.description(ent)
-                end
-                return ""
-            end)
-            arr:add(SEPARATOR)
-        end
-    end
-end)
-
-
-
-umg.on("lootplot:populateDescription", 30, function(ent, arr)
+umg.on("lootplot:populateActivateDescription", 30, function(ent, arr)
     if ent.activateDescription then
         if type(ent.activateDescription) == "string" then
             -- should already be localized:
@@ -89,7 +66,7 @@ local GRUB_CAP = interp(
     :format(C1,C2)
 )
 
-umg.on("lootplot:populateDescription", 31, function(ent, arr)
+umg.on("lootplot:populateActivateDescription", 31, function(ent, arr)
     if ent.grubMoneyCap then
         arr:add(GRUB_CAP(ent))
     end
@@ -99,11 +76,6 @@ end
 
 
 
-
-
-umg.on("lootplot:populateDescription", 49.9, function(ent, arr)
-    arr:add(SEPARATOR)
-end)
 
 
 
@@ -118,7 +90,7 @@ end
 
 local TRIGGER_LIST = interp("{c r=0.6 g=0.6 b=0.7}Activates On: {lootplot:TRIGGER_COLOR}{wavy}%{trigger}{/wavy}{/lootplot:TRIGGER_COLOR}")
 
-umg.on("lootplot:populateDescription", 10, function(ent, arr)
+umg.on("lootplot:populateTriggerDescription", 10, function(ent, arr)
     local triggers = ent.triggers
     if triggers and #triggers > 0 then
         arr:add(TRIGGER_LIST({trigger = getTriggerListString(triggers)}))
@@ -172,7 +144,7 @@ local GAIN_BONUS = interp("Adds {lootplot:BONUS_COLOR}%{bonusGenerated:.1f} bonu
 local LOSE_BONUS = interp("{lootplot:BAD_COLOR}Subtracts %{bonusCost:.1f} bonus!")
 
 
-umg.on("lootplot:populateDescription", 30, function(ent, arr)
+umg.on("lootplot:populateActivateDescription", 30, function(ent, arr)
     local multGen = ent.multGenerated
     if multGen and multGen ~= 0 then
         if multGen > 0 then
@@ -271,7 +243,7 @@ end)
 
 
 local FLOAT = loc("{lootplot:TRIGGER_COLOR}{wavy}FLOATY:{/wavy}{/lootplot:TRIGGER_COLOR} Can be placed in the air!")
-umg.on("lootplot:populateDescription", 59, function(ent, arr)
+umg.on("lootplot:populateMetaDescription", 59, function(ent, arr)
     if lp.isItemEntity(ent) and lp.canItemFloat(ent) then
         arr:add(FLOAT)
     end
@@ -281,7 +253,7 @@ end)
 
 
 local REPEATER = interp("{lootplot:REPEATER_COLOR}{wavy}REPEATER:{/wavy}{/lootplot:REPEATER_COLOR} {lootplot:REPEATER_COLOR_LIGHT}Activates %{maxActivations} times!")
-umg.on("lootplot:populateDescription", 59, function(ent, arr)
+umg.on("lootplot:populateMetaDescription", 59, function(ent, arr)
     if ent.repeatActivations then
         arr:add(REPEATER(ent))
     end
@@ -293,7 +265,7 @@ end)
 local DOOMED_MULTI = interp("{wavy}{lootplot:DOOMED_COLOR}DOOMED %{doomCount}:{/lootplot:DOOMED_COLOR}{/wavy} {lootplot:DOOMED_LIGHT_COLOR}Destroyed after %{doomCount} activations!")
 local DOOMED_1 = interp("{wavy}{lootplot:DOOMED_COLOR}DOOMED 1:{/lootplot:DOOMED_COLOR}{/wavy} {lootplot:DOOMED_LIGHT_COLOR}Destroyed when activated!")
 
-umg.on("lootplot:populateDescription", 60, function(ent, arr)
+umg.on("lootplot:populateMetaDescription", 60, function(ent, arr)
     if ent.doomCount then
         local interpolator = (ent.doomCount <= 1 and DOOMED_1) or DOOMED_MULTI
         arr:add(funcLocEnt(interpolator, ent))
@@ -302,7 +274,7 @@ end)
 
 local EXTRA_LIFE = interp("{wavy}{lootplot:LIFE_COLOR}EXTRA LIVES:{/lootplot:LIFE_COLOR} %{lives}")
 
-umg.on("lootplot:populateDescription", 60, function(ent, arr)
+umg.on("lootplot:populateMetaDescription", 60, function(ent, arr)
     if ent.lives and ent.lives > 0 then
         arr:add(funcLocEnt(EXTRA_LIFE, ent))
     end
@@ -313,7 +285,7 @@ local STUCK = loc("{wavy}{lootplot:STUCK_COLOR}STUCK:{/lootplot:STUCK_COLOR}{/wa
 local STICKY = loc("{wavy}{lootplot:STUCK_COLOR}STICKY:{/lootplot:STUCK_COLOR}{/wavy} {lootplot:BAD_COLOR}Becomes STUCK when activated!")
 local STICKY_SLOT = loc("{wavy}{lootplot:STUCK_COLOR}STICKY SLOT: {/lootplot:STUCK_COLOR}{/wavy}{lootplot:BAD_COLOR}Makes items STUCK!")
 
-umg.on("lootplot:populateDescription", 60, function(ent, arr)
+umg.on("lootplot:populateMetaDescription", 60, function(ent, arr)
     if ent.stuck then
         arr:add(STUCK)
     elseif ent.sticky then

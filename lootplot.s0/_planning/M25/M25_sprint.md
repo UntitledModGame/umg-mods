@@ -289,13 +289,14 @@
 
 ~~- Make "Activates On: Pulse" better visual clarity~~
 
+~~- Some items show "activates on Pulse", but then they dont have any activation text. Fix this!!! We should collect descriptions/activation stuff differently thru separate evbuses~~
+
+
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
-
-- Some items show "activates on Pulse", but then they dont have any activation text. Fix this!!! We should collect descriptions/activation stuff differently thru separate evbuses
 
 - Make items locked early-game
 

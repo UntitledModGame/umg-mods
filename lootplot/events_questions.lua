@@ -73,7 +73,9 @@ if client then
     umg.defineEvent("lootplot:selectionChanged")
     umg.defineEvent("lootplot:hoverChanged")
 
-    umg.defineEvent("lootplot:populateDescription")
+    umg.defineEvent("lootplot:populateTriggerDescription")
+    umg.defineEvent("lootplot:populateActivateDescription")
+    umg.defineEvent("lootplot:populateMetaDescription")
     umg.defineEvent("lootplot:populateDescriptionTags")
 
     umg.defineEvent("lootplot:denySlotInteraction")

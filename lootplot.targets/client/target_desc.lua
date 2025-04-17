@@ -12,21 +12,21 @@ end)
 
 local HARDCODED_LISTEN_DESCRIPTIONS = {
     ITEM = {
-        DESTROY = loc("When an item is Destroyed,"),
-        PULSE = loc("When an item is {lootplot:TRIGGER_COLOR}Pulsed,"),
-        BUY = loc("When an item is purchased,")
+        DESTROY = loc("When a target item is Destroyed,"),
+        PULSE = loc("When a target item is {lootplot:TRIGGER_COLOR}Pulsed,"),
+        BUY = loc("When a target item is purchased,")
     },
     SLOT = {
-        DESTROY = loc("When a slot is Destroyed,"),
-        REROLL = loc("When a slot is {lootplot:TRIGGER_COLOR}Rerolled,"),
-        PULSE = loc("When a slot is {lootplot:TRIGGER_COLOR}Pulsed,"),
+        DESTROY = loc("When a target slot is Destroyed,"),
+        REROLL = loc("When a target slot is {lootplot:TRIGGER_COLOR}Rerolled,"),
+        PULSE = loc("When a target slot is {lootplot:TRIGGER_COLOR}Pulsed,"),
     }
 }
 
 
 local TRIGGER_ORDER = 10
 
-umg.on("lootplot:populateDescription", TRIGGER_ORDER, function(ent, arr)
+umg.on("lootplot:populateTriggerDescription", TRIGGER_ORDER, function(ent, arr)
     if ent.listen and ent.shape then
         local listen = ent.listen
 

@@ -21,27 +21,52 @@ local lp = {}
 
 if client then
 
+local function addAll(targArr, addArray)
+    for _,v in ipairs(addArray) do
+        targArr:add(v)
+    end
+end
+
+local SEPARATOR = "------------------------"
+
+
+
 ---Availability: **Client**
 ---@param ent Entity
 ---@return (string | function)[]
 function lp.getLongDescription(ent)
     local array = objects.Array()
-    --[[
-    lootplot:populateDescription event ordering:
-    (ie with umg.on(ev, ORDER, func)  )
-    This is where stuff should be placed:
+    if ent.description then
+        if type(ent.description) == "string" then
+            -- should already be localized:
+            array:add(ent.description)
+            array:add(SEPARATOR)
+        elseif objects.isCallable(ent.description) then
+            array:add(function()
+                -- need to pass ent manually as a closure
+                if umg.exists(ent) then
+                    return ent.description(ent)
+                end
+                return ""
+            end)
+            array:add(SEPARATOR)
+        end
+    end
 
-    ORDER = -inf item name
-    ORDER = -10 basic description
+    local triggerArr = objects.Array()
+    umg.call("lootplot:populateTriggerDescription", ent, triggerArr)
+    local activateArr = objects.Array()
+    umg.call("lootplot:populateActivateDescription", ent, activateArr)
+    if (#triggerArr > 0) and (#activateArr > 0) then
+        addAll(array, triggerArr)
+        addAll(array, activateArr)
+        array:add(SEPARATOR)
+    end
 
-    ORDER = 10 trigger
-    ORDER = 20 filter
-    ORDER = 30 action
+    local metaArray = objects.Array()
+    umg.call("lootplot:populateMetaDescription", ent, metaArray)
+    addAll(array, metaArray)
 
-    ORDER = 50 misc
-    ORDER = 60 important misc
-    ]]
-    umg.call("lootplot:populateDescription", ent, array)
     return array
 end
 
