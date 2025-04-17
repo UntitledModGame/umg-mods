@@ -1305,9 +1305,13 @@ function lp.defineItem(name, itemType)
     if not itemType.basePrice then
         umg.log.warn("item not given base-price: ", name)
     end
+    --[[
     if not itemType.baseMaxActivations then
         umg.log.warn("item not given baseMaxActivations", name)
     end
+    ]]
+    -- to simplify stuff, ALL items are given 5 max-activations.
+    itemType.baseMaxActivations = 5
 
     itemType.item = true
     itemType.layer = "item"
@@ -1347,6 +1351,14 @@ function lp.defineSlot(name, slotType)
     strTabTc(name, slotType)
     if not slotType.rarity then
         umg.log.warn("!!! SLOT NOT GIVEN RARITY:", name)
+    end
+
+    -- to simplify stuff, ALL slots are given 5 max-activations.
+    -- except for button-slots, which are given more.
+    if slotType.buttonSlot then
+        slotType.baseMaxActivations = 40
+    else
+        slotType.baseMaxActivations = 5
     end
 
     slotType.slot = true

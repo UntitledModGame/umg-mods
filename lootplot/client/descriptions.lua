@@ -220,6 +220,12 @@ end)
 
 
 
+
+--[[
+-- ============================
+-- OLD ACTIVATIONS DESCRIPTION:
+-- ============================
+
 local ACTIVATIONS = interp("Activations: {lootplot:POINTS_COLOR}%{remaining}/%{total}")
 local NO_ACTIVATIONS = interp("{lootplot:BAD_COLOR}No Activations: %{remaining}/%{total}")
 
@@ -250,6 +256,7 @@ umg.on("lootplot:populateDescription", 50, function(ent, arr)
     end
 end)
 
+]]
 
 
 

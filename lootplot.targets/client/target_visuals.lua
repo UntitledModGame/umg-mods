@@ -3,7 +3,9 @@ local util = require("shared.util")
 local FADE_IN = 0.1
 local DELAY_PER_UNIT = 0.04
 
----@param ppos lootplot.PPos
+
+---@param x number
+---@param y number
 ---@param image string
 ---@param progress number
 ---@param color table
@@ -16,7 +18,7 @@ local function renderSelectionTarget(x, y, image, imageInactive, progress, color
         local xtraRot = math.sin(love.timer.getTime() * 6) / 5
         rendering.drawImage(image, x, y, rot + xtraRot, progress, progress)
     else
-        love.graphics.setColor(c[1],c[2],c[3],0.55)
+        love.graphics.setColor(0.8,0.15,0.12,0.65)
         rendering.drawImage(imageInactive, x, y, rot, progress, progress)
     end
 end
@@ -104,13 +106,13 @@ umg.on("rendering:drawEffects", function(camera)
 
     if item.listen then
         local img, color = "listener_plus", lp.COLORS.LISTEN_COLOR
-        local img2 = "listener_plus_inactive"
+        local img2 = "target_invalid"
         drawTargets(item, img, img2, color, util.canListen)
     end
 
     if item.target then
         local img, color = "target_plus", lp.targets.TARGET_COLOR
-        local img2 = "target_plus_inactive"
+        local img2 = "target_invalid"
         drawTargets(item, img, img2, color, util.canTarget)
     end
 end)

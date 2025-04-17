@@ -273,13 +273,29 @@
 ~~- Instead of ending the tutorial abruptly, put the player into a simple run-situation. ~~
 ~~(See discord notes; ask Matt for details.)~~
 
+~~- Adjust BGMs; remove bad music~~
+
+~~- Display targets properly when hovering items~~
+~~- Make invalid-targets a red-X instead of opaque~~
+
+~~- Make all items have 5 activations~~
+~~- remove activations from description~~
+
+
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
+- In the tutorial, make it so theres no "previous" button on the first step
 
-- Adjust BGMs; remove bad music
+- In the tutorial, remove the Round/Level UI.
+
+- Wrap "Activates On: Pulse" in square brackets [] for better visual clarity
+
+- Some items show "activates on Pulse", but then they dont have any activation text. Fix this!!! We should collect deacriptions/activation stuff differently thru separate evbuses
+
+- Make items locked early-game
 
 - Deploy new builds
 
