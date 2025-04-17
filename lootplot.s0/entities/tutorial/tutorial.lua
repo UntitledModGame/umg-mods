@@ -326,7 +326,7 @@ local function nextLevelActivateDescription(ent)
 end
 
 
-local YOU_WIN_TEXT = loc("GG!\nTutorial completed.")
+local YOU_WIN_TEXT = loc("GG!\nRun completed.")
 
 lp.defineSlot("lootplot.s0:tutorial_next_level_button_slot", {
     image = "level_button_up",
@@ -367,6 +367,9 @@ lp.defineSlot("lootplot.s0:tutorial_next_level_button_slot", {
             local e = addText(ent, 0, -4, YOU_WIN_TEXT)
             e.scale = 2
             e.color = objects.Color.GREEN
+
+            -- we need to call this, so the run doesn't save.
+            lp.loseGame(server.getHostClient())
 
             clearAllButtonSlots(ent)
             return
@@ -434,6 +437,10 @@ tutorialSections:add(function(e)
     clearEverythingExceptButtons(e)
 
     addText(e, 0,2, SLOT_ITEM_TXT)
+
+    do local etype = assert(server.entities[PREV_TUTORIAL_BUTTON])
+    local pos1 = fromMiddle(e, -1, -3)
+    lp.trySpawnSlot(pos1, etype, e.lootplotTeam) end
 
     for x= -1,1 do
         for y = -1,0 do
@@ -743,8 +750,8 @@ local ROUNDS_PER_LEVEL = 6
 
 do
 -- Conclusion
-local TXT = loc("Okay! Time for the real test:")
-local TXT2 = loc("You have %{rounds} Rounds to make %{points} points...\nGood Luck!", {
+local TXT = loc("Okay! Game time:")
+local TXT2 = loc("You have %{rounds} Rounds to make %{points} points...\nYou'll start with a 3-item synergy!", {
     rounds = ROUNDS_PER_LEVEL,
     points = TUTORIAL_RUN_REQ_POINTS[1]
 })
@@ -981,10 +988,6 @@ lp.defineItem(TUT_CAT_ID, {
     onActivate = function(ent)
         clearEverythingExceptSelf(ent)
         lp.setAttribute("ROUND", ent, 0)
-
-        do local etype = assert(server.entities[PREV_TUTORIAL_BUTTON])
-        local pos1 = fromMiddle(ent, -1, -3)
-        lp.trySpawnSlot(pos1, etype, ent.lootplotTeam) end
 
         do local etype = assert(server.entities[NEXT_TUTORIAL_BUTTON])
         local pos1 = fromMiddle(ent, 1, -3)

@@ -281,13 +281,15 @@
 ~~- Make all items have 5 activations~~
 ~~- remove activations from description~~
 
+~~- In tutorial, remove "previous" button on the first step~~
+
+~~- In the tutorial, make it so the run isnt saved/continued~~
+
 
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
-
-- In the tutorial, make it so theres no "previous" button on the first step
 
 - In the tutorial, remove the Round/Level UI.
 
