@@ -358,11 +358,11 @@ definePerk("six_ball", {
 
         ppos:getPlot():foreachSlot(function(slotEnt, _p)
             if not (lp.hasTrigger(slotEnt, "REROLL")) and (not slotEnt.buttonSlot) then
-                lp.setTriggers(slotEnt, {"REROLL"})
+                lp.addTrigger(slotEnt, "REROLL")
             end
         end)
 
-        lp.forceSpawnSlot(assert(ppos:move(-4,-4)), server.entities.gray_pulse_button_slot, team)
+        spawnPulseButton(ent)
         spawnNextLevelButton(ent)
         spawnDoomClock(ent)
     end,
