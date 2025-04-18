@@ -1,9 +1,15 @@
 
 local loc = localization.localize
+local constants = require("shared.constants")
+
+local helper = require("shared.helper")
+
 
 local function defItem(id, name, etype)
     etype.image = etype.image or id
     etype.name = loc(name)
+
+    etype.isEntityTypeUnlocked = helper.unlockAfterWins(constants.UNLOCK_AFTER_WINS.ROTATEY)
 
     etype.baseMaxActivations = etype.baseMaxActivations or 10
 

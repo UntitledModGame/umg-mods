@@ -11,6 +11,13 @@ local function defineCat(id, etype)
 end
 
 
+local function unlockAfterWins(numWins)
+    return function()
+        return numWins <= lp.getWinCount()
+    end
+end
+
+
 
 
 
@@ -55,6 +62,8 @@ defineCat("tumbling_cat", {
     baseMaxActivations = 10,
     basePointsGenerated = 10,
 
+    isEntityTypeUnlocked = unlockAfterWins(2),
+
     shape = lp.targets.UpShape(1),
 
     activateDescription = loc("Copies self into target slots, and rotates the copy"),
@@ -77,6 +86,8 @@ defineCat("chubby_cat", {
     name = loc("Chubby Cat"),
 
     rarity = lp.rarities.EPIC,
+
+    isEntityTypeUnlocked = unlockAfterWins(3),
 
     basePrice = 0,
     baseMaxActivations = 10,
@@ -130,6 +141,8 @@ defineCat("copykato", {
 
     rarity = lp.rarities.RARE,
 
+    isEntityTypeUnlocked = unlockAfterWins(3),
+
     basePrice = 0,
     baseMoneyGenerated = -2,
     baseMaxActivations = 3,
@@ -160,6 +173,8 @@ defineCat("pink_cat", {
     description = loc("Starts with 9 lives"),
     triggers = {"PULSE"},
 
+    isEntityTypeUnlocked = unlockAfterWins(1),
+
     basePrice = 6,
     baseMaxActivations = 15,
     basePointsGenerated = 10,
@@ -184,6 +199,8 @@ defineCat("pink_cat", {
 defineCat("crappy_cat", {
     name = loc("Crappy Cat"),
     activateDescription = loc("Converts target items into a clone of itself"),
+
+    isEntityTypeUnlocked = unlockAfterWins(2),
 
     rarity = lp.rarities.RARE,
 

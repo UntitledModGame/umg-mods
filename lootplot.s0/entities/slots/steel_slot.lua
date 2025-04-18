@@ -2,7 +2,7 @@
 local loc = localization.localize
 
 local PTS_MULT = 3
-local ACTIVATIONS_CAP = 3
+local ACTIVATIONS_CAP = 2
 
 
 return lp.defineSlot("lootplot.s0:steel_slot", {

@@ -3,12 +3,15 @@ local loc = localization.localize
 local interp = localization.newInterpolator
 
 local helper = require("shared.helper")
+local consts = require("shared.constants")
 
 
 
 local function defDestructive(id, name, etype)
     etype.image = etype.image or id
     etype.name = loc(name)
+
+    etype.isEntityTypeUnlocked = helper.unlockAfterWins(consts.UNLOCK_AFTER_WINS.DESTRUCTIVE)
 
     if not etype.listen then
         etype.triggers = etype.triggers or {"PULSE"}

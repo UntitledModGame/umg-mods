@@ -51,6 +51,10 @@ local function defRocks(id, name, etype)
 
     etype.lootplotTags = {constants.tags.ROCKS}
 
+    etype.isEntityTypeUnlocked = function()
+        return lp.getWinCount() >= constants.UNLOCK_AFTER_WINS.DESTRUCTIVE
+    end
+
     if not etype.listen then
         etype.triggers = etype.triggers or {"DESTROY"}
     end

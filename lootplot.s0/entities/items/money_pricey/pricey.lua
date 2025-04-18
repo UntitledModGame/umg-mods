@@ -177,7 +177,6 @@ defItem("red_award", "Red Award", {
     basePrice = 2,
 
     baseMaxActivations = 8,
-    baseMoneyGenerated = -1,
     baseMultGenerated = 0,
 
     lootplotProperties = {

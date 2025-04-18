@@ -4,6 +4,7 @@ local loc = localization.localize
 local constants = require("shared.constants")
 
 local itemGenHelper = require("shared.item_gen_helper")
+local helper = require("shared.helper")
 
 
 
@@ -28,6 +29,8 @@ end
 local function defShards(id, name, onMatchActivate, onMatchDesc, etype)
     etype = etype or {}
     etype.image = etype.image or id
+
+    etype.isEntityTypeUnlocked = helper.unlockAfterWins(constants.UNLOCK_AFTER_WINS.SHARDS)
 
     local full_id = PREFIX .. id
     IS_SHARD_ITEM[full_id] = true

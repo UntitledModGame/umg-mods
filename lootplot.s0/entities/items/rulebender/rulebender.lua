@@ -11,10 +11,20 @@ local function defItem(id, name, etype)
 end
 
 
+local function unlockAfterWins(numWins)
+    return function()
+        return numWins <= lp.getWinCount()
+    end
+end
+
+
+
 
 helper.defineDelayItem("gift_box", "Gift Box", {
     basePrice = 6,
     baseMaxActivations = 5,
+
+    isEntityTypeUnlocked = unlockAfterWins(4),
 
     rarity = lp.rarities.RARE,
     triggers = {"PULSE"},
@@ -38,6 +48,8 @@ helper.defineDelayItem("gift_box", "Gift Box", {
 
 defItem("pandoras_box", "Pandora's Box", {
     activateDescription = loc("Spawn RARE items."),
+
+    isEntityTypeUnlocked = unlockAfterWins(4),
 
     rarity = lp.rarities.EPIC,
     triggers = {"PULSE"},
@@ -87,6 +99,8 @@ end
 defItem("spear_of_war", "Spear of War", {
     activateDescription = loc("Generates points equal to the current combo"),
 
+    isEntityTypeUnlocked = unlockAfterWins(4),
+
     rarity = lp.rarities.EPIC,
     triggers = {"PULSE"},
 
@@ -108,6 +122,8 @@ defItem("spear_of_war", "Spear of War", {
 
 defItem("void_box", "Void Box", {
     activateDescription = loc("Gives {lootplot:DOOMED_LIGHT_COLOR}+1 doomed{/lootplot:DOOMED_LIGHT_COLOR} to doomed-items"),
+
+    isEntityTypeUnlocked = unlockAfterWins(5),
 
     triggers = {"PULSE"},
 
@@ -135,6 +151,8 @@ defItem("void_box", "Void Box", {
 defItem("toilet_paper", "Toilet Paper", {
     triggers = {"PULSE"},
 
+    isEntityTypeUnlocked = unlockAfterWins(2),
+
     baseMaxActivations = 10,
     basePrice = 12,
     basePointsGenerated = -50,
@@ -151,6 +169,8 @@ defItem("basilisks_eye", "Basilisk's Eye", {
     activateDescription = loc("Set rarity of items/slots to %{UNCOMMON}", {
         UNCOMMON = lp.rarities.UNCOMMON.displayString
     }),
+
+    isEntityTypeUnlocked = unlockAfterWins(1),
 
     triggers = {"PULSE"},
 
@@ -242,7 +262,7 @@ defItem("foghorn", "Fog Horn", {
 
     canItemFloat = true,
 
-    shape = lp.targets.RookShape(8),
+    shape = lp.targets.QueenShape(8),
 
     doomCount = 3,
     basePrice = 8,
@@ -281,6 +301,8 @@ defItem("magic_wand", "Magic Wand", {
     activateDescription = loc("Transform items into a clone of a random item on the plot."),
 
     triggers = {"PULSE"},
+
+    isEntityTypeUnlocked = unlockAfterWins(6),
 
     rarity = lp.rarities.EPIC,
 
@@ -377,6 +399,8 @@ defItem("bandage", "Bandage", {
     activateDescription = loc("Gives {lootplot:LIFE_COLOR}+%{lives} lives{/lootplot:LIFE_COLOR} to slots.", {
         lives = NUM_LIVES
     }),
+
+    isEntityTypeUnlocked = unlockAfterWins(4),
 
     triggers = {"PULSE"},
 

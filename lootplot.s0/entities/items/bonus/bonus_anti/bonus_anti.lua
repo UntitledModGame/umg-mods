@@ -47,39 +47,6 @@ end
 
 
 
-do
-local ACTIV_BUFF = 2
-local BONUS_DEBUFF = 3
-
-defItem("anvil", "Anvil", {
-    triggers = {"PULSE"},
-
-    activateDescription = loc("Give items {lootplot:INFO_COLOR}+%{activs} activations{/lootplot:INFO_COLOR}.\nSubtracts {lootplot:BONUS_COLOR}-%{bonus} bonus{/lootplot:BONUS_COLOR} from items.", {
-        activs = ACTIV_BUFF,
-        bonus = BONUS_DEBUFF
-    }),
-
-    basePrice = 8,
-    baseMaxActivations = 6,
-
-    target = {
-        type = "ITEM",
-        activate = function(selfEnt, ppos, targetEnt)
-            lp.modifierBuff(targetEnt, "bonusGenerated", -BONUS_DEBUFF, selfEnt)
-            lp.modifierBuff(targetEnt, "maxActivations", ACTIV_BUFF, selfEnt)
-        end
-    },
-    shape = lp.targets.UnionShape(
-        lp.targets.NorthEastShape(1),
-        lp.targets.NorthWestShape(1)
-    ),
-
-    rarity = lp.rarities.RARE,
-})
-
-end
-
-
 
 
 do

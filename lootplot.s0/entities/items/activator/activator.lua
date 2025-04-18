@@ -100,35 +100,6 @@ defItem("red_boxing_glove", "Red Boxing Glove", {
 
 
 
-defItem("old_tv", "Old TV", {
-    rarity = lp.rarities.UNCOMMON,
-    triggers = {"PULSE"},
-
-    init = helper.rotateRandomly,
-
-    activateDescription = loc("{lootplot:TRIGGER_COLOR}Pulses{/lootplot:TRIGGER_COLOR} all %{RARE} items.", {
-        RARE = lp.rarities.RARE.displayString
-    }),
-
-    basePrice = 8,
-    baseMaxActivations = 5,
-    repeatActivations = true,
-
-    shape = lp.targets.UpShape(2),
-
-    target = {
-        type = "ITEM",
-        filter = function(selfEnt, ppos, targetEnt)
-            return lp.hasTrigger(targetEnt, "PULSE")
-                and targetEnt.rarity == lp.rarities.RARE
-        end,
-        activate = function(selfEnt, ppos, targetEnt)
-            lp.tryTriggerEntity("PULSE", targetEnt)
-        end
-    }
-})
-
-
 
 
 defItem("leather_boots", "Leather Boots", {
@@ -144,6 +115,9 @@ defItem("leather_boots", "Leather Boots", {
 
     target = {
         type = "SLOT",
+        filter = function(selfEnt, ppos, targEnt)
+            return (not targEnt.buttonSlot)
+        end,
         activate = function(selfEnt, ppos, targetEnt)
             lp.tryActivateEntity(targetEnt)
         end
@@ -164,6 +138,9 @@ defItem("green_boots", "Green Boots", {
 
     target = {
         type = "SLOT",
+        filter = function(selfEnt, ppos, targEnt)
+            return (not targEnt.buttonSlot)
+        end,
         activate = function(selfEnt, ppos, targetEnt)
             lp.tryActivateEntity(targetEnt)
         end

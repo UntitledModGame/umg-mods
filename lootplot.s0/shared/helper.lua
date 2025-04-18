@@ -96,6 +96,15 @@ local function drawDelayItemNumber(ent, delayCount)
 end
 
 
+---@param numWins number
+---@return function
+function helper.unlockAfterWins(numWins)
+    assert(type(numWins) == "number")
+    return function()
+        return lp.getWinCount() >= numWins
+    end
+end
+
 
 local DELAY_DESC = localization.newInterpolator("After {lootplot:INFO_COLOR}%{count} activations{/lootplot:INFO_COLOR},\n%{delayDescription}")
 

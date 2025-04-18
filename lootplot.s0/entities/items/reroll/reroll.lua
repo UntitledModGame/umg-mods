@@ -2,6 +2,7 @@
 
 local loc = localization.localize
 local interp = localization.newInterpolator
+
 local helper = require("shared.helper")
 
 local consts = require("shared.constants")
@@ -10,18 +11,19 @@ local consts = require("shared.constants")
 local function defItem(id, name, etype)
     etype.image = etype.image or id
     etype.name = loc(name)
+
+    etype.isEntityTypeUnlocked = helper.unlockAfterWins(consts.UNLOCK_AFTER_WINS.REROLL)
+
     return lp.defineItem("lootplot.s0:"..id, etype)
 end
 
 
 
 local function defineDice(id, name, etype)
-    etype.name = loc(name)
     etype.rarity = assert(etype.rarity)
     etype.basePrice = etype.basePrice or 6
-    etype.image = etype.image or id
 
-    return lp.defineItem("lootplot.s0:"..id, etype)
+    return defItem(id, name, etype)
 end
 
 

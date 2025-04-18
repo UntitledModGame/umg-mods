@@ -23,8 +23,12 @@ function itemGenHelper.createLazyGenerator(filterFunc, weightAdjuster)
     local function generate()
         itemGen = itemGen or lp.newItemGenerator({
             filter = function(item, weight)
-                local etype = server.entities[item]
-                return filterFunc(etype)
+                local etype = assert(server.entities[item])
+                local isUnlocked = lp.metaprogression.isEntityTypeUnlocked(etype)
+                if isUnlocked then
+                    return filterFunc(etype)
+                end
+                return false
             end,
             adjustWeights = function(item, currentWeight)
                 local etype = server.entities[item]

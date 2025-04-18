@@ -28,11 +28,17 @@ NOTE::: This can be used to LOCK the shop!!! Very cool idea!!!
 local loc = localization.localize
 local interp = localization.newInterpolator
 
+local constants = require("shared.constants")
+
 
 local DESC = loc("Has an activation button.")
 
 local function defContra(id, name, etype)
     etype.name = loc(name)
+
+    etype.isEntityTypeUnlocked = function()
+        return lp.getWinCount() >= constants.UNLOCK_AFTER_WINS.CONTRAPTIONS
+    end
 
     etype.image = etype.image or id
     etype.basePrice = etype.basePrice or 8

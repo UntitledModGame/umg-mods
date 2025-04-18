@@ -124,7 +124,7 @@ lp.defineSlot("lootplot.s0:pulse_button_slot", {
 
     name = loc("Pulse Button"),
     description = loc("Click to {wavy}{lootplot:TRIGGER_COLOR}PULSE{/lootplot:TRIGGER_COLOR}{/wavy} all items/slots,\nand go to the next round!"),
-    activateDescription = loc("(Afterwards, resets everything, and earns {lootplot:MONEY_COLOR}$%{money}{/lootplot:MONEY_COLOR})", {
+    activateDescription = loc("(Afterwards earns {lootplot:MONEY_COLOR}$%{money}{/lootplot:MONEY_COLOR})", {
         money = constants.MONEY_PER_ROUND
     }),
 
@@ -194,7 +194,7 @@ lp.defineSlot("lootplot.s0:gray_pulse_button_slot", {
 
     name = loc("Gray Button"),
     description = loc("Click to go to the next round."),
-    activateDescription = loc("(Afterwards, resets everything, and earns {lootplot:MONEY_COLOR}$%{money}{/lootplot:MONEY_COLOR})", {
+    activateDescription = loc("(Afterwards earns {lootplot:MONEY_COLOR}$%{money}{/lootplot:MONEY_COLOR})", {
         money = constants.MONEY_PER_ROUND
     }),
 

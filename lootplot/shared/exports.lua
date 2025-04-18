@@ -57,7 +57,7 @@ function lp.getLongDescription(ent)
     umg.call("lootplot:populateTriggerDescription", ent, triggerArr)
     local activateArr = objects.Array()
     umg.call("lootplot:populateActivateDescription", ent, activateArr)
-    if (#triggerArr > 0) and (#activateArr > 0) then
+    if (#activateArr > 0) then
         addAll(array, triggerArr)
         addAll(array, activateArr)
         array:add(SEPARATOR)

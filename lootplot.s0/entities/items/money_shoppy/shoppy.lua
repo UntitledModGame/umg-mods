@@ -4,9 +4,15 @@ local loc = localization.localize
 local interp = localization.newInterpolator
 local helper = require("shared.helper")
 
+local constants = require("shared.constants")
+
+
 
 local function defItem(id, etype)
     etype.image = etype.image or id
+
+    etype.isEntityTypeUnlocked = helper.unlockAfterWins(constants.UNLOCK_AFTER_WINS.SHOPPY)
+
     return lp.defineItem("lootplot.s0:"..id, etype)
 end
 
