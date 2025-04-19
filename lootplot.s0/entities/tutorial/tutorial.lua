@@ -868,7 +868,7 @@ tutorialSections:add(function(tutEnt)
     local itemEnt = lp.forceSpawnItem(assert(pos:move(-1,-1)), server.entities.iron_spear, team)
     if itemEnt then lp.setItemRotation(itemEnt, 1) end
     -----
-    lp.forceSpawnItem(assert(pos:move(0,0)), server.entities.ukulele, team)
+    lp.forceSpawnItem(assert(pos:move(0,0)), server.entities.wooden_shield, team)
     -----
     local itemEnt2 = lp.forceSpawnItem(assert(pos:move(-1,0)), server.entities.iron_sword, team)
     itemEnt2.baseBonusGenerated = 0 -- remove -1 bonus so its less confusing, also less footguns

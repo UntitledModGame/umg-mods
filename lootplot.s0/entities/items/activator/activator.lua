@@ -24,7 +24,7 @@ local PULSE_TARGET = {
 local PULSE_DESC = loc("{lootplot:TRIGGER_COLOR}Pulses{/lootplot:TRIGGER_COLOR} items.")
 
 
-defItem("wooden_shield", "Wooden Sheild", {
+defItem("wooden_shield", "Wooden Sheild II", {
     rarity = lp.rarities.RARE,
     triggers = {"PULSE"},
 
@@ -41,7 +41,7 @@ defItem("wooden_shield", "Wooden Sheild", {
 
 
 
-defItem("wooden_shield_cost", "Wooden Shield", {
+defItem("wooden_shield_cost", "Wooden Shield I", {
     image = "wooden_shield",
     rarity = lp.rarities.UNCOMMON,
     triggers = {"PULSE"},
