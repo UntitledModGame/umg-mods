@@ -4,6 +4,7 @@ local loc = localization.localize
 local interp = localization.newInterpolator
 
 local itemGenHelper = require("shared.item_gen_helper")
+local helper = require("shared.helper")
 local newLazyGen = itemGenHelper.createLazyGenerator
 
 local constants = require("shared.constants")
@@ -233,6 +234,8 @@ defSack("sack_dark", "Dark Sack", {
     activateDescription = locRarity("Spawns rock items.\nMust be placed in the air!"),
 
     basePrice = 10,
+
+    isEntityTypeUnlocked = helper.unlockAfterWins(constants.UNLOCK_AFTER_WINS.DESTRUCTIVE),
 
     shape = VERTICAL_SACK_SHAPE,
     rarity = lp.rarities.UNCOMMON,
