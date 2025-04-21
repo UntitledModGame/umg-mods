@@ -53,6 +53,8 @@ local NUM_KEY_ACTS = 4
 helper.defineDelayItem("dark_bar", "Dark Bar", {
     delayCount = NUM_KEY_ACTS,
 
+    isEntityTypeUnlocked = helper.unlockAfterWins(constants.UNLOCK_AFTER_WINS.DESTRUCTIVE),
+
     delayDescription = loc("Spawns a random rock item"),
 
     delayAction = function(ent)
