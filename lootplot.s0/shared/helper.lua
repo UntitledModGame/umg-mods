@@ -105,6 +105,15 @@ function helper.unlockAfterWins(numWins)
     end
 end
 
+---@return function
+function helper.unlockAfterTutorial()
+    return function()
+        return lp.metaprogression.getFlag("lootplot.s0:isTutorialCompleted")
+    end
+end
+
+
+
 
 local DELAY_DESC = localization.newInterpolator("After {lootplot:INFO_COLOR}%{count} activations{/lootplot:INFO_COLOR},\n%{delayDescription}")
 

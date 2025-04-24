@@ -548,7 +548,7 @@ defineSlotSpawner("glass_bottle", "Glass Bottle", "glass_slot", "Glass Slots", l
     rarity = lp.rarities.RARE,
 })
 
-defineSlotSpawner("glass_tube", "Glass Bottle", "glass_slot", "Glass Slots", lp.targets.RookShape(4), {
+defineSlotSpawner("glass_tube", "Glass Tube", "glass_slot", "Glass Slots", lp.targets.RookShape(4), {
     basePrice = 2,
     rarity = lp.rarities.UNCOMMON,
 })
