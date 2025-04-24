@@ -737,9 +737,9 @@ end
 
 
 local TUTORIAL_RUN_REQ_POINTS = {
-    400,
-    900,
-    1400,
+    40,
+    200,
+    800,
     2000,
     3500,
     6000,
@@ -751,7 +751,7 @@ local ROUNDS_PER_LEVEL = 6
 do
 -- Conclusion
 local TXT = loc("Okay! Game time:")
-local TXT2 = loc("You have %{rounds} Rounds to make %{points} points...\nYou'll start with a 3-item synergy!", {
+local TXT2 = loc("You have %{rounds} Rounds to make %{points} points...\nYou'll start with a shield!", {
     rounds = ROUNDS_PER_LEVEL,
     points = TUTORIAL_RUN_REQ_POINTS[1]
 })
@@ -864,14 +864,7 @@ tutorialSections:add(function(tutEnt)
     lp.forceSpawnSlot(assert(pos:move(-1,-3)), server.entities.pulse_button_slot, team)
     lp.forceSpawnSlot(assert(pos:move(1,-3)), server.entities.tutorial_next_level_button_slot, team)
 
-    -- spawn items:
-    local itemEnt = lp.forceSpawnItem(assert(pos:move(-1,-1)), server.entities.iron_spear, team)
-    if itemEnt then lp.setItemRotation(itemEnt, 1) end
-    -----
     lp.forceSpawnItem(assert(pos:move(0,0)), server.entities.wooden_shield, team)
-    -----
-    local itemEnt2 = lp.forceSpawnItem(assert(pos:move(-1,0)), server.entities.iron_sword, team)
-    itemEnt2.baseBonusGenerated = 0 -- remove -1 bonus so its less confusing, also less footguns
 
     -- make basic-slots earn money:
     do
