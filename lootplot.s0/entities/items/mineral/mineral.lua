@@ -4,6 +4,7 @@ local interp = localization.newInterpolator
 
 local helper = require("shared.helper")
 
+local consts = require("shared.constants")
 
 --[[
 
@@ -408,8 +409,10 @@ EMERALD TOOLS:
 Activated when rerolled
 ]]
 defineMineralClass("emerald", "Emerald", 2, {
+    triggers = {"REROLL"},
     baseMaxActivations = 10,
-    triggers = {"REROLL"}
+
+    isEntityTypeUnlocked = helper.unlockAfterWins(consts.UNLOCK_AFTER_WINS.REROLL),
 })
 
 
@@ -459,7 +462,6 @@ defineMineralClass("golden", "Golden", 15, {
 
 
 
-local consts = require("shared.constants")
 local GRUB_MONEY_CAP = assert(consts.DEFAULT_GRUB_MONEY_CAP)
 
 --[[
@@ -470,7 +472,9 @@ Grubby items have `grubby` component
 defineMineralClass("grubby", "Grubby", 5, {
     triggers = {"PULSE"},
     grubMoneyCap = GRUB_MONEY_CAP,
-    baseMaxActivations = 8
+    baseMaxActivations = 8,
+
+    isEntityTypeUnlocked = helper.unlockAfterWins(consts.UNLOCK_AFTER_WINS.GRUBBY),
 })
 
 
@@ -491,7 +495,9 @@ do
     local strength = 10
     local etype = {
         triggers = {"ROTATE"},
-        baseMaxActivations = 8
+        baseMaxActivations = 8,
+
+        isEntityTypeUnlocked = helper.unlockAfterWins(consts.UNLOCK_AFTER_WINS.ROTATEY)
     }
 
     defineSword("copper", "Copper", strength, etype)

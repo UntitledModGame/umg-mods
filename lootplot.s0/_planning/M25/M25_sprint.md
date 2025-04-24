@@ -291,29 +291,22 @@
 
 ~~- Some items show "activates on Pulse", but then they dont have any activation text. Fix this!!! We should collect descriptions/activation stuff differently thru separate evbuses~~
 
+~~- Make items locked early-game~~
 
+~~- Deploy new builds~~
+
+~~- RELEASE LOOTPLOT~~
 
 ==========================================
 ANY TASK ABOVE ^^^ THIS POINT IS COMPLETE
 ==========================================
 
 
-- Make items locked early-game
-
-- Deploy new builds
-
-- Gather BIG list of streamers/yters to send keys to
-
 - Send keys to streamers
-
-- RELEASE LOOTPLOT
 
 - Send keys to review agencies/companies/curators
 
 - Send MORE keys to streamers
-
-- Gather emails of review agencies/companies
-- Gather a BIG BIG BIG list of curators to review game
 
 
 =============================================
