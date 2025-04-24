@@ -105,11 +105,9 @@ function helper.unlockAfterWins(numWins)
     end
 end
 
----@return function
+---@return boolean
 function helper.unlockAfterTutorial()
-    return function()
-        return lp.metaprogression.getFlag("lootplot.s0:isTutorialCompleted")
-    end
+    return lp.metaprogression.getFlag("lootplot.s0:isTutorialCompleted")
 end
 
 

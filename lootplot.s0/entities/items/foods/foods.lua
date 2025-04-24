@@ -785,6 +785,8 @@ defineFood("sliced_apple", {
     name = loc("Sliced Apple"),
     activateDescription = loc("Randomizes slot!"),
 
+    isEntityTypeUnlocked = helper.unlockAfterWins(1),
+
     shape = lp.targets.ON_SHAPE,
     target = {
         type = "SLOT",
@@ -1047,7 +1049,7 @@ local function definePotion(name, etype)
         etype.init = etype.init or helper.rotateRandomly
     end
     etype.basePrice = etype.basePrice or 3
-    etype.doomCount = 4
+    etype.doomCount = 3
 
     defineFood(name, etype)
 end
@@ -1145,7 +1147,7 @@ do
 local function defineMush(id, etype)
     etype.rarity = etype.rarity or lp.rarities.RARE
     etype.basePrice = etype.basePrice or 6
-    etype.isEntityTypeUnlocked = unlockAfterWins(4)
+    etype.isEntityTypeUnlocked = unlockAfterWins(2)
     etype.shape = etype.shape or lp.targets.KING_SHAPE
     defineFood(id, etype)
 end
@@ -1289,7 +1291,7 @@ local function defineDonut(id, name, targetDesc, buffAmount)
         name = loc(name),
         activateDescription = loc(targetDesc),
 
-        isEntityTypeUnlocked = unlockAfterWins(5),
+        isEntityTypeUnlocked = unlockAfterWins(3),
 
         basePrice = 6,
         canItemFloat = true,

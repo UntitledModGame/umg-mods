@@ -1,5 +1,6 @@
 
 local lg = love.graphics
+local loc = localization.localize
 
 
 
@@ -32,8 +33,8 @@ local function drawKettleText(ent, x,y,rot, sx,sy,kx,ky)
         txt, color = tostring(-ent.multGenerated), lp.COLORS.POINTS_MULT_COLOR
     elseif (ent.bonusGenerated or 0) < 0 then
         txt, color = tostring(-ent.bonusGenerated), lp.COLORS.BONUS_COLOR
-    elseif (ent.pointsGenerated or 0) < 0 then
-        txt, color = tostring(-ent.pointsGenerated), lp.COLORS.POINTS_COLOR
+    elseif (ent._stealPercentagePoints or 0) > 0 then
+        txt, color = tostring(ent._stealPercentagePoints), lp.COLORS.POINTS_COLOR
     else
         return
     end
@@ -46,7 +47,7 @@ end
 
 local i = 0
 
-local function defineKettleCurse(property, propChange, etype)
+local function defineKettleCurse(comp, val, etype)
     etype = etype or {}
 
     etype.isCurse = 1
@@ -62,8 +63,11 @@ local function defineKettleCurse(property, propChange, etype)
 
     etype.onDraw = drawKettleText
 
-    local basePropName = assert(properties.getBase(property))
-    etype[basePropName] = propChange
+    etype[comp] = val
+
+    if etype._stealPercentagePoints then
+        etype.activateDescription = loc("")
+    end
 
     -- NOTE: this is extremely EXTREMELY HACKY.
     -- If we serialize kettlecurse_4, and then delete kettlecurse_3,
@@ -84,21 +88,22 @@ local function getRerollEtype()
 end
 
 
--- TODO: these should probably scale with level, right?
-defineKettleCurse("pointsGenerated", -100)
-defineKettleCurse("pointsGenerated", -200)
-defineKettleCurse("pointsGenerated", -500)
+defineKettleCurse("_stealPercentagePoints", 3)
+defineKettleCurse("_stealPercentagePoints", 5)
+defineKettleCurse("_stealPercentagePoints", 8)
+defineKettleCurse("_stealPercentagePoints", 10)
 
-defineKettleCurse("moneyGenerated", -1)
-defineKettleCurse("moneyGenerated", -1, getRerollEtype())
 
-defineKettleCurse("multGenerated", -0.3)
-defineKettleCurse("multGenerated", -0.5)
-defineKettleCurse("multGenerated", -0.9)
-defineKettleCurse("multGenerated", -0.9, getRerollEtype())
-defineKettleCurse("multGenerated", -0.5, getRerollEtype())
+defineKettleCurse("baseMoneyGenerated", -1)
+defineKettleCurse("baseMoneyGenerated", -1, getRerollEtype())
 
-defineKettleCurse("bonusGenerated", -8)
-defineKettleCurse("bonusGenerated", -15)
-defineKettleCurse("bonusGenerated", -10, getRerollEtype())
+defineKettleCurse("baseMultGenerated", -0.3)
+defineKettleCurse("baseMultGenerated", -0.5)
+defineKettleCurse("baseMultGenerated", -0.9)
+defineKettleCurse("baseMultGenerated", -0.9, getRerollEtype())
+defineKettleCurse("baseMultGenerated", -0.5, getRerollEtype())
+
+defineKettleCurse("baseBonusGenerated", -8)
+defineKettleCurse("baseBonusGenerated", -15)
+defineKettleCurse("baseBonusGenerated", -10, getRerollEtype())
 
