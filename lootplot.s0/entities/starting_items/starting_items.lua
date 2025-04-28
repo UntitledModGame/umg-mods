@@ -331,7 +331,6 @@ defineStartingItem("six_ball", {
     triggers = {"PULSE", "REROLL"},
 
     description = loc("Reroll specialist"),
-    activateDescription = loc("{lootplot:TRIGGER_COLOR}Pulses{/lootplot:TRIGGER_COLOR} items."),
 
     baseMaxActivations = 10,
 
@@ -351,9 +350,9 @@ defineStartingItem("six_ball", {
 
         do -- spawn golden-die:
         local itemEnt = lp.trySpawnItem(assert(ppos:move(-1,0)), server.entities.golden_die, team)
-        itemEnt.baseMoneyGenerated = 3
+        itemEnt.baseMoneyGenerated = 2
         local itemEnt2 = lp.trySpawnItem(assert(ppos:move(1,0)), server.entities.golden_die, team)
-        itemEnt2.baseMoneyGenerated = 3
+        itemEnt2.baseMoneyGenerated = 2
         end
 
         do -- spawn green-olive with lives:
@@ -375,17 +374,6 @@ defineStartingItem("six_ball", {
         spawnNextLevelButton(ent)
         spawnDoomClock(ent)
     end,
-
-    shape = lp.targets.UpShape(4),
-    target = {
-        type = "ITEM",
-        filter = function(selfEnt, ppos, targetEnt)
-            return lp.hasTrigger(targetEnt, "PULSE")
-        end,
-        activate = function(selfEnt, ppos, targetEnt)
-            lp.tryTriggerEntity("PULSE", targetEnt)
-        end
-    }
 })
 
 
