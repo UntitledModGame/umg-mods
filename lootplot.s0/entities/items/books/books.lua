@@ -8,28 +8,19 @@ local bookTc = typecheck.assert("string", "string", "string|function", "string",
 
 
 
-local ACTIVATE_SELF_BUTTON = {
-    text = loc("Read!"),
-    action = function(selfEnt)
-        if server then
-            lp.tryActivateEntity(selfEnt)
-        end
-    end
-}
-
 
 
 local function defineBook(id, name, etype)
     etype.image = id
     etype.name = loc(name)
 
+    etype.triggers = {"PULSE"}
+
     etype.basePrice = 10
     etype.baseMaxActivations = 10
 
     etype.doomCount = 20
     etype.shape = lp.targets.UP_SHAPE
-
-    etype.actionButtons = {ACTIVATE_SELF_BUTTON}
 
     lp.defineItem(  "lootplot.s0:" .. id, etype)
 end
