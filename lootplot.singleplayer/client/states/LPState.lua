@@ -334,8 +334,11 @@ end
 
 local interp = localization.newInterpolator
 
-local ROUND_AND_LEVEL = interp("{wavy amp=0.5 k=0.5}{outline thickness=2}Round %{round}/%{numberOfRounds} - Level %{level}")
-local FINAL_ROUND_LEVEL = interp("{wavy freq=2.5 amp=0.75 k=1}{outline thickness=2}{c r=1 g=0.2 b=0.1}FINAL ROUND %{round}/%{numberOfRounds}{/outline}{/wavy}{wavy amp=0.5 k=0.5}{outline thickness=2} - Level %{level}")
+local LEVEL_NON_FINAL = interp("Level %{level}")
+local LEVEL_FINAL = interp("{c r=1 g=0.2 b=0.2}FINAL LEVEL! (%{level}){/c}")
+
+local ROUND_AND_LEVEL = interp("{wavy amp=0.5 k=0.5}{outline thickness=2}Round %{round}/%{numberOfRounds} - %{levelText}")
+local FINAL_ROUND_LEVEL = interp("{wavy freq=2.5 amp=0.75 k=1}{outline thickness=2}{c r=1 g=0.2 b=0.1}FINAL ROUND %{round}/%{numberOfRounds}{/outline}{/wavy}{wavy amp=0.5 k=0.5}{outline thickness=2} - %{levelText}")
 local LEVEL_COMPLETE = interp("{c r=0.2 g=1 b=0.4}{wavy amp=0.5 k=0.5}{outline thickness=2}Level %{level} Complete!")
 local GAME_OVER = interp("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline thickness=2}{c r=0.7 g=0.1 b=0}GAME OVER! (Level %{level})")
 
@@ -413,6 +416,10 @@ function LPState:drawHUD()
     local requiredPoints = run:getAttribute("REQUIRED_POINTS")
     local round = run:getAttribute("ROUND")
     local numberOfRounds = run:getAttribute("NUMBER_OF_ROUNDS")
+    local numberOfLevels = run:getAttribute("NUMBER_OF_LEVELS")
+    local level = run:getAttribute("LEVEL")
+
+    local isFinalLevel = numberOfLevels == level
 
     -- draw text on the left
     -- (Round/Level, money, points/required points)
@@ -443,10 +450,15 @@ function LPState:drawHUD()
     else
         roundTextMaker = ROUND_AND_LEVEL
     end
+
+    local levelText = ((isFinalLevel and LEVEL_FINAL) or LEVEL_NON_FINAL)({
+        level = level
+    })
     local roundText = roundTextMaker({
         round = round,
+        levelText = levelText,
         numberOfRounds = numberOfRounds,
-        level = run:getAttribute("LEVEL")
+        level = level
     })
 
     local moneyText = MONEY({
