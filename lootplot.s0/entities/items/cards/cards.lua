@@ -106,7 +106,7 @@ defItem("star", "Star", {
 defineCard("hearts_card", "Hearts Card", {
     shape = lp.targets.VerticalShape(1),
 
-    activateDescription = loc("Shuffle lives between target items.\nDoesn't work on items have more than 10 lives."),
+    activateDescription = loc("Shuffle lives between target items.\nDoesn't work on items with more than 10 lives."),
 
     target = {
         type = "ITEM",
