@@ -2,6 +2,9 @@
 
 local loc = localization.localize
 
+local helper = require("shared.helper")
+local constants = require("shared.constants")
+
 
 local CHESTPLATE_SHAPE = lp.targets.HorizontalShape(3)
 
@@ -87,6 +90,7 @@ defChestplate("copper_chestplate", "Copper Chestplate", {
     activateDescription = loc("Increase price of items by {lootplot:MONEY_COLOR}$3{/lootplot:MONEY_COLOR}.\nRotate items."),
 
     baseMoneyGenerated = -1,
+    isEntityTypeUnlocked = helper.unlockAfterWins(constants.UNLOCK_AFTER_WINS.ROTATEY),
 
     target = {
         type = "ITEM",
