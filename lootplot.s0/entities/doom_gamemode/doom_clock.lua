@@ -10,9 +10,21 @@ Provides win/lose conditions
 local loc = localization.localize
 
 
-local EARLY_LEVELS = {
-    60, 400, 1500, 4000, 15000, 40000
+local POINT_REQUIREMENTS = {
+    [1] = {
+      60, 400, 1500, 4000, 15000, 40000, 200000, 600000, 1500000, 5000000
+    },
+
+    [2] = {
+      60, 500, 2000, 5000, 20000, 100000, 600000, 1000000, 3000000, 10000000
+    },
+
+    [3] = {
+      60, 600, 2500, 6000, 25000, 250000, 1200000, 3000000, 7000000, 500000000
+    }
 }
+
+
 
 
 local function makePretty(num)
@@ -29,17 +41,18 @@ local function makePretty(num)
 end
 
 
----@param levelNumber integer
-local function getRequiredPoints(levelNumber)
-    --[[
-    levelNumber starts at 1, goes up infinitely.
-    ]]
-    if EARLY_LEVELS[levelNumber] then
-        return EARLY_LEVELS[levelNumber]
+---@param ent Entity
+local function getRequiredPoints(ent)
+    local level = lp.getLevel(ent)
+    local difficulty = lp.getDifficulty(ent)
+
+    local tabl = POINT_REQUIREMENTS[difficulty]
+    if tabl and tabl[level] then
+        return tabl[level]
     end
 
     local GROWTH_PER_LEVEL = 3
-    local number = (GROWTH_PER_LEVEL^(levelNumber)) * 100
+    local number = (GROWTH_PER_LEVEL^(level)) * 100
     return makePretty(number)
 end
 
@@ -49,7 +62,7 @@ end
 
 
 --[[
-for lv=1, 16 do
+for lv=1, 10 do
     print("LEVEL POINTS:",lv,getRequiredPoints(lv))
 end
 ]]
@@ -97,9 +110,8 @@ umg.defineEntityType("lootplot.s0:doom_clock", {
     layer = "world",
 
     onUpdateServer = function(ent)
-        local level = lp.getLevel(ent)
         local currentRequiredPoints = lp.getRequiredPoints(ent)
-        local neededRequiredPoints = getRequiredPoints(level)
+        local neededRequiredPoints = getRequiredPoints(ent)
 
         if currentRequiredPoints ~= neededRequiredPoints then
             lp.setAttribute("REQUIRED_POINTS", ent, neededRequiredPoints)

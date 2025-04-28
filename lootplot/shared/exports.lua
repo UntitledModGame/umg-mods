@@ -386,8 +386,15 @@ function lp.getRequiredPoints(ent)
 end
 
 
+---@param ent Entity
+---@return number
+function lp.getDifficulty(ent)
+    return lp.getAttribute("DIFFICULTY", ent)
+end
+
+
 -- IMPORTANT NOTE::::
--- Note that these "optional attributes" don't *need* to be used.
+-- Note that these ^^^^^ "optional attributes" don't *need* to be used.
 -- It depends on the gamemode.
 -- Perhaps some gamemode use all the attributes;
 -- Perhaps another gamemode uses only the required ones.
@@ -1243,6 +1250,67 @@ end
 function lp.isValidTag(tagName)
     return validTags[tagName]
 end
+
+
+
+
+do
+lp.WIN_TYPES = objects.Array()
+
+local ID_TO_DIFFICULTY_IMAGE = {--[[
+    [id] -> trophyImage
+]]}
+
+local IS_RECIPIENT = {--[[
+    [id] -> boolean
+]]}
+
+---@param difficultyId number
+---@return string
+function lp.getDifficultyImage(difficultyId)
+    return ID_TO_DIFFICULTY_IMAGE[difficultyId]
+end
+
+function lp.defineDifficulty(difficultyId, trophyImage)
+    lp.WIN_TYPES:add(difficultyId)
+    ID_TO_DIFFICULTY_IMAGE[difficultyId] = trophyImage
+end
+
+local makeKeyTc = typecheck.assert("number", "string")
+---@param difficultyId number
+---@param winRecipient string
+---@return string
+local function makeKey(winRecipient, difficultyId)
+    makeKeyTc(difficultyId, winRecipient)
+    assert(IS_RECIPIENT[winRecipient], "?")
+    return "DIFFICULTY_" .. tostring(difficultyId) .. "_WIN_WITH_" .. winRecipient
+end
+
+function lp.hasWonOnDifficulty(winRecipient, diffId)
+    local k = makeKey(winRecipient, diffId)
+    return lp.metaprogression.getFlag(k)
+end
+
+function lp.isWinRecipient(winRecipient)
+    return IS_RECIPIENT[winRecipient]
+end
+
+function lp.winOnDifficulty(winRecipient, diffId)
+    local k = makeKey(winRecipient, diffId)
+    return lp.metaprogression.setFlag(k, true)
+end
+
+function lp.defineWinRecipient(winRecipient)
+    IS_RECIPIENT[winRecipient] = true
+    for _, diffId in ipairs(lp.WIN_TYPES) do
+        local k = makeKey(winRecipient, diffId)
+        lp.metaprogression.defineFlag(k)
+    end
+end
+
+end
+
+
 
 
 

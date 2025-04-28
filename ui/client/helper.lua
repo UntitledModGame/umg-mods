@@ -45,7 +45,6 @@ function helper.drawImageInBox(image, x,y,w,h)
     local drawX, drawY
     drawX = padded.x + padded.w/2
     drawY = padded.y + padded.h/2
-    love.graphics.setColor(1,1,1)
     renderImage(image,drawX,drawY,0,scale,scale)
 end
 

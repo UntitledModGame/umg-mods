@@ -39,12 +39,36 @@ end
 
 
 function PerkButton:onRender(x,y,w,h)
-    local pad,xtra = 0,0
+    love.graphics.setColor(1,1,1)
     if self:isHovered() then
-        xtra = w/4
-        pad = w/8
+        w = w * 1.4
+        h = h * 1.4
+        x = x - (0.2*w)
+        y = y - (0.2*h)
     end
-    ui.drawImageInBox(self.image, x-pad,y-pad, w+xtra,h+xtra)
+    ui.drawImageInBox(self.image, x,y,w,h)
+    if not self.isUnlocked then
+        return
+    end
+    ---@type EntityTypeClass
+    local etype = self.etype
+    local id = etype:getTypename()
+    if not lp.isWinRecipient(id) then
+        return
+    end
+
+    local r = layout.Region(x,y,w,h)
+    local _, bottom = r:splitVertical(3,1)
+    local trophyRegions = bottom:grid(#lp.WIN_TYPES, 1)
+    for i, v in ipairs(lp.WIN_TYPES) do
+        local img = lp.getDifficultyImage(v)
+        if  lp.hasWonOnDifficulty(id, v) then
+            love.graphics.setColor(1,1,1)
+        else
+            love.graphics.setColor(0,0,0)
+        end
+        ui.drawImageInBox(img, trophyRegions[i]:get())
+    end
 end
 
 function PerkButton:onClick()
