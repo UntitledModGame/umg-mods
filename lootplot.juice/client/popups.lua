@@ -132,7 +132,7 @@ end)
     x mult:  x2 (red color)
 ]]
 
-local COLOR_BUFF_DEFAULT = objects.Color(0.35, 0.9, 0.89) -- 5ae6e3
+local COLOR_BUFF_DEFAULT = objects.Color(0.98, 0.96, 0.65) -- 5ae6e3
 
 umg.on("lootplot:entityBuffed", function(ent, prop, amount, srcEnt)
     local prefix = ""
@@ -145,7 +145,7 @@ umg.on("lootplot:entityBuffed", function(ent, prop, amount, srcEnt)
         color = COLOR_BUFF_DEFAULT
     end
 
-    return makePopup(ent, prefix..string.format("%.2f", amount), color, nil, 1.5)
+    return makePopup(ent, prefix..string.format("%.1f", amount), color, nil, 1.5)
 end)
 
 
