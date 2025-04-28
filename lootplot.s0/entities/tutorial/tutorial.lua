@@ -304,7 +304,7 @@ local function try(plot, radius, func)
     end
 end
 
-local NUM_ACTS = 15
+local NUM_ACTS = 25
 helper.defineDelayItem("tutorial_treasure_bar", "Treasure Bar", {
     delayCount = NUM_ACTS,
 
