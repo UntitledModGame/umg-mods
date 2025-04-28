@@ -1049,7 +1049,7 @@ local function definePotion(name, etype)
         etype.init = etype.init or helper.rotateRandomly
     end
     etype.basePrice = etype.basePrice or 3
-    etype.doomCount = 3
+    etype.doomCount = 2
 
     defineFood(name, etype)
 end
