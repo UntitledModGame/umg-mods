@@ -289,9 +289,9 @@ local function makeShopSlot(id, name, comps)
             setItemLock(slotEnt, true)
             setRerollLock(slotEnt, false)
         end,
-        onItemDraw = function(selfEnt, itemEnt, x,y, rot, sx,sy)
+        onItemDraw = function(selfEnt, itemEnt, x,y, _rot, sx,sy)
             if selfEnt.rerollLock then
-                rendering.drawImage("slot_reroll_padlock", x,y, rot, sx,sy)
+                rendering.drawImage("slot_reroll_padlock", x,y, 0, sx,sy)
             end
             return drawItemPrice(selfEnt, itemEnt)
         end,
