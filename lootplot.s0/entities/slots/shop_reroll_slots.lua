@@ -327,7 +327,7 @@ generateItem = itemGenHelper.createLazyGenerator(
 end
 
 makeShopSlot("shop_slot", "Shop Slot", {
-    activateDescription = loc("Spawns weak items"),
+    activateDescription = loc("Spawns items to buy"),
     baseMaxActivations = 100,
     itemReroller = generateItem,
     itemSpawner = generateItem,

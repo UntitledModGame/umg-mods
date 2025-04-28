@@ -2,6 +2,9 @@
 local loc = localization.localize
 local interp = localization.newInterpolator
 
+local helper = require("shared.helper")
+
+
 
 umg.defineEntityType("lootplot.s0:tutorial_text", {
     layer = "world",
@@ -292,6 +295,84 @@ lp.defineSlot("lootplot.s0:tutorial_pulse_button_slot", {
 
 
 do
+
+
+local function try(plot, radius, func)
+    local p0 = helper.getRandomEmptySpace(plot, radius, 1)
+    if p0 then
+        func(p0)
+    end
+end
+
+local NUM_ACTS = 15
+helper.defineDelayItem("tutorial_treasure_bar", "Treasure Bar", {
+    delayCount = NUM_ACTS,
+
+    delayDescription = loc("Spawns items for a treasure-hunt..."),
+
+    delayAction = function(ent)
+        local ppos, team = lp.getPos(ent), ent.lootplotTeam
+        local plot = assert(ppos):getPlot()
+
+        try(plot, 5, function(p)
+            lp.forceSpawnSlot(p, server.entities.null_slot, team)
+            lp.forceSpawnItem(p, server.entities.key, team)
+        end)
+
+        try(plot, 5, function(p)
+            lp.forceSpawnSlot(p, server.entities.null_slot, team)
+            lp.forceSpawnItem(p, server.entities.key, team)
+        end)
+
+        try(plot, 5, function(p)
+            lp.forceSpawnSlot(p, server.entities.null_slot, team)
+            local itemEnt = lp.forceSpawnItem(p, server.entities.glass_tube, team)
+            if itemEnt then
+                itemEnt.doomCount = 2
+            end
+        end)
+
+        try(plot, 5, function(p)
+            local slotEnt = server.entities.null_slot()
+            slotEnt.lootplotTeam = team
+            local itemEnt = server.entities.copycat()
+            itemEnt.baseMultGenerated = 1
+            itemEnt.lootplotTeam = team
+            lp.unlocks.forceSpawnLockedSlot(p, slotEnt, itemEnt)
+        end)
+
+        try(plot, 5, function(p)
+            local slotEnt = server.entities.null_slot()
+            slotEnt.lootplotTeam = team
+            local itemEnt = server.entities.rook_glove()
+            itemEnt.lootplotTeam = team
+            lp.unlocks.forceSpawnLockedSlot(p, slotEnt, itemEnt)
+        end)
+
+        try(plot, 5, function(p)
+            local slotEnt = server.entities.null_slot()
+            slotEnt.lootplotTeam = team
+            local itemEnt = server.entities.red_fan()
+            itemEnt.lootplotTeam = team
+            lp.unlocks.forceSpawnLockedSlot(p, slotEnt, itemEnt)
+        end)
+
+        lp.destroy(ent)
+    end,
+
+    triggers = {"PULSE"},
+
+    basePrice = 4,
+    baseMaxActivations = 4,
+
+    rarity = lp.rarities.UNIQUE,
+})
+
+end
+
+
+do
+
 ---@param ppos lootplot.PPos
 local function shouldTrigger(ppos)
     local slot = lp.posToSlot(ppos)
@@ -865,6 +946,8 @@ tutorialSections:add(function(tutEnt)
     lp.forceSpawnSlot(assert(pos:move(1,-3)), server.entities.tutorial_next_level_button_slot, team)
 
     lp.forceSpawnItem(assert(pos:move(0,0)), server.entities.wooden_shield, team)
+
+    lp.forceSpawnItem(assert(pos:move(1,1)), server.entities.tutorial_treasure_bar, team)
 
     -- make basic-slots earn money:
     do

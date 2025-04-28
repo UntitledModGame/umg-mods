@@ -1,4 +1,5 @@
 
+---@class helper
 local helper = {}
 
 
@@ -26,6 +27,7 @@ local function shouldReroll(ppos)
 end
 
 
+---@param plot lootplot.Plot
 function helper.rerollPlot(plot)
     lp.Bufferer()
         :all(plot)
@@ -275,6 +277,74 @@ function helper.forceSpawnRandomSlot(ppos, lootplotTeam)
     end
 end
 
+end
+
+
+
+
+
+local function isNormalishSlot(slotEnt)
+    return (not slotEnt.buttonSlot) and (not slotEnt.dontPropagateTriggerToItem)
+end
+
+
+---@param ppos lootplot.PPos
+---@param threshold number
+local function isPPosValid(ppos, threshold)
+    --[[
+    a candidate ppos is valid if it is `threshold` units away from normal-ish slots,
+    AND if it doesnt contain any items or slots.
+    ]]
+    if lp.posToItem(ppos) or lp.posToSlot(ppos) then
+        return false
+    end
+    for dx=-threshold, threshold do
+        for dy=-threshold, threshold do
+            local p2 = ppos:move(dx,dy)
+            local slot = p2 and lp.posToSlot(p2)
+            if slot and isNormalishSlot(slot) then
+                return false
+            end
+        end
+    end
+    return true
+end
+
+
+---@param plot lootplot.Plot
+---@param distFromCenter number The distance from center that the ppos should be
+---@param threshold? number (DEFAULT = 1) The distance that the ppos must be from any normal-slots. higher number = harder to reach this ppos.
+---@return lootplot.PPos?
+function helper.getRandomEmptySpace(plot, distFromCenter, threshold)
+    --[[
+    finds the "average" position of slots/items, and returns a ppos
+    that is roughly `dist` from the average position.
+    ]]
+    threshold = threshold or 1
+    local sumX, sumY = 0,0
+    local count = 0
+    plot:foreachSlot(function(ent, ppos)
+        if isNormalishSlot(ent) then
+            local x,y = ppos:getCoords()
+            sumX = sumX + x
+            sumY = sumY + y
+            count = count + 1
+        end
+    end)
+
+    local x,y = math.floor(sumX/count), math.floor(sumY / count)
+
+    local pi2 = 2*math.pi
+    local rad = love.math.random() * pi2
+    for angle = rad, rad + pi2, 0.1 do
+        local d = distFromCenter * ((love.math.random()/4) + 0.6)
+        local dx, dy = d*math.sin(angle), d*math.cos(angle)
+        local ppos = plot:getPPos(math.floor(x+dx), math.floor(y+dy))
+        if isPPosValid(ppos, threshold) then
+            return ppos
+        end
+    end
+    return nil
 end
 
 

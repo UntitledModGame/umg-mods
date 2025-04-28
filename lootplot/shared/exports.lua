@@ -320,7 +320,16 @@ lp.defineAttribute("COMBO", 0)
 -- OPTIONAL ATTRIBUTES:::
 ----------------------------
 
--- "LEVEL" is a general difficulty indicator.
+
+lp.defineAttribute("DIFFICULTY", 1)
+--- "DIFFICULTY" is the difficulty indicator for a run.
+--- In s0, 
+--- difficulty = 1  bronze trophy
+--- difficulty = 2  silver trophy
+--- difficulty = 3  golden trophy
+
+
+-- "LEVEL" is a general difficulty indicator within a run.
 -- higher level = higher difficulty.
 lp.defineAttribute("LEVEL", 1)
 
