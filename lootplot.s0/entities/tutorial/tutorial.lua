@@ -336,7 +336,7 @@ helper.defineDelayItem("tutorial_treasure_bar", "Treasure Bar", {
             local slotEnt = server.entities.null_slot()
             slotEnt.lootplotTeam = team
             local itemEnt = server.entities.copycat()
-            itemEnt.baseMultGenerated = 1
+            itemEnt.baseMultGenerated = 1.5
             itemEnt.lootplotTeam = team
             lp.unlocks.forceSpawnLockedSlot(p, slotEnt, itemEnt)
         end)
@@ -352,7 +352,7 @@ helper.defineDelayItem("tutorial_treasure_bar", "Treasure Bar", {
         try(plot, 5, function(p)
             local slotEnt = server.entities.null_slot()
             slotEnt.lootplotTeam = team
-            local itemEnt = server.entities.red_fan()
+            local itemEnt = server.entities.ruby_spear()
             itemEnt.lootplotTeam = team
             lp.unlocks.forceSpawnLockedSlot(p, slotEnt, itemEnt)
         end)
