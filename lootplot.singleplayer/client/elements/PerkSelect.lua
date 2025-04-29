@@ -58,7 +58,7 @@ function PerkButton:onRender(x,y,w,h)
     end
 
     local r = layout.Region(x,y,w,h)
-    local _, bottom = r:splitVertical(3,1)
+    local _, bottom = r:splitVertical(2,1)
     local trophyRegions = bottom:grid(#lp.WIN_TYPES, 1)
     for i, v in ipairs(lp.WIN_TYPES) do
         local img = lp.getDifficultyImage(v)

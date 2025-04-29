@@ -265,7 +265,14 @@ end)
 local DOOMED_MULTI = interp("{wavy}{lootplot:DOOMED_COLOR}DOOMED %{doomCount}:{/lootplot:DOOMED_COLOR}{/wavy} {lootplot:DOOMED_LIGHT_COLOR}Destroyed after %{doomCount} activations!")
 local DOOMED_1 = interp("{wavy}{lootplot:DOOMED_COLOR}DOOMED 1:{/lootplot:DOOMED_COLOR}{/wavy} {lootplot:DOOMED_LIGHT_COLOR}Destroyed when activated!")
 
+local FOOD = loc("{wavy}{lootplot:CONSUMABLE_COLOR}FOOD:{/lootplot:CONSUMABLE_COLOR}{/wavy}{lootplot:CONSUMABLE_COLOR_LIGHT} Activated instantly!")
+
+
 umg.on("lootplot:populateMetaDescription", 60, function(ent, arr)
+    if (ent.foodItem and lp.isItemEntity(ent)) then
+        arr:add(FOOD)
+    end
+
     if ent.doomCount then
         local interpolator = (ent.doomCount <= 1 and DOOMED_1) or DOOMED_MULTI
         arr:add(funcLocEnt(interpolator, ent))

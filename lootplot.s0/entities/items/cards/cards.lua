@@ -90,10 +90,9 @@ This is a food-item, but it is defined OUTSIDE of `foods`.
 (Because theres helper-functions in this file; also its pretty much identical to star-card)
 ]]
 defItem("star", "Star", {
-    triggers = {"PULSE"},
     activateDescription = loc("Shuffle shapes between target items"),
     rarity = lp.rarities.EPIC,
-    doomCount = 1,
+    foodItem = true,
     shape = lp.targets.VerticalShape(1),
     target = {
         type = "ITEM",

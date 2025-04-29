@@ -1415,6 +1415,10 @@ function lp.defineItem(name, itemType)
     -- to simplify stuff, ALL items are given 5 max-activations.
     itemType.baseMaxActivations = 5
 
+    if itemType.foodItem then
+        itemType.activateInstantly = true
+    end
+
     itemType.item = true
     itemType.layer = "item"
     itemType.basePrice = itemType.basePrice or 5
@@ -1871,6 +1875,8 @@ lp.COLORS = {
 
     -- COMPONENTS:
     LIFE_COLOR = {1, 0.51, 0.75},
+    CONSUMABLE_COLOR = objects.Color("#" .. "FFF8CB42"),
+    CONSUMABLE_COLOR_LIGHT = objects.Color("#" .. "FFFBECA2"),
     DOOMED_COLOR = {0.7, 0.3, 1},
     DOOMED_LIGHT_COLOR = {0.8, 0.6, 1},
 

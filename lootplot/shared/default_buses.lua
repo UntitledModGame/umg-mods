@@ -248,6 +248,18 @@ umg.on("lootplot:entityActivated", FIRST_ORDER, function(ent)
             lp.wait(ppos, 0.1)
         end
     end
+
+    if ent.foodItem then
+        local ppos = lp.getPos(ent)
+        if ppos then
+            lp.queue(ppos, function()
+                if umg.exists(ent) then
+                    lp.destroy(ent)
+                end
+            end)
+            lp.wait(ppos, 0.1)
+        end
+    end
 end)
 
 

@@ -34,6 +34,9 @@ components.defineComponent("onActivateClient")
 components.defineComponent("onWinGame") -- called when the game is won
 
 
+components.defineComponent("activateInstantly") -- causes an item to activate instantenously
+components.defineComponent("foodItem") -- foodItem
+
 
 -- fun(ent) -> boolean
 -- returns true iff the entity is invincible

@@ -356,6 +356,13 @@ helper.defineDelayItem("tutorial_treasure_bar", "Treasure Bar", {
             itemEnt.lootplotTeam = team
             lp.unlocks.forceSpawnLockedSlot(p, slotEnt, itemEnt)
         end)
+        try(plot, 5, function(p)
+            local slotEnt = server.entities.null_slot()
+            slotEnt.lootplotTeam = team
+            local itemEnt = server.entities.ruby_spear()
+            itemEnt.lootplotTeam = team
+            lp.unlocks.forceSpawnLockedSlot(p, slotEnt, itemEnt)
+        end)
 
         lp.destroy(ent)
     end,
@@ -364,6 +371,7 @@ helper.defineDelayItem("tutorial_treasure_bar", "Treasure Bar", {
 
     basePrice = 4,
     baseMaxActivations = 4,
+    basePointsGenerated = 6,
 
     rarity = lp.rarities.UNIQUE,
 })
@@ -596,6 +604,40 @@ tutorialSections:add(function(e)
     sync.syncComponent(eggMulti, "triggers")
 end)
 end
+
+
+
+
+do
+--[[
+Slot triggers:
+]]
+local TXT = loc("Slots also have triggers:")
+
+tutorialSections:add(function(e)
+    clearEverythingExceptButtons(e)
+    addText(e, -3,0, TXT)
+    spawnSlot(e, -3,3, "tutorial_pulse_button_slot")
+    spawnSlot(e, -4,3, "tutorial_reroll_button_slot")
+
+    local s1 = assert(spawnSlot(e, 3,1, "slot"))
+    lp.modifierBuff(s1, "pointsGenerated", 5)
+
+    local rSlot = assert(spawnSlot(e, 3,3, "slot"))
+    rSlot.triggers = {"REROLL"}
+    lp.modifierBuff(rSlot, "pointsGenerated", 5)
+    sync.syncComponent(rSlot, "triggers")
+
+    local multiSlot = assert(spawnSlot(e, 3,5, "slot"))
+    multiSlot.triggers = {"REROLL","PULSE"}
+    lp.modifierBuff(multiSlot, "pointsGenerated", 5)
+    sync.syncComponent(multiSlot, "triggers")
+end)
+end
+
+
+
+
 
 
 

@@ -37,14 +37,11 @@ end
 
 
 local function defineFood(id, etype)
-    etype.doomCount = etype.doomCount or 1
     etype.baseMaxActivations = 1
     etype.image = etype.image or id
 
     etype.lootplotTags = {constants.tags.FOOD}
-    if not etype.listen then
-        etype.triggers = etype.triggers or {"PULSE"}
-    end
+    etype.foodItem = true
 
     lp.defineItem("lootplot.s0:" .. id, etype)
 end
@@ -292,17 +289,17 @@ defineFood("black_olive", {
 
 defineFood("eggplant", {
     name = loc("Eggplant"),
-    activateDescription = loc("Give {wavy}{lootplot:DOOMED_COLOR}DOOMED-10{/lootplot:DOOMED_COLOR}{/wavy} to all target items"),
+    activateDescription = loc("Give {wavy}{lootplot:DOOMED_COLOR}DOOMED-50{/lootplot:DOOMED_COLOR}{/wavy} to all target items"),
 
     rarity = lp.rarities.LEGENDARY,
 
-    shape = lp.targets.UP_SHAPE,
+    shape = lp.targets.KingShape(1),
 
     target = {
         type = "ITEM_OR_SLOT",
         activate = function(selfEnt, ppos, targetEnt)
             if targetEnt.doomCount then
-                targetEnt.doomCount = 10
+                targetEnt.doomCount = 50
             end
         end
     }
@@ -1049,7 +1046,6 @@ local function definePotion(name, etype)
         etype.init = etype.init or helper.rotateRandomly
     end
     etype.basePrice = etype.basePrice or 3
-    etype.doomCount = 2
 
     defineFood(name, etype)
 end
@@ -1321,7 +1317,7 @@ defineDonut("pink_donut", "Pink Donut",  "Increases target item price by $8", 8)
 this is a food-item; but it doesnt have DOOMED!
 ]]
 defineFoodNoDoomed("bread", "Bread", {
-    activateDescription = loc("If target item is {lootplot:DOOMED_LIGHT_COLOR}DOOMED{/lootplot:DOOMED_LIGHT_COLOR}, transforms into target item."),
+    activateDescription = loc("If target item is {lootplot:CONSUMABLE_COLOR_LIGHT}FOOD{/lootplot:CONSUMABLE_COLOR_LIGHT}, transforms into target item."),
 
     basePrice = 9,
     baseMaxActivations = 1,
@@ -1333,7 +1329,7 @@ defineFoodNoDoomed("bread", "Bread", {
     target = {
         type = "ITEM",
         filter = function(selfEnt, ppos, targetEnt)
-            return targetEnt.doomCount
+            return targetEnt.foodItem
         end,
         activate = function(selfEnt, ppos, targetEnt)
             local selfPPos = lp.getPos(selfEnt)

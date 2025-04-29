@@ -40,6 +40,28 @@
 
 ## TODO:
 
+- (DONE) Consumable items: When placed, foods should activate *immediately.*
+
+- (DONE) New description-bit: `CONSUMABLE: Activated instantly!`
+
+## WE WILL NEED TO REWORK A BUNCH OF STUFF:
+### Make more uses for DOOMED systems, and more uses for lives system
+- Rework/remove all kinds of heartfruit(s)
+- Add new mineral-items: DOOMED
+- Add 2 new DOOMED-10 items so the archetype isn't completely dead
+
+- REWORK TUTORIAL!!! We will need to explain FOOD items, and redo the pomegranate.
+
+- NEW LEGENDARY ITEM: Chef's Knife:
+- On Level-Up: Spawns null-slots with food inside them.
+- (KNIGHT shape)
+
+
+
+
+
+
+--------------
 
 - Different difficulties- bronze, silver, gold trophies (to implement, create a "DIFFICULTY" property)
 trophies should spawn more or less curses (silver trophy, 1 curse per level) (gold trophy 2 curses per level)

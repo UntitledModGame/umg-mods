@@ -172,7 +172,7 @@ Sack items:
 ]]
 
 local function isFood(etype)
-    return etype.doomCount == 1
+    return etype.foodItem
 end
 
 defSack("sack_rare", "Rare Sack", {
@@ -202,9 +202,9 @@ defSack("sack_uncommon", "Uncommon Sack", {
 defSack("sack_food", "Food Sack", {
     activateDescription = locRarity("Spawns food items to choose from.\nMust be placed in the air!"),
 
-    doomCount = 1,
-
     shape = VERTICAL_SACK_SHAPE,
+
+    foodItem = true,
 
     basePrice = 5,
 

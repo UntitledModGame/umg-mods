@@ -5,6 +5,9 @@ local RENDER_AFTER_ENTITY_ORDER = 1
 
 local BOB_SPEED = 6
 
+local SPIN_SPEED = 11
+
+
 umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER, function(ent, x,y, rot, sx,sy)
     if ent.doomCount then
         local q, dy
@@ -27,6 +30,13 @@ umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER, function(ent, x,y, rot
             end
             rendering.drawImage(q, x, y+dy, 0, sx,sy)
         end
+    end
+
+    if ent.foodItem and lp.isItemEntity(ent) then
+        local spin = math.sin((love.timer.getTime() + ent.id/7) * SPIN_SPEED)
+        local dy = 2 * math.sin((love.timer.getTime() + ent.id/7) * BOB_SPEED)
+        local q = client.assets.images.consumable_item_visual
+        rendering.drawImage(q, x-6, y+4+dy, 0, sx*spin ,sy)
     end
 end)
 
