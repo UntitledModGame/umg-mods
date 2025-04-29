@@ -65,6 +65,8 @@ defItem("wooden_shield_cost", "Wooden Shield I", {
 defItem("pipe", "Pipe", {
     init = helper.rotateRandomly,
 
+    isEntityTypeUnlocked = helper.unlockAfterWins(1),
+
     rarity = lp.rarities.UNCOMMON,
     triggers = {"PULSE", "REROLL"},
 
