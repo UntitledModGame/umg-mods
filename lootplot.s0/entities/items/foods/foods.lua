@@ -619,12 +619,12 @@ end)
 
 
 defineSlotSpawner("dragonfruit", "Dragonfruit", "slot", "Basic Slots", lp.targets.RookShape(1), {
-    basePrice = 15,
+    basePrice = 10,
     rarity = lp.rarities.RARE
 })
 
 defineSlotSpawner("dragonfruit_slice", "Dragonfruit Slice", "slot", "Basic Slots", lp.targets.BishopShape(1), {
-    basePrice = 20,
+    basePrice = 12,
     rarity = lp.rarities.RARE
 })
 
@@ -634,7 +634,7 @@ defineSlotSpawner("sausage", "Sausage", "slot", "Basic Slots", lp.targets.Horizo
             lp.rotateItem(ent, 1)
         end
     end,
-    basePrice = 6,
+    basePrice = 4,
     rarity = lp.rarities.COMMON
 })
 
