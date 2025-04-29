@@ -38,6 +38,21 @@ local function activateTargets(ent, pposList)
 end
 
 
+umg.answer("lootplot:canActivateEntity", function(ent)
+    if lp.isItemEntity(ent) and ent.target then
+        if ent.target.activateWithNoValidTargets then
+            -- activate even if there are no valid targets.
+            return true
+        end
+
+        local t = lp.targets.getValidTargets(ent)
+        return #t > 0 -- otherwise, only activate when we actually have targets
+    end
+    return true
+end)
+
+
+
 umg.on("lootplot:entityActivated", function(ent)
     if lp.isItemEntity(ent) and ent.target then
         ---@cast ent lootplot.ItemEntity

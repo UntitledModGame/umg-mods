@@ -88,7 +88,7 @@ function targets.getConvertedTargets(itemEnt)
     targetList = objects.Array(targetList)
 
     local target = itemEnt.target
-    local convertType = target and itemEnt.target.type
+    local convertType = target and target.type
     if convertType then
         local ret = targetList:map(function(ppos)
             local ok, ent = lp.tryConvert(ppos, convertType)
@@ -109,6 +109,39 @@ function targets.getConvertedTargets(itemEnt)
         return {}
     end
 end
+
+
+
+
+---@param itemEnt lootplot.ItemEntity
+---@return lootplot.PPos[]
+function targets.getValidTargets(itemEnt)
+    local targetList = targets.getTargets(itemEnt)
+    if not targetList then
+        return objects.Array()
+    end
+    targetList = objects.Array(targetList)
+
+    local target = itemEnt.target
+    local convertType = target and target.type
+    if convertType then
+        local ret = targetList:map(function(ppos)
+            local ok, _ = lp.tryConvert(ppos, convertType)
+            if target then
+                ok = ok and util.canTarget(itemEnt, ppos)
+            end
+            if ok then
+                return ppos
+            end
+        end)
+        return ret
+    else
+        -- no convertType..? I guess we just return empty.
+        return {}
+    end
+end
+
+
 
 
 

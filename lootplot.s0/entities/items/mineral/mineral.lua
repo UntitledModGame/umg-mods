@@ -360,7 +360,9 @@ local function definePickaxe(mineral_type, name, strength, etype)
                 if lp.hasTrigger(targetEnt, "DESTROY") then
                     lp.destroy(targetEnt)
                 end
-            end
+            end,
+
+            activateWithNoValidTargets = true
         },
 
         baseBonusGenerated = strength * 2,

@@ -12,9 +12,9 @@ itemEnt.target = {
     description = "Clones target item",
     type = "ITEM" or "SLOT" or "NO_ITEM" or "NO_SLOT"
 
-    -- Transforms the pposList however you want.
-    -- useful for stuff like: "targets a random item", "targets the cheapest item"
-    transform = function(selfEnt, pposList) return { table.pick_random(pposList) } end
+    activateWithNoValidTargets = true or nil,
+    -- ^^^ should the item activate when it has no valid targets? Yes or no?
+    -- (useful for items like lava-sword or pickaxe)
 }
 
 

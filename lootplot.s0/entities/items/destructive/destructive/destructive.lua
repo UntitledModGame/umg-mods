@@ -207,6 +207,7 @@ defDestructive("water_sword", "Water Sword", {
         activate = function(ent, ppos, itemEnt)
             lp.destroy(itemEnt)
         end,
+        activateWithNoValidTargets = true
     }
 })
 
@@ -228,6 +229,7 @@ defDestructive("lava_sword", "Lava Sword", {
         activate = function(ent, ppos, itemEnt)
             lp.destroy(itemEnt)
         end,
+        activateWithNoValidTargets = true
     }
 })
 

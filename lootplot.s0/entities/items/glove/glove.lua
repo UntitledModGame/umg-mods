@@ -22,7 +22,8 @@ local function defineGlove(id, name, description, giveShape, rarity)
                 if targetItemEnt.shape then
                     lp.targets.setShape(targetItemEnt, giveShape)
                 end
-            end
+            end,
+            activateWithNoValidTargets = true
         }
     })
 end
