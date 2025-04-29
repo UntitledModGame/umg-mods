@@ -2,7 +2,7 @@
 local loc = localization.localize
 
 
-local PULSE_COUNT = 6
+local PULSE_COUNT = 4
 
 
 local function doPulse(itemEnt)

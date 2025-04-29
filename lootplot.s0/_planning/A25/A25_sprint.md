@@ -33,12 +33,12 @@
 
 - Fixed the 6-Ball! It used old code for UP-4, Pulse items. Also nerfed the income for 6-ball
 
+- Put synergies in locked-slots for tutorial treasure-bar
+
+
 
 
 ## TODO:
-
-
-- Put synergies in locked-slots for tutorial treasure-bar
 
 
 - Different difficulties- bronze, silver, gold trophies (to implement, create a "DIFFICULTY" property)
