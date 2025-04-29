@@ -70,11 +70,7 @@ local function defSack(id, name, etype)
     etype.canItemFloat = true
     etype.name = loc(name)
 
-    etype.onUpdateServer = function(ent)
-        if lp.canActivateEntity(ent) then
-            lp.tryActivateEntity(ent)
-        end
-    end
+    etype.activateInstantly = true
 
     etype.shape = etype.shape or HORIZONTAL_SACK_SHAPE
 

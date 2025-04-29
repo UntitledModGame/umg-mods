@@ -175,7 +175,31 @@ end)
 
 
 if server then
-    
+
+local activateInstantly = umg.group("activateInstantly", "item")
+
+local function tryActivateInstantly(ent)
+    local slotEnt = lp.itemToSlot(ent)
+    if slotEnt and (not lp.canSlotPropagateTriggerToItem(slotEnt)) then
+        -- dont activate when in null-slots 
+        return
+    end
+    local ppos = lp.getPos(ent)
+    local plot = ppos and ppos:getPlot()
+    if plot and (not plot:isPipelineRunning()) and lp.canActivateEntity(ent) then
+        lp.tryActivateEntity(ent)
+    end
+end
+
+umg.on("@tick", function(dt)
+    for _, ent in ipairs(activateInstantly) do
+        assert(lp.isItemEntity(ent), "activateInstantly must be item entity!")
+        tryActivateInstantly(ent)
+    end
+end)
+
+
+
 umg.on("lootplot:entityActivated", function(ent)
     --[[
     NOTE:

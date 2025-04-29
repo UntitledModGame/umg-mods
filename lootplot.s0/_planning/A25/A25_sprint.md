@@ -29,6 +29,11 @@
 
 - Made buffing-text look nicer
 
+- (HUGE UX IMPROVEMENT) Made keys and sacks activate when placed 
+
+- Fixed the 6-Ball! It used old code for UP-4, Pulse items. Also nerfed the income for 6-ball
+
+
 
 ## TODO:
 
@@ -39,9 +44,4 @@
 - Different difficulties- bronze, silver, gold trophies (to implement, create a "DIFFICULTY" property)
 trophies should spawn more or less curses (silver trophy, 1 curse per level) (gold trophy 2 curses per level)
 And the points requirement should differ too
-
-
-
-FIX: THE 6-Ball! Its currently still using old code for UP-4, Pulse items.
-Also, nerf the income for 6-ball
 
