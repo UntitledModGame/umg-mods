@@ -5,7 +5,7 @@ return lp.defineSlot("lootplot.s0:null_slot", {
     image = "null_slot",
     name = loc("Null slot"),
     rarity = lp.rarities.COMMON,
-    description = loc("Items are not activated in this slot!"),
+    description = loc("This slot doesn't activate items!"),
 
     dontPropagateTriggerToItem = true,
     isItemListenBlocked = true,
