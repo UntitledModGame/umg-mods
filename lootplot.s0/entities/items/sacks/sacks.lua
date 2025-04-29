@@ -65,11 +65,16 @@ end
 local function defSack(id, name, etype)
     etype = etype or {}
 
-    etype.triggers = {"PULSE"}
     etype.basePrice = etype.basePrice or 12
     etype.rarity = etype.rarity or lp.rarities.RARE
     etype.canItemFloat = true
     etype.name = loc(name)
+
+    etype.onUpdateServer = function(ent)
+        if lp.canActivateEntity(ent) then
+            lp.tryActivateEntity(ent)
+        end
+    end
 
     etype.shape = etype.shape or HORIZONTAL_SACK_SHAPE
 
@@ -83,8 +88,8 @@ local function defSack(id, name, etype)
         lp.destroy(ent)
     end
 
-    if etype.generateTreasureItem then
-        local gen = etype.generateTreasureItem
+    if etype.generateSackItem then
+        local gen = etype.generateSackItem
         local transform = etype.transformTreasureItem or dummy
         ---@cast transform fun(e: Entity, pp: lootplot.PPos)
 
@@ -119,7 +124,7 @@ local function defSack(id, name, etype)
     (Because it looks like a shcomp, but it aint.)
     But the ergonomics are great.
     ]]
-    etype.generateTreasureItem = nil
+    etype.generateSackItem = nil
     etype.transformTreasureItem = nil
 
     lp.defineItem("lootplot.s0:" .. id, etype)
@@ -175,11 +180,11 @@ local function isFood(etype)
 end
 
 defSack("sack_rare", "Rare Sack", {
-    activateDescription = locRarity("Spawns %{RARE} items.\nMust be placed in the air!"),
+    activateDescription = locRarity("Spawns %{RARE} items to choose from.\nMust be placed in the air!"),
 
     basePrice = 12,
     rarity = lp.rarities.COMMON,
-    generateTreasureItem = newLazyGen(function (etype)
+    generateSackItem = newLazyGen(function (etype)
         return etype.rarity == r.RARE and (not isFood(etype))
     end, DEFAULT_WEIGHT),
 })
@@ -187,11 +192,11 @@ defSack("sack_rare", "Rare Sack", {
 
 
 defSack("sack_uncommon", "Uncommon Sack", {
-    activateDescription = locRarity("Spawns %{UNCOMMON} items.\nMust be placed in the air!"),
+    activateDescription = locRarity("Spawns %{UNCOMMON} items to choose from.\nMust be placed in the air!"),
 
     basePrice = 5,
     rarity = lp.rarities.COMMON,
-    generateTreasureItem = newLazyGen(function (etype)
+    generateSackItem = newLazyGen(function (etype)
         return etype.rarity == r.UNCOMMON and (not isFood(etype))
     end, DEFAULT_WEIGHT),
 })
@@ -199,7 +204,7 @@ defSack("sack_uncommon", "Uncommon Sack", {
 
 
 defSack("sack_food", "Food Sack", {
-    activateDescription = locRarity("Spawns food items.\nMust be placed in the air!"),
+    activateDescription = locRarity("Spawns food items to choose from.\nMust be placed in the air!"),
 
     doomCount = 1,
 
@@ -208,7 +213,7 @@ defSack("sack_food", "Food Sack", {
     basePrice = 5,
 
     rarity = lp.rarities.COMMON,
-    generateTreasureItem = newLazyGen(function(etype)
+    generateSackItem = newLazyGen(function(etype)
         return etype.rarity ~= r.COMMON and isFood(etype)
     end, DEFAULT_WEIGHT),
 })
@@ -216,11 +221,11 @@ defSack("sack_food", "Food Sack", {
 
 
 defSack("sack_epic", "Epic Sack", {
-    activateDescription = locRarity("Spawns %{EPIC} items.\nMust be placed in the air!"),
+    activateDescription = locRarity("Spawns %{EPIC} items to choose from.\nMust be placed in the air!"),
 
     basePrice = 16,
     rarity = lp.rarities.UNCOMMON,
-    generateTreasureItem = newLazyGen(function (etype)
+    generateSackItem = newLazyGen(function (etype)
         return etype.rarity == r.EPIC and (not isFood(etype))
     end, DEFAULT_WEIGHT),
 })
@@ -231,7 +236,7 @@ local function isRock(etype)
 end
 
 defSack("sack_dark", "Dark Sack", {
-    activateDescription = locRarity("Spawns rock items.\nMust be placed in the air!"),
+    activateDescription = locRarity("Spawns rock items to choose from.\nMust be placed in the air!"),
 
     basePrice = 10,
 
@@ -240,7 +245,7 @@ defSack("sack_dark", "Dark Sack", {
     shape = VERTICAL_SACK_SHAPE,
     rarity = lp.rarities.UNCOMMON,
 
-    generateTreasureItem = newLazyGen(function (etype)
+    generateSackItem = newLazyGen(function (etype)
         if isRock(etype) then
             local r1 = etype.rarity
             return r1 == r.RARE or r1 == r.EPIC
@@ -271,14 +276,14 @@ defSack("sack_food", "Food Sack", {
     basePrice = 2,
 
     rarity = lp.rarities.COMMON,
-    generateTreasureItem = newLazyGen(isFood, DEFAULT_WEIGHT),
+    generateSackItem = newLazyGen(isFood, DEFAULT_WEIGHT),
 })
 
 defSack("sack_ruby", "Ruby Sack", {
     activateDescription = locRarity("Spawns a %{RARE} item, and gives it {lootplot:INFO_COLOR}REPEATER."),
 
     rarity = lp.rarities.EPIC,
-    generateTreasureItem = newLazyGen(function (etype)
+    generateSackItem = newLazyGen(function (etype)
         return etype.rarity == r.RARE and (not isFood(etype))
     end, DEFAULT_WEIGHT),
 
@@ -299,7 +304,7 @@ defSack("sack_reroll", "Reroll Sack", {
 
     rarity = lp.rarities.EPIC,
 
-    generateTreasureItem = newLazyGen(function (etype)
+    generateSackItem = newLazyGen(function (etype)
         return etype.rarity == r.RARE and (not isFood(etype))
     end, DEFAULT_WEIGHT),
 
@@ -319,7 +324,7 @@ defSack("sack_grubby", "Grubby Sack", {
     -- this ^^^^ shcomp serves as an indicator, 
     -- so the player can better intuit about what item is spawned.
 
-    generateTreasureItem = newLazyGen(function (etype)
+    generateSackItem = newLazyGen(function (etype)
         return etype.rarity == r.RARE and (not isFood(etype))
     end, DEFAULT_WEIGHT),
 
@@ -342,7 +347,7 @@ defSack("sack_tattered", "Tattered Sack", {
         })
     end,
 
-    generateTreasureItem = function(ent)
+    generateSackItem = function(ent)
         tatteredGen = tatteredGen or lp.newItemGenerator({})
         return tatteredGen:query(function(entry)
             local etype = server.entities[entry]

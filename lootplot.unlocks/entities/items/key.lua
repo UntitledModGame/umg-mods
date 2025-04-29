@@ -8,9 +8,18 @@ lp.defineItem("lootplot.unlocks:key", {
     image = "key",
     name = loc("Key"),
 
-    activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}UNLOCK{/lootplot:TRIGGER_COLOR} for slots and items."),
+    activateDescription = loc("When placed, triggers {lootplot:TRIGGER_COLOR}Unlock{/lootplot:TRIGGER_COLOR} for slots/items."),
 
-    triggers = {"PULSE"},
+    onUpdateServer = function(ent)
+        local slotEnt = lp.itemToSlot(ent)
+        if slotEnt and (not lp.canSlotPropagateTriggerToItem(slotEnt)) then
+            -- dont activate when in null-slots 
+            return
+        end
+        if lp.canActivateEntity(ent) then
+            lp.tryActivateEntity(ent)
+        end
+    end,
 
     init = function(ent)
         local rot = lp.SEED:randomMisc(0,3)

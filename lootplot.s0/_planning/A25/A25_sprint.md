@@ -33,6 +33,9 @@
 ## TODO:
 
 
+- Put synergies in locked-slots for tutorial treasure-bar
+
+
 - Different difficulties- bronze, silver, gold trophies (to implement, create a "DIFFICULTY" property)
 trophies should spawn more or less curses (silver trophy, 1 curse per level) (gold trophy 2 curses per level)
 And the points requirement should differ too
