@@ -119,7 +119,8 @@ local function defineSpear(mineral_type, name, strength, etype)
             type = "ITEM",
             activate = function(selfEnt, ppos, itemEnt)
                 lp.tryTriggerEntity("PULSE", itemEnt)
-            end
+            end,
+            activateWithNoValidTargets = true
         },
 
         rarity = etype.rarity or lp.rarities.RARE,
@@ -239,7 +240,8 @@ local function defineScythe(mineral_type, name, strength, etype)
             type = "ITEM",
             activate = function(selfEnt, ppos, itemEnt)
                 lp.destroy(itemEnt)
-            end
+            end,
+            activateWithNoValidTargets = true
         }
     }
 
