@@ -35,7 +35,9 @@
 
 - Put synergies in locked-slots for tutorial treasure-bar
 
+- Created basket-of-bonus item
 
+- Created ouroboros item
 
 
 ## TODO:

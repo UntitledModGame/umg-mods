@@ -473,7 +473,7 @@ local GRUB_MONEY_CAP = assert(consts.DEFAULT_GRUB_MONEY_CAP)
 Grubby items have `grubby` component
 
 ]]
-defineMineralClass("grubby", "Grubby", 5, {
+defineMineralClass("grubby", "Grubby", 6, {
     triggers = {"PULSE"},
     grubMoneyCap = GRUB_MONEY_CAP,
     baseMaxActivations = 8,

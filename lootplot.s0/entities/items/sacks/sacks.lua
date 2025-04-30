@@ -152,14 +152,20 @@ end
 
 
 -- useful helper for displaying rarities in strings
-local function locRarity(txt)
-    return localization.localize(txt, {
+local function locRarity(txt, t)
+    local args = {
         COMMON = r.COMMON.displayString,
         UNCOMMON = r.UNCOMMON.displayString,
         RARE = r.RARE.displayString,
         EPIC = r.EPIC.displayString,
         LEGENDARY = r.LEGENDARY.displayString,
-    })
+    }
+    if t then
+        for k,v in pairs(t) do
+            args[k] = v
+        end
+    end
+    return localization.localize(txt, args)
 end
 
 
@@ -249,6 +255,38 @@ defSack("sack_dark", "Dark Sack", {
         return false
     end, DEFAULT_WEIGHT),
 })
+
+
+
+
+do
+local GRUB_MONEY_CAP = assert(constants.DEFAULT_GRUB_MONEY_CAP)
+
+defSack("sack_grubby", "Grubby Sack", {
+    isEntityTypeUnlocked = helper.unlockAfterWins(constants.UNLOCK_AFTER_WINS.GRUBBY),
+
+    activateDescription = locRarity("Spawns {lootplot:GRUB_COLOR_LIGHT}GRUB-%{n}{/lootplot:GRUB_COLOR_LIGHT} items to choose from.\nMust be placed in the air!", {
+        n = GRUB_MONEY_CAP
+    }),
+
+    rarity = lp.rarities.UNCOMMON,
+
+    basePrice = 2,
+
+    grubMoneyCap = GRUB_MONEY_CAP,
+    -- this ^^^^ shcomp serves as an indicator, 
+    -- so the player can better intuit about what item is spawned.
+
+    generateSackItem = newLazyGen(function (etype)
+        return etype.rarity == r.RARE and (not isFood(etype))
+    end, DEFAULT_WEIGHT),
+
+    transformTreasureItem = function(item, ppos)
+        item.grubMoneyCap = GRUB_MONEY_CAP
+    end
+})
+
+end
 
 
 
