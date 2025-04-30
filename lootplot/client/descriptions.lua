@@ -117,7 +117,7 @@ end
 
 local TRIGGER_LIST = interp("{c r=0.6 g=0.6 b=0.7}Activates On: {lootplot:TRIGGER_COLOR}{wavy}%{trigger}{/wavy}{/lootplot:TRIGGER_COLOR}")
 
-local TRIGGER_LIST_ACTIVS = interp("{c r=0.6 g=0.6 b=0.7}Activates On: {lootplot:TRIGGER_COLOR}{wavy}%{trigger}{/wavy}{/lootplot:TRIGGER_COLOR} (%{remaining}/%{total})")
+local TRIGGER_LIST_ACTIVS = interp("{c r=0.6 g=0.6 b=0.7}Activates On: {lootplot:TRIGGER_COLOR}{wavy}%{trigger}{/wavy}{/lootplot:TRIGGER_COLOR} %{activationColor}(%{remaining}/%{total})")
 
 umg.on("lootplot:populateTriggerDescription", 10, function(ent, arr)
     local triggers = ent.triggers
@@ -129,7 +129,8 @@ umg.on("lootplot:populateTriggerDescription", 10, function(ent, arr)
                     return TRIGGER_LIST_ACTIVS({
                         trigger = getTriggerListString(triggers),
                         remaining = remaining,
-                        total = total
+                        total = total,
+                        activationColor = ((remaining == 0) and "{c r=1 g=0.1 b=0.1}") or ""
                     })
                 else
                     return TRIGGER_LIST({

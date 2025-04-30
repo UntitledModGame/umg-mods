@@ -62,6 +62,23 @@ lp.defineSlot("lootplot.s0:tutorial_reroll_button_slot", {
 })
 
 
+lp.defineItem("lootplot.s0:tutorial_tombstone", {
+    name = loc("Tombstone"),
+    image = "tutorial_tombstone",
+    triggers = {"PULSE"},
+    activateDescription = loc("Spawns basic slots"),
+    shape = lp.targets.RookShape(1),
+
+    target = {
+        type = "NO_SLOT",
+        activate = function(selfEnt, ppos)
+            lp.trySpawnSlot(ppos, server.entities.slot, selfEnt.lootplotTeam)
+        end
+    }
+})
+
+
+
 
 -- ids of button-ents for the tutorial
 local NEXT_TUTORIAL_BUTTON = "lootplot.s0:next_tutorial_stage_button"
@@ -304,7 +321,7 @@ local function try(plot, radius, func)
     end
 end
 
-local NUM_ACTS = 25
+local NUM_ACTS = 15
 helper.defineDelayItem("tutorial_treasure_bar", "Treasure Bar", {
     delayCount = NUM_ACTS,
 
@@ -326,17 +343,19 @@ helper.defineDelayItem("tutorial_treasure_bar", "Treasure Bar", {
 
         try(plot, 5, function(p)
             lp.forceSpawnSlot(p, server.entities.null_slot, team)
-            local itemEnt = lp.forceSpawnItem(p, server.entities.glass_tube, team)
-            if itemEnt then
-                itemEnt.doomCount = 2
-            end
+            lp.forceSpawnItem(p, server.entities.glass_tube, team)
+        end)
+
+        try(plot, 5, function(p)
+            lp.forceSpawnSlot(p, server.entities.null_slot, team)
+            lp.forceSpawnItem(p, server.entities.glass_tube, team)
         end)
 
         try(plot, 5, function(p)
             local slotEnt = server.entities.null_slot()
             slotEnt.lootplotTeam = team
             local itemEnt = server.entities.copycat()
-            itemEnt.baseMultGenerated = 1.5
+            itemEnt.baseMultGenerated = 0.5
             itemEnt.lootplotTeam = team
             lp.unlocks.forceSpawnLockedSlot(p, slotEnt, itemEnt)
         end)
@@ -802,8 +821,8 @@ end
 do
 -- Target part ONE:
 
-local TXT_UPPER = loc("This item has a ROOK-1 target-shape.\nTo view the targets, click on the item")
-local TXT_LOWER = loc("If the target is wiggling,\nthat means that the target is valid,\nand slots will spawn!")
+local TXT_UPPER = loc("This item has ROOK-1 targetting.\nTo view the target-shape, click on the item")
+local TXT_LOWER = loc("If the target is wiggling, a slot will spawn!\nIf it is red cross, the target is invalid.")
 
 
 tutorialSections:add(function(tutEnt)
@@ -819,8 +838,7 @@ tutorialSections:add(function(tutEnt)
         end
     end
 
-    local item = assert(spawnItem(tutEnt, X,Y, "dragonfruit"))
-    item.doomCount = 99
+    assert(spawnItem(tutEnt, X,Y, "tutorial_tombstone"))
 
     addText(tutEnt, 0,4, TXT_LOWER)
 end)
@@ -843,15 +861,65 @@ tutorialSections:add(function(tutEnt)
 
     spawnSlot(tutEnt, 0,1, "tutorial_pulse_button_slot")
 
-    do local e = assert(spawnItem(tutEnt, -2, 2, "dragonfruit"))
-    e.doomCount = 99 end
+    assert(spawnItem(tutEnt, -2, 2, "tutorial_tombstone"))
 
-    do local e = assert(spawnItem(tutEnt, 0, 3, "slice_of_cake"))
-    e.doomCount = 99 end
+    do
+    local e = assert(spawnItem(tutEnt, 0, 3, "golden_compass"))
+    lp.setTriggers(e, {"PULSE"})
+    end
 
     assert(spawnItem(tutEnt, 2, 2, "rook_glove"))
 
     addText(tutEnt, 0,5, TXT_LOWER)
+end)
+end
+
+
+
+
+
+-- FOOD ITEMS + Targetting:
+do
+
+local TXT_UPPER = loc("And finally, Food items!")
+local TXT_LOWER = loc("They activate instantly. Move them to create new slots.")
+
+local TXT_ARROW = "--->"
+
+
+tutorialSections:add(function(tutEnt)
+    clearEverythingExceptButtons(tutEnt)
+
+    addText(tutEnt, 0,-1, TXT_UPPER)
+    addText(tutEnt, 0,0, TXT_LOWER)
+    addText(tutEnt, 0,1, TXT_ARROW)
+
+    do
+    local X,Y = 1,2
+    for x=0,1 do
+        for y=0,1 do
+            spawnSlot(tutEnt, x+X, y+Y, "tutorial_slot")
+        end
+    end
+    end
+
+    do
+    local X,Y = -2,2
+    local items = {
+        "sausage",
+        "dragonfruit",
+        "slice_of_cake",
+        "dragonfruit",
+    }
+    local H=1
+    for x=0,1 do
+        for y=0,H do
+            local i = 1+(x*(H+1))+y
+            spawnSlot(tutEnt, x+X, y+Y, "null_slot")
+            spawnItem(tutEnt, x+X, y+Y, items[i])
+        end
+    end
+    end
 end)
 end
 

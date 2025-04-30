@@ -41,36 +41,36 @@
 
 - Created grubby-sack item
 
-- Added maxActivations back, changed
+- Added maxActivations back, made descriptions way better
 
 
 ## TODO:
 
-- (DONE) Consumable items: When placed, foods should activate *immediately.*
-
-- (DONE) New description-bit: `CONSUMABLE: Activated instantly!`
 
 ## WE WILL NEED TO REWORK A BUNCH OF STUFF:
 ### Make more uses for DOOMED systems, and more uses for lives system
 - Rework/remove all kinds of heartfruit(s)
 - Add new mineral-items: DOOMED
-- Add 2 new DOOMED-10 items so the archetype isn't completely dead
 
 - REWORK TUTORIAL!!! We will need to explain FOOD items, and redo the pomegranate.
-
-- NEW LEGENDARY ITEM: Chef's Knife:
-- On Level-Up: Spawns null-slots with food inside them.
-- (KNIGHT shape)
 
 
 ## --------------
 ## NEXT SPRINT::
 ## --------------
 
+- Added 2 new DOOMED-10 items so the archetype isn't completely dead
 
 - Created Grubby-ball, (G-ball) showcasing grubby-archetype
 
 - Created achievement for grubby-ball
+
+
+- Make items that can't activate grayscale (need shader)
+
+
+- NEW LEGENDARY ITEM: Chef's Knife: 
+- On Level-Up: Spawns null-slots with food inside them. (KNIGHT shape)
 
 
 - Added 2 extra difficulties- bronze, silver, gold trophies (to implement, create a "DIFFICULTY" property)
