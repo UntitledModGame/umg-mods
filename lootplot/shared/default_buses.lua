@@ -80,11 +80,9 @@ end)
 umg.answer("properties:getPropertyClamp", function(ent, prop)
     local min, max = -math.huge, math.huge
     if ent.lootplotProperties then
-        return getClamp(ent, ent.lootplotProperties, prop)
+        min, max = getClamp(ent, ent.lootplotProperties, prop)
     end
-    if prop == "maxActivations" then
-        return min, lp.MAX_ACTIVATIONS_LIMIT
-    end
+    max = math.min(max, lp.MAX_ACTIVATIONS_LIMIT)
     return min, max
 end)
 
