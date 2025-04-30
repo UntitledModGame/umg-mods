@@ -203,10 +203,28 @@ defItem("flint", "Flint", {
 
     basePrice = 6,
     baseMaxActivations = 6,
-    baseMultGenerated = 1,
+    baseMultGenerated = 2,
     baseBonusGenerated = -10,
 
     lives = 40,
+
+    rarity = lp.rarities.UNCOMMON,
+})
+
+
+
+defItem("ouroboros", "Ouroborus", {
+    triggers = {"PULSE", "ROTATE"},
+
+    activateDescription = loc("Sets {lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} to -10"),
+
+    basePrice = 6,
+    baseMaxActivations = 6,
+    baseMultGenerated = 1.5,
+
+    onActivate = function(ent)
+        lp.setPointsBonus(ent, -10)
+    end,
 
     rarity = lp.rarities.UNCOMMON,
 })
