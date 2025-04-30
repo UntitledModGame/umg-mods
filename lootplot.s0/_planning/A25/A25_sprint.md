@@ -29,7 +29,7 @@
 
 - Made buffing-text look nicer
 
-- (HUGE UX IMPROVEMENT) Made keys and sacks activate when placed 
+- (HUGE UX IMPROVEMENT/REFACTOR) keys, sacks and food activate when placed 
 
 - Fixed the 6-Ball! It used old code for UP-4, Pulse items. Also nerfed the income for 6-ball
 
@@ -38,6 +38,10 @@
 - Created basket-of-bonus item
 
 - Created ouroboros item
+
+- Created grubby-sack item
+
+- Added maxActivations back, changed
 
 
 ## TODO:
@@ -59,15 +63,17 @@
 - (KNIGHT shape)
 
 
-- Do SOMETHING about max-activations. Setting it to 5 is just lazy/bad;
-we have pineapple-ring, blue-net, grass-item; and tonnes of other items that rely on max-activations
+## --------------
+## NEXT SPRINT::
+## --------------
 
 
+- Created Grubby-ball, (G-ball) showcasing grubby-archetype
+
+- Created achievement for grubby-ball
 
 
---------------
-
-- Different difficulties- bronze, silver, gold trophies (to implement, create a "DIFFICULTY" property)
+- Added 2 extra difficulties- bronze, silver, gold trophies (to implement, create a "DIFFICULTY" property)
 trophies should spawn more or less curses (silver trophy, 1 curse per level) (gold trophy 2 curses per level)
 And the points requirement should differ too
 

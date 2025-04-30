@@ -378,6 +378,24 @@ defineStartingItem("six_ball", {
 
 
 
+
+--[[
+
+TODO: Define G-ball here.
+
+It should give a good introduction to the grubby-archetype.
+And it should *force* the player into a grubby build.
+
+(Start with pineapple-ring, start with cent-ticket items..?)
+
+The slots should start grubby.
+
+]]
+
+
+
+
+
 defineStartingItem("four_ball", {
     name = loc("Four Ball"),
     description = loc("Has 2 extra rounds per level"),
