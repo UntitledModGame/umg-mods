@@ -12,6 +12,8 @@ local function defChest(id, name, etype)
     etype.basePrice = etype.basePrice or 6
     etype.rarity = etype.rarity or lp.rarities.RARE
 
+    etype.baseMaxActivations = 1
+
     etype.image = id
     etype.name = loc(name)
 
