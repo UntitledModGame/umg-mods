@@ -187,7 +187,7 @@ defItem("red_net", "Red Net", {
     rarity = lp.rarities.RARE,
 
     basePrice = 8,
-    baseMaxActivations = 10,
+    baseMaxActivations = 30,
     baseMultGenerated = 0.1,
 
     listen = {
@@ -207,7 +207,7 @@ defItem("red_pin", "Red Pin", {
     triggers = {"PULSE"},
 
     basePrice = 6,
-    baseMaxActivations = 3,
+    baseMaxActivations = 1,
 
     onActivate = function(ent)
         lp.setPointsMult(ent, 2)

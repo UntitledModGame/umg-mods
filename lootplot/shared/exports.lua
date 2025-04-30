@@ -1412,8 +1412,6 @@ function lp.defineItem(name, itemType)
         umg.log.warn("item not given baseMaxActivations", name)
     end
     ]]
-    -- to simplify stuff, ALL items are given 5 max-activations.
-    itemType.baseMaxActivations = 5
 
     if itemType.foodItem then
         itemType.activateInstantly = true

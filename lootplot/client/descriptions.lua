@@ -79,6 +79,32 @@ end
 
 
 
+local function isDoomedBeforeActivationsRunOut(ent)
+    if ent.doomCount then
+        return (math.max(ent.doomCount, 1) + (ent.lives or 0)) <= ent.maxActivations
+    end
+end
+
+---@param ent Entity
+---@return number?
+---@return number?
+local function tryGetActivations(ent)
+    if ent.maxActivations  then
+        local activations = ent.activationCount or 0
+        if ent.doomCount and isDoomedBeforeActivationsRunOut(ent) then
+            -- HACK: This item will get destroyed BEFORE running out of activations.
+            return -- Thus, no point in displaying.
+        end
+        if ent.maxActivations == 1 then
+            return -- no point in showing.
+        end
+
+        local remaining = ent.maxActivations - activations
+        local total = ent.maxActivations
+        return remaining, total
+    end
+end
+
 local function getTriggerListString(triggers)
     local buf = objects.Array()
     for _,t in ipairs(triggers) do
@@ -88,12 +114,31 @@ local function getTriggerListString(triggers)
     return table.concat(buf, ", ")
 end
 
+
 local TRIGGER_LIST = interp("{c r=0.6 g=0.6 b=0.7}Activates On: {lootplot:TRIGGER_COLOR}{wavy}%{trigger}{/wavy}{/lootplot:TRIGGER_COLOR}")
+
+local TRIGGER_LIST_ACTIVS = interp("{c r=0.6 g=0.6 b=0.7}Activates On: {lootplot:TRIGGER_COLOR}{wavy}%{trigger}{/wavy}{/lootplot:TRIGGER_COLOR} (%{remaining}/%{total})")
 
 umg.on("lootplot:populateTriggerDescription", 10, function(ent, arr)
     local triggers = ent.triggers
     if triggers and #triggers > 0 then
-        arr:add(TRIGGER_LIST({trigger = getTriggerListString(triggers)}))
+        arr:add(function()
+            if umg.exists(ent) then
+                local remaining, total = tryGetActivations(ent)
+                if remaining then
+                    return TRIGGER_LIST_ACTIVS({
+                        trigger = getTriggerListString(triggers),
+                        remaining = remaining,
+                        total = total
+                    })
+                else
+                    return TRIGGER_LIST({
+                        trigger = getTriggerListString(triggers),
+                    })
+                end
+            end
+            return ""
+        end)
     end
 end)
 

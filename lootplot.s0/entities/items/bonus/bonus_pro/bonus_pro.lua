@@ -73,7 +73,7 @@ defItem("blue_pin", "Blue Pin", {
     triggers = {"PULSE"},
 
     basePrice = 6,
-    baseMaxActivations = 10,
+    baseMaxActivations = 1,
 
     onActivate = function(ent)
         lp.setPointsBonus(ent, 6)

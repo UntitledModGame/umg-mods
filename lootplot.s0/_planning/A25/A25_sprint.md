@@ -57,6 +57,8 @@
 - (KNIGHT shape)
 
 
+- Do SOMETHING about max-activations. Setting it to 5 is just lazy/bad;
+we have pineapple-ring, blue-net, grass-item; and tonnes of other items that rely on max-activations
 
 
 

@@ -213,7 +213,7 @@ defItem("blue_net", {
     },
     shape = lp.targets.KING_SHAPE,
 
-    baseMaxActivations = 20,
+    baseMaxActivations = 30,
 
     basePointsGenerated = 3,
 })
