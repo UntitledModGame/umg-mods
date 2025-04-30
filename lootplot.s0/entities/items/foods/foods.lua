@@ -375,30 +375,9 @@ end
 
 
 
-defineFood("heartfruit", {
-    name = loc("Heart Fruit"),
-    activateDescription = loc("Gives +1 lives to target item (or slot)"),
-
-    rarity = lp.rarities.RARE,
-
-    isEntityTypeUnlocked = unlockAfterWins(2),
-
-    shape = lp.targets.UpShape(2),
-
-    basePrice = 4,
-
-    target = {
-        type = "ITEM_OR_SLOT",
-        activate = function(selfEnt, ppos, targetEnt)
-            targetEnt.lives = (targetEnt.lives or 0) + 1
-        end
-    },
-})
-
-
 defineFood("heartfruit_half", {
     name = loc("Half Heart Fruit"),
-    activateDescription = loc("Gives +1 lives to target item (or slot)"),
+    activateDescription = loc("Gives +2 lives to target item (or slot)"),
 
     rarity = lp.rarities.UNCOMMON,
 
@@ -411,7 +390,7 @@ defineFood("heartfruit_half", {
     target = {
         type = "ITEM_OR_SLOT",
         activate = function(selfEnt, ppos, targetEnt)
-            targetEnt.lives = (targetEnt.lives or 0) + 1
+            targetEnt.lives = (targetEnt.lives or 0) + 2
         end
     },
 })
