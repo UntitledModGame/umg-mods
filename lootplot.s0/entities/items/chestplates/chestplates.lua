@@ -60,7 +60,7 @@ defChestplate("hardened_chestplate", "Hardened Chestplate", {
     target = {
         type = "ITEM",
         filter = function(selfEnt, ppos, itemEnt)
-            return itemEnt.pointsGenerated > PTS_REQ
+            return (itemEnt.pointsGenerated or 0) > PTS_REQ
         end,
         activate = function(selfEnt, ppos, itemEnt)
             lp.modifierBuff(itemEnt, "pointsGenerated", BUFF, selfEnt)
