@@ -443,13 +443,10 @@ defineFood("heartfruit_purple", {
 
 defineFood("coffee", {
     name = loc("Coffee"),
-    activateDescription = loc("Multiplies current multiplier by {lootplot:POINTS_MULT_COLOR}1.5x"),
     triggers = {"PULSE"},
     rarity = lp.rarities.RARE,
-    onActivate = function(self)
-        local gmul = lp.getPointsMult(self)
-        return lp.setPointsMult(self, gmul * 1.5)
-    end
+    baseBonusGenerated = 40,
+    baseMultGenerated = 1.5,
 })
 
 defineFood("raw_steak", {
