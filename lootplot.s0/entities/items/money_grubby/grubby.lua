@@ -79,7 +79,7 @@ defGrubby("spare_coins", "Spare Coins", {
     grubMoneyCap = GRUB_MONEY_CAP,
 
     basePrice = 6,
-    baseMoneyGenerated = 2,
+    baseMoneyGenerated = 1,
     baseBonusGenerated = 2,
     baseMaxActivations = 6,
 
@@ -89,10 +89,10 @@ defGrubby("spare_coins", "Spare Coins", {
 
 
 defGrubby("pineapple_ring", "Pineapple Ring", {
-    basePrice = 8,
+    basePrice = 6,
     grubMoneyCap = GRUB_MONEY_CAP,
     canItemFloat = true,
-    activateDescription = loc("Make all target items {lootplot:MONEY_COLOR}$2{/lootplot:MONEY_COLOR} cheaper"),
+    activateDescription = loc("Make all target items {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} cheaper"),
 
     baseMaxActivations = 8,
 
@@ -103,7 +103,7 @@ defGrubby("pineapple_ring", "Pineapple Ring", {
     target = {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
-            lp.modifierBuff(targetEnt, "price", -2, selfEnt)
+            lp.modifierBuff(targetEnt, "price", -1, selfEnt)
         end,
     },
 
@@ -156,6 +156,39 @@ defGrubby("6_cent_ticket", "6 Cent Ticket", {
 })
 
 end
+
+
+
+
+local function defBasket(id, name, etype)
+    etype.shape = etype.shape or lp.targets.UpShape(1)
+    etype.init = helper.rotateRandomly
+
+    etype.baseMaxActivations = 4
+
+    etype.rarity = lp.rarities.RARE
+
+    etype.triggers = {"PULSE"}
+
+    defGrubby(id, name, etype)
+end
+
+
+defBasket("basket_of_bonus", "Basket of Bonus", {
+    activateDescription = loc("Gives {lootplot:BONUS_COLOR}+1 Bonus{/lootplot:BONUS_COLOR} and {lootplot:GRUB_COLOR_LIGHT}GRUB-%{n}{/lootplot:GRUB_COLOR_LIGHT} to items", {
+        n = GRUB_MONEY_CAP
+    }),
+
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targEnt)
+            lp.modifierBuff(targEnt, "bonusGenerated", 1)
+            targEnt.grubMoneyCap = GRUB_MONEY_CAP
+        end
+    }
+})
+
+
 
 
 defItem("0_cent_ticket", "0 Cent Ticket", {
@@ -337,7 +370,7 @@ defItem("toolbelt", "Toolbelt", {
 
     rarity = lp.rarities.RARE,
     basePrice = 8,
-    baseMoneyGenerated = -8,
+    baseMoneyGenerated = -math.floor(GRUB_MONEY_CAP * 0.7),
 
     shape = lp.targets.DownShape(2),
     target = {
