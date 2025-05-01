@@ -262,7 +262,7 @@ defContra("calculator", "Calculator", {
 
 
 defContra("bomb", "Bomb", {
-    activateDescription = loc("Destroy slots.\nEarn {lootplot:MONEY_COLOR}$2{/lootplot:MONEY_COLOR} for every slot destroyed."),
+    activateDescription = loc("Destroy slots.\nEarn {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} for every slot destroyed."),
 
     rarity = lp.rarities.RARE,
 
@@ -274,7 +274,7 @@ defContra("bomb", "Bomb", {
     target = {
         type = "SLOT",
         activate = function(selfEnt, ppos, targetEnt)
-            lp.addMoney(selfEnt, 2)
+            lp.addMoney(selfEnt, 1)
             lp.destroy(targetEnt)
         end
     },

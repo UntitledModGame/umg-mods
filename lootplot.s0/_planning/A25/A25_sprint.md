@@ -6,23 +6,19 @@
 
 - Made sponge LEGENDARY
 - Made red-fan LEGENDARY
-
 - Made some gloves EPIC
-
 - Fixed 8ball and L-ball
-
+- Fixed purple-loaf being purple, made it match NEW shop slots
+- Fixed map not working
+- FIXED food items with "On Pulse" triggers
+- Made stonefruits more expensive
+- Nerfed bomb / 7-ball
 
 
 ## =============================
 ## TODO:
 ## =============================
 
-
-- FIXED purple-loaf being purple, made it match NEW shop slots
-
-- FIXED map not working
-
-- FIXED food items with "On Pulse" triggers
 
 - FIXED: 2 turnip softlock 
 - (IDEA: make it so `footItem`s can only activate once they have been moved?)
