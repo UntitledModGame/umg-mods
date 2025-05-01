@@ -226,7 +226,7 @@ defItem("sponge", "Sponge", {
         lp.setPointsMult(ent, 0)
     end,
 
-    rarity = lp.rarities.EPIC,
+    rarity = lp.rarities.LEGENDARY,
 
     basePrice = 10,
     baseMaxActivations = 3,
@@ -299,7 +299,7 @@ defItem("red_fan", "Red Fan", {
     },
     shape = lp.targets.UpShape(2),
 
-    rarity = lp.rarities.EPIC,
+    rarity = lp.rarities.LEGENDARY,
 })
 
 
