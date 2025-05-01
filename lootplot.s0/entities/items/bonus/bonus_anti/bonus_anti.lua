@@ -213,7 +213,7 @@ defItem("flint", "Flint", {
 
 
 
-defItem("ouroboros", "Ouroborus", {
+defItem("ouroboros", "Ouroboros", {
     triggers = {"PULSE", "ROTATE"},
 
     activateDescription = loc("Sets {lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} to -10"),
