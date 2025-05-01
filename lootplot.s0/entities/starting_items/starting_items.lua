@@ -453,7 +453,8 @@ defineStartingItem("L_ball", {
         type = "ITEM_OR_SLOT",
         activate = function(selfEnt, ppos, targEnt)
             targEnt.lives = (targEnt.lives or 0) + 1
-        end
+        end,
+        activateWithNoValidTargets = true
     }
 })
 
@@ -553,7 +554,8 @@ defineStartingItem("eight_ball", {
         type = "ITEM",
         activate = function(selfEnt, ppos, targEnt)
             lp.destroy(targEnt)
-        end
+        end,
+        activateWithNoValidTargets = true
     }
 })
 
