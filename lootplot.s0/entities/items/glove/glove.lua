@@ -40,14 +40,14 @@ defineGlove("knight_glove",
     "Knight Glove",
     "Set item's targets to KNIGHT.",
     lp.targets.KNIGHT_SHAPE,
-    lp.rarities.RARE
+    lp.rarities.EPIC
 )
 
 defineGlove("bishop_glove",
     "Bishop Glove",
     "Set item's targets to BISHOP-2.",
     lp.targets.BishopShape(2),
-    lp.rarities.RARE
+    lp.rarities.EPIC
 )
 
 
@@ -55,7 +55,7 @@ defineGlove("king_glove",
     "King Glove",
     "Set item's targets to KING-1.",
     lp.targets.KING_SHAPE,
-    lp.rarities.EPIC
+    lp.rarities.RARE
 )
 
 defineGlove("rook_glove",
