@@ -355,13 +355,10 @@ defineStartingItem("six_ball", {
         itemEnt2.baseMoneyGenerated = 2
         end
 
-        do -- spawn green-olive with lives:
+        do -- spawn green-olive:
         local p = assert(ppos:move(3,0))
         lp.trySpawnSlot(p, server.entities.null_slot, team)
-        local itemEnt = lp.trySpawnItem(p, server.entities.green_olive, team)
-        if itemEnt then
-            itemEnt.lives = 10
-        end
+        lp.trySpawnItem(p, server.entities.green_olive, team)
         end
 
         ppos:getPlot():foreachSlot(function(slotEnt, _p)
