@@ -123,13 +123,14 @@ function targets.getValidTargets(itemEnt)
     targetList = objects.Array(targetList)
 
     local target = itemEnt.target
-    local convertType = target and target.type
-    if convertType then
+    if target then
+        local convertType = target.type
         local ret = targetList:map(function(ppos)
-            local ok, _ = lp.tryConvert(ppos, convertType)
-            if target then
-                ok = ok and util.canTarget(itemEnt, ppos)
+            local ok = true
+            if convertType then
+                ok, _ = lp.tryConvert(ppos, convertType)
             end
+            ok = ok and util.canTarget(itemEnt, ppos)
             if ok then
                 return ppos
             end
