@@ -148,6 +148,10 @@ defineBool("stickySlot")
 -- slotEnt.stickySlot = true :: Makes contained-item stuck when activated.
 
 
+defineBool("hasBeenMoved") -- true if this entity has been moved; false otherwise.
+-- used for `food` items.
+
+
 
 --[[
     number properties for lootplot

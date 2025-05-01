@@ -21,7 +21,7 @@
 
 
 - FIXED: 2 turnip softlock 
-- (IDEA: make it so `footItem`s can only activate once they have been moved?)
+- (IDEA: make it so `foodItem`s can only activate after move?)
 
 
 - Removed the next-level button, BIG REFACTOR to pulse-button / rounds
@@ -29,6 +29,8 @@
 - Instead, the Pulse-Button BE the next-level button. (including visuals)
 - The player should receive $10 for every round completed early.
 - (Make sure to buffer the cash, so the player can see how much they get)
+- also could create items: "Only activates on the final round!" (Mineral mirror/shield item???)
+- Ghost-knife, Moon-knife, etc will need buffs
 "Ok but what about the 9-ball?"
 --> the 9 ball should be changed, instead of costing $60 to progress, there should just be a slot somewhere that subtracts $60 on level-up
 

@@ -184,6 +184,12 @@ local function tryActivateInstantly(ent)
         -- dont activate when in null-slots 
         return
     end
+    if not lp.hasBeenMoved(ent) then
+        -- if the item hasnt been moved, dont activate it.
+        -- we dont want stuff to activate instantly causing infinite loops,
+        -- and we dont want the player to get confused by random stuff activating
+        return
+    end
     local ppos = lp.getPos(ent)
     local plot = ppos and ppos:getPlot()
     if plot and (not plot:isPipelineRunning()) and lp.canActivateEntity(ent) then

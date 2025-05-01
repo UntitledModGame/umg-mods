@@ -660,7 +660,7 @@ function lp.swapItems(ppos1, ppos2)
     local item1 = lp.posToItem(ppos1)
     local item2 = lp.posToItem(ppos2)
 
-    if not item1 and not item2 then
+    if (not item1) and (not item2) then
         return -- short circuit
     end
 
@@ -674,13 +674,23 @@ function lp.swapItems(ppos1, ppos2)
 
     if item1 then
         ppos2:set(item1)
+        item1.hasBeenMoved = true
         umg.call("lootplot:itemMoved", item1, ppos1, ppos2)
     end
 
     if item2 then
         ppos1:set(item2)
+        item2.hasBeenMoved = true
         umg.call("lootplot:itemMoved", item2, ppos2, ppos1)
     end
+end
+
+
+--- Checks whether an item has been moved or not
+---@param itemEnt Entity
+---@return boolean
+function lp.hasBeenMoved(itemEnt)
+    return itemEnt.hasBeenMoved
 end
 
 
@@ -985,6 +995,9 @@ end
 function lp.clone(ent)
     ---@diagnostic disable-next-line: undefined-field
     local cloned = ent:clone()
+    if cloned.hasBeenMoved then
+        cloned.hasBeenMoved = false
+    end
     --[[
         TODO: emit events here?
     ]]
