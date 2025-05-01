@@ -680,7 +680,7 @@ defineSlotSpawner("golden_loaf", "Golden Loaf", "shop_slot", "a Shop Slot", lp.t
     basePrice = 8,
     rarity = lp.rarities.RARE
 })
-defineSlotSpawner("purple_loaf", "Purple Loaf", "food_shop_slot", "a Food Shop Slot", lp.targets.ON_SHAPE, {
+defineSlotSpawner("food_loaf", "Food Loaf", "food_shop_slot", "a Food Shop Slot", lp.targets.ON_SHAPE, {
     canItemFloat = true,
     basePrice = 8,
     rarity = lp.rarities.RARE
