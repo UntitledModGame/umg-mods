@@ -10,18 +10,18 @@
 - Fixed 8ball and L-ball
 - Fixed purple-loaf being purple, made it match NEW shop slots
 - Fixed map not working
-- FIXED food items with "On Pulse" triggers
+- Fixed food items with "On Pulse" triggers
 - Made stonefruits more expensive
 - Nerfed bomb / 7-ball
+- Fixed 2 turnip softlock  (Now, `foodItem`s only activate after move.)
+- Fixed some speling/gramar erors
+- Made green-squash clearer
+
 
 
 ## =============================
 ## TODO:
 ## =============================
-
-
-- FIXED: 2 turnip softlock 
-- (IDEA: make it so `foodItem`s can only activate after move?)
 
 
 - Removed the next-level button, BIG REFACTOR to pulse-button / rounds
@@ -34,7 +34,6 @@
 "Ok but what about the 9-ball?"
 --> the 9 ball should be changed, instead of costing $60 to progress, there should just be a slot somewhere that subtracts $60 on level-up
 
-- Fixed some speling/gramar erors
 
 - New item: GOLDEN FISH: Sets money to -$20, Makes slot earn $1
 
