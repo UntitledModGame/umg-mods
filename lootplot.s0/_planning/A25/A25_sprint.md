@@ -3,61 +3,69 @@
 ## After-Release 2025 sprint
 
 
-- Added trophy/difficulty system
-
-- Added 3 new trophies, bronze, silver, gold
-
-- Added 3 new difficulties; (easy, medium, hard)
-
+- Fixed unlocks for grubby/rotate/reroll mineral items
+- Added skeleton for difficulty system
 - Added some extra stuff to work towards in the tutorial-run.
-
 - Make copper-chestplate locked w/ ROTATE archetype
-
 - When on the final level, it should say "FINAL LEVEL"
-
 - Made books on-pulse, since `read` activate-button was too confusing
-
 - Fixed item-lock being rotated weirdly for rotated items
-
 - Nerfed potions, they were OP with doomed-4
-
 - Nerfed Six-Ball
-
 - Fixed Grammar for hearts card
-
 - Fixed buffing text popup shows numbers at 2dp
-
 - Made buffing-text look nicer
-
 - (HUGE UX IMPROVEMENT/REFACTOR) keys, sacks and food activate when placed 
-
-- Fixed the 6-Ball! It used old code for UP-4, Pulse items. Also nerfed the income for 6-ball
-
+- Fixed and tweaked the 6-Ball
 - Put synergies in locked-slots for tutorial treasure-bar
-
 - Created basket-of-bonus item
-
 - Created ouroboros item
-
 - Created grubby-sack item
-
 - Added maxActivations back, made descriptions way better
+- Removed heartfruit
 
 
-## TODO:
-
-
-## WE WILL NEED TO REWORK A BUNCH OF STUFF:
-### Make more uses for DOOMED systems, and more uses for lives system
-- Rework/remove all kinds of heartfruit(s)
-- Add new mineral-items: DOOMED
-
-- REWORK TUTORIAL!!! We will need to explain FOOD items, and redo the pomegranate.
 
 
 ## --------------
 ## NEXT SPRINT::
 ## --------------
+
+
+- Fixed 8ball and L-ball
+
+- FIXED purple-loaf being purple, made it match NEW shop slots
+
+- FIXED map not working
+
+- FIXED food items with "On Pulse" triggers
+
+- FIXED: 2 turnip softlock 
+- (IDEA: make it so `footItem`s can only activate once they have been moved?)
+
+
+- Removed the next-level button, BIG REFACTOR to pulse-button / rounds
+---->>>
+- Instead, the Pulse-Button BE the next-level button. (including visuals)
+- The player should receive $10 for every round completed early.
+- (Make sure to buffer the cash, so the player can see how much they get)
+"Ok but what about the 9-ball?"
+--> the 9 ball should be changed, instead of costing $60 to progress, there should just be a slot somewhere that subtracts $60 on level-up
+
+- Fixed some speling/gramar erors
+
+- New item: GOLDEN FISH: Sets money to -$20, Makes slot earn $1
+
+- New item: BLUE FISH: Set money to -$10, Makes slot earn 8 bonus
+
+- New item: SALMON: ($1) Rotate items. (KING-1 Shape, UNCOMMON)
+
+- Made golden horseshoe be an UNCOMMON food item (as well as non-food)
+
+
+- Added 3 new trophies, bronze, silver, gold
+
+- Added 3 new difficulties; (easy, medium, hard)
 
 - Added 2 new DOOMED-10 items so the archetype isn't completely dead
 
@@ -65,11 +73,9 @@
 
 - Created achievement for grubby-ball
 
+- Made items that can't activate grayscale (need shader)
 
-- Make items that can't activate grayscale (need shader)
-
-
-- NEW LEGENDARY ITEM: Chef's Knife: 
+- CREATED NEW LEGENDARY ITEM: Chef's Knife: 
 - On Level-Up: Spawns null-slots with food inside them. (KNIGHT shape)
 
 
