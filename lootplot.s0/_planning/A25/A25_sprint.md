@@ -16,6 +16,7 @@
 - Fixed 2 turnip softlock  (Now, `foodItem`s only activate after move.)
 - Fixed some speling/gramar erors
 - Made green-squash clearer
+- Made fortune-cookie float (usable on sacks now)
 
 
 

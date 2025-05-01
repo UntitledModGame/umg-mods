@@ -350,6 +350,8 @@ defineFood("fortune_cookie", {
     So instead, we make an explicit whitelist of item rarities.
     ]]
 
+    canItemFloat = true,
+
     rarity = lp.rarities.RARE,
 
     shape = lp.targets.KingShape(1),
