@@ -422,7 +422,6 @@ defineFood("heartfruit_purple", {
 
 defineFood("coffee", {
     name = loc("Coffee"),
-    triggers = {"PULSE"},
     rarity = lp.rarities.RARE,
     baseBonusGenerated = 40,
     baseMultGenerated = 1.5,
@@ -430,7 +429,6 @@ defineFood("coffee", {
 
 defineFood("raw_steak", {
     name = loc("Raw Steak"),
-    triggers = {"PULSE"},
     rarity = lp.rarities.RARE,
     baseMultGenerated = 5,
     basePrice = 4,
@@ -438,7 +436,6 @@ defineFood("raw_steak", {
 
 defineFood("raw_potato", {
     name = loc("Raw Potato"),
-    triggers = {"PULSE"},
     rarity = lp.rarities.RARE,
     basePointsGenerated = 250,
     basePrice = 4,
@@ -452,7 +449,6 @@ local SALMON_STEAK_TRIGGERS = {
 defineFood("salmon_steak", {
     name = loc("Salmon Steak"),
     activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}Buy, Level-Up, Rotate, and Reroll{/lootplot:TRIGGER_COLOR} on targeted items."),
-    triggers = {"PULSE"},
     rarity = lp.rarities.RARE,
     basePrice = 4,
 
@@ -543,7 +539,7 @@ end)
 
 local STONE_FRUIT_SHAPE = lp.targets.UnionShape(lp.targets.ON_SHAPE, lp.targets.HorizontalShape(1))
 defineSlotSpawner("stone_fruit", "Stone fruit", "null_slot", "Null Slots", STONE_FRUIT_SHAPE, {
-    basePrice = 3,
+    basePrice = 6,
     basePointsGenerated = 25,
     canItemFloat = true,
     rarity = lp.rarities.COMMON
@@ -1190,9 +1186,6 @@ defineMush("mushroom_blue", {
 
 local NUM_LIVES = 3
 defineMush("mushroom_pink", {
-    triggers = {"REROLL", "PULSE"},
-    -- we do this so that the player can activate slots during "planning phase"
-
     name = loc("Pink Mushroom"),
     activateDescription = loc("Gives {lootplot:LIFE_COLOR}+%{lives} lives{/lootplot:LIFE_COLOR} to slots.\nActivates slots.", {
         lives = NUM_LIVES
