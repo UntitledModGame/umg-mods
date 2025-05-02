@@ -18,14 +18,14 @@
 - Made green-squash clearer
 - Made fortune-cookie float (usable on sacks now)
 - (Tried to) Fix properties crash
+- Fix dark sack/bar crash
+
 
 
 ## =============================
 ## TODO:
 ## =============================
 
-
-- Fix dark sack/bar crash
 
 - Removed the next-level button, BIG REFACTOR to pulse-button / rounds
 ---->>>
