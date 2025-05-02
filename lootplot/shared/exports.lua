@@ -363,6 +363,18 @@ function lp.getNumberOfRounds(ent)
 end
 
 
+
+lp.defineAttribute("SKIPPED_ROUNDS", 0)
+--- How many rounds has the player skipped?
+
+---Gets the number of rounds that have been skipped this game
+---@return number
+function lp.getSkippedRounds(ent)
+    return lp.getAttribute("SKIPPED_ROUNDS", ent)
+end
+
+
+
 local DEFAULT_NUMBER_OF_LEVELS = 10
 lp.defineAttribute("NUMBER_OF_LEVELS", DEFAULT_NUMBER_OF_LEVELS)
 -- Number of levels (Note: this can be changed!!!)

@@ -18,7 +18,9 @@
 - Made green-squash clearer
 - Made fortune-cookie float (usable on sacks now)
 - (Tried to) Fix properties crash
-- Fix dark sack/bar crash
+- Fixed dark sack/bar crash (once and for all)
+- Made sack-items less common
+- Nerfed blue/red records
 
 
 
@@ -32,30 +34,38 @@
 - Instead, the Pulse-Button BE the next-level button. (including visuals)
 - The player should receive $10 for every round completed early.
 - (Make sure to buffer the cash, just like interest-slot so the player can see how much they get)
+- ALSO: MAKE SURE TO DO THE DESCRIPTIONS WELL!!!!
 
 NEW SYSTEMS/COMPONENTS: 
 - PROPERTY: "Only activates on the final round!" (Mineral mirror item???)
 - lp.defineAttribute("SKIPPED_ROUNDS") -- number of rounds skipped
-- ITEM: Earns +X mult (Increases for every round skipped)
-- FOOD-ITEM: Earns $X (Increases for every round skipped) 
+- ITEM: Earns +X mult (X = how many rounds skipped)
+- ITEM: Earns +X bonus (X = how many rounds skipped)
+- ITEM: Gives items +X points (X = how many rounds skipped)
+- FOOD-ITEM: Earns $X (X = how many rounds skipped) 
 ^^^^ (these should use SKIPPED_ROUNDS attribute)
+
+
+- Create popup text saying "LEVEL {X} PASSED!"
+
+- Play a cool sound when progressing to next level
 
 
 - Semi-null slots:  Items on this slot only activate on the final round!
 ^^^^ this is really great! since is avoids the micro-optimization problem.
 
 
-- New food-item: 50% chance to destroy slot. 40% Chance to earn $5. 10% Chance to spawn a KEY.
-^^^ really nice since this allows you to clear slots. Also fun gambling lol
-
-- New food-item: Golden horseshoe, but as a food-item 
-(make price $1? its a bit stronger than on-pulse, due to insta-activation.)
-
-
-
 - Ghost-knife, Moon-knife, etc will need buffs
 "Ok but what about the 9-ball?"
 --> the 9 ball should be changed, instead of costing $60 to progress, there should just be a slot somewhere that subtracts $60 on level-up
+
+
+- New food-item: 50% chance to destroy slot. 40% Chance to earn $5. 10% Chance to spawn a KEY.
+^^^ really nice since this allows you to clear slots. Also fun gambling lol
+
+
+- Made LEGENDARY-items spawn inside of locked-slots 
+(inside cloud-slot; that way, the cool fire effect is visible )
 
 
 - Nerfed Diamond-slot to 3x bonus

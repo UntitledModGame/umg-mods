@@ -7,15 +7,24 @@ umg.on("lootplot:entityActivated", function(ent)
     end
 end)
 
+
+local activateAnimationGroup = umg.group("activateAnimation")
+
 umg.on("@update", function(dt)
-    for ent, lastActive in pairs(entityActiveAnimationDuration) do
-        lastActive = lastActive - dt
+    for _, ent in ipairs(activateAnimationGroup) do
+        local lastActive = entityActiveAnimationDuration[ent]
+        if lastActive then
+            lastActive = lastActive - dt
 
-        if lastActive <= 0 then
+            if lastActive <= 0 then
+                ent.image = ent.activateAnimation.idle
+                lastActive = nil
+            end
+
+            entityActiveAnimationDuration[ent] = lastActive
+        else
             ent.image = ent.activateAnimation.idle
-            lastActive = nil
         end
-
-        entityActiveAnimationDuration[ent] = lastActive
     end
 end)
+

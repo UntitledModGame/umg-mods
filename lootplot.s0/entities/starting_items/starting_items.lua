@@ -107,15 +107,6 @@ end
 
 local NEXT_LEVEL_DX, NEXT_LEVEL_DY = -3, -4
 
-local function spawnNextLevelButton(ent)
-    local ppos, team = getPosTeam(ent)
-    return lp.forceSpawnSlot(
-        assert(ppos:move(NEXT_LEVEL_DX, NEXT_LEVEL_DY)),
-        server.entities.next_level_button_slot,
-        team
-    )
-end
-
 local function spawnPulseButton(ent)
     local ppos, team = getPosTeam(ent)
     return lp.forceSpawnSlot(
@@ -146,7 +137,7 @@ local function spawnDoomClock(ent, dy)
 end
 
 
-local function spawnDoomClockAndButtons(ent, dy)
+local function spawnDoomClockAndButton(ent, dy)
     spawnDoomClock(ent, dy)
 
     -- Meta-buttons
@@ -268,7 +259,7 @@ defineStartingItem("one_ball", {
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
 
-        spawnDoomClockAndButtons(ent)
+        spawnDoomClockAndButton(ent)
 
         -- Display tutorial text
 
@@ -315,7 +306,7 @@ defineStartingItem("five_ball", {
         lp.trySpawnItem(assert(ppos:move(1, 0)), server.entities.record_golden, team)
         lp.trySpawnItem(assert(ppos:move(-1, 0)), server.entities.record_white, team)
 
-        spawnDoomClockAndButtons(ent)
+        spawnDoomClockAndButton(ent)
 
         wg.spawnSlots(assert(ppos:move(3, 0)), server.entities.rotate_slot, 1,1, team)
     end
@@ -368,7 +359,6 @@ defineStartingItem("six_ball", {
         end)
 
         spawnPulseButton(ent)
-        spawnNextLevelButton(ent)
         spawnDoomClock(ent)
     end,
 })
@@ -410,7 +400,7 @@ defineStartingItem("four_ball", {
         spawnSell(ent)
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
-        spawnDoomClockAndButtons(ent)
+        spawnDoomClockAndButton(ent)
     end
 })
 
@@ -442,7 +432,7 @@ defineStartingItem("L_ball", {
         -- reason we must do set it here instead of as a shcomp,
         -- is because money starts at 0. If it's a shcomp, onActivateOnce will never be called!
 
-        spawnDoomClockAndButtons(ent)
+        spawnDoomClockAndButton(ent)
     end,
 
     shape = lp.targets.UpShape(1),
@@ -501,7 +491,7 @@ defineStartingItem("seven_ball", {
         spawnSell(ent, 0, 2)
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
-        spawnDoomClockAndButtons(ent)
+        spawnDoomClockAndButton(ent)
     end
 })
 
@@ -543,7 +533,7 @@ defineStartingItem("eight_ball", {
 
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
-        spawnDoomClockAndButtons(ent)
+        spawnDoomClockAndButton(ent)
     end,
 
     shape = lp.targets.RookShape(1),
@@ -587,7 +577,7 @@ defineStartingItem("blank_ball", {
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
 
-        spawnDoomClockAndButtons(ent, -1)
+        spawnDoomClockAndButton(ent, -1)
     end,
 })
 
@@ -595,11 +585,10 @@ defineStartingItem("blank_ball", {
 
 
 do
-local COST_TO_LEVEL_UP = 60
 
 defineStartingItem("nine_ball", {
     name = loc("Nine Ball"),
-    description = loc("Costs $$$ to level-up"),
+    description = loc("Tax burden is heavy"),
 
     isEntityTypeUnlocked = winToUnlock(),
     onWinGame = makeOnWin("WIN_NINE_BALL"),
@@ -608,7 +597,6 @@ defineStartingItem("nine_ball", {
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
-        lp.setMoney(ent, COST_TO_LEVEL_UP)
         lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
         spawnShop(ent)
         spawnRerollButton(ent)
@@ -616,18 +604,18 @@ defineStartingItem("nine_ball", {
         spawnSell(ent)
         spawnInterestSlot(ent)
 
-        local slotEnt = lp.posToSlot(ppos)
-        slotEnt.baseMoneyGenerated = -1
-
         spawnDoomClock(ent)
         spawnPulseButton(ent)
 
-        local nextLevelButton = lp.forceSpawnSlot(
-            assert(ppos:move(NEXT_LEVEL_DX, NEXT_LEVEL_DY)),
-            server.entities.golden_next_level_button_slot,
+        wg.spawnSlots(assert(ppos:move(4,0)), server.entities.null_slot, 3,3, team, function(slotEnt)
+            slotEnt.baseMoneyGenerated = -2
+        end)
+
+        lp.forceSpawnSlot(
+            assert(ppos:move(4, 0)),
+            server.entities.tax_button_slot,
             team
         )
-        nextLevelButton.baseMoneyGenerated = -COST_TO_LEVEL_UP
     end
 })
 
@@ -704,7 +692,7 @@ defineStartingItem("bowling_ball", {
             slotEnt.doomCount = lp.SEED:randomMisc(15, 25)
         end)
 
-        spawnDoomClockAndButtons(ent)
+        spawnDoomClockAndButton(ent)
     end
 })
 

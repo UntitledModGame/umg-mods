@@ -13,16 +13,19 @@ local spawnSlotsTc = typecheck.assert("ppos", "table", "number", "number", "stri
 ---@param w number
 ---@param h number
 ---@param lootplotTeam string
-function worldgen.spawnSlots(ppos, slotType, w, h, lootplotTeam)
+---@param transform? fun(ent: Entity)
+function worldgen.spawnSlots(ppos, slotType, w, h, lootplotTeam, transform)
     spawnSlotsTc(ppos, slotType, w, h, lootplotTeam)
     assert(server, "Can only be called on server-side")
     for dx=math.floor(-w/2 + 0.5), math.floor(w/2 + 0.5)-1 do
         for dy=math.floor(-h/2 + 0.5), math.floor(h/2 + 0.5)-1 do
             local p2 = ppos:move(dx,dy)
             if p2 then
-                local ok = lp.trySpawnSlot(p2, slotType, lootplotTeam)
-                if not ok then
+                local slotEnt = lp.trySpawnSlot(p2, slotType, lootplotTeam)
+                if not slotEnt then
                     umg.log.error("SPAWN: Couldnt spawn slot at pos: ", ppos)
+                elseif transform then
+                    transform(slotEnt)
                 end
             end
         end
