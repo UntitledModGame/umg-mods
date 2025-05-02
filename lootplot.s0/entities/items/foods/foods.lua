@@ -218,7 +218,7 @@ defineFood("green_squash", {
     Sets money to $13
     ]]
     name = loc("Green Squash"),
-    activateDescription = loc("Sets money to {lootplot:MONEY_COLOR}$13{/lootplot:MONEY_COLOR}\nGives {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} Trigger and {lootplot:POINTS_COLOR}+10 points{/lootplot:POINTS_COLOR} to slots"),
+    activateDescription = loc("Sets money to {lootplot:MONEY_COLOR}$13{/lootplot:MONEY_COLOR}\nGives {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} Trigger and {lootplot:POINTS_COLOR}+3 points{/lootplot:POINTS_COLOR} to slots"),
 
     isEntityTypeUnlocked = unlockAfterWins(2),
 
@@ -235,7 +235,7 @@ defineFood("green_squash", {
         type = "SLOT",
         activate = function(selfEnt, ppos, targetEnt)
             lp.addTrigger(targetEnt, "REROLL")
-            lp.modifierBuff(targetEnt, "pointsGenerated", 10)
+            lp.modifierBuff(targetEnt, "pointsGenerated", 3)
         end
     }
 })
