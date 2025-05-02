@@ -318,7 +318,7 @@ generateItem = itemGenHelper.createLazyGenerator(
         return true
     end,
     itemGenHelper.createRarityWeightAdjuster({
-        COMMON = 13,
+        COMMON = 10,
         UNCOMMON = 1,
         RARE = 0.03,
         EPIC = 0.02
