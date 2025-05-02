@@ -1470,14 +1470,6 @@ function lp.defineSlot(name, slotType)
         umg.log.warn("!!! SLOT NOT GIVEN RARITY:", name)
     end
 
-    -- to simplify stuff, ALL slots are given 5 max-activations.
-    -- except for button-slots, which are given more.
-    if slotType.buttonSlot then
-        slotType.baseMaxActivations = 40
-    else
-        slotType.baseMaxActivations = 5
-    end
-
     slotType.slot = true
     slotType.layer = "slot"
     slotType.drawDepth = -200
