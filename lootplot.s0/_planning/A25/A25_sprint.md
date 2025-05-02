@@ -17,15 +17,13 @@
 - Fixed some speling/gramar erors
 - Made green-squash clearer
 - Made fortune-cookie float (usable on sacks now)
-
+- (Tried to) Fix properties crash
 
 
 ## =============================
 ## TODO:
 ## =============================
 
-
-- Fix qbus crash
 
 - Fix dark sack/bar crash
 

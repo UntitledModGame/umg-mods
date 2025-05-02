@@ -80,6 +80,15 @@ function Generator:getEntries()
     return self.entries
 end
 
+
+
+---@return boolean
+function Generator:isEmpty()
+    return (#self.entries) <= 0
+end
+
+
+
 ---Add new entry to the generator.
 ---
 ---**This mutates the `Generator`.**

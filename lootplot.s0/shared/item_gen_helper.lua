@@ -35,6 +35,9 @@ function itemGenHelper.createLazyGenerator(filterFunc, weightAdjuster)
                 return weightAdjuster(etype)
             end
         })
+        if itemGen:isEmpty() then
+            return lp.FALLBACK_NULL_ITEM
+        end
         return itemGen:query()
     end
     return generate
