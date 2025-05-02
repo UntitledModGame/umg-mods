@@ -16,18 +16,29 @@ end)
 
 
 
-local function getVal(ent, val)
+---@param ent Entity
+---@param val number|function
+---@param default number
+---@return number
+local function getVal(ent, val, default)
     if type(val) == "function" then
         return val(ent)
+    elseif type(val) == "number" then
+        return val
     end
-    return val
+    if umg.DEVELOPMENT_MODE then
+        umg.melt("Error: invalid lootplotProperties return value for entity: " .. tostring(ent))
+    else
+        umg.log.error("[ERROR ERROR ERROR] Invalid lootplotProperties return value for entity: ", ent)
+    end
+    return default
 end
 
 local function getMult(ent, propTabl, prop)
     if propTabl.multipliers then
         local val = propTabl.multipliers[prop]
         if val then
-            return getVal(ent, val)
+            return getVal(ent, val, 1)
         end
     end
     return 1
@@ -37,7 +48,7 @@ local function getModifier(ent, propTabl, prop)
     if propTabl.modifiers then
         local val = propTabl.modifiers[prop]
         if val then
-            return getVal(ent, val)
+            return getVal(ent, val, 0)
         end
     end
     return 0
@@ -50,14 +61,14 @@ local function getClamp(ent, propTabl, prop)
     if propTabl.maximums then
         local val = propTabl.maximums[prop]
         if val then
-            max = getVal(ent, val)
+            max = getVal(ent, val, math.huge)
         end
     end
 
     if propTabl.minimums then
         local val = propTabl.minimums[prop]
         if val then
-            min = getVal(ent, val)
+            min = getVal(ent, val, -math.huge)
         end
     end
 

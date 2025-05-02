@@ -25,6 +25,10 @@
 ## =============================
 
 
+- Fix qbus crash
+
+- Fix dark sack/bar crash
+
 - Removed the next-level button, BIG REFACTOR to pulse-button / rounds
 ---->>>
 - Instead, the Pulse-Button BE the next-level button. (including visuals)
