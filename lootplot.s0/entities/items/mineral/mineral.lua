@@ -348,6 +348,8 @@ local function definePickaxe(mineral_type, name, strength, etype)
         image = image,
         name = loc(name .. " Pickaxe"),
 
+        isEntityTypeUnlocked = helper.unlockAfterWins(1),
+
         init = helper.rotateRandomly,
 
         activateDescription = PICKAXE_DESCRIPTION,
@@ -426,8 +428,8 @@ Activates multiple times, like boomerang.
 (anti-synergy with octopus/activator builds!!)
 (since octopuses dont matter for ruby-items.)
 ]]
-defineMineralClass("ruby", "Ruby", 1, {
-    baseMaxActivations = 5,
+defineMineralClass("ruby", "Ruby", 2, {
+    baseMaxActivations = 3,
     triggers = {"PULSE"},
     repeatActivations = true,
 })
