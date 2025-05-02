@@ -258,7 +258,7 @@ defRecord("record_red", "Red Record", {
 
     rarity = lp.rarities.EPIC,
 
-    shape = lp.targets.CircleShape(2),
+    shape = lp.targets.RookShape(1),
     target = {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
@@ -273,7 +273,7 @@ defRecord("record_blue", "Blue Record", {
 
     rarity = lp.rarities.EPIC,
 
-    shape = lp.targets.CircleShape(2),
+    shape = lp.targets.RookShape(1),
     target = {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
