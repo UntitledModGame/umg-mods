@@ -101,7 +101,7 @@ defItem("a_pointy_loan", {
     lootplotProperties = {
         modifiers = {
             pointsGenerated = function(ent)
-                return (lp.getRequiredPoints(ent) or 0) / 2
+                return -(lp.getRequiredPoints(ent) or 0) / 2
             end
         }
     },
