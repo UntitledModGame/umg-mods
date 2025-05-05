@@ -149,6 +149,9 @@ server.on("lootplot:actionButtonPress", function(clientId, ent, index)
     if not aButton then
         return
     end
+    if not umg.exists(ent) then
+        return -- this can happen if the player double-clicks in one tick
+    end
     if not canClick(ent, aButton, clientId) then
         return
     end
