@@ -113,13 +113,13 @@ defItem("steel_bell", "Steel Bell", {
 defItem("bronze_bell", "Bronze Bell", {
     basePrice = 8,
 
-    activateDescription = loc("Gives slots {lootplot:POINTS_MULT_COLOR}+0.5 Multiplier{/lootplot:POINTS_MULT_COLOR}, but subtracts {lootplot:BONUS_COLOR}-2 Bonus"),
+    activateDescription = loc("Gives slots {lootplot:POINTS_MULT_COLOR}+1 Multiplier{/lootplot:POINTS_MULT_COLOR}, but subtracts {lootplot:BONUS_COLOR}-2 Bonus"),
 
-    shape = lp.targets.KingShape(2),
+    shape = lp.targets.KingShape(1),
     target = {
         type = "SLOT",
         activate = function(selfEnt, ppos, slotEnt)
-            lp.modifierBuff(slotEnt, "multGenerated", 0.5)
+            lp.modifierBuff(slotEnt, "multGenerated", 1)
             lp.modifierBuff(slotEnt, "bonusGenerated", -2)
         end
     },
