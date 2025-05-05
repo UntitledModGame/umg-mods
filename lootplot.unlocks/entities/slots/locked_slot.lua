@@ -21,7 +21,7 @@ end
 lp.defineSlot("lootplot.unlocks:locked_slot", {
     image = "locked_slot",
     name = loc("Locked Slot"),
-    description = loc("Can be unlocked with a {lootplot:INFO_COLOR}key!"),
+    activateDescription = loc("Can be unlocked with a {lootplot:INFO_COLOR}key!"),
     triggers = {"UNLOCK"},
     audioVolume = 0,
     canAddItemToSlot = function()
