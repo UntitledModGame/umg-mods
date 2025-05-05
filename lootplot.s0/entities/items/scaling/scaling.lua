@@ -108,7 +108,7 @@ defItem("moon_knife", {
 
 defItem("demon_knife", {
     name = loc("Demon Knife"),
-    activateDescription = loc("Gain {lootplot:POINTS_MULT_COLOR}+0.1 multiplier{/lootplot:POINTS_MULT_COLOR} permanently"),
+    activateDescription = loc("Gain {lootplot:POINTS_MULT_COLOR}+0.3 multiplier{/lootplot:POINTS_MULT_COLOR} permanently"),
 
     triggers = KNIFE_TRIGGERS,
 
@@ -120,12 +120,12 @@ defItem("demon_knife", {
     baseMaxActivations = KNIFE_ACTIVATIONS,
 
     onActivate = function(ent)
-        lp.modifierBuff(ent, "multGenerated", 0.1)
+        lp.modifierBuff(ent, "multGenerated", 0.3)
     end
 })
 
 
-local BONUS_BUFF = 0.4
+local BONUS_BUFF = 1
 defItem("ghost_knife", {
     name = loc("Ghost Knife"),
     activateDescription = loc("Gain {lootplot:BONUS_COLOR}+%{buff} bonus{/lootplot:BONUS_COLOR} permanently", {
