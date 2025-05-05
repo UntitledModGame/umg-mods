@@ -95,9 +95,6 @@ local function tryGetActivations(ent)
             -- HACK: This item will get destroyed BEFORE running out of activations.
             return -- Thus, no point in displaying.
         end
-        if ent.maxActivations == 1 then
-            return -- no point in showing.
-        end
 
         local remaining = ent.maxActivations - activations
         local total = ent.maxActivations
