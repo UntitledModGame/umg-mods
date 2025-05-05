@@ -164,6 +164,7 @@ defineDice("grass", "Grass", {
     activateDescription = loc("Gives {lootplot:POINTS_COLOR}+1 activations{/lootplot:POINTS_COLOR} to items, and increases the item prices by {lootplot:MONEY_COLOR}$2"),
 
     basePrice = 8,
+    doomCount = 8,
     baseMaxActivations = 10,
 
     shape = lp.targets.UpShape(2),
