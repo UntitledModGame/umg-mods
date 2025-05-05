@@ -142,8 +142,7 @@ local function spawnDoomClockAndButton(ent, dy)
 
     -- Meta-buttons
     local pulseButton = spawnPulseButton(ent)
-    local nextLevelButton = spawnNextLevelButton(ent)
-    return pulseButton, nextLevelButton
+    return pulseButton
 end
 
 
