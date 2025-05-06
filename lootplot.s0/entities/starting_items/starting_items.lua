@@ -327,6 +327,7 @@ defineStartingItem("five_ball", {
         lp.trySpawnItem(assert(ppos:move(1, 0)), server.entities.record_golden, team)
         lp.trySpawnItem(assert(ppos:move(-1, 0)), server.entities.record_white, team)
 
+        -- spawn black-olives:
         for y = -1,1 do
             local mpos = assert(ppos:move(3,y))
             lp.forceSpawnSlot(mpos, server.entities.null_slot, team)
@@ -371,10 +372,11 @@ defineStartingItem("six_ball", {
         itemEnt2.baseMoneyGenerated = 2
         end
 
-        do -- spawn green-olive:
-        local p = assert(ppos:move(3,0))
-        lp.trySpawnSlot(p, server.entities.null_slot, team)
-        lp.trySpawnItem(p, server.entities.green_olive, team)
+        -- spawn green-olives:
+        for y = -1,1 do
+            local mpos = assert(ppos:move(3,y))
+            lp.forceSpawnSlot(mpos, server.entities.null_slot, team)
+            lp.forceSpawnItem(mpos, server.entities.green_olive, team)
         end
 
         ppos:getPlot():foreachSlot(function(slotEnt, _p)
