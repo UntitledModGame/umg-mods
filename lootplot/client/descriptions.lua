@@ -178,7 +178,10 @@ local function addPointsDescription(ent, arr, pgen)
 end
 
 local EARN_MONEY = interp("{lootplot:MONEY_COLOR}Earns $%{moneyGenerated:.1f}", VERB_CTX)
-local STEAL_MONEY = interp("{lootplot:BAD_COLOR}Costs {lootplot:MONEY_COLOR}$%{cost:.1f}{/lootplot:MONEY_COLOR} to activate!")
+local COSTS_MONEY = interp("{lootplot:BAD_COLOR}Costs {lootplot:MONEY_COLOR}$%{cost:.1f}{/lootplot:MONEY_COLOR} to activate!")
+local STEAL_MONEY = interp("{lootplot:BAD_COLOR}Steals {lootplot:MONEY_COLOR}$%{cost:.1f}{/lootplot:MONEY_COLOR}!")
+-- Wahts difference between "costs" and "steals"?
+-- A: steal will go into negative. Cost wont; it will prevent activation.
 
 local GAIN_MULT = interp("Adds {lootplot:POINTS_MULT_COLOR}%{multGenerated:.1f} multiplier")
 local LOSE_MULT = interp("{lootplot:BAD_COLOR}Subtracts %{multCost:.1f} multiplier!")
@@ -222,7 +225,8 @@ umg.on("lootplot:populateActivateDescription", 30, function(ent, arr)
         else
             arr:add(function()
                 if umg.exists(ent) then
-                    return STEAL_MONEY({
+                    local loseMoney = (ent.canGoIntoDebt and STEAL_MONEY) or COSTS_MONEY
+                    return loseMoney({
                         cost = -ent.moneyGenerated
                     })
                 end

@@ -147,6 +147,9 @@ defineBool("stuck") -- itemEnt.stuck = true :: Cannot be moved by the player
 defineBool("stickySlot")
 -- slotEnt.stickySlot = true :: Makes contained-item stuck when activated.
 
+defineBool("canGoIntoDebt")
+-- if this is true, negative moneyGenerated wont prevent activation.
+-- instead, money will just go into negatives. (false by default obviously)
 
 defineBool("hasBeenMoved") -- true if this entity has been moved; false otherwise.
 -- used for `food` items.

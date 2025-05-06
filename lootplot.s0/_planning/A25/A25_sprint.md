@@ -29,6 +29,11 @@
 - Removed LEVEL-UP trigger
 - Created New item: Salmon
 - Reworked hammers to have xMult when bonus is negative
+- Rotate ball now has rotate slot in center, and has a black Olive
+- Made skipping levels early impossible early (noob trap)
+- Created debt component, allowing negative-money for some items/slots
+
+
 
 
 ## =============================
@@ -36,9 +41,6 @@
 ## =============================
 
 
-
-
-- Rotate ball now has rotate slot in center, and has a black Olive
 
 - Created new item: red rock: On destroy, give items +0.1 mult
 
@@ -48,8 +50,6 @@
 - Repurposed sapphire to work with Destroy archetype
 
 - Made lives no longer work with food-items
-
-- Created canGoIntoDebt component; allowing -moneyGenerated to go into debt
 
 - Made worldgen way better:
 instead of having doomed money-earning slots, we should have scatterings of
