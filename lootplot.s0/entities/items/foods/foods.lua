@@ -483,7 +483,7 @@ defineFood("salmon", {
     target = {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
-            lp.tryTriggerEntity("PULSE", selfEnt)
+            lp.tryTriggerEntity("PULSE", targetEnt)
             lp.rotateItem(targetEnt, 1)
         end
     }
