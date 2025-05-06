@@ -322,12 +322,18 @@ defineStartingItem("five_ball", {
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
 
+        lp.forceSpawnSlot(ppos, server.entities.rotate_slot, team)
+
         lp.trySpawnItem(assert(ppos:move(1, 0)), server.entities.record_golden, team)
         lp.trySpawnItem(assert(ppos:move(-1, 0)), server.entities.record_white, team)
 
-        spawnDoomClockAndButtons(ent)
+        for y = -1,1 do
+            local mpos = assert(ppos:move(3,y))
+            lp.forceSpawnSlot(mpos, server.entities.null_slot, team)
+            lp.forceSpawnItem(mpos, server.entities.black_olive, team)
+        end
 
-        wg.spawnSlots(assert(ppos:move(3, 0)), server.entities.rotate_slot, 1,1, team)
+        spawnDoomClockAndButtons(ent)
     end
 })
 
