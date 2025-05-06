@@ -21,12 +21,28 @@
 - Fixed dark sack/bar crash (once and for all)
 - Made sack-items less common
 - Nerfed blue/red records
-
+- Made fullscreen settings save, as well as width/height
+- Fixed double-click crash
+- Fixed nan analytics crash
+- Made number display better for large nums
+- Added SKIP trigger
+- Removed LEVEL-UP trigger
 
 
 ## =============================
 ## TODO:
 ## =============================
+
+
+
+- New item: GOLDEN FISH: Sets money to -$20, Makes slot earn $1
+
+- New item: BLUE FISH: Set money to -$10, Makes slot earn 8 bonus
+
+- New item: SALMON: ($1) Rotate and trigger pulse on items.
+(KING-1 Shape, UNCOMMON)
+
+- Made golden horseshoe be an UNCOMMON food item (as well as non-food)
 
 
 - Removed the next-level button, BIG REFACTOR to pulse-button / rounds
@@ -51,13 +67,7 @@ NEW SYSTEMS/COMPONENTS:
 - Play a cool sound when progressing to next level
 
 
-- Semi-null slots:  Items on this slot only activate on the final round!
-^^^^ this is really great! since is avoids the micro-optimization problem.
-
-
 - Ghost-knife, Moon-knife, etc will need buffs
-"Ok but what about the 9-ball?"
---> the 9 ball should be changed, instead of costing $60 to progress, there should just be a slot somewhere that subtracts $60 on level-up
 
 
 - New food-item: 50% chance to destroy slot. 40% Chance to earn $5. 10% Chance to spawn a KEY.
@@ -75,25 +85,19 @@ NEW SYSTEMS/COMPONENTS:
 - Golden ornament nerfed (only earns $0.5)
 
 
-
-- New item: GOLDEN FISH: Sets money to -$20, Makes slot earn $1
-
-- New item: BLUE FISH: Set money to -$10, Makes slot earn 8 bonus
-
-- New item: SALMON: ($1) Rotate items. (KING-1 Shape, UNCOMMON)
-
-- Made golden horseshoe be an UNCOMMON food item (as well as non-food)
-
-
 - Added 3 new trophies, bronze, silver, gold
 
 - Added 3 new difficulties; (easy, medium, hard)
 
 - Added 2 new DOOMED-10 items so the archetype isn't completely dead
 
-- Created Grubby-ball, (G-ball) showcasing grubby-archetype
+- Reworked hammers; have xStrength mult when bonus is negative
 
+- Created Grubby-ball, (G-ball) showcasing grubby-archetype
 - Created achievement for grubby-ball
+
+- Created sapphire-ball (S-ball) showcasing anti-bonus archetype
+- Created achievement for sapphire-ball
 
 - Made items that can't activate grayscale (need shader)
 

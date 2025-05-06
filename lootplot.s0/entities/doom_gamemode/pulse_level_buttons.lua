@@ -122,19 +122,25 @@ end
 
 
 ---@param ppos lootplot.PPos
-local function shouldTrigger(ppos)
+local function shouldTriggerSkip(ppos)
     local slot = lp.posToSlot(ppos)
-    if slot and lp.hasTrigger(slot, "LEVEL_UP") then
+    if slot and lp.hasTrigger(slot, "SKIP") then
         return true
     end
     local item = lp.posToItem(ppos)
-    if item and lp.hasTrigger(item, "LEVEL_UP") then
+    if item and lp.hasTrigger(item, "SKIP") then
         return true
     end
     return false
 end
 
 
+local function getNumberOfRoundsToSkip(ent)
+    local round = lp.getRound(ent)
+    local numRounds = lp.getNumberOfRounds(ent)
+    -- add 1 because it starts at 1
+    return (numRounds + 1) - round
+end
 
 
 local function nextLevel(ent)
@@ -159,19 +165,35 @@ local function nextLevel(ent)
         -- {"lootplot.s0:dragonfruit", "lootplot.s0:blueberry", "iron_sword"}
     })
 
-    lp.rawsetAttribute("POINTS", ent, 0)
-    lp.setRound(ent, 1)
-    lp.setLevel(ent, lp.getLevel(ent) + 1)
+    local skipCount = getNumberOfRoundsToSkip(ent)
 
-    lp.Bufferer()
-        :all(plot)
-        :filter(shouldTrigger)
-        :withDelay(0.4)
-        :to("SLOT_OR_ITEM")
-        :execute(function(ppos1, e1)
-            lp.resetCombo(e1)
-            lp.tryTriggerSlotThenItem("LEVEL_UP", ppos1)
+    -- Remember: LIFO!
+
+    lp.queueWithEntity(ent, function(e)
+        lp.rawsetAttribute("POINTS", e, 0)
+        lp.setRound(e, 1)
+        lp.setLevel(e, lp.getLevel(e) + 1)
+    end)
+
+    for _=1, skipCount do
+        resetPlot(ppos)
+
+        lp.wait(ppos, 0.2)
+
+        lp.queueWithEntity(ent, function(e)
+            lp.Bufferer()
+                :all(plot)
+                :filter(shouldTriggerSkip)
+                :withDelay(0.3)
+                :to("SLOT_OR_ITEM")
+                :execute(function(ppos1, e1)
+                    lp.resetCombo(e1)
+                    lp.tryTriggerSlotThenItem("SKIP", ppos1)
+                end)
         end)
+
+        resetPlot(ppos)
+    end
 end
 
 
@@ -210,10 +232,6 @@ local function doPulse(ent, ppos)
 end
 
 
-local NEXT_LEVEL = interp("Click to progress to the next level! Triggers {lootplot:TRIGGER_COLOR}%{name}{/lootplot:TRIGGER_COLOR} on all items and slots!")
-local NEED_POINTS = interp("{c r=1 g=0.6 b=0.5}Need %{pointsLeft} more points!")
-
-
 
 local PULSE_ANIMATION = {
     activate = "pulse_button_hold",
@@ -236,14 +254,53 @@ end
 
 
 
+local PULSE_DESC = loc("Click to {wavy}{lootplot:TRIGGER_COLOR}PULSE{/lootplot:TRIGGER_COLOR}{/wavy} all items/slots,\nand go to the next round!")
+
+local PULSE_DESC_LOWER = loc("(Afterwards earns {lootplot:MONEY_COLOR}$%{money}{/lootplot:MONEY_COLOR})", {
+    money = constants.MONEY_PER_ROUND
+})
+
+
+
+local NEXT_LEVEL_NO_SKIP = interp("Click to go to the next level")
+
+local NEXT_LEVEL_SKIP = interp("Click to skip %{skipCount} rounds, and go the next level")
+
+local NEXT_LEVEL_SKIP_LOWER = interp("{c r=0.6 g=0.6 b=0.7}(Triggers {lootplot:TRIGGER_COLOR}%{triggerName}{/lootplot:TRIGGER_COLOR} on everything {lootplot:INFO_COLOR}%{skipCount} times{/lootplot:INFO_COLOR}!)")
+
+
 lp.defineSlot("lootplot.s0:pulse_button_slot", {
     image = "pulse_button_up",
 
     name = loc("Pulse Button"),
-    description = loc("Click to {wavy}{lootplot:TRIGGER_COLOR}PULSE{/lootplot:TRIGGER_COLOR}{/wavy} all items/slots,\nand go to the next round!"),
-    activateDescription = loc("(Afterwards earns {lootplot:MONEY_COLOR}$%{money}{/lootplot:MONEY_COLOR})", {
-        money = constants.MONEY_PER_ROUND
-    }),
+    description = function(ent)
+        if hasPointsRequirement(ent) then
+            local skipCount = getNumberOfRoundsToSkip(ent)
+            if skipCount > 0 then
+                return NEXT_LEVEL_SKIP({ skipCount = skipCount })
+            else
+                return NEXT_LEVEL_NO_SKIP({ skipCount = skipCount })
+            end
+        else
+            return PULSE_DESC
+        end
+    end,
+
+    activateDescription = function(ent)
+        if hasPointsRequirement(ent) then
+            local skipCount = getNumberOfRoundsToSkip(ent)
+            if skipCount > 0 then
+                return NEXT_LEVEL_SKIP_LOWER({
+                    triggerName = lp.getTriggerDisplayName("SKIP"),
+                    skipCount = skipCount
+                })
+            else
+                return ""
+            end
+        else
+            return PULSE_DESC_LOWER
+        end
+    end,
 
     activateAnimation = PULSE_ANIMATION,
 

@@ -7,7 +7,7 @@ local function defItem(id, name, etype)
     etype.name = loc(name)
 
     if not etype.listen then
-        etype.triggers = etype.triggers or {"LEVEL_UP"}
+        etype.triggers = etype.triggers or {"SKIP"}
     end
 
     lp.defineItem("lootplot.s0:"..id, etype)
@@ -29,7 +29,7 @@ defItem("square_basket", "Square Basket", {
     }),
     rarity = lp.rarities.RARE,
 
-    triggers = {"LEVEL_UP", "UNLOCK"},
+    triggers = {"SKIP", "UNLOCK"},
 
     sticky = true,
 
@@ -140,7 +140,7 @@ defItem("small_golden_bell", "Small Golden Bell", {
     (Or at least, give them more intuition behind triggers and such)
     ]]
     basePrice = 4,
-    triggers = {"LEVEL_UP", "UNLOCK"},
+    triggers = {"SKIP", "UNLOCK"},
 
     sticky = true,
 
@@ -184,7 +184,7 @@ defItem("golden_compass", "Golden Compass", {
 
 
 defItem("calender", "Calender", {
-    activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}Level-Up{/lootplot:TRIGGER_COLOR} for all target-items."),
+    activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}Skip{/lootplot:TRIGGER_COLOR} on target-items."),
 
     triggers = {"PULSE"},
 
@@ -198,7 +198,7 @@ defItem("calender", "Calender", {
     target = {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
-            lp.tryTriggerEntity("LEVEL_UP", targetEnt)
+            lp.tryTriggerEntity("SKIP", targetEnt)
         end
     }
 })

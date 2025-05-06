@@ -182,6 +182,10 @@ local function spawnInterestSlot(ent)
     local ppos, team = getPosTeam(ent)
     local plot = ppos:getPlot()
     wg.spawnSlots(plot:getPPos(ppos:getCoords(), 3), server.entities.interest_slot, 1,1, team)
+
+    local x = ppos:getCoords()
+    lp.forceSpawnSlot(plot:getPPos(x-1, 3), server.entities.golden_skip_slot, team)
+    lp.forceSpawnSlot(plot:getPPos(x+1, 3), server.entities.golden_skip_slot, team)
 end
 
 -------------------------------------------------------------------
