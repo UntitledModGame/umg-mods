@@ -426,8 +426,8 @@ end -- if client
 do
 
 
-local VIEW_AREA_WIDTH = 16
-local VIEW_AREA_START_X = 5
+local VIEW_AREA_WIDTH = 20
+local VIEW_AREA_START_X = 2
 
 local function clearViewArea(plot)
     local _,height = plot:getDimensions()
