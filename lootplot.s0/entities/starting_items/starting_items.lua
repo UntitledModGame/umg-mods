@@ -278,7 +278,10 @@ defineStartingItem("one_ball", {
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
 
-        spawnDoomClockAndButtons(ent)
+        spawnDoomClock(ent)
+        spawnPulseButton(ent)
+        -- simple next-level-button slot CANNOT be skipped. This is to avoid noob-trap.
+        lp.forceSpawnSlot(assert(ppos:move(NEXT_LEVEL_DX, NEXT_LEVEL_DY)), server.entities.simple_next_level_button_slot, team)
 
         -- Display tutorial text
 

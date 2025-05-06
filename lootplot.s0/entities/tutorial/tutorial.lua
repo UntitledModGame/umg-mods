@@ -400,21 +400,7 @@ end
 
 do
 
----@param ppos lootplot.PPos
-local function shouldTrigger(ppos)
-    local slot = lp.posToSlot(ppos)
-    if slot and lp.hasTrigger(slot, "LEVEL_UP") then
-        return true
-    end
-    local item = lp.posToItem(ppos)
-    if item and lp.hasTrigger(item, "LEVEL_UP") then
-        return true
-    end
-    return false
-end
-
-
-local NEXT_LEVEL = interp("Click to progress to the next level! Triggers {lootplot:TRIGGER_COLOR}%{name}{/lootplot:TRIGGER_COLOR} on all items and slots!")
+local NEXT_LEVEL = interp("Click to progress to the next level!")
 local NEED_POINTS = interp("{c r=1 g=0.6 b=0.5}Need %{pointsLeft} more points!")
 
 local function nextLevelActivateDescription(ent)
@@ -432,6 +418,16 @@ local function nextLevelActivateDescription(ent)
     end
     return ""
 end
+
+
+
+local function getNumberOfRoundsToSkip(ent)
+    local round = lp.getRound(ent)
+    local numRounds = lp.getNumberOfRounds(ent)
+    -- add 1 because it starts at 1
+    return (numRounds + 1) - round
+end
+
 
 
 local YOU_WIN_TEXT = loc("GG!\nRun completed.")
@@ -452,11 +448,17 @@ lp.defineSlot("lootplot.s0:tutorial_next_level_button_slot", {
     triggers = {},
     buttonSlot = true,
 
-    rarity = lp.rarities.EPIC,
+    rarity = lp.rarities.UNIQUE,
 
     onDraw = buttonOnDraw,
 
     canActivate = function(ent)
+        local skipCount = getNumberOfRoundsToSkip(ent)
+        if skipCount > 0 then
+            -- dont allow skipping early yet.
+            -- its a bit of a noob-trap
+            return false
+        end
         local requiredPoints = lp.getRequiredPoints(ent)
         local points = lp.getPoints(ent)
         if points >= requiredPoints then
@@ -486,16 +488,6 @@ lp.defineSlot("lootplot.s0:tutorial_next_level_button_slot", {
         lp.rawsetAttribute("POINTS", ent, 0)
         lp.setRound(ent, 1)
         lp.setLevel(ent, lp.getLevel(ent) + 1)
-
-        lp.Bufferer()
-            :all(plot)
-            :filter(shouldTrigger)
-            :withDelay(0.4)
-            :to("SLOT_OR_ITEM")
-            :execute(function(ppos1, e1)
-                lp.resetCombo(e1)
-                lp.tryTriggerSlotThenItem("LEVEL_UP", ppos1)
-            end)
     end
 })
 

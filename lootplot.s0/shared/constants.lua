@@ -11,6 +11,7 @@ local constants = {
     MONEY_PER_ROUND = 6,
 
     UNLOCK_AFTER_WINS = {
+        SKIP_LEVEL = 1, -- IMPORTANT NOTE: You cannot skip levels with one-ball!
         ROTATEY = 1, -- rotate-archetype is unlocked after 1 win
         REROLL = 1, -- ...
         GRUBBY = 2, -- grubby is unlocked after 2 wins

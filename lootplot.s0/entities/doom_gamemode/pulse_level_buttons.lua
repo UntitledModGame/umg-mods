@@ -396,6 +396,61 @@ lp.defineSlot("lootplot.s0:next_level_button_slot", {
 
 
 
+
+lp.defineSlot("lootplot.s0:simple_next_level_button_slot", {
+    --[[
+    Exact same as next-level button, but it doesnt allow skipping.
+    This keeps the game a bit simpler for newbies.
+    ]]
+    image = "level_button_up",
+
+    name = loc("Simple Next-Level Button"),
+    activateDescription = function(ent)
+        if umg.exists(ent) then
+            local points = lp.getPoints(ent)
+            local requiredPoints = lp.getRequiredPoints(ent)
+            local pointsLeft = requiredPoints - points
+            if pointsLeft <= 0 then
+                return NEXT_LEVEL_NO_SKIP
+            else
+                return NEXT_LEVEL_NEED_POINTS({
+                    pointsLeft = pointsLeft
+                })
+            end
+        end
+        return ""
+    end,
+
+    canActivate = function(ent)
+        local skipCount = getNumberOfRoundsToSkip(ent)
+        if skipCount <= 0 then
+            return nextLevelCanActivate(ent)
+        end
+    end,
+
+    activateAnimation = {
+        activate = "level_button_hold",
+        idle = "level_button_up",
+        duration = 0.1
+    },
+
+    baseMaxActivations = 3,
+    triggers = {},
+    buttonSlot = true,
+
+    rarity = lp.rarities.UNIQUE,
+
+    onDraw = buttonOnDraw,
+
+    onActivate = nextLevel,
+})
+
+
+
+
+
+
+
 lp.defineSlot("lootplot.s0:golden_next_level_button_slot", {
     image = "golden_level_button_up",
 
