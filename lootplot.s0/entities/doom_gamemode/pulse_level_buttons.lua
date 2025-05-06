@@ -343,7 +343,7 @@ local function nextLevelActivateDescription(ent)
             local skipCount = getNumberOfRoundsToSkip(ent)
             if skipCount > 0 then
                 return NEXT_LEVEL_SKIP({
-                    triggerName = lp.getTriggerDisplayName("LEVEL_UP"),
+                    triggerName = lp.getTriggerDisplayName("SKIP"),
                     skipCount = skipCount
                 })
             else
@@ -358,12 +358,8 @@ local function nextLevelActivateDescription(ent)
     return ""
 end
 
+
 local function nextLevelCanActivate(ent)
-    if (getNumberOfRoundsToSkip(ent) >= 1) and (lp.getWinCount() < 1) then
-        -- dont allow players to skip rounds unless they have won a game.
-        -- (this is to avoid noob-traps; people skipping levels too early)
-        return false
-    end
     local requiredPoints = lp.getRequiredPoints(ent)
     local points = lp.getPoints(ent)
     if points >= requiredPoints then
