@@ -218,7 +218,7 @@ defItem("ouroboros", "Ouroboros", {
 
     activateDescription = loc("Sets {lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} to -10"),
 
-    basePrice = 6,
+    basePrice = 8,
     baseMaxActivations = 6,
     baseMultGenerated = 1.5,
 
@@ -226,6 +226,6 @@ defItem("ouroboros", "Ouroboros", {
         lp.setPointsBonus(ent, -10)
     end,
 
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.RARE,
 })
 
