@@ -39,7 +39,7 @@ end
 
 
 umg.answer("lootplot:canActivateEntity", function(ent)
-    if lp.isItemEntity(ent) and ent.target then
+    if lp.isItemEntity(ent) and ent.target and ent.foodItem then
         if ent.target.activateWithNoValidTargets then
             -- activate even if there are no valid targets.
             return true
