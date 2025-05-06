@@ -105,7 +105,6 @@ end
 
 
 
-local NEXT_LEVEL_DX, NEXT_LEVEL_DY = -3, -4
 
 local function spawnPulseButton(ent)
     local ppos, team = getPosTeam(ent)
@@ -115,6 +114,20 @@ local function spawnPulseButton(ent)
         team
     )
 end
+
+
+local NEXT_LEVEL_DX, NEXT_LEVEL_DY = -3, -4
+
+local function spawnNextLevelButton(ent)
+    local ppos, team = getPosTeam(ent)
+    return lp.forceSpawnSlot(
+        assert(ppos:move(NEXT_LEVEL_DX, NEXT_LEVEL_DY)),
+        server.entities.next_level_button_slot,
+        team
+    )
+end
+
+
 
 
 local function spawnDoomClock(ent, dy)
@@ -137,10 +150,13 @@ local function spawnDoomClock(ent, dy)
 end
 
 
-local function spawnDoomClockAndButton(ent, dy)
+local function spawnDoomClockAndButtons(ent, dy)
     spawnDoomClock(ent, dy)
 
-    -- Meta-buttons
+    -- next-level button
+    spawnNextLevelButton(ent)
+
+    -- pulse button
     local pulseButton = spawnPulseButton(ent)
     return pulseButton
 end
@@ -262,7 +278,7 @@ defineStartingItem("one_ball", {
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
 
-        spawnDoomClockAndButton(ent)
+        spawnDoomClockAndButtons(ent)
 
         -- Display tutorial text
 
@@ -309,7 +325,7 @@ defineStartingItem("five_ball", {
         lp.trySpawnItem(assert(ppos:move(1, 0)), server.entities.record_golden, team)
         lp.trySpawnItem(assert(ppos:move(-1, 0)), server.entities.record_white, team)
 
-        spawnDoomClockAndButton(ent)
+        spawnDoomClockAndButtons(ent)
 
         wg.spawnSlots(assert(ppos:move(3, 0)), server.entities.rotate_slot, 1,1, team)
     end
@@ -361,8 +377,7 @@ defineStartingItem("six_ball", {
             end
         end)
 
-        spawnPulseButton(ent)
-        spawnDoomClock(ent)
+        spawnDoomClockAndButtons(ent)
     end,
 })
 
@@ -403,7 +418,7 @@ defineStartingItem("four_ball", {
         spawnSell(ent)
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
-        spawnDoomClockAndButton(ent)
+        spawnDoomClockAndButtons(ent)
     end
 })
 
@@ -435,7 +450,7 @@ defineStartingItem("L_ball", {
         -- reason we must do set it here instead of as a shcomp,
         -- is because money starts at 0. If it's a shcomp, onActivateOnce will never be called!
 
-        spawnDoomClockAndButton(ent)
+        spawnDoomClockAndButtons(ent)
     end,
 
     shape = lp.targets.UpShape(1),
@@ -494,7 +509,7 @@ defineStartingItem("seven_ball", {
         spawnSell(ent, 0, 2)
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
-        spawnDoomClockAndButton(ent)
+        spawnDoomClockAndButtons(ent)
     end
 })
 
@@ -536,7 +551,7 @@ defineStartingItem("eight_ball", {
 
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
-        spawnDoomClockAndButton(ent)
+        spawnDoomClockAndButtons(ent)
     end,
 
     shape = lp.targets.RookShape(1),
@@ -580,7 +595,7 @@ defineStartingItem("blank_ball", {
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
 
-        spawnDoomClockAndButton(ent, -1)
+        spawnDoomClockAndButtons(ent, -1)
     end,
 })
 
@@ -607,8 +622,7 @@ defineStartingItem("nine_ball", {
         spawnSell(ent)
         spawnInterestSlot(ent)
 
-        spawnDoomClock(ent)
-        spawnPulseButton(ent)
+        spawnDoomClockAndButtons(ent)
 
         wg.spawnSlots(assert(ppos:move(4,0)), server.entities.null_slot, 3,3, team, function(slotEnt)
             slotEnt.baseMoneyGenerated = -2
@@ -695,7 +709,7 @@ defineStartingItem("bowling_ball", {
             slotEnt.doomCount = lp.SEED:randomMisc(15, 25)
         end)
 
-        spawnDoomClockAndButton(ent)
+        spawnDoomClockAndButtons(ent)
     end
 })
 
