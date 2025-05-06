@@ -49,31 +49,6 @@ end
 
 
 
-do
-local PTS_BUFF = 5
-
-defItem("sapphire", "Sapphire", {
-    triggers = {"PULSE"},
-
-    activateDescription = loc("If {lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} is negative, gains +%{buff} points", {
-        buff = PTS_BUFF,
-    }),
-
-    onActivate = function(ent)
-        lp.modifierBuff(ent, "pointsGenerated", PTS_BUFF, ent)
-    end,
-
-    basePrice = 8,
-    basePointsGenerated = 30,
-    baseMaxActivations = 6,
-
-    rarity = lp.rarities.RARE,
-})
-
-end
-
-
-
 
 
 do

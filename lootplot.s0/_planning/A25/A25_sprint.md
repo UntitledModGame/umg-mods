@@ -28,7 +28,7 @@
 - Added SKIP trigger
 - Removed LEVEL-UP trigger
 - Created New item: Salmon
-
+- Reworked hammers to have xMult when bonus is negative
 
 
 ## =============================
@@ -36,8 +36,9 @@
 ## =============================
 
 
-- Reworked hammers; have xStrength mult when bonus is negative
 
+
+- Rotate ball now has rotate slot in center, and has a black Olive
 
 - Created new item: red rock: On destroy, give items +0.1 mult
 
@@ -48,12 +49,21 @@
 
 - Made lives no longer work with food-items
 
-- Created New item: GOLDEN FISH: Sets money to -$20, Makes slot earn $1
+- Created canGoIntoDebt component; allowing -moneyGenerated to go into debt
 
-- Created New item: BLUE FISH: Set money to -$10, Makes slot earn 8 bonus
+- Made worldgen way better:
+instead of having doomed money-earning slots, we should have scatterings of
+LEGENDARY items and EPIC items in offer-slots.
 
+- Made LEGENDARY-items spawn inside of locked-slots 
+(inside cloud-slot; that way, the cool fire effect is visible )
 
 - Made golden horseshoe be an UNCOMMON food item (as well as non-food)
+
+
+- Make the locked-slots that treasure-bar spawns in tutorial deterministic
+
+If you sell the starting item, you should still get the achievement
 
 
 - Removed the next-level button, BIG REFACTOR to pulse-button / rounds
@@ -78,15 +88,9 @@ NEW SYSTEMS/COMPONENTS:
 - Play a cool sound when progressing to next level
 
 
-- Ghost-knife, Moon-knife, etc will need buffs
-
 
 - New food-item: 50% chance to destroy slot. 40% Chance to earn $5. 10% Chance to spawn a KEY.
 ^^^ really nice since this allows you to clear slots. Also fun gambling lol
-
-
-- Made LEGENDARY-items spawn inside of locked-slots 
-(inside cloud-slot; that way, the cool fire effect is visible )
 
 
 - Nerfed Diamond-slot to 3x bonus
