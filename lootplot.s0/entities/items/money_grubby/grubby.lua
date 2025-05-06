@@ -92,7 +92,7 @@ defGrubby("pineapple_ring", "Pineapple Ring", {
     basePrice = 6,
     grubMoneyCap = GRUB_MONEY_CAP,
     canItemFloat = true,
-    activateDescription = loc("Make all target items {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} cheaper"),
+    activateDescription = loc("Make all target items {lootplot:MONEY_COLOR}$2{/lootplot:MONEY_COLOR} cheaper"),
 
     baseMaxActivations = 8,
 
@@ -103,7 +103,7 @@ defGrubby("pineapple_ring", "Pineapple Ring", {
     target = {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
-            lp.modifierBuff(targetEnt, "price", -1, selfEnt)
+            lp.modifierBuff(targetEnt, "price", -2, selfEnt)
         end,
     },
 
