@@ -36,6 +36,8 @@
 ## =============================
 
 
+- Reworked hammers; have xStrength mult when bonus is negative
+
 
 - Created new item: red rock: On destroy, give items +0.1 mult
 
@@ -50,9 +52,6 @@
 
 - Created New item: BLUE FISH: Set money to -$10, Makes slot earn 8 bonus
 
-
-
-- Reworked hammers; have xStrength mult when bonus is negative
 
 - Made golden horseshoe be an UNCOMMON food item (as well as non-food)
 

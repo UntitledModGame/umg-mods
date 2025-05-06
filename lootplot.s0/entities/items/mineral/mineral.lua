@@ -64,7 +64,7 @@ local function defineGreatsword(mineral_type, name, strength, etype)
         image = image,
         name = loc(name .. " Great-Sword"),
 
-        description = loc("Comes with a {lootplot:POINTS_MULT_COLOR}%{mult}x points multiplier", {
+        description = loc("Comes with a {lootplot:POINTS_MULT_COLOR}%{mult}x points multiplier{/lootplot:POINTS_MULT_COLOR}", {
             mult = mult
         }),
 
@@ -259,17 +259,28 @@ local function defineHammer(mineral_type, name, strength, etype)
     local etypeName = namespace .. mineral_type .. "_hammer"
     local image = mineral_type .. "_hammer"
 
+    local mult = strength + 1
+
     local hammerType = {
         image = image,
         name = loc(name .. " Hammer"),
 
-        activateDescription = loc("Halves the current {lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR}"),
-        onActivate = function(ent)
-            local bonus = lp.getPointsBonus(ent)
-            lp.addPointsBonus(ent, -bonus/2)
-        end,
+        description = loc("If {lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} is negative, earn {lootplot:POINTS_MULT_COLOR}%{mult}x points.{/lootplot:POINTS_MULT_COLOR}", {
+            mult = mult
+        }),
 
-        basePointsGenerated = strength * 20,
+        lootplotProperties = {
+            multipliers = {
+                pointsGenerated = function(ent)
+                    if lp.getPointsBonus(ent) < 0 then
+                        return mult
+                    end
+                    return 1
+                end
+            }
+        },
+
+        basePointsGenerated = 15,
 
         rarity = etype.rarity or lp.rarities.RARE,
 
