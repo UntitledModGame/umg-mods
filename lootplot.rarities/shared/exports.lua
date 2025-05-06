@@ -134,7 +134,8 @@ local function createItemGenerator(rarity)
         filter = function(etypeName, _)
             local etype = server.entities[etypeName]
             if etype and etype.rarity and etype.rarity.id == rarity.id then
-                return true
+                ---@cast etype table
+                return lp.metaprogression.isEntityTypeUnlocked(etype)
             end
             return false
         end
@@ -150,6 +151,9 @@ function lp.rarities.randomItemOfRarity(rarity, dynamicSpawnChance)
     local gen = genCache[rarity] or createItemGenerator(rarity)
     dynamicSpawnChance = dynamicSpawnChance or dummy
     ---@cast gen generation.Generator
+    if gen:isEmpty() then
+        return nil
+    end
     local etypeName = gen:query(function(entry, weight)
         return dynamicSpawnChance(entry, weight) or 1
     end)

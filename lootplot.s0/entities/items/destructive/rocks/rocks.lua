@@ -3,6 +3,8 @@ local loc = localization.localize
 local interp = localization.newInterpolator
 
 local constants = require("shared.constants")
+local helper = require("shared.helper")
+
 
 --[[
 
@@ -51,9 +53,7 @@ local function defRocks(id, name, etype)
 
     etype.lootplotTags = {constants.tags.ROCKS}
 
-    etype.isEntityTypeUnlocked = function()
-        return lp.getWinCount() >= constants.UNLOCK_AFTER_WINS.DESTRUCTIVE
-    end
+    etype.isEntityTypeUnlocked = helper.unlockAfterWins(constants.UNLOCK_AFTER_WINS.DESTRUCTIVE)
 
     if not etype.listen then
         etype.triggers = etype.triggers or {"DESTROY"}
