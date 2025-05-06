@@ -470,6 +470,26 @@ defineFood("salmon_steak", {
 })
 
 
+defineFood("salmon", {
+    name = loc("Salmon"),
+    activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}Pulse{/lootplot:TRIGGER_COLOR} on items, then rotates them."),
+
+    rarity = lp.rarities.UNCOMMON,
+    basePrice = 2,
+
+    isEntityTypeUnlocked = unlockAfterWins(constants.UNLOCK_AFTER_WINS.ROTATEY),
+
+    shape = lp.targets.KingShape(1),
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.tryTriggerEntity("PULSE", selfEnt)
+            lp.rotateItem(targetEnt, 1)
+        end
+    }
+})
+
+
 
 
 

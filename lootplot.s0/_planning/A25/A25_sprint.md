@@ -27,6 +27,8 @@
 - Made number display better for large nums
 - Added SKIP trigger
 - Removed LEVEL-UP trigger
+- Created New item: Salmon
+
 
 
 ## =============================
@@ -35,12 +37,22 @@
 
 
 
-- New item: GOLDEN FISH: Sets money to -$20, Makes slot earn $1
+- Created new item: red rock: On destroy, give items +0.1 mult
 
-- New item: BLUE FISH: Set money to -$10, Makes slot earn 8 bonus
+- Created new item: Grubby-turnip. Clones item, makes it grubby
+- Made magic-turnip EPIC
 
-- New item: SALMON: ($1) Rotate and trigger pulse on items.
-(KING-1 Shape, UNCOMMON)
+- Repurposed sapphire to work with Destroy archetype
+
+- Made lives no longer work with food-items
+
+- Created New item: GOLDEN FISH: Sets money to -$20, Makes slot earn $1
+
+- Created New item: BLUE FISH: Set money to -$10, Makes slot earn 8 bonus
+
+
+
+- Reworked hammers; have xStrength mult when bonus is negative
 
 - Made golden horseshoe be an UNCOMMON food item (as well as non-food)
 
@@ -90,8 +102,6 @@ NEW SYSTEMS/COMPONENTS:
 - Added 3 new difficulties; (easy, medium, hard)
 
 - Added 2 new DOOMED-10 items so the archetype isn't completely dead
-
-- Reworked hammers; have xStrength mult when bonus is negative
 
 - Created Grubby-ball, (G-ball) showcasing grubby-archetype
 - Created achievement for grubby-ball
