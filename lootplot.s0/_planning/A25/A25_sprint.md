@@ -32,7 +32,7 @@
 - Rotate ball now has rotate slot in center, and has a black Olive
 - Made skipping levels early impossible early (noob trap)
 - Created debt component, allowing negative-money for some items/slots
-
+- Repurposed sapphire to work with Destroy archetype
 
 
 
@@ -47,7 +47,6 @@
 - Created new item: Grubby-turnip. Clones item, makes it grubby
 - Made magic-turnip EPIC
 
-- Repurposed sapphire to work with Destroy archetype
 
 - Made lives no longer work with food-items
 
@@ -58,30 +57,12 @@ LEGENDARY items and EPIC items in offer-slots.
 - Made LEGENDARY-items spawn inside of locked-slots 
 (inside cloud-slot; that way, the cool fire effect is visible )
 
-- Made golden horseshoe be an UNCOMMON food item (as well as non-food)
+- Made horseshoe be an UNCOMMON food item (as well as non-food)
 
 
 - Make the locked-slots that treasure-bar spawns in tutorial deterministic
 
 If you sell the starting item, you should still get the achievement
-
-
-- Removed the next-level button, BIG REFACTOR to pulse-button / rounds
----->>>
-- Instead, the Pulse-Button BE the next-level button. (including visuals)
-- The player should receive $10 for every round completed early.
-- (Make sure to buffer the cash, just like interest-slot so the player can see how much they get)
-- ALSO: MAKE SURE TO DO THE DESCRIPTIONS WELL!!!!
-
-NEW SYSTEMS/COMPONENTS: 
-- PROPERTY: "Only activates on the final round!" (Mineral mirror item???)
-- lp.defineAttribute("SKIPPED_ROUNDS") -- number of rounds skipped
-- ITEM: Earns +X mult (X = how many rounds skipped)
-- ITEM: Earns +X bonus (X = how many rounds skipped)
-- ITEM: Gives items +X points (X = how many rounds skipped)
-- FOOD-ITEM: Earns $X (X = how many rounds skipped) 
-^^^^ (these should use SKIPPED_ROUNDS attribute)
-
 
 - Create popup text saying "LEVEL {X} PASSED!"
 
