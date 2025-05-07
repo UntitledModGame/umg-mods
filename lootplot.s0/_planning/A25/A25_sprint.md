@@ -52,6 +52,11 @@
 
 
 
+- Maybe remove grubby mineral items? (they are kinda dumb)
+- (In return, add other, broader GRUBBY items.)
+- Especially items that aren't grubby, but happen to work well with grubby-playstyle. (Eg squash; sets money to $13)
+
+
 - If you sell the starting item, you should still get the achievement
 
 - Nerfed Diamond-slot to 3x bonus
