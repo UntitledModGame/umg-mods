@@ -19,7 +19,7 @@ end
 
 ---@param ppos lootplot.PPos
 ---@param team string
-local function generate1x1Island(ppos, team)
+local function spawnChest(ppos, team)
     local slotEnt = server.entities.null_slot()
     slotEnt.lootplotTeam = team
     local itemEnt = server.entities.chest_epic()
@@ -29,31 +29,59 @@ local function generate1x1Island(ppos, team)
 end
 
 
+
+
+local function spawnIncomeSlot(ppos, team, islandSize)
+    local slotId = "lootplot.s0:slot"
+    local slotEnt = server.entities[slotId]()
+    slotEnt.baseMoneyGenerated = 1
+    slotEnt.lootplotTeam = team
+
+    if islandSize > 5 then
+        slotEnt.doomCount = 2
+    elseif islandSize > 2 then
+        slotEnt.doomCount = 3
+    else
+        slotEnt.doomCount = 4
+    end
+    local itemEnt = nil
+
+    lp.unlocks.forceSpawnLockedSlot(ppos, slotEnt, itemEnt)
+end
+
+
+local function spawnOfferSlot(ppos, team)
+    local slotEnt = server.entities["lootplot.s0:offer_slot"]()
+    slotEnt.lootplotTeam = team
+
+    local rar = ((lp.SEED:randomWorldGen() < 0.85) and lp.rarities.EPIC) or lp.rarities.LEGENDARY
+    local itemType = lp.rarities.randomItemOfRarity(rar)
+    local itemEnt = itemType and itemType()
+    if itemEnt then
+        itemEnt.lootplotTeam = team
+        lp.unlocks.forceSpawnLockedSlot(ppos, slotEnt, itemEnt)
+    else
+        umg.log.error("Waht the HECK. why didnt it spawn??", itemType)
+    end
+end
+
+
 ---@param island lootplot.PPos[]
 ---@param team string
-local function generateGoldIsland(island, team)
+local function generateBigIsland(island, team)
     lp.queue(island[1], function ()
+        local islandSize = #island
         for _, ppos in ipairs(island) do
-            local slotId = "lootplot.s0:slot"
-            local slotEnt = server.entities[slotId]()
-            slotEnt.baseMoneyGenerated = 1
-            slotEnt.lootplotTeam = team
-
-            local islandSize = #island
-            if islandSize > 5 then
-                slotEnt.doomCount = 2
-            elseif islandSize > 2 then
-                slotEnt.doomCount = 4
+            if lp.SEED:randomWorldGen() < 0.5 then
+                spawnIncomeSlot(ppos, team, islandSize)
             else
-                slotEnt.doomCount = 6
+                spawnOfferSlot(ppos, team)
             end
-            local itemEnt = nil
-
-            lp.unlocks.forceSpawnLockedSlot(ppos, slotEnt, itemEnt)
         end
     end)
     lp.wait(island[1], 0.002)
 end
+
 
 
 defWorldgenItem("basic_worldgen", {
@@ -84,9 +112,13 @@ defWorldgenItem("basic_worldgen", {
         local islands = allocator:generateIslands()
         for _, island in ipairs(islands) do
             if #island > 2 then
-                generateGoldIsland(island, team)
+                generateBigIsland(island, team)
             elseif #island == 1 then
-                generate1x1Island(island[1], team)
+                if lp.SEED:randomWorldGen() < 0.5 then
+                    spawnOfferSlot(island[1], team)
+                else
+                    spawnChest(island[1], team)
+                end
             end
         end
     end
