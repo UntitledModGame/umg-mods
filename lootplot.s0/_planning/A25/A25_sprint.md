@@ -45,8 +45,11 @@
 ## =============================
 
 
+- New food-item: 50% chance to destroy slot. 40% Chance to earn $5. 10% Chance to spawn a KEY.
+^^^ really nice since this allows you to clear slots. Also fun gambling lol
 
-- Created new item: red rock: On destroy, give items +0.1 mult
+
+
 
 - Created new item: Grubby-turnip. Clones item, makes it grubby
 - Made magic-turnip EPIC
@@ -71,11 +74,6 @@ If you sell the starting item, you should still get the achievement
 - Create popup text saying "LEVEL {X} PASSED!"
 
 - Play a cool sound when progressing to next level
-
-
-
-- New food-item: 50% chance to destroy slot. 40% Chance to earn $5. 10% Chance to spawn a KEY.
-^^^ really nice since this allows you to clear slots. Also fun gambling lol
 
 
 - Nerfed Diamond-slot to 3x bonus

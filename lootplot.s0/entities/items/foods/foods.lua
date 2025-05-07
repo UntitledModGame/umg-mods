@@ -62,6 +62,35 @@ defineFood("butter", {
     end
 })
 
+defineFood("cheese_slice", {
+    name = loc("Cheese Slice"),
+
+    basePrice = 0,
+    rarity = lp.rarities.RARE,
+
+    activateDescription = loc("50% chance to destroy slot.\n40% chance to earn $5.\n10% chance to spawn a key."),
+
+    onActivate = function (selfEnt)
+        local r = lp.SEED:randomMisc()
+        if r >= 0.5 then
+            -- 50% chance to kill slot
+            local slotEnt = lp.itemToSlot(selfEnt)
+            if slotEnt then
+                lp.destroy(slotEnt)
+            end
+        elseif r < 0.1 then
+            -- spawn key
+            local ppos = lp.getPos(selfEnt)
+            if ppos then
+                lp.forceSpawnItem(ppos, server.entities.key, selfEnt.lootplotTeam)
+            end
+        else
+            lp.addMoney(selfEnt, 5)
+        end
+    end
+})
+
+
 
 
 
