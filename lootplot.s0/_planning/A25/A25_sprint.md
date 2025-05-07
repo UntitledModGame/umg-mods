@@ -43,7 +43,7 @@
 - Nerfed/adjusted heartfruit
 - Made worldgen way better
 - Make tutorial treasure-bar deterministic
-
+- Adjusted ruby-items to 3 activations, buffed points/strength
 
 
 ## =============================
@@ -52,19 +52,12 @@
 
 
 
-If you sell the starting item, you should still get the achievement
-
-- Create popup text saying "LEVEL {X} PASSED!"
-
-- Play a cool sound when progressing to next level
-
+- If you sell the starting item, you should still get the achievement
 
 - Nerfed Diamond-slot to 3x bonus
 
-- Adjusted ruby-items to 3 activations, buffed points/strength
-
 - Golden ornament nerfed (only earns $0.5)
-
+- Reduced frequency of ornament items
 
 - Added 3 new trophies, bronze, silver, gold
 
@@ -87,4 +80,8 @@ If you sell the starting item, you should still get the achievement
 - Added 2 extra difficulties- bronze, silver, gold trophies (to implement, create a "DIFFICULTY" property)
 trophies should spawn more or less curses (silver trophy, 1 curse per level) (gold trophy 2 curses per level)
 And the points requirement should differ too
+
+
+- Create popup text saying "LEVEL {X} PASSED!"
+- Play a cool sound when progressing to next level
 
