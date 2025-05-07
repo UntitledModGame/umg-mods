@@ -311,16 +311,69 @@ local function isPPosValid(ppos, threshold)
 end
 
 
+
+local function iterateSpiral(x, y, radius, callback)
+    local dx, dy = 1, 0
+    local steps = 1
+    local cx, cy = x, y
+
+    callback(cx, cy) -- include the center point
+
+    while steps <= radius * 2 do
+        for i = 1, 2 do -- each layer has two sides of equal length
+            for j = 1, steps do
+                cx = cx + dx
+                cy = cy + dy
+
+                if math.abs(cx - x) <= radius and math.abs(cy - y) <= radius then
+                    callback(cx, cy)
+                end
+            end
+            -- rotate direction clockwise
+            dx, dy = -dy, dx
+        end
+        steps = steps + 1
+    end
+end
+
+
+
+local SEARCH_RADIUS = 5
+
+---@param ppos lootplot.PPos
+---@param distanceFromOtherSlots any
+function helper.getEmptySpaceNear(ppos, distanceFromOtherSlots)
+    local xx,yy = ppos:getCoords()
+    local plot = ppos:getPlot()
+
+    local bestPos = nil
+
+    iterateSpiral(xx,yy, SEARCH_RADIUS, function(x,y)
+        if bestPos then return end
+        if not plot:isInBounds(x,y) then return end
+
+        local pos = plot:getPPos(x, y)
+        if (not lp.posToSlot(pos)) and (isPPosValid(ppos, distanceFromOtherSlots)) then
+            bestPos = pos
+        end
+    end)
+
+    return bestPos
+end
+
+
+
+
 ---@param plot lootplot.Plot
 ---@param distFromCenter number The distance from center that the ppos should be
----@param threshold? number (DEFAULT = 1) The distance that the ppos must be from any normal-slots. higher number = harder to reach this ppos.
+---@param distanceFromOtherSlots? number (DEFAULT = 1) The distance that the ppos must be from any normal-slots. higher number = harder to reach this ppos.
 ---@return lootplot.PPos?
-function helper.getRandomEmptySpace(plot, distFromCenter, threshold)
+function helper.getRandomEmptySpace(plot, distFromCenter, distanceFromOtherSlots)
     --[[
     finds the "average" position of slots/items, and returns a ppos
     that is roughly `dist` from the average position.
     ]]
-    threshold = threshold or 1
+    local threshold = distanceFromOtherSlots or 1
     local sumX, sumY = 0,0
     local count = 0
     plot:foreachSlot(function(ent, ppos)

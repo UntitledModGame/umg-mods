@@ -232,6 +232,12 @@ function Plot:getPPos(x,y)
     return self:getPPosFromSlotIndex(index)
 end
 
+function Plot:isInBounds(x,y)
+    return self.grid:contains(x,y)
+end
+
+
+
 function Plot:getCenterPPos()
     return self:getPPos(math.floor(self.width / 2), math.floor(self.height / 2))
 end

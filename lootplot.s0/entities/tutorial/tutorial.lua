@@ -313,15 +313,21 @@ lp.defineSlot("lootplot.s0:tutorial_pulse_button_slot", {
 
 do
 
-
-local function try(plot, radius, func)
-    local p0 = helper.getRandomEmptySpace(plot, radius, 1)
+---@param plot lootplot.Plot
+---@param x number
+---@param y number
+---@param func function
+local function try(plot, x, y, func)
+    local cpos = plot:getCenterPPos()
+    local cx,cy = cpos:getCoords()
+    local ppos = plot:getPPos(cx+x, cy+y)
+    local p0 = helper.getEmptySpaceNear(ppos, 1)
     if p0 then
         func(p0)
     end
 end
 
-local NUM_ACTS = 15
+local NUM_ACTS = 10
 helper.defineDelayItem("tutorial_treasure_bar", "Treasure Bar", {
     delayCount = NUM_ACTS,
 
@@ -331,27 +337,30 @@ helper.defineDelayItem("tutorial_treasure_bar", "Treasure Bar", {
         local ppos, team = lp.getPos(ent), ent.lootplotTeam
         local plot = assert(ppos):getPlot()
 
-        try(plot, 5, function(p)
+        try(plot, 4, 4, function(p)
+            lp.forceSpawnSlot(p, server.entities.null_slot, team)
+            local k1 = lp.forceSpawnItem(p, server.entities.key, team)
+            if k1 then
+                lp.setItemRotation(k1, 0)
+            end
+        end)
+
+        try(plot, 5, 3, function(p)
             lp.forceSpawnSlot(p, server.entities.null_slot, team)
             lp.forceSpawnItem(p, server.entities.key, team)
         end)
 
-        try(plot, 5, function(p)
-            lp.forceSpawnSlot(p, server.entities.null_slot, team)
-            lp.forceSpawnItem(p, server.entities.key, team)
-        end)
-
-        try(plot, 5, function(p)
+        try(plot, 1, 4, function(p)
             lp.forceSpawnSlot(p, server.entities.null_slot, team)
             lp.forceSpawnItem(p, server.entities.glass_tube, team)
         end)
 
-        try(plot, 5, function(p)
+        try(plot, 2, 5, function(p)
             lp.forceSpawnSlot(p, server.entities.null_slot, team)
             lp.forceSpawnItem(p, server.entities.glass_tube, team)
         end)
 
-        try(plot, 5, function(p)
+        try(plot, 6, 1, function(p)
             local slotEnt = server.entities.null_slot()
             slotEnt.lootplotTeam = team
             local itemEnt = server.entities.copycat()
@@ -360,7 +369,7 @@ helper.defineDelayItem("tutorial_treasure_bar", "Treasure Bar", {
             lp.unlocks.forceSpawnLockedSlot(p, slotEnt, itemEnt)
         end)
 
-        try(plot, 5, function(p)
+        try(plot, 5, -1, function(p)
             local slotEnt = server.entities.null_slot()
             slotEnt.lootplotTeam = team
             local itemEnt = server.entities.rook_glove()
@@ -368,14 +377,14 @@ helper.defineDelayItem("tutorial_treasure_bar", "Treasure Bar", {
             lp.unlocks.forceSpawnLockedSlot(p, slotEnt, itemEnt)
         end)
 
-        try(plot, 5, function(p)
+        try(plot, 4, -3, function(p)
             local slotEnt = server.entities.null_slot()
             slotEnt.lootplotTeam = team
             local itemEnt = server.entities.ruby_spear()
             itemEnt.lootplotTeam = team
             lp.unlocks.forceSpawnLockedSlot(p, slotEnt, itemEnt)
         end)
-        try(plot, 5, function(p)
+        try(plot, 4, 1, function(p)
             local slotEnt = server.entities.null_slot()
             slotEnt.lootplotTeam = team
             local itemEnt = server.entities.ruby_spear()

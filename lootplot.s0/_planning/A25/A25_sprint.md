@@ -41,6 +41,8 @@
 - Created new golden-turnip item
 - Made magic-turnip EPIC
 - Nerfed/adjusted heartfruit
+- Made worldgen way better
+- Make tutorial treasure-bar deterministic
 
 
 
@@ -49,17 +51,6 @@
 ## =============================
 
 
-
-
-- Made worldgen way better:
-instead of having doomed money-earning slots, we should have scatterings of
-LEGENDARY items and EPIC items in offer-slots.
-
-- Made LEGENDARY-items spawn inside of locked-slots 
-(inside cloud-slot; that way, the cool fire effect is visible )
-
-
-- Make the locked-slots that treasure-bar spawns in tutorial deterministic
 
 If you sell the starting item, you should still get the achievement
 
