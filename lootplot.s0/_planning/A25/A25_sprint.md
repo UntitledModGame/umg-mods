@@ -37,18 +37,12 @@
 - Created red-tomb item
 - Created green-tomb item
 - Removed grubby-rock and red-rock items
-
+- Created cheese-slice item
 
 
 ## =============================
 ## TODO:
 ## =============================
-
-
-- New food-item: 50% chance to destroy slot. 40% Chance to earn $5. 10% Chance to spawn a KEY.
-^^^ really nice since this allows you to clear slots. Also fun gambling lol
-
-
 
 
 - Created new item: Grubby-turnip. Clones item, makes it grubby

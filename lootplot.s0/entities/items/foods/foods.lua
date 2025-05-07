@@ -66,9 +66,9 @@ defineFood("cheese_slice", {
     name = loc("Cheese Slice"),
 
     basePrice = 0,
-    rarity = lp.rarities.RARE,
+    rarity = lp.rarities.UNCOMMON,
 
-    activateDescription = loc("50% chance to destroy slot.\n40% chance to earn $5.\n10% chance to spawn a key."),
+    activateDescription = loc("50% chance to destroy slot.\n40% chance to earn {lootplot:MONEY_COLOR}$8{/lootplot:MONEY_COLOR}.\n10% chance to spawn a {lootplot:INFO_COLOR}key.{/lootplot:INFO_COLOR}"),
 
     onActivate = function (selfEnt)
         local r = lp.SEED:randomMisc()
@@ -85,7 +85,7 @@ defineFood("cheese_slice", {
                 lp.forceSpawnItem(ppos, server.entities.key, selfEnt.lootplotTeam)
             end
         else
-            lp.addMoney(selfEnt, 5)
+            lp.addMoney(selfEnt, 8)
         end
     end
 })
