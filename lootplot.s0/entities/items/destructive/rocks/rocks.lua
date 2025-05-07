@@ -48,8 +48,8 @@ local function defRocks(id, name, etype)
     etype.image = etype.image or id
     etype.name = loc(name)
 
-    etype.baseMaxActivations = 8
-    etype.basePrice = 7 -- standard price for rocks
+    etype.baseMaxActivations = etype.baseMaxActivations or 8
+    etype.basePrice = etype.basePrice or 7 -- standard price for rocks
 
     etype.lootplotTags = {constants.tags.ROCKS}
 
@@ -180,23 +180,13 @@ defRocks("ice_cube", "Ice Cube", {
 
 
 
-defRocks("red_rock", "Red Rock", {
-    triggers = {"DESTROY"},
-    rarity = lp.rarities.RARE,
-
-    baseMultGenerated = 3,
-
-    lives = 80
-})
-
-
 
 
 
 
 --[[
 ===================================================
-Reroll rocks:
+Rotate rocks:
 ===================================================
 ]]
 defRocks("orange_rock", "Orange Rock", {
@@ -210,23 +200,6 @@ defRocks("orange_rock", "Orange Rock", {
 })
 
 
-
-----------------------------
--- GRUBBY sub-archetype:
-----------------------------
-local consts = require("shared.constants")
-
-defRocks("grubby_rock", "Grubby Rock", {
-    triggers = {"DESTROY"},
-    rarity = lp.rarities.RARE,
-
-    grubMoneyCap = consts.DEFAULT_GRUB_MONEY_CAP,
-
-    basePointsGenerated = 100,
-    baseMultGenerated = 1.2,
-
-    lives = 100
-})
 
 
 
@@ -303,9 +276,73 @@ defRocks("tombstone", "Tombstone", {
         end
     },
 
-    lives = 50,
+    lives = 100,
 })
 
 
+defRocks("dark_rock", "Dark Rock", {
+    triggers = {"DESTROY", "PULSE"},
+
+    activateDescription = loc("Destroys items"),
+
+    rarity = lp.rarities.EPIC,
+
+    basePointsGenerated = 200,
+    basePrice = 12,
+    baseMaxActivations = 6,
+
+    shape = lp.targets.KingShape(1),
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.destroy(targetEnt)
+        end
+    },
+
+    lives = 150,
+})
+
+
+
+
+
+--[[
+====================================================
+Tombs: Give permanent buffs
+====================================================
+]]
+defRocks("red_tomb", "Red Tomb", {
+    triggers = {"DESTROY", "SKIP"},
+    rarity = lp.rarities.RARE,
+
+    activateDescription = loc("Gives items {lootplot:POINTS_MULT_COLOR}+0.5 multiplier{/lootplot:POINTS_MULT_COLOR}"),
+
+    shape = lp.targets.RookShape(1),
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targEnt)
+            lp.modifierBuff(targEnt, "multGenerated", 0.5)
+        end
+    },
+
+    lives = 120
+})
+
+defRocks("green_tomb", "Green Tomb", {
+    triggers = {"DESTROY", "SKIP"},
+    rarity = lp.rarities.RARE,
+
+    activateDescription = loc("Gives items {lootplot:POINTS_COLOR}+6 points{/lootplot:POINTS_COLOR}"),
+
+    shape = lp.targets.RookShape(1),
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targEnt)
+            lp.modifierBuff(targEnt, "pointsGenerated", 6)
+        end
+    },
+
+    lives = 120
+})
 
 

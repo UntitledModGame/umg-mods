@@ -1,6 +1,8 @@
 
 local itemGenHelper = require("shared.item_gen_helper")
+
 local helper = require("shared.helper")
+local constants = require("shared.constants")
 
 local loc = localization.localize
 
@@ -8,7 +10,7 @@ local function defItem(id, name, etype)
     etype.image = etype.image or id
     etype.name = loc(name)
 
-    etype.isEntityTypeUnlocked = helper.unlockAfterWins(helper.UNLOCK_AFTER_WINS.SKIP_LEVEL)
+    etype.isEntityTypeUnlocked = helper.unlockAfterWins(constants.UNLOCK_AFTER_WINS.SKIP_LEVEL)
 
     if not etype.listen then
         etype.triggers = etype.triggers or {"SKIP"}

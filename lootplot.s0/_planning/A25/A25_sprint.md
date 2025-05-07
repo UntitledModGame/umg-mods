@@ -33,6 +33,10 @@
 - Made skipping levels early impossible early (noob trap)
 - Created debt component, allowing negative-money for some items/slots
 - Repurposed sapphire to work with Destroy archetype
+- Created dark-rock item
+- Created red-tomb item
+- Created green-tomb item
+- Removed grubby-rock and red-rock items
 
 
 
