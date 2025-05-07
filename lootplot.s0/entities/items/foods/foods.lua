@@ -113,7 +113,7 @@ defineFood("magic_turnip", {
 
     activateDescription = loc("Transforms into target item."),
 
-    rarity = lp.rarities.RARE,
+    rarity = lp.rarities.EPIC,
 
     basePrice = 10,
     shape = lp.targets.UP_SHAPE,
@@ -128,6 +128,36 @@ defineFood("magic_turnip", {
         end
     }
 })
+
+
+
+
+defineFood("golden_turnip", {
+    name = loc("Golden Turnip"),
+
+    activateDescription = loc("Transforms into target item, and makes the new item cost {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} to activate"),
+
+    rarity = lp.rarities.RARE,
+
+    isEntityTypeUnlocked = unlockAfterWins(1),
+
+    basePrice = 4,
+    shape = lp.targets.UP_SHAPE,
+
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            local selfPPos = lp.getPos(selfEnt)
+            if not selfPPos then return end
+
+            local copyEnt = lp.forceCloneItem(targetEnt, selfPPos)
+            if copyEnt then
+                lp.modifierBuff(copyEnt, "moneyGenerated", -1, selfEnt)
+            end
+        end
+    }
+})
+
 
 
 local DOOMED_TURNIP_DOOMCOUNT = 5
@@ -409,27 +439,7 @@ end
 
 defineFood("heartfruit_half", {
     name = loc("Half Heart Fruit"),
-    activateDescription = loc("Gives +2 lives to target item (or slot)"),
-
-    rarity = lp.rarities.UNCOMMON,
-
-    isEntityTypeUnlocked = unlockAfterWins(2),
-
-    shape = lp.targets.UP_SHAPE,
-
-    basePrice = 3,
-
-    target = {
-        type = "ITEM_OR_SLOT",
-        activate = function(selfEnt, ppos, targetEnt)
-            targetEnt.lives = (targetEnt.lives or 0) + 2
-        end
-    },
-})
-
-defineFood("heartfruit_purple", {
-    name = loc("Purple Heart Fruit"),
-    activateDescription = loc("Gives {lootplot:DOOMED_COLOR}DOOMED-2{/lootplot:DOOMED_COLOR} to target item (or slot)"),
+    activateDescription = loc("Gives +1 lives to target item (or slot)"),
 
     rarity = lp.rarities.RARE,
 
@@ -442,7 +452,27 @@ defineFood("heartfruit_purple", {
     target = {
         type = "ITEM_OR_SLOT",
         activate = function(selfEnt, ppos, targetEnt)
-            targetEnt.doomCount = 2
+            targetEnt.lives = (targetEnt.lives or 0) + 1
+        end
+    },
+})
+
+defineFood("heartfruit_purple", {
+    name = loc("Purple Heart Fruit"),
+    activateDescription = loc("Gives {lootplot:DOOMED_COLOR}DOOMED-5{/lootplot:DOOMED_COLOR} to target item (or slot)"),
+
+    rarity = lp.rarities.RARE,
+
+    isEntityTypeUnlocked = unlockAfterWins(3),
+
+    shape = lp.targets.UP_SHAPE,
+
+    basePrice = 3,
+
+    target = {
+        type = "ITEM_OR_SLOT",
+        activate = function(selfEnt, ppos, targetEnt)
+            targetEnt.doomCount = 5
         end
     },
 })

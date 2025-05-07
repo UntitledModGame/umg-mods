@@ -38,6 +38,10 @@
 - Created green-tomb item
 - Removed grubby-rock and red-rock items
 - Created cheese-slice item
+- Created new golden-turnip item
+- Made magic-turnip EPIC
+- Nerfed/adjusted heartfruit
+
 
 
 ## =============================
@@ -45,11 +49,7 @@
 ## =============================
 
 
-- Created new item: Grubby-turnip. Clones item, makes it grubby
-- Made magic-turnip EPIC
 
-
-- Made lives no longer work with food-items
 
 - Made worldgen way better:
 instead of having doomed money-earning slots, we should have scatterings of
@@ -57,8 +57,6 @@ LEGENDARY items and EPIC items in offer-slots.
 
 - Made LEGENDARY-items spawn inside of locked-slots 
 (inside cloud-slot; that way, the cool fire effect is visible )
-
-- Made horseshoe be an UNCOMMON food item (as well as non-food)
 
 
 - Make the locked-slots that treasure-bar spawns in tutorial deterministic
