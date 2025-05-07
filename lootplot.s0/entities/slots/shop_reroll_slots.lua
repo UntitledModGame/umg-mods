@@ -469,12 +469,56 @@ lp.defineSlot("lootplot.s0:reroll_slot", {
 
 
 
-lp.defineSlot("lootplot.s0:offer_slot", {
-    itemLock = true,
-    image = "slot",
-    color = objects.Color.RED,
 
-    name = loc("Treasure slot"),
+
+
+local function alwaysTrue()
+    return true
+end
+
+local OFFER_BUTTON = {
+    action = function(ent, _clientId)
+        local itemEnt = lp.slotToItem(ent)
+        if server then
+            if itemEnt then
+                buyItemAnalytics(itemEnt, itemEnt.price or 0)
+                lp.tryTriggerEntity("BUY", itemEnt)
+            end
+            local ppos = lp.getPos(ent)
+            if ppos then
+                local nullSlotType = server.entities["null_slot"]
+                local slotEnt = lp.forceSpawnSlot(ppos, nullSlotType, ent.lootplotTeam)
+                if slotEnt then
+                    slotEnt.doomCount = 2
+                end
+            end
+        else
+            assert(client)
+            if itemEnt then
+                -- HACK: we need to select the slot next-tick,
+                -- This is because the server forceSpawns a null-slot,
+                -- and invalidates the old selection.
+                scheduling.nextTick(function()
+                    if umg.exists(itemEnt) then
+                        lp.selectItem(itemEnt, true)
+                    end
+                end)
+            end
+        end
+    end,
+    canDisplay = alwaysTrue,
+    canClick = alwaysTrue,
+    text = loc("Buy (FREE)"),
+    color = objects.Color(0.39,0.66,0.24),
+}
+
+
+
+
+defShopSlot("offer_slot", "Offer Slot", {
+    itemLock = true,
+    image = "cloud_slot",
+    color = objects.Color.RED,
 
     triggers = {"PULSE"},
 
@@ -482,14 +526,11 @@ lp.defineSlot("lootplot.s0:offer_slot", {
     isItemListenBlocked = true,
 
     baseMaxActivations = 100,
-    slotItemProperties = {
-        multipliers = {
-            price = 1.15
-        },
-        modifiers = {
-            price = 2
-        }
-    },
+
+    canPlayerAccessItemInSlot = function(slotEnt)
+        return not slotEnt.itemLock
+    end,
+
     slotListen = {
         trigger = "BUY",
         activate = function(slotEnt)
@@ -497,19 +538,19 @@ lp.defineSlot("lootplot.s0:offer_slot", {
         end
     },
 
-    canPlayerAccessItemInSlot = function(slotEnt)
-        return not slotEnt.itemLock
-    end,
     onActivate = function(slotEnt)
         if not (lp.slotToItem(slotEnt) or slotEnt:hasComponent("doomCount")) then
             slotEnt.doomCount = 1
         end
     end,
-    onItemDraw = drawItemPrice,
+
     actionButtons = {
-        SHOP_BUTTON
+        OFFER_BUTTON
     }
 })
+
+
+
 
 
 lp.defineSlot("lootplot.s0:paper_slot", {
@@ -580,11 +621,7 @@ end
 
 
 
-local function alwaysTrue()
-    return true
-end
-
-local cloudPickButton = {
+local BUY_FREE_BUTTON = {
     action = function(ent, _clientId)
         local itemEnt = lp.slotToItem(ent)
         if server then
@@ -639,6 +676,6 @@ defShopSlot("cloud_slot", "Cloud slot", {
     end,
 
     actionButtons = {
-        cloudPickButton
+        BUY_FREE_BUTTON
     }
 })
