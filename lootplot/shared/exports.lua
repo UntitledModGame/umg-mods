@@ -1299,33 +1299,42 @@ end
 local makeKey
 
 do
-lp.WIN_TYPES = objects.Array()
+lp.DIFFICULTY_TYPES = objects.Array()
 
-local ID_TO_DIFFICULTY_IMAGE = {--[[
-    [id] -> trophyImage
+---@alias lootplot.DifficultyInfo {difficulty:number, image:string, name:string}
+
+---@type table<string, lootplot.DifficultyInfo>
+local ID_TO_DIFFICULTY = {--[[
+    [id] -> difficulty
 ]]}
 
 local IS_RECIPIENT = {--[[
     [id] -> boolean
 ]]}
 
----@param difficultyId number
----@return string
-function lp.getDifficultyImage(difficultyId)
-    return ID_TO_DIFFICULTY_IMAGE[difficultyId]
+---@param difficultyId string
+---@return lootplot.DifficultyInfo
+function lp.getDifficultyInfo(difficultyId)
+    return ID_TO_DIFFICULTY[difficultyId]
 end
 
-function lp.defineDifficulty(difficultyId, trophyImage)
-    lp.WIN_TYPES:add(difficultyId)
-    ID_TO_DIFFICULTY_IMAGE[difficultyId] = trophyImage
+
+local defineDifficultyTc = typecheck.assert("string", "table")
+
+---@param difficultyId string
+---@param difficultyInfo lootplot.DifficultyInfo
+function lp.defineDifficulty(difficultyId, difficultyInfo)
+    defineDifficultyTc(difficultyId, difficultyInfo)
+    lp.DIFFICULTY_TYPES:add(difficultyId)
+    ID_TO_DIFFICULTY[difficultyId] = difficultyInfo
 end
 
-local makeKeyTc = typecheck.assert("number", "string")
+local makeKeyTc = typecheck.assert("string", "string")
 ---@param difficultyId number
 ---@param winRecipient string
 ---@return string
 function makeKey(winRecipient, difficultyId)
-    makeKeyTc(difficultyId, winRecipient)
+    makeKeyTc(winRecipient, difficultyId)
     assert(IS_RECIPIENT[winRecipient], "?")
     return "DIFFICULTY_" .. tostring(difficultyId) .. "_WIN_WITH_" .. winRecipient
 end
@@ -1341,7 +1350,7 @@ end
 
 function lp.defineWinRecipient(winRecipient)
     IS_RECIPIENT[winRecipient] = true
-    for _, diffId in ipairs(lp.WIN_TYPES) do
+    for _, diffId in ipairs(lp.DIFFICULTY_TYPES) do
         local k = makeKey(winRecipient, diffId)
         lp.metaprogression.defineFlag(k)
     end

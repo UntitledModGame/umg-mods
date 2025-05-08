@@ -166,6 +166,19 @@ end
 
 
 
+local function getHighestDifficultyWon(starterItemId)
+    local best = 0
+    for _, id in ipairs(lp.DIFFICULTY_TYPES) do
+        if lp.hasWonOnDifficulty(starterItemId, id) then
+            local diff = lp.getDifficultyInfo(id).difficulty
+            best = math.max(best, diff)
+        end
+    end
+    return best
+end
+
+
+
 ---@param region layout.Region
 local function bob(region, amp, speed)
     return region:moveRatio(0, (amp or 0.1) * math.sin(love.timer.getTime() * (speed or 1)))
@@ -225,10 +238,37 @@ function NewRunScene:onRender(x, y, w, h)
     e.bgSelect:render(backgroundBox:padRatio(0.1):get())
 
     -- selection:
-    local perkSelectTitle, perkSelect = right:splitVertical(1,6)
+    local perkSelectTitle, perkSelect, difficultySelect = right:splitVertical(1,5,3)
     drawTextIn(CHOOSE_UR_STARTING_ITEM, perkSelectTitle)
     e.perkSelectBox:render(perkSelect:get())
     e.perkSelect:render(perkSelect:padRatio(0.2):get())
+
+    -- difficulty:
+    local starterItem = self.perkSelect:getSelectedItem()
+    local starterItemId = starterItem and starterItem:getTypename()
+    local DIFFS = objects.Array(lp.DIFFICULTY_TYPES)
+    DIFFS:sortInPlace(function(d1, d2)
+        return lp.getDifficultyInfo(d1).difficulty < lp.getDifficultyInfo(d2).difficulty
+    end)
+    --[[
+    OK: we should do something similar to background-select.
+    Have a ui widget:
+    <<< [easy] >>>
+    and then select from Easy, Medium, Hard, etc
+    ]]
+    if (lp.getWinCount() > 1) and starterItemId and lp.isWinRecipient(starterItemId) then
+        -- then render difficulty select:
+        local bestWin = getHighestDifficultyWon(starterItemId)
+        local DIFFS = lp.DIFFICULTY_TYPES
+        local grid = difficultySelect:padRatio(0.1):grid(#DIFFS, 1)
+        for i, id in ipairs(lp.DIFFICULTY_TYPES) do
+            local dInfo = lp.getDifficultyInfo(id)
+            local img = dInfo.image
+            if dInfo.difficulty <= bestWin then
+                ui.drawImageInBox(img, grid[i]:get())
+            end
+        end
+    end
 
     -- start button:
     local isDemoComplete = umg.DEMO_MODE and (lp.getWinCount() >= NUM_DEMO_WINS)
@@ -236,7 +276,6 @@ function NewRunScene:onRender(x, y, w, h)
         local demoLockTxt = footer:padRatio(0.3)
         text.printRichContained("{outline thickness=1}" .. NEW_RUN_DEMO_LOCKED, fonts.getLargeFont(16), demoLockTxt:get())
     else
-
         local startButton = footer:padRatio(0.15):shrinkToAspectRatio(4,1)
         if self:getSelectedStarterItem() then
             e.newRunButton:render(startButton:get())
@@ -253,16 +292,15 @@ function NewRunScene:onRender(x, y, w, h)
     love.graphics.setColor(objects.Color.WHITE)
     love.graphics.line(bx + bw / 2, by, bx + bw / 2, by + bh)
 
-    --[=[
     -- DEBUG ONLY
     drawRegions({
         r,
-        body,title,startButton,
+        body,title,
         left,right,
-        perkBox,selectBox,
-        perkImg,perkText,perkDesc
+        perkBox,
+        perkImg,perkText,perkDesc,
+        difficultySelect
     })
-    ]=]
 end
 
 return NewRunScene

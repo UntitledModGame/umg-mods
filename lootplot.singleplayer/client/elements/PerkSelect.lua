@@ -58,10 +58,11 @@ function PerkButton:onRender(x,y,w,h)
     end
 
     local r = layout.Region(x,y,w,h)
-    local _, bottom = r:splitVertical(2,1)
-    local trophyRegions = bottom:grid(#lp.WIN_TYPES, 1)
-    for i, v in ipairs(lp.WIN_TYPES) do
-        local img = lp.getDifficultyImage(v)
+    local _, bottom = r:splitVertical(1,1)
+    bottom = bottom:moveRatio(0,0.2)
+    local trophyRegions = bottom:grid(#lp.DIFFICULTY_TYPES, 1)
+    for i, v in ipairs(lp.DIFFICULTY_TYPES) do
+        local img = lp.getDifficultyInfo(v).image
         if  lp.hasWonOnDifficulty(id, v) then
             love.graphics.setColor(1,1,1)
         else
