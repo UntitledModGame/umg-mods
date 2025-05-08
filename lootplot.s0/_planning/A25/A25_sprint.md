@@ -44,6 +44,8 @@
 - Made worldgen way better
 - Make tutorial treasure-bar deterministic
 - Adjusted ruby-items to 3 activations, buffed points/strength
+- If you sell the starting item, you should still get the achievement
+
 
 
 ## =============================
@@ -55,9 +57,6 @@
 - Maybe remove grubby mineral items? (they are kinda dumb)
 - (In return, add other, broader GRUBBY items.)
 - Especially items that aren't grubby, but happen to work well with grubby-playstyle. (Eg squash; sets money to $13)
-
-
-- If you sell the starting item, you should still get the achievement
 
 - Nerfed Diamond-slot to 3x bonus
 

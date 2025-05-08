@@ -160,7 +160,7 @@ local DESC = interp("If {lootplot:MONEY_COLOR}money more than $%{moneyReq}{/loot
 defItem("iron_ornament", "Iron Ornament", {
     activateDescription = DESC,
 
-    basePointsGenerated = 3,
+    basePointsGenerated = 10,
     baseMaxActivations = 6,
 
     onActivate = function(ent)
@@ -216,7 +216,7 @@ defItem("golden_ornament", "Golden Ornament", {
     baseMoneyGenerated = 1,
     baseBonusGenerated = 4,
 
-    rarity = lp.rarities.UNCOMMON,
+    rarity = lp.rarities.RARE,
 })
 
 
