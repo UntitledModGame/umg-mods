@@ -22,8 +22,7 @@ lpWorldGroup:onAdded(function(ent)
         testData.context = ent.lootplotContext
         lp.initialize(testData.context)
     else
-        -- TODO: change this to a log, as opposed to a print
-        print("WARNING::: Duplicate lootplot.test context created!!")
+        umg.log.error("WARNING::: Duplicate lootplot.test context created!!")
     end
 end)
 

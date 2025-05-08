@@ -488,7 +488,7 @@ lp.defineSlot("lootplot.s0:tutorial_next_level_button_slot", {
             e.color = objects.Color.GREEN
 
             -- we need to call this, so the run doesn't save.
-            lp.loseGame(server.getHostClient())
+            lp.loseGame(plot, server.getHostClient())
 
             clearAllButtonSlots(ent)
             return

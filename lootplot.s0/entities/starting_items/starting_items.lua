@@ -26,12 +26,6 @@ local function defineStartingItem(id, etype)
 
     id = "lootplot.s0:" .. id
 
-    local oldOnWin = etype.onWinGame
-    etype.onWinGame = function(ent)
-        lp.winOnDifficulty(id, lp.getDifficulty(ent))
-        oldOnWin(ent)
-    end
-
     lp.defineWinRecipient(id)
 
     lp.defineItem(id, etype)
@@ -261,7 +255,7 @@ defineStartingItem("one_ball", {
     baseMoneyGenerated = ONE_BALL_MONEY,
     baseMaxActivations = 2,
 
-    onWinGame = makeOnWin("WIN_ONE_BALL"),
+    winAchievement = "WIN_ONE_BALL",
 
     isEntityTypeUnlocked = function(_etype)
         return lp.metaprogression.getFlag("lootplot.s0:isTutorialCompleted")
@@ -311,7 +305,7 @@ defineStartingItem("five_ball", {
     description = loc("Good with rotation"),
 
     isEntityTypeUnlocked = unlockAfterWins(1),
-    onWinGame = makeOnWin("WIN_FIVE_BALL"),
+    winAchievement = "WIN_FIVE_BALL",
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
@@ -355,7 +349,7 @@ defineStartingItem("six_ball", {
     baseMaxActivations = 10,
 
     isEntityTypeUnlocked = unlockAfterWins(1),
-    onWinGame = makeOnWin("WIN_SIX_BALL"),
+    winAchievement = "WIN_SIX_BALL",
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
@@ -417,7 +411,7 @@ defineStartingItem("four_ball", {
     description = loc("Has 2 extra rounds per level"),
 
     isEntityTypeUnlocked = winToUnlock(),
-    onWinGame = makeOnWin("WIN_FOUR_BALL"),
+    winAchievement = "WIN_FOUR_BALL",
 
     onActivateOnce = function(ent)
         lp.setMoney(ent, constants.STARTING_MONEY)
@@ -441,7 +435,7 @@ defineStartingItem("L_ball", {
     description = loc("Gives lives to items/slots"),
 
     isEntityTypeUnlocked = winToUnlock(),
-    onWinGame = makeOnWin("WIN_L_BALL"),
+    winAchievement = "WIN_L_BALL",
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
@@ -482,7 +476,7 @@ defineStartingItem("seven_ball", {
     description = loc("Dirt, Rocks, and a Bomb"),
 
     isEntityTypeUnlocked = winToUnlock(),
-    onWinGame = makeOnWin("WIN_SEVEN_BALL"),
+    winAchievement = "WIN_SEVEN_BALL",
 
     onActivateOnce = function(ent)
         lp.setMoney(ent, constants.STARTING_MONEY)
@@ -535,7 +529,7 @@ defineStartingItem("eight_ball", {
     activateDescription = loc("Destroys items"),
 
     isEntityTypeUnlocked = winToUnlock(),
-    onWinGame = makeOnWin("WIN_EIGHT_BALL"),
+    winAchievement = "WIN_EIGHT_BALL",
 
     onActivateOnce = function(ent)
         lp.setMoney(ent, constants.STARTING_MONEY)
@@ -585,7 +579,7 @@ defineStartingItem("blank_ball", {
     description = loc("Has a Rulebender slot"),
 
     isEntityTypeUnlocked = winToUnlock(),
-    onWinGame = makeOnWin("WIN_BLANK_BALL"),
+    winAchievement = "WIN_BLANK_BALL",
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
@@ -620,7 +614,7 @@ defineStartingItem("nine_ball", {
     description = loc("Tax burden is heavy"),
 
     isEntityTypeUnlocked = winToUnlock(),
-    onWinGame = makeOnWin("WIN_NINE_BALL"),
+    winAchievement = "WIN_NINE_BALL",
 
     baseMaxActivations = 1,
 
@@ -656,7 +650,7 @@ defineStartingItem("rainbow_ball", {
     description = loc("gay."),
 
     isEntityTypeUnlocked = winToUnlock(),
-    onWinGame = makeOnWin("WIN_GAY"),
+    winAchievement = "WIN_GAY",
 
     baseMaxActivations = 1,
 
@@ -695,7 +689,7 @@ defineStartingItem("bowling_ball", {
     description = loc("CHALLENGE-ITEM!"),
 
     isEntityTypeUnlocked = winToUnlock(),
-    onWinGame = makeOnWin("WIN_BOWLING_BALL"),
+    winAchievement = "WIN_BOWLING_BALL",
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)

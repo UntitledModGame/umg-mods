@@ -70,7 +70,7 @@ function NewRunScene:init(arg)
     })
     e.newRunButton = StretchableButton({
         onClick = function()
-            local itemEType = self:getSelectedPerkItem()
+            local itemEType = self:getSelectedStarterItem()
             if not itemEType then
                 umg.log.fatal("WOT WOT????")
                 return
@@ -120,7 +120,7 @@ end
 
 
 
-function NewRunScene:getSelectedPerkItem()
+function NewRunScene:getSelectedStarterItem()
     return self.perkSelect:getSelectedItem()
 end
 
@@ -212,7 +212,7 @@ function NewRunScene:onRender(x, y, w, h)
     perkImg = bob(perkImg:padRatio(0.2):shrinkToAspectRatio(1,1), 0.1, 1.5)
     e.perkBox:render(perkBox:get())
     do
-        local etype = self:getSelectedPerkItem() or {}
+        local etype = self:getSelectedStarterItem() or {}
         drawTextIn(etype.name or "?", bob(perkName, 0.1, 2.3))
         drawTextIn(etype.description or "???", perkDesc:padRatio(0.1))
         if etype.image then
@@ -238,7 +238,7 @@ function NewRunScene:onRender(x, y, w, h)
     else
 
         local startButton = footer:padRatio(0.15):shrinkToAspectRatio(4,1)
-        if self:getSelectedPerkItem() then
+        if self:getSelectedStarterItem() then
             e.newRunButton:render(startButton:get())
         end
     end

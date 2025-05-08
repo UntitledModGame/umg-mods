@@ -46,6 +46,7 @@ function NewRunState:init(exitFunc)
             return runManager.sendStartRunPacket({
                 starterItem = startingItemName,
                 worldgenItem = lp.worldgen.WORLDGEN_ITEMS[1],
+                difficulty = 1, -- TODO: difficulty select
                 seed = "",
                 background = background
             })

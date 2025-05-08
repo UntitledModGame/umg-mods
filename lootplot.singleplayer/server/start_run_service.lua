@@ -145,9 +145,9 @@ end
 ---@param perk string
 ---@param wgen string
 ---@param bg string
-function startRunService.startGame(team, perk, wgen, bg)
+function startRunService.startGame(team, perk, difficulty, wgen, bg)
     ---@type lootplot.singleplayer.Run
-    local run = Run(perk, bg) -- lp.initialize has been called.
+    local run = Run(perk, difficulty, bg) -- lp.initialize has been called.
     local plot = run:getPlot()
     local midPPos = plot:getCenterPPos()
 

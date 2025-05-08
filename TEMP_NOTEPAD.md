@@ -238,5 +238,9 @@ Slots that earn $1?
 
 
 
+OK:
+How do we do this?
+
+
 
 

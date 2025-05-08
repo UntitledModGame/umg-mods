@@ -78,6 +78,7 @@ server.on("lootplot.singleplayer:startRun", function(clientId, runOptionsString)
         startRunService.startGame(
             lp.singleplayer.PLAYER_TEAM,
             runOptions.starterItem,
+            runOptions.difficulty,
             runOptions.worldgenItem,
             runOptions.background
         )
@@ -207,7 +208,7 @@ local newRunOptionsTc = typecheck.assert({
     starterItem = "string",
     seed = "string"
 })
----@param options {starterItem:string,seed:string,background:string?}
+---@param options {starterItem:string,seed:string,background:string?,difficulty:number}
 function runManager.sendStartRunPacket(options)
     newRunOptionsTc(options)
     client.send("lootplot.singleplayer:startRun", umg.serialize(options))

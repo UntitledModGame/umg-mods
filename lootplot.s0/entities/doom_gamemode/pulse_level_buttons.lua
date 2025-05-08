@@ -80,12 +80,7 @@ end
 
 
 local function loseGame(ent, plot)
-    lp.loseGame(ent.lootplotTeam)
-
-    umg.analytics.collect("lootplot.s0:loseGame", {
-        playerWinCount = lp.getWinCount(),
-        items = getAllItems(plot),
-    })
+    lp.loseGame(plot, ent.lootplotTeam)
 
     -- destroy all button-slots:
     deleteAllButtonSlots(plot)
@@ -96,11 +91,7 @@ end
 ---@param plot lootplot.Plot
 local function winGame(plot)
     -- oh damn!! GG! :)
-    umg.analytics.collect("lootplot.s0:winGame", {
-        playerWinCount = lp.getWinCount(),
-        items = getAllItems(plot),
-    })
-    lp.winGame(server.getHostClient())
+    lp.winGame(plot, server.getHostClient())
     deleteAllButtonSlots(plot)
 end
 

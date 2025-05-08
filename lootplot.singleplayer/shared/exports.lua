@@ -21,7 +21,9 @@ lpWorldGroup:onAdded(function(ent)
     ]]
     if not currentRun then
         currentRun = ent.lootplotMainRun
-        lp.initialize(currentRun:getAttributeSetters())
+        lp.initialize(
+            currentRun:getAttributeSetters(), currentRun:getSingleplayerArgs()
+        )
     else
         umg.log.fatal("WARNING::: Duplicate lootplot.singleplayer context created!!")
     end
@@ -62,23 +64,6 @@ client.on("lootplot.singleplayer:setHUDEnabled", function (isEnabled)
 end)
 end
 
-
-
-if server then
-
----@param isWin boolean
-function singleplayer.winGame(isWin)
-    local run = assert(lp.singleplayer.getRun())
-
-    umg.analytics.collect("lootplot.singleplayer:winGame", {
-        win = not not isWin,
-        runMeta = run:getMetadata()
-    })
-
-    lp.winGame(server.getHostClient())
-end
-
-end
 
 
 

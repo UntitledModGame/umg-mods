@@ -31,8 +31,6 @@ components.defineComponent("onTriggered") -- fun(ent, triggerName, wasActivated)
 components.defineComponent("onDestroyClient")
 components.defineComponent("onActivateClient")
 
-components.defineComponent("onWinGame") -- called when the game is won
-
 
 components.defineComponent("activateInstantly") -- causes an item to activate instantenously
 components.defineComponent("foodItem") -- foodItem
@@ -64,6 +62,12 @@ components.defineComponent("activateDescription")
 
 components.defineComponent("isEntityTypeUnlocked")
 -- function(etype) -> boolean
+
+
+
+components.defineComponent("winAchievement")
+-- its a bit hacky... but used primarily for singleplayer starter-items.
+
 
 
 

@@ -416,17 +416,33 @@ end
 
 
 
+---@type lootplot.AttributeInitArgs
 local initArgs = nil
+
+
+---@alias lootplot.SingleplayerInitArgs {starterItem: string, difficulty: number, achievement?: string}
+
+---@type lootplot.SingleplayerInitArgs
+local singleplayerArgs
+
+
+
 
 ---Initialize core lootplot game.
 ---
 ---Availability: Client and Server
 ---@param args lootplot.AttributeInitArgs
-function lp.initialize(args)
+---@param sArgs? lootplot.SingleplayerInitArgs
+function lp.initialize(args, sArgs)
     assert(initArgs == nil, "lootplot already initialized")
     assert(args, "missing context")
     initArgs = args
     attributes.initialize(args)
+
+    if sArgs then
+        singleplayerArgs = sArgs
+    end
+
     assert(lp.FALLBACK_NULL_ITEM, "Must provide fallback item")
     assert(lp.FALLBACK_NULL_SLOT, "Must provide fallback slot")
 end
@@ -1279,6 +1295,9 @@ end
 
 
 
+
+local makeKey
+
 do
 lp.WIN_TYPES = objects.Array()
 
@@ -1305,7 +1324,7 @@ local makeKeyTc = typecheck.assert("number", "string")
 ---@param difficultyId number
 ---@param winRecipient string
 ---@return string
-local function makeKey(winRecipient, difficultyId)
+function makeKey(winRecipient, difficultyId)
     makeKeyTc(difficultyId, winRecipient)
     assert(IS_RECIPIENT[winRecipient], "?")
     return "DIFFICULTY_" .. tostring(difficultyId) .. "_WIN_WITH_" .. winRecipient
@@ -1318,11 +1337,6 @@ end
 
 function lp.isWinRecipient(winRecipient)
     return IS_RECIPIENT[winRecipient]
-end
-
-function lp.winOnDifficulty(winRecipient, diffId)
-    local k = makeKey(winRecipient, diffId)
-    return lp.metaprogression.setFlag(k, true)
 end
 
 function lp.defineWinRecipient(winRecipient)
@@ -1779,22 +1793,60 @@ end
 
 
 
-local winGroup = umg.group("onWinGame")
+
+do
+
+---@param plot lootplot.Plot
+---@return string[]
+local function getAllItems(plot)
+    -- a string list of items on the plot:
+    -- {"lootplot.s0:dragonfruit", "lootplot.s0:blueberry", "iron_sword"}
+    local allItems = {}
+    local itemSet = {}
+    plot:foreachItem(function(itemEnt, _ppos)
+        local itemId = itemEnt:getEntityType():getTypename()
+        if not itemSet[itemId] then
+            table.insert(allItems, itemId)
+        end
+        itemSet[itemId] = true
+    end)
+    return allItems
+end
+
 
 --- Signals the winning of the game for a player
+---@param plot lootplot.Plot
 ---@param clientId string
-function lp.winGame(clientId)
+function lp.winGame(plot, clientId)
     lp.metaprogression.setStat("lootplot:WIN_COUNT", lp.getWinCount() + 1)
-    umg.call("lootplot:winGame", clientId)
-    for _, ent in ipairs(winGroup) do
-        ent:onWinGame()
+    umg.analytics.collect("lootplot:winGame", {
+        playerWinCount = lp.getWinCount(),
+        items = getAllItems(plot),
+    })
+    if singleplayerArgs then
+        local k = makeKey(singleplayerArgs.starterItem, singleplayerArgs.difficulty)
+        local ok = lp.metaprogression.setFlag(k, true)
+        if not ok then
+            umg.log.error("uh oh, couldnt record win")
+        end
+        if singleplayerArgs.achievement then
+            umg.achievements.unlockAchievement(singleplayerArgs.achievement)
+        end
     end
+    umg.call("lootplot:winGame", clientId)
 end
 
 --- Signals the losing of the game for a player
+---@param plot lootplot.Plot
 ---@param clientId string
-function lp.loseGame(clientId)
+function lp.loseGame(plot, clientId)
+    umg.analytics.collect("lootplot:loseGame", {
+        playerWinCount = lp.getWinCount(),
+        items = getAllItems(plot),
+    })
     umg.call("lootplot:loseGame", clientId)
+end
+
 end
 
 
