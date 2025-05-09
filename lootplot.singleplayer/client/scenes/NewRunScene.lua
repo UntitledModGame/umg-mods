@@ -240,6 +240,7 @@ function NewRunScene:onRender(x, y, w, h)
     e.perkSelect:render(perkSelect:padRatio(0.2):get())
 
     -- difficulty:
+    love.graphics.setColor(1,1,1)
     e.diffSelect:render(difficultySelect:get())
 
     -- start button:
