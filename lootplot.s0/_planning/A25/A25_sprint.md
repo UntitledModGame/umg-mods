@@ -4,9 +4,7 @@
 
 ## DONE:
 
-- Made sponge LEGENDARY
-- Made red-fan LEGENDARY
-- Made some gloves EPIC
+- Added other difficulties- bronze, silver, gold trophies
 - Fixed 8ball and L-ball
 - Fixed purple-loaf being purple, made it match NEW shop slots
 - Fixed map not working
@@ -14,6 +12,9 @@
 - Made stonefruits more expensive
 - Nerfed bomb / 7-ball
 - Fixed 2 turnip softlock  (Now, `foodItem`s only activate after move.)
+- Made sponge LEGENDARY
+- Made red-fan LEGENDARY
+- Made some gloves EPIC
 - Fixed some speling/gramar erors
 - Made green-squash clearer
 - Made fortune-cookie float (usable on sacks now)
@@ -71,10 +72,13 @@
 - On Level-Up: Spawns null-slots with food inside them. (KNIGHT shape)
 
 
-- Added 2 extra difficulties- bronze, silver, gold trophies (to implement, create a "DIFFICULTY" property)
-trophies should spawn more or less curses (silver trophy, 1 curse per level) (gold trophy 2 curses per level)
-And the points requirement should differ too
+## =============================
+## STRETCH:
+## =============================
 
+
+- Different difficulties should spawn more or less curses 
+(silver trophy, 1 curse per level) (gold trophy 2 curses per level)
 
 - Create popup text saying "LEVEL {X} PASSED!"
 - Play a cool sound when progressing to next level

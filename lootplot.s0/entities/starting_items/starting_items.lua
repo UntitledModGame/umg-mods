@@ -34,13 +34,6 @@ end
 
 
 
-local function makeOnWin(achievementName)
-    return function(ent)
-        umg.achievements.unlockAchievement(achievementName)
-    end
-end
-
-
 
 local function unlockAfterWins(numberOfWins)
     local isEntityTypeUnlocked = function(etype)
@@ -393,18 +386,49 @@ defineStartingItem("six_ball", {
 
 
 
---[[
+defineStartingItem("G_ball", {
+    name = loc("G Ball"),
+    description = loc("Money is capped!"),
 
-TODO: Define G-ball here.
+    isEntityTypeUnlocked = winToUnlock(),
+    winAchievement = "WIN_G_BALL",
 
-It should give a good introduction to the grubby-archetype.
-And it should *force* the player into a grubby build.
+    onActivateOnce = function(ent)
+        local ppos,team = getPosTeam(ent)
+        lp.setMoney(ent, constants.STARTING_MONEY)
 
-(Start with pineapple-ring, start with cent-ticket items..?)
+        local slotEnt = lp.forceSpawnSlot(assert(ppos:move(0, -8)), server.entities.money_limit_slot, team)
+        if slotEnt then
+            slotEnt.grubMoneyCap = constants.DEFAULT_GRUB_MONEY_CAP
+        end
 
-The slots should start grubby.
+        spawnNormal(ent)
+        spawnShop(ent)
 
-]]
+        do
+        local pineapplePos = assert(ppos:move(-4,1))
+        local slotEnt1 = lp.trySpawnSlot(pineapplePos, server.entities.slot, team)
+        lp.trySpawnItem(pineapplePos, server.entities.pineapple_ring, team)
+        if slotEnt1 then slotEnt1:delete() end
+        -- i dont know WHY we gotta spawn a slot here, but for some reason it doesnt work withou it
+
+        lp.trySpawnItem(assert(ppos:move(-3,-1)), server.entities["0_cent_ticket"], team)
+        end
+
+        do
+        -- spawn money sack and sack-grubby
+        wg.spawnSlots(assert(ppos:move(3, 0)), server.entities.null_slot, 1,3, team)
+
+        lp.trySpawnItem(assert(ppos:move(3, 1)), server.entities.money_sack, team)
+        lp.trySpawnItem(assert(ppos:move(3, -1)), server.entities.sack_grubby, team)
+        end
+
+        spawnRerollButton(ent)
+        spawnSell(ent)
+        spawnInterestSlot(ent)
+        spawnDoomClockAndButtons(ent)
+    end
+})
 
 
 
