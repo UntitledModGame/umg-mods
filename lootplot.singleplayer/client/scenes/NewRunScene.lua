@@ -263,16 +263,6 @@ function NewRunScene:onRender(x, y, w, h)
     local bx, by, bw, bh = body:get()
     love.graphics.setColor(objects.Color.WHITE)
     love.graphics.line(bx + bw / 2, by, bx + bw / 2, by + bh)
-
-    -- DEBUG ONLY
-    drawRegions({
-        r,
-        body,title,
-        left,right,
-        perkBox,
-        perkImg,perkText,perkDesc,
-        difficultySelect
-    })
 end
 
 return NewRunScene
