@@ -320,7 +320,7 @@ local function defineCrossbow(mineral_type, name, strength, etype)
 
         mineralType = mineral_type,
 
-        rarity = etype.rarity or lp.rarities.EPIC,
+        rarity = etype.rarity or lp.rarities.RARE,
 
         basePrice = 16,
 
@@ -483,17 +483,25 @@ local GRUB_MONEY_CAP = assert(consts.DEFAULT_GRUB_MONEY_CAP)
 
 --[[
 
-Grubby items have `grubby` component
-
+Grubby items have `grubby` component.
+We dont define all of them because we dont wanna bloat item pool.
 ]]
-defineMineralClass("grubby", "Grubby", 6, {
+do
+local etype = {
     triggers = {"PULSE"},
     grubMoneyCap = GRUB_MONEY_CAP,
     baseMaxActivations = 8,
-
     isEntityTypeUnlocked = helper.unlockAfterWins(consts.UNLOCK_AFTER_WINS.GRUBBY),
-})
+}
 
+local strength = 6
+defineSword("grubby", "Grubby", strength, etype)
+-- defineAxe("grubby", "Grubby", strength, etype)
+-- defineHammer("grubby", "Grubby", strength,  etype)
+defineSpear("grubby", "Grubby", strength, etype)
+defineCrossbow("grubby", "Grubby", strength, etype)
+defineScythe("grubby", "Grubby", strength,  etype)
+end
 
 
 
@@ -517,9 +525,9 @@ do
         isEntityTypeUnlocked = helper.unlockAfterWins(consts.UNLOCK_AFTER_WINS.ROTATEY)
     }
 
-    defineSword("copper", "Copper", strength, etype)
-    defineAxe("copper", "Copper", strength, etype)
-    defineHammer("copper", "Copper", strength,  etype)
+    -- defineSword("copper", "Copper", strength, etype)
+    -- defineAxe("copper", "Copper", strength, etype)
+    -- defineHammer("copper", "Copper", strength,  etype)
     defineScythe("copper", "Copper", strength,  etype)
     defineGreatsword("copper", "Copper", strength,  etype)
 end

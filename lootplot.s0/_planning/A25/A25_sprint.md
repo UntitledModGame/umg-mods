@@ -46,6 +46,9 @@
 - Adjusted ruby-items to 3 activations, buffed points/strength
 - If you sell the starting item, you should still get the achievement
 - Adjusted ornament items
+- Added 3 new trophies, bronze, silver, gold
+- Added 3 new difficulties; (easy, medium, hard)
+- Removed some grubby items
 
 
 ## =============================
@@ -54,24 +57,13 @@
 
 
 
-- Maybe remove grubby mineral items? (they are kinda dumb)
-- (In return, add other, broader GRUBBY items.)
-- Especially items that aren't grubby, but happen to work well with grubby-playstyle. (Eg squash; sets money to $13)
-
-- Nerfed Diamond-slot to 3x bonus
-
-
-- Added 3 new trophies, bronze, silver, gold
-
-- Added 3 new difficulties; (easy, medium, hard)
-
-- Added 2 new DOOMED-10 items so the archetype isn't completely dead
-
 - Created Grubby-ball, (G-ball) showcasing grubby-archetype
 - Created achievement for grubby-ball
 
 - Created sapphire-ball (S-ball) showcasing anti-bonus archetype
 - Created achievement for sapphire-ball
+
+- Added 2 new DOOMED-10 items so the archetype isn't completely dead
 
 - Made items that can't activate grayscale (need shader)
 
