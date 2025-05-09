@@ -120,6 +120,9 @@ local function defineSpear(mineral_type, name, strength, etype)
             activate = function(selfEnt, ppos, itemEnt)
                 lp.tryTriggerEntity("PULSE", itemEnt)
             end,
+            filter = function(selfEnt, ppos, itemEnt)
+                return lp.hasTrigger(itemEnt, "PULSE")
+            end,
             activateWithNoValidTargets = true
         },
 

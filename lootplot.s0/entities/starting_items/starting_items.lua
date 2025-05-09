@@ -318,7 +318,9 @@ defineStartingItem("five_ball", {
 
         lp.forceSpawnSlot(ppos, server.entities.rotate_slot, team)
 
-        lp.trySpawnItem(assert(ppos:move(1, 0)), server.entities.record_golden, team)
+        local itemEnt = lp.trySpawnItem(assert(ppos:move(1, 0)), server.entities.record_golden, team)
+        if itemEnt then lp.modifierBuff(itemEnt, "moneyGenerated", 1) end
+
         lp.trySpawnItem(assert(ppos:move(-1, 0)), server.entities.record_white, team)
 
         -- spawn black-olives:
@@ -429,6 +431,32 @@ defineStartingItem("G_ball", {
         spawnDoomClockAndButtons(ent)
     end
 })
+
+
+
+
+defineStartingItem("S_ball", {
+    name = loc("S Ball"),
+    description = loc("Forced negative-bonus"),
+
+    isEntityTypeUnlocked = winToUnlock(),
+    winAchievement = "WIN_FOUR_BALL",
+
+    onActivateOnce = function(ent)
+        local ppos,team = getPosTeam(ent)
+        lp.setMoney(ent, constants.STARTING_MONEY)
+
+        wg.spawnSlots(ppos, server.entities.sapphire_slot, 3,3, team)
+
+        spawnShop(ent)
+        spawnRerollButton(ent)
+        spawnSell(ent)
+        spawnInterestSlot(ent)
+        spawnMoneyLimit(ent)
+        spawnDoomClockAndButtons(ent)
+    end
+})
+
 
 
 

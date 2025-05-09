@@ -62,8 +62,11 @@ defItem("red_key", "Red Key", {
     shape = lp.targets.RookShape(2),
     target = {
         type = "ITEM_OR_SLOT",
-        activate = function(_, _, target)
-            return lp.tryTriggerEntity("UNLOCK", target)
+        filter = function(_, _, targEnt)
+            return lp.hasTrigger(targEnt, "UNLOCK")
+        end,
+        activate = function(_, _, targEnt)
+            return lp.tryTriggerEntity("UNLOCK", targEnt)
         end
     }
 })

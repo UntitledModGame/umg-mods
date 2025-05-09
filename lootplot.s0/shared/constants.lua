@@ -8,7 +8,7 @@ local constants = {
     STARTING_MONEY = 10,
     STARTING_POINTS = 0,
     ROUNDS_PER_LEVEL = 6,
-    MONEY_PER_ROUND = 6,
+    MONEY_PER_ROUND = 5,
 
     UNLOCK_AFTER_WINS = {
         SKIP_LEVEL = 1, -- IMPORTANT NOTE: You cannot skip levels with one-ball!
