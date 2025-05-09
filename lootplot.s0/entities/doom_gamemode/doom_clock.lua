@@ -11,15 +11,15 @@ local loc = localization.localize
 
 
 local POINT_REQUIREMENTS = {
-    [1] = {
+    [0] = {
       60, 400, 1500, 4000, 15000, 40000, 200000, 600000, 1500000, 5000000
     },
 
-    [2] = {
+    [1] = {
       60, 500, 2000, 7000, 20000, 100000, 600000, 1000000, 3000000, 10000000
     },
 
-    [3] = {
+    [2] = {
       60, 600, 2500, 10000, 50000, 250000, 1200000, 3000000, 7000000, 500000000
     }
 }
@@ -44,9 +44,14 @@ end
 ---@param ent Entity
 local function getRequiredPoints(ent)
     local level = lp.getLevel(ent)
-    local difficulty = lp.getDifficulty(ent)
+    local difficulty, dInfo = lp.getDifficulty()
+    local tabl
+    if POINT_REQUIREMENTS[dInfo.difficulty] then
+        tabl = POINT_REQUIREMENTS[dInfo.difficulty]
+    else
+        tabl = POINT_REQUIREMENTS[2]
+    end
 
-    local tabl = POINT_REQUIREMENTS[difficulty]
     if tabl and tabl[level] then
         return tabl[level]
     end

@@ -45,7 +45,7 @@
 - Make tutorial treasure-bar deterministic
 - Adjusted ruby-items to 3 activations, buffed points/strength
 - If you sell the starting item, you should still get the achievement
-
+- Adjusted ornament items
 
 
 ## =============================
@@ -60,8 +60,6 @@
 
 - Nerfed Diamond-slot to 3x bonus
 
-- Golden ornament nerfed (only earns $0.5)
-- Reduced frequency of ornament items
 
 - Added 3 new trophies, bronze, silver, gold
 

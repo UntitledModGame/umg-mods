@@ -27,7 +27,7 @@ function NewRunState:init(exitFunc)
         backgrounds = backgrounds,
         lastSelectedBackground = selected,
 
-        startNewRun = function(startingItemName, background)
+        startNewRun = function(startingItemName, background, difficulty)
             umg.analytics.collect("lootplot.singleplayer:startNewRun", {
                 playerWinCount = lp.getWinCount(),
                 chosenStartingItem = startingItemName,
@@ -46,7 +46,7 @@ function NewRunState:init(exitFunc)
             return runManager.sendStartRunPacket({
                 starterItem = startingItemName,
                 worldgenItem = lp.worldgen.WORLDGEN_ITEMS[1],
-                difficulty = 1, -- TODO: difficulty select
+                difficulty = difficulty or lp.DIFFICULTY_TYPES[1],
                 seed = "",
                 background = background
             })

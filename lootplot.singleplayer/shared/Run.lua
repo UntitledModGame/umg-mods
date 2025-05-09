@@ -31,7 +31,7 @@ umg.defineEntityType("lootplot.singleplayer:world", {})
 
 
 ---@param starterItem string
----@param difficulty number
+---@param difficulty string
 ---@param bg string
 function Run:init(starterItem, difficulty, bg)
     assert(typecheck.isType(starterItem, "string"))
@@ -62,14 +62,13 @@ function Run:init(starterItem, difficulty, bg)
 
     self.currentBackground = bg
 
+    self.difficulty = difficulty
+
     self.attrs = {}
 
     for _, a in ipairs(lp.getAllAttributes()) do
         self.attrs[a] = lp.getAttributeDefault(a)
     end
-
-    assert(self.attrs["DIFFICULTY"])
-    self.attrs["DIFFICULTY"] = difficulty
 end
 
 
@@ -146,7 +145,7 @@ end
 function Run:getSingleplayerArgs()
     return {
         starterItem = self.starterItem,
-        difficulty = self.attrs["DIFFICULTY"],
+        difficulty = self.difficulty,
         achievement = self.winAchievement
     }
 end

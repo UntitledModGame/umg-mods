@@ -320,15 +320,6 @@ lp.defineAttribute("COMBO", 0)
 -- OPTIONAL ATTRIBUTES:::
 ----------------------------
 
-
-lp.defineAttribute("DIFFICULTY", 1)
---- "DIFFICULTY" is the difficulty indicator for a run.
---- In s0, 
---- difficulty = 1  bronze trophy
---- difficulty = 2  silver trophy
---- difficulty = 3  golden trophy
-
-
 -- "LEVEL" is a general difficulty indicator within a run.
 -- higher level = higher difficulty.
 lp.defineAttribute("LEVEL", 1)
@@ -398,12 +389,6 @@ function lp.getRequiredPoints(ent)
 end
 
 
----@param ent Entity
----@return number
-function lp.getDifficulty(ent)
-    return lp.getAttribute("DIFFICULTY", ent)
-end
-
 
 -- IMPORTANT NOTE::::
 -- Note that these ^^^^^ "optional attributes" don't *need* to be used.
@@ -441,6 +426,7 @@ function lp.initialize(args, sArgs)
 
     if sArgs then
         singleplayerArgs = sArgs
+        lp.setDifficulty(sArgs.difficulty)
     end
 
     assert(lp.FALLBACK_NULL_ITEM, "Must provide fallback item")
@@ -1312,6 +1298,26 @@ local IS_RECIPIENT = {--[[
     [id] -> boolean
 ]]}
 
+
+--[[
+TODO:
+in the future, change this to be non-static
+]]
+
+---@type string
+local currentDifficulty = nil
+
+function lp.setDifficulty(difficulty)
+    currentDifficulty = difficulty
+end
+
+---@return string, lootplot.DifficultyInfo
+function lp.getDifficulty()
+    local dInfo = lp.getDifficultyInfo(currentDifficulty)
+    return currentDifficulty, dInfo
+end
+
+
 ---@param difficultyId string
 ---@return lootplot.DifficultyInfo
 function lp.getDifficultyInfo(difficultyId)
@@ -1325,6 +1331,7 @@ local defineDifficultyTc = typecheck.assert("string", "table")
 ---@param difficultyInfo lootplot.DifficultyInfo
 function lp.defineDifficulty(difficultyId, difficultyInfo)
     defineDifficultyTc(difficultyId, difficultyInfo)
+    currentDifficulty = currentDifficulty or difficultyId
     lp.DIFFICULTY_TYPES:add(difficultyId)
     ID_TO_DIFFICULTY[difficultyId] = difficultyInfo
 end
