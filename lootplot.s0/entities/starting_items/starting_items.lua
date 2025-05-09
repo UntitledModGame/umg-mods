@@ -681,6 +681,7 @@ defineStartingItem("nine_ball", {
         spawnDoomClockAndButtons(ent)
 
         wg.spawnSlots(assert(ppos:move(4,0)), server.entities.null_slot, 3,3, team, function(slotEnt)
+            slotEnt.canGoIntoDebt = true
             slotEnt.baseMoneyGenerated = -2
         end)
 
