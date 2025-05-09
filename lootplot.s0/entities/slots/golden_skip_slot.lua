@@ -16,7 +16,7 @@ return lp.defineSlot("lootplot.s0:golden_skip_slot", {
     end,
 
     baseMaxActivations = 2,
-    baseMoneyGenerated = 5
+    baseMoneyGenerated = 10
 })
 
 
