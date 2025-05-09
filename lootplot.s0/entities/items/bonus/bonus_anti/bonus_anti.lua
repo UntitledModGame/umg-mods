@@ -39,9 +39,16 @@ local loc = localization.localize
 local interp = localization.newInterpolator
 
 
+local helper = require("shared.helper")
+
+
+
 local function defItem(id, name, etype)
     etype.image = etype.image or id
     etype.name = loc(name)
+
+    etype.isEntityTypeUnlocked = helper.unlockAfterWins(2)
+
     return lp.defineItem("lootplot.s0:"..id, etype)
 end
 
@@ -202,5 +209,86 @@ defItem("ouroboros", "Ouroboros", {
     end,
 
     rarity = lp.rarities.RARE,
+})
+
+
+
+defItem("deep_shield", "Deep Shield", {
+    triggers = {"PULSE"},
+
+    activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}Pulse{/lootplot:TRIGGER_COLOR} on items.\nIf {lootplot:BONUS_COLOR}bonus{/lootplot:BONUS_COLOR} is negative, triggers 3 times instead of 1."),
+
+    rarity = lp.rarities.RARE,
+
+    basePrice = 12,
+    baseMaxActivations = 2,
+
+    shape = lp.targets.KingShape(1),
+
+    target = {
+        type = "ITEM",
+        filter = function(selfEnt, ppos, targetEnt)
+            return lp.hasTrigger(targetEnt, "PULSE")
+        end,
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.tryTriggerEntity("PULSE", targetEnt)
+            if lp.getPointsBonus(selfEnt) < 0 then
+                lp.tryTriggerEntity("PULSE", targetEnt)
+                lp.tryTriggerEntity("PULSE", targetEnt)
+            end
+        end
+    }
+})
+
+
+
+
+defItem("crystal_ball", "Crystal Ball", {
+    triggers = {"PULSE", "SKIP"},
+
+    activateDescription = loc("If {lootplot:BONUS_COLOR}bonus{/lootplot:BONUS_COLOR} is negative, buffs items points equal to the {lootplot:BONUS_COLOR}negative bonus.{/lootplot:BONUS_COLOR}"),
+
+    basePrice = 12,
+    baseMaxActivations = 2,
+
+    shape = lp.targets.KNIGHT_SHAPE,
+
+    rarity = lp.rarities.EPIC,
+
+    canActivate = ACTIVATE_IF_NEGATIVE_BONUS,
+
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            local bonus = lp.getPointsBonus(selfEnt)
+            if bonus < 0 then
+                lp.modifierBuff(targetEnt, "pointsGenerated", -bonus)
+            end
+        end
+    },
+
+    doomCount = 15,
+})
+
+
+
+
+
+defItem("deep_net", "Deep Net", {
+    rarity = lp.rarities.UNCOMMON,
+
+    activateDescription = ACTIVATE_IF_NEGATIVE_BONUS_DESC,
+    canActivate = ACTIVATE_IF_NEGATIVE_BONUS,
+
+    basePrice = 7,
+    basePointsGenerated = 60,
+    baseMaxActivations = 30,
+
+
+    listen = {
+        type = "ITEM",
+        trigger = "PULSE"
+    },
+    shape = lp.targets.KingShape(1),
 })
 

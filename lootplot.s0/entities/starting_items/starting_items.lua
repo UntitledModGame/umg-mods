@@ -446,7 +446,10 @@ defineStartingItem("S_ball", {
         local ppos,team = getPosTeam(ent)
         lp.setMoney(ent, constants.STARTING_MONEY)
 
-        wg.spawnSlots(ppos, server.entities.sapphire_slot, 3,3, team)
+        wg.spawnSlots(ppos, server.entities.sapphire_slot, 1,1, team)
+
+        lp.forceSpawnSlot(assert(ppos:move(0,-2)), server.entities.null_slot, team)
+        lp.forceSpawnItem(assert(ppos:move(0,-2)), server.entities.deep_net, team)
 
         spawnShop(ent)
         spawnRerollButton(ent)
@@ -454,6 +457,8 @@ defineStartingItem("S_ball", {
         spawnInterestSlot(ent)
         spawnMoneyLimit(ent)
         spawnDoomClockAndButtons(ent)
+
+        lp.forceSpawnItem(assert(ppos:move(3, 0)), server.entities.anti_bonus_contract_curse, team)
     end
 })
 

@@ -56,7 +56,6 @@ local function defineKettleCurse(comp, val, etype)
     etype.name = etype.name or "Kettlecurse"
 
     etype.triggers = etype.triggers or {"PULSE"}
-    etype.rarity = etype.rarity or lp.rarities.CURSE_1
     etype.baseMaxActivations = etype.baseMaxActivations or 4
 
     etype.image = etype.image or "kettlecurse"

@@ -50,6 +50,9 @@
 - Added 3 new trophies, bronze, silver, gold
 - Added 3 new difficulties; (easy, medium, hard)
 - Removed some grubby items
+- Created crystal-ball item (anti-bonus)
+- Created deep-net item (anti-bonus)
+- Created deep-shield item (anti-bonus)
 
 
 ## =============================
@@ -66,15 +69,17 @@
 
 - Added 2 new DOOMED-10 items so the archetype isn't completely dead
 
+
+
+## =============================
+## STRETCH / NEXT-SPRINT:
+## =============================
+
+
 - Made items that can't activate grayscale (need shader)
 
 - CREATED NEW LEGENDARY ITEM: Chef's Knife: 
 - On Level-Up: Spawns null-slots with food inside them. (KNIGHT shape)
-
-
-## =============================
-## STRETCH:
-## =============================
 
 
 - Different difficulties should spawn more or less curses 

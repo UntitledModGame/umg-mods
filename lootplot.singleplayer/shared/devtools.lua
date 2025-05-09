@@ -531,7 +531,6 @@ chat.handleCommand("spawnItems", {
         local rarities = {
             "",
             "UNIQUE", "MYTHIC", "LEGENDARY", "EPIC", "RARE", "UNCOMMON", "COMMON",
-            "CURSE_1", "CURSE_2", "CURSE_3"
         }
         for _, itemETypeStr in ipairs(allItems) do
             local etype = assert(server.entities[itemETypeStr])
