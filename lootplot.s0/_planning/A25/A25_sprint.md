@@ -53,21 +53,18 @@
 - Created crystal-ball item (anti-bonus)
 - Created deep-net item (anti-bonus)
 - Created deep-shield item (anti-bonus)
+- Created Grubby-ball, (G-ball) showcasing grubby-archetype
+- Created achievement for grubby-ball
+- Created sapphire-ball (S-ball) showcasing anti-bonus archetype
+- Created achievement for sapphire-ball
+- Added 2 new DOOMED-10 items so the archetype isn't completely dead
+
 
 
 ## =============================
 ## TODO:
 ## =============================
 
-
-
-- Created Grubby-ball, (G-ball) showcasing grubby-archetype
-- Created achievement for grubby-ball
-
-- Created sapphire-ball (S-ball) showcasing anti-bonus archetype
-- Created achievement for sapphire-ball
-
-- Added 2 new DOOMED-10 items so the archetype isn't completely dead
 
 
 

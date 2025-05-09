@@ -1841,10 +1841,7 @@ function lp.winGame(plot, clientId)
     })
     if singleplayerArgs then
         local k = makeKey(singleplayerArgs.starterItem, singleplayerArgs.difficulty)
-        local ok = lp.metaprogression.setFlag(k, true)
-        if not ok then
-            umg.log.error("uh oh, couldnt record win")
-        end
+        lp.metaprogression.setFlag(k, true)
         if singleplayerArgs.achievement then
             umg.achievements.unlockAchievement(singleplayerArgs.achievement)
         end
