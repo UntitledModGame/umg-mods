@@ -186,6 +186,13 @@ local function spawnInterestSlot(ent)
     local plot = ppos:getPlot()
     wg.spawnSlots(plot:getPPos(ppos:getCoords(), 3), server.entities.interest_slot, 1,1, team)
 
+end
+
+
+local function spawnSkipSlots(ent)
+    local ppos, team = getPosTeam(ent)
+    local plot = ppos:getPlot()
+
     local x = ppos:getCoords()
     lp.forceSpawnSlot(plot:getPPos(x-1, 3), server.entities.golden_skip_slot, team)
     lp.forceSpawnSlot(plot:getPPos(x+1, 3), server.entities.golden_skip_slot, team)
@@ -262,8 +269,6 @@ defineStartingItem("one_ball", {
         spawnRerollButton(ent)
         spawnNormal(ent)
         spawnSell(ent)
-        spawnInterestSlot(ent)
-        spawnMoneyLimit(ent)
 
         spawnDoomClock(ent)
         spawnPulseButton(ent)
@@ -313,8 +318,6 @@ defineStartingItem("five_ball", {
         spawnRerollButton(ent)
         spawnNormal(ent)
         spawnSell(ent)
-        spawnInterestSlot(ent)
-        spawnMoneyLimit(ent)
 
         lp.forceSpawnSlot(ppos, server.entities.rotate_slot, team)
 
@@ -359,7 +362,6 @@ defineStartingItem("six_ball", {
         spawnRerollButton(ent)
         spawnNormal(ent)
         spawnSell(ent)
-        spawnMoneyLimit(ent)
 
         do -- spawn golden-die:
         local itemEnt = lp.trySpawnItem(assert(ppos:move(-1,0)), server.entities.golden_die, team)
@@ -427,7 +429,6 @@ defineStartingItem("G_ball", {
 
         spawnRerollButton(ent)
         spawnSell(ent)
-        spawnInterestSlot(ent)
         spawnDoomClockAndButtons(ent)
     end
 })
@@ -440,7 +441,7 @@ defineStartingItem("S_ball", {
     description = loc("Forced negative-bonus"),
 
     isEntityTypeUnlocked = winToUnlock(),
-    winAchievement = "WIN_FOUR_BALL",
+    winAchievement = "WIN_S_BALL",
 
     onActivateOnce = function(ent)
         local ppos,team = getPosTeam(ent)
@@ -454,8 +455,6 @@ defineStartingItem("S_ball", {
         spawnShop(ent)
         spawnRerollButton(ent)
         spawnSell(ent)
-        spawnInterestSlot(ent)
-        spawnMoneyLimit(ent)
         spawnDoomClockAndButtons(ent)
 
         lp.forceSpawnItem(assert(ppos:move(3, 0)), server.entities.anti_bonus_contract_curse, team)
@@ -469,25 +468,22 @@ defineStartingItem("S_ball", {
 
 defineStartingItem("four_ball", {
     name = loc("Four Ball"),
-    description = loc("Has 2 extra rounds per level"),
+    description = loc("Has one extra round per level"),
 
     isEntityTypeUnlocked = winToUnlock(),
     winAchievement = "WIN_FOUR_BALL",
 
     onActivateOnce = function(ent)
         lp.setMoney(ent, constants.STARTING_MONEY)
-        local numRounds = constants.ROUNDS_PER_LEVEL + 2
+        local numRounds = constants.ROUNDS_PER_LEVEL + 1
         lp.setAttribute("NUMBER_OF_ROUNDS", ent, numRounds)
         spawnNormal(ent)
         spawnShop(ent)
         spawnRerollButton(ent)
         spawnSell(ent)
-        spawnInterestSlot(ent)
-        spawnMoneyLimit(ent)
         spawnDoomClockAndButtons(ent)
     end
 })
-
 
 
 
@@ -507,8 +503,6 @@ defineStartingItem("L_ball", {
         spawnRerollButton(ent)
         spawnNormal(ent)
         spawnSell(ent)
-        spawnInterestSlot(ent)
-        spawnMoneyLimit(ent)
 
         wg.spawnSlots(assert(ppos:move(0,-3)), server.entities.null_slot, 1,1, team)
 
@@ -573,8 +567,6 @@ defineStartingItem("seven_ball", {
         spawnShop(ent, -2,0)
         spawnRerollButton(ent, -2,0)
         spawnSell(ent, 0, 2)
-        spawnInterestSlot(ent)
-        spawnMoneyLimit(ent)
         spawnDoomClockAndButtons(ent)
     end
 })
@@ -618,8 +610,6 @@ defineStartingItem("eight_ball", {
 
         wg.spawnSlots(assert(ppos:move(0,4)), server.entities.skull_slot, 3,1, team)
 
-        spawnInterestSlot(ent)
-        spawnMoneyLimit(ent)
         spawnDoomClockAndButtons(ent)
     end,
 
@@ -661,8 +651,6 @@ defineStartingItem("blank_ball", {
         wg.spawnSlots(assert(ppos:move(0,1)), server.entities.rulebender_slot, 1,1, team)
 
         spawnSell(ent)
-        spawnInterestSlot(ent)
-        spawnMoneyLimit(ent)
 
         spawnDoomClockAndButtons(ent, -1)
     end,
@@ -689,7 +677,6 @@ defineStartingItem("nine_ball", {
         spawnRerollButton(ent)
         spawnNormal(ent)
         spawnSell(ent)
-        spawnInterestSlot(ent)
 
         spawnDoomClockAndButtons(ent)
 
@@ -738,7 +725,7 @@ defineStartingItem("rainbow_ball", {
         lp.forceSpawnSlot(nextPos(), ents.reroll_button_slot, team) -- green
         lp.forceSpawnSlot(nextPos(), ents.pulse_button_slot, team) -- blue
         lp.forceSpawnSlot(nextPos(), ents.sapphire_slot, team) -- indigo
-        lp.forceSpawnSlot(nextPos(), ents.food_shop_slot, team) -- violet
+        lp.forceSpawnSlot(nextPos(), ents.rulebender_slot, team) -- violet
 
         spawnDoomClock(ent)
     end
