@@ -33,7 +33,8 @@ end
 ---@param y number
 ---@param w number
 ---@param h number
-function helper.drawImageInBox(image, x,y,w,h)
+---@param rot number
+function helper.drawImageInBox(image, x,y,w,h, rot)
     local iw, ih = getDimensions(image)
     local region = layout.Region(x,y,w,h)
     local imgRegion = layout.Region(0,0,iw,ih)
@@ -42,10 +43,11 @@ function helper.drawImageInBox(image, x,y,w,h)
     local scale = imgRegion:getScaleToFit(padded)
     -- useful idiom when we want to scale image/text ^^^^
 
+    rot=rot or 0
     local drawX, drawY
     drawX = padded.x + padded.w/2
     drawY = padded.y + padded.h/2
-    renderImage(image,drawX,drawY,0,scale,scale)
+    renderImage(image,drawX,drawY,rot,scale,scale)
 end
 
 

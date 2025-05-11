@@ -17,9 +17,10 @@ local drawImageTc = typecheck.assert("love:Texture|love:Quad|string", "number", 
 ---@param y number
 ---@param w number
 ---@param h number
-function ui.drawImageInBox(image,x,y,w,h)
+---@param rot? number
+function ui.drawImageInBox(image,x,y,w,h,rot)
     drawImageTc(image,x,y,w,h)
-    return helper.drawImageInBox(image,x,y,w,h)
+    return helper.drawImageInBox(image,x,y,w,h,rot)
 end
 
 

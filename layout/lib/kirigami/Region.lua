@@ -571,6 +571,11 @@ function Region:size()
 end
 
 
+function Region:containsCoords(xx,yy)
+    local x,y,w,h = self:get()
+    return x<=xx and y<=yy and xx<=(x+w) and yy<=(y+h)
+end
+
 
 return newRegion
 
