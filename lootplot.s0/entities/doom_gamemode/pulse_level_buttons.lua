@@ -439,34 +439,3 @@ lp.defineSlot("lootplot.s0:simple_next_level_button_slot", {
 
 
 
-
-
-
-lp.defineSlot("lootplot.s0:golden_next_level_button_slot", {
-    image = "golden_level_button_up",
-
-    name = loc("Golden Next-Level Button"),
-    activateDescription = nextLevelActivateDescription,
-
-    activateAnimation = {
-        activate = "golden_level_button_hold",
-        idle = "golden_level_button_up",
-        duration = 0.1
-    },
-
-    baseMaxActivations = 3,
-    baseMoneyGenerated = 15,
-    triggers = {},
-    buttonSlot = true,
-
-    rarity = lp.rarities.EPIC,
-
-    onDraw = buttonOnDraw,
-
-    canActivate = nextLevelCanActivate,
-
-    onActivate = nextLevel,
-})
-
-
-

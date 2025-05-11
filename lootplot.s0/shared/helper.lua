@@ -227,9 +227,9 @@ do
 local rr = lp.rarities
 ---@type {[1]: lootplot.rarities.Rarity, [2]: number}[]
 local weights = {
-    {rr.COMMON, 1},
-    {rr.UNCOMMON, 1},
-    {rr.RARE, 1},
+    {rr.COMMON, 1.1},
+    {rr.UNCOMMON, 1.3},
+    {rr.RARE, 1.3},
     {rr.EPIC, 0.5},
     {rr.LEGENDARY, 0.1},
 }
