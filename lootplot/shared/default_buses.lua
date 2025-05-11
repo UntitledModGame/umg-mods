@@ -163,7 +163,7 @@ end)
 
 umg.answer("lootplot:canActivateEntity", function(ent)
     local money = lp.getMoney(ent)
-    if money and ent.moneyGenerated and (not ent.canGoIntoDebt) then
+    if money and ent.moneyGenerated and (not ent.canGoIntoDebt) and (ent.moneyGenerated < 0) then
         if ent.moneyGenerated + money < 0 then
             return false
         end
