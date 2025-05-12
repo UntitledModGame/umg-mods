@@ -1,9 +1,10 @@
+
+local loc = localization.localize
+
 local fonts = require("client.fonts")
 
 local PauseBox = require("client.elements.PauseBox")
-
 local StretchableButton = require("client.elements.StretchableButton")
-
 local DescriptionBox = require("client.DescriptionBox")
 
 local settingManager = require("shared.setting_manager")
@@ -31,6 +32,8 @@ function Scene:init(lpState)
 
     self:makeRoot()
     self:setPassthrough(true)
+
+    self.quitButton = nil
 
     local SLIDER_SNAP_MULTIPLER = 20
     self.pauseBox = PauseBox({
@@ -72,13 +75,6 @@ function Scene:init(lpState)
 end
 
 
----@param progress number
----@param dbox lootplot.singleplayer.DescriptionBox
----@param color objects.Color
----@param region layout.Region
-local function drawDescription(progress, dbox, color, region)
-end
-
 
 ---@param self lootplot.singleplayer.Scene
 local function isSelectionValid(self)
@@ -100,19 +96,26 @@ function Scene:onRender(x,y,w,h)
         self:setSelection(nil)
     end
 
-    local buttonCount = #self.slotActionButtons
-    if buttonCount > 0 then
+    if self.quitButton then
         local _, bottomArea = r:splitVertical(5, 1)
-        if buttonCount == 1 then
-            _,bottomArea = bottomArea:splitHorizontal(1,1,1)
-        else
-            _,bottomArea = bottomArea:splitHorizontal(1,3,1)
-        end
-        local grid = bottomArea:grid(#self.slotActionButtons, 1)
+        local _,buttonArea,_ = bottomArea:splitHorizontal(1,1,1)
+        self.quitButton:render(buttonArea:padRatio(0.2):get())
+    else
+        -- draw action-buttons:
+        local buttonCount = #self.slotActionButtons
+        if buttonCount > 0 then
+            local _, bottomArea = r:splitVertical(5, 1)
+            if buttonCount == 1 then
+                _,bottomArea = bottomArea:splitHorizontal(1,1,1)
+            else
+                _,bottomArea = bottomArea:splitHorizontal(1,3,1)
+            end
+            local grid = bottomArea:grid(#self.slotActionButtons, 1)
 
-        for i, button in ipairs(self.slotActionButtons) do
-            local region = grid[i]:padRatio(0.2)
-            button:render(region:get())
+            for i, button in ipairs(self.slotActionButtons) do
+                local region = grid[i]:padRatio(0.2)
+                button:render(region:get())
+            end
         end
     end
 
@@ -247,4 +250,39 @@ function Scene:openPauseBox()
     end
 end
 
+
+
+---@param self lootplot.singleplayer.Scene
+---@param txt string
+---@param color? table
+local function makeEndGameQuitButton(self, txt, color)
+    self.quitButton = StretchableButton({
+        onClick = function()
+            self.lpState:quitGame()
+        end,
+        text = txt,
+        color = color or objects.Color.DARK_CYAN,
+        font = fonts.getLargeFont(),
+        scale = 2
+    })
+    self:addChild(self.quitButton)
+end
+
+
+
+local WIN_TEXT = loc("Claim Trophy!")
+local LOSE_TEXT = loc("Quit")
+
+
+function Scene:winGame()
+    makeEndGameQuitButton(self, WIN_TEXT, objects.Color.DARK_CYAN)
+end
+
+
+function Scene:loseGame()
+    makeEndGameQuitButton(self, LOSE_TEXT, objects.Color.DARK_RED)
+end
+
+
 return Scene
+

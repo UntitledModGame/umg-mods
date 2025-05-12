@@ -23,13 +23,6 @@ local LPState = objects.Class("lootplot.singleplayer:State")
 local lpState = nil
 
 
-umg.on("lootplot:winGame", function()
-    if lpState then
-        lpState:winGame()
-    end
-end)
-
-
 -- (action button stuff)
 ---@param selection lootplot.Selected
 umg.on("lootplot:selectionChanged", function(selection)
@@ -38,6 +31,23 @@ umg.on("lootplot:selectionChanged", function(selection)
         scene:setSelection(selection)
     end
 end)
+
+
+umg.on("lootplot:winGame", function(...)
+    if lpState then
+        local scene = lpState:getScene()
+        scene:winGame()
+        lpState:winGame()
+    end
+end)
+
+umg.on("lootplot:loseGame", function(...)
+    if lpState then
+        local scene = lpState:getScene()
+        scene:loseGame()
+    end
+end)
+
 
 umg.on("lootplot:pointsChanged", function(ent, delta, oldVal, newVal)
     if lpState then
@@ -380,10 +390,10 @@ end
 
 
 
-local WIN_TEXT = loc("{wavy}{outline thickness=3}{c r=0.3 g=0.9 b=0.1}YOU WIN!")
-local UNLOCKED_TXT = loc("{outline thickness=3}New items have been unlocked!")
+local WIN_TEXT = loc("{wavy}{outline thickness=3}{c r=0.1 g=0.8 b=0.2}YOU WIN!")
 
-local CLAIM_TROPHY = loc("Claim Trophy!")
+local UNLOCKED_TXT = loc("{wavy}{outline thickness=2}New items have been unlocked!")
+local SHARE_WITH_FRIENDS_TEXT = loc("{wavy}{outline thickness=2}Share LootPlot with others! It helps us a lot! :)")
 
 
 ---@param self lootplot.singleplayer.LPState
@@ -393,6 +403,7 @@ local function drawWinScreen(self)
 
     local t = love.timer.getTime()
 
+    local _
     local header, subheader, body, footer = layout.Region(0,0,love.graphics.getDimensions())
         :splitVertical(.25, 0.15, .4, 0.2)
     love.graphics.setColor(1,1,1)
@@ -409,9 +420,13 @@ local function drawWinScreen(self)
     end
 
     -- unlocked items text
+    _, subheader, _ = subheader:splitHorizontal(1,4,1)
+    subheader = subheader:moveRatio(0,-0.4):padRatio(0.2)
     if lp.getWinCount() < 10 then
         -- HACKY HARDCODE. Oh well
-        text.printRichContained(UNLOCKED_TXT, font, subheader:padRatio(0.2):get())
+        text.printRichContained(UNLOCKED_TXT, font, subheader:get())
+    else
+        text.printRichContained(SHARE_WITH_FRIENDS_TEXT, font, subheader:get())
     end
 
     -- quit/claim trophy button
@@ -422,15 +437,12 @@ local function drawWinScreen(self)
 
         local dInfo = lp.getDifficultyInfo(difficulty)
         if dInfo then
-            text.printRichContained(CLAIM_TROPHY, font, button:padRatio(0.15):get())
-
             local trophy = dInfo.image
-            ui.drawImageInBox(trophy, r0:padRatio(0.1):moveRatio(0,-0.1+math.sin(t*2+1)/10):get())
-            ui.drawImageInBox(trophy, r1:padRatio(0.1):moveRatio(0,math.sin(t*2)/10):get())
-            ui.drawImageInBox(trophy, r2:padRatio(0.1):moveRatio(0,math.sin(t)/10):get())
-            ui.drawImageInBox(trophy, r3:padRatio(0.1):moveRatio(0,-0.1+math.sin(t*2+1)/10):get())
-        else
-
+            local AMP = 1/5
+            ui.drawImageInBox(trophy, r0:padRatio(0.2):moveRatio(0,-0.1+math.sin(t*2+1)*AMP):get())
+            ui.drawImageInBox(trophy, r1:padRatio(0.2):moveRatio(0,math.sin(t*2)*AMP):get())
+            ui.drawImageInBox(trophy, r2:padRatio(0.2):moveRatio(0,math.sin(t*2)*AMP):get())
+            ui.drawImageInBox(trophy, r3:padRatio(0.2):moveRatio(0,-0.1+math.sin(t*2+1)*AMP):get())
         end
     end
 end
@@ -598,9 +610,16 @@ function LPState:quitGame()
 end
 
 
+
 function LPState:winGame()
     createShockwave(self, objects.Color.GREEN, 1.2)
     self.showWinScreen = true
+    self:getScene():winGame()
+end
+
+
+function LPState:loseGame()
+    self:getScene():loseGame()
 end
 
 
