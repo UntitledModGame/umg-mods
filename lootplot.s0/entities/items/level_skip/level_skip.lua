@@ -192,7 +192,7 @@ defItem("golden_compass", "Golden Compass", {
 
 
 
-defItem("calender", "Calender", {
+defItem("calendar", "Calendar", {
     activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}Skip{/lootplot:TRIGGER_COLOR} on target-items."),
 
     triggers = {"PULSE"},
