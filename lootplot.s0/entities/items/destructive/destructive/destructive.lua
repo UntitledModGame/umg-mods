@@ -245,6 +245,7 @@ end
 defDestructive("pink_mitten", "Pink Mitten", {
     shape = lp.targets.KingShape(1),
     target = {
+        type = "ITEM",
         filter = function(selfEnt, ppos, targEnt)
             return lp.hasTrigger(targEnt, "DESTROY")
         end,
