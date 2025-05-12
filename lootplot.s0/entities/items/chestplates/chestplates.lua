@@ -35,6 +35,8 @@ defChestplate("deathly_chestplate", "Deathly Chestplate", {
         trigger="DESTROY"
     },
 
+    lootplotTags = {constants.tags.DESTRUCTIVE},
+
     activateDescription = loc("Give items {lootplot:POINTS_COLOR}+10 points"),
 
     target = {

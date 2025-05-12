@@ -28,7 +28,7 @@ defItem("rocks", {
     basePrice = 3,
     baseMultGenerated = 2,
 
-    lives = 4,
+    lives = 10,
     rarity = lp.rarities.UNCOMMON,
     triggers = {"DESTROY"},
 })
@@ -46,7 +46,7 @@ local DARK_BAR_WEIGHTS = itemGenHelper.createRarityWeightAdjuster({
 })
 
 local gen = itemGenHelper.createLazyGenerator(function(etype)
-    return lp.hasTag(etype, constants.tags.ROCKS)
+    return lp.hasTag(etype, constants.tags.ROCKS) or lp.hasTag(etype, constants.tags.DESTRUCTIVE)
 end, DARK_BAR_WEIGHTS)
 
 local NUM_KEY_ACTS = 4
@@ -55,7 +55,7 @@ helper.defineDelayItem("dark_bar", "Dark Bar", {
 
     isEntityTypeUnlocked = helper.unlockAfterWins(constants.UNLOCK_AFTER_WINS.DESTRUCTIVE),
 
-    delayDescription = loc("Spawns a random rock item"),
+    delayDescription = loc("Spawns a random destructive item"),
 
     delayAction = function(ent)
         local itemType = gen()
