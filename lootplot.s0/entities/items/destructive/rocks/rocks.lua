@@ -312,7 +312,7 @@ Tombs: Give permanent buffs
 ====================================================
 ]]
 defRocks("red_tomb", "Red Tomb", {
-    triggers = {"DESTROY", "SKIP"},
+    triggers = {"DESTROY", "LEVEL_UP"},
     rarity = lp.rarities.RARE,
 
     activateDescription = loc("Gives items {lootplot:POINTS_MULT_COLOR}+0.5 multiplier{/lootplot:POINTS_MULT_COLOR}"),
@@ -329,7 +329,7 @@ defRocks("red_tomb", "Red Tomb", {
 })
 
 defRocks("green_tomb", "Green Tomb", {
-    triggers = {"DESTROY", "SKIP"},
+    triggers = {"DESTROY", "LEVEL_UP"},
     rarity = lp.rarities.RARE,
 
     activateDescription = loc("Gives items {lootplot:POINTS_COLOR}+6 points{/lootplot:POINTS_COLOR}"),

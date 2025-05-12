@@ -13,7 +13,7 @@ local function defItem(id, name, etype)
     etype.isEntityTypeUnlocked = helper.unlockAfterWins(constants.UNLOCK_AFTER_WINS.SKIP_LEVEL)
 
     if not etype.listen then
-        etype.triggers = etype.triggers or {"SKIP"}
+        etype.triggers = etype.triggers or {"LEVEL_UP"}
     end
 
     lp.defineItem("lootplot.s0:"..id, etype)
@@ -35,7 +35,7 @@ defItem("square_basket", "Square Basket", {
     }),
     rarity = lp.rarities.RARE,
 
-    triggers = {"SKIP", "UNLOCK"},
+    triggers = {"LEVEL_UP", "UNLOCK"},
 
     sticky = true,
 
@@ -149,7 +149,7 @@ defItem("small_golden_bell", "Small Golden Bell", {
     (Or at least, give them more intuition behind triggers and such)
     ]]
     basePrice = 4,
-    triggers = {"SKIP", "UNLOCK"},
+    triggers = {"LEVEL_UP", "UNLOCK"},
 
     sticky = true,
 
@@ -207,7 +207,7 @@ defItem("calendar", "Calendar", {
     target = {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
-            lp.tryTriggerEntity("SKIP", targetEnt)
+            lp.tryTriggerEntity("LEVEL_UP", targetEnt)
         end
     }
 })

@@ -1719,9 +1719,8 @@ lp.defineTrigger("BUY", "Buy")
 lp.defineTrigger("ROTATE", "Rotate")
 lp.defineTrigger("SPAWN", "Spawn")
 lp.defineTrigger("LEVEL_UP", "Level-Up")
-lp.defineTrigger("SKIP", "Skip")
 
----@alias lootplot.Trigger "REROLL"|"PULSE"|"RESET"|"DESTROY"|"BUY"|"ROTATE"|"SPAWN"|"LEVEL_UP"|"SKIP"
+---@alias lootplot.Trigger "REROLL"|"PULSE"|"RESET"|"DESTROY"|"BUY"|"ROTATE"|"SPAWN"|"LEVEL_UP"
 
 end--TRIGGERS
 

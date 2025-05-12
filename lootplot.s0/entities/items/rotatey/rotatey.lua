@@ -115,7 +115,7 @@ defItem("spanner", "Spanner", {
 -- On Skip:
 -- Earn $3. Rotate items.
 defItem("copper_spanner", "Copper Spanner", {
-    triggers = {"SKIP"},
+    triggers = {"LEVEL_UP"},
 
     rarity = lp.rarities.RARE,
 

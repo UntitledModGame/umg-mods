@@ -486,7 +486,7 @@ local itemFilters = {
         return lp.hasTrigger(etype, "UNLOCK")
     end,
     skip = function(etype)
-        return lp.hasTrigger(etype, "SKIP")
+        return lp.hasTrigger(etype, "LEVEL_UP")
     end,
     listen = function(etype)
         return etype.listen

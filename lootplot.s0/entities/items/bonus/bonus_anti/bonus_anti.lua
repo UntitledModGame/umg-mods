@@ -244,7 +244,7 @@ defItem("deep_shield", "Deep Shield", {
 
 
 defItem("crystal_ball", "Crystal Ball", {
-    triggers = {"PULSE", "SKIP"},
+    triggers = {"PULSE", "LEVEL_UP"},
 
     activateDescription = loc("If {lootplot:BONUS_COLOR}bonus{/lootplot:BONUS_COLOR} is negative, buffs items points equal to the {lootplot:BONUS_COLOR}negative bonus.{/lootplot:BONUS_COLOR}"),
 

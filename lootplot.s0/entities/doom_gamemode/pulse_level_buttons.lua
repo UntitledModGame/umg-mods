@@ -244,13 +244,13 @@ lp.defineSlot("lootplot.s0:gray_pulse_button_slot", {
 
 
 ---@param ppos lootplot.PPos
-local function shouldTriggerSkip(ppos)
+local function shouldTriggerLevelUp(ppos)
     local slot = lp.posToSlot(ppos)
-    if slot and lp.hasTrigger(slot, "SKIP") then
+    if slot and lp.hasTrigger(slot, "LEVEL_UP") then
         return true
     end
     local item = lp.posToItem(ppos)
-    if item and lp.hasTrigger(item, "SKIP") then
+    if item and lp.hasTrigger(item, "LEVEL_UP") then
         return true
     end
     return false
@@ -306,12 +306,12 @@ local function nextLevel(ent)
         lp.queueWithEntity(ent, function(e)
             lp.Bufferer()
                 :all(plot)
-                :filter(shouldTriggerSkip)
+                :filter(shouldTriggerLevelUp)
                 :withDelay(0.3)
                 :to("SLOT_OR_ITEM")
                 :execute(function(ppos1, e1)
                     lp.resetCombo(e1)
-                    lp.tryTriggerSlotThenItem("SKIP", ppos1)
+                    lp.tryTriggerSlotThenItem("LEVEL_UP", ppos1)
                 end)
         end)
 
@@ -322,7 +322,7 @@ end
 
 
 local NEXT_LEVEL_NO_SKIP = loc("Click to go to the next level")
-local NEXT_LEVEL_SKIP = interp("Click to skip %{skipCount} rounds, and go the next level.\n{c r=0.6 g=0.6 b=0.7}(Triggers {lootplot:TRIGGER_COLOR}%{triggerName}{/lootplot:TRIGGER_COLOR} on everything {lootplot:INFO_COLOR}%{skipCount} times{/lootplot:INFO_COLOR}!)")
+local NEXT_LEVEL_SKIP = interp("Click to skip %{skipCount} rounds, and go the next level.\n{c r=0.6 g=0.6 b=0.7}(Triggers {lootplot:TRIGGER_COLOR}%{triggerName}{/lootplot:TRIGGER_COLOR} on everything {lootplot:INFO_COLOR}%{skipCount} time(s){/lootplot:INFO_COLOR}!)")
 local NEXT_LEVEL_NEED_POINTS = interp("{c r=1 g=0.6 b=0.5}Need %{pointsLeft} more points!")
 
 local function nextLevelActivateDescription(ent)
@@ -334,7 +334,7 @@ local function nextLevelActivateDescription(ent)
             local skipCount = getNumberOfRoundsToSkip(ent)
             if skipCount > 0 then
                 return NEXT_LEVEL_SKIP({
-                    triggerName = lp.getTriggerDisplayName("SKIP"),
+                    triggerName = lp.getTriggerDisplayName("LEVEL_UP"),
                     skipCount = skipCount
                 })
             else

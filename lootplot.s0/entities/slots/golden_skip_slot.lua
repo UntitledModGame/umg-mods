@@ -7,7 +7,7 @@ return lp.defineSlot("lootplot.s0:golden_skip_slot", {
     image = "golden_skip_slot",
     name = loc("Golden Skip Slot"),
 
-    triggers = {"SKIP"},
+    triggers = {"LEVEL_UP"},
 
     rarity = lp.rarities.EPIC,
 
