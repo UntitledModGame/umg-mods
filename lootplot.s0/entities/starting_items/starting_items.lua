@@ -554,7 +554,8 @@ defineStartingItem("seven_ball", {
                     local r = lp.SEED:randomWorldGen()
                     if r < 0.3 then
                         local slotEnt = lp.forceSpawnSlot(p, server.entities.stone_slot, team)
-                        slotEnt.baseMoneyGenerated = -3
+                        slotEnt.baseMoneyGenerated = -15
+                        slotEnt.canGoIntoDebt = true
                     elseif r < 0.9 then
                         lp.forceSpawnSlot(p, server.entities.dirt_slot, team)
                     else
