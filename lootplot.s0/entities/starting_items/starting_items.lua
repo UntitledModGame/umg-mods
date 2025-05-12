@@ -588,13 +588,17 @@ defineStartingItem("eight_ball", {
         lp.setMoney(ent, constants.STARTING_MONEY)
         local ppos, team = getPosTeam(ent)
 
-        wg.spawnSlots(ppos, server.entities.slot, 3,3, team)
+        wg.spawnSlots(assert(ppos:move(0,2)), server.entities.slot, 3,7, team)
 
-        wg.spawnSlots(assert(ppos:move(2,0)), server.entities.stone_slot, 1,5, team)
-        wg.spawnSlots(assert(ppos:move(-2,0)), server.entities.stone_slot, 1,5, team)
+        wg.spawnSlots(assert(ppos:move(2,2)), server.entities.stone_slot, 1,9, team)
+        wg.spawnSlots(assert(ppos:move(-2,2)), server.entities.stone_slot, 1,9, team)
 
-        wg.spawnSlots(assert(ppos:move(0,2)), server.entities.stone_slot, 5,1, team)
+        wg.spawnSlots(assert(ppos:move(0,6)), server.entities.stone_slot, 5,1, team)
         wg.spawnSlots(assert(ppos:move(0,-2)), server.entities.stone_slot, 5,1, team)
+
+        lp.forceSpawnSlot(assert(ppos:move(0,2)), server.entities.sell_slot, team)
+        lp.forceSpawnSlot(assert(ppos:move(0,3)), server.entities.skull_slot, team)
+        lp.forceSpawnSlot(assert(ppos:move(0,4)), server.entities.sell_slot, team)
 
         do
         lp.trySpawnSlot(assert(ppos:move(5,-1)), server.entities.null_slot, team)
@@ -607,8 +611,6 @@ defineStartingItem("eight_ball", {
 
         spawnShop(ent, -1,0)
         spawnRerollButton(ent, -1,0)
-
-        wg.spawnSlots(assert(ppos:move(0,4)), server.entities.skull_slot, 3,1, team)
 
         spawnDoomClockAndButtons(ent)
     end,
