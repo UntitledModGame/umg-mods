@@ -70,8 +70,10 @@
 - Adjusted 8-ball
 - Reordered starting-items
 - Created dark-teddy item
-- Created deep-coin item
-- Created interdimensional-briefcase item
+- Created interdimensional briefcase item
+- Created interdimensional coins item
+- Created interdimensional shield item
+- Created interdimensional net item
 - Adjusted S-Ball
 
 
