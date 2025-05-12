@@ -580,8 +580,6 @@ defineStartingItem("eight_ball", {
     name = loc("Eight Ball"),
     description = loc("Is surrounded by stone"),
 
-    activateDescription = loc("Destroys items"),
-
     isEntityTypeUnlocked = winToUnlock(),
     winAchievement = "WIN_EIGHT_BALL",
 
@@ -615,15 +613,6 @@ defineStartingItem("eight_ball", {
 
         spawnDoomClockAndButtons(ent)
     end,
-
-    shape = lp.targets.RookShape(1),
-    target = {
-        type = "ITEM",
-        activate = function(selfEnt, ppos, targEnt)
-            lp.destroy(targEnt)
-        end,
-        activateWithNoValidTargets = true
-    }
 })
 
 
