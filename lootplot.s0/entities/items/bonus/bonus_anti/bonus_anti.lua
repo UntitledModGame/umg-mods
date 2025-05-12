@@ -272,6 +272,72 @@ defItem("crystal_ball", "Crystal Ball", {
 
 
 
+do
+local MAX = 50
+
+defItem("deep_coin", "Deep Coin", {
+    triggers = {"PULSE"},
+
+    activateDescription = loc("If {lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} is negative, earn {lootplot:MONEY_COLOR}money{/lootplot:MONEY_COLOR} equal to the negative {lootplot:BONUS_COLOR}bonus.{/lootplot:BONUS_COLOR} (Capped at $%{max}!)", {
+        max = MAX
+    }),
+
+    basePrice = 9,
+    baseMaxActivations = 2,
+
+    rarity = lp.rarities.EPIC,
+
+    canActivate = ACTIVATE_IF_NEGATIVE_BONUS,
+
+    onActivate = function(ent)
+        local bonus = lp.getPointsBonus(ent)
+        if bonus and bonus < 0 then
+            local money = math.min(-bonus, MAX)
+            lp.addMoney(ent, money)
+        end
+    end,
+
+    doomCount = 3,
+})
+
+end
+
+
+
+
+do
+local MAX = 30
+
+defItem("interdimensional_briefcase", "Interdimensional Briefcase", {
+    triggers = {"PULSE"},
+
+    activateDescription = loc("If {lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} is negative, earn {lootplot:POINTS_MULT_COLOR}multiplier{/lootplot:POINTS_MULT_COLOR} equal to the negative bonus.\n(Capped at {lootplot:POINTS_MULT_COLOR}%{max} mult!{/lootplot:POINTS_MULT_COLOR})", {
+        max = MAX
+    }),
+
+    basePrice = 9,
+    baseMaxActivations = 6,
+
+    rarity = lp.rarities.EPIC,
+
+    canActivate = ACTIVATE_IF_NEGATIVE_BONUS,
+
+    onActivate = function(ent)
+        local bonus = lp.getPointsBonus(ent)
+        if bonus and bonus < 0 then
+            local mult = math.min(-bonus, MAX)
+            lp.addPointsMult(ent, mult)
+        end
+    end,
+})
+
+end
+
+
+
+
+
+
 
 
 defItem("deep_net", "Deep Net", {

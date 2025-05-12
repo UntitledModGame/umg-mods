@@ -66,6 +66,13 @@
 ## =============================
 
 
+- Reworked pink-mitten
+- Adjusted 8-ball
+- Reordered starting-items
+- Created dark-teddy item
+- Created deep-coin item
+- Created interdimensional-briefcase item
+- Adjusted S-Ball
 
 
 ## =============================

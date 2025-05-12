@@ -464,6 +464,49 @@ defineStartingItem("S_ball", {
 
 
 
+defineStartingItem("eight_ball", {
+    name = loc("Eight Ball"),
+    description = loc("Is surrounded by stone"),
+
+    isEntityTypeUnlocked = winToUnlock(),
+    winAchievement = "WIN_EIGHT_BALL",
+
+    onActivateOnce = function(ent)
+        lp.setMoney(ent, constants.STARTING_MONEY)
+        local ppos, team = getPosTeam(ent)
+
+        wg.spawnSlots(assert(ppos:move(0,2)), server.entities.slot, 3,7, team)
+
+        wg.spawnSlots(assert(ppos:move(2,2)), server.entities.stone_slot, 1,9, team)
+        wg.spawnSlots(assert(ppos:move(-2,2)), server.entities.stone_slot, 1,9, team)
+
+        wg.spawnSlots(assert(ppos:move(0,6)), server.entities.stone_slot, 5,1, team)
+        wg.spawnSlots(assert(ppos:move(0,-2)), server.entities.stone_slot, 5,1, team)
+
+        lp.forceSpawnSlot(assert(ppos:move(0,2)), server.entities.sell_slot, team)
+        lp.forceSpawnSlot(assert(ppos:move(0,3)), server.entities.skull_slot, team)
+        lp.forceSpawnSlot(assert(ppos:move(0,4)), server.entities.sell_slot, team)
+
+        do
+        lp.trySpawnSlot(assert(ppos:move(4,-1)), server.entities.null_slot, team)
+        lp.trySpawnItem(assert(ppos:move(4,-1)), server.entities.dark_bar, team)
+        lp.trySpawnSlot(assert(ppos:move(4,0)), server.entities.null_slot, team)
+        lp.trySpawnItem(assert(ppos:move(4,0)), server.entities.sack_dark, team)
+        lp.trySpawnSlot(assert(ppos:move(4,1)), server.entities.null_slot, team)
+        lp.trySpawnItem(assert(ppos:move(4,1)), server.entities.dark_bar, team)
+        end
+
+        spawnShop(ent, -1,0)
+        spawnRerollButton(ent, -1,0)
+
+        spawnDoomClockAndButtons(ent)
+    end,
+})
+
+
+
+
+
 
 
 defineStartingItem("four_ball", {
@@ -570,49 +613,6 @@ defineStartingItem("seven_ball", {
         spawnSell(ent, 0, 2)
         spawnDoomClockAndButtons(ent)
     end
-})
-
-
-
-
-
-defineStartingItem("eight_ball", {
-    name = loc("Eight Ball"),
-    description = loc("Is surrounded by stone"),
-
-    isEntityTypeUnlocked = winToUnlock(),
-    winAchievement = "WIN_EIGHT_BALL",
-
-    onActivateOnce = function(ent)
-        lp.setMoney(ent, constants.STARTING_MONEY)
-        local ppos, team = getPosTeam(ent)
-
-        wg.spawnSlots(assert(ppos:move(0,2)), server.entities.slot, 3,7, team)
-
-        wg.spawnSlots(assert(ppos:move(2,2)), server.entities.stone_slot, 1,9, team)
-        wg.spawnSlots(assert(ppos:move(-2,2)), server.entities.stone_slot, 1,9, team)
-
-        wg.spawnSlots(assert(ppos:move(0,6)), server.entities.stone_slot, 5,1, team)
-        wg.spawnSlots(assert(ppos:move(0,-2)), server.entities.stone_slot, 5,1, team)
-
-        lp.forceSpawnSlot(assert(ppos:move(0,2)), server.entities.sell_slot, team)
-        lp.forceSpawnSlot(assert(ppos:move(0,3)), server.entities.skull_slot, team)
-        lp.forceSpawnSlot(assert(ppos:move(0,4)), server.entities.sell_slot, team)
-
-        do
-        lp.trySpawnSlot(assert(ppos:move(4,-1)), server.entities.null_slot, team)
-        lp.trySpawnItem(assert(ppos:move(4,-1)), server.entities.dark_bar, team)
-        lp.trySpawnSlot(assert(ppos:move(4,0)), server.entities.null_slot, team)
-        lp.trySpawnItem(assert(ppos:move(4,0)), server.entities.sack_dark, team)
-        lp.trySpawnSlot(assert(ppos:move(4,1)), server.entities.null_slot, team)
-        lp.trySpawnItem(assert(ppos:move(4,1)), server.entities.dark_bar, team)
-        end
-
-        spawnShop(ent, -1,0)
-        spawnRerollButton(ent, -1,0)
-
-        spawnDoomClockAndButtons(ent)
-    end,
 })
 
 
