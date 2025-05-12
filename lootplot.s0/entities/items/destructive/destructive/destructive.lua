@@ -291,6 +291,37 @@ defDestructive("teddy", "Teddy", {
 
 
 
+defDestructive("dark_teddy", "Dark Teddy", {
+    shape = lp.targets.KingShape(1),
+
+    listen = {
+        type = "ITEM",
+        trigger="DESTROY"
+    },
+
+    baseMultGenerated = 0.8,
+    baseMaxActivations = 3,
+
+    activateDescription = loc("Triggers {/lootplot:TRIGGER_COLOR}Level-Up{/lootplot:TRIGGER_COLOR} on items"),
+
+    target = {
+        type = "ITEM",
+        filter = function (selfEnt, ppos, itemEnt)
+            lp.hasTrigger(itemEnt, "LEVEL_UP")
+        end,
+        activate = function(selfEnt, ppos, itemEnt)
+            lp.tryTriggerEntity("LEVEL_UP", itemEnt)
+        end
+    },
+
+    rarity = lp.rarities.EPIC
+})
+
+
+
+
+
+
 -- TODO:
 -- Do something with this.
 
