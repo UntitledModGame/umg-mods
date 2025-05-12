@@ -300,14 +300,14 @@ defDestructive("dark_teddy", "Dark Teddy", {
     },
 
     baseMultGenerated = 0.8,
-    baseMaxActivations = 3,
+    baseMaxActivations = 30,
 
-    activateDescription = loc("Triggers {/lootplot:TRIGGER_COLOR}Level-Up{/lootplot:TRIGGER_COLOR} on items"),
+    activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}Level-Up{/lootplot:TRIGGER_COLOR} on items"),
 
     target = {
         type = "ITEM",
         filter = function (selfEnt, ppos, itemEnt)
-            lp.hasTrigger(itemEnt, "LEVEL_UP")
+            return lp.hasTrigger(itemEnt, "LEVEL_UP")
         end,
         activate = function(selfEnt, ppos, itemEnt)
             lp.tryTriggerEntity("LEVEL_UP", itemEnt)
