@@ -264,6 +264,11 @@ local function getNumberOfRoundsToSkip(ent)
     return (numRounds + 1) - round
 end
 
+local function getNumberOfLevelUpTriggerRepeats(ent)
+    return getNumberOfRoundsToSkip(ent) + 1
+end
+
+
 
 
 
@@ -289,7 +294,6 @@ local function nextLevel(ent)
         -- {"lootplot.s0:dragonfruit", "lootplot.s0:blueberry", "iron_sword"}
     })
 
-    local skipCount = getNumberOfRoundsToSkip(ent)
     -- Remember: LIFO!
 
     lp.queueWithEntity(ent, function(e)
@@ -298,7 +302,9 @@ local function nextLevel(ent)
         lp.setLevel(e, lp.getLevel(e) + 1)
     end)
 
-    for _=1, skipCount do
+    local levelUpTriggerCount = getNumberOfLevelUpTriggerRepeats(ent)
+
+    for _=1, levelUpTriggerCount do
         resetPlot(ppos)
 
         lp.wait(ppos, 0.2)
@@ -321,8 +327,9 @@ end
 
 
 
-local NEXT_LEVEL_NO_SKIP = loc("Click to go to the next level")
-local NEXT_LEVEL_SKIP = interp("Click to skip %{skipCount} rounds, and go the next level.\n{c r=0.6 g=0.6 b=0.7}(Triggers {lootplot:TRIGGER_COLOR}%{triggerName}{/lootplot:TRIGGER_COLOR} on everything {lootplot:INFO_COLOR}%{skipCount} time(s){/lootplot:INFO_COLOR}!)")
+
+local NEXT_LEVEL_NO_SKIP = interp("Click to go the next level.\n{c r=0.6 g=0.6 b=0.7}(Triggers {lootplot:TRIGGER_COLOR}%{triggerName}{/lootplot:TRIGGER_COLOR} on everything!)")
+local NEXT_LEVEL_SKIP_N = interp("Click to skip %{skipCount} rounds, and go the next level.\n{c r=0.6 g=0.6 b=0.7}(Triggers {lootplot:TRIGGER_COLOR}%{triggerName}{/lootplot:TRIGGER_COLOR} on everything {lootplot:INFO_COLOR}%{levelUpTriggerCount} time(s){/lootplot:INFO_COLOR}!)")
 local NEXT_LEVEL_NEED_POINTS = interp("{c r=1 g=0.6 b=0.5}Need %{pointsLeft} more points!")
 
 local function nextLevelActivateDescription(ent)
@@ -332,13 +339,18 @@ local function nextLevelActivateDescription(ent)
         local pointsLeft = requiredPoints - points
         if pointsLeft <= 0 then
             local skipCount = getNumberOfRoundsToSkip(ent)
-            if skipCount > 0 then
-                return NEXT_LEVEL_SKIP({
-                    triggerName = lp.getTriggerDisplayName("LEVEL_UP"),
-                    skipCount = skipCount
+            local levelUpTriggerCount = getNumberOfLevelUpTriggerRepeats(ent)
+            local triggerName = lp.getTriggerDisplayName("LEVEL_UP")
+            if skipCount == 0 then
+                return NEXT_LEVEL_NO_SKIP({
+                    triggerName = triggerName
                 })
             else
-                return NEXT_LEVEL_NO_SKIP
+                return NEXT_LEVEL_SKIP_N({
+                    triggerName = lp.getTriggerDisplayName("LEVEL_UP"),
+                    skipCount = skipCount,
+                    levelUpTriggerCount = levelUpTriggerCount
+                })
             end
         else
             return NEXT_LEVEL_NEED_POINTS({
@@ -388,6 +400,8 @@ lp.defineSlot("lootplot.s0:next_level_button_slot", {
 
 
 
+local NEXT_LEVEL_SIMPLE = loc("Click to go to the next level")
+
 lp.defineSlot("lootplot.s0:simple_next_level_button_slot", {
     --[[
     Exact same as next-level button, but it doesnt allow skipping.
@@ -402,7 +416,7 @@ lp.defineSlot("lootplot.s0:simple_next_level_button_slot", {
             local requiredPoints = lp.getRequiredPoints(ent)
             local pointsLeft = requiredPoints - points
             if pointsLeft <= 0 then
-                return NEXT_LEVEL_NO_SKIP
+                return NEXT_LEVEL_SIMPLE
             else
                 return NEXT_LEVEL_NEED_POINTS({
                     pointsLeft = pointsLeft
