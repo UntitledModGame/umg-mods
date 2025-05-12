@@ -3,7 +3,7 @@
 local loc = localization.localize
 
 local WEAK_MULT = 2
-local STRONG_MULT = 8
+local STRONG_MULT = 5
 
 return lp.defineSlot("lootplot.s0:sapphire_slot", {
     image = "sapphire_slot",
