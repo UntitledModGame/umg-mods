@@ -306,14 +306,11 @@ end
 
 
 do
-local MAX = 30
 
 defItem("interdimensional_briefcase", "Interdimensional Briefcase", {
     triggers = {"PULSE"},
 
-    activateDescription = loc("If {lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} is negative, earn {lootplot:POINTS_MULT_COLOR}multiplier{/lootplot:POINTS_MULT_COLOR} equal to the negative bonus.\n(Capped at {lootplot:POINTS_MULT_COLOR}%{max} mult!{/lootplot:POINTS_MULT_COLOR})", {
-        max = MAX
-    }),
+    activateDescription = loc("If {lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} is negative, earn {lootplot:POINTS_MULT_COLOR}multiplier{/lootplot:POINTS_MULT_COLOR} equal to the negative bonus."),
 
     basePrice = 9,
     baseMaxActivations = 6,
@@ -325,7 +322,7 @@ defItem("interdimensional_briefcase", "Interdimensional Briefcase", {
     onActivate = function(ent)
         local bonus = lp.getPointsBonus(ent)
         if bonus and bonus < 0 then
-            local mult = math.min(-bonus, MAX)
+            local mult = -bonus
             lp.addPointsMult(ent, mult)
         end
     end,
