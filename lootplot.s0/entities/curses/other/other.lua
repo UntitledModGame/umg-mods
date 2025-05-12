@@ -22,7 +22,7 @@ end
 
 
 defCurse("anti_bonus_contract_curse", "Anti Bonus Contract", {
-    description = loc("Whilst this curse exists, bonus will be less than 0."),
+    description = loc("Whilst this curse exists, {lootplot:BONUS_COLOR}bonus{/lootplot:BONUS_COLOR} cannot go higher than -1."),
 
     onUpdateServer = function(ent)
         if lp.getPointsBonus(ent) > -1 then

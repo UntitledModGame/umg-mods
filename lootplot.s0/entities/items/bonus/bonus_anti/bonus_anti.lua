@@ -213,7 +213,7 @@ defItem("ouroboros", "Ouroboros", {
 
 
 
-defItem("deep_shield", "Deep Shield", {
+defItem("interdimensional_shield", "Interdimensional Shield", {
     triggers = {"PULSE"},
 
     activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}Pulse{/lootplot:TRIGGER_COLOR} on items.\nIf {lootplot:BONUS_COLOR}bonus{/lootplot:BONUS_COLOR} is negative, triggers 3 times instead of 1."),
@@ -275,7 +275,7 @@ defItem("crystal_ball", "Crystal Ball", {
 do
 local MAX = 50
 
-defItem("deep_coin", "Deep Coin", {
+defItem("interdimensional_coins", "Interdimensional Coins", {
     triggers = {"PULSE"},
 
     activateDescription = loc("If {lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} is negative, earn {lootplot:MONEY_COLOR}money{/lootplot:MONEY_COLOR} equal to the negative {lootplot:BONUS_COLOR}bonus.{/lootplot:BONUS_COLOR} (Capped at $%{max}!)", {
@@ -340,7 +340,7 @@ end
 
 
 
-defItem("deep_net", "Deep Net", {
+defItem("interdimensional_net", "Interdimensional Net", {
     rarity = lp.rarities.UNCOMMON,
 
     activateDescription = ACTIVATE_IF_NEGATIVE_BONUS_DESC,

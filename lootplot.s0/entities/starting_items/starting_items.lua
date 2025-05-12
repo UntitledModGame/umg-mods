@@ -450,7 +450,7 @@ defineStartingItem("S_ball", {
         wg.spawnSlots(ppos, server.entities.sapphire_slot, 1,1, team)
 
         lp.forceSpawnSlot(assert(ppos:move(0,-2)), server.entities.null_slot, team)
-        lp.forceSpawnItem(assert(ppos:move(0,-2)), server.entities.deep_net, team)
+        lp.forceSpawnItem(assert(ppos:move(0,-2)), server.entities.interdimensional_briefcase, team)
 
         spawnShop(ent)
         spawnRerollButton(ent)
