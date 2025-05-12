@@ -602,12 +602,12 @@ defineStartingItem("eight_ball", {
         lp.forceSpawnSlot(assert(ppos:move(0,4)), server.entities.sell_slot, team)
 
         do
-        lp.trySpawnSlot(assert(ppos:move(5,-1)), server.entities.null_slot, team)
-        lp.trySpawnItem(assert(ppos:move(5,-1)), server.entities.dark_bar, team)
-        lp.trySpawnSlot(assert(ppos:move(5,0)), server.entities.null_slot, team)
-        lp.trySpawnItem(assert(ppos:move(5,0)), server.entities.sack_dark, team)
-        lp.trySpawnSlot(assert(ppos:move(5,1)), server.entities.null_slot, team)
-        lp.trySpawnItem(assert(ppos:move(5,1)), server.entities.dark_bar, team)
+        lp.trySpawnSlot(assert(ppos:move(4,-1)), server.entities.null_slot, team)
+        lp.trySpawnItem(assert(ppos:move(4,-1)), server.entities.dark_bar, team)
+        lp.trySpawnSlot(assert(ppos:move(4,0)), server.entities.null_slot, team)
+        lp.trySpawnItem(assert(ppos:move(4,0)), server.entities.sack_dark, team)
+        lp.trySpawnSlot(assert(ppos:move(4,1)), server.entities.null_slot, team)
+        lp.trySpawnItem(assert(ppos:move(4,1)), server.entities.dark_bar, team)
         end
 
         spawnShop(ent, -1,0)
