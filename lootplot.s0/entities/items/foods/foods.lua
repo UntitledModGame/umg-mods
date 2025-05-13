@@ -1059,6 +1059,9 @@ local function definePie(id, name, desc, addShape, rarity)
 
         target = {
             type = "ITEM",
+            filter = function(selfEnt, ppos, targetItemEnt)
+                return targetItemEnt.shape
+            end,
             activate = function(selfEnt, ppos, targetItemEnt)
                 local oldShape = targetItemEnt.shape
                 if oldShape then
@@ -1081,6 +1084,7 @@ end
 definePie("kings_pie", "King's Pie", "Adds KING-1 targets to item", lp.targets.KingShape(1), lp.rarities.RARE)
 definePie("small_rooks_pie", "Small Rook's Pie", "Adds ROOK-2 targets to item", lp.targets.RookShape(2), lp.rarities.RARE)
 definePie("bishops_pie", "Bishop's Pie", "Adds BISHOP-2 targets to item", lp.targets.BishopShape(2), lp.rarities.RARE)
+definePie("pi_pie", "Pi Pie", "Makes item target itself", lp.targets.ON_SHAPE, lp.rarities.RARE)
 
 -- epic pies:
 definePie("knights_pie", "Knight's Pie", "Adds KNIGHT targets to item", lp.targets.KNIGHT_SHAPE, lp.rarities.EPIC)
