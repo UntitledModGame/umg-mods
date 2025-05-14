@@ -363,8 +363,7 @@ helper.defineDelayItem("tutorial_treasure_bar", "Treasure Bar", {
         try(plot, 6, 1, function(p)
             local slotEnt = server.entities.null_slot()
             slotEnt.lootplotTeam = team
-            local itemEnt = server.entities.copycat()
-            itemEnt.baseMultGenerated = 0.5
+            local itemEnt = server.entities.iron_helmet()
             itemEnt.lootplotTeam = team
             lp.unlocks.forceSpawnLockedSlot(p, slotEnt, itemEnt)
         end)
@@ -439,7 +438,7 @@ end
 
 
 
-local YOU_WIN_TEXT = loc("GG!\nRun completed.")
+local YOU_WIN_TEXT = loc("GG!\nNew items have been unlocked.")
 
 lp.defineSlot("lootplot.s0:tutorial_next_level_button_slot", {
     image = "level_button_up",
