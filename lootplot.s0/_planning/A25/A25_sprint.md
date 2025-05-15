@@ -10,16 +10,10 @@
 - Created interdimensional coins item
 - Created interdimensional shield item
 - Created interdimensional net item
-- Reworked pink-mitten
-- Adjusted 8-ball
-- Reordered starting-items
 - Created dark-teddy item
-- Adjusted S-Ball
-- Removed softlock via transforming button-slots
-- Made wildcard shards locked until 4 wins
+- Reworked and adjusted a bunch of systems/items
+- TONNES of fixes/tweaks
 - Made NORMAL and HARD difficulties harder. 
-- Made cheap-donut UNCOMMON
-- Fixed blue-cheesecake
 - Make cats meow when activated
 
 

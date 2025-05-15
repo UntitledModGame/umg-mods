@@ -116,7 +116,7 @@ defRocks("jagged_rock", "Jagged Rock", {
 })
 
 
-defRocks("jagged_emerald", "Jagged Emerald", {
+defRocks("alienrock", "Alienrock", {
     triggers = {"DESTROY", "REROLL"},
 
     activateDescription = HALF_BONUS_DESC,

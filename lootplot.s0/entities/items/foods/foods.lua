@@ -1104,6 +1104,7 @@ local function definePotion(name, etype)
         etype.init = etype.init or helper.rotateRandomly
     end
     etype.basePrice = etype.basePrice or 3
+    etype.canItemFloat = true
 
     defineFood(name, etype)
 end
@@ -1201,6 +1202,7 @@ do
 local function defineMush(id, etype)
     etype.rarity = etype.rarity or lp.rarities.RARE
     etype.basePrice = etype.basePrice or 6
+    etype.canItemFloat = true
     etype.isEntityTypeUnlocked = unlockAfterWins(2)
     etype.shape = etype.shape or lp.targets.KING_SHAPE
     defineFood(id, etype)
