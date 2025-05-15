@@ -1336,7 +1336,7 @@ end
 ---@param name string
 ---@param buffAmount number
 ---@param targetDesc string
-local function defineDonut(id, name, targetDesc, buffAmount)
+local function defineDonut(id, name, targetDesc, buffAmount, rarity)
     local etype = {
         image = id,
         name = loc(name),
@@ -1347,7 +1347,7 @@ local function defineDonut(id, name, targetDesc, buffAmount)
         basePrice = 6,
         canItemFloat = true,
 
-        rarity = lp.rarities.RARE,
+        rarity = rarity,
         shape = lp.targets.KING_SHAPE,
 
         target = {
@@ -1361,8 +1361,8 @@ local function defineDonut(id, name, targetDesc, buffAmount)
 end
 
 
-defineDonut("frosted_donut", "Frosted Donut", "Decreases target item price by $5", -5)
-defineDonut("pink_donut", "Pink Donut",  "Increases target item price by $8", 8)
+defineDonut("frosted_donut", "Frosted Donut", "Decreases target item price by $5", -5, lp.rarities.UNCOMMON)
+defineDonut("pink_donut", "Pink Donut",  "Increases target item price by $8", 8, lp.rarities.RARE)
 
 
 

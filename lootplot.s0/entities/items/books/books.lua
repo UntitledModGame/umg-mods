@@ -36,6 +36,10 @@ local function defineBasicBook(id, name, targetSlot, targetSlotName, rarity)
             type = "SLOT",
 
             filter = function(selfEnt, ppos, targetEnt)
+
+                -- If there is only 1 buttonSlot of this type, 
+                -- dont transform it.
+                -- (We dont wanna softlock player)
                 if targetEnt.buttonSlot then
                     local plot = ppos:getPlot()
                     local count = 0
@@ -45,8 +49,6 @@ local function defineBasicBook(id, name, targetSlot, targetSlotName, rarity)
                         end
                     end)
                     if count <= 1 then
-                        -- dont transform this button-slot, because its the only one!
-                        -- (We dont wanna softlock player)
                         return false
                     end
                 end

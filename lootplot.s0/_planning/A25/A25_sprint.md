@@ -82,6 +82,12 @@
 ## =============================
 
 
+- Removed softlock via transforming button-slots
+
+- Make game harder
+
+- Fixed blue-cheesecake
+
 - Made items that can't activate grayscale (need shader)
 
 - CREATED NEW LEGENDARY ITEM: Chef's Knife: 
