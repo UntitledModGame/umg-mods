@@ -1361,8 +1361,8 @@ local function defineDonut(id, name, targetDesc, buffAmount, rarity)
 end
 
 
-defineDonut("frosted_donut", "Frosted Donut", "Decreases target item price by $5", -5, lp.rarities.UNCOMMON)
-defineDonut("pink_donut", "Pink Donut",  "Increases target item price by $8", 8, lp.rarities.RARE)
+defineDonut("pink_donut", "Pink Donut", "Decreases target item price by $5", -5, lp.rarities.UNCOMMON)
+defineDonut("frosted_donut", "Frosted Donut",  "Increases target item price by $8", 8, lp.rarities.RARE)
 
 
 
