@@ -318,13 +318,13 @@ local function nextLevel(ent)
     for _=1, levelUpTriggerCount do
         resetPlot(ppos)
 
-        lp.wait(ppos, 0.2)
+        lp.wait(ppos, 0.1)
 
         lp.queueWithEntity(ent, function(e)
             lp.Bufferer()
                 :all(plot)
                 :filter(shouldTriggerLevelUp)
-                :withDelay(0.3)
+                :withDelay(0.1)
                 :to("SLOT_OR_ITEM")
                 :execute(function(ppos1, e1)
                     lp.resetCombo(e1)

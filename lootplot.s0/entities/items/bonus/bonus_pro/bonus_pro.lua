@@ -147,7 +147,7 @@ defItem("diamond", "Diamond", {
         end
     end,
 
-    baseMaxActivations = 10,
+    baseMaxActivations = 8,
     basePrice = 10,
 
     rarity = lp.rarities.RARE,

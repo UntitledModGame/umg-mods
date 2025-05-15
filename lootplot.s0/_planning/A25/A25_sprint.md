@@ -30,6 +30,12 @@
 
 
 
+
+## =============================
+## STRETCH / NEXT-SPRINT:
+## =============================
+
+
 - Made items that can't activate grayscale (need shader)
 
 - CREATED NEW LEGENDARY ITEM: Chef's Knife: 
@@ -41,10 +47,4 @@
 
 - Create popup text saying "LEVEL {X} PASSED!"
 - Play a cool sound when progressing to next level
-
-
-
-## =============================
-## STRETCH / NEXT-SPRINT:
-## =============================
 

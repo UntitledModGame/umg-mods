@@ -381,7 +381,7 @@ defDestructive("skull", "Skull", {
 
 
 defDestructive("dagger", "Dagger", {
-    activateDescription = loc("Destroys target items.\nEarns {lootplot:POINTS_COLOR}30 points{/lootplot:POINTS_COLOR} for each."),
+    activateDescription = loc("Destroys target items.\nEarns {lootplot:POINTS_COLOR}90 points{/lootplot:POINTS_COLOR} for each."),
 
     init = helper.rotateRandomly,
 
@@ -395,7 +395,7 @@ defDestructive("dagger", "Dagger", {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
             lp.destroy(targetEnt)
-            lp.addPoints(selfEnt, 30)
+            lp.addPoints(selfEnt, 90)
         end
     },
 })
