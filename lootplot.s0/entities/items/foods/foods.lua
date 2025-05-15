@@ -1342,7 +1342,7 @@ local function defineDonut(id, name, targetDesc, buffAmount, rarity)
         name = loc(name),
         activateDescription = loc(targetDesc),
 
-        isEntityTypeUnlocked = unlockAfterWins(3),
+        isEntityTypeUnlocked = unlockAfterWins(1),
 
         basePrice = 6,
         canItemFloat = true,
@@ -1361,7 +1361,7 @@ local function defineDonut(id, name, targetDesc, buffAmount, rarity)
 end
 
 
-defineDonut("pink_donut", "Pink Donut", "Decreases target item price by $5", -5, lp.rarities.UNCOMMON)
+defineDonut("pink_donut", "Pink Donut", "Decreases target item price by $5", -4, lp.rarities.UNCOMMON)
 defineDonut("frosted_donut", "Frosted Donut",  "Increases target item price by $8", 8, lp.rarities.RARE)
 
 
