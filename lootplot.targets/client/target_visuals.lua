@@ -1,8 +1,8 @@
+
 local util = require("shared.util")
 
 local FADE_IN = 0.1
 local DELAY_PER_UNIT = 0.04
-
 
 ---@param x number
 ---@param y number
@@ -30,30 +30,34 @@ local selectionTargets
 ---@type lootplot.targets.ShapeData
 local seenShape
 
-
-
-
-
+-- New variables for hover functionality
+---@type Entity?
+local hoveredItem
+---@type lootplot.PPos[]?
+local hoverTargets
+---@type lootplot.targets.ShapeData?
+local hoveredSeenShape
+---@type number
+local hoverStartTime = 0
 
 ---@param item Entity
+---@param targets lootplot.PPos[]
+---@param baseTime number
 ---@param image string
 ---@param imageInactive string
 ---@param color objects.Color
 ---@param canInteract fun(e:Entity, p:lootplot.PPos):boolean
-local function drawTargets(item, image, imageInactive, color, canInteract)
+local function drawTargetsFor(item, targets, baseTime, image, imageInactive, color, canInteract)
     love.graphics.setColor(1,1,1)
     local t = love.timer.getTime()
-    if item.shape and seenShape ~= item.shape then
-        -- ah! Shape was changed during selection. Update it.
-        selectionTargets = lp.targets.getTargets(item)
-        seenShape = item.shape
+    local itemPos = lp.getPos(item)
+    if not itemPos then
+        return
     end
-
-    assert(selectionTargets)
-    assert(selected)
-    for _, ppos in ipairs(selectionTargets) do
+    
+    for _, ppos in ipairs(targets) do
         local pX, pY = ppos:getWorldPos()
-        local pbX, pbY = selected.ppos:getWorldPos()
+        local pbX, pbY = itemPos:getWorldPos()
         local iX, iY = item.x, item.y
         local plot = ppos:getPlot()
 
@@ -62,13 +66,13 @@ local function drawTargets(item, image, imageInactive, color, canInteract)
         local snappedPos = plot:getClosestPPos(x,y)
         local snappedX, snappedY = snappedPos:getWorldPos()
 
-        local dist = util.chebyshevDistance(selected.ppos:getDifference(ppos))
-        local elapsedTime = t - selected.time
+        local dist = util.chebyshevDistance(itemPos:getDifference(ppos))
+        local elapsedTime = t - baseTime
         local showTime = dist * DELAY_PER_UNIT
         local fadeTime = showTime - FADE_IN
 
         if elapsedTime < fadeTime then
-            -- Assume selected.targets is sorted by their Chebyshev distance
+            -- Assume targets are sorted by their Chebyshev distance
             -- so we're not interested on the next item.
             break
         end
@@ -80,30 +84,56 @@ local function drawTargets(item, image, imageInactive, color, canInteract)
     love.graphics.setColor(1, 1, 1)
 end
 
-
 umg.on("rendering:drawEffects", function(camera)
-    if not (selected and selectionTargets) then
+    -- Handle selected items
+    if selected and selectionTargets then
+        local item = lp.posToItem(selected.ppos)
+        if item then
+            if item.shape and seenShape ~= item.shape then
+                -- ah! Shape was changed during selection. Update it.
+                selectionTargets = assert(lp.targets.getTargets(item))
+                seenShape = item.shape
+            end
+
+            if item.listen then
+                local img, color = "listener_plus", lp.COLORS.LISTEN_COLOR
+                local img2 = "target_invalid"
+                drawTargetsFor(item, selectionTargets, selected.time, img, img2, color, util.canListen)
+            end
+
+            if item.target then
+                local img, color = "target_plus", lp.targets.TARGET_COLOR
+                local img2 = "target_invalid"
+                drawTargetsFor(item, selectionTargets, selected.time, img, img2, color, util.canTarget)
+            end
+        end
+
+        -- we dont want to overwhelm the player by drawing too many targets.
+        -- If we already have an item that is selected, dont render new targets.
         return
     end
-    local item = lp.posToItem(selected.ppos)
-    if not (item) then
-        return
-    end
+    
+    -- Handle hovered items
+    if hoveredItem and hoverTargets then
+        if hoveredItem.shape and hoveredSeenShape ~= hoveredItem.shape then
+            -- Shape was changed during hover. Update it.
+            hoverTargets = assert(lp.targets.getTargets(hoveredItem))
+            hoveredSeenShape = hoveredItem.shape
+        end
 
-    if item.listen then
-        local img, color = "listener_plus", lp.COLORS.LISTEN_COLOR
-        local img2 = "target_invalid"
-        drawTargets(item, img, img2, color, util.canListen)
-    end
+        if hoveredItem.listen then
+            local img, color = "listener_plus", lp.COLORS.LISTEN_COLOR
+            local img2 = "target_invalid"
+            drawTargetsFor(hoveredItem, hoverTargets, hoverStartTime, img, img2, color, util.canListen)
+        end
 
-    if item.target then
-        local img, color = "target_plus", lp.targets.TARGET_COLOR
-        local img2 = "target_invalid"
-        drawTargets(item, img, img2, color, util.canTarget)
+        if hoveredItem.target then
+            local img, color = "target_plus", lp.targets.TARGET_COLOR
+            local img2 = "target_invalid"
+            drawTargetsFor(hoveredItem, hoverTargets, hoverStartTime, img, img2, color, util.canTarget)
+        end
     end
 end)
-
-
 
 require("shared.events_questions")
 
@@ -134,24 +164,6 @@ umg.on("lootplot.targets:targetActivated", function (itemEnt, ppos)
     -- ^^^ delete self after X seconds
 end)
 
-
-
-
-
---[[
-
-Item placement juice:
-
-When items are swapped, we should see what other entities that the swapped item targets.
-Then, we should play a nice click/reload sound, and bulge each new entity that was targeted. (maybe play a little orange target-animation too?)
-That way, when you place an item somewhere that targets a lot of other items, its super satisfying.
-
-ALSO IMPORTANT:
-Maybe delay the juice by 0.3-0.4 seconds?
-We ideally want the juice to play when the item actually lands in the slot.
-]]
-
-
 local ENT_TARGET_TYPES = {
     -- its pretty shit hardcoding this, but its "fine" i guess
     ITEM = true,
@@ -160,7 +172,6 @@ local ENT_TARGET_TYPES = {
     ITEM_OR_SLOT = true,
     SLOT_NO_ITEM = true,
 }
-
 
 --[[
 returns true IFF itemEnt is targetting other entities
@@ -173,13 +184,11 @@ local function isTargettingEntities(itemEnt)
     return target and ENT_TARGET_TYPES[target.type]
 end
 
-
 local dirObj = umg.getModFilesystem()
 
 audio.defineAudioInDirectory(
     dirObj:cloneWithSubpath("assets/sfx"), {"audio:sfx"}, "lootplot.targets:"
 )
-
 
 local function doTargetJuice(itemEnt)
     if not isTargettingEntities(itemEnt) then
@@ -237,13 +246,9 @@ local function doTargetJuice(itemEnt)
     end
 end
 
-
-
 umg.on("lootplot:itemMoved", function(itemEnt, ppos1, ppos2)
     doTargetJuice(itemEnt)
 end)
-
-
 
 ---@param s lootplot.Selected?
 umg.on("lootplot:selectionChanged", function(s)
@@ -260,5 +265,24 @@ umg.on("lootplot:selectionChanged", function(s)
     end
 end)
 
+umg.on("lootplot:hoverChanged", function()
+    local hov = lp.getHoveredItem()
+    local item = hov and hov.entity
+    local ppos = item and lp.getPos(item)
 
+    -- Only set hover data if this is a different item than the selected one
+    local isSelectedItem = selected and (item ~= selected.item)
+
+    if item and ppos and not isSelectedItem then
+        hoveredItem = item
+        hoverTargets = lp.targets.getTargets(item)
+        hoveredSeenShape = item.shape
+        hoverStartTime = love.timer.getTime()
+    else
+        -- Clear hover data when nothing is hovered or when the hovered item is the selected item
+        hoveredItem = nil
+        hoverTargets = nil
+        hoveredSeenShape = nil
+    end
+end)
 
