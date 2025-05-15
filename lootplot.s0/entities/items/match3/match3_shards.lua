@@ -194,6 +194,8 @@ defItem("wildcard_shards", "Wildcard Shards", {
     triggers = {"PULSE"},
     activateDescription = loc("If target-item is a shard, transforms into it."),
 
+    isEntityTypeUnlocked = helper.unlockAfterWins(constants.UNLOCK_AFTER_WINS.SHARDS),
+
     rarity = lp.rarities.UNCOMMON,
     basePrice = 8,
     basePointsGenerated = 6,
