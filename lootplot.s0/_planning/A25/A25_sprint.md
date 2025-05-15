@@ -17,7 +17,9 @@
 - Adjusted S-Ball
 - Removed softlock via transforming button-slots
 - Made wildcard shards locked until 4 wins
-
+- Made NORMAL and HARD difficulties harder. 
+- Made cheap-donut UNCOMMON
+- Fixed blue-cheesecake
 
 ## =============================
 ## TODO:
@@ -27,14 +29,9 @@
 
 
 
-- Made NORMAL and HARD difficulties harder. 
 Increase points by 10 and 100 times respectively, and decrease income by $1 and $3 respectively.
 
-- Add back the option to skip rounds in tutorial and with one ball
 
-- Donuts are fun to use!!! Make donuts UNCOMMON maybe...? (Or at least make the price-reduction one uncommon)
-
-- Fixed blue-cheesecake
 
 - Made items that can't activate grayscale (need shader)
 
@@ -48,7 +45,7 @@ Increase points by 10 and 100 times respectively, and decrease income by $1 and 
 - Create popup text saying "LEVEL {X} PASSED!"
 - Play a cool sound when progressing to next level
 
-
+- Make cats meow when activated
 
 
 ## =============================

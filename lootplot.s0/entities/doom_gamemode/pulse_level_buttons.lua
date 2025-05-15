@@ -10,6 +10,7 @@ Progresses to next-round, be activating and resetting the whole slot.
 ]]
 
 local constants = require("shared.constants")
+local helper = require("shared.helper")
 
 
 local loc = localization.localize
@@ -110,14 +111,21 @@ local function buttonOnDraw(ent)
 end
 
 
+
+do
+local AFTER_ACTIVATION = interp("(Afterwards earns {lootplot:MONEY_COLOR}$%{money}{/lootplot:MONEY_COLOR})")
+
+
 lp.defineSlot("lootplot.s0:pulse_button_slot", {
     image = "pulse_button_up",
 
     name = loc("Pulse Button"),
     description = loc("Click to {wavy}{lootplot:TRIGGER_COLOR}PULSE{/lootplot:TRIGGER_COLOR}{/wavy} all items/slots,\nand go to the next round!"),
-    activateDescription = loc("(Afterwards earns {lootplot:MONEY_COLOR}$%{money}{/lootplot:MONEY_COLOR})", {
-        money = constants.MONEY_PER_ROUND
-    }),
+    activateDescription = function(ent)
+        return AFTER_ACTIVATION({
+            money = helper.getMoneyPerRound()
+        })
+    end,
 
     activateAnimation = {
         activate = "pulse_button_hold",
@@ -151,7 +159,7 @@ lp.defineSlot("lootplot.s0:pulse_button_slot", {
 
             -- LIFO: we want to do this stuff last, so we queue this FIRST.
             lp.queueWithEntity(ent, function(e)
-                lp.addMoney(e, constants.MONEY_PER_ROUND)
+                lp.addMoney(e, helper.getMoneyPerRound())
                 lp.setPointsMult(e, 1)
                 lp.setPointsBonus(e, 0)
 
@@ -177,6 +185,9 @@ lp.defineSlot("lootplot.s0:pulse_button_slot", {
         end
     end,
 })
+
+end
+
 
 
 
@@ -221,7 +232,7 @@ lp.defineSlot("lootplot.s0:gray_pulse_button_slot", {
 
             -- LIFO: we want to do this stuff last, so we queue this FIRST.
             lp.queueWithEntity(ent, function(e)
-                lp.addMoney(e, constants.MONEY_PER_ROUND)
+                lp.addMoney(e, MONEY_PER_ROUND)
                 lp.setPointsMult(e, 1)
                 lp.setPointsBonus(e, 0)
 

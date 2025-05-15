@@ -1,4 +1,7 @@
 
+local constants = require("shared.constants")
+
+
 ---@class helper
 local helper = {}
 
@@ -361,6 +364,15 @@ function helper.getEmptySpaceNear(ppos, distanceFromOtherSlots)
     return bestPos
 end
 
+
+
+function helper.getMoneyPerRound()
+    local _, dInfo = lp.getDifficulty()
+    if dInfo and constants.ROUND_INCOME[dInfo.difficulty] then
+        return constants.ROUND_INCOME[dInfo.difficulty]
+    end
+    return constants.ROUND_INCOME[0]
+end
 
 
 
