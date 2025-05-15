@@ -30,20 +30,6 @@ local selectionTargets
 ---@type lootplot.targets.ShapeData
 local seenShape
 
----@param s lootplot.Selected?
-umg.on("lootplot:selectionChanged", function(s)
-    selected = s
-
-    if s then
-        local itemEnt = lp.posToItem(s.ppos)
-
-        if itemEnt then
-            selectionTargets = lp.targets.getTargets(itemEnt)
-            seenShape = itemEnt.shape
-        end
-    end
-end)
-
 
 
 
@@ -259,11 +245,20 @@ end)
 
 
 
----@param selectedd lootplot.Selected
-umg.on("lootplot:selectionChanged", function(selectedd)
-    local itemEnt = selectedd and selectedd.item
-    if itemEnt then
-        doTargetJuice(itemEnt)
+---@param s lootplot.Selected?
+umg.on("lootplot:selectionChanged", function(s)
+    selected = s
+
+    if s then
+        local itemEnt = lp.posToItem(s.ppos)
+
+        if itemEnt then
+            selectionTargets = lp.targets.getTargets(itemEnt)
+            seenShape = itemEnt.shape
+            doTargetJuice(itemEnt)
+        end
     end
 end)
+
+
 
