@@ -427,10 +427,13 @@ lp.defineSlot("lootplot.s0:simple_next_level_button_slot", {
     end,
 
     canActivate = function(ent)
+        local level = lp.getLevel(ent) or 0
         local skipCount = getNumberOfRoundsToSkip(ent)
-        if skipCount <= 0 then
-            return nextLevelCanActivate(ent)
+        if (level <= 2) and (skipCount > 0) then
+            -- dont allow player to skip the first couple of levels (its a noob-trap)
+            return false
         end
+        return nextLevelCanActivate(ent)
     end,
 
     activateAnimation = {
