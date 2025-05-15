@@ -759,7 +759,9 @@ tutorialSections:add(function(tutEnt)
     egg.grubMoneyCap = 5 end
 
     do local egg = assert(spawnItem(tutEnt, 4,1, "tutorial_egg"))
-    egg.baseMoneyGenerated = -1 end
+    egg.baseMoneyGenerated = -1
+    egg.canGoIntoDebt = true
+    end
 
     do
     local egg = assert(spawnItem(tutEnt, 0,3, "tutorial_egg"))
@@ -767,8 +769,10 @@ tutorialSections:add(function(tutEnt)
     egg.lives = 5
     egg.canItemFloat = true
     egg.repeatActivations = true
-    egg.doomCount = 1
+    egg.doomCount = 60
     end
+
+    assert(spawnSlot(tutEnt, 0,5, "tutorial_pulse_button_slot"))
 end)
 end
 
@@ -800,7 +804,9 @@ tutorialSections:add(function(tutEnt)
     slot.baseBonusGenerated = 2 end
 
     do local slot = assert(spawnSlot(tutEnt, 4,1, "tutorial_slot"))
-    slot.baseMoneyGenerated = -1 end
+    slot.baseMoneyGenerated = -1
+    slot.canGoIntoDebt = true
+    end
 
     do assert(spawnSlot(tutEnt, 0,2, "tutorial_slot")) end
 
@@ -810,9 +816,12 @@ tutorialSections:add(function(tutEnt)
     slot.baseMultGenerated = 1
     slot.baseBonusGenerated = 2
     slot.baseMoneyGenerated = -1
+    slot.canGoIntoDebt = true
     slot.lives = 5
-    slot.doomCount = 10
+    slot.doomCount = 50
     end
+
+    assert(spawnSlot(tutEnt, 0,5, "tutorial_pulse_button_slot"))
 end)
 end
 
