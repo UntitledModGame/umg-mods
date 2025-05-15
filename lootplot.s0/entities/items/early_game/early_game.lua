@@ -181,9 +181,10 @@ defItem("boomerang", {
         if not ppos then return end
 
         for i=1, BOOMERANG_POINT_ACTIVATION_COUNT do
-            lp.wait(ppos, 0.2)
+            lp.wait(ppos, 0.1)
             lp.queueWithEntity(ent, function(e)
                 lp.addPoints(e, BOOMERANG_POINTS)
+                lp.incrementCombo(e, 1)
             end)
         end
     end,
