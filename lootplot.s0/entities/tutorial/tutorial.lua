@@ -744,27 +744,27 @@ tutorialSections:add(function(tutEnt)
     clearEverythingExceptButtons(tutEnt)
     addText(tutEnt, 0,-1, TXT)
 
-    do local egg = assert(spawnItem(tutEnt, -4,1, "tutorial_egg"))
+    do local egg = assert(spawnItem(tutEnt, -4,2, "tutorial_egg"))
     egg.repeatActivations = true end
 
-    do local egg = assert(spawnItem(tutEnt, -3,2, "tutorial_egg"))
+    do local egg = assert(spawnItem(tutEnt, -3,3, "tutorial_egg"))
     egg.doomCount = 9 end
 
-    assert(spawnFloatingItem(tutEnt, -1,1, "tutorial_egg"))
+    assert(spawnFloatingItem(tutEnt, -1,2, "tutorial_egg"))
 
-    do local egg = assert(spawnItem(tutEnt, 1,1, "tutorial_egg"))
+    do local egg = assert(spawnItem(tutEnt, 1,2, "tutorial_egg"))
     egg.lives = 5 end
 
-    do local egg = assert(spawnItem(tutEnt, 3,2, "tutorial_egg"))
+    do local egg = assert(spawnItem(tutEnt, 3,3, "tutorial_egg"))
     egg.grubMoneyCap = 5 end
 
-    do local egg = assert(spawnItem(tutEnt, 4,1, "tutorial_egg"))
+    do local egg = assert(spawnItem(tutEnt, 4,2, "tutorial_egg"))
     egg.baseMoneyGenerated = -1
     egg.canGoIntoDebt = true
     end
 
     do
-    local egg = assert(spawnItem(tutEnt, 0,3, "tutorial_egg"))
+    local egg = assert(spawnItem(tutEnt, 0,4, "tutorial_egg"))
     egg.grubMoneyCap = 5
     egg.lives = 5
     egg.canItemFloat = true
@@ -772,7 +772,7 @@ tutorialSections:add(function(tutEnt)
     egg.doomCount = 60
     end
 
-    assert(spawnSlot(tutEnt, 0,5, "tutorial_pulse_button_slot"))
+    assert(spawnSlot(tutEnt, 0,1, "tutorial_pulse_button_slot"))
 end)
 end
 
@@ -813,15 +813,15 @@ tutorialSections:add(function(tutEnt)
     do
     local slot = assert(spawnSlot(tutEnt, 0,3, "tutorial_slot"))
     slot.basePointsGenerated = 10
-    slot.baseMultGenerated = 1
     slot.baseBonusGenerated = 2
     slot.baseMoneyGenerated = -1
+    slot.repeatActivations = true
     slot.canGoIntoDebt = true
     slot.lives = 5
     slot.doomCount = 50
     end
 
-    assert(spawnSlot(tutEnt, 0,5, "tutorial_pulse_button_slot"))
+    assert(spawnSlot(tutEnt, 0,0, "tutorial_pulse_button_slot"))
 end)
 end
 
