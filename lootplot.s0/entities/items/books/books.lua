@@ -35,6 +35,24 @@ local function defineBasicBook(id, name, targetSlot, targetSlotName, rarity)
         target = {
             type = "SLOT",
 
+            filter = function(selfEnt, ppos, targetEnt)
+                if targetEnt.buttonSlot then
+                    local plot = ppos:getPlot()
+                    local count = 0
+                    plot:foreachSlot(function(slotEnt)
+                        if slotEnt:type() == targetEnt:type() then
+                            count = count + 1
+                        end
+                    end)
+                    if count <= 1 then
+                        -- dont transform this button-slot, because its the only one!
+                        -- (We dont wanna softlock player)
+                        return false
+                    end
+                end
+                return true
+            end,
+
             activate = function(selfEnt, ppos, targetEnt)
                 local targSlot
                 if type(targetSlot) == "function" then
