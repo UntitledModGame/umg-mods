@@ -363,8 +363,9 @@ helper.defineDelayItem("tutorial_treasure_bar", "Treasure Bar", {
         try(plot, 6, 1, function(p)
             local slotEnt = server.entities.null_slot()
             slotEnt.lootplotTeam = team
-            local itemEnt = server.entities.iron_helmet()
+            local itemEnt = server.entities.copykitten()
             itemEnt.lootplotTeam = team
+            itemEnt.doomCount = 4
             lp.unlocks.forceSpawnLockedSlot(p, slotEnt, itemEnt)
         end)
 

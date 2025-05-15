@@ -67,6 +67,12 @@ defineCat("copycat", {
 
     target = {
         type = "NO_ITEM",
+        filter = function(selfEnt, ppos, targetEnt)
+            if (not lp.canItemFloat(selfEnt)) and (not lp.posToSlot(ppos)) then
+                return false
+            end
+            return true
+        end,
         activate = function(selfEnt, ppos, targetEnt)
             lp.tryCloneItem(selfEnt, ppos)
         end
@@ -149,6 +155,12 @@ defineCat("copykitten", {
 
     target = {
         type = "NO_ITEM",
+        filter = function(selfEnt, ppos)
+            if selfEnt.doomCount <= 0 then
+                return false
+            end
+            return true
+        end,
         activate = function(selfEnt, ppos, targetEnt)
             if selfEnt.doomCount <= 0 then
                 return
