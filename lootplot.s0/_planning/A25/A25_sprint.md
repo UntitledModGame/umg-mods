@@ -20,16 +20,13 @@
 - Made NORMAL and HARD difficulties harder. 
 - Made cheap-donut UNCOMMON
 - Fixed blue-cheesecake
+- Make cats meow when activated
+
+
 
 ## =============================
 ## TODO:
 ## =============================
-
-
-
-
-
-Increase points by 10 and 100 times respectively, and decrease income by $1 and $3 respectively.
 
 
 
@@ -45,7 +42,6 @@ Increase points by 10 and 100 times respectively, and decrease income by $1 and 
 - Create popup text saying "LEVEL {X} PASSED!"
 - Play a cool sound when progressing to next level
 
-- Make cats meow when activated
 
 
 ## =============================

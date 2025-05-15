@@ -2,10 +2,33 @@
 local loc = localization.localize
 
 
+
+local meows
+if client then
+    local dirObj = umg.getModFilesystem()
+    audio.defineAudioInDirectory(
+        dirObj:cloneWithSubpath("entities/items/cats/meows"), {"audio:sfx"}, "lootplot.s0:"
+    )
+    meows = {
+        sound.Sound("lootplot.s0:cat_meow_1", 0.5, 1),
+        sound.Sound("lootplot.s0:cat_meow_2", 0.9, 1),
+        sound.Sound("lootplot.s0:cat_meow_3", 0.5, 1),
+    }
+end
+
+
+
+
 local function defineCat(id, etype)
     if not etype.listen then
         etype.triggers = etype.triggers or {"PULSE"}
     end
+
+    etype.onActivateClient = function(ent)
+        local m = table.random(meows)
+        m:play(ent, 1, 0.9 + math.random()/5)
+    end
+
     etype.image = etype.image or id
     return lp.defineItem("lootplot.s0:"..id, etype)
 end
@@ -16,7 +39,6 @@ local function unlockAfterWins(numWins)
         return numWins <= lp.getWinCount()
     end
 end
-
 
 
 
