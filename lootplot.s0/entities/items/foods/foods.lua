@@ -1029,7 +1029,7 @@ defineFood("blue_cheesecake", {
     target = {
         type = "ITEM_OR_SLOT",
         activate = function(selfEnt, ppos, ent)
-            lp.modifierBuff(ent, "bonusGenerated", 1)
+            lp.modifierBuff(ent, "bonusGenerated", 2)
         end
     }
 })

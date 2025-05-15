@@ -84,7 +84,14 @@
 
 - Removed softlock via transforming button-slots
 
-- Make game harder
+- Made wildcard shards locked until 4 wins
+
+- Made NORMAL and HARD difficulties harder. 
+Increase points by 10 and 100 times respectively, and decrease income by $1 and $3 respectively.
+
+- Add back the option to skip rounds in tutorial and with one ball
+
+- Donuts are fun to use!!! Make donuts UNCOMMON maybe...? (Or at least make the price-reduction one uncommon)
 
 - Fixed blue-cheesecake
 
