@@ -285,7 +285,7 @@ local function defineHammer(mineral_type, name, strength, etype)
 
         basePointsGenerated = 15,
 
-        rarity = etype.rarity or lp.rarities.RARE,
+        rarity = etype.rarity or lp.rarities.UNCOMMON,
 
         basePrice = 12,
     }
