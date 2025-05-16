@@ -81,8 +81,8 @@ defineCat("copycat", {
 
 
 
-defineCat("tumbling_cat", {
-    name = loc("Tumbling Cat"),
+defineCat("dangerously_funny_cat", {
+    name = loc("Dangerously Funny Cat"),
 
     rarity = lp.rarities.RARE,
 
