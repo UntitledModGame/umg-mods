@@ -40,6 +40,16 @@ local hoveredSeenShape
 ---@type number
 local hoverStartTime = 0
 
+
+local function invalidateHover()
+    hoveredItem = nil
+    hoverTargets = nil
+    hoveredSeenShape = nil
+end
+
+
+
+
 ---@param item Entity
 ---@param targets lootplot.PPos[]
 ---@param baseTime number
@@ -248,7 +258,11 @@ end
 
 umg.on("lootplot:itemMoved", function(itemEnt, ppos1, ppos2)
     doTargetJuice(itemEnt)
+    if itemEnt == hoveredItem then
+        invalidateHover()
+    end
 end)
+
 
 ---@param s lootplot.Selected?
 umg.on("lootplot:selectionChanged", function(s)
@@ -280,9 +294,7 @@ umg.on("lootplot:hoverChanged", function()
         hoverStartTime = love.timer.getTime()
     else
         -- Clear hover data when nothing is hovered or when the hovered item is the selected item
-        hoveredItem = nil
-        hoverTargets = nil
-        hoveredSeenShape = nil
+        invalidateHover()
     end
 end)
 
