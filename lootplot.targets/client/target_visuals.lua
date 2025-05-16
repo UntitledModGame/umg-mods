@@ -124,7 +124,7 @@ umg.on("rendering:drawEffects", function(camera)
     end
     
     -- Handle hovered items
-    if hoveredItem and hoverTargets then
+    if hoveredItem and umg.exists(hoveredItem) and hoverTargets then
         if hoveredItem.shape and hoveredSeenShape ~= hoveredItem.shape then
             -- Shape was changed during hover. Update it.
             hoverTargets = assert(lp.targets.getTargets(hoveredItem))
