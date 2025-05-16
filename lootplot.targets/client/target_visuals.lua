@@ -142,6 +142,8 @@ umg.on("rendering:drawEffects", function(camera)
             local img2 = "target_invalid"
             drawTargetsFor(hoveredItem, hoverTargets, hoverStartTime, img, img2, color, util.canTarget)
         end
+    else
+        invalidateHover()
     end
 end)
 
