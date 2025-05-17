@@ -1088,7 +1088,7 @@ definePie("pi_pie", "Pi Pie", "Makes item target itself", lp.targets.ON_SHAPE, l
 
 -- epic pies:
 definePie("knights_pie", "Knight's Pie", "Adds KNIGHT targets to item", lp.targets.KNIGHT_SHAPE, lp.rarities.EPIC)
-definePie("rooks_pie", "Rook's Pie", "Adds ROOK-5 targets to item", lp.targets.RookShape(4), lp.rarities.EPIC)
+definePie("rooks_pie", "Rook's Pie", "Adds ROOK-4 targets to item", lp.targets.RookShape(4), lp.rarities.EPIC)
 
 
 
@@ -1363,7 +1363,7 @@ local function defineDonut(id, name, targetDesc, buffAmount, rarity)
 end
 
 
-defineDonut("pink_donut", "Pink Donut", "Decreases target item price by $5", -4, lp.rarities.UNCOMMON)
+defineDonut("pink_donut", "Pink Donut", "Decreases target item price by $4", -4, lp.rarities.UNCOMMON)
 defineDonut("frosted_donut", "Frosted Donut",  "Increases target item price by $8", 8, lp.rarities.RARE)
 
 
