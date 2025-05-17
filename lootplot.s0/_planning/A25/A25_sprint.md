@@ -6,22 +6,17 @@
 ## DONE:
 ## =============================
 
-- Created interdimensional briefcase item
-- Created interdimensional coins item
-- Created interdimensional shield item
-- Created interdimensional net item
-- Created dark-teddy item
-- Reworked and adjusted a bunch of systems/items
-- TONNES of fixes/tweaks
-- Made NORMAL and HARD difficulties harder. 
-- Make cats meow when activated
-
-
 
 ## =============================
 ## TODO:
 ## =============================
 
+
+- Fixed crash https://discord.com/channels/863625920991854602/1373076077047713843/1373076077047713843
+
+- Fixed achievements not working
+
+- Automatically select a background in menu (instead of hovering locked)
 
 
 
