@@ -7,16 +7,25 @@
 ## =============================
 
 
+- Fixed crash https://discord.com/channels/863625920991854602/1373076077047713843/1373076077047713843
+
+
 ## =============================
 ## TODO:
 ## =============================
 
 
-- Fixed crash https://discord.com/channels/863625920991854602/1373076077047713843/1373076077047713843
-
 - Fixed achievements not working
 
 - Automatically select a background in menu (instead of hovering locked)
+
+- Rounding for reroll/pulse rings (balance: $8.348934893)
+
+- UI changes in UMG-CORE: Buttons should have a hover effect. 
+- Also, ALL buttons should play a sound when pressed. (In NewRunScreen)
+
+- IDEA: Reduce the number of levels for winning for EASY/NORMAL.
+(Maybe easy only requires 6 levels to win...? Normal 8 levels?)
 
 
 
