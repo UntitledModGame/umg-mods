@@ -14,6 +14,8 @@
 ## TODO:
 ## =============================
 
+- (CRASH!!) Make it so pulse/level buttons can't appear in tutorial
+- (use isEntityTypeUnlocked infra)
 
 - Fixed achievements not working
 

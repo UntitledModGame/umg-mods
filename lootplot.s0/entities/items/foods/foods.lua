@@ -868,11 +868,13 @@ defineSlotConverter("golden_apple", "Golden Apple", "golden_slot", "Golden Slot"
 })
 
 defineSlotConverter("ruby_apple", "Ruby Apple", "ruby_slot", "Ruby Slot", lp.targets.ON_SHAPE, {
+    isEntityTypeUnlocked = unlockAfterWins(1),
     rarity = lp.rarities.RARE,
     basePrice = APPLE_PRICE
 })
 
 defineSlotConverter("diamond_apple", "Diamond Apple", "diamond_slot", "Diamond Slot", lp.targets.ON_SHAPE, {
+    isEntityTypeUnlocked = unlockAfterWins(1),
     rarity = lp.rarities.RARE,
     basePrice = APPLE_PRICE
 })
@@ -885,12 +887,10 @@ defineSlotConverter("cucumber_slices", "Cucumber Slices", "emerald_slot", "Emera
 })
 
 
-defineSlotConverter("lychee", "Lychee", "pink_slot", "DOOMED-6 Pink Slot", lp.targets.ON_SHAPE, {
-    isEntityTypeUnlocked = unlockAfterWins(4),
+defineSlotConverter("lychee", "Lychee", "pink_slot", "Slot that gives {lootplot:LIFE_COLOR}lives{/lootplot:LIFE_COLOR} to items", lp.targets.ON_SHAPE, {
+    isEntityTypeUnlocked = unlockAfterWins(3),
     rarity = lp.rarities.RARE
-}, function(slotEnt)
-    slotEnt.doomCount = 6
-end)
+})
 
 defineSlotConverter("purple_brain", "Purple Brain", "rulebender_slot", "Rulebender Slot", lp.targets.ON_SHAPE, {
     isEntityTypeUnlocked = unlockAfterWins(constants.UNLOCK_AFTER_WINS.ROTATEY),
@@ -904,7 +904,7 @@ defineSlotConverter("purple_brain", "Purple Brain", "rulebender_slot", "Rulebend
 
 defineFood("cloneberries", {
     name = loc("Clone-Berries"),
-    activateDescription = loc("Clones the current slot the item is in."),
+    activateDescription = loc("Clones the slot the item is placed in."),
 
     rarity = lp.rarities.RARE,
     basePrice = 7,
@@ -929,7 +929,7 @@ defineFood("cloneberries", {
 
 defineFood("doomed_cloneberries", {
     name = loc("Doomed Clone-Berries"),
-    activateDescription = loc("Clones the slot the item is in, and gives the new slots {lootplot:DOOMED_COLOR}{wavy}DOOMED-4"),
+    activateDescription = loc("Clones the slot the item is placed in, and gives the new slots {lootplot:DOOMED_COLOR}{wavy}DOOMED-4"),
 
     rarity = lp.rarities.UNCOMMON,
     basePrice = 7,
@@ -958,7 +958,7 @@ defineFood("doomed_cloneberries", {
 
 defineFood("golden_syrup", {
     name = loc("Golden Syrup"),
-    activateDescription = loc("Gives target item/slots +2 money-earned"),
+    activateDescription = loc("Gives target item/slots {lootplot:MONEY_COLOR}+$2 money-earned{/lootplot:MONEY_COLOR}"),
 
     rarity = lp.rarities.LEGENDARY,
 
