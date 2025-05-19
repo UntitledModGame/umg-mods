@@ -18,24 +18,27 @@
 - Make golden-horseshoe a food item
 
 
+- Display `INFINITY` correctly instead of nan
+- Make INFINITY/NAN money work when buying/activating stuff
+
+
 
 ## =============================
 ## TODO:
 ## =============================
 
 
+- Make hybrid card LEGENDARY
+- Make mult card LEGENDARY
 
 
-- Display `INFINITY` correctly instead of nan
-- Make the game instantly-win when score is infinity or nan
-- Make INFINITY/NAN money work when buying/activating stuff
+- Add SKIP button when pipeline has been running for longer than 20 seconds
+
+- Allow pipeline to run 10 actions per tick (instead of 1)
 
 
 - Make EPIC/LEGENDARY items rarer in worldgen (add RARE items)
 - Replace EPIC chest with LEGENDARY chest
-
-- Make hybrid card LEGENDARY
-- Make mult card LEGENDARY
 
 - (CRASH)  https://discord.com/channels/863625920991854602/1373658843120406568
 

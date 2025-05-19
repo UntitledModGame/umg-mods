@@ -238,7 +238,7 @@ defineCard("multiplier_card", "Multiplier Card", {
 
     baseMaxActivations = 1,
     basePrice = 10,
-    rarity = lp.rarities.EPIC,
+    rarity = lp.rarities.LEGENDARY,
 })
 
 
@@ -257,6 +257,6 @@ defineCard("hybrid_card", "Hybrid Card", {
 
     baseMaxActivations = 1,
     basePrice = 10,
-    rarity = lp.rarities.EPIC,
+    rarity = lp.rarities.LEGENDARY,
 })
 
