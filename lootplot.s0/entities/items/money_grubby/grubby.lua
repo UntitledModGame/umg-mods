@@ -416,7 +416,7 @@ defItem("dirty_pillow", "Dirty Pillow", {
 
     shape = lp.targets.KingShape(1),
     target = {
-        type = "SLOT_NO_ITEM",
+        type = "SLOT",
         filter = function(selfEnt, ppos, slotEnt)
             return slotEnt:type() == "lootplot.s0:dirt_slot"
         end,
