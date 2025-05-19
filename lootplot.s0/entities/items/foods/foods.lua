@@ -54,6 +54,8 @@ defineFood("butter", {
     basePrice = 8,
     rarity = lp.rarities.RARE,
 
+    canItemFloat = true,
+
     activateDescription = loc("Doubles money.\n(Maximum of $25)."),
 
     onActivate = function (selfEnt)
