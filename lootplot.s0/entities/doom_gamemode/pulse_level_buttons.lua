@@ -50,6 +50,11 @@ local function hasLost(e)
 end
 
 
+local function hasCompletedTutorial()
+    return lp.metaprogression.getFlag("lootplot.s0:isTutorialCompleted")
+end
+
+
 ---@param plot lootplot.Plot
 local function deleteAllButtonSlots(plot)
     plot:foreachSlot(function(ent, ppos)
@@ -140,6 +145,7 @@ lp.defineSlot("lootplot.s0:pulse_button_slot", {
     triggers = {},
     buttonSlot = true,
 
+    isEntityTypeUnlocked = hasCompletedTutorial,
     rarity = lp.rarities.RARE,
 
     canActivate = function(ent)
@@ -213,6 +219,7 @@ lp.defineSlot("lootplot.s0:gray_pulse_button_slot", {
     triggers = {},
     buttonSlot = true,
 
+    isEntityTypeUnlocked = hasCompletedTutorial,
     rarity = lp.rarities.UNIQUE,
 
     canActivate = function(ent)
@@ -399,6 +406,7 @@ lp.defineSlot("lootplot.s0:next_level_button_slot", {
     triggers = {},
     buttonSlot = true,
 
+    isEntityTypeUnlocked = hasCompletedTutorial,
     rarity = lp.rarities.EPIC,
 
     onDraw = buttonOnDraw,
@@ -457,6 +465,7 @@ lp.defineSlot("lootplot.s0:simple_next_level_button_slot", {
     triggers = {},
     buttonSlot = true,
 
+    isEntityTypeUnlocked = hasCompletedTutorial,
     rarity = lp.rarities.UNIQUE,
 
     onDraw = buttonOnDraw,

@@ -173,7 +173,8 @@ local function createSlotGenerator(rarity)
         filter = function(etypeName, _)
             local etype = server.entities[etypeName]
             if etype and etype.rarity and etype.rarity.id == rarity.id then
-                return true
+                ---@cast etype table
+                return lp.metaprogression.isEntityTypeUnlocked(etype)
             end
             return false
         end
