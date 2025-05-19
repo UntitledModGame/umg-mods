@@ -26,18 +26,18 @@
 - Make mult card LEGENDARY
 
 
+- IDEA: Reduce the number of levels for winning for EASY/NORMAL.
+(Maybe easy only requires 8 levels to win...? Normal/Hard 10 levels?)
+
+
 
 ## =============================
 ## TODO:
 ## =============================
 
 
-- IDEA: Reduce the number of levels for winning for EASY/NORMAL.
-(Maybe easy only requires 8 levels to win...? Normal/Hard 10 levels?)
-
 
 - Add SKIP button when pipeline has been running for longer than 20 seconds
-
 
 - Allow pipeline to run 10 actions per tick (instead of 1)
 

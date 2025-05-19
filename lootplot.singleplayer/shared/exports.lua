@@ -67,6 +67,30 @@ end
 
 
 
+
+umg.definePacket("lootplot.singleplayer:skipPipeline", {typelist = {}})
+
+function singleplayer.clearPipeline()
+    if client then
+        client.send("lootplot.singleplayer:skipPipeline")
+    elseif server then
+        local run = lp.singleplayer.getRun()
+        local plot = run and run:getPlot()
+        if plot then
+            plot:clearPipeline()
+        else
+            umg.log.error("HUH???? No Run object!")
+        end
+    end
+end
+
+if server then
+server.on("lootplot.singleplayer:skipPipeline", function(clientId)
+    singleplayer.clearPipeline()
+end)
+end
+
+
 ---Availability: Client and Server
 singleplayer.constants = setmetatable({
     --[[

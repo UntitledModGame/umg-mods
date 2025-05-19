@@ -33,8 +33,7 @@ function Plot:init(ownerEnt, width, height)
         self.pipeline = Pipeline()
     end
 
-    -- needed for syncing
-    self._cachedIsPipelineRunning = false
+    self.pipelineRunningTime = 0
 
     self.ownerEnt = ownerEnt
 
@@ -94,6 +93,7 @@ end
 
 
 local INDEX = "number"
+local NUMBER = "number"
 local ENT = "entity"
 local LAYER = "string"
 local BOOL = "boolean"
@@ -149,17 +149,20 @@ end
 
 
 
-umg.definePacket("lootplot:setPipelineRunningBool", {typelist = {ENT, BOOL}})
+umg.definePacket("lootplot:setPipelineRunningTime", {typelist = {ENT, NUMBER}})
 
 ---@param dt number
 function Plot:tick(dt)
     assert(server,"?")
     self.pipeline:tick(dt)
-    local oldIsRunnin = self._cachedIsPipelineRunning
-    local isRunnin = self:isPipelineRunning()
-    if oldIsRunnin ~= isRunnin then
-        server.broadcast("lootplot:setPipelineRunningBool", self.ownerEnt, isRunnin)
-        self._cachedIsPipelineRunning = isRunnin
+
+    if self:isPipelineRunning() then
+        self.pipelineRunningTime = self.pipelineRunningTime + dt
+        server.broadcast("lootplot:setPipelineRunningTime", self.ownerEnt, self.pipelineRunningTime)
+    elseif self.pipelineRunningTime ~= 0 then
+        -- if its already equal to 0, dont do anything.
+        self.pipelineRunningTime = 0
+        server.broadcast("lootplot:setPipelineRunningTime", self.ownerEnt, self.pipelineRunningTime)
     end
 end
 
@@ -175,8 +178,8 @@ client.on("lootplot:clearPlotEntry", function(plotEnt, index, layer)
     plotEnt.plot:clear(index, layer)
 end)
 
-client.on("lootplot:setPipelineRunningBool", function(plotEnt, bool)
-    plotEnt.plot._cachedIsPipelineRunning = bool
+client.on("lootplot:setPipelineRunningTime", function(plotEnt, bool)
+    plotEnt.plot.pipelineRunningTime = bool
 end)
 
 end
@@ -392,8 +395,18 @@ function Plot:isPipelineRunning()
     else
         -- pipeline is a server-side object! 
         -- So we gotta use our synced value
-        return self._cachedIsPipelineRunning
+        return self.pipelineRunningTime > 0
     end
+end
+
+
+function Plot:getPipelineRunningTime()
+    return self.pipelineRunningTime
+end
+
+
+function Plot:clearPipeline()
+    self.pipeline:clear()
 end
 
 

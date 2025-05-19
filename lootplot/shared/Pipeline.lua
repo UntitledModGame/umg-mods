@@ -54,6 +54,14 @@ function Pipeline:tick(dt)
     end
 end
 
+
+function Pipeline:clear()
+    self.buffer:clear()
+    self.delay = 0
+end
+
+
+
 ---@return boolean
 function Pipeline:isEmpty()
     return self.buffer:size() == 0
