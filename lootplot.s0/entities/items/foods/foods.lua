@@ -887,7 +887,7 @@ defineSlotConverter("cucumber_slices", "Cucumber Slices", "emerald_slot", "Emera
 })
 
 
-defineSlotConverter("lychee", "Lychee", "pink_slot", "Slot that gives {lootplot:LIFE_COLOR}lives{/lootplot:LIFE_COLOR} to items", lp.targets.ON_SHAPE, {
+defineSlotConverter("lychee", "Lychee", "pink_slot", "a slot that gives {lootplot:LIFE_COLOR}lives{/lootplot:LIFE_COLOR} to items", lp.targets.ON_SHAPE, {
     isEntityTypeUnlocked = unlockAfterWins(3),
     rarity = lp.rarities.RARE
 })

@@ -99,7 +99,8 @@ end
 ---@return integer,integer
 function PPos:getCoords()
     -- gets XY coords of PPos
-    return self:getPlot():indexToCoords(self.slot)
+    local plot = self:getPlot()
+    return plot:indexToCoords(self.slot)
 end
 
 ---@return integer
