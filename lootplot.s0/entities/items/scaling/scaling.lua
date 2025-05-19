@@ -73,8 +73,8 @@ defItem("vampire_fang", {
         local slotEnt = lp.itemToSlot(ent)
         if slotEnt then
             lp.modifierBuff(slotEnt, "pointsGenerated", -5, ent)
-            lp.modifierBuff(ent, "pointsGenerated", 5, ent)
         end
+        lp.modifierBuff(ent, "pointsGenerated", 5, ent)
     end,
 
     rarity = lp.rarities.RARE,
