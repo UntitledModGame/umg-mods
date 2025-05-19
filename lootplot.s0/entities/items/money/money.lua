@@ -85,52 +85,6 @@ helper.defineDelayItem("gold_bar", "Gold Bar", {
 
 
 
-defItem("golden_horseshoe", "Golden Horseshoe", {
-    activateDescription = loc("50% chance to double your money.\nIf that fails, set money to 0."),
-    rarity = lp.rarities.UNCOMMON,
-
-    triggers = {"PULSE"},
-
-    onActivate = function(ent)
-        local SUCCESS_CHANCE = 0.55
-        if lp.SEED:randomMisc() < SUCCESS_CHANCE then
-            local money = lp.getMoney(ent) or 0
-            lp.addMoney(ent, money)
-        else
-            lp.setMoney(ent, 0)
-        end
-        --[[
-        shhhh, LMAO!! 
-        Dont tell anyone that its actually 55% success rate!
-        To communicate secretly, to determine whether someone 
-        knows about the horseshoe's true nature,
-        we shall use code-words:
-
-        Instead of saying:
-        "Do you know about the horseshoe's real chances?"
-        you should say:
-        "In the horseshoe we trust"
-
-        And if someone says that to you, You should reply with:
-        "The horseshoe trusts us, comrade"
-
-        ^^^ this will be our secret message.
-        With this, we will know how to identify each other.
-        Whatever you do, DO NOT spoil the gag publically.
-        If you spoil anything in the discord, BAN BAN BAN BAN. BAAANNNN!
-        Thank you, my comrades. o7 o7 o7
-
-        (ALSO- dont worry, this is the only item in the game 
-        that intentionally lies about it's description)
-        ]]
-    end,
-
-    basePrice = 0,
-    baseMaxActivations = 5,
-})
-
-
-
 
 
 --[[

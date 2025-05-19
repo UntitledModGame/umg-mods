@@ -13,15 +13,18 @@
 - (use isEntityTypeUnlocked infra)
 
 
+- Fixed achievements not working
+
+- Make golden-horseshoe a food item
+
+
+
 ## =============================
 ## TODO:
 ## =============================
 
 
 
-- Fixed achievements not working
-
-- Make golden-horseshoe a food item
 
 - Display `INFINITY` correctly instead of nan
 - Make the game instantly-win when score is infinity or nan

@@ -62,6 +62,7 @@ defineFood("butter", {
     end
 })
 
+
 defineFood("cheese_slice", {
     name = loc("Cheese Slice"),
 
@@ -89,6 +90,47 @@ defineFood("cheese_slice", {
         end
     end
 })
+
+
+defineFood("golden_horseshoe", {
+    name = loc("Golden Horseshoe"),
+    activateDescription = loc("50% chance to double your money.\nIf that fails, set money to 0."),
+
+    rarity = lp.rarities.UNCOMMON,
+
+    triggers = {"PULSE"},
+
+    onActivate = function(ent)
+        local SUCCESS_CHANCE = 0.55
+        if lp.SEED:randomMisc() < SUCCESS_CHANCE then
+            local money = lp.getMoney(ent) or 0
+            lp.addMoney(ent, money)
+        else
+            lp.setMoney(ent, 0)
+        end
+        --[[
+        shhhh, LMAO!! 
+        Horseshoe actually has 55% success chance.
+        
+        To communicate, we use a secret code:
+
+        > "In the horseshoe we trust"
+        if someone says that to you, You reply with:
+        > "The horseshoe trusts us"
+
+        ^^^ this will be our secret message.
+        Whatever you do, DO NOT spoil the gag in the discord.
+        If you spoil, BAN BAN BAN BAN. BAAANNNN!
+
+        (ALSO- dont worry, this is the only item in the game 
+        that intentionally lies about it's description)
+        ]]
+    end,
+
+    basePrice = 0,
+    baseMaxActivations = 5,
+})
+
 
 
 
