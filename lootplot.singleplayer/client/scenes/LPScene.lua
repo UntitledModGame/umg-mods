@@ -126,7 +126,7 @@ function Scene:onRender(x,y,w,h)
     elseif allowPipelineSkip then
         local _, bottomArea = r:splitVertical(5, 1)
         local _,buttonArea,_ = bottomArea:splitHorizontal(1,1,1)
-        self.skipButton:render(buttonArea:get())
+        self.skipButton:render(buttonArea:padRatio(0.3):get())
     else
         -- draw action-buttons:
         local buttonCount = #self.slotActionButtons
