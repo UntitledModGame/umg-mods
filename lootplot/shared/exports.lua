@@ -405,7 +405,7 @@ end
 local initArgs = nil
 
 
----@alias lootplot.SingleplayerInitArgs {starterItem: string, difficulty: number, achievement?: string}
+---@alias lootplot.SingleplayerInitArgs {starterItem: string, difficulty: number, winAchievement?: string}
 
 ---@type lootplot.SingleplayerInitArgs
 local singleplayerArgs
@@ -1841,8 +1841,8 @@ function lp.winGame(plot, clientId)
     if singleplayerArgs then
         local k = makeKey(singleplayerArgs.starterItem, singleplayerArgs.difficulty)
         lp.metaprogression.setFlag(k, true)
-        if singleplayerArgs.achievement then
-            umg.achievements.unlockAchievement(singleplayerArgs.achievement)
+        if singleplayerArgs.winAchievement then
+            umg.achievements.unlockAchievement(singleplayerArgs.winAchievement)
         end
     end
     umg.call("lootplot:winGame", clientId)

@@ -9,15 +9,15 @@
 
 - Fixed crash https://discord.com/channels/863625920991854602/1373076077047713843/1373076077047713843
 
+- (CRASH!!) Make it so pulse/level buttons can't appear in tutorial
+- (use isEntityTypeUnlocked infra)
+
 
 ## =============================
 ## TODO:
 ## =============================
 
 
-
-- (CRASH!!) Make it so pulse/level buttons can't appear in tutorial
-- (use isEntityTypeUnlocked infra)
 
 - Fixed achievements not working
 

@@ -56,8 +56,11 @@ function Run:init(starterItem, difficulty, bg)
 
     self.winAchievement = nil
     local etype = (client or server).entities[starterItem]
-    if etype and etype.achievement then
+    if etype and etype.winAchievement then
+        umg.log.info("DEFINING WIN ACHIEVEMENT IN RUN: ", etype.winAchievement)
         self.winAchievement = etype.winAchievement
+    else
+        umg.log.info("Unable to define win-achievement: ", etype)
     end
 
     self.currentBackground = bg
@@ -146,7 +149,7 @@ function Run:getSingleplayerArgs()
     return {
         starterItem = self.starterItem,
         difficulty = self.difficulty,
-        achievement = self.winAchievement
+        winAchievement = self.winAchievement
     }
 end
 
