@@ -209,6 +209,17 @@ function LPState:onRemoved()
 end
 
 
+
+local INFINITY = loc("INFINITY")
+
+local function isInfinity(x)
+    local isNan = x ~= x
+    -- negative infinity counts as positive infinity, because argh its jsut easier
+    local isInf = (x == math.huge) or (x == -math.huge)
+    return isNan or isInf
+end
+
+
 -- After this, should go into `1.32434e15` territory.
 local MAX_ZEROS = 11
 
@@ -216,6 +227,9 @@ local MAX_ZEROS = 11
 ---@param nsig integer
 ---@return string
 local function showNSignificant(value, nsig)
+    if isInfinity(value) then
+        return INFINITY
+    end
 	local zeros = math.floor(math.log10(math.max(math.abs(value), 1)))
     if zeros >= MAX_ZEROS then
         local normalized = value / (10^zeros)

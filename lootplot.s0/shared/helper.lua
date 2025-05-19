@@ -365,6 +365,12 @@ function helper.getEmptySpaceNear(ppos, distanceFromOtherSlots)
 end
 
 
+function helper.isInfinity(x)
+    local isNan = x ~= x
+    local isInf = (x == math.huge) or (x == -math.huge)
+    return isNan or isInf
+end
+
 
 function helper.getMoneyPerRound()
     local _, dInfo = lp.getDifficulty()

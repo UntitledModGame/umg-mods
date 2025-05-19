@@ -28,9 +28,14 @@
 
 - Display `INFINITY` correctly instead of nan
 - Make the game instantly-win when score is infinity or nan
+- Make INFINITY/NAN money work when buying/activating stuff
+
 
 - Make EPIC/LEGENDARY items rarer in worldgen (add RARE items)
 - Replace EPIC chest with LEGENDARY chest
+
+- Make hybrid card LEGENDARY
+- Make mult card LEGENDARY
 
 - (CRASH)  https://discord.com/channels/863625920991854602/1373658843120406568
 
@@ -49,7 +54,7 @@
 - Also, ALL buttons should play a sound when pressed. (In NewRunScreen)
 
 - IDEA: Reduce the number of levels for winning for EASY/NORMAL.
-(Maybe easy only requires 6 levels to win...? Normal 8 levels?)
+(Maybe easy only requires 8 levels to win...? Normal/Hard 10 levels?)
 
 
 
