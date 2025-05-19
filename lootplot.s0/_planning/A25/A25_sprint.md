@@ -22,17 +22,22 @@
 - Make INFINITY/NAN money work when buying/activating stuff
 
 
+- Make hybrid card LEGENDARY
+- Make mult card LEGENDARY
+
+
 
 ## =============================
 ## TODO:
 ## =============================
 
 
-- Make hybrid card LEGENDARY
-- Make mult card LEGENDARY
+- IDEA: Reduce the number of levels for winning for EASY/NORMAL.
+(Maybe easy only requires 8 levels to win...? Normal/Hard 10 levels?)
 
 
 - Add SKIP button when pipeline has been running for longer than 20 seconds
+
 
 - Allow pipeline to run 10 actions per tick (instead of 1)
 
@@ -55,9 +60,6 @@
 
 - UI changes in UMG-CORE: Buttons should have a hover effect. 
 - Also, ALL buttons should play a sound when pressed. (In NewRunScreen)
-
-- IDEA: Reduce the number of levels for winning for EASY/NORMAL.
-(Maybe easy only requires 8 levels to win...? Normal/Hard 10 levels?)
 
 
 

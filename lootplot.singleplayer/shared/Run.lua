@@ -72,6 +72,12 @@ function Run:init(starterItem, difficulty, bg)
     for _, a in ipairs(lp.getAllAttributes()) do
         self.attrs[a] = lp.getAttributeDefault(a)
     end
+
+    local dInfo = lp.getDifficultyInfo(difficulty)
+    if dInfo.difficulty <= 0 then
+        -- on easy difficulties, ie <= 0, we only have 2 less levels
+        self.attrs["NUMBER_OF_LEVELS"] = assert(self.attrs["NUMBER_OF_LEVELS"]) - 2
+    end
 end
 
 
