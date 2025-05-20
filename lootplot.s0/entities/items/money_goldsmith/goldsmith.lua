@@ -79,6 +79,7 @@ local function defSilvRing(id,name,trigger)
 
         basePrice = 6,
         basePointsGenerated = 0,
+        baseMaxActivations = 6,
 
         lootplotProperties = {
             modifiers = {
@@ -111,6 +112,7 @@ local function defGoldenRing(id, name, trigger)
 
         basePrice = 8,
         baseMoneyGenerated = 0,
+        baseMaxActivations = 2,
 
         lootplotProperties = {
             maximums = {
@@ -161,7 +163,7 @@ defItem("iron_ornament", "Iron Ornament", {
     activateDescription = DESC,
 
     basePointsGenerated = 10,
-    baseMaxActivations = 6,
+    baseMaxActivations = 4,
 
     onActivate = function(ent)
         if (lp.getMoney(ent) or 0) > MONEY_REQUIREMENT then
@@ -187,7 +189,7 @@ defItem("ruby_ornament", "Ruby Ornament", {
     activateDescription = DESC,
 
     baseMultGenerated = -0.5,
-    baseMaxActivations = 6,
+    baseMaxActivations = 4,
 
     onActivate = function(ent)
         if (lp.getMoney(ent) or 0) > MONEY_REQUIREMENT then
