@@ -48,10 +48,6 @@
 
 
 
-- Use robo-streamer to put Olexas videos on steam homepage
-
-
-- Number-keys shortcuts for pressing action-buttons
 
 
 - UI changes in UMG-CORE: Buttons should have a hover effect. 
@@ -62,9 +58,22 @@
 
 - Nerf prism, backwards-loan, and ESPECIALLY round-timer
 
-- Add golden-trout item (Steals $15, adds $1 to slot)
+- Add golden-trout item (Steals $15, makes slots earn $1)
 
 - Change copykato -> Midas cat. Copy self to slots. Transform slots into golden-slots
+
+
+- SLOT: Guardian slot
+Items on this slot cannot steal points, bonus, or multiplier.
+
+- SLOT: Cloth slot
+On Pulse: Triggers LEVEL-UP on item
+
+
+- Use robo-streamer to put Olexas videos on steam homepage
+
+
+- Number-keys shortcuts for pressing action-buttons
 
 
 - Create curses:
