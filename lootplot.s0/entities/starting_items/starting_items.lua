@@ -730,7 +730,7 @@ defineStartingItem("rainbow_ball", {
 
 defineStartingItem("bowling_ball", {
     name = loc("Bowling Ball"),
-    description = loc("CHALLENGE-ITEM!"),
+    description = loc("STRIKE!"),
 
     isEntityTypeUnlocked = winToUnlock(),
     winAchievement = "WIN_BOWLING_BALL",
