@@ -22,7 +22,14 @@ end
 local function spawnChest(ppos, team)
     local slotEnt = server.entities.null_slot()
     slotEnt.lootplotTeam = team
-    local itemEnt = server.entities.chest_epic()
+
+    local r = lp.SEED:randomWorldGen()
+    local itemEnt
+    if r < 0.3 then
+        itemEnt = server.entities.chest_epic()
+    else
+        itemEnt = server.entities.chest_legendary()
+    end
     itemEnt.stuck = true
     itemEnt.lootplotTeam = team
     lp.unlocks.forceSpawnLockedSlot(ppos, slotEnt, itemEnt)
@@ -54,7 +61,14 @@ local function spawnOfferSlot(ppos, team)
     local slotEnt = server.entities["lootplot.s0:offer_slot"]()
     slotEnt.lootplotTeam = team
 
-    local rar = ((lp.SEED:randomWorldGen() < 0.85) and lp.rarities.EPIC) or lp.rarities.LEGENDARY
+    local rar = lp.rarities.RARE
+    local r = lp.SEED:randomWorldGen()
+    if (r < 0.08) then
+        rar = lp.rarities.LEGENDARY
+    elseif (r < 0.8) then
+        rar = lp.rarities.EPIC
+    end
+
     local itemType = lp.rarities.randomItemOfRarity(rar)
     local itemEnt = itemType and itemType()
     if itemEnt then
