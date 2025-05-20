@@ -637,9 +637,6 @@ defineStartingItem("blank_ball", {
         wg.spawnSlots(assert(ppos:move(2,-2)), server.entities.food_shop_slot, 2,1, team)
         wg.spawnSlots(assert(ppos:move(0,-3)), server.entities.reroll_button_slot, 1,1, team)
 
-        wg.spawnSlots(assert(ppos:move(2, 0)), server.entities.slot, 1,3, team)
-        wg.spawnSlots(assert(ppos:move(-2, 0)), server.entities.slot, 1,3, team)
-
         wg.spawnSlots(assert(ppos:move(0,1)), server.entities.rulebender_slot, 1,1, team)
 
         spawnSell(ent)
