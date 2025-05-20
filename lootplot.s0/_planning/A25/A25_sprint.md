@@ -29,19 +29,21 @@
 
 - Allow pipeline to run 10 actions per tick (instead of 1)
 
+- Automatically select a background in menu (instead of hovering locked)
+
+
 
 ## =============================
 ## TODO:
 ## =============================
 
 
-- Automatically select a background in menu (instead of hovering locked)
+
+- Add a button to go BACK from NewRunState -> ContinueRunState
+
 
 - Rounding for reroll/pulse rings (balance: $8.348934893)
 - Make golden-rings sticky
-
-
-- Add a button to go BACK from NewRunState -> ContinueRunState
 
 
 - Use robo-streamer to put Olexas videos on steam homepage

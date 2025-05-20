@@ -24,6 +24,7 @@ local loc = localization.localize
 
 local NEW_RUN_STRING = loc("New Run")
 local NEW_RUN_BUTTON_STRING = loc("Start New Run")
+local BACK_TEXT = loc("Back")
 
 local NEW_RUN_DEMO_LOCKED = loc("Buy full game to continue!")
 
@@ -86,14 +87,15 @@ function NewRunScene:init(arg)
         font = fonts.getLargeFont(),
     })
 
-    e.exitButton = ui.elements.Button({
-        click = function()
+    e.exitButton = StretchableButton({
+        onClick = function()
             self.isQuitting = true
             arg.exit()
         end,
-        image = "red_square_1",
-        backgroundColor = objects.Color.TRANSPARENT,
-        outlineColor = objects.Color.TRANSPARENT
+        color = objects.Color(1,1,1,1):setHSL(184, 0.7, 0.5),
+        scale = 2,
+        font = fonts.getLargeFont(),
+        text = BACK_TEXT,
     })
 
     self.perkSelect = PerkSelect()
@@ -198,21 +200,18 @@ function NewRunScene:onRender(x, y, w, h)
     left = left:padRatio(0.1)
     right = right:padRatio(0.1)
 
-    local exitButton = nil
-    if e.exitButton then
-        local iw, ih = select(3, client.assets.images.red_square_1:getViewport())
-        local s = globalScale.get() * 2
-        local regW, regH = iw * s, ih * s
-        local pad = 5
-        exitButton = layout.Region(0, 0, regW, regH)
-            :attachToRightOf(r)
-            :attachToTopOf(r)
-            :moveUnit(-regW - pad, regH + pad)
-    end
-
     e.base:render(r:get())
 
     e.title:render(title:get())
+
+    local exitButton = nil
+    if e.exitButton then
+        exitButton = r:splitHorizontal(1,5):splitVertical(1,5)
+            :attachToRightOf(r)
+            :attachToTopOf(r)
+            :moveRatio(-1, 1)
+            :padRatio(0.2)
+    end
 
     local perkBox, backgroundBox = left:splitVertical(4,5)
     -- perk:
