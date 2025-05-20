@@ -93,6 +93,38 @@ end
 
 
 
+
+
+do
+local generateItem = itemGenHelper.createLazyGenerator(
+    noFood,
+    itemGenHelper.createRarityWeightAdjuster({LEGENDARY = 1})
+)
+
+defChest("chest_legendary", "Legendary Chest", {
+    rarity = lp.rarities.LEGENDARY,
+
+    activateDescription = loc("Spawns a random %{LEGENDARY} item", {
+        LEGENDARY = lp.rarities.LEGENDARY.displayString
+    }),
+
+    basePrice = 25,
+
+    onActivate = function(ent)
+        local ppos = lp.getPos(ent)
+        local etype = server.entities[generateItem()]
+        if ppos and etype then
+            lp.forceSpawnItem(ppos, etype, ent.lootplotTeam)
+        end
+    end
+})
+
+end
+
+
+
+
+
 do
 local generateItem = itemGenHelper.createLazyGenerator(
     noFood,
