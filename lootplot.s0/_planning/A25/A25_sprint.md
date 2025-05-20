@@ -27,6 +27,7 @@
 
 - Add SKIP button when pipeline has been running for longer than 20 seconds
 
+- Allow pipeline to run 10 actions per tick (instead of 1)
 
 
 ## =============================
@@ -34,30 +35,14 @@
 ## =============================
 
 
-- Make LEGENDARY items rarer in worldgen (add RARE items too)
-- Add LEGENDARY-CHEST to locked-slots, instead of items directly
-- Replace EPIC chest with LEGENDARY chest
-
-
-
-- Change gift-box:
-5% Chance to turn into a Legendary chest
-Earns 30 points
-
-
-- Allow pipeline to run 10 actions per tick (instead of 1)
-
-
-- Use robo-streamer to put Olexas videos on steam homepage
-
-
-- (CRASH)  https://discord.com/channels/863625920991854602/1373658843120406568
-
-
 - Automatically select a background in menu (instead of hovering locked)
 
 - Rounding for reroll/pulse rings (balance: $8.348934893)
 - Make golden-rings sticky
+
+
+- Use robo-streamer to put Olexas videos on steam homepage
+
 
 - Number-keys shortcuts for pressing action-buttons
 
@@ -66,6 +51,13 @@ Earns 30 points
 
 - Also, ALL buttons should play a sound when pressed. (In NewRunScreen) 
 (Put sfx in StretchableButton direclty?)
+
+
+- Nerf prism, backwards-loan, and ESPECIALLY round-timer
+
+- Add golden-trout item (Steals $15, adds $1 to slot)
+
+- Change copykato -> Midas cat. Copy self to slots. Transform slots into golden-slots
 
 
 - Create curses:
@@ -85,10 +77,42 @@ CURSE: Steals $1 for every other curse on the plot
 CURSE: On Level-Up: Make a random slot cost $1 to activate
 CURSE: On Level-Up: transform 2 random slots into null-slots
 CURSE: Removes FLOATY from the closest floating item
+CURSE: When an item is purchased, steal $1
 
 
 
-- Create DAILY run
+Balls should actually DO stuff:
+G-BALL:
+GRUB-20, Earns $1
+
+6-ball: 
+On Reroll, Pulse: Earn $2
+
+5-ball:
+On Rotate, Pulse: Earn $2
+
+Blank ball:
+Remove the normal-slots
+
+Bowling ball:
+Increase doom-count of slots (???)
+Costs $2 to activate
+
+7 ball: on activation, turns slot into slate block (ON shape)
+slate block: cannot hold epic (IV) items. (or anything higher) 
+
+
+
+- Create DAILY run:
+- Randomize shop
+- Randomize main-island
+- Randomlize starting-items
+- Randomize curses
+
+
+- Remove 4-ball
+
+- Rename to rainbow ball
 
 
 

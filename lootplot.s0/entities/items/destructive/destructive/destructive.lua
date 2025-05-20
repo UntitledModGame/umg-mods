@@ -138,7 +138,7 @@ defDestructive("empty_cauldron", "Empty Cauldron", {
 defDestructive("candle", "Candle", {
     rarity = lp.rarities.LEGENDARY,
 
-    activateDescription = loc("Clones the below item into target slots with {lootplot:DOOMED_COLOR}DOOMED-1.\n(Doesn't work on food or sacks!)"),
+    activateDescription = loc("Clones the below item into target slots with {lootplot:DOOMED_COLOR}DOOMED-1.{/lootplot:DOOMED_COLOR}\n(Doesn't work on food or sacks!)"),
 
     basePrice = 15,
     baseMaxActivations = 1,
