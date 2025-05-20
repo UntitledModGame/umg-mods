@@ -39,7 +39,7 @@ local function defMultRing(id,name, triggers, extraComps)
 
         description = function(ent)
             return MULT_RING_DESC({
-                balance = lp.getMoney(ent) or 0
+                balance = math.floor(lp.getMoney(ent) or 0)
             })
         end,
 
@@ -84,7 +84,7 @@ local function defSilvRing(id,name,trigger)
 
         description = function(ent)
             return SILV_RING_DESC({
-                balance = lp.getMoney(ent) or 0
+                balance = math.floor(lp.getMoney(ent) or 0)
             })
         end,
 
@@ -109,17 +109,13 @@ defSilvRing("silver_reroll_ring", "Silver Reroll Ring", "REROLL")
 
 
 
-local GOLD_RING_DESC = interp("Earn {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} of interest for every {lootplot:MONEY_COLOR}$10{/lootplot:MONEY_COLOR} you have. (Max of {lootplot:MONEY_COLOR}$20{/lootplot:MONEY_COLOR})")
+local GOLD_RING_DESC = loc("Earn {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} of interest for every {lootplot:MONEY_COLOR}$10{/lootplot:MONEY_COLOR} you have. (Max of {lootplot:MONEY_COLOR}$4{/lootplot:MONEY_COLOR})")
 
 local function defGoldenRing(id, name, trigger)
     defItem(id, name, {
         triggers = {trigger},
 
-        description = function(ent)
-            return GOLD_RING_DESC({
-                balance = lp.getMoney(ent) or 0
-            })
-        end,
+        description = GOLD_RING_DESC,
 
         basePrice = 8,
         baseMoneyGenerated = 0,
@@ -129,7 +125,7 @@ local function defGoldenRing(id, name, trigger)
 
         lootplotProperties = {
             maximums = {
-                moneyGenerated = 20
+                moneyGenerated = 4
             },
             modifiers = {
                 moneyGenerated = function(ent)
