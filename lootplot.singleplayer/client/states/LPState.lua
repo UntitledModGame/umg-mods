@@ -211,10 +211,10 @@ end
 
 
 local INFINITY = loc("INFINITY")
+local NEGATIVE_INFINITY = loc("-INFINITY")
 
 local function isInfinity(x)
     local isNan = x ~= x
-    -- negative infinity counts as positive infinity, because argh its jsut easier
     local isInf = (x == math.huge) or (x == -math.huge)
     return isNan or isInf
 end
@@ -229,6 +229,8 @@ local MAX_ZEROS = 11
 local function showNSignificant(value, nsig)
     if isInfinity(value) then
         return INFINITY
+    elseif (value == -math.huge) then
+        return NEGATIVE_INFINITY
     end
 	local zeros = math.floor(math.log10(math.max(math.abs(value), 1)))
     if zeros >= MAX_ZEROS then

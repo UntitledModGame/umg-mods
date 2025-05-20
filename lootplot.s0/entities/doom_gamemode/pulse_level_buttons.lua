@@ -40,8 +40,7 @@ end
 
 local function isInfinity(x)
     local isNan = x ~= x
-    -- negative infinity counts as positive infinity, because argh its jsut easier
-    local isInf = (x == math.huge) or (x == -math.huge)
+    local isInf = (x == math.huge)
     return isNan or isInf
 end
 

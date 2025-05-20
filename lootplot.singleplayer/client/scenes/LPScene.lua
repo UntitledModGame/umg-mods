@@ -19,7 +19,7 @@ local strings = {
 
 
 local SKIP_TEXT = loc("End Early")
-local SKIP_TIME_THRESHOLD = 15 -- allow skip after its been running for X seconds
+local SKIP_TIME_THRESHOLD = 20 -- allow skip after its been running for X seconds
 
 
 
