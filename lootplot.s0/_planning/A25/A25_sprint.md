@@ -41,6 +41,9 @@
 - Make golden-rings sticky
 
 
+- Add a button to go BACK from NewRunState -> ContinueRunState
+
+
 - Use robo-streamer to put Olexas videos on steam homepage
 
 
