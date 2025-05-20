@@ -139,7 +139,7 @@ defItem("diamond", "Diamond", {
         if not ppos then return end
 
         for i=1, DIAMOND_POINT_ACTIVATION_COUNT do
-            lp.wait(ppos, 0.05)
+            lp.wait(ppos, 0.15)
             lp.queueWithEntity(ent, function(e)
                 lp.addPoints(e, DIAMOND_POINTS)
                 lp.incrementCombo(e, 1)
