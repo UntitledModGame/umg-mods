@@ -378,7 +378,7 @@ local LEVEL_COMPLETE = interp("{c r=0.2 g=1 b=0.4}{wavy amp=0.5 k=0.5}{outline t
 local GAME_OVER = interp("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline thickness=2}{c r=0.7 g=0.1 b=0}GAME OVER! (Level %{level})")
 
 local POINTS_NORMAL = interp("{wavy freq=0.5 spacing=0.4 amp=0.5}{outline thickness=2}Points: %{colorEffect}%{points} {c r=1 g=1 b=1}/{/c} %{requiredPoints}")
-local MONEY = interp("{wavy freq=0.6 spacing=0.8 amp=0.4}{outline thickness=2}{c r=1 g=0.843 b=0.1}$ %{money}")
+local MONEY = interp("{wavy freq=0.6 spacing=0.8 amp=0.4}{outline thickness=2}%{colorEffect}$ %{money}")
 
 
 ---@param x number
@@ -532,7 +532,8 @@ function LPState:drawHUD()
     })
 
     local moneyText = MONEY({
-        money = showNSignificant(run:getAttribute("MONEY"), 1)
+        money = showNSignificant(run:getAttribute("MONEY"), 1),
+        colorEffect = ((run:getAttribute("MONEY") >= 0) and "{c r=1 g=0.843 b=0.1}") or "{c r=0.9 g=0.15 b=0.1}"
     })
 
     local fH = font:getHeight() * gs

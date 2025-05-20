@@ -31,19 +31,21 @@
 
 - Automatically select a background in menu (instead of hovering locked)
 
+- Add a button to go BACK from NewRunState -> ContinueRunState
+
+
+
+- Rounding for reroll/pulse rings (balance: $8.348934893)
+- Make golden-rings sticky
+
+
+
 
 
 ## =============================
 ## TODO:
 ## =============================
 
-
-
-- Add a button to go BACK from NewRunState -> ContinueRunState
-
-
-- Rounding for reroll/pulse rings (balance: $8.348934893)
-- Make golden-rings sticky
 
 
 - Use robo-streamer to put Olexas videos on steam homepage
