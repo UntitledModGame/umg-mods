@@ -324,6 +324,8 @@ local function try(plot, x, y, func)
     local p0 = helper.getEmptySpaceNear(ppos, 1)
     if p0 then
         func(p0)
+    else
+        func(ppos)
     end
 end
 
@@ -832,7 +834,7 @@ end
 do
 -- Target part ONE:
 
-local TXT_UPPER = loc("This item has ROOK-1 targetting.\nTo view the target-shape, click on the item")
+local TXT_UPPER = loc("This item has ROOK-1 targetting.\nTo view the {lootplot.targets:COLOR}target-shape{/lootplot.targets:COLOR}, click on the item")
 local TXT_LOWER = loc("If the target is wiggling, a slot will spawn!\nIf it is red cross, the target is invalid.")
 
 
