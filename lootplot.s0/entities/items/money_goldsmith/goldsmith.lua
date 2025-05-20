@@ -3,6 +3,8 @@ local loc = localization.localize
 local interp = localization.newInterpolator
 
 local consts = require("shared.constants")
+local helper = require("shared.helper")
+
 local MONEY_REQUIREMENT = assert(consts.GOLDSMITH_MONEY_REQUIREMENT)
 
 
@@ -30,8 +32,9 @@ end
 
 local MULT_RING_DESC = interp("Adds {lootplot:POINTS_MULT_COLOR}mult{/lootplot:POINTS_MULT_COLOR} equal to 4% of the balance {lootplot:MONEY_COLOR}($%{balance})")
 
-local function defMultRing(id,name, triggers)
-    defItem(id, name, {
+local function defMultRing(id,name, triggers, extraComps)
+    extraComps = extraComps or {}
+    local etype = {
         triggers=assert(triggers),
 
         description = function(ent)
@@ -55,12 +58,20 @@ local function defMultRing(id,name, triggers)
         },
 
         rarity = lp.rarities.RARE,
-    })
+    }
+    for k,v in pairs(extraComps) do
+        etype[k] = v
+    end
+    defItem(id, name, etype)
 end
+
 
 defMultRing("red_multiplier_ring", "Red Multiplier Ring", {"PULSE"})
 defMultRing("green_multiplier_ring", "Green Multiplier Ring", {"REROLL"})
-defMultRing("orange_multiplier_ring", "Orange Multiplier Ring", {"ROTATE", "UNLOCK"})
+defMultRing("orange_multiplier_ring", "Orange Multiplier Ring", {"ROTATE", "UNLOCK"}, {
+    isEntityTypeUnlocked = helper.unlockAfterWins(consts.UNLOCK_AFTER_WINS.ROTATEY),
+    baseMoneyGenerated = 2
+})
 
 
 
