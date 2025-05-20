@@ -520,6 +520,8 @@ defShopSlot("offer_slot", "Offer Slot", {
     image = "cloud_slot",
     color = objects.Color.RED,
 
+    rarity = lp.rarities.UNIQUE,
+
     triggers = {"PULSE"},
 
     dontPropagateTriggerToItem = true,
