@@ -1,5 +1,5 @@
 
-local helper = require("constants.helper")
+local helper = require("shared.helper")
 
 local loc = localization.localize
 
@@ -35,7 +35,7 @@ end
 lp.defineSlot("lootplot.s0:glass_slot", {
     image = "glass_slot",
     name = loc("Glass slot"),
-    description = loc("Has a 10% chance of being destroyed when activated"),
+    activateDescription = loc("Has a 10% chance of being destroyed"),
     triggers = {"PULSE"},
 
     rarity = lp.rarities.UNCOMMON,
@@ -48,15 +48,40 @@ lp.defineSlot("lootplot.s0:glass_slot", {
 })
 
 
+
+lp.defineSlot("lootplot.s0:glass_slot_money", {
+    image = "glass_slot",
+    name = loc("Glass slot"),
+    activateDescription = loc("Has a 10% chance of being destroyed"),
+    triggers = {"PULSE"},
+
+    rarity = lp.rarities.RARE,
+
+    baseMoneyGenerated = 1,
+
+    onActivate = onActivate,
+
+    onDestroyClient = function(ent)
+        glassBreakSound:play(ent)
+    end
+})
+
+
+
+
+
 do
 local MULT = 3
 
 lp.defineSlot("lootplot.s0:red_glass_slot", {
     image = "red_glass_slot",
     name = loc("Red glass slot"),
-    description = loc("Items on this slot earn %{mult}x as much {lootplot:POINTS_MULT_COLOR}multiplier.{/lootplot:POINTS_MULT_COLOR}\nHas a 10% chance of being destroyed when activated", {
+
+    activateDescription = loc("Has a 10% chance of being destroyed"),
+    description = loc("Items on this slot earn %{mult}x as much {lootplot:POINTS_MULT_COLOR}multiplier.{/lootplot:POINTS_MULT_COLOR}", {
         mult = MULT
     }),
+
     triggers = {"PULSE"},
 
     unlockAfterWins = helper.unlockAfterWins(4),
