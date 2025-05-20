@@ -397,7 +397,7 @@ lp.defineSlot("lootplot.s0:simple_next_level_button_slot", {
             -- dont allow player to skip the first couple of levels (its a noob-trap)
             return false
         end
-        return nextLevelCanActivate(ent)
+        return hasRequiredPoints(ent)
     end,
 
     activateAnimation = {

@@ -138,12 +138,22 @@ defDestructive("empty_cauldron", "Empty Cauldron", {
 defDestructive("candle", "Candle", {
     rarity = lp.rarities.LEGENDARY,
 
-    activateDescription = loc("Clones the below item into target slots with {lootplot:DOOMED_COLOR}DOOMED-1."),
+    activateDescription = loc("Clones the below item into target slots with {lootplot:DOOMED_COLOR}DOOMED-1.\n(Doesn't work on food or sacks!)"),
 
     basePrice = 15,
     baseMaxActivations = 1,
 
     shape = lp.targets.KING_SHAPE,
+
+    canActivate = function(ent)
+        local ppos = lp.getPos(ent)
+        if not ppos then return end
+        local downPos = ppos:move(0,1)
+        local itemEnt = downPos and lp.posToItem(downPos)
+        if itemEnt then
+            return (not itemEnt.activateInstantly)
+        end
+    end,
 
     target = {
         type = "SLOT_NO_ITEM",
