@@ -94,7 +94,9 @@ defGrubby("pineapple_ring", "Pineapple Ring", {
     canItemFloat = true,
     activateDescription = loc("Make all target items {lootplot:MONEY_COLOR}$2{/lootplot:MONEY_COLOR} cheaper"),
 
-    baseMaxActivations = 8,
+    baseMaxActivations = 30,
+
+    sticky = true,
 
     listen = {
         type = "ITEM",
