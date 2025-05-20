@@ -20,28 +20,30 @@ end
 
 
 
-helper.defineDelayItem("gift_box", "Gift Box", {
-    basePrice = 6,
-    baseMaxActivations = 5,
+defItem("gift_box", "Gift Box", {
+    basePrice = 10,
+    baseMaxActivations = 2,
+    baseMultGenerated = 0.8,
 
     isEntityTypeUnlocked = unlockAfterWins(4),
 
-    rarity = lp.rarities.RARE,
     triggers = {"PULSE"},
 
-    delayCount = 25,
-    delayDescription = ("Spawn a random %s item")
-        :format(lp.rarities.LEGENDARY.displayString),
+    activateDescription = loc("4% chance to turn into a %{LEGENDARY} chest", {
+        LEGENDARY = lp.rarities.LEGENDARY.displayString
+    }),
 
-    delayAction = function(selfEnt)
+    onActivate = function(selfEnt)
         local ppos = lp.getPos(selfEnt)
-        lp.destroy(selfEnt)
-        if ppos then
-            local etype = lp.rarities.randomItemOfRarity(lp.rarities.LEGENDARY)
-                or server.entities[lp.FALLBACK_NULL_ITEM]
-            lp.trySpawnItem(ppos, etype, selfEnt.lootplotTeam)
+        if ppos and lp.SEED:randomMisc() <= 0.4 then
+            local itemEnt = lp.forceSpawnItem(ppos, server.entities.chest_legendary, selfEnt.lootplotTeam)
+            if itemEnt then
+                itemEnt.stuck = true
+            end
         end
-    end
+    end,
+
+    rarity = lp.rarities.RARE,
 })
 
 
