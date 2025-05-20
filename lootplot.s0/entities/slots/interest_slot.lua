@@ -5,11 +5,11 @@ local loc = localization.localize
 local function earnMoneyFancy(ent, moneyEarned)
     local ppos = assert(lp.getPos(ent))
     for _=1, moneyEarned do
-        lp.wait(ppos, 0.15)
+        lp.wait(ppos, 0.1)
         lp.queueWithEntity(ent, function(selfEnt)
             lp.addMoney(selfEnt, 1)
         end)
-        lp.wait(ppos, 0.15)
+        lp.wait(ppos, 0.1)
     end
 end
 
