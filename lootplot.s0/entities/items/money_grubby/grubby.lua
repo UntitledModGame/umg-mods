@@ -340,7 +340,9 @@ defItem("champions_belt", "Champion's Belt", {
     activateDescription = loc("Removes {lootplot:GRUB_COLOR_LIGHT}GRUBBY{/lootplot:GRUB_COLOR_LIGHT} from items.\nThen, destroys items."),
 
     rarity = lp.rarities.EPIC,
+
     basePrice = 12,
+    baseMaxActivations = 1,
 
     shape = lp.targets.HorizontalShape(2),
     target = {
