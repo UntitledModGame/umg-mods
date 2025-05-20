@@ -54,6 +54,22 @@ function Pipeline:tick(dt)
     end
 end
 
+--[[
+NEW PIPELINE THAT RUNS FASTER:
+(needs a bit of fixes, maybe uncomment this at some point...?)
+
+---@param dt number
+function Pipeline:tick(dt)
+    local buf = self.buffer
+    while self.delay <= dt and buf:size() > 0 do
+        local obj = buf:pop()
+        pollObj(self, obj)
+    end
+    self.delay = math.max(self.delay - dt, 0)
+end
+]]
+
+
 
 function Pipeline:clear()
     self.buffer:clear()

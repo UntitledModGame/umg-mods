@@ -193,7 +193,7 @@ defineHelmet("emerald_helmet", "Emerald Helmet", {
 defineHelmet("cast_helmet", "Cast Helmet", {
     activateDescription = loc("Give items without {lootplot:TRIGGER_COLOR}Pulse{/lootplot:TRIGGER_COLOR} trigger {lootplot:POINTS_COLOR}+8 points."),
 
-    triggers = {"REROLL"},
+    triggers = {"REROLL", "PULSE"},
 
     basePrice = 10,
     baseMaxActivations = 4,
