@@ -690,11 +690,11 @@ end
 
 
 defineStartingItem("rainbow_ball", {
-    name = loc("Gay"),
-    description = loc("gay."),
+    name = loc("Rainbow Ball"),
+    description = loc("Roy G Biv!"),
 
     isEntityTypeUnlocked = winToUnlock(),
-    winAchievement = "WIN_GAY",
+    winAchievement = "WIN_RAINBOW",
 
     baseMaxActivations = 1,
 
