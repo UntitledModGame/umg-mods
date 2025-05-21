@@ -28,7 +28,7 @@ return lp.defineSlot("lootplot.s0:cat_slot", {
     image = "cat_slot",
     name = loc("Cat slot"),
 
-    baseMaxActivations = 40,
+    baseMaxActivations = 1,
 
     triggers = {"PULSE"},
     activateDescription = loc("Spawns a random cat item"),

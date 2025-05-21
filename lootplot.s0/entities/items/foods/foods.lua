@@ -655,7 +655,7 @@ defineSlotSpawner("sniper_berries", "Sniper Berries", "slot", "Basic Slots", lp.
     rarity = lp.rarities.EPIC,
 })
 
-defineSlotSpawner("ginger_roots", "Ginger Roots", "auto_stone_slot", "Stone Slots with 20 lives", lp.targets.RookShape(1), {
+defineSlotSpawner("ginger_roots", "Ginger Roots", "auto_stone_slot", "Stone Slots with random perks", lp.targets.RookShape(1), {
     basePrice = 12,
     isEntityTypeUnlocked = unlockAfterWins(4),
     rarity = lp.rarities.RARE,
