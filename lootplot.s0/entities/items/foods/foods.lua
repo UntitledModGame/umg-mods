@@ -1021,7 +1021,7 @@ defineFood("slice_of_cake", {
     name = loc("Slice of Cake"),
     activateDescription = loc("Gives target item/slot {lootplot:POINTS_COLOR}+5{/lootplot:POINTS_COLOR} points"),
 
-    rarity = lp.rarities.RARE,
+    rarity = lp.rarities.UNCOMMON,
 
     shape = lp.targets.RookShape(1),
 
