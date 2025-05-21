@@ -144,7 +144,7 @@ defItem("a_demonic_loan", {
 
 
 
-local BULL_POINTS_BUFF = 20
+local BULL_ACTIVATIONS_BUFF = 4
 
 defItem("bull_helmet", {
     name = loc("Bull Helmet"),
@@ -154,15 +154,15 @@ defItem("bull_helmet", {
 
     shape = lp.targets.RookShape(6),
 
-    activateDescription = loc("Adds {lootplot:POINTS_COLOR}+%{buff} points{/lootplot:POINTS_COLOR} to the purchased item.", {
-        buff = BULL_POINTS_BUFF
+    activateDescription = loc("Adds {lootplot:INFO_COLOR}+%{buff} activations{/lootplot:INFO_COLOR} to the purchased item.", {
+        buff = BULL_ACTIVATIONS_BUFF
     }),
 
     listen = {
         type = "ITEM",
         trigger = "BUY",
         activate = function(selfEnt, ppos, targetEnt)
-            lp.modifierBuff(targetEnt, "pointsGenerated", BULL_POINTS_BUFF, selfEnt)
+            lp.modifierBuff(targetEnt, "maxActivations", BULL_ACTIVATIONS_BUFF, selfEnt)
         end,
     },
 
