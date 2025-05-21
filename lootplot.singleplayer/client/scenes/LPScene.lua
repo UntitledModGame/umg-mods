@@ -18,10 +18,6 @@ local strings = {
 }
 
 
-local SKIP_TEXT = loc("End Early")
-local SKIP_TIME_THRESHOLD = 20 -- allow skip after its been running for X seconds
-
-
 
 ---@param value number
 ---@param nsig integer
@@ -77,19 +73,6 @@ function Scene:init(lpState)
 
     self.popupElement = nil
 
-    -- skipButton is used IFF the pipeline has been running for too long.
-    -- (Some of the players were waiting like 4 hours for their shit to complete lmao)
-    self.skipButton = StretchableButton({
-        onClick = function()
-            lp.singleplayer.clearPipeline()
-        end,
-        text = SKIP_TEXT,
-        color = objects.Color.DARK_RED,
-        font = fonts.getLargeFont(),
-        scale = 2
-    })
-    self:addChild(self.skipButton)
-
     self:addChild(self.pauseBox)
 end
 
@@ -115,18 +98,10 @@ function Scene:onRender(x,y,w,h)
         self:setSelection(nil)
     end
 
-    local run = lp.singleplayer.getRun()
-    local plot = run and run:getPlot()
-    local allowPipelineSkip = plot and (plot:getPipelineRunningTime() > SKIP_TIME_THRESHOLD)
-
     if self.quitButton then
         local _, bottomArea = r:splitVertical(5, 1)
         local _,buttonArea,_ = bottomArea:splitHorizontal(1,1,1)
         self.quitButton:render(buttonArea:padRatio(0.2):get())
-    elseif allowPipelineSkip then
-        local _, bottomArea = r:splitVertical(5, 1)
-        local _,buttonArea,_ = bottomArea:splitHorizontal(1,1,1)
-        self.skipButton:render(buttonArea:padRatio(0.3):get())
     else
         -- draw action-buttons:
         local buttonCount = #self.slotActionButtons
