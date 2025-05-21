@@ -100,8 +100,6 @@ defineFood("golden_horseshoe", {
 
     rarity = lp.rarities.UNCOMMON,
 
-    triggers = {"PULSE"},
-
     onActivate = function(ent)
         local SUCCESS_CHANCE = 0.55
         if lp.SEED:randomMisc() < SUCCESS_CHANCE then
