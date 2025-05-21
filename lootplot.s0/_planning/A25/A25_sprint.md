@@ -54,6 +54,13 @@ Spawns a cat
 - Change copykato -> Midas cat. Copy self to slots. Transform slots into golden-slots
 
 
+- Remove "End-Early" button (its glitched with rounds)
+
+- Make juice/sound not play multiple stuff in one tick
+- Add round-speed-up code
+
+
+- Use robo-streamer to put Olexas videos on steam homepage
 
 
 ## =============================
@@ -61,13 +68,12 @@ Spawns a cat
 ## =============================
 
 
+- Create/add steam-broadcast assets
 
-- Remove "End-Early" button (its glitched with rounds)
+- payment for robostreamer
 
 
-- Make juice/sound not play multiple stuff in one tick
-- Add round-speed-up code
-
+- Nerf the activations-cap from 40 -> 20
 
 
 - UI changes in UMG-CORE: Buttons should have a hover effect. 
@@ -77,6 +83,7 @@ Spawns a cat
 
 
 - Nerf prism, backwards-loan, and ESPECIALLY round-timer
+- Nerf compass? (its SOOO fun to use tho) (maybe reduce earnings to $0.5?)
 
 - Add golden-trout item (Steals $15, makes slots earn $1)
 
@@ -84,7 +91,9 @@ Spawns a cat
 On Pulse: Triggers LEVEL-UP on item
 
 
-- Use robo-streamer to put Olexas videos on steam homepage
+- NEW ITEM: Copper-coins. GRUB-20. Earns $2. Earns 20 points.
+(STICKY, UNCOMMON)
+^^^ and with this, maybe make spare-coins RARE, and stronger...?
 
 
 - Number-keys shortcuts for pressing action-buttons
@@ -125,8 +134,9 @@ Blank ball:
 Remove the normal-slots
 
 Bowling ball:
-Increase doom-count of slots (???)
+Increase doom-count of slots (KING-1)
 Costs $2 to activate
+--> with this, the slots can start with a lower doomCount
 
 7 ball: on activation, turns slot into slate block (ON shape)
 slate block: cannot hold epic (IV) items. (or anything higher) 
