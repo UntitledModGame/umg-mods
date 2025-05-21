@@ -51,12 +51,22 @@ Spawns a cat
 - Rename to rainbow ball
 
 
+- Change copykato -> Midas cat. Copy self to slots. Transform slots into golden-slots
+
+
+
 
 ## =============================
 ## TODO:
 ## =============================
 
 
+
+- Remove "End-Early" button (its glitched with rounds)
+
+
+- Make juice/sound not play multiple stuff in one tick
+- Add round-speed-up code
 
 
 
@@ -69,8 +79,6 @@ Spawns a cat
 - Nerf prism, backwards-loan, and ESPECIALLY round-timer
 
 - Add golden-trout item (Steals $15, makes slots earn $1)
-
-- Change copykato -> Midas cat. Copy self to slots. Transform slots into golden-slots
 
 - SLOT: Cloth slot
 On Pulse: Triggers LEVEL-UP on item

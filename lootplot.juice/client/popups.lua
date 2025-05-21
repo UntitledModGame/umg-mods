@@ -49,63 +49,110 @@ local function makeAnimation(dvec, frames, color, duration)
 end
 
 
-umg.on("lootplot:moneyChanged", function(ent, delta)
+
+local currentTick = 0
+
+umg.on("@tick", function()
+    currentTick = currentTick + 1
+end)
+
+
+--- A special `on` function that only applies a maximum of ONCE per tick.
+--- Useful for sound effects and popup-visuals
+---@param event string
+---@param func fun(...): boolean
+local function limitedOn(event, func)
+    local lastTick = 0
+    
+    umg.on(event, function(a,b,c,d,e)
+        if currentTick == lastTick then
+            -- we have already activated this tick!!!
+            return -- exit early.
+        end
+
+        local triggered = func(a,b,c,d,e)
+        if triggered then
+            lastTick = currentTick
+        end
+    end)
+end
+
+
+
+limitedOn("lootplot:moneyChanged", function(ent, delta)
     if delta > 0.1 then
         local txt = "$" .. tostring(math.floor(delta+0.5))
         makePopup(ent, txt, objects.Color.GOLD)
+        return true
     elseif delta < -0.1 then
         local txt = "-$" .. tostring(math.floor(-delta+0.5))
         makePopup(ent, txt, objects.Color.RED)
+        return true
     end
+    return false
 end)
 
 
 
 
-umg.on("lootplot:pointsChangedViaCall", function(ent, delta)
+limitedOn("lootplot:pointsChangedViaCall", function(ent, delta)
     if delta > 0.5 then
         local txt = "+" .. tostring(math.floor(delta+0.5))
         makePopup(ent, txt, objects.Color.BLUE)
+        return true
     elseif delta < -0.5 then
         local txt = "-" .. tostring(math.floor(-delta+0.5))
         makePopup(ent, txt, objects.Color.DARK_RED)
+        return true
     end
+    return false
 end)
 
-umg.on("lootplot:pointsChangedViaBonus", function(ent, delta)
+
+limitedOn("lootplot:pointsChangedViaBonus", function(ent, delta)
     if delta > 0.5 then
         local txt = "(+" .. tostring(math.floor(delta+0.5)) .. ")"
         makePopup(ent, txt, lp.COLORS.BONUS_COLOR)
+        return true
     elseif delta < -0.5 then
         local txt = "(-" .. tostring(math.floor(-delta+0.5)) .. ")"
         makePopup(ent, txt, objects.Color.DARK_RED)
+        return true
     end
+    return false
 end)
 
 
 
 
-umg.on("lootplot:multChanged", function(ent, delta, oldVal, newVal)
+limitedOn("lootplot:multChanged", function(ent, delta, oldVal, newVal)
     if math.abs(delta) < 0.01 then
-        return
+        return false
     end
     if newVal > 0 then
         local txt = "x" .. tostring(math.floor(newVal*10)/10) .. "!"
         makePopup(ent, txt, lp.COLORS.POINTS_MULT_COLOR)
+        return true
     elseif newVal < 0 then
         local txt = "-x" .. tostring(math.floor(newVal*10)/10) .. "!"
         makePopup(ent, txt, objects.Color.DARK_RED)
+        return true
     end
+    return false
 end)
 
-umg.on("lootplot:bonusChanged", function(ent, delta)
+
+limitedOn("lootplot:bonusChanged", function(ent, delta)
     if delta > 0.5 then
         local txt = "+" .. tostring(math.floor(delta+0.5)) .. "!"
         makePopup(ent, txt, lp.COLORS.BONUS_COLOR)
+        return true
     elseif delta < -0.5 then
         local txt = "-" .. tostring(math.floor(-delta+0.5)) .. "!"
         makePopup(ent, txt, objects.Color.DARK_RED)
+        return true
     end
+    return false
 end)
 
 
@@ -113,7 +160,7 @@ end)
 
 local COMBO = localization.newInterpolator("COMBO: %{combo:.0f}")
 
-umg.on("lootplot:comboChanged", function(ent, delta, oldVal, newVal)
+limitedOn("lootplot:comboChanged", function(ent, delta, oldVal, newVal)
     if newVal > 4 and (math.floor(newVal + 0.5) % 5 == 0) then
         local txt = COMBO({combo = newVal})
         local scale = 0.75
@@ -123,7 +170,9 @@ umg.on("lootplot:comboChanged", function(ent, delta, oldVal, newVal)
         end
 
         makePopup(ent, txt, objects.Color.YELLOW, VEL, scale)
+        return true
     end
+    return false
 end)
 
 --[[
@@ -134,7 +183,7 @@ end)
 
 local COLOR_BUFF_DEFAULT = objects.Color(0.98, 0.96, 0.65) -- 5ae6e3
 
-umg.on("lootplot:entityBuffed", function(ent, prop, amount, srcEnt)
+limitedOn("lootplot:entityBuffed", function(ent, prop, amount, srcEnt)
     local prefix = ""
     local color = COLOR_BUFF_DEFAULT
     if prop == "moneyGenerated" then
@@ -145,7 +194,8 @@ umg.on("lootplot:entityBuffed", function(ent, prop, amount, srcEnt)
         color = COLOR_BUFF_DEFAULT
     end
 
-    return makePopup(ent, prefix..string.format("%.1f", amount), color, nil, 1.5)
+    makePopup(ent, prefix..string.format("%.1f", amount), color, nil, 1.5)
+    return true
 end)
 
 
@@ -157,10 +207,12 @@ local COMBINE_FRAMES = {
     "combine_item_visual_2",
     "combine_item_visual_1",
 }
-umg.on("lootplot:itemsCombined", function(combinerItem, targetItem)
+limitedOn("lootplot:itemsCombined", function(combinerItem, targetItem)
     makeAnimation(
         targetItem, COMBINE_FRAMES,
         lp.COLORS.COMBINE_COLOR, LIFETIME
     )
+    return true
 end)
+
 

@@ -74,7 +74,35 @@ end
 
 
 
-umg.on("lootplot:pointsChanged", function(ent, delta)
+local currentTick = 0
+umg.on("@tick", function()
+    currentTick = currentTick + 1
+end)
+
+--- A special `on` function that only applies a maximum of ONCE per tick.
+--- Useful for sound effects and popup-visuals
+---@param event string
+---@param func fun(...): boolean
+local function limitedOn(event, func)
+    local lastTick = 0
+
+    umg.on(event, function(a,b,c,d,e)
+        if currentTick == lastTick then
+            -- we have already activated this tick!!!
+            return -- exit early.
+        end
+        local triggered = func(a,b,c,d,e)
+        if triggered then
+            lastTick = currentTick
+        end
+    end)
+end
+
+
+
+
+
+limitedOn("lootplot:pointsChanged", function(ent, delta)
     if delta>0 then
         local dvec = {
             x = ent.x, y = ent.y,
@@ -88,12 +116,14 @@ umg.on("lootplot:pointsChanged", function(ent, delta)
         packetEnt.image = "packet1"
         packetEnt.color = lp.COLORS.POINTS_COLOR
         packetEnt.scale = getPacketScale(delta)
+        return true
     end
+    return false
 end)
 
 
 
-umg.on("lootplot:multChanged", function(ent, delta)
+limitedOn("lootplot:multChanged", function(ent, delta)
     if delta>0 then
         local dvec = {
             x = ent.x, y = ent.y,
@@ -107,7 +137,9 @@ umg.on("lootplot:multChanged", function(ent, delta)
         packetEnt.image = "packet1"
         packetEnt.color = lp.COLORS.POINTS_MULT_COLOR
         packetEnt.scale = getPacketScale(delta)
+        return true
     end
+    return false
 end)
 
 
@@ -148,19 +180,21 @@ local function spawnMoneyPacket(ent)
     end
 end
 
-umg.on("lootplot:moneyChanged", function(ent, delta)
+limitedOn("lootplot:moneyChanged", function(ent, delta)
     if delta>0 then
         delta = math.min(delta, MAX_COINS_SPAWN_COUNT)
         for i=1, delta do
             spawnMoneyPacket(ent)
         end
+        return true
     end
+    return false
 end)
 
 
 
 
-umg.on("lootplot:entityBuffed", function(ent, prop, amount, srcEnt)
+limitedOn("lootplot:entityBuffed", function(ent, prop, amount, srcEnt)
     if srcEnt then
          local dvec = {
             x = srcEnt.x, y = srcEnt.y,
@@ -174,6 +208,8 @@ umg.on("lootplot:entityBuffed", function(ent, prop, amount, srcEnt)
         packetEnt.vy = -SPD
 
         packetEnt.image = "buff_packet"
+        return true
     end
+    return false
 end)
 
