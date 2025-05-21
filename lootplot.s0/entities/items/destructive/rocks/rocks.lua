@@ -141,7 +141,10 @@ defRocks("sapphire", "Sapphire", {
     }),
 
     onActivate = function(ent)
-        lp.modifierBuff(ent, "pointsGenerated", PTS_BUFF, ent)
+        local bonus = lp.getPointsBonus(ent)
+        if bonus < 0 then
+            lp.modifierBuff(ent, "pointsGenerated", PTS_BUFF, ent)
+        end
     end,
 
     basePrice = 8,
