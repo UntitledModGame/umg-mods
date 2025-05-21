@@ -30,7 +30,7 @@ function Plot:init(ownerEnt, width, height)
     ownerEnt.plot = self
 
     if server then
-        self.pipeline = Pipeline()
+        self.pipeline = Pipeline(self)
     end
 
     self.pipelineRunningTime = 0
@@ -154,6 +154,10 @@ umg.definePacket("lootplot:setPipelineRunningTime", {typelist = {ENT, NUMBER}})
 ---@param dt number
 function Plot:tick(dt)
     assert(server,"?")
+
+    self.pipeline.plot = self -- backwards compatiblity for old-saves.
+    -- (we can get rid of this eventually)
+
     self.pipeline:tick(dt)
 
     if self:isPipelineRunning() then

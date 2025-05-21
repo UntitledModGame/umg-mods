@@ -10,8 +10,11 @@
 local Pipeline = objects.Class("lootplot:Pipeline")
 
 
-function Pipeline:init()
+---@param plot lootplot.Plot
+function Pipeline:init(plot)
     self.buffer = objects.Array()
+
+    self.plot = plot
 
     -- the time that we are allowed to execute the next obj in the pipeline.
     -- (used for delaying)
@@ -44,8 +47,11 @@ local function pollObj(self, obj)
     end
 end
 
+
+
+---@param self lootplot.Pipeline
 ---@param dt number
-function Pipeline:tick(dt)
+local function tickOld(self, dt)
     local buf = self.buffer
     self.delay = math.max(self.delay - dt, 0)
     while self.delay <= 0 and buf:size() > 0 do
@@ -54,12 +60,15 @@ function Pipeline:tick(dt)
     end
 end
 
---[[
-NEW PIPELINE THAT RUNS FASTER:
-(needs a bit of fixes, maybe uncomment this at some point...?)
 
+
+--[[
+NEW PIPELINE :tick(dt) THAT RUNS FASTER:
+(needs a bit of fixes, maybe uncomment this at some point...?)
+]]
+---@param self lootplot.Pipeline
 ---@param dt number
-function Pipeline:tick(dt)
+local function tickFast(self, dt)
     local buf = self.buffer
     while self.delay <= dt and buf:size() > 0 do
         local obj = buf:pop()
@@ -67,7 +76,26 @@ function Pipeline:tick(dt)
     end
     self.delay = math.max(self.delay - dt, 0)
 end
-]]
+
+
+
+
+local FAST_REQUIREMENT = 10
+-- after 15 seconds of runtime, it goes into "fast mode"
+
+
+---- OLD PIPELINE :tick(dt) FUNCTION:
+---- works super well. Tried and tested... its just too slow.
+---@param dt number
+function Pipeline:tick(dt)
+    if self.plot:getPipelineRunningTime() < FAST_REQUIREMENT then
+        tickOld(self, dt)
+    else
+        tickFast(self, dt)
+    end
+end
+
+
 
 
 
@@ -83,5 +111,5 @@ function Pipeline:isEmpty()
     return self.buffer:size() == 0
 end
 
----@cast Pipeline +fun():lootplot.Pipeline
+---@cast Pipeline +fun(plot:lootplot.Plot):lootplot.Pipeline
 return Pipeline
