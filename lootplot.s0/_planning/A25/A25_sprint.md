@@ -39,6 +39,16 @@
 - Make golden-rings sticky
 
 
+- SLOT: Guardian slot
+Items on this slot cannot steal points, bonus, or multiplier.
+
+
+- SLOT: Cat slot
+Spawns a cat
+
+
+
+- Rename to rainbow ball
 
 
 
@@ -61,10 +71,6 @@
 - Add golden-trout item (Steals $15, makes slots earn $1)
 
 - Change copykato -> Midas cat. Copy self to slots. Transform slots into golden-slots
-
-
-- SLOT: Guardian slot
-Items on this slot cannot steal points, bonus, or multiplier.
 
 - SLOT: Cloth slot
 On Pulse: Triggers LEVEL-UP on item
@@ -128,7 +134,6 @@ slate block: cannot hold epic (IV) items. (or anything higher)
 
 - Remove 4-ball
 
-- Rename to rainbow ball
 
 
 

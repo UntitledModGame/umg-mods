@@ -174,29 +174,34 @@ defineCat("copykitten", {
     }
 })
 
-defineCat("copykato", {
-    name = loc("Copykato"),
 
-    rarity = lp.rarities.RARE,
+
+defineCat("midas_cat", {
+    name = loc("Midas Cat"),
+
+    rarity = lp.rarities.EPIC,
 
     isEntityTypeUnlocked = unlockAfterWins(3),
 
     basePrice = 0,
-    baseMoneyGenerated = -2,
-    baseMaxActivations = 3,
-    basePointsGenerated = 25,
+    baseMaxActivations = 1,
+    basePointsGenerated = 15,
 
     shape = lp.targets.RookShape(1),
 
-    activateDescription = loc("Copies self into target slots, and gives {lootplot:POINTS_MOD_COLOR}25 points{/lootplot:POINTS_MOD_COLOR} to the copy!"),
+    activateDescription = loc("Copies self into target slots, and makes a Golden Slot underneath self!"),
+
+    onActivate = function(ent)
+        local ppos = lp.getPos(ent)
+        if ppos then
+            lp.forceSpawnSlot(ppos, server.entities.golden_slot, ent.lootplotTeam)
+        end
+    end,
 
     target = {
         type = "NO_ITEM",
         activate = function(selfEnt, ppos)
-            local e = lp.tryCloneItem(selfEnt, ppos)
-            if e then
-                lp.modifierBuff(e, "pointsGenerated", 25, selfEnt)
-            end
+            lp.tryCloneItem(selfEnt, ppos)
         end
     }
 })

@@ -31,9 +31,9 @@ return lp.defineSlot("lootplot.s0:cat_slot", {
     baseMaxActivations = 40,
 
     triggers = {"PULSE"},
-    activateDescription = loc("Spawns a random cat item.\nItems are not activated on this slot."),
+    activateDescription = loc("Spawns a random cat item"),
 
-    rarity = lp.rarities.RARE,
+    rarity = lp.rarities.LEGENDARY,
 
     onActivate = function(slotEnt)
         local ppos = lp.getPos(slotEnt)
