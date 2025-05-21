@@ -738,6 +738,7 @@ defineStartingItem("bowling_ball", {
         lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
         lp.setAttribute("ROUND", ent, -1)
 
+        spawnRerollButton(ent)
         spawnShop(ent)
         spawnSell(ent)
         spawnMoneyLimit(ent)
