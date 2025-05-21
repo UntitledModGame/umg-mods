@@ -1,4 +1,6 @@
 
+local constants = require("shared.constants")
+
 local loc = localization.localize
 
 
@@ -23,6 +25,8 @@ local function defineCat(id, etype)
     if not etype.listen then
         etype.triggers = etype.triggers or {"PULSE"}
     end
+
+    etype.lootplotTags = {constants.tags.CAT}
 
     etype.onActivateClient = function(ent)
         local m = table.random(meows)
