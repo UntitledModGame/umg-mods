@@ -85,6 +85,13 @@ catcat: Earns +2 points for every other cat on the board
 Rings: (increase threshold to $20 from $10..?)
 
 
+- Make bowling-ball income a *bit* less oppressive
+
+
+- Change cucumber: triggers Reroll on items/slots 3 times (Queen-3)
+
+- Change cucumber-slices --> green-apple (better theming/intuition)
+
 
 - UI changes in UMG-CORE: Buttons should have a hover effect. 
 

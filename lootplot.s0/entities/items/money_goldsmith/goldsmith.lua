@@ -109,7 +109,7 @@ defSilvRing("silver_reroll_ring", "Silver Reroll Ring", "REROLL")
 
 
 
-local GOLD_RING_DESC = loc("Earn {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} of interest for every {lootplot:MONEY_COLOR}$10{/lootplot:MONEY_COLOR} you have. (Max of {lootplot:MONEY_COLOR}$4{/lootplot:MONEY_COLOR})")
+local GOLD_RING_DESC = loc("Earn {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} of interest for every {lootplot:MONEY_COLOR}$20{/lootplot:MONEY_COLOR} you have. (Max of {lootplot:MONEY_COLOR}$4{/lootplot:MONEY_COLOR})")
 
 local function defGoldenRing(id, name, trigger)
     defItem(id, name, {
@@ -130,7 +130,7 @@ local function defGoldenRing(id, name, trigger)
             modifiers = {
                 moneyGenerated = function(ent)
                     local money = lp.getMoney(ent) or 0
-                    local interest = math.floor(money / 10)
+                    local interest = math.floor(money / 20)
                     return interest
                 end
             }
