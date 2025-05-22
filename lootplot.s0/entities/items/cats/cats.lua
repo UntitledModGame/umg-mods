@@ -1,5 +1,7 @@
 
 local constants = require("shared.constants")
+local helper = require("shared.helper")
+
 
 local loc = localization.localize
 
@@ -17,6 +19,22 @@ if client then
         sound.Sound("lootplot.s0:cat_meow_3", 0.5, 1),
     }
 end
+
+
+
+local function defItem(id, name, etype)
+    etype.image = etype.image or id
+    etype.name = loc(name)
+
+    if not etype.listen then
+        etype.triggers = etype.triggers or {"PULSE"}
+    end
+
+    etype.isEntityTypeUnlocked = helper.unlockAfterWins(2)
+
+    return lp.defineItem("lootplot.s0:"..id, etype)
+end
+
 
 
 
@@ -213,14 +231,14 @@ defineCat("midas_cat", {
 
 defineCat("pink_cat", {
     name = loc("Pink Cat"),
-    description = loc("Starts with 9 lives"),
     triggers = {"PULSE"},
 
     isEntityTypeUnlocked = unlockAfterWins(1),
 
+    activateDescription = loc("Copies self into target slots"),
+
     basePrice = 6,
     baseMaxActivations = 15,
-    basePointsGenerated = 10,
 
     onDraw = function(ent)
         if ent.lives and ent.lives < 1 then
@@ -229,6 +247,14 @@ defineCat("pink_cat", {
             ent.image = "pink_cat"
         end
     end,
+
+    shape = lp.targets.HorizontalShape(1),
+    target = {
+        type = "NO_ITEM",
+        activate = function(selfEnt, ppos)
+            lp.tryCloneItem(selfEnt, ppos)
+        end
+    },
 
     rarity = lp.rarities.RARE,
 
@@ -286,11 +312,29 @@ defineCat("evil_cat", {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+--===============================================
+--  yarn items
+--===============================================
+
+
+
 do
 local PTS_BUFF = 10
 
-defineCat("ball_of_yarn", {
-    name = loc("Ball of Yarn"),
+defItem("basic_yarn", "Basic Yarn", {
     activateDescription = loc("If targetting two items of the same type, give the items {lootplot:POINTS_COLOR}+%{buff} points{/lootplot:POINTS_COLOR}.", {
         buff = PTS_BUFF
     }),
@@ -323,4 +367,34 @@ defineCat("ball_of_yarn", {
 
 end
 
+
+
+do
+local BUFF = 10
+
+defItem("green_yarn", "Green Yarn", {
+    rarity = lp.rarities.LEGENDARY,
+
+    basePointsGenerated = 40,
+    basePrice = 18,
+    baseMaxActivations = 6,
+
+    activateDescription = loc("Permanently gain {lootplot:POINTS_COLOR}+%{buff} points{/lootplot:POINTS_COLOR} for every targetted cat", {
+        buff = BUFF
+    }),
+
+    shape = lp.targets.QueenShape(4),
+
+    target = {
+        type = "ITEM",
+        filter = function(selfEnt, ppos, targEnt)
+            return lp.hasTag(targEnt, constants.tags.CAT)
+        end,
+        activate = function(selfEnt, ppos, targEnt)
+            lp.modifierBuff(selfEnt, "pointsGenerated", BUFF, selfEnt)
+        end
+    }
+})
+
+end
 

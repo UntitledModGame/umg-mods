@@ -67,26 +67,17 @@ Spawns a cat
 - Ask jojo, ceroba, Obvi, etc about their opinions on this.
 
 
+- Nerf the activations-cap from 40 -> 20
+
+
+- Create/add steam-broadcast assets
+
 
 ## =============================
 ## TODO:
 ## =============================
 
 
-- Nerf the activations-cap from 40 -> 20
-
-
-- Create/add steam-broadcast assets
-
-- payment for robostreamer
-
-
-- Make knight-glove and Up-glove look a bit different
-(change the fingers?)
-
-
-
-- Activator-items: They all look too similar
 
 - There should be a legendary cat:
 catcat: Earns +2 points for every other cat on the board
@@ -101,6 +92,12 @@ Rings: (increase threshold to $20 from $10..?)
 (Put sfx in StretchableButton direclty?)
 
 
+- Apple pie: Randomizes shape of item
+
+
+- payment for robostreamer
+
+
 - Nerf prism, backwards-loan, and ESPECIALLY round-timer
 - Nerf compass? (its SOOO fun to use tho) (maybe reduce earnings to $0.5?)
 
@@ -113,10 +110,6 @@ On Pulse: Triggers LEVEL-UP on item
 - NEW ITEM: Copper-coins. GRUB-20. Earns $2. Earns 20 points.
 (STICKY, UNCOMMON)
 ^^^ and with this, maybe make spare-coins RARE, and stronger...?
-
-
-- Number-keys shortcuts for pressing action-buttons
-
 
 - Create curses:
 CURSE: Destroys the closest slot that earns money
@@ -170,6 +163,20 @@ slate block: cannot hold epic (IV) items. (or anything higher)
 
 
 - Remove 4-ball
+
+
+
+- Make knight-glove and Up-glove look a bit different
+(change the fingers?)
+
+- Contraption-items: They all look too similar
+
+- Leather-items: Too similar...?
+
+
+- Number-keys shortcuts for pressing action-buttons
+
+
 
 
 
