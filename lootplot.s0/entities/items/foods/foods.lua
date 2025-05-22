@@ -1058,7 +1058,7 @@ defineFood("red_cheesecake", {
 
 defineFood("blue_cheesecake", {
     name = loc("Blue Cheesecake"),
-    activateDescription = loc("Gives items/slots {lootplot:BONUS_COLOR}+2 bonus"),
+    activateDescription = loc("Gives items/slots {lootplot:BONUS_COLOR}+1 bonus"),
 
     isEntityTypeUnlocked = unlockAfterWins(1),
 
@@ -1071,7 +1071,7 @@ defineFood("blue_cheesecake", {
     target = {
         type = "ITEM_OR_SLOT",
         activate = function(selfEnt, ppos, ent)
-            lp.modifierBuff(ent, "bonusGenerated", 2)
+            lp.modifierBuff(ent, "bonusGenerated", 1)
         end
     }
 })

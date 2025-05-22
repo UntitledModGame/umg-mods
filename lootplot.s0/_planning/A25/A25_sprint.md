@@ -68,12 +68,26 @@ Spawns a cat
 ## =============================
 
 
+- plan number-of-levels changes: (Easy=6, Normal=8, Hard=10)
+- Ask jojo, ceroba, Obvi, etc about their opinions on this.
+
+
+- Nerf the activations-cap from 40 -> 20
+
+
 - Create/add steam-broadcast assets
 
 - payment for robostreamer
 
 
-- Nerf the activations-cap from 40 -> 20
+
+- Activator-items: They all look too similar
+
+- There should be a legendary cat:
+catcat: Earns +2 points for every other cat on the board
+
+Rings: (increase threshold to $20 from $10..?)
+
 
 
 - UI changes in UMG-CORE: Buttons should have a hover effect. 
