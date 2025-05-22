@@ -1084,6 +1084,8 @@ defineFood("blue_cheesecake", {
 
 
 
+do
+local PIE_UNLOCK = 2
 
 local function definePie(id, name, desc, addShape, rarity)
     defineFood(id, {
@@ -1091,7 +1093,7 @@ local function definePie(id, name, desc, addShape, rarity)
         name = loc(name),
         activateDescription = loc(desc),
 
-        isEntityTypeUnlocked = unlockAfterWins(2),
+        isEntityTypeUnlocked = unlockAfterWins(PIE_UNLOCK),
 
         basePrice = 7,
 
@@ -1124,13 +1126,57 @@ end
 
 -- rare pies:
 definePie("kings_pie", "King's Pie", "Adds KING-1 targets to item", lp.targets.KingShape(1), lp.rarities.RARE)
-definePie("small_rooks_pie", "Small Rook's Pie", "Adds ROOK-2 targets to item", lp.targets.RookShape(2), lp.rarities.RARE)
 definePie("bishops_pie", "Bishop's Pie", "Adds BISHOP-2 targets to item", lp.targets.BishopShape(2), lp.rarities.RARE)
 definePie("pi_pie", "Pi Pie", "Makes item target itself", lp.targets.ON_SHAPE, lp.rarities.RARE)
 
 -- epic pies:
 definePie("knights_pie", "Knight's Pie", "Adds KNIGHT targets to item", lp.targets.KNIGHT_SHAPE, lp.rarities.EPIC)
 definePie("rooks_pie", "Rook's Pie", "Adds ROOK-4 targets to item", lp.targets.RookShape(4), lp.rarities.EPIC)
+
+
+local RANDOM_SHAPES = {
+    lp.targets.HorizontalShape(3),
+    lp.targets.VerticalShape(3),
+    lp.targets.KingShape(1),
+    lp.targets.KingShape(2),
+    lp.targets.UpShape(2),
+    lp.targets.DownShape(2),
+    lp.targets.BishopShape(1),
+    lp.targets.BishopShape(2),
+    lp.targets.KNIGHT_SHAPE,
+    lp.targets.QueenShape(2),
+    lp.targets.RookShape(1),
+    lp.targets.RookShape(2),
+}
+
+defineFood("randomizer_pie", {
+    name = loc("Randomizer Pie"),
+
+    activateDescription = loc("Randomizes item's shape"),
+
+    isEntityTypeUnlocked = unlockAfterWins(PIE_UNLOCK),
+
+    basePrice = 7,
+
+    rarity = lp.rarities.RARE,
+
+    shape = lp.targets.UP_SHAPE,
+
+    target = {
+        type = "ITEM",
+        filter = function(selfEnt, ppos, targEnt)
+            return targEnt.shape
+        end,
+        activate = function(selfEnt, ppos, targEnt)
+            if targEnt.shape then
+                local shape = table.random(RANDOM_SHAPES)
+                lp.targets.setShape(targEnt, shape)
+            end
+        end
+    }
+})
+
+end
 
 
 
