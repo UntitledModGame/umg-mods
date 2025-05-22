@@ -1674,6 +1674,24 @@ function lp.addTrigger(ent, triggerName)
     end
 end
 
+
+---@param ent Entity
+---@param triggerName string
+function lp.removeTrigger(ent, triggerName)
+    assert(lp.isValidTrigger(triggerName))
+    if lp.hasTrigger(ent, triggerName) then
+        local triggers = objects.Array(ent.triggers or {})
+        local i = triggers:find(triggerName)
+        if i then
+            triggers:remove(i)
+            ent.triggers = triggers
+            sync.syncComponent(ent, "triggers")
+        end
+    end
+end
+
+
+
 ---@param ent Entity
 ---@param triggers table
 function lp.setTriggers(ent, triggers)
@@ -1687,8 +1705,7 @@ function lp.setTriggers(ent, triggers)
 end
 
 
--- HMM:
--- Should we add `lp.removeTrigger` here in the future...?
+
 
 
 ---Availability: Client and Server

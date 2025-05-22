@@ -387,6 +387,7 @@ defineStartingItem("six_ball", {
 
         ppos:getPlot():foreachSlot(function(slotEnt, _p)
             if not (lp.hasTrigger(slotEnt, "REROLL")) and (not slotEnt.buttonSlot) then
+                lp.removeTrigger(slotEnt, "PULSE")
                 lp.addTrigger(slotEnt, "REROLL")
             end
         end)

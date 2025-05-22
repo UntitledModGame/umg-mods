@@ -110,6 +110,9 @@ Costs $2 to activate
 slate block: cannot hold epic (IV) items. (or anything higher) 
 
 
+- Apple pie: Randomizes shape of item
+
+
 
 
 
@@ -123,9 +126,6 @@ slate block: cannot hold epic (IV) items. (or anything higher)
 - Change cucumber: triggers Reroll on items/slots 3 times (Queen-3)
 
 - Change cucumber-slices --> green-apple (better theming/intuition)
-
-
-- Apple pie: Randomizes shape of item
 
 
 - payment for robostreamer

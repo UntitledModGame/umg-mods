@@ -592,6 +592,38 @@ defineFood("salmon", {
 
 
 
+do
+
+defineFood("cucumber_slices", {
+    name = loc("Cucumber Slices"),
+    activateDescription = loc("Replaces {lootplot:TRIGGER_COLOR}Pulse{/lootplot:TRIGGER_COLOR} with {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} for items"),
+
+    rarity = lp.rarities.RARE,
+    basePrice = 8,
+
+    canItemFloat = true,
+
+    isEntityTypeUnlocked = unlockAfterWins(constants.UNLOCK_AFTER_WINS.REROLL + 1),
+
+    shape = lp.targets.KingShape(1),
+    target = {
+        type = "ITEM",
+        filter = function(selfEnt, ppos, targEnt)
+            return lp.hasTrigger(targEnt, "PULSE")
+        end,
+        activate = function(selfEnt, ppos, targEnt)
+            if lp.hasTrigger(targEnt, "PULSE") then
+                lp.removeTrigger(targEnt, "PULSE")
+                lp.addTrigger(targEnt, "REROLL")
+            end
+        end
+    }
+})
+
+end
+
+
+
 
 
 ----------------------------------------------------------------------------
@@ -922,10 +954,10 @@ defineSlotConverter("diamond_apple", "Diamond Apple", "diamond_slot", "Diamond S
 })
 
 
-defineSlotConverter("cucumber_slices", "Cucumber Slices", "emerald_slot", "Emerald Slot", lp.targets.ON_SHAPE, {
+defineSlotConverter("green_apple", "Green Apple", "emerald_slot", "Emerald Slot", lp.targets.ON_SHAPE, {
     isEntityTypeUnlocked = unlockAfterWins(1),
     rarity = lp.rarities.RARE,
-    basePrice = 6
+    basePrice = 6 -- should be cheaper than other apples, coz emerald slots are a bit weaker
 })
 
 
