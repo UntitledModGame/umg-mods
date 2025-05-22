@@ -698,7 +698,7 @@ defineStartingItem("rainbow_ball", {
     onActivateOnce = function(ent)
         lp.setMoney(ent, constants.STARTING_MONEY)
         lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
-        lp.setAttribute("ROUND", ent, -1)
+        lp.setAttribute("ROUND", ent, -4)
         local ppos, team = getPosTeam(ent)
 
         local curPos = assert(ppos:move(-4, 1))
@@ -736,7 +736,7 @@ defineStartingItem("bowling_ball", {
         local ppos, team = getPosTeam(ent)
         lp.setMoney(ent, constants.STARTING_MONEY)
         lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
-        lp.setAttribute("ROUND", ent, -1)
+        lp.setAttribute("ROUND", ent, -4)
 
         spawnRerollButton(ent)
         spawnShop(ent)

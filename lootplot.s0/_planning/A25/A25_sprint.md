@@ -73,12 +73,6 @@ Spawns a cat
 - Create/add steam-broadcast assets
 
 
-## =============================
-## TODO:
-## =============================
-
-
-
 - There should be a legendary cat:
 catcat: Earns +2 points for every other cat on the board
 
@@ -86,6 +80,14 @@ Rings: (increase threshold to $20 from $10..?)
 
 
 - Make bowling-ball income a *bit* less oppressive
+
+
+
+
+## =============================
+## TODO:
+## =============================
+
 
 
 - Change cucumber: triggers Reroll on items/slots 3 times (Queen-3)
