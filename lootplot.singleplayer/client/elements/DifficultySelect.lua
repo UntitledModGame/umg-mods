@@ -58,8 +58,10 @@ function DifficultySelect:init(newRunScene)
         click = function()
             if canGoHarder(self) then
                 self.selectedIndex = math.min(self.selectedIndex + 1, #self.difficulties)
+                audio.play("lootplot.sound:click", {volume = 0.35, pitch = 0.8})
             end
         end,
+        hoverColor = objects.Color.GRAY,
         image = client.assets.images.difficulty_up_button
     })
     self:addChild(self.harderButton)
@@ -67,7 +69,9 @@ function DifficultySelect:init(newRunScene)
     self.easierButton = ui.elements.Button({
         click = function()
             self.selectedIndex = math.max(1, self.selectedIndex - 1)
+            audio.play("lootplot.sound:click", {volume = 0.35, pitch = 0.8})
         end,
+        hoverColor = objects.Color.GRAY,
         image = client.assets.images.difficulty_down_button
     })
     self:addChild(self.easierButton)
@@ -111,6 +115,7 @@ function DifficultySelect:onRender(x, y, w, h)
         self.easierButton:render(easier:padRatio(0.1):get())
     end
 
+    love.graphics.setColor(1,1,1)
     local diff = lp.getDifficultyInfo(self:getSelectedDifficulty())
     text.printRichContained(diff.name, fonts.getLargeFont(16), rText:padRatio(0.2):get())
 

@@ -21,6 +21,7 @@ function Button:init(args)
     self.textColor = args.textColor
     self.textElement = nil
     self.image = args.image or nil
+    self.hoverColor = args.hoverColor or objects.Color.GRAY
 end
 
 if false then
@@ -51,8 +52,13 @@ end
 
 function Button:onRender(x,y,w,h)
     local r = layout.Region(x,y,w,h)
+    local hovColor
+    lg.setColor(1,1,1)
+    if self:isHovered() then
+        hovColor = self.hoverColor
+    end
     if self.backgroundColor then
-        lg.setColor(self.backgroundColor)
+        lg.setColor(hovColor or self.backgroundColor)
         lg.rectangle("fill", r:get())
     end
     if self.outlineColor then
@@ -61,6 +67,9 @@ function Button:onRender(x,y,w,h)
     end
 
     if self.image then
+        if hovColor then
+            lg.setColor(hovColor)
+        end
         ui.drawImageInBox(self.image, x,y,w,h)
     end
 

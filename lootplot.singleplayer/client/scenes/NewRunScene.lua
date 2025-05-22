@@ -79,6 +79,7 @@ function NewRunScene:init(arg)
             end
             local typName = itemEType:getTypename()
             assert(itemEType:getEntityMetatable())
+            audio.play("lootplot.sound:click", {volume = 0.35, pitch = 0.8})
             return arg.startNewRun(assert(typName), self:getSelectedBackground(), self:getSelectedDifficulty())
         end,
         text = NEW_RUN_BUTTON_STRING,
@@ -90,6 +91,7 @@ function NewRunScene:init(arg)
     e.exitButton = StretchableButton({
         onClick = function()
             self.isQuitting = true
+            audio.play("lootplot.sound:click", {volume = 0.35, pitch = 0.8})
             arg.exit()
         end,
         color = objects.Color(1,1,1,1):setHSL(184, 0.7, 0.5),
@@ -231,11 +233,13 @@ function NewRunScene:onRender(x, y, w, h)
     -- background:
     e.backgroundBox:render(backgroundBox:get())
     e.bgSelect:render(backgroundBox:padRatio(0.1):get())
+    love.graphics.setColor(1,1,1)
 
     local perkSelectTitle, perkSelect, difficultySelect = right:splitVertical(1,5,3)
     -- selection:
     drawTextIn(CHOOSE_UR_STARTING_ITEM, perkSelectTitle)
     e.perkSelectBox:render(perkSelect:get())
+    love.graphics.setColor(1,1,1)
     e.perkSelect:render(perkSelect:padRatio(0.2):get())
 
     -- difficulty:
@@ -243,6 +247,7 @@ function NewRunScene:onRender(x, y, w, h)
     e.diffSelect:render(difficultySelect:get())
 
     -- start button:
+    love.graphics.setColor(1,1,1)
     local isDemoComplete = umg.DEMO_MODE and (lp.getWinCount() >= NUM_DEMO_WINS)
     if isDemoComplete then
         local demoLockTxt = footer:padRatio(0.3)

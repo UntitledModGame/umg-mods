@@ -82,6 +82,8 @@ Rings: (increase threshold to $20 from $10..?)
 - Make bowling-ball income a *bit* less oppressive
 
 
+- UI changes in UMG-CORE: Buttons should have a hover effect. 
+
 
 
 ## =============================
@@ -89,16 +91,14 @@ Rings: (increase threshold to $20 from $10..?)
 ## =============================
 
 
+- Also, ALL buttons should play a sound when pressed. (In NewRunScreen) 
+(Put sfx in StretchableButton direclty?)
+
+
 
 - Change cucumber: triggers Reroll on items/slots 3 times (Queen-3)
 
 - Change cucumber-slices --> green-apple (better theming/intuition)
-
-
-- UI changes in UMG-CORE: Buttons should have a hover effect. 
-
-- Also, ALL buttons should play a sound when pressed. (In NewRunScreen) 
-(Put sfx in StretchableButton direclty?)
 
 
 - Apple pie: Randomizes shape of item

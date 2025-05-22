@@ -51,6 +51,7 @@ function BackgroundSelect:init(bgs, lastSelect)
                 self.backgroundAnimStart = BACKGROUND_ANIM_TIME
                 self.backgroundAnimDir = -1
             end
+            audio.play("lootplot.sound:click", {volume = 0.35, pitch = 0.8})
         end,
         image = client.assets.images.prev_list_button
     })
@@ -60,6 +61,7 @@ function BackgroundSelect:init(bgs, lastSelect)
                 self.backgroundAnimStart = BACKGROUND_ANIM_TIME
                 self.backgroundAnimDir = 1
             end
+            audio.play("lootplot.sound:click", {volume = 0.35, pitch = 0.8})
         end,
         image = client.assets.images.next_list_button
     })
@@ -163,6 +165,7 @@ function BackgroundSelect:onRender(x, y, w, h)
     e.backgroundPrev:render(bgButtonLeft:get())
     e.backgroundNext:render(bgButtonRight:get())
 
+    love.graphics.setColor(1,1,1)
     bgList = bgList:padRatio(0.2, 0, 0.2, 0)
     local halfWidth = bgList.w / 2
     local drawY = bgList.y + bgList.h / 2
