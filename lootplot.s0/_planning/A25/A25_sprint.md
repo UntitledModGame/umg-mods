@@ -63,13 +63,14 @@ Spawns a cat
 - Use robo-streamer to put Olexas videos on steam homepage
 
 
+- plan number-of-levels changes: (Easy=6, Normal=8, Hard=10)
+- Ask jojo, ceroba, Obvi, etc about their opinions on this.
+
+
+
 ## =============================
 ## TODO:
 ## =============================
-
-
-- plan number-of-levels changes: (Easy=6, Normal=8, Hard=10)
-- Ask jojo, ceroba, Obvi, etc about their opinions on this.
 
 
 - Nerf the activations-cap from 40 -> 20
@@ -78,6 +79,10 @@ Spawns a cat
 - Create/add steam-broadcast assets
 
 - payment for robostreamer
+
+
+- Make knight-glove and Up-glove look a bit different
+(change the fingers?)
 
 
 

@@ -74,9 +74,20 @@ function Run:init(starterItem, difficulty, bg)
     end
 
     local dInfo = lp.getDifficultyInfo(difficulty)
+
+    do
+    -- number of levels
+    local EASY = 6
+    local NORMAL = 8
+    local HARD = 10
     if dInfo.difficulty <= 0 then
-        -- on easy difficulties, ie <= 0, we only have 2 less levels
-        self.attrs["NUMBER_OF_LEVELS"] = assert(self.attrs["NUMBER_OF_LEVELS"]) - 2
+        -- on easy difficulties, ie <= 0, we have 4 less levels
+        self.attrs["NUMBER_OF_LEVELS"] = EASY
+    elseif dInfo.difficulty <= 1 then
+        self.attrs["NUMBER_OF_LEVELS"] = NORMAL
+    else
+        self.attrs["NUMBER_OF_LEVELS"] = HARD
+    end
     end
 end
 
