@@ -603,7 +603,7 @@ defineFood("cucumber_slices", {
 
     canItemFloat = true,
 
-    isEntityTypeUnlocked = unlockAfterWins(constants.UNLOCK_AFTER_WINS.REROLL + 1),
+    isEntityTypeUnlocked = unlockAfterWins(constants.UNLOCK_AFTER_WINS.REROLL),
 
     shape = lp.targets.KingShape(1),
     target = {

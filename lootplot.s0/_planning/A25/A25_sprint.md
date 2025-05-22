@@ -113,6 +113,11 @@ slate block: cannot hold epic (IV) items. (or anything higher)
 - Apple pie: Randomizes shape of item
 
 
+- Change cucumber: triggers Reroll on items/slots 3 times (Queen-3)
+
+- Change cucumber-slices --> green-apple (better theming/intuition)
+
+
 
 
 
@@ -123,16 +128,31 @@ slate block: cannot hold epic (IV) items. (or anything higher)
 ## =============================
 
 
-- Change cucumber: triggers Reroll on items/slots 3 times (Queen-3)
-
-- Change cucumber-slices --> green-apple (better theming/intuition)
-
-
 - payment for robostreamer
 
 
 - Nerf prism, backwards-loan, and ESPECIALLY round-timer
+- They should destroy the closest 3 slots. 
+
 - Nerf compass? (its SOOO fun to use tho) (maybe reduce earnings to $0.5?)
+COMPASS NERF IDEA: 
+No longer sets money to 0. 
+Adds $1 earned to glass-slots.
+FLOATY. shape=ON.
+Trigger = LEVEL-UP
+(NOTE: Make sure it works on red-glass slots too! Use `lootplotTags`)
+
+
+Change golden-bell to just buff the slot.
+Nothing else.
+
+
+
+- IDEA:
+- Rare sack should have a 5% chance to spawn EPIC items
+- Uncommon sack should have a 5% chance to spawn RARE items
+
+
 
 - Add golden-trout item (Steals $15, makes slots earn $1)
 
@@ -165,10 +185,19 @@ CURSE: When an item is purchased, steal $1
 
 
 - Create DAILY run:
-- Randomize shop
+- Randomize shop (Start with custom/special shop slots)
+    - doomed-shop, only sells doomed-items?
+    - discounted-shop, all prices 50% off
 - Randomize main-island
-- Randomlize starting-items
+- Randomize some initial plot items
 - Randomize curses
+- Random neutral starting scenarios: 
+    - Tax-slot + null-slots
+    - Surrounded by stone-slots
+    - Scattered stone-slots that give money/points
+    - Start with 1 pink-slot in the middle
+    - Start with 1 rulebender-slot in the middle
+    - Start with destroy-slot instead of sell-slot
 
 
 - Remove 4-ball
@@ -180,7 +209,7 @@ CURSE: When an item is purchased, steal $1
 
 - Contraption-items: They all look too similar
 
-- Leather-items: Too similar...?
+- Leather-items: Too similar...? Even the dev forgets what they do!!! Ragh!
 
 
 - Number-keys shortcuts for pressing action-buttons
