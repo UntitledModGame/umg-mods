@@ -88,14 +88,6 @@ Rings: (increase threshold to $20 from $10..?)
 (Put sfx in StretchableButton direclty?)
 
 
-
-
-
-## =============================
-## TODO:
-## =============================
-
-
 Balls should actually DO stuff:
 G-BALL:
 GRUB-20, Earns $1
@@ -118,6 +110,14 @@ Costs $2 to activate
 slate block: cannot hold epic (IV) items. (or anything higher) 
 
 
+
+
+
+
+
+## =============================
+## TODO:
+## =============================
 
 
 - Change cucumber: triggers Reroll on items/slots 3 times (Queen-3)

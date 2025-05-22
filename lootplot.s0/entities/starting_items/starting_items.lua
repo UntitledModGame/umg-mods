@@ -584,20 +584,26 @@ defineStartingItem("seven_ball", {
     name = loc("Seven Ball"),
     description = loc("Dirt, Rocks, and a Bomb"),
 
-    activateDescription = loc("20% chance to upgrade the {lootplot:INFO_COLOR}Dirt Slot{/lootplot:INFO_COLOR} underneath itself, allowing for %{RARE} items", {
+    activateDescription = loc("30% chance to upgrade {lootplot:INFO_COLOR}Dirt Slots{/lootplot:INFO_COLOR}, allowing them to hold %{RARE} items", {
         RARE = lp.rarities.RARE.displayString
     }),
 
     isEntityTypeUnlocked = winToUnlock(),
     winAchievement = "WIN_SEVEN_BALL",
 
-    onActivate = function(ent)
-        local ppos = lp.getPos(ent)
-        local slotEnt = ppos and lp.itemToSlot(ent)
-        if lp.SEED:randomMisc() <= 0.2 and slotEnt and slotEnt:type() == "lootplot.s0:dirt_slot" then
-            lp.forceSpawnSlot(assert(ppos), server.entities.gravel_slot, ent.lootplotTeam)
+    shape = lp.targets.ON_SHAPE,
+    target = {
+        type = "SLOT",
+        filter = function(selfEnt, ppos, targEnt)
+            return targEnt:type() == "lootplot.s0:dirt_slot"
+        end,
+        activate = function(ent)
+            local ppos = lp.getPos(ent)
+            if lp.SEED:randomMisc() <= 0.3 then
+                lp.forceSpawnSlot(assert(ppos), server.entities.gravel_slot, ent.lootplotTeam)
+            end
         end
-    end,
+    },
 
     onActivateOnce = function(ent)
         lp.setMoney(ent, constants.STARTING_MONEY)
