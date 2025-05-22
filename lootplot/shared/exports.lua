@@ -1938,7 +1938,7 @@ end -- if client
 
 -- items cannot get more than this number of maxActivations
 -- (this is done to ensure that games dont go on FOREVER)
-lp.MAX_ACTIVATIONS_LIMIT = 40
+lp.MAX_ACTIVATIONS_LIMIT = 20
 -- ^^^ feel free to monkeypatch this value btw.
 -- Qbuses are fully stateless, so you can change it whenever, to whatever value you want.
 
