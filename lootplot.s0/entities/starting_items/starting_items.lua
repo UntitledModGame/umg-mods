@@ -479,6 +479,10 @@ defineStartingItem("eight_ball", {
     name = loc("Eight Ball"),
     description = loc("Is surrounded by stone"),
 
+    triggers = {"PULSE", "DESTROY"},
+    baseMultGenerated = 1,
+    lives = 99,
+
     isEntityTypeUnlocked = winToUnlock(),
     winAchievement = "WIN_EIGHT_BALL",
 
