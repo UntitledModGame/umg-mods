@@ -306,8 +306,18 @@ defineStartingItem("five_ball", {
     name = loc("Five Ball"),
     description = loc("Good with rotation"),
 
+    activateDescription = loc("Rotates items"),
+
     isEntityTypeUnlocked = unlockAfterWins(1),
     winAchievement = "WIN_FIVE_BALL",
+
+    shape = lp.targets.RookShape(1),
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targEnt)
+            lp.rotateItem(targEnt, 1)
+        end
+    },
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
@@ -319,10 +329,9 @@ defineStartingItem("five_ball", {
         spawnNormal(ent)
         spawnSell(ent)
 
-        lp.forceSpawnSlot(ppos, server.entities.rotate_slot, team)
+        lp.forceSpawnSlot(assert(ppos:move(0,-1)), server.entities.rotate_slot, team)
 
-        local itemEnt = lp.trySpawnItem(assert(ppos:move(1, 0)), server.entities.record_golden, team)
-        if itemEnt then lp.modifierBuff(itemEnt, "moneyGenerated", 1) end
+        lp.trySpawnItem(assert(ppos:move(1, 0)), server.entities.record_golden, team)
 
         lp.trySpawnItem(assert(ppos:move(-1, 0)), server.entities.record_white, team)
 
@@ -349,6 +358,7 @@ defineStartingItem("six_ball", {
     description = loc("Reroll specialist"),
 
     baseMaxActivations = 10,
+    baseMoneyGenerated = 2,
 
     isEntityTypeUnlocked = unlockAfterWins(1),
     winAchievement = "WIN_SIX_BALL",
@@ -364,8 +374,6 @@ defineStartingItem("six_ball", {
         spawnSell(ent)
 
         do -- spawn golden-die:
-        local itemEnt = lp.trySpawnItem(assert(ppos:move(-1,0)), server.entities.golden_die, team)
-        itemEnt.baseMoneyGenerated = 2
         local itemEnt2 = lp.trySpawnItem(assert(ppos:move(1,0)), server.entities.golden_die, team)
         itemEnt2.baseMoneyGenerated = 2
         end
@@ -393,6 +401,9 @@ defineStartingItem("six_ball", {
 defineStartingItem("G_ball", {
     name = loc("G Ball"),
     description = loc("Money is capped!"),
+
+    baseMoneyGenerated = 1,
+    grubMoneyCap = constants.DEFAULT_GRUB_MONEY_CAP,
 
     isEntityTypeUnlocked = winToUnlock(),
     winAchievement = "WIN_G_BALL",
@@ -573,8 +584,20 @@ defineStartingItem("seven_ball", {
     name = loc("Seven Ball"),
     description = loc("Dirt, Rocks, and a Bomb"),
 
+    activateDescription = loc("20% chance to upgrade the {lootplot:INFO_COLOR}Dirt Slot{/lootplot:INFO_COLOR} underneath itself, allowing for %{RARE} items", {
+        RARE = lp.rarities.RARE.displayString
+    }),
+
     isEntityTypeUnlocked = winToUnlock(),
     winAchievement = "WIN_SEVEN_BALL",
+
+    onActivate = function(ent)
+        local ppos = lp.getPos(ent)
+        local slotEnt = ppos and lp.itemToSlot(ent)
+        if lp.SEED:randomMisc() <= 0.2 and slotEnt and slotEnt:type() == "lootplot.s0:dirt_slot" then
+            lp.forceSpawnSlot(assert(ppos), server.entities.gravel_slot, ent.lootplotTeam)
+        end
+    end,
 
     onActivateOnce = function(ent)
         lp.setMoney(ent, constants.STARTING_MONEY)
@@ -729,8 +752,21 @@ defineStartingItem("bowling_ball", {
     name = loc("Bowling Ball"),
     description = loc("STRIKE!"),
 
+    activateDescription = loc("Increases {lootplot:DOOMED_LIGHT_COLOR}doom-count{/lootplot:DOOMED_LIGHT_COLOR} of slots by 2"),
+
     isEntityTypeUnlocked = winToUnlock(),
     winAchievement = "WIN_BOWLING_BALL",
+
+    shape = lp.targets.KingShape(1),
+    target = {
+        type = "SLOT",
+        filter = function(selfEnt, ppos, targEnt)
+            return targEnt.doomCount
+        end,
+        activate = function(selfEnt, ppos, targEnt)
+            targEnt.doomCount = targEnt.doomCount + 2
+        end
+    },
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
@@ -743,17 +779,21 @@ defineStartingItem("bowling_ball", {
         spawnSell(ent)
         spawnMoneyLimit(ent)
 
-        ent.baseMoneyGenerated = -1
-
-        wg.spawnSlots(ppos, server.entities.slot, 1,3, team)
-        for y=-1, 1, 2 do
-            local slotEnt = lp.posToSlot(assert(ppos:move(0, y)))
-            slotEnt.baseMoneyGenerated = -1
+        do
+        local nullSlot = lp.forceSpawnSlot(assert(ppos:move(0, -2)), server.entities.null_slot, team)
+        nullSlot.doomCount = 50
+        lp.modifierBuff(nullSlot, "moneyGenerated", -1)
         end
+
+        ent.baseMoneyGenerated = -2
+
+        wg.spawnSlots(ppos, server.entities.slot, 1,1, team)
 
         local plot = ppos:getPlot()
         plot:foreachSlot(function(slotEnt, _ppos)
-            slotEnt.doomCount = lp.SEED:randomMisc(15, 25)
+            if not slotEnt.doomCount then
+                slotEnt.doomCount = lp.SEED:randomMisc(7, 15)
+            end
         end)
 
         spawnDoomClockAndButtons(ent)

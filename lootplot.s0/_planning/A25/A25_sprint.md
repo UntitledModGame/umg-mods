@@ -84,6 +84,11 @@ Rings: (increase threshold to $20 from $10..?)
 
 - UI changes in UMG-CORE: Buttons should have a hover effect. 
 
+- Also, ALL buttons should play a sound when pressed. (In NewRunScreen) 
+(Put sfx in StretchableButton direclty?)
+
+
+
 
 
 ## =============================
@@ -91,8 +96,27 @@ Rings: (increase threshold to $20 from $10..?)
 ## =============================
 
 
-- Also, ALL buttons should play a sound when pressed. (In NewRunScreen) 
-(Put sfx in StretchableButton direclty?)
+Balls should actually DO stuff:
+G-BALL:
+GRUB-20, Earns $1
+
+6-ball: 
+On Reroll, Pulse: Earn $2
+
+5-ball:
+On Rotate, Pulse: Earn $2
+
+Blank ball:
+Remove the normal-slots
+
+Bowling ball:
+Increase doom-count of slots (KING-1)
+Costs $2 to activate
+--> with this, the slots can start with a lower doomCount
+
+7 ball: on activation, turns slot into slate block (ON shape)
+slate block: cannot hold epic (IV) items. (or anything higher) 
+
 
 
 
@@ -138,30 +162,6 @@ CURSE: On Level-Up: Make a random slot cost $1 to activate
 CURSE: On Level-Up: transform 2 random slots into null-slots
 CURSE: Removes FLOATY from the closest floating item
 CURSE: When an item is purchased, steal $1
-
-
-
-Balls should actually DO stuff:
-G-BALL:
-GRUB-20, Earns $1
-
-6-ball: 
-On Reroll, Pulse: Earn $2
-
-5-ball:
-On Rotate, Pulse: Earn $2
-
-Blank ball:
-Remove the normal-slots
-
-Bowling ball:
-Increase doom-count of slots (KING-1)
-Costs $2 to activate
---> with this, the slots can start with a lower doomCount
-
-7 ball: on activation, turns slot into slate block (ON shape)
-slate block: cannot hold epic (IV) items. (or anything higher) 
-
 
 
 - Create DAILY run:
