@@ -269,7 +269,7 @@ defRecord("record_red", "Red Record", {
 
 
 defRecord("record_blue", "Blue Record", {
-    activateDescription = loc("Add {lootplot:BONUS_COLOR}+1 bonus{/lootplot:BONUS_COLOR} to items"),
+    activateDescription = loc("Add {lootplot:BONUS_COLOR}+0.5 bonus{/lootplot:BONUS_COLOR} to items"),
 
     rarity = lp.rarities.EPIC,
 
@@ -277,7 +277,7 @@ defRecord("record_blue", "Blue Record", {
     target = {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
-            lp.modifierBuff(targetEnt, "bonusGenerated", 1, selfEnt)
+            lp.modifierBuff(targetEnt, "bonusGenerated", 0.5, selfEnt)
         end
     }
 })
