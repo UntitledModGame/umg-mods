@@ -27,7 +27,7 @@ lp.defineSlot("lootplot.s0:sell_slot", {
 
         local price = (itemEnt.price or 0)
         lp.modifierBuff(itemEnt, "price", -price/2, slotEnt)
-        lp.addMoney(itemEnt, itemEnt.price or 0)
+        lp.addMoney(itemEnt, price/2)
         lp.destroy(itemEnt)
     end
 })
