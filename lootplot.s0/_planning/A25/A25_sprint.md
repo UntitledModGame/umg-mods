@@ -130,6 +130,9 @@ https://discord.com/channels/863625920991854602/1374826401068224542/137482640106
 - Adjust doomed_tool item (it was originally built for food-items)
 
 
+- payment for robostreamer
+
+
 
 
 
@@ -140,11 +143,9 @@ https://discord.com/channels/863625920991854602/1374826401068224542/137482640106
 ## =============================
 
 
-- payment for robostreamer
-
 
 - Nerf prism, backwards-loan, and ESPECIALLY round-timer
-- They should destroy the closest 3 slots. 
+- (IDEA: destroy the closest 3 slots)
 
 - Nerf compass? (its SOOO fun to use tho) (maybe reduce earnings to $0.5?)
 COMPASS NERF IDEA: 
@@ -157,6 +158,13 @@ Trigger = LEVEL-UP
 
 Change golden-bell to just buff the slot.
 Nothing else.
+
+
+
+- LOCKED-SLOTS ADJUSTMENTS:
+- Easy mode: Remain same.
+- Normal mode: Limit islands to size 1, and size 3-4
+- Hard mode: Limit islands to size 1.
 
 
 
@@ -214,6 +222,8 @@ CURSE: When an item is purchased, steal $1
 
 - Remove 4-ball
 
+
+- Make L-Ball better and more exciting; (its really boring currently)
 
 
 - Fix load save crash  https://discord.com/channels/863625920991854602/1374371590778916894/1374371590778916894

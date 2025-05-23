@@ -30,7 +30,11 @@ lp.defineSlot("lootplot.unlocks:locked_slot", {
 
     ---@param self lootplot.SlotEntity
     onActivate = function(self)
-        local ppos = assert(lp.getPos(self))
+        local ppos = lp.getPos(self)
+        if not ppos then
+            return
+        end
+
         local tslot = self.targetSlot
         local titem = self.targetItem
 

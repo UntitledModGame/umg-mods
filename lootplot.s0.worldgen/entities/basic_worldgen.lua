@@ -98,6 +98,21 @@ end
 
 
 
+
+---@param island lootplot.PPos[]
+---@param difficulty number
+local function canSpawnBigIsland(island, difficulty)
+    local size = #island
+    if (not difficulty) or (difficulty <= 0) then
+        return size >= 3
+    elseif difficulty <= 1 then
+        return (size == 4)
+    else
+        return false
+    end
+end
+
+
 defWorldgenItem("basic_worldgen", {
     name = loc("Worldgen Item"),
     description = loc("This is a worldgen item"),
@@ -123,9 +138,12 @@ defWorldgenItem("basic_worldgen", {
         end)
         allocator:cullNearbyIslands(3)
 
+        local _diff, diffInfo = lp.getDifficulty()
+        local difficulty = diffInfo.difficulty
+
         local islands = allocator:generateIslands()
         for _, island in ipairs(islands) do
-            if #island > 2 then
+            if canSpawnBigIsland(island, difficulty) then
                 generateBigIsland(island, team)
             elseif #island == 1 then
                 if lp.SEED:randomWorldGen() < 0.5 then
