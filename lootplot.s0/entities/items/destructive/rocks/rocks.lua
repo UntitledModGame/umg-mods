@@ -219,7 +219,7 @@ defRocks("golden_rock", "Golden Rocks", {
 
     description = function(ent)
         return GOLDEN_ROCK_DESC({
-            balance = lp.getMoney(ent)
+            balance = math.floor(lp.getMoney(ent) or 0)
         })
     end,
 
