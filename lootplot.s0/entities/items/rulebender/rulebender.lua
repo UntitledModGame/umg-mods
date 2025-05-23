@@ -340,7 +340,7 @@ defItem("seraphim", "Seraphim", {
     rarity = lp.rarities.LEGENDARY,
 
     basePrice = 12,
-    baseMaxActivations = 5,
+    baseMaxActivations = 1,
     canItemFloat = true,
 
     shape = lp.targets.UpShape(1),
