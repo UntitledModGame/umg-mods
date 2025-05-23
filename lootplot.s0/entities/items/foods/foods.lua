@@ -345,10 +345,10 @@ defineFood("green_squash", {
 defineFood("red_squash", {
     --[[
     Gives Level-Up trigger to slots
-    Makes slots earn $2
+    Makes slots earn $1
     ]]
     name = loc("Red Squash"),
-    activateDescription = loc("Gives {lootplot:TRIGGER_COLOR}Level-Up{/lootplot:TRIGGER_COLOR} to slots. Removes all other triggers.\nMakes slots earn {lootplot:MONEY_COLOR}$2{/lootplot:MONEY_COLOR}"),
+    activateDescription = loc("Gives {lootplot:TRIGGER_COLOR}Level-Up{/lootplot:TRIGGER_COLOR} to slots. Removes all other triggers.\nMakes slots earn {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR}"),
 
     isEntityTypeUnlocked = unlockAfterWins(2),
 
@@ -361,7 +361,7 @@ defineFood("red_squash", {
         type = "SLOT",
         activate = function(selfEnt, ppos, targEnt)
             lp.setTriggers(targEnt, {"LEVEL_UP"})
-            lp.modifierBuff(targEnt, "moneyGenerated", 2)
+            lp.modifierBuff(targEnt, "moneyGenerated", 1)
         end
     }
 })
