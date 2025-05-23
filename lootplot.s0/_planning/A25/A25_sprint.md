@@ -122,6 +122,14 @@ slate block: cannot hold epic (IV) items. (or anything higher)
 https://discord.com/channels/863625920991854602/1374620418815557663/1374621220049522771
 
 
+- Fix rulebender-slot showing incorrect description
+https://discord.com/channels/863625920991854602/1374826401068224542/1374826401068224542
+--> ^^^^ we will need to make descriptions dynamic with a function
+
+
+- Adjust doomed_tool item (it was originally built for food-items)
+
+
 
 
 
@@ -130,17 +138,6 @@ https://discord.com/channels/863625920991854602/1374620418815557663/137462122004
 ## =============================
 ## TODO:
 ## =============================
-
-
-- Fix load save crash  https://discord.com/channels/863625920991854602/1374371590778916894/1374371590778916894
-
-
-- Fix rulebender-slot showing incorrect description
-https://discord.com/channels/863625920991854602/1374826401068224542/1374826401068224542
---> ^^^^ we will need to make descriptions dynamic with a function
-
-
-- Adjust doomed_tool item (it was originally built for food-items)
 
 
 - payment for robostreamer
@@ -216,6 +213,10 @@ CURSE: When an item is purchased, steal $1
 
 
 - Remove 4-ball
+
+
+
+- Fix load save crash  https://discord.com/channels/863625920991854602/1374371590778916894/1374371590778916894
 
 
 
