@@ -39,7 +39,8 @@ local constants = {
         ROCKS = "lootplot.s0:rocks",
         DESTRUCTIVE = "lootplot.s0:destructive",
         FOOD = "lootplot.s0:food",
-        CAT = "lootplot.s0:cat"
+        CAT = "lootplot.s0:cat",
+        CONTRAPTION = "lootplot.s0:cat",
     }, {__index=umg.melt})
 }
 

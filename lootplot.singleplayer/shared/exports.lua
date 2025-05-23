@@ -25,7 +25,7 @@ lpWorldGroup:onAdded(function(ent)
             currentRun:getAttributeSetters(), currentRun:getSingleplayerArgs()
         )
     else
-        umg.log.fatal("WARNING::: Duplicate lootplot.singleplayer context created!!")
+        umg.log.fatal("FATAL::: Duplicate lootplot.singleplayer context created!!")
     end
 end)
 

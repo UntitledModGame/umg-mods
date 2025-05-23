@@ -85,7 +85,7 @@ local function drawDelayItemNumber(ent, delayCount)
         local txt,color
         local dx,dy=0,3
         if remaining <= 1 then
-            txt = "[!]"
+            txt = "!!!"
             color = NICE_GREEN
             local t = (love.timer.getTime() * 10)
             dx = 2 * math.sin(t)
