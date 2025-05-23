@@ -134,6 +134,14 @@ https://discord.com/channels/863625920991854602/1374826401068224542/137482640106
 
 
 
+- LOCKED-SLOTS ADJUSTMENTS:
+- Easy mode: Remain same.
+- Normal mode: Limit islands to size 1, and size 3-4
+- Hard mode: Limit islands to size 1.
+
+
+
+
 
 
 
@@ -160,18 +168,16 @@ Change golden-bell to just buff the slot.
 Nothing else.
 
 
-
-- LOCKED-SLOTS ADJUSTMENTS:
-- Easy mode: Remain same.
-- Normal mode: Limit islands to size 1, and size 3-4
-- Hard mode: Limit islands to size 1.
-
-
-
 - IDEA:
 - Rare sack should have a 5% chance to spawn EPIC items
 - Uncommon sack should have a 5% chance to spawn RARE items
 
+
+
+## SUPER SUPER IMPORTANT:
+Change `isEntityTypeUnlocked = helper.unlockAfterWins(X)` to
+`unlockAfterWins = 5`.
+That way, we can easily introspect item-pools to see wh
 
 
 - Add golden-trout item (Steals $15, makes slots earn $1)
