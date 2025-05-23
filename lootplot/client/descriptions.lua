@@ -153,13 +153,15 @@ local EARN_POINTS = interp("Earns points: {lootplot:POINTS_COLOR}%{pointsGenerat
 local STEAL_POINTS = interp("{lootplot:BAD_COLOR}Steals points: {lootplot:POINTS_COLOR}%{pointsGenerated:.1f}{/lootplot:BAD_COLOR}", VERB_CTX)
 local POINT_INFO = interp("  ({lootplot:POINTS_MOD_COLOR}%{mod}{/lootplot:POINTS_MOD_COLOR} x {lootplot:POINTS_MULT_COLOR}%{mult}{/lootplot:POINTS_MULT_COLOR})")
 
-local function addPointsDescription(ent, arr, pgen)
+local function addPointsDescription(ent, arr)
     arr:add(function()
         if not umg.exists(ent) then
             return ""
         end
+        local pgen = ent.pointsGenerated
+        if pgen == 0 then return "" end
         local txt1
-        if pgen > 0 then
+        if pgen >= 0 then
             txt1 = EARN_POINTS(ent)
         else
             txt1 = STEAL_POINTS(ent)
@@ -183,57 +185,86 @@ local STEAL_MONEY = interp("{lootplot:BAD_COLOR}Steals {lootplot:MONEY_COLOR}$%{
 -- Wahts difference between "costs" and "steals"?
 -- A: steal will go into negative. Cost wont; it will prevent activation.
 
+local function addMoneyDesc(ent, arr)
+    arr:add(function()
+        if not umg.exists(ent) then
+            return ""
+        end
+        local mEarn = ent.moneyGenerated
+        if mEarn == 0 then return "" end
+        if mEarn >= 0 then
+            return EARN_MONEY(ent)
+        else
+            local loseMoney = (ent.canGoIntoDebt and STEAL_MONEY) or COSTS_MONEY
+            return loseMoney({
+                cost = -ent.moneyGenerated
+            })
+        end
+    end)
+end
+
+
 local GAIN_MULT = interp("Adds {lootplot:POINTS_MULT_COLOR}%{multGenerated:.1f} multiplier")
 local LOSE_MULT = interp("{lootplot:BAD_COLOR}Subtracts %{multCost:.1f} multiplier!")
 
+local function addMultDesc(ent, arr)
+    arr:add(function()
+        if not umg.exists(ent) then
+            return ""
+        end
+        local multGen = ent.multGenerated
+        if multGen == 0 then return "" end
+        if multGen >= 0 then
+            return GAIN_MULT(ent)
+        else
+            return LOSE_MULT({
+                multCost = -ent.multGenerated
+            })
+        end
+    end)
+end
+
+
 local GAIN_BONUS = interp("Adds {lootplot:BONUS_COLOR}%{bonusGenerated:.1f} bonus")
 local LOSE_BONUS = interp("{lootplot:BAD_COLOR}Subtracts %{bonusCost:.1f} bonus!")
+
+local function addBonusGen(ent, arr)
+    arr:add(function()
+        if not umg.exists(ent) then
+            return ""
+        end
+        local bonusGen = ent.bonusGenerated
+        if bonusGen == 0 then return "" end
+        if bonusGen >= 0 then
+            return GAIN_BONUS(ent)
+        else
+            return LOSE_BONUS({
+                bonusCost = -ent.bonusGenerated
+            })
+        end
+    end)
+end
 
 
 umg.on("lootplot:populateActivateDescription", 30, function(ent, arr)
     local multGen = ent.multGenerated
     if multGen and multGen ~= 0 then
-        if multGen > 0 then
-            arr:add(GAIN_MULT(ent))
-        else
-            arr:add(LOSE_MULT({
-                multCost = -ent.multGenerated
-            }))
-        end
+        addMultDesc(ent, arr)
     end
 
     local bonusGen = ent.bonusGenerated
     if bonusGen and bonusGen ~= 0 then
-        if bonusGen > 0 then
-            arr:add(GAIN_BONUS(ent))
-        else
-            arr:add(LOSE_BONUS({
-                bonusCost = -ent.bonusGenerated
-            }))
-        end
+        addBonusGen(ent, arr)
     end
 
     local pgen = ent.pointsGenerated
     if pgen and pgen ~= 0 then
-        addPointsDescription(ent, arr, pgen)
+        addPointsDescription(ent, arr)
     end
 
     local mEarn = ent.moneyGenerated
     if mEarn and mEarn ~= 0 then
-        if mEarn > 0 then
-            arr:add(funcLocEnt(EARN_MONEY, ent))
-        else
-            arr:add(function()
-                if umg.exists(ent) then
-                    local loseMoney = (ent.canGoIntoDebt and STEAL_MONEY) or COSTS_MONEY
-                    return loseMoney({
-                        cost = -ent.moneyGenerated
-                    })
-                end
-
-                return INVALID_ENTITY
-            end)
-        end
+        addMoneyDesc(ent, arr)
     end
 end)
 
