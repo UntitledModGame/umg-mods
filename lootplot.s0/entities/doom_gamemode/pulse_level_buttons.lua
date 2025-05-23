@@ -16,11 +16,20 @@ local helper = require("shared.helper")
 local loc = localization.localize
 local interp = localization.newInterpolator
 
-local function fogFilter(ppos, ent)
+local function pulseFilter(ppos, ent)
     local plot = ppos:getPlot()
     local team = ent.lootplotTeam
     if team then
-        return plot:isFogRevealed(ppos, team) and lp.hasTrigger(ent, "PULSE")
+        if plot:isFogRevealed(ppos, team) then
+            local slotEnt = lp.posToSlot(ppos)
+            local itemEnt = lp.posToItem(ppos)
+            if slotEnt and (lp.hasTrigger(slotEnt, "PULSE")) then
+                return true
+            end
+            if itemEnt and lp.hasTrigger(itemEnt, "PULSE") then
+                return true
+            end
+        end
     else
         return false
     end
@@ -196,7 +205,7 @@ lp.defineSlot("lootplot.s0:pulse_button_slot", {
             lp.Bufferer()
                 :all(plot)
                 :to("SLOT_OR_ITEM") -- ppos-->slot
-                :filter(fogFilter)
+                :filter(pulseFilter)
                 :execute(function(ppos1, slotEnt)
                     lp.resetCombo(slotEnt)
                     lp.tryTriggerSlotThenItem("PULSE", ppos1)
