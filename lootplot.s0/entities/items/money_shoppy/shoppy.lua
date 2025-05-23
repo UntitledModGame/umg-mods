@@ -121,17 +121,17 @@ defItem("a_demonic_loan", {
 
     triggers = {"BUY"},
 
-    activateDescription = loc("Destroys all target items."),
+    activateDescription = loc("Destroys all target slots."),
 
     canItemFloat = true,
 
     basePrice = 0,
     baseMaxActivations = 1,
-    baseMoneyGenerated = 30,
+    baseMoneyGenerated = 40,
 
-    shape = lp.targets.QueenShape(4),
+    shape = lp.targets.RookShape(4),
     target = {
-        type = "ITEM",
+        type = "SLOT",
         activate = function(selfEnt, ppos, targetEnt)
             lp.destroy(targetEnt)
         end
