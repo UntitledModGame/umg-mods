@@ -151,9 +151,33 @@ https://discord.com/channels/863625920991854602/1374826401068224542/137482640106
 ## =============================
 
 
+Prism:
+Reduces round by 2.
+You have 1 less round per level.
 
-- Nerf prism, backwards-loan, and ESPECIALLY round-timer
-- (IDEA: destroy the closest 3 slots)
+
+Backwards-loan:
+Sets the number of rounds per level to 7
+Transforms all Reroll-buttons into glass-slots
+
+
+Stopwatch:
+maybe just remove this item lol 
+
+
+Multiplier card:
+Swaps Bonus and Multiplier 
+
+Robbers sack:
+Makes money negative.
+Set item prices to 0. (ROOK-8)
+
+Negative-shield:
+Make bonus and multiplier negative.
+(^^^ maybe just think about removing this item..?) 
+
+
+
 
 - Nerf compass? (its SOOO fun to use tho) (maybe reduce earnings to $0.5?)
 COMPASS NERF IDEA: 
@@ -171,6 +195,13 @@ Nothing else.
 - IDEA:
 - Rare sack should have a 5% chance to spawn EPIC items
 - Uncommon sack should have a 5% chance to spawn RARE items
+
+
+- UX IMPROVEMENT:,
+star and star-card should use orange-color for "shapes" word
+https://www.twitch.tv/yoshekllyou/clip/BlatantAbrasiveCardNomNom-flJgHMkA6MGbadJT
+
+- All pie-items and glove-items should use orange-color in descriptions too
 
 
 
@@ -223,10 +254,14 @@ CURSE: When an item is purchased, steal $1
     - Scattered stone-slots that give money/points
     - Start with 1 pink-slot in the middle
     - Start with 1 rulebender-slot in the middle
+    - Start with 1 guardian-slot in the middle
     - Start with destroy-slot instead of sell-slot
 
 
 - Remove 4-ball
+
+
+- New item: Interdimensional-eye: Subtracts 50 Bonus, Earns +4 mult
 
 
 - Make L-Ball better and more exciting; (its really boring currently)
@@ -249,6 +284,28 @@ CURSE: When an item is purchased, steal $1
 
 - Consider adding DOOMED tools? (Purple-color)
 
+
+
+## ADD NEW MUSIC
+https://m.youtube.com/watch?v=JPCaFc17ur0&t=27s&pp=2AEbkAIB
+- You were always in the right place,
+- Cozy afternoon
+- Fast lanes light rain
+ 
+https://youtu.be/s8nkrxzOBR4?feature=shared  NOTABLE SONGS:
+- Bullet witch
+
+
+## Background ideas:,
+- Twilight background: Dark black/blue with gray clouds
+
+- Deep crimson background
+
+- Rainbow background. Cool HSV/Oklab
+ 
+- Loot-rain background. Items raining down, just like title screen. The items should be somewhat transparent so it doesnt distract
+
+- Copycat-rain background: Background with copycats raining down
 
 
 
