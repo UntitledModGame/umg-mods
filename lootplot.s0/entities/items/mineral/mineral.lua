@@ -97,12 +97,17 @@ end
 
 
 
-local SPEAR_PULSE_DESC = loc("{lootplot:TRIGGER_COLOR}Pulses{/lootplot:TRIGGER_COLOR} items.")
+local SPEAR_DESC = interp("Triggers {lootplot:TRIGGER_COLOR}%{triggerName}{/lootplot:TRIGGER_COLOR} on items.")
 
 local function defineSpear(mineral_type, name, strength, etype)
     local namespace = umg.getModName() .. ":"
     local etypeName = namespace .. mineral_type .. "_spear"
     local image = mineral_type .. "_spear"
+
+    local TRIGGER = "PULSE"
+    if mineral_type == "emerald" then
+        TRIGGER = "REROLL"
+    end
 
     local spearType = {
         image = image,
@@ -110,20 +115,22 @@ local function defineSpear(mineral_type, name, strength, etype)
 
         init = helper.rotateRandomly,
 
-        activateDescription = SPEAR_PULSE_DESC,
+        activateDescription = SPEAR_DESC({
+            triggerName = lp.getTriggerDisplayName(TRIGGER)
+        }),
 
         baseMultGenerated = floorTo01(0.2 * strength),
+
 
         shape = lp.targets.NorthEastShape(1),
         target = {
             type = "ITEM",
             activate = function(selfEnt, ppos, itemEnt)
-                lp.tryTriggerEntity("PULSE", itemEnt)
+                lp.tryTriggerEntity(TRIGGER, itemEnt)
             end,
             filter = function(selfEnt, ppos, itemEnt)
-                return lp.hasTrigger(itemEnt, "PULSE")
+                return lp.hasTrigger(itemEnt, TRIGGER)
             end,
-            activateWithNoValidTargets = true
         },
 
         rarity = etype.rarity or lp.rarities.RARE,
