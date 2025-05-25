@@ -168,11 +168,13 @@ local function addPointsDescription(ent, arr)
         end
         -- todo: this is kinda inefficient. OH WELL :)
         local _, mod, mult = properties.computeProperty(ent, "pointsGenerated")
+        ---@cast mod number
+        ---@cast mult number
         local append_txt = ""
         if mult ~= 1 then
             append_txt = POINT_INFO({
-                mod = mod,
-                mult = mult
+                mod = math.floor(mod),
+                mult = math.floor(mult)
             })
         end
         return txt1 .. append_txt
