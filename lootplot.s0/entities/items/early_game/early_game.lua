@@ -237,6 +237,31 @@ defItem("coins", {
 
 
 
+defItem("rope", {
+    name = loc("Rope"),
+
+    triggers = {"PULSE"},
+
+    activateDescription = loc("Adds {lootplot:POINTS_COLOR}+1 points{/lootplot:POINTS_COLOR} to slot.\nTriggers {lootplot:TRIGGER_COLOR}Pulse{/lootplot:TRIGGER_COLOR} on slot"),
+    target = {
+        type = "SLOT",
+        activate = function(selfEnt, ppos, targEnt)
+            lp.modifierBuff(targEnt, "pointsGenerated", 1)
+            lp.tryTriggerEntity("PULSE", targEnt)
+        end
+    },
+
+    shape = lp.targets.ON_SHAPE,
+
+    basePrice = 6,
+    baseMaxActivations = 3,
+
+    rarity = lp.rarities.UNCOMMON,
+})
+
+
+
+
 
 
 defItem("bone", {
@@ -251,6 +276,36 @@ defItem("bone", {
 
     lives = 6,
     rarity = lp.rarities.UNCOMMON,
+})
+
+
+
+
+
+defItem("steel_plate", {
+    image = "steel_plate",
+    name = loc("Steel Plate"),
+
+    activateDescription = loc("Destroys slots"),
+
+    triggers = {"PULSE"},
+
+    rarity = lp.rarities.UNCOMMON,
+
+    isEntityTypeUnlocked = helper.unlockAfterWins(5),
+
+    basePointsGenerated = 20,
+    baseMultGenerated = 0.4,
+    baseMaxActivations = 4,
+    basePrice = 7,
+
+    shape = lp.targets.HorizontalShape(1),
+    target = {
+        type = "SLOT",
+        activate = function(selfEnt, ppos, targEnt)
+            lp.destroy(targEnt)
+        end
+    }
 })
 
 
