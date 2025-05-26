@@ -342,6 +342,26 @@ defineFood("green_squash", {
 })
 
 
+defineFood("red_olive", {
+    name = loc("Red Olive"),
+    activateDescription = loc("Gives {lootplot:TRIGGER_COLOR}Level-Up{/lootplot:TRIGGER_COLOR} Trigger to items."),
+
+    isEntityTypeUnlocked = unlockAfterWins(3),
+
+    rarity = lp.rarities.RARE,
+
+    basePrice = 7,
+
+    shape = lp.targets.KingShape(1),
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.addTrigger(targetEnt, "LEVEL_UP")
+        end
+    }
+})
+
+
 defineFood("red_squash", {
     --[[
     Gives Level-Up trigger to slots
