@@ -30,7 +30,7 @@ local function defShards(id, name, onMatchActivate, onMatchDesc, etype)
     etype = etype or {}
     etype.image = etype.image or id
 
-    etype.isEntityTypeUnlocked = helper.unlockAfterWins(constants.UNLOCK_AFTER_WINS.SHARDS)
+    etype.unlockAfterWins = constants.UNLOCK_AFTER_WINS.SHARDS
 
     local full_id = PREFIX .. id
     IS_SHARD_ITEM[full_id] = true
@@ -194,7 +194,7 @@ defItem("wildcard_shards", "Wildcard Shards", {
     triggers = {"PULSE"},
     activateDescription = loc("If target-item is a shard, transforms into it."),
 
-    isEntityTypeUnlocked = helper.unlockAfterWins(constants.UNLOCK_AFTER_WINS.SHARDS),
+    unlockAfterWins = constants.UNLOCK_AFTER_WINS.SHARDS,
 
     rarity = lp.rarities.UNCOMMON,
     basePrice = 8,

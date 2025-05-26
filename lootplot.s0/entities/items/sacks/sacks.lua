@@ -242,7 +242,7 @@ defSack("sack_dark", "Dark Sack", {
 
     basePrice = 10,
 
-    isEntityTypeUnlocked = helper.unlockAfterWins(constants.UNLOCK_AFTER_WINS.DESTRUCTIVE),
+    unlockAfterWins = constants.UNLOCK_AFTER_WINS.DESTRUCTIVE,
 
     shape = VERTICAL_SACK_SHAPE,
     rarity = lp.rarities.UNCOMMON,
@@ -263,7 +263,7 @@ do
 local GRUB_MONEY_CAP = assert(constants.DEFAULT_GRUB_MONEY_CAP)
 
 defSack("sack_grubby", "Grubby Sack", {
-    isEntityTypeUnlocked = helper.unlockAfterWins(constants.UNLOCK_AFTER_WINS.GRUBBY),
+    unlockAfterWins = constants.UNLOCK_AFTER_WINS.GRUBBY,
 
     activateDescription = locRarity("Spawns {lootplot:GRUB_COLOR_LIGHT}GRUB-%{n}{/lootplot:GRUB_COLOR_LIGHT} items to choose from.\nMust be placed in the air!", {
         n = GRUB_MONEY_CAP

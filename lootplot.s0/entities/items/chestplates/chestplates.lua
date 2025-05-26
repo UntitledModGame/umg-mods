@@ -92,7 +92,7 @@ defChestplate("copper_chestplate", "Copper Chestplate", {
     activateDescription = loc("Increase price of items by {lootplot:MONEY_COLOR}$3{/lootplot:MONEY_COLOR}.\nRotate items."),
 
     baseMoneyGenerated = -1,
-    isEntityTypeUnlocked = helper.unlockAfterWins(constants.UNLOCK_AFTER_WINS.ROTATEY),
+    unlockAfterWins = constants.UNLOCK_AFTER_WINS.ROTATEY,
 
     target = {
         type = "ITEM",
@@ -145,6 +145,8 @@ defChestplate("ethereal_tunic", "Ethereal Tunic", {
     activateDescription = loc("If items have negative bonus, give items {lootplot:POINTS_MULT_COLOR}+1 multiplier"),
 
     baseMoneyGenerated = -2,
+
+    rarity = lp.rarities.EPIC,
 
     target = {
         type = "ITEM",

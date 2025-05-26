@@ -30,7 +30,7 @@ local function defItem(id, name, etype)
         etype.triggers = etype.triggers or {"PULSE"}
     end
 
-    etype.isEntityTypeUnlocked = helper.unlockAfterWins(2)
+    etype.unlockAfterWins = 2
 
     return lp.defineItem("lootplot.s0:"..id, etype)
 end
@@ -54,14 +54,6 @@ local function defineCat(id, etype)
     etype.image = etype.image or id
     return lp.defineItem("lootplot.s0:"..id, etype)
 end
-
-
-local function unlockAfterWins(numWins)
-    return function()
-        return numWins <= lp.getWinCount()
-    end
-end
-
 
 
 
@@ -112,7 +104,7 @@ defineCat("dangerously_funny_cat", {
     baseMaxActivations = 10,
     basePointsGenerated = 10,
 
-    isEntityTypeUnlocked = unlockAfterWins(2),
+    unlockAfterWins = 2,
 
     shape = lp.targets.UpShape(1),
 
@@ -137,7 +129,7 @@ defineCat("chubby_cat", {
 
     rarity = lp.rarities.EPIC,
 
-    isEntityTypeUnlocked = unlockAfterWins(3),
+    unlockAfterWins = 3,
 
     basePrice = 0,
     baseMaxActivations = 10,
@@ -199,7 +191,7 @@ defineCat("midas_cat", {
 
     rarity = lp.rarities.EPIC,
 
-    isEntityTypeUnlocked = unlockAfterWins(3),
+    unlockAfterWins = 3,
 
     basePrice = 0,
     baseMaxActivations = 1,
@@ -233,7 +225,7 @@ defineCat("pink_cat", {
     name = loc("Pink Cat"),
     triggers = {"PULSE"},
 
-    isEntityTypeUnlocked = unlockAfterWins(1),
+    unlockAfterWins = 1,
 
     activateDescription = loc("Copies self into target slots"),
 
@@ -269,7 +261,7 @@ defineCat("crappy_cat", {
     name = loc("Crappy Cat"),
     activateDescription = loc("Converts target items into a clone of itself"),
 
-    isEntityTypeUnlocked = unlockAfterWins(2),
+    unlockAfterWins = 2,
 
     rarity = lp.rarities.RARE,
 

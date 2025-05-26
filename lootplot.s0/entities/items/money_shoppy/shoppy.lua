@@ -11,7 +11,7 @@ local constants = require("shared.constants")
 local function defItem(id, etype)
     etype.image = etype.image or id
 
-    etype.isEntityTypeUnlocked = helper.unlockAfterWins(constants.UNLOCK_AFTER_WINS.SHOPPY)
+    etype.unlockAfterWins = constants.UNLOCK_AFTER_WINS.SHOPPY
 
     return lp.defineItem("lootplot.s0:"..id, etype)
 end

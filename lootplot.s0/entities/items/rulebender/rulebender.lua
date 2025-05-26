@@ -11,13 +11,6 @@ local function defItem(id, name, etype)
 end
 
 
-local function unlockAfterWins(numWins)
-    return function()
-        return numWins <= lp.getWinCount()
-    end
-end
-
-
 
 
 defItem("gift_box", "Gift Box", {
@@ -25,7 +18,7 @@ defItem("gift_box", "Gift Box", {
     baseMaxActivations = 2,
     baseMultGenerated = 0.8,
 
-    isEntityTypeUnlocked = unlockAfterWins(4),
+    unlockAfterWins = 4,
 
     triggers = {"PULSE"},
 
@@ -51,7 +44,7 @@ defItem("gift_box", "Gift Box", {
 defItem("pandoras_box", "Pandora's Box", {
     activateDescription = loc("Spawn RARE items."),
 
-    isEntityTypeUnlocked = unlockAfterWins(4),
+    unlockAfterWins = 4,
 
     rarity = lp.rarities.EPIC,
     triggers = {"PULSE"},
@@ -101,7 +94,7 @@ end
 defItem("spear_of_war", "Spear of War", {
     activateDescription = loc("Generates points equal to the current combo"),
 
-    isEntityTypeUnlocked = unlockAfterWins(4),
+    unlockAfterWins = 4,
 
     rarity = lp.rarities.EPIC,
     triggers = {"PULSE"},
@@ -125,7 +118,7 @@ defItem("spear_of_war", "Spear of War", {
 defItem("void_box", "Void Box", {
     activateDescription = loc("Gives {lootplot:DOOMED_LIGHT_COLOR}+1 doomed{/lootplot:DOOMED_LIGHT_COLOR} to doomed-items"),
 
-    isEntityTypeUnlocked = unlockAfterWins(5),
+    unlockAfterWins = 5,
 
     triggers = {"PULSE"},
 
@@ -153,7 +146,7 @@ defItem("void_box", "Void Box", {
 defItem("toilet_paper", "Toilet Paper", {
     triggers = {"PULSE"},
 
-    isEntityTypeUnlocked = unlockAfterWins(2),
+    unlockAfterWins = 2,
 
     baseMaxActivations = 10,
     basePrice = 12,
@@ -172,7 +165,7 @@ defItem("basilisks_eye", "Basilisk's Eye", {
         UNCOMMON = lp.rarities.UNCOMMON.displayString
     }),
 
-    isEntityTypeUnlocked = unlockAfterWins(1),
+    unlockAfterWins = 1,
 
     triggers = {"PULSE"},
 
@@ -304,7 +297,7 @@ defItem("magic_wand", "Magic Wand", {
 
     triggers = {"PULSE"},
 
-    isEntityTypeUnlocked = unlockAfterWins(6),
+    unlockAfterWins = 6,
 
     rarity = lp.rarities.EPIC,
 
@@ -402,7 +395,7 @@ defItem("bandage", "Bandage", {
         lives = NUM_LIVES
     }),
 
-    isEntityTypeUnlocked = unlockAfterWins(4),
+    unlockAfterWins = 4,
 
     triggers = {"PULSE"},
 

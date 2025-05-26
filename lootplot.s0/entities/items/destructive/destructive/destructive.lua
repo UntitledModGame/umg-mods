@@ -13,7 +13,7 @@ local function defDestructive(id, name, etype)
 
     etype.lootplotTags = {consts.tags.DESTRUCTIVE}
 
-    etype.isEntityTypeUnlocked = helper.unlockAfterWins(consts.UNLOCK_AFTER_WINS.DESTRUCTIVE)
+    etype.unlockAfterWins = consts.UNLOCK_AFTER_WINS.DESTRUCTIVE
 
     if not etype.listen then
         etype.triggers = etype.triggers or {"PULSE"}

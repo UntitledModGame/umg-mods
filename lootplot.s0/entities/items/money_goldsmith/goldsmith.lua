@@ -69,7 +69,7 @@ end
 defMultRing("red_multiplier_ring", "Red Multiplier Ring", {"PULSE"})
 defMultRing("green_multiplier_ring", "Green Multiplier Ring", {"REROLL"})
 defMultRing("orange_multiplier_ring", "Orange Multiplier Ring", {"ROTATE", "LEVEL_UP"}, {
-    isEntityTypeUnlocked = helper.unlockAfterWins(consts.UNLOCK_AFTER_WINS.ROTATEY),
+    unlockAfterWins = consts.UNLOCK_AFTER_WINS.ROTATEY,
     baseMoneyGenerated = 2
 })
 
@@ -244,7 +244,7 @@ defItem("robbers_sack", "Robbers Sack", {
 
     basePrice = 10,
 
-    isEntityTypeUnlocked = helper.unlockAfterWins(4),
+    unlockAfterWins = 4,
 
     canItemFloat = true,
 

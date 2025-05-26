@@ -6,8 +6,9 @@ lp.defineItem("lootplot.s0:manure", {
     image = "manure",
     name = loc("Manure"),
     rarity = lp.rarities.UNIQUE,
+    triggers = {"PULSE"},
+    basePointsGenerated = -1,
     description = loc("Something has gone terribly wrong..."),
-    triggers = {},
 })
 
 

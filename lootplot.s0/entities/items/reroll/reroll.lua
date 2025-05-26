@@ -12,7 +12,7 @@ local function defItem(id, name, etype)
     etype.image = etype.image or id
     etype.name = loc(name)
 
-    etype.isEntityTypeUnlocked = helper.unlockAfterWins(consts.UNLOCK_AFTER_WINS.REROLL)
+    etype.unlockAfterWins = consts.UNLOCK_AFTER_WINS.REROLL
 
     return lp.defineItem("lootplot.s0:"..id, etype)
 end

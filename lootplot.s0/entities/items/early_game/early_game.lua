@@ -53,7 +53,7 @@ local NUM_KEY_ACTS = 4
 helper.defineDelayItem("dark_bar", "Dark Bar", {
     delayCount = NUM_KEY_ACTS,
 
-    isEntityTypeUnlocked = helper.unlockAfterWins(constants.UNLOCK_AFTER_WINS.DESTRUCTIVE),
+    unlockAfterWins = constants.UNLOCK_AFTER_WINS.DESTRUCTIVE,
 
     delayDescription = loc("Spawns a random destructive item"),
 
@@ -265,7 +265,7 @@ defItem("split_rope", {
 
     rarity = lp.rarities.UNCOMMON,
 
-    isEntityTypeUnlocked = helper.unlockAfterWins(5),
+    unlockAfterWins = 2,
 
     basePointsGenerated = 20,
     baseMultGenerated = 0.4,

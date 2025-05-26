@@ -36,9 +36,7 @@ local DESC = loc("Has an activation button.")
 local function defContra(id, name, etype)
     etype.name = loc(name)
 
-    etype.isEntityTypeUnlocked = function()
-        return lp.getWinCount() >= constants.UNLOCK_AFTER_WINS.CONTRAPTIONS
-    end
+    etype.unlockAfterWins = constants.UNLOCK_AFTER_WINS.CONTRAPTIONS
 
     etype.lootplotTags = {constants.tags.CONTRAPTION}
 

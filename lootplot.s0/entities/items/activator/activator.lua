@@ -81,7 +81,7 @@ defItem("level_shield", "Level Shield", {
 defItem("pipe", "Pipe", {
     init = helper.rotateRandomly,
 
-    isEntityTypeUnlocked = helper.unlockAfterWins(1),
+    unlockAfterWins = 1,
 
     rarity = lp.rarities.UNCOMMON,
     triggers = {"PULSE", "REROLL"},

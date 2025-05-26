@@ -177,6 +177,19 @@ Change golden-bell to just buff the slot.
 Nothing else.
 
 
+- UX IMPROVEMENT:,
+star and star-card should use orange-color for "shapes" word
+https://www.twitch.tv/yoshekllyou/clip/BlatantAbrasiveCardNomNom-flJgHMkA6MGbadJT
+
+- All pie-items and glove-items should use orange-color in descriptions too
+
+
+ITEM: Trigger card
+Swaps triggers of items (Eg Pulse, Reroll)
+(shape=VERTICAL-1)
+
+
+
 
 
 
@@ -188,23 +201,6 @@ Nothing else.
 
 
 
-- IDEA:
-- Rare sack should have a 5% chance to spawn EPIC items
-- Uncommon sack should have a 5% chance to spawn RARE items
-
-
-- UX IMPROVEMENT:,
-star and star-card should use orange-color for "shapes" word
-https://www.twitch.tv/yoshekllyou/clip/BlatantAbrasiveCardNomNom-flJgHMkA6MGbadJT
-
-- All pie-items and glove-items should use orange-color in descriptions too
-
-
-
-ITEM: Trigger card
-Swaps triggers of items (Eg Pulse, Reroll)
-(shape=VERTICAL-1)
-
 
 ## SUPER SUPER IMPORTANT:
 Change `isEntityTypeUnlocked = helper.unlockAfterWins(X)` to
@@ -212,6 +208,9 @@ Change `isEntityTypeUnlocked = helper.unlockAfterWins(X)` to
 That way, we can easily introspect item-pools to see what items are available at each stage of the game.
 Maybe we should even do `/spawnItems [win0|win1|win2|win3|...]`
 that way, we can see rarities too
+
+
+- Give `unlockAfterWins` to ALL slots.
 
 
 - Add golden-trout item (Steals $15, makes slots earn $1)
@@ -353,4 +352,9 @@ https://youtu.be/s8nkrxzOBR4?feature=shared  NOTABLE SONGS:
 
 - Create popup text saying "LEVEL {X} PASSED!"
 - Play a cool sound when progressing to next level
+
+
+- IDEA:
+- Rare sack should have a 5% chance to spawn EPIC items
+- Uncommon sack should have a 5% chance to spawn RARE items
 

@@ -1802,10 +1802,15 @@ lp.metaprogression.getStat = metaprogression.getStat
 ---@param etype table
 ---@return boolean isUnlocked whether the etype is unlocked or not
 function lp.metaprogression.isEntityTypeUnlocked(etype)
+    local ok = true
     if etype.isEntityTypeUnlocked then
-        return etype:isEntityTypeUnlocked()
+        ok = ok and etype:isEntityTypeUnlocked()
     end
-    return true
+    if etype.unlockAfterWins then
+        ok = ok and (lp.getWinCount() > etype.unlockAfterWins)
+    end
+    ok = ok and umg.ask("lootplot:isEntityTypeUnlocked", etype)
+    return ok
 end
 
 

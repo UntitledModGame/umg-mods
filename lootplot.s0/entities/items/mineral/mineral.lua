@@ -369,7 +369,7 @@ local function definePickaxe(mineral_type, name, strength, etype)
         image = image,
         name = loc(name .. " Pickaxe"),
 
-        isEntityTypeUnlocked = helper.unlockAfterWins(1),
+        unlockAfterWins = 1,
 
         init = helper.rotateRandomly,
 
@@ -439,7 +439,7 @@ defineMineralClass("emerald", "Emerald", 2, {
     triggers = {"REROLL"},
     baseMaxActivations = 10,
 
-    isEntityTypeUnlocked = helper.unlockAfterWins(consts.UNLOCK_AFTER_WINS.REROLL),
+    unlockAfterWins = consts.UNLOCK_AFTER_WINS.REROLL,
 })
 
 
@@ -501,7 +501,7 @@ local etype = {
     triggers = {"PULSE"},
     grubMoneyCap = GRUB_MONEY_CAP,
     baseMaxActivations = 8,
-    isEntityTypeUnlocked = helper.unlockAfterWins(consts.UNLOCK_AFTER_WINS.GRUBBY),
+    unlockAfterWins = consts.UNLOCK_AFTER_WINS.GRUBBY,
 }
 
 local strength = 6
@@ -532,7 +532,7 @@ do
         triggers = {"ROTATE"},
         baseMaxActivations = 8,
 
-        isEntityTypeUnlocked = helper.unlockAfterWins(consts.UNLOCK_AFTER_WINS.ROTATEY)
+        unlockAfterWins = consts.UNLOCK_AFTER_WINS.ROTATEY,
     }
 
     -- defineSword("copper", "Copper", strength, etype)

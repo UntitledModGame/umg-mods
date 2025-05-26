@@ -183,6 +183,11 @@ umg.answer("lootplot:canTrigger", function()
 end)
 
 
+umg.answer("lootplot:isEntityTypeUnlocked", function()
+    return true -- need this for AND reducer
+end)
+
+
 
 
 if server then

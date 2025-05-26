@@ -18,7 +18,7 @@ return lp.defineSlot("lootplot.s0:gravel_slot", {
 
     triggers = {"PULSE"},
 
-    isEntityTypeUnlocked = helper.unlockAfterWins(2),
+    unlockAfterWins = 2,
 
     rarity = lp.rarities.UNCOMMON,
 
