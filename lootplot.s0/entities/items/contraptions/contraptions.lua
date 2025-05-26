@@ -284,21 +284,24 @@ defContra("bomb", "Bomb", {
 
 
 
-defContra("round_timer", "Round timer", {
-    activateDescription = loc("Decreases Round by 1"),
-    triggers = {},
+-- THIS ITEM WAS OP:
+-- Maybe rework it into something else at some point.
+-------------------------
+-- defContra("round_timer", "Round timer", {
+--     activateDescription = loc("Decreases Round by 1"),
+--     triggers = {},
 
-    doomCount = 1,
+--     doomCount = 1,
 
-    rarity = lp.rarities.LEGENDARY,
+--     rarity = lp.rarities.LEGENDARY,
 
-    onActivate = function (ent)
-        local round = lp.getAttribute("ROUND", ent)
-        if round then
-            lp.setAttribute("ROUND", ent, round-1)
-        end
-    end,
+--     onActivate = function (ent)
+--         local round = lp.getAttribute("ROUND", ent)
+--         if round then
+--             lp.setAttribute("ROUND", ent, round-1)
+--         end
+--     end,
 
-    actionButtons = {ACTIVATE_SELF_BUTTON}
-})
+--     actionButtons = {ACTIVATE_SELF_BUTTON}
+-- })
 

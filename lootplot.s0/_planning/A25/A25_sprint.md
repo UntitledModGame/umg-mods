@@ -205,6 +205,11 @@ https://www.twitch.tv/yoshekllyou/clip/BlatantAbrasiveCardNomNom-flJgHMkA6MGbadJ
 
 
 
+ITEM: Trigger card
+Swaps triggers of items (Eg Pulse, Reroll)
+(shape=VERTICAL-1)
+
+
 ## SUPER SUPER IMPORTANT:
 Change `isEntityTypeUnlocked = helper.unlockAfterWins(X)` to
 `unlockAfterWins = 5`.

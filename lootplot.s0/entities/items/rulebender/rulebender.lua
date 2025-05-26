@@ -360,7 +360,7 @@ defItem("prism", "Prism", {
 
     triggers = {"PULSE"},
 
-    rarity = lp.rarities.LEGENDARY,
+    rarity = lp.rarities.UNIQUE,
 
     basePrice = 16,
     baseMaxActivations = 1,
