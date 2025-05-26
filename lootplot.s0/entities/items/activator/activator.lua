@@ -67,7 +67,7 @@ defItem("level_shield", "Level Shield", {
     activateDescription = PULSE_DESC,
 
     basePrice = 9,
-    baseMaxActivations = 5,
+    baseMaxActivations = 6,
 
     shape = lp.targets.KingShape(2),
 
