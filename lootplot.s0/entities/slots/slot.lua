@@ -23,6 +23,8 @@ lp.defineSlot("lootplot.s0:slot", {
     name = loc("Basic Slot"),
     triggers = {"PULSE"},
 
+    baseMaxActivations = 10,
+
     onUpdateClient = onUpdateClient,
 
     rarity = lp.rarities.COMMON
@@ -44,6 +46,7 @@ lp.defineSlot("lootplot.s0:basic_slot_points", {
 
     onUpdateClient = onUpdateClient,
 
+    baseMaxActivations = 10,
     basePointsGenerated = 50,
     rarity = lp.rarities.UNCOMMON
 })
@@ -57,6 +60,7 @@ lp.defineSlot("lootplot.s0:basic_slot_bonus", {
 
     onUpdateClient = onUpdateClient,
 
+    baseMaxActivations = 10,
     baseBonusGenerated = 5,
     rarity = lp.rarities.UNCOMMON
 })
@@ -70,6 +74,7 @@ lp.defineSlot("lootplot.s0:basic_slot_money", {
 
     onUpdateClient = onUpdateClient,
 
+    baseMaxActivations = 10,
     baseMoneyGenerated = 1,
 
     rarity = lp.rarities.EPIC
