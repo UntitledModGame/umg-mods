@@ -209,7 +209,7 @@ defBalloon("pink_balloon", "Pink Balloon", {
 defBalloon("white_balloon", "White Balloon", {
     rarity = lp.rarities.EPIC,
 
-    activateDescription = loc("Makes the purchased item FLOATY."),
+    activateDescription = loc("50% chance to makes the purchased item FLOATY"),
 
     basePrice = 15,
     baseMaxActivations = 20,
@@ -218,8 +218,10 @@ defBalloon("white_balloon", "White Balloon", {
         type = "ITEM",
         trigger = "BUY",
         activate = function(selfEnt, ppos, targetEnt)
-            targetEnt.canItemFloat = true
-            sync.syncComponent(targetEnt, "canItemFloat")
+            if lp.SEED:randomMisc() > 0.5 then
+                targetEnt.canItemFloat = true
+                sync.syncComponent(targetEnt, "canItemFloat")
+            end
         end,
     },
 })
