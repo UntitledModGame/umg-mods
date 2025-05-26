@@ -586,6 +586,98 @@ chat.handleCommand("spawnItems", {
 
 
 
+chat.handleCommand("spawnItemsByUnlock", {
+    adminLevel = 120,
+    arguments = {
+        name = "filterType",
+        type = "string"
+    },
+    handler = function(clientId, filterType)
+        if not server then return end
+        local run = lp.singleplayer.getRun()
+        if not run then return end
+
+        local plot = run:getPlot()
+
+        local filter = itemFilters[filterType]
+        if not filter then
+            chat.privateMessage(clientId, "Invalid filter: " .. tostring(filterType))
+            chat.privateMessage(clientId, VALID_FILTERS)
+            return
+        end
+
+        -- Get all item ETypes
+        local allItems = lp.newItemGenerator():getEntries()
+        local etypes = {--[[
+            [winCount] -> item
+        ]]}
+
+        local largestWin = 0
+        for _, itemETypeStr in ipairs(allItems) do
+            local etype = assert(server.entities[itemETypeStr])
+            local winUnlock = math.max(0, etype.unlockAfterWins or 0)
+            local PUT_AT_TOP = 50
+            if etype.isEntityTypeUnlocked then
+                -- well... shiza!
+                winUnlock = PUT_AT_TOP
+            end
+            if ((not etype.rarity) or (etype.rarity == lp.rarities.UNIQUE)) then
+                winUnlock = PUT_AT_TOP
+            end
+            largestWin = math.max(largestWin, winUnlock)
+
+            local arr = etypes[winUnlock]
+            if not arr then
+                arr = objects.Array()
+                etypes[winUnlock] = arr
+            end
+
+            arr:add(itemETypeStr)
+        end
+
+        local DEBUG_SLOT = server.entities["lootplot.singleplayer:debugslot"]
+
+        clearViewArea(plot)
+
+        local y = 3
+        for winCount=largestWin, 0, -1 do
+            local arr = objects.Array(etypes[winCount] or {})
+                :map(function(itemETypeStr)
+                    return server.entities[itemETypeStr]
+                end)
+                :filter(filter)
+                :map(function(itemEType)
+                    return itemEType:getTypename()
+                end)
+
+            if arr:size() > 0 then
+                local x = 1
+
+                table.sort(arr)
+                for _, itemETypeStr in ipairs(arr) do
+                    if x >= VIEW_AREA_WIDTH then
+                        y = y + 1
+                        x = 1
+                    end
+
+                    local ppos = plot:getPPos(x + VIEW_AREA_START_X, y)
+                    local slot = lp.forceSpawnSlot(ppos, DEBUG_SLOT, lp.singleplayer.PLAYER_TEAM)
+                    slot.target = itemETypeStr
+                    lp.forceActivateEntity(slot)
+
+                    x = x + 1
+                end
+
+                y = y + 2
+            end
+        end
+    end
+})
+
+
+
+
+
 chat.handleCommand("spawnSlots", {
     adminLevel = 120,
     arguments = {},
