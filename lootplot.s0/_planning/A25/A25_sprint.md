@@ -140,6 +140,16 @@ https://discord.com/channels/863625920991854602/1374826401068224542/137482640106
 - Hard mode: Limit islands to size 1.
 
 
+Prism: NERF
+
+Round-timer: remove/nerf this item
+
+
+Backwards-loan:
+Sets the number of rounds per level to 7
+Transforms all Reroll-buttons into glass-slots
+
+
 
 
 
@@ -150,15 +160,6 @@ https://discord.com/channels/863625920991854602/1374826401068224542/137482640106
 ## TODO:
 ## =============================
 
-
-Prism: NERF
-
-Round-timer: remove/nerf this item
-
-
-Backwards-loan:
-Sets the number of rounds per level to 7
-Transforms all Reroll-buttons into glass-slots
 
 
 

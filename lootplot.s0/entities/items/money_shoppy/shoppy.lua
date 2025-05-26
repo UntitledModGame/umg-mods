@@ -81,7 +81,6 @@ defItem("a_small_loan", {
 
 
 local MONEY_NEGATIVE = 50
-local BACK_LOAN_ROUND = 1
 
 defItem("a_backwards_loan", {
     name = loc("A Backwards Loan"),
@@ -90,14 +89,13 @@ defItem("a_backwards_loan", {
 
     basePrice = 0,
 
-    activateDescription = loc("Sets money to {lootplot:MONEY_COLOR}-$%{money}{/lootplot:MONEY_COLOR}.\nSets round to %{round}.", {
+    activateDescription = loc("Sets money to {lootplot:MONEY_COLOR}-$%{money}{/lootplot:MONEY_COLOR}.\nReduces round by 1.", {
         money = MONEY_NEGATIVE,
-        round = BACK_LOAN_ROUND
     }),
 
     onActivate = function(ent)
         lp.setMoney(ent, -MONEY_NEGATIVE)
-        lp.setRound(ent, BACK_LOAN_ROUND)
+        lp.setRound(ent, lp.getRound(ent) - 1)
     end,
 
     doomCount = 2,
