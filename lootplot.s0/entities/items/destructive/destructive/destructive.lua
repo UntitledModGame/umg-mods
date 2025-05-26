@@ -464,7 +464,7 @@ defDestructive("crimson_leather", "Crimson Leather", {
     baseMultGenerated = -6,
     baseMaxActivations = 4,
 
-    shape = lp.targets.KingShape(1),
+    shape = lp.targets.BishopShape(1),
 
     target = {
         type = "ITEM",
@@ -486,7 +486,7 @@ defDestructive("teal_leather", "Teal Leather", {
     baseBonusGenerated = -30,
     baseMaxActivations = 4,
 
-    shape = lp.targets.KingShape(1),
+    shape = lp.targets.BishopShape(1),
 
     target = {
         type = "ITEM",
