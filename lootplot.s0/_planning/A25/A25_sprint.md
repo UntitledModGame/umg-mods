@@ -246,6 +246,17 @@ CURSE: Removes FLOATY from the closest floating item
 CURSE: When an item is purchased, steal $1
 
 
+- Emerald shop-slot:
+Spawns items and replaces Pulse-trigger with Reroll-trigger
+
+- Pink shop-slot:
+Spawns items and gives them +3 lives
+
+- Purple shop-slot:
+Spawns items and gives them DOOMED-10
+
+
+
 - Create DAILY run:
 - Randomize shop (Start with custom/special shop slots)
     - doomed-shop, only sells doomed-items?

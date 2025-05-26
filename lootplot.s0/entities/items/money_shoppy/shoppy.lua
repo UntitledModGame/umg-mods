@@ -25,22 +25,25 @@ defItem("a_big_loan", {
     name = loc("A Big Loan"),
 
     triggers = {"BUY"},
-    activateDescription = loc("Destroys slot and earns money."),
+    activateDescription = loc("Increases level by 1."),
 
     basePrice = 0,
     baseMaxActivations = 1,
-    baseMoneyGenerated = 20,
+    baseMoneyGenerated = 400,
 
     canItemFloat = true,
     rarity = lp.rarities.RARE,
 
+    canActivate = function(ent)
+        local level = lp.getLevel(ent)
+        local numLevels = lp.getNumberOfLevels(ent)
+        return level < numLevels
+    end,
+
     onActivate = function(ent)
-        local ppos = lp.getPos(ent)
-        local slotEnt = ppos and lp.posToSlot(ppos)
-        if slotEnt then
-            -- this will almost certainly be a shop-slot.
-            lp.destroy(slotEnt)
-        end
+        local numLevels = lp.getNumberOfLevels(ent)
+        local level = math.min(lp.getLevel(ent)+1, numLevels)
+        lp.setLevel(ent, level)
     end
 })
 
@@ -51,15 +54,29 @@ defItem("a_small_loan", {
     name = loc("A Small Loan"),
 
     triggers = {"BUY"},
+    activateDescription = loc("Increases round by 1."),
 
     basePrice = 0,
     baseMaxActivations = 1,
-    baseMoneyGenerated = 20,
-    baseMultGenerated = -10,
+    baseMoneyGenerated = 60,
 
     canItemFloat = true,
     rarity = lp.rarities.RARE,
+
+    canActivate = function(ent)
+        local round = lp.getRound(ent)
+        local numRounds = lp.getNumberOfRounds(ent)
+        return round < numRounds
+    end,
+
+    onActivate = function(ent)
+        local numRounds = lp.getNumberOfRounds(ent)
+        local round = math.min(lp.getRound(ent)+1, numRounds)
+        lp.setRound(ent, round)
+    end
 })
+
+
 
 
 
@@ -90,29 +107,6 @@ defItem("a_backwards_loan", {
     rarity = lp.rarities.LEGENDARY,
 })
 
-
-
-
-defItem("a_pointy_loan", {
-    name = loc("A Pointy Loan"),
-
-    triggers = {"BUY"},
-
-    lootplotProperties = {
-        modifiers = {
-            pointsGenerated = function(ent)
-                return -(lp.getRequiredPoints(ent) or 0) / 2
-            end
-        }
-    },
-
-    basePrice = 0,
-    baseMaxActivations = 1,
-    baseMoneyGenerated = 20,
-    basePointsGenerated = 0,
-
-    rarity = lp.rarities.RARE,
-})
 
 
 
