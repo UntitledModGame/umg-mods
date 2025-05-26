@@ -213,7 +213,9 @@ Swaps triggers of items (Eg Pulse, Reroll)
 ## SUPER SUPER IMPORTANT:
 Change `isEntityTypeUnlocked = helper.unlockAfterWins(X)` to
 `unlockAfterWins = 5`.
-That way, we can easily introspect item-pools to see wh
+That way, we can easily introspect item-pools to see what items are available at each stage of the game.
+Maybe we should even do `/spawnItems [win0|win1|win2|win3|...]`
+that way, we can see rarities too
 
 
 - Add golden-trout item (Steals $15, makes slots earn $1)
