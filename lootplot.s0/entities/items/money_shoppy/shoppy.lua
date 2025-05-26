@@ -32,7 +32,7 @@ defItem("a_big_loan", {
     baseMoneyGenerated = 400,
 
     canItemFloat = true,
-    rarity = lp.rarities.RARE,
+    rarity = lp.rarities.EPIC,
 
     canActivate = function(ent)
         local level = lp.getLevel(ent)
