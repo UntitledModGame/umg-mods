@@ -228,12 +228,17 @@ defineCard("spades_card", "Spades Card", {
 
 
 
-defineCard("multiplier_card", "Multiplier Card", {
-    activateDescription = loc("Multiplies global-multiplier by {lootplot:BAD_COLOR}-2"),
+defineCard("multiplier_bonus_card", "Multiplier Bonus Card", {
+    activateDescription = loc("Swaps {lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} and {lootplot:POINTS_MULT_COLOR}Multiplier{/lootplot:POINTS_MULT_COLOR}"),
 
     onActivate = function(ent)
-        local mult = lp.getPointsMult(ent)
-        lp.setPointsMult(ent, mult * -2)
+        local mult, bonus = lp.getPointsMult(ent), lp.getPointsBonus(ent)
+        local ppos = lp.getPos(ent)
+        if ppos and mult and bonus then
+            lp.wait(ppos, 0.4) -- delay just for extra effect
+            lp.setPointsBonus(ent, mult)
+            lp.setPointsMult(ent, bonus)
+        end
     end,
 
     baseMaxActivations = 1,
@@ -242,8 +247,8 @@ defineCard("multiplier_card", "Multiplier Card", {
 })
 
 
-defineCard("hybrid_card", "Hybrid Card", {
-    activateDescription = loc("Swaps money and global mult"),
+defineCard("multiplier_money_card", "Multiplier Money Card", {
+    activateDescription = loc("Swaps {lootplot:MONEY_COLOR}Money{/lootplot:MONEY_COLOR} and {lootplot:POINTS_MULT_COLOR}Multiplier{/lootplot:POINTS_MULT_COLOR}"),
 
     onActivate = function(ent)
         local mult, money = lp.getPointsMult(ent), lp.getMoney(ent)
@@ -254,6 +259,8 @@ defineCard("hybrid_card", "Hybrid Card", {
             lp.setPointsMult(ent, money)
         end
     end,
+
+    doomCount = 4,
 
     baseMaxActivations = 1,
     basePrice = 10,

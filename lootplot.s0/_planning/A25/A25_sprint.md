@@ -171,9 +171,8 @@ Robbers sack:
 Makes money negative.
 Set item prices to 0. (ROOK-8)
 
-Negative-shield:
-Make bonus and multiplier negative.
-(^^^ maybe just think about removing this item..?) 
+
+Negative-shield: NERF OR REMOVE.
 
 
 
