@@ -139,7 +139,7 @@ defItem("copper_spanner", "Copper Spanner", {
 
 
 do
-local NUM_ACT = 6
+local NUM_ACT = 4
 
 defItem("copper_plate", "Copper Plate", {
     triggers = {"ROTATE"},
@@ -149,7 +149,7 @@ defItem("copper_plate", "Copper Plate", {
     basePrice = 8,
     baseMaxActivations = 3,
 
-    activateDescription = loc("Activates the slot %{n} times", {
+    activateDescription = loc("Gives {lootplot:POINTS_MULT_COLOR}+0.2 mult{/lootplot:POINTS_MULT_COLOR} to slot.\nActivates the slot %{n} times", {
         n = NUM_ACT
     }),
 
@@ -157,6 +157,8 @@ defItem("copper_plate", "Copper Plate", {
         local slotEnt = lp.itemToSlot(itemEnt)
         local ppos = lp.getPos(itemEnt)
         if (not slotEnt) or (not ppos) then return end
+
+        lp.modifierBuff(slotEnt, "multGenerated", 0.2, itemEnt)
 
         for i=1, NUM_ACT do
             lp.wait(ppos,0.1)
