@@ -150,6 +150,15 @@ Sets the number of rounds per level to 7
 Transforms all Reroll-buttons into glass-slots
 
 
+Multiplier card:
+Swaps Bonus and Multiplier 
+
+Robbers sack:
+Makes money negative.
+Set item prices to 0. (ROOK-8)
+
+
+
 
 
 
@@ -159,17 +168,6 @@ Transforms all Reroll-buttons into glass-slots
 ## =============================
 ## TODO:
 ## =============================
-
-
-
-
-
-Multiplier card:
-Swaps Bonus and Multiplier 
-
-Robbers sack:
-Makes money negative.
-Set item prices to 0. (ROOK-8)
 
 
 Negative-shield: NERF OR REMOVE.

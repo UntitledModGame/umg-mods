@@ -234,21 +234,39 @@ defItem("golden_ornament", "Golden Ornament", {
 
 
 
+do
+local ROBBER_PRICE_DECREASE = 4
 
 defItem("robbers_sack", "Robbers Sack", {
-    activateDescription = loc("Multiplies money by -1.5"),
+    activateDescription = loc("Makes money negative.\nReduces price of items by ${decrease}.", {
+        decrease = ROBBER_PRICE_DECREASE
+    }),
 
     basePrice = 10,
 
+    isEntityTypeUnlocked = helper.unlockAfterWins(4),
+
+    canItemFloat = true,
+
     rarity = lp.rarities.EPIC,
     triggers = {"PULSE"},
-    doomCount = 3,
+
+    shape = lp.targets.RookShape(7),
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targEnt)
+            lp.modifierBuff(targEnt, "price", -ROBBER_PRICE_DECREASE)
+        end
+    },
 
     onActivate = function(ent)
-        local money = lp.getMoney(ent) or 0
-        lp.setMoney(ent, money * -1.5)
+        local positiveMoney = math.abs(lp.getMoney(ent) or 0)
+        lp.setMoney(ent, -positiveMoney)
     end
 })
+
+end
+
 
 
 
