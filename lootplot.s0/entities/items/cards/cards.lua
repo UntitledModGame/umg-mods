@@ -105,15 +105,12 @@ defItem("star", "Star", {
 defineCard("hearts_card", "Hearts Card", {
     shape = lp.targets.VerticalShape(1),
 
-    activateDescription = loc("Shuffle lives between target items.\nDoesn't work on items with more than 10 lives."),
+    activateDescription = loc("Swaps {lootplot:LIFE_COLOR}lives{/lootplot:LIFE_COLOR} between items"),
 
     target = {
         type = "ITEM",
         filter = function(selfEnt, ppos, targEnt)
-            if targEnt.lives and targEnt.lives > 10 then
-                return false
-            end
-            return true
+            return targEnt.lives
         end
     },
 
@@ -266,4 +263,35 @@ defineCard("multiplier_money_card", "Multiplier Money Card", {
     basePrice = 10,
     rarity = lp.rarities.LEGENDARY,
 })
+
+
+
+
+
+defineCard("trigger_swap_card", "Trigger Swap Card", {
+    activateDescription = loc("Swaps {lootplot:TRIGGER_COLOR}Triggers{/lootplot:TRIGGER_COLOR} between items"),
+
+    shape = lp.targets.VerticalShape(1),
+    target = {
+        type = "ITEM",
+        filter = function(selfEnt, ppos, targEnt)
+            return targEnt.triggers
+        end
+    },
+
+    onActivate = function(selfEnt)
+        local targets = shuffled(
+            objects.Array(lp.targets.getConvertedTargets(selfEnt))
+        )
+        apply(targets, function(e1,e2)
+            local t1 = e1.triggers or {}
+            local t2 = e2.triggers or {}
+            lp.setTriggers(e1, t2)
+            lp.setTriggers(e2, t1)
+        end)
+    end,
+
+    rarity = lp.rarities.LEGENDARY
+})
+
 

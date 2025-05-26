@@ -164,17 +164,6 @@ Negative-shield: NERF OR REMOVE.
 
 
 
-
-
-
-
-
-
-## =============================
-## TODO:
-## =============================
-
-
 - Nerf compass? (its SOOO fun to use tho) (maybe reduce earnings to $0.5?)
 COMPASS NERF IDEA: 
 No longer sets money to 0. 
@@ -186,6 +175,17 @@ Trigger = LEVEL-UP
 
 Change golden-bell to just buff the slot.
 Nothing else.
+
+
+
+
+
+
+
+## =============================
+## TODO:
+## =============================
+
 
 
 - IDEA:
