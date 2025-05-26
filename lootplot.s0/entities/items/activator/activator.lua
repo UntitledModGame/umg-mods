@@ -60,6 +60,22 @@ defItem("wooden_shield_cost", "Wooden Shield I", {
 
 
 
+defItem("level_shield", "Level Shield", {
+    rarity = lp.rarities.RARE,
+    triggers = {"LEVEL_UP"},
+
+    activateDescription = PULSE_DESC,
+
+    basePrice = 9,
+    baseMaxActivations = 5,
+
+    shape = lp.targets.KingShape(2),
+
+    target = PULSE_TARGET
+})
+
+
+
 
 
 defItem("pipe", "Pipe", {

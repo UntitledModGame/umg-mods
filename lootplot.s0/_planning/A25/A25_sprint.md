@@ -151,9 +151,9 @@ https://discord.com/channels/863625920991854602/1374826401068224542/137482640106
 ## =============================
 
 
-Prism:
-Reduces round by 2.
-You have 1 less round per level.
+Prism: NERF
+
+Round-timer: remove/nerf this item
 
 
 Backwards-loan:
@@ -161,8 +161,6 @@ Sets the number of rounds per level to 7
 Transforms all Reroll-buttons into glass-slots
 
 
-Stopwatch:
-maybe just remove this item lol 
 
 
 Multiplier card:
