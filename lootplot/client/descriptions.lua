@@ -250,22 +250,22 @@ end
 
 umg.on("lootplot:populateActivateDescription", 30, function(ent, arr)
     local multGen = ent.multGenerated
-    if multGen and multGen ~= 0 then
+    if multGen then
         addMultDesc(ent, arr)
     end
 
     local bonusGen = ent.bonusGenerated
-    if bonusGen and bonusGen ~= 0 then
+    if bonusGen then
         addBonusGen(ent, arr)
     end
 
     local pgen = ent.pointsGenerated
-    if pgen and pgen ~= 0 then
+    if pgen then
         addPointsDescription(ent, arr)
     end
 
     local mEarn = ent.moneyGenerated
-    if mEarn and mEarn ~= 0 then
+    if mEarn then
         addMoneyDesc(ent, arr)
     end
 end)
