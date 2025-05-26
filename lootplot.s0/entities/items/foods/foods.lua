@@ -878,7 +878,7 @@ defineSlotSpawner("lime", "Lime", "reroll_slot", "DOOMED-5 Reroll Slots", lp.tar
 }, setDoomCountTo(5))
 
 
-defineSlotSpawner("lemon", "Lemon", "shop_slot", "DOOMED-4 Shop Slots", lp.targets.CircleShape(2), {
+defineSlotSpawner("lemon", "Lemon", "shop_slot", "DOOMED-4 Shop Slots", lp.targets.KingShape(1), {
     rarity = lp.rarities.RARE,
     isEntityTypeUnlocked = unlockAfterWins(2),
     basePrice = 8,

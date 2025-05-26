@@ -285,6 +285,20 @@ CURSE: When an item is purchased, steal $1
 - Consider adding DOOMED tools? (Purple-color)
 
 
+- ITEM: Trigger card
+Swaps triggers of items (Eg Pulse, Reroll)
+(shape=VERTICAL-1)
+
+
+## Worldgen ideas:,
+- Worldgen slots that buff items permanently,
+- Structures to discover, 
+- fortresses of stone-slots that you can break into,
+- Set-piece: a little stronghold of cats
+- Set-piece: a fortress with PRISM in the middle (Prism should be a UNIQUE item)
+- A button that, when pressed, gives some big buff (EG: decreases round by 1)
+
+
 
 ## ADD NEW MUSIC
 https://m.youtube.com/watch?v=JPCaFc17ur0&t=27s&pp=2AEbkAIB
