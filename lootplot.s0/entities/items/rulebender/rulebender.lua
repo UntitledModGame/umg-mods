@@ -333,7 +333,7 @@ defItem("seraphim", "Seraphim", {
     this isnt very emergent YET.
     We need more emergent interactions with FLOATY items for this to work better!
     ]]
-    activateDescription = loc("Gives {lootplot:INFO_COLOR}FLOATY{/lootplot:INFO_COLOR} to all target items."),
+    activateDescription = loc("Gives {lootplot:INFO_COLOR}FLOATY{/lootplot:INFO_COLOR} to items."),
 
     triggers = {"PULSE"},
 

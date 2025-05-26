@@ -4,7 +4,7 @@ local loc = localization.localize
 local interp = localization.newInterpolator
 
 
-local SHAPE_DESC = interp("Set item's {lootplot.targets:COLOR}targets{/lootplot.targets:COLOR} to %{shapeName}.")
+local SHAPE_DESC = interp("Set item's targets to {lootplot.targets:COLOR}%{shapeName}{/lootplot.targets:COLOR}.")
 
 local function defineGlove(id, name, giveShape, rarity)
     return lp.defineItem("lootplot.s0:"..id, {

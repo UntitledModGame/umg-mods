@@ -74,7 +74,7 @@ local function shuffleTargetShapes(selfEnt)
 end
 
 defineCard("star_card", "Star Card", {
-    activateDescription = loc("Shuffle shapes between target items"),
+    activateDescription = loc("Shuffle {lootplot.targets:COLOR}target-shapes{/lootplot.targets:COLOR} between items"),
     rarity = lp.rarities.EPIC,
     shape = lp.targets.VerticalShape(1),
     target = {
@@ -90,7 +90,7 @@ This is a food-item, but it is defined OUTSIDE of `foods`.
 (Because theres helper-functions in this file; also its pretty much identical to star-card)
 ]]
 defItem("star", "Star", {
-    activateDescription = loc("Shuffle shapes between target items"),
+    activateDescription = loc("Shuffle {lootplot.targets:COLOR}target-shapes{/lootplot.targets:COLOR} between items"),
     rarity = lp.rarities.EPIC,
     foodItem = true,
     shape = lp.targets.VerticalShape(1),

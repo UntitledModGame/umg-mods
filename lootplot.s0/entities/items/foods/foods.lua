@@ -437,7 +437,7 @@ defineFood("black_olive", {
 
 defineFood("eggplant", {
     name = loc("Eggplant"),
-    activateDescription = loc("Give {wavy}{lootplot:DOOMED_COLOR}DOOMED-50{/lootplot:DOOMED_COLOR}{/wavy} to all target items"),
+    activateDescription = loc("Give {wavy}{lootplot:DOOMED_COLOR}DOOMED-50{/lootplot:DOOMED_COLOR}{/wavy} to items"),
 
     rarity = lp.rarities.LEGENDARY,
 
@@ -1203,13 +1203,13 @@ end
 
 
 -- rare pies:
-definePie("kings_pie", "King's Pie", "Adds KING-1 targets to item", lp.targets.KingShape(1), lp.rarities.RARE)
-definePie("bishops_pie", "Bishop's Pie", "Adds BISHOP-2 targets to item", lp.targets.BishopShape(2), lp.rarities.RARE)
+definePie("kings_pie", "King's Pie", "Adds {lootplot.targets:COLOR}KING-1{/lootplot.targets:COLOR} targets to item", lp.targets.KingShape(1), lp.rarities.RARE)
+definePie("bishops_pie", "Bishop's Pie", "Adds {lootplot.targets:COLOR}BISHOP-2{/lootplot.targets:COLOR} targets to item", lp.targets.BishopShape(2), lp.rarities.RARE)
 definePie("pi_pie", "Pi Pie", "Makes item target itself", lp.targets.ON_SHAPE, lp.rarities.RARE)
 
 -- epic pies:
-definePie("knights_pie", "Knight's Pie", "Adds KNIGHT targets to item", lp.targets.KNIGHT_SHAPE, lp.rarities.EPIC)
-definePie("rooks_pie", "Rook's Pie", "Adds ROOK-4 targets to item", lp.targets.RookShape(4), lp.rarities.EPIC)
+definePie("knights_pie", "Knight's Pie", "Adds {lootplot.targets:COLOR}KNIGHT{/lootplot.targets:COLOR} targets to item", lp.targets.KNIGHT_SHAPE, lp.rarities.EPIC)
+definePie("rooks_pie", "Rook's Pie", "Adds {lootplot.targets:COLOR}ROOK-4{/lootplot.targets:COLOR} targets to item", lp.targets.RookShape(4), lp.rarities.EPIC)
 
 
 local RANDOM_SHAPES = {
@@ -1480,7 +1480,7 @@ defineMush("mushroom_purple", {
 
 defineMush("mushroom_floaty", {
     name = loc("Floaty Mushroom"),
-    activateDescription = loc("Makes target items float"),
+    activateDescription = loc("Makes item float"),
 
     shape = lp.targets.UP_SHAPE,
     basePrice = 6,
