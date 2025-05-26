@@ -188,7 +188,7 @@ defItem("ruby", "Ruby", {
     rarity = lp.rarities.LEGENDARY,
 
     basePrice = 12,
-    baseMaxActivations = 5,
+    baseMaxActivations = 1,
 
     shape = lp.targets.UpShape(1),
     target = {
