@@ -75,7 +75,7 @@ defItem("red_key", "Red Key", {
 
 
 defItem("golden_bell", "Big Golden Bell", {
-    basePrice = 6,
+    basePrice = 8,
 
     activateDescription = loc("Gives {wavy}{lootplot:MONEY_COLOR}+$1 earned{/lootplot:MONEY_COLOR}{/wavy} to slot"),
 
@@ -86,8 +86,7 @@ defItem("golden_bell", "Big Golden Bell", {
         end
     end,
 
-    baseMoneyGenerated = 2,
-    baseMaxActivations = 4,
+    baseMaxActivations = 2,
 
     sticky = true,
 
