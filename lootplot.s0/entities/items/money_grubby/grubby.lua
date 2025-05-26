@@ -89,7 +89,7 @@ defGrubby("spare_coins", "Spare Coins", {
 
 
 defGrubby("pineapple_ring", "Pineapple Ring", {
-    basePrice = 6,
+    basePrice = 14,
     grubMoneyCap = GRUB_MONEY_CAP,
     canItemFloat = true,
     activateDescription = loc("Make all target items {lootplot:MONEY_COLOR}$2{/lootplot:MONEY_COLOR} cheaper"),
