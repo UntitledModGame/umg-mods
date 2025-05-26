@@ -1,5 +1,7 @@
 
 local helper = require("shared.helper")
+local constants = require("shared.constants")
+
 
 local loc = localization.localize
 
@@ -18,8 +20,6 @@ local function onActivate(ent)
     if item and item.doomCount then
         -- dont destroy self when holding a DOOMED item.
         -- It's really annoying when this happens lmao,
-        -- I try to expand my plot with a dragonfruit, and the glass-slot breaks!
-
         -- so im hardcoding it to NOT happen >:)
         return
     end
@@ -32,24 +32,31 @@ end
 
 
 
-lp.defineSlot("lootplot.s0:glass_slot", {
+local function defGlassSlot(id, etype)
+    etype.onActivate = onActivate
+    etype.lootplotTags = {constants.tags.GLASS_SLOT}
+    etype.onDestroyClient = function(ent)
+        glassBreakSound:play(ent)
+    end
+
+    lp.defineSlot(id, etype)
+end
+
+
+
+
+defGlassSlot("lootplot.s0:glass_slot", {
     image = "glass_slot",
     name = loc("Glass slot"),
     activateDescription = loc("Has a 10% chance of being destroyed"),
     triggers = {"PULSE"},
 
     rarity = lp.rarities.UNCOMMON,
-
-    onActivate = onActivate,
-
-    onDestroyClient = function(ent)
-        glassBreakSound:play(ent)
-    end
 })
 
 
 
-lp.defineSlot("lootplot.s0:glass_slot_money", {
+defGlassSlot("lootplot.s0:glass_slot_money", {
     image = "glass_slot",
     name = loc("Glass slot"),
     activateDescription = loc("Has a 10% chance of being destroyed"),
@@ -58,12 +65,6 @@ lp.defineSlot("lootplot.s0:glass_slot_money", {
     rarity = lp.rarities.RARE,
 
     baseMoneyGenerated = 1,
-
-    onActivate = onActivate,
-
-    onDestroyClient = function(ent)
-        glassBreakSound:play(ent)
-    end
 })
 
 
@@ -73,7 +74,7 @@ lp.defineSlot("lootplot.s0:glass_slot_money", {
 do
 local MULT = 3
 
-lp.defineSlot("lootplot.s0:red_glass_slot", {
+defGlassSlot("lootplot.s0:red_glass_slot", {
     image = "red_glass_slot",
     name = loc("Red glass slot"),
 
@@ -88,17 +89,11 @@ lp.defineSlot("lootplot.s0:red_glass_slot", {
 
     rarity = lp.rarities.EPIC,
 
-    onActivate = onActivate,
-
     slotItemProperties = {
         multipliers = {
             multGenerated = MULT
         },
     },
-
-    onDestroyClient = function(ent)
-        glassBreakSound:play(ent)
-    end
 })
 
 end

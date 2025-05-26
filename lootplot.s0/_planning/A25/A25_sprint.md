@@ -160,6 +160,11 @@ Set item prices to 0. (ROOK-8)
 
 
 
+Negative-shield: NERF OR REMOVE.
+
+
+
+
 
 
 
@@ -168,11 +173,6 @@ Set item prices to 0. (ROOK-8)
 ## =============================
 ## TODO:
 ## =============================
-
-
-Negative-shield: NERF OR REMOVE.
-
-
 
 
 - Nerf compass? (its SOOO fun to use tho) (maybe reduce earnings to $0.5?)
