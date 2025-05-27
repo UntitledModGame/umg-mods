@@ -975,7 +975,7 @@ defineSlotConverter("blueberry", "Blueberry", "sapphire_slot", "slot that works 
     basePrice = APPLE_PRICE
 })
 
-defineSlotConverter("golden_apple", "Golden Apple", "golden_slot", "slot that empowers item's points, but costs {lootplot:MONEY_COLOR}money{/lootplot:MONEY_COLOR} to activate", lp.targets.ON_SHAPE, {
+defineSlotConverter("golden_apple", "Golden Apple", "golden_slot", "slot that multiplies item's points, but costs {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} to activate", lp.targets.ON_SHAPE, {
     unlockAfterWins = 2,
     rarity = lp.rarities.RARE,
     basePrice = APPLE_PRICE
