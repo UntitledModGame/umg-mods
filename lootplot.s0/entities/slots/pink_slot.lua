@@ -3,13 +3,13 @@ local loc = localization.localize
 return lp.defineSlot("lootplot.s0:pink_slot", {
     image = "pink_slot",
     name = loc("Pink Slot"),
-    activateDescription = loc("Gives an extra life to item."),
+    activateDescription = loc("Gives an extra {lootplot:LIFE_COLOR}life{/lootplot:LIFE_COLOR} to item.\n(Doesn't work on food-items!)"),
     triggers = {"PULSE"},
     rarity = lp.rarities.EPIC,
 
     onActivate = function(slotEnt)
         local itemEnt = lp.slotToItem(slotEnt)
-        if itemEnt then
+        if itemEnt and (not itemEnt.foodItem) then
             itemEnt.lives = (itemEnt.lives or 0) + 1
         end
     end

@@ -1530,9 +1530,6 @@ defineDonut("frosted_donut", "Frosted Donut",  "Increases target item price by $
 
 
 
---[[
-this is a food-item; but it doesnt have DOOMED!
-]]
 defineFoodNoDoomed("bread", "Bread", {
     activateDescription = loc("If target item is {lootplot:CONSUMABLE_COLOR_LIGHT}FOOD{/lootplot:CONSUMABLE_COLOR_LIGHT}, transforms into target item."),
 
