@@ -151,6 +151,8 @@ defItem("golden_donut", "Golden Donut", {
         buff = GOLDEN_DONUT_PRICE_INCREMENT
     }),
 
+    unlockAfterWins = 2,
+
     basePrice = 8,
     baseMaxActivations = 10,
     baseMoneyGenerated = -2,

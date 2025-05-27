@@ -8,6 +8,10 @@ local function defItem(id, name, etype)
 end
 
 
+
+local CARD_WIN_UNLOCK = 2 -- cards unlocked after 2 wins
+
+
 local function defineCard(id, name, cardEType)
     cardEType.image = cardEType.image or id
     cardEType.name = loc(name)
@@ -18,6 +22,7 @@ local function defineCard(id, name, cardEType)
 
     cardEType.baseMaxActivations = 1
     cardEType.basePrice = cardEType.basePrice or 10
+    cardEType.unlockAfterWins = cardEType.unlockAfterWins or CARD_WIN_UNLOCK
 
     lp.defineItem("lootplot.s0:" .. id, cardEType)
 end

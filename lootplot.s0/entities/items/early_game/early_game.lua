@@ -206,7 +206,7 @@ defItem("blue_net", {
 
     rarity = lp.rarities.UNCOMMON,
 
-    basePrice = 5,
+    basePrice = 6,
 
     listen = {
         type = "ITEM",
@@ -217,6 +217,7 @@ defItem("blue_net", {
     baseMaxActivations = 30,
 
     basePointsGenerated = 3,
+    baseBonusGenerated = 1,
 })
 
 

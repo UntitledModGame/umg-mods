@@ -432,6 +432,7 @@ defineFood("eggplant", {
     activateDescription = loc("Give {wavy}{lootplot:DOOMED_COLOR}DOOMED-50{/lootplot:DOOMED_COLOR}{/wavy} to items"),
 
     rarity = lp.rarities.LEGENDARY,
+    unlockAfterWins = 4,
 
     shape = lp.targets.KingShape(1),
 
@@ -723,7 +724,7 @@ defineSlotSpawner("sniper_berries", "Sniper Berries", "slot", "Basic Slots", lp.
     rarity = lp.rarities.EPIC,
 })
 
-defineSlotSpawner("ginger_roots", "Ginger Roots", "auto_stone_slot", "Stone Slots with random perks", lp.targets.RookShape(1), {
+defineSlotSpawner("ginger_roots", "Ginger Roots", "auto_stone_slot", "Stone Slots with random perks", lp.targets.HorizontalShape(3), {
     basePrice = 12,
     unlockAfterWins = 4,
     rarity = lp.rarities.RARE,

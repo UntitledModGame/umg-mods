@@ -162,6 +162,8 @@ defItem("fish_skeleton", "Fish Skeleton", {
         UNCOMMON = lp.rarities.UNCOMMON.displayString
     }),
 
+    unlockAfterWins = 2,
+
     basePrice = 8,
     baseBonusGenerated = 4,
 

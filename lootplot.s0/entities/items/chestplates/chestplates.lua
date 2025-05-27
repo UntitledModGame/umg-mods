@@ -22,7 +22,7 @@ local function defChestplate(id, name, etype)
     etype.rarity = etype.rarity or lp.rarities.RARE
     etype.basePrice = etype.basePrice or 10
 
-    etype.baseMaxActivations = 4
+    etype.baseMaxActivations = etype.baseMaxActivations or 4
 
     return lp.defineItem("lootplot.s0:"..id, etype)
 end
@@ -36,6 +36,7 @@ defChestplate("deathly_chestplate", "Deathly Chestplate", {
     },
 
     lootplotTags = {constants.tags.DESTRUCTIVE},
+    unlockAfterWins = constants.UNLOCK_AFTER_WINS.DESTRUCTIVE,
 
     activateDescription = loc("Give items {lootplot:POINTS_COLOR}+10 points"),
 
@@ -123,9 +124,9 @@ defChestplate("golden_chestplate", "Golden Chestplate", {
 
 
 defChestplate("magical_chestplate", "Magical Chestplate", {
-    activateDescription = loc("Buff item's {lootplot:POINTS_COLOR}points{/lootplot:POINTS_COLOR} by what the current {lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} is"),
+    activateDescription = loc("Buff item's {lootplot:POINTS_COLOR}points{/lootplot:POINTS_COLOR} by the current {lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR}"),
 
-    rarity = lp.rarities.EPIC,
+    rarity = lp.rarities.LEGENDARY,
 
     target = {
         type = "ITEM",
@@ -145,6 +146,8 @@ defChestplate("ethereal_tunic", "Ethereal Tunic", {
     activateDescription = loc("If items have negative bonus, give items {lootplot:POINTS_MULT_COLOR}+1 multiplier"),
 
     baseMoneyGenerated = -2,
+
+    unlockAfterWins = 3,
 
     rarity = lp.rarities.EPIC,
 

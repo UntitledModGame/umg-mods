@@ -19,20 +19,24 @@ Shield-items generally aren't useful UNLESS you have items like these ^^^
 
 
 
-TODO:
-We have wooden-shield and broken-shield.
+NOTE:
+wooden-shield, level-shield are in different files.
+(activator.lua)
 
-Come up with something for these two items; thanks.
 ]]
 
 local loc = localization.localize
 
+
+local SHIELD_WIN_UNLOCK = 2
 
 local function defShield(id, name, etype)
     etype.image = etype.image or id
     etype.name = loc(name)
 
     etype.triggers = etype.triggers or {"PULSE"}
+
+    etype.unlockAfterWins = etype.unlockAfterWins or SHIELD_WIN_UNLOCK
 
     etype.rarity = lp.rarities.RARE
     etype.basePrice = 10

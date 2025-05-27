@@ -2,6 +2,7 @@
 local loc = localization.localize
 
 local helper = require("shared.helper")
+local constants = require("shared.constants")
 
 
 local function defItem(id, name, etype)
@@ -62,6 +63,8 @@ defItem("wooden_shield_cost", "Wooden Shield I", {
 
 defItem("level_shield", "Level Shield", {
     rarity = lp.rarities.RARE,
+    unlockAfterWins = constants.UNLOCK_AFTER_WINS.SKIP_LEVEL,
+
     triggers = {"LEVEL_UP"},
 
     activateDescription = PULSE_DESC,
@@ -150,6 +153,8 @@ defItem("green_boots", "Green Boots", {
 
     activateDescription = loc("Activates slots."),
 
+    unlockAfterWins = constants.UNLOCK_AFTER_WINS.REROLL,
+
     basePrice = 8,
     baseMaxActivations = 10,
 
@@ -180,6 +185,7 @@ defItem("ping_pong_paddle", "Ping pong paddle", {
     baseMaxActivations = 1,
 
     rarity = lp.rarities.RARE,
+    unlockAfterWins = 2,
 
     activateDescription = loc("Gives items {lootplot:REPEATER_COLOR}REPEATER{/lootplot:REPEATER_COLOR}, but makes it {lootplot:INFO_COLOR}STUCK."),
 

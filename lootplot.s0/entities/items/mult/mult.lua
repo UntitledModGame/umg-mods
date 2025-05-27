@@ -261,6 +261,7 @@ defItem("flamingo", "Flamingo", {
     triggers = {"PULSE"},
     activateDescription = loc("Adds {lootplot:POINTS_MULT_COLOR}mult{/lootplot:POINTS_MULT_COLOR} equal to the number of lives that this item has."),
 
+    unlockAfterWins = 3,
     rarity = lp.rarities.EPIC,
 
     basePrice = 10,

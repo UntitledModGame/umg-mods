@@ -2,6 +2,7 @@ local loc = localization.localize
 local interp = localization.newInterpolator
 
 local helper = require("shared.helper")
+local constants = require("shared.constants")
 
 
 
@@ -42,7 +43,7 @@ end
 
 
 defineHelmet("iron_helmet", "Iron Helmet", {
-    activateDescription = loc("Give items {lootplot:POINTS_COLOR}+1 points."),
+    activateDescription = loc("Give items {lootplot:POINTS_COLOR}+3 points."),
 
     triggers = {"PULSE"},
 
@@ -52,7 +53,7 @@ defineHelmet("iron_helmet", "Iron Helmet", {
     target = {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
-            lp.modifierBuff(targetEnt, "pointsGenerated", 1, selfEnt)
+            lp.modifierBuff(targetEnt, "pointsGenerated", 3, selfEnt)
         end,
     }
 })
@@ -172,7 +173,7 @@ defineHelmet("ruby_helmet", "Ruby Helmet", {
 
 
 defineHelmet("emerald_helmet", "Emerald Helmet", {
-    activateDescription = loc("Give items {lootplot:POINTS_MOD_COLOR}+1 points."),
+    activateDescription = loc("Give items {lootplot:POINTS_MOD_COLOR}+3 points.{/lootplot:POINTS_MOD_COLOR}"),
 
     triggers = {"REROLL", "PULSE"},
 
@@ -182,7 +183,7 @@ defineHelmet("emerald_helmet", "Emerald Helmet", {
     target = {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
-            lp.modifierBuff(targetEnt, "pointsGenerated", 1, selfEnt)
+            lp.modifierBuff(targetEnt, "pointsGenerated", 3, selfEnt)
         end,
     }
 })
@@ -221,6 +222,8 @@ defineHelmet("deathly_helmet", "Deathly Helmet", {
     activateDescription = loc("Give items {lootplot:POINTS_COLOR}+10 points.{/lootplot:POINTS_COLOR}\n%{chance}% Chance to destroy items.", {
         chance = PERCENTAGE_CHANCE
     }),
+
+    unlockAfterWins = constants.UNLOCK_AFTER_WINS.DESTRUCTIVE,
 
     basePrice = 10,
     baseMaxActivations = 10,
