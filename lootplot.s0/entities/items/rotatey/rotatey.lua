@@ -100,7 +100,10 @@ defItem("spanner", "Spanner", {
 
     activateDescription = loc("Rotates items"),
 
-    shape = lp.targets.UpShape(2),
+    shape = lp.targets.UnionShape(
+        lp.targets.NorthEastShape(1),
+        lp.targets.SouthWestShape(1)
+    ),
     target = {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
