@@ -217,6 +217,11 @@ that way, we can see rarities too
 (remove the scaling)
 
 
+- SLOT: Cloth slot
+On Pulse: Triggers LEVEL-UP on item
+
+
+
 
 
 ## =============================
@@ -224,9 +229,6 @@ that way, we can see rarities too
 ## =============================
 
 
-
-- SLOT: Cloth slot
-On Pulse: Triggers LEVEL-UP on item
 
 
 - NEW ITEM: Copper-coins. GRUB-20. Earns $2. Earns 20 points.
@@ -244,7 +246,8 @@ CURSE: While this curse is alive, earn 10% less multiplier
 (can be implemented via onUpdate and keeping track of the deltas)
 CURSE: While this curse is alive, earn 10% less Bonus
 CURSE: Destroy all items (ROOK-6)
-CURSE: On Level-Up: Make a random item STUCK
+CURSE: Subtract 10 points from items (ROOK-6)
+CURSE: On Level-Up: Make random item STUCK
 CURSE: Remove Pulse trigger from the closest item
 CURSE: Steals $1 for every other curse on the plot
 CURSE: On Level-Up: Make a random slot cost $1 to activate

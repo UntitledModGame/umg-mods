@@ -204,3 +204,38 @@ defItem("coins_and_emerald", "Coins and Emerald", {
 })
 
 
+
+
+local DESC = interp("Adds {lootplot:BONUS_COLOR}+%{bonusGenerated:.1f} Bonus{/lootplot:BONUS_COLOR} for every target item that costs money to activate")
+
+defItem("silver_coins", "Silver Coins", {
+    triggers = {"PULSE"},
+
+    target = {
+        type = "ITEM",
+        filter = function(selfEnt, ppos, targEnt)
+            return (targEnt.moneyGenerated or 0xff) < 0
+        end,
+        activate = function(selfEnt, ppos, targEnt)
+            lp.addPointsBonus(selfEnt, selfEnt.bonusGenerated or 0)
+        end
+    },
+
+    shape = lp.targets.KingShape(1),
+
+    activateDescription = function(ent)
+        return DESC({
+            bonusGenerated = ent.bonusGenerated,
+            UNCOMMON = lp.rarities.UNCOMMON.displayString
+        })
+    end,
+
+    basePrice = 9,
+    baseBonusGenerated = 5,
+    baseMaxActivations = 2,
+
+    rarity = lp.rarities.RARE,
+})
+
+
+

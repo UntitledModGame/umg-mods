@@ -73,15 +73,15 @@ end
 
 
 
-defGrubby("spare_coins", "Spare Coins", {
+defGrubby("grubby_coins", "Grubby Coins", {
     triggers = {"PULSE"},
 
     grubMoneyCap = GRUB_MONEY_CAP,
 
     basePrice = 6,
     baseMoneyGenerated = 1,
-    baseBonusGenerated = 2,
-    baseMaxActivations = 6,
+    baseMultGenerated = 0.4,
+    baseMaxActivations = 2,
 
     rarity = lp.rarities.UNCOMMON,
 })
