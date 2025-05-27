@@ -243,19 +243,9 @@ NOTE: See `_enemy_spritesheet.png`
 `C:\_BUSINESS\LOOTPLOT\asset_packs\tiny-creatures`
 
 - Create curses:
-CURSE: Destroys the closest slot that earns money
-CURSE: Destroy the closest item that earns money
 CURSE: After X activations, destroys the 3 closest slots
-CURSE: Glassbreaker: Destroys 50% of all glass slots
-CURSE: Halves the number of lives on all items and slots
 CURSE: Give DOOMED-5 to a random slot (doesn't work on buttons)
-CURSE: While this curse is alive, earn 10% less multiplier
-(can be implemented via onUpdate and keeping track of the deltas)
-CURSE: While this curse is alive, earn 10% less Bonus
-CURSE: Destroy all items (ROOK-6)
-CURSE: Subtract 10 points from items (ROOK-6)
-CURSE: Subtract 2 bonus from items (ROOK-6)
-CURSE: Subtract 0.4 mult from items (ROOK-6)
+
 CURSE: Remove Pulse trigger from the closest item
 CURSE: Steals $1 for every other curse on the plot
 CURSE: On Pulse: Make a random slot cost $0.2 to activate
@@ -263,8 +253,26 @@ CURSE: On Pulse: 20% chance to transform a random slots into a null-slot
 CURSE: Removes FLOATY from the closest floating item
 CURSE: When an item is purchased, steal $1
 CURSE: GRUB-10
-CURSE: On Pulse: Destroy slots (ROOK-6)
-CURSE: On Pulse: Give slots DOOMED-10 (doesnt work on buttons) (QUEEN-6)
+
+CURSE: Evil shield: On Pulse: Trigger pulse on other curse items (KING-3)
+
+
+
+
+CURSE: Tomb of doom: Give items DOOMED-6 (ROOK-6)
+CURSE: Tomb of doom: Give slots DOOMED-10 (doesnt work on buttons) (ROOK-6)
+CURSE: Tomb of points: Subtract 10 points from items (ROOK-6)
+CURSE: Tomb of bonus: Subtract 2 bonus from items (ROOK-6)
+CURSE: Tomb of multiplier: Subtract 0.4 mult from items (ROOK-6)
+CURSE: Tomb of multiplier: Make slots cost $0.1 extra to activate (ROOK-6)
+CURSE: Tomb of sticky: Make items STICKY (ROOK-6)
+
+CURSE: Heart leech: Removes 4 lives from ALL items and slots
+CURSE: Golden shivs: Destroys the closest item that earns money
+CURSE: Golden blocks: Destroys the closest slot that earns money
+CURSE: Bankers helmet: On Pulse: Make a random item cost $0.5 to activate
+CURSE: Bubbling goo: On Pulse: Make a random food-item STUCK
+CURSE: Glass-shard: Destroys 30% of ALL glass slots
 
 CURSE: Cube slime: On Pulse: 30% chance to make a random item STUCK
 CURSE: Minotaur: On Pulse: Give DOOMED-10 to items. (ROOK-7)
@@ -274,8 +282,11 @@ CURSE: Tentacle: -50 points
 CURSE: Stone-hand: (....?? do something COOL!! :))
 CURSE: Medusa: On Pulse: Spawns a stone-slot randomly
 CURSE: Leprechaun: If money is greater than $200, spawn a curse
-CURSE: Dark-wizard: If there are more than X curses, spawn 3 new curses
 CURSE: Orca: On Pulse: Destroys a random FLOATY item.
+
+CURSE: Dark-wizard: After X activations, spawn Y new curses (CAN BE CONFIGURED)
+(^^^^ this guy should spawn at the start of most runs)
+(we should avoid spawning TOO many curses at start, avoid overwhelm player.)
 
 
 
@@ -298,6 +309,13 @@ More items should have adjacency interactions.
 (For example axe-items, or scythe-items)
 ^^^ this is what makes stuff interesting
 
+
+- Make it so after defeating S-ball, ALL starter-items are unlocked.
+Players dont wanna grind, man.
+
+
+- Make it so slot-spawner items cant spawn slots below curses.
+That'd be OP; we would be able to clear curses too easily.
 
 
 - Create DAILY run:

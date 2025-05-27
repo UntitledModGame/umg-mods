@@ -33,6 +33,43 @@ local function defCurse(id, name, etype)
 end
 
 
+
+local function getSlots(ent, filter)
+    local ppos = lp.getPos(ent)
+    if not ppos then
+        return objects.Array()
+    end
+
+    local ret = objects.Array()
+    ppos:getPlot():foreachSlot(function(slotEnt, slotPos)
+        if (not filter) or filter(slotEnt, slotPos) then
+            ret:add(slotEnt)
+        end
+    end)
+    return ret
+end
+
+
+
+local function getItems(ent, filter)
+    local ppos = lp.getPos(ent)
+    if not ppos then
+        return objects.Array()
+    end
+
+    local ret = objects.Array()
+    ppos:getPlot():foreachItem(function(itemEnt, pos)
+        if (not filter) or filter(itemEnt, pos) then
+            ret:add(itemEnt)
+        end
+    end)
+    return ret
+end
+
+
+
+
+
 local function getClosestSlot(ent, filter)
     
 end
