@@ -213,6 +213,31 @@ that way, we can see rarities too
 - Give `unlockAfterWins` to ALL slots.
 
 
+- Make slot-spawner-item descriptions direct.
+- "Spawns a golden slot" X NO NO NO.
+- "Spawns a slot that multiplies points, but costs money to use"
+
+
+
+
+- Make pink-slot not work on food-items
+
+
+- 5-ball is too cluttered. make it simpler; remove one of the records
+
+- 6-ball: (Could replace shop-slots with green-shop-slots...?)
+
+
+- JOJO FEEDBACK:
+More items should have adjacency interactions.
+(For example axe-items, or scythe-items)
+^^^ this is what makes stuff interesting
+
+
+- Shovel items: Make them Pulse/Reroll slots, and earn a lot of points
+(remove the scaling)
+
+
 - Add golden-trout item (Steals $15, makes slots earn $1)
 
 - SLOT: Cloth slot

@@ -915,7 +915,7 @@ local function defineSlotConverter(id, name, spawnSlot, spawnSlotName, shape, ex
     local etype = {
         image = id,
         name = loc(name),
-        activateDescription = loc("Converts slots into " .. spawnSlotName),
+        activateDescription = loc("Force-spawns a " .. spawnSlotName),
 
         shape = shape,
 
@@ -939,7 +939,7 @@ end
 
 
 local APPLE_PRICE = 10
-defineSlotConverter("tangerine", "Tangerine", "rotate_slot", "Rotate Slots", lp.targets.ON_SHAPE, {
+defineSlotConverter("tangerine", "Tangerine", "rotate_slot", "{lootplot.targets:COLOR}Rotate{/lootplot.targets:COLOR} Slot", lp.targets.ON_SHAPE, {
     unlockAfterWins = constants.UNLOCK_AFTER_WINS.ROTATEY,
     rarity = lp.rarities.RARE,
     basePrice = APPLE_PRICE
@@ -963,45 +963,45 @@ defineFood("sliced_apple", {
     basePrice = 4
 })
 
-defineSlotConverter("bananas", "Bananas", "swashbuckler_slot", "Swashbuckler Slot", lp.targets.ON_SHAPE, {
+defineSlotConverter("bananas", "Bananas", "swashbuckler_slot", "slot where items can activate for free", lp.targets.ON_SHAPE, {
     unlockAfterWins = 3,
     rarity = lp.rarities.EPIC,
     basePrice = APPLE_PRICE
 })
 
-defineSlotConverter("blueberry", "Blueberry", "sapphire_slot", "Sapphire Slot", lp.targets.ON_SHAPE, {
+defineSlotConverter("blueberry", "Blueberry", "sapphire_slot", "slot that works well with {lootplot:BONUS_COLOR}negative-bonus{/lootplot:BONUS_COLOR}", lp.targets.ON_SHAPE, {
     unlockAfterWins = 3,
     rarity = lp.rarities.UNCOMMON,
     basePrice = APPLE_PRICE
 })
 
-defineSlotConverter("golden_apple", "Golden Apple", "golden_slot", "Golden Slot", lp.targets.ON_SHAPE, {
+defineSlotConverter("golden_apple", "Golden Apple", "golden_slot", "slot that empowers item's points, but costs {lootplot:MONEY_COLOR}money{/lootplot:MONEY_COLOR} to activate", lp.targets.ON_SHAPE, {
     unlockAfterWins = 2,
     rarity = lp.rarities.RARE,
     basePrice = APPLE_PRICE
 })
 
-defineSlotConverter("ruby_apple", "Ruby Apple", "ruby_slot", "Ruby Slot", lp.targets.ON_SHAPE, {
+defineSlotConverter("ruby_apple", "Ruby Apple", "ruby_slot", "slot that {lootplot:TRIGGER_COLOR}Pulses{/lootplot:TRIGGER_COLOR} items multiple times", lp.targets.ON_SHAPE, {
     unlockAfterWins = 1,
     rarity = lp.rarities.RARE,
     basePrice = APPLE_PRICE
 })
 
-defineSlotConverter("diamond_apple", "Diamond Apple", "diamond_slot", "Diamond Slot", lp.targets.ON_SHAPE, {
+defineSlotConverter("diamond_apple", "Diamond Apple", "diamond_slot", "slot that quadruples an item's {lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR}", lp.targets.ON_SHAPE, {
     unlockAfterWins = 2,
     rarity = lp.rarities.RARE,
     basePrice = APPLE_PRICE
 })
 
 
-defineSlotConverter("green_apple", "Green Apple", "emerald_slot", "Emerald Slot", lp.targets.ON_SHAPE, {
+defineSlotConverter("green_apple", "Green Apple", "emerald_slot", "slot that {lootplot:TRIGGER_COLOR}Pulses{/lootplot:TRIGGER_COLOR} items when {lootplot:TRIGGER_COLOR}Rerolled{/lootplot:TRIGGER_COLOR}", lp.targets.ON_SHAPE, {
     unlockAfterWins = 1,
     rarity = lp.rarities.RARE,
     basePrice = 6 -- should be cheaper than other apples, coz emerald slots are a bit weaker
 })
 
 
-defineSlotConverter("lychee", "Lychee", "pink_slot", "a slot that gives {lootplot:LIFE_COLOR}lives{/lootplot:LIFE_COLOR} to items", lp.targets.ON_SHAPE, {
+defineSlotConverter("lychee", "Lychee", "pink_slot", "slot that gives {lootplot:LIFE_COLOR}lives{/lootplot:LIFE_COLOR} to items", lp.targets.ON_SHAPE, {
     unlockAfterWins = 4,
     rarity = lp.rarities.RARE
 })
