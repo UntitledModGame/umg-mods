@@ -79,8 +79,9 @@ defGrubby("grubby_coins", "Grubby Coins", {
     grubMoneyCap = GRUB_MONEY_CAP,
 
     basePrice = 6,
-    baseMoneyGenerated = 1,
-    baseMultGenerated = 0.4,
+    baseMoneyGenerated = 2,
+    sticky = true,
+    -- baseMultGenerated = 0.4,
     baseMaxActivations = 2,
 
     rarity = lp.rarities.UNCOMMON,
