@@ -213,6 +213,10 @@ that way, we can see rarities too
 
 
 
+- Shovel items: Make them Pulse/Reroll slots, and earn a lot of points
+(remove the scaling)
+
+
 
 
 ## =============================
@@ -220,21 +224,6 @@ that way, we can see rarities too
 ## =============================
 
 
-
-- 6-ball: (Could replace shop-slots with green-shop-slots...?)
-
-
-- JOJO FEEDBACK:
-More items should have adjacency interactions.
-(For example axe-items, or scythe-items)
-^^^ this is what makes stuff interesting
-
-
-- Shovel items: Make them Pulse/Reroll slots, and earn a lot of points
-(remove the scaling)
-
-
-- Add golden-trout item (Steals $15, makes slots earn $1)
 
 - SLOT: Cloth slot
 On Pulse: Triggers LEVEL-UP on item
@@ -267,11 +256,21 @@ CURSE: When an item is purchased, steal $1
 - Emerald shop-slot:
 Spawns items and replaces Pulse-trigger with Reroll-trigger
 
+- 6-ball: (Could replace shop-slots with green-shop-slots...?)
+
+
+
 - Pink shop-slot:
 Spawns items and gives them +3 lives
 
 - Purple shop-slot:
 Spawns items and gives them DOOMED-10
+
+
+- JOJO FEEDBACK:
+More items should have adjacency interactions.
+(For example axe-items, or scythe-items)
+^^^ this is what makes stuff interesting
 
 
 
@@ -292,7 +291,8 @@ Spawns items and gives them DOOMED-10
     - Start with destroy-slot instead of sell-slot
 
 
-- Remove 4-ball
+- Remove 4-ball starter-itme
+- Remove 4-ball achievements
 
 
 - New item: Interdimensional-eye: Subtracts 50 Bonus, Earns +4 mult
