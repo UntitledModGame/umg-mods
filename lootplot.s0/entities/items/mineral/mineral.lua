@@ -146,30 +146,42 @@ end
 
 
 
+
+local SHOVEL_DESC = interp("Triggers {lootplot:TRIGGER_COLOR}%{triggerName}{/lootplot:TRIGGER_COLOR} on slots.")
+
 local function defineShovel(mineral_type, name, strength, etype)
     local namespace = umg.getModName() .. ":"
     local etypeName = namespace .. mineral_type .. "_shovel"
     local image = mineral_type .. "_shovel"
 
+    local TRIGGER = "PULSE"
+
     local shovelType = {
         image = image,
         name = loc(name .. " Shovel"),
 
-        activateDescription = loc("Permanently gain {lootplot:POINTS_COLOR}+%{buff} points{/lootplot:POINTS_COLOR} when activated", {
-            buff = strength
+        activateDescription = SHOVEL_DESC({
+            triggerName = lp.getTriggerDisplayName(TRIGGER)
         }),
 
-        onActivate = function(ent)
-            lp.modifierBuff(ent, "pointsGenerated", strength, ent)
-        end,
+        shape = lp.targets.NorthEastShape(1),
+        target = {
+            type = "SLOT",
+            activate = function(selfEnt, ppos, itemEnt)
+                lp.tryTriggerEntity(TRIGGER, itemEnt)
+            end,
+            filter = function(selfEnt, ppos, itemEnt)
+                return lp.hasTrigger(itemEnt, TRIGGER)
+            end,
+        },
 
         mineralType = mineral_type,
 
-        basePrice = 16,
-        basePointsGenerated = -strength,
-        baseMaxActivations = (etype.baseMaxActivations or DEFAULT_MAX_ACTIVATIONS) * 3,
+        basePrice = 9,
+        basePointsGenerated = math.floor(40 * strength),
+        baseMaxActivations = (etype.baseMaxActivations or DEFAULT_MAX_ACTIVATIONS),
 
-        rarity = lp.rarities.EPIC,
+        rarity = lp.rarities.RARE,
     }
     for k,v in pairs(etype) do
         shovelType[k] = shovelType[k] or v

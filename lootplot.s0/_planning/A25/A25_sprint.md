@@ -209,6 +209,10 @@ that way, we can see rarities too
 
 
 
+- 5-ball is too cluttered. make it simpler; remove one of the records
+
+
+
 
 
 ## =============================
@@ -216,10 +220,6 @@ that way, we can see rarities too
 ## =============================
 
 
-
-
-
-- 5-ball is too cluttered. make it simpler; remove one of the records
 
 - 6-ball: (Could replace shop-slots with green-shop-slots...?)
 
