@@ -189,20 +189,6 @@ Swaps triggers of items (Eg Pulse, Reroll)
 (shape=VERTICAL-1)
 
 
-
-
-
-
-
-
-## =============================
-## TODO:
-## =============================
-
-
-
-
-## SUPER SUPER IMPORTANT:
 Change `isEntityTypeUnlocked = helper.unlockAfterWins(X)` to
 `unlockAfterWins = 5`.
 That way, we can easily introspect item-pools to see what items are available at each stage of the game.
@@ -219,8 +205,18 @@ that way, we can see rarities too
 
 
 
-
 - Make pink-slot not work on food-items
+
+
+
+
+
+## =============================
+## TODO:
+## =============================
+
+
+
 
 
 - 5-ball is too cluttered. make it simpler; remove one of the records

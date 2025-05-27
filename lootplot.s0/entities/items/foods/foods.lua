@@ -1157,7 +1157,7 @@ defineFood("blue_cheesecake", {
 
 
 do
-local PIE_UNLOCK = 2
+local PIE_UNLOCK = 0
 
 local function definePie(id, name, desc, addShape, rarity)
     defineFood(id, {

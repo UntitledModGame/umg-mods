@@ -333,8 +333,6 @@ defineStartingItem("five_ball", {
 
         lp.trySpawnItem(assert(ppos:move(1, 0)), server.entities.record_golden, team)
 
-        lp.trySpawnItem(assert(ppos:move(-1, 0)), server.entities.record_white, team)
-
         -- spawn black-olives:
         for y = -1,1 do
             local mpos = assert(ppos:move(3,y))
