@@ -221,6 +221,16 @@ that way, we can see rarities too
 On Pulse: Triggers LEVEL-UP on item
 
 
+- NEW ITEM: Copper-coins. GRUB-20. Earns $2. Earns 20 points.
+(STICKY, UNCOMMON)
+^^^ and with this, maybe make spare-coins RARE, and stronger...?
+
+
+- ITEM: Trigger card
+Swaps triggers of items (Eg Pulse, Reroll)
+(shape=VERTICAL-1)
+
+
 
 
 
@@ -229,11 +239,8 @@ On Pulse: Triggers LEVEL-UP on item
 ## =============================
 
 
-
-
-- NEW ITEM: Copper-coins. GRUB-20. Earns $2. Earns 20 points.
-(STICKY, UNCOMMON)
-^^^ and with this, maybe make spare-coins RARE, and stronger...?
+NOTE: See `_enemy_spritesheet.png`
+`C:\_BUSINESS\LOOTPLOT\asset_packs\tiny-creatures`
 
 - Create curses:
 CURSE: Destroys the closest slot that earns money
@@ -241,19 +248,35 @@ CURSE: Destroy the closest item that earns money
 CURSE: After X activations, destroys the 3 closest slots
 CURSE: Glassbreaker: Destroys 50% of all glass slots
 CURSE: Halves the number of lives on all items and slots
-CURSE: Give DOOMED-5 to a random slot (not a button!)
+CURSE: Give DOOMED-5 to a random slot (doesn't work on buttons)
 CURSE: While this curse is alive, earn 10% less multiplier
 (can be implemented via onUpdate and keeping track of the deltas)
 CURSE: While this curse is alive, earn 10% less Bonus
 CURSE: Destroy all items (ROOK-6)
 CURSE: Subtract 10 points from items (ROOK-6)
-CURSE: On Level-Up: Make random item STUCK
+CURSE: Subtract 2 bonus from items (ROOK-6)
+CURSE: Subtract 0.4 mult from items (ROOK-6)
 CURSE: Remove Pulse trigger from the closest item
 CURSE: Steals $1 for every other curse on the plot
-CURSE: On Level-Up: Make a random slot cost $1 to activate
-CURSE: On Level-Up: transform 2 random slots into null-slots
+CURSE: On Pulse: Make a random slot cost $0.2 to activate
+CURSE: On Pulse: 20% chance to transform a random slots into a null-slot
 CURSE: Removes FLOATY from the closest floating item
 CURSE: When an item is purchased, steal $1
+CURSE: GRUB-10
+CURSE: On Pulse: Destroy slots (ROOK-6)
+CURSE: On Pulse: Give slots DOOMED-10 (doesnt work on buttons) (QUEEN-6)
+
+CURSE: Cube slime: On Pulse: 30% chance to make a random item STUCK
+CURSE: Minotaur: On Pulse: Give DOOMED-10 to items. (ROOK-7)
+CURSE: Skeleton-cat: On Pulse: 10% chance to clone itself. Steal 50 points (KNIGHT)
+CURSE: Mushroom-wizard: 50% chance to spawn a Tentacle on a random empty-slot
+CURSE: Tentacle: -50 points
+CURSE: Stone-hand: (....?? do something COOL!! :))
+CURSE: Medusa: On Pulse: Spawns a stone-slot randomly
+CURSE: Leprechaun: If money is greater than $200, spawn a curse
+CURSE: Dark-wizard: If there are more than X curses, spawn 3 new curses
+CURSE: Orca: On Pulse: Destroys a random FLOATY item.
+
 
 
 - Emerald shop-slot:
@@ -279,11 +302,15 @@ More items should have adjacency interactions.
 
 - Create DAILY run:
 - Randomize shop (Start with custom/special shop slots)
-    - doomed-shop, only sells doomed-items?
     - discounted-shop, all prices 50% off
+    - pink-shop-slot, green-shop-slot
+    - doomed-shop-slot, only sells doomed-items?
 - Randomize main-island
 - Randomize some initial plot items
+    - Remember to give them random attributes!!!
+    - FLOATY, DOOMED-10, GRUBBY, STICKY, REPEATER
 - Randomize curses
+    - (Some curses should start DOOMED-10)
 - Random neutral starting scenarios: 
     - Tax-slot + null-slots
     - Surrounded by stone-slots
@@ -321,10 +348,6 @@ More items should have adjacency interactions.
 
 - Consider adding DOOMED tools? (Purple-color)
 
-
-- ITEM: Trigger card
-Swaps triggers of items (Eg Pulse, Reroll)
-(shape=VERTICAL-1)
 
 
 ## Worldgen ideas:,
