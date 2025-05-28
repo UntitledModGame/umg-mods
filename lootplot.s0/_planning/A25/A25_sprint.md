@@ -231,19 +231,6 @@ Swaps triggers of items (Eg Pulse, Reroll)
 (shape=VERTICAL-1)
 
 
-
-
-
-## =============================
-## TODO:
-## =============================
-
-
-NOTE: See `_enemy_spritesheet.png`
-`C:\_BUSINESS\LOOTPLOT\asset_packs\tiny-creatures`
-
-- Create curses:
-
 CURSE: Cursed Slab: On Pulse: 10% chance to transform random slot into a null-slot
 CURSE: Cursed slot dagger: Give DOOMED-15 to a random slot (doesn't work on buttons)
 
@@ -268,6 +255,24 @@ CURSE: Glass-shard: Destroys 30% of ALL glass slots
 CURSE: Cursed life potion: Give a random curse +2 lives
 CURSE: Broken shield: On Pulse: Trigger pulse on other curse items (KING-3)
 
+
+
+
+
+## =============================
+## TODO:
+## =============================
+
+
+
+SPIKE: Figure out how curse-spawning will work.
+(See `lp_curses_mod.md`)
+
+
+NOTE: See `_enemy_spritesheet.png`
+`C:\_BUSINESS\LOOTPLOT\asset_packs\tiny-creatures`
+
+
 CURSE: Skeleton-cat: On Pulse: 10% chance to clone itself. Steal 50 points (KNIGHT)
 CURSE: Mushroom-wizard: 50% chance to spawn a Tentacle on a random empty-slot
 CURSE: Tentacle: -50 points
@@ -283,6 +288,7 @@ CURSE: Dark-wizard: After X activations, spawn Y new curses (CAN BE CONFIGURED)
 (we should avoid spawning TOO many curses at start, avoid overwhelm player.)
 
 DO THESE LATER: (They need to be spawned in a special position to work)
+CURSE: Cursed purple balloon: On Buy, 30% chance to make purchased item DOOMED-5
 CURSE: Cursed purple balloon: On Buy, 30% chance to make purchased item DOOMED-5
 CURSE: Goblin glasses: When an item is purchased, steal $1 (QUEEN-3)
 
@@ -322,6 +328,7 @@ That'd be OP; we would be able to clear curses too easily.
     - discounted-shop, all prices 50% off
     - pink-shop-slot, green-shop-slot
     - doomed-shop-slot, only sells doomed-items?
+    - start with pineapple-ring? Negotiator? Balloon?
 - Randomize main-island
 - Randomize some initial plot items
     - Remember to give them random attributes!!!
@@ -333,12 +340,15 @@ That'd be OP; we would be able to clear curses too easily.
     - Surrounded by stone-slots
     - Scattered stone-slots that give money/points
     - Start with 1 pink-slot in the middle
+    - Start with a cat-slot
+    - Start with rotate-slot, surrounded by a big island
+    - Start with a gravel-island
     - Start with 1 rulebender-slot in the middle
     - Start with 1 guardian-slot in the middle
     - Start with destroy-slot instead of sell-slot
 
 
-- Remove 4-ball starter-itme
+- Remove 4-ball starter-item
 - Remove 4-ball achievements
 
 
