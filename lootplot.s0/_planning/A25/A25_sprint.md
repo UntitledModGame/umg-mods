@@ -243,30 +243,26 @@ NOTE: See `_enemy_spritesheet.png`
 `C:\_BUSINESS\LOOTPLOT\asset_packs\tiny-creatures`
 
 - Create curses:
-CURSE: After X activations, destroys the 3 closest slots
-CURSE: Give DOOMED-5 to a random slot (doesn't work on buttons)
 
-CURSE: Remove Pulse trigger from the closest item
-CURSE: Steals $1 for every other curse on the plot
-CURSE: On Pulse: Make a random slot cost $0.2 to activate
-CURSE: On Pulse: 20% chance to transform a random slots into a null-slot
-CURSE: Removes FLOATY from the closest floating item
-CURSE: When an item is purchased, steal $1
-CURSE: GRUB-10
-
-CURSE: Evil shield: On Pulse: Trigger pulse on other curse items (KING-3)
-
-
-
+CURSE: Cursed Slab: On Pulse: 10% chance to transform a random slot into a null-slot
+CURSE: Cursed slot dagger: Give DOOMED-15 to a random slot (doesn't work on buttons)
 
 CURSE: Tomb of doom: Give items DOOMED-6 (ROOK-6)
 CURSE: Tomb of doom: Give slots DOOMED-10 (doesnt work on buttons) (ROOK-6)
 CURSE: Tomb of points: Subtract 10 points from items (ROOK-6)
 CURSE: Tomb of bonus: Subtract 2 bonus from items (ROOK-6)
 CURSE: Tomb of multiplier: Subtract 0.4 mult from items (ROOK-6)
-CURSE: Tomb of multiplier: Make slots cost $0.1 extra to activate (ROOK-6)
+CURSE: Tomb of money: Make slots cost $0.1 extra to activate (ROOK-6)
 CURSE: Tomb of sticky: Make items STICKY (ROOK-6)
 
+CURSE: Cursed life potion: Give a random curse +2 lives
+CURSE: Cursed purple balloon: On Buy, 30% chance to make purchased item DOOMED-5
+CURSE: Evil Harp: On Pulse: Make a random slot cost $0.2 to activate
+CURSE: Cursed grubby coins: On Pulse, lose 10 points. GRUB-15
+CURSE: Cursed coin: Steals $0.5 for every other curse 
+CURSE: Broken shield: On Pulse: Trigger pulse on other curse items (KING-3)
+CURSE: Injunction: Remove Pulse trigger from the closest item (DOOMED-20)
+CURSE: Goblin glasses: When an item is purchased, steal $1 (QUEEN-3)
 CURSE: Heart leech: Removes 4 lives from ALL items and slots
 CURSE: Golden shivs: Destroys the closest item that earns money
 CURSE: Golden blocks: Destroys the closest slot that earns money

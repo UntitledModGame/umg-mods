@@ -76,7 +76,7 @@ end
 
 
 
-defCurse("anti_bonus_contract_curse", "Anti Bonus Contract", {
+defCurse("aquarium_curse", "Aquarium", {
     description = loc("Whilst this curse exists, {lootplot:BONUS_COLOR}bonus{/lootplot:BONUS_COLOR} cannot go higher than -1."),
 
     onUpdateServer = function(ent)
