@@ -50,7 +50,7 @@ local function getSlots(ent, filter)
     local team = ent.lootplotTeam
     plot:foreachSlot(function(slotEnt, slotPos)
         local filterOk = (not filter) or filter(slotEnt, slotPos)
-        local fogRevealed = plot:isFogRevealed(ppos, team)
+        local fogRevealed = plot:isFogRevealed(slotPos, team)
         if filterOk and fogRevealed then
             ret:add(slotEnt)
         end
@@ -197,19 +197,16 @@ defCurse("cursed_slab", "Cursed Slab", {
 
 
 defCurse("cursed_slot_dagger", "Cursed Slot Dagger", {
-    activateDescription = loc("Gives {lootplot:DOOMED_COLOR}DOOMED-15{/lootplot:DOOMED_COLOR} to a random slot"),
+    activateDescription = loc("Gives {lootplot:DOOMED_COLOR}DOOMED-20{/lootplot:DOOMED_COLOR} to a random slot"),
 
     triggers = {"PULSE"},
     onActivate = function(ent)
-        local pos, team = getPosTeam(ent)
-        if lp.SEED:randomMisc() then
-            local slots = getSlotsNoButtons(ent, function(e)
-                return (not e.doomCount)
-            end)
-            executeRandom(slots, function(slotEnt,ppos)
-                slotEnt.doomCount = 15
-            end)
-        end
+        local slots = getSlotsNoButtons(ent, function(e)
+            return (not e.doomCount)
+        end)
+        executeRandom(slots, function(slotEnt, ppos)
+            slotEnt.doomCount = 20
+        end)
     end
 })
 
