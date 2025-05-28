@@ -327,6 +327,7 @@ defineStartingItem("five_ball", {
         spawnShop(ent)
         spawnRerollButton(ent)
         spawnNormal(ent)
+        wg.spawnSlots(assert(ppos:move(0,-2)), server.entities.slot, 3,1, team)
         spawnSell(ent)
 
         lp.forceSpawnSlot(assert(ppos:move(0,-1)), server.entities.rotate_slot, team)

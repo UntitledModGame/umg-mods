@@ -269,15 +269,15 @@ CURSE: Glass-shard: Destroys 30% of ALL glass slots
 CURSE: Cursed life potion: Give a random curse +2 lives
 CURSE: Broken shield: On Pulse: Trigger pulse on other curse items (KING-3)
 
-CURSE: Cube slime: On Pulse: 30% chance to make a random item STUCK
-CURSE: Minotaur: On Pulse: Give DOOMED-10 to items. (ROOK-7)
 CURSE: Skeleton-cat: On Pulse: 10% chance to clone itself. Steal 50 points (KNIGHT)
 CURSE: Mushroom-wizard: 50% chance to spawn a Tentacle on a random empty-slot
 CURSE: Tentacle: -50 points
-CURSE: Stone-hand: (....?? do something COOL!! :))
+CURSE: Cube slime: On Pulse: 30% chance to make a random item STUCK
 CURSE: Medusa: On Pulse: Transforms a random empty-slot into stone
 CURSE: Leprechaun: If money is greater than $200, spawn a curse
 CURSE: Orca: On Pulse: Destroys a random FLOATY item.
+
+CURSE: Stone-hand: (....?? do something COOL!! :))
 
 CURSE: Dark-wizard: After X activations, spawn Y new curses (CAN BE CONFIGURED)
 (^^^^ this guy should spawn at the start of most runs)
@@ -367,17 +367,6 @@ That'd be OP; we would be able to clear curses too easily.
 - Consider adding DOOMED tools? (Purple-color)
 
 
-
-## Worldgen ideas:,
-- Worldgen slots that buff items permanently,
-- Structures to discover, 
-- fortresses of stone-slots that you can break into,
-- Set-piece: a little stronghold of cats
-- Set-piece: a fortress with PRISM in the middle (Prism should be a UNIQUE item)
-- A button that, when pressed, gives some big buff (EG: decreases round by 1)
-
-
-
 ## ADD NEW MUSIC
 https://m.youtube.com/watch?v=JPCaFc17ur0&t=27s&pp=2AEbkAIB
 - You were always in the right place,
@@ -398,6 +387,17 @@ https://youtu.be/s8nkrxzOBR4?feature=shared  NOTABLE SONGS:
 - Loot-rain background. Items raining down, just like title screen. The items should be somewhat transparent so it doesnt distract
 
 - Copycat-rain background: Background with copycats raining down
+
+
+
+## Worldgen ideas:,
+- Worldgen slots that buff items permanently,
+- Structures to discover, 
+- fortresses of stone-slots that you can break into,
+- Set-piece: a little stronghold of cats
+- Set-piece: a fortress with PRISM in the middle (Prism should be a UNIQUE item)
+- A button that, when pressed, gives some big buff (EG: decreases round by 1)
+
 
 
 
