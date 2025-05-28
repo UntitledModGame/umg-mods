@@ -40,6 +40,12 @@ components.defineComponent("foodItem") -- foodItem
 -- returns true iff the entity is invincible
 components.defineComponent("isInvincible")
 
+-- This one is ONLY FOR SLOTS!!!
+-- fun(slotEnt, itemEnt) returns true iff the item-entity should be invincible
+components.defineComponent("isItemInvincible")
+
+
+
 components.defineComponent("canAddItemToSlot")
 -- fun(slotEnt, itemEnt) --> boolean
 -- returns true iff the entity can be added to slot

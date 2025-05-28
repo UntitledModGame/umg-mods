@@ -360,10 +360,13 @@ umg.on("lootplot:populateMetaDescription", 60, function(ent, arr)
 end)
 
 local EXTRA_LIFE = interp("{wavy}{lootplot:LIFE_COLOR}EXTRA LIVES:{/lootplot:LIFE_COLOR} %{lives}")
+local INVINCIBLE = interp("{wavy}{lootplot:INFO_COLOR}INVINCIBLE:{/lootplot:INFO_COLOR} Cannot be destroyed!")
 
 umg.on("lootplot:populateMetaDescription", 60, function(ent, arr)
     if ent.lives and ent.lives > 0 then
         arr:add(funcLocEnt(EXTRA_LIFE, ent))
+    elseif lp.isInvincible(ent) then
+        arr:add(INVINCIBLE)
     end
 end)
 

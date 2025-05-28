@@ -947,10 +947,19 @@ function lp.isInvincible(ent)
     if ent.lives and ent.lives > 0 then
         return true
     end
-    if type(ent.isInvincible) == "function" and ent:isInvincible() then
+    local typ = type(ent.isInvincible)
+    if typ == "function" and ent:isInvincible() then
         return true
     end
-    return umg.ask("lootplot:isInvincible", ent)
+
+    if lp.isItemEntity(ent) then
+        local slotEnt = lp.itemToSlot(ent)
+        if slotEnt and slotEnt.isItemInvincible and slotEnt:isItemInvincible(ent) then
+            return true
+        end
+    end
+
+    return false
 end
 
 
