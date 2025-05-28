@@ -467,7 +467,7 @@ defineStartingItem("S_ball", {
         spawnSell(ent)
         spawnDoomClockAndButtons(ent)
 
-        lp.forceSpawnItem(assert(ppos:move(3, 0)), server.entities.anti_bonus_contract_curse, team)
+        lp.forceSpawnItem(assert(ppos:move(3, 0)), server.entities.aquarium_curse, team)
     end
 })
 

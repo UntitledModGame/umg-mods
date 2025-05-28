@@ -244,7 +244,7 @@ NOTE: See `_enemy_spritesheet.png`
 
 - Create curses:
 
-CURSE: Cursed Slab: On Pulse: 10% chance to transform a random slot into a null-slot
+CURSE: Cursed Slab: On Pulse: 10% chance to transform the closest slot into a null-slot
 CURSE: Cursed slot dagger: Give DOOMED-15 to a random slot (doesn't work on buttons)
 
 CURSE: Tomb of doom: Give items DOOMED-6 (ROOK-6)
