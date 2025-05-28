@@ -138,7 +138,6 @@ umg.answer("lootplot:hasPlayerAccess", function(ent, clientId)
             return plot:isFogRevealed(ppos, team)
         end
     end
-    print("hasPlayerAccess", ent, clientId, ppos, team)
     return true
 end)
 
