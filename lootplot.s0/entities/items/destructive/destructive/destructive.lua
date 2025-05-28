@@ -515,7 +515,7 @@ defDestructive("furnace", "Furnace", {
     target = {
         type = "ITEM",
         filter = function(selfEnt, ppos, targetEnt)
-            return not lp.hasTrigger(targetEnt, "DESTROY")
+            return (not lp.hasTrigger(targetEnt, "DESTROY")) and (not lp.curses.isCurse(targetEnt))
         end,
         activate = function(selfEnt, ppos, targetEnt)
             local cloneRockEType = assert(server.entities.clone_rocks)

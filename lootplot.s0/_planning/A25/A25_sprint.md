@@ -260,7 +260,6 @@ CURSE: Golden shivs: Destroys the closest item that earns money
 CURSE: Golden blocks: Destroys the closest slot that earns money
 CURSE: Bankers helmet: On Pulse: Make a random item cost $0.2 to activate
 
-
 CURSE: Cursed coin: Steals $0.5 for every other curse 
 CURSE: Injunction: Remove Pulse trigger from the closest item (DOOMED-10)
 CURSE: Heart leech: Removes 4 lives from ALL items and slots
@@ -277,7 +276,7 @@ CURSE: Medusa: On Pulse: Transforms a random empty-slot into stone
 CURSE: Leprechaun: If money is greater than $200, spawn a curse
 CURSE: Orca: On Pulse: Destroys a random FLOATY item.
 
-CURSE: Stone-hand: (....?? do something COOL!! :))
+CURSE: Stone-hand: On the final level, spawn 3 random curses.
 
 CURSE: Dark-wizard: After X activations, spawn Y new curses (CAN BE CONFIGURED)
 (^^^^ this guy should spawn at the start of most runs)

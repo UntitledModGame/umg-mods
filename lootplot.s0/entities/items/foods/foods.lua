@@ -682,6 +682,14 @@ local function defineSlotSpawner(id_image, name, spawnSlot, spawnSlotName, shape
 
         target = {
             type = "NO_SLOT",
+            filter = function (selfEnt, ppos)
+                local itemEnt = lp.posToItem(ppos)
+                if itemEnt and lp.curses.isCurse(itemEnt) then
+                    -- not allowed to spawn slots underneath curses!
+                    return false
+                end
+                return true
+            end,
             activate = function (selfEnt, ppos)
                 local etype = server.entities["lootplot.s0:" .. spawnSlot]
                 assert(etype, "?")
