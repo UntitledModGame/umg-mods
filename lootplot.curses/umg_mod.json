@@ -1,4 +1,4 @@
 {
     "type": "base",
-    "uses": ["lootplot"]
+    "uses": ["lootplot", "objects", "typecheck"]
 }

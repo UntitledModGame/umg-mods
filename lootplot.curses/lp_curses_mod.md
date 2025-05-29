@@ -26,14 +26,6 @@ IDEA: Have hardcoded "pools" of curses:
 
 
 Curse spawn types {
-    - Within(X): Must be spawned within X units of player's basic-slots
-        (if this isn't specified, defaults to Within(2))
-    - Above: Must be spawned ABOVE y=0
-    - Below: Must be spawned BELOW y=0
-    - Land: Must be spawned on land
-    - Air: Must be spawned midair
-    - Snap: Must be spawned next to a player's item
-    - Shop: Must be spawned next to shop
 }
 
 ^^^^ Spawn-types should be defined inside of `lp.curses` mod

@@ -1171,12 +1171,13 @@ local spawnTc = typecheck.assert("ppos", "any", "string")
 ---@param ppos lootplot.PPos
 ---@param itemEType EntityType
 ---@param team string
+---@param spawnMidair? boolean
 ---@return lootplot.ItemEntity?
-function lp.trySpawnItem(ppos, itemEType, team)
+function lp.trySpawnItem(ppos, itemEType, team, spawnMidair)
     spawnTc(ppos, itemEType, team)
     local preItem = lp.posToItem(ppos)
     if (not preItem) then
-        return lp.forceSpawnItem(ppos, itemEType, team)
+        return lp.forceSpawnItem(ppos, itemEType, team, spawnMidair)
     end
     return nil
 end
@@ -1185,12 +1186,17 @@ end
 ---@param ppos lootplot.PPos
 ---@param itemEType EntityType
 ---@param team string
+---@param spawnMidair? boolean
 ---@return lootplot.ItemEntity?
-function lp.forceSpawnItem(ppos, itemEType, team)
+function lp.forceSpawnItem(ppos, itemEType, team, spawnMidair)
     spawnTc(ppos, itemEType, team)
     local itemEnt = itemEType()
     assert(itemEnt.item, "forceSpawnItem MUST spawn an item entity!")
     itemEnt.lootplotTeam = team or "?"
+    if spawnMidair and (not lp.posToSlot(ppos)) then
+        -- if theres no slot, and spawnMidair is true, give item floaty
+        itemEnt.canItemFloat = true
+    end
     local prevItem = lp.posToItem(ppos)
     if prevItem then
         prevItem:delete()
