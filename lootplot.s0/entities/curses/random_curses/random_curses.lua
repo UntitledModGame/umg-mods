@@ -351,7 +351,7 @@ defCurse("cursed_coin", "Cursed Coin", {
 }, NO_SF)
 
 
-defCurse("injunction", "Injunction", {
+defCurse("mail_curse", "Mail Curse", {
     activateDescription = loc("20% chance to replace {lootplot:TRIGGER_COLOR}Pulse{/lootplot:TRIGGER_COLOR} trigger with {lootplot:TRIGGER_COLOR}Level-Up{/lootplot:TRIGGER_COLOR} on the closest item."),
     onActivate = function(ent)
         if lp.SEED:randomMisc() > 0.9 then
