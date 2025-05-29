@@ -14,7 +14,6 @@ components.defineComponent("curseCount")
 
 
 
-
 assert(not lp.curses, "you lil SHIT! dont overwrite my namespace")
 ---@class lootplot.curses
 local lp_curses = {}
@@ -209,6 +208,27 @@ function lp_curses.getCurseCount(plot, team)
     return count
 end
 
+
+
+if client then
+
+local CURSE_TAG = localization.localize("{lootplot.curses:COLOR}CURSE{/lootplot.curses:COLOR}")
+local h,s,v = objects.Color(lp_curses.COLOR):getHSV()
+
+local CURSE_COLOR_LIGHT = objects.Color(0,0,0,1)
+CURSE_COLOR_LIGHT:setHSV(h,s,v+0.3)
+
+text.defineEffect("lootplot.curses:COLOR", function(args, char)
+    char:setColor(CURSE_COLOR_LIGHT)
+end)
+
+umg.on("lootplot:populateDescriptionTags", function(ent, arr)
+    if lp.curses.isCurse(ent) then
+        arr:add(CURSE_TAG)
+    end
+end)
+
+end
 
 
 

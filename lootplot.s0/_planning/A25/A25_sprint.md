@@ -277,17 +277,8 @@ CURSE: Trophy Guardian: On the final level, spawn 3 random curses.
 (we should avoid spawning TOO many curses at start, avoid overwhelm player.)
 
 
-
-
-## =============================
-## TODO:
-## =============================
-
-
-
 - Emerald shop-slot:
 Spawns items and replaces Pulse-trigger with Reroll-trigger
-
 
 
 - Pink shop-slot:
@@ -296,6 +287,13 @@ Spawns items and gives them +3 lives
 
 - Purple shop-slot:
 Spawns items and gives them DOOMED-10
+
+
+
+
+## =============================
+## TODO:
+## =============================
 
 
 - Make it so starting-items are unlocked FASTER. 
