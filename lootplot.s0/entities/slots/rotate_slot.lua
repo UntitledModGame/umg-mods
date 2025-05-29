@@ -8,8 +8,6 @@ return lp.defineSlot("lootplot.s0:rotate_slot", {
     image = "rotate_slot",
     name = loc("Rotate Slot"),
 
-    dontPropagateTriggerToItem = true,
-
     triggers = {"PULSE"},
 
     rarity = lp.rarities.RARE,
