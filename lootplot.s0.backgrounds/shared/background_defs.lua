@@ -128,7 +128,7 @@ function aquaCtor()
         numberOfClouds = 100,
 
         backgroundColor = objects.Color("#" .. "FF11FFF7"),
-        cloudColor = objects.Color("#" .. "FF50FFF9"),
+        cloudColor = objects.Color("#" .. "FF83FFFB"),
     })
 end
 
@@ -214,7 +214,7 @@ lp.backgrounds.registerBackground("lootplot.s0.backgrounds:aqua_background", {
     constructor = aquaCtor,
     isUnlocked = winToUnlock(),
     icon = "aqua_cloud_background",
-    fogColor = objects.Color("#" .. "FF0CB4C7")
+    fogColor = objects.Color("#" .. "FFB6FAFF")
 })
 
 
