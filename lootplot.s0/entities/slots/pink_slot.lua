@@ -21,6 +21,8 @@ lp.defineSlot("lootplot.s0:purple_slot", {
     name = loc("Purple Slot"),
     activateDescription = loc("{lootplot:DOOMED_COLOR}DOOMED{/lootplot:DOOMED_COLOR} items are invincible on this slot!\n(But activations are capped at 1)"),
 
+    unlockAfterWins = 3,
+
     triggers = {"PULSE"},
     rarity = lp.rarities.RARE,
 
@@ -41,6 +43,8 @@ lp.defineSlot("lootplot.s0:invincibility_slot", {
     image = "invincibility_slot",
     name = loc("Invincibility Slot"),
     activateDescription = loc("items are invincible whilst on this slot!"),
+
+    unlockAfterWins = 3,
 
     triggers = {"PULSE"},
     rarity = lp.rarities.LEGENDARY,

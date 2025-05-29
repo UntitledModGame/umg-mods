@@ -273,13 +273,13 @@ NOTE: See `_enemy_spritesheet.png`
 `C:\_BUSINESS\LOOTPLOT\asset_packs\tiny-creatures`
 
 
+CURSE: Orca: On Pulse: Destroys a random FLOATY item.
 CURSE: Skeleton-cat: On Pulse: 10% chance to clone itself. Steal 50 points (KNIGHT)
 CURSE: Mushroom-wizard: 50% chance to spawn a Tentacle on a random empty-slot
 CURSE: Tentacle: -50 points
 CURSE: Cube slime: On Pulse: 30% chance to make a random item STUCK
 CURSE: Medusa: On Pulse: Transforms a random empty-slot into stone
 CURSE: Leprechaun: If money is greater than $200, spawn a curse
-CURSE: Orca: On Pulse: Destroys a random FLOATY item.
 
 CURSE: Stone-hand: On the final level, spawn 3 random curses.
 
@@ -307,12 +307,6 @@ Spawns items and gives them +3 lives
 
 - Purple shop-slot:
 Spawns items and gives them DOOMED-10
-
-
-- JOJO FEEDBACK:
-More items should have adjacency interactions.
-(For example axe-items, or scythe-items)
-^^^ this is what makes stuff interesting
 
 
 - Make it so after defeating S-ball, ALL starter-items are unlocked.
@@ -374,6 +368,14 @@ That'd be OP; we would be able to clear curses too easily.
 
 
 - Consider adding DOOMED tools? (Purple-color)
+
+
+- JOJO FEEDBACK:
+More items should have adjacency interactions.
+(For example axe-items, or scythe-items)
+^^^ this is what makes stuff interesting
+
+
 
 
 ## ADD NEW MUSIC

@@ -450,3 +450,21 @@ defCurse("broken_shield", "Broken Shield", {
 })
 
 
+defCurse("skeleton_cat", "Skeleton Cat", {
+    activateDescription = loc("Small chance to clone itself."),
+
+    shape = lp.targets.KNIGHT_SHAPE,
+
+    basePointsGenerated = -50,
+
+    target = {
+        type = "NO_ITEM",
+        activate = function(selfEnt, ppos, targEnt)
+            if lp.SEED:randomMisc() < 0.02 then
+                lp.forceCloneItem(selfEnt, ppos)
+            end
+        end
+    }
+})
+
+
