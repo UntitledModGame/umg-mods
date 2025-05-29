@@ -65,7 +65,9 @@ local function defineKettleCurse(comp, val, etype)
     etype[comp] = val
 
     if etype._stealPercentagePoints then
-        etype.activateDescription = loc("")
+        etype.activateDescription = loc("Reduces {lootplot:POINTS_COLOR}points{/lootplot:POINTS_COLOR} by %{percentage}%", {
+            percentage = etype._stealPercentagePoints
+        })
     end
 
     -- NOTE: this is extremely EXTREMELY HACKY.
@@ -96,11 +98,11 @@ defineKettleCurse("_stealPercentagePoints", 10)
 defineKettleCurse("baseMoneyGenerated", -1)
 defineKettleCurse("baseMoneyGenerated", -1, getRerollEtype())
 
-defineKettleCurse("baseMultGenerated", -0.3)
-defineKettleCurse("baseMultGenerated", -0.5)
-defineKettleCurse("baseMultGenerated", -0.9)
-defineKettleCurse("baseMultGenerated", -0.9, getRerollEtype())
-defineKettleCurse("baseMultGenerated", -0.5, getRerollEtype())
+defineKettleCurse("baseMultGenerated", -0.8)
+defineKettleCurse("baseMultGenerated", -1.5)
+defineKettleCurse("baseMultGenerated", -2.0)
+defineKettleCurse("baseMultGenerated", -0.8, getRerollEtype())
+defineKettleCurse("baseMultGenerated", -1.5, getRerollEtype())
 
 defineKettleCurse("baseBonusGenerated", -8)
 defineKettleCurse("baseBonusGenerated", -15)
