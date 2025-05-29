@@ -382,6 +382,28 @@ makeShopSlot("pink_shop_slot", "Pink Shop Slot", {
 
 
 
+makeShopSlot("purple_shop_slot", "Purple Shop Slot", {
+    activateDescription = loc("Spawns items to buy, and gives them {lootplot:DOOMED_COLOR}DOOMED-10{/lootplot:DOOMED_COLOR}"),
+    baseMaxActivations = 100,
+    itemReroller = generateItem,
+    itemSpawner = generateItem,
+    actionButtons = {
+        SHOP_BUTTON,
+        LOCK_REROLL_BUTTON
+    },
+
+    onPostActivate = function(ent)
+        local itemEnt = lp.slotToItem(ent)
+        if itemEnt then
+            itemEnt.doomCount = 10
+        end
+    end,
+    unlockAfterWins = 4,
+    rarity = lp.rarities.UNCOMMON
+})
+
+
+
 
 
 local function isFoodItem(etype)
