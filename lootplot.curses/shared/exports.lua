@@ -178,12 +178,6 @@ function lp_curses.spawnRandomCurse(plot, team, randomSampler, range)
         local ppos = table.random(candidates, randomSampler)
         ---@cast ppos lootplot.PPos
         local ent = lp.forceSpawnItem(ppos, server.entities[curseId], team, true)
-        if not ent then
-            -- WAT?
-            local midPoint = ppos:getPlot():getCenterPPos()
-            print("FAIL: ", midPoint:getDifference(ppos))
-            print("....: ", lp.posToSlot(ppos))
-        end
         return ent
     end
     return nil
