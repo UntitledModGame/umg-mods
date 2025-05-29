@@ -26,14 +26,14 @@ lp_curses.COLOR = {128/255, 17/255, 22/255}
 
 
 
-local entityTc = typecheck.assert("entity")
+local isCurseTc = typecheck.assert("table")
 
 --- Checks if an entity is a curse
----@param ent Entity
+---@param ent_or_etype Entity
 ---@return boolean
-function lp_curses.isCurse(ent)
-    entityTc(ent)
-    return ent.isCurse
+function lp_curses.isCurse(ent_or_etype)
+    isCurseTc(ent_or_etype)
+    return ent_or_etype.isCurse
 end
 
 

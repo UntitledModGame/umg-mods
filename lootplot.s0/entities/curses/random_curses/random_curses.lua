@@ -393,7 +393,7 @@ local function isFoodItem(ent)
 end
 
 defCurse("bubbling_goo", "Bubbling Goo", {
-    activateDescription = loc("On Pulse: Makes a random food-item STUCK."),
+    activateDescription = loc("Makes a random food-item STUCK."),
     onActivate = function(ent)
         local foodItems = getItems(ent, isFoodItem)
         executeRandom(foodItems, function(item)
@@ -505,7 +505,7 @@ do
 local MONEY_REQ = 300
 
 defCurse("leprechaun_curse", "Leprechaun Curse", {
-    activateDescription = loc("If money is greater than {lootplot:MONEY_COLOR}${moneyReq}{/lootplot:MONEY_COLOR}, spawn a curse", {
+    activateDescription = loc("If money is greater than {lootplot:MONEY_COLOR}$%{moneyReq}{/lootplot:MONEY_COLOR}, spawn a curse", {
         moneyReq = MONEY_REQ
     }),
 

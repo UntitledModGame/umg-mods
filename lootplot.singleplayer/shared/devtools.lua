@@ -458,6 +458,10 @@ local itemFilters = {
     all = function(etype) return true end,
     clear = function(etype) return false end,
 
+    curse = function (etype)
+        return lp.curses.isCurse(etype)
+    end,
+
     grubby = function (etype)
         return etype.grubMoneyCap or descriptionContains(etype, "grub")
     end,
