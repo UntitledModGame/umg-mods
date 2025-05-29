@@ -505,7 +505,7 @@ defCurse("medusa_curse", "Medusa Curse", {
 
 
 do
-local MONEY_REQ = 300
+local MONEY_REQ = 100
 
 defCurse("leprechaun_curse", "Leprechaun Curse", {
     activateDescription = loc("If money is greater than {lootplot:MONEY_COLOR}$%{moneyReq}{/lootplot:MONEY_COLOR}, spawn a curse", {

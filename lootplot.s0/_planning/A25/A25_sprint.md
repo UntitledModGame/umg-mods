@@ -263,22 +263,11 @@ CURSE: Skeleton-cat: On Pulse: 10% chance to clone itself. Steal 50 points (KNIG
 That'd be OP; we would be able to clear curses too easily.
 
 
-
-
-## =============================
-## TODO:
-## =============================
-
-
-
 SPIKE: Figure out how curse-spawning will work.
 (See `lp_curses_mod.md`)
 
-
 CURSE: Medusa: On Pulse: Transforms a random empty-slot into stone
 CURSE: Leprechaun: If money is greater than $200, spawn a curse
-
-
 
 CURSE: Stone-hand: After X activations, spawn Y new curses (CAN BE CONFIGURED)
 (^^^^ this guy should spawn at the start of most runs)
@@ -286,6 +275,13 @@ CURSE: Stone-hand: After X activations, spawn Y new curses (CAN BE CONFIGURED)
 CURSE: Trophy Guardian: On the final level, spawn 3 random curses.
 (^^^ this guy too)
 (we should avoid spawning TOO many curses at start, avoid overwhelm player.)
+
+
+
+
+## =============================
+## TODO:
+## =============================
 
 
 
