@@ -16,7 +16,7 @@ local constants = require("shared.constants")
 local loc = localization.localize
 local interp = localization.newInterpolator
 
-local function defCurse(id, name, etype)
+local function defCurse(id, name, etype, spawnBehaviour)
     etype = etype or {}
 
     etype.image = id
@@ -28,11 +28,10 @@ local function defCurse(id, name, etype)
     etype.triggers = etype.triggers or {"PULSE"}
     etype.baseMaxActivations = etype.baseMaxActivations or 4
 
-    if etype.canItemFloat == nil then
-        etype.canItemFloat = true
-    end
+    local curseId = "lootplot.s0:" .. (id)
+    lp.defineItem(curseId, etype)
 
-    lp.defineItem("lootplot.s0:" .. (id), etype)
+    lp.curses.addSpawnableCurse(curseId, spawnBehaviour)
 end
 
 
@@ -178,6 +177,10 @@ end
 
 
 
+NO_SF = {}
+FLOATY_SF = {}
+
+
 defCurse("cursed_slab", "Cursed Slab", {
     activateDescription = loc("10% chance to transform a random slot into a null-slot"),
 
@@ -193,7 +196,7 @@ defCurse("cursed_slab", "Cursed Slab", {
             end)
         end
     end
-})
+}, NO_SF)
 
 
 
@@ -209,7 +212,7 @@ defCurse("cursed_slot_dagger", "Cursed Slot Dagger", {
             slotEnt.doomCount = 20
         end)
     end
-})
+}, FLOATY_SF)
 
 
 
@@ -224,7 +227,7 @@ local function defTomb(id, name, description, type, func)
             type = type,
             activate = func
         }
-    })
+    }, NO_SF)
 end
 
 
@@ -280,7 +283,7 @@ defCurse("cursed_grubby_coins", "Cursed Grubby Coins", {
     triggers = {"LEVEL_UP"},
     grubMoneyCap = 40,
     basePointsGenerated = -10
-})
+}, NO_SF)
 
 
 
@@ -302,7 +305,7 @@ defCurse("golden_shivs", "Golden Shivs", {
             lp.destroy(closestItem)
         end
     end
-})
+}, FLOATY_SF)
 
 
 defCurse("golden_blocks", "Golden Blocks", {
@@ -321,7 +324,7 @@ defCurse("golden_blocks", "Golden Blocks", {
             lp.destroy(closestSlot)
         end
     end
-})
+}, FLOATY_SF)
 
 
 defCurse("bankers_helmet", "Bankers Helmet", {
@@ -332,7 +335,7 @@ defCurse("bankers_helmet", "Bankers Helmet", {
             lp.modifierBuff(targetItem, "moneyGenerated", -0.2)
         end)
     end
-})
+}, FLOATY_SF)
 
 
 
@@ -345,7 +348,7 @@ defCurse("cursed_coin", "Cursed Coin", {
             lp.addMoney(ent, -(otherCursesCount * 0.5))
         end
     end
-})
+}, NO_SF)
 
 
 defCurse("injunction", "Injunction", {
@@ -366,7 +369,7 @@ defCurse("injunction", "Injunction", {
             end
         end
     end,
-})
+}, FLOATY_SF)
 
 
 
@@ -385,7 +388,7 @@ defCurse("heart_leech", "Heart Leech", {
             subtractLives(slotEnt, 4)
         end
     end
-})
+}, NO_SF)
 
 
 local function isFoodItem(ent)
@@ -400,7 +403,7 @@ defCurse("bubbling_goo", "Bubbling Goo", {
             item.stuck = true
         end)
     end
-})
+}, NO_SF)
 
 
 
@@ -419,7 +422,7 @@ defCurse("glass_shard", "Glass Shard", {
             end
         end
     end
-})
+}, NO_SF)
 
 
 defCurse("cursed_life_potion", "Cursed Life Potion", {
@@ -430,7 +433,7 @@ defCurse("cursed_life_potion", "Cursed Life Potion", {
             item.lives = (item.lives or 0) + 2
         end)
     end
-})
+}, NO_SF)
 
 
 
@@ -448,7 +451,7 @@ defCurse("broken_shield", "Broken Shield", {
             lp.tryTriggerEntity("PULSE", targEnt)
         end
     }
-})
+}, NO_SF)
 
 
 defCurse("skeleton_cat", "Skeleton Cat", {
@@ -466,7 +469,7 @@ defCurse("skeleton_cat", "Skeleton Cat", {
             end
         end
     }
-})
+}, FLOATY_SF)
 
 
 
@@ -481,7 +484,7 @@ defCurse("orca_curse", "Orca Curse", {
             lp.destroy(itemEnt)
         end)
     end
-})
+}, FLOATY_SF)
 
 
 
@@ -496,7 +499,7 @@ defCurse("medusa_curse", "Medusa Curse", {
             lp.forceSpawnSlot(ppos, server.entities.stone_slot, e.lootplotTeam)
         end)
     end
-})
+}, FLOATY_SF)
 
 
 
@@ -511,10 +514,13 @@ defCurse("leprechaun_curse", "Leprechaun Curse", {
 
     onActivate = function (ent)
         if (lp.getMoney(ent) or 0) > MONEY_REQ then
-            -- SPAWN CURSE.
+            local ppos = lp.getPos(ent)
+            if ppos then
+                lp.curses.spawnRandomCurse(ppos:getPlot(), ent.lootplotTeam)
+            end
         end
     end
-})
+}, NO_SF)
 
 end
 

@@ -83,6 +83,32 @@ chat.handleCommand("spawnSlot", {
 
 
 
+
+chat.handleCommand("spawnCurses", {
+    adminLevel = 120,
+    arguments = {
+        {name = "count", type = "number"},
+    },
+    handler = function(clientId, count)
+        if not server then
+            return
+        end
+
+        for i=1, count do
+            local ppos = getPPos(clientId)
+            local team = assert(lp.getPlayerTeam(clientId))
+            local e = lp.curses.spawnRandomCurse(ppos:getPlot(), team)
+            if not e then
+                chat.privateMessage(clientId, "failed to spawn curse!")
+            end
+        end
+    end
+})
+
+
+
+
+
 chat.handleCommand("addMoney", {
     adminLevel = 120,
     arguments = {

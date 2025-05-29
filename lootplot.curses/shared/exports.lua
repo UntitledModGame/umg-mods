@@ -47,11 +47,11 @@ Below: Must be spawned BELOW y=0
 Shop: Must be spawned next to shop
 ]]
 local SPAWN_FILTERS = {
-    AIR = function(ppos)
+    FLOATY = function(ppos)
         return not lp.posToSlot(ppos)
     end,
 
-    LAND = function(ppos)
+    NON_FLOATY = function(ppos)
         return lp.posToSlot(ppos)
     end,
 
@@ -68,6 +68,32 @@ local SPAWN_FILTERS = {
     end,
 
     SHOP = function(ppos)
+        -- todo: this shit is untested
+        do
+            local p = ppos:move(-1,0)
+            local slot = p and lp.posToSlot(p)
+            if slot and slot:type() == "lootplot.s0:shop_slot" then
+                return true
+            end
+        end do
+            local p = ppos:move(-1,0)
+            local slot = p and lp.posToSlot(p)
+            if slot and slot:type() == "lootplot.s0:shop_slot" then
+                return true
+            end
+        end do
+            local p = ppos:move(-1,0)
+            local slot = p and lp.posToSlot(p)
+            if slot and slot:type() == "lootplot.s0:shop_slot" then
+                return true
+            end
+        end do
+            local p = ppos:move(-1,0)
+            local slot = p and lp.posToSlot(p)
+            if slot and slot:type() == "lootplot.s0:shop_slot" then
+                return true
+            end
+        end
     end
 }
 
@@ -95,6 +121,13 @@ local function isNormalishSlot(slotEnt)
     return (not slotEnt.buttonSlot) and (not slotEnt.dontPropagateTriggerToItem)
 end
 
+local function isFogRevealed(ppos, team)
+    return ppos:getPlot():isFogRevealed(ppos, team)
+end
+
+local function hasNoItem(ppos)
+    return not lp.posToItem(ppos)
+end
 
 
 local spawnRandomCurseTc = typecheck.assert("table", "string", "number?")
@@ -117,12 +150,14 @@ function lp_curses.spawnRandomCurse(plot, team, randomSampler, range)
 
     local candidates = objects.Set()
     plot:foreachSlot(function(slotEnt, ppos)
-        if isNormalishSlot(slotEnt) and (plot:isFogRevealed(ppos, team)) then
-            candidates:add(ppos)
+        if isNormalishSlot(slotEnt) and isFogRevealed(ppos, team) then
+            if hasNoItem(ppos) then
+                candidates:add(ppos)
+            end
             for dx=-range, range do
                 for dy=-range, range do
                     local pos2 = ppos:move(dx,dy)
-                    if pos2 then
+                    if pos2 and (not lp.posToSlot(pos2)) and isFogRevealed(pos2, team) and hasNoItem(pos2) then
                         candidates:add(pos2)
                     end
                 end
@@ -141,7 +176,15 @@ function lp_curses.spawnRandomCurse(plot, team, randomSampler, range)
 
     if #candidates > 0 then
         local ppos = table.random(candidates, randomSampler)
-        return lp.forceSpawnItem(ppos, server.entities[curseId], team, true)
+        ---@cast ppos lootplot.PPos
+        local ent = lp.forceSpawnItem(ppos, server.entities[curseId], team, true)
+        if not ent then
+            -- WAT?
+            local midPoint = ppos:getPlot():getCenterPPos()
+            print("FAIL: ", midPoint:getDifference(ppos))
+            print("....: ", lp.posToSlot(ppos))
+        end
+        return ent
     end
     return nil
 end

@@ -65,6 +65,17 @@ defCurse("contract_curse", "Contract Curse", {
 
 
 
+local function spawnCurses(ent, count)
+    local ppos = lp.getPos(ent)
+    if ppos then
+        for _=1, count do
+            lp.curses.spawnRandomCurse(ppos:getPlot(), ent.lootplotTeam)
+        end
+    end
+end
+
+
+
 do
 local DESC = interp("After %{X} activations, delete itself, and spawn %{Y} random curse(s)")
 
@@ -104,7 +115,8 @@ defCurse("stone_hand", "Stone Hand", {
 
     onActivate = function (ent)
         if ent.totalActivationCount > ent.stoneHand_activations then
-            -- SPAWN CURSE.
+            spawnCurses(ent, ent.stoneHand_curses)
+            ent:delete()
         end
     end
 })
@@ -123,11 +135,8 @@ defCurse("trophy_guardian", "Trophy Guardian", {
         local level = lp.getLevel(ent)
         local maxLevels = lp.getNumberOfLevels(ent)
         if level == maxLevels then
-            -- oh boy;  its TIME.
-            for _=1,NUM_CURSES do
-                -- SPAWN CURSES.
-            end
-            ent:delete() -- delete self
+            spawnCurses(ent, NUM_CURSES)
+            ent:delete()
         end
     end,
     isInvincible = function()
