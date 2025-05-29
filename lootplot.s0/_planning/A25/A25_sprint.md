@@ -325,7 +325,8 @@ Spawns items and gives them DOOMED-10
 - Remove 4-ball achievements
 
 
-## BAN curses: Tonnes of run-variance!!! (use contract-curse for this)
+## INJUNCTION curses: Tonnes of run-variance!!! (use contract-curse for this)
+## the player will START with one of these curses
 - Null-slots get turned to stone
 - Glass-slots get turned to stone
 - Slots that earn bonus or points get turned to stone
@@ -335,7 +336,8 @@ Spawns items and gives them DOOMED-10
 - All items that earn bonus get transformed into manure
 - All items that subtract bonus get transformed into manure
 - All items that earn money get transformed into manure
-- All items with destroy trigger get transformed into manure
+- All items with Destroy trigger get transformed into manure
+- All items with Rotate trigger get transformed into manure
 (^^^^ this can be made generic too!)
 
 
