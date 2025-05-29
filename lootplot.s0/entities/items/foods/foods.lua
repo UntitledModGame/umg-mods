@@ -1324,14 +1324,14 @@ definePotion("potion_sticky", {
 
 definePotion("potion_blue", {
     name = loc("Blue Potion"),
-    activateDescription = loc("Permanently buffs item/slots points by {lootplot:POINTS_COLOR}+10"),
+    activateDescription = loc("Permanently buffs item/slots points by {lootplot:POINTS_COLOR}+20"),
 
     rarity = lp.rarities.RARE,
 
     target = {
         type = "ITEM_OR_SLOT",
         activate = function (selfEnt, ppos, targetEnt)
-            lp.modifierBuff(targetEnt, "pointsGenerated", 10, selfEnt)
+            lp.modifierBuff(targetEnt, "pointsGenerated", 20, selfEnt)
         end
     }
 })
