@@ -14,6 +14,7 @@ They are usually just an annoyance; and wont ruin a run immediately.
 local constants = require("shared.constants")
 
 local loc = localization.localize
+local interp = localization.newInterpolator
 
 local function defCurse(id, name, etype)
     etype = etype or {}
@@ -276,7 +277,7 @@ end)
 
 
 defCurse("cursed_grubby_coins", "Cursed Grubby Coins", {
-    triggers = {"PULSE"},
+    triggers = {"LEVEL_UP"},
     grubMoneyCap = 40,
     basePointsGenerated = -10
 })
@@ -466,5 +467,123 @@ defCurse("skeleton_cat", "Skeleton Cat", {
         end
     }
 })
+
+
+
+defCurse("orca_curse", "Orca Curse", {
+    activateDescription = loc("Destroys a random {lootplot:INFO_COLOR}FLOATY{/lootplot:INFO_COLOR} item"),
+
+    onActivate = function (ent)
+        local items = getItems(ent, function (e, ppos)
+            return lp.canItemFloat(e)
+        end)
+        executeRandom(items, function(itemEnt)
+            lp.destroy(itemEnt)
+        end)
+    end
+})
+
+
+
+defCurse("medusa_curse", "Medusa Curse", {
+    activateDescription = loc("Transforms a random empty-slot into stone"),
+
+    onActivate = function (ent)
+        local slots = getSlotsNoButtons(ent, function (e, ppos)
+            return (not lp.posToItem(ppos))
+        end)
+        executeRandom(slots, function(e, ppos)
+            lp.forceSpawnSlot(ppos, server.entities.stone_slot, e.lootplotTeam)
+        end)
+    end
+})
+
+
+
+
+do
+local MONEY_REQ = 200
+
+defCurse("leprechaun_curse", "Leprechaun Curse", {
+    activateDescription = loc("If money is greater than {lootplot:MONEY_COLOR}${moneyReq}{/lootplot:MONEY_COLOR}, spawn a curse", {
+        moneyReq = MONEY_REQ
+    }),
+
+    onActivate = function (ent)
+        if (lp.getMoney(ent) or 0) > MONEY_REQ then
+            -- SPAWN CURSE.
+        end
+    end
+})
+
+end
+
+
+
+
+do
+local DESC = interp("After %{X} activations, delete itself, and spawn %{Y} curse(s)")
+
+local function drawDelayItemNumber(ent, delayCount)
+    local totActivs = (ent.totalActivationCount or 0)
+    local remaining = delayCount - totActivs
+    if totActivs > 0 then
+        local dx,dy=0,3 * math.sin(love.timer.getTime())
+        local txt = "{outline}" .. tostring(remaining)
+        local color = lp.COLORS.INFO_COLOR
+        love.graphics.push("all")
+        love.graphics.setColor(color)
+        local font = love.graphics.getFont()
+        text.printRichCentered(txt, font, ent.x+dx, ent.y+dy, 0xff, "center", 0, 1,1)
+        love.graphics.pop()
+    end
+end
+
+defCurse("stone_hand", "Stone Hand", {
+    init = function(ent)
+        ent.stoneHand_activations = 14
+        ent.stoneHand_curses = 2
+    end,
+    isInvincible = function()
+        return true
+    end,
+    description = function(ent)
+        return DESC({
+            X = math.max(0, ent.stoneHand_activations - ent.totalActivationCount),
+            Y = ent.stoneHand_curses
+        })
+    end,
+    triggers = {"PULSE"},
+
+    onDraw = function(ent)
+        local n = math.max(0, ent.stoneHand_activations - ent.totalActivationCount)
+        drawDelayItemNumber(ent, n)
+    end,
+
+    onActivate = function (ent)
+        if ent.totalActivationCount > ent.stoneHand_activations then
+            -- SPAWN CURSE.
+        end
+    end
+})
+end
+
+
+defCurse("trophy_guardian", "Trophy Guardian", {
+    description = loc("When the final level is reached, delete self, and spawn 4 random curses"),
+    triggers = {},
+
+    onUpdateServer = function (ent)
+        local level = lp.getLevel(ent)
+        local maxLevels = lp.getNumberOfLevels(ent)
+        if level == maxLevels then
+            -- oh boy;  its TIME.
+
+            -- SPAWN CURSES.
+            ent:delete() -- delete self
+        end
+    end
+})
+
 
 

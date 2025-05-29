@@ -256,6 +256,12 @@ CURSE: Cursed life potion: Give a random curse +2 lives
 CURSE: Broken shield: On Pulse: Trigger pulse on other curse items (KING-3)
 
 
+CURSE: Orca: On Pulse: Destroys a random FLOATY item.
+CURSE: Skeleton-cat: On Pulse: 10% chance to clone itself. Steal 50 points (KNIGHT)
+
+- Make it so slot-spawner items cant spawn slots below curses.
+That'd be OP; we would be able to clear curses too easily.
+
 
 
 
@@ -269,29 +275,17 @@ SPIKE: Figure out how curse-spawning will work.
 (See `lp_curses_mod.md`)
 
 
-NOTE: See `_enemy_spritesheet.png`
-`C:\_BUSINESS\LOOTPLOT\asset_packs\tiny-creatures`
-
-
-CURSE: Orca: On Pulse: Destroys a random FLOATY item.
-CURSE: Skeleton-cat: On Pulse: 10% chance to clone itself. Steal 50 points (KNIGHT)
-CURSE: Mushroom-wizard: 50% chance to spawn a Tentacle on a random empty-slot
-CURSE: Tentacle: -50 points
-CURSE: Cube slime: On Pulse: 30% chance to make a random item STUCK
 CURSE: Medusa: On Pulse: Transforms a random empty-slot into stone
 CURSE: Leprechaun: If money is greater than $200, spawn a curse
 
-CURSE: Stone-hand: On the final level, spawn 3 random curses.
 
-CURSE: Dark-wizard: After X activations, spawn Y new curses (CAN BE CONFIGURED)
+
+CURSE: Stone-hand: After X activations, spawn Y new curses (CAN BE CONFIGURED)
 (^^^^ this guy should spawn at the start of most runs)
+
+CURSE: Trophy Guardian: On the final level, spawn 3 random curses.
+(^^^ this guy too)
 (we should avoid spawning TOO many curses at start, avoid overwhelm player.)
-
-DO THESE LATER: (They need to be spawned in a special position to work)
-CURSE: Cursed purple balloon: On Buy, 30% chance to make purchased item DOOMED-5
-CURSE: Cursed purple balloon: On Buy, 30% chance to make purchased item DOOMED-5
-CURSE: Goblin glasses: When an item is purchased, steal $1 (QUEEN-3)
-
 
 
 
@@ -309,12 +303,9 @@ Spawns items and gives them +3 lives
 Spawns items and gives them DOOMED-10
 
 
-- Make it so after defeating S-ball, ALL starter-items are unlocked.
-Players dont wanna grind, man.
-
-
-- Make it so slot-spawner items cant spawn slots below curses.
-That'd be OP; we would be able to clear curses too easily.
+- Make it so starting-items are unlocked FASTER. 
+(after defeating S-ball, ALL starter-items should be unlocked.)
+(Players dont wanna grind, man.)
 
 
 - Create DAILY run:
@@ -433,4 +424,13 @@ https://youtu.be/s8nkrxzOBR4?feature=shared  NOTABLE SONGS:
 - IDEA:
 - Rare sack should have a 5% chance to spawn EPIC items
 - Uncommon sack should have a 5% chance to spawn RARE items
+
+
+DO THESE LATER: (They need to be spawned in a special position to work)
+CURSE: Cursed purple balloon: On Buy, 30% chance to make purchased item DOOMED-5
+CURSE: Cursed purple balloon: On Buy, 30% chance to make purchased item DOOMED-5
+CURSE: Goblin glasses: When an item is purchased, steal $1 (QUEEN-3)
+CURSE: Mushroom-wizard: 50% chance to spawn a Tentacle on a random empty-slot
+CURSE: Tentacle: -50 points
+CURSE: Cube slime: On Pulse: 30% chance to make a random item STUCK
 
