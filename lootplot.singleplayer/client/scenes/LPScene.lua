@@ -155,6 +155,10 @@ local function populateDescriptionBox(ent)
         -- HACK: dipping into rarities mod, even tho we dont have it as a dependency
         dbox:setBorderColor(ent.rarity.color)
     end
+    if lp.curses and lp.curses.isCurse(ent) then
+        -- HACK-2: dipping into curses mod, even tho we dont have it as a dependency
+        dbox:setBorderColor(lp.curses.COLOR)
+    end
 
     local title = "{wavy}"..lp.getEntityName(ent).." {/wavy}"
 

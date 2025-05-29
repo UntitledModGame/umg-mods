@@ -216,7 +216,7 @@ local CURSE_TAG = localization.localize("{lootplot.curses:COLOR}CURSE{/lootplot.
 local h,s,v = objects.Color(lp_curses.COLOR):getHSV()
 
 local CURSE_COLOR_LIGHT = objects.Color(0,0,0,1)
-CURSE_COLOR_LIGHT:setHSV(h,s,v+0.3)
+CURSE_COLOR_LIGHT:setHSV(h,s,v+0.25)
 
 text.defineEffect("lootplot.curses:COLOR", function(args, char)
     char:setColor(CURSE_COLOR_LIGHT)
