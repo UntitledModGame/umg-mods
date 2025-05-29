@@ -745,7 +745,7 @@ defineSlotSpawner("stone_fruit", "Stone fruit", "null_slot", "Null Slots", STONE
     basePrice = 6,
     basePointsGenerated = 25,
     canItemFloat = true,
-    rarity = lp.rarities.COMMON
+    rarity = lp.rarities.UNCOMMON
 })
 
 defineSlotSpawner("chocolate_square", "Chocolate Square", "null_slot", "Null Slots with keys inside", lp.targets.UpShape(1), {
@@ -777,7 +777,8 @@ local generateFoodItem = itemGenHelper.createLazyGenerator(
 defineSlotSpawner("sliced_stone_fruit", "Sliced Stone fruit", "null_slot", "a Null Slot with a food item", lp.targets.ON_SHAPE, {
     basePrice = 6,
     canItemFloat = true,
-    rarity = lp.rarities.UNCOMMON
+    basePointsGenerated = 30,
+    rarity = lp.rarities.COMMON
 }, function(slotEnt)
     local itemId = generateFoodItem()
     local etype = server.entities[itemId]
