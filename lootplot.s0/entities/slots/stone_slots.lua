@@ -52,7 +52,7 @@ lp.defineSlot("lootplot.s0:auto_stone_slot", {
         end
 
         -- todo: is this a good value? I think its "fine"
-        ent.lives = lp.SEED:randomMisc(8,20)
+        ent.lives = lp.SEED:randomMisc(28,34)
     end,
 
     canAddItemToSlot = function()
