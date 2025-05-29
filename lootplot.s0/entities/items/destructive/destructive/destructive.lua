@@ -209,7 +209,7 @@ defDestructive("water_sword", "Water Sword", {
     baseMaxActivations = 10,
     baseBonusGenerated = 15,
 
-    rarity = lp.rarities.RARE,
+    rarity = lp.rarities.EPIC,
     shape = lp.targets.RookShape(3),
 
     activateDescription = loc("Destroys items."),
@@ -229,9 +229,7 @@ defDestructive("lava_sword", "Lava Sword", {
     baseMaxActivations = 5,
     baseMultGenerated = 1,
 
-    repeatActivations = true,
-
-    rarity = lp.rarities.RARE,
+    rarity = lp.rarities.EPIC,
     shape = lp.targets.RookShape(3),
 
     activateDescription = loc("Destroys items."),
