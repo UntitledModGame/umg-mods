@@ -1064,6 +1064,9 @@ tutorialSections:add(function(tutEnt)
     wg.spawnSlots(assert(pos:move(-3,1)), server.entities.food_shop_slot, 1,1, team)
     wg.spawnSlots(assert(pos:move(-4,0)), server.entities.reroll_button_slot, 1,1, team)
 
+    -- sell slot:
+    wg.spawnSlots(assert(pos:move(0,3)), server.entities.sell_slot, 1,1, team)
+
     -- pulse/level buttons
     lp.forceSpawnSlot(assert(pos:move(-1,-3)), server.entities.pulse_button_slot, team)
     lp.forceSpawnSlot(assert(pos:move(1,-3)), server.entities.tutorial_next_level_button_slot, team)

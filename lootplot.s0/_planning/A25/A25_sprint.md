@@ -296,11 +296,6 @@ Spawns items and gives them DOOMED-10
 ## =============================
 
 
-- Make it so starting-items are unlocked FASTER. 
-(after defeating S-ball, ALL starter-items should be unlocked.)
-(Players dont wanna grind, man.)
-
-
 - Create DAILY run:
 - Randomize shop (Start with custom/special shop slots)
     - discounted-shop, all prices 50% off
@@ -330,7 +325,24 @@ Spawns items and gives them DOOMED-10
 - Remove 4-ball achievements
 
 
-- New item: Interdimensional-eye: Subtracts 50 Bonus, Earns +4 mult
+## BAN curses: Tonnes of run-variance!!! (use contract-curse for this)
+- Null-slots get turned to stone
+- Glass-slots get turned to stone
+- Slots that earn bonus or points get turned to stone
+- All pies and gloves get transformed into manure
+- All Repeater items get transformed into manure
+- All Grubby items get transformed into manure
+- All items that earn bonus get transformed into manure
+- All items that subtract bonus get transformed into manure
+- All items that earn money get transformed into manure
+- All items with destroy trigger get transformed into manure
+(^^^^ this can be made generic too!)
+
+
+- Make it so starting-items are unlocked FASTER. 
+(after defeating S-ball, ALL starter-items should be unlocked.)
+(Players dont wanna grind, man.)
+
 
 
 - Make L-Ball better and more exciting; (its really boring currently)
@@ -412,6 +424,9 @@ https://youtu.be/s8nkrxzOBR4?feature=shared  NOTABLE SONGS:
 
 - Create popup text saying "LEVEL {X} PASSED!"
 - Play a cool sound when progressing to next level
+
+
+- New item: Interdimensional-eye: Subtracts 50 Bonus, Earns +4 mult
 
 
 - IDEA:

@@ -811,3 +811,35 @@ defineStartingItem("bowling_ball", {
 })
 
 
+
+
+
+
+do
+
+local function generateStructure(seed)
+
+end
+
+
+
+defineStartingItem("basketball", {
+    name = loc("Daily Run"),
+    description = loc("Randomized daily!"),
+
+    isEntityTypeUnlocked = winToUnlock(),
+
+    onActivateOnce = function(ent)
+        spawnDailyShop(ent)
+
+        spawnMainIsland(ent)
+        spawnNeutralScenario(ent)
+
+        spawnMysterySlots(ent)
+
+        spawnCurses(ent)
+    end
+})
+
+end
+
