@@ -502,7 +502,7 @@ defCurse("medusa_curse", "Medusa Curse", {
 
 
 do
-local MONEY_REQ = 200
+local MONEY_REQ = 300
 
 defCurse("leprechaun_curse", "Leprechaun Curse", {
     activateDescription = loc("If money is greater than {lootplot:MONEY_COLOR}${moneyReq}{/lootplot:MONEY_COLOR}, spawn a curse", {
@@ -522,21 +522,18 @@ end
 
 
 do
-local DESC = interp("After %{X} activations, delete itself, and spawn %{Y} curse(s)")
+local DESC = interp("After %{X} activations, delete itself, and spawn %{Y} random curse(s)")
 
-local function drawDelayItemNumber(ent, delayCount)
-    local totActivs = (ent.totalActivationCount or 0)
-    local remaining = delayCount - totActivs
-    if totActivs > 0 then
-        local dx,dy=0,3 * math.sin(love.timer.getTime())
-        local txt = "{outline}" .. tostring(remaining)
-        local color = lp.COLORS.INFO_COLOR
-        love.graphics.push("all")
-        love.graphics.setColor(color)
-        local font = love.graphics.getFont()
-        text.printRichCentered(txt, font, ent.x+dx, ent.y+dy, 0xff, "center", 0, 1,1)
-        love.graphics.pop()
-    end
+local function drawDelayItemNumber(ent, remaining)
+    local dx,dy=0,3 * math.sin(love.timer.getTime())
+    local txt = "{outline}" .. tostring(remaining)
+    local color = lp.COLORS.INFO_COLOR
+    love.graphics.push("all")
+    love.graphics.setColor(color)
+    local font = love.graphics.getFont()
+    local lim = 0xc
+    text.printRich(txt, font, ent.x+dx-math.floor(lim/2), ent.y+dy, lim, "center", 0, 1,1)
+    love.graphics.pop()
 end
 
 defCurse("stone_hand", "Stone Hand", {
@@ -547,16 +544,17 @@ defCurse("stone_hand", "Stone Hand", {
     isInvincible = function()
         return true
     end,
-    description = function(ent)
+
+    triggers = {"PULSE"},
+    activateDescription = function(ent)
         return DESC({
-            X = math.max(0, ent.stoneHand_activations - ent.totalActivationCount),
+            X = math.max(0, ent.stoneHand_activations - (ent.totalActivationCount or 0)),
             Y = ent.stoneHand_curses
         })
     end,
-    triggers = {"PULSE"},
 
     onDraw = function(ent)
-        local n = math.max(0, ent.stoneHand_activations - ent.totalActivationCount)
+        local n = math.max(0, ent.stoneHand_activations - (ent.totalActivationCount or 0))
         drawDelayItemNumber(ent, n)
     end,
 
@@ -569,8 +567,12 @@ defCurse("stone_hand", "Stone Hand", {
 end
 
 
+do
+local NUM_CURSES = 4
 defCurse("trophy_guardian", "Trophy Guardian", {
-    description = loc("When the final level is reached, delete self, and spawn 4 random curses"),
+    description = loc("When the final level is reached, delete self, and spawn %{n} random curses", {
+        n = NUM_CURSES
+    }),
     triggers = {},
 
     onUpdateServer = function (ent)
@@ -578,12 +580,17 @@ defCurse("trophy_guardian", "Trophy Guardian", {
         local maxLevels = lp.getNumberOfLevels(ent)
         if level == maxLevels then
             -- oh boy;  its TIME.
-
-            -- SPAWN CURSES.
+            for _=1,NUM_CURSES do
+                -- SPAWN CURSES.
+            end
             ent:delete() -- delete self
         end
+    end,
+    isInvincible = function()
+        return true
     end
 })
 
+end
 
 
