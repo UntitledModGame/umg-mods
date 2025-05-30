@@ -296,7 +296,8 @@ Spawns items and gives them DOOMED-10
 ## =============================
 
 
-- Create DAILY run:
+- Create DAILY run: 
+### (See `DAILY_RUN.md` for notes!!!)
 - Randomize shop (Start with custom/special shop slots)
     - discounted-shop, all prices 50% off
     - pink-shop-slot, green-shop-slot

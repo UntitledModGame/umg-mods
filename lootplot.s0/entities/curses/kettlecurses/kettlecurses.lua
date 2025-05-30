@@ -24,17 +24,20 @@ local function printCentered(text, x, y, rot, sx, sy, oy, kx, ky)
 end
 
 
+local function tostr(x)
+    return tostring(math.floor(x))
+end
 
 local function drawKettleText(ent, x,y,rot, sx,sy,kx,ky)
     local txt, color
     if (ent.moneyGenerated or 0) < 0 then
         txt, color = "$", lp.COLORS.MONEY_COLOR
     elseif (ent.multGenerated or 0) < 0 then
-        txt, color = tostring(-ent.multGenerated), lp.COLORS.POINTS_MULT_COLOR
+        txt, color = tostr(-ent.multGenerated), lp.COLORS.POINTS_MULT_COLOR
     elseif (ent.bonusGenerated or 0) < 0 then
-        txt, color = tostring(-ent.bonusGenerated), lp.COLORS.BONUS_COLOR
+        txt, color = tostr(-ent.bonusGenerated), lp.COLORS.BONUS_COLOR
     elseif (ent._stealPercentagePoints or 0) > 0 then
-        txt, color = tostring(ent._stealPercentagePoints), lp.COLORS.POINTS_COLOR
+        txt, color = tostr(ent._stealPercentagePoints), lp.COLORS.POINTS_COLOR
     else
         return
     end
@@ -47,7 +50,7 @@ end
 
 local i = 0
 
-local function defineKettleCurse(comp, val, etype)
+local function defineKettleCurse(comp, val, etype, spawnFilters)
     etype = etype or {}
 
     etype.isCurse = 1
@@ -62,6 +65,23 @@ local function defineKettleCurse(comp, val, etype)
 
     etype.onDraw = drawKettleText
 
+    local function scaleWithLevel(ent)
+        local lv = ((lp.getLevel(ent) or 1)-1)
+        local scale = math.max(1, (lv*lv)/3)
+        return scale
+    end
+
+    etype.lootplotProperties = {
+        multipliers = {
+            multGenerated = scaleWithLevel,
+            bonusGenerated = scaleWithLevel,
+        },
+        maximums = {
+            multGenerated = 0,
+            bonusGenerated = 0,
+        }
+    }
+
     etype[comp] = val
 
     if etype._stealPercentagePoints then
@@ -75,7 +95,10 @@ local function defineKettleCurse(comp, val, etype)
     -- then kettlecurse_4's type will be replaced with kettlecurse_5's type next time deser.
     -- oh *well*, its not toooooo big of a deal.
     i = i + 1
-    lp.defineItem("lootplot.s0:kettlecurse_" .. tostring(i), etype)
+    local curseId = "lootplot.s0:kettlecurse_" .. tostring(i)
+    lp.defineItem(curseId, etype)
+
+    lp.curses.addSpawnableCurse(curseId, spawnFilters)
 end
 
 
@@ -89,22 +112,26 @@ local function getRerollEtype()
 end
 
 
-defineKettleCurse("_stealPercentagePoints", 3)
-defineKettleCurse("_stealPercentagePoints", 5)
-defineKettleCurse("_stealPercentagePoints", 8)
-defineKettleCurse("_stealPercentagePoints", 10)
+local ABOVE = {"ABOVE"}
+local BELOW = {"BELOW"}
+local ANY = {}
+
+defineKettleCurse("_stealPercentagePoints", 3, nil, ANY)
+defineKettleCurse("_stealPercentagePoints", 5, nil, ANY)
+defineKettleCurse("_stealPercentagePoints", 8, nil, ANY)
+defineKettleCurse("_stealPercentagePoints", 10, nil, ANY)
 
 
-defineKettleCurse("baseMoneyGenerated", -1)
-defineKettleCurse("baseMoneyGenerated", -1, getRerollEtype())
+defineKettleCurse("baseMoneyGenerated", -1, nil, ANY)
+defineKettleCurse("baseMoneyGenerated", -1, getRerollEtype(), ANY)
 
-defineKettleCurse("baseMultGenerated", -0.8)
-defineKettleCurse("baseMultGenerated", -1.5)
-defineKettleCurse("baseMultGenerated", -2.0)
-defineKettleCurse("baseMultGenerated", -0.8, getRerollEtype())
-defineKettleCurse("baseMultGenerated", -1.5, getRerollEtype())
+defineKettleCurse("baseMultGenerated", -0.8, nil, BELOW)
+defineKettleCurse("baseMultGenerated", -1.5, nil, BELOW)
+defineKettleCurse("baseMultGenerated", -2.0, nil, BELOW)
+defineKettleCurse("baseMultGenerated", -0.8, getRerollEtype(), BELOW)
+defineKettleCurse("baseMultGenerated", -1.5, getRerollEtype(), BELOW)
 
-defineKettleCurse("baseBonusGenerated", -8)
-defineKettleCurse("baseBonusGenerated", -15)
-defineKettleCurse("baseBonusGenerated", -10, getRerollEtype())
+defineKettleCurse("baseBonusGenerated", -5, nil, BELOW)
+defineKettleCurse("baseBonusGenerated", -10, nil, BELOW)
+defineKettleCurse("baseBonusGenerated", -7, getRerollEtype(), BELOW)
 

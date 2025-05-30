@@ -178,7 +178,7 @@ end
 
 
 NO_SF = {}
-FLOATY_SF = {}
+FLOATY_SF = {"FLOATY"}
 
 
 defCurse("cursed_slab", "Cursed Slab", {

@@ -166,7 +166,8 @@ function lp_curses.spawnRandomCurse(plot, team, randomSampler, range)
 
     candidates = candidates:filter(function(ppos)
         for _,sf in ipairs(spawnFilters) do
-            if not sf(ppos) then
+            local func = SPAWN_FILTERS[sf]
+            if not func(ppos) then
                 return false
             end
         end
