@@ -187,7 +187,7 @@ defCurse("cursed_slab", "Cursed Slab", {
     triggers = {"PULSE"},
     onActivate = function(ent)
         local pos, team = getPosTeam(ent)
-        if lp.SEED:randomMisc() then
+        if lp.SEED:randomMisc() <= 0.1 then
             local slots = getSlotsNoButtons(ent, function(e)
                 return e:type() ~= "lootplot.s0:null_slot"
             end)
