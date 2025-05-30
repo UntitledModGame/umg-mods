@@ -41,8 +41,8 @@ end
 Within(X): Must be spawned within X units of player's basic-slots
 AIR: spawn midair
 LAND: spawn on land
-Above: Must be spawned ABOVE y=0
-Below: Must be spawned BELOW y=0
+Above: Must be spawned ABOVE stuff
+Below: Must be spawned BELOW stuff
 Shop: Must be spawned next to shop
 ]]
 local SPAWN_FILTERS = {
@@ -57,13 +57,15 @@ local SPAWN_FILTERS = {
     ---@param ppos lootplot.PPos
     ---@return boolean
     ABOVE = function(ppos)
-        local _,y = ppos:getCoords()
-        return y < -1
+        local midPoint = ppos:getPlot():getCenterPPos()
+        local _,dy = midPoint:getDifference(ppos)
+        return dy < -1
     end,
 
     BELOW = function(ppos)
-        local _,y = ppos:getCoords()
-        return y > 1
+        local midPoint = ppos:getPlot():getCenterPPos()
+        local _,dy = midPoint:getDifference(ppos)
+        return dy > 1
     end,
 
     SHOP = function(ppos)
