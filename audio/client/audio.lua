@@ -241,17 +241,21 @@ function audio.play(name, args)
     local template = definedAudios[name]
     local volume = (args.volume or 1) * template:getVolume() * audio.getVolume(name, source, args.entity)
     local pitch = (args.pitch or 1) * template:getPitch() * audio.getPitch(name, source, args.entity)
+    if pitch == 0 then
+        -- this can happen if there are so valid audio devices
+        pitch = 1
+    end
 
     source:setVolume(volume)
     source:setPitch(pitch)
 
-    if EFFECT_SUPPORTED and args.effects then
+    if love.audio.isEffectsSupported() and args.effects then
         for k, v in pairs(args.effects) do
             source:setEffect(k, v)
         end
     end
 
-    if EFFECT_SUPPORTED and args.filter then
+    if love.audio.isEffectsSupported() and args.filter then
         source:setFilter(args.filter)
     end
 
@@ -278,17 +282,6 @@ function audio.updateSource(name, source, ent)
     source:setPitch(pitch)
 end
 
-
-
----Check if audio effects are supported.
----
----If audio effects are not supported, calls to `Source:setEffect()` and `Source:setFilter()` result in undefined
----behavior.
----@return boolean
----@nodiscard
-function audio.canUseEffect()
-    return EFFECT_SUPPORTED
-end
 
 ---Retrieve the volume of the audio using question bus.
 ---@param name string Valid audio name.
@@ -352,7 +345,7 @@ function audio.resetSource(source)
         source:setVelocity(0, 0, 0)
     end
 
-    if audio.canUseEffect() then
+    if love.audio.isEffectsSupported() then
         for _, e in ipairs(source:getActiveEffects()) do
             source:setEffect(e, false)
         end
