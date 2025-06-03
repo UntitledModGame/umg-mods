@@ -387,7 +387,7 @@ function fillSpecial(ppos, team, seed)
             local etyp = exoticSlots:query()
             lp.forceSpawnSlot(pp, etyp, team)
         end
-    elseif r < 0.75 then
+    elseif r < 0.6 then
         -- null-slots with items on them
         wg.spawnSlots(ppos, server.entities.null_slot, 3,3, team, function(ent)
             local pos = assert(lp.getPos(ent))
@@ -401,6 +401,11 @@ function fillSpecial(ppos, team, seed)
                 end
             end
         end)
+    elseif r < 0.7 then
+        -- stone-slots surrouding a slot
+        wg.spawnSlots(ppos, server.entities.stone_slot, 3,3, team)
+        local slotType = exoticSlots:query()
+        lp.forceSpawnSlot(ppos, slotType, team)
     else
         local pposes = sprawlPPoses(ppos, 1,1, 3, rgen)
         for _, pp in ipairs(pposes) do
