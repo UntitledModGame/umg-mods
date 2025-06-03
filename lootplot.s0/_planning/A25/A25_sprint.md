@@ -309,9 +309,11 @@ Spawns items and gives them DOOMED-10
 - All items that earn money get transformed into manure
 - All items with Destroy trigger get transformed into manure
 - All items with Rotate trigger get transformed into manure
+- Subtract -1 activations from ALL items (cannot go below 1)
 - If an item's shape was changed, destroy it
-- All items with a modified {targetCol}shape{/targetCol} get transformed into manure
-- All items that have had their shape changed are destroyed
+- All items with a modified {col}shape{/col} get transformed into manure
+- All items with modified {col}triggers{/col} get transformed into manure
+
 (^^^^ this can be made generic too!)
 
 

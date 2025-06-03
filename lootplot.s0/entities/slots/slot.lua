@@ -7,6 +7,11 @@ local loc = localization.localize
 local function onUpdateClient(ent)
     local hasRerollTrigger = lp.hasTrigger(ent, "REROLL")
     local hasPulseTrigger = lp.hasTrigger(ent, "PULSE")
+    local hasLevelTrigger = lp.hasTrigger(ent, "LEVEL_UP")
+
+    if hasLevelTrigger then
+        ent.image = "slot_basic_red"
+    end
 
     if hasRerollTrigger then
         if hasPulseTrigger then
