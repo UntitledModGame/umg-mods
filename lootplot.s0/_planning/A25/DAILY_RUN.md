@@ -72,7 +72,6 @@ Special island:
 - Cat slot
 - Null-slots containing random foods/sacks
 - Doomed income-slots
-- Doomed income-slots
 
 
 
