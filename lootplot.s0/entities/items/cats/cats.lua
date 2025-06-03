@@ -229,7 +229,7 @@ defineCat("pink_cat", {
 
     activateDescription = loc("Copies self into target slots"),
 
-    basePrice = 6,
+    basePrice = 0,
     baseMaxActivations = 15,
 
     onDraw = function(ent)
