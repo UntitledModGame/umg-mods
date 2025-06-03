@@ -92,22 +92,21 @@ end
 
 
 defItem("spear_of_war", "Spear of War", {
-    activateDescription = loc("Generates points equal to the current combo"),
+    activateDescription = loc("Generates {lootplot:POINTS_MULT_COLOR}multiplier{/lootplot:POINTS_MULT_COLOR} equal to the current combo"),
 
     unlockAfterWins = 4,
 
     rarity = lp.rarities.EPIC,
     triggers = {"PULSE"},
 
-    baseMaxActivations = 25,
-    basePointsGenerated = 1,
-    basePrice = 9,
+    baseMaxActivations = 6,
+    baseMoneyGenerated = -1,
+    basePrice = 19,
 
     onActivate = function(ent)
         local combo = lp.getCombo(ent)
         if combo then
-            local p, mod, mult = properties.computeProperty(ent, "pointsGenerated")
-            lp.addPoints(ent, combo * mult)
+            lp.addPointsMult(ent, combo)
         end
     end
 })
