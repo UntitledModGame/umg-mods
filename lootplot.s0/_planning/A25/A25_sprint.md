@@ -356,6 +356,8 @@ Spawns items and gives them DOOMED-10
 
 
 - Make L-Ball better and more exciting; (its really boring currently)
+(Maybe a hybrid lives/price archetype...?)
+(Also maybe it should spawn with a special INJUNCTION curse)
 
 
 - Fix load save crash  https://discord.com/channels/863625920991854602/1374371590778916894/1374371590778916894
