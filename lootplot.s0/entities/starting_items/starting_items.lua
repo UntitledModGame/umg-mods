@@ -5,6 +5,8 @@ local wg = lp.worldgen
 
 local constants = require("shared.constants")
 
+local daily = require("entities.starting_items.daily_run")
+
 
 --[[
 we need to make sure tutorial-cat is loaded first,
@@ -830,6 +832,9 @@ defineStartingItem("basketball", {
     isEntityTypeUnlocked = winToUnlock(),
 
     onActivateOnce = function(ent)
+        local ppos,team = getPosTeam(ent)
+        daily.generate(ppos:getPlot(), team, 1, 1)
+        --[[
         spawnDailyShop(ent)
 
         spawnMainIsland(ent)
@@ -838,6 +843,7 @@ defineStartingItem("basketball", {
         spawnMysterySlots(ent)
 
         spawnCurses(ent)
+        ]]
     end
 })
 

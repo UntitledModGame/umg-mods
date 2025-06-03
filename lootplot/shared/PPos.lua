@@ -64,9 +64,6 @@ function PPos:move(dx, dy)
 end
 
 
----It's quite "bad" to create a bunch of garbage like this....
----But I dont forsee this game becoming heavy performance-wise.
----So its gonna slide for now.
 ---@param n integer
 ---@return lootplot.PPos?
 function PPos:up(n)
