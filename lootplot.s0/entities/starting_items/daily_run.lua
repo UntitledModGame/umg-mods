@@ -74,7 +74,7 @@ local function getShopLayout(ppos, rgen)
     arr:add({
         normal = genSlots(ppos, 1,-1, 2,1),
         food = genSlots(ppos, 1,1, 1,1),
-        reroll = genSlots(ppos, 0,0, 3,1),
+        reroll = {ppos:move(-1,0), ppos:move(1,0)},
     })
 
     -- reroll-slot surrounded by shop
@@ -160,8 +160,13 @@ end
 
 
 
-local function mutateRandomly(e, rgen)
-    local SCALE = 1.3
+---@param e Entity the slot-ent to be modified
+---@param rgen love.RandomGenerator
+---@param normalChance? number The chance that the slot should be left unchanged.
+local function mutateRandomly(e, rgen, normalChance)
+    normalChance = normalChance or 0
+    local MAX_PROB = 0.65
+    local SCALE = (MAX_PROB + (normalChance*MAX_PROB))
     local r = rgen:random() * SCALE
     local r2 = rgen:random() * SCALE
 
@@ -172,12 +177,12 @@ local function mutateRandomly(e, rgen)
     elseif r < 0.3 then
         lp.modifierBuff(e, "multGenerated", 1)
     elseif r < 0.4 then
-        lp.modifierBuff(e, "multGenerated", -1)
+        lp.modifierBuff(e, "moneyGenerated", -0.3)
     elseif r < 0.5 then
-        lp.modifierBuff(e, "multGenerated", -1)
+        lp.modifierBuff(e, "multGenerated", -0.3)
     elseif r < 0.6 then
         lp.modifierBuff(e, "pointsGenerated", 50)
-    elseif r < 0.65 then
+    elseif r < MAX_PROB then
         lp.modifierBuff(e, "moneyGenerated", 0.4)
     end
 
@@ -218,15 +223,15 @@ function fillShop(shop, team, seed)
     for _, pp in ipairs(shop.normal) do
         local etype = normalShop:query()
         local e = lp.forceSpawnSlot(pp, etype, team)
-        if e then mutateRandomly(e, rgen) end
+        if e then mutateRandomly(e, rgen, 0.6) end
     end
     for _, pp in ipairs(shop.reroll) do
         local e = lp.forceSpawnSlot(pp, server.entities.reroll_button_slot, team)
-        if e then mutateRandomly(e, rgen) end
+        if e then mutateRandomly(e, rgen, 0.8) end
     end
     for _, pp in ipairs(shop.food) do
         local e = lp.forceSpawnSlot(pp, server.entities.food_shop_slot, team)
-        if e then mutateRandomly(e, rgen) end
+        if e then mutateRandomly(e, rgen, 0.7) end
     end
 end
 end
@@ -243,8 +248,8 @@ if server then
 umg.on("@load", 10, function()
     local ents = server.entities
     exoticSlots = generation.Generator()
-        :add(ents.cat_slot, 0.4)
-        :add(ents.rulebender_slot, 0.4)
+        :add(ents.cat_slot, 0.3)
+        :add(ents.rulebender_slot, 0.3)
         :add(ents.pink_slot, 0.4)
         :add(ents.diamond_slot, 0.4)
         :add(ents.ruby_slot, 0.4)
@@ -303,10 +308,11 @@ function fillMain(ppos, team, seed)
         lp.forceSpawnSlot(ppos, etype, team)
     else
         -- "scattered" 3x3 normal island
-        local NUM_NORMAL_SLOTS = math.floor(7 + rgen:random() * 3)
+        local NUM_NORMAL_SLOTS = math.floor(4 + rgen:random() * 3)
         for i, pp in ipairs(sprawlPPoses(ppos, 2, 1, NUM_NORMAL_SLOTS, rgen)) do
             local etype = normalSlots:query()
-            lp.forceSpawnSlot(pp, etype, team)
+            local e = lp.forceSpawnSlot(pp, etype, team)
+            mutateRandomly(e, rgen, 0.7)
         end
     end
 end
