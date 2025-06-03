@@ -304,7 +304,7 @@ function fillMain(ppos, team, seed)
     else
         -- "scattered" 3x3 normal island
         local NUM_NORMAL_SLOTS = math.floor(7 + rgen:random() * 3)
-        for i, pp in ipairs(sprawlPPoses(ppos, 1, 2, NUM_NORMAL_SLOTS, rgen)) do
+        for i, pp in ipairs(sprawlPPoses(ppos, 2, 1, NUM_NORMAL_SLOTS, rgen)) do
             local etype = normalSlots:query()
             lp.forceSpawnSlot(pp, etype, team)
         end
@@ -382,14 +382,34 @@ function fillSpecial(ppos, team, seed)
         end
     elseif r < 0.75 then
         -- null-slots with items on them
-        local etype = exoticSlots:query()
         wg.spawnSlots(ppos, server.entities.null_slot, 3,3, team, function(ent)
-            if rgen:random() < 0.3 then
+            local pos = assert(lp.getPos(ent))
+            local r1 = rgen:random()
+            if r1 < 0.3 then
                 ent.doomCount = 6
+            elseif r1 < 0.5 then
+                local itemType = lp.rarities.randomItemOfRarity(lp.rarities.RARE)
+                if itemType then
+                    lp.forceSpawnItem(pos, itemType, team)
+                end
             end
         end)
     else
-
+        local pposes = sprawlPPoses(ppos, 1,1, 3, rgen)
+        for _, pp in ipairs(pposes) do
+            lp.trySpawnSlot(pp, server.entities.slot, team)
+            local itemType = lp.rarities.randomItemOfRarity(lp.rarities.RARE, function(entry, weight)
+                local etype = server.entities[entry]
+                if etype.foodItem then
+                    return 0
+                end
+                return 1
+            end)
+            local e = itemType and lp.forceSpawnItem(pp, itemType, team)
+            if e then
+                e.stuck = true
+            end
+        end
     end
 end
 
