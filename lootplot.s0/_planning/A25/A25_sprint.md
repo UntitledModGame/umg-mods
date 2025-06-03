@@ -302,15 +302,14 @@ Spawns items and gives them DOOMED-10
 - Null-slots get turned to stone
 - Glass-slots get turned to stone
 - Slots that earn bonus or points get turned to stone
-- All Repeater items get transformed into manure
-- All Grubby items get transformed into manure
+- All items with Repeater get transformed into manure
+- All items with Grubby get transformed into manure
 - All items that earn bonus get transformed into manure
 - All items that subtract bonus get transformed into manure
 - All items that earn money get transformed into manure
 - All items with Destroy trigger get transformed into manure
 - All items with Rotate trigger get transformed into manure
 - Subtract -1 activations from ALL items (cannot go below 1)
-- If an item's shape was changed, destroy it
 - All items with a modified {col}shape{/col} get transformed into manure
 - All items with modified {col}triggers{/col} get transformed into manure
 

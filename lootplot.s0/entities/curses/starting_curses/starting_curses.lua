@@ -47,23 +47,6 @@ defCurse("aquarium_curse", "Aquarium Curse", {
 })
 
 
---[[
-
--- TODO: do something w/ this
-defCurse("contract_curse", "Contract Curse", {
-    description = loc("Whilst this curse exists, Pie-items and Glove-items are instantly deleted."),
-
-    onUpdateServer = function(ent)
-        if math.random() < 0.1 then
-            -- 1
-
-        end
-    end
-})
-
-]]
-
-
 
 local function spawnCurses(ent, count)
     local ppos = lp.getPos(ent)
