@@ -526,3 +526,17 @@ end
 
 
 
+defCurse("cursed_joker_cat", "Cursed Joker Cat", {
+    activateDescription = loc("Rotates a random item"),
+
+    triggers = {"PULSE"},
+    onActivate = function(ent)
+        local items = getItems(ent)
+        executeRandom(items, function(e,ppos)
+            lp.rotateItem(e, 1)
+        end)
+    end
+}, NO_SF)
+
+
+

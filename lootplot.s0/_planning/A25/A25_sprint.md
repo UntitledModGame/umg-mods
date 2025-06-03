@@ -296,6 +296,27 @@ Spawns items and gives them DOOMED-10
 ## =============================
 
 
+
+## INJUNCTION curses: Tonnes of run-variance!!! (use contract-curse for this)
+## the player will START with one of these curses
+- Null-slots get turned to stone
+- Glass-slots get turned to stone
+- Slots that earn bonus or points get turned to stone
+- All Repeater items get transformed into manure
+- All Grubby items get transformed into manure
+- All items that earn bonus get transformed into manure
+- All items that subtract bonus get transformed into manure
+- All items that earn money get transformed into manure
+- All items with Destroy trigger get transformed into manure
+- All items with Rotate trigger get transformed into manure
+- If an item's shape was changed, destroy it
+- All items with a modified {targetCol}shape{/targetCol} get transformed into manure
+- All items that have had their shape changed are destroyed
+(^^^^ this can be made generic too!)
+
+
+
+
 - Create DAILY run: 
 ### (See `DAILY_RUN.md` for notes!!!)
 - Randomize shop (Start with custom/special shop slots)
@@ -324,22 +345,6 @@ Spawns items and gives them DOOMED-10
 
 - Remove 4-ball starter-item
 - Remove 4-ball achievements
-
-
-## INJUNCTION curses: Tonnes of run-variance!!! (use contract-curse for this)
-## the player will START with one of these curses
-- Null-slots get turned to stone
-- Glass-slots get turned to stone
-- Slots that earn bonus or points get turned to stone
-- All pies and gloves get transformed into manure
-- All Repeater items get transformed into manure
-- All Grubby items get transformed into manure
-- All items that earn bonus get transformed into manure
-- All items that subtract bonus get transformed into manure
-- All items that earn money get transformed into manure
-- All items with Destroy trigger get transformed into manure
-- All items with Rotate trigger get transformed into manure
-(^^^^ this can be made generic too!)
 
 
 - Make it so starting-items are unlocked FASTER. 
