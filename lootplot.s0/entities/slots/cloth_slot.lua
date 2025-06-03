@@ -10,6 +10,8 @@ lp.defineSlot("lootplot.s0:cloth_slot", {
     triggers = {"PULSE"},
     activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}Level-Up{/lootplot:TRIGGER_COLOR} on item"),
 
+    baseMaxActivations = 3,
+
     unlockAfterWins = 3,
 
     onActivate = function(ent)
