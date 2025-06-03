@@ -372,7 +372,6 @@ defineStartingItem("six_ball", {
         spawnShop(ent)
         spawnRerollButton(ent)
         spawnNormal(ent)
-        spawnSell(ent)
 
         do -- spawn golden-die:
         local itemEnt2 = lp.trySpawnItem(assert(ppos:move(1,0)), server.entities.golden_die, team)
@@ -392,6 +391,8 @@ defineStartingItem("six_ball", {
                 lp.addTrigger(slotEnt, "REROLL")
             end
         end)
+
+        spawnSell(ent)
 
         spawnDoomClockAndButtons(ent)
     end,
