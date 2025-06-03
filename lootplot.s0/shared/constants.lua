@@ -43,7 +43,7 @@ local constants = {
         DESTRUCTIVE = "lootplot.s0:destructive",
         FOOD = "lootplot.s0:food",
         CAT = "lootplot.s0:cat",
-        CONTRAPTION = "lootplot.s0:cat",
+        CONTRAPTION = "lootplot.s0:contraption",
 
         -- slot tags:
         GLASS_SLOT = "lootplot.s0:glass_slot",
