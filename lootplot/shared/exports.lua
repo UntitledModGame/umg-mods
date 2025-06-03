@@ -1654,7 +1654,7 @@ end
 
 
 
----@param ent_or_etype Entity
+---@param ent_or_etype Entity|EntityType
 ---@return boolean canPropagate If the slot can propagate trigger to item
 function lp.canSlotPropagateTriggerToItem(ent_or_etype)
     assert(lp.isSlotEntity(ent_or_etype))

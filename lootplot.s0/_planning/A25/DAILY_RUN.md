@@ -76,4 +76,12 @@ Special island:
 
 
 
+## Post-processing:
+- Scatter dirt-slots/gravel slots? (randomly)
+- Randomly spawn auto-stone-slots
+- Scatter doomed-slots / glass-slots that earn money/points/bonus/mult?
+- Scatter doomed-items in null-slots
+- LESS IS MORE: Sometimes we shouldnt do anything!!!
+
+
 

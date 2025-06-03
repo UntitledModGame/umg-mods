@@ -94,13 +94,14 @@ end
 ---**This mutates the `Generator`.**
 ---@param entry any Entry to add (any type except `nil` is allowed)
 ---@param weight number? The entry weight (default to 1)
+---@return generation.Generator
 function Generator:add(entry, weight)
     assert(entry ~= nil, "entry must be non-nil value")
 
     local next = #self.entries + 1
     self.entries[next] = entry
     self.weights[next] = weight
-    return next
+    return self
 end
 
 ---Removes first occurence of item from the entry.
