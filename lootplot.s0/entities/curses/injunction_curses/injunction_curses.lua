@@ -9,20 +9,22 @@ Injunction curses should spawn at the START of a run.
 Usually disables a certain playstyle.
 
 
+- All slots without DOOMED are given DOOMED-25
 - Null-slots get turned to stone
 - Glass-slots get turned to stone
-- Slots that earn bonus or points get turned to stone
-- All slots without DOOMED are given DOOMED-25
+- Basic-slots get turned to dirt
 - All items with Repeater get transformed into manure
 - All items with Grubby get transformed into manure
+- All items with Destroy trigger get transformed into manure
+- All items with Rotate trigger get transformed into manure
+- All items with Reroll trigger get transformed into manure
 - All items that earn bonus get transformed into manure
 - All items that subtract bonus get transformed into manure
 - All items that earn money get transformed into manure
-- All items with Destroy trigger get transformed into manure
-- All items with Rotate trigger get transformed into manure
-- Subtract -1 activations from ALL items (cannot go below 1)
+
 - All items with a modified {col}shape{/col} get transformed into manure
 - All items with modified {col}triggers{/col} get transformed into manure
+- Subtract -1 activations from ALL items (cannot go below 1)
 
 
 ]]
@@ -30,6 +32,7 @@ Usually disables a certain playstyle.
 local loc = localization.localize
 local interp = localization.newInterpolator
 
+local constants = require("shared.constants")
 
 
 
@@ -42,7 +45,14 @@ local function defCurse(id, name, etype)
     etype.isCurse = 1
     etype.curseCount = 1
 
+    etype.image = etype.image or "injunction_curse"
+
     etype.triggers = etype.triggers or {"PULSE"}
+
+    etype.isInvincible = function(ent)
+        return true
+    end
+
     etype.baseMaxActivations = etype.baseMaxActivations or 4
 
     if etype.canItemFloat == nil then
@@ -115,6 +125,280 @@ end
 
 
 defCurse("doomed_injunction", "Doomed Injunction", {
+    activateDescription = loc("All slots without {lootplot:DOOMED_COLOR_LIGHT}DOOMED{/lootplot:DOOMED_COLOR_LIGHT} are given {lootplot:DOOMED_COLOR_LIGHT}DOOMED-25{/lootplot:DOOMED_COLOR_LIGHT}"),
 
+    onActivate = function(ent)
+        local slots = getSlots(ent, function(e, ppos)
+            return not e.doomCount
+        end)
+        for _,s in ipairs(slots) do
+            s.doomCount = 25
+        end
+    end
 })
+
+
+
+defCurse("null_slot_injunction", "Null Slot Injunction", {
+    activateDescription = loc("All Null-Slots get turned to stone"),
+
+    onActivate = function(ent)
+        local team = ent.lootplotTeam
+        local slots = getSlots(ent, function(e, ppos)
+            return e:type() == "lootplot.s0:null_slot"
+        end)
+        for _,s in ipairs(slots)do
+            local pp = lp.getPos(s)
+            if pp then lp.forceSpawnSlot(pp, server.entities.stone_slot, team) end
+        end
+    end
+})
+
+
+defCurse("glass_slot_injunction", "Glass Slot Injunction", {
+    activateDescription = loc("All Glass-Slots get turned to stone"),
+
+    onActivate = function(ent)
+        local team = ent.lootplotTeam
+        local slots = getSlots(ent, function(e, ppos)
+            return lp.hasTag(e, constants.tags.GLASS_SLOT)
+        end)
+        for _,s in ipairs(slots)do
+            local pp = lp.getPos(s)
+            if pp then lp.forceSpawnSlot(pp, server.entities.stone_slot, team) end
+        end
+    end
+})
+
+
+
+defCurse("basic_slot_injunction", "Basic Slot Injunction", {
+    activateDescription = loc("All Basic-slots get turned into dirt"),
+
+    onActivate = function(ent)
+        local team = ent.lootplotTeam
+        local slots = getSlots(ent, function(e, ppos)
+            return lp.hasTag(e, constants.tags.BASIC_SLOT)
+        end)
+        for _,s in ipairs(slots)do
+            local pp = lp.getPos(s)
+            if pp then lp.forceSpawnSlot(pp, server.entities.dirt_slot, team) end
+        end
+    end
+})
+
+
+
+
+---@param ent Entity
+---@param f fun(itemEnt: Entity, ppos: lootplot.PPos)
+local function foreachItem(ent, f)
+    local items = getItems(ent)
+    for _, item in ipairs(items) do
+        local ppos = lp.getPos(item)
+        if ppos then
+            f(item, ppos)
+        end
+    end
+end
+
+
+
+lp.defineItem("lootplot.s0:manure", {
+    image = "manure",
+    name = loc("Manure"),
+    rarity = lp.rarities.UNIQUE,
+    triggers = {"PULSE"},
+    basePointsGenerated = -1,
+})
+
+
+
+
+local function spawnManure(ppos, team)
+    lp.forceSpawnItem(ppos, server.entities.manure, team)
+end
+
+
+defCurse("repeater_injunction", "Repeater Injunction", {
+    activateDescription = loc("All items with {lootplot:REPEATER_COLOR}Repeater{/lootplot:REPEATER_COLOR} get transformed into manure"),
+
+    onActivate = function(ent)
+        local team = assert(ent.lootplotTeam)
+        foreachItem(ent, function(itemEnt, ppos)
+            if itemEnt.repeatActivations then
+                spawnManure(ppos, team)
+            end
+        end)
+    end
+})
+
+
+
+defCurse("grubby_injunction", "Grubby Injunction", {
+    activateDescription = loc("All items with {lootplot:GRUB_COLOR_LIGHT}Grubby{/lootplot:GRUB_COLOR_LIGHT} get transformed into manure"),
+
+    onActivate = function(ent)
+        local team = assert(ent.lootplotTeam)
+        foreachItem(ent, function(itemEnt, ppos)
+            if itemEnt.grubMoneyCap then
+                spawnManure(ppos, team)
+            end
+        end)
+    end
+})
+
+
+
+defCurse("pulse_injunction", "Pulse Injunction", {
+    activateDescription = loc("All items with {lootplot:TRIGGER_COLOR}Pulse{/lootplot:TRIGGER_COLOR} trigger become {lootplot:STUCK_COLOR}STICKY{/lootplot:STUCK_COLOR}"),
+
+    onActivate = function(ent)
+        foreachItem(ent, function(itemEnt, ppos)
+            if lp.hasTrigger(itemEnt, "PULSE") then
+                itemEnt.sticky = true
+            end
+        end)
+    end
+})
+
+
+defCurse("destroy_injunction", "Destroy Injunction", {
+    activateDescription = loc("All items with {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} trigger get transformed into manure"),
+
+    onActivate = function(ent)
+        local team = assert(ent.lootplotTeam)
+        foreachItem(ent, function(itemEnt, ppos)
+            if lp.hasTrigger(itemEnt, "DESTROY") then
+                spawnManure(ppos, team)
+            end
+        end)
+    end
+})
+
+
+defCurse("rotate_injunction", "Rotate Injunction", {
+    activateDescription = loc("All items with {lootplot:TRIGGER_COLOR}Rotate{/lootplot:TRIGGER_COLOR} trigger get transformed into manure"),
+
+    onActivate = function(ent)
+        local team = assert(ent.lootplotTeam)
+        foreachItem(ent, function(itemEnt, ppos)
+            if lp.hasTrigger(itemEnt, "ROTATE") then
+                spawnManure(ppos, team)
+            end
+        end)
+    end
+})
+
+
+
+defCurse("reroll_injunction", "Reroll Injunction", {
+    activateDescription = loc("All items with {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} trigger get transformed into manure"),
+
+    onActivate = function(ent)
+        local team = assert(ent.lootplotTeam)
+        foreachItem(ent, function(itemEnt, ppos)
+            if lp.hasTrigger(itemEnt, "REROLL") then
+                spawnManure(ppos, team)
+            end
+        end)
+    end
+})
+
+
+
+defCurse("bonus_injunction", "Bonus Injunction", {
+    activateDescription = loc("All items that earn {lootplot:BONUS_COLOR}Bonus{lootplot:BONUS_COLOR} get transformed into manure"),
+
+    onActivate = function(ent)
+        local team = assert(ent.lootplotTeam)
+        foreachItem(ent, function(itemEnt, ppos)
+            if ((itemEnt.bonusGenerated or 0) > 0) then
+                spawnManure(ppos, team)
+            end
+        end)
+    end
+})
+
+
+
+defCurse("anti_bonus_injunction", "Anti Bonus Injunction", {
+    activateDescription = loc("All items that subtract {lootplot:BONUS_COLOR}Bonus{lootplot:BONUS_COLOR} get transformed into manure"),
+
+    onActivate = function(ent)
+        local team = assert(ent.lootplotTeam)
+        foreachItem(ent, function(itemEnt, ppos)
+            if ((itemEnt.bonusGenerated or 0) < 0) then
+                spawnManure(ppos, team)
+            end
+        end)
+    end
+})
+
+
+
+defCurse("capital_injunction", "Capital Injunction", {
+    activateDescription = loc("All items that earn {lootplot:MONEY_COLOR}money{/lootplot:MONEY_COLOR} get transformed into manure"),
+
+    onActivate = function(ent)
+        local team = assert(ent.lootplotTeam)
+        foreachItem(ent, function(itemEnt, ppos)
+            if ((itemEnt.baseMoneyGenerated or 0) < 0) then
+                spawnManure(ppos, team)
+            end
+        end)
+    end
+})
+
+
+
+
+defCurse("shape_injunction", "Shape Injunction", {
+    activateDescription = loc("All items whose {lootplot.targets:COLOR}targets{/lootplot.targets:COLOR} have been modified get transformed into manure.\n(Eg. with pies or gloves)"),
+
+    onActivate = function(ent)
+        local team = assert(ent.lootplotTeam)
+        foreachItem(ent, function(itemEnt, ppos)
+            if ((itemEnt.moneyGenerated or 0) < 0) then
+                spawnManure(ppos, team)
+            end
+        end)
+    end
+})
+
+
+
+
+umg.melt("TODO")
+
+defCurse("trigger_injunction", "Shape Injunction", {
+    activateDescription = loc("All items whose {lootplot:TRIGGER_COLOR}Triggers{/lootplot:TRIGGER_COLOR} have been modified get transformed into manure"),
+
+    onActivate = function(ent)
+        local team = assert(ent.lootplotTeam)
+        foreachItem(ent, function(itemEnt, ppos)
+            if ((itemEnt.moneyGenerated or 0) < 0) then
+                spawnManure(ppos, team)
+            end
+        end)
+    end
+})
+
+
+
+umg.melt("TODO")
+
+defCurse("activation_injunction", "Shape Injunction", {
+    activateDescription = loc("If ANY item has more than (3/3) {lootplot:TRIGGER_COLOR}activations{/lootplot:TRIGGER_COLOR}, subtract 1 activations from that item."),
+
+    onActivate = function(ent)
+        local team = assert(ent.lootplotTeam)
+        foreachItem(ent, function(itemEnt, ppos)
+            if ((itemEnt.maxActivations or 0) > 3) then
+                spawnManure(ppos, team)
+            end
+        end)
+    end
+})
+
 
