@@ -290,15 +290,8 @@ Spawns items and gives them DOOMED-10
 
 
 
-
-## =============================
-## TODO:
-## =============================
-
-
-
-## INJUNCTION curses: Tonnes of run-variance!!! (use contract-curse for this)
-## the player will START with one of these curses
+INJUNCTION curses: Tonnes of run-variance!!! (use contract-curse for this)
+the player can START with these curses
 - Null-slots get turned to stone
 - Glass-slots get turned to stone
 - Slots that earn bonus or points get turned to stone
@@ -313,7 +306,14 @@ Spawns items and gives them DOOMED-10
 - All items with a modified {col}shape{/col} get transformed into manure
 - All items with modified {col}triggers{/col} get transformed into manure
 
-(^^^^ this can be made generic too!)
+
+
+
+
+## =============================
+## TODO:
+## =============================
+
 
 
 
@@ -342,6 +342,10 @@ Spawns items and gives them DOOMED-10
     - Start with 1 rulebender-slot in the middle
     - Start with 1 guardian-slot in the middle
     - Start with destroy-slot instead of sell-slot
+
+
+HARD-MODE:
+
 
 
 - Remove 4-ball starter-item

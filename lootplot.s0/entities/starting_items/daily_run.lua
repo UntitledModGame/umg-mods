@@ -199,6 +199,8 @@ local fillMain
 local fillSell
 local fillSpecial
 
+local postProcess
+
 
 do
 
@@ -428,6 +430,75 @@ function fillSpecial(ppos, team, seed)
 end
 
 
+
+
+---@param plot lootplot.Plot
+---@param team any
+---@param seed any
+function postProcess(plot, team, seed)
+    local rgen = love.math.newRandomGenerator(seed)
+    local r = rgen:random()
+
+    local function isOk(ppos)
+        for dy=-1,1 do
+            for dx=-1,1 do
+                local p2 = ppos:move(dx,dy)
+                if p2 and lp.posToSlot(p2) then
+                    return false
+                end
+            end
+        end
+        return true
+    end
+
+    local function getRandomPPoses(count, rgen1)
+        local candidates = objects.Array()
+        plot:foreach(function(ppos)
+            local cx,cy = plot:getCenterPPos():getCoords()
+            local x,y = ppos:getCoords()
+            if (math.distance(x-cx, y-cy) < 6) and isOk(ppos) then
+                -- eh, close enough to center
+                candidates:add(ppos)
+            end
+        end)
+
+        table.shuffle(candidates, rgen1)
+        local ret = objects.Array()
+        for i=1, count do
+            ret:add(candidates[i])
+        end
+        return ret
+    end
+
+    local count = 2 + math.floor(2*rgen:random()+0.5)
+    if r < 0.25 then
+        -- spawn auto-stone-slots
+        for _, ppos in ipairs(getRandomPPoses(count)) do
+            lp.trySpawnSlot(ppos, server.entities.auto_stone_slot, team)
+        end
+    elseif r < 0.6 then
+        -- spawn (locked) slots:
+        for _, ppos in ipairs(getRandomPPoses(count)) do
+            local slotEnt
+            local r2 = rgen:random()
+            if r2 < 0.25 then
+                slotEnt = server.entities.slot()
+                lp.modifierBuff(slotEnt, "moneyGenerated", 1)
+                slotEnt.doomCount = 7
+            elseif r2 < 0.5 then
+                slotEnt = server.entities.glass_slot()
+                lp.modifierBuff(slotEnt, "moneyGenerated", 0.5)
+            else
+                local slotType = exoticSlots:query()
+                slotEnt = slotType()
+            end
+            lp.unlocks.forceSpawnLockedSlot(ppos, slotEnt, nil)
+        end
+    end
+end
+
+
+
 end
 
 
@@ -436,16 +507,23 @@ function daily.generate(plot, team, seed, difficulty)
     local cSeed = seed + difficulty
     local layout = generateLayout(plot, cSeed)
 
+    --[[
+    we should vary the seeds slightly so that
+    the same love.RandomGenerator objects arent used.
+    (That'd cause there to be a correlation between features)
+    ]]
     fillMain(layout.main, team, seed)
 
-    fillShop(layout.shop, team, seed)
+    fillShop(layout.shop, team, seed + 1)
 
-    fillSpecial(layout.special, team, seed)
+    fillSpecial(layout.special, team, seed + 2)
 
-    fillSell(layout.sell, team, seed)
+    fillSell(layout.sell, team, seed + 3)
 
     lp.forceSpawnSlot(layout.pulse, server.entities.pulse_button_slot, team)
     lp.forceSpawnSlot(assert(layout.pulse:move(1,0)), server.entities.next_level_button_slot, team)
+
+    postProcess(plot, team, seed + 4)
 end
 
 
