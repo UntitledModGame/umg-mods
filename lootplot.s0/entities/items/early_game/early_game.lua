@@ -248,9 +248,9 @@ defItem("bone", {
     triggers = {"DESTROY"},
 
     basePrice = 0,
-    basePointsGenerated = 20,
+    basePointsGenerated = 50,
 
-    lives = 6,
+    lives = 60,
     rarity = lp.rarities.UNCOMMON,
 })
 
