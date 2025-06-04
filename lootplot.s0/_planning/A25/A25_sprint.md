@@ -308,16 +308,6 @@ the player can START with these curses
 
 
 
-
-
-## =============================
-## TODO:
-## =============================
-
-
-
-
-
 - Create DAILY run: 
 ### (See `DAILY_RUN.md` for notes!!!)
 - Randomize shop (Start with custom/special shop slots)
@@ -344,7 +334,32 @@ the player can START with these curses
     - Start with destroy-slot instead of sell-slot
 
 
+
+
+## =============================
+## TODO:
+## =============================
+
+
+
 HARD-MODE:
+- Spawns a trophy-guardian, and 2 stone-hands (on ALL levels)
+- (Stone-hand-1 should spawn 2 curses, after 15 activations)
+- (Stone-hand-2 should spawn 3 curses, after 25 activations)
+
+
+OTHER BALLS:
+Every advanced starter-item should come with extra stone-hand curses.
+
+
+
+Difficulty Unlocks:
+when you win on easy, medium should be unlocked for ALL balls.
+when you win on medium, hard should be unlocked for ALL balls.
+
+
+
+- UPDATE LOVE2D! It's currently not working
 
 
 
@@ -375,6 +390,21 @@ HARD-MODE:
 - Leather-items: Too similar...? Even the dev forgets what they do!!! Ragh!
 
 
+## ADD NEW MUSIC
+https://m.youtube.com/watch?v=JPCaFc17ur0&t=27s&pp=2AEbkAIB
+- ~~You were always in the right place,~~
+- Cozy afternoon
+- Fast lanes light rain
+ 
+https://youtu.be/s8nkrxzOBR4?feature=shared  NOTABLE SONGS:
+~~- Bullet witch~~ (meh, maybe not, too upbeat)
+
+
+## =============================
+## STRETCH / NEXT-SPRINT:
+## =============================
+
+
 - Number-keys shortcuts for pressing action-buttons
 
 
@@ -388,27 +418,17 @@ More items should have adjacency interactions.
 
 
 
-
-## ADD NEW MUSIC
-https://m.youtube.com/watch?v=JPCaFc17ur0&t=27s&pp=2AEbkAIB
-- You were always in the right place,
-- Cozy afternoon
-- Fast lanes light rain
- 
-https://youtu.be/s8nkrxzOBR4?feature=shared  NOTABLE SONGS:
-- Bullet witch
-
-
 ## Background ideas:,
 - Twilight background: Dark black/blue with gray clouds
-
-- Deep crimson background
 
 - Rainbow background. Cool HSV/Oklab
  
 - Loot-rain background. Items raining down, just like title screen. The items should be somewhat transparent so it doesnt distract
 
 - Copycat-rain background: Background with copycats raining down
+
+
+
 
 
 
@@ -420,12 +440,6 @@ https://youtu.be/s8nkrxzOBR4?feature=shared  NOTABLE SONGS:
 - Set-piece: a fortress with PRISM in the middle (Prism should be a UNIQUE item)
 - A button that, when pressed, gives some big buff (EG: decreases round by 1)
 
-
-
-
-## =============================
-## STRETCH / NEXT-SPRINT:
-## =============================
 
 
 - Made items that can't activate grayscale (need shader)
