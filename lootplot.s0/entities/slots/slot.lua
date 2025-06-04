@@ -1,4 +1,7 @@
+
+
 local loc = localization.localize
+local constants = require("shared.constants")
 
 
 
@@ -23,18 +26,26 @@ local function onUpdateClient(ent)
 end
 
 
-lp.defineSlot("lootplot.s0:slot", {
-    image = "slot_basic",
-    name = loc("Basic Slot"),
+local function defBasicSlot(id, name, etype)
+    etype.name = loc(name)
+    etype.image = etype.image or "slot_basic"
+    etype.onUpdateClient = etype.onUpdateClient
+
+    etype.baseMaxActivations = etype.baseMaxActivations or 10
+
+    etype.onUpdateClient = onUpdateClient
+
+    etype.lootplotTags = {constants.tags.BASIC_SLOT}
+
+    lp.defineSlot("lootplot.s0:" .. id, etype)
+end
+
+
+
+defBasicSlot("slot", "Basic Slot", {
     triggers = {"PULSE"},
-
-    baseMaxActivations = 10,
-
-    onUpdateClient = onUpdateClient,
-
     rarity = lp.rarities.COMMON
 })
-
 
 
 
@@ -44,44 +55,25 @@ Add a few variations to make it more fun:
 ]]
 
 
-lp.defineSlot("lootplot.s0:basic_slot_points", {
-    image = "slot_basic",
-    name = loc("Basic Slot"),
+defBasicSlot("basic_slot_points", "Basic Slot", {
     triggers = {"PULSE"},
-
-    onUpdateClient = onUpdateClient,
-
-    baseMaxActivations = 10,
     basePointsGenerated = 50,
     rarity = lp.rarities.UNCOMMON
 })
 
 
 
-lp.defineSlot("lootplot.s0:basic_slot_bonus", {
-    image = "slot_basic",
-    name = loc("Basic Slot"),
+defBasicSlot("basic_slot_bonus", "Basic Slot", {
     triggers = {"PULSE", "REROLL"},
-
-    onUpdateClient = onUpdateClient,
-
-    baseMaxActivations = 10,
     baseBonusGenerated = 5,
     rarity = lp.rarities.UNCOMMON
 })
 
 
 
-lp.defineSlot("lootplot.s0:basic_slot_money", {
-    image = "slot_basic",
-    name = loc("Basic Slot"),
+defBasicSlot("basic_slot_money", "Basic Slot", {
     triggers = {"PULSE"},
-
-    onUpdateClient = onUpdateClient,
-
-    baseMaxActivations = 10,
     baseMoneyGenerated = 1,
-
     rarity = lp.rarities.EPIC
 })
 
