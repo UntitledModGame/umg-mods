@@ -39,7 +39,7 @@ local constants = require("shared.constants")
 local function defCurse(id, name, etype)
     etype = etype or {}
 
-    etype.image = id
+    etype.image = etype.image or "injunction_curse"
     etype.name = loc(name)
 
     etype.isCurse = 1
@@ -127,6 +127,8 @@ end
 defCurse("doomed_injunction", "Doomed Injunction", {
     activateDescription = loc("All slots without {lootplot:DOOMED_COLOR_LIGHT}DOOMED{/lootplot:DOOMED_COLOR_LIGHT} are given {lootplot:DOOMED_COLOR_LIGHT}DOOMED-25{/lootplot:DOOMED_COLOR_LIGHT}"),
 
+    doomCount = 1000,
+
     onActivate = function(ent)
         local slots = getSlots(ent, function(e, ppos)
             return not e.doomCount
@@ -141,6 +143,8 @@ defCurse("doomed_injunction", "Doomed Injunction", {
 
 defCurse("null_slot_injunction", "Null Slot Injunction", {
     activateDescription = loc("All Null-Slots get turned to stone"),
+
+    color = {0.8,0.8,0.8},
 
     onActivate = function(ent)
         local team = ent.lootplotTeam
@@ -157,6 +161,8 @@ defCurse("null_slot_injunction", "Null Slot Injunction", {
 
 defCurse("glass_slot_injunction", "Glass Slot Injunction", {
     activateDescription = loc("All Glass-Slots get turned to stone"),
+
+    color = {1,1,1,0.5},
 
     onActivate = function(ent)
         local team = ent.lootplotTeam
@@ -223,6 +229,8 @@ end
 defCurse("repeater_injunction", "Repeater Injunction", {
     activateDescription = loc("All items with {lootplot:REPEATER_COLOR}Repeater{/lootplot:REPEATER_COLOR} get transformed into manure"),
 
+    repeatActivations = true,
+
     onActivate = function(ent)
         local team = assert(ent.lootplotTeam)
         foreachItem(ent, function(itemEnt, ppos)
@@ -237,6 +245,8 @@ defCurse("repeater_injunction", "Repeater Injunction", {
 
 defCurse("grubby_injunction", "Grubby Injunction", {
     activateDescription = loc("All items with {lootplot:GRUB_COLOR_LIGHT}Grubby{/lootplot:GRUB_COLOR_LIGHT} get transformed into manure"),
+
+    grubMoneyCap = 1000,
 
     onActivate = function(ent)
         local team = assert(ent.lootplotTeam)
@@ -266,6 +276,8 @@ defCurse("pulse_injunction", "Pulse Injunction", {
 defCurse("destroy_injunction", "Destroy Injunction", {
     activateDescription = loc("All items with {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} trigger get transformed into manure"),
 
+    color = {0.5,0.5,0.5},
+
     onActivate = function(ent)
         local team = assert(ent.lootplotTeam)
         foreachItem(ent, function(itemEnt, ppos)
@@ -279,6 +291,8 @@ defCurse("destroy_injunction", "Destroy Injunction", {
 
 defCurse("rotate_injunction", "Rotate Injunction", {
     activateDescription = loc("All items with {lootplot:TRIGGER_COLOR}Rotate{/lootplot:TRIGGER_COLOR} trigger get transformed into manure"),
+
+    color = lp.targets.TARGET_COLOR,
 
     onActivate = function(ent)
         local team = assert(ent.lootplotTeam)
@@ -295,6 +309,8 @@ defCurse("rotate_injunction", "Rotate Injunction", {
 defCurse("reroll_injunction", "Reroll Injunction", {
     activateDescription = loc("All items with {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} trigger get transformed into manure"),
 
+    color = objects.Color.GREEN,
+
     onActivate = function(ent)
         local team = assert(ent.lootplotTeam)
         foreachItem(ent, function(itemEnt, ppos)
@@ -308,7 +324,9 @@ defCurse("reroll_injunction", "Reroll Injunction", {
 
 
 defCurse("bonus_injunction", "Bonus Injunction", {
-    activateDescription = loc("All items that earn {lootplot:BONUS_COLOR}Bonus{lootplot:BONUS_COLOR} get transformed into manure"),
+    activateDescription = loc("All items that earn {lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} get transformed into manure"),
+
+    color = objects.Color.CYAN,
 
     onActivate = function(ent)
         local team = assert(ent.lootplotTeam)
@@ -323,7 +341,9 @@ defCurse("bonus_injunction", "Bonus Injunction", {
 
 
 defCurse("anti_bonus_injunction", "Anti Bonus Injunction", {
-    activateDescription = loc("All items that subtract {lootplot:BONUS_COLOR}Bonus{lootplot:BONUS_COLOR} get transformed into manure"),
+    activateDescription = loc("All items that subtract {lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} get transformed into manure"),
+
+    color = objects.Color.BLUE,
 
     onActivate = function(ent)
         local team = assert(ent.lootplotTeam)
@@ -339,6 +359,8 @@ defCurse("anti_bonus_injunction", "Anti Bonus Injunction", {
 
 defCurse("capital_injunction", "Capital Injunction", {
     activateDescription = loc("All items that earn {lootplot:MONEY_COLOR}money{/lootplot:MONEY_COLOR} get transformed into manure"),
+
+    color = lp.COLORS.MONEY_COLOR,
 
     onActivate = function(ent)
         local team = assert(ent.lootplotTeam)
@@ -356,10 +378,16 @@ defCurse("capital_injunction", "Capital Injunction", {
 defCurse("shape_injunction", "Shape Injunction", {
     activateDescription = loc("All items whose {lootplot.targets:COLOR}targets{/lootplot.targets:COLOR} have been modified get transformed into manure.\n(Eg. with pies or gloves)"),
 
+    color = lp.targets.TARGET_COLOR,
+
     onActivate = function(ent)
         local team = assert(ent.lootplotTeam)
         foreachItem(ent, function(itemEnt, ppos)
-            if ((itemEnt.moneyGenerated or 0) < 0) then
+            local etype = itemEnt:getEntityType()
+            local shape = itemEnt.shape and itemEnt.shape.relativeCoords
+            local oldShape = etype.shape and etype.shape.relativeCoords
+            if shape and (#shape ~= #oldShape) then
+                -- gotcha!!! its a different shape. Die!
                 spawnManure(ppos, team)
             end
         end)
@@ -369,15 +397,32 @@ defCurse("shape_injunction", "Shape Injunction", {
 
 
 
-umg.melt("TODO")
 
-defCurse("trigger_injunction", "Shape Injunction", {
+---Returns true iff arr1 and arr2 have the same elements
+---@param arr1 any
+---@param arr2 any
+local function setEqual(arr1, arr2)
+    local set2 = objects.Set(arr2)
+    if #arr1 ~= #arr2 then
+        return false
+    end
+    for _, a in ipairs(arr1) do
+        if not set2:has(a) then
+            return false
+        end
+    end
+    return true
+end
+
+
+defCurse("trigger_injunction", "Trigger Injunction", {
     activateDescription = loc("All items whose {lootplot:TRIGGER_COLOR}Triggers{/lootplot:TRIGGER_COLOR} have been modified get transformed into manure"),
 
     onActivate = function(ent)
         local team = assert(ent.lootplotTeam)
         foreachItem(ent, function(itemEnt, ppos)
-            if ((itemEnt.moneyGenerated or 0) < 0) then
+            local etype = ent:getEntityType()
+            if not setEqual(etype.triggers, itemEnt.triggers) then
                 spawnManure(ppos, team)
             end
         end)
@@ -386,16 +431,14 @@ defCurse("trigger_injunction", "Shape Injunction", {
 
 
 
-umg.melt("TODO")
 
 defCurse("activation_injunction", "Shape Injunction", {
-    activateDescription = loc("If ANY item has more than (3/3) {lootplot:TRIGGER_COLOR}activations{/lootplot:TRIGGER_COLOR}, subtract 1 activations from that item."),
+    activateDescription = loc("If ANY item has more than (3/3) {lootplot:TRIGGER_COLOR}activations{/lootplot:TRIGGER_COLOR}, subtract 1 activation from that item."),
 
     onActivate = function(ent)
-        local team = assert(ent.lootplotTeam)
         foreachItem(ent, function(itemEnt, ppos)
             if ((itemEnt.maxActivations or 0) > 3) then
-                spawnManure(ppos, team)
+                lp.modifierBuff(itemEnt, "maxActivations", -1, ent)
             end
         end)
     end
