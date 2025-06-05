@@ -228,7 +228,7 @@ function fillShop(shop, team, seed)
     local rgen = love.math.newRandomGenerator(seed)
 
     for _, pp in ipairs(shop.normal) do
-        local etype = normalShop:query()
+        local etype = normalShop:query(rgen)
         local e = lp.forceSpawnSlot(pp, etype, team)
         if e then mutateRandomly(e, rgen, 0.6) end
     end
@@ -314,13 +314,13 @@ function fillMain(ppos, team, seed)
     local r = rgen:random()
     if false and r < 0.1 then
         -- single-slot in middle
-        local etype = exoticSlots:query()
+        local etype = exoticSlots:query(rgen)
         lp.forceSpawnSlot(ppos, etype, team)
     else
         -- "scattered" 3x3 normal island
         local NUM_NORMAL_SLOTS = math.floor(4 + rgen:random() * 3)
         for i, pp in ipairs(sprawlPPoses(ppos, 2, 1, NUM_NORMAL_SLOTS, rgen)) do
-            local etype = normalSlots:query()
+            local etype = normalSlots:query(rgen)
             local e = lp.forceSpawnSlot(pp, etype, team)
             mutateRandomly(e, rgen, 0.7)
         end
@@ -393,7 +393,7 @@ function fillSpecial(ppos, team, seed)
         local num = rgen:random(1,2)
         local slots = sprawlPPoses(ppos, 1,1, num, rgen)
         for _, pp in ipairs(slots) do
-            local etyp = exoticSlots:query()
+            local etyp = exoticSlots:query(rgen)
             lp.forceSpawnSlot(pp, etyp, team)
         end
     elseif r < 0.6 then
@@ -404,7 +404,7 @@ function fillSpecial(ppos, team, seed)
             if r1 < 0.3 then
                 ent.doomCount = 6
             elseif r1 < 0.5 then
-                local itemType = lp.rarities.randomItemOfRarity(lp.rarities.RARE)
+                local itemType = lp.rarities.randomItemOfRarity(lp.rarities.RARE, rgen)
                 if itemType then
                     lp.forceSpawnItem(pos, itemType, team)
                 end
@@ -413,13 +413,13 @@ function fillSpecial(ppos, team, seed)
     elseif r < 0.7 then
         -- stone-slots surrouding a slot
         wg.spawnSlots(ppos, server.entities.stone_slot, 3,3, team)
-        local slotType = exoticSlots:query()
+        local slotType = exoticSlots:query(rgen)
         lp.forceSpawnSlot(ppos, slotType, team)
     else
         local pposes = sprawlPPoses(ppos, 1,1, 3, rgen)
         for _, pp in ipairs(pposes) do
             lp.trySpawnSlot(pp, server.entities.slot, team)
-            local itemType = lp.rarities.randomItemOfRarity(lp.rarities.RARE, function(entry, weight)
+            local itemType = lp.rarities.randomItemOfRarity(lp.rarities.RARE, rgen, function(entry, weight)
                 local etype = server.entities[entry]
                 if etype.foodItem then
                     return 0
@@ -494,7 +494,7 @@ function postProcess(plot, team, seed)
                 slotEnt = server.entities.glass_slot()
                 lp.modifierBuff(slotEnt, "moneyGenerated", 0.5)
             else
-                local slotType = exoticSlots:query()
+                local slotType = exoticSlots:query(rgen)
                 slotEnt = slotType()
             end
             lp.unlocks.forceSpawnLockedSlot(ppos, slotEnt, nil)
@@ -522,7 +522,7 @@ local function spawnRandomInjunction(plot, team, rgen)
         gen:add(etypeId, 1)
     end
     local ppos = lp.curses.getPositionForCurse(plot, team, true, rgen)
-    local inj = gen:query()
+    local inj = gen:query(rgen)
     if ppos then
         lp.forceSpawnItem(ppos, server.entities[inj], team)
     end

@@ -344,6 +344,9 @@ HARD-MODE:
 - (Stone-hand-2 should spawn 3 curses, after 25 activations)
 
 
+Add curses to DAILY-RUN
+
+
 
 ## =============================
 ## TODO:
@@ -354,7 +357,6 @@ OTHER BALLS:
 Every advanced starter-item should come with extra stone-hand curses.
 
 
-Add curses to DAILY-RUN
 
 
 Difficulty Unlocks:

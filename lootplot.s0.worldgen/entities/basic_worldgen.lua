@@ -69,7 +69,7 @@ local function spawnOfferSlot(ppos, team)
         rar = lp.rarities.EPIC
     end
 
-    local itemType = lp.rarities.randomItemOfRarity(rar)
+    local itemType = lp.rarities.randomItemOfRarity(rar, lp.SEED.worldGenRNG)
     local itemEnt = itemType and itemType()
     if itemEnt then
         itemEnt.lootplotTeam = team

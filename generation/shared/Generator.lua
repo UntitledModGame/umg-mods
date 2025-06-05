@@ -160,10 +160,16 @@ end
 ---@alias generation.PickChanceFunction (fun(entry:any,weight:table<string,any>?):number)
 
 ---Get random entry from the generator.
+---@param rgen love.RandomGenerator?
 ---@param pickChanceFunction generation.PickChanceFunction? Function that returns the chance of an item being picked. 1 means pick always, 0 means fully skip this item (filtered out), anything inbetween is the chance of said entry be accepted or be rerolled.
 ---@return any?
-function Generator:query(pickChanceFunction)
+function Generator:query(rgen, pickChanceFunction)
+    rgen = rgen or self.rng
+    if type(rgen.random) ~= "function" then
+        print(rgen, type(rgen), rgen.random)
+    end
     pickChanceFunction = pickChanceFunction or alwaysPick
+
     assert(#self.entries > 0, "no items in entry")
 
     ensurePickerExists(self)
@@ -172,12 +178,12 @@ function Generator:query(pickChanceFunction)
     local weightCache = {}
 
     while i < NUM_TRIES do
-        local index = self.picker:pick(self.rng)
+        local index = self.picker:pick(rgen)
 
         local entry = self.entries[index]
         local chance = weightCache[index] or math.clamp(pickChanceFunction(entry, self.weights[index]), 0, 1)
         weightCache[index] = chance
-        if self.rng:random() < chance then
+        if rgen:random() < chance then
             return entry
         end
         i = i + 1

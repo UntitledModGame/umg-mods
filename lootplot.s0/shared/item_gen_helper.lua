@@ -5,7 +5,7 @@ local itemGenHelper = {}
 
 ---@param filterFunc fun(etype: EntityType): boolean
 ---@param weightAdjuster fun(etype: EntityType): number
----@return fun(): string entityType The entityType that was randomly selected
+---@return fun(rgen: love.RandomGenerator?): string entityType The entityType that was randomly selected
 function itemGenHelper.createLazyGenerator(filterFunc, weightAdjuster)
     --[[
     Question: Why do we need this function?
