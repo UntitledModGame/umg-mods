@@ -131,6 +131,66 @@ local function hasNoItem(ppos)
 end
 
 
+
+
+---@param plot lootplot.Plot
+---@param team string
+---@param randomSampler love.RandomGenerator
+---@param range number
+---@return objects.Set
+local function getSpawnCandidates(plot, team, randomSampler, range)
+    range = range or 2
+
+    local candidates = objects.Set()
+    plot:foreachSlot(function(slotEnt, ppos)
+        if isNormalishSlot(slotEnt) and isFogRevealed(ppos, team) then
+            if hasNoItem(ppos) then
+                candidates:add(ppos)
+            end
+            for dx=-range, range do
+                for dy=-range, range do
+                    local pos2 = ppos:move(dx,dy)
+                    if pos2 and (not lp.posToSlot(pos2)) and isFogRevealed(pos2, team) and hasNoItem(pos2) then
+                        candidates:add(pos2)
+                    end
+                end
+            end
+        end
+    end)
+
+    return candidates
+end
+
+
+
+--- Gets a ppos for a curse to spawn on.
+--- Useful if we wanna spawn our own custom-curse.
+---@param plot lootplot.Plot
+---@param team string
+---@param isFloating boolean
+---@param randomSampler? love.RandomGenerator
+---@return lootplot.PPos?
+function lp_curses.getPositionForCurse(plot, team, isFloating, randomSampler)
+    randomSampler = randomSampler or love.math.newRandomGenerator(love.math.random(0,1022093))
+    local range = 2
+    local candidates = getSpawnCandidates(plot, team, randomSampler, range)
+
+    candidates = candidates:filter(function(ppos)
+        local isAir = not lp.posToSlot(ppos)
+        if isFloating then
+            return isAir -- then only filter air pposes
+        else
+            return (not isAir) -- otherwise only filter slots
+        end
+    end)
+
+    if #candidates > 0 then
+        return table.random(candidates, randomSampler)
+    end
+end
+
+
+
 local spawnRandomCurseTc = typecheck.assert("table", "string", "number?")
 
 --- Spawns a curse for a particular team
@@ -149,22 +209,7 @@ function lp_curses.spawnRandomCurse(plot, team, randomSampler, range)
     local curseId = table.random(spawnableCurses, randomSampler)
     local spawnFilters = curseToSpawnFilters[curseId]
 
-    local candidates = objects.Set()
-    plot:foreachSlot(function(slotEnt, ppos)
-        if isNormalishSlot(slotEnt) and isFogRevealed(ppos, team) then
-            if hasNoItem(ppos) then
-                candidates:add(ppos)
-            end
-            for dx=-range, range do
-                for dy=-range, range do
-                    local pos2 = ppos:move(dx,dy)
-                    if pos2 and (not lp.posToSlot(pos2)) and isFogRevealed(pos2, team) and hasNoItem(pos2) then
-                        candidates:add(pos2)
-                    end
-                end
-            end
-        end
-    end)
+    local candidates = getSpawnCandidates(plot, team, randomSampler, range)
 
     candidates = candidates:filter(function(ppos)
         for _,sf in ipairs(spawnFilters) do

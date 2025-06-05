@@ -1,5 +1,10 @@
 
 
+
+local constants = require("shared.constants")
+
+
+
 local daily = {}
 
 
@@ -503,9 +508,76 @@ end
 
 
 
-function daily.generate(plot, team, seed, difficulty)
-    local cSeed = seed + difficulty
-    local layout = generateLayout(plot, cSeed)
+
+
+local function isInjunction(etypeId)
+    local etype = server.entities[etypeId]
+    return etype and lp.hasTag(etype, constants.tags.INJUNCTION_CURSE)
+end
+
+
+local function spawnRandomInjunction(plot, team, rgen)
+    local gen = generation.Generator(rgen)
+    for _,etypeId in ipairs(lp.newItemGenerator({filter = isInjunction}):getEntries()) do
+        gen:add(etypeId, 1)
+    end
+    local ppos = lp.curses.getPositionForCurse(plot, team, true, rgen)
+    local inj = gen:query()
+    if ppos then
+        lp.forceSpawnItem(ppos, server.entities[inj], team)
+    end
+end
+
+
+---@param ppos lootplot.PPos
+---@param team string
+---@param numActivations number
+---@param numCurses number
+---@return Entity?
+local function spawnStoneHand(ppos, team, numActivations, numCurses)
+    local stoneHand = lp.forceSpawnItem(ppos, server.entities.stone_hand, team, true)
+    if stoneHand then
+        stoneHand.stoneHand_activations = numActivations
+        stoneHand.stoneHand_curses = numCurses
+    end
+    return stoneHand
+end
+
+
+local function spawnCurses(plot, team, seed, difficulty)
+    -- easy mode: No injunction.
+
+    local rgen2 = love.math.newRandomGenerator(seed + 12)
+
+    if difficulty == 1 then
+        -- spawn 1 injunction, 1 stone-hand
+        spawnRandomInjunction(plot, team, rgen2)
+        local p1 = lp.curses.getPositionForCurse(plot, team, true, rgen2)
+        if p1 then
+            spawnStoneHand(p1, team, 25, 2)
+        end
+    elseif difficulty == 2 then
+        -- spawn 2 injunctions, 1 stone-hand
+        spawnRandomInjunction(plot, team, rgen2)
+        spawnRandomInjunction(plot, team, rgen2)
+        local p1 = lp.curses.getPositionForCurse(plot, team, true, rgen2)
+        if p1 then
+            spawnStoneHand(p1, team, 20, 4)
+        end
+    end
+end
+
+
+
+function daily.generate(args)
+    local plot = assert(args.plot)
+    local team = assert(args.team)
+    local difficulty = assert(args.difficulty)
+
+    local dayNumber = math.floor(os.time() / (60 * 60 * 24))
+
+    local seed = dayNumber + difficulty
+    local layout = generateLayout(plot, seed)
 
     --[[
     we should vary the seeds slightly so that
@@ -524,6 +596,8 @@ function daily.generate(plot, team, seed, difficulty)
     lp.forceSpawnSlot(assert(layout.pulse:move(1,0)), server.entities.next_level_button_slot, team)
 
     postProcess(plot, team, seed + 4)
+
+    spawnCurses(plot, team, seed + 5, difficulty)
 end
 
 
@@ -539,8 +613,11 @@ chat.handleCommand("r", {
             ent:delete()
         end)
         lp.queue(plot:getCenterPPos(), function ()
-            local r = love.math.random(10,1000)
-            daily.generate(plot, team, r, 1)
+            daily.generate({
+                plot = plot,
+                team = team,
+                difficulty = love.math.random(0,10)
+            })
         end)
     end
 })

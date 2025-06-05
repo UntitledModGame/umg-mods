@@ -863,14 +863,20 @@ do
 
 
 defineStartingItem("basketball", {
-    name = loc("Daily Run"),
+    name = loc("Basketball"),
     description = loc("Randomized daily!"),
 
     isEntityTypeUnlocked = winToUnlock(),
 
     onActivateOnce = function(ent)
         local ppos,team = getPosTeam(ent)
-        daily.generate(ppos:getPlot(), team, 1, 1)
+        local _, dInfo = lp.getDifficulty()
+
+        daily.generate({
+            plot = ppos:getPlot(),
+            team = team,
+            difficulty = dInfo.difficulty
+        })
     end
 })
 

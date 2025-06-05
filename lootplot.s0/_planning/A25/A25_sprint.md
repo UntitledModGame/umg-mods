@@ -334,13 +334,6 @@ the player can START with these curses
     - Start with destroy-slot instead of sell-slot
 
 
-
-
-## =============================
-## TODO:
-## =============================
-
-
 NORMAL-MODE:
 - Stonehand: spawns 3 curses after 25 activations
 
@@ -349,6 +342,12 @@ HARD-MODE:
 - Spawns a trophy-guardian, and 2 stone-hands (on ALL levels)
 - (Stone-hand-1 should spawn 2 curses, after 15 activations)
 - (Stone-hand-2 should spawn 3 curses, after 25 activations)
+
+
+
+## =============================
+## TODO:
+## =============================
 
 
 OTHER BALLS:

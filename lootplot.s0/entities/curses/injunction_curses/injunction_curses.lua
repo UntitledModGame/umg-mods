@@ -45,13 +45,13 @@ local function defCurse(id, name, etype)
     etype.isCurse = 1
     etype.curseCount = 1
 
-    etype.image = etype.image or "injunction_curse"
-
     etype.triggers = etype.triggers or {"PULSE"}
 
     etype.isInvincible = function(ent)
         return true
     end
+
+    etype.lootplotTags = {constants.tags.INJUNCTION_CURSE}
 
     etype.baseMaxActivations = etype.baseMaxActivations or 4
 
