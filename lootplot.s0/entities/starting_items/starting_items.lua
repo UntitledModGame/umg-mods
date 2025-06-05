@@ -539,28 +539,6 @@ defineStartingItem("eight_ball", {
 
 
 
-local FOUR_BALL_UNLOCK = 3
-defineStartingItem("four_ball", {
-    name = loc("Four Ball"),
-    description = loc("Has one extra round per level"),
-
-    unlockAfterWins = FOUR_BALL_UNLOCK,
-    winAchievement = "WIN_FOUR_BALL",
-
-    onActivateOnce = function(ent)
-        lp.setMoney(ent, constants.STARTING_MONEY)
-        local numRounds = constants.ROUNDS_PER_LEVEL + 1
-        lp.setAttribute("NUMBER_OF_ROUNDS", ent, numRounds)
-        spawnNormal(ent)
-        spawnShop(ent)
-        spawnRerollButton(ent)
-        spawnSell(ent)
-        spawnDoomClockAndButtons(ent)
-        spawnCurses(ent)
-    end
-})
-
-
 
 local L_BALL_UNLOCK = 3
 defineStartingItem("L_ball", {

@@ -357,15 +357,17 @@ After 4 wins, hard is unlocked for ALL balls.
 
 
 
+- UPDATE LOVE2D! It's currently not working on some vulkan machines
+
+
+
+
 
 
 ## =============================
 ## TODO:
 ## =============================
 
-
-
-- UPDATE LOVE2D! It's currently not working on some vulkan machines
 
 
 
@@ -375,7 +377,7 @@ After 4 wins, hard is unlocked for ALL balls.
 
 
 STARTER-ITEM UNIQUENESS:
-Every advanced starter-item should come with extra stone-hand curses.
+Every advanced starter-item should "FEEL" unique.
 
 
 
