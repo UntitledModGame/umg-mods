@@ -361,6 +361,10 @@ After 4 wins, hard is unlocked for ALL balls.
 
 
 
+- Remove 4-ball starter-item
+- Remove 4-ball achievements
+
+
 
 
 
@@ -370,16 +374,9 @@ After 4 wins, hard is unlocked for ALL balls.
 
 
 
-
-- Remove 4-ball starter-item
-- Remove 4-ball achievements
-
-
-
 STARTER-ITEM UNIQUENESS:
 Every advanced starter-item should "FEEL" unique.
-
-
+(Kinda like how the 8-ball "feels" unique)
 
 - Make L-Ball better and more exciting; (its really boring currently)
 (Maybe a hybrid lives/price archetype...?)
@@ -387,6 +384,15 @@ Every advanced starter-item should "FEEL" unique.
 
 
 - Fix load save crash  https://discord.com/channels/863625920991854602/1374371590778916894/1374371590778916894
+
+
+
+- We (probably) need a better way to tell the player what curses are.
+Maybe an item that transforms into a random curse when placed?
+IDEA: 
+Cursed Cheese: cost $0, RARE, unlockAfterWins=1, 
+    spawns a curse with 5 lives
+    earns $10
 
 
 
@@ -406,6 +412,12 @@ https://m.youtube.com/watch?v=JPCaFc17ur0&t=27s&pp=2AEbkAIB
  
 https://youtu.be/s8nkrxzOBR4?feature=shared  NOTABLE SONGS:
 ~~- Bullet witch~~ (meh, maybe not, too upbeat)
+
+https://backgroundsounds.itch.io/fun-music-loops
+(PREVIEW: https://soundcloud.com/bgs_stockaudio/fun-music-loops)
+- 1:43 onwards
+- 8:14 onwards (menu music?)
+- 5:11 onwards (MENU MUSIC!!??)
 
 
 ## =============================

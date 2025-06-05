@@ -191,7 +191,7 @@ end
 
 
 
-local spawnRandomCurseTc = typecheck.assert("table", "string", "number?")
+local spawnRandomCurseTc = typecheck.assert("table", "string", "love:RandomGenerator?", "number?")
 
 --- Spawns a curse for a particular team
 --- This can fail if theres no spaces for the curse
@@ -201,7 +201,7 @@ local spawnRandomCurseTc = typecheck.assert("table", "string", "number?")
 ---@param range number?
 ---@return lootplot.ItemEntity?
 function lp_curses.spawnRandomCurse(plot, team, randomSampler, range)
-    spawnRandomCurseTc(plot, team, range)
+    spawnRandomCurseTc(plot, team, randomSampler, range)
     range = range or 2
     -- farkkk this is weird and hacky. oh well
     randomSampler = randomSampler or love.math.newRandomGenerator(love.math.random(0,1022093))
@@ -229,6 +229,24 @@ function lp_curses.spawnRandomCurse(plot, team, randomSampler, range)
     end
     return nil
 end
+
+
+
+
+local spawnRandomCurseAtTc = typecheck.assert("table", "string", "love:RandomGenerator?")
+
+--- Spawns a random curse at a position
+---@param ppos lootplot.PPos
+---@param team string
+---@param randomSampler? love.RandomGenerator
+---@return lootplot.ItemEntity?
+function lp_curses.spawnRandomCurseAt(ppos, team, randomSampler)
+    spawnRandomCurseAtTc(ppos, team)
+    local curseId = table.random(spawnableCurses, randomSampler)
+    local ent = lp.forceSpawnItem(ppos, server.entities[curseId], team, true)
+    return ent
+end
+
 
 
 

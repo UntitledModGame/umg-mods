@@ -86,6 +86,38 @@ defineFood("cheese_slice", {
 })
 
 
+
+
+
+local EVIL_CHEESE_SLICE_MONEY = 20
+--[[
+gives the player intuition about curses
+]]
+defineFood("evil_cheese_slice", {
+    name = loc("Evil Cheese Slice"),
+
+    basePrice = 0,
+    rarity = lp.rarities.UNCOMMON,
+
+    activateDescription = loc("50% chance to earn {lootplot:MONEY_COLOR}$%{money}{/lootplot:MONEY_COLOR}.\nSpawns a {wavy}{c r=0.8 g=0.3 b=0.1}CURSE{/c}{/wavy}!", {
+        money = EVIL_CHEESE_SLICE_MONEY
+    }),
+
+    onActivate = function (selfEnt)
+        if lp.SEED:randomMisc() >= 0.5 then
+            lp.addMoney(selfEnt, EVIL_CHEESE_SLICE_MONEY)
+        end
+        local ppos = lp.getPos(selfEnt)
+        if ppos then
+            lp.curses.spawnRandomCurseAt(ppos, selfEnt.lootplotTeam)
+        end
+    end
+})
+
+
+
+
+
 defineFood("golden_horseshoe", {
     name = loc("Golden Horseshoe"),
     activateDescription = loc("50% chance to double your money.\nIf that fails, set money to 0."),

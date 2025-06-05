@@ -243,7 +243,7 @@ defCurse("repeater_injunction", "Repeater Injunction", {
 
 
 
-defCurse("grubby_injunction", "Grubby Injunction", {
+defCurse("anti_grubby_injunction", "Anti Grubby Injunction", {
     activateDescription = loc("All items with {lootplot:GRUB_COLOR_LIGHT}Grubby{/lootplot:GRUB_COLOR_LIGHT} get transformed into manure"),
 
     grubMoneyCap = 1000,
