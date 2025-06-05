@@ -66,11 +66,12 @@ function ContinueRunDialog:init(args)
         color = objects.Color(1,1,1,1):setHSL(184, 0.7, 0.5),
         font = fonts.getLargeFont(),
     })
-    e.exitButton = ui.elements.Button({
-        image = "red_square_1",
-        backgroundColor = objects.Color.TRANSPARENT,
-        outlineColor = objects.Color.TRANSPARENT,
-        click = function()
+    e.exitButton = StretchableButton({
+        text = "X",
+        scale = 2,
+        color = objects.Color(1,1,1,1):setHSL(340, 0.7, 0.5),
+        font = fonts.getLargeFont(),
+        onClick = function()
             -- leave game:
             self.isQuitting = true
             client.disconnect()
@@ -117,7 +118,7 @@ function ContinueRunDialog:onRender(x, y, w, h)
         :moveRatio(0, 0.1 * math.sin(love.timer.getTime()))
 
     local _, exitButton = header:padRatio(0.1):splitHorizontal(9,1)
-    exitButton = exitButton:padRatio(0.1)
+    exitButton = exitButton:padRatio(0.25)
 
     local continuePane, startPane = body:splitHorizontal(1, 1)
     local continueInfo, continueButton = continuePane:splitVertical(4, 1)
