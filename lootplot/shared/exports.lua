@@ -1828,7 +1828,7 @@ function lp.metaprogression.isEntityTypeUnlocked(etype)
         ok = ok and etype:isEntityTypeUnlocked()
     end
     if etype.unlockAfterWins then
-        ok = ok and (lp.getWinCount() > etype.unlockAfterWins)
+        ok = ok and (lp.getWinCount() >= etype.unlockAfterWins)
     end
     ok = ok and umg.ask("lootplot:isEntityTypeUnlocked", etype)
     return ok
