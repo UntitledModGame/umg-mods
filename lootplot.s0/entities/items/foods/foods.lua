@@ -1062,7 +1062,7 @@ defineFood("cloneberries", {
     activateDescription = loc("Clones the slot the item is placed in."),
 
     rarity = lp.rarities.RARE,
-    basePrice = 7,
+    basePrice = 13,
 
     shape = lp.targets.BishopShape(1),
 

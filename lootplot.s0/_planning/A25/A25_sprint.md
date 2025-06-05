@@ -391,7 +391,7 @@ Every advanced starter-item should "FEEL" unique.
 Maybe an item that transforms into a random curse when placed?
 IDEA: 
 Cursed Cheese: cost $0, RARE, unlockAfterWins=1, 
-    spawns a curse with 5 lives
+    spawns a curse
     earns $10
 
 
