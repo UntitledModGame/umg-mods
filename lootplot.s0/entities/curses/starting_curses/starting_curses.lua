@@ -107,7 +107,7 @@ end
 
 
 do
-local NUM_CURSES = 4
+local NUM_CURSES = 6
 defCurse("trophy_guardian", "Trophy Guardian", {
     description = loc("When the final level is reached, delete self, and spawn %{n} random curses", {
         n = NUM_CURSES

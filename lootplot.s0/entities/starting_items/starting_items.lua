@@ -94,6 +94,36 @@ end
 
 
 
+---@param ppos lootplot.PPos
+---@param team string
+---@param numActivations number
+---@param numCurses number
+---@return Entity?
+local function spawnStoneHand(ppos, team, numActivations, numCurses)
+    local stoneHand = lp.forceSpawnItem(ppos, server.entities.stone_hand, team, true)
+    if stoneHand then
+        stoneHand.stoneHand_activations = numActivations
+        stoneHand.stoneHand_curses = numCurses
+    end
+    return stoneHand
+end
+
+
+local function spawnCurses(ent)
+    local ppos, team = getPosTeam(ent)
+    local d, dInfo = lp.getDifficulty()
+    if dInfo.difficulty == 1 then
+        -- normal mode
+        spawnStoneHand(assert(ppos:move(0, -10)), team, 25, 3)
+    elseif dInfo.difficulty >= 2 then
+        -- HARD mode
+        spawnStoneHand(assert(ppos:move(-4, -10)), team, 15, 2)
+        lp.forceSpawnItem(assert(ppos:move(0, -12)), server.entities.trophy_guardian, team, true)
+        spawnStoneHand(assert(ppos:move(4, -10)), team, 25, 3)
+    end
+end
+
+
 
 local function spawnPulseButton(ent)
     local ppos, team = getPosTeam(ent)
@@ -344,6 +374,7 @@ defineStartingItem("five_ball", {
         end
 
         spawnDoomClockAndButtons(ent)
+        spawnCurses(ent)
     end
 })
 
@@ -395,6 +426,7 @@ defineStartingItem("six_ball", {
         spawnSell(ent)
 
         spawnDoomClockAndButtons(ent)
+        spawnCurses(ent)
     end,
 })
 
@@ -444,6 +476,7 @@ defineStartingItem("G_ball", {
         spawnRerollButton(ent)
         spawnSell(ent)
         spawnDoomClockAndButtons(ent)
+        spawnCurses(ent)
     end
 })
 
@@ -470,6 +503,7 @@ defineStartingItem("S_ball", {
         spawnRerollButton(ent)
         spawnSell(ent)
         spawnDoomClockAndButtons(ent)
+        spawnCurses(ent)
 
         lp.forceSpawnItem(assert(ppos:move(3, 0)), server.entities.aquarium_curse, team)
     end
@@ -518,6 +552,7 @@ defineStartingItem("eight_ball", {
         spawnRerollButton(ent, -1,0)
 
         spawnDoomClockAndButtons(ent)
+        spawnCurses(ent)
     end,
 })
 
@@ -543,6 +578,7 @@ defineStartingItem("four_ball", {
         spawnRerollButton(ent)
         spawnSell(ent)
         spawnDoomClockAndButtons(ent)
+        spawnCurses(ent)
     end
 })
 
@@ -572,6 +608,7 @@ defineStartingItem("L_ball", {
         -- is because money starts at 0. If it's a shcomp, onActivateOnce will never be called!
 
         spawnDoomClockAndButtons(ent)
+        spawnCurses(ent)
     end,
 
     shape = lp.targets.UpShape(1),
@@ -648,6 +685,7 @@ defineStartingItem("seven_ball", {
         spawnRerollButton(ent, -2,0)
         spawnSell(ent, 0, 2)
         spawnDoomClockAndButtons(ent)
+        spawnCurses(ent)
     end
 })
 
@@ -678,6 +716,7 @@ defineStartingItem("blank_ball", {
         spawnSell(ent)
 
         spawnDoomClockAndButtons(ent, -1)
+        spawnCurses(ent)
     end,
 })
 
@@ -704,6 +743,7 @@ defineStartingItem("nine_ball", {
         spawnSell(ent)
 
         spawnDoomClockAndButtons(ent)
+        spawnCurses(ent)
 
         wg.spawnSlots(assert(ppos:move(4,0)), server.entities.null_slot, 3,3, team, function(slotEnt)
             slotEnt.canGoIntoDebt = true
@@ -810,6 +850,7 @@ defineStartingItem("bowling_ball", {
         end)
 
         spawnDoomClockAndButtons(ent)
+        spawnCurses(ent)
     end
 })
 
@@ -819,11 +860,6 @@ defineStartingItem("bowling_ball", {
 
 
 do
-
-local function generateStructure(seed)
-
-end
-
 
 
 defineStartingItem("basketball", {
@@ -835,16 +871,6 @@ defineStartingItem("basketball", {
     onActivateOnce = function(ent)
         local ppos,team = getPosTeam(ent)
         daily.generate(ppos:getPlot(), team, 1, 1)
-        --[[
-        spawnDailyShop(ent)
-
-        spawnMainIsland(ent)
-        spawnNeutralScenario(ent)
-
-        spawnMysterySlots(ent)
-
-        spawnCurses(ent)
-        ]]
     end
 })
 

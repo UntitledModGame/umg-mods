@@ -1193,6 +1193,12 @@ function lp.forceSpawnItem(ppos, itemEType, team, spawnMidair)
     local itemEnt = itemEType()
     assert(itemEnt.item, "forceSpawnItem MUST spawn an item entity!")
     itemEnt.lootplotTeam = team or "?"
+
+    local plot = ppos:getPlot() -- ensure fog is revealed
+    if not plot:isFogRevealed(ppos, team) then
+        plot:setFogRevealed(ppos, team, true)
+    end
+
     if spawnMidair and (not lp.posToSlot(ppos)) then
         -- if theres no slot, and spawnMidair is true, give item floaty
         itemEnt.canItemFloat = true

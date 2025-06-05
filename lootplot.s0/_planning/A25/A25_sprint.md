@@ -341,6 +341,9 @@ the player can START with these curses
 ## =============================
 
 
+NORMAL-MODE:
+- Stonehand: spawns 3 curses after 25 activations
+
 
 HARD-MODE:
 - Spawns a trophy-guardian, and 2 stone-hands (on ALL levels)
@@ -352,6 +355,8 @@ OTHER BALLS:
 Every advanced starter-item should come with extra stone-hand curses.
 
 
+Add curses to DAILY-RUN
+
 
 Difficulty Unlocks:
 when you win on easy, medium should be unlocked for ALL balls.
@@ -359,7 +364,7 @@ when you win on medium, hard should be unlocked for ALL balls.
 
 
 
-- UPDATE LOVE2D! It's currently not working
+- UPDATE LOVE2D! It's currently not working on some vulkan machines
 
 
 
