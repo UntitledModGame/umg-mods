@@ -37,31 +37,6 @@ end
 
 
 
-local function unlockAfterWins(numberOfWins)
-    local isEntityTypeUnlocked = function(etype)
-        if lp.getWinCount() >= numberOfWins then
-            return true
-        end
-    end
-
-    return isEntityTypeUnlocked
-end
-
-
--- Starting-items are unlocked in order of definition,
--- Each time you win a game, you unlock a new starting-item.
-local UNLOCK_WIN_COUNT = 2
-local function winToUnlock()
-    local currWinCount = UNLOCK_WIN_COUNT -- capture closure
-    UNLOCK_WIN_COUNT = UNLOCK_WIN_COUNT + 1
-    local function isUnlocked()
-        if lp.getWinCount() >= currWinCount then
-            return true
-        end
-        return false
-    end
-    return isUnlocked
-end
 
 
 ---@param ent Entity
@@ -334,13 +309,14 @@ defineStartingItem("one_ball", {
 
 
 
+local FIVE_BALL_UNLOCK = 1
 defineStartingItem("five_ball", {
     name = loc("Five Ball"),
     description = loc("Good with rotation"),
 
     activateDescription = loc("Rotates items"),
 
-    isEntityTypeUnlocked = unlockAfterWins(1),
+    unlockAfterWins = FIVE_BALL_UNLOCK,
     winAchievement = "WIN_FIVE_BALL",
 
     shape = lp.targets.RookShape(1),
@@ -382,6 +358,7 @@ defineStartingItem("five_ball", {
 
 
 
+local SIX_BALL_UNLOCK = 1
 defineStartingItem("six_ball", {
     name = loc("Six Ball"),
 
@@ -392,7 +369,7 @@ defineStartingItem("six_ball", {
     baseMaxActivations = 10,
     baseMoneyGenerated = 2,
 
-    isEntityTypeUnlocked = unlockAfterWins(1),
+    unlockAfterWins = SIX_BALL_UNLOCK,
     winAchievement = "WIN_SIX_BALL",
 
     onActivateOnce = function(ent)
@@ -433,6 +410,7 @@ defineStartingItem("six_ball", {
 
 
 
+local G_BALL_UNLOCK = 2
 defineStartingItem("G_ball", {
     name = loc("G Ball"),
     description = loc("Money is capped!"),
@@ -440,7 +418,7 @@ defineStartingItem("G_ball", {
     baseMoneyGenerated = 1,
     grubMoneyCap = constants.DEFAULT_GRUB_MONEY_CAP,
 
-    isEntityTypeUnlocked = winToUnlock(),
+    unlockAfterWins = G_BALL_UNLOCK,
     winAchievement = "WIN_G_BALL",
 
     onActivateOnce = function(ent)
@@ -482,12 +460,12 @@ defineStartingItem("G_ball", {
 
 
 
-
+local S_BALL_UNLOCK = 2
 defineStartingItem("S_ball", {
     name = loc("S Ball"),
     description = loc("Forced negative-bonus"),
 
-    isEntityTypeUnlocked = winToUnlock(),
+    unlockAfterWins = S_BALL_UNLOCK,
     winAchievement = "WIN_S_BALL",
 
     onActivateOnce = function(ent)
@@ -512,6 +490,7 @@ defineStartingItem("S_ball", {
 
 
 
+local EIGHT_BALL_UNLOCK = 3
 defineStartingItem("eight_ball", {
     name = loc("Eight Ball"),
     description = loc("Is surrounded by stone"),
@@ -520,7 +499,7 @@ defineStartingItem("eight_ball", {
     baseMultGenerated = 1,
     lives = 99,
 
-    isEntityTypeUnlocked = winToUnlock(),
+    unlockAfterWins = EIGHT_BALL_UNLOCK,
     winAchievement = "WIN_EIGHT_BALL",
 
     onActivateOnce = function(ent)
@@ -560,13 +539,12 @@ defineStartingItem("eight_ball", {
 
 
 
-
-
+local FOUR_BALL_UNLOCK = 3
 defineStartingItem("four_ball", {
     name = loc("Four Ball"),
     description = loc("Has one extra round per level"),
 
-    isEntityTypeUnlocked = winToUnlock(),
+    unlockAfterWins = FOUR_BALL_UNLOCK,
     winAchievement = "WIN_FOUR_BALL",
 
     onActivateOnce = function(ent)
@@ -584,11 +562,12 @@ defineStartingItem("four_ball", {
 
 
 
+local L_BALL_UNLOCK = 3
 defineStartingItem("L_ball", {
     name = loc("L Ball"),
     description = loc("Gives lives to items/slots"),
 
-    isEntityTypeUnlocked = winToUnlock(),
+    unlockAfterWins = L_BALL_UNLOCK,
     winAchievement = "WIN_L_BALL",
 
     onActivateOnce = function(ent)
@@ -624,6 +603,7 @@ defineStartingItem("L_ball", {
 
 
 
+local SEVEN_BALL_UNLOCK = 4
 defineStartingItem("seven_ball", {
     name = loc("Seven Ball"),
     description = loc("Dirt, Rocks, and a Bomb"),
@@ -632,7 +612,7 @@ defineStartingItem("seven_ball", {
         RARE = lp.rarities.RARE.displayString
     }),
 
-    isEntityTypeUnlocked = winToUnlock(),
+    unlockAfterWins = SEVEN_BALL_UNLOCK,
     winAchievement = "WIN_SEVEN_BALL",
 
     shape = lp.targets.ON_SHAPE,
@@ -694,11 +674,12 @@ defineStartingItem("seven_ball", {
 
 
 
+local BLANK_BALL_UNLOCK = 4
 defineStartingItem("blank_ball", {
     name = loc("Blank Ball"),
     description = loc("Has a Rulebender slot"),
 
-    isEntityTypeUnlocked = winToUnlock(),
+    unlockAfterWins = BLANK_BALL_UNLOCK,
     winAchievement = "WIN_BLANK_BALL",
 
     onActivateOnce = function(ent)
@@ -723,13 +704,13 @@ defineStartingItem("blank_ball", {
 
 
 
-do
+local NINE_BALL_UNLOCK = 4
 
 defineStartingItem("nine_ball", {
     name = loc("Nine Ball"),
     description = loc("Tax burden is heavy"),
 
-    isEntityTypeUnlocked = winToUnlock(),
+    unlockAfterWins = NINE_BALL_UNLOCK,
     winAchievement = "WIN_NINE_BALL",
 
     baseMaxActivations = 1,
@@ -758,15 +739,15 @@ defineStartingItem("nine_ball", {
     end
 })
 
-end
 
 
 
+local RAINBOW_BALL_UNLOCK = 4
 defineStartingItem("rainbow_ball", {
     name = loc("Rainbow Ball"),
     description = loc("Roy G Biv!"),
 
-    isEntityTypeUnlocked = winToUnlock(),
+    unlockAfterWins = RAINBOW_BALL_UNLOCK,
     winAchievement = "WIN_RAINBOW",
 
     baseMaxActivations = 1,
@@ -801,13 +782,14 @@ defineStartingItem("rainbow_ball", {
 
 
 
+local BOWLING_BALL_UNLOCK = 4
 defineStartingItem("bowling_ball", {
     name = loc("Bowling Ball"),
     description = loc("STRIKE!"),
 
     activateDescription = loc("Increases {lootplot:DOOMED_LIGHT_COLOR}doom-count{/lootplot:DOOMED_LIGHT_COLOR} of slots by 2"),
 
-    isEntityTypeUnlocked = winToUnlock(),
+    unlockAfterWins = BOWLING_BALL_UNLOCK,
     winAchievement = "WIN_BOWLING_BALL",
 
     shape = lp.targets.KingShape(1),
@@ -859,14 +841,14 @@ defineStartingItem("bowling_ball", {
 
 
 
-do
 
+local DAILY_RUN_UNLOCK = 3
 
 defineStartingItem("basketball", {
     name = loc("Basketball"),
     description = loc("Randomized daily!"),
 
-    isEntityTypeUnlocked = winToUnlock(),
+    unlockAfterWins = DAILY_RUN_UNLOCK,
 
     onActivateOnce = function(ent)
         local ppos,team = getPosTeam(ent)
@@ -880,5 +862,4 @@ defineStartingItem("basketball", {
     end
 })
 
-end
 
