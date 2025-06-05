@@ -357,6 +357,17 @@ defCurse("anti_bonus_injunction", "Anti Bonus Injunction", {
 
 
 
+
+
+defCurse("grubby_injunction", "Grubby Injunction", {
+    basePointsGenerated = -5,
+    grubMoneyCap = 15,
+})
+
+
+
+
+
 defCurse("capital_injunction", "Capital Injunction", {
     activateDescription = loc("All items that earn {lootplot:MONEY_COLOR}money{/lootplot:MONEY_COLOR} get transformed into manure"),
 

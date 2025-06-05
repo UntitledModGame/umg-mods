@@ -351,16 +351,17 @@ After 2 wins, medium is unlocked for ALL balls.
 After 4 wins, hard is unlocked for ALL balls.
 
 
-
-## =============================
-## TODO:
-## =============================
-
-
 - Make it so starting-items are unlocked FASTER. 
 (after defeating S-ball, ALL starter-items should be unlocked.)
 (Players dont wanna grind, man.)
 
+
+
+
+
+## =============================
+## TODO:
+## =============================
 
 
 
@@ -373,9 +374,8 @@ After 4 wins, hard is unlocked for ALL balls.
 
 
 
-OTHER BALLS:
+STARTER-ITEM UNIQUENESS:
 Every advanced starter-item should come with extra stone-hand curses.
-
 
 
 
