@@ -309,7 +309,6 @@ the player can START with these curses
 
 
 - Create DAILY run: 
-### (See `DAILY_RUN.md` for notes!!!)
 - Randomize shop (Start with custom/special shop slots)
     - discounted-shop, all prices 50% off
     - pink-shop-slot, green-shop-slot
@@ -347,21 +346,21 @@ HARD-MODE:
 Add curses to DAILY-RUN
 
 
+Difficulty Unlocks:
+After 2 wins, medium is unlocked for ALL balls.
+After 4 wins, hard is unlocked for ALL balls.
+
+
 
 ## =============================
 ## TODO:
 ## =============================
 
 
-OTHER BALLS:
-Every advanced starter-item should come with extra stone-hand curses.
+- Make it so starting-items are unlocked FASTER. 
+(after defeating S-ball, ALL starter-items should be unlocked.)
+(Players dont wanna grind, man.)
 
-
-
-
-Difficulty Unlocks:
-when you win on easy, medium should be unlocked for ALL balls.
-when you win on medium, hard should be unlocked for ALL balls.
 
 
 
@@ -373,9 +372,10 @@ when you win on medium, hard should be unlocked for ALL balls.
 - Remove 4-ball achievements
 
 
-- Make it so starting-items are unlocked FASTER. 
-(after defeating S-ball, ALL starter-items should be unlocked.)
-(Players dont wanna grind, man.)
+
+OTHER BALLS:
+Every advanced starter-item should come with extra stone-hand curses.
+
 
 
 

@@ -12,15 +12,40 @@ local loc = localization.localize
 local DifficultySelect = ui.Element("lootplot.singleplayer:DifficultySelect")
 
 
+
+local function isDifficultyUnlocked(difficulty)
+    local info = lp.getDifficultyInfo(difficulty)
+    local winCount = lp.getWinCount()
+    if info.difficulty == 0 then
+        -- can always play with easy
+        return true
+    elseif info.difficulty == 1 then
+        -- Normal-mode is unlocked after 2 wins
+        return winCount >= 2
+    elseif info.difficulty >= 2 then
+        -- Hard-mode is unlocked after 2 wins
+        return winCount >= 4
+    end
+end
+
 local function canPlayWith(self, index)
+    --[[
+    players can play on a difficulty,
+    - if they have beat the previous difficulty for that ball
+    - If they have won a certain number of runs overall.
+    ]]
     if index == 1 then
         return true
     end
     local starterItemType = self.newRunScene:getSelectedStarterItem()
     local starterItem = starterItemType:getTypename()
     if starterItem and lp.isWinRecipient(starterItem) then
-        local difficulty = self.difficulties[index - 1]
-        return lp.hasWonOnDifficulty(starterItem, difficulty)
+        local difficulty = self.difficulties[index]
+        if isDifficultyUnlocked(difficulty) then
+            return true
+        end
+        local lastDifficulty = self.difficulties[index - 1]
+        return lp.hasWonOnDifficulty(starterItem, lastDifficulty)
     end
 end
 
