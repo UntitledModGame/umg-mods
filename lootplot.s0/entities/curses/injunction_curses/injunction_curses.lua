@@ -432,7 +432,7 @@ defCurse("trigger_injunction", "Trigger Injunction", {
     onActivate = function(ent)
         local team = assert(ent.lootplotTeam)
         foreachItem(ent, function(itemEnt, ppos)
-            local etype = ent:getEntityType()
+            local etype = itemEnt:getEntityType()
             if not setEqual(etype.triggers, itemEnt.triggers) then
                 spawnManure(ppos, team)
             end
