@@ -561,6 +561,8 @@ defineStartingItem("L_ball", {
         spawnNormal(ent)
         spawnSell(ent)
 
+        lp.forceSpawnSlot(ppos, server.entities.pink_slot, team)
+
         lp.forceSpawnItem(assert(ppos:move(3, 0)), server.entities.eraser_curse, team)
 
         wg.spawnSlots(assert(ppos:move(0,-3)), server.entities.null_slot, 1,1, team)

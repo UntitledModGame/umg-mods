@@ -365,15 +365,6 @@ After 4 wins, hard is unlocked for ALL balls.
 - Remove 4-ball achievements
 
 
-
-
-
-## =============================
-## TODO:
-## =============================
-
-
-
 STARTER-ITEM UNIQUENESS:
 Every advanced starter-item should "FEEL" unique.
 (Kinda like how the 8-ball "feels" unique)
@@ -383,16 +374,24 @@ Every advanced starter-item should "FEEL" unique.
 (Also maybe it should spawn with a special INJUNCTION curse)
 
 
-- Fix load save crash  https://discord.com/channels/863625920991854602/1374371590778916894/1374371590778916894
-
-
-
 - We (probably) need a better way to tell the player what curses are.
 Maybe an item that transforms into a random curse when placed?
 IDEA: 
 Cursed Cheese: cost $0, RARE, unlockAfterWins=1, 
     spawns a curse
     earns $10
+
+
+
+
+
+## =============================
+## TODO:
+## =============================
+
+
+- Fix load save crash  https://discord.com/channels/863625920991854602/1374371590778916894/1374371590778916894
+
 
 
 
