@@ -50,8 +50,8 @@ setVolume("lootplot.singleplayer:andreas_theme", 0.65)
 setVolume("lootplot.singleplayer:whimsical_breeze", 0.6)
 setVolume("lootplot.singleplayer:floppy_rules", 0.85)
 
-setVolume("lootplot.singleplayer:fast_lanes_light_rain", 0.65)
-setVolume("lootplot.singleplayer:you_were_always_in_the_right_place_no_perc", 0.65)
+setVolume("lootplot.singleplayer:fast_lanes_light_rain", 0.7)
+setVolume("lootplot.singleplayer:you_were_always_in_the_right_place_no_perc", 0.75)
 
 
 local musicManager = {}
