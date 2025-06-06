@@ -383,8 +383,57 @@ defCurse("capital_injunction", "Capital Injunction", {
     end
 })
 
+---@param ent1 Entity
+---@param ent2 Entity
+local function isShapeEqual(ent1, ent2)
+    if ent1.shape and ent2.shape then
+        
+    local shape1 = ent1.shape.relativeCoords
+    local shape2 = ent2.shape.relativeCoords
+
+    local shapeTestList = {{shape1, shape2}, {shape2, shape1}}
+    local isSame = true
+
+    for _, checkList in ipairs(shapeTestList) do
+        local checks = {true, true, true, true}
+        for i=0, 3 do
+            local checkShape1 = checkList[1]
+            local checkShape2 = checkList[2]
+            checkShape1 = lp.targets.RotationShape(ent1.shape, i).relativeCoords
+
+            local compareTable = {}
+            
+            for _, coord in pairs(checkShape1) do
+                if compareTable[coord[1]] == nil then
+                    compareTable[coord[1]] = {}
+                end
+                if compareTable[coord[1]][coord[2]] == nil then
+                    compareTable[coord[1]][coord[2]] = true
+                end
+            end
+
+            for _, coord in pairs(checkShape2) do
+                if compareTable[coord[1]] == nil then
+                    checks[i+1] = false
+                    break
+                end
+                if compareTable[coord[1]][coord[2]] == nil then
+                    checks[i+1] = false
+                    break
+                end
+            end
+        end
+        if checks[1] == false and checks[2] == false and checks[3] == false and checks[4] == false then
+            isSame = false
+            break
+        end
+    end
 
 
+    return isSame
+
+    end
+end
 
 defCurse("shape_injunction", "Shape Injunction", {
     activateDescription = loc("All items whose {lootplot.targets:COLOR}targets{/lootplot.targets:COLOR} have been modified get transformed into manure.\n(Eg. with pies or gloves)"),
@@ -395,9 +444,7 @@ defCurse("shape_injunction", "Shape Injunction", {
         local team = assert(ent.lootplotTeam)
         foreachItem(ent, function(itemEnt, ppos)
             local etype = itemEnt:getEntityType()
-            local shape = itemEnt.shape and itemEnt.shape.relativeCoords
-            local oldShape = etype.shape and etype.shape.relativeCoords
-            if shape and (#shape ~= #oldShape) then
+            if itemEnt.shape and isShapeEqual(itemEnt, etype) == false then
                 -- gotcha!!! its a different shape. Die!
                 spawnManure(ppos, team)
             end
