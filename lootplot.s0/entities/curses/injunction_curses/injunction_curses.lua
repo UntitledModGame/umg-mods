@@ -397,7 +397,7 @@ defCurse("shape_injunction", "Shape Injunction", {
             local etype = itemEnt:getEntityType()
             local shape = itemEnt.shape and itemEnt.shape.relativeCoords
             local oldShape = etype.shape and etype.shape.relativeCoords
-            if shape and (#shape ~= #oldShape) then
+            if not lp.targets.areShapesRotationallyEqual(shape, oldShape) then
                 -- gotcha!!! its a different shape. Die!
                 spawnManure(ppos, team)
             end
