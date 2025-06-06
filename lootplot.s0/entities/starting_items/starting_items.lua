@@ -50,11 +50,12 @@ end
 ---@param team string
 ---@param radius integer
 local function clearFogInCircle(ppos, team, radius)
+    local searchRad = math.ceil(radius)
     local plot = ppos:getPlot()
     local rsq = radius * radius
 
-    for y = -radius, radius do
-        for x = -radius, radius do
+    for y = -searchRad, searchRad do
+        for x = -searchRad, searchRad do
             local newPPos = ppos:move(x, y)
 
             if newPPos then
@@ -75,6 +76,7 @@ end
 ---@param numCurses number
 ---@return Entity?
 local function spawnStoneHand(ppos, team, numActivations, numCurses)
+    clearFogInCircle(ppos, team, 1.5)
     local stoneHand = lp.forceSpawnItem(ppos, server.entities.stone_hand, team, true)
     if stoneHand then
         stoneHand.stoneHand_activations = numActivations
@@ -93,7 +95,11 @@ local function spawnCurses(ent)
     elseif dInfo.difficulty >= 2 then
         -- HARD mode
         spawnStoneHand(assert(ppos:move(-4, -10)), team, 15, 2)
-        lp.forceSpawnItem(assert(ppos:move(0, -12)), server.entities.trophy_guardian, team, true)
+
+        local p2 = assert(ppos:move(0, -12))
+        lp.forceSpawnItem(p2, server.entities.trophy_guardian, team, true)
+        clearFogInCircle(p2, team, 1.5)
+
         spawnStoneHand(assert(ppos:move(4, -10)), team, 25, 3)
     end
 end
