@@ -394,15 +394,6 @@ Cursed Cheese: cost $0, RARE, unlockAfterWins=1,
 
 
 
-
-- Make knight-glove and Up-glove look a bit different
-(change the fingers?)
-
-- Contraption-items: They all look too similar
-
-- Leather-items: Too similar...? Even the dev forgets what they do!!! Ragh!
-
-
 ## ADD NEW MUSIC
 https://m.youtube.com/watch?v=JPCaFc17ur0&t=27s&pp=2AEbkAIB
 - ~~You were always in the right place,~~
