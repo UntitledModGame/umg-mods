@@ -307,6 +307,8 @@ defItem("neko_cat", {
     canItemFloat = true,
     sticky = true,
 
+    lootplotTags = {constants.tags.CAT},
+
     listen = {
         type = "ITEM",
         trigger = "BUY",
