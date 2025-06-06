@@ -841,11 +841,16 @@ defineStartingItem("basketball", {
         local ppos,team = getPosTeam(ent)
         local _, dInfo = lp.getDifficulty()
 
+        lp.setMoney(ent, constants.STARTING_MONEY)
+        lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
+
         daily.generate({
             plot = ppos:getPlot(),
             team = team,
             difficulty = dInfo.difficulty
         })
+
+        spawnDoomClock(ent)
     end
 })
 
