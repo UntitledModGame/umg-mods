@@ -130,7 +130,7 @@ defCurse("doomed_injunction", "Doomed Injunction", {
     doomCount = 1000,
 
     onActivate = function(ent)
-        local slots = getSlots(ent, function(e, ppos)
+        local slots = getSlotsNoButtons(ent, function(e, ppos)
             return not e.doomCount
         end)
         for _,s in ipairs(slots) do
@@ -443,7 +443,7 @@ defCurse("trigger_injunction", "Trigger Injunction", {
 
 
 
-defCurse("activation_injunction", "Shape Injunction", {
+defCurse("activation_injunction", "Activation Injunction", {
     activateDescription = loc("If ANY item has more than (3/3) {lootplot:TRIGGER_COLOR}activations{/lootplot:TRIGGER_COLOR}, subtract 1 activation from that item."),
 
     onActivate = function(ent)
