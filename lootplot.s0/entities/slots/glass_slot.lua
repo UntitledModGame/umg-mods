@@ -85,7 +85,7 @@ defGlassSlot("lootplot.s0:red_glass_slot", {
 
     triggers = {"PULSE"},
 
-    unlockAfterWins = helper.unlockAfterWins(4),
+    unlockAfterWins = 4,
 
     rarity = lp.rarities.EPIC,
 

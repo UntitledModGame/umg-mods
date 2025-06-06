@@ -1408,6 +1408,12 @@ local function giveCommonComponents(etype)
 end
 
 
+local function commonAssertions(etype)
+    if etype.unlockAfterWins and type(etype.unlockAfterWins) ~= "number" then
+        umg.melt("this component needs to be a number")
+    end
+end
+
 
 
 
@@ -1500,6 +1506,7 @@ function lp.defineItem(name, itemType)
     itemType.hitboxDistance = itemType.hitboxDistance or 8
     itemType.hoverable = true
     giveCommonComponents(itemType)
+    commonAssertions(itemType)
     assertTriggersValid(name, itemType.triggers)
 
     umg.defineEntityType(name, itemType)
@@ -1540,6 +1547,7 @@ function lp.defineSlot(name, slotType)
     slotType.hitboxArea = slotType.hitboxArea or DEFAULT_SLOT_HITBOX_AREA
     slotType.hoverable = true
     giveCommonComponents(slotType)
+    commonAssertions(slotType)
     assertTriggersValid(name, slotType.triggers)
 
     umg.defineEntityType(name, slotType)

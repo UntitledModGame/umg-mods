@@ -101,14 +101,6 @@ local function drawDelayItemNumber(ent, delayCount)
 end
 
 
----@param numWins number
----@return function
-function helper.unlockAfterWins(numWins)
-    assert(type(numWins) == "number")
-    return function()
-        return lp.getWinCount() >= numWins
-    end
-end
 
 ---@return boolean
 function helper.unlockAfterTutorial()
