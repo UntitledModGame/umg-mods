@@ -359,14 +359,12 @@ defDestructive("dark_skull", "Dark Skull", {
 
 
 defDestructive("skull", "Skull", {
-    activateDescription = loc("Destroy items with {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} trigger. Trigger {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} on items."),
+    activateDescription = loc("Destroy items with {lootplot:TRIGGER_COLOR}Destroy{/lootplot:TRIGGER_COLOR} trigger.\nTrigger {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} on items."),
 
     rarity = lp.rarities.UNCOMMON,
 
     basePrice = 10,
     baseMaxActivations = 10,
-
-    baseMoneyGenerated = -1,
 
     shape = lp.targets.RookShape(1),
 
