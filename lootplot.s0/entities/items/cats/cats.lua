@@ -272,6 +272,9 @@ defineCat("crappy_cat", {
 
     target = {
         type = "ITEM",
+        filter = function(selfEnt, ppos, targetEnt)
+            return not lp.curses.isCurse(targetEnt)
+        end,
         activate = function(selfEnt, ppos, targetEnt)
             lp.forceCloneItem(selfEnt, ppos)
         end
