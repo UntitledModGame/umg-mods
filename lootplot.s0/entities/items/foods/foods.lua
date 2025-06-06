@@ -1419,7 +1419,7 @@ defineMush("mushroom_red", {
 
     onActivate = function(ent)
         local slots = lp.targets.getConvertedTargets(ent)
-        if #slots > 1 then
+        if #slots > 0 then
             local slotEnt = table.random(slots)
             lp.modifierBuff(slotEnt, "multGenerated", MULT_BUFF, ent)
         end
@@ -1440,7 +1440,7 @@ defineMush("mushroom_green", {
 
     onActivate = function(ent)
         local slots = lp.targets.getConvertedTargets(ent)
-        if #slots > 1 then
+        if #slots > 0 then
             local slotEnt = table.random(slots)
             lp.modifierBuff(slotEnt, "pointsGenerated", POINTS_BUFF, ent)
         end
@@ -1461,7 +1461,7 @@ defineMush("mushroom_blue", {
 
     onActivate = function(ent)
         local slots = lp.targets.getConvertedTargets(ent)
-        if #slots > 1 then
+        if #slots > 0 then
             local slotEnt = table.random(slots)
             lp.modifierBuff(slotEnt, "bonusGenerated", BONUS_BUFF, ent)
         end
