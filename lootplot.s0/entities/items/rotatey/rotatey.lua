@@ -156,20 +156,19 @@ defItem("copper_plate", "Copper Plate", {
         n = NUM_ACT
     }),
 
-    onActivate = function(itemEnt)
-        local slotEnt = lp.itemToSlot(itemEnt)
-        local ppos = lp.getPos(itemEnt)
-        if (not slotEnt) or (not ppos) then return end
-
-        lp.modifierBuff(slotEnt, "multGenerated", 0.2, itemEnt)
-
-        for i=1, NUM_ACT do
-            lp.wait(ppos,0.1)
-            lp.queueWithEntity(slotEnt, function(e)
-                lp.tryActivateEntity(e)
-            end)
+    shape = lp.targets.ON_SHAPE,
+    target = {
+        type = "SLOT",
+        activate = function(selfEnt, ppos, slotEnt)
+            lp.modifierBuff(slotEnt, "multGenerated", 0.2, selfEnt)
+            for i=1, NUM_ACT do
+                lp.wait(ppos,0.15)
+                lp.queueWithEntity(slotEnt, function(e)
+                    lp.tryActivateEntity(e)
+                end)
+            end
         end
-    end
+    }
 })
 
 end
