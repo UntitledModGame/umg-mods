@@ -48,6 +48,29 @@ end
 
 
 
+--- returns deterministic hash of coords
+---@param coords {[1]:integer,[2]:integer}[]
+---@return string
+function util.hashCoords(coords)
+    local result = {}
+    local sortedCoords = table.deepCopy(coords)
+    table.sort(sortedCoords, function(a, b)
+        if a[1] == b[1] then
+            return a[2] < b[2]
+        else
+            return a[1] < b[1]
+        end
+    end)
+
+    for _, v in ipairs(sortedCoords) do
+        result[#result+1] = util.coordsToString(v[1], v[2])
+    end
+
+    return table.concat(result)
+end
+
+
+
 ---@param x integer
 ---@param y integer
 function util.coordsToString(x, y)

@@ -2,31 +2,13 @@ local shapeRenamer = {}
 local shapes = require("shared.shapes")
 local util = require("shared.util")
 
----@param coords {[1]:integer,[2]:integer}[]
-local function computeCoordListString(coords)
-    local result = {}
-    local sortedCoords = table.deepCopy(coords)
-    table.sort(sortedCoords, function(a, b)
-        if a[1] == b[1] then
-            return a[2] < b[2]
-        else
-            return a[1] < b[1]
-        end
-    end)
-
-    for _, v in ipairs(sortedCoords) do
-        result[#result+1] = util.coordsToString(v[1], v[2])
-    end
-
-    return table.concat(result)
-end
 
 ---@type table<string, string>
 local test = {}
 
 ---@param shape lootplot.targets.ShapeData
 local function makeTest(shape)
-    test[computeCoordListString(shape.relativeCoords)] = shape.name
+    test[util.hashCoords(shape.relativeCoords)] = shape.name
 end
 
 makeTest(shapes.KING_SHAPE)
@@ -69,7 +51,7 @@ makeTest(shapes.ON_SHAPE)
 ---@param coords {[1]:integer,[2]:integer}[]
 ---@return string?
 function shapeRenamer.tryFindName(coords)
-    local coordString = computeCoordListString(coords)
+    local coordString = util.hashCoords(coords)
     return test[coordString]
 end
 

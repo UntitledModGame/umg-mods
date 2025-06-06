@@ -78,6 +78,50 @@ function targets.getTargets(itemEnt)
 end
 
 
+
+
+---@param shape1 lootplot.targets.ShapeData
+---@param shape2 lootplot.targets.ShapeData
+---@return boolean
+function targets.areShapesEqual(shape1, shape2)
+    return util.hashCoords(shape1.relativeCoords) == util.hashCoords(shape2.relativeCoords)
+end
+
+
+
+---@param shape1 lootplot.targets.ShapeData
+---@param shape2 lootplot.targets.ShapeData
+---@return boolean
+function targets.areShapesRotationallyEqual(shape1, shape2)
+    local hash1 = util.hashCoords(shape1.relativeCoords)
+    for rot=0,3 do
+        local shapeR = targets.RotationShape(shape2, rot)
+        local hash2 = util.hashCoords(shapeR.relativeCoords)
+        if hash1 == hash2 then
+            return true
+        end
+    end
+    return false
+end
+
+
+local TEST=false
+if TEST then
+    assert(not targets.areShapesEqual(targets.UP_SHAPE, targets.KING_SHAPE))
+    assert(not targets.areShapesEqual(targets.UP_SHAPE, targets.RotationShape(targets.UP_SHAPE, 1)))
+
+    assert(targets.areShapesEqual(targets.UP_SHAPE, targets.UP_SHAPE))
+    assert(targets.areShapesEqual(targets.UP_SHAPE, targets.UP_SHAPE))
+
+    for r=0,3 do
+        assert(targets.areShapesRotationallyEqual(targets.UP_SHAPE, targets.RotationShape(targets.UP_SHAPE, r)))
+    end
+
+    umg.melt("test passed")
+end
+
+
+
 ---@param itemEnt lootplot.ItemEntity
 ---@return Entity[]
 function targets.getConvertedTargets(itemEnt)
