@@ -15,6 +15,9 @@ Generally, these curses will force a certain playstyle.
 local loc = localization.localize
 local interp = localization.newInterpolator
 
+local constants = require("shared.constants")
+
+
 
 local function defCurse(id, name, etype)
     etype = etype or {}
@@ -128,5 +131,28 @@ defCurse("trophy_guardian", "Trophy Guardian", {
 })
 
 end
+
+
+
+defCurse("eraser_curse", "Eraser Curse", {
+    activateDescription = loc("Destroys all {lootplot:INFO_COLOR}Basic Slots{/lootplot:INFO_COLOR}"),
+
+    triggers = {"PULSE"},
+
+    onActivate = function (ent)
+        local ppos = lp.getPos(ent)
+        if not ppos then return end
+        ppos:getPlot():foreachSlot(function(slotEnt, pp)
+            if lp.hasTag(slotEnt, constants.tags.BASIC_SLOT) then
+                lp.destroy(slotEnt)
+            end
+        end)
+    end,
+
+    isInvincible = function()
+        return true
+    end
+})
+
 
 

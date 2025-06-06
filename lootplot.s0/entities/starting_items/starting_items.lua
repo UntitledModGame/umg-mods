@@ -543,34 +543,35 @@ defineStartingItem("eight_ball", {
 local L_BALL_UNLOCK = 3
 defineStartingItem("L_ball", {
     name = loc("L Ball"),
-    description = loc("Gives lives to items/slots"),
+    description = loc("No basic slots!"),
 
     unlockAfterWins = L_BALL_UNLOCK,
     winAchievement = "WIN_L_BALL",
+
+    activateDescription = loc("Gives {lootplot:LIFE_COLOR}+1 lives{/lootplot:LIFE_COLOR} to slots"),
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
 
         lp.setMoney(ent, constants.STARTING_MONEY)
+
         lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
         spawnShop(ent)
         spawnRerollButton(ent)
         spawnNormal(ent)
         spawnSell(ent)
 
-        wg.spawnSlots(assert(ppos:move(0,-3)), server.entities.null_slot, 1,1, team)
+        lp.forceSpawnItem(assert(ppos:move(3, 0)), server.entities.eraser_curse, team)
 
-        ent.baseMoneyGenerated = -5
-        -- reason we must do set it here instead of as a shcomp,
-        -- is because money starts at 0. If it's a shcomp, onActivateOnce will never be called!
+        wg.spawnSlots(assert(ppos:move(0,-3)), server.entities.null_slot, 1,1, team)
 
         spawnDoomClockAndButtons(ent)
         spawnCurses(ent)
     end,
 
-    shape = lp.targets.UpShape(1),
+    shape = lp.targets.KingShape(1),
     target = {
-        type = "ITEM_OR_SLOT",
+        type = "SLOT",
         activate = function(selfEnt, ppos, targEnt)
             targEnt.lives = (targEnt.lives or 0) + 1
         end,

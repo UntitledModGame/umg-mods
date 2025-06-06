@@ -89,7 +89,7 @@ defineFood("cheese_slice", {
 
 
 
-local EVIL_CHEESE_SLICE_MONEY = 20
+local EVIL_CHEESE_SLICE_MONEY = 25
 --[[
 gives the player intuition about curses
 ]]
