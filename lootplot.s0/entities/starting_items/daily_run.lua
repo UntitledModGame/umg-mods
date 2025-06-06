@@ -229,16 +229,14 @@ function fillShop(shop, team, seed)
 
     for _, pp in ipairs(shop.normal) do
         local etype = normalShop:query(rgen)
-        local e = lp.forceSpawnSlot(pp, etype, team)
-        if e then mutateRandomly(e, rgen, 0.6) end
+        lp.forceSpawnSlot(pp, etype, team)
     end
     for _, pp in ipairs(shop.reroll) do
         local e = lp.forceSpawnSlot(pp, server.entities.reroll_button_slot, team)
-        if e then mutateRandomly(e, rgen, 0.8) end
+        if e then mutateRandomly(e, rgen, 0.5) end
     end
     for _, pp in ipairs(shop.food) do
-        local e = lp.forceSpawnSlot(pp, server.entities.food_shop_slot, team)
-        if e then mutateRandomly(e, rgen, 0.7) end
+        lp.forceSpawnSlot(pp, server.entities.food_shop_slot, team)
     end
 end
 end
