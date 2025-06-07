@@ -225,7 +225,7 @@ defItem("silver_coins", "Silver Coins", {
 
     activateDescription = function(ent)
         return DESC({
-            bonusGenerated = ent.bonusGenerated,
+            bonusGenerated = ent.bonusGenerated or 0,
             UNCOMMON = lp.rarities.UNCOMMON.displayString
         })
     end,

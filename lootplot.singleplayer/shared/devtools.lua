@@ -790,6 +790,44 @@ chat.handleCommand("spawnSlots", {
 })
 
 
+
+
+
+chat.handleCommand("testDescriptions", {
+    --[[
+    spawns all items in the center of the plot.
+
+    Hover your mouse over to test that there arent any errors 
+    in descriptions.
+
+    (Can occur when items are newly-spawned!!! 
+    this test will catch those, and HAS caught bugs in the past.)
+    ]]
+    adminLevel = 120,
+    arguments = {},
+    handler = function(clientId)
+        local plot = lp.singleplayer.getRun():getPlot()
+        local cpos = plot:getCenterPPos()
+
+        local team = assert(lp.getPlayerTeam(clientId))
+        
+        local allItems = lp.newItemGenerator()
+            :getEntries()
+            
+        lp.forceSpawnSlot(cpos, server.entities.slot, team)
+        for _,itemId in ipairs(allItems) do
+            lp.queue(cpos, function ()
+                local etype = server.entities[itemId]
+                lp.forceSpawnItem(cpos, etype, team)
+            end)
+            lp.wait(cpos, 0.2)
+        end
+        
+    end
+})
+
+
+
 end
 
 

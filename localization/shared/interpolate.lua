@@ -22,7 +22,11 @@ local function interpolate(text, vars)
 
             local value = vars[variable]
             if #format > 0 then
-                result = string.format("%"..format, value)
+                local ok
+                ok, result = pcall(string.format, "%"..format, value)
+                if not ok then
+                    umg.melt("Error attempting to interpolate: " .. text)
+                end
             elseif value == nil then
                 --[[
                 the reason we do this is to signal to other systems 

@@ -600,6 +600,8 @@ end
 
 
 
+--[[
+
 if server then
 chat.handleCommand("r", {
     adminLevel = 120,
@@ -620,6 +622,8 @@ chat.handleCommand("r", {
     end
 })
 end
+
+]]
 
 
 return daily
