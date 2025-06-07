@@ -30,7 +30,7 @@ end
 
 
 
-local MULT_RING_DESC = interp("Adds {lootplot:POINTS_MULT_COLOR}mult{/lootplot:POINTS_MULT_COLOR} equal to 4%% of the balance {lootplot:MONEY_COLOR}($%{balance})")
+local MULT_RING_DESC = interp("Adds {lootplot:POINTS_MULT_COLOR}mult{/lootplot:POINTS_MULT_COLOR} equal to 4% of the balance {lootplot:MONEY_COLOR}($%{balance})")
 
 local function defMultRing(id,name, triggers, extraComps)
     extraComps = extraComps or {}
