@@ -572,13 +572,13 @@ function daily.generate(args)
     local team = assert(args.team)
     local difficulty = assert(args.difficulty)
 
-    local dayNumber = math.floor(os.time() / (60 * 60 * 24))
+    local dayNumber = math.floor(os.time() / (60 * 60 * 24)) + 1
 
-    local seed = dayNumber + difficulty
+    local seed = dayNumber + (difficulty * 432)
     local layout = generateLayout(plot, seed)
 
     --[[
-    we should vary the seeds slightly so that
+    we vary the seeds slightly so that
     the same love.RandomGenerator objects arent used.
     (That'd cause there to be a correlation between features)
     ]]

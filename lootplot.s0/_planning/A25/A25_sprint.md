@@ -8,6 +8,13 @@
 ## =============================
 
 
+
+Add more post-processing to daily-run
+- Huge lines of stone-slots
+- Big pockets of stone-slots
+- Big pockets of stone-slots
+
+
 ## ADD MAIN-MENU MUSIC:
 https://youtu.be/s8nkrxzOBR4?feature=shared  NOTABLE SONGS:
 ~~- Bullet witch~~ (meh, maybe not, too upbeat)
