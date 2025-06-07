@@ -254,7 +254,7 @@ local function defineScythe(mineral_type, name, strength, etype)
         basePrice = 10,
         baseMultGenerated = floorTo01(0.5 * strength),
 
-        shape = lp.targets.RookShape(1),
+        shape = lp.targets.HorizontalShape(1),
 
         activateDescription = SCYTHE_DESC,
 
