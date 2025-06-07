@@ -234,45 +234,45 @@ Swaps triggers of items (Eg Pulse, Reroll)
 CURSE: Cursed Slab: On Pulse: 10% chance to transform random slot into a null-slot
 CURSE: Cursed slot dagger: Give DOOMED-15 to a random slot (doesn't work on buttons)
 
-CURSE: Tomb of doom: Give items DOOMED-6 (ROOK-6)
-CURSE: Tomb of doom: Give slots DOOMED-10 (doesnt work on buttons) (ROOK-6)
-CURSE: Tomb of points: Subtract 10 points from items (ROOK-6)
-CURSE: Tomb of bonus: Subtract 2 bonus from items (ROOK-6)
-CURSE: Tomb of multiplier: Subtract 0.4 mult from items (ROOK-6)
-CURSE: Tomb of money: Make slots cost $0.1 extra to activate (ROOK-6)
-CURSE: Tomb of sticky: Make items STICKY (ROOK-6)
+- CURSE: Tomb of doom: Give items DOOMED-6 (ROOK-6)
+- CURSE: Tomb of doom: Give slots DOOMED-10 (doesnt work on buttons) (ROOK-6)
+- CURSE: Tomb of points: Subtract 10 points from items (ROOK-6)
+- CURSE: Tomb of bonus: Subtract 2 bonus from items (ROOK-6)
+- CURSE: Tomb of multiplier: Subtract 0.4 mult from items (ROOK-6)
+- CURSE: Tomb of money: Make slots cost $0.1 extra to activate (ROOK-6)
+- CURSE: Tomb of sticky: Make items STICKY (ROOK-6)
 
-CURSE: Cursed grubby coins: On Pulse, lose 10 points. GRUB-15
-CURSE: Golden shivs: Destroys the closest item that earns money
-CURSE: Golden blocks: Destroys the closest slot that earns money
-CURSE: Bankers helmet: On Pulse: Make a random item cost $0.2 to activate
+- CURSE: Cursed grubby coins: On Pulse, lose 10 points. GRUB-15
+- CURSE: Golden shivs: Destroys the closest item that earns money
+- CURSE: Golden blocks: Destroys the closest slot that earns money 
+- CURSE: Bankers helmet: On Pulse: Make a random item cost $0.2 to activate
 
-CURSE: Cursed coin: Steals $0.5 for every other curse 
-CURSE: Injunction: Remove Pulse trigger from the closest item (DOOMED-10)
-CURSE: Heart leech: Removes 4 lives from ALL items and slots
-CURSE: Bubbling goo: On Pulse: Make a random food-item STUCK
-CURSE: Glass-shard: Destroys 30% of ALL glass slots
-CURSE: Cursed life potion: Give a random curse +2 lives
-CURSE: Broken shield: On Pulse: Trigger pulse on other curse items (KING-3)
+- CURSE: Cursed coin: Steals $0.5 for every other curse 
+- CURSE: Injunction: Remove Pulse trigger from the closest item (DOOMED-10)
+- CURSE: Heart leech: Removes 4 lives from ALL items and slots
+- CURSE: Bubbling goo: On Pulse: Make a random food-item STUCK
+- CURSE: Glass-shard: Destroys 30% of ALL glass slots
+- CURSE: Cursed life potion: Give a random curse +2 lives
+- CURSE: Broken shield: On Pulse: Trigger pulse on other curse items (KING-3)
 
 
-CURSE: Orca: On Pulse: Destroys a random FLOATY item.
-CURSE: Skeleton-cat: On Pulse: 10% chance to clone itself. Steal 50 points (KNIGHT)
+- CURSE: Orca: On Pulse: Destroys a random FLOATY item.
+- CURSE: Skeleton-cat: On Pulse: 10% chance to clone itself. Steal 50 points (KNIGHT)
 
 - Make it so slot-spawner items cant spawn slots below curses.
 That'd be OP; we would be able to clear curses too easily.
 
 
-SPIKE: Figure out how curse-spawning will work.
+- SPIKE: Figure out how curse-spawning will work.
 (See `lp_curses_mod.md`)
 
-CURSE: Medusa: On Pulse: Transforms a random empty-slot into stone
-CURSE: Leprechaun: If money is greater than $200, spawn a curse
+- CURSE: Medusa: On Pulse: Transforms a random empty-slot into stone
+- CURSE: Leprechaun: If money is greater than $200, spawn a curse
 
-CURSE: Stone-hand: After X activations, spawn Y new curses (CAN BE CONFIGURED)
+- CURSE: Stone-hand: After X activations, spawn Y new curses (CAN BE CONFIGURED)
 (^^^^ this guy should spawn at the start of most runs)
 
-CURSE: Trophy Guardian: On the final level, spawn 3 random curses.
+- CURSE: Trophy Guardian: On the final level, spawn 3 random curses.
 (^^^ this guy too)
 (we should avoid spawning TOO many curses at start, avoid overwhelm player.)
 
