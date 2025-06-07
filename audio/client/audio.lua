@@ -241,7 +241,7 @@ function audio.play(name, args)
     local template = definedAudios[name]
     local volume = (args.volume or 1) * template:getVolume() * audio.getVolume(name, source, args.entity)
     local pitch = (args.pitch or 1) * template:getPitch() * audio.getPitch(name, source, args.entity)
-    if pitch == 0 then
+    if pitch <= 0 then
         -- this can happen if there are so valid audio devices
         pitch = 1
     end
@@ -277,6 +277,10 @@ function audio.updateSource(name, source, ent)
     local template = definedAudios[name]
     local volume = template:getVolume() * audio.getVolume(name, source, ent)
     local pitch = template:getPitch() * audio.getPitch(name, source, ent)
+    if pitch <= 0 then
+        -- this can happen if there are so valid audio devices
+        pitch = 1
+    end
 
     source:setVolume(volume)
     source:setPitch(pitch)
