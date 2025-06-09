@@ -457,6 +457,8 @@ defCurse("broken_shield", "Broken Shield", {
 defCurse("skeleton_cat", "Skeleton Cat", {
     activateDescription = loc("Small chance to clone itself."),
 
+    lootplotTags = {constants.tags.CAT},
+
     shape = lp.targets.KNIGHT_SHAPE,
 
     basePointsGenerated = -50,
