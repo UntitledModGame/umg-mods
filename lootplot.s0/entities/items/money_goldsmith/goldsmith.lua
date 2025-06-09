@@ -37,7 +37,7 @@ local function defMultRing(id,name, triggers, extraComps)
     local etype = {
         triggers=assert(triggers),
 
-        description = function(ent)
+        activateDescription = function(ent)
             return MULT_RING_DESC({
                 balance = math.floor(lp.getMoney(ent) or 0)
             })
@@ -82,7 +82,7 @@ local function defSilvRing(id,name,trigger)
     defItem(id, name, {
         triggers={trigger},
 
-        description = function(ent)
+        activateDescription = function(ent)
             return SILV_RING_DESC({
                 balance = math.floor(lp.getMoney(ent) or 0)
             })
@@ -115,7 +115,7 @@ local function defGoldenRing(id, name, trigger)
     defItem(id, name, {
         triggers = {trigger},
 
-        description = GOLD_RING_DESC,
+        activateDescription = GOLD_RING_DESC,
 
         basePrice = 8,
         baseMoneyGenerated = 0,

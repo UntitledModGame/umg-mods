@@ -128,7 +128,7 @@ defItem("leather_boots", "Leather Boots", {
     rarity = lp.rarities.RARE,
     triggers = {"PULSE"},
 
-    activateDescription = loc("Activates slots."),
+    activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}PULSE{/lootplot:TRIGGER_COLOR} on slots."),
 
     basePrice = 8,
     baseMaxActivations = 5,
@@ -141,7 +141,7 @@ defItem("leather_boots", "Leather Boots", {
             return (not targEnt.buttonSlot)
         end,
         activate = function(selfEnt, ppos, targetEnt)
-            lp.tryActivateEntity(targetEnt)
+            lp.tryTriggerEntity("PULSE", targetEnt)
         end
     }
 })
@@ -151,7 +151,7 @@ defItem("green_boots", "Green Boots", {
     rarity = lp.rarities.RARE,
     triggers = {"REROLL"},
 
-    activateDescription = loc("Activates slots."),
+    activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}REROLL{/lootplot:TRIGGER_COLOR} on slots."),
 
     unlockAfterWins = constants.UNLOCK_AFTER_WINS.REROLL,
 
@@ -166,7 +166,7 @@ defItem("green_boots", "Green Boots", {
             return (not targEnt.buttonSlot)
         end,
         activate = function(selfEnt, ppos, targetEnt)
-            lp.tryActivateEntity(targetEnt)
+            lp.tryTriggerEntity("REROLL", targetEnt)
         end
     }
 })

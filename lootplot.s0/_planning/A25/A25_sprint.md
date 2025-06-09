@@ -7,6 +7,12 @@ puts DOOMED-5 null-slots underneath curses
 (KING-1)
 
 
+
+Add more post-processing to daily-run
+- Huge lines of stone-slots
+- Big pockets of stone-slots
+
+
 ## =============================
 ## TODO:
 ## =============================
@@ -17,11 +23,6 @@ puts DOOMED-5 null-slots underneath curses
 its confusing and weird.
 Instead, spawn them in the location that the curse WILL be.
 --> Also, stone-hands should only exist on HARD mode.
-
-
-Add more post-processing to daily-run
-- Huge lines of stone-slots
-- Big pockets of stone-slots
 
 
 

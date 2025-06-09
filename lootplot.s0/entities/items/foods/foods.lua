@@ -1212,7 +1212,7 @@ defineFood("slice_of_cake", {
 
 defineFood("red_cheesecake", {
     name = loc("Red Cheesecake"),
-    activateDescription = loc("Gives items/slots {lootplot:POINTS_MULT_COLOR}+0.2 mult"),
+    activateDescription = loc("Gives items/slots {lootplot:POINTS_MULT_COLOR}+0.5 mult"),
 
     unlockAfterWins = 2,
 
@@ -1225,7 +1225,7 @@ defineFood("red_cheesecake", {
     target = {
         type = "ITEM_OR_SLOT",
         activate = function(selfEnt, ppos, ent)
-            lp.modifierBuff(ent, "multGenerated", 0.2)
+            lp.modifierBuff(ent, "multGenerated", 0.5)
         end
     }
 })
