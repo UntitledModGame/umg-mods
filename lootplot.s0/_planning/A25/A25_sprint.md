@@ -13,8 +13,9 @@
 cost: $25, deletes closest curse
 
 
-- Make 
-cost: $25, deletes closest curse
+- Add a new component: `SUPER-STUCK`, that is like `STUCK`, but permanent.
+- Make random-curses STICKY
+- Make injunction/starting curses LOCKED
 
 
 ITEM:
