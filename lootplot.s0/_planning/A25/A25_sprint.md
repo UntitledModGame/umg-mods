@@ -13,20 +13,10 @@ puts DOOMED-5 null-slots underneath curses
 
 
 
-ITEM:
-Earns 30 points
-If there are more than 3 curses alive, gain +10 points permanently
-
-
-ITEM:
-If touching at least 2 curses, give +20 points and -1 bonus to slots
-(ROOK-8)
-
-
-- Add "CURSE-CONTRACT":
-cost: $25, deletes closest curse
-
-
+- Make it so stone-hand curses don't spawn curses "randomly";
+its confusing and weird.
+Instead, spawn them in the location that the curse WILL be.
+--> Also, stone-hands should only exist on HARD mode.
 
 
 Add more post-processing to daily-run
@@ -107,4 +97,21 @@ CURSE: Goblin glasses: When an item is purchased, steal $1 (QUEEN-3)
 CURSE: Mushroom-wizard: 50% chance to spawn a Tentacle on a random empty-slot
 CURSE: Tentacle: -50 points
 CURSE: Cube slime: On Pulse: 30% chance to make a random item STUCK
+
+
+
+
+ITEM:
+Earns 30 points
+If there are more than 3 curses alive, gain +10 points permanently
+
+
+ITEM:
+If touching at least 2 curses, give +20 points and -1 bonus to slots
+(ROOK-8)
+
+
+- Add "CURSE-CONTRACT":
+cost: $25, deletes closest curse
+
 
