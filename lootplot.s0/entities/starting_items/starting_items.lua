@@ -86,21 +86,25 @@ local function spawnStoneHand(ppos, team, numActivations, numCurses)
 end
 
 
+
+
+local CURSE_X, CURSE_Y = 3, -4
+
 local function spawnCurses(ent)
     local ppos, team = getPosTeam(ent)
     local d, dInfo = lp.getDifficulty()
     if dInfo.difficulty == 1 then
         -- normal mode
-        spawnStoneHand(assert(ppos:move(0, -10)), team, 25, 3)
+        spawnStoneHand(assert(ppos:move(CURSE_X, CURSE_Y)), team, 25, 3)
     elseif dInfo.difficulty >= 2 then
         -- HARD mode
-        spawnStoneHand(assert(ppos:move(-4, -10)), team, 15, 2)
+        spawnStoneHand(assert(ppos:move(CURSE_X-1, CURSE_Y)), team, 15, 2)
 
-        local p2 = assert(ppos:move(0, -12))
+        local p2 = assert(ppos:move(CURSE_X, CURSE_Y))
         lp.forceSpawnItem(p2, server.entities.trophy_guardian, team, true)
         clearFogInCircle(p2, team, 1.5)
 
-        spawnStoneHand(assert(ppos:move(4, -10)), team, 25, 3)
+        spawnStoneHand(assert(ppos:move(CURSE_X+1, CURSE_Y)), team, 25, 3)
     end
 end
 
