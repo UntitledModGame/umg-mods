@@ -75,10 +75,6 @@ local function defineKettleCurse(comp, val, etype, spawnFilters)
         multipliers = {
             multGenerated = scaleWithLevel,
             bonusGenerated = scaleWithLevel,
-        },
-        maximums = {
-            multGenerated = 0,
-            bonusGenerated = 0,
         }
     }
 
@@ -130,11 +126,11 @@ defineKettleCurse("_stealPercentagePoints", 10, nil, ANY)
 defineKettleCurse("baseMoneyGenerated", -1, nil, ANY)
 defineKettleCurse("baseMoneyGenerated", -1, getRerollEtype(), ANY)
 
+defineKettleCurse("baseMultGenerated", -0.4, nil, BELOW)
+defineKettleCurse("baseMultGenerated", -0.6, nil, BELOW)
 defineKettleCurse("baseMultGenerated", -0.8, nil, BELOW)
-defineKettleCurse("baseMultGenerated", -1.5, nil, BELOW)
-defineKettleCurse("baseMultGenerated", -2.0, nil, BELOW)
-defineKettleCurse("baseMultGenerated", -0.8, getRerollEtype(), BELOW)
-defineKettleCurse("baseMultGenerated", -1.5, getRerollEtype(), BELOW)
+defineKettleCurse("baseMultGenerated", -0.7, getRerollEtype(), BELOW)
+defineKettleCurse("baseMultGenerated", -0.9, getRerollEtype(), BELOW)
 
 defineKettleCurse("baseBonusGenerated", -5, nil, BELOW)
 defineKettleCurse("baseBonusGenerated", -10, nil, BELOW)
