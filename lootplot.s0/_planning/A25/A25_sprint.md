@@ -9,13 +9,9 @@
 
 
 
-- Add "CURSE-CONTRACT":
-cost: $25, deletes closest curse
-
-
 - Add a new component: `SUPER-STUCK`, that is like `STUCK`, but permanent.
-- Make random-curses STICKY
-- Make injunction/starting curses LOCKED
+- Make random-curses `STUCK` (can be interacted with via yellow-potion)
+- Make injunction/starting curses `SUPER-STUCK`
 
 
 ITEM:
@@ -28,6 +24,16 @@ Earns $0.5 for every targetted curse (QUEEN-2)
 ITEM:
 Earns 30 points
 If there are more than 3 curses alive, gain +10 points permanently
+
+
+ITEM:
+If touching at least 2 curses, give +20 points and -1 bonus to slots
+(ROOK-8)
+
+
+- Add "CURSE-CONTRACT":
+cost: $25, deletes closest curse
+
 
 
 

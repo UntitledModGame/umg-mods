@@ -939,6 +939,37 @@ defineSlotSpawner("lemon", "Lemon", "shop_slot", "DOOMED-4 Shop Slots", lp.targe
     canItemFloat = true,
 }, setDoomCountTo(4))
 
+
+
+local BLACK_BEAN_DOOMCOUNT = 5
+defineFood("black_bean", {
+    name = loc("Black Bean"),
+    activateDescription = loc("Spawns {lootplot:DOOMED_COLOR}DOOMED-{n}{/lootplot:DOOMED_COLOR} null-slots underneath curse items\n(Disabling curses temporarily)", {
+        n = BLACK_BEAN_DOOMCOUNT
+    }),
+
+    shape = lp.targets.KingShape(1),
+    basePrice = 3,
+    canItemFloat = true,
+
+    rarity = lp.rarities.RARE,
+    unlockAfterWins = 4,
+
+    target = {
+        type = "ITEM",
+        filter = function(selfEnt, ppos, targEnt)
+            return lp.curses.isCurse(targEnt)
+        end,
+        activate = function(selfEnt, ppos, targEnt)
+            local team = selfEnt.lootplotTeam
+            local slotEnt = lp.forceSpawnSlot(ppos, server.entities.null_slot, team)
+            if slotEnt then
+                slotEnt.doomCount = BLACK_BEAN_DOOMCOUNT
+            end
+        end
+    }
+})
+
 ----------------------------------------------------------------------------
 
 

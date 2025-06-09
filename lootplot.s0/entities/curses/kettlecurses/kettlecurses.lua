@@ -88,6 +88,11 @@ local function defineKettleCurse(comp, val, etype, spawnFilters)
         etype.activateDescription = loc("Reduces {lootplot:POINTS_COLOR}points{/lootplot:POINTS_COLOR} by %{percentage}%", {
             percentage = etype._stealPercentagePoints
         })
+
+        etype.onActivate = function(ent)
+            local pts = lp.getPoints(ent) * (1 - (etype._stealPercentagePoints / 100))
+            lp.setAttribute("POINTS", ent, pts)
+        end
     end
 
     -- NOTE: this is extremely EXTREMELY HACKY.
