@@ -12,20 +12,23 @@ local loc = localization.localize
 
 local function mil(x)
     -- million; (for readability reasons)
-    return x * (10^6)
+    return math.floor(x * (10^6))
 end
 
 local POINT_REQUIREMENTS = {
     [0] = {
-      60, 400, 1500, 4000, 15000, 40000, 200000, 600000, 1000000, 2000000
+        --                            FINAL
+        60, 400, 1500,  4000,  15000, 40000, 200000, 600000, 1000000, 2000000
     },
 
     [1] = {
-      80, 600, 3000, 10000, 60000, 800000, mil(1), mil(2), mil(4), mil(6)
+        --                                              FINAL
+        80, 600, 3000,  6000,  25000, 160000, mil(0.5), mil(1), mil(2), mil(6)
     },
 
     [2] = {
-      100, 900, 5000, 20000, 100000, mil(1), mil(3), mil(8), mil(20), mil(50)
+        --                                                              FINAL
+        100, 900, 5000, 10000, 50000, mil(0.4), mil(1), mil(2), mil(4), mil(10)
     }
 }
 
