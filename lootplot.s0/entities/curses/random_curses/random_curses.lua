@@ -254,21 +254,23 @@ function(selfEnt, ppos, targEnt)
 end)
 
 defTomb("tomb_of_bonus", "Tomb of Bonus",
-"Subtract {lootplot:BAD_COLOR}-2 Bonus{/lootplot:BAD_COLOR} from items", "ITEM",
+"Subtract {lootplot:BAD_COLOR}-1 Bonus{/lootplot:BAD_COLOR} from items", "ITEM",
 function(selfEnt, ppos, targEnt)
-    lp.modifierBuff(targEnt, "bonusGenerated", -2)
+    lp.modifierBuff(targEnt, "bonusGenerated", -1)
 end)
 
 defTomb("tomb_of_multiplier", "Tomb of Multiplier",
-"Subtract {lootplot:BAD_COLOR}-0.4 Multiplier{/lootplot:BAD_COLOR} from items", "ITEM",
+"Subtract {lootplot:BAD_COLOR}-0.2 Multiplier{/lootplot:BAD_COLOR} from items", "ITEM",
 function(selfEnt, ppos, targEnt)
-    lp.modifierBuff(targEnt, "multGenerated", -0.4)
+    lp.modifierBuff(targEnt, "multGenerated", -0.2)
 end)
 
 defTomb("tomb_of_money", "Tomb of Money",
-"Make slots cost {lootplot:BAD_COLOR}$0.1 extra{/lootplot:BAD_COLOR} to activate", "SLOT",
+"Make slots cost {lootplot:BAD_COLOR}$0.1 extra{/lootplot:BAD_COLOR} to activate.\n(Capped at -$1)", "SLOT",
 function(selfEnt, ppos, targEnt)
-    lp.modifierBuff(targEnt, "moneyGenerated", -0.1)
+    if targEnt.moneyGenerated > -1 then
+        lp.modifierBuff(targEnt, "moneyGenerated", -0.1)
+    end
 end)
 
 defTomb("tomb_of_sticky", "Tomb of Sticky",

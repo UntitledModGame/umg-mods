@@ -9,6 +9,27 @@
 
 
 
+- Add "CURSE-CONTRACT":
+cost: $25, deletes closest curse
+
+
+- Make 
+cost: $25, deletes closest curse
+
+
+ITEM:
+puts DOOMED-5 null-slots underneath curses
+(KING-1)
+
+ITEM:
+Earns $0.5 for every targetted curse (QUEEN-2)
+
+ITEM:
+Earns 30 points
+If there are more than 3 curses alive, gain +10 points permanently
+
+
+
 Add more post-processing to daily-run
 - Huge lines of stone-slots
 - Big pockets of stone-slots
