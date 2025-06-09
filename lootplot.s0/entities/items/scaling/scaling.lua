@@ -191,6 +191,34 @@ defineHelmet("emerald_helmet", "Emerald Helmet", {
 
 
 
+
+
+defineHelmet("golden_curse_helmet", "Golden Curse Helmet", {
+    activateDescription = loc("Earn {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} for every targetted curse item"),
+
+    triggers = {"PULSE"},
+
+    shape = lp.targets.DownShape(6),
+
+    basePrice = 12,
+    baseMaxActivations = 2,
+
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targEnt)
+            lp.addMoney(targEnt, 1)
+        end,
+        filter = function(selfEnt, ppos, targEnt)
+            return lp.curses.isCurse(targEnt)
+        end
+    }
+})
+
+
+
+
+
+
 defineHelmet("cast_helmet", "Cast Helmet", {
     activateDescription = loc("Give items without {lootplot:TRIGGER_COLOR}Pulse{/lootplot:TRIGGER_COLOR} trigger {lootplot:POINTS_COLOR}+8 points."),
 

@@ -1366,7 +1366,7 @@ definePotion("potion_sticky", {
     name = loc("Sticky Potion"),
 
     rarity = lp.rarities.RARE,
-    activateDescription = loc("Converts STUCK to STICKY,\n(allows you to move STUCK items.)"),
+    activateDescription = loc("Converts STUCK to STICKY,\n(allows you to move STUCK items.)\n(Doesn't work on curses!)"),
 
     unlockAfterWins = 2,
 

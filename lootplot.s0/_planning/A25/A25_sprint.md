@@ -2,6 +2,10 @@
 
 # After-Release 2025 sprint
 
+ITEM:
+puts DOOMED-5 null-slots underneath curses
+(KING-1)
+
 
 ## =============================
 ## TODO:
@@ -9,17 +13,9 @@
 
 
 
-- Add a new component: `SUPER-STUCK`, that is like `STUCK`, but permanent.
-- Make random-curses `STUCK` (can be interacted with via yellow-potion)
-- Make injunction/starting curses `SUPER-STUCK`
-
-
-ITEM:
-puts DOOMED-5 null-slots underneath curses
-(KING-1)
-
 ITEM:
 Earns $0.5 for every targetted curse (QUEEN-2)
+
 
 ITEM:
 Earns 30 points
@@ -40,7 +36,7 @@ cost: $25, deletes closest curse
 Add more post-processing to daily-run
 - Huge lines of stone-slots
 - Big pockets of stone-slots
-- Big pockets of stone-slots
+
 
 
 ## ADD MAIN-MENU MUSIC:
