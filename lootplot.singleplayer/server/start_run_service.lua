@@ -100,7 +100,7 @@ local function spawnItemAndSlots(midPPos, team, perk, wgen)
     plot:setFogRevealed(worldgenPPos, lp.singleplayer.PLAYER_TEAM, true)
     lp.forceSpawnItem(worldgenPPos, server.entities[wgen], team)
 
-    scheduling.delay(0.1, function()
+    scheduling.delay(0.2, function()
         lp.queue(midPPos, function()
             -- This will be executed AFTER "SLOT_OR_ITEM" bufferer code finishes.
             lp.Bufferer()

@@ -205,6 +205,7 @@ local fillSell
 local fillSpecial
 
 local postProcess
+local spawnStoneBarriers
 
 
 do
@@ -502,6 +503,31 @@ end
 
 
 
+
+function spawnStoneBarriers(plot, team, seed)
+    local STONE_BARRIER_LENGTH = 12
+    local rgen = love.math.newRandomGenerator(seed)
+    local cpos = plot:getCenterPPos()
+    local r = rgen:random()
+    if r < 0.15 then
+        -- horizontal stone barrier
+        local dy = rgen:random(-4, 4)
+        lp.worldgen.spawnSlots(cpos:move(0,dy), server.entities.stone_slot, STONE_BARRIER_LENGTH, 1, team)
+    elseif r < 0.3 then
+        -- vertical stone barrier
+        local dx = rgen:random(-4, 4)
+        lp.worldgen.spawnSlots(cpos:move(dx,0), server.entities.stone_slot, 1, STONE_BARRIER_LENGTH, team)
+    elseif r < 0.4 then
+        -- spawn stone island-barriers
+        -- vertical stone barrier
+        local ppos = assert(cpos:move(rgen:random(-4, 4), rgen:random(-4,4)))
+        lp.worldgen.spawnSlots(ppos, server.entities.stone_slot, 5, 5, team)
+    end
+end
+
+
+
+
 end
 
 
@@ -594,6 +620,7 @@ function daily.generate(args)
     lp.forceSpawnSlot(assert(layout.pulse:move(1,0)), server.entities.next_level_button_slot, team)
 
     postProcess(plot, team, seed + 4)
+    spawnStoneBarriers(plot, team, seed + 5)
 
     spawnCurses(plot, team, seed + 5, difficulty)
 end
