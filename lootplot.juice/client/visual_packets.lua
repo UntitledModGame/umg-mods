@@ -202,7 +202,7 @@ limitedOn("lootplot:entityBuffed", function(ent, prop, amount, srcEnt)
         }
         local SPD = 250
         local packetEnt = newPacketEnt(dvec, 0, 250, function()
-            return ent.x, ent.y
+            return ent.x or 0, ent.y or 0
         end)
         packetEnt.vx = (math.random()-0.5)*(SPD/2)
         packetEnt.vy = -SPD
