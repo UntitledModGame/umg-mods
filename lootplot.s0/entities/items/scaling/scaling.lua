@@ -146,6 +146,34 @@ defItem("ghost_knife", {
         lp.modifierBuff(ent, "bonusGenerated", BONUS_BUFF)
     end
 })
+
+
+defItem("curse_knife", {
+    name = loc("Curse Knife"),
+    activateDescription = loc("Gain points equal to the number of targetted-curses"),
+
+    triggers = KNIFE_TRIGGERS,
+
+    basePointsGenerated = 20,
+    rarity = lp.rarities.EPIC,
+
+    basePrice = KNIFE_PRICE,
+
+    repeatActivations = true,
+    baseMaxActivations = KNIFE_ACTIVATIONS * 2,
+
+    shape = lp.targets.QueenShape(2),
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targEnt)
+            lp.modifierBuff(selfEnt, "pointsGenerated", 1, selfEnt)
+        end,
+        filter = function(selfEnt, ppos, targEnt)
+            return lp.curses.isCurse(targEnt)
+        end
+    },
+})
+
 end
 
 

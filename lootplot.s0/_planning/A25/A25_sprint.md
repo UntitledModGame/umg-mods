@@ -14,10 +14,6 @@ puts DOOMED-5 null-slots underneath curses
 
 
 ITEM:
-Earns $0.5 for every targetted curse (QUEEN-2)
-
-
-ITEM:
 Earns 30 points
 If there are more than 3 curses alive, gain +10 points permanently
 
