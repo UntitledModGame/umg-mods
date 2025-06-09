@@ -160,6 +160,36 @@ defineFood("golden_horseshoe", {
 
 
 
+defineFood("chilli_pepper", {
+    name = loc("Chilli Pepper"),
+
+    rarity = lp.rarities.UNCOMMON,
+    activateDescription = loc("Destroys curses"),
+
+    baseMoneyGenerated = -10,
+    canGoIntoDebt = true,
+    unlockAfterWins = 4,
+
+    basePrice = 0,
+
+    shape = lp.targets.HorizontalShape(2),
+
+    target = {
+        type = "ITEM",
+        filter = function (selfEnt, ppos, targEnt)
+            return lp.curses.isCurse(targEnt)
+        end,
+        activate = function (selfEnt, ppos, targEnt)
+            lp.destroy(targEnt)
+        end
+    }
+})
+
+
+
+
+
+
 
 --[[
 
