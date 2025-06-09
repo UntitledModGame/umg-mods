@@ -166,11 +166,11 @@ defineFood("chilli_pepper", {
     rarity = lp.rarities.UNCOMMON,
     activateDescription = loc("Destroys curses"),
 
-    baseMoneyGenerated = -10,
+    baseMoneyGenerated = -20,
     canGoIntoDebt = true,
     unlockAfterWins = 4,
 
-    basePrice = 0,
+    basePrice = 2,
 
     shape = lp.targets.HorizontalShape(2),
 
