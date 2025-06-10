@@ -118,8 +118,27 @@ function lp_curses.addSpawnableCurse(curseId, spawnFilters)
 end
 
 
+local function isBadSlot(slotEnt)
+    --[[
+    TODO TODO:
+    this is extremely hacky hardcoding.
+    the lp.curses mod doesn't actually know abotu any of these mods...
+    what we really should be checking is
+    "can an item be put on this slot?"
+    (^^^ but theres no way to know that without spawning in an item ent.)
+    ]]
+    local typ = slotEnt:getEntityType():getTypename()
+    return
+        typ == "lootplot.unlocks:mystery_slot"
+        or typ == "lootplot.unlocks:locked_slot"
+        or typ == "lootplot.s0:stone_slot"
+end
+
+
 local function isNormalishSlot(slotEnt)
-    return (not slotEnt.buttonSlot) and (not slotEnt.dontPropagateTriggerToItem)
+    return (not slotEnt.buttonSlot)
+        and (not slotEnt.dontPropagateTriggerToItem)
+        and (not isBadSlot(slotEnt))
 end
 
 local function isFogRevealed(ppos, team)
@@ -135,10 +154,9 @@ end
 
 ---@param plot lootplot.Plot
 ---@param team string
----@param randomSampler love.RandomGenerator
 ---@param range number
 ---@return objects.Set
-local function getSpawnCandidates(plot, team, randomSampler, range)
+local function getSpawnCandidates(plot, team, range)
     range = range or 2
 
     local candidates = objects.Set()
@@ -173,7 +191,7 @@ end
 function lp_curses.getPositionForCurse(plot, team, isFloating, randomSampler)
     randomSampler = randomSampler or love.math.newRandomGenerator(love.math.random(0,1022093))
     local range = 2
-    local candidates = getSpawnCandidates(plot, team, randomSampler, range)
+    local candidates = getSpawnCandidates(plot, team, range)
 
     candidates = candidates:filter(function(ppos)
         local isAir = not lp.posToSlot(ppos)
@@ -209,7 +227,7 @@ function lp_curses.spawnRandomCurse(plot, team, randomSampler, range)
     local curseId = table.random(spawnableCurses, randomSampler)
     local spawnFilters = curseToSpawnFilters[curseId]
 
-    local candidates = getSpawnCandidates(plot, team, randomSampler, range)
+    local candidates = getSpawnCandidates(plot, team, range)
 
     candidates = candidates:filter(function(ppos)
         for _,sf in ipairs(spawnFilters) do
