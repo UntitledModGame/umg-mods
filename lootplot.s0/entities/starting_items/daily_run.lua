@@ -207,6 +207,8 @@ local fillSpecial
 local postProcess
 local spawnStoneBarriers
 
+local exoticSlots, normalSlots
+
 
 do
 
@@ -240,15 +242,8 @@ function fillShop(shop, team, seed)
         lp.forceSpawnSlot(pp, server.entities.food_shop_slot, team)
     end
 end
-end
 
 
-
-
-
-do
-
-local exoticSlots, normalSlots
 
 if server then
 umg.on("@load", 10, function()
