@@ -457,7 +457,6 @@ defDestructive("crimson_leather", "Crimson Leather", {
     rarity = lp.rarities.RARE,
 
     basePrice = 9,
-    baseMultGenerated = -6,
     baseMaxActivations = 4,
 
     shape = lp.targets.BishopShape(1),
@@ -479,7 +478,6 @@ defDestructive("teal_leather", "Teal Leather", {
     rarity = lp.rarities.RARE,
 
     basePrice = 9,
-    baseBonusGenerated = -30,
     baseMaxActivations = 4,
 
     shape = lp.targets.BishopShape(1),
