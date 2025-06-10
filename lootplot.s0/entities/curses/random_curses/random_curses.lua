@@ -437,11 +437,11 @@ defCurse("glass_shard", "Glass Shard", {
 
 
 defCurse("cursed_life_potion", "Cursed Life Potion", {
-    activateDescription = loc("Gives a random curse {lootplot:LIFE_COLOR}+2 lives.{/lootplot:LIFE_COLOR}"),
+    activateDescription = loc("Gives a random curse {lootplot:LIFE_COLOR}+1 life.{/lootplot:LIFE_COLOR}"),
     onActivate = function(ent)
         local curses = getCurses(ent)
         executeRandom(curses, function(item)
-            item.lives = (item.lives or 0) + 2
+            item.lives = (item.lives or 0) + 1
         end)
     end
 }, NO_SF)

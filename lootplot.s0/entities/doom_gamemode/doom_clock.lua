@@ -28,7 +28,7 @@ local POINT_REQUIREMENTS = {
 
     [2] = {
         -- HARD: level 8
-        100, 900, 5*K, 10*K, 50*K, 0.4*M, 1*M, 5*M,                   4*M, 10*M
+        100, 900, 5*K, 10*K, 50*K, 0.4*M, 2*M, 5*M,                   8*M, 20*M
     }
 }
 

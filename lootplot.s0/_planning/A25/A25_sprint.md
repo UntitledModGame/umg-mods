@@ -13,6 +13,9 @@ Add more post-processing to daily-run
 - Big pockets of stone-slots
 
 
+(Nerf the curse that gives lives to curses)
+
+
 ## =============================
 ## TODO:
 ## =============================
@@ -24,7 +27,6 @@ Make chilli remove lives from curses
 
 When curses are spawned randomly, make curses spawn on DOOMED-X slots (that way, player can prepare)
 
-(Nerf the curse that gives lives to curses)
 
 Change max-level numbers:
 EASY: Level 6
