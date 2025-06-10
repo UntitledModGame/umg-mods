@@ -292,7 +292,7 @@ local function getRandomPlotItem(plot)
 end
 
 defItem("magic_wand", "Magic Wand", {
-    activateDescription = loc("Transform items into a clone of a random item on the plot."),
+    activateDescription = loc("Transform items into a clone of a random item on the board."),
 
     triggers = {"PULSE"},
 
