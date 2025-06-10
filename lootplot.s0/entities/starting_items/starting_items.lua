@@ -282,6 +282,7 @@ defineStartingItem("one_ball", {
         local ppos, team = getPosTeam(ent)
         lp.setMoney(ent, constants.STARTING_MONEY)
         lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
+        lp.setAttribute("ROUND", ent, -1) -- (make it easier for newbies)
         spawnShop(ent)
         spawnRerollButton(ent)
         spawnNormal(ent)
