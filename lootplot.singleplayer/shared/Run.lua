@@ -78,8 +78,8 @@ function Run:init(starterItem, difficulty, bg)
     do
     -- number of levels
     local EASY = 6
-    local NORMAL = 8
-    local HARD = 10
+    local NORMAL = 7
+    local HARD = 8
     if dInfo.difficulty <= 0 then
         -- on easy difficulties, ie <= 0, we have 4 less levels
         self.attrs["NUMBER_OF_LEVELS"] = EASY

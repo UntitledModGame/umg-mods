@@ -10,25 +10,25 @@ Provides win/lose conditions
 local loc = localization.localize
 
 
-local function mil(x)
-    -- million; (for readability reasons)
-    return math.floor(x * (10^6))
-end
+
+
+local K = 1000 -- 1k
+local M = 1000000 -- 1m
 
 local POINT_REQUIREMENTS = {
     [0] = {
-        --                            FINAL
-        60, 400, 1500,  4000,  15000, 40000, 200000, 600000, 1000000, 2000000
+        -- EASY: level 6
+        60, 400, 1500,  4*K,  15*K, 40*K,              200*K, 600*K, 1000000, 2000000
     },
 
     [1] = {
-        --                                              FINAL
-        80, 600, 3000,  6000,  25000, 160000, mil(0.5), mil(1), mil(2), mil(6)
+        -- NORMAL: level 7 
+        80, 600, 3*K,  6*K,  25*K, 160*K, 1*M,                  2*M, 4*M, 6*M
     },
 
     [2] = {
-        --                                                              FINAL
-        100, 900, 5000, 10000, 50000, mil(0.4), mil(1), mil(2), mil(4), mil(10)
+        -- HARD: level 8
+        100, 900, 5*K, 10*K, 50*K, 0.4*M, 1*M, 5*M,                   4*M, 10*M
     }
 }
 

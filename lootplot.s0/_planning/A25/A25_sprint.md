@@ -18,6 +18,20 @@ Add more post-processing to daily-run
 ## =============================
 
 
+Make curses DOOMED-1, start with X lives
+
+Make chilli remove lives from curses
+
+When curses are spawned randomly, make curses spawn on DOOMED-X slots (that way, player can prepare)
+
+(Nerf the curse that gives lives to curses)
+
+Change max-level numbers:
+EASY: Level 6
+NORMAL: Level 7
+HARD: Level 8
+
+
 
 - Make it so stone-hand curses don't spawn curses "randomly";
 its confusing and weird.
