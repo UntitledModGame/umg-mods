@@ -376,7 +376,7 @@ defineStartingItem("six_ball", {
 
     description = loc("Reroll specialist"),
 
-    baseMaxActivations = 10,
+    baseMaxActivations = 3,
     baseMoneyGenerated = 2,
 
     unlockAfterWins = SIX_BALL_UNLOCK,

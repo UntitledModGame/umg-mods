@@ -231,7 +231,7 @@ defineFood("magic_turnip", {
 defineFood("golden_turnip", {
     name = loc("Golden Turnip"),
 
-    activateDescription = loc("Transforms into target item, and makes the new item cost {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} to activate"),
+    activateDescription = loc("Transforms into target item, and makes the new item cost {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR} to activate.\n(Doesn't work on food!)"),
 
     rarity = lp.rarities.RARE,
 
@@ -242,6 +242,9 @@ defineFood("golden_turnip", {
 
     target = {
         type = "ITEM",
+        filter = function (selfEnt, ppos, targEnt)
+            return not targEnt.foodItem
+        end,
         activate = function(selfEnt, ppos, targetEnt)
             local selfPPos = lp.getPos(selfEnt)
             if not selfPPos then return end
@@ -256,11 +259,11 @@ defineFood("golden_turnip", {
 
 
 
-local DOOMED_TURNIP_DOOMCOUNT = 5
+local DOOMED_TURNIP_DOOMCOUNT = 8
 defineFood("doomed_turnip", {
     name = loc("Doomed Turnip"),
 
-    activateDescription = loc("Transforms into target item, and makes the new item {lootplot:DOOMED_COLOR}DOOMED-%{n}", {
+    activateDescription = loc("Transforms into target item, and makes the new item {lootplot:DOOMED_COLOR}DOOMED-%{n}.\n(Doesn't work on food!)", {
         n = DOOMED_TURNIP_DOOMCOUNT
     }),
     rarity = lp.rarities.UNCOMMON,
@@ -272,6 +275,9 @@ defineFood("doomed_turnip", {
 
     target = {
         type = "ITEM",
+        filter = function (selfEnt, ppos, targEnt)
+            return not targEnt.foodItem
+        end,
         activate = function(selfEnt, ppos, targetEnt)
             local selfPPos = lp.getPos(selfEnt)
             if not selfPPos then return end
