@@ -376,10 +376,16 @@ function fillSpecial(ppos, team, seed)
         lp.forceSpawnSlot(ppos, server.entities.money_limit_slot, team)
     elseif r < 0.15 then
         -- destructive-run
-        wg.spawnSlots(ppos, server.entities.null_slot, 1,3, team, function(e)
-            e.doomCount = 7
-            lp.modifierBuff(e, "pointsGenerated", -30)
-            lp.modifierBuff(e, "moneyGenerated", 2)
+        wg.spawnSlots(ppos, server.entities.null_slot, 3,1, team, function(e)
+            lp.modifierBuff(e, "multGenerated", 0.7)
+            local p = lp.getPos(e)
+            if p then
+                if rgen:random() > 0.35 then
+                    lp.forceSpawnItem(p, server.entities.sack_dark, team)
+                else
+                    lp.forceSpawnItem(p, server.entities.dark_bar, team)
+                end
+            end
         end)
     elseif r < 0.2 then
         -- evil/income null-slots
@@ -416,8 +422,10 @@ function fillSpecial(ppos, team, seed)
         local slotType = exoticSlots:query(rgen)
         lp.forceSpawnSlot(ppos, slotType, team)
     else
-        local pposes = sprawlPPoses(ppos, 1,1, 3, rgen)
-        for _, pp in ipairs(pposes) do
+        local N = 5
+        local pposes = sprawlPPoses(ppos, 1,1, N, rgen)
+        for i=1,N-2 do
+            local pp = pposes[i]
             lp.trySpawnSlot(pp, server.entities.slot, team)
             local itemType = lp.rarities.randomItemOfRarity(lp.rarities.RARE, rgen, function(entry, weight)
                 local etype = server.entities[entry]
