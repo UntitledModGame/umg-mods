@@ -164,7 +164,7 @@ defineFood("chilli_pepper", {
     name = loc("Chilli Pepper"),
 
     rarity = lp.rarities.UNCOMMON,
-    activateDescription = loc("Destroys curses"),
+    activateDescription = loc("Removes all {lootplot:LIFE_COLOR}lives{/lootplot:LIFE_COLOR} from curses, then destroys them"),
 
     baseMoneyGenerated = -20,
     canGoIntoDebt = true,
@@ -180,6 +180,7 @@ defineFood("chilli_pepper", {
             return lp.curses.isCurse(targEnt)
         end,
         activate = function (selfEnt, ppos, targEnt)
+            targEnt.lives = 0
             lp.destroy(targEnt)
         end
     }

@@ -46,11 +46,17 @@ local HORIZONTAL_SACK_SHAPE = lp.targets.UnionShape(
     lp.targets.ON_SHAPE
 )
 
-
 local VERTICAL_SACK_SHAPE = lp.targets.UnionShape(
     lp.targets.VerticalShape(1),
     lp.targets.ON_SHAPE
 )
+
+local BIG_SACK_SHAPE = lp.targets.UnionShape(
+    lp.targets.KingShape(1),
+    lp.targets.ON_SHAPE
+)
+
+
 
 local function canSpawnCloudSlot(selfEnt, ppos)
     local itemEnt = lp.posToItem(ppos)
@@ -184,12 +190,25 @@ end
 defSack("sack_rare", "Rare Sack", {
     activateDescription = locRarity("Spawns %{RARE} items to choose from.\nMust be placed in the air!"),
 
-    basePrice = 12,
+    basePrice = 11,
     rarity = lp.rarities.COMMON,
     generateSackItem = newLazyGen(function (etype)
         return etype.rarity == r.RARE and (not isFood(etype))
     end, DEFAULT_WEIGHT),
 })
+
+defSack("sack_rare_big", "BIG Rare Sack", {
+    activateDescription = locRarity("Spawns %{RARE} items to choose from.\nMust be placed in the air!"),
+
+    basePrice = 13,
+    shape = BIG_SACK_SHAPE,
+    rarity = lp.rarities.UNCOMMON,
+    generateSackItem = newLazyGen(function (etype)
+        return etype.rarity == r.RARE and (not isFood(etype))
+    end, DEFAULT_WEIGHT),
+})
+
+
 
 
 
@@ -219,6 +238,21 @@ defSack("sack_food", "Food Sack", {
         return etype.rarity ~= r.COMMON and isFood(etype)
     end, DEFAULT_WEIGHT),
 })
+
+
+defSack("sack_food_big", "BIG Food Sack", {
+    activateDescription = locRarity("Spawns food items to choose from.\nMust be placed in the air!"),
+
+    shape = BIG_SACK_SHAPE,
+    basePrice = 8,
+
+    rarity = lp.rarities.UNCOMMON,
+    generateSackItem = newLazyGen(function(etype)
+        return etype.rarity ~= r.COMMON and isFood(etype)
+    end, DEFAULT_WEIGHT),
+})
+
+
 
 
 

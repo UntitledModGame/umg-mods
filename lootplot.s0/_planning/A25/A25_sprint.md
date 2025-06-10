@@ -15,23 +15,35 @@ Add more post-processing to daily-run
 
 (Nerf the curse that gives lives to curses)
 
+Change max-level numbers:
+EASY: Level 6
+NORMAL: Level 7
+HARD: Level 8
+
+
+Make chilli remove lives from curses
+
+
 
 ## =============================
 ## TODO:
 ## =============================
 
-
 Make curses DOOMED-1, start with X lives
-
-Make chilli remove lives from curses
 
 When curses are spawned randomly, make curses spawn on DOOMED-X slots (that way, player can prepare)
 
 
-Change max-level numbers:
-EASY: Level 6
-NORMAL: Level 7
-HARD: Level 8
+
+big rare sacc
+
+big food sacc
+
+
+
+
+Make use of mystery-slots somehow
+
 
 
 
