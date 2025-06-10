@@ -341,13 +341,22 @@ defCurse("bankers_helmet", "Bankers Helmet", {
 
 
 
-
+local CURSED_COIN_DESC = interp("Steals $%{money} for every other curse on the board.")
 defCurse("cursed_coin", "Cursed Coin", {
-    activateDescription = loc("Steals $0.5 for every other curse on the board."),
+    activateDescription = function(ent)
+        return CURSED_COIN_DESC({
+            money = -math.floor(ent.moneyGenerated*10)/10
+        })
+    end,
+
+    canGoIntoDebt = true,
+    baseMoneyGenerated = -0.5,
+
     onActivate = function(ent)
         local otherCursesCount = getCurseCount(ent)
+
         if otherCursesCount > 0 then
-            lp.addMoney(ent, -(otherCursesCount * 0.5))
+            lp.addMoney(ent, (ent.moneyGenerated * otherCursesCount))
         end
     end
 }, NO_SF)
