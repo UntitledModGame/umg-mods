@@ -884,7 +884,7 @@ local LOCKED_UNKNOWN_DESC = loc("Unlocked after ???")
 
 lp.defineItem("lootplot.s0:compendium_locked_item", {
     name = loc("Locked item!"),
-    image = "compendium_locked_item",
+    image = "compendium_locked_item_big",
     description = function(ent)
         if umg.exists(ent) then
             if not ent.itemTypeId then return "" end
@@ -903,6 +903,28 @@ lp.defineItem("lootplot.s0:compendium_locked_item", {
 })
 
 
+local COMPENDIUM_DESC = loc("Buy this item in a run to view it!")
+
+lp.defineItem("lootplot.s0:compendium_unseen_item", {
+    name = loc("Unseen item!"),
+    image = "compendium_locked_item_big",
+    description = COMPENDIUM_DESC,
+
+    color = {0,0,0},
+
+    onUpdateClient = function (ent)
+        local etype = ent.itemTypeId and client.entities[ent.itemTypeId]
+        if etype and etype.image then
+            ent.image = etype.image
+        end
+    end
+})
+
+
+
+local compendium = server and require("server.compendium")
+
+
 lp.defineSlot("lootplot.s0:compendium_slot", {
     name = loc("Compendium Slot"),
     triggers = {"PULSE"},
@@ -916,12 +938,17 @@ lp.defineSlot("lootplot.s0:compendium_slot", {
     onActivate = function(ent)
         if not ent.itemTypeId then return end
         local etype = ent.itemTypeId and server.entities[ent.itemTypeId]
-        local ppos = assert(lp.getPos(ent))
+        local ppos, team = assert(lp.getPos(ent)), ent.lootplotTeam
         if not etype then return end
         if lp.metaprogression.isEntityTypeUnlocked(etype) then
-            lp.forceSpawnItem(ppos, etype, ent.lootplotTeam)
+            if compendium.isSeen(ent.itemTypeId) then
+                lp.forceSpawnItem(ppos, etype, team)
+            else
+                local item = lp.forceSpawnItem(ppos, server.entities.compendium_unseen_item, team)
+                item.itemTypeId = ent.itemTypeId
+            end
         else
-            local item = lp.forceSpawnItem(ppos, server.entities.compendium_locked_item, ent.lootplotTeam)
+            local item = lp.forceSpawnItem(ppos, server.entities.compendium_locked_item, team)
             item.itemTypeId = ent.itemTypeId
         end
     end
@@ -947,6 +974,7 @@ defineStartingItem("compendium_cat", {
 
         lp.setMoney(ent, 10000)
         lp.setAttribute("NUMBER_OF_ROUNDS", ent, 1000)
+        lp.setAttribute("REQUIRED_POINTS", ent, 0)
 
         local allItems = lp.newItemGenerator():getEntries()
         local sorted = objects.Array(allItems)
@@ -967,9 +995,11 @@ defineStartingItem("compendium_cat", {
                 rB.rarityWeight + lockedB*10000
         end)
 
-        local VIEW_AREA_WIDTH = 25
-        local VIEW_AREA_START_X = 3
-        local x, y = 3, 3
+        local cpos = plot:getCenterPPos()
+        local cx,cy = cpos:getCoords()
+        local VIEW_AREA_WIDTH = 22
+        local VIEW_AREA_START_X = cx - math.floor(VIEW_AREA_WIDTH/2)
+        local x, y = 1, 7
         for _, itemEType in ipairs(sorted) do
             if x >= VIEW_AREA_WIDTH then
                 y = y + 1
@@ -984,7 +1014,27 @@ defineStartingItem("compendium_cat", {
             x = x + 1
         end
 
-        y = y + 2
+        do
+        local px = VIEW_AREA_START_X + VIEW_AREA_WIDTH + 2
+        local py = cy
+
+        local posp = plot:getPPos(px,py)
+        local mpos = posp:move(4,-2)
+        local mpos2 = posp:move(4,2)
+        if mpos and mpos2 then
+            wg.spawnSlots(mpos, server.entities.slot, 3,3, team)
+
+            wg.spawnSlots(mpos2, server.entities.null_slot, 3,3, team, function (e)
+                lp.modifierBuff(e, "moneyGenerated", 10)
+            end)
+        end
+
+        lp.forceSpawnSlot(posp, server.entities.pulse_button_slot, team)
+        lp.forceSpawnSlot(assert(posp:move(0, 4)), server.entities.key_cloth_slot, team)
+        lp.forceSpawnSlot(assert(posp:move(0, 2)), server.entities.reroll_button_slot, team)
+        lp.forceSpawnSlot(assert(posp:move(0, -2)), server.entities.rotate_slot, team)
+        lp.forceSpawnSlot(assert(posp:move(0, -4)), server.entities.level_cloth_slot, team)
+        end
     end
 })
 
