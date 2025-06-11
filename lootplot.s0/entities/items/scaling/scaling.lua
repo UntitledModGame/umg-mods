@@ -154,6 +154,8 @@ defItem("curse_knife", {
 
     triggers = KNIFE_TRIGGERS,
 
+    unlockAfterWins = assert(constants.UNLOCK_AFTER_WINS.CURSES),
+
     basePointsGenerated = 20,
     rarity = lp.rarities.EPIC,
 
@@ -227,6 +229,8 @@ defineHelmet("golden_curse_helmet", "Golden Curse Helmet", {
     triggers = {"PULSE"},
 
     shape = lp.targets.DownShape(6),
+
+    unlockAfterWins = assert(constants.UNLOCK_AFTER_WINS.CURSES),
 
     basePrice = 12,
     baseMaxActivations = 2,

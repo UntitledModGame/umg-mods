@@ -21,6 +21,7 @@ local constants = {
         SKIP_LEVEL = 1, -- IMPORTANT NOTE: You cannot skip levels with one-ball!
         ROTATEY = 1, -- rotate-archetype is unlocked after 1 win
         REROLL = 1, -- ...
+        CURSES = 1, -- curses unlocked after 1 win
         GRUBBY = 2, -- grubby is unlocked after 2 wins
         -- etc etc
         DESTRUCTIVE = 3,

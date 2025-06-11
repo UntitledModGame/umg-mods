@@ -99,6 +99,8 @@ defineFood("evil_cheese_slice", {
     basePrice = 0,
     rarity = lp.rarities.UNCOMMON,
 
+    unlockAfterWins = assert(constants.UNLOCK_AFTER_WINS.CURSES),
+
     activateDescription = loc("50% chance to earn {lootplot:MONEY_COLOR}$%{money}{/lootplot:MONEY_COLOR}.\nSpawns a {wavy}{c r=0.8 g=0.3 b=0.1}CURSE{/c}{/wavy}!", {
         money = EVIL_CHEESE_SLICE_MONEY
     }),
@@ -169,7 +171,7 @@ defineFood("chilli_pepper", {
 
     baseMoneyGenerated = -20,
     canGoIntoDebt = true,
-    unlockAfterWins = 4,
+    unlockAfterWins = assert(constants.UNLOCK_AFTER_WINS.CURSES + 1),
 
     basePrice = 2,
 
@@ -991,7 +993,8 @@ defineFood("black_bean", {
     canItemFloat = true,
 
     rarity = lp.rarities.RARE,
-    unlockAfterWins = 4,
+
+    unlockAfterWins = assert(constants.UNLOCK_AFTER_WINS.CURSES + 1),
 
     target = {
         type = "ITEM",
