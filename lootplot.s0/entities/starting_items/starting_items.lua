@@ -1018,7 +1018,7 @@ defineStartingItemNoDifficulty("compendium_cat", {
 
         local cpos = plot:getCenterPPos()
         local cx,cy = cpos:getCoords()
-        local VIEW_AREA_WIDTH = 22
+        local VIEW_AREA_WIDTH = 15
         local VIEW_AREA_START_X = cx - math.floor(VIEW_AREA_WIDTH/2)
         local x, y = 1, 7
         for _, itemEType in ipairs(sorted) do
