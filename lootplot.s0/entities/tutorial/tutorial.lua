@@ -67,7 +67,7 @@ lp.defineItem("lootplot.s0:tutorial_tombstone", {
     image = "tutorial_tombstone",
     triggers = {"PULSE"},
     activateDescription = loc("Spawns basic slots"),
-    shape = lp.targets.RookShape(1),
+    shape = lp.targets.RookShape(2),
 
     target = {
         type = "NO_SLOT",
@@ -673,6 +673,9 @@ local TXT = loc("{lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} will earn ex
 tutorialSections:add(function(tutEnt)
     clearEverythingExceptButtons(tutEnt)
     addText(tutEnt, 0,-1, TXT)
+    if lp.singleplayer then
+        lp.singleplayer.setHUDEnabled(true)
+    end
 
     spawnSlot(tutEnt, 0,1, "tutorial_pulse_button_slot")
 
@@ -695,6 +698,9 @@ local TXT = loc("{lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} can also be 
 tutorialSections:add(function(tutEnt)
     clearEverythingExceptButtons(tutEnt)
     addText(tutEnt, 0,-1, TXT)
+    if lp.singleplayer then
+        lp.singleplayer.setHUDEnabled(true)
+    end
 
     spawnSlot(tutEnt, 0,1, "tutorial_pulse_button_slot")
 
@@ -719,6 +725,9 @@ local TXT = loc("{lootplot:POINTS_MULT_COLOR}Multiplier{/lootplot:POINTS_MULT_CO
 tutorialSections:add(function(tutEnt)
     clearEverythingExceptButtons(tutEnt)
     addText(tutEnt, 0,-1, TXT)
+    if lp.singleplayer then
+        lp.singleplayer.setHUDEnabled(true)
+    end
 
     spawnSlot(tutEnt, 0,1, "tutorial_pulse_button_slot")
 
@@ -746,6 +755,9 @@ local TXT = loc("Items can have different properties.\nNotice the visual indicat
 tutorialSections:add(function(tutEnt)
     clearEverythingExceptButtons(tutEnt)
     addText(tutEnt, 0,-1, TXT)
+    if lp.singleplayer then
+        lp.singleplayer.setHUDEnabled(false)
+    end
 
     do local egg = assert(spawnItem(tutEnt, -4,2, "tutorial_egg"))
     egg.repeatActivations = true end
@@ -834,8 +846,8 @@ end
 do
 -- Target part ONE:
 
-local TXT_UPPER = loc("This item has ROOK-1 targetting.\nTo view the {lootplot.targets:COLOR}target-shape{/lootplot.targets:COLOR}, click on the item")
-local TXT_LOWER = loc("If the target is wiggling, a slot will spawn!\nIf it is red cross, the target is invalid.")
+local TXT_UPPER = loc("This item has {lootplot.targets:COLOR}ROOK-2{/lootplot.targets:COLOR} targetting.\n(Like chess!)")
+local TXT_LOWER = loc("If the {lootplot.targets:COLOR}target{/lootplot.targets:COLOR} is wiggling, a slot will spawn!\nIf it is {c r=0.9 b=0.4 g=0.4}red cross{/c}, the target is invalid.")
 
 
 tutorialSections:add(function(tutEnt)
@@ -877,7 +889,7 @@ tutorialSections:add(function(tutEnt)
     assert(spawnItem(tutEnt, -2, 2, "tutorial_tombstone"))
 
     do
-    local e = assert(spawnItem(tutEnt, 0, 3, "golden_compass"))
+    local e = assert(spawnItem(tutEnt, 0, 3, "steel_plate"))
     lp.setTriggers(e, {"PULSE"})
     end
 
@@ -1034,7 +1046,9 @@ local wg = lp.worldgen
 tutorialSections:add(function(tutEnt)
     local pos, team = fromMiddle(tutEnt, 0,0), tutEnt.lootplotTeam
 
-    lp.singleplayer.setHUDEnabled(true)
+    if lp.singleplayer then
+        lp.singleplayer.setHUDEnabled(true)
+    end
 
     lp.rawsetAttribute("POINTS", tutEnt, 0)
     lp.setAttribute("NUMBER_OF_ROUNDS", tutEnt, ROUNDS_PER_LEVEL)
