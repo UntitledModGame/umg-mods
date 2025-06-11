@@ -2,6 +2,8 @@ local W,H = 3000,1500
 local minsize = 40
 local DELTA = (minsize * lp.constants.WORLD_SLOT_DISTANCE) / 2
 
+local cosmicBg, heavenlyBg
+
 if client then
 
 local cosmicBackground = require("client.cosmicBackground")
@@ -10,7 +12,7 @@ function cosmicBg()
     return cosmicBackground({
         worldX = -W/2 + DELTA, worldY = -H/2 + DELTA,
         worldWidth = W, worldHeight = H,
-        numberOfStar = 100,
+        numberOfStar = 60,
 
         backgroundColor = objects.Color("#" .. "FF0A091F"),
         starColorMin = {2, 4, 6},
@@ -21,10 +23,10 @@ function heavenlyBg()
     return cosmicBackground({
         worldX = -W/2 + DELTA, worldY = -H/2 + DELTA,
         worldWidth = W, worldHeight = H,
-        numberOfStar = 100,
+        numberOfStar = 60,
 
         backgroundColor = objects.Color("#" .. "FF2B140A"),
-        starColorMin = {7, 4, 4},
+        starColorMin = {7, 5, 3},
     })
 end
 
