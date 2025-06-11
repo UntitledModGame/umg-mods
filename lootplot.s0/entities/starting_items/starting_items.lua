@@ -884,10 +884,11 @@ local LOCKED_UNKNOWN_DESC = loc("Unlocked after ???")
 
 lp.defineItem("lootplot.s0:compendium_locked_item", {
     name = loc("Locked item!"),
+    image = "compendium_locked_item",
     description = function(ent)
         if umg.exists(ent) then
-            if not ent.itemTypeId then return end
-            local etype = ent.itemTypeId and server.entities[ent.itemTypeId]
+            if not ent.itemTypeId then return "" end
+            local etype = ent.itemTypeId and client.entities[ent.itemTypeId]
             local winCount = etype.unlockAfterWins
             if winCount then
                 return LOCKED_WINS_DESC({
@@ -897,18 +898,16 @@ lp.defineItem("lootplot.s0:compendium_locked_item", {
                 return LOCKED_UNKNOWN_DESC
             end
         end
-        return ""
+        return " "
     end
 })
 
-lp.defineItem("lootplot.s0:compendium_unseen_item", {
-    name = loc("Unknown item!"),
-    description = loc("Hasn't been seen yet")
-})
 
 lp.defineSlot("lootplot.s0:compendium_slot", {
     name = loc("Compendium Slot"),
     triggers = {"PULSE"},
+
+    basePrice = 0,
 
     dontPropagateTriggerToItem = true,
     isItemListenBlocked = true,
@@ -917,8 +916,14 @@ lp.defineSlot("lootplot.s0:compendium_slot", {
     onActivate = function(ent)
         if not ent.itemTypeId then return end
         local etype = ent.itemTypeId and server.entities[ent.itemTypeId]
+        local ppos = assert(lp.getPos(ent))
         if not etype then return end
-        lp.forceSpawnItem(assert(lp.getPos(ent)), etype, ent.lootplotTeam)
+        if lp.metaprogression.isEntityTypeUnlocked(etype) then
+            lp.forceSpawnItem(ppos, etype, ent.lootplotTeam)
+        else
+            local item = lp.forceSpawnItem(ppos, server.entities.compendium_locked_item, ent.lootplotTeam)
+            item.itemTypeId = ent.itemTypeId
+        end
     end
 })
 
@@ -928,16 +933,58 @@ defineStartingItem("compendium_cat", {
     description = loc("It's Sandbox time!"),
 
     onActivateOnce = function(ent)
-        local ppos,team = lp.getPos(ent), ent.lootplotTeam
+        local ppos,team = assert(lp.getPos(ent)), ent.lootplotTeam
+        local plot = ppos:getPlot()
+
+        local rr = lp.rarities
+        local ALLOWED_RARITIES = {
+            [rr.COMMON] = true,
+            [rr.UNCOMMON] = true,
+            [rr.RARE] = true,
+            [rr.EPIC] = true,
+            [rr.LEGENDARY] = true,
+        }
 
         lp.setMoney(ent, 10000)
         lp.setAttribute("NUMBER_OF_ROUNDS", ent, 1000)
 
         local allItems = lp.newItemGenerator():getEntries()
         local sorted = objects.Array(allItems)
-        sorted:sortInPlace(function(a, b)
-            return true
+            :map(function (itemTypeId)
+                local etype = server.entities[itemTypeId]
+                if etype and ALLOWED_RARITIES[etype.rarity] then
+                    return etype
+                end
+            end)
+        sorted:sortInPlace(function(etypeA, etypeB)
+            local rA = etypeA.rarity
+            local rB = etypeB.rarity
+            local lockedA = (lp.metaprogression.isEntityTypeUnlocked(etypeA) and 1) or 0
+            local lockedB = (lp.metaprogression.isEntityTypeUnlocked(etypeB) and 1) or 0
+            return
+                rA.rarityWeight + lockedA*10000
+                <
+                rB.rarityWeight + lockedB*10000
         end)
+
+        local VIEW_AREA_WIDTH = 25
+        local VIEW_AREA_START_X = 3
+        local x, y = 3, 3
+        for _, itemEType in ipairs(sorted) do
+            if x >= VIEW_AREA_WIDTH then
+                y = y + 1
+                x = 1
+            end
+
+            local pos = plot:getPPos(x + VIEW_AREA_START_X, y)
+            local slot = lp.forceSpawnSlot(pos, server.entities.compendium_slot, team)
+            slot.itemTypeId = itemEType:getTypename()
+            lp.forceActivateEntity(slot)
+
+            x = x + 1
+        end
+
+        y = y + 2
     end
 })
 
