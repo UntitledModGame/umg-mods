@@ -217,7 +217,7 @@ local spawnRandomCurseTc = typecheck.assert("table", "string", "love:RandomGener
 ---@param team string
 ---@param randomSampler? love.RandomGenerator
 ---@param range number?
----@return lootplot.ItemEntity?
+---@return lootplot.ItemEntity?, lootplot.PPos?
 function lp_curses.spawnRandomCurse(plot, team, randomSampler, range)
     spawnRandomCurseTc(plot, team, randomSampler, range)
     range = range or 2
@@ -243,7 +243,7 @@ function lp_curses.spawnRandomCurse(plot, team, randomSampler, range)
         local ppos = table.random(candidates, randomSampler)
         ---@cast ppos lootplot.PPos
         local ent = lp.forceSpawnItem(ppos, server.entities[curseId], team, true)
-        return ent
+        return ent, ppos
     end
     return nil
 end

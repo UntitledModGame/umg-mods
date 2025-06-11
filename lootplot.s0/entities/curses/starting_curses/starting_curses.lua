@@ -55,7 +55,14 @@ local function spawnCurses(ent, count)
     local ppos = lp.getPos(ent)
     if ppos then
         for _=1, count do
-            lp.curses.spawnRandomCurse(ppos:getPlot(), ent.lootplotTeam)
+            local curseEnt, pos = lp.curses.spawnRandomCurse(ppos:getPlot(), ent.lootplotTeam)
+            if curseEnt and pos then
+                curseEnt.lives = 4 + lp.SEED:randomMisc(1,3)
+                local nullSlot = lp.forceSpawnSlot(pos, server.entities.null_slot, curseEnt.lootplotTeam)
+                if nullSlot then
+                    nullSlot.doomCount = 4
+                end
+            end
         end
     end
 end

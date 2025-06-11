@@ -788,6 +788,7 @@ defineStartingItem("rainbow_ball", {
         lp.forceSpawnSlot(nextPos(), ents.rulebender_slot, team) -- violet
 
         spawnDoomClock(ent)
+        spawnCurses(ent)
     end
 })
 

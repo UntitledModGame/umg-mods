@@ -33,7 +33,7 @@ local constants = {
     -- If there are more than X curses on the plot, 
     -- curses will begin to have adverse effects.
 
-    GOLDSMITH_MONEY_REQUIREMENT = 20,
+    GOLDSMITH_MONEY_REQUIREMENT = 40,
 
     -- entity tags:
     tags = setmetatable({

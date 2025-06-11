@@ -37,7 +37,8 @@ lp.defineSlot("lootplot.s0:curse_button_slot", {
     onActivate = function(ent)
         local ppos = lp.getPos(ent)
         if ppos then
-            lp.curses.spawnRandomCurse(ppos:getPlot(), ent.lootplotTeam)
+            local cEnt = lp.curses.spawnRandomCurse(ppos:getPlot(), ent.lootplotTeam)
+            if cEnt then cEnt.lives = 6 end
         end
     end,
 })

@@ -109,7 +109,8 @@ defineFood("evil_cheese_slice", {
         end
         local ppos = lp.getPos(selfEnt)
         if ppos then
-            lp.curses.spawnRandomCurseAt(ppos, selfEnt.lootplotTeam)
+            local cEnt = lp.curses.spawnRandomCurseAt(ppos, selfEnt.lootplotTeam)
+            if cEnt then cEnt.lives = 4 + lp.SEED:randomMisc(1,3) end
         end
     end
 })

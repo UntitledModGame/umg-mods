@@ -529,7 +529,8 @@ defCurse("leprechaun_curse", "Leprechaun Curse", {
         if (lp.getMoney(ent) or 0) > MONEY_REQ then
             local ppos = lp.getPos(ent)
             if ppos then
-                lp.curses.spawnRandomCurse(ppos:getPlot(), ent.lootplotTeam)
+                local cEnt = lp.curses.spawnRandomCurse(ppos:getPlot(), ent.lootplotTeam)
+                if cEnt then cEnt.lives = 6 end
             end
         end
     end
