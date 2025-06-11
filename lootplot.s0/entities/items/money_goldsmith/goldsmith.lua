@@ -162,7 +162,7 @@ end
 
 
 do
-local BUFF = 3
+local BUFF = 5
 local DESC = interp("If {lootplot:MONEY_COLOR}money more than $%{moneyReq}{/lootplot:MONEY_COLOR}, permanently gain %{pointBuff} points.\n"){
     pointBuff = BUFF,
     moneyReq = MONEY_REQUIREMENT
@@ -171,7 +171,7 @@ local DESC = interp("If {lootplot:MONEY_COLOR}money more than $%{moneyReq}{/loot
 defItem("iron_ornament", "Iron Ornament", {
     activateDescription = DESC,
 
-    basePointsGenerated = 10,
+    basePointsGenerated = 15,
     baseMaxActivations = 4,
 
     onActivate = function(ent)
@@ -188,7 +188,7 @@ end
 
 
 do
-local BUFF = 0.1
+local BUFF = 0.2
 local DESC = interp("If {lootplot:MONEY_COLOR}money more than $%{moneyReq}{/lootplot:MONEY_COLOR}, permanently gain {lootplot:POINTS_MULT_COLOR}+%{buff} multiplier."){
     buff = BUFF,
     moneyReq = MONEY_REQUIREMENT
@@ -197,7 +197,7 @@ local DESC = interp("If {lootplot:MONEY_COLOR}money more than $%{moneyReq}{/loot
 defItem("ruby_ornament", "Ruby Ornament", {
     activateDescription = DESC,
 
-    baseMultGenerated = -0.5,
+    baseMultGenerated = -0.4,
     baseMaxActivations = 4,
 
     onActivate = function(ent)
@@ -223,9 +223,9 @@ defItem("golden_ornament", "Golden Ornament", {
     canActivate = DEFAULT_CAN_ACTIVATE,
 
     basePrice = 8,
-    baseMaxActivations = 1,
+    baseMaxActivations = 2,
     baseMoneyGenerated = 1,
-    baseBonusGenerated = 4,
+    baseBonusGenerated = 6,
 
     rarity = lp.rarities.RARE,
 })
