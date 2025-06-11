@@ -11,6 +11,9 @@ local voidCtor = nil
 local starCtor = nil
 local aquaCtor = nil
 local crimsonCtor = nil
+local skahdsCosmos = nil
+local heavenlyBg = nil
+
 
 
 
@@ -18,9 +21,10 @@ local crimsonCtor = nil
 -- Each time you win a game, you unlock a new background.
 local UNLOCK_WIN_COUNT = 1
 
-local function winToUnlock()
+local function winToUnlock(increment)
+    increment = increment or 0
     local currWinCount = UNLOCK_WIN_COUNT -- capture closure
-    UNLOCK_WIN_COUNT = UNLOCK_WIN_COUNT + 1
+    UNLOCK_WIN_COUNT = UNLOCK_WIN_COUNT + increment
     local function isUnlocked()
         if lp.getWinCount() >= currWinCount then
             return true
@@ -39,9 +43,10 @@ local CloudBackground = require("client.CloudBackground")
 
 
 local W,H = 3000,1500
--- HACK: kinda hacky, hardcode plot offset
+-- HACK: very hacky, hardcode plot offset
 local minsize = 40
 local DELTA = (minsize * lp.constants.WORLD_SLOT_DISTANCE) / 2
+
 
 function defaultCtor()
     return CloudBackground({
@@ -146,8 +151,38 @@ end
 
 
 
+local cosmicBackground = require("client.cosmicBackground")
+
+function skahdsCosmos()
+    return cosmicBackground({
+        worldX = -W/2 + DELTA, worldY = -H/2 + DELTA,
+        worldWidth = W, worldHeight = H,
+        numberOfStar = 60,
+
+        backgroundColor = objects.Color("#" .. "FF0A091F"),
+        starColorMin = {2, 4, 6},
+    })
+end
+
+function heavenlyBg()
+    return cosmicBackground({
+        worldX = -W/2 + DELTA, worldY = -H/2 + DELTA,
+        worldWidth = W, worldHeight = H,
+        numberOfStar = 60,
+
+        backgroundColor = objects.Color("#" .. "FF2B140A"),
+        starColorMin = {7, 5, 3},
+    })
+end
 
 end
+
+
+
+local function hasCompletedTutorial()
+    return lp.metaprogression.getFlag("lootplot.s0:isTutorialCompleted")
+end
+
 
 lp.backgrounds.registerBackground("lootplot.s0.backgrounds:sky_cloud_background", {
     name = loc("Default"),
@@ -155,12 +190,32 @@ lp.backgrounds.registerBackground("lootplot.s0.backgrounds:sky_cloud_background"
     icon = "sky_cloud_background"
 })
 
+
 lp.backgrounds.registerBackground("lootplot.s0.backgrounds:sunset_background", {
     name = loc("Sunset"),
     constructor = sunsetCtor,
-    isUnlocked = winToUnlock(),
     icon = "sunset_cloud_background"
 })
+
+
+lp.backgrounds.registerBackground("lootplot.s0.backgrounds:cherry_background", {
+    name = loc("Cherry"),
+    constructor = cherryCtor,
+    isUnlocked = hasCompletedTutorial,
+    icon = "cherry_cloud_background"
+})
+
+
+
+lp.backgrounds.registerBackground("lootplot.s0.backgrounds:skahds_cosmos", {
+    name = loc("Skahd's Cosmos"),
+    isUnlocked = hasCompletedTutorial,
+    constructor = skahdsCosmos,
+    icon = "skahds_cosmos",
+    fogColor = objects.Color("#" .. "FF060413")
+})
+
+
 
 local STAR_FOG_COLOR
 do
@@ -171,32 +226,17 @@ lp.backgrounds.registerBackground("lootplot.s0.backgrounds:star_background", {
     name = loc("Star Background"),
     description = loc("Just stars"),
     constructor = starCtor,
-    isUnlocked = winToUnlock(),
+    isUnlocked = winToUnlock(1),
     icon = "star_background",
     fogColor = STAR_FOG_COLOR,
 })
 
 
-
-lp.backgrounds.registerBackground("lootplot.s0.backgrounds:cherry_background", {
-    name = loc("Cherry"),
-    constructor = cherryCtor,
-    isUnlocked = winToUnlock(),
-    icon = "cherry_cloud_background"
-})
-
 lp.backgrounds.registerBackground("lootplot.s0.backgrounds:teal_background", {
     name = loc("Teal"),
     constructor = tealCtor,
-    isUnlocked = winToUnlock(),
+    isUnlocked = winToUnlock(1),
     icon = "teal_cloud_background"
-})
-
-lp.backgrounds.registerBackground("lootplot.s0.backgrounds:popcorn_background", {
-    name = loc("Popcorn"),
-    constructor = popcornCtor,
-    isUnlocked = winToUnlock(),
-    icon = "popcorn_background",
 })
 
 
@@ -206,6 +246,24 @@ lp.backgrounds.registerBackground("lootplot.s0.backgrounds:void_background", {
     isUnlocked = winToUnlock(),
     icon = "void_background",
     fogColor = objects.Color("#" .. "FF250732")
+})
+
+
+
+lp.backgrounds.registerBackground("lootplot.s0.backgrounds:popcorn_background", {
+    name = loc("Popcorn"),
+    constructor = popcornCtor,
+    isUnlocked = winToUnlock(),
+    icon = "popcorn_background",
+})
+
+
+lp.backgrounds.registerBackground("lootplot.s0.backgrounds:heavenly_background", {
+    name = loc("Heavenly Dimension"),
+    constructor = heavenlyBg,
+    isUnlocked = winToUnlock(1),
+    icon = "heavenly_background",
+    fogColor = objects.Color("#" .. "FF180606")
 })
 
 
