@@ -32,6 +32,9 @@ Compendium-cat starter-item
 
 
 
+Show points/bonus UI in tutorial during the bonus/mult stage
+
+
 
 
 ## =============================
@@ -39,12 +42,14 @@ Compendium-cat starter-item
 ## =============================
 
 
-Show points/bonus UI in tutorial during the bonus/mult stage
-
-
 Make curses DOOMED-1, start with X lives
 
 When curses are spawned randomly, make curses spawn on DOOMED-X slots (that way, player can prepare)
+
+
+ ----------------
+DO OUTREACH!!!
+ ----------------
 
 
 Make use of mystery-slots somehow

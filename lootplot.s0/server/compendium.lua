@@ -28,6 +28,11 @@ local compendiumTable = {--[[
 ]]}
 local outOfDate = false
 
+
+local isEnabled = true
+-- compendium should be disabled in sandbox mode
+
+
 if server then
     local dat = server.getSaveFilesystem()
         :read(COMPENDIUM_FILE)
@@ -52,6 +57,13 @@ function compendium.isSeen(itemId)
 end
 
 
+function compendium.setEnabled(bool)
+    isEnabled = false
+end
+
+
+
+
 ---@param itemId string 
 local function setSeen(itemId)
     assertServer()
@@ -73,7 +85,7 @@ end
 
 
 umg.on("lootplot:entityTriggered", function (triggerName, ent)
-    if triggerName == "BUY" and lp.isItemEntity(ent) then
+    if triggerName == "BUY" and lp.isItemEntity(ent) and isEnabled then
         setSeen(ent:getEntityType():getTypename())
     end
 end)

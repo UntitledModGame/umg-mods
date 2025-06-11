@@ -35,6 +35,22 @@ local function defineStartingItem(id, etype)
 end
 
 
+local function defineStartingItemNoDifficulty(id, etype)
+    defPerkTc(id, etype)
+    etype.image = etype.image or id
+    etype.canItemFloat = true -- perk always float
+    etype.triggers = etype.triggers or {"PULSE"}
+    assert(lp.hasTrigger(etype, "PULSE"), "?")
+
+    id = "lootplot.s0:" .. id
+
+    lp.defineItem(id, etype)
+    lp.worldgen.STARTING_ITEMS:add(id)
+end
+
+
+
+
 
 
 
@@ -955,13 +971,17 @@ lp.defineSlot("lootplot.s0:compendium_slot", {
 })
 
 
-defineStartingItem("compendium_cat", {
+defineStartingItemNoDifficulty("compendium_cat", {
     name = loc("Compendium Cat"),
     description = loc("It's Sandbox time!"),
+
+    unlockAfterWins = 1,
 
     onActivateOnce = function(ent)
         local ppos,team = assert(lp.getPos(ent)), ent.lootplotTeam
         local plot = ppos:getPlot()
+
+        compendium.setEnabled(false)
 
         local rr = lp.rarities
         local ALLOWED_RARITIES = {
