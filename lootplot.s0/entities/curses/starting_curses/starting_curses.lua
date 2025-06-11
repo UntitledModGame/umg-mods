@@ -76,6 +76,13 @@ local function drawDelayItemNumber(ent, remaining)
     local dx,dy=0,3 * math.sin(love.timer.getTime())
     local txt = "{outline}" .. tostring(remaining)
     local color = lp.COLORS.INFO_COLOR
+    if remaining <= 1 then
+        txt = "{outline}!!!"
+        color = {0.7,0.2,0.1}
+        local t = (love.timer.getTime() * 10)
+        dx = 2 * math.sin(t)
+        dy = 0
+    end
     love.graphics.push("all")
     love.graphics.setColor(color)
     local font = love.graphics.getFont()
@@ -107,7 +114,7 @@ defCurse("stone_hand", "Stone Hand", {
     end,
 
     onActivate = function (ent)
-        if ent.totalActivationCount > ent.stoneHand_activations then
+        if ent.totalActivationCount >= ent.stoneHand_activations then
             spawnCurses(ent, ent.stoneHand_curses)
             ent:delete()
         end

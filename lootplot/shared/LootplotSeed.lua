@@ -54,8 +54,8 @@ end
 function LootplotSeed:deserializeFromTable(tab)
     self.seed = tab.seed
     self.rerollRNG:setSeed(tab.seed)
-    self.worldGenRNG:setSeed(tab.seed)
-    self.miscRNG:setSeed(tab.seed)
+    self.worldGenRNG:setSeed(tab.seed + 1)
+    self.miscRNG:setSeed(tab.seed + 2)
     self.rerollRNG:setState(tab.rerollRNG)
     self.worldGenRNG:setState(tab.worldGenRNG)
     self.miscRNG:setState(tab.miscRNG)
