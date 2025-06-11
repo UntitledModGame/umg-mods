@@ -866,3 +866,80 @@ defineStartingItem("basketball", {
 })
 
 
+
+
+
+
+
+-- ==================
+----------
+-- ITEM COMPENDIUM!
+----------
+-- ==================
+
+do
+
+local LOCKED_WINS_DESC = interp("Unlocked after winning %{X} times")
+local LOCKED_UNKNOWN_DESC = loc("Unlocked after ???")
+
+lp.defineItem("lootplot.s0:compendium_locked_item", {
+    name = loc("Locked item!"),
+    description = function(ent)
+        if umg.exists(ent) then
+            if not ent.itemTypeId then return end
+            local etype = ent.itemTypeId and server.entities[ent.itemTypeId]
+            local winCount = etype.unlockAfterWins
+            if winCount then
+                return LOCKED_WINS_DESC({
+                    X = winCount
+                })
+            else
+                return LOCKED_UNKNOWN_DESC
+            end
+        end
+        return ""
+    end
+})
+
+lp.defineItem("lootplot.s0:compendium_unseen_item", {
+    name = loc("Unknown item!"),
+    description = loc("Hasn't been seen yet")
+})
+
+lp.defineSlot("lootplot.s0:compendium_slot", {
+    name = loc("Compendium Slot"),
+    triggers = {"PULSE"},
+
+    dontPropagateTriggerToItem = true,
+    isItemListenBlocked = true,
+    audioVolume = 0,
+
+    onActivate = function(ent)
+        if not ent.itemTypeId then return end
+        local etype = ent.itemTypeId and server.entities[ent.itemTypeId]
+        if not etype then return end
+        lp.forceSpawnItem(assert(lp.getPos(ent)), etype, ent.lootplotTeam)
+    end
+})
+
+
+defineStartingItem("compendium_cat", {
+    name = loc("Compendium Cat"),
+    description = loc("It's Sandbox time!"),
+
+    onActivateOnce = function(ent)
+        local ppos,team = lp.getPos(ent), ent.lootplotTeam
+
+        lp.setMoney(ent, 10000)
+        lp.setAttribute("NUMBER_OF_ROUNDS", ent, 1000)
+
+        local allItems = lp.newItemGenerator():getEntries()
+        local sorted = objects.Array(allItems)
+        sorted:sortInPlace(function(a, b)
+            return true
+        end)
+    end
+})
+
+end
+

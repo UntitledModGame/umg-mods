@@ -23,23 +23,28 @@ HARD: Level 8
 
 Make chilli remove lives from curses
 
+big rare sacc
+
+big food sacc
+
+
+
 
 
 ## =============================
 ## TODO:
 ## =============================
 
+
+Compendium-cat starter-item
+
+
 Make curses DOOMED-1, start with X lives
 
 When curses are spawned randomly, make curses spawn on DOOMED-X slots (that way, player can prepare)
 
 
-
-big rare sacc
-
-big food sacc
-
-
+Show points/bonus UI in tutorial during the bonus/mult stage
 
 
 Make use of mystery-slots somehow
