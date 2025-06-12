@@ -167,7 +167,7 @@ defineFood("chilli_pepper", {
     name = loc("Chilli Pepper"),
 
     rarity = lp.rarities.UNCOMMON,
-    activateDescription = loc("Removes all {lootplot:LIFE_COLOR}lives{/lootplot:LIFE_COLOR} from curses, then destroys them"),
+    activateDescription = loc("Spawns basic slots.\nRemoves all {lootplot:LIFE_COLOR}lives{/lootplot:LIFE_COLOR} from curses, then destroys them"),
 
     baseMoneyGenerated = -20,
     canGoIntoDebt = true,
@@ -178,13 +178,26 @@ defineFood("chilli_pepper", {
     shape = lp.targets.HorizontalShape(2),
 
     target = {
-        type = "ITEM",
-        filter = function (selfEnt, ppos, targEnt)
-            return lp.curses.isCurse(targEnt)
+        filter = function (selfEnt, ppos)
+            local slotEnt = lp.posToSlot(ppos)
+            local itemEnt = lp.posToItem(ppos)
+            if not slotEnt then
+                return true
+            end
+            if itemEnt and lp.curses.isCurse(itemEnt) then
+                return true
+            end
         end,
         activate = function (selfEnt, ppos, targEnt)
-            targEnt.lives = 0
-            lp.destroy(targEnt)
+            local slotEnt = lp.posToSlot(ppos)
+            local itemEnt = lp.posToItem(ppos)
+            if not slotEnt then
+                lp.forceSpawnSlot(ppos, server.entities.slot, selfEnt.lootplotTeam)
+            end
+            if itemEnt and lp.curses.isCurse(itemEnt) then
+                itemEnt.lives = 0
+                lp.destroy(itemEnt)
+            end
         end
     }
 })
