@@ -124,8 +124,8 @@ defineCat("dangerously_funny_cat", {
 
 
 
-defineCat("chubby_cat", {
-    name = loc("Chubby Cat"),
+defineCat("splatter_cat", {
+    name = loc("SplatterCat"),
 
     rarity = lp.rarities.EPIC,
 
