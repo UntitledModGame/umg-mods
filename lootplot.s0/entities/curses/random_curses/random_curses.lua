@@ -390,7 +390,7 @@ local function subtractLives(ent, x)
     end
 end
 defCurse("heart_leech", "Heart Leech", {
-    activateDescription = loc("Removes {lootplot:LIFE_COLOR}4 lives{/lootplot:LIFE_COLOR} from ALL items and slots."),
+    activateDescription = loc("Removes {lootplot:LIFE_COLOR}4 lives{/lootplot:LIFE_COLOR} from items and slots."),
     onActivate = function(ent)
         for _, itemEnt in ipairs(getItems(ent)) do
             subtractLives(itemEnt, 4)

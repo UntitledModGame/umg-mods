@@ -99,6 +99,7 @@ defItem("star", "Star", {
     rarity = lp.rarities.EPIC,
     foodItem = true,
     shape = lp.targets.VerticalShape(1),
+    basePrice = 11,
     target = {
         type = "ITEM",
     },
