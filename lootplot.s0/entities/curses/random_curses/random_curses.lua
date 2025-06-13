@@ -345,7 +345,7 @@ local CURSED_COIN_DESC = interp("Steals $%{money} for every other curse on the b
 defCurse("cursed_coin", "Cursed Coin", {
     activateDescription = function(ent)
         return CURSED_COIN_DESC({
-            money = -math.floor(ent.moneyGenerated*10)/10
+            money = -math.floor((ent.moneyGenerated or 0)*10)/10
         })
     end,
 
