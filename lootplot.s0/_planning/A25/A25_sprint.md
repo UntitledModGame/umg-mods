@@ -34,6 +34,8 @@ Compendium-cat starter-item
 
 Show points/bonus UI in tutorial during the bonus/mult stage
 
+Remove steak-maker/rework
+
 
 
 
@@ -42,10 +44,20 @@ Show points/bonus UI in tutorial during the bonus/mult stage
 ## =============================
 
 
-Fix bugs
+
+Make 6ball (and reroll-items) unlocked straight away. Or else the game is stale.
+
+Swap rarity of yarn items
+
+Buff iron-ornament
 
 
-Do tasks in `PARETO` ticket
+Put worldgen item top-left so it isnt overwritten
+
+Spawn RARE items in offer-slots more frequently
+
+
+Fix bugs/crashes
 
 
 

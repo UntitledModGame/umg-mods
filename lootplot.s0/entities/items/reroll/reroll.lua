@@ -12,7 +12,9 @@ local function defItem(id, name, etype)
     etype.image = etype.image or id
     etype.name = loc(name)
 
-    etype.unlockAfterWins = consts.UNLOCK_AFTER_WINS.REROLL
+    etype.isEntityTypeUnlocked = function(_etype)
+        return lp.metaprogression.getFlag("lootplot.s0:isTutorialCompleted")
+    end
 
     return lp.defineItem("lootplot.s0:"..id, etype)
 end
