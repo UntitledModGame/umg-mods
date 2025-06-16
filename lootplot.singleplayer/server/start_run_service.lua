@@ -96,7 +96,7 @@ local function spawnItemAndSlots(midPPos, team, perk, wgen)
     lp.forceSpawnItem(midPPos, server.entities[perk], team)
 
     -- Worldgen item must be done afterwards, so culling works
-    local worldgenPPos = assert(midPPos:move(0, -4))
+    local worldgenPPos = plot:getPPos(2,2)
     plot:setFogRevealed(worldgenPPos, lp.singleplayer.PLAYER_TEAM, true)
     lp.forceSpawnItem(worldgenPPos, server.entities[wgen], team)
 
