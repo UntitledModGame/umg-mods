@@ -37,17 +37,16 @@ Show points/bonus UI in tutorial during the bonus/mult stage
 Remove steak-maker/rework
 
 
+Make 6ball (and reroll-items) unlocked straight away. Or else the game is stale.
+
+
+Swap rarity of yarn items
 
 
 ## =============================
 ## TODO:
 ## =============================
 
-
-
-Make 6ball (and reroll-items) unlocked straight away. Or else the game is stale.
-
-Swap rarity of yarn items
 
 Buff iron-ornament
 

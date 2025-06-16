@@ -334,7 +334,7 @@ defItem("basic_yarn", "Basic Yarn", {
         buff = PTS_BUFF
     }),
 
-    rarity = lp.rarities.EPIC,
+    rarity = lp.rarities.LEGENDARY,
 
     basePrice = 10,
     baseMaxActivations = 5,
@@ -368,7 +368,7 @@ do
 local BUFF = 10
 
 defItem("green_yarn", "Green Yarn", {
-    rarity = lp.rarities.LEGENDARY,
+    rarity = lp.rarities.EPIC,
 
     basePointsGenerated = 40,
     basePrice = 18,

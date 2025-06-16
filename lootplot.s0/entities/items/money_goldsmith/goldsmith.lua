@@ -162,7 +162,7 @@ end
 
 
 do
-local BUFF = 5
+local BUFF = 8
 local DESC = interp("If {lootplot:MONEY_COLOR}money more than $%{moneyReq}{/lootplot:MONEY_COLOR}, permanently gain %{pointBuff} points.\n"){
     pointBuff = BUFF,
     moneyReq = MONEY_REQUIREMENT
@@ -188,7 +188,7 @@ end
 
 
 do
-local BUFF = 0.2
+local BUFF = 0.3
 local DESC = interp("If {lootplot:MONEY_COLOR}money more than $%{moneyReq}{/lootplot:MONEY_COLOR}, permanently gain {lootplot:POINTS_MULT_COLOR}+%{buff} multiplier."){
     buff = BUFF,
     moneyReq = MONEY_REQUIREMENT
