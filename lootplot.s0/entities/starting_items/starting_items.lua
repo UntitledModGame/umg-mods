@@ -278,6 +278,9 @@ end
 
 local ONE_BALL_MONEY = 4
 
+local UNLOCK_AFTER_TUTORIAL = function(_etype)
+    return lp.metaprogression.getFlag("lootplot.s0:isTutorialCompleted")
+end
 defineStartingItem("one_ball", {
     name = loc("One Ball"),
 
@@ -290,9 +293,7 @@ defineStartingItem("one_ball", {
 
     winAchievement = "WIN_ONE_BALL",
 
-    isEntityTypeUnlocked = function(_etype)
-        return lp.metaprogression.getFlag("lootplot.s0:isTutorialCompleted")
-    end,
+    isEntityTypeUnlocked = UNLOCK_AFTER_TUTORIAL,
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
@@ -333,6 +334,60 @@ defineStartingItem("one_ball", {
         })
     end
 })
+
+
+
+
+-- unlocked after tutorial
+defineStartingItem("six_ball", {
+    name = loc("Six Ball"),
+
+    triggers = {"PULSE", "REROLL"},
+
+    description = loc("Reroll specialist"),
+
+    baseMaxActivations = 3,
+    baseMoneyGenerated = 2,
+
+    isEntityTypeUnlocked = UNLOCK_AFTER_TUTORIAL,
+
+    winAchievement = "WIN_SIX_BALL",
+
+    onActivateOnce = function(ent)
+        local ppos, team = getPosTeam(ent)
+
+        lp.setMoney(ent, constants.STARTING_MONEY)
+        lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
+        spawnShop(ent)
+        spawnRerollButton(ent)
+        spawnNormal(ent)
+
+        do -- spawn golden-die:
+        local itemEnt2 = lp.trySpawnItem(assert(ppos:move(1,0)), server.entities.golden_die, team)
+        itemEnt2.baseMoneyGenerated = 2
+        end
+
+        -- spawn green-olives:
+        for y = -1,1 do
+            local mpos = assert(ppos:move(3,y))
+            lp.forceSpawnSlot(mpos, server.entities.null_slot, team)
+            lp.forceSpawnItem(mpos, server.entities.green_olive, team)
+        end
+
+        ppos:getPlot():foreachSlot(function(slotEnt, _p)
+            if not (lp.hasTrigger(slotEnt, "REROLL")) and (not slotEnt.buttonSlot) then
+                lp.removeTrigger(slotEnt, "PULSE")
+                lp.addTrigger(slotEnt, "REROLL")
+            end
+        end)
+
+        spawnSell(ent)
+
+        spawnDoomClockAndButtons(ent)
+        spawnCurses(ent)
+    end,
+})
+
 
 
 
@@ -379,59 +434,6 @@ defineStartingItem("five_ball", {
         spawnDoomClockAndButtons(ent)
         spawnCurses(ent)
     end
-})
-
-
-
-
-
-local SIX_BALL_UNLOCK = 1
-defineStartingItem("six_ball", {
-    name = loc("Six Ball"),
-
-    triggers = {"PULSE", "REROLL"},
-
-    description = loc("Reroll specialist"),
-
-    baseMaxActivations = 3,
-    baseMoneyGenerated = 2,
-
-    unlockAfterWins = SIX_BALL_UNLOCK,
-    winAchievement = "WIN_SIX_BALL",
-
-    onActivateOnce = function(ent)
-        local ppos, team = getPosTeam(ent)
-
-        lp.setMoney(ent, constants.STARTING_MONEY)
-        lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
-        spawnShop(ent)
-        spawnRerollButton(ent)
-        spawnNormal(ent)
-
-        do -- spawn golden-die:
-        local itemEnt2 = lp.trySpawnItem(assert(ppos:move(1,0)), server.entities.golden_die, team)
-        itemEnt2.baseMoneyGenerated = 2
-        end
-
-        -- spawn green-olives:
-        for y = -1,1 do
-            local mpos = assert(ppos:move(3,y))
-            lp.forceSpawnSlot(mpos, server.entities.null_slot, team)
-            lp.forceSpawnItem(mpos, server.entities.green_olive, team)
-        end
-
-        ppos:getPlot():foreachSlot(function(slotEnt, _p)
-            if not (lp.hasTrigger(slotEnt, "REROLL")) and (not slotEnt.buttonSlot) then
-                lp.removeTrigger(slotEnt, "PULSE")
-                lp.addTrigger(slotEnt, "REROLL")
-            end
-        end)
-
-        spawnSell(ent)
-
-        spawnDoomClockAndButtons(ent)
-        spawnCurses(ent)
-    end,
 })
 
 
