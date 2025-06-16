@@ -48,13 +48,13 @@ Buff iron-ornament
 Spawn RARE items in offer-slots more frequently
 
 
+Put worldgen item top-left so it isnt overwritten
+
+
 
 ## =============================
 ## TODO:
 ## =============================
-
-
-Put worldgen item top-left so it isnt overwritten
 
 
 Fix bugs/crashes

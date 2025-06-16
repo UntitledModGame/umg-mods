@@ -243,6 +243,7 @@ function lp_curses.spawnRandomCurse(plot, team, randomSampler, range)
         local ppos = table.random(candidates, randomSampler)
         ---@cast ppos lootplot.PPos
         local ent = lp.forceSpawnItem(ppos, server.entities[curseId], team, true)
+        ent.canItemFloat = true
         return ent, ppos
     end
     return nil
@@ -262,6 +263,7 @@ function lp_curses.spawnRandomCurseAt(ppos, team, randomSampler)
     spawnRandomCurseAtTc(ppos, team)
     local curseId = table.random(spawnableCurses, randomSampler)
     local ent = lp.forceSpawnItem(ppos, server.entities[curseId], team, true)
+    ent.canItemFloat = true
     return ent
 end
 
