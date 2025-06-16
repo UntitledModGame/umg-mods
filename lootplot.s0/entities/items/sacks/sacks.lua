@@ -233,8 +233,6 @@ defSack("sack_food", "Food Sack", {
 
     shape = VERTICAL_SACK_SHAPE,
 
-    foodItem = true,
-
     basePrice = 5,
 
     rarity = lp.rarities.COMMON,
