@@ -108,7 +108,7 @@ local function canSpawnBigIsland(island, difficulty)
     elseif difficulty <= 1 then
         return (size == 4)
     else
-        return false
+        return size == 2
     end
 end
 
