@@ -63,9 +63,9 @@ local function spawnOfferSlot(ppos, team)
 
     local rar = lp.rarities.RARE
     local r = lp.SEED:randomWorldGen()
-    if (r < 0.08) then
+    if (r < 0.02) then
         rar = lp.rarities.LEGENDARY
-    elseif (r < 0.8) then
+    elseif (r < 0.2) then
         rar = lp.rarities.EPIC
     end
 

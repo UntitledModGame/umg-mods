@@ -43,17 +43,18 @@ Make 6ball (and reroll-items) unlocked straight away. Or else the game is stale.
 Swap rarity of yarn items
 
 
+Buff iron-ornament
+
+Spawn RARE items in offer-slots more frequently
+
+
+
 ## =============================
 ## TODO:
 ## =============================
 
 
-Buff iron-ornament
-
-
 Put worldgen item top-left so it isnt overwritten
-
-Spawn RARE items in offer-slots more frequently
 
 
 Fix bugs/crashes
