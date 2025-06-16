@@ -165,8 +165,8 @@ defItem("steak_maker", "Steak Maker", {
     activateDescription = loc("Spawns steak items."),
 
     basePrice = 15,
-    baseMaxActivations = 10,
-    baseMultGenerated = -5,
+    baseMaxActivations = 1,
+    baseMoneyGenerated = -2,
 
     target = {
         type = "SLOT",
