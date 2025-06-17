@@ -419,19 +419,23 @@ function fillSpecial(ppos, team, seed)
     else
         local N = 5
         local pposes = sprawlPPoses(ppos, 1,1, N, rgen)
-        for i=1,N-2 do
+        -- spawn 5 slots,
+        -- and 3 stuck items
+        for i=1,N do
             local pp = pposes[i]
             lp.trySpawnSlot(pp, server.entities.slot, team)
-            local itemType = lp.rarities.randomItemOfRarity(lp.rarities.RARE, rgen, function(entry, weight)
-                local etype = server.entities[entry]
-                if etype.foodItem then
-                    return 0
+            if i <= (N-2) then
+                local itemType = lp.rarities.randomItemOfRarity(lp.rarities.RARE, rgen, function(entry, weight)
+                    local etype = server.entities[entry]
+                    if etype.foodItem then
+                        return 0
+                    end
+                    return 1
+                end)
+                local e = itemType and lp.forceSpawnItem(pp, itemType, team)
+                if e then
+                    e.stuck = true
                 end
-                return 1
-            end)
-            local e = itemType and lp.forceSpawnItem(pp, itemType, team)
-            if e then
-                e.stuck = true
             end
         end
     end
