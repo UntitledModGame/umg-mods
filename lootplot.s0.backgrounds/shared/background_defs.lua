@@ -13,7 +13,7 @@ local aquaCtor = nil
 local crimsonCtor = nil
 local skahdsCosmos = nil
 local heavenlyBg = nil
-
+local shapesBg = nil
 
 
 
@@ -175,6 +175,49 @@ function heavenlyBg()
     })
 end
 
+-- BELOW THIS ARE BACKGROUNDS THAT USES THE BACKGROUND FRAMEWORK
+local frameworkBackground = require("client.frameworkBackground")
+local function chooseRandom(rng, t)
+    local num = rng:random() * (#t-1)
+    return t[math.floor(num+0.5)+1]
+end
+
+
+function shapesBg()
+    local getShapeColor = function (rng)
+        local num = rng:random()
+        if num > 2/3 then
+            return {1, 0.7, 0.7}
+        elseif num > 1/3 then
+            return {0.7, 0.7, 1}
+        else
+            return {1, 1, 1}
+        end
+    end
+    
+
+    local numberOfShape = 100
+    return frameworkBackground({
+        worldX = -W/2 + DELTA, worldY = -H/2 + DELTA,
+        worldWidth = W, worldHeight = H,
+        objectMovement = {5, -5},
+        objectRotation = 0.05,
+
+
+        load = function (self, generateObject)
+            local rng = love.math.newRandomGenerator(love.math.getRandomSeed())
+
+            local images = {"box_o", "box_x", "box", "cross", "box_select", "triangle_1x2", "triangle2_1x2"}
+            for i=1, numberOfShape*5 do
+                generateObject(self, rng, {type=chooseRandom(rng, images),
+                color=getShapeColor(rng)})
+            end
+        end,
+
+        backgroundColor = objects.Color("#" .. "FF212121"),
+    })
+end
+
 end
 
 
@@ -285,3 +328,10 @@ lp.backgrounds.registerBackground("lootplot.s0.backgrounds:crimson_background", 
 })
 
 
+lp.backgrounds.registerBackground("lootplot.s0.backgrounds:shapes_background", {
+    name = loc("Shapes -skahd"),
+    constructor = shapesBg,
+    -- isUnlocked = ,
+    icon = "shapes_background",
+    fogColor = objects.Color("#" .. "FF111111")
+})
