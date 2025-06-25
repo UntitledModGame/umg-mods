@@ -182,8 +182,8 @@ client.on("lootplot:clearPlotEntry", function(plotEnt, index, layer)
     plotEnt.plot:clear(index, layer)
 end)
 
-client.on("lootplot:setPipelineRunningTime", function(plotEnt, bool)
-    plotEnt.plot.pipelineRunningTime = bool
+client.on("lootplot:setPipelineRunningTime", function(plotEnt, num)
+    plotEnt.plot.pipelineRunningTime = num
 end)
 
 end

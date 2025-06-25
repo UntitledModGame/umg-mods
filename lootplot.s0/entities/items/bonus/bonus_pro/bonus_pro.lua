@@ -185,3 +185,37 @@ defItem("fish_skeleton", "Fish Skeleton", {
 })
 
 
+
+
+-- blue splatter
+do
+local BUFF=2
+local SPLATTER_DESC = loc("Increase {lootplot:BONUS_COLOR}Bonus{/lootplot:BONUS_COLOR} by +%{buff} for every {lootplot:STUCK_COLOR}STUCK{/lootplot:STUCK_COLOR} item.", {
+    buff = BUFF
+})
+
+defItem("blue_splatter", "Blue Splatter", {
+    triggers = {"PULSE"},
+
+    rarity = lp.rarities.RARE,
+
+    basePrice = 12,
+    baseBonusGenerated = 4,
+
+    shape = lp.targets.KingShape(1),
+
+    activateDescription = SPLATTER_DESC,
+
+    target = {
+        type = "ITEM",
+        filter = function(selfEnt, ppos, targEnt)
+            return (targEnt.stuck or targEnt.sticky)
+        end,
+        activate = function(selfEnt, ppos, targEnt)
+            lp.modifierBuff(selfEnt, "bonusGenerated", BUFF)
+        end
+    }
+})
+end
+
+

@@ -2,56 +2,7 @@
 
 # After-Release 2025 sprint
 
-ITEM:
-puts DOOMED-5 null-slots underneath curses
-(KING-1)
-
-
-
-Add more post-processing to daily-run
-- Huge lines of stone-slots
-- Big pockets of stone-slots
-
-
-(Nerf the curse that gives lives to curses)
-
-Change max-level numbers:
-EASY: Level 6
-NORMAL: Level 7
-HARD: Level 8
-
-
-Make chilli remove lives from curses
-
-big rare sacc
-
-big food sacc
-
-
-Compendium-cat starter-item
-
-
-
-Show points/bonus UI in tutorial during the bonus/mult stage
-
-Remove steak-maker/rework
-
-
-Make 6ball (and reroll-items) unlocked straight away. Or else the game is stale.
-
-
-Swap rarity of yarn items
-
-
-Buff iron-ornament
-
-Spawn RARE items in offer-slots more frequently
-
-
-Put worldgen item top-left so it isnt overwritten
-
-
-Fix bugs/crashes
+- Fix 7-ball targetting
 
 
 
@@ -59,6 +10,77 @@ Fix bugs/crashes
 ## TODO:
 ## =============================
 
+- FIX CRASH:
+https://discord.com/channels/863625920991854602/1377544131731128354/1377544131731128354
+
+
+Remove wooden-shield-1, replace with mini wooden shield:
+ITEM: MINI-WOODEN-SHIELD
+On Pulse:
+Pulses a random item.
+Earns 20 points.
+(KING-1)
+
+
+More targetty-items:
+ITEM: Odin's axe
+Earn $1 for every targetted FLOATY item
+(KNIGHT)
+
+ITEM: Lokis axe
+Earn +1 mult for every targetted item
+
+ITEM:  [blah blah]
+KING-1, buff a random items [points, mult, or bonus] by X
+(^^^ make 3 separate versions of this item)
+
+ITEM: Void helmet
+Give targetted doomed items +50 points
+
+ITEM:
+When an item is spawned, 
+permanently gain +2 bonus
+Earns +4 bonus
+
+ITEM: Black net
+When an item is destroyed, 
+earn 100 points
+earn +0.8 mult 
+
+
+Blue splatter:
+Earns +4 bonus.
+Increase bonus by +2 for every target item that is stuck
+
+Sapphire ornament:
+Earns $0.3
+Earns 0.5 mult
+If bonus is negative, increase money earned by $0.1 (capped at $2)
+
+Mini shield (replace shield-1 with this)
+Pulses a random item.
+
+Wooden log:
+If touching only axe items, give the axes +8 points
+
+Sword sharpener:
+Give all sword items +0.1 mult
+
+Red cup:
+Cost $2 to activate
+Give a random item +1 mult (KING-2)
+
+Bonus cup:
+Cost $2 to activate
+Gives a random item +5 bonus
+
+Doomed cup:
+Gives a random item +10 points (KING-2)
+(DOOMED-20)
+
+Amethyst golden helmet:
+Makes DOOMED items earn $0.1 extra. (KING-2)
+Earns 50 points.
 
 
 

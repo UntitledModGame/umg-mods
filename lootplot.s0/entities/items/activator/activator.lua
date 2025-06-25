@@ -25,7 +25,7 @@ local PULSE_TARGET = {
 local PULSE_DESC = loc("{lootplot:TRIGGER_COLOR}Pulses{/lootplot:TRIGGER_COLOR} items.")
 
 
-defItem("wooden_shield", "Wooden Sheild II", {
+defItem("wooden_shield", "Wooden Sheild", {
     rarity = lp.rarities.RARE,
     triggers = {"PULSE"},
 
@@ -41,21 +41,32 @@ defItem("wooden_shield", "Wooden Sheild II", {
 
 
 
+local RANDOM_PULSE_DESC = loc("50% chance to {lootplot:TRIGGER_COLOR}Pulse{/lootplot:TRIGGER_COLOR} each item.")
 
-defItem("wooden_shield_cost", "Wooden Shield I", {
-    image = "wooden_shield",
+
+local RANDOM_PULSE_TARGET = {
+    type = "ITEM",
+    filter = function(selfEnt, ppos, targetEnt)
+        return lp.hasTrigger(targetEnt, "PULSE")
+    end,
+    activate = function(selfEnt, ppos, targetEnt)
+        if lp.SEED:randomMisc() < 0.5 then
+            lp.tryTriggerEntity("PULSE", targetEnt)
+        end
+    end
+}
+
+defItem("mini_wooden_shield", "Mini Wooden Shield", {
     rarity = lp.rarities.UNCOMMON,
     triggers = {"PULSE"},
 
-    activateDescription = PULSE_DESC,
+    activateDescription = RANDOM_PULSE_DESC,
 
-    basePrice = 4,
+    basePrice = 3,
     baseMaxActivations = 5,
-    baseMoneyGenerated = -1,
 
     shape = lp.targets.KingShape(1),
-
-    target = PULSE_TARGET
+    target = RANDOM_PULSE_TARGET
 })
 
 

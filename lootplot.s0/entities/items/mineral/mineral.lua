@@ -27,6 +27,16 @@ local function defineMineral(mineralType, name, etype)
 end
 
 
+local function defItem(id, name, etype)
+    etype.baseMaxActivations = etype.baseMaxActivations or 5
+    etype.name = loc(name)
+    etype.image = etype.image or id
+
+    lp.defineItem("lootplot.s0:" .. id, etype)
+end
+
+
+
 
 local function defineSword(mineral_type, name, strength, etype)
     local namespace = umg.getModName() .. ":"
@@ -194,6 +204,9 @@ end
 
 local AXE_DESC = interp("Earn {lootplot:POINTS_COLOR}%{points} points{/lootplot:POINTS_COLOR} for every target item.")
 
+local AXE_SHAPE = lp.targets.KNIGHT_SHAPE
+
+
 local function defineAxe(mineral_type, name, strength, etype)
     local namespace = umg.getModName() .. ":"
     local etypeName = namespace .. mineral_type .. "_axe"
@@ -210,7 +223,7 @@ local function defineAxe(mineral_type, name, strength, etype)
         basePrice = 8,
         basePointsGenerated = math.floor(2 * strength),
 
-        shape = lp.targets.KNIGHT_SHAPE,
+        shape = AXE_SHAPE,
 
         activateDescription = function(ent)
             return AXE_DESC({
@@ -503,9 +516,8 @@ defineMineralClass("golden", "Golden", 15, {
 
 local GRUB_MONEY_CAP = assert(consts.DEFAULT_GRUB_MONEY_CAP)
 
+-- GRUBBY ITEMS:
 --[[
-
-Grubby items have `grubby` component.
 We dont define all of them because we dont wanna bloat item pool.
 ]]
 do
@@ -529,10 +541,8 @@ end
 
 
 
+-- Copper-items activate on rotate.
 --[[
-
-Copper-items activate on rotate.
-
 We only defined a few, because:
 A) we dont wanna bloat item-pool
 B) rotated items make it hard to organize your plot.
@@ -553,4 +563,63 @@ do
     defineScythe("copper", "Copper", strength,  etype)
     defineGreatsword("copper", "Copper", strength,  etype)
 end
+
+
+
+
+
+
+local LOKIS_AXE_DESC = interp("Earn {lootplot:POINTS_MULT_COLOR}%{mult} mult{/lootplot:POINTS_MULT_COLOR} for every target item.")
+
+defItem("lokis_axe", "Loki's Axe", {
+    triggers = {"PULSE"},
+
+    rarity = lp.rarities.RARE,
+
+    basePrice = 12,
+    baseMultGenerated = 0.8,
+
+    shape = AXE_SHAPE,
+
+    activateDescription = function(ent)
+        return LOKIS_AXE_DESC({
+            mult = ent.multGenerated or 0
+        })
+    end,
+
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.addPointsMult(selfEnt, selfEnt.multGenerated or 0)
+        end
+    }
+})
+
+
+
+local ODIN_MONEY = 0.5
+local ODINS_AXE_DESC = loc("Earn {lootplot:MONEY_COLOR}$%{money}{/lootplot:MONEY_COLOR} for every {lootplot:INFO_COLOR}FLOATY{/lootplot:INFO_COLOR} target item.", {
+    money = ODIN_MONEY
+})
+
+defItem("odins_axe", "Odin's Axe", {
+    triggers = {"PULSE"},
+
+    unlockAfterWins = 1,
+    rarity = lp.rarities.EPIC,
+
+    basePrice = 12,
+
+    shape = AXE_SHAPE,
+
+    activateDescription = ODINS_AXE_DESC,
+
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.addMoney(selfEnt, ODIN_MONEY)
+        end
+    }
+})
+
 
