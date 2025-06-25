@@ -5,15 +5,6 @@
 - Fix 7-ball targetting
 
 
-
-## =============================
-## TODO:
-## =============================
-
-- FIX CRASH:
-https://discord.com/channels/863625920991854602/1377544131731128354/1377544131731128354
-
-
 Remove wooden-shield-1, replace with mini wooden shield:
 ITEM: MINI-WOODEN-SHIELD
 On Pulse:
@@ -30,9 +21,22 @@ Earn $1 for every targetted FLOATY item
 ITEM: Lokis axe
 Earn +1 mult for every targetted item
 
-ITEM:  [blah blah]
-KING-1, buff a random items [points, mult, or bonus] by X
-(^^^ make 3 separate versions of this item)
+Blue splatter:
+Earns +4 bonus.
+Increase bonus by +2 for every target item that is stuck
+
+
+
+## =============================
+## TODO:
+## =============================
+
+- FIX CRASH:
+https://discord.com/channels/863625920991854602/1377544131731128354/1377544131731128354
+
+
+MINERAL CLASS:
+Doomed-mineral items. Axe, sword, crossbow, etc
 
 ITEM: Void helmet
 Give targetted doomed items +50 points
@@ -47,24 +51,25 @@ When an item is destroyed,
 earn 100 points
 earn +0.8 mult 
 
-
-Blue splatter:
-Earns +4 bonus.
-Increase bonus by +2 for every target item that is stuck
-
 Sapphire ornament:
-Earns $0.3
+Earns $0.5
 Earns 0.5 mult
-If bonus is negative, increase money earned by $0.1 (capped at $2)
+If bonus is negative, increase mult by 0.3
 
-Mini shield (replace shield-1 with this)
-Pulses a random item.
 
 Wooden log:
 If touching only axe items, give the axes +8 points
+(TODO: MAKE SURE TO ADD `AXE` TAG TO AXE ITEMS!)
 
-Sword sharpener:
-Give all sword items +0.1 mult
+
+Sword hilt:
+Give all sword items +1 activations and +0.1 mult (UP-3, random-rotate)
+(TODO: MAKE SURE TO ADD `SWORD` TAG TO SWORD ITEMS!)
+
+
+Interdimensional helmet:
+If item subtracts bonus, give item +8 points
+
 
 Red cup:
 Cost $2 to activate
@@ -78,6 +83,8 @@ Doomed cup:
 Gives a random item +10 points (KING-2)
 (DOOMED-20)
 
+
+
 Amethyst golden helmet:
 Makes DOOMED items earn $0.1 extra. (KING-2)
 Earns 50 points.
@@ -85,7 +92,6 @@ Earns 50 points.
 
 
 
-Make curses DOOMED-1, start with X lives
 
 When curses are spawned randomly, make curses spawn on DOOMED-X slots (that way, player can prepare)
 
