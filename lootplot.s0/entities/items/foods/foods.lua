@@ -997,7 +997,7 @@ defineSlotSpawner("lemon", "Lemon", "shop_slot", "DOOMED-4 Shop Slots", lp.targe
 local BLACK_BEAN_DOOMCOUNT = 5
 defineFood("black_bean", {
     name = loc("Black Bean"),
-    activateDescription = loc("Spawns {lootplot:DOOMED_COLOR}DOOMED-{n}{/lootplot:DOOMED_COLOR} null-slots underneath curse items\n(Disabling curses temporarily)", {
+    activateDescription = loc("Spawns {lootplot:DOOMED_COLOR}DOOMED-%{n}{/lootplot:DOOMED_COLOR} null-slots underneath curse items\n(Disabling curses temporarily)", {
         n = BLACK_BEAN_DOOMCOUNT
     }),
 
