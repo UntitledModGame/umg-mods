@@ -588,10 +588,9 @@ defineStartingItem("seven_ball", {
         filter = function(selfEnt, ppos, targEnt)
             return targEnt:type() == "lootplot.s0:dirt_slot"
         end,
-        activate = function(ent)
-            local ppos = lp.getPos(ent)
+        activate = function(selfEnt, ppos, targEnt)
             if lp.SEED:randomMisc() <= 0.3 then
-                lp.forceSpawnSlot(assert(ppos), server.entities.gravel_slot, ent.lootplotTeam)
+                lp.forceSpawnSlot(ppos, server.entities.gravel_slot, selfEnt.lootplotTeam)
             end
         end
     },
