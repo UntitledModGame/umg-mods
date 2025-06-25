@@ -25,7 +25,7 @@ local function spawnChest(ppos, team)
 
     local r = lp.SEED:randomWorldGen()
     local itemEnt
-    if r < 0.3 then
+    if r < 0.85 then
         itemEnt = server.entities.chest_epic()
     else
         itemEnt = server.entities.chest_legendary()
@@ -104,11 +104,11 @@ end
 local function canSpawnBigIsland(island, difficulty)
     local size = #island
     if (not difficulty) or (difficulty <= 0) then
-        return size >= 3
+        return size >= 2
     elseif difficulty <= 1 then
-        return (size == 4)
+        return (size >= 3)
     else
-        return size == 2
+        return size == 2 or size == 4
     end
 end
 

@@ -273,6 +273,24 @@ chat.handleCommand("reveal", {
     end
 })
 
+
+
+chat.handleCommand("unlock", {
+    adminLevel = 120,
+    arguments = {},
+    handler = function(clientId, shapeName)
+        if not server then return end
+
+        local run = assert(lp.singleplayer.getRun())
+        local plot = run:getPlot()
+        plot:foreachSlot(function(ent, ppos)
+            lp.tryTriggerEntity("UNLOCK", ent)
+        end)
+    end
+})
+
+
+
 end -- if server
 
 
