@@ -445,7 +445,7 @@ defineFood("red_squash", {
     Makes slots earn $1
     ]]
     name = loc("Red Squash"),
-    activateDescription = loc("Gives {lootplot:TRIGGER_COLOR}Level-Up{/lootplot:TRIGGER_COLOR} to slots. Removes all other triggers.\nMakes slots earn {lootplot:MONEY_COLOR}$1{/lootplot:MONEY_COLOR}"),
+    activateDescription = loc("Gives {lootplot:TRIGGER_COLOR}Level-Up{/lootplot:TRIGGER_COLOR} to slots. Removes all other triggers.\nMakes slots earn {lootplot:MONEY_COLOR}+$1{/lootplot:MONEY_COLOR}"),
 
     unlockAfterWins = 2,
 
