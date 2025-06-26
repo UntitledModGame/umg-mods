@@ -1889,7 +1889,7 @@ function lp.winGame(plot, clientId)
         playerWinCount = lp.getWinCount(),
         items = getAllItems(plot),
     })
-    if singleplayerArgs then
+    if singleplayerArgs and lp.isWinRecipient(singleplayerArgs.starterItem) then
         local k = makeKey(singleplayerArgs.starterItem, singleplayerArgs.difficulty)
         lp.metaprogression.setFlag(k, true)
         if singleplayerArgs.winAchievement then
