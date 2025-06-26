@@ -203,11 +203,15 @@ defDestructive("tooth_necklace", "Tooth Necklace", {
 
 -- LONE SWORD ITEMS:
 do
+local SWORD_TAGS = {consts.tags.SWORD}
+
 
 defDestructive("water_sword", "Water Sword", {
     basePrice = 12,
     baseMaxActivations = 10,
     baseBonusGenerated = 15,
+
+    lootplotTags = SWORD_TAGS,
 
     rarity = lp.rarities.EPIC,
     shape = lp.targets.RookShape(3),
@@ -228,6 +232,8 @@ defDestructive("lava_sword", "Lava Sword", {
     basePrice = 12,
     baseMaxActivations = 5,
     baseMultGenerated = 1,
+
+    lootplotTags = SWORD_TAGS,
 
     rarity = lp.rarities.EPIC,
     shape = lp.targets.RookShape(3),

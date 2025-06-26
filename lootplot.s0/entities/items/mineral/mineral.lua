@@ -37,6 +37,7 @@ end
 
 
 
+local SWORD_TAGS = {consts.tags.SWORD}
 
 local function defineSword(mineral_type, name, strength, etype)
     local namespace = umg.getModName() .. ":"
@@ -46,6 +47,8 @@ local function defineSword(mineral_type, name, strength, etype)
     local swordType = {
         image = image,
         name = loc(name .. " Sword"),
+
+        lootplotTags = SWORD_TAGS,
 
         basePointsGenerated = math.floor(10 * strength),
         baseBonusGenerated = -1,
@@ -205,6 +208,7 @@ end
 local AXE_DESC = interp("Earn {lootplot:POINTS_COLOR}%{points} points{/lootplot:POINTS_COLOR} for every target item.")
 
 local AXE_SHAPE = lp.targets.KNIGHT_SHAPE
+local AXE_TAGS = {consts.tags.AXE}
 
 
 local function defineAxe(mineral_type, name, strength, etype)
@@ -215,6 +219,8 @@ local function defineAxe(mineral_type, name, strength, etype)
     local axeType = {
         image = image,
         name = loc(name .. " Axe"),
+
+        lootplotTags = AXE_TAGS,
 
         mineralType = mineral_type,
 
@@ -580,6 +586,7 @@ defItem("lokis_axe", "Loki's Axe", {
     baseMultGenerated = 0.8,
 
     shape = AXE_SHAPE,
+    lootplotTags = AXE_TAGS,
 
     activateDescription = function(ent)
         return LOKIS_AXE_DESC({
@@ -611,6 +618,7 @@ defItem("odins_axe", "Odin's Axe", {
     basePrice = 12,
 
     shape = AXE_SHAPE,
+    lootplotTags = AXE_TAGS,
 
     activateDescription = ODINS_AXE_DESC,
 
@@ -618,6 +626,65 @@ defItem("odins_axe", "Odin's Axe", {
         type = "ITEM",
         activate = function(selfEnt, ppos, targetEnt)
             lp.addMoney(selfEnt, ODIN_MONEY)
+        end
+    }
+})
+
+
+
+
+local WOODEN_LOG_BUFF = 8
+defItem("wooden_log", "Wooden Log", {
+    triggers = {"PULSE", "LEVEL_UP"},
+
+    rarity = lp.rarities.RARE,
+
+    basePrice = 9,
+    baseMaxActivations = 3,
+    basePointsGenerated = 90,
+
+    shape = lp.targets.HorizontalShape(1),
+
+    activateDescription = loc("Give axes-items {lootplot:POINTS_COLOR}+%{buff} points{/lootplot:POINTS_COLOR}", {
+        buff = WOODEN_LOG_BUFF
+    }),
+
+    target = {
+        type = "ITEM",
+        filter = function(selfEnt, ppos, targEnt)
+            return lp.hasTag(targEnt, consts.tags.AXE)
+        end,
+        activate = function(selfEnt, ppos, targEnt)
+            lp.modifierBuff(targEnt, "pointsGenerated", WOODEN_LOG_BUFF, selfEnt)
+        end
+    }
+})
+
+
+
+local SWORD_MULT_BUFF = 0.3
+defItem("sword_hilt", "Sword Hilt", {
+    triggers = {"PULSE", "LEVEL_UP"},
+
+    rarity = lp.rarities.RARE,
+
+    basePrice = 9,
+    baseMaxActivations = 3,
+    baseBonusGenerated = -8,
+
+    shape = lp.targets.NorthEastShape(2),
+
+    activateDescription = loc("Give sword-items {lootplot:POINTS_MULT_COLOR}+%{buff} multiplier{/lootplot:POINTS_MULT_COLOR}", {
+        buff = SWORD_MULT_BUFF
+    }),
+
+    target = {
+        type = "ITEM",
+        filter = function(selfEnt, ppos, targEnt)
+            return lp.hasTag(targEnt, consts.tags.SWORD)
+        end,
+        activate = function(selfEnt, ppos, targEnt)
+            lp.modifierBuff(targEnt, "multGenerated", SWORD_MULT_BUFF, selfEnt)
         end
     }
 })

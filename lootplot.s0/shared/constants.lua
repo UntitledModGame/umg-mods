@@ -47,6 +47,9 @@ local constants = {
         CAT = "lootplot.s0:cat",
         CONTRAPTION = "lootplot.s0:contraption",
 
+        SWORD = "lootplot.s0:sword",
+        AXE = "lootplot.s0:axe",
+
         -- item curse tags:
         INJUNCTION_CURSE = "lootplot.s0:injunction_curse",
 

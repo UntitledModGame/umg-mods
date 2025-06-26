@@ -30,9 +30,13 @@ Increase bonus by +2 for every target item that is stuck
 - FIX CRASH:
 https://discord.com/channels/863625920991854602/1377544131731128354/1377544131731128354
 
+Fixed compendium crash
+
+
 ## =============================
 ## TODO:
 ## =============================
+
 
 Wooden log:
 If touching only axe items, give the axes +8 points
@@ -42,6 +46,7 @@ If touching only axe items, give the axes +8 points
 Sword hilt:
 Give all sword items +1 activations and +0.1 mult (UP-3, random-rotate)
 (TODO: MAKE SURE TO ADD `SWORD` TAG TO SWORD ITEMS!)
+(make sure to include lava/water sword!!! And other sword items.)
 
 Red cup:
 Cost $2 to activate
@@ -56,6 +61,8 @@ Gives a random item +10 points (KING-2)
 (DOOMED-20)
 
 
+MINERAL CLASS:
+Doomed-mineral items. Axe, sword, crossbow, etc
 
 
 ITEM: Void helmet
@@ -75,9 +82,6 @@ Sapphire ornament:
 Earns $0.5
 Earns 0.5 mult
 If bonus is negative, increase mult by 0.3
-
-MINERAL CLASS:
-Doomed-mineral items. Axe, sword, crossbow, etc
 
 
 Interdimensional helmet:
