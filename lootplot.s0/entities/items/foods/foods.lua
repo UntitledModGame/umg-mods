@@ -1065,7 +1065,7 @@ end
 
 
 local APPLE_PRICE = 10
-defineSlotConverter("tangerine", "Tangerine", "rotate_slot", "{lootplot.targets:COLOR}Rotate{/lootplot.targets:COLOR} Slot", lp.targets.ON_SHAPE, {
+defineSlotConverter("tangerine", "Tangerine", "rotate_slot", "Slot that {lootplot.targets:COLOR}Rotates{/lootplot.targets:COLOR} items", lp.targets.ON_SHAPE, {
     unlockAfterWins = constants.UNLOCK_AFTER_WINS.ROTATEY,
     rarity = lp.rarities.RARE,
     basePrice = APPLE_PRICE
