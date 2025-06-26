@@ -1117,6 +1117,9 @@ function lp.modifierBuff(ent, property, amount, srcEnt_or_nil)
     ensureDynamicProperties(ent)
     append(ent.buffedProperties.modifiers, property, amount, reducers.ADD)
     umg.call("lootplot:entityBuffed", ent, property, amount, srcEnt_or_nil)
+    if amount > 0 then
+        lp.tryTriggerEntity("BUFF", ent)
+    end
     sync.syncComponent(ent, "buffedProperties")
 end
 
@@ -1765,6 +1768,7 @@ lp.defineTrigger("BUY", "Buy")
 lp.defineTrigger("ROTATE", "Rotate")
 lp.defineTrigger("SPAWN", "Spawn")
 lp.defineTrigger("LEVEL_UP", "Level-Up")
+lp.defineTrigger("BUFF", "Buff")
 
 ---@alias lootplot.Trigger "REROLL"|"PULSE"|"RESET"|"DESTROY"|"BUY"|"ROTATE"|"SPAWN"|"LEVEL_UP"
 

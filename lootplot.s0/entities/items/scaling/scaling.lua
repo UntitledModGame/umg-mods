@@ -301,3 +301,46 @@ defineHelmet("deathly_helmet", "Deathly Helmet", {
 
 end
 
+
+
+
+--[[
+
+local function defineUrn(id, name, etype)
+    etype.rarity = etype.rarity or lp.rarities.EPIC
+    etype.name = loc(name)
+
+    etype.listen = {
+        type = "ITEM",
+        trigger = "PULSE"
+    }
+
+    etype.init = etype.init or helper.rotateRandomly
+
+    etype.shape = etype.shape or lp.targets.UpShape(3)
+
+    etype.basePrice = etype.basePrice or 10
+    etype.baseMaxActivations = etype.baseMaxActivations or 3
+
+    defItem(id,etype)
+end
+
+
+
+local function getRandomTarget(ent)
+    local convTargs = lp.targets.getConvertedTargets(ent)
+    if #convTargs > 0 then
+        return table.random(convTargs)
+    end
+    return nil
+end
+
+defineUrn("red_urn", "Red Urn", {
+    onActivate = function(ent)
+        local targEnt = 
+    end
+})
+
+
+]]
+

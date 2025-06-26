@@ -668,6 +668,8 @@ local SWORD_MULT_BUFF = 0.3
 defItem("sword_hilt", "Sword Hilt", {
     triggers = {"PULSE", "LEVEL_UP"},
 
+    init = helper.rotateRandomly,
+
     rarity = lp.rarities.RARE,
 
     basePrice = 9,

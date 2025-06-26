@@ -26,9 +26,10 @@ local constants = {
         GRUBBY = 2, -- grubby is unlocked after 2 wins
         -- etc etc
         DESTRUCTIVE = 3,
-        SHARDS = 4,
-        CONTRAPTIONS = 5,
-        SHOPPY = 6,
+        SHOPPY = 4,
+        SHARDS = 5,
+        BUFFY = 5,
+        CONTRAPTIONS = 6,
     },
 
     CURSE_COUNT = 6,

@@ -14,7 +14,8 @@ local HARDCODED_LISTEN_DESCRIPTIONS = {
     ITEM = {
         DESTROY = loc("When a target item is Destroyed,"),
         PULSE = loc("When a target item is {lootplot:TRIGGER_COLOR}Pulsed,"),
-        BUY = loc("When a target item is purchased,")
+        BUY = loc("When a target item is purchased,"),
+        BUFF = loc("When a target item is buffed,"),
     },
     SLOT = {
         DESTROY = loc("When a target slot is Destroyed,"),

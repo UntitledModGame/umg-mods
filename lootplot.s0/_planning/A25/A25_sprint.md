@@ -44,22 +44,42 @@ Give all sword items +1 activations and +0.1 mult (UP-3, random-rotate)
 (make sure to include lava/water sword!!! And other sword items.)
 
 
+ITEM: Black net
+When an item is destroyed, 
+earn 100 points
+earn +0.8 mult 
+
 
 ## =============================
 ## TODO:
 ## =============================
 
-Red cup:
-Cost $2 to activate
-Give a random item +1 mult (KING-2)
+Golden urn:
+When an item is buffed,
+Earns $1
 
-Bonus cup:
-Cost $2 to activate
-Gives a random item +5 bonus
+Pink urn:
+When an item is buffed,
+Give the item +1 life (UP-3)
+Earn 120 points
 
-Doomed cup:
-Gives a random item +10 points (KING-2)
-(DOOMED-20)
+Red urn:
+When an item is buffed,
+Earns +2 mult
+
+Ethereal urn: (LEGENDARY)
+On buffed:
+Propagate buff to all target items (KING-1)
+
+Marble chest:
+On Buffed: 
+Earn $1
+Earns 30 points
+
+
+## TODO: On-buff naming:
+### Maybe we should rename it to "On Property change"...? or something...?
+Maybe `On Buff` is too hard to understand... idk.
 
 
 MINERAL CLASS:
@@ -69,15 +89,6 @@ Doomed-mineral items. Axe, sword, crossbow, etc
 ITEM: Void helmet
 Give targetted doomed items +50 points
 
-ITEM:
-When an item is spawned, 
-permanently gain +2 bonus
-Earns +4 bonus
-
-ITEM: Black net
-When an item is destroyed, 
-earn 100 points
-earn +0.8 mult 
 
 Sapphire ornament:
 Earns $0.5
