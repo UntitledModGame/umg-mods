@@ -11,7 +11,7 @@ local function defDestructive(id, name, etype)
     etype.image = etype.image or id
     etype.name = loc(name)
 
-    etype.lootplotTags = {consts.tags.DESTRUCTIVE}
+    etype.lootplotTags = etype.lootplotTags or {consts.tags.DESTRUCTIVE}
 
     etype.unlockAfterWins = consts.UNLOCK_AFTER_WINS.DESTRUCTIVE
 
@@ -203,7 +203,7 @@ defDestructive("tooth_necklace", "Tooth Necklace", {
 
 -- LONE SWORD ITEMS:
 do
-local SWORD_TAGS = {consts.tags.SWORD}
+local SWORD_TAGS = {consts.tags.SWORD, consts.tags.DESTRUCTIVE}
 
 
 defDestructive("water_sword", "Water Sword", {

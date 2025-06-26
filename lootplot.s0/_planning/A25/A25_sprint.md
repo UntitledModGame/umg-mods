@@ -33,11 +33,6 @@ https://discord.com/channels/863625920991854602/1377544131731128354/137754413173
 Fixed compendium crash
 
 
-## =============================
-## TODO:
-## =============================
-
-
 Wooden log:
 If touching only axe items, give the axes +8 points
 (TODO: MAKE SURE TO ADD `AXE` TAG TO AXE ITEMS!)
@@ -47,6 +42,12 @@ Sword hilt:
 Give all sword items +1 activations and +0.1 mult (UP-3, random-rotate)
 (TODO: MAKE SURE TO ADD `SWORD` TAG TO SWORD ITEMS!)
 (make sure to include lava/water sword!!! And other sword items.)
+
+
+
+## =============================
+## TODO:
+## =============================
 
 Red cup:
 Cost $2 to activate
