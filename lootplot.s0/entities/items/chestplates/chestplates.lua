@@ -20,7 +20,7 @@ local function defChestplate(id, name, etype)
     etype.shape = etype.shape or CHESTPLATE_SHAPE
 
     etype.rarity = etype.rarity or lp.rarities.RARE
-    etype.basePrice = etype.basePrice or 10
+    etype.basePrice = etype.basePrice or 14
 
     etype.baseMaxActivations = etype.baseMaxActivations or 4
 

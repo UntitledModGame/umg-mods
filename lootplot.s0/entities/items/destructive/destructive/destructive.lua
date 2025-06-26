@@ -556,3 +556,22 @@ defDestructive("golden_knuckles", "Golden Knuckles", {
 
 
 
+
+
+defDestructive("black_net", "Black Net", {
+    rarity = lp.rarities.RARE,
+
+    basePrice = 9,
+    baseMaxActivations = 30,
+    baseMultGenerated = 0.8,
+    basePointsGenerated = 50,
+
+    listen = {
+        type = "ITEM",
+        trigger = "DESTROY"
+    },
+    shape = lp.targets.KING_SHAPE,
+})
+
+
+

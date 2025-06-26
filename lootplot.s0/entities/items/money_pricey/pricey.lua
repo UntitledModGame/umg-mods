@@ -75,7 +75,7 @@ defItem("golden_magnet", "Golden Magnet", {
         end
     end,
 
-    basePrice = 8,
+    basePrice = 16,
     baseMaxActivations = 1,
     sticky = true,
 
