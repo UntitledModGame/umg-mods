@@ -70,8 +70,9 @@ defItem("gear", "Gear", {
 
     shape = lp.targets.KingShape(1),
 
-    triggers = {"ROTATE"},
+    triggers = {"ROTATE", "DESTROY"},
 
+    lives = 70,
     rarity = lp.rarities.RARE,
 
     basePrice = 10,
