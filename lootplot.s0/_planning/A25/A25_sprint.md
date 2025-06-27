@@ -50,10 +50,6 @@ earn 100 points
 earn +0.8 mult 
 
 
-## =============================
-## TODO:
-## =============================
-
 Golden urn:
 When an item is buffed,
 Earns $1
@@ -76,6 +72,11 @@ On Buffed:
 Earn $1
 Earns 30 points
 
+
+
+## =============================
+## TODO:
+## =============================
 
 ## TODO: On-buff naming:
 ### Maybe we should rename it to "On Property change"...? or something...?
@@ -118,15 +119,6 @@ DO OUTREACH!!!
 Make use of mystery-slots somehow
 
 
-
-
-- Make it so stone-hand curses don't spawn curses "randomly";
-its confusing and weird.
-Instead, spawn them in the location that the curse WILL be.
---> Also, stone-hands should only exist on HARD mode.
-
-
-
 ## ADD MAIN-MENU MUSIC:
 https://youtu.be/s8nkrxzOBR4?feature=shared  NOTABLE SONGS:
 ~~- Bullet witch~~ (meh, maybe not, too upbeat)
@@ -141,8 +133,6 @@ https://backgroundsounds.itch.io/fun-music-loops
 
 - Number-keys shortcuts for pressing action-buttons
 
-
-- Consider adding DOOMED tools? (Purple-color)
 
 
 - JOJO FEEDBACK:

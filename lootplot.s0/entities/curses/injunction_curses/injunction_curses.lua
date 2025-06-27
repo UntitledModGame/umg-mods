@@ -125,7 +125,7 @@ end
 
 
 defCurse("doomed_injunction", "Doomed Injunction", {
-    activateDescription = loc("All slots without {lootplot:DOOMED_LIGHT_COLOR}DOOMED{/lootplot:DOOMED_LIGHT_COLOR} are given {lootplot:DOOMED_LIGHT_COLOR}DOOMED-25{/lootplot:DOOMED_LIGHT_COLOR}"),
+    activateDescription = loc("All slots without {lootplot:DOOMED_LIGHT_COLOR}DOOMED{/lootplot:DOOMED_LIGHT_COLOR} are given {lootplot:DOOMED_LIGHT_COLOR}DOOMED-40{/lootplot:DOOMED_LIGHT_COLOR}"),
 
     doomCount = 999,
 
@@ -134,7 +134,7 @@ defCurse("doomed_injunction", "Doomed Injunction", {
             return not e.doomCount
         end)
         for _,s in ipairs(slots) do
-            s.doomCount = 25
+            s.doomCount = 40
         end
     end
 })
