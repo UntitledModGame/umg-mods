@@ -125,16 +125,16 @@ end
 
 
 defCurse("doomed_injunction", "Doomed Injunction", {
-    activateDescription = loc("All slots without {lootplot:DOOMED_LIGHT_COLOR}DOOMED{/lootplot:DOOMED_LIGHT_COLOR} are given {lootplot:DOOMED_LIGHT_COLOR}DOOMED-40{/lootplot:DOOMED_LIGHT_COLOR}"),
+    activateDescription = loc("All items without {lootplot:DOOMED_LIGHT_COLOR}DOOMED{/lootplot:DOOMED_LIGHT_COLOR} are given {lootplot:DOOMED_LIGHT_COLOR}DOOMED-40{/lootplot:DOOMED_LIGHT_COLOR}"),
 
     doomCount = 999,
 
     onActivate = function(ent)
-        local slots = getSlotsNoButtons(ent, function(e, ppos)
+        local items = getItems(ent, function(e, ppos)
             return not e.doomCount
         end)
-        for _,s in ipairs(slots) do
-            s.doomCount = 40
+        for _,item in ipairs(items) do
+            item.doomCount = 40
         end
     end
 })
