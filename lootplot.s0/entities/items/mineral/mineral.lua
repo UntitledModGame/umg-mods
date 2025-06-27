@@ -626,7 +626,10 @@ defItem("odins_axe", "Odin's Axe", {
 
     target = {
         type = "ITEM",
-        activate = function(selfEnt, ppos, targetEnt)
+        filter = function(selfEnt, ppos, targEnt)
+            return lp.canItemFloat(targEnt)
+        end,
+        activate = function(selfEnt, ppos, targEnt)
             lp.addMoney(selfEnt, ODIN_MONEY)
         end
     }
