@@ -369,7 +369,7 @@ defCurse("grubby_injunction", "Grubby Injunction", {
 
 
 defCurse("capital_injunction", "Capital Injunction", {
-    activateDescription = loc("All items that earn {lootplot:MONEY_COLOR}money{/lootplot:MONEY_COLOR} get transformed into manure"),
+    activateDescription = loc("All items that cost or steal {lootplot:MONEY_COLOR}money{/lootplot:MONEY_COLOR} get transformed into manure"),
 
     color = lp.COLORS.MONEY_COLOR,
 
