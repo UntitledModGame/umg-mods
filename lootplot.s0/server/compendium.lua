@@ -37,7 +37,12 @@ if server then
     local dat = server.getSaveFilesystem()
         :read(COMPENDIUM_FILE)
     if dat then
-        compendiumTable = json.decode(dat)
+        local ok
+        ok, compendiumTable = pcall(json.decode,dat)
+        if not ok then
+            -- somehow it failed..?
+            compendiumTable = {}
+        end
     end
 end
 
