@@ -395,9 +395,9 @@ defCurse("shape_injunction", "Shape Injunction", {
         local team = assert(ent.lootplotTeam)
         foreachItem(ent, function(itemEnt, ppos)
             local etype = itemEnt:getEntityType()
-            local shape = itemEnt.shape and itemEnt.shape.relativeCoords
-            local oldShape = etype.shape and etype.shape.relativeCoords
-            if not lp.targets.areShapesRotationallyEqual(shape, oldShape) then
+            local shape = itemEnt.shape
+            local oldShape = etype.shape
+            if (shape and oldShape) and (not lp.targets.areShapesRotationallyEqual(shape, oldShape)) then
                 -- gotcha!!! its a different shape. Die!
                 spawnManure(ppos, team)
             end
