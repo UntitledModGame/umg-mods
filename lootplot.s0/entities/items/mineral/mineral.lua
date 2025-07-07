@@ -207,7 +207,7 @@ end
 
 
 
-local AXE_DESC = interp("Earn {lootplot:POINTS_COLOR}%{points} points{/lootplot:POINTS_COLOR} for every target item.")
+local AXE_DESC = interp("Earn {lootplot:POINTS_COLOR}points{/lootplot:POINTS_COLOR} multiple times, once per target item")
 
 local AXE_SHAPE = lp.targets.KNIGHT_SHAPE
 local AXE_TAGS = {consts.tags.AXE}
