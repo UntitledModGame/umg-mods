@@ -679,6 +679,8 @@ defItem("sword_hilt", "Sword Hilt", {
     baseMaxActivations = 3,
     baseBonusGenerated = -8,
 
+    unlockAfterWins = assert(consts.UNLOCK_AFTER_WINS.ANTI_BONUS),
+
     shape = lp.targets.NorthEastShape(2),
 
     activateDescription = loc("Give sword-items {lootplot:POINTS_MULT_COLOR}+%{buff} multiplier{/lootplot:POINTS_MULT_COLOR}", {

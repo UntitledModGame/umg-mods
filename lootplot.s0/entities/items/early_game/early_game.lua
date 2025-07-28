@@ -132,6 +132,8 @@ defItem("empty_bowl", {
     name = loc("Empty Bowl"),
     triggers = {"PULSE", "REROLL"},
 
+    unlockAfterWins = assert(constants.UNLOCK_AFTER_WINS.ANTI_BONUS),
+
     init = function(ent)
         -- rotate in a random direction.
         lp.rotateItem(ent, math.floor(lp.SEED:randomMisc(0,3)))

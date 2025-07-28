@@ -9,6 +9,9 @@ File for items that give global-multipliers.
 local loc = localization.localize
 local interp = localization.newInterpolator
 
+local constants = require("shared.constants")
+
+
 
 local function defItem(id, name, etype)
     etype.image = etype.image or id
@@ -74,6 +77,8 @@ defItem("leather", "Leather", {
 
     basePrice = 6,
 
+    unlockAfterWins = assert(constants.UNLOCK_AFTER_WINS.ANTI_BONUS),
+
     baseMaxActivations = 5,
     baseMultGenerated = 0.8,
     baseBonusGenerated = -5
@@ -89,6 +94,8 @@ defItem("red_leather", "Red Leather", {
     rarity = lp.rarities.UNCOMMON,
 
     basePrice = 6,
+
+    unlockAfterWins = 1,
 
     baseMaxActivations = 5,
     baseBonusGenerated = 4,

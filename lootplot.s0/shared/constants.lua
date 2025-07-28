@@ -24,7 +24,7 @@ local constants = {
         ROTATEY = 1, -- rotate-archetype is unlocked after 1 win
         CURSES = 1, -- curses unlocked after 1 win
         GRUBBY = 2, -- grubby is unlocked after 2 wins
-        -- etc etc
+        ANTI_BONUS = 2, -- anti-bonus, ie negative-bonus
         DESTRUCTIVE = 3,
         SHOPPY = 4,
         SHARDS = 5,
