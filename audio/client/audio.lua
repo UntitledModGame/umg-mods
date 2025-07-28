@@ -242,7 +242,7 @@ function audio.play(name, args)
     local volume = (args.volume or 1) * template:getVolume() * audio.getVolume(name, source, args.entity)
     local pitch = (args.pitch or 1) * template:getPitch() * audio.getPitch(name, source, args.entity)
     if pitch <= 0 then
-        -- this can happen if there are so valid audio devices
+        -- this can happen if there are no valid audio devices
         pitch = 1
     end
 
