@@ -521,6 +521,34 @@ defineMineralClass("golden", "Golden", 15, {
 
 
 
+--[[
+
+DOOMED items: 
+Start doomed. Activate on Destroy too.
+
+]]
+do
+local etype = {
+    triggers = {"PULSE", "DESTROY"},
+    baseMaxActivations = 4,
+    doomCount = 30,
+    unlockAfterWins = consts.UNLOCK_AFTER_WINS.DESTRUCTIVE,
+}
+
+local strength = 10
+defineSword("doomed", "Doomed", strength, etype)
+-- defineAxe("doomed", "Doomed", strength, etype)
+-- defineHammer("doomed", "Doomed", strength,  etype)
+defineCrossbow("doomed", "Doomed", strength,  etype)
+defineScythe("doomed", "Doomed", strength,  etype)
+defineGreatsword("doomed", "Doomed", strength,  etype)
+end
+
+
+
+
+
+
 
 local GRUB_MONEY_CAP = assert(consts.DEFAULT_GRUB_MONEY_CAP)
 

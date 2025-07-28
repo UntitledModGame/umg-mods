@@ -41,6 +41,39 @@ defItem("wooden_shield", "Wooden Sheild", {
 
 
 
+
+defItem("doomed_shield", "Doomed Sheild", {
+    rarity = lp.rarities.RARE,
+    triggers = {"PULSE"},
+
+    activateDescription = loc("{lootplot:TRIGGER_COLOR}Pulses{/lootplot:TRIGGER_COLOR} items.\nGives {lootplot:DOOMED_LIGHT_COLOR}+1 doomed{/lootplot:DOOMED_LIGHT_COLOR} to doomed-items"),
+
+    unlockAfterWins = 3,
+
+    basePrice = 7,
+    baseMaxActivations = 4,
+    doomCount = 10,
+
+    shape = lp.targets.KingShape(1),
+
+    target = {
+        type = "ITEM",
+        filter = function(selfEnt, ppos, targEnt)
+            return lp.hasTrigger(targEnt, "PULSE") or targEnt.doomCount
+        end,
+        activate = function(selfEnt, ppos, targEnt)
+            if targEnt.doomCount then
+                targEnt.doomCount = targEnt.doomCount + 1
+            end
+            lp.tryTriggerEntity("PULSE", targEnt)
+        end
+    }
+})
+
+
+
+
+
 local RANDOM_PULSE_DESC = loc("50% chance to {lootplot:TRIGGER_COLOR}Pulse{/lootplot:TRIGGER_COLOR} each item.")
 
 

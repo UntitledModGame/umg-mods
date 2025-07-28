@@ -221,6 +221,30 @@ defineHelmet("emerald_helmet", "Emerald Helmet", {
 
 
 
+defineHelmet("doomed_helmet", "Doomed Helmet", {
+    activateDescription = loc("Gives {lootplot:POINTS_COLOR}+10 points{/lootplot:POINTS_COLOR} to {lootplot:DOOMED_COLOR}DOOMED{/lootplot:DOOMED_COLOR} items"),
+
+    triggers = {"PULSE"},
+
+    rarity = lp.rarities.RARE,
+
+    unlockAfterWins = 4,
+
+    basePrice = 13,
+
+    target = {
+        type = "ITEM",
+        activate = function(selfEnt, ppos, targetEnt)
+            lp.modifierBuff(targetEnt, "pointsGenerated", 10, selfEnt)
+        end,
+        filter = function(selfEnt, ppos, targEnt)
+            return targEnt.doomCount
+        end
+    },
+})
+
+
+
 
 
 defineHelmet("golden_curse_helmet", "Golden Curse Helmet", {
