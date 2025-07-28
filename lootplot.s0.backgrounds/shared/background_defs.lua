@@ -132,8 +132,8 @@ function aquaCtor()
         worldWidth = W, worldHeight = H,
         numberOfClouds = 100,
 
-        backgroundColor = objects.Color("#" .. "FF11FFF7"),
-        cloudColor = objects.Color("#" .. "FF83FFFB"),
+        backgroundColor = objects.Color("#" .. "FF61F1EC"),
+        cloudColor = objects.Color("#" .. "FF88F9F5"),
     })
 end
 
