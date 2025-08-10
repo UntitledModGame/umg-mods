@@ -365,18 +365,16 @@ defCurse("cursed_coin", "Cursed Coin", {
 defCurse("mail_curse", "Mail Curse", {
     activateDescription = loc("20% chance to replace {lootplot:TRIGGER_COLOR}Pulse{/lootplot:TRIGGER_COLOR} trigger with {lootplot:TRIGGER_COLOR}Level-Up{/lootplot:TRIGGER_COLOR} on the closest item."),
     onActivate = function(ent)
-        if lp.SEED:randomMisc() > 0.9 then
-            return
-        end
-
-        local items = getItems(ent, function(itemEnt)
-            return lp.hasTrigger(itemEnt, "PULSE")
-        end)
-        if #items > 0 then
-            local item = getClosestEntity(ent, items)
-            if item then
-                lp.removeTrigger(item, "PULSE")
-                lp.addTrigger(item, "LEVEL_UP")
+        if lp.SEED:randomMisc() < 0.2 then
+            local items = getItems(ent, function(itemEnt)
+                return lp.hasTrigger(itemEnt, "PULSE")
+            end)
+            if #items > 0 then
+                local item = getClosestEntity(ent, items)
+                if item then
+                    lp.removeTrigger(item, "PULSE")
+                    lp.addTrigger(item, "LEVEL_UP")
+                end
             end
         end
     end,
