@@ -268,7 +268,7 @@ end)
 defTomb("tomb_of_money", "Tomb of Money",
 "Make items cost {lootplot:BAD_COLOR}$0.1 extra{/lootplot:BAD_COLOR} to activate.\n(Capped at -$0.4)", "ITEM",
 function(selfEnt, ppos, targEnt)
-    if targEnt.moneyGenerated > -1 then
+    if (targEnt.moneyGenerated or 0) > -0.4 then
         lp.modifierBuff(targEnt, "moneyGenerated", -0.1)
     end
 end)
