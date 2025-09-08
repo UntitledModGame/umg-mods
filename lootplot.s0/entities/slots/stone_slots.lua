@@ -18,6 +18,14 @@ lp.defineSlot("lootplot.s0:stone_slot", {
     name = loc("Stone slot"),
     image = "stone_slot",
 
+    init = function(ent)
+        if lp.SEED:randomMisc() < 0.5 then
+            ent.image = "stone_slot"
+        else
+            ent.image = "stone_slot_2"
+        end
+    end,
+
     triggers = {"DESTROY"},
 
     canAddItemToSlot = function()
