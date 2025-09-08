@@ -12,6 +12,7 @@ Think of each "chunk" as like a big bucket where entities are kept.
 ]]
 
 
+---@class spatial.Partition
 local Partition = objects.Class("spatial:Partition")
 
 

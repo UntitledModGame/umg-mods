@@ -639,6 +639,58 @@ defineStartingItem("seven_ball", {
 
 
 
+local AETHER_BALL_UNLOCK = 3
+defineStartingItem("aether_ball", {
+    name = loc("Aether Ball"),
+    description = loc("No slots, only sky!"),
+
+    unlockAfterWins = AETHER_BALL_UNLOCK,
+    -- winAchievement = "WIN_BOWLING_BALL",
+
+    onActivateOnce = function(ent)
+        local ppos, team = getPosTeam(ent)
+        lp.setMoney(ent, constants.STARTING_MONEY)
+        lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
+        lp.setAttribute("ROUND", ent, 1)
+
+        spawnRerollButton(ent)
+        spawnShop(ent)
+        spawnSell(ent)
+        spawnMoneyLimit(ent)
+
+        do
+        local b = assert(lp.trySpawnItem(assert(ppos:move(-4,1)), server.entities.white_balloon, team, true))
+        lp.targets.setShape(b, lp.targets.KingShape(3))
+
+        b = assert(lp.trySpawnItem(assert(ppos:move(-5,1)), server.entities.white_balloon, team, true))
+        lp.targets.setShape(b, lp.targets.KingShape(3))
+
+        b = assert(lp.trySpawnItem(assert(ppos:move(-6,1)), server.entities.white_balloon, team, true))
+        lp.targets.setShape(b, lp.targets.KingShape(3))
+        end
+
+        local plot = ppos:getPlot()
+        plot:foreach(function(pos)
+            if lp.SEED:randomWorldGen() < 0.6 then
+                if not lp.posToItem(pos) then
+                    -- (dont set it as player-team; coz then it removes fog)
+                    lp.trySpawnSlot(pos, server.entities.stone_slot, "@")
+                end
+            end
+        end)
+
+        spawnDoomClockAndButtons(ent)
+        spawnCurses(ent)
+    end
+})
+
+
+
+
+
+
+
+
 
 local BLANK_BALL_UNLOCK = 4
 defineStartingItem("blank_ball", {
@@ -850,6 +902,8 @@ defineStartingItem("bowling_ball", {
         spawnCurses(ent)
     end
 })
+
+
 
 
 
