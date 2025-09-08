@@ -665,7 +665,7 @@ defineStartingItem("aether_ball", {
         b = assert(lp.trySpawnItem(assert(ppos:move(-5,1)), server.entities.white_balloon, team, true))
         lp.targets.setShape(b, lp.targets.KingShape(3))
 
-        b = assert(lp.trySpawnItem(assert(ppos:move(-6,1)), server.entities.white_balloon, team, true))
+        b = assert(lp.trySpawnItem(assert(ppos:move(-4,2)), server.entities.white_balloon, team, true))
         lp.targets.setShape(b, lp.targets.KingShape(3))
         end
 
