@@ -61,14 +61,21 @@ function PerkButton:onRender(x,y,w,h)
     local _, bottom = r:splitVertical(1,1)
     bottom = bottom:moveRatio(0,0.2)
     local trophyRegions = bottom:grid(#lp.DIFFICULTY_TYPES, 1)
+    local highestDifficultyWon = -10
     for i, v in ipairs(lp.DIFFICULTY_TYPES) do
-        local img = lp.getDifficultyInfo(v).image
-        if  lp.hasWonOnDifficulty(id, v) then
+        if lp.hasWonOnDifficulty(id, v) then
+            local dInfo = lp.getDifficultyInfo(v)
+            highestDifficultyWon = math.max(dInfo.difficulty, highestDifficultyWon)
+        end
+    end
+    for i, v in ipairs(lp.DIFFICULTY_TYPES) do
+        local dInfo = lp.getDifficultyInfo(v)
+        if dInfo.difficulty <= highestDifficultyWon then
             love.graphics.setColor(1,1,1)
         else
             love.graphics.setColor(0,0,0)
         end
-        ui.drawImageInBox(img, trophyRegions[i]:get())
+        ui.drawImageInBox(dInfo.image, trophyRegions[i]:get())
     end
 end
 
