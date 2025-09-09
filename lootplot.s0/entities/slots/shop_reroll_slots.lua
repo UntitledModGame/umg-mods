@@ -274,6 +274,8 @@ local function makeShopSlot(id, name, comps)
     local etype = {
         itemLock = true,
 
+        lootplotTags = {constants.tags.SHOP_SLOT},
+
         baseMaxActivations = 100,
         triggers = {"REROLL", "PULSE"},
         dontPropagateTriggerToItem = true,

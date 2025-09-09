@@ -82,11 +82,16 @@ umg.on("rendering:drawEntity", RENDER_AFTER_ENTITY_ORDER + 0.5, function(ent, x,
             local img = client.assets.images.slot_life_visual
             rendering.drawImage(img, x, y, rot, sx,sy, kx,ky)
         end
-    elseif lp.isItemEntity(ent) and lp.isInvincible(ent) then
-        local t = love.timer.getTime()
-        local ox, oy = 6, 6 + math.sin(t)
-        local img = client.assets.images.invincible_visual
-        rendering.drawImage(img, x + ox, y + oy, 0, sx,sy, kx,ky)
+    elseif lp.isInvincible(ent) then
+        if lp.isItemEntity(ent) then
+            local t = love.timer.getTime()
+            local ox, oy = 6, 6 + math.sin(t)
+            local img = client.assets.images.invincible_visual
+            rendering.drawImage(img, x + ox, y + oy, 0, sx,sy, kx,ky)
+        elseif lp.isSlotEntity(ent) then
+            local img = client.assets.images.invincible_visual
+            rendering.drawImage(img, x + 7, y + 5, 0, sx,sy, kx,ky)
+        end
     end
 end)
 

@@ -57,6 +57,7 @@ local constants = {
         -- slot tags:
         GLASS_SLOT = "lootplot.s0:glass_slot",
         BASIC_SLOT = "lootplot.s0:basic_slot",
+        SHOP_SLOT = "lootplot.s0:shop_slot",
     }, {__index=umg.melt})
 }
 

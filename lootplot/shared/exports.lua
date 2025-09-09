@@ -950,6 +950,8 @@ function lp.isInvincible(ent)
     local typ = type(ent.isInvincible)
     if typ == "function" and ent:isInvincible() then
         return true
+    elseif typ == "boolean" and ent.isInvincible then
+        return true
     end
 
     if lp.isItemEntity(ent) then

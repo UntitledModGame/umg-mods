@@ -656,7 +656,8 @@ defineStartingItem("aether_ball", {
         spawnRerollButton(ent)
         spawnShop(ent)
         spawnSell(ent)
-        spawnMoneyLimit(ent)
+
+        lp.forceSpawnItem(assert(ppos:move(4,0)), server.entities.blank_eraser, team, true)
 
         do
         local b = assert(lp.trySpawnItem(assert(ppos:move(-4,1)), server.entities.white_balloon, team, true))
@@ -669,12 +670,18 @@ defineStartingItem("aether_ball", {
         lp.targets.setShape(b, lp.targets.KingShape(3))
         end
 
+        local STONE_CHANCE = 0.65
+        local STONE_SLOT_INVINCIBILITY_CHANCE = 0.55
+
         local plot = ppos:getPlot()
         plot:foreach(function(pos)
-            if lp.SEED:randomWorldGen() < 0.6 then
+            if lp.SEED:randomWorldGen() < STONE_CHANCE then
                 if not lp.posToItem(pos) then
                     -- (dont set it as player-team; coz then it removes fog)
-                    lp.trySpawnSlot(pos, server.entities.stone_slot, "@")
+                    local slotEnt = lp.trySpawnSlot(pos, server.entities.stone_slot, "@")
+                    if slotEnt and (lp.SEED:randomWorldGen() < STONE_SLOT_INVINCIBILITY_CHANCE) then
+                        slotEnt.isInvincible = true
+                    end
                 end
             end
         end)

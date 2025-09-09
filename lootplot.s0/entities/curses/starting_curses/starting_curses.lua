@@ -170,3 +170,27 @@ defCurse("eraser_curse", "Eraser Curse", {
 
 
 
+
+defCurse("blank_eraser", "Blank Eraser", {
+    activateDescription = loc("Slots that contain an item are destroyed.\n(Shop-slots not included)"),
+
+    triggers = {"PULSE"},
+
+    onActivate = function (ent)
+        local ppos = lp.getPos(ent)
+        if not ppos then return end
+        ppos:getPlot():foreachSlot(function(slotEnt, pp)
+            if not lp.hasTag(slotEnt, constants.tags.SHOP_SLOT) then
+                if lp.slotToItem(slotEnt) then
+                    lp.destroy(slotEnt)
+                end
+            end
+        end)
+    end,
+
+    isInvincible = function()
+        return true
+    end
+})
+
+
