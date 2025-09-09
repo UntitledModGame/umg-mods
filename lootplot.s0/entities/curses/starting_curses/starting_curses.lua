@@ -218,3 +218,39 @@ defCurse("golden_lock_curse", "Golden Lock Curse", {
 })
 
 
+
+
+
+
+local RED_NOTE_CURSE_ACTIVATIONS = 30
+local RED_NOTE_DESC = interp("After %{X} activations, all button-slots are destroyed.")
+
+defCurse("red_note_curse", "Red Note Curse", {
+    activateDescription = function(ent)
+        return RED_NOTE_DESC({
+            X = math.max(0, (RED_NOTE_CURSE_ACTIVATIONS - (ent.totalActivationCount or 0)))
+        })
+    end,
+
+    triggers = {"PULSE"},
+
+    onActivate = function(ent)
+        if ent.totalActivationCount >= RED_NOTE_CURSE_ACTIVATIONS then
+            -- DESTROY EVERYTHING
+            local ppos = lp.getPos(ent)
+            if ppos then
+                ppos:getPlot():foreachSlot(function (e, p2)
+                    if e.buttonSlot then
+                        lp.destroy(e)
+                    end
+                end)
+            end
+        end
+    end,
+
+    isInvincible = function()
+        return true
+    end
+})
+
+

@@ -106,30 +106,34 @@ end
 
 local CURSE_X, CURSE_Y = 3, -4
 
-local function spawnCurses(ent)
+local function spawnCurses(ent, dx,dy)
+    dx = (dx or 0) + CURSE_X
+    dy = (dy or 0) + CURSE_Y
     local ppos, team = getPosTeam(ent)
     local d, dInfo = lp.getDifficulty()
     if dInfo.difficulty == 1 then
         -- normal mode
-        spawnStoneHand(assert(ppos:move(CURSE_X, CURSE_Y)), team, 25, 3)
+        spawnStoneHand(assert(ppos:move(dx,dy)), team, 25, 3)
     elseif dInfo.difficulty >= 2 then
         -- HARD mode
-        spawnStoneHand(assert(ppos:move(CURSE_X-1, CURSE_Y)), team, 15, 2)
+        spawnStoneHand(assert(ppos:move(dx-1, dy)), team, 15, 2)
 
-        local p2 = assert(ppos:move(CURSE_X, CURSE_Y))
+        local p2 = assert(ppos:move(dx, dy))
         lp.forceSpawnItem(p2, server.entities.trophy_guardian, team, true)
         clearFogInCircle(p2, team, 1.5)
 
-        spawnStoneHand(assert(ppos:move(CURSE_X+1, CURSE_Y)), team, 25, 3)
+        spawnStoneHand(assert(ppos:move(dx+1, dy)), team, 25, 3)
     end
 end
 
 
 
-local function spawnPulseButton(ent)
+local function spawnPulseButton(ent, dx,dy)
+    dx = (dx or 0) - 4
+    dy = (dy or 0) - 4
     local ppos, team = getPosTeam(ent)
     return lp.forceSpawnSlot(
-        assert(ppos:move(-4,-4)),
+        assert(ppos:move(dx,dy)),
         server.entities.pulse_button_slot,
         team
     )
@@ -138,10 +142,12 @@ end
 
 local NEXT_LEVEL_DX, NEXT_LEVEL_DY = -3, -4
 
-local function spawnNextLevelButton(ent)
+local function spawnNextLevelButton(ent, dx,dy)
+    dx = (dx or 0) + NEXT_LEVEL_DX
+    dy = (dy or 0) + NEXT_LEVEL_DY
     local ppos, team = getPosTeam(ent)
     return lp.forceSpawnSlot(
-        assert(ppos:move(NEXT_LEVEL_DX, NEXT_LEVEL_DY)),
+        assert(ppos:move(dx,dy)),
         server.entities.next_level_button_slot,
         team
     )
@@ -150,13 +156,14 @@ end
 
 
 
-local function spawnDoomClock(ent, dy)
+local function spawnDoomClock(ent, dx,dy)
+    dx=dx or 0
     dy = dy or 0
 
     local plot = lp.getPos(ent):getPlot()
     local team = assert(ent.lootplotTeam)
     local ppos = assert(lp.getPos(ent)
-        :move(0, -4 + dy)
+        :move(dx, -4 + dy)
     )
 
     local dclock = server.entities.doom_clock()
@@ -170,14 +177,14 @@ local function spawnDoomClock(ent, dy)
 end
 
 
-local function spawnDoomClockAndButtons(ent, dy)
-    spawnDoomClock(ent, dy)
+local function spawnDoomClockAndButtons(ent, dx,dy)
+    spawnDoomClock(ent, dx,dy)
 
     -- next-level button
-    spawnNextLevelButton(ent)
+    spawnNextLevelButton(ent, dx,dy)
 
     -- pulse button
-    local pulseButton = spawnPulseButton(ent)
+    local pulseButton = spawnPulseButton(ent, dx,dy)
     return pulseButton
 end
 
@@ -196,9 +203,11 @@ local function spawnRerollButton(ent, dx,dy)
     wg.spawnSlots(assert(ppos:move(-4, -1)), server.entities.reroll_button_slot, 1,1, team)
 end
 
-local function spawnNormal(ent)
+local function spawnNormal(ent, dx,dy)
+    dx = dx or 0
+    dy = dy or 0
     local ppos, team = getPosTeam(ent)
-    wg.spawnSlots(ppos, server.entities.slot, 3,3, team)
+    wg.spawnSlots(assert(ppos:move(dx,dy)), server.entities.slot, 3,3, team)
 end
 
 local function spawnSell(ent, dx, dy)
@@ -332,6 +341,8 @@ defineStartingItem("one_ball", {
             align = "center",
             oy = 10
         })
+
+        clearFogInCircle(ppos, team, 4)
     end
 })
 
@@ -385,6 +396,8 @@ defineStartingItem("six_ball", {
 
         spawnDoomClockAndButtons(ent)
         spawnCurses(ent)
+
+        clearFogInCircle(ppos, team, 4)
     end,
 })
 
@@ -433,6 +446,8 @@ defineStartingItem("five_ball", {
 
         spawnDoomClockAndButtons(ent)
         spawnCurses(ent)
+
+        clearFogInCircle(ppos, team, 4)
     end
 })
 
@@ -484,6 +499,8 @@ defineStartingItem("G_ball", {
         spawnSell(ent)
         spawnDoomClockAndButtons(ent)
         spawnCurses(ent)
+
+        clearFogInCircle(ppos, team, 4)
     end
 })
 
@@ -513,6 +530,8 @@ defineStartingItem("S_ball", {
         spawnCurses(ent)
 
         lp.forceSpawnItem(assert(ppos:move(3, 0)), server.entities.aquarium_curse, team)
+
+        clearFogInCircle(ppos, team, 4)
     end
 })
 
@@ -561,6 +580,8 @@ defineStartingItem("eight_ball", {
 
         spawnDoomClockAndButtons(ent)
         spawnCurses(ent)
+
+        clearFogInCircle(ppos, team, 4)
     end,
 })
 
@@ -632,6 +653,8 @@ defineStartingItem("seven_ball", {
         spawnSell(ent, 0, 2)
         spawnDoomClockAndButtons(ent)
         spawnCurses(ent)
+
+        clearFogInCircle(ppos, team, 4)
     end
 })
 
@@ -639,7 +662,41 @@ defineStartingItem("seven_ball", {
 
 
 
-local AETHER_BALL_UNLOCK = 3
+local BLANK_BALL_UNLOCK = 3
+defineStartingItem("blank_ball", {
+    name = loc("Blank Ball"),
+    description = loc("Has a Rulebender slot"),
+
+    unlockAfterWins = BLANK_BALL_UNLOCK,
+    winAchievement = "WIN_BLANK_BALL",
+
+    onActivateOnce = function(ent)
+        local ppos, team = getPosTeam(ent)
+
+        lp.setMoney(ent, constants.STARTING_MONEY)
+        lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
+
+        wg.spawnSlots(assert(ppos:move(-1,-2)), server.entities.shop_slot, 3,1, team)
+        wg.spawnSlots(assert(ppos:move(2,-2)), server.entities.food_shop_slot, 2,1, team)
+        wg.spawnSlots(assert(ppos:move(0,-3)), server.entities.reroll_button_slot, 1,1, team)
+
+        wg.spawnSlots(assert(ppos:move(0,1)), server.entities.rulebender_slot, 1,1, team)
+
+        spawnSell(ent)
+
+        spawnDoomClockAndButtons(ent, -1)
+        spawnCurses(ent)
+
+        clearFogInCircle(ppos, team, 4)
+    end,
+})
+
+
+
+
+
+
+local AETHER_BALL_UNLOCK = 4
 defineStartingItem("aether_ball", {
     name = loc("Aether Ball"),
     description = loc("No slots, only sky!"),
@@ -688,6 +745,8 @@ defineStartingItem("aether_ball", {
 
         spawnDoomClockAndButtons(ent)
         spawnCurses(ent)
+
+        clearFogInCircle(ppos, team, 4)
     end
 })
 
@@ -699,32 +758,49 @@ defineStartingItem("aether_ball", {
 
 
 
-local BLANK_BALL_UNLOCK = 4
-defineStartingItem("blank_ball", {
-    name = loc("Blank Ball"),
-    description = loc("Has a Rulebender slot"),
+local THREE_BALL_UNLOCK = 4
+defineStartingItem("three_ball", {
+    name = loc("Three Ball"),
+    description = loc("Race against time"),
 
-    unlockAfterWins = BLANK_BALL_UNLOCK,
-    winAchievement = "WIN_BLANK_BALL",
+    unlockAfterWins = THREE_BALL_UNLOCK,
+    -- winAchievement = "WIN_BOWLING_BALL",
 
     onActivateOnce = function(ent)
         local ppos, team = getPosTeam(ent)
-
         lp.setMoney(ent, constants.STARTING_MONEY)
         lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
+        lp.setAttribute("ROUND", ent, 1)
 
-        wg.spawnSlots(assert(ppos:move(-1,-2)), server.entities.shop_slot, 3,1, team)
-        wg.spawnSlots(assert(ppos:move(2,-2)), server.entities.food_shop_slot, 2,1, team)
-        wg.spawnSlots(assert(ppos:move(0,-3)), server.entities.reroll_button_slot, 1,1, team)
+        local w,h = ppos:getPlot():getDimensions()
+        local DX = w/3
 
-        wg.spawnSlots(assert(ppos:move(0,1)), server.entities.rulebender_slot, 1,1, team)
+        for dx=-DX,DX do
+            ppos:getPlot():setFogRevealed(assert(ppos:move(dx,0)), team, true)
+        end
 
-        spawnSell(ent)
+        spawnRerollButton(ent, -DX,0)
+        spawnShop(ent, -DX,0)
+        spawnSell(ent, -DX,0)
+        spawnNormal(ent, -DX,0)
 
-        spawnDoomClockAndButtons(ent, -1)
-        spawnCurses(ent)
-    end,
+        -- red-note curse
+        do
+        local p = assert(ppos:move(DX,0))
+        wg.spawnSlots(p, server.entities.stone_slot, 5,3, team)
+        local slt = lp.posToSlot(p)
+        if slt then lp.destroy(slt) end
+        lp.forceSpawnItem(p, server.entities.red_note_curse, team, true)
+        end
+
+        spawnDoomClockAndButtons(ent, -DX,0)
+        spawnCurses(ent, -DX,0)
+
+        clearFogInCircle(assert(ppos:move(-DX,0)), team, 4)
+    end
 })
+
+
 
 
 
@@ -761,6 +837,8 @@ defineStartingItem("nine_ball", {
             server.entities.tax_button_slot,
             team
         )
+
+        clearFogInCircle(ppos, team, 4)
     end
 })
 
@@ -769,7 +847,7 @@ defineStartingItem("nine_ball", {
 
 
 
-local L_BALL_UNLOCK = 4
+local L_BALL_UNLOCK = 5
 defineStartingItem("L_ball", {
     name = loc("L Ball"),
     description = loc("No basic slots!"),
@@ -798,6 +876,8 @@ defineStartingItem("L_ball", {
 
         spawnDoomClockAndButtons(ent)
         spawnCurses(ent)
+
+        clearFogInCircle(ppos, team, 4)
     end,
 
     shape = lp.targets.KingShape(1),
@@ -848,6 +928,8 @@ defineStartingItem("rainbow_ball", {
 
         spawnDoomClock(ent)
         spawnCurses(ent)
+
+        clearFogInCircle(ppos, team, 4)
     end
 })
 
@@ -915,13 +997,15 @@ defineStartingItem("eden_ball", {
 
         spawnDoomClock(ent)
         spawnCurses(ent)
+
+        clearFogInCircle(ppos, team, 4)
     end
 })
 
 
 
 
-local NEGATIVE_ONE_BALL_UNLOCK = 5
+local NEGATIVE_ONE_BALL_UNLOCK = 6
 local NEGATIVE_ONE_BALL_START_MONEY = 750
 
 defineStartingItem("negative_one_ball", {
@@ -953,6 +1037,8 @@ defineStartingItem("negative_one_ball", {
         spawnDoomClock(ent)
         spawnPulseButton(ent)
         spawnNextLevelButton(ent)
+
+        clearFogInCircle(ppos, team, 4)
     end
 })
 
@@ -963,7 +1049,7 @@ defineStartingItem("negative_one_ball", {
 
 
 
-local BOWLING_BALL_UNLOCK = 5
+local BOWLING_BALL_UNLOCK = 6
 defineStartingItem("bowling_ball", {
     name = loc("Bowling Ball"),
     description = loc("STRIKE!"),
@@ -1014,6 +1100,8 @@ defineStartingItem("bowling_ball", {
 
         spawnDoomClockAndButtons(ent)
         spawnCurses(ent)
+
+        clearFogInCircle(ppos, team, 4)
     end
 })
 
@@ -1048,6 +1136,7 @@ defineStartingItem("basketball", {
             difficulty = dInfo.difficulty
         })
 
+        clearFogInCircle(ppos, team, 4)
     end
 })
 

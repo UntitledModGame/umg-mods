@@ -89,7 +89,7 @@ local function spawnItemAndSlots(midPPos, team, perk, wgen)
         plot:setFogRevealed(ppos, lp.singleplayer.PLAYER_TEAM, false)
     end)
     -- Clear circle center
-    circularFogClear(plot, midPPos, lp.singleplayer.PLAYER_TEAM, 4)
+    circularFogClear(plot, midPPos, lp.singleplayer.PLAYER_TEAM, 1)
     assert(plot:isFogRevealed(midPPos, lp.singleplayer.PLAYER_TEAM))
 
     -- Perk item floats
