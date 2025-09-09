@@ -297,6 +297,28 @@ defBalloon("golden_balloon", "Golden Balloon", {
 
 
 
+defBalloon("grubby_balloon", "Grubby Balloon", {
+    activateDescription = loc("Removes grubby from purchased item"),
+    rarity = lp.rarities.RARE,
+
+    basePrice = 12,
+
+    listen = {
+        type = "ITEM",
+        trigger = "BUY",
+        activate = function(selfEnt, ppos, targEnt)
+            if targEnt.grubMoneyCap then
+                targEnt.grubMoneyCap = false
+                sync.syncComponent(targEnt, "grubMoneyCap")
+            end
+        end
+    }
+})
+
+
+
+
+
 defItem("neko_cat", {
     name = loc("Neko Cat"),
     activateDescription = loc("Activates {lootplot:INFO_COLOR}ALL{/lootplot:INFO_COLOR} target items.\nWorks on all triggers!"),
