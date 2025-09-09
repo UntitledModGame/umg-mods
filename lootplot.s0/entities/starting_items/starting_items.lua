@@ -921,6 +921,46 @@ defineStartingItem("eden_ball", {
 
 
 
+local NEGATIVE_ONE_BALL_UNLOCK = 5
+local NEGATIVE_ONE_BALL_START_MONEY = 750
+
+defineStartingItem("negative_one_ball", {
+    name = loc("Negative One Ball"),
+    description = loc("Start with $%{moneh}.\nMoney never goes up.", {
+        moneh = NEGATIVE_ONE_BALL_START_MONEY
+    }),
+
+    unlockAfterWins = NEGATIVE_ONE_BALL_UNLOCK,
+    -- winAchievement = "WIN_RAINBOW",
+
+    baseMaxActivations = 1,
+
+    onActivateOnce = function(ent)
+        lp.setMoney(ent, constants.STARTING_MONEY)
+        lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
+        lp.setAttribute("ROUND", ent, 1)
+        lp.setAttribute("MONEY", ent, NEGATIVE_ONE_BALL_START_MONEY)
+
+        local ppos, team = getPosTeam(ent)
+        spawnShop(ent)
+        spawnRerollButton(ent)
+        spawnNormal(ent)
+        spawnSell(ent)
+        lp.forceSpawnItem(assert(ppos:move(-4,1)), server.entities.grubby_balloon, team, true)
+
+        lp.forceSpawnItem(assert(ppos:move(4,0)), server.entities.golden_lock_curse, team, true)
+
+        spawnDoomClock(ent)
+        spawnPulseButton(ent)
+        spawnNextLevelButton(ent)
+    end
+})
+
+
+
+
+
+
 
 
 local BOWLING_BALL_UNLOCK = 5

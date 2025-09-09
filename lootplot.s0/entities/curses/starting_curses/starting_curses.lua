@@ -194,3 +194,27 @@ defCurse("blank_eraser", "Blank Eraser", {
 })
 
 
+
+
+local BIG_MONEH = 100000000
+
+defCurse("golden_lock_curse", "Golden Lock Curse", {
+    activateDescription = loc("Money can never go up."),
+
+    triggers = {"PULSE"},
+
+    _lowestMoney = BIG_MONEH,
+
+    onUpdateServer = function(ent)
+        if lp.getMoney(ent) > ent._lowestMoney then
+            lp.setMoney(ent, ent._lowestMoney)
+        end
+        ent._lowestMoney = math.min(lp.getMoney(ent) or BIG_MONEH, ent._lowestMoney)
+    end,
+
+    isInvincible = function()
+        return true
+    end
+})
+
+
