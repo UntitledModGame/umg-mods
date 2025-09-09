@@ -814,7 +814,6 @@ defineStartingItem("L_ball", {
 
 
 
-
 local RAINBOW_BALL_UNLOCK = 5
 defineStartingItem("rainbow_ball", {
     name = loc("Rainbow Ball"),
@@ -851,6 +850,74 @@ defineStartingItem("rainbow_ball", {
         spawnCurses(ent)
     end
 })
+
+
+
+
+local EDEN_BALL_UNLOCK = 5
+defineStartingItem("eden_ball", {
+    name = loc("Eden Ball"),
+    description = loc("Less rounds per level"),
+
+    unlockAfterWins = EDEN_BALL_UNLOCK,
+    -- winAchievement = "WIN_RAINBOW",
+
+    baseMaxActivations = 1,
+
+    onActivateOnce = function(ent)
+        lp.setMoney(ent, constants.STARTING_MONEY)
+        lp.setAttribute("NUMBER_OF_ROUNDS", ent, math.ceil(constants.ROUNDS_PER_LEVEL / 2) + 1)
+        lp.setAttribute("ROUND", ent, 0)
+        local ppos, team = getPosTeam(ent)
+
+        lp.forceSpawnSlot(ppos, server.entities.guardian_slot, team)
+
+        spawnRerollButton(ent)
+        spawnShop(ent)
+
+        spawnNextLevelButton(ent)
+        spawnPulseButton(ent)
+
+        local squares = {
+            ppos:move(-8, -6),
+            ppos:move(-4, -3),
+            ppos:move(0, 2),
+            ppos:move(4, -6),
+            ppos:move(8, -2),
+            ppos:move(-6, 2),
+            ppos:move(0, -4),
+            ppos:move(-2, 6),
+            ppos:move(6, 6),
+            ppos:move(-9, 1)
+        }
+        local function randomItemType()
+            if lp.SEED:randomWorldGen() < 0.2 then
+                return lp.rarities.randomItemOfRarity(lp.rarities.UNCOMMON)
+            elseif lp.SEED:randomWorldGen() < 0.8 then
+                return lp.rarities.randomItemOfRarity(lp.rarities.RARE)
+            else
+                return lp.rarities.randomItemOfRarity(lp.rarities.EPIC)
+            end
+        end
+
+        local function spawnCloud(p,dx,dy)
+            p = assert(p:move(dx,dy))
+            lp.trySpawnSlot(p, server.entities.cloud_slot, team)
+            lp.trySpawnItem(p, randomItemType(), team)
+        end
+
+        for _,p in ipairs(squares) do
+            spawnCloud(p,0,0)
+            spawnCloud(p,0,1)
+            spawnCloud(p,1,0)
+            spawnCloud(p,1,1)
+        end
+
+        spawnDoomClock(ent)
+        spawnCurses(ent)
+    end
+})
+
 
 
 
