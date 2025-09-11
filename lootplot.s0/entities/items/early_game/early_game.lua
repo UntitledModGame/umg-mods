@@ -139,7 +139,7 @@ defItem("empty_bowl", {
         lp.rotateItem(ent, math.floor(lp.SEED:randomMisc(0,3)))
     end,
 
-    activateDescription = loc("{lootplot:TRIGGER_COLOR}Pulses{/lootplot:TRIGGER_COLOR} item."),
+    activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}Pulse{/lootplot:TRIGGER_COLOR} on item."),
 
     baseBonusGenerated = -1,
     baseMaxActivations = 15,

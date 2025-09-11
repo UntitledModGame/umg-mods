@@ -201,7 +201,7 @@ defBalloon("pink_balloon", "Pink Balloon", {
 defBalloon("white_balloon", "White Balloon", {
     rarity = lp.rarities.EPIC,
 
-    activateDescription = loc("50% chance to makes the purchased item FLOATY"),
+    activateDescription = loc("50% chance to makes the purchased item {lootplot:INFO_COLOR}FLOATY{/lootplot:INFO_COLOR}"),
 
     basePrice = 15,
     baseMaxActivations = 20,

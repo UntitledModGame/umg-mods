@@ -149,8 +149,8 @@ local VERB_CTX = {
     context = "Should be translated within a verb context"
 }
 
-local EARN_POINTS = interp("Earns points: {lootplot:POINTS_COLOR}%{pointsGenerated:.1f}{/lootplot:POINTS_COLOR}", VERB_CTX)
-local STEAL_POINTS = interp("{lootplot:BAD_COLOR}Steals points: {lootplot:POINTS_COLOR}%{pointsGenerated:.1f}{/lootplot:BAD_COLOR}", VERB_CTX)
+local EARN_POINTS = interp("Adds {lootplot:POINTS_COLOR}%{pointsGenerated:.1f} points{/lootplot:POINTS_COLOR}", VERB_CTX)
+local STEAL_POINTS = interp("{lootplot:BAD_COLOR}Subtracts {lootplot:POINTS_COLOR}%{pointsStolen:.1f} points!{/lootplot:POINTS_COLOR}{/lootplot:BAD_COLOR}", VERB_CTX)
 local POINT_INFO = interp("  ({lootplot:POINTS_MOD_COLOR}%{mod}{/lootplot:POINTS_MOD_COLOR} x {lootplot:POINTS_MULT_COLOR}%{mult}{/lootplot:POINTS_MULT_COLOR})")
 
 local function addPointsDescription(ent, arr)
@@ -164,7 +164,9 @@ local function addPointsDescription(ent, arr)
         if pgen >= 0 then
             txt1 = EARN_POINTS(ent)
         else
-            txt1 = STEAL_POINTS(ent)
+            txt1 = STEAL_POINTS({
+                pointsStolen = -pgen
+            })
         end
         -- todo: this is kinda inefficient. OH WELL :)
         local _, mod, mult = properties.computeProperty(ent, "pointsGenerated")
@@ -207,7 +209,7 @@ end
 
 
 local GAIN_MULT = interp("Adds {lootplot:POINTS_MULT_COLOR}%{multGenerated:.1f} multiplier")
-local LOSE_MULT = interp("{lootplot:BAD_COLOR}Subtracts %{multCost:.1f} multiplier!")
+local LOSE_MULT = interp("{lootplot:BAD_COLOR}Subtracts {lootplot:POINTS_MULT_COLOR}%{multCost:.1f} multiplier!{/lootplot:POINTS_MULT_COLOR}")
 
 local function addMultDesc(ent, arr)
     arr:add(function()
@@ -228,7 +230,7 @@ end
 
 
 local GAIN_BONUS = interp("Adds {lootplot:BONUS_COLOR}%{bonusGenerated:.1f} bonus")
-local LOSE_BONUS = interp("{lootplot:BAD_COLOR}Subtracts %{bonusCost:.1f} bonus!")
+local LOSE_BONUS = interp("{lootplot:BAD_COLOR}Subtracts {lootplot:BONUS_COLOR}%{bonusCost:.1f} bonus!{/lootplot:BONUS_COLOR}")
 
 local function addBonusGen(ent, arr)
     arr:add(function()

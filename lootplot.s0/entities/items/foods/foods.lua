@@ -605,7 +605,7 @@ end
 
 defineFood("heartfruit_half", {
     name = loc("Half Heart Fruit"),
-    activateDescription = loc("Gives +1 lives to target item (or slot)"),
+    activateDescription = loc("Gives {lootplot:LIFE_COLOR}+1 lives{/lootplot:LIFE_COLOR} to target item (or slot)"),
 
     rarity = lp.rarities.RARE,
 
@@ -978,14 +978,14 @@ defineSlotSpawner("coconut", "Coconut", "dirt_slot", "Dirt Slots", lp.targets.Ki
 })
 
 
-defineSlotSpawner("lime", "Lime", "reroll_slot", "DOOMED-5 Reroll Slots", lp.targets.KingShape(2), {
+defineSlotSpawner("lime", "Lime", "reroll_slot", "{lootplot:DOOMED_COLOR}DOOMED-5{/lootplot:DOOMED_COLOR} Reroll Slots", lp.targets.KingShape(2), {
     rarity = lp.rarities.RARE,
     unlockAfterWins = 2,
     basePrice = 8
 }, setDoomCountTo(5))
 
 
-defineSlotSpawner("lemon", "Lemon", "shop_slot", "DOOMED-4 Shop Slots", lp.targets.KingShape(1), {
+defineSlotSpawner("lemon", "Lemon", "shop_slot", "{lootplot:DOOMED_COLOR}DOOMED-4{/lootplot:DOOMED_COLOR} Shop Slots", lp.targets.KingShape(1), {
     rarity = lp.rarities.RARE,
     unlockAfterWins = 2,
     basePrice = 8,
@@ -1065,7 +1065,7 @@ end
 
 
 local APPLE_PRICE = 10
-defineSlotConverter("tangerine", "Tangerine", "rotate_slot", "Slot that {lootplot.targets:COLOR}Rotates{/lootplot.targets:COLOR} items", lp.targets.ON_SHAPE, {
+defineSlotConverter("tangerine", "Tangerine", "rotate_slot", "Slot that rotates items", lp.targets.ON_SHAPE, {
     unlockAfterWins = constants.UNLOCK_AFTER_WINS.ROTATEY,
     rarity = lp.rarities.RARE,
     basePrice = APPLE_PRICE
@@ -1649,8 +1649,8 @@ local function defineDonut(id, name, targetDesc, buffAmount, rarity)
 end
 
 
-defineDonut("pink_donut", "Pink Donut", "Decreases target item price by $4", -4, lp.rarities.UNCOMMON)
-defineDonut("frosted_donut", "Frosted Donut",  "Increases target item price by $8", 8, lp.rarities.RARE)
+defineDonut("pink_donut", "Pink Donut", "Decreases target item price by {lootplot:MONEY_COLOR}$4{/lootplot:MONEY_COLOR}", -4, lp.rarities.UNCOMMON)
+defineDonut("frosted_donut", "Frosted Donut",  "Increases target item price by {lootplot:MONEY_COLOR}$8{/lootplot:MONEY_COLOR}", 8, lp.rarities.RARE)
 
 
 

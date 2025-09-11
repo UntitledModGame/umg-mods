@@ -46,7 +46,7 @@ defItem("doomed_shield", "Doomed Sheild", {
     rarity = lp.rarities.RARE,
     triggers = {"PULSE"},
 
-    activateDescription = loc("{lootplot:TRIGGER_COLOR}Pulses{/lootplot:TRIGGER_COLOR} items.\nGives {lootplot:DOOMED_LIGHT_COLOR}+1 doomed{/lootplot:DOOMED_LIGHT_COLOR} to doomed-items"),
+    activateDescription = loc("Triggers {lootplot:TRIGGER_COLOR}Pulse{/lootplot:TRIGGER_COLOR} on items.\nGives {lootplot:DOOMED_LIGHT_COLOR}+1 Doomed{/lootplot:DOOMED_LIGHT_COLOR} to doomed-items"),
 
     unlockAfterWins = 3,
 

@@ -203,7 +203,7 @@ defineHelmet("ruby_helmet", "Ruby Helmet", {
 
 
 defineHelmet("emerald_helmet", "Emerald Helmet", {
-    activateDescription = loc("Give items {lootplot:POINTS_MOD_COLOR}+3 points.{/lootplot:POINTS_MOD_COLOR}"),
+    activateDescription = loc("Give items {lootplot:POINTS_MOD_COLOR}+3 points{/lootplot:POINTS_MOD_COLOR}."),
 
     triggers = {"REROLL", "PULSE"},
 
