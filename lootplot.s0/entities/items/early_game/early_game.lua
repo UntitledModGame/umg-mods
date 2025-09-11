@@ -294,7 +294,7 @@ defItem("steel_plate", {
 
     triggers = {"PULSE"},
 
-    activateDescription = loc("Adds {lootplot:POINTS_COLOR}+1 points{/lootplot:POINTS_COLOR} to slot.\nTriggers {lootplot:TRIGGER_COLOR}Pulse{/lootplot:TRIGGER_COLOR} on slot"),
+    activateDescription = loc("Gives {lootplot:POINTS_COLOR}+1 points{/lootplot:POINTS_COLOR} to slot.\nTriggers {lootplot:TRIGGER_COLOR}Pulse{/lootplot:TRIGGER_COLOR} on slot"),
     target = {
         type = "SLOT",
         activate = function(selfEnt, ppos, targEnt)

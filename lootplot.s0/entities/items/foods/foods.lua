@@ -1442,7 +1442,7 @@ definePotion("potion_sticky", {
 
 definePotion("potion_blue", {
     name = loc("Blue Potion"),
-    activateDescription = loc("Permanently buffs item/slots points by {lootplot:POINTS_COLOR}+20"),
+    activateDescription = loc("Gives item/slots {lootplot:POINTS_COLOR}+20 points"),
 
     rarity = lp.rarities.RARE,
 
@@ -1457,7 +1457,7 @@ definePotion("potion_blue", {
 
 definePotion("potion_red", {
     name = loc("Red Potion"),
-    activateDescription = loc("Permanently buffs item/slots multiplier by {lootplot:POINTS_MULT_COLOR}+1"),
+    activateDescription = loc("Gives item/slots {lootplot:POINTS_MULT_COLOR}+1 multiplier"),
 
     rarity = lp.rarities.EPIC,
 

@@ -66,7 +66,7 @@ local BONUS_DEBUFF = 1
 defItem("ocarina", "Ocarina", {
     triggers = {"PULSE"},
 
-    activateDescription = loc("Give items {lootplot:POINTS_COLOR}+%{points} points{/lootplot:POINTS_COLOR}.\nSubtracts {lootplot:BONUS_COLOR}-%{bonus} bonus{/lootplot:BONUS_COLOR} from items.", {
+    activateDescription = loc("Give items {lootplot:POINTS_COLOR}+%{points} points{/lootplot:POINTS_COLOR}.\nSubtracts {lootplot:BONUS_COLOR}%{bonus} bonus{/lootplot:BONUS_COLOR} from items.", {
         points = PTS_BUFF,
         bonus = BONUS_DEBUFF
     }),

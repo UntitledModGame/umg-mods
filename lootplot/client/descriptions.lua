@@ -91,11 +91,6 @@ end
 local function tryGetActivations(ent)
     if ent.maxActivations  then
         local activations = ent.activationCount or 0
-        if ent.doomCount and isDoomedBeforeActivationsRunOut(ent) then
-            -- HACK: This item will get destroyed BEFORE running out of activations.
-            return -- Thus, no point in displaying.
-        end
-
         local remaining = ent.maxActivations - activations
         local total = ent.maxActivations
         return remaining, total
@@ -112,9 +107,9 @@ local function getTriggerListString(triggers)
 end
 
 
-local TRIGGER_LIST = interp("{c r=0.6 g=0.6 b=0.7}Activates On: {lootplot:TRIGGER_COLOR}{wavy}%{trigger}{/wavy}{/lootplot:TRIGGER_COLOR}")
+local TRIGGER_LIST = interp("{lootplot:BORING_COLOR}Activates On: {lootplot:TRIGGER_COLOR}{wavy}%{trigger}{/wavy}{/lootplot:TRIGGER_COLOR}")
 
-local TRIGGER_LIST_ACTIVS = interp("{c r=0.6 g=0.6 b=0.7}Activates On: {lootplot:TRIGGER_COLOR}{wavy}%{trigger}{/wavy}{/lootplot:TRIGGER_COLOR} %{activationColor}(%{remaining}/%{total})")
+local TRIGGER_LIST_ACTIVS = interp("{lootplot:BORING_COLOR}Activates On: {lootplot:TRIGGER_COLOR}{wavy}%{trigger}{/wavy}{/lootplot:TRIGGER_COLOR} %{activationColor}(%{remaining}/%{total})")
 
 umg.on("lootplot:populateTriggerDescription", 10, function(ent, arr)
     local triggers = ent.triggers

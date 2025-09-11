@@ -25,6 +25,36 @@ local HARDCODED_LISTEN_DESCRIPTIONS = {
 }
 
 
+
+---@param ent Entity
+---@return number?
+---@return number?
+local function tryGetActivations(ent)
+    if ent.maxActivations  then
+        local activations = ent.activationCount or 0
+        local remaining = ent.maxActivations - activations
+        local total = ent.maxActivations
+        return remaining, total
+    end
+end
+
+local function getTriggerString(ent)
+    if lp.getWinCount() < 2 then
+        -- HACK:
+        -- if the player hasn't won more than 2 games,
+        -- they probably wont understand activations
+        return ""
+        -- best to keep it simple.
+    end
+
+    local rem, tot = tryGetActivations(ent)
+    -- this doesnt need to be localized.
+    return " {lootplot:BORING_COLOR}(" .. tostring(rem) .."/".. tostring(tot).. "){/lootplot:BORING_COLOR}"
+end
+
+
+
+
 local TRIGGER_ORDER = 10
 
 umg.on("lootplot:populateTriggerDescription", TRIGGER_ORDER, function(ent, arr)
@@ -39,7 +69,7 @@ umg.on("lootplot:populateTriggerDescription", TRIGGER_ORDER, function(ent, arr)
         local t = HARDCODED_LISTEN_DESCRIPTIONS[typ]
         if t and t[trigger] then
             targetText = t[trigger]
-            arr:add(targetText)
+            arr:add(targetText .. getTriggerString(ent))
         else
             umg.log.warn("Unknown listen-type; Unable to generate description: ", typ, trigger)
         end

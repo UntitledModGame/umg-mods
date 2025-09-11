@@ -2044,6 +2044,7 @@ lp.COLORS = {
     INFO_COLOR = {1, 1, 0.4},
     COMBINE_COLOR = {0.81, 0.14, 1},
     LISTEN_COLOR = {0.35, 0.65, 1},
+    BORING_COLOR = {0.6, 0.6, 0.7},
 }
 if client then
     for id,color in pairs(lp.COLORS) do

@@ -135,7 +135,7 @@ local function activateKeyShard(itemEnt)
 end
 
 defShards("key_shards", "Key Shards",
-    activateKeyShard, "Adds {lootplot:BONUS_COLOR}+6 Bonus{/lootplot:BONUS_COLOR} to slots, and spawns {lootplot:INFO_COLOR}Keys{/lootplot:INFO_COLOR}.\nThen, destroy self.", {
+    activateKeyShard, "Gives {lootplot:BONUS_COLOR}+6 Bonus{/lootplot:BONUS_COLOR} to slots, and spawns {lootplot:INFO_COLOR}Keys{/lootplot:INFO_COLOR}.\nThen, destroy self.", {
     rarity = lp.rarities.COMMON,
     basePrice = 8,
 })
@@ -156,7 +156,7 @@ local function coalShardActivate(itemEnt)
 end
 
 defShards("coal_shards", "Coal Shards",
-    coalShardActivate, "Adds {lootplot:POINTS_MULT_COLOR}+0.5 mult{/lootplot:POINTS_MULT_COLOR} to slots.\nThen, destroy self.", {
+    coalShardActivate, "Gives {lootplot:POINTS_MULT_COLOR}+0.5 mult{/lootplot:POINTS_MULT_COLOR} to slots.\nThen, destroy self.", {
     rarity = lp.rarities.COMMON,
     basePrice = 3,
 })
@@ -178,7 +178,7 @@ local function emeraldShardActivate(itemEnt)
 end
 
 defShards("emerald_shards", "Emerald Shards",
-    emeraldShardActivate, "Adds {lootplot:POINTS_COLOR}+10 points{/lootplot:POINTS_COLOR} to slots, and gives slots {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} trigger.\nThen, destroy self.", {
+    emeraldShardActivate, "Gives {lootplot:POINTS_COLOR}+10 points{/lootplot:POINTS_COLOR} to slots, and gives slots {lootplot:TRIGGER_COLOR}Reroll{/lootplot:TRIGGER_COLOR} trigger.\nThen, destroy self.", {
     rarity = lp.rarities.UNCOMMON,
     basePrice = 3,
 })

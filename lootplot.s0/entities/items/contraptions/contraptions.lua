@@ -31,7 +31,28 @@ local interp = localization.newInterpolator
 local constants = require("shared.constants")
 
 
-local DESC = loc("Has an activation button.")
+
+---@param ent Entity
+---@return number?
+---@return number?
+local function tryGetActivations(ent)
+    if ent.maxActivations  then
+        local activations = ent.activationCount or 0
+        local remaining = ent.maxActivations - activations
+        local total = ent.maxActivations
+        return remaining, total
+    end
+end
+
+
+local INTERP = interp("Has an activation button. {lootplot:BORING_COLOR}(%{remaining}/%{total}){/lootplot:BORING_COLOR}")
+local function interpDesc(ent)
+    local remaining, total = tryGetActivations(ent)
+    return INTERP({
+        remaining = remaining,
+        total = total
+    })
+end
 
 local function defContra(id, name, etype)
     etype.name = loc(name)
@@ -43,7 +64,7 @@ local function defContra(id, name, etype)
     etype.image = etype.image or id
     etype.basePrice = etype.basePrice or 8
 
-    etype.description = DESC
+    etype.description = interpDesc
 
     lp.defineItem("lootplot.s0:" .. id, etype)
 end
