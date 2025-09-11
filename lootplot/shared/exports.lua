@@ -1080,6 +1080,19 @@ function lp.forceCloneSlot(cloneEnt, ppos)
 end
 
 
+--- Tries to clone a slot, using `lp.trySetItem`.
+--- If a slot already exists, the old slot is deleted.
+---@param cloneEnt Entity
+---@param ppos lootplot.PPos
+---@return Entity?
+function lp.tryCloneSlot(cloneEnt, ppos)
+    if not lp.posToSlot(ppos) then
+        return lp.forceCloneSlot(cloneEnt, ppos)
+    end
+    return nil
+end
+
+
 
 
 

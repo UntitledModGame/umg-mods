@@ -84,6 +84,9 @@ defineCard("star_card", "Star Card", {
     shape = lp.targets.VerticalShape(1),
     target = {
         type = "ITEM",
+        target = function(ent, ppos, targEnt)
+            return targEnt.target and targEnt.shape
+        end
     },
 
     onActivate = shuffleTargetShapes
@@ -205,6 +208,16 @@ defineCard("spades_card", "Spades Card", {
 
     target = {
         type = "ITEM",
+        target = function(ent, ppos, targEnt)
+            if lp.curses.isCurse(targEnt) then
+                return false
+            end
+
+            if targEnt.stuck then
+                return false
+            end
+            return true
+        end
     },
 
     onActivate = function(selfEnt)

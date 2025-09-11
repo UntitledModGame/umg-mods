@@ -125,7 +125,7 @@ defDestructive("empty_cauldron", "Empty Cauldron", {
         if not selfSlot then return end
 
         for _,ppos in ipairs(posList) do
-            lp.forceCloneSlot(selfSlot, ppos)
+            lp.tryCloneSlot(selfSlot, ppos)
         end
     end,
 
