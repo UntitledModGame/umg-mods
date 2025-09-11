@@ -716,6 +716,9 @@ defineStartingItem("aether_ball", {
 
         lp.forceSpawnItem(assert(ppos:move(4,0)), server.entities.blank_eraser, team, true)
 
+        spawnDoomClockAndButtons(ent)
+        spawnCurses(ent)
+
         do
         local b = assert(lp.trySpawnItem(assert(ppos:move(-4,1)), server.entities.white_balloon, team, true))
         lp.targets.setShape(b, lp.targets.KingShape(3))
@@ -742,9 +745,6 @@ defineStartingItem("aether_ball", {
                 end
             end
         end)
-
-        spawnDoomClockAndButtons(ent)
-        spawnCurses(ent)
 
         clearFogInCircle(ppos, team, 4)
     end
