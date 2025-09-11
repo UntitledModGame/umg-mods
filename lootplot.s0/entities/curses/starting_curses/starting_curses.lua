@@ -247,10 +247,6 @@ defCurse("red_note_curse", "Red Note Curse", {
             end
         end
     end,
-
-    isInvincible = function()
-        return true
-    end
 })
 
 
