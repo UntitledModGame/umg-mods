@@ -158,7 +158,7 @@ end
 defShards("coal_shards", "Coal Shards",
     coalShardActivate, "Adds {lootplot:POINTS_MULT_COLOR}+0.5 mult{/lootplot:POINTS_MULT_COLOR} to slots.\nThen, destroy self.", {
     rarity = lp.rarities.COMMON,
-    basePrice = 6,
+    basePrice = 3,
 })
 
 end
