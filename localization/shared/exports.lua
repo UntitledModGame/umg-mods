@@ -15,7 +15,11 @@ local EXPORT_ON_EXIT = true
 
 
 ---@type table<string, table<string, string>>
-local translatedKeys = {}
+local translatedKeys = {--[[
+    [modname] -> {
+        [string] -> translatedString
+    }
+]]}
 
 
 ---@class localization.InterpolatorObject: objects.Class
@@ -67,12 +71,12 @@ local strTc = typecheck.assert("string")
 ---@return localization.Interpolator
 function localization.newInterpolator(text, context)
     strTc(text)
-    local loadingContext = assert(umg.getLoadingContext(), "this can only be called at load-time")
-    local key = loadingContext.modname.."\0"..text
+    local lctx = assert(umg.getLoadingContext(), "this can only be called at load-time")
+    local key = lctx.modname.."\0"..text
     local interpolator = interpolators[key]
 
     if not interpolator then
-        interpolator = Interpolator(loadingContext.modname, text)
+        interpolator = Interpolator(lctx.modname, text)
         interpolators[key] = interpolator
     end
 
@@ -92,31 +96,67 @@ function localization.localize(text, variables, context)
 end
 
 
----@param modname string
+local function loadTranslations(modname, locs)
+    if not translatedKeys[modname] then
+        translatedKeys[modname] = {}
+    end
+
+    -- TODO: Handle pluralization
+    for k, v in pairs(locs) do
+        translatedKeys[modname][k] = v
+    end
+end
+
+
 ---@param fsysobj umg.FilesystemObject
 ---@param path string
-local function tryLoad(modname, fsysobj, path)
+---@return table?
+local function readJson(fsysobj, path)
     if fsysobj:exists(path) then
         local locData, err = fsysobj:read(path)
         if locData then
             local status, locs = pcall(json.decode, locData)
             if status then
-                if not translatedKeys[modname] then
-                    translatedKeys[modname] = {}
-                end
-
-                -- TODO: Handle pluralization
-                for k, v in pairs(locs) do
-                    translatedKeys[modname][k] = v
-                end
+                return locs
             else
-                umg.log.error("unable to load localization for mod '"..modname.."': "..locs)
+                umg.log.error("unable to load localization: "..locs)
             end
         else
-            umg.log.error("unable to load localization for mod '"..modname.."': "..err)
+            umg.log.error("unable to load localization: "..err)
         end
     end
 end
+
+
+---Load localization DIRECTLY.
+---This supports data from multiple mods.
+--- { [mod] -> { str -> str }}
+---
+---Note: currently does nothing server-side.
+---
+---Availability: Client and Server
+---@param fsysobj umg.FilesystemObject
+function localization.loadGlobal(fsysobj)
+    if not client then
+        return
+    end
+
+    local lang = client.getLanguage()
+    local countryCodeOnly = lang:match("(%l%l)-%u%u")
+    if countryCodeOnly then
+        local globalTabl = readJson(fsysobj, "global_localization/"..countryCodeOnly..".json") or {}
+        for modname, tabl in pairs(globalTabl) do
+            loadTranslations(modname, tabl)
+        end
+    end
+
+    local globalTabl = readJson(fsysobj, "global_localization/"..lang..".json") or {}
+    for modname, tabl in pairs(globalTabl) do
+        loadTranslations(modname, tabl)
+    end
+end
+
+
 
 ---Load localization data from filesystem object (callable only during initialization).
 ---
@@ -124,20 +164,25 @@ end
 ---
 ---Availability: Client and Server
 ---@param fsysobj umg.FilesystemObject
-function localization.load(fsysobj)
-    if client then
-        local loadingContext = assert(umg.getLoadingContext(), "this can only be called at load-time")
-        local lang = client.getLanguage()
-
-        -- Localization file without country-specific code has lower priority.
-        local countryCodeOnly = lang:match("(%l%l)_%u%u")
-        if countryCodeOnly then
-            tryLoad(loadingContext.modname, fsysobj, countryCodeOnly..".json")
-        end
-
-        tryLoad(loadingContext.modname, fsysobj, lang..".json")
+function localization.loadMod(fsysobj)
+    if not client then
+        return
     end
+    local lctx = assert(umg.getLoadingContext(), "this can only be called at load-time")
+    local lang = client.getLanguage()
+
+    -- Localization file without country-specific code has lower priority.
+    local countryCodeOnly = lang:match("(%l%l)-%u%u")
+    if countryCodeOnly then
+        local tabl = readJson(fsysobj, "localization/"..countryCodeOnly..".json")
+        if tabl then loadTranslations(lctx.modname, tabl) end
+    end
+
+    local tabl = readJson(fsysobj, "localization/"..lang..".json")
+    if tabl then loadTranslations(lctx.modname, tabl) end
 end
+
+
 
 
 if EXPORT_ON_EXIT then
