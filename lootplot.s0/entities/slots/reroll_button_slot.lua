@@ -4,6 +4,7 @@ local helper = require("shared.helper")
 
 
 local COST_TEXT = localization.newInterpolator("{lootplot:MONEY_COLOR}{wavy amp=0.5 k=0.5}{outline}Cost: $%{cost}")
+local CANT_AFFORD_TEXT = localization.newInterpolator("{c r=0.87 g=0 b=0}{wavy amp=0.5 k=0.5}{outline}Cost: $%{cost}")
 local FREE_TEXT = localization.newInterpolator("{c r=0.5 g=1 b=0.4}{wavy amp=0.5 k=0.5}{outline}Get: $%{cost}")
 
 return lp.defineSlot("lootplot.s0:reroll_button_slot", {
@@ -17,11 +18,18 @@ return lp.defineSlot("lootplot.s0:reroll_button_slot", {
 
     onDraw = function(ent, x, y, rot, sx,sy)
         local cost = -(ent.moneyGenerated or 0)
+        local moneh = lp.getMoney(ent) or 0
         local costTxt
         if cost > 0 then
-            costTxt = COST_TEXT({
-                cost = cost
-            })
+            if moneh >= cost then
+                costTxt = COST_TEXT({
+                    cost = cost
+                })
+            else
+                costTxt = CANT_AFFORD_TEXT({
+                    cost = cost
+                })
+            end
         else
             costTxt = FREE_TEXT({
                 cost = -cost

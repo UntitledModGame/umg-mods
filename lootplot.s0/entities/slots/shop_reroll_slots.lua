@@ -251,15 +251,20 @@ end
 
 
 local PRICE_TEXT = interp("$%{price}")
+local NEGATIVE_PRICE_COLOR = objects.Color.fromByteRGBA(3, 252, 111)
 local PRICE_COLOR = objects.Color.fromByteRGBA(252, 211, 3)
-local GREEN_PRICE_COLOR = objects.Color.fromByteRGBA(100, 252, 30)
+local CANT_AFFORD_COLOR = objects.Color.fromByteRGBA(222, 0, 0)
 
 local function drawItemPrice(slotEnt, itemEnt)
     if slotEnt.itemLock and itemEnt.price then
-        if itemEnt.price > 0 then
+        local money = lp.getMoney(slotEnt) or 0
+
+        if itemEnt.price <= 0 then
+            love.graphics.setColor(NEGATIVE_PRICE_COLOR)
+        elseif money > itemEnt.price then
             love.graphics.setColor(PRICE_COLOR)
         else
-            love.graphics.setColor(GREEN_PRICE_COLOR)
+            love.graphics.setColor(CANT_AFFORD_COLOR)
         end
         printCenterWithOutline(PRICE_TEXT(itemEnt), itemEnt.x, itemEnt.y, 0, 0.75, 0.75, 20, 0, 0)
     end
