@@ -95,6 +95,14 @@ umg.on("lootplot:entityTriggered", function (triggerName, ent)
     end
 end)
 
+umg.on("lootplot:entityActivated", function(ent)
+    if lp.isItemEntity(ent) and isEnabled then
+        setSeen(ent:getEntityType():getTypename())
+    end
+end)
+
+
+
 
 local function trySaveTables()
     if outOfDate then
