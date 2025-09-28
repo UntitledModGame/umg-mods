@@ -2,6 +2,7 @@ local fonts = require("client.fonts")
 local globalScale = require("client.globalScale")
 local helper = require("client.states.helper")
 
+local loc = localization.localize
 
 local StretchableBox = require("client.elements.StretchableBox")
 local StretchableButton = require("client.elements.StretchableButton")
@@ -10,6 +11,9 @@ local UNKNOWN_PERK = localization.localize("Unknown Perk")
 local NEW_RUN_STRING = localization.localize("Starting a new\nrun will\noverwrite your\nexisting run.")
 local RUN_INFO_STRING = localization.newInterpolator("Level: %{level}\nRound: %{round}/%{maxRound}\n\nPerk: %{perk}\n%{perkDescription}")
 
+local CONTINUE_RUN_Q = loc("Continue Run?")
+local START_NEW_RUN = loc("Start New Run")
+local CONTINUE_RUN = loc("Continue Run")
 
 
 ---@class lootplot.singleplayer.ContinueRunDialog: Element
@@ -46,7 +50,7 @@ function ContinueRunDialog:init(args)
         scale = 2
     })
     e.title = ui.elements.Text({
-        text = "Continue Run?",
+        text = CONTINUE_RUN_Q,
         color = objects.Color.WHITE,
         outline = 2,
         outlineColor = objects.Color.BLACK,
@@ -54,14 +58,14 @@ function ContinueRunDialog:init(args)
     })
     e.newRunButton = StretchableButton({
         onClick = args.startRun,
-        text = "Start New Run",
+        text = START_NEW_RUN,
         scale = 2,
         color = objects.Color(1,1,1,1):setHSL(340, 0.7, 0.5),
         font = fonts.getLargeFont(),
     })
     e.continueRunButton = StretchableButton({
         onClick = args.continueRun,
-        text = "Continue Run",
+        text = CONTINUE_RUN,
         scale = 2,
         color = objects.Color(1,1,1,1):setHSL(184, 0.7, 0.5),
         font = fonts.getLargeFont(),

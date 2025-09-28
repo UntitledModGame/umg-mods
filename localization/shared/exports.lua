@@ -144,13 +144,13 @@ function localization.loadGlobal(fsysobj)
     local lang = client.getLanguage()
     local countryCodeOnly = lang:match("(%l%l)-%u%u")
     if countryCodeOnly then
-        local globalTabl = readJson(fsysobj, "global_localization/"..countryCodeOnly..".json") or {}
+        local globalTabl = readJson(fsysobj, countryCodeOnly..".json") or {}
         for modname, tabl in pairs(globalTabl) do
             loadTranslations(modname, tabl)
         end
     end
 
-    local globalTabl = readJson(fsysobj, "global_localization/"..lang..".json") or {}
+    local globalTabl = readJson(fsysobj, lang..".json") or {}
     for modname, tabl in pairs(globalTabl) do
         loadTranslations(modname, tabl)
     end
