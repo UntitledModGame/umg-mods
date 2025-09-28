@@ -27,8 +27,11 @@ shapes.CircleShape = CircleShape
 
 ---@alias lootplot.targets.ShapeFactory fun(size, name): lootplot.targets.ShapeData
 
+local function l(txt)
+    return localization.localize(txt)
+end
 
-
+local ROOK_STR = l("ROOK")
 ---@param size integer?
 ---@param name string?
 ---@return lootplot.targets.ShapeData
@@ -38,10 +41,12 @@ function shapes.RookShape(size, name)
         UniDirectionalShape(0, 1, size),
         UniDirectionalShape(-1, 0, size),
         UniDirectionalShape(0, -1, size),
-        name or ("ROOK-" .. tostring(size))
+        name or (ROOK_STR .. "-" .. tostring(size))
     )
 end
 
+--- BISHOP Shape
+local BISHOP_STR = l("BISHOP")
 ---@param size integer?
 ---@param name string?
 ---@return lootplot.targets.ShapeData
@@ -51,30 +56,39 @@ function shapes.BishopShape(size, name)
         UniDirectionalShape(-1, 1, size),
         UniDirectionalShape(-1, -1, size),
         UniDirectionalShape(1, -1, size),
-        name or ("BISHOP-" .. tostring(size))
+        name or (BISHOP_STR .. "-" .. tostring(size))
     )
 end
 
+local QUEEN_STR = l("QUEEN")
 ---@param size integer?
 ---@return lootplot.targets.ShapeData
 function shapes.QueenShape(size, name)
     return UnionShape(
         shapes.RookShape(size),
         shapes.BishopShape(size),
-        name or ("QUEEN-" .. tostring(size))
+        name or (QUEEN_STR .. "-" .. tostring(size))
     )
 end
 
 
 -- Pre-defined shape instance
-shapes.KING_SHAPE = KingShape(1)
-shapes.LARGE_KING_SHAPE = KingShape(2)
-shapes.ROOK_SHAPE = shapes.RookShape(MAX_DISTANCE, "ROOK-BIG")
-shapes.BISHOP_SHAPE = shapes.BishopShape(MAX_DISTANCE, "BISHOP-BIG")
-shapes.QUEEN_SHAPE = UnionShape(shapes.ROOK_SHAPE, shapes.BISHOP_SHAPE, "QUEEN-BIG")
+
+local KING_STR = l("KING")
+shapes.KING_SHAPE = KingShape(1, KING_STR .. "-1")
+shapes.LARGE_KING_SHAPE = KingShape(2, KING_STR .. "-2")
+
+local ROOK_BIG_STR = l("ROOK-BIG")
+local BISHOP_BIG_STR = l("BISHOP-BIG")
+local QUEEN_BIG_STR = l("QUEEN-BIG")
+shapes.ROOK_SHAPE = shapes.RookShape(MAX_DISTANCE, ROOK_BIG_STR)
+shapes.BISHOP_SHAPE = shapes.BishopShape(MAX_DISTANCE, BISHOP_BIG_STR)
+shapes.QUEEN_SHAPE = UnionShape(shapes.ROOK_SHAPE, shapes.BISHOP_SHAPE, QUEEN_BIG_STR)
+
+local KNIGHT_STR = l("KNIGHT")
 ---@type lootplot.targets.ShapeData
 shapes.KNIGHT_SHAPE = {
-    name = "KNIGHT",
+    name = KNIGHT_STR,
     relativeCoords = {
         {-2, -1},
         {-1, -2},
@@ -87,8 +101,9 @@ shapes.KNIGHT_SHAPE = {
     }
 }
 
+local ON_STR = l("ON")
 shapes.ON_SHAPE = {
-    name = "ON",
+    name = ON_STR,
     relativeCoords = {
         {0,0}
     }
@@ -109,35 +124,40 @@ function shapes.SouthWestShape(x)
 end
 
 
+local UP_STR = l("UP")
 function shapes.UpShape(x)
-    return UniDirectionalShape(0, -1, x, "UP-" .. tostring(x))
+    return UniDirectionalShape(0, -1, x, UP_STR .. "-" .. tostring(x))
 end
+local DOWN_STR = l("DOWN")
 function shapes.DownShape(x)
-    return UniDirectionalShape(0, 1, x, "DOWN-" .. tostring(x))
+    return UniDirectionalShape(0, 1, x, DOWN_STR .. "-" .. tostring(x))
 end
+local LEFT_STR = l("LEFT")
 function shapes.LeftShape(x)
-    return UniDirectionalShape(-1, 0, x, "LEFT-" .. tostring(x))
+    return UniDirectionalShape(-1, 0, x, LEFT_STR .. "-" .. tostring(x))
 end
+local RIGHT_STR = l("RIGHT")
 function shapes.RightShape(x)
-    return UniDirectionalShape(1, 0, x, "RIGHT-" .. tostring(x))
+    return UniDirectionalShape(1, 0, x, RIGHT_STR .. "-" .. tostring(x))
 end
 
+local HORIZONTAL_STR = l("HORIZONTAL")
 function shapes.HorizontalShape(x)
     return UnionShape(
         shapes.LeftShape(x),
         shapes.RightShape(x),
-        "HORIZONTAL-" .. tostring(x)
+        HORIZONTAL_STR .. "-" .. tostring(x)
     )
 end
 
+local VERTICAL_STR = l("VERTICAL")
 function shapes.VerticalShape(x)
     return UnionShape(
         shapes.UpShape(x),
         shapes.DownShape(x),
-        "VERTICAL-" .. tostring(x)
+        VERTICAL_STR .. "-" .. tostring(x)
     )
 end
-
 
 
 shapes.UP_SHAPE = shapes.UpShape(1)
@@ -145,7 +165,8 @@ shapes.DOWN_SHAPE = shapes.DownShape(1)
 shapes.LEFT_SHAPE = shapes.LeftShape(1)
 shapes.RIGHT_SHAPE = shapes.RightShape(1)
 
-shapes.LEFT_RIGHT_SHAPE = UnionShape(shapes.LEFT, shapes.RIGHT, "LEFT-RIGHT")
+local LEFT_RIGHT_STR = l("LEFT-RIGHT")
+shapes.LEFT_RIGHT_SHAPE = UnionShape(shapes.LEFT_SHAPE, shapes.RIGHT_SHAPE, LEFT_RIGHT_STR)
 
 
 return shapes
