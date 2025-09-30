@@ -1333,6 +1333,8 @@ definePie("rooks_pie", "Rook's Pie", "Adds {lootplot.targets:COLOR}ROOK-4{/lootp
 
 
 local RANDOM_SHAPES = {
+    lp.targets.UpShape(1),
+    lp.targets.DownShape(1),
     lp.targets.HorizontalShape(3),
     lp.targets.VerticalShape(3),
     lp.targets.KingShape(1),
@@ -1345,6 +1347,7 @@ local RANDOM_SHAPES = {
     lp.targets.QueenShape(2),
     lp.targets.RookShape(1),
     lp.targets.RookShape(2),
+    lp.targets.CircleShape(8),
 }
 
 defineFood("randomizer_pie", {
