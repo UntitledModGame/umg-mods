@@ -339,7 +339,7 @@
         "Activates and destroys item": "\u0410\u043a\u0442\u0438\u0432\u0438\u0440\u0443\u0435\u0442 \u0438 \u0443\u043d\u0438\u0447\u0442\u043e\u0436\u0430\u0435\u0442 \u043f\u0440\u0435\u0434\u043c\u0435\u0442",
         "Iron Pieces": "\u0416\u0435\u043b\u0435\u0437\u043d\u044b\u0435 \u043a\u0443\u0441\u043a\u0438",
         "Coal Shards": "\u0423\u0433\u043e\u043b\u044c\u043d\u044b\u0435 \u043e\u0441\u043a\u043e\u043b\u043a\u0438",
-        "If item is {lootplot:DOOMED_COLOR}DOOMED{/lootplot:DOOMED_COLOR}, Give it a {lootplot:POINT_MULT_COLOR}4x point multiplier.": "\u0415\u0441\u043b\u0438 \u041f\u0440\u0435\u0434\u043c\u0435\u0442 {lootplot:DOOMED_COLOR}\u041e\u0431\u0440\u0435\u0447\u0451\u043d\u043d\u044b\u0439{/lootplot:DOOMED_COLOR}, \u0434\u0430\u0439\u0442\u0435 \u0435\u043c\u0443 {lootplot:POINT_MULT_COLOR}\u043c\u043d\u043e\u0436\u0438\u0442\u0435\u043b\u044c \u043e\u0447\u043a\u043e\u0432 4x[].",
+        "If item is {lootplot:DOOMED_COLOR}DOOMED{/lootplot:DOOMED_COLOR}, Give it a {lootplot:POINT_MULT_COLOR}4x point multiplier.": "\u0415\u0441\u043b\u0438 \u041f\u0440\u0435\u0434\u043c\u0435\u0442 {lootplot:DOOMED_COLOR}\u041e\u0431\u0440\u0435\u0447\u0451\u043d\u043d\u044b\u0439{/lootplot:DOOMED_COLOR}, \u0434\u0430\u0439\u0442\u0435 \u0435\u043c\u0443 {lootplot:POINT_MULT_COLOR}\u043c\u043d\u043e\u0436\u0438\u0442\u0435\u043b\u044c \u043e\u0447\u043a\u043e\u0432 4x.",
         "0 Cent Ticket": "\u0411\u0438\u043b\u0435\u0442 \u043d\u0430 0 \u0446\u0435\u043d\u0442\u043e\u0432",
         "$%{price}": "$%{price}",
         "Doomed Turnip": "\u041e\u0431\u0440\u0435\u0447\u0451\u043d\u043d\u0430\u044f \u0440\u0435\u043f\u0430",
