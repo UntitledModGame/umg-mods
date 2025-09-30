@@ -1308,7 +1308,9 @@ defineStartingItemNoDifficulty("compendium_cat", {
             end)
         end
 
-        lp.forceSpawnSlot(posp, server.entities.pulse_button_slot, team)
+        lp.forceSpawnSlot(assert(posp:move(1,0)), server.entities.pulse_button_slot, team)
+        lp.forceSpawnSlot(assert(posp:move(-1,0)), server.entities.compendium_button_slot, team)
+
         lp.forceSpawnSlot(assert(posp:move(0, 4)), server.entities.key_cloth_slot, team)
         lp.forceSpawnSlot(assert(posp:move(0, 2)), server.entities.reroll_button_slot, team)
         lp.forceSpawnSlot(assert(posp:move(0, -2)), server.entities.rotate_slot, team)
