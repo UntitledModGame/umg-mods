@@ -226,11 +226,12 @@ defItem("map", "Map", {
     activateDescription = loc("Reveals fog."),
 
     rarity = lp.rarities.RARE,
-    triggers = {"PULSE"},
 
-    shape = lp.targets.CircleShape(8),
+    shape = lp.targets.CircleShape(6),
 
-    doomCount = 1,
+    foodItem = true,
+    canItemFloat = true,
+
     basePrice = 6,
 
     target = {
