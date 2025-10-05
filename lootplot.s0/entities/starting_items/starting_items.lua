@@ -720,23 +720,32 @@ defineStartingItem("aether_ball", {
         spawnCurses(ent)
 
         do
+        local SHAPE = lp.targets.KingShape(9)
+
         local b = assert(lp.trySpawnItem(assert(ppos:move(-4,1)), server.entities.white_balloon, team, true))
-        lp.targets.setShape(b, lp.targets.KingShape(3))
+        lp.targets.setShape(b, SHAPE)
 
         b = assert(lp.trySpawnItem(assert(ppos:move(-5,1)), server.entities.white_balloon, team, true))
-        lp.targets.setShape(b, lp.targets.KingShape(3))
+        lp.targets.setShape(b, SHAPE)
 
         b = assert(lp.trySpawnItem(assert(ppos:move(-4,2)), server.entities.white_balloon, team, true))
-        lp.targets.setShape(b, lp.targets.KingShape(3))
+        lp.targets.setShape(b, SHAPE)
         end
 
+        local TREASURE_CHANCE = 0.01
         local STONE_CHANCE = 0.65
         local STONE_SLOT_INVINCIBILITY_CHANCE = 0.55
 
         local plot = ppos:getPlot()
         plot:foreach(function(pos)
-            if lp.SEED:randomWorldGen() < STONE_CHANCE then
-                if not lp.posToItem(pos) then
+            local r = lp.SEED:randomWorldGen()
+            if not lp.posToItem(pos) then
+                if r < TREASURE_CHANCE then
+                    local slotEnt = lp.trySpawnSlot(pos, server.entities.null_slot, team)
+                    if slotEnt then
+                        lp.forceSpawnItem(pos, server.entities.chest_legendary, team)
+                    end
+                elseif r < STONE_CHANCE then
                     -- (dont set it as player-team; coz then it removes fog)
                     local slotEnt = lp.trySpawnSlot(pos, server.entities.stone_slot, "@")
                     if slotEnt and (lp.SEED:randomWorldGen() < STONE_SLOT_INVINCIBILITY_CHANCE) then
