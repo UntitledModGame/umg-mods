@@ -261,7 +261,7 @@ local function drawItemPrice(slotEnt, itemEnt)
 
         if itemEnt.price <= 0 then
             love.graphics.setColor(NEGATIVE_PRICE_COLOR)
-        elseif money > itemEnt.price then
+        elseif money >= itemEnt.price then
             love.graphics.setColor(PRICE_COLOR)
         else
             love.graphics.setColor(CANT_AFFORD_COLOR)
