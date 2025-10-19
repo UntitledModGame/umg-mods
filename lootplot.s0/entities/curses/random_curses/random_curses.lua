@@ -502,6 +502,7 @@ defCurse("orca_curse", "Orca Curse", {
 defCurse("medusa_curse", "Medusa Curse", {
     activateDescription = loc("Transforms a random empty-slot into stone"),
 
+    doomCount = 6,
     onActivate = function (ent)
         local slots = getSlotsNoButtons(ent, function (e, ppos)
             return (not lp.posToItem(ppos))
@@ -551,6 +552,22 @@ defCurse("cursed_joker_cat", "Cursed Joker Cat", {
         end)
     end
 }, NO_SF)
+
+
+
+defCurse("shop_demon", "Shop Demon", {
+    listen = {
+        type = "ITEM",
+        trigger = "BUY",
+    },
+
+    triggers = {},
+    baseMaxActivations = 30,
+    baseMoneyGenerated = -3,
+    canGoIntoDebt = true,
+    shape = lp.targets.RookShape(7),
+}, FLOATY_SF)
+
 
 
 
