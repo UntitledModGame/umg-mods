@@ -767,12 +767,12 @@ defineStartingItem("aether_ball", {
 
 
 
-local THREE_BALL_UNLOCK = 4
-defineStartingItem("three_ball", {
-    name = loc("Three Ball"),
-    description = loc("Race against time"),
+local AZAZEL_BALL_UNLOCK = 4
+defineStartingItem("azazel_ball", {
+    name = loc("Azazel Ball"),
+    description = loc("Evil agreements..."),
 
-    unlockAfterWins = THREE_BALL_UNLOCK,
+    unlockAfterWins = AZAZEL_BALL_UNLOCK,
     -- winAchievement = "WIN_BOWLING_BALL",
 
     onActivateOnce = function(ent)
@@ -781,31 +781,66 @@ defineStartingItem("three_ball", {
         lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
         lp.setAttribute("ROUND", ent, 1)
 
-        local w,h = ppos:getPlot():getDimensions()
-        local DX = w/3
+        local shopDx=-1
+        spawnRerollButton(ent, shopDx,0)
+        spawnShop(ent, shopDx,0)
+        spawnSell(ent, 0,2)
 
-        for dx=-DX,DX do
-            ppos:getPlot():setFogRevealed(assert(ppos:move(dx,0)), team, true)
+        lp.forceSpawnSlot(assert(ppos:move(0,-1)), server.entities.reversal_button_slot, team)
+        lp.forceSpawnSlot(assert(ppos:move(0,1)), server.entities.curse_button_slot, team)
+
+        wg.spawnSlots(ppos, server.entities.gravel_slot, 3,5, team)
+        wg.spawnSlots(ppos, server.entities.stone_slot, 5,7, team, function (ent)
+            if lp.SEED:randomWorldGen() < 0.4 then
+                lp.modifierBuff(ent, "multGenerated", 2)
+            end
+        end)
+
+
+        local function randomItemType()
+            if lp.SEED:randomWorldGen() < 0.1 then
+                return lp.rarities.randomItemOfRarity(lp.rarities.LEGENDARY)
+            elseif lp.SEED:randomWorldGen() < 0.5 then
+                return lp.rarities.randomItemOfRarity(lp.rarities.RARE)
+            else
+                return lp.rarities.randomItemOfRarity(lp.rarities.EPIC)
+            end
         end
 
-        spawnRerollButton(ent, -DX,0)
-        spawnShop(ent, -DX,0)
-        spawnSell(ent, -DX,0)
-        spawnNormal(ent, -DX,0)
+        local function spawnOffer(p)
+            local s = lp.trySpawnSlot(p, server.entities.offer_slot, team)
+            if s then
+                lp.trySpawnItem(p, randomItemType(), team)
+            end
+        end
 
-        -- red-note curse
+        -- spawn offer-slots
         do
-        local p = assert(ppos:move(DX,0))
-        wg.spawnSlots(p, server.entities.stone_slot, 5,3, team)
-        local slt = lp.posToSlot(p)
-        if slt then lp.destroy(slt) end
-        lp.forceSpawnItem(p, server.entities.red_note_curse, team, true)
+        local xx,yy = ppos:getCoords()
+        local dx = 6
+        xx = xx + dx
+
+        local demonPos = assert(ppos:getPlot():getPPos(xx,yy))
+        lp.forceSpawnSlot(demonPos, server.entities.gravel_slot, team)
+        local shopDemon = lp.forceSpawnItem(demonPos, server.entities.shop_demon, team, true)
+        if shopDemon then
+            lp.targets.setShape(shopDemon, lp.targets.KingShape(2))
+            shopDemon.baseMoneyGenerated = -20
         end
 
-        spawnDoomClockAndButtons(ent, -DX,0)
-        spawnCurses(ent, -DX,0)
+        ppos:getPlot():foreachInArea(xx-2,yy-2, xx+2,yy+2, function (pos)
+            local x,y = pos:getCoords()
+            local ddx, ddy = xx-x, yy-y
+            if math.abs(ddx) >= 2 or math.abs(ddy) >= 2 then
+                spawnOffer(pos)
+            end
+        end)
+        end
 
-        clearFogInCircle(assert(ppos:move(-DX,0)), team, 4)
+        spawnDoomClockAndButtons(ent, 0,0)
+        spawnCurses(ent, 0,0)
+
+        clearFogInCircle(ppos, team, 4)
     end
 })
 

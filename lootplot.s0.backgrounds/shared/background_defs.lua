@@ -11,6 +11,7 @@ local voidCtor = nil
 local starCtor = nil
 local aquaCtor = nil
 local crimsonCtor = nil
+local azazelCtor = nil
 local skahdsCosmos = nil
 local heavenlyBg = nil
 
@@ -151,6 +152,18 @@ end
 
 
 
+function azazelCtor()
+    return CloudBackground({
+        worldX = -W/2 + DELTA, worldY = -H/2 + DELTA,
+        worldWidth = W, worldHeight = H,
+        numberOfClouds = 0,
+
+        backgroundColor = objects.Color("#" .. "FF1F000C"),
+        cloudColor = objects.Color("#" .. "FF4B001D"),
+    })
+end
+
+
 local cosmicBackground = require("client.cosmicBackground")
 
 function skahdsCosmos()
@@ -284,4 +297,13 @@ lp.backgrounds.registerBackground("lootplot.s0.backgrounds:crimson_background", 
     icon = "crimson_background",
 })
 
+
+
+lp.backgrounds.registerBackground("lootplot.s0.backgrounds:azazel_background", {
+    name = loc("Azazel"),
+    constructor = azazelCtor,
+    isUnlocked = winToUnlock(),
+    fogColor = objects.Color("#" .. "FFD90A0A"),
+    icon = "crimson_background",
+})
 
