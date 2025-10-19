@@ -18,7 +18,7 @@ local function loadRunServer()
         ---@type lootplot.singleplayer.RunSerialized
         local runSerialized, msg = umg.deserialize((assert(save:read(RUN_FILENAME))))
         if not runSerialized then
-            umg.log.error("Cannot serialize run: "..msg)
+            umg.log.error("Cannot serialize run: "..tostring(msg))
         else
             assert(runSerialized)
         end
