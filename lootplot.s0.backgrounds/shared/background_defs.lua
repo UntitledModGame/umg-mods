@@ -271,10 +271,20 @@ lp.backgrounds.registerBackground("lootplot.s0.backgrounds:popcorn_background", 
 })
 
 
+lp.backgrounds.registerBackground("lootplot.s0.backgrounds:azazel_background", {
+    name = loc("Azazel"),
+    constructor = azazelCtor,
+    isUnlocked = winToUnlock(),
+    fogColor = objects.Color("#" .. "FFD90A0A"),
+    icon = "azazel_background",
+})
+
+
+
 lp.backgrounds.registerBackground("lootplot.s0.backgrounds:heavenly_background", {
     name = loc("Heavenly Dimension"),
     constructor = heavenlyBg,
-    isUnlocked = winToUnlock(1),
+    isUnlocked = winToUnlock(),
     icon = "heavenly_background",
     fogColor = objects.Color("#" .. "FF180606")
 })
@@ -294,16 +304,6 @@ lp.backgrounds.registerBackground("lootplot.s0.backgrounds:crimson_background", 
     constructor = crimsonCtor,
     isUnlocked = winToUnlock(),
     fogColor = objects.Color("#" .. "FF0F0003"),
-    icon = "crimson_background",
-})
-
-
-
-lp.backgrounds.registerBackground("lootplot.s0.backgrounds:azazel_background", {
-    name = loc("Azazel"),
-    constructor = azazelCtor,
-    isUnlocked = winToUnlock(),
-    fogColor = objects.Color("#" .. "FFD90A0A"),
     icon = "crimson_background",
 })
 

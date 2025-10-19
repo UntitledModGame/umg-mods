@@ -696,78 +696,7 @@ defineStartingItem("blank_ball", {
 
 
 
-local AETHER_BALL_UNLOCK = 4
-defineStartingItem("aether_ball", {
-    name = loc("Aether Ball"),
-    description = loc("No slots, only sky!"),
-
-    unlockAfterWins = AETHER_BALL_UNLOCK,
-    -- winAchievement = "WIN_BOWLING_BALL",
-
-    onActivateOnce = function(ent)
-        local ppos, team = getPosTeam(ent)
-        lp.setMoney(ent, constants.STARTING_MONEY)
-        lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
-        lp.setAttribute("ROUND", ent, 1)
-
-        spawnRerollButton(ent)
-        spawnShop(ent)
-        spawnSell(ent)
-
-        lp.forceSpawnItem(assert(ppos:move(4,0)), server.entities.blank_eraser, team, true)
-
-        spawnDoomClockAndButtons(ent)
-        spawnCurses(ent)
-
-        do
-        local SHAPE = lp.targets.KingShape(9)
-
-        local b = assert(lp.trySpawnItem(assert(ppos:move(-4,1)), server.entities.white_balloon, team, true))
-        lp.targets.setShape(b, SHAPE)
-
-        b = assert(lp.trySpawnItem(assert(ppos:move(-5,1)), server.entities.white_balloon, team, true))
-        lp.targets.setShape(b, SHAPE)
-
-        b = assert(lp.trySpawnItem(assert(ppos:move(-4,2)), server.entities.white_balloon, team, true))
-        lp.targets.setShape(b, SHAPE)
-        end
-
-        local TREASURE_CHANCE = 0.01
-        local STONE_CHANCE = 0.65
-        local STONE_SLOT_INVINCIBILITY_CHANCE = 0.55
-
-        local plot = ppos:getPlot()
-        plot:foreach(function(pos)
-            local r = lp.SEED:randomWorldGen()
-            if not lp.posToItem(pos) then
-                if r < TREASURE_CHANCE then
-                    local slotEnt = lp.trySpawnSlot(pos, server.entities.null_slot, team)
-                    if slotEnt then
-                        lp.forceSpawnItem(pos, server.entities.chest_legendary, team)
-                    end
-                elseif r < STONE_CHANCE then
-                    -- (dont set it as player-team; coz then it removes fog)
-                    local slotEnt = lp.trySpawnSlot(pos, server.entities.stone_slot, "@")
-                    if slotEnt and (lp.SEED:randomWorldGen() < STONE_SLOT_INVINCIBILITY_CHANCE) then
-                        slotEnt.isInvincible = true
-                    end
-                end
-            end
-        end)
-
-        clearFogInCircle(ppos, team, 4)
-    end
-})
-
-
-
-
-
-
-
-
-
-local AZAZEL_BALL_UNLOCK = 4
+local AZAZEL_BALL_UNLOCK = 3
 defineStartingItem("azazel_ball", {
     name = loc("Azazel Ball"),
     description = loc("Evil agreements..."),
@@ -843,6 +772,79 @@ defineStartingItem("azazel_ball", {
         clearFogInCircle(ppos, team, 4)
     end
 })
+
+
+
+
+
+
+
+local AETHER_BALL_UNLOCK = 4
+defineStartingItem("aether_ball", {
+    name = loc("Aether Ball"),
+    description = loc("No slots, only sky!"),
+
+    unlockAfterWins = AETHER_BALL_UNLOCK,
+    -- winAchievement = "WIN_BOWLING_BALL",
+
+    onActivateOnce = function(ent)
+        local ppos, team = getPosTeam(ent)
+        lp.setMoney(ent, constants.STARTING_MONEY)
+        lp.setAttribute("NUMBER_OF_ROUNDS", ent, constants.ROUNDS_PER_LEVEL)
+        lp.setAttribute("ROUND", ent, 1)
+
+        spawnRerollButton(ent)
+        spawnShop(ent)
+        spawnSell(ent)
+
+        lp.forceSpawnItem(assert(ppos:move(4,0)), server.entities.blank_eraser, team, true)
+
+        spawnDoomClockAndButtons(ent)
+        spawnCurses(ent)
+
+        do
+        local SHAPE = lp.targets.KingShape(9)
+
+        local b = assert(lp.trySpawnItem(assert(ppos:move(-4,1)), server.entities.white_balloon, team, true))
+        lp.targets.setShape(b, SHAPE)
+
+        b = assert(lp.trySpawnItem(assert(ppos:move(-5,1)), server.entities.white_balloon, team, true))
+        lp.targets.setShape(b, SHAPE)
+
+        b = assert(lp.trySpawnItem(assert(ppos:move(-4,2)), server.entities.white_balloon, team, true))
+        lp.targets.setShape(b, SHAPE)
+        end
+
+        local TREASURE_CHANCE = 0.01
+        local STONE_CHANCE = 0.65
+        local STONE_SLOT_INVINCIBILITY_CHANCE = 0.55
+
+        local plot = ppos:getPlot()
+        plot:foreach(function(pos)
+            local r = lp.SEED:randomWorldGen()
+            if not lp.posToItem(pos) then
+                if r < TREASURE_CHANCE then
+                    local slotEnt = lp.trySpawnSlot(pos, server.entities.null_slot, team)
+                    if slotEnt then
+                        lp.forceSpawnItem(pos, server.entities.chest_legendary, team)
+                    end
+                elseif r < STONE_CHANCE then
+                    -- (dont set it as player-team; coz then it removes fog)
+                    local slotEnt = lp.trySpawnSlot(pos, server.entities.stone_slot, "@")
+                    if slotEnt and (lp.SEED:randomWorldGen() < STONE_SLOT_INVINCIBILITY_CHANCE) then
+                        slotEnt.isInvincible = true
+                    end
+                end
+            end
+        end)
+
+        clearFogInCircle(ppos, team, 4)
+    end
+})
+
+
+
+
 
 
 
