@@ -238,7 +238,7 @@ do
 local ROBBER_PRICE_DECREASE = 4
 
 defItem("robbers_sack", "Robbers Sack", {
-    activateDescription = loc("Makes money negative.\nReduces price of items by ${decrease}.", {
+    activateDescription = loc("Makes money negative.\nReduces price of items by $%{decrease}.", {
         decrease = ROBBER_PRICE_DECREASE
     }),
 
