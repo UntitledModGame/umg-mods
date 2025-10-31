@@ -30,10 +30,13 @@ local Interpolator = objects.Class("localization:Interpolator")
 function Interpolator:init(modname, text, context)
     self.modname = modname
 
-    if translatedKeys[modname] and translatedKeys[modname][text] then
-        self.text = translatedKeys[modname][text]
-    else
-        self.text = text
+    self.text = text
+    if translatedKeys[modname] then
+        if translatedKeys[modname][text] then
+            self.text = translatedKeys[modname][text]
+        else
+            umg.log.warn("No translation for text: "..text)
+        end
     end
 
     --[[
