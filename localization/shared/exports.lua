@@ -131,6 +131,17 @@ local function readJson(fsysobj, path)
 end
 
 
+local function getLangCode(locale)
+    return locale:lower():match("^[^-^_]+")
+end
+
+assert(getLangCode("BR-br") == "br")
+assert(getLangCode("Br-br") == "br")
+assert(getLangCode("Br_br") == "br")
+assert(getLangCode("EN_us") == "en")
+assert(getLangCode("eN-nz") == "en")
+
+
 ---Load localization DIRECTLY.
 ---This supports data from multiple mods.
 --- { [mod] -> { str -> str }}
@@ -145,7 +156,7 @@ function localization.loadGlobal(fsysobj)
     end
 
     local lang = client.getLanguage()
-    local countryCodeOnly = lang:match("(%l%l)-%u%u")
+    local countryCodeOnly = getLangCode(lang)
     if countryCodeOnly then
         local globalTabl = readJson(fsysobj, countryCodeOnly..".json") or {}
         for modname, tabl in pairs(globalTabl) do
