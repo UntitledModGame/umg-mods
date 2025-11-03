@@ -180,7 +180,9 @@ defCurse("blank_eraser", "Blank Eraser", {
         local ppos = lp.getPos(ent)
         if not ppos then return end
         ppos:getPlot():foreachSlot(function(slotEnt, pp)
-            if not lp.hasTag(slotEnt, constants.tags.SHOP_SLOT) then
+            local isShop = lp.hasTag(slotEnt, constants.tags.SHOP_SLOT)
+            local isNull = slotEnt.image == "null_slot"
+            if not (isShop or isNull) then
                 if lp.slotToItem(slotEnt) then
                     lp.destroy(slotEnt)
                 end
