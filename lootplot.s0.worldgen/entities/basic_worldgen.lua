@@ -38,6 +38,25 @@ end
 
 
 
+---@param ppos lootplot.PPos
+---@param team string
+local function spawnButtonSlot(ppos, team)
+    local choices = {
+        "tax_button_slot", "curse_button_slot",
+        "death_button_slot"
+    }
+    local slotId = table.random(choices)
+    local slotEnt = server.entities[slotId]()
+    slotEnt.lootplotTeam = team
+    lp.unlocks.forceSpawnLockedSlot(ppos, slotEnt, nil)
+end
+
+
+
+
+
+
+
 local function spawnIncomeSlot(ppos, team, islandSize)
     local slotId = "lootplot.s0:slot"
     local slotEnt = server.entities[slotId]()
@@ -104,34 +123,14 @@ end
 local function canSpawnBigIsland(island, difficulty)
     local size = #island
     if (not difficulty) or (difficulty <= 0) then
-        return size >= 2
-    elseif difficulty <= 1 then
-        return (size >= 3)
+        return size >= 2 -- easy-mode: Tonnes of islands
     else
-        return size == 2 or size == 4
+        return (size >= 3) -- normal/hard: Medium number of islands.
     end
 end
 
 
 
-local SET_PIECES = {
-    {
-        chance = 1, -- chance of it occuring
-        func = function (self)
-            -- spawn a 3x3 island randomly in the world.
-            -- in the center, "tax_button_slot".
-            -- around edges, stone-slots
-        end
-    },
-
-    {
-        chance = 1, -- chance of it occuring
-        func = function (self)
-            -- spawn a 5x5 island randomly in the world.
-            -- In the center, there's a stone-slot that earns $5 when destroyed.
-        end
-    }
-}
 
 
 
@@ -168,10 +167,13 @@ defWorldgenItem("basic_worldgen", {
             if canSpawnBigIsland(island, difficulty) then
                 generateBigIsland(island, team)
             elseif #island == 1 then
-                if lp.SEED:randomWorldGen() < 0.5 then
+                local rand = lp.SEED:randomWorldGen() 
+                if rand < 0.4 then
                     spawnOfferSlot(island[1], team)
-                else
+                elseif rand < 0.9 then
                     spawnChest(island[1], team)
+                else
+                    spawnButtonSlot(island[1], team)
                 end
             end
         end

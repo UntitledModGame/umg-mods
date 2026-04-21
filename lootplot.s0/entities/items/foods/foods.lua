@@ -1665,7 +1665,9 @@ defineFood("nacho", {
 
     rarity = lp.rarities.UNCOMMON,
 
-    basePrice = 5,
+    unlockAfterWins = 2,
+
+    basePrice = 4,
 
     shape = lp.targets.KingShape(1),
 
