@@ -194,3 +194,18 @@ defItem("red_award", "Red Award", {
 
 
 
+
+
+
+defItem("golden_battery", "Golden Battery", {
+    triggers = {"PULSE"},
+
+    activateDescription = loc("If reached points requirement, increase price by {lootplot:MONEY_COLOR}$5{/lootplot:MONEY_COLOR}."),
+
+    basePointsGenerated = 30,
+    basePrice = 10,
+    baseMaxActivations = 2,
+
+    rarity = lp.rarities.RARE,
+})
+

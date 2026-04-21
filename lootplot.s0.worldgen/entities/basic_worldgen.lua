@@ -113,6 +113,28 @@ local function canSpawnBigIsland(island, difficulty)
 end
 
 
+
+local SET_PIECES = {
+    {
+        chance = 1, -- chance of it occuring
+        func = function (self)
+            -- spawn a 3x3 island randomly in the world.
+            -- in the center, "tax_button_slot".
+            -- around edges, stone-slots
+        end
+    },
+
+    {
+        chance = 1, -- chance of it occuring
+        func = function (self)
+            -- spawn a 5x5 island randomly in the world.
+            -- In the center, there's a stone-slot that earns $5 when destroyed.
+        end
+    }
+}
+
+
+
 defWorldgenItem("basic_worldgen", {
     name = loc("Worldgen Item"),
     description = loc("This is a worldgen item"),

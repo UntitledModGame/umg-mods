@@ -1659,6 +1659,46 @@ defineDonut("frosted_donut", "Frosted Donut",  "Increases target item price by {
 
 
 
+defineFood("nacho", {
+    name = loc("Nacho"),
+    activateDescription = loc("Destroys target items. Copies item's base stats to the slot underneath."),
+
+    rarity = lp.rarities.UNCOMMON,
+
+    basePrice = 5,
+
+    shape = lp.targets.KingShape(1),
+
+    target = {
+        type = "ITEM",
+        filter = function (selfEnt, ppos, targetEnt)
+            return lp.posToSlot(ppos)
+        end,
+        activate = function(selfEnt, ppos, targetEnt)
+            local slotEnt = lp.itemToSlot(targetEnt)
+            if not slotEnt then return end
+            local pts = targetEnt.basePointsGenerated or 0
+            local money = targetEnt.baseMoneyGenerated or 0
+            local mult = targetEnt.baseMultGenerated or 0
+            local bonus = targetEnt.baseBonusGenerated or 0
+            if pts ~= 0 then
+                lp.modifierBuff(slotEnt, "pointsGenerated", pts, selfEnt)
+            end
+            if money ~= 0 then
+                lp.modifierBuff(slotEnt, "moneyGenerated", money, selfEnt)
+            end
+            if mult ~= 0 then
+                lp.modifierBuff(slotEnt, "multGenerated", mult, selfEnt)
+            end
+            if bonus ~= 0 then
+                lp.modifierBuff(slotEnt, "bonusGenerated", bonus, selfEnt)
+            end
+            lp.destroy(targetEnt)
+        end
+    }
+})
+
+
 defineFoodNoDoomed("bread", "Bread", {
     activateDescription = loc("If target item is {lootplot:CONSUMABLE_COLOR_LIGHT}FOOD{/lootplot:CONSUMABLE_COLOR_LIGHT}, transforms into target item."),
 
