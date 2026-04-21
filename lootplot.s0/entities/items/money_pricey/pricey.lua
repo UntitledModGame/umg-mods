@@ -202,6 +202,12 @@ defItem("golden_battery", "Golden Battery", {
 
     activateDescription = loc("If reached points requirement, increase price by {lootplot:MONEY_COLOR}$5{/lootplot:MONEY_COLOR}."),
 
+    onActivate = function (ent)
+        if (lp.getAttribute("REQUIRED_POINTS", ent) or 0) <= (lp.getAttribute("POINTS", ent) or 0) then
+            lp.modifierBuff(ent, "price", 5, ent)
+        end
+    end,
+
     basePointsGenerated = 30,
     basePrice = 10,
     baseMaxActivations = 2,
